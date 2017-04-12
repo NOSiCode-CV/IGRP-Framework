@@ -9,7 +9,7 @@
  
 	 <servlet-mapping>
 	 	<servlet-name>Main</servlet-name>
-	 	<url-pattern>/IGRP</url-pattern>
+	 	<url-pattern>/</url-pattern>
 	 </servlet-mapping>
   
   <welcome-file-list>
