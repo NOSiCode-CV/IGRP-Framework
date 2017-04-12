@@ -16,9 +16,7 @@ public class XMLWritter {
 	    private String identityString="	";
 	    
 		public XMLWritter(String rootElement, String xslPath, String contentType){
-			this.listXml = new ArrayList<>();
-			this.countAttr = new HashMap<>();
-			this.xmlConstruct = new StringBuilder();
+			this();
 			this.xmlConstruct.append("<?xml-stylesheet href=\""+xslPath+"\" type=\"text/xsl\"?>");
 			this.xmlConstruct.append(lineSeparator);
 			this.startElement(rootElement);
@@ -26,6 +24,12 @@ public class XMLWritter {
 			this.xmlConstruct.append(lineSeparator);
 		}
 
+		public XMLWritter(){
+			this.listXml = new ArrayList<>();
+			this.countAttr = new HashMap<>();
+			this.xmlConstruct = new StringBuilder();
+		}
+		
 		public void startElement(String tag){
 			this.closeLarger();
 			this.countAttr.put(tag,true);
