@@ -88,5 +88,11 @@ public class XMLWritter {
 			}
 			return this.xmlConstruct.toString();
 		}
+		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return this.getXml();
+		}
 
 }
