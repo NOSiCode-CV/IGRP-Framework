@@ -14,10 +14,12 @@ public class ListField extends AbstractField {
 		this.setTagName(name);
 	}
 	
-	public void addOption(Object name, Object value){
+	@Override
+	public void addOption(Object name, Object value) {
 		list.put(name, value);
-	}
+	}	
 	
+	@Override
 	public HashMap<Object,Object> getOptions(){
 		return this.list;
 	}
