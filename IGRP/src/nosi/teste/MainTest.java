@@ -9,13 +9,14 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		Field nome = new TextField("nome");
-		nome.setValue("Yma");
+		nome.setValue("Ima");
 		
 		Field morada = new TextField("morada");
 		morada.setValue("VN");
 		
 		Field sexo = new ListField("sexo");
 		sexo.setValue("Option 1", 1);
+		sexo.setValue("Option 2", 2);
 		
 		Page page = new Page();
 		
