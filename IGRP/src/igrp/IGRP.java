@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class IGRP
  */
-@WebServlet("/IGRP")
+@WebServlet
 public class IGRP extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
