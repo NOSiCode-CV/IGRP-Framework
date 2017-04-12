@@ -1,4 +1,4 @@
-package igrp;
+package nosi.apps.igrp.controllers;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

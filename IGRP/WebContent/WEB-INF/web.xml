@@ -3,7 +3,7 @@
   <display-name>IGRP</display-name>
   <servlet>
     <servlet-name>Main</servlet-name>
-    <servlet-class>igrp.IGRP</servlet-class>
+    <servlet-class>nosi.apps.igrp.controllers.IGRP</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Main</servlet-name>
