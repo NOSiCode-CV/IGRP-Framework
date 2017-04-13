@@ -15,9 +15,8 @@ public class FieldXML {
             </text_1>
         </fields>
 	 */
-	public static String toString(ArrayList<Field> fields){
+	public static void toString(XMLWritter xml, ArrayList<Field> fields){
 		if(fields.size() > 0){
-			XMLWritter	xml = new XMLWritter();
 			xml.startElement("fields");
 				for(Field field:fields){
 					xml.startElement(field.getTagName());
@@ -30,12 +29,10 @@ public class FieldXML {
 					xml.endElement();
 				}
 			xml.endElement();
-			return xml.toString();
 		}
-		return null;
 	}
 
-	private static void writteAttributes(XMLWritter xml,java.util.Properties properties) {
+	public static void writteAttributes(XMLWritter xml,java.util.Properties properties) {
 		for(Entry<Object, Object> p : properties.entrySet()) {
             xml.writeAttribute(p.getKey().toString(), p.getValue().toString());
         }

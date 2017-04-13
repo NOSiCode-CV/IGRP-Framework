@@ -1,5 +1,6 @@
 package nosi.teste;
 
+import nosi.core.gui.components.FormXML;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
@@ -7,12 +8,14 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.gui.page.Page;
 
 public class MainTest {
 
 	public static void main(String[] args) {
-		Page page = new Page();
+		
+		
+		FormXML form = new FormXML("form_1");
+		FormXML form2 = new FormXML("form_2");
 		Field nome = new TextField("nome");
 		nome.setValue("Ima");
 		
@@ -39,15 +42,17 @@ public class MainTest {
 		email.setValue("ima@gmail.com");
 		
 		
-		page.addField(nome);
-		page.addField(morada);
-		page.addField(hidden);
-		page.addField(select);
-		page.addField(radiolist);
-		page.addField(checkboxlist);
-		page.addField(email);
+		form.addField(nome);
+		form.addField(morada);
+		form.addField(hidden);
+		form.addField(email);
 		
-		page.displayForm();
+		form2.addField(select);
+		form2.addField(radiolist);
+		form2.addField(checkboxlist);
+		
+		System.out.println(form.toString());
+		System.out.println(form2.toString());
 	}
 
 }
