@@ -3,6 +3,7 @@ package nosi.teste;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
@@ -14,12 +15,13 @@ public class MainTest {
 		Page page = new Page();
 		Field nome = new TextField("nome");
 		nome.setValue("Ima");
-		nome.propertie().setChange(false);
-		nome.propertie().setDisabled(true);
 		
 		Field morada = new TextField("morada");
 		morada.setValue("VN");
-		/*
+		
+		Field hidden = new HiddenField("hidden");
+		hidden.setValue(1);
+		
 		Field select = new ListField("select");
 		select.addOption("Option 1", 1);
 		select.addOption("Option 2", 2);
@@ -35,14 +37,15 @@ public class MainTest {
 		
 		Field email = new EmailField("email");
 		email.setValue("ima@gmail.com");
-		*/
+		
 		
 		page.addField(nome);
 		page.addField(morada);
-		/*page.addField(select);
+		page.addField(hidden);
+		page.addField(select);
 		page.addField(radiolist);
 		page.addField(checkboxlist);
-		page.addField(email);*/
+		page.addField(email);
 		
 		page.displayForm();
 	}

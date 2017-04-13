@@ -4,7 +4,7 @@ public class EmailField extends TextField {
 
 	public EmailField(String name) {
 		super(name);
-		this.propertie.setType("email");
+		this.propertie.put("type","email");
 	}
 
 }

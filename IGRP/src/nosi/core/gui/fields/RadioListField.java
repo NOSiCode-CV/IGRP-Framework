@@ -4,7 +4,7 @@ public class RadioListField extends ListField {
 
 	public RadioListField(String name) {
 		super(name);
-		this.propertie.setType("radiolist");
+		this.propertie.put("type","radiolist");
 	}
 
 }

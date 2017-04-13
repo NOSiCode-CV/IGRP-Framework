@@ -20,13 +20,14 @@ public class FieldXML {
 			XMLWritter	xml = new XMLWritter();
 			xml.startElement("fields");
 				for(Field field:fields){
-					if(field.getVisible()){
-						xml.startElement(field.getTagName());
-						Properties.getXML(xml, field);
+					xml.startElement(field.getTagName());
+					//Properties.getXML(xml, field);
+					writteAttributes(xml,field.propertie());
+					if(!field.propertie().get("type").equals("hidden")){
 						xml.setElement("label", field.getLabel());
-						getXmlValue(xml,field);
-						xml.endElement();
 					}
+					getXmlValue(xml,field);
+					xml.endElement();
 				}
 			xml.endElement();
 			return xml.toString();
@@ -34,8 +35,14 @@ public class FieldXML {
 		return null;
 	}
 
+	private static void writteAttributes(XMLWritter xml,java.util.Properties properties) {
+		for(Entry<Object, Object> p : properties.entrySet()) {
+            xml.writeAttribute(p.getKey().toString(), p.getValue().toString());
+        }
+	}
+
 	private static void getXmlValue(XMLWritter xml, Field field) {
-		if(field.propertie().getType().compareTo("select") == 0 || field.propertie().getType().compareTo("radiolist") == 0 || field.propertie().getType().compareTo("checkboxlist") == 0 ){
+		if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
 			xml.startElement("list");
 			for(Entry<Object, Object> obj : field.getOptions().entrySet()){
 				xml.startElement("option");

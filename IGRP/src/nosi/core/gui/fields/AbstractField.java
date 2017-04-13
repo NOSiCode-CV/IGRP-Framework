@@ -1,14 +1,15 @@
 package nosi.core.gui.fields;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 public abstract class AbstractField implements Field{
 
 	private String tag_name;
 	private Object value="";
-	private boolean visible = true;
 	private String label = "";
-	protected Properties propertie;
+	//protected Properties propertie;
+	public Properties propertie;
 	
 	public Properties propertie(){
 		return this.propertie;
@@ -17,7 +18,7 @@ public abstract class AbstractField implements Field{
 		this.propertie = new Properties();
 	}
 	public String getLabel() {
-		label = label != ""?label:this.propertie.getName().toUpperCase();
+		//label = label != ""?label:this.propertie.getName().toUpperCase();
 		return label;
 	}
 	public void setLabel(String label) {
@@ -81,11 +82,5 @@ public abstract class AbstractField implements Field{
 	}
 	public void setValue(double value) {
 		this.value = value;
-	}
-	public void setVisible(boolean visible){
-		this.visible = visible;
-	}
-	public boolean getVisible(){
-		return this.visible;
 	}
 }

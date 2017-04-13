@@ -10,8 +10,14 @@ public class ListField extends AbstractField {
 	public ListField(String name){
 		super();
 		this.list = new HashMap<>();
-		this.propertie.setType("select");
-		this.propertie.setName("p_"+name);
+		this.propertie.put("type","select");
+		this.propertie.put("name","p_"+name);
+		this.propertie.put("multiple", false);
+		this.propertie.put("right", false);
+		this.propertie.put("disabled", false);
+		this.propertie.put("maxlength", 30);
+		this.propertie.put("change", false);
+		this.propertie.put("required", false);
 		this.setTagName(name);
 	}
 	
