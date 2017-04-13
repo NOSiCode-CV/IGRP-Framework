@@ -4,6 +4,6 @@ public class NumberField extends TextField {
 
 	public NumberField(String name){
 		super(name);
-		this.setType("number");
+		this.propertie.put("type","number");
 	}
 }

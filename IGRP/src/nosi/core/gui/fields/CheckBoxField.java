@@ -4,7 +4,8 @@ public class CheckBoxField extends TextField {
 
 	public CheckBoxField(String name) {
 		super(name);
-		this.setType("checkbox");
+		this.propertie.put("type", "checkbox");
+		this.propertie.put("check", true);
 	}
 
 }

@@ -1,21 +1,29 @@
 package nosi.teste;
 
+import nosi.core.gui.components.FormXML;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.gui.page.Page;
 
 public class MainTest {
 
 	public static void main(String[] args) {
+		
+		
+		FormXML form = new FormXML("form_1");
+		FormXML form2 = new FormXML("form_2");
 		Field nome = new TextField("nome");
 		nome.setValue("Ima");
 		
 		Field morada = new TextField("morada");
 		morada.setValue("VN");
+		
+		Field hidden = new HiddenField("hidden");
+		hidden.setValue(1);
 		
 		Field select = new ListField("select");
 		select.addOption("Option 1", 1);
@@ -32,16 +40,19 @@ public class MainTest {
 		
 		Field email = new EmailField("email");
 		email.setValue("ima@gmail.com");
-		Page page = new Page();
 		
-		page.addField(nome);
-		page.addField(morada);
-		page.addField(select);
-		page.addField(radiolist);
-		page.addField(checkboxlist);
-		page.addField(email);
 		
-		page.displayForm();
+		form.addField(nome);
+		form.addField(morada);
+		form.addField(hidden);
+		form.addField(email);
+		
+		form2.addField(select);
+		form2.addField(radiolist);
+		form2.addField(checkboxlist);
+		
+		System.out.println(form.toString());
+		System.out.println(form2.toString());
 	}
 
 }

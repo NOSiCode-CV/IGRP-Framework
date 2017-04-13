@@ -1,21 +1,24 @@
 package nosi.core.gui.fields;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 public abstract class AbstractField implements Field{
 
 	private String tag_name;
-	private String name;
-	private String type;
-	private String max_length;
-	private String required;
-	private String change;
 	private Object value="";
-	private boolean visible = true;
 	private String label = "";
+	//protected Properties propertie;
+	public Properties propertie;
 	
+	public Properties propertie(){
+		return this.propertie;
+	}
+	public AbstractField(){
+		this.propertie = new Properties();
+	}
 	public String getLabel() {
-		label = label != ""?label:getName().toUpperCase();
+		//label = label != ""?label:this.propertie.getName().toUpperCase();
 		return label;
 	}
 	public void setLabel(String label) {
@@ -27,7 +30,7 @@ public abstract class AbstractField implements Field{
 	public void setTagName(String tag_name) {
 		this.tag_name = tag_name;
 	}
-	public String getName() {
+	/*public String getName() {
 		return name;
 	}
 	public void setName(String name) {
@@ -45,18 +48,18 @@ public abstract class AbstractField implements Field{
 	public void setMaxLength(String max_length) {
 		this.max_length = max_length;
 	}
-	public String getRequired() {
+	public boolean getRequired() {
 		return required;
 	}
-	public void setRequired(String required) {
+	public void setRequired(boolean required) {
 		this.required = required;
 	}
-	public String getChange() {
+	public boolean getChange() {
 		return change;
 	}
-	public void setChange(String change) {
+	public void setChange(boolean change) {
 		this.change = change;
-	}
+	}*/
 	public Object getValue() {
 		return value;
 	}
@@ -79,11 +82,5 @@ public abstract class AbstractField implements Field{
 	}
 	public void setValue(double value) {
 		this.value = value;
-	}
-	public void setVisible(boolean visible){
-		this.visible = visible;
-	}
-	public boolean getVisible(){
-		return this.visible;
 	}
 }
