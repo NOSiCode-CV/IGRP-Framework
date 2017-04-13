@@ -18,6 +18,7 @@ public class MainTest {
 		FormXML form2 = new FormXML("form_2");
 		ViewXML view = new ViewXML("view_1");
 		Field nome = new TextField("nome");
+		
 		nome.setValue("Ima");
 		
 		Field morada = new TextField("morada");

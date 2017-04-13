@@ -7,6 +7,18 @@ import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldXML;
 import nosi.core.xml.XMLWritter;
 
+/*Generate XML Form
+ * Form can contain one or more fields
+ * <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <fields>
+        	<number_1 name="p_number_1" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <label>Number</label>
+                <value>606</value>
+            </number_1>
+            ...
+        </fields>
+   </form_1>
+ */
 public class FormXML {
 
 	protected XMLWritter xml;
