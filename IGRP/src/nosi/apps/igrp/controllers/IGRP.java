@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nosi.core.gui.components.FormXML;
-import nosi.core.gui.components.ViewXML;
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
@@ -40,9 +40,9 @@ public class IGRP extends HttpServlet {
 		/*response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.getWriter().append("Param at: ").append(request.getParameter("r"));
 		*/
-		FormXML form = new FormXML("form_1");
-		FormXML form2 = new FormXML("form_2");
-		ViewXML view = new ViewXML("view_1");
+		IGRPForm form = new IGRPForm("form_1");
+		IGRPForm form2 = new IGRPForm("form_2");
+		IGRPView view = new IGRPView("view_1");
 		Field nome = new TextField("nome");
 		
 		nome.setValue("Ima");
@@ -81,9 +81,13 @@ public class IGRP extends HttpServlet {
 		
 		view.addField(email);
 		view.addField(nome);
+		response.setContentType("text/xml;charset=UTF-8");
+		response.getWriter().append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		response.getWriter().append("<rows>");
 		response.getWriter().append(form.toString());
 		response.getWriter().append(form2.toString());
 		response.getWriter().append(view.toString());
+		response.getWriter().append("</rows>");
 	}
 
 	/**

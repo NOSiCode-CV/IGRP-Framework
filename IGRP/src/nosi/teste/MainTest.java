@@ -1,7 +1,7 @@
 package nosi.teste;
 
-import nosi.core.gui.components.FormXML;
-import nosi.core.gui.components.ViewXML;
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
@@ -14,9 +14,9 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		
-		FormXML form = new FormXML("form_1");
-		FormXML form2 = new FormXML("form_2");
-		ViewXML view = new ViewXML("view_1");
+		IGRPForm form = new IGRPForm("form_1");
+		IGRPForm form2 = new IGRPForm("form_2");
+		IGRPView view = new IGRPView("view_1");
 		Field nome = new TextField("nome");
 		
 		nome.setValue("Ima");

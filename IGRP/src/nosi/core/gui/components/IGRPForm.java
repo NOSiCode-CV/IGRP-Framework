@@ -19,14 +19,14 @@ import nosi.core.xml.XMLWritter;
         </fields>
    </form_1>
  */
-public class FormXML {
+public class IGRPForm {
 
 	protected XMLWritter xml;
 	private ArrayList<Field> fields;
 	public Properties properties;
 	private String tag_name;
 	
-	public FormXML(String tag_name) {
+	public IGRPForm(String tag_name) {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();

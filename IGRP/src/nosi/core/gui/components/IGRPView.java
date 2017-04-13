@@ -12,9 +12,9 @@ package nosi.core.gui.components;
         </fields>
    </view_1>
  */
-public class ViewXML extends FormXML {
+public class IGRPView extends IGRPForm {
 
-	public ViewXML(String tag_name) {
+	public IGRPView(String tag_name) {
 		super(tag_name);
 		this.properties.put("type", "view");
 	}
