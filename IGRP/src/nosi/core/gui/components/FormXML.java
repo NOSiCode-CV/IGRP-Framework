@@ -9,9 +9,9 @@ import nosi.core.xml.XMLWritter;
 
 public class FormXML {
 
-	private XMLWritter xml;
+	protected XMLWritter xml;
 	private ArrayList<Field> fields;
-	Properties properties;
+	public Properties properties;
 	private String tag_name;
 	
 	public FormXML(String tag_name) {
