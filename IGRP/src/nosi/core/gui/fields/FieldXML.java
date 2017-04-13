@@ -20,7 +20,6 @@ public class FieldXML {
 			xml.startElement("fields");
 				for(Field field:fields){
 					xml.startElement(field.getTagName());
-					//Properties.getXML(xml, field);
 					writteAttributes(xml,field.propertie());
 					if(!field.propertie().get("type").equals("hidden")){
 						xml.setElement("label", field.getLabel());
@@ -32,12 +31,18 @@ public class FieldXML {
 		}
 	}
 
+	/*Generate attributes
+	 * name="p_text_1" type="text"
+	 */
 	public static void writteAttributes(XMLWritter xml,java.util.Properties properties) {
 		for(Entry<Object, Object> p : properties.entrySet()) {
             xml.writeAttribute(p.getKey().toString(), p.getValue().toString());
         }
 	}
-
+	
+	/*Generate xml value
+	 * <value>Text 1</value>
+	 */
 	private static void getXmlValue(XMLWritter xml, Field field) {
 		if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
 			xml.startElement("list");
