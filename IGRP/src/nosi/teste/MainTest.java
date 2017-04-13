@@ -11,12 +11,15 @@ import nosi.core.gui.page.Page;
 public class MainTest {
 
 	public static void main(String[] args) {
+		Page page = new Page();
 		Field nome = new TextField("nome");
 		nome.setValue("Ima");
+		nome.propertie().setChange(false);
+		nome.propertie().setDisabled(true);
 		
 		Field morada = new TextField("morada");
 		morada.setValue("VN");
-		
+		/*
 		Field select = new ListField("select");
 		select.addOption("Option 1", 1);
 		select.addOption("Option 2", 2);
@@ -32,14 +35,14 @@ public class MainTest {
 		
 		Field email = new EmailField("email");
 		email.setValue("ima@gmail.com");
-		Page page = new Page();
+		*/
 		
 		page.addField(nome);
 		page.addField(morada);
-		page.addField(select);
+		/*page.addField(select);
 		page.addField(radiolist);
 		page.addField(checkboxlist);
-		page.addField(email);
+		page.addField(email);*/
 		
 		page.displayForm();
 	}

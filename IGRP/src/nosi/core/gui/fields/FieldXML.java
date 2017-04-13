@@ -22,8 +22,7 @@ public class FieldXML {
 				for(Field field:fields){
 					if(field.getVisible()){
 						xml.startElement(field.getTagName());
-						xml.writeAttribute("type", field.getType());
-						//xml.writeAttribute("type", field.getType());
+						Properties.getXML(xml, field);
 						xml.setElement("label", field.getLabel());
 						getXmlValue(xml,field);
 						xml.endElement();
@@ -36,7 +35,7 @@ public class FieldXML {
 	}
 
 	private static void getXmlValue(XMLWritter xml, Field field) {
-		if(field.getType().compareTo("select") == 0 || field.getType().compareTo("radiolist") == 0 || field.getType().compareTo("checkboxlist") == 0 ){
+		if(field.propertie().getType().compareTo("select") == 0 || field.propertie().getType().compareTo("radiolist") == 0 || field.propertie().getType().compareTo("checkboxlist") == 0 ){
 			xml.startElement("list");
 			for(Entry<Object, Object> obj : field.getOptions().entrySet()){
 				xml.startElement("option");

@@ -3,9 +3,10 @@ package nosi.core.gui.fields;
 public class TextField extends AbstractField {
 
 	public TextField(String name){
-		this.setType("text");
+		super();
+		this.propertie.setType("text");
 		this.setTagName(name);
-		this.setName("p_"+name);
+		this.propertie.setName("p_"+name);
 	}
 
 }

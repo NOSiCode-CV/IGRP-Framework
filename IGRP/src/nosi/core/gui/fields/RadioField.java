@@ -4,7 +4,7 @@ public class RadioField extends TextField {
 
 	public RadioField(String name) {
 		super(name);
-		this.setType("radio");
+		this.propertie.setType("radio");
 	}
 
 }

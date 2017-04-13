@@ -8,9 +8,10 @@ public class ListField extends AbstractField {
 	public Object value = null;
 	
 	public ListField(String name){
+		super();
 		this.list = new HashMap<>();
-		this.setType("select");
-		this.setName("p_"+name);
+		this.propertie.setType("select");
+		this.propertie.setName("p_"+name);
 		this.setTagName(name);
 	}
 	
