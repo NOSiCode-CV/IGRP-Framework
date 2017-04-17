@@ -19,6 +19,7 @@ public abstract class View {
 	public View(){
 		this.currentModels = new HashMap<String, Object>();
 		this.pageTitle = "IGRP"; // Default page title
+		this.page = new Page();
 	}
 	
 	public Controller getContext(){

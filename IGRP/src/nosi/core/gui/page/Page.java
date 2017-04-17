@@ -3,6 +3,7 @@ package nosi.core.gui.page;
 import java.util.Queue;
 import java.util.PriorityQueue;
 import nosi.core.xml.XMLWritter;
+import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.webapp.Igrp;
 
 public class Page {
@@ -39,7 +40,12 @@ public class Page {
 		xml.setElement("footer_note", "");
 		xml.setElement("user_name", "");
 		
-		xml.startElement("button");
+		
+		IGRPToolsBar button = new IGRPToolsBar("button");
+		button.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name");
+		
+		xml.addXml(button.toXmlButton());
+		/*xml.startElement("button");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
 		xml.setElement("app", "");
@@ -47,7 +53,7 @@ public class Page {
 		xml.setElement("link", "");
 		xml.setElement("target", "_self");
 		xml.setElement("img", "");
-		xml.endElement();
+		xml.endElement();*/
 		
 		xml.endElement();
 		

@@ -4,7 +4,6 @@ import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPFormList;
-import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPParagraph;
 import nosi.core.gui.components.IGRPSectionHeader;
 import nosi.core.gui.components.IGRPTabContent;
@@ -112,7 +111,6 @@ public class MainTest {
 		tab.addItem("tab_item_2", "Tab Item 2", "fa-dot-circle-o");
 		System.out.println(tab);
 		*/
-		System.out.println(IGRPMessage.getXml());
 	}
 
 }
