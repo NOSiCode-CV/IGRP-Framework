@@ -1,4 +1,11 @@
 package nosi.core.gui.fields;
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 13, 2017
+ *
+ * Description: abstract class to configure any field
+ */
 
 import java.util.HashMap;
 import java.util.Properties;

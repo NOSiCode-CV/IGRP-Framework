@@ -1,5 +1,11 @@
 package nosi.core.gui.components;
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 14, 2017
+ *
+ * Description: class to generate xml of View
+ */
 import nosi.core.gui.fields.GenXMLField;
 
 /*Generate XML View

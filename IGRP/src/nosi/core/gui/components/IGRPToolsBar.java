@@ -1,5 +1,11 @@
 package nosi.core.gui.components;
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 17, 2017
+ *
+ * Description: class to generate xml of tools-bar 
+ */
 import java.util.ArrayList;
 
 import nosi.core.xml.XMLWritter;
