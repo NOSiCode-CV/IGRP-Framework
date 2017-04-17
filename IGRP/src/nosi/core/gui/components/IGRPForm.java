@@ -1,5 +1,11 @@
 package nosi.core.gui.components;
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 14, 2017
+ *
+ * Description: class to generate xml of Form
+ */
 import java.util.ArrayList;
 import java.util.Properties;
 

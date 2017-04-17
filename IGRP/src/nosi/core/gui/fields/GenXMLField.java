@@ -1,5 +1,11 @@
 package nosi.core.gui.fields;
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 14, 2017
+ *
+ * Description: class to generate xml of fields
+ */
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
