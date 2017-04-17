@@ -88,6 +88,8 @@ public class XMLWritter {
 		//Add xml string
 		
 		public void addXml(String xml){
+			this.closeLarger();
+			this.xmlConstruct.append("\n");
 			this.xmlConstruct.append(xml);
 		}
 		

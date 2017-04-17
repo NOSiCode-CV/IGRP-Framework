@@ -1,6 +1,8 @@
 package nosi.teste;
 
+import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.EmailField;
@@ -14,7 +16,7 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		
-		IGRPForm form = new IGRPForm("form_1");
+		/*IGRPForm form = new IGRPForm("form_1");
 		IGRPForm form2 = new IGRPForm("form_2");
 		IGRPView view = new IGRPView("view_1");
 		Field nome = new TextField("nome");
@@ -57,7 +59,21 @@ public class MainTest {
 		view.addField(nome);
 		System.out.println(form.toString());
 		System.out.println(form2.toString());
-		System.out.println(view.toString());
+		System.out.println(view.toString());*/
+		
+		IGRPForm form = new IGRPForm("form_1");
+		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger");
+		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger","params");
+		
+		IGRPToolsBar toolsbar = new IGRPToolsBar("toolsbar_1");
+		toolsbar.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
+		
+		IGRPContextMenu contextmenu = new IGRPContextMenu();
+		contextmenu.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
+		
+		System.out.println(form);
+		System.out.println(toolsbar);
+		System.out.println(contextmenu);
 	}
 
 }

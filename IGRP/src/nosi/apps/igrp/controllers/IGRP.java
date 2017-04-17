@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javafx.scene.control.CheckBox;
 import  nosi.core.gui.fields.PasswordField;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
@@ -59,7 +60,12 @@ public class IGRP extends HttpServlet {
 		 * response.getWriter().append("Param at: ").append(request.getParameter("r"));
 		*/
 		IGRPForm form = new IGRPForm("form_1");
-		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name");
+		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","default");
+		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger");
+		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
+		
+		IGRPToolsBar toolsbar = new IGRPToolsBar("toolsbar_1");
+		toolsbar.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
 		/*Field nome = new ListField("nome");
 		nome.addOption("option 1", 1);
 		nome.addOption("option 2", 2);
@@ -110,7 +116,7 @@ public class IGRP extends HttpServlet {
 		form2.addField(checkbox);
 		
 		view.addField(email);
-		view.addField(nome);*/
+		view.addField(nome);
 		
 		Field text = new TextField("text");
 		Field hidden = new HiddenField("hidden");
@@ -146,7 +152,7 @@ public class IGRP extends HttpServlet {
 		form.addField(email);
 		form.addField(hidden);
 		form.addField(text);
-		
+		*/
 		
 		response.setContentType("text/xml;charset=UTF-8");
 		response.getWriter().append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
