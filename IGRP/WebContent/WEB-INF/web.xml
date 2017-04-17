@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  
   <display-name>IGRP</display-name>
   
 	 <servlet>
-	 	<servlet-name>Main</servlet-name>
-	 	<servlet-class>igrp.IGRP</servlet-class>
+	 	<servlet-name>igrp</servlet-name>
+	 	<servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
 	 </servlet>
  
 	 <servlet-mapping>
-	 	<servlet-name>Main</servlet-name>
-	 	<url-pattern>/Main/*</url-pattern>
+	 	<servlet-name>igrp</servlet-name>
+	 	<url-pattern>/webapps/*</url-pattern>
 	 </servlet-mapping>
 	 
   <welcome-file-list>
@@ -20,4 +21,5 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
 </web-app>
