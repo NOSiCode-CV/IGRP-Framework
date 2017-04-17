@@ -95,7 +95,29 @@ public class IGRPToolsBar {
 		}
 		xml.endElement();
 	}
-
+	
+	/*add item to button tag
+	 *  <button		type="specific">
+            <title>Sair</title>
+            <app>YGRP</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+	 */
+	public void addItem(String title, String app, String page, String link, String target, String img) {
+		IGRPToolsBarItem item = new IGRPToolsBarItem();
+		item.setApp(app);
+		item.setImg(img);
+		item.setLink(link);
+		item.setPage(page);
+		item.setTarget(target);
+		item.setTitle(title);
+		item.propertie.put("type", this.getTypeItem());
+		this.items.add(item);
+	}
+	
 	/*Generate xml item without params tag
 	 * <item type="specific" code="" rel="button_1" class="default">
             <title>Button</title>
