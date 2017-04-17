@@ -12,10 +12,13 @@ public abstract class View {
 	private Controller context;
 	private Page page; // representa o main layout de uma view
 	
+	private String pageTitle;
+	
 	private Map<String, Object> currentModels;
 	
 	public View(){
 		this.currentModels = new HashMap<String, Object>();
+		this.pageTitle = "IGRP"; // Default page title
 	}
 	
 	public Controller getContext(){
@@ -43,6 +46,14 @@ public abstract class View {
 	public View addModel(String name, Object model){
 			this.currentModels.put(name, model);
 		return this;
+	}
+	
+	public void setPageTitle(String pageTitle){
+		this.pageTitle = pageTitle;
+	}
+	
+	public String getPageTitle(){
+		return this.pageTitle;
 	}
 
 }
