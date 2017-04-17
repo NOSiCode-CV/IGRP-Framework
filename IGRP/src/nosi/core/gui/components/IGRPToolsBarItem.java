@@ -1,5 +1,7 @@
 package nosi.core.gui.components;
 
+import java.util.Properties;
+
 public class IGRPToolsBarItem {
 	
 	private String title = "";
@@ -8,10 +10,12 @@ public class IGRPToolsBarItem {
     private String link = "";
     private String target = "";
     private String img = "";
-    private String code = "";
-    private String rel = "";
-    private String clas = "";
+    private String params = "";
+    public Properties propertie;
     
+    public IGRPToolsBarItem(){
+    	this.propertie = new Properties();
+    }
     
 	public String getTitle() {
 		return title;
@@ -49,22 +53,13 @@ public class IGRPToolsBarItem {
 	public void setImg(String img) {
 		this.img = img;
 	}
-	public String getCode() {
-		return code;
+	public String getParams() {
+		return params;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setParams(String params) {
+		this.params = params;
 	}
-	public String getRel() {
-		return rel;
-	}
-	public void setRel(String rel) {
-		this.rel = rel;
-	}
-	public String getClas() {
-		return clas;
-	}
-	public void setClas(String clas) {
-		this.clas = clas;
+	public Properties getProperties() {
+		return this.propertie;
 	}
 }

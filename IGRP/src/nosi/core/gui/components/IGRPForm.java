@@ -54,13 +54,15 @@ public class IGRPForm {
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);
 		GenXMLField.toXml(this.xml,this.fields);
-		this.toolsbar.toXml(this.xml);
+		this.xml.addXml(this.toolsbar.toXmlTools());
 		this.xml.endElement();
 		return this.xml.toString();
 	}
 	
-	public void addButton(String title,String app, String page, String link, String target, String img){
-		this.toolsbar.addItem(title, app, page, link, target, img);
+	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class){
+		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class);
 	}
-
+	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class, String params){
+		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class, params);
+	}
 }
