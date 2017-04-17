@@ -75,7 +75,7 @@ public class IGRPToolsBar {
 	public String toXmlButton(){
 		if(this.items.size() > 0){
 			for(IGRPToolsBarItem item:items){
-				this.genXmlItem(item, "button");
+				this.genXmlItem(item,this.tag_name);
 			}
 		}
 		return xml.toString();

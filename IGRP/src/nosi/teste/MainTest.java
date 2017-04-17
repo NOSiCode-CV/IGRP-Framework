@@ -1,7 +1,13 @@
 package nosi.teste;
 
+import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPFormList;
+import nosi.core.gui.components.IGRPParagraph;
+import nosi.core.gui.components.IGRPSectionHeader;
+import nosi.core.gui.components.IGRPTabContent;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
@@ -73,12 +79,11 @@ public class MainTest {
 		IGRPContextMenu contextmenu = new IGRPContextMenu();
 		contextmenu.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
 		
+		IGRPToolsBar button = new IGRPToolsBar("button");
+		button.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name");
+		
 		System.out.println(form);
 		System.out.println(toolsbar);
-		System.out.println(contextmenu);*/
-		DefaultPaginaView view  = new DefaultPaginaView();
-		view.render();
-		System.out.println(view.getPage().renderContent(true));
 	}
 
 }
