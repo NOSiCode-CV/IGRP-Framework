@@ -1,4 +1,11 @@
 package nosi.core.gui.fields;
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 17, 2017
+ *
+ * Description: interface contain method to implemented in class Fields
+ */
 
 import java.util.HashMap;
 import java.util.Properties;

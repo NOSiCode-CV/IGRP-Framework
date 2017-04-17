@@ -1,8 +1,11 @@
 /**
  * @author: Emanuel Pereira
+ * 
+ * Apr 11, 2017
  *
  * Description: class to build xml 
  */
+
 package nosi.core.xml;
 
 import java.util.ArrayList;
@@ -83,6 +86,7 @@ public class XMLWritter {
 		}
 		
 		//Add xml string
+		
 		public void addXml(String xml){
 			this.xmlConstruct.append(xml);
 		}

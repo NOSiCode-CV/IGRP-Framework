@@ -1,5 +1,11 @@
 package nosi.core.gui.fields;
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 13, 2017
+ *
+ * Description: class to configure hidden field
+ */
 public class HiddenField extends AbstractField {
 
 	public HiddenField(String name) {
