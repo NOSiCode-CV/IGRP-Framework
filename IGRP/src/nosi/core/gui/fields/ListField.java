@@ -23,7 +23,7 @@ public class ListField extends AbstractField {
 	
 	@Override
 	public void addOption(Object name, Object value) {
-		list.put(name, value);
+		list.put(value, name);
 	}	
 	
 	@Override

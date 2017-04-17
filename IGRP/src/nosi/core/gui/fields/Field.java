@@ -16,4 +16,6 @@ public interface Field {
 	public void setLabel(String label);
 	public String getLabel();
 	public Properties propertie();
+	public void setLookup(String lookup);
+	public String getLookup();
 }

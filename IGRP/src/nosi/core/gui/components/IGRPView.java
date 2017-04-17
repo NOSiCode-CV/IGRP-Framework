@@ -1,5 +1,7 @@
 package nosi.core.gui.components;
 
+import nosi.core.gui.fields.GenXMLField;
+
 /*Generate XML View
  * View can contain one or more fields
  * <view_1 type="view" xml-type="form" gen-type="container" gen-group="">
@@ -9,6 +11,7 @@ package nosi.core.gui.components;
                 <value>606</value>
             </number_1>
             ...
+            <view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
         </fields>
    </view_1>
  */
@@ -17,6 +20,7 @@ public class IGRPView extends IGRPForm {
 	public IGRPView(String tag_name) {
 		super(tag_name);
 		this.properties.put("type", "view");
+		//<view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+		GenXMLField.view_img = "http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg";
 	}
-
 }

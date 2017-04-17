@@ -4,6 +4,7 @@ public class LinkField extends AbstractField {
 
 	public LinkField(String name) {
 		super();
+		this.setTagName(name);
 		this.propertie.put("type","link");
 		this.propertie.put("name","p_"+name);
 		this.propertie.put("target", "_self");

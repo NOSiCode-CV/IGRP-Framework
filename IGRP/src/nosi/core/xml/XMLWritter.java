@@ -26,7 +26,7 @@ public class XMLWritter {
 
 		public XMLWritter(){
 			this.listXml = new ArrayList<>();
-			this.countAttr = new HashMap<>();
+			this.countAttr = new HashMap<String, Boolean>();
 			this.xmlConstruct = new StringBuilder();
 		}
 		
