@@ -111,6 +111,18 @@ public class Igrp {
 		return this.igrpDb;
 	}
 	
+	public Controller getCurrentController(){
+		return this.controller;
+	}
+	
+	public HttpServletResponse getResponse(){
+		return this.response;
+	}
+	
+	public HttpServletRequest getRequest(){
+		return this.request;
+	}
+	
 	public static void main(String []args){
 		//Igrp.getInstance().runAction();
 	}

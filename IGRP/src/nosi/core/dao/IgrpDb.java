@@ -55,7 +55,8 @@ public class IgrpDb {
 			break;
 			
 			case "PostgreSQL":	
-			default: // Default connection
+			default: ;
+				// Default connection
 			
 		}
 		

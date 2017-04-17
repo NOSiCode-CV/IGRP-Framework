@@ -49,7 +49,6 @@ public abstract class View {
 	}
 	
 	public void setPageTitle(String pageTitle){
-		
 		this.pageTitle = pageTitle;
 	}
 	
