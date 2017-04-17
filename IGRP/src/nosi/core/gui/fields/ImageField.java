@@ -4,6 +4,7 @@ public class ImageField extends AbstractField {
 
 	public ImageField(String name) {
 		super();
+		this.setTagName(name);
 		this.propertie.put("type","img");
 		this.propertie.put("name","p_"+name);
 		this.propertie.put("img", "http://www.slidesjs.com/examples/callbacks/img/example-slide-1.jpg");

@@ -1,8 +1,8 @@
 package nosi.core.gui.fields;
 
-public class PlainText extends AbstractField {
+public class PlainTextField extends AbstractField {
 
-	public PlainText(String name) {
+	public PlainTextField(String name) {
 		super();
 		this.propertie.put("type","plaintext");
 		this.setTagName(name);

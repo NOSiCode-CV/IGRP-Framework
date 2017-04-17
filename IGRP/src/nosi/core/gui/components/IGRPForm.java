@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.FieldXML;
+import nosi.core.gui.fields.GenXMLField;
 import nosi.core.xml.XMLWritter;
 
 /*Generate XML Form
@@ -19,14 +19,15 @@ import nosi.core.xml.XMLWritter;
         </fields>
    </form_1>
  */
-public class FormXML {
+public class IGRPForm {
 
 	protected XMLWritter xml;
-	private ArrayList<Field> fields;
+	protected ArrayList<Field> fields;
 	public Properties properties;
-	private String tag_name;
+	protected String tag_name;
+	private IGRPToolsBar toolsbar;
 	
-	public FormXML(String tag_name) {
+	public IGRPForm(String tag_name) {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
@@ -35,6 +36,8 @@ public class FormXML {
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
 		this.properties.put("xml-group", "");
+		this.toolsbar = new IGRPToolsBar("tools-bar");
+		this.toolsbar.setClassName(this);
 	}	
 
 	public void addField(Field field){
@@ -43,10 +46,15 @@ public class FormXML {
 		
 	public String toString(){
 		this.xml.startElement(this.tag_name);
-		FieldXML.writteAttributes(this.xml, properties);
-		FieldXML.toString(this.xml,this.fields);
+		GenXMLField.writteAttributes(this.xml, properties);
+		GenXMLField.toXml(this.xml,this.fields);
+		this.toolsbar.toXml(this.xml);
 		this.xml.endElement();
 		return this.xml.toString();
+	}
+	
+	public void addButton(String title,String app, String page, String link, String target, String img){
+		this.toolsbar.addItem(title, app, page, link, target, img);
 	}
 
 }

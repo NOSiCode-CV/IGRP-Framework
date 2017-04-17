@@ -1,8 +1,8 @@
 package nosi.core.gui.fields;
 
-public class Separator extends AbstractField {
+public class SeparatorField extends AbstractField {
 
-	public Separator(String name) {
+	public SeparatorField(String name) {
 		super();
 		this.propertie.put("type","separator");
 		this.setTagName(name);

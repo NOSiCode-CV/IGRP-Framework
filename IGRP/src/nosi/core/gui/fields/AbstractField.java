@@ -8,6 +8,8 @@ public abstract class AbstractField implements Field{
 	private String tag_name;
 	private Object value="";
 	private String label = "";
+	private String lookup = "";
+	
 	public Properties propertie;
 	
 	public Properties propertie(){
@@ -49,4 +51,10 @@ public abstract class AbstractField implements Field{
 	public void setValue(double value) {
 		this.value = value;
 	}
+	public String getLookup() {
+		return lookup;
+	}
+	public void setLookup(String lookup) {
+		this.lookup = lookup;
+	}	
 }
