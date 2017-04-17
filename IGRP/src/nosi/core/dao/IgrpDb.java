@@ -53,10 +53,16 @@ public class IgrpDb {
 				this.connectionName = "jdbc:oracle:thin:@" + this.hostName + ":" + (this.hostPort == 0 ? "8080" : this.hostPort) + ":" + this.dbName;
 				
 			break;
+			case "sqlite":
+				this.driverName = "org.sqlite.JDBC";
+				this.connectionName = "jdbc:sqlite:" + this.dbName;
+			break;
 			
 			case "PostgreSQL":	
-			default: ;
-				// Default connection
+			default: // Default connection
+				this.driverName = "org.postgresql.Driver";
+				this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
+			
 			
 		}
 		
@@ -81,7 +87,7 @@ public class IgrpDb {
 	
 	// Para testar connections ...
 	public static void main(String []args){
-		//new IgrpDb("db_dc", "root", "").getConnection("mysql");
+		new IgrpDb("teste", "postgres", "nunes").newConnection("postgre");
 	}
 	
 }
