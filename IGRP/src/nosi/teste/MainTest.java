@@ -11,6 +11,8 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.gui.page.Page;
+import nosi.webapps.igrp.pages.defaultPagina.DefaultPaginaView;
 
 public class MainTest {
 
@@ -61,7 +63,7 @@ public class MainTest {
 		System.out.println(form2.toString());
 		System.out.println(view.toString());*/
 		
-		IGRPForm form = new IGRPForm("form_1");
+		/*IGRPForm form = new IGRPForm("form_1");
 		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger");
 		form.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger","params");
 		
@@ -73,7 +75,10 @@ public class MainTest {
 		
 		System.out.println(form);
 		System.out.println(toolsbar);
-		System.out.println(contextmenu);
+		System.out.println(contextmenu);*/
+		DefaultPaginaView view  = new DefaultPaginaView();
+		view.render();
+		System.out.println(view.getPage().renderContent(true));
 	}
 
 }
