@@ -28,6 +28,10 @@ public class Igrp {
 	private String currentPageName;
 	private String currentActionName;
 	
+	private String homeUrl;
+	private String basePath;
+	private String baseRoute;
+	
 	// Others Web Application Components
 	// Db component
 	private IgrpDb igrpDb;
@@ -49,8 +53,14 @@ public class Igrp {
 			this.servlet = servlet;
 			this.request = request;
 			this.response = response;
+			
+			this.basePath = this.request.getContextPath();
+			this.baseRoute = this.request.getServletPath();
+			this.homeUrl = "app_name/page_name/action_name";
+			
 			// init of others configuration
 			//this.igrpDb = new IgrpDb("igrp", "root", "").newConnection("");
+			
 		return this;
 	}
 	
@@ -121,6 +131,18 @@ public class Igrp {
 	
 	public HttpServletRequest getRequest(){
 		return this.request;
+	}
+	
+	public String getBaseRoute(){
+		return this.baseRoute;
+	}
+	
+	public String getBasePath(){
+		return this.basePath;
+	}
+	
+	public String getHomeUrl(){
+		return this.homeUrl;
 	}
 	
 	public static void main(String []args){
