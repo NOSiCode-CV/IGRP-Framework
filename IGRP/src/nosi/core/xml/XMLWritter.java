@@ -81,7 +81,12 @@ public class XMLWritter {
 				this.listXml.remove(index);
 			}catch(Exception e){}
 		}
-
+		
+		//Add xml string
+		public void addXml(String xml){
+			this.xmlConstruct.append(xml);
+		}
+		
 		public String getXml(){
 			if(this.listXml.size()>0){
 				for(int i=this.listXml.size()-1;i>=0;i--){

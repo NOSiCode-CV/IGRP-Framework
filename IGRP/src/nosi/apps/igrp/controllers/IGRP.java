@@ -151,7 +151,7 @@ public class IGRP extends HttpServlet {
 		response.setContentType("text/xml;charset=UTF-8");
 		response.getWriter().append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		response.getWriter().append("<rows>");
-		response.getWriter().append(form.toString());
+		response.getWriter().append(form +"");
 		response.getWriter().append("</rows>");
 	}
 
