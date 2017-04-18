@@ -11,7 +11,7 @@ import nosi.core.webapp.*;
 public class DefaultPaginaController extends Controller{
 	
 	public void actionIndex() throws IOException{
-		
+	
 	DefaultPaginaModel model = new DefaultPaginaModel();
 	
 	/*
@@ -33,7 +33,6 @@ public class DefaultPaginaController extends Controller{
 			addModel("model1", model).
 			addModel("model2", new String("Iekiny Marcel"))
 			);
-		
 	}
 	
 }

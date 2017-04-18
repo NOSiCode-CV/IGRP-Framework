@@ -11,6 +11,7 @@ public class DefaultPaginaView extends View{
 
 	@Override
 	public void render(){
+		
 		IGRPForm form = new IGRPForm("form_1");
 		Field nome = new TextField("nome");
 		

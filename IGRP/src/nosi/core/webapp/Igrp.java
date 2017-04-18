@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.io.File;
 import nosi.core.dao.IgrpDb;
+import nosi.core.exception.NotFoundHttpException;
+import nosi.core.exception.ServerErrorHttpException;;
 
 /**
  * @author Marcel Iekiny
@@ -66,7 +70,7 @@ public class Igrp {
 	
 	public void run() throws IOException{ // run the web app 
 		this.resolveRoute(); // (1)
-		//this.runAction(); // (2)
+		this.runAction(); // (2)
 		//this.exit(); // (3)
 	}
 	
@@ -75,26 +79,31 @@ public class Igrp {
 	}
 	
 	private void resolveRoute() throws IOException{
-		String r = this.request.getParameter("r");// Captura sempre o primeiro "r" parameter no query string
-		if(r != null && r.matches("[a-z]{2,255}/[a-z]{2,255}/[a-z]{2,255}")){
+		String r = this.request.getParameter("r");// Catch always the first "r" parameter in query string
+		if(r != null && r.matches("[a-zA-Z]{2,255}/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}")){
 			String []aux = r.split("/");
 			this.currentAppName = aux[0];
 			this.currentPageName = aux[1];
 			this.currentActionName = aux[2];
 			
-			if(this.validateAppName() && this.validatePageName() && this.validateActionName()){
-				
-			}
-		}else{
-			// Lançar excepcao do tipo 404
-		}
+			if(!this.validateAppName() || !this.validatePageName() || !this.validateActionName())
+				throw new NotFoundHttpException("Page not found.");
+		}else
+			throw new ServerErrorHttpException("The route format is invalid.");
 	}
 	
 	private boolean validateAppName(){
+		/*String path = this.request.getRequestURI() + "/src/nosi/webapps/" + this.currentAppName;
+		File file = new File(path);
+		System.out.println(file.getAbsolutePath());
+		System.out.println(file.exists());
+		return file.exists();*/
 		return true;
 	}
 	
 	private boolean validatePageName(){
+		/*File file = new File("src/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
+		return file.exists();*/
 		return true;
 	}
 	
@@ -102,17 +111,18 @@ public class Igrp {
 		return true;
 	}
 	
-	private void runAction(){ // run a action in the specific controller
+	public void runAction(){ // run a action in the specific controller
 		String auxControllerName = this.currentPageName.substring(0, 1).toUpperCase() + this.currentPageName.substring(1) + "Controller";
 		String auxActionName = "action" + this.currentActionName.substring(0, 1).toUpperCase() + this.currentActionName.substring(1);
 		String controllerPath = "nosi.webapps." + this.currentAppName + ".pages." + this.currentPageName + "." + auxControllerName;
 		try {
+			System.out.println(auxActionName);
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = c.getMethod(auxActionName, null);
 			action.invoke(controller, null);
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
-			System.out.println(e.getMessage());
+			
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
 	}
@@ -146,7 +156,7 @@ public class Igrp {
 	}
 	
 	public static void main(String []args){
-		//Igrp.getInstance().runAction();
+		Igrp.getInstance().runAction();
 	}
 	
 }

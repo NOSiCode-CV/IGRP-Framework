@@ -45,15 +45,6 @@ public class Page {
 		button.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name");
 		
 		xml.addXml(button.toXmlButton());
-		/*xml.startElement("button");
-		xml.writeAttribute("type", "");
-		xml.setElement("title", "");
-		xml.setElement("app", "");
-		xml.setElement("page", "");
-		xml.setElement("link", "");
-		xml.setElement("target", "_self");
-		xml.setElement("img", "");
-		xml.endElement();*/
 		
 		xml.endElement();
 		

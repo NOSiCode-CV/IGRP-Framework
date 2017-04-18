@@ -20,7 +20,7 @@ public class IgrpServlet extends HttpServlet {
         super();
     }
     
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	Igrp.getInstance().init(this, request, response).run();
     }
 
