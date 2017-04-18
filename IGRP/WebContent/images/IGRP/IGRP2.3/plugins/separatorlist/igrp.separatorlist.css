@@ -1,0 +1,80 @@
+.IGRP-separatorlist{
+	padding: 10px 0 0 0;
+}
+
+.IGRP-separatorlist .splist-form{
+	padding: 10px;
+}
+.IGRP-separatorlist .splist-form:after,
+.IGRP-separatorlist .splist-form:before{
+	content:"";
+	clear:both;
+	float: none;
+	display: block;
+}
+
+.IGRP-separatorlist .splist-btns{
+	border-bottom: 1px solid #f4f4f4
+}
+
+.splist-table{
+	border-top:1px solid #f4f4f4; 
+	clear: both;
+}
+
+.IGRP-separatorlist .table-btn{
+	width: 60px;
+	padding: 0px;
+}
+.IGRP-separatorlist .table-btn .btn{
+	padding: 2px 3px;
+	font-size: 14px;
+	margin:3px;
+}
+
+/*  DIALOG CONFIG */
+.IGRP-separatorlist[dialog="true"]{
+	padding: 0;
+}
+
+.IGRP-separatorlist[dialog="true"] .table-row-add i:before{
+	color:#31b0d5!important;
+	content:"\f00a";
+}
+
+.IGRP-separatorlist[dialog="true"]:not(.dialog-open) .splist-table{
+	border-top:0;
+}
+
+.IGRP-separatorlist[dialog="true"] .splist-form-holder{
+	display: none;
+}
+.IGRP-separatorlist.dialog-open[dialog="true"] .splist-form-holder{
+	display: block;
+}
+
+.splist-dialog-shadow{
+	display: none;
+	position: fixed;
+	z-index: 1031;
+	width: 100%;
+	height: 100%;
+	top:0;
+	left: 0;
+	filter: alpha(opacity=50);
+    opacity: .5;
+    background-color: #000;
+}
+.splist-dialog-shadow.active{
+	display: block;
+}
+
+.splist-form-holder .form-group[item-type="link"] {
+	min-height: 60px;
+	position: absolute;
+	visibility: hidden;
+	opacity: 0;
+	top:-990%;
+	left: -990%;
+	overflow: hidden;
+}

@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../REDGLOBAL_CONF_PROCESSO_FORM_PROC_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CONF_PROCESSO</page>
+    <app>REDGLOBAL</app>
+    <plsql>
+        <action>FORM_PROC</action>
+        <package_instance></package_instance>
+        <package_db>GLB_FORMPROCESS_TYPE_DB</package_db>
+        <package_html>GLB_FORMPROCESS_TYPE_HTML</package_html>
+        <table_name>REDWF.A</table_name>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Registar Processos</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Registar Processos]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>REDGLOBAL</app>
+                <page>CONF_PROCESSO</page>
+                <link>FORM_PROC</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <params>success||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="fechar">
+                <title>Fechar</title>
+                <app>REDGLOBAL</app>
+                <page>CONF_PROCESSO</page>
+                <link>CON_PROC</link>
+                <target>_close</target>
+                <img>danger|fa-close</img>
+                <params>danger||fa-close|www</params>
+            </item>
+        </fmn>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <processo_info name="p_processo_info" type="button" outline="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Processo Info</label>
+                    <value/>
+                </processo_info>
+                <documentos_auxiliares name="p_documentos_auxiliares" type="button" outline="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Documentos Auxiliares</label>
+                    <value/>
+                </documentos_auxiliares>
+            </fields>
+        </tabcontent_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <area_fk name="p_area_fk" change="true" type="select" required="true" maxlength="22" multiple="false" disabled="false" right="false">
+                    <label>Subarea</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </area_fk>
+                <sep_proc type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Processo Info</label>
+                </sep_proc>
+                <code name="p_code" type="text" required="true" maxlength="20" readonly="true" change="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Deserunt anim aperiam natus omnis</value>
+                </code>
+                <name name="p_name" type="text" required="true" maxlength="100" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Sit sed consectetur ut laudantium</value>
+                </name>
+                <descr name="p_descr" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descricao</label>
+                    <value>Consectetur doloremque sit accusantium magna totam sit anim lorem accusantium perspiciatis unde dolor anim mollit</value>
+                </descr>
+                <start_mod name="p_start_mod" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Automatico?</label>
+                    <value>1</value>
+                </start_mod>
+                <flg_adhoc name="p_flg_adhoc" type="checkbox" change="true" maxlength="30" required="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>AD-HOC</label>
+                    <value>1</value>
+                </flg_adhoc>
+                <acti_start name="p_acti_start" type="select" maxlength="30" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Etapa Inicial</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </acti_start>
+                <bpmn_diag type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Diagrama BPMN</label>
+                </bpmn_diag>
+                <file name="p_file" type="file" maxlength="30" required="false" disabled="false" right="false" class="default">
+                    <label>Carregar BPMN</label>
+                    <value/>
+                </file>
+                <param_exec type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Tempos</label>
+                </param_exec>
+                <time_unity name="p_time_unity" type="select" maxlength="240" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Unidade Tempo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </time_unity>
+                <work_time name="p_work_time" type="number" maxlength="22" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tempo Optimo</label>
+                    <value>678</value>
+                </work_time>
+                <limit_time name="p_limit_time" type="number" maxlength="22" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tempo Limite</label>
+                    <value>997</value>
+                </limit_time>
+                <warn_time name="p_warn_time" type="number" maxlength="22" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tempo Alerta</label>
+                    <value>893</value>
+                </warn_time>
+                <clone type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Clone</label>
+                </clone>
+                <aplicacao_origem name="p_aplicacao_origem" change="true" type="select" maxlength="30" multiple="false" required="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao_origem>
+                <processo name="p_processo" type="select" maxlength="30" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Processo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </processo>
+                <incluir name="p_incluir" type="select" multiple="true" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Incluir</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </incluir>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <hidden name="p_env_fk" type="hidden" maxlength="30" tag="env_fk"/>
+                <hidden name="p_status" type="hidden" maxlength="30" tag="status"/>
+                <hidden name="p_start_mode" type="hidden" maxlength="30" tag="start_mode"/>
+            </fields>
+        </form_1>
+        <docs_aux type="separatorlist" xml-type="separatorlist" gen-type="container" gen-group="true">
+            <fields>
+                <type_aux name="p_type_aux" type="select" maxlength="30" multiple="false" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Tipo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </type_aux>
+                <file_aux name="p_file_aux" type="file" maxlength="30" required="false" disabled="false" right="false" visible="true" class="default" desc="true">
+                    <label>Ficheiro</label>
+                    <value/>
+                </file_aux>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <type_aux name="p_type_aux" desc="true"/>
+                        <type_aux_desc name="p_type_aux_desc"/>
+                        <file_aux name="p_file_aux" desc="true"/>
+                        <file_aux_desc name="p_file_aux_desc"/>
+                    </row>
+                    <row>
+                        <type_aux name="p_type_aux" desc="true"/>
+                        <type_aux_desc name="p_type_aux_desc"/>
+                        <file_aux name="p_file_aux" desc="true"/>
+                        <file_aux_desc name="p_file_aux_desc"/>
+                    </row>
+                    <row>
+                        <type_aux name="p_type_aux" desc="true"/>
+                        <type_aux_desc name="p_type_aux_desc"/>
+                        <file_aux name="p_file_aux" desc="true"/>
+                        <file_aux_desc name="p_file_aux_desc"/>
+                    </row>
+                    <row>
+                        <type_aux name="p_type_aux" desc="true"/>
+                        <type_aux_desc name="p_type_aux_desc"/>
+                        <file_aux name="p_file_aux" desc="true"/>
+                        <file_aux_desc name="p_file_aux_desc"/>
+                    </row>
+                </value>
+            </table>
+        </docs_aux>
+    </content>
+</rows>

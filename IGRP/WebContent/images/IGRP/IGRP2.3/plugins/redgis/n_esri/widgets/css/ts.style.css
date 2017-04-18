@@ -1,0 +1,123 @@
+
+#timeslider .ts {
+    right: 0;
+}
+
+#timeslider .informacoes{
+    border-radius: 4px;
+	border: solid 2px #ccc;
+	background-color: rgba(255, 255, 255, 0.85);
+	display: block;
+	position: relative;
+	text-align: left;	
+	padding: 15px 0px 10px 0px;
+    width: 35%;
+	top: 5px;
+	right: 0;
+	float: right;
+ }
+ 
+ #timeslider .infosep{
+ 	border-bottom: solid 2px #ccc;
+ 	padding-left: 5px;
+ 	padding-bottom: 5px;
+ 	margin-top:5px;
+ }
+
+#timeslider table {
+	/*background: red;*/
+}
+#timeslider table tbody tr{
+	/*background: red;
+	padding-top: 10px;*/
+}
+
+#timeslider .dijitSliderProgressBar {
+	/*background-color: #bcd8f4 !important;
+	border-radius: 2px;*/
+}
+#timeslider  .dijitSliderFocused .dijitSliderProgressBarH  {
+    /*background-color: #abd6ff;
+    border-color: #759dc0;*/
+}
+/*Polegar*/
+#timeslider .dijitSliderImageHandleH {
+    border: 0;
+    width: 18px;
+    height: 16px;
+    background-image: url("../img/icon_time-line.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+  }
+
+ #timeslider  .dijitSliderFocused .dijitSliderBar {
+    /*border-color: #759dc0;*/
+}
+#timeslider .dijitSliderMoveableH {
+    /*right: auto !important;*/
+}
+#timeslider .dijitSliderMoveableH {
+    /*right: 0;*/
+}
+#timeslider .dijitSliderMoveable {
+    /*z-index: 99;
+    position: absolute !important;
+    display: block;
+    vertical-align: middle;*/
+}
+/*Dentro Progresso Bar*/
+#timeslider .dijitSlider .dijitSliderProgressBarH {
+   border-color: #b5bcc7;
+    background-color: #bcd8f4;
+}
+/*Fora Progresso Bar*/
+#timeslider .dijitSliderBar {
+    border-color: #cccccc;
+    background: #cccccc;
+}
+#timeslider .dijitSliderBottomBumper .dijitSliderLeftBumper {
+    /*background-color: #cccccc !important;
+    border-radius: 2px;*/
+}
+#timeslider .dojoxRangeSlider .dijitSliderLeftBumper, .dojoxRangeSlider .dijitSliderBottomBumper {
+     background: #cccccc !important; 
+}
+/*Progresso Mark*/
+#timeslider .dijitRuleMark {
+    position: absolute;
+    border: 1px solid #cccccc;
+    line-height: 0;
+    height: 100%;
+}
+/*Botoes*/
+
+
+ #timeslider .tsButton {
+ 	background-repeat:no-repeat;
+ 	background-image:url("../img/time_slider.png");
+    width:20px;
+    height: 20px;
+ }
+ #timeslider .tsPrevButton {
+    background-position: -62px -0px;
+}
+ #timeslider .tsNextButton {
+    background-position: 0px 0px;
+}
+ #timeslider .tsPlayButton {
+    background-position: -40px -0px;
+}
+.esritimeslider .tsPauseButton{
+    background-position: -19px -0px;
+}
+#timeslider .tsTmp{
+	height: 20px;
+	margin:0;
+}
+#timeslider .dijitButtonNode{
+	margin-top: 15px;
+    border: none;	
+    padding: 2px;
+}
+
+

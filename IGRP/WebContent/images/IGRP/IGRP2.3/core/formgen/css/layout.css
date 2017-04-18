@@ -1,0 +1,346 @@
+
+.gen-container-hover {
+	background-color: rgba(221, 227, 94, 0.6);
+	border: 1px solid rgba(255, 255, 150, 0.5);
+	margin: 5px;
+	height:55px;
+}
+
+.ui-sortable-placeolder{
+	background-color: rgba(221, 227, 94, 0.6);
+	border: 1px solid rgba(255, 255, 150, 0.5);
+}
+
+#gen-design .row{
+	position: relative;
+	border: 1px dashed #ececec;
+	margin-bottom: 15px;
+	min-height: 110px;
+}
+
+.row .row .row {
+	margin:0;
+}
+
+.ui-sortable-helper>*,
+.ui-sortable-helper>*{ 
+	display: none;
+}
+.row .row-options{
+	right: 0;
+	top: 0;
+	border-bottom: 1px solid rgb(236, 236, 236);
+	background: rgb(251, 251, 251);
+	position: relative;
+	cursor: move;
+	transition: none;
+}
+
+.row .row-options:before{
+    content: "row";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    font-size: 10px;
+    color: #a7a7a7;
+    padding: 1px 6px;
+    text-transform: uppercase;
+    border-right: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+}
+
+.row .row-options:after{
+	clear: both;
+	content:"";
+	display: block;
+}
+.row .row-options > ul {
+	margin:0;
+	float: right;
+
+}
+
+.row .row-options > ul > li[rel="columns"]:hover{
+	background-color: #306988;
+	
+}
+
+.row .row-options > ul > li[rel="columns"]:hover a{
+	color: white
+}
+
+.row .row-options ul:after {
+	content:"";
+	clear: both;
+	display: block;
+} 
+
+
+.row .row-options > ul > li{
+	float:left;
+	margin-left: 5px;
+	font-size:10px;
+	cursor: pointer;
+	border-bottom: 0;
+	/* color: #ccc; */
+	color: white;
+	list-style: none;
+	padding: 2px 5px;
+}
+
+.row .row-options > ul > li > a > i{
+	margin-right: 2px
+}
+.row .row-options > ul > li[rel="columns"]:hover .column-list{
+	display: block;
+}
+.row .row-options > ul > li[rel="delete-row"] a{
+	color:#DD4B39;
+}
+.row .row-options > ul  li > .column-list{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 16px;
+	right: 125px;
+	width: 225px;
+	padding: 5px;
+	background: #306988;
+	z-index: 999;
+	text-align: center;
+	display: none;
+	box-shadow: 0px 1px 1px #ccc
+}
+
+.row .row-options > ul  li > .column-list li {
+	display: block;
+	float: left;
+	padding: 8px 6px;
+	margin: 2px
+}
+
+.row .row-options > ul  li > .column-list li:hover{
+	background-color: rgba(0,0,0,.2);
+}
+
+.row .row-options > ul  li > .column-list a{
+	text-align: left;
+    display: block;
+    padding: 0;
+    margin: 0 2px;
+    color: #fff;
+    background-color: transparent;
+    width: 23px;
+    height: 9px;
+    border: 0;
+    border-radius: 0;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    -webkit-transition: background-color 400ms;
+    transition: background-color 400ms;
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-12{
+	background-image:url('../img/layout/12.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-66{
+	background-image:url('../img/layout/66.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-444{
+	background-image:url('../img/layout/444.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-3333{
+	background-image:url('../img/layout/3333.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-48{
+	background-image:url('../img/layout/48.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-39{
+	background-image:url('../img/layout/39.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-363{
+	background-image:url('../img/layout/363.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-264{
+	background-image:url('../img/layout/264.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-210{
+	background-image:url('../img/layout/210.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-57{
+	background-image:url('../img/layout/57.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-237{
+	background-image:url('../img/layout/237.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-255{
+	background-image:url('../img/layout/255.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-282{
+	background-image:url('../img/layout/282.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-2442{
+	background-image:url('../img/layout/2442.png')
+}
+
+.row .row-options > ul  li > .column-list a.column-layout-custom{
+	background-image:url('../img/layout/custom.png')
+}
+
+
+
+.row .row-options ul li .columns-structure span{
+	display: block;
+}
+
+.row .row-options ul li .columns-structure span:after{
+	display: block;
+	content:"";
+	clear: both
+}
+
+.row .row-options ul li .columns-structure > span{
+	background: white
+}
+
+.row .row-options ul li .columns-structure > span:hover .gen-column-option:after{
+	background: #eee
+}
+
+.row .row-options ul li .columns-structure span .gen-column-option:after{
+	height: 20px;
+	display: block;
+	content: "";
+	margin:2px -1px 2px 0px;
+	border:1px solid #ccc;
+}
+
+/*.row .row-options ul li[rel="add-row"]:before{
+	content:"add row";
+	display: block;
+	text-align: right;
+}
+.row .row-options ul li[rel="delete-row"]:before{
+	content:"delete row";
+	display: block;
+	text-align: right;
+}
+.row .row-options ul li[rel="column"]:before{
+	content:"columns";
+	display: block;
+	text-align: right;
+}
+*/
+
+
+.row .gen-column {
+	background: transparent;	
+}
+.row .gen-column.ui-sortable-helper,
+ #gen-view .row.ui-sortable-helper{ }
+
+
+/*.row .gen-column-inner:hover {
+	background-color:red;
+}*/
+
+.row .gen-column-inner {
+	/*background: rgba(255, 255, 255, 0.34);*/
+	margin-left: -1px;
+	margin-top: -1px;
+	border:1px dashed #ececec;
+	transition:background-color .5s;
+	padding: 0px;
+	margin-bottom: 5px;
+	/*box-shadow:0 0px 5px 0px rgba(204, 204, 204, 0.4);*/
+}
+
+.gen-container-placeholder {
+	min-height: 55px;
+	background-color: transparent;
+	transition:background-color .5s;
+}
+
+
+
+/* GEN-TABS */
+
+
+.gen-column.ui-sortable-placeholder {
+	border:1px dashed rgba(255,255,255,.5);
+	background: rgba(68, 150, 193, 0.2);
+	height: 70px;
+	margin-top: 10px;
+	/*visibility: hidden!important;*/
+}
+
+/*  rows / col style*/
+
+.gen-column .col-options {
+
+background: #fbfbfb;
+
+position: relative;
+
+margin-top: 5px;
+
+border: 1px solid #ececec;
+
+margin-left: -1px;
+
+margin-right: 0;
+
+cursor: move
+}
+
+.gen-column .col-options:before {
+    content: "col";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    font-size: 10px;
+    color: #a7a7a7;
+    padding: 1px 6px;
+    text-transform: uppercase;
+    border-right: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+}
+
+.gen-column .col-options > ul {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+    right: 0;
+}
+
+.row .row-options > ul > li, 
+.gen-column .col-options> ul > li {
+    float: left;
+    margin-left: 0px;
+    font-size: 10px;
+    cursor: pointer;
+    border-bottom: 0;
+    color: #ececec;
+    list-style: none;
+    padding: 1px 6px;
+    text-align: center;
+    border-left: 1px solid #ececec;
+}
+

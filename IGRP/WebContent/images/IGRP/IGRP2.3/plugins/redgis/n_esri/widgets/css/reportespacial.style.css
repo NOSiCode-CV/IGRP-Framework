@@ -1,0 +1,96 @@
+widget#reportespacial {
+    max-width: 310px ;
+    min-width: 220px;
+    max-height: 95%;
+    position: absolute!important;
+    float:left;
+    z-index:220;
+   
+    display: none;
+    overflow: hidden;
+     outline: 6px solid rgba(255,255,255,0.5);
+    webkit-box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+    box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+}
+
+widget#reportespacial #report-title{
+    font-size: 18px;
+    text-transform: capitalize;
+    
+    background: black;
+    cursor: move;
+}
+
+widget#reportespacial #report-title h2{
+    font-weight: normal;
+    position: relative;
+    color:white;
+    padding:6px 24px 6px 10px; 
+}
+widget#reportespacial #master-info-holder{
+
+}
+widget#reportespacial #master-info-holder,widget#reportespacial #others-info-holder{
+    webkit-box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+    box-shadow: 5px 5px 25px 0px rgba(50, 50, 50, 0.5);
+    background: rgba(255,255,255,0.95);
+}
+
+widget#reportespacial #others-info-holder .other-layer-holder{
+    padding:10px 0;
+    overflow: auto;
+    max-height: 160px;
+   
+}
+widget#reportespacial #others-info-holder .other-layer-holder.dif{
+     background:rgba(0,0,0,0.07);
+}
+
+widget#reportespacial .layer-title{
+   /* font-weight: normal;*/
+    font-size: 15px;
+    padding: 10px 10px 0;
+}
+
+widget#reportespacial .info-holder{
+    padding:2px 0;
+    line-height: 18px;
+    clear: both;
+    font-size: 14px;
+}
+
+widget#reportespacial .feature-holder{
+    margin: 3px 10px;
+    /*background:url('../img/separator.png');
+    background-position:center bottom;
+    background-repeat: no-repeat;
+    background-size: 100%;*/
+    border-bottom: 1px dashed whitesmoke;
+}
+
+widget#reportespacial .feature-holder:last-child{
+    border: 0;
+}
+
+
+widget#reportespacial .info-label:after{
+    content:":";
+    display: inline-block;
+}
+
+widget#reportespacial .info-label{
+    padding-right: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    /*display: block;
+    float:left;
+    width:90px;
+    word-wrap: break-word;*/
+}
+
+widget#reportespacial .layer-contents{
+    padding-bottom:5px;
+}

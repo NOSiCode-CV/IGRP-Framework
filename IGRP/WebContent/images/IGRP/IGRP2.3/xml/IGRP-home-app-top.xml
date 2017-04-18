@@ -1,0 +1,21 @@
+<?xml-stylesheet href="../xsl/IGRP-home-app-top.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../xsl/IGRP-home-app-top.xsl" type="text/xsl"?>
+<rows>
+	<title>API - Gerador [Laboratório] </title>
+	<version>201641</version>
+	<link>#</link>
+	<link_img>/images/IGRPLAB2.3/</link_img>
+	<site>
+		<welcome_note>Olá</welcome_note>
+		<footer_note>2011 - Copyright NOSI</footer_note>
+		<user_name>william.lima</user_name>
+		<button type="specific">
+			<title>Sair</title>
+			<app>RED</app>
+			<page/>
+			<link>https://nosiappsdev.gov.cv/redglobal_lab/redglobal.glb_dispatcher.logout</link>
+			<target>_self</target>
+			<img>exit.png</img>
+		</button>
+	</site>
+</rows>

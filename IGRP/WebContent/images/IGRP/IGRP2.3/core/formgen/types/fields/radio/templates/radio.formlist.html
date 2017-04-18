@@ -1,0 +1,14 @@
+<xsl:if test="not(#tag#/@visible)">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}">
+        <div class="form-group" item-name="#tag#" item-type="#type#">
+            <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+            <xsl:if test="#tag# != '-0'">
+                <input type="radio" name="p_#tag#_fk" value="{#tag#}" class="#type#" rel="F_#parent.tag#">
+                    <xsl:if test="#tag#_check= #tag#">
+                        <xsl:attribute name="checked">checked</xsl:attribute>
+                    </xsl:if>
+                </input>
+            </xsl:if>
+        </div>
+    </td>
+</xsl:if>

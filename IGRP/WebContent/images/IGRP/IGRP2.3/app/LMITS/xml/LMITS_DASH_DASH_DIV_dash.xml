@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_DASH_DASH_DIV_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DASH</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>DASH_DIV</action>
+        <package_instance></package_instance>
+        <package_db>LMITS_DASH_DASH_DIV_DB</package_db>
+        <package_html>LMITS_DASH_DASH_DIV_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Dashboard Dívida</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <metrica name="p_metrica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Métrica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </metrica>
+                <ano name="p_ano" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Ano</label>
+                    <value>Ipsum magna labore dolor anim</value>
+                </ano>
+                <tipo_predio name="p_tipo_predio" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo Prédio</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_predio>
+                <tipo_cobranca name="p_tipo_cobranca" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo Cobrança</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_cobranca>
+                <estado_divida name="p_estado_divida" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Estado Dívida</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_divida>
+                <data_de name="p_data_de" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data de</label>
+                    <value/>
+                </data_de>
+                <data_ate name="p_data_ate" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Até</label>
+                    <value/>
+                </data_ate>
+                <zona name="p_zona" type="lookup" action="DASH_DIV" page="DASH" app="LMITS" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Zona</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </zona>
+                <utente name="p_utente" type="text" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Utente</label>
+                    <value>Elit amet omnis labore ipsum</value>
+                </utente>
+                <proprietario name="p_proprietario" type="text" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Proprietário</label>
+                    <value>Sit dolor elit doloremque magna</value>
+                </proprietario>
+                <matriz name="p_matriz" type="lookup" action="DASH_DIV" page="DASH" app="LMITS" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Matriz</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </matriz>
+                <nip name="p_nip" type="lookup" action="DASH_DIV" page="DASH" app="LMITS" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>NIP</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nip>
+                <hidden name="p_id_matriz" type="hidden" maxlength="30" tag="id_matriz"/>
+                <hidden name="p_ba_unit_id" type="hidden" maxlength="30" tag="ba_unit_id"/>
+                <hidden name="p_nip_id" type="hidden" maxlength="30" tag="nip_id"/>
+                <hidden name="p_zona_id" type="hidden" maxlength="30" tag="zona_id"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesq">
+                    <title>Pesquisar</title>
+                    <app>LMITS</app>
+                    <page>DASH</page>
+                    <link>DASH_DIV</link>
+                    <target>submit</target>
+                    <img>primary|fa-angle-right</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <smallbox_2 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_2_tit name="p_smallbox_2_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Registos Liquidados</value>
+                </smallbox_2_tit>
+                <smallbox_2_val name="p_smallbox_2_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </smallbox_2_val>
+                <smallbox_2_url name="p_smallbox_2_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_2_url>
+                <smallbox_2_lbl name="p_smallbox_2_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </smallbox_2_lbl>
+                <smallbox_2_bg name="p_smallbox_2_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-amber</value>
+                </smallbox_2_bg>
+                <smallbox_2_icn name="p_smallbox_2_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-refresh</value>
+                </smallbox_2_icn>
+            </fields>
+        </smallbox_2>
+        <smallbox_1 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_1_tit name="p_smallbox_1_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Registos em Dívida</value>
+                </smallbox_1_tit>
+                <smallbox_1_val name="p_smallbox_1_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </smallbox_1_val>
+                <smallbox_1_url name="p_smallbox_1_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_1_url>
+                <smallbox_1_lbl name="p_smallbox_1_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </smallbox_1_lbl>
+                <smallbox_1_bg name="p_smallbox_1_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-red</value>
+                </smallbox_1_bg>
+                <smallbox_1_icn name="p_smallbox_1_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-thumbs-o-down</value>
+                </smallbox_1_icn>
+            </fields>
+        </smallbox_1>
+        <smallbox_3 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_3_tit name="p_smallbox_3_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Registos Pagos</value>
+                </smallbox_3_tit>
+                <smallbox_3_val name="p_smallbox_3_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </smallbox_3_val>
+                <smallbox_3_url name="p_smallbox_3_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_3_url>
+                <smallbox_3_lbl name="p_smallbox_3_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </smallbox_3_lbl>
+                <smallbox_3_bg name="p_smallbox_3_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-emerald</value>
+                </smallbox_3_bg>
+                <smallbox_3_icn name="p_smallbox_3_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-thumbs-o-up</value>
+                </smallbox_3_icn>
+            </fields>
+        </smallbox_3>
+        <chart_2 type="chart" xml-type="chart" title="Liquidados por Tipo Cobrança" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#ff0d2e</col>
+                <col>#74d145</col>
+                <col>#87b4b1</col>
+                <col>#faf955</col>
+            </colors>
+        </chart_2>
+        <chart_3 type="chart" xml-type="chart" title="Dívida por Tipo Cobrança" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#91cc2f</col>
+                <col>#11b23f</col>
+                <col>#90e402</col>
+                <col>#d0c965</col>
+            </colors>
+        </chart_3>
+        <chart_4 type="chart" xml-type="chart" title="Pagos por Tipo Cobrança" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#4be886</col>
+                <col>#bb9c62</col>
+                <col>#371665</col>
+                <col>#f33329</col>
+            </colors>
+        </chart_4>
+        <chart_1 type="chart" xml-type="chart" title="Registos por: Tipo Cobrança e Estado da Dívida" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#162c2c</col>
+                <col>#1d862d</col>
+                <col>#2b092f</col>
+                <col>#483d26</col>
+            </colors>
+        </chart_1>
+        <chart_9 type="chart" xml-type="chart" title="Registos por Estado de Dívida" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#7dbcf2</col>
+                <col>#3984b2</col>
+                <col>#92360d</col>
+                <col>#ac3e2e</col>
+            </colors>
+        </chart_9>
+        <chart_5 type="chart" xml-type="chart" title="Evolução de Estado de Pagamentos" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#226abb</col>
+                <col>#d5a4fc</col>
+                <col>#69951f</col>
+                <col>#a7532e</col>
+            </colors>
+        </chart_5>
+        <chart_6 type="chart" xml-type="chart" title="Top 5 - Zonas maior potencial de receitas" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#8f4577</col>
+                <col>#6a4ab6</col>
+                <col>#c86b72</col>
+                <col>#dc1d85</col>
+            </colors>
+        </chart_6>
+        <chart_7 type="chart" xml-type="chart" title="Top 5 - Zonas com mais dívidas" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#b8dd01</col>
+                <col>#3c8441</col>
+                <col>#0f348b</col>
+                <col>#e51e58</col>
+            </colors>
+        </chart_7>
+        <chart_8 type="chart" xml-type="chart" title="Prescrições Mensais" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#31686a</col>
+                <col>#305e9e</col>
+                <col>#268b23</col>
+                <col>#61ea3e</col>
+            </colors>
+        </chart_8>
+        <chart_10 type="chart" xml-type="chart" title="Taxa de Prescrição" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#61190b</col>
+                <col>#ea83a3</col>
+                <col>#c45510</col>
+                <col>#a68eb6</col>
+            </colors>
+        </chart_10>
+    </content>
+</rows>

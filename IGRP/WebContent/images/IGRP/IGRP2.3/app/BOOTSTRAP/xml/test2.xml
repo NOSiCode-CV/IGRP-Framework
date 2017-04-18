@@ -1,0 +1,213 @@
+<?xml-stylesheet href="../test2.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>undefined</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <table_1 type="table">
+            <fields>
+                <text_1 name="p_text_1" type="text" align="left">
+                    <label>Text</label>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1>Aliqua amet aperiam laudantium sed</text_1>
+                        <text_1_desc>Aliqua amet aperiam laudantium sed</text_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Mollit accusantium deserunt aliqua elit</text_1>
+                        <text_1_desc>Mollit accusantium deserunt aliqua elit</text_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Deserunt sit ipsum iste unde</text_1>
+                        <text_1_desc>Deserunt sit ipsum iste unde</text_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Mollit elit doloremque rem officia</text_1>
+                        <text_1_desc>Mollit elit doloremque rem officia</text_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+        <toolsbar_1 type="toolsbar">
+            <item type="specific" code="" rel="button" class="danger">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o|#333</img>
+            </item>
+            <item type="specific" code="" rel="button" class="info">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o|#333</img>
+            </item>
+            <item type="specific" code="" rel="button" class="primary">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o|#333</img>
+            </item>
+            <item type="specific" code="" rel="button" class="warning">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-black-tie|#333</img>
+            </item>
+        </toolsbar_1>
+        <table_2 type="table">
+            <fields>
+                <color_1 name="p_color_1" type="color" format="hex" align="left">
+                    <label>Color</label>
+                </color_1>
+                <text_1 name="p_text_1" type="text" align="left">
+                    <label>Text</label>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <color_1>2</color_1>
+                        <color_1_desc>2</color_1_desc>
+                        <text_1>Adipiscing labore unde stract doloremque</text_1>
+                        <text_1_desc>Adipiscing labore unde stract doloremque</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>4</color_1>
+                        <color_1_desc>4</color_1_desc>
+                        <text_1>Stract magna natus ut lorem</text_1>
+                        <text_1_desc>Stract magna natus ut lorem</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>8</color_1>
+                        <color_1_desc>8</color_1_desc>
+                        <text_1>Labore sed magna totam doloremque</text_1>
+                        <text_1_desc>Labore sed magna totam doloremque</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>1</color_1>
+                        <color_1_desc>1</color_1_desc>
+                        <text_1>Officia doloremque lorem elit aliqua</text_1>
+                        <text_1_desc>Officia doloremque lorem elit aliqua</text_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_2>
+    </content>
+</rows>

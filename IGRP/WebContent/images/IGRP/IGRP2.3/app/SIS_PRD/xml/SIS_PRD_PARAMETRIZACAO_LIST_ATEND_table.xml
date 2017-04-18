@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIS_PRD_PARAMETRIZACAO_LIST_ATEND_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>PARAMETRIZACAO</page>
+    <app>SIS_PRD</app>
+    <plsql>
+        <action>LIST_ATEND</action>
+        <package_instance></package_instance>
+        <package_db>SIS_PRD_PARAMETRIZACAO_LI_DB</package_db>
+        <package_html>SIS_PRD_PARAMETRIZACAO_LI_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Gestão Tipo Atendimento</title>
+        <page_title type="sectionheader" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" maxlength="100" persist="true">
+                    <value>
+                        <![CDATA[Gestao Tipo Atendimento]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" gen-type="menu" gen-group="" xml-type="toolsbar">
+            <item type="specific" rel="fmn-ctx-0" code="">
+                <title>Pesquisar</title>
+                <app>SIS_PRD</app>
+                <page>PARAMETRIZACAO</page>
+                <link>LIST_ATEND</link>
+                <target>_self</target>
+                <img>default|search.png</img>
+                <params>default||search.png|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <descricao_l disabled="false" type="text" readonly="false" name="p_descricao_l" maxlength="100" placeholder="" right="false" change="false" required="false">
+                    <label>Descricao</label>
+                    <value>Natus adipiscing unde sit magna</value>
+                </descricao_l>
+                <estado_l disabled="false" type="select" multiple="false" name="p_estado_l" right="false" change="false" required="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_l>
+                <hidden type="hidden" name="p_id" tag="id" />
+            </fields>
+        </form_1>
+        <tb_toolsbar type="toolsbar" gen-type="menu" gen-group="" xml-type="toolsbar">
+            <item type="specific" rel="tb_toolsbar-ctx-0" code="">
+                <title>Novo</title>
+                <app>SIS_PRD</app>
+                <page>PARAMETRIZACAO</page>
+                <link>LIST_ATEND</link>
+                <target>_blank</target>
+                <img>default|add.png</img>
+                <params>default||add.png|www</params>
+            </item>
+            <item type="specific" rel="tb_toolsbar-ctx-1" code="">
+                <title>Atualizar</title>
+                <app>SIS_PRD</app>
+                <page>PARAMETRIZACAO</page>
+                <link>LIST_ATEND</link>
+                <target>_self</target>
+                <img>default|refresh.png</img>
+                <params>default||refresh.png|www</params>
+            </item>
+        </tb_toolsbar>
+        <gen_table type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields />
+            <table>
+                <value />
+            </table>
+        </gen_table>
+    </content>
+</rows>

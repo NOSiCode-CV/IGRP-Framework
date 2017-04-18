@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../C_CIDADAO_LAB_TST_NEWGEN_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LAB</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>TST_NEWGEN</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_lab/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste New Gen</title>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Page Title DashBoard]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+        <toolsbar_1 type="toolsbar" structure="items">
+            <item type="specific" code="" rel="button_1" class="default">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+            <item type="specific" code="" rel="button" class="success">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-check-square</img>
+                <params>success|fa-check-square|www</params>
+            </item>
+            <item type="specific" code="" rel="button_3" class="default">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+        </toolsbar_1>
+        <tabcontent_1 type="tabcontent" structure="tabs">
+            <item name="tab_item_1">
+                <title>Tab Item 1</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_2">
+                <title>Tab Item 2</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </tabcontent_1>
+        <table_1 type="table" structure="fields">
+            <fields>
+                <radio_1 name="p_radio_1" type="radio" align="left" lookup_parser="false">
+                    <label>Radio</label>
+                </radio_1>
+                <color_1 name="p_color_1" type="color" format="hex" align="left" lookup_parser="false">
+                    <label>Color</label>
+                </color_1>
+                <email_1 name="p_email_1" type="email" align="left" lookup_parser="false">
+                    <label>Email</label>
+                </email_1>
+                <text_1 name="p_text_1" type="text" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                        <color_1>2</color_1>
+                        <color_1_desc>2</color_1_desc>
+                        <email_1>bocgu@example.com</email_1>
+                        <email_1_desc>bocgu@example.com</email_1_desc>
+                        <text_1>Dolor natus adipiscing perspiciatis laudantium</text_1>
+                        <text_1_desc>Dolor natus adipiscing perspiciatis laudantium</text_1_desc>
+                    </row>
+                    <row>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                        <color_1>7</color_1>
+                        <color_1_desc>7</color_1_desc>
+                        <email_1>ule@example.com</email_1>
+                        <email_1_desc>ule@example.com</email_1_desc>
+                        <text_1>Omnis lorem labore officia aperiam</text_1>
+                        <text_1_desc>Omnis lorem labore officia aperiam</text_1_desc>
+                    </row>
+                    <row>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                        <color_1>2</color_1>
+                        <color_1_desc>2</color_1_desc>
+                        <email_1>umres@example.com</email_1>
+                        <email_1_desc>umres@example.com</email_1_desc>
+                        <text_1>Elit natus elit labore iste</text_1>
+                        <text_1_desc>Elit natus elit labore iste</text_1_desc>
+                    </row>
+                    <row>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                        <color_1>5</color_1>
+                        <color_1_desc>5</color_1_desc>
+                        <email_1>ekuleowa@example.com</email_1>
+                        <email_1_desc>ekuleowa@example.com</email_1_desc>
+                        <text_1>Aliqua consectetur adipiscing unde aperiam</text_1>
+                        <text_1_desc>Aliqua consectetur adipiscing unde aperiam</text_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+        <chart_1 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#09f663</col>
+                <col>#05c6fb</col>
+                <col>#569ba2</col>
+                <col>#7c0525</col>
+            </colors>
+        </chart_1>
+        <separatorlist_1 type="separatorlist" structure="fields">
+            <fields>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false" table="true">
+                    <label>Text</label>
+                    <value>Mollit unde rem aperiam laudantium</value>
+                </text_1>
+                <password_1 name="p_password_1" type="password" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false" table="true">
+                    <label>Password</label>
+                    <value>******</value>
+                </password_1>
+                <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false" table="true">
+                    <label>Lookup</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </lookup_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1>Labore adipiscing totam sed laudantium</text_1>
+                        <text_1_desc>Labore adipiscing totam sed laudantium</text_1_desc>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <lookup_1/>
+                        <lookup_1_desc/>
+                    </row>
+                    <row>
+                        <text_1>Accusantium laudantium accusantium unde officia</text_1>
+                        <text_1_desc>Accusantium laudantium accusantium unde officia</text_1_desc>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <lookup_1/>
+                        <lookup_1_desc/>
+                    </row>
+                    <row>
+                        <text_1>Aperiam omnis mollit labore aliqua</text_1>
+                        <text_1_desc>Aperiam omnis mollit labore aliqua</text_1_desc>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <lookup_1/>
+                        <lookup_1_desc/>
+                    </row>
+                    <row>
+                        <text_1>Magna elit unde natus stract</text_1>
+                        <text_1_desc>Magna elit unde natus stract</text_1_desc>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <lookup_1/>
+                        <lookup_1_desc/>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+    </content>
+</rows>

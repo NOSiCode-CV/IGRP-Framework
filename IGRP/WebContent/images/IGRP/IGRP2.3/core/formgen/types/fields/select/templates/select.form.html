@@ -1,0 +1,13 @@
+<div class="col-md-#[size]# form-group #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+    <label for="{#path#/@name}"><xsl:value-of select="#path#/label"/></label>
+    <select class="form-control select2 #[change]#" #[disabled]# id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[multiple]# >
+      <xsl:for-each select="#list.path#/option">
+          <option value="{value}" label="{text}">
+            <xsl:if test="@selected='true'">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <span><xsl:value-of select="text"/></span>
+          </option>
+        </xsl:for-each>
+    </select>
+</div>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIM_GLOBAL_1_CABO_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>1</page>
+    <app>SIM_GLOBAL</app>
+    <plsql>
+        <action>CABO</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>edmir_db</package_db>
+        <package_html>edmir_htmt</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>verde</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Teste cmp]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <filtro name="p_filtro" type="lookup" action="CABO" page="1" app="SIM_GLOBAL" class="info" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Filtro</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </filtro>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <bi name="p_bi" type="number" maxlength="30" align="left" lookup_parser="false">
+                    <label>B:I</label>
+                </bi>
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <morada name="p_morada" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Morada</label>
+                </morada>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <bi name="p_bi">901</bi>
+                        <nome name="p_nome">Magna stract adipiscing stract rem</nome>
+                        <morada name="p_morada">Laudantium ut sit anim adipiscing</morada>
+                    </row>
+                    <row>
+                        <bi name="p_bi">564</bi>
+                        <nome name="p_nome">Accusantium aliqua ut omnis consectetur</nome>
+                        <morada name="p_morada">Amet natus adipiscing consectetur voluptatem</morada>
+                    </row>
+                    <row>
+                        <bi name="p_bi">11</bi>
+                        <nome name="p_nome">Doloremque rem dolor accusantium amet</nome>
+                        <morada name="p_morada">Elit deserunt totam omnis doloremque</morada>
+                    </row>
+                    <row>
+                        <bi name="p_bi">587</bi>
+                        <nome name="p_nome">Laudantium magna perspiciatis aliqua aperiam</nome>
+                        <morada name="p_morada">Dolor omnis iste omnis elit</morada>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

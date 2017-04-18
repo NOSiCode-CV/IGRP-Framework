@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../dash2.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button   type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html>CAD_FACE_WF_COMP_PAR_OBRA</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>undefined</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <gen_form_toolsbar type="toolsbar" structure="items">
+            <item type="specific" code="" rel="gen_form_toolsbar-ctx-0" class="default">
+                <title>Seguinte</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>next.png</img>
+            </item>
+            <item type="specific" code="" rel="gen_form_toolsbar-ctx-1" class="default">
+                <title>Gravar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>save.png</img>
+            </item>
+        </gen_form_toolsbar>
+        <gen_form_1 type="form" structure="fields">
+            <fields>
+                <separatormap_cons_plan5 type="separator" right="false">
+                    <label>MAPA CONSULTA PLANO</label>
+                </separatormap_cons_plan5>
+                <dados_projecto type="separator" right="false">
+                    <label>Dados Projecto Arquitetura</label>
+                </dados_projecto>
+                <tipo_aprovacao name="p_tipo_aprovacao" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Alteracao/Renovacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_aprovacao>
+                <nif_resp_p name="p_nif_resp_p" type="lookup" required="true" maxlength="30" action="" page="" app="" class="default" change="false" readonly="false" disabled="false" right="false">
+                    <label>NIF Responsavel</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nif_resp_p>
+                <n_ordem name="p_n_ordem" type="lookup" required="true" maxlength="30" action="" page="" app="" class="default" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Ordem</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </n_ordem>
+                <nome_resp_p name="p_nome_resp_p" type="text" required="true" maxlength="200" change="false" readonly="false" disabled="false" right="false">
+                    <label>Nome Responsavel</label>
+                    <value>Stract deserunt accusantium adipiscing iste</value>
+                </nome_resp_p>
+                <contacto_resp_p name="p_contacto_resp_p" type="text" required="true" maxlength="200" change="false" readonly="false" disabled="false" right="false">
+                    <label>Contacto Responsavel</label>
+                    <value>Omnis aperiam ut lorem stract</value>
+                </contacto_resp_p>
+                <destino_obra name="p_destino_obra" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Destino Obra</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </destino_obra>
+                <n_pavimento name="p_n_pavimento" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Pavimento</label>
+                    <value>58</value>
+                </n_pavimento>
+                <n_fogos name="p_n_fogos" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Fogos</label>
+                    <value>422</value>
+                </n_fogos>
+                <n_estabelecimento name="p_n_estabelecimento" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Estabelecimento</label>
+                    <value>863</value>
+                </n_estabelecimento>
+                <area_total_construcao name="p_area_total_construcao" type="number" required="true" maxlength="30" change="false" readonly="false" disabled="false" right="false">
+                    <label>Area Total Construcao</label>
+                    <value>820</value>
+                </area_total_construcao>
+                <area__coberta name="p_area__coberta" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Area  Coberta</label>
+                    <value>258</value>
+                </area__coberta>
+                <n_pisos name="p_n_pisos" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Pisos</label>
+                    <value>437</value>
+                </n_pisos>
+                <obs name="p_obs" type="textarea" maxlength="300" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Obs</label>
+                    <value>Natus totam sit aliqua rem labore amet natus voluptatem adipiscing lorem anim labore sed officia</value>
+                </obs>
+                <separatordados_proj_eng8 type="separator" right="false">
+                    <label>DADOS PROJECTO ENGENHARIA</label>
+                </separatordados_proj_eng8>
+                <dados_projecto_engenharia name="p_dados_projecto_engenharia" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Dados Projecto Engenharia</label>
+                    <value>Deserunt voluptatem elit omnis anim</value>
+                </dados_projecto_engenharia>
+                <alteracao_renovacao name="p_alteracao_renovacao" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Alteracao Renovacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </alteracao_renovacao>
+                <nif_resp__estabilidade name="p_nif_resp__estabilidade" type="lookup" maxlength="30" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>NIF Resp. Estabilidade</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nif_resp__estabilidade>
+                <responsavel_estabilidade name="p_responsavel_estabilidade" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Responsavel Estabilidade</label>
+                    <value>Ipsum sit ipsum mollit natus</value>
+                </responsavel_estabilidade>
+                <n_ordem_resp_estabiliadade name="p_n_ordem_resp_estabiliadade" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Ordem Resp Estabiliadade</label>
+                    <value>680</value>
+                </n_ordem_resp_estabiliadade>
+                <nif_resp__saneamento name="p_nif_resp__saneamento" type="lookup" maxlength="30" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>NIF Resp. Saneamento</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nif_resp__saneamento>
+                <responsavel_saneamento name="p_responsavel_saneamento" type="text" maxlength="30" readonly="readonly" required="false" change="false" disabled="false" right="false">
+                    <label>Responsavel Saneamento</label>
+                    <value>Magna adipiscing deserunt rem magna</value>
+                </responsavel_saneamento>
+                <n_ordem_resp__saneamento name="p_n_ordem_resp__saneamento" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Ordem Resp. Saneamento</label>
+                    <value>395</value>
+                </n_ordem_resp__saneamento>
+                <nif_resp__electricidade name="p_nif_resp__electricidade" type="lookup" maxlength="30" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>NIF Resp. Electricidade</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nif_resp__electricidade>
+                <responsavel_electricidade name="p_responsavel_electricidade" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Responsavel Electricidade</label>
+                    <value>Mollit ut natus sed officia</value>
+                </responsavel_electricidade>
+                <n_ordem_resp_electricidade name="p_n_ordem_resp_electricidade" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Ordem Resp Electricidade</label>
+                    <value>865</value>
+                </n_ordem_resp_electricidade>
+                <obs_eng name="p_obs_eng" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Observacao</label>
+                    <value>219</value>
+                </obs_eng>
+                <separatorn_vistoria9 type="separator" right="false">
+                    <label>NECESSIDADE VISTORIA</label>
+                </separatorn_vistoria9>
+                <necessita_vistoria name="p_necessita_vistoria" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Necessita vistoria?</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </necessita_vistoria>
+                <marcacao_deslocacao type="separator" right="false">
+                    <label>Marcacao deslocacao</label>
+                </marcacao_deslocacao>
+                <data_inicio name="p_data_inicio" type="date" required="true" maxlength="15" format="IGRP_datePicker" change="false" readonly="false" disabled="false" right="false" class="default">
+                    <label>Data</label>
+                    <value/>
+                </data_inicio>
+                <hora_inicio name="p_hora_inicio" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Hora Inicio</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </hora_inicio>
+                <hora_fim name="p_hora_fim" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Hora Fim</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </hora_fim>
+                <estado name="p_estado" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <separator3711 type="separator" right="false">
+                    <label>NOTIFICACAO</label>
+                </separator3711>
+                <notificar name="p_notificar" type="link" maxlength="3000" target="_blank" right="false" button="false">
+                    <label>Notificar</label>
+                    <value>http://nemsojhi.org/lagki</value>
+                </notificar>
+                <separatorcons_ext12 type="separator" right="false">
+                    <label>CONSULTA EXTERNA</label>
+                </separatorcons_ext12>
+                <necessita_consulta name="p_necessita_consulta" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Necessita Consulta</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </necessita_consulta>
+                <separatordados13 type="separator" right="false">
+                    <label>DADOS GERAIS</label>
+                </separatordados13>
+                <otra_info type="separator" right="false">
+                    <label>Outras Informacoes</label>
+                </otra_info>
+                <area_pd name="p_area_pd" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Area Abrangida por PD/Loteamento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </area_pd>
+                <edificio_historico name="p_edificio_historico" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Edificio Historico</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </edificio_historico>
+                <zona_imoveis name="p_zona_imoveis" type="select" required="true" multiple="false" change="false" disabled="false" right="false">
+                    <label>Zona Proteccao Imoveis</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </zona_imoveis>
+                <separatorcomp_output1 type="separator" right="false">
+                    <label>Notificacao Contacto</label>
+                </separatorcomp_output1>
+                <wfo_email name="p_wfo_email" type="email" maxlength="150" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>E-mail</label>
+                    <value>fev@example.com</value>
+                </wfo_email>
+                <wfo_sms name="p_wfo_sms" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>N  Movel</label>
+                    <value>Mollit rem sit sit consectetur</value>
+                </wfo_sms>
+                <data_aprovacao_p name="p_data_aprovacao_p" type="hidden">
+                    <value>1</value>
+                </data_aprovacao_p>
+                <register_user_id name="p_register_user_id" type="hidden">
+                    <value>1</value>
+                </register_user_id>
+                <register_user_name name="p_register_user_name" type="hidden">
+                    <value>1</value>
+                </register_user_name>
+                <igrp_process_id name="p_igrp_process_id" type="hidden">
+                    <value>1</value>
+                </igrp_process_id>
+                <register_user_email name="p_register_user_email" type="hidden">
+                    <value>1</value>
+                </register_user_email>
+                <register_user_name_portal name="p_register_user_name_portal" type="hidden">
+                    <value>1</value>
+                </register_user_name_portal>
+                <cobranca_id name="p_cobranca_id" type="hidden">
+                    <value>1</value>
+                </cobranca_id>
+                <process_register_id name="p_process_register_id" type="hidden">
+                    <value>1</value>
+                </process_register_id>
+                <tp_acto name="p_tp_acto" type="hidden">
+                    <value>1</value>
+                </tp_acto>
+                <pedido_id name="p_pedido_id" type="hidden">
+                    <value>1</value>
+                </pedido_id>
+                <codigo_barra name="p_codigo_barra" type="hidden">
+                    <value>1</value>
+                </codigo_barra>
+                <quant_predio name="p_quant_predio" type="hidden">
+                    <value>1</value>
+                </quant_predio>
+                <id_municipio name="p_id_municipio" type="hidden">
+                    <value>1</value>
+                </id_municipio>
+                <process_type_fk name="p_process_type_fk" type="hidden">
+                    <value>1</value>
+                </process_type_fk>
+            </fields>
+        </gen_form_1>
+        <legislacao type="table" structure="fields" title="Legislacao">
+            <fields>
+                <tipo_lei name="p_tipo_lei" type="text" align="left">
+                    <label>Tipo Lei</label>
+                </tipo_lei>
+                <nome name="p_nome" type="link" target="_blank" align="left">
+                    <label>Nome</label>
+                </nome>
+                <data name="p_data" type="text" align="left">
+                    <label>Data</label>
+                </data>
+                <descricao name="p_descricao" type="text" align="left">
+                    <label>Descricao</label>
+                </descricao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_lei>Anim labore deserunt omnis accusantium</tipo_lei>
+                        <tipo_lei_desc>Anim labore deserunt omnis accusantium</tipo_lei_desc>
+                        <nome>http://rug.co.uk/eramujhur</nome>
+                        <nome_desc>http://rug.co.uk/eramujhur</nome_desc>
+                        <data>Natus magna elit ut doloremque</data>
+                        <data_desc>Natus magna elit ut doloremque</data_desc>
+                        <descricao>Omnis laudantium magna voluptatem ipsum</descricao>
+                        <descricao_desc>Omnis laudantium magna voluptatem ipsum</descricao_desc>
+                    </row>
+                    <row>
+                        <tipo_lei>Totam ut iste laudantium accusantium</tipo_lei>
+                        <tipo_lei_desc>Totam ut iste laudantium accusantium</tipo_lei_desc>
+                        <nome>http://jawuiv.co.uk/tabah</nome>
+                        <nome_desc>http://jawuiv.co.uk/tabah</nome_desc>
+                        <data>Anim natus ipsum ut adipiscing</data>
+                        <data_desc>Anim natus ipsum ut adipiscing</data_desc>
+                        <descricao>Adipiscing accusantium officia accusantium totam</descricao>
+                        <descricao_desc>Adipiscing accusantium officia accusantium totam</descricao_desc>
+                    </row>
+                    <row>
+                        <tipo_lei>Consectetur stract consectetur labore iste</tipo_lei>
+                        <tipo_lei_desc>Consectetur stract consectetur labore iste</tipo_lei_desc>
+                        <nome>http://sabik.edu/cas</nome>
+                        <nome_desc>http://sabik.edu/cas</nome_desc>
+                        <data>Doloremque aliqua totam adipiscing magna</data>
+                        <data_desc>Doloremque aliqua totam adipiscing magna</data_desc>
+                        <descricao>Doloremque aliqua perspiciatis sit ipsum</descricao>
+                        <descricao_desc>Doloremque aliqua perspiciatis sit ipsum</descricao_desc>
+                    </row>
+                    <row>
+                        <tipo_lei>Sit lorem consectetur iste natus</tipo_lei>
+                        <tipo_lei_desc>Sit lorem consectetur iste natus</tipo_lei_desc>
+                        <nome>http://jehpac.org/sutu</nome>
+                        <nome_desc>http://jehpac.org/sutu</nome_desc>
+                        <data>Natus sed amet mollit aliqua</data>
+                        <data_desc>Natus sed amet mollit aliqua</data_desc>
+                        <descricao>Sit amet officia aliqua sed</descricao>
+                        <descricao_desc>Sit amet officia aliqua sed</descricao_desc>
+                    </row>
+                </value>
+            </table>
+        </legislacao>
+        <lista_doc_anex type="table" structure="fields" title="Lista Documentos Anexados">
+            <fields>
+                <tipo_documento name="p_tipo_documento" type="text" align="left">
+                    <label>Tipo Documento</label>
+                </tipo_documento>
+                <documento name="p_documento" type="text" align="left">
+                    <label>Documento</label>
+                </documento>
+                <ver_doc name="p_ver_doc" type="link" target="_blank" align="left">
+                    <label>Ver</label>
+                </ver_doc>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_documento>Anim amet iste lorem rem</tipo_documento>
+                        <tipo_documento_desc>Anim amet iste lorem rem</tipo_documento_desc>
+                        <documento>Officia unde ipsum ut omnis</documento>
+                        <documento_desc>Officia unde ipsum ut omnis</documento_desc>
+                        <ver_doc>http://vaiwu.io/mi</ver_doc>
+                        <ver_doc_desc>http://vaiwu.io/mi</ver_doc_desc>
+                    </row>
+                    <row>
+                        <tipo_documento>Sed aperiam consectetur anim adipiscing</tipo_documento>
+                        <tipo_documento_desc>Sed aperiam consectetur anim adipiscing</tipo_documento_desc>
+                        <documento>Labore totam labore consectetur voluptatem</documento>
+                        <documento_desc>Labore totam labore consectetur voluptatem</documento_desc>
+                        <ver_doc>http://lokip.org/luram</ver_doc>
+                        <ver_doc_desc>http://lokip.org/luram</ver_doc_desc>
+                    </row>
+                    <row>
+                        <tipo_documento>Stract adipiscing omnis ut deserunt</tipo_documento>
+                        <tipo_documento_desc>Stract adipiscing omnis ut deserunt</tipo_documento_desc>
+                        <documento>Anim labore aperiam adipiscing dolor</documento>
+                        <documento_desc>Anim labore aperiam adipiscing dolor</documento_desc>
+                        <ver_doc>http://revucbat.com/ace</ver_doc>
+                        <ver_doc_desc>http://revucbat.com/ace</ver_doc_desc>
+                    </row>
+                    <row>
+                        <tipo_documento>Doloremque rem perspiciatis adipiscing sit</tipo_documento>
+                        <tipo_documento_desc>Doloremque rem perspiciatis adipiscing sit</tipo_documento_desc>
+                        <documento>Adipiscing ipsum mollit elit rem</documento>
+                        <documento_desc>Adipiscing ipsum mollit elit rem</documento_desc>
+                        <ver_doc>http://dufighis.gov/almit</ver_doc>
+                        <ver_doc_desc>http://dufighis.gov/almit</ver_doc_desc>
+                    </row>
+                </value>
+            </table>
+        </lista_doc_anex>
+        <sep_detalhe type="table" structure="fields" title="Detalhes Predio">
+            <fields>
+                <nip_matriz name="p_nip_matriz" type="text" align="left">
+                    <label>NIP</label>
+                </nip_matriz>
+                <num_doc name="p_num_doc" type="text" align="left">
+                    <label>N  Documento</label>
+                </num_doc>
+                <suj_ativo name="p_suj_ativo" type="text" align="left">
+                    <label>Nome Titular</label>
+                </suj_ativo>
+                <localidade name="p_localidade" type="text" align="left">
+                    <label>Localidade</label>
+                </localidade>
+                <tp_area name="p_tp_area" type="text" align="left">
+                    <label>Area Total</label>
+                </tp_area>
+                <uso name="p_uso" type="text" align="left">
+                    <label>Uso</label>
+                </uso>
+                <natureza name="p_natureza" type="text" align="left">
+                    <label>Natureza</label>
+                </natureza>
+                <valor name="p_valor" type="text" align="left">
+                    <label>Valor Patrimonial</label>
+                </valor>
+                <detalhes name="p_detalhes" type="link" target="_blank" align="left">
+                    <label>Detalhes</label>
+                </detalhes>
+                <spatial_unit_id name="p_spatial_unit_id" type="hidden"/>
+                <holder_id name="p_holder_id" type="hidden"/>
+                <ba_unit_id name="p_ba_unit_id" type="hidden"/>
+                <rrr_id name="p_rrr_id" type="hidden"/>
+                <concelho_id name="p_concelho_id" type="hidden"/>
+                <object_id name="p_object_id" type="hidden"/>
+                <ver_mapa name="p_ver_mapa" type="hidden"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nip_matriz>Elit voluptatem ut totam laudantium</nip_matriz>
+                        <nip_matriz_desc>Elit voluptatem ut totam laudantium</nip_matriz_desc>
+                        <num_doc>Sit ipsum magna laudantium unde</num_doc>
+                        <num_doc_desc>Sit ipsum magna laudantium unde</num_doc_desc>
+                        <suj_ativo>Natus totam voluptatem totam officia</suj_ativo>
+                        <suj_ativo_desc>Natus totam voluptatem totam officia</suj_ativo_desc>
+                        <localidade>Ipsum sit labore aperiam aliqua</localidade>
+                        <localidade_desc>Ipsum sit labore aperiam aliqua</localidade_desc>
+                        <tp_area>Doloremque stract unde aperiam labore</tp_area>
+                        <tp_area_desc>Doloremque stract unde aperiam labore</tp_area_desc>
+                        <uso>Magna totam ipsum natus adipiscing</uso>
+                        <uso_desc>Magna totam ipsum natus adipiscing</uso_desc>
+                        <natureza>Iste dolor officia ut officia</natureza>
+                        <natureza_desc>Iste dolor officia ut officia</natureza_desc>
+                        <valor>Consectetur adipiscing natus adipiscing laudantium</valor>
+                        <valor_desc>Consectetur adipiscing natus adipiscing laudantium</valor_desc>
+                        <detalhes>http://ko.net/la</detalhes>
+                        <detalhes_desc>http://ko.net/la</detalhes_desc>
+                        <spatial_unit_id>1</spatial_unit_id>
+                        <holder_id>1</holder_id>
+                        <ba_unit_id>1</ba_unit_id>
+                        <rrr_id>1</rrr_id>
+                        <concelho_id>1</concelho_id>
+                        <object_id>1</object_id>
+                        <ver_mapa>1</ver_mapa>
+                    </row>
+                    <row>
+                        <nip_matriz>Accusantium ut voluptatem elit sed</nip_matriz>
+                        <nip_matriz_desc>Accusantium ut voluptatem elit sed</nip_matriz_desc>
+                        <num_doc>Magna labore magna natus adipiscing</num_doc>
+                        <num_doc_desc>Magna labore magna natus adipiscing</num_doc_desc>
+                        <suj_ativo>Voluptatem aliqua lorem dolor labore</suj_ativo>
+                        <suj_ativo_desc>Voluptatem aliqua lorem dolor labore</suj_ativo_desc>
+                        <localidade>Sit stract unde officia lorem</localidade>
+                        <localidade_desc>Sit stract unde officia lorem</localidade_desc>
+                        <tp_area>Doloremque lorem omnis elit rem</tp_area>
+                        <tp_area_desc>Doloremque lorem omnis elit rem</tp_area_desc>
+                        <uso>Perspiciatis ut omnis rem natus</uso>
+                        <uso_desc>Perspiciatis ut omnis rem natus</uso_desc>
+                        <natureza>Ipsum omnis rem mollit iste</natureza>
+                        <natureza_desc>Ipsum omnis rem mollit iste</natureza_desc>
+                        <valor>Sit voluptatem stract lorem magna</valor>
+                        <valor_desc>Sit voluptatem stract lorem magna</valor_desc>
+                        <detalhes>http://elocegan.io/uwofuze</detalhes>
+                        <detalhes_desc>http://elocegan.io/uwofuze</detalhes_desc>
+                        <spatial_unit_id>1</spatial_unit_id>
+                        <holder_id>1</holder_id>
+                        <ba_unit_id>1</ba_unit_id>
+                        <rrr_id>1</rrr_id>
+                        <concelho_id>1</concelho_id>
+                        <object_id>1</object_id>
+                        <ver_mapa>1</ver_mapa>
+                    </row>
+                    <row>
+                        <nip_matriz>Sit aliqua dolor sit stract</nip_matriz>
+                        <nip_matriz_desc>Sit aliqua dolor sit stract</nip_matriz_desc>
+                        <num_doc>Anim deserunt elit aliqua natus</num_doc>
+                        <num_doc_desc>Anim deserunt elit aliqua natus</num_doc_desc>
+                        <suj_ativo>Stract labore ipsum perspiciatis unde</suj_ativo>
+                        <suj_ativo_desc>Stract labore ipsum perspiciatis unde</suj_ativo_desc>
+                        <localidade>Deserunt amet elit doloremque anim</localidade>
+                        <localidade_desc>Deserunt amet elit doloremque anim</localidade_desc>
+                        <tp_area>Lorem perspiciatis adipiscing natus mollit</tp_area>
+                        <tp_area_desc>Lorem perspiciatis adipiscing natus mollit</tp_area_desc>
+                        <uso>Sit consectetur officia mollit magna</uso>
+                        <uso_desc>Sit consectetur officia mollit magna</uso_desc>
+                        <natureza>Amet ut aliqua voluptatem mollit</natureza>
+                        <natureza_desc>Amet ut aliqua voluptatem mollit</natureza_desc>
+                        <valor>Voluptatem ut omnis iste lorem</valor>
+                        <valor_desc>Voluptatem ut omnis iste lorem</valor_desc>
+                        <detalhes>http://opo.io/newonofi</detalhes>
+                        <detalhes_desc>http://opo.io/newonofi</detalhes_desc>
+                        <spatial_unit_id>1</spatial_unit_id>
+                        <holder_id>1</holder_id>
+                        <ba_unit_id>1</ba_unit_id>
+                        <rrr_id>1</rrr_id>
+                        <concelho_id>1</concelho_id>
+                        <object_id>1</object_id>
+                        <ver_mapa>1</ver_mapa>
+                    </row>
+                    <row>
+                        <nip_matriz>Unde totam amet stract sit</nip_matriz>
+                        <nip_matriz_desc>Unde totam amet stract sit</nip_matriz_desc>
+                        <num_doc>Iste lorem omnis aliqua totam</num_doc>
+                        <num_doc_desc>Iste lorem omnis aliqua totam</num_doc_desc>
+                        <suj_ativo>Voluptatem sit iste omnis sed</suj_ativo>
+                        <suj_ativo_desc>Voluptatem sit iste omnis sed</suj_ativo_desc>
+                        <localidade>Labore unde labore amet sit</localidade>
+                        <localidade_desc>Labore unde labore amet sit</localidade_desc>
+                        <tp_area>Sed officia ipsum voluptatem consectetur</tp_area>
+                        <tp_area_desc>Sed officia ipsum voluptatem consectetur</tp_area_desc>
+                        <uso>Sit voluptatem officia adipiscing aliqua</uso>
+                        <uso_desc>Sit voluptatem officia adipiscing aliqua</uso_desc>
+                        <natureza>Unde amet sit aperiam accusantium</natureza>
+                        <natureza_desc>Unde amet sit aperiam accusantium</natureza_desc>
+                        <valor>Deserunt iste deserunt aperiam sed</valor>
+                        <valor_desc>Deserunt iste deserunt aperiam sed</valor_desc>
+                        <detalhes>http://hac.co.uk/hemup</detalhes>
+                        <detalhes_desc>http://hac.co.uk/hemup</detalhes_desc>
+                        <spatial_unit_id>1</spatial_unit_id>
+                        <holder_id>1</holder_id>
+                        <ba_unit_id>1</ba_unit_id>
+                        <rrr_id>1</rrr_id>
+                        <concelho_id>1</concelho_id>
+                        <object_id>1</object_id>
+                        <ver_mapa>1</ver_mapa>
+                    </row>
+                </value>
+            </table>
+        </sep_detalhe>
+        <detalhe_matriz type="table" structure="fields" title="Detalhe Matriz">
+            <fields>
+                <numero_matriz name="p_numero_matriz" type="link" target="_blank" align="left">
+                    <label>Numero Matriz</label>
+                </numero_matriz>
+                <proprietario name="p_proprietario" type="text" align="left">
+                    <label>Proprietario</label>
+                </proprietario>
+                <freguesia name="p_freguesia" type="text" align="left">
+                    <label>Freguesia</label>
+                </freguesia>
+                <natureza name="p_natureza" type="text" align="left">
+                    <label>Natureza</label>
+                </natureza>
+                <uso name="p_uso" type="text" align="left">
+                    <label>Uso</label>
+                </uso>
+                <area name="p_area" type="number" align="left">
+                    <label>Area</label>
+                </area>
+                <valor_patrimonial name="p_valor_patrimonial" type="number" align="left">
+                    <label>Valor Patrimonial</label>
+                </valor_patrimonial>
+                <detalhes name="p_detalhes" type="link" target="_blank" align="left">
+                    <label>Detalhes</label>
+                </detalhes>
+                <matriz_id name="p_matriz_id" type="hidden"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <numero_matriz>http://holac.net/eveonomot</numero_matriz>
+                        <numero_matriz_desc>http://holac.net/eveonomot</numero_matriz_desc>
+                        <proprietario>Adipiscing deserunt stract officia ut</proprietario>
+                        <proprietario_desc>Adipiscing deserunt stract officia ut</proprietario_desc>
+                        <freguesia>Sit totam sit totam ut</freguesia>
+                        <freguesia_desc>Sit totam sit totam ut</freguesia_desc>
+                        <natureza>Adipiscing accusantium sit omnis laudantium</natureza>
+                        <natureza_desc>Adipiscing accusantium sit omnis laudantium</natureza_desc>
+                        <uso>Dolor anim accusantium elit mollit</uso>
+                        <uso_desc>Dolor anim accusantium elit mollit</uso_desc>
+                        <area>364</area>
+                        <area_desc>364</area_desc>
+                        <valor_patrimonial>486</valor_patrimonial>
+                        <valor_patrimonial_desc>486</valor_patrimonial_desc>
+                        <detalhes>http://otawa.org/cisi</detalhes>
+                        <detalhes_desc>http://otawa.org/cisi</detalhes_desc>
+                        <matriz_id>1</matriz_id>
+                    </row>
+                    <row>
+                        <numero_matriz>http://if.gov/wefhadmew</numero_matriz>
+                        <numero_matriz_desc>http://if.gov/wefhadmew</numero_matriz_desc>
+                        <proprietario>Deserunt elit aliqua elit sed</proprietario>
+                        <proprietario_desc>Deserunt elit aliqua elit sed</proprietario_desc>
+                        <freguesia>Accusantium rem magna elit deserunt</freguesia>
+                        <freguesia_desc>Accusantium rem magna elit deserunt</freguesia_desc>
+                        <natureza>Adipiscing stract elit doloremque anim</natureza>
+                        <natureza_desc>Adipiscing stract elit doloremque anim</natureza_desc>
+                        <uso>Rem labore anim natus omnis</uso>
+                        <uso_desc>Rem labore anim natus omnis</uso_desc>
+                        <area>285</area>
+                        <area_desc>285</area_desc>
+                        <valor_patrimonial>462</valor_patrimonial>
+                        <valor_patrimonial_desc>462</valor_patrimonial_desc>
+                        <detalhes>http://ek.net/de</detalhes>
+                        <detalhes_desc>http://ek.net/de</detalhes_desc>
+                        <matriz_id>1</matriz_id>
+                    </row>
+                    <row>
+                        <numero_matriz>http://vo.net/vamvu</numero_matriz>
+                        <numero_matriz_desc>http://vo.net/vamvu</numero_matriz_desc>
+                        <proprietario>Sed aliqua rem perspiciatis sit</proprietario>
+                        <proprietario_desc>Sed aliqua rem perspiciatis sit</proprietario_desc>
+                        <freguesia>Aliqua amet consectetur ipsum adipiscing</freguesia>
+                        <freguesia_desc>Aliqua amet consectetur ipsum adipiscing</freguesia_desc>
+                        <natureza>Aperiam sit iste aliqua laudantium</natureza>
+                        <natureza_desc>Aperiam sit iste aliqua laudantium</natureza_desc>
+                        <uso>Consectetur laudantium ut sed natus</uso>
+                        <uso_desc>Consectetur laudantium ut sed natus</uso_desc>
+                        <area>1</area>
+                        <area_desc>1</area_desc>
+                        <valor_patrimonial>556</valor_patrimonial>
+                        <valor_patrimonial_desc>556</valor_patrimonial_desc>
+                        <detalhes>http://ziizkol.com/co</detalhes>
+                        <detalhes_desc>http://ziizkol.com/co</detalhes_desc>
+                        <matriz_id>1</matriz_id>
+                    </row>
+                    <row>
+                        <numero_matriz>http://lejalaidi.com/nug</numero_matriz>
+                        <numero_matriz_desc>http://lejalaidi.com/nug</numero_matriz_desc>
+                        <proprietario>Omnis sit natus magna adipiscing</proprietario>
+                        <proprietario_desc>Omnis sit natus magna adipiscing</proprietario_desc>
+                        <freguesia>Stract perspiciatis unde lorem rem</freguesia>
+                        <freguesia_desc>Stract perspiciatis unde lorem rem</freguesia_desc>
+                        <natureza>Totam voluptatem sit accusantium labore</natureza>
+                        <natureza_desc>Totam voluptatem sit accusantium labore</natureza_desc>
+                        <uso>Adipiscing sit adipiscing aliqua omnis</uso>
+                        <uso_desc>Adipiscing sit adipiscing aliqua omnis</uso_desc>
+                        <area>389</area>
+                        <area_desc>389</area_desc>
+                        <valor_patrimonial>510</valor_patrimonial>
+                        <valor_patrimonial_desc>510</valor_patrimonial_desc>
+                        <detalhes>http://aw.gov/omoge</detalhes>
+                        <detalhes_desc>http://aw.gov/omoge</detalhes_desc>
+                        <matriz_id>1</matriz_id>
+                    </row>
+                </value>
+            </table>
+        </detalhe_matriz>
+        <lista_projecto type="table" structure="fields" title="Lista Projecto">
+            <fields>
+                <tipo_projecto name="p_tipo_projecto" type="link" target="_blank" align="left">
+                    <label>Tipo Projecto</label>
+                </tipo_projecto>
+                <data_aprovacao_proj name="p_data_aprovacao_proj" type="date" format="IGRP_datePicker" align="left">
+                    <label>Data Aprovacao</label>
+                </data_aprovacao_proj>
+                <nm_resp_proj name="p_nm_resp_proj" type="text" align="left">
+                    <label>Nome Responsavel</label>
+                </nm_resp_proj>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_projecto>http://ogcohdeb.io/sun</tipo_projecto>
+                        <tipo_projecto_desc>http://ogcohdeb.io/sun</tipo_projecto_desc>
+                        <data_aprovacao_proj/>
+                        <data_aprovacao_proj_desc/>
+                        <nm_resp_proj>Natus magna amet perspiciatis iste</nm_resp_proj>
+                        <nm_resp_proj_desc>Natus magna amet perspiciatis iste</nm_resp_proj_desc>
+                    </row>
+                    <row>
+                        <tipo_projecto>http://ci.org/sazelfa</tipo_projecto>
+                        <tipo_projecto_desc>http://ci.org/sazelfa</tipo_projecto_desc>
+                        <data_aprovacao_proj/>
+                        <data_aprovacao_proj_desc/>
+                        <nm_resp_proj>Laudantium voluptatem anim labore omnis</nm_resp_proj>
+                        <nm_resp_proj_desc>Laudantium voluptatem anim labore omnis</nm_resp_proj_desc>
+                    </row>
+                    <row>
+                        <tipo_projecto>http://piz.org/ne</tipo_projecto>
+                        <tipo_projecto_desc>http://piz.org/ne</tipo_projecto_desc>
+                        <data_aprovacao_proj/>
+                        <data_aprovacao_proj_desc/>
+                        <nm_resp_proj>Officia deserunt sit labore mollit</nm_resp_proj>
+                        <nm_resp_proj_desc>Officia deserunt sit labore mollit</nm_resp_proj_desc>
+                    </row>
+                    <row>
+                        <tipo_projecto>http://hajov.gov/ek</tipo_projecto>
+                        <tipo_projecto_desc>http://hajov.gov/ek</tipo_projecto_desc>
+                        <data_aprovacao_proj/>
+                        <data_aprovacao_proj_desc/>
+                        <nm_resp_proj>Sit officia omnis perspiciatis sit</nm_resp_proj>
+                        <nm_resp_proj_desc>Sit officia omnis perspiciatis sit</nm_resp_proj_desc>
+                    </row>
+                </value>
+            </table>
+        </lista_projecto>
+        <proximas_datas type="table" structure="fields" title="Marcacoes disponiveis">
+            <fields>
+                <data name="p_data" type="date" format="IGRP_datePicker" align="left">
+                    <label>Data</label>
+                </data>
+                <hora name="p_hora" type="text" align="left">
+                    <label>Hora</label>
+                </hora>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <data/>
+                        <data_desc/>
+                        <hora>Voluptatem sit sed officia labore</hora>
+                        <hora_desc>Voluptatem sit sed officia labore</hora_desc>
+                    </row>
+                    <row>
+                        <data/>
+                        <data_desc/>
+                        <hora>Omnis sed officia sed perspiciatis</hora>
+                        <hora_desc>Omnis sed officia sed perspiciatis</hora_desc>
+                    </row>
+                    <row>
+                        <data/>
+                        <data_desc/>
+                        <hora>Officia deserunt labore consectetur perspiciatis</hora>
+                        <hora_desc>Officia deserunt labore consectetur perspiciatis</hora_desc>
+                    </row>
+                    <row>
+                        <data/>
+                        <data_desc/>
+                        <hora>Totam ut iste amet ipsum</hora>
+                        <hora_desc>Totam ut iste amet ipsum</hora_desc>
+                    </row>
+                </value>
+            </table>
+        </proximas_datas>
+        <entidades type="separatorlist" structure="fields" title="Entidades">
+            <fields>
+                <entidade name="p_entidade" type="text" maxlength="200" required="false" change="false" readonly="false" disabled="false" right="false" table="true">
+                    <label>Entidade</label>
+                    <value>Magna aperiam perspiciatis sed anim</value>
+                </entidade>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <entidade>Sit omnis ut sed accusantium</entidade>
+                        <entidade_desc>Sit omnis ut sed accusantium</entidade_desc>
+                    </row>
+                    <row>
+                        <entidade>Unde accusantium omnis totam iste</entidade>
+                        <entidade_desc>Unde accusantium omnis totam iste</entidade_desc>
+                    </row>
+                    <row>
+                        <entidade>Elit aperiam rem anim rem</entidade>
+                        <entidade_desc>Elit aperiam rem anim rem</entidade_desc>
+                    </row>
+                    <row>
+                        <entidade>Consectetur natus anim magna sed</entidade>
+                        <entidade_desc>Consectetur natus anim magna sed</entidade_desc>
+                    </row>
+                </value>
+            </table>
+        </entidades>
+        <lista_matriz type="table" structure="fields" title="lista_matriz">
+            <fields>
+                <id_matriz name="p_id_matriz" type="hidden"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <id_matriz>1</id_matriz>
+                    </row>
+                    <row>
+                        <id_matriz>1</id_matriz>
+                    </row>
+                    <row>
+                        <id_matriz>1</id_matriz>
+                    </row>
+                    <row>
+                        <id_matriz>1</id_matriz>
+                    </row>
+                </value>
+            </table>
+        </lista_matriz>
+        <anexar_documentos type="separatorlist" structure="fields" title="Anexar Documentos">
+            <fields>
+                <wf_acti_doctype_fk name="p_wf_acti_doctype_fk" type="select" required="true" multiple="false" change="false" disabled="false" right="false" table="true">
+                    <label>Tipo Documento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </wf_acti_doctype_fk>
+                <wf_document name="p_wf_document" type="file" required="true" disabled="false" right="false" table="true" class="default">
+                    <label>Documento</label>
+                    <value/>
+                </wf_document>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <wf_acti_doctype_fk/>
+                        <wf_acti_doctype_fk_desc/>
+                        <wf_document/>
+                        <wf_document_desc/>
+                    </row>
+                    <row>
+                        <wf_acti_doctype_fk/>
+                        <wf_acti_doctype_fk_desc/>
+                        <wf_document/>
+                        <wf_document_desc/>
+                    </row>
+                    <row>
+                        <wf_acti_doctype_fk/>
+                        <wf_acti_doctype_fk_desc/>
+                        <wf_document/>
+                        <wf_document_desc/>
+                    </row>
+                    <row>
+                        <wf_acti_doctype_fk/>
+                        <wf_acti_doctype_fk_desc/>
+                        <wf_document/>
+                        <wf_document_desc/>
+                    </row>
+                </value>
+            </table>
+        </anexar_documentos>
+        <wfo_notifications type="table" structure="fields" title="Notificacoes">
+            <fields>
+                <wfo_notification name="p_wfo_notification" type="text" align="left">
+                    <label>Notificacao</label>
+                </wfo_notification>
+                <wfo_preview name="p_wfo_preview" type="text" align="left">
+                    <label>Preview</label>
+                </wfo_preview>
+                <wfo_status name="p_wfo_status" type="text" align="left">
+                    <label>Estado</label>
+                </wfo_status>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <wfo_notification>Stract sed laudantium totam perspiciatis</wfo_notification>
+                        <wfo_notification_desc>Stract sed laudantium totam perspiciatis</wfo_notification_desc>
+                        <wfo_preview>Totam omnis adipiscing aliqua perspiciatis</wfo_preview>
+                        <wfo_preview_desc>Totam omnis adipiscing aliqua perspiciatis</wfo_preview_desc>
+                        <wfo_status>Ut mollit omnis elit deserunt</wfo_status>
+                        <wfo_status_desc>Ut mollit omnis elit deserunt</wfo_status_desc>
+                    </row>
+                    <row>
+                        <wfo_notification>Ipsum omnis amet perspiciatis magna</wfo_notification>
+                        <wfo_notification_desc>Ipsum omnis amet perspiciatis magna</wfo_notification_desc>
+                        <wfo_preview>Doloremque rem aperiam iste aperiam</wfo_preview>
+                        <wfo_preview_desc>Doloremque rem aperiam iste aperiam</wfo_preview_desc>
+                        <wfo_status>Accusantium officia elit amet accusantium</wfo_status>
+                        <wfo_status_desc>Accusantium officia elit amet accusantium</wfo_status_desc>
+                    </row>
+                    <row>
+                        <wfo_notification>Laudantium stract omnis adipiscing aliqua</wfo_notification>
+                        <wfo_notification_desc>Laudantium stract omnis adipiscing aliqua</wfo_notification_desc>
+                        <wfo_preview>Ut natus doloremque natus deserunt</wfo_preview>
+                        <wfo_preview_desc>Ut natus doloremque natus deserunt</wfo_preview_desc>
+                        <wfo_status>Magna ut doloremque totam officia</wfo_status>
+                        <wfo_status_desc>Magna ut doloremque totam officia</wfo_status_desc>
+                    </row>
+                    <row>
+                        <wfo_notification>Mollit lorem ipsum magna anim</wfo_notification>
+                        <wfo_notification_desc>Mollit lorem ipsum magna anim</wfo_notification_desc>
+                        <wfo_preview>Dolor perspiciatis aperiam voluptatem sit</wfo_preview>
+                        <wfo_preview_desc>Dolor perspiciatis aperiam voluptatem sit</wfo_preview_desc>
+                        <wfo_status>Consectetur magna doloremque ipsum anim</wfo_status>
+                        <wfo_status_desc>Consectetur magna doloremque ipsum anim</wfo_status_desc>
+                    </row>
+                </value>
+            </table>
+        </wfo_notifications>
+        <wfo_other_notify type="separatorlist" structure="fields" title="Outras Notificacoes">
+            <fields>
+                <wfo_template name="p_wfo_template" type="lookup" maxlength="300" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" right="false" table="true">
+                    <label>Template</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </wfo_template>
+                <wfo_other_preview name="p_wfo_other_preview" type="link" maxlength="4000" target="_blank" right="false" table="true" button="false">
+                    <label>Preview</label>
+                    <value>http://hos.gov/dol</value>
+                </wfo_other_preview>
+                <wfo_id_template name="p_wfo_id_template" type="hidden">
+                    <value>1</value>
+                </wfo_id_template>
+                <wfo_env_fk_template name="p_wfo_env_fk_template" type="hidden">
+                    <value>1</value>
+                </wfo_env_fk_template>
+                <wfo_other_notify_p name="p_wfo_other_notify_p" type="hidden">
+                    <value>1</value>
+                </wfo_other_notify_p>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <wfo_template/>
+                        <wfo_template_desc/>
+                        <wfo_other_preview>http://bunrap.net/cinhiwva</wfo_other_preview>
+                        <wfo_other_preview_desc>http://bunrap.net/cinhiwva</wfo_other_preview_desc>
+                        <wfo_id_template>1</wfo_id_template>
+                        <wfo_env_fk_template>1</wfo_env_fk_template>
+                        <wfo_other_notify_p>1</wfo_other_notify_p>
+                    </row>
+                    <row>
+                        <wfo_template/>
+                        <wfo_template_desc/>
+                        <wfo_other_preview>http://su.edu/gas</wfo_other_preview>
+                        <wfo_other_preview_desc>http://su.edu/gas</wfo_other_preview_desc>
+                        <wfo_id_template>1</wfo_id_template>
+                        <wfo_env_fk_template>1</wfo_env_fk_template>
+                        <wfo_other_notify_p>1</wfo_other_notify_p>
+                    </row>
+                    <row>
+                        <wfo_template/>
+                        <wfo_template_desc/>
+                        <wfo_other_preview>http://abiido.net/mo</wfo_other_preview>
+                        <wfo_other_preview_desc>http://abiido.net/mo</wfo_other_preview_desc>
+                        <wfo_id_template>1</wfo_id_template>
+                        <wfo_env_fk_template>1</wfo_env_fk_template>
+                        <wfo_other_notify_p>1</wfo_other_notify_p>
+                    </row>
+                    <row>
+                        <wfo_template/>
+                        <wfo_template_desc/>
+                        <wfo_other_preview>http://asjogi.co.uk/ofle</wfo_other_preview>
+                        <wfo_other_preview_desc>http://asjogi.co.uk/ofle</wfo_other_preview_desc>
+                        <wfo_id_template>1</wfo_id_template>
+                        <wfo_env_fk_template>1</wfo_env_fk_template>
+                        <wfo_other_notify_p>1</wfo_other_notify_p>
+                    </row>
+                </value>
+            </table>
+        </wfo_other_notify>
+        <gen_table type="table" structure="fields">
+            <fields>
+                <title name="title" type="text" align="left">
+                    <label>Titulo Processo</label>
+                </title>
+                <type name="type" type="text" align="left">
+                    <label>Tipo Processo</label>
+                </type>
+                <link name="link" type="text" align="left">
+                    <label>Link</label>
+                </link>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <title>Unde laudantium labore consectetur perspiciatis</title>
+                        <title_desc>Unde laudantium labore consectetur perspiciatis</title_desc>
+                        <type>Elit perspiciatis rem adipiscing natus</type>
+                        <type_desc>Elit perspiciatis rem adipiscing natus</type_desc>
+                        <link>Adipiscing deserunt accusantium magna voluptatem</link>
+                        <link_desc>Adipiscing deserunt accusantium magna voluptatem</link_desc>
+                    </row>
+                    <row>
+                        <title>Omnis perspiciatis iste dolor doloremque</title>
+                        <title_desc>Omnis perspiciatis iste dolor doloremque</title_desc>
+                        <type>Ut aperiam ipsum iste lorem</type>
+                        <type_desc>Ut aperiam ipsum iste lorem</type_desc>
+                        <link>Consectetur amet omnis sit elit</link>
+                        <link_desc>Consectetur amet omnis sit elit</link_desc>
+                    </row>
+                    <row>
+                        <title>Lorem iste labore sed lorem</title>
+                        <title_desc>Lorem iste labore sed lorem</title_desc>
+                        <type>Adipiscing iste aliqua deserunt voluptatem</type>
+                        <type_desc>Adipiscing iste aliqua deserunt voluptatem</type_desc>
+                        <link>Consectetur mollit aliqua stract sed</link>
+                        <link_desc>Consectetur mollit aliqua stract sed</link_desc>
+                    </row>
+                    <row>
+                        <title>Unde sit dolor stract ipsum</title>
+                        <title_desc>Unde sit dolor stract ipsum</title_desc>
+                        <type>Stract omnis iste doloremque deserunt</type>
+                        <type_desc>Stract omnis iste doloremque deserunt</type_desc>
+                        <link>Unde labore perspiciatis ipsum voluptatem</link>
+                        <link_desc>Unde labore perspiciatis ipsum voluptatem</link_desc>
+                    </row>
+                </value>
+            </table>
+        </gen_table>
+    </content>
+</rows>

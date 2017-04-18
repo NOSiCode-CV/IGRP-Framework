@@ -1,0 +1,14 @@
+<style>
+	<colors>
+		<color name="1">#5cb85c</color>
+		<color name="2">#418141</color>
+		<button>
+			<primary hover="#418141">#5cb85c</primary>
+		</button>
+	</colors>
+	<css>
+		<file>css/default.css</file>
+		<!-- <file>css/default.buttons.css</file> -->
+	</css>
+	<logo>img/logo.png</logo>
+</style>

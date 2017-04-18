@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_T_ACMP_GRL_FORM_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>T_ACMP_GRL</page>
+    <app>SA</app>
+    <plsql>
+        <action>FORM</action>
+        <package_instance></package_instance>
+        <package_db>SA_TELA_FORM_DB</package_db>
+        <package_html>SA_TELA_FORM_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Formulário</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Novo / Editar]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>SA</app>
+                <page>T_ACMP_GRL</page>
+                <link>FORM</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <params>success||fa-save|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="300" right="false" placeholder="">
+                    <label>Tela</label>
+                    <value>Dolor sit aliqua voluptatem iste</value>
+                </nome>
+                <codigo name="p_codigo" type="text" required="true" maxlength="50" change="false" readonly="false" disabled="false" right="false" placeholder="">
+                    <label>Código</label>
+                    <value>Perspiciatis officia accusantium dolor elit</value>
+                </codigo>
+                <titulo name="p_titulo" type="text" required="false" maxlength="300" change="false" readonly="false" disabled="false" right="false" placeholder="">
+                    <label>Título</label>
+                    <value>Accusantium ut natus iste adipiscing</value>
+                </titulo>
+                <id_requisito name="p_id_requisito" type="select" multiple="false" maxlength="500" required="true" change="true" disabled="false" right="false">
+                    <label>Requisito de Avaliação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_requisito>
+                <imagem_fundo name="p_imagem_fundo" type="file" maxlength="4000" required="false" disabled="false" right="false" class="success">
+                    <label>Imagem Fundo</label>
+                    <value/>
+                </imagem_fundo>
+                <ver_imagem name="p_ver_imagem" type="link" target="_blank" class="link" iconColor="#333" iconClass="" img="fa-link" maxlength="4000" placeholder="" right="false">
+                    <label>Ver Imagem</label>
+                    <value>http://buwisara.org/bog</value>
+                </ver_imagem>
+                <cor_cabecalho name="p_cor_cabecalho" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Cor Cabeçalho</label>
+                    <value>#071df2</value>
+                </cor_cabecalho>
+                <posicao_destaque name="p_posicao_destaque" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Posição Destaque</label>
+                    <value>#131881</value>
+                </posicao_destaque>
+                <posicao_1 name="p_posicao_1" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Posição 1</label>
+                    <value>#00636a</value>
+                </posicao_1>
+                <posicao_2 name="p_posicao_2" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Posição 2</label>
+                    <value>#e5b716</value>
+                </posicao_2>
+                <posicao_3 name="p_posicao_3" type="color" format="hex" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Posição 3</label>
+                    <value>#2b17d3</value>
+                </posicao_3>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+        </form_1>
+        <sep_logo_id type="separatorlist" xml-type="separatorlist" gen-type="container" gen-group="true">
+            <fields>
+                <logotipo name="p_logotipo" type="file" maxlength="4000" required="false" disabled="false" right="false" visible="true" class="success" desc="true">
+                    <label>Logotipo</label>
+                    <value/>
+                </logotipo>
+                <ordem name="p_ordem" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Ordem</label>
+                    <value>928</value>
+                </ordem>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <logotipo name="p_logotipo" desc="true"/>
+                        <logotipo_desc name="p_logotipo_desc"/>
+                        <ordem name="p_ordem" desc="true">945</ordem>
+                        <ordem_desc name="p_ordem_desc">945</ordem_desc>
+                    </row>
+                    <row>
+                        <logotipo name="p_logotipo" desc="true"/>
+                        <logotipo_desc name="p_logotipo_desc"/>
+                        <ordem name="p_ordem" desc="true">283</ordem>
+                        <ordem_desc name="p_ordem_desc">283</ordem_desc>
+                    </row>
+                    <row>
+                        <logotipo name="p_logotipo" desc="true"/>
+                        <logotipo_desc name="p_logotipo_desc"/>
+                        <ordem name="p_ordem" desc="true">698</ordem>
+                        <ordem_desc name="p_ordem_desc">698</ordem_desc>
+                    </row>
+                    <row>
+                        <logotipo name="p_logotipo" desc="true"/>
+                        <logotipo_desc name="p_logotipo_desc"/>
+                        <ordem name="p_ordem" desc="true">952</ordem>
+                        <ordem_desc name="p_ordem_desc">952</ordem_desc>
+                    </row>
+                </value>
+            </table>
+        </sep_logo_id>
+        <organica_sep type="separatorlist" xml-type="separatorlist" title="Orgânica" gen-type="container" gen-group="true">
+            <fields>
+                <organica name="p_organica" type="select" multiple="false" required="true" change="false" disabled="false" maxlength="200" right="false" visible="true" desc="true">
+                    <label>Orgânica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <organica name="p_organica" desc="true"/>
+                        <organica_desc name="p_organica_desc"/>
+                    </row>
+                    <row>
+                        <organica name="p_organica" desc="true"/>
+                        <organica_desc name="p_organica_desc"/>
+                    </row>
+                    <row>
+                        <organica name="p_organica" desc="true"/>
+                        <organica_desc name="p_organica_desc"/>
+                    </row>
+                    <row>
+                        <organica name="p_organica" desc="true"/>
+                        <organica_desc name="p_organica_desc"/>
+                    </row>
+                </value>
+            </table>
+        </organica_sep>
+    </content>
+</rows>

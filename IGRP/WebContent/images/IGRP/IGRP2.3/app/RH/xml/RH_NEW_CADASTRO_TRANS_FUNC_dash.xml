@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_TRANS_FUNC_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>TRANS_FUNC</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Transferir Funcionário</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <box_2 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
+        <form_1 type="form" xml-type="form" title="Funcionário" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Sit officia deserunt doloremque rem</value>
+                </nome>
+            </fields>
+        </form_1>
+        <form_2 type="form" xml-type="form" title="Transferir Funcionário" gen-type="container" gen-group="">
+            <fields>
+                <centro_custo name="p_centro_custo" type="lookup" action="TRANS_FUNC" page="NEW_CADASTRO" app="RH" lookup_type="LOOKUP_ORG" class="default" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Centro Custo</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </centro_custo>
+            </fields>
+        </form_2>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Transferir Funcionário]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>TRANS_FUNC</link>
+                <target>alert_submit</target>
+                <img>success|fa-floppy-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_TRANS_FUNC_dash.xml</parameter>
+                <params>success||fa-floppy-o|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

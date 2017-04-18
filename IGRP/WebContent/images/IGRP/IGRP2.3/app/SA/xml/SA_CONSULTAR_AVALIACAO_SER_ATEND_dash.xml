@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_CONSULTAR_AVALIACAO_SER_ATEND_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CONSULTAR_AVALIACAO</page>
+    <app>SA</app>
+    <plsql>
+        <action>SER_ATEND</action>
+        <package_instance></package_instance>
+        <package_db>SA_CONSULTARAVALIACAO_S_DB</package_db>
+        <package_html>SA_CONSULTARAVALIACAO_S_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Serviços Atendimento</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Servicos Atendimento]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <informacao_avaliacao type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Informacao Atendimento e Avaliacao</label>
+                </informacao_avaliacao>
+                <organica name="p_organica" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Organica</label>
+                    <value>Dolor omnis consectetur adipiscing ut</value>
+                </organica>
+                <utilizador_d name="p_utilizador_d" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Utilizador</label>
+                    <value>Ipsum sed adipiscing doloremque amet</value>
+                </utilizador_d>
+                <atendimento name="p_atendimento" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Atendimento</label>
+                    <value>Totam magna consectetur deserunt labore</value>
+                </atendimento>
+                <grau name="p_grau" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Grau</label>
+                    <value>Lorem accusantium sed magna stract</value>
+                </grau>
+                <avaliacao name="p_avaliacao" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Requisito</label>
+                    <value>Sit consectetur elit sit rem</value>
+                </avaliacao>
+                <motivo name="p_motivo" type="text" maxlength="500" readonly="true" required="false" change="false" disabled="false" placeholder="" right="false">
+                    <label>Motivo</label>
+                    <value>Iste omnis labore ut consectetur</value>
+                </motivo>
+                <servicos type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Servicos</label>
+                </servicos>
+                <hidden name="p_id_avaliacao" type="hidden" maxlength="30" tag="id_avaliacao"/>
+            </fields>
+        </form_1>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <id_servico name="p_id_servico" type="text" align="center" maxlength="500" lookup_parser="false">
+                    <label>Servico</label>
+                </id_servico>
+                <data_inicio name="p_data_inicio" type="date" align="center" format="IGRP_datePicker" maxlength="30" lookup_parser="false">
+                    <label>Data nicio</label>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" align="center" format="IGRP_datePicker" maxlength="30" lookup_parser="false">
+                    <label>Data Fim</label>
+                </data_fim>
+                <id_atendimento name="p_id_atendimento" type="hidden" maxlength="30" tag="id_atendimento"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <id_servico name="p_id_servico">Labore voluptatem stract omnis sed</id_servico>
+                        <data_inicio name="p_data_inicio"/>
+                        <data_fim name="p_data_fim"/>
+                        <id_atendimento name="p_id_atendimento" tag="id_atendimento">1</id_atendimento>
+                    </row>
+                    <row>
+                        <id_servico name="p_id_servico">Consectetur adipiscing iste laudantium sed</id_servico>
+                        <data_inicio name="p_data_inicio"/>
+                        <data_fim name="p_data_fim"/>
+                        <id_atendimento name="p_id_atendimento" tag="id_atendimento">1</id_atendimento>
+                    </row>
+                    <row>
+                        <id_servico name="p_id_servico">Sed ipsum elit laudantium ipsum</id_servico>
+                        <data_inicio name="p_data_inicio"/>
+                        <data_fim name="p_data_fim"/>
+                        <id_atendimento name="p_id_atendimento" tag="id_atendimento">1</id_atendimento>
+                    </row>
+                    <row>
+                        <id_servico name="p_id_servico">Amet unde sit accusantium doloremque</id_servico>
+                        <data_inicio name="p_data_inicio"/>
+                        <data_fim name="p_data_fim"/>
+                        <id_atendimento name="p_id_atendimento" tag="id_atendimento">1</id_atendimento>
+                    </row>
+                </value>
+            </table>
+        </gen_table>
+    </content>
+</rows>

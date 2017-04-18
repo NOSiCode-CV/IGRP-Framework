@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_RELATORIOS_AV_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RELATORIOS</page>
+    <app>SA</app>
+    <plsql>
+        <action>AV</action>
+        <package_instance></package_instance>
+        <package_db>SA_RELATORIOS_AV_DB</package_db>
+        <package_html>SA_RELATORIOS_AV_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Avaliações</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Avaliações]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <filter_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <metricas name="p_metricas" type="select" multiple="false" maxlength="300" required="false" change="true" disabled="false" right="false">
+                    <label>Métricas</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </metricas>
+                <dimensoes name="p_dimensoes" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Dimensões</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </dimensoes>
+                <tipo_de_grafico name="p_tipo_de_grafico" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false">
+                    <label>Tipo de Gráfico</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_grafico>
+                <filtros type="separator" right="false" maxlength="30" placeholder="">
+                    <label>Filtros</label>
+                </filtros>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <atendedor name="p_atendedor" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Atendedor</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </atendedor>
+                <requisito name="p_requisito" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Requisito</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </requisito>
+                <grau name="p_grau" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Grau</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </grau>
+                <motivo name="p_motivo" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Motivo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </motivo>
+                <data_inicio name="p_data_inicio" type="date" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" right="false" class="success" placeholder="">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" right="false" class="success" placeholder="">
+                    <label>Data fim</label>
+                    <value/>
+                </data_fim>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="info" rel="filter_ctx_0">
+                    <title>Pesquisar</title>
+                    <app>SA</app>
+                    <page>RELATORIOS</page>
+                    <link>AV</link>
+                    <target>_self</target>
+                    <img>info|fa-search</img>
+                </item>
+            </tools-bar>
+        </filter_1>
+        <grafico type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#d51907</col>
+                <col>#bccf74</col>
+                <col>#b3a55d</col>
+                <col>#9e2617</col>
+            </colors>
+        </grafico>
+    </content>
+</rows>

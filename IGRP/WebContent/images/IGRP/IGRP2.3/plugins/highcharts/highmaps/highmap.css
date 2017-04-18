@@ -1,0 +1,54 @@
+
+.igrp-highmaps {
+    position: relative;
+}
+
+.igrp-highmaps.is-home .mc-breadcrumb{
+    visibility: hidden;
+}
+
+.igrp-highmaps .mc-legend-wrapper{
+	text-align: center;
+    padding: 5px 0;
+}
+
+.igrp-highmaps .mc-legend-wrapper:before{
+    position: 
+}
+
+.igrp-highmaps .mc-legend-item{
+	display: inline-block;
+	margin-right: 5px;
+    cursor: pointer;
+}
+
+.igrp-highmaps .mc-legend-color{
+	width: 12px;
+    height: 12px;
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    margin-right: 4px;
+    border-radius: 100%;
+}
+
+.igrp-highmaps .mc-legend-item[visible="false"] {
+    opacity: .4
+}
+
+.igrp-highmaps .mc-breadcrumb .mc-bc-item{
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.highcharts-credits{
+    display: none;
+}
+
+.highcharts-loading{
+    opacity: .7!important;
+}
+
+.highcharts-drillup-button{
+    display: none;
+}

@@ -1,0 +1,276 @@
+<content type="dash" igrp="2.2">
+    <title>Teste Table</title>
+    <tabmenu1 type="tabmenu">
+        <group title="Menu 1" code="">
+            <item type="" code="">
+                <title>Menu 1.1</title>
+                <app>LAB</app>
+                <page/>
+                <link/>
+                <target>specific</target>
+            </item>
+            <item type="" code="">
+                <title>Menu 1.2</title>
+                <app>LAB</app>
+                <page/>
+                <link/>
+                <target>specific</target>
+            </item>
+            <item type="" code="">
+                <title>Menu 1.3</title>
+                <app>LAB</app>
+                <page/>
+                <link/>
+                <target>specific</target>
+            </item>
+        </group>
+        <group title="Menu 2" code="">
+            <item type="" code="">
+                <title>Menu 2.1</title>
+                <app>LAB</app>
+                <page/>
+                <link/>
+                <target>specific</target>
+            </item>
+        </group>
+    </tabmenu1>
+    <form type="toolsbar">
+        <item type="specific" code="">
+            <title>Gravar</title>
+            <app>LAB</app>
+            <page>LAB</page>
+            <link>GRAVAR_PLSQLPLSQLAB</link>
+            <target>submit</target>
+            <img>save.png</img>
+        </item>
+        <item type="specific" code="">
+            <title>Fechar</title>
+            <app>LAB</app>
+            <page>LAB</page>
+            <link>FECHAR_PLSQLPLSQLAB</link>
+            <target>_close</target>
+            <img>PDF_F.png</img>
+        </item>
+    </form>
+    <list type="toolsbar">
+        <item type="specific" code="">
+            <title>Botao 1</title>
+            <app>LAB</app>
+            <page>LAB</page>
+            <link>BOTAO_PLSQL</link>
+            <target>_self</target>
+        </item>
+        <item type="specific" code="">
+            <title>Botao 2</title>
+            <app>LAB</app>
+            <page>LAB</page>
+            <link>BOTAO_PLSQL</link>
+            <target>_self</target>
+        </item>
+    </list>
+    <filter type="form">
+        <fields>
+            <nome name="p_nome" type="text" maxlength="30" readonly="readonly">
+                <label>Nome</label>
+                <value/>
+            </nome>
+            <fitlrp name="p_fitlrp" type="filter_aznum" maxlength="30">
+                <label>Fitlrp</label>
+                <value/>
+            </fitlrp>
+        </fields>
+    </filter>
+    <form type="form">
+        <fields>
+            <nome name="p_nome" type="text" maxlength="30">
+                <label>nome</label>
+                <value/>
+            </nome>
+            <numero name="p_numero" type="number" maxlength="30">
+                <label>numero</label>
+                <value/>
+            </numero>
+            <data name="p_data" type="date" maxlength="30">
+                <label>data</label>
+                <value/>
+            </data>
+            <email name="p_email" type="email" maxlength="30">
+                <label>email</label>
+                <value/>
+            </email>
+            <combobox name="p_combobox" type="select" maxlength="30">
+                <label>combobox</label>
+                <list>
+                    <option>
+                        <text>-- combobox --</text>
+                        <value/>
+                    </option>
+                    <option>
+                        <text>nada</text>
+                        <value>nada</value>
+                    </option>
+                </list>
+            </combobox>
+            <checkbox name="p_checkbox" type="checkbox" maxlength="30">
+                <label>checkbox</label>
+                <value/>
+            </checkbox>
+            <checkboxlista name="p_checkboxlista" type="checkboxlist" maxlength="30">
+                <label>checkboxlista</label>
+                <list>
+                    <option>
+                        <text>nada</text>
+                        <value>nada</value>
+                    </option>
+                </list>
+            </checkboxlista>
+            <pesquisa name="p_pesquisa" type="LOOKUP" maxlength="30">
+                <label>Pesquisa</label>
+                <value/>
+                <lookup>?XXX</lookup>
+            </pesquisa>
+            <pesquisa_bi name="p_pesquisa_bi" type="LOOKUP_BI" maxlength="30">
+                <label>Pesquisa BI</label>
+                <value/>
+                <lookup>?XXX</lookup>
+            </pesquisa_bi>
+            <pesquisa_geog name="p_pesquisa_geog" type="LOOKUP_GEOG" maxlength="30">
+                <label>Pesquisa GEOG</label>
+                <value/>
+                <lookup>?XXX</lookup>
+            </pesquisa_geog>           
+            <hidden name="teste_id" type="hidden" maxlength="30"/>
+        </fields>
+    </form>
+    <separadorlist type="separatorlist" title="">
+        <fields>
+            <texto3 name="p_texto1" type="hidden" rel="separador_lista" maxlength="30">
+                <label>texto1</label>
+            </texto3>
+            <texto1 name="p_texto1" type="text" rel="separador_lista" maxlength="30">
+                <label>texto1</label>
+                <value/>
+            </texto1>
+            <combox1 name="p_combox1" type="select" rel="separador_lista" maxlength="30">
+                <label>Combox1</label>
+                <list>
+                    <option>
+                        <text>-- Combox1 --</text>
+                        <value/>
+                    </option>
+                    <option>
+                        <text>nada</text>
+                        <value>nada</value>
+                    </option>
+                </list>
+            </combox1>
+            <hidden name="p_texto1" type="hidden" rel="separador_lista" maxlength="30"/>
+        </fields>
+        <table type="table">
+            <label>
+                <texto3 name="p_texto1" type="hidden" align="">texto1</texto3>
+                <texto1 name="p_texto1" type="text" align="">texto1</texto1>
+                <combox1 name="p_combox1" type="select" align="">Combox1</combox1>
+            </label>
+            <value/>
+        </table>
+    </separadorlist>
+    <table type="table" title="">
+        <fields>
+            <nome name="nome" type="text" maxlength="30">
+                <label>nome</label>
+                <value/>
+            </nome>
+            <morada name="morada" type="text" maxlength="30">
+                <label>morada</label>
+                <value/>
+            </morada>
+            <checkall name="checkall" type="checkbox" maxlength="30">
+                <label>checkall</label>
+                <value/>
+            </checkall>
+            <checkall_check name="checkall_check" type="field_copy" maxlength="30">
+                <label>checkall</label>
+                <value/>
+            </checkall_check>
+            <checkall_desc name="checkall_desc" type="field_copy" maxlength="30">
+                <label>checkall</label>
+                <value/>
+            </checkall_desc>
+            <teste_id2 name="teste_id2" type="hidden" maxlength="30">
+                <label>Teste ID</label>
+            </teste_id2>          
+        </fields>
+        <table type="table">
+            <label>
+                <nome name="nome" type="text" align="">nome</nome>
+                <morada name="morada" type="text" align="">morada</morada>
+                <checkall name="checkall" type="checkbox" align="">checkall</checkall>
+                <checkall_check name="checkall_check" type="field_copy" align=""
+                    >checkall</checkall_check>
+                <checkall_desc name="checkall_desc" type="field_copy" align=""
+                    >checkall</checkall_desc>
+                <teste_id2 name="teste_id2" type="hidden" align="">Teste ID</teste_id2>
+            </label>
+            <value>
+                <row>
+                    <nome name="teste_id2" type="hidden" align="">nome 1</nome>
+                    <morada name="teste_id2" type="hidden" align="">morada 1</morada>
+                    <checkall name="teste_id2" type="hidden" align="">checkall 1</checkall>
+                    <checkall_check name="teste_id2" type="hidden" align="">checkall_check
+                        1</checkall_check>
+                    <checkall_desc name="teste_id2" type="hidden" align="">checkall_desc
+                        1</checkall_desc>
+                    <teste_id2 name="teste_id2" type="hidden" align="">teste_id2 1</teste_id2>
+                </row>
+                <row>
+                    <nome name="teste_id2" type="hidden" align="">nome 2</nome>
+                    <morada name="teste_id2" type="hidden" align="">morada 2</morada>
+                    <checkall name="teste_id2" type="hidden" align="">checkall 2</checkall>
+                    <checkall_check name="teste_id2" type="hidden" align="">checkall_check
+                        2</checkall_check>
+                    <checkall_desc name="teste_id2" type="hidden" align="">checkall_desc
+                        2</checkall_desc>
+                    <teste_id2 name="teste_id2" type="hidden" align="">teste_id2 2</teste_id2>
+                </row>
+                <row>
+                    <nome name="teste_id2" type="hidden" align="">nome 3</nome>
+                    <morada name="teste_id2" type="hidden" align="">morada 3</morada>
+                    <checkall name="teste_id2" type="hidden" align="">checkall 3</checkall>
+                    <checkall_check name="teste_id2" type="hidden" align="">checkall_check
+                        3</checkall_check>
+                    <checkall_desc name="teste_id2" type="hidden" align="">checkall_desc
+                        3</checkall_desc>
+                    <teste_id2 name="teste_id2" type="hidden" align="">teste_id2 3</teste_id2>
+                </row>
+            </value>
+            <context-menu>
+                <item type="specific" code="">
+                    <title>context 1</title>
+                    <app>LAB</app>
+                    <page>LAB</page>
+                    <link>CONTEXT_PLSQL</link>
+                    <target>_blank</target>
+               </item>
+                <item type="specific" code="">
+                    <title>context 2</title>
+                    <app>LAB</app>
+                    <page>LAB</page>
+                    <link>CONTEXT_PLSQL</link>
+                    <target>confirm</target>
+                </item>
+            </context-menu>
+            <legend_color>
+                <title>Legenda</title>
+                <item>
+                    <label>Azul</label>
+                    <value>1</value>
+                </item>
+                <item>
+                    <label>Vermelho</label>
+                    <value>2</value>
+                </item>
+            </legend_color>
+        </table>
+    </table>
+</content>

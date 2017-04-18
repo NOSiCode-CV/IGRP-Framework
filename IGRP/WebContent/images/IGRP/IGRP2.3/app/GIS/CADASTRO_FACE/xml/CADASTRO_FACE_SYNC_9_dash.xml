@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../CADASTRO_FACE_SYNC_9_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SYNC</page>
+    <app>CADASTRO_FACE</app>
+    <plsql>
+        <action>9</action>
+        <package_instance></package_instance>
+        <package_db>SYNC_SYNC_DB</package_db>
+        <package_html>SYNC_SYNC_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Syncs</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Sincronizações]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <data_inicio_f name="p_data_inicio_f" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio_f>
+                <data_fim_1 name="p_data_fim_1" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim_1>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>CADASTRO_FACE</app>
+                    <page>SYNC</page>
+                    <link>9</link>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" title="Sincronizações" gen-type="container" gen-group="true">
+            <fields>
+                <replica name="p_replica" type="text" align="left" lookup_parser="false">
+                    <label>Replica</label>
+                </replica>
+                <utilizador name="p_utilizador" type="text" align="left" lookup_parser="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <dt_register name="p_dt_register" type="text" align="left" lookup_parser="false">
+                    <label>Data Sync</label>
+                </dt_register>
+                <status_status name="p_status_status" type="text" align="left" lookup_parser="false">
+                    <label>Status</label>
+                </status_status>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <replica name="p_replica">Doloremque sit magna stract amet</replica>
+                        <replica_desc name="p_replica_desc">Doloremque sit magna stract amet</replica_desc>
+                        <utilizador name="p_utilizador">Unde sit stract elit mollit</utilizador>
+                        <utilizador_desc name="p_utilizador_desc">Unde sit stract elit mollit</utilizador_desc>
+                        <dt_register name="p_dt_register">Aperiam labore sit sit lorem</dt_register>
+                        <dt_register_desc name="p_dt_register_desc">Aperiam labore sit sit lorem</dt_register_desc>
+                        <status_status name="p_status_status">Voluptatem laudantium sed voluptatem omnis</status_status>
+                        <status_status_desc name="p_status_status_desc">Voluptatem laudantium sed voluptatem omnis</status_status_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <replica name="p_replica">Rem anim perspiciatis dolor mollit</replica>
+                        <replica_desc name="p_replica_desc">Rem anim perspiciatis dolor mollit</replica_desc>
+                        <utilizador name="p_utilizador">Amet lorem dolor ipsum sed</utilizador>
+                        <utilizador_desc name="p_utilizador_desc">Amet lorem dolor ipsum sed</utilizador_desc>
+                        <dt_register name="p_dt_register">Ut unde consectetur aliqua totam</dt_register>
+                        <dt_register_desc name="p_dt_register_desc">Ut unde consectetur aliqua totam</dt_register_desc>
+                        <status_status name="p_status_status">Perspiciatis lorem laudantium doloremque magna</status_status>
+                        <status_status_desc name="p_status_status_desc">Perspiciatis lorem laudantium doloremque magna</status_status_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <replica name="p_replica">Stract unde aperiam dolor anim</replica>
+                        <replica_desc name="p_replica_desc">Stract unde aperiam dolor anim</replica_desc>
+                        <utilizador name="p_utilizador">Voluptatem sit accusantium lorem mollit</utilizador>
+                        <utilizador_desc name="p_utilizador_desc">Voluptatem sit accusantium lorem mollit</utilizador_desc>
+                        <dt_register name="p_dt_register">Aperiam unde natus totam elit</dt_register>
+                        <dt_register_desc name="p_dt_register_desc">Aperiam unde natus totam elit</dt_register_desc>
+                        <status_status name="p_status_status">Aperiam sit omnis aperiam accusantium</status_status>
+                        <status_status_desc name="p_status_status_desc">Aperiam sit omnis aperiam accusantium</status_status_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <replica name="p_replica">Perspiciatis adipiscing iste sit consectetur</replica>
+                        <replica_desc name="p_replica_desc">Perspiciatis adipiscing iste sit consectetur</replica_desc>
+                        <utilizador name="p_utilizador">Iste elit doloremque adipiscing sit</utilizador>
+                        <utilizador_desc name="p_utilizador_desc">Iste elit doloremque adipiscing sit</utilizador_desc>
+                        <dt_register name="p_dt_register">Labore ut labore sit mollit</dt_register>
+                        <dt_register_desc name="p_dt_register_desc">Labore ut labore sit mollit</dt_register_desc>
+                        <status_status name="p_status_status">Adipiscing ipsum omnis unde officia</status_status>
+                        <status_status_desc name="p_status_status_desc">Adipiscing ipsum omnis unde officia</status_status_desc>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="conteudo_sync">
+                        <title>Conteúdo Sync</title>
+                        <app>CADASTRO_FACE</app>
+                        <page>SYNC</page>
+                        <link>CONTEUDO_SYNC</link>
+                        <target>modal</target>
+                        <img>default|fa-list</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

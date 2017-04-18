@@ -1,0 +1,17 @@
+<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <div class="form-group">
+     <label>#label.val#</label>
+        <xsl:for-each select="#list.path#/option">
+            <div class="radio">
+                <label>
+                    <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
+                        <xsl:if test="@selected='true'">
+                            <xsl:attribute name="checked">checked</xsl:attribute>
+                        </xsl:if>
+                    </input>
+                    <span><xsl:value-of select="text"/></span>
+                </label>
+            </div>
+        </xsl:for-each>
+    </div>
+</div>

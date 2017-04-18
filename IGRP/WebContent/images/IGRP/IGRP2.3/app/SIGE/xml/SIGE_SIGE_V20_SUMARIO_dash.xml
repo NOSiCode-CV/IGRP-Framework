@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIGE_SIGE_V20_SUMARIO_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SIGE_V2.0</page>
+    <app>SIGE</app>
+    <plsql>
+        <action>SUMARIO</action>
+        <package_instance></package_instance>
+        <package_db>SIGE_V2_SUMARIOFALTAS_DB</package_db>
+        <package_html>SIGE_V2_SUMARIOFALTAS_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Sumario e Faltas V2</title>
+        <page_title type="sectionheader" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" maxlength="4000" persist="true">
+                    <value>
+                        <![CDATA[Sumario e Faltas V2]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" gen-type="menu" gen-group="" xml-type="toolsbar">
+            <item type="specific" rel="fmn-ctx-0" code="">
+                <title>Guardar</title>
+                <app>SIGE</app>
+                <page>SIGE_V2.0</page>
+                <link>SUMARIO</link>
+                <target>submit</target>
+                <img>default|save.png</img>
+                <params>default||save.png|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <resumo type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Resumo Dia</label>
+                </resumo>
+                <data disabled="false" class="default" type="date" readonly="false" required="false" name="p_data" maxlength="30" change="true" placeholder="" format="IGRP_datePicker" right="false">
+                    <label>Data</label>
+                    <value />
+                </data>
+                <sumario disabled="false" type="textarea" readonly="false" required="false" name="p_sumario" maxlength="500" change="false" placeholder="" right="false">
+                    <label>Sumario</label>
+                    <value>Labore rem lorem stract aperiam perspiciatis deserunt anim unde natus stract unde iste elit doloremque</value>
+                </sumario>
+                <alunos_turma type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Alunos Turma</label>
+                </alunos_turma>
+                <turma disabled="false" type="select" multiple="false" required="false" name="p_turma" maxlength="30" change="true" right="false">
+                    <label>Turma</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </turma>
+                <hora disabled="false" type="select" multiple="false" required="false" name="p_hora" maxlength="30" change="true" right="false">
+                    <label>Hora</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </hora>
+            </fields>
+        </form_1>
+        <lista_turma title="Sumarios para as turmas:" type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields>
+                <ano_curricular type="text" align="left" name="p_ano_curricular" maxlength="30" lookup_parser="false">
+                    <label>Ano curricular</label>
+                </ano_curricular>
+                <turma_sumario type="text" align="left" name="p_turma_sumario" maxlength="40" lookup_parser="false">
+                    <label>Turmas</label>
+                </turma_sumario>
+                <disc_turma type="text" align="left" name="p_disc_turma" maxlength="100" lookup_parser="false">
+                    <label>Disciplina</label>
+                </disc_turma>
+                <hora_inicio type="text" align="left" name="p_hora_inicio" maxlength="30" lookup_parser="false">
+                    <label>Hora Inicio</label>
+                </hora_inicio>
+                <hora_fim type="text" align="left" name="p_hora_fim" maxlength="30" lookup_parser="false">
+                    <label>Hora Fim</label>
+                </hora_fim>
+                <sumario_texto type="text" align="left" name="p_sumario_texto" maxlength="500" lookup_parser="false">
+                    <label>Sumario</label>
+                </sumario_texto>
+                <marcar_turmas type="checkbox" align="left" name="p_marcar_turmas" maxlength="30" lookup_parser="false" desc="true" check="true">
+                    <label>Marcar</label>
+                </marcar_turmas>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Anim laudantium ut consectetur mollit</ano_curricular>
+                        <turma_sumario name="p_turma_sumario">Lorem ut anim unde stract</turma_sumario>
+                        <disc_turma name="p_disc_turma">Stract amet sit mollit elit</disc_turma>
+                        <hora_inicio name="p_hora_inicio">Aliqua laudantium sit sit doloremque</hora_inicio>
+                        <hora_fim name="p_hora_fim">Amet unde voluptatem ut ipsum</hora_fim>
+                        <sumario_texto name="p_sumario_texto">Omnis laudantium unde laudantium rem</sumario_texto>
+                        <marcar_turmas name="p_marcar_turmas" desc="true" check="true">1</marcar_turmas>
+                        <marcar_turmas_desc name="p_marcar_turmas_desc">1</marcar_turmas_desc>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Aperiam stract natus amet magna</ano_curricular>
+                        <turma_sumario name="p_turma_sumario">Mollit aperiam mollit perspiciatis voluptatem</turma_sumario>
+                        <disc_turma name="p_disc_turma">Ipsum officia deserunt amet adipiscing</disc_turma>
+                        <hora_inicio name="p_hora_inicio">Natus ut elit voluptatem officia</hora_inicio>
+                        <hora_fim name="p_hora_fim">Iste perspiciatis ut aperiam rem</hora_fim>
+                        <sumario_texto name="p_sumario_texto">Officia unde stract ut omnis</sumario_texto>
+                        <marcar_turmas name="p_marcar_turmas" desc="true" check="true">1</marcar_turmas>
+                        <marcar_turmas_desc name="p_marcar_turmas_desc">1</marcar_turmas_desc>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Unde anim sed voluptatem iste</ano_curricular>
+                        <turma_sumario name="p_turma_sumario">Magna ipsum aliqua mollit doloremque</turma_sumario>
+                        <disc_turma name="p_disc_turma">Lorem voluptatem iste ut lorem</disc_turma>
+                        <hora_inicio name="p_hora_inicio">Laudantium rem unde ut dolor</hora_inicio>
+                        <hora_fim name="p_hora_fim">Ipsum consectetur sit stract laudantium</hora_fim>
+                        <sumario_texto name="p_sumario_texto">Doloremque amet dolor aliqua rem</sumario_texto>
+                        <marcar_turmas name="p_marcar_turmas" desc="true" check="true">1</marcar_turmas>
+                        <marcar_turmas_desc name="p_marcar_turmas_desc">1</marcar_turmas_desc>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Iste amet lorem ipsum deserunt</ano_curricular>
+                        <turma_sumario name="p_turma_sumario">Adipiscing omnis aliqua unde voluptatem</turma_sumario>
+                        <disc_turma name="p_disc_turma">Dolor unde sit lorem elit</disc_turma>
+                        <hora_inicio name="p_hora_inicio">Mollit laudantium mollit sit ipsum</hora_inicio>
+                        <hora_fim name="p_hora_fim">Laudantium sit stract adipiscing ipsum</hora_fim>
+                        <sumario_texto name="p_sumario_texto">Unde elit laudantium magna dolor</sumario_texto>
+                        <marcar_turmas name="p_marcar_turmas" desc="true" check="true">1</marcar_turmas>
+                        <marcar_turmas_desc name="p_marcar_turmas_desc">1</marcar_turmas_desc>
+                    </row>
+                </value>
+            </table>
+        </lista_turma>
+        <lista_alunos title="Lista Alunos" type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields>
+                <nome type="text" align="left" name="p_nome" maxlength="200" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <total_faltas class="link" type="link" align="left" name="p_total_faltas" target="_self" maxlength="30" lookup_parser="false" desc="true" img="fa-link" iconClass="" iconColor="#333">
+                    <label>Total Faltas</label>
+                </total_faltas>
+                <falta_presenca type="checkbox" align="left" name="p_falta_presenca" maxlength="30" lookup_parser="false" desc="true" check="true">
+                    <label>Falta Presenca</label>
+                </falta_presenca>
+                <falta_injustificada type="checkbox" align="left" name="p_falta_injustificada" maxlength="30" lookup_parser="false" desc="true" check="true">
+                    <label>Falta Injustificada</label>
+                </falta_injustificada>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome name="p_nome">Iste labore lorem sit amet</nome>
+                        <total_faltas name="p_total_faltas" desc="true">http://suropul.com/esefa</total_faltas>
+                        <total_faltas_desc name="p_total_faltas_desc">http://suropul.com/esefa</total_faltas_desc>
+                        <falta_presenca name="p_falta_presenca" desc="true" check="true">1</falta_presenca>
+                        <falta_presenca_desc name="p_falta_presenca_desc">1</falta_presenca_desc>
+                        <falta_injustificada name="p_falta_injustificada" desc="true" check="true">1</falta_injustificada>
+                        <falta_injustificada_desc name="p_falta_injustificada_desc">1</falta_injustificada_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Sit officia elit lorem deserunt</nome>
+                        <total_faltas name="p_total_faltas" desc="true">http://zezahetiw.edu/danega</total_faltas>
+                        <total_faltas_desc name="p_total_faltas_desc">http://zezahetiw.edu/danega</total_faltas_desc>
+                        <falta_presenca name="p_falta_presenca" desc="true" check="true">1</falta_presenca>
+                        <falta_presenca_desc name="p_falta_presenca_desc">1</falta_presenca_desc>
+                        <falta_injustificada name="p_falta_injustificada" desc="true" check="true">1</falta_injustificada>
+                        <falta_injustificada_desc name="p_falta_injustificada_desc">1</falta_injustificada_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Ut voluptatem consectetur ipsum sit</nome>
+                        <total_faltas name="p_total_faltas" desc="true">http://daz.gov/cugpot</total_faltas>
+                        <total_faltas_desc name="p_total_faltas_desc">http://daz.gov/cugpot</total_faltas_desc>
+                        <falta_presenca name="p_falta_presenca" desc="true" check="true">1</falta_presenca>
+                        <falta_presenca_desc name="p_falta_presenca_desc">1</falta_presenca_desc>
+                        <falta_injustificada name="p_falta_injustificada" desc="true" check="true">1</falta_injustificada>
+                        <falta_injustificada_desc name="p_falta_injustificada_desc">1</falta_injustificada_desc>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Rem doloremque aperiam laudantium unde</nome>
+                        <total_faltas name="p_total_faltas" desc="true">http://biwkut.io/pol</total_faltas>
+                        <total_faltas_desc name="p_total_faltas_desc">http://biwkut.io/pol</total_faltas_desc>
+                        <falta_presenca name="p_falta_presenca" desc="true" check="true">1</falta_presenca>
+                        <falta_presenca_desc name="p_falta_presenca_desc">1</falta_presenca_desc>
+                        <falta_injustificada name="p_falta_injustificada" desc="true" check="true">1</falta_injustificada>
+                        <falta_injustificada_desc name="p_falta_injustificada_desc">1</falta_injustificada_desc>
+                    </row>
+                </value>
+            </table>
+        </lista_alunos>
+        <gen_table type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields />
+            <table>
+                <value />
+            </table>
+        </gen_table>
+    </content>
+</rows>

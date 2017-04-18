@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../copy.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <tabcontent_3 type="tabcontent" structure="tabs">
+            <item name="tab_item_1">
+                <title>Tab Item 1</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_2">
+                <title>Tab Item 2</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_3">
+                <title>Tab Item 3</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_4">
+                <title>Tab Item 4</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </tabcontent_3>
+        <formlist_2 type="formlist" structure="fields">
+            <fields>
+                <plaintext_1 name="p_plaintext_1" type="plaintext">
+                    <label>Plaintext</label>
+                </plaintext_1>
+                <email_1 name="p_email_1" type="email">
+                    <label>Email</label>
+                </email_1>
+                <radio_1 name="p_radio_1" type="radio">
+                    <label>Radio</label>
+                </radio_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <plaintext_1>Sed doloremque voluptatem laudantium aliqua</plaintext_1>
+                        <plaintext_1_desc>Sed doloremque voluptatem laudantium aliqua</plaintext_1_desc>
+                        <email_1>dickol@example.com</email_1>
+                        <email_1_desc>dickol@example.com</email_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <plaintext_1>Mollit dolor iste totam rem</plaintext_1>
+                        <plaintext_1_desc>Mollit dolor iste totam rem</plaintext_1_desc>
+                        <email_1>zaz@example.com</email_1>
+                        <email_1_desc>zaz@example.com</email_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <plaintext_1>Rem unde accusantium aperiam dolor</plaintext_1>
+                        <plaintext_1_desc>Rem unde accusantium aperiam dolor</plaintext_1_desc>
+                        <email_1>apaetoka@example.com</email_1>
+                        <email_1_desc>apaetoka@example.com</email_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <plaintext_1>Perspiciatis anim totam mollit perspiciatis</plaintext_1>
+                        <plaintext_1_desc>Perspiciatis anim totam mollit perspiciatis</plaintext_1_desc>
+                        <email_1>padeeh@example.com</email_1>
+                        <email_1_desc>padeeh@example.com</email_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_2>
+        <verticalmenu_1 type="verticalmenu" structure="items">
+            <item type="specific" code="" rel="button" class="success">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-bullseye</img>
+            </item>
+            <item type="specific" code="" rel="button" class="info">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-arrows</img>
+            </item>
+            <item type="specific" code="" rel="button" class="warning">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-arrow-circle-left</img>
+            </item>
+        </verticalmenu_1>
+        <separatorlist_1 type="separatorlist" structure="fields" title="Separatorlist">
+            <fields>
+                <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true">
+                    <label>Email</label>
+                    <value>zenbi@example.com</value>
+                </email_1>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true">
+                    <label>Text</label>
+                    <value>Amet ut unde dolor laudantium</value>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <email_1>urigiav@example.com</email_1>
+                        <email_1_desc>urigiav@example.com</email_1_desc>
+                        <text_1>Doloremque anim deserunt totam mollit</text_1>
+                        <text_1_desc>Doloremque anim deserunt totam mollit</text_1_desc>
+                    </row>
+                    <row>
+                        <email_1>vuktes@example.com</email_1>
+                        <email_1_desc>vuktes@example.com</email_1_desc>
+                        <text_1>Officia anim perspiciatis deserunt amet</text_1>
+                        <text_1_desc>Officia anim perspiciatis deserunt amet</text_1_desc>
+                    </row>
+                    <row>
+                        <email_1>hamgecpor@example.com</email_1>
+                        <email_1_desc>hamgecpor@example.com</email_1_desc>
+                        <text_1>Voluptatem deserunt sit perspiciatis sit</text_1>
+                        <text_1_desc>Voluptatem deserunt sit perspiciatis sit</text_1_desc>
+                    </row>
+                    <row>
+                        <email_1>lugor@example.com</email_1>
+                        <email_1_desc>lugor@example.com</email_1_desc>
+                        <text_1>Sit doloremque perspiciatis ut accusantium</text_1>
+                        <text_1_desc>Sit doloremque perspiciatis ut accusantium</text_1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <chart_1 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#39a845</col>
+                <col>#1865af</col>
+                <col>#e562eb</col>
+                <col>#e92c4f</col>
+            </colors>
+        </chart_1>
+        <view_1 type="view" structure="fields">
+            <fields>
+                <email_1 name="p_email_1" type="email">
+                    <label>Email</label>
+                    <value>ve@example.com</value>
+                </email_1>
+                <separator_1 name="p_separator_1" type="separator">
+                    <label>Separator</label>
+                </separator_1>
+                <text_1 name="p_text_1" type="text">
+                    <label>Text</label>
+                    <value>Sit amet mollit totam omnis</value>
+                </text_1>
+                <plaintext_1 name="p_plaintext_1" type="plaintext">
+                    <label>Plaintext</label>
+                    <value>Ipsum ut laudantium magna omnis aperiam unde rem natus amet stract totam ut omnis stract</value>
+                </plaintext_1>
+                <view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </view_1>
+        <chart_2 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#b3a8e4</col>
+                <col>#474d0f</col>
+                <col>#9a8e6a</col>
+                <col>#ccf993</col>
+            </colors>
+        </chart_2>
+    </content>
+</rows>

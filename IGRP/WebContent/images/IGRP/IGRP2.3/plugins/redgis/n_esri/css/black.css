@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+.slider a.ui-slider-handle {
+	border-color: black!important;
+}
+
+.pesquisa-results-menu ul li.active {
+	background: black;
+	color: white;
+}
+
+widget ul.widget-option-group { background:#494c4c!important; }
+
+widget#medicao span.dijit.dijitReset.dijitInline.esriToggleButton{
+	background-color:black!important;
+}
+
+.dijitMenuPopup[dijitpopupparent="dijit_form_DropDownButton_0"] .dijitMenuItemHover, 
+.dijitMenuPopup[dijitpopupparent="dijit_form_DropDownButton_0"] .dijitMenuItemSelected{
+	background:black!important;
+}
+
+
+.dijitMenuPopup[dijitpopupparent="dijit_form_DropDownButton_0"] {
+	border-color:black!important;
+}
+
+*[color="template"] { background-color: black!important; }
+*[border="template"] { border-color:black!important }
+*[alpha="template"] { background-color: rgba(0, 0, 0, 0.85)!important }
+*[text="template"] { color:black!important; }
+/*hover*/
+*[hover-color="template"]:hover { background-color: black!important; }
+*[hover-alpha="template"]:hover { background-color: rgba(0, 0, 0, 0.85)!important }
+*[hover-border="template"]:hover { border-color: black!important;}
+*[hover-text="template"]:hover { color: black!important;}
+
+.esriSimpleSlider { color:black!important;border-color:black!important; }
+.esriSimpleSliderIncrementButton { border-color:black!important }
+

@@ -1,0 +1,20 @@
+[
+    {
+        "title"  : "event1",
+        "start"  : "2016-10-13",
+        "context-param":[],
+        "color"  : "#acca57"
+    },
+    {
+        "title"  : "event2",
+        "start"  : "2016-10-12",
+        "end"    : "2016-10-15",
+        "context-param":["p1=linha1","p2=linha1"]
+    },
+    {
+        "title"  : "event3",
+        "start"  : "2016-10-13T12:30:00",
+        "allDay" : false,
+        "context-param":["p1=linha1","p2=linha1"]
+    }
+]

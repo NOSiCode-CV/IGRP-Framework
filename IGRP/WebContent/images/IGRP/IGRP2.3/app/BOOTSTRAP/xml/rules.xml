@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../rules.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <slide-menu file="../../../xml/IGRP-slide-menu.xml"/>
+    <content>
+        <title>Detalhe Lista</title>
+        <form_1 type="form" structure="fields" title="Form">
+            <fields>
+                <text name="p_text" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>Text</label>
+                    <value>Laudantium sit perspiciatis voluptatem aperiam</value>
+                </text>
+                <select_1 name="p_select_1" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Select</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </select_1>
+                <date name="p_date" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Date</label>
+                    <value/>
+                </date>
+                <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>Email</label>
+                    <value>vijuti@example.com</value>
+                </email_1>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="info">
+                    <title>Button</title>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <target>_blank</target>
+                    <img>fa-dot-circle-o</img>
+                </item>
+                <item type="form" code="" class="primary">
+                    <title>Button</title>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <target>_blank</target>
+                    <img>fa-dot-circle-o</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[DashBoard]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <table_1 type="table" structure="fields">
+            <fields>
+                <color_1 name="p_color_1" type="color" format="hex" align="left" lookup_parser="false">
+                    <label>Color</label>
+                </color_1>
+                <text_1 name="p_text_1" type="text" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_1>
+                <textarea_1 name="p_textarea_1" type="textarea" align="left" lookup_parser="false">
+                    <label>Textarea</label>
+                </textarea_1>
+                <link_1 name="p_link_1" type="link" target="_blank" align="left" lookup_parser="false">
+                    <label>Link</label>
+                </link_1>
+                <number_1 name="p_number_1" type="number" align="left" lookup_parser="false">
+                    <label>Number</label>
+                </number_1>
+                <radio_1 name="p_radio_1" type="radio" align="left" lookup_parser="false">
+                    <label/>
+                </radio_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <color_1>3</color_1>
+                        <color_1_desc>3</color_1_desc>
+                        <text_1>Aliqua elit officia totam stract</text_1>
+                        <text_1_desc>Aliqua elit officia totam stract</text_1_desc>
+                        <textarea_1>Doloremque ut sed mollit amet lorem deserunt ut natus laudantium aperiam totam perspiciatis aperiam doloremque</textarea_1>
+                        <textarea_1_desc>Doloremque ut sed mollit amet lorem deserunt ut natus laudantium aperiam totam perspiciatis aperiam doloremque</textarea_1_desc>
+                        <link_1>http://dantihruh.net/fohe</link_1>
+                        <link_1_desc>http://dantihruh.net/fohe</link_1_desc>
+                        <number_1>952</number_1>
+                        <number_1_desc>952</number_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <color_1>4</color_1>
+                        <color_1_desc>4</color_1_desc>
+                        <text_1>Ut doloremque totam natus lorem</text_1>
+                        <text_1_desc>Ut doloremque totam natus lorem</text_1_desc>
+                        <textarea_1>Totam consectetur lorem doloremque lorem anim aliqua stract laudantium labore sed anim sit anim doloremque</textarea_1>
+                        <textarea_1_desc>Totam consectetur lorem doloremque lorem anim aliqua stract laudantium labore sed anim sit anim doloremque</textarea_1_desc>
+                        <link_1>http://ari.edu/zet</link_1>
+                        <link_1_desc>http://ari.edu/zet</link_1_desc>
+                        <number_1>101</number_1>
+                        <number_1_desc>101</number_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <color_1>4</color_1>
+                        <color_1_desc>4</color_1_desc>
+                        <text_1>Magna deserunt consectetur voluptatem aperiam</text_1>
+                        <text_1_desc>Magna deserunt consectetur voluptatem aperiam</text_1_desc>
+                        <textarea_1>Anim omnis aperiam mollit rem magna elit laudantium sit voluptatem elit totam unde natus perspiciatis</textarea_1>
+                        <textarea_1_desc>Anim omnis aperiam mollit rem magna elit laudantium sit voluptatem elit totam unde natus perspiciatis</textarea_1_desc>
+                        <link_1>http://siicuhuc.org/lu</link_1>
+                        <link_1_desc>http://siicuhuc.org/lu</link_1_desc>
+                        <number_1>655</number_1>
+                        <number_1_desc>655</number_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                    <row>
+                        <color_1>6</color_1>
+                        <color_1_desc>6</color_1_desc>
+                        <text_1>Aperiam doloremque laudantium labore deserunt</text_1>
+                        <text_1_desc>Aperiam doloremque laudantium labore deserunt</text_1_desc>
+                        <textarea_1>Stract voluptatem omnis natus sit aperiam totam sed adipiscing aliqua laudantium officia totam sit ut</textarea_1>
+                        <textarea_1_desc>Stract voluptatem omnis natus sit aperiam totam sed adipiscing aliqua laudantium officia totam sit ut</textarea_1_desc>
+                        <link_1>http://kisa.com/nelikzuh</link_1>
+                        <link_1_desc>http://kisa.com/nelikzuh</link_1_desc>
+                        <number_1>582</number_1>
+                        <number_1_desc>582</number_1_desc>
+                        <radio_1>1</radio_1>
+                        <radio_1_desc>1</radio_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+    </content>
+</rows>

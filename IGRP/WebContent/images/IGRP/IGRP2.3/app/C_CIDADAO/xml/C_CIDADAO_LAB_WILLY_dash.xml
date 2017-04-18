@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../C_CIDADAO_LAB_WILLY_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LAB</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>WILLY</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_lab/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Willy</title>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem Ipsum Dolor Sit Amed Dashboard]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <tabcontent_1 type="tabcontent" structure="tabs">
+            <item name="separator_list">
+                <title>Separator List</title>
+                <img>fa-list-alt</img>
+            </item>
+            <item name="charts">
+                <title>Charts</title>
+                <img>fa-area-chart</img>
+            </item>
+        </tabcontent_1>
+        <chart_1 title="Chart" type="chart" structure="graphic">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#05bf5d</col>
+                <col>#aa241c</col>
+                <col>#049ca2</col>
+                <col>#6e3124</col>
+            </colors>
+        </chart_1>
+        <chart_2 title="Chart" type="chart" structure="graphic">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#c4a74a</col>
+                <col>#8dea11</col>
+                <col>#c3a012</col>
+                <col>#355f33</col>
+            </colors>
+        </chart_2>
+        <chart_3 title="Chart" type="chart" structure="graphic">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#9b1a51</col>
+                <col>#56f7ea</col>
+                <col>#67579c</col>
+                <col>#7a5ea8</col>
+            </colors>
+        </chart_3>
+        <separatorlist_1 type="separatorlist" structure="fields">
+            <fields>
+                <text_1 disabled="false" name="p_text_1" type="text" readonly="false" maxlength="30" required="false" right="false" placeholder="" change="false" table="true">
+                    <label>Text</label>
+                    <value>Adipiscing aliqua ipsum amet omnis</value>
+                </text_1>
+                <email_1 disabled="false" name="p_email_1" type="email" readonly="false" maxlength="30" required="false" right="false" placeholder="" change="false" table="true">
+                    <label>Email</label>
+                    <value>fi@example.com</value>
+                </email_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1>Totam officia ut natus aperiam</text_1>
+                        <text_1_desc>Totam officia ut natus aperiam</text_1_desc>
+                        <email_1>fo@example.com</email_1>
+                        <email_1_desc>fo@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Aliqua dolor anim ut adipiscing</text_1>
+                        <text_1_desc>Aliqua dolor anim ut adipiscing</text_1_desc>
+                        <email_1>ulsuvve@example.com</email_1>
+                        <email_1_desc>ulsuvve@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Amet mollit aperiam stract sit</text_1>
+                        <text_1_desc>Amet mollit aperiam stract sit</text_1_desc>
+                        <email_1>ba@example.com</email_1>
+                        <email_1_desc>ba@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Deserunt aperiam perspiciatis sed laudantium</text_1>
+                        <text_1_desc>Deserunt aperiam perspiciatis sed laudantium</text_1_desc>
+                        <email_1>fobut@example.com</email_1>
+                        <email_1_desc>fobut@example.com</email_1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <toolsbar_1 type="toolsbar" structure="items">
+            <item type="specific" class="default" rel="button_1" code="">
+                <title>Button</title>
+                <app />
+                <page />
+                <link />
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+            <item type="specific" class="default" rel="button_2" code="">
+                <title>Button</title>
+                <app />
+                <page />
+                <link />
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+            <item type="specific" class="default" rel="button_3" code="">
+                <title>Button</title>
+                <app />
+                <page />
+                <link />
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+        </toolsbar_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+    </content>
+</rows>

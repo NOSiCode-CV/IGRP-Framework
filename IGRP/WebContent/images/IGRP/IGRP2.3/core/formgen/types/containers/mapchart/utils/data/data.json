@@ -1,0 +1,16 @@
+{
+	"series":[
+        {
+            "color": "#000",
+            "key": "bv"
+        },
+        {
+            "color": "#45a6d3",
+            "key": "sv"
+        },
+        {
+            "color":"#45a6d3",
+            "key"   :"sv2"
+        }
+    ]
+}

@@ -1,0 +1,144 @@
+.main{
+	padding: 20px 7px; 
+}
+.toolsbar-holder{
+	position: fixed;
+    right: 20px;
+    left: 0;
+    top: 58px;
+    z-index: 2;
+}
+.box.igrp-forms{
+	margin-top: 30px;
+}
+
+.sidebar{
+	overflow: hidden;
+}
+.nav-sidebar{
+	margin-right: -15px;
+	margin-left: -15px;
+}
+#wr-list-document{
+	overflow-y: auto;
+}
+.nav-sidebar li{
+	position: relative;
+}
+
+.nav-sidebar li.treeview a{
+	cursor: pointer;
+}
+
+.nav-sidebar li.treeview a span.drag{
+	cursor: move;
+}
+
+.nav-sidebar li.treeview > a{
+	padding-right: 55px;
+}
+
+.treeview-menu li a[type="line"] {
+    padding-left: 45px;
+}
+
+.treeview-menu li > a[type="line"] > i{
+	left: 35px;
+}
+
+.nav-sidebar li.treeview > a:hover{
+	text-decoration: underline;
+}
+
+.nav-sidebar li .tree-menu-options{
+	position: absolute;
+	right:0;
+	top: 7px;
+	display: none;
+	z-index: 10;
+}
+
+#datasorce.nav-sidebar li .tree-menu-options{
+	top: 0;
+}
+
+#datasorce.nav-sidebar li .tree-menu-options input[type=checkbox]{
+	margin: 0;
+}
+
+.nav-sidebar .tree-menu-options .btn{
+	padding: 6px 5px;
+}
+
+.nav-sidebar li:hover > .tree-menu-options{
+	display: block;
+}
+
+.treeview-menu .icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right: 10px;
+    z-index: 1;
+    left: inherit;
+}
+
+.treeview-menu li.active a .icon{
+	-webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.wr-listtype .radio{
+	display: inline-block;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.wr-listtype span{
+	font-size: 18px;
+}
+
+.wr-newdocument{
+	font-size: 18px;
+	color: #5cb85c;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.wr-op-datasource .btn{
+	padding: 7px;
+	font-size: 18px;
+	color: #5cb85c;
+}
+
+.wr-op-datasource .btn.active, .wr-op-datasource .btn:active{
+	-webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.wr-newdatasource, .wr-editdatasource{
+	display: none;
+}
+
+.wr-newdatasource.active, .wr-editdatasource.active{
+	display: inline-block;
+}
+
+.rw_datasorce_edit input{
+	cursor: pointer;
+}
+
+.wr-op-datasource{
+	position: absolute;
+}
+
+.rw_datasorce_edit span{
+	margin-left: 5px;
+	vertical-align: text-bottom;
+}
+
+.error{
+	border-color: #d9534f;
+}

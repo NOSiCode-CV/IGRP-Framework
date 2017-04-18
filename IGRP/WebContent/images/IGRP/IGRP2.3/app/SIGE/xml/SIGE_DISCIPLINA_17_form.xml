@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIGE_DISCIPLINA_17_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DISCIPLINA</page>
+    <app>SIGE</app>
+    <plsql>
+        <action>17</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>SIGE_DISCDETALHE_V2_DB</package_db>
+        <package_html>SIGE_DISCDETALHE_V2_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Disc Detalhes V2</title>
+        <page_title type="sectionheader" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" maxlength="4000" persist="true">
+                    <value>
+                        <![CDATA[Minhas Turmas]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <tabcontent_1 type="tabcontent" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <inicio type="button" name="p_inicio" maxlength="50" img="fa-home" iconClass="" iconColor="#333" outline="false">
+                    <label>Inicio</label>
+                    <value />
+                </inicio>
+                <recurso type="button" name="p_recurso" maxlength="50" img="fa-address-book" iconClass="" iconColor="#333" outline="false">
+                    <label>Recurso</label>
+                    <value />
+                </recurso>
+                <sumario type="button" name="p_sumario" maxlength="50" img="fa-book" iconClass="" iconColor="#333" outline="false">
+                    <label>Sumário</label>
+                    <value />
+                </sumario>
+                <avaliacao type="button" name="p_avaliacao" maxlength="50" img="fa-address-book-o" iconClass="" iconColor="#333" outline="false">
+                    <label>Avaliação</label>
+                    <value />
+                </avaliacao>
+                <pauta_registo type="button" name="p_pauta_registo" maxlength="50" img="fa-list-alt" iconClass="" iconColor="#333" outline="false">
+                    <label>Pauta Registo</label>
+                    <value />
+                </pauta_registo>
+                <pauta_consulta type="button" name="p_pauta_consulta" maxlength="50" img="fa-search" iconClass="" iconColor="#333" outline="false">
+                    <label>Pauta Consulta</label>
+                    <value />
+                </pauta_consulta>
+            </fields>
+        </tabcontent_1>
+        <form_1 type="form" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <codigo disabled="false" type="text" readonly="true" required="false" name="p_codigo" maxlength="30" placeholder="" right="false" change="false">
+                    <label>Codigo</label>
+                    <value>Ut natus perspiciatis omnis dolor</value>
+                </codigo>
+                <disciplina disabled="false" type="text" readonly="true" required="false" name="p_disciplina" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Disciplina</label>
+                    <value>Amet accusantium stract magna amet</value>
+                </disciplina>
+                <area disabled="false" type="text" readonly="true" required="false" name="p_area" maxlength="50" placeholder="" right="false" change="false">
+                    <label>Area</label>
+                    <value>Magna aperiam rem aliqua unde</value>
+                </area>
+                <ano disabled="false" type="text" readonly="true" required="false" name="p_ano" maxlength="30" placeholder="" right="false" change="false">
+                    <label>Ano</label>
+                    <value>Ut voluptatem rem adipiscing iste</value>
+                </ano>
+                <docente disabled="false" type="text" readonly="true" required="false" name="p_docente" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Docente</label>
+                    <value>Iste sit ut deserunt elit</value>
+                </docente>
+                <turma disabled="false" type="text" readonly="true" required="false" name="p_turma" maxlength="30" placeholder="" right="false" change="false">
+                    <label>Turma</label>
+                    <value>Sit consectetur mollit adipiscing rem</value>
+                </turma>
+                <disciplina type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Disciplina</label>
+                </disciplina>
+                <objetivos disabled="false" type="textarea" readonly="false" required="false" name="p_objetivos" maxlength="500" placeholder="" right="false" change="false">
+                    <label>Objetivos</label>
+                    <value>Aliqua laudantium lorem omnis sit totam mollit perspiciatis elit lorem deserunt aliqua totam voluptatem rem</value>
+                </objetivos>
+                <programa disabled="false" type="textarea" readonly="false" required="false" name="p_programa" maxlength="500" placeholder="" right="false" change="false">
+                    <label>Programa</label>
+                    <value>Ut aliqua mollit labore mollit rem totam elit aliqua ipsum adipiscing unde ut amet sit</value>
+                </programa>
+                <metodo_ensino disabled="false" type="textarea" readonly="false" required="false" name="p_metodo_ensino" maxlength="500" placeholder="" right="false" change="false">
+                    <label>Metodo Ensino</label>
+                    <value>Aliqua deserunt lorem magna rem anim adipiscing consectetur perspiciatis magna aperiam voluptatem laudantium sit consectetur</value>
+                </metodo_ensino>
+                <formula_calculo disabled="false" type="textarea" readonly="true" required="false" name="p_formula_calculo" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Formula calculo</label>
+                    <value>Aperiam sed voluptatem doloremque laudantium doloremque officia labore totam ut amet lorem magna elit ut</value>
+                </formula_calculo>
+                <hidden type="hidden" name="p_turma_id" maxlength="30" tag="turma_id" />
+                <hidden type="hidden" name="p_planesc_id" maxlength="30" tag="planesc_id" />
+            </fields>
+        </form_1>
+        <form_2 type="form" gen-type="container" gen-group="" xml-type="form">
+            <fields />
+        </form_2>
+    </content>
+</rows>

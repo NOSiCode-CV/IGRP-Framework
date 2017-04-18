@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIGE_SIGE_V20_PROFESSOR V2_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SIGE_V2.0</page>
+    <app>SIGE</app>
+    <plsql>
+        <action>PROFESSOR V2</action>
+        <package_instance></package_instance>
+        <package_db>SIGE_V2_PROF_DISC_DB</package_db>
+        <package_html>SIGE_V2_PROF_DISC_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Professor V2</title>
+        <page_title type="sectionheader" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" maxlength="4000" persist="true">
+                    <value>
+                        <![CDATA[Professor V2]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" gen-type="container" gen-group="" xml-type="form">
+            <fields>
+                <dados_pessoais type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Dados Pessoais</label>
+                </dados_pessoais>
+                <nome disabled="false" type="text" readonly="true" required="false" name="p_nome" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Nome</label>
+                    <value>Ipsum officia stract totam lorem</value>
+                </nome>
+                <dt_nascimento disabled="false" type="text" readonly="true" required="false" name="p_dt_nascimento" maxlength="30" placeholder="" right="false" change="false">
+                    <label>Dt. Nascimento</label>
+                    <value>Ut aliqua amet labore ut</value>
+                </dt_nascimento>
+                <naturalidade disabled="false" type="text" readonly="true" required="false" name="p_naturalidade" maxlength="100" placeholder="" right="false" change="false">
+                    <label>Naturalidade</label>
+                    <value>Elit officia omnis deserunt dolor</value>
+                </naturalidade>
+                <nacionalidade disabled="false" type="text" readonly="true" required="false" name="p_nacionalidade" maxlength="100" placeholder="" right="false" change="false">
+                    <label>Nacionalidade</label>
+                    <value>Stract elit laudantium mollit sit</value>
+                </nacionalidade>
+                <morada disabled="false" type="text" readonly="true" required="false" name="p_morada" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Morada</label>
+                    <value>Magna anim adipiscing elit voluptatem</value>
+                </morada>
+                <concelho disabled="false" type="text" readonly="true" required="false" name="p_concelho" maxlength="100" placeholder="" right="false" change="false">
+                    <label>Concelho</label>
+                    <value>Elit ut deserunt doloremque ipsum</value>
+                </concelho>
+                <email disabled="false" type="email" readonly="true" required="false" name="p_email" maxlength="200" placeholder="" right="false" change="false">
+                    <label>Email</label>
+                    <value>wa@example.com</value>
+                </email>
+            </fields>
+        </form_1>
+        <anoletivo_sep title="Dados Ano letivo Corrente" type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields>
+                <ano_curricular type="text" align="left" name="p_ano_curricular" maxlength="30" lookup_parser="false">
+                    <label>Ano curricular</label>
+                </ano_curricular>
+                <turma type="text" align="left" name="p_turma" maxlength="30" lookup_parser="false">
+                    <label>Turma</label>
+                </turma>
+                <disciplina type="text" align="left" name="p_disciplina" maxlength="100" lookup_parser="false">
+                    <label>Disciplina</label>
+                </disciplina>
+                <nr_alunos type="text" align="left" name="p_nr_alunos" maxlength="30" lookup_parser="false">
+                    <label>Nr Alunos</label>
+                </nr_alunos>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Sit officia dolor amet adipiscing</ano_curricular>
+                        <turma name="p_turma">Aperiam elit magna amet deserunt</turma>
+                        <disciplina name="p_disciplina">Sit laudantium magna deserunt elit</disciplina>
+                        <nr_alunos name="p_nr_alunos">Amet elit sit rem perspiciatis</nr_alunos>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Magna aliqua sed aliqua consectetur</ano_curricular>
+                        <turma name="p_turma">Stract laudantium omnis magna accusantium</turma>
+                        <disciplina name="p_disciplina">Lorem ut natus unde sit</disciplina>
+                        <nr_alunos name="p_nr_alunos">Natus iste laudantium deserunt omnis</nr_alunos>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Deserunt mollit elit dolor iste</ano_curricular>
+                        <turma name="p_turma">Anim voluptatem consectetur adipiscing laudantium</turma>
+                        <disciplina name="p_disciplina">Sit totam magna accusantium dolor</disciplina>
+                        <nr_alunos name="p_nr_alunos">Voluptatem omnis voluptatem amet totam</nr_alunos>
+                    </row>
+                    <row>
+                        <ano_curricular name="p_ano_curricular">Labore voluptatem iste doloremque natus</ano_curricular>
+                        <turma name="p_turma">Rem officia deserunt accusantium consectetur</turma>
+                        <disciplina name="p_disciplina">Aperiam unde ut lorem dolor</disciplina>
+                        <nr_alunos name="p_nr_alunos">Sit stract dolor deserunt stract</nr_alunos>
+                    </row>
+                </value>
+            </table>
+        </anoletivo_sep>
+        <gen_table type="table" gen-type="container" gen-group="true" xml-type="table">
+            <fields />
+            <table>
+                <value />
+            </table>
+        </gen_table>
+    </content>
+</rows>

@@ -1,0 +1,44 @@
+widget#infowindowdb {
+	position:static;
+}
+
+widget#infowindowdb #info-holder {
+	position: absolute; 
+	font-size: 14px;
+	background:rgba(255,255,255,0.9);
+	border:10px solid rgba(255,255,255,0.3);
+	display: none;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+}
+widget#infowindowdb #info-holder.active {
+	display: block;
+}
+
+widget#infowindowdb #info-holder .closer {
+	right:-26px;
+	top:-26px;
+}
+widget#infowindowdb #info-holder .extra-options{
+	padding:2px 5px;
+	text-align: right;
+	font-size:10px;
+}
+widget#infowindowdb #info-holder .extra-options span[rel="centralize"]{
+	text-transform: lowercase;
+}
+widget#infowindowdb #info-holder .extra-options span{
+	cursor:pointer;
+}
+widget#infowindowdb #info-holder #info-title {
+	text-transform: uppercase;;
+	padding:5px;
+}
+widget#infowindowdb #info-holder .info-row {
+	padding:5px;
+}
+widget#infowindowdb #info-holder .info-row  .info-label{
+	padding-right: 5px;
+	font-weight: bold;
+}

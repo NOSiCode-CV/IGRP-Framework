@@ -1,0 +1,167 @@
+@font-face {
+  font-family: "Avant Garde";
+  src: url("../assets/fonte/AvantGardeITCbyBT-Book.ttf") format("truetype");
+/*  src: url("../assets/fonte/AvantGardeITCbyBT-Demi.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;*/
+}
+
+body{
+	font-family: "Avant Garde";
+	letter-spacing: 1px;
+	overflow: hidden;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+#form_hidden{
+	border:none
+}
+
+body.apptv .container-fluid, body.apptv #igrp-contents .content{
+	padding: 0;
+	background-image: url('../assets/img/bg_apptv.png');
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	top: 0;
+}
+
+body.apptv .box{
+	background: transparent;
+}
+
+body.apptv .content-header.gen-container-item{
+	padding: 20px;
+	background-color: #418141;
+	color: #fff;
+	text-align: center;
+}
+
+body.apptv .content-header.gen-container-item h2{
+	font-size: 40px;
+}
+
+#section-nav{
+	/*padding: 100px 40px 50px 40px;*/
+	padding: 8% 3% 3% 3%;
+}
+body.apptv .gen-column.col-md-4{
+	padding-right: 0.5px;
+	padding-left: 0.5px;
+}
+
+body.apptv .gen-column.col-md-4:last-child{
+	padding-right: 15px;
+}
+
+body.apptv .gen-column.col-md-4:first-child{
+	padding-left: 15px;
+}
+
+#apptv-atend{
+	margin-bottom: 30px;
+}
+
+#apptv-atend .statbox{
+	background-color: #f0f5f8;
+	color: #30415b;
+	height: 200px;
+	padding: 0;
+	margin: 0;
+}
+
+#apptv-atend .statbox .sa-title{
+	font-size: 23px;
+    font-weight: 400;
+    padding:20px;
+}
+
+#apptv-atend .statbox .sa-title:after{
+	content: '';
+	border-bottom: 1px solid #b4a29f;
+	display: block;
+	width: 50%;
+    margin-left: -20px;
+    padding-top: 20px;
+}
+
+#apptv-atend .statbox .sa-number{
+	padding: 0 10px;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    zoom: 2;
+}
+
+#apptv-atend .statbox .rating{
+	text-transform: uppercase;
+}
+
+.apptv-atendimento .statbox{
+	color: #fff !important;
+}
+.sa-img{
+	height: 200px;
+	padding: 10px;
+	width: 100%;
+	border-right: 1px solid #b4a29f;
+	background-size:inherit;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	text-align: center;
+	position: relative;
+}
+
+.sa-img img{
+	max-width: 90%;
+}
+
+.apptv-atendimento .statbox{
+	height: 200px;
+}
+
+.apptv-atendimento .sa-title{
+	padding:15px 20px;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.apptv-atendimento .sa-number{
+	font-size: 60px;
+    padding: 0 20px;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
+.apptv-atendimento .sa-number .fa{
+	float: right;
+}
+
+.item-logo{
+	background:rgba(216, 214, 212, 0.62);
+	height: 140px;
+	position: absolute;
+	top: 60px;
+	left: 0;
+	right: 30px;
+	padding: 15px 5px;
+}
+
+.item-logo .logo{
+	position: relative;
+	text-align: center;
+	/*background-position:50%  50%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	width:100%;
+	height: 110px;
+	max-height: 110px;*/
+}
+.item-logo .logo img{
+	height: 110px;
+}

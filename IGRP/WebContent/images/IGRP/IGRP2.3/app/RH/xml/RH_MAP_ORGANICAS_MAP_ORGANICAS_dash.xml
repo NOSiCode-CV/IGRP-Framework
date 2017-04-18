@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_MAP_ORGANICAS_MAP_ORGANICAS_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>MAP_ORGANICAS</page>
+    <app>RH</app>
+    <plsql>
+        <action>MAP_ORGANICAS</action>
+        <package_instance>findev</package_instance>
+        <package_db>MAP_ORG_DB</package_db>
+        <package_html>MAP_ORG_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Mapear Orgânicas</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Mapear Orgânica]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <pesquisa_organica name="p_pesquisa_organica" type="lookup" action="MAP_ORGANICAS" page="MAP_ORGANICAS" app="RH" class="primary" maxlength="100" required="true" change="true" readonly="false" disabled="false" placeholder="" right="false" lookup_type="LOOKUP_ORG">
+                    <label>Pesquisa Orgânica</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </pesquisa_organica>
+                <utilizador name="p_utilizador" type="lookup" action="MAP_ORGANICAS" page="MAP_ORGANICAS" app="RH" class="primary" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_type="LOOKUP">
+                    <label>Utilizador</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </utilizador>
+                <hidden name="p_id_org_igrp" type="hidden" maxlength="30" tag="id_org_igrp"/>
+                <hidden name="p_uti_id" type="hidden" maxlength="30" tag="uti_id"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>RH</app>
+                    <page>MAP_ORGANICAS</page>
+                    <link>MAP_ORGANICAS</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_MAP_ORGANICAS_MAP_ORGANICAS_dash.xml</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+                <item type="form" code="" class="success" rel="gravar">
+                    <title>Gravar</title>
+                    <app>RH</app>
+                    <page>MAP_ORGANICAS</page>
+                    <link>MAP_ORGANICAS</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_MAP_ORGANICAS_MAP_ORGANICAS_dash.xml</parameter>
+                    <target>submit</target>
+                    <img>success|fa-save</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <organica_rh name="p_organica_rh" type="text" maxlength="100" align="left" lookup_parser="false">
+                    <label>Orgânica RH</label>
+                </organica_rh>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                    <label>Checkbox</label>
+                </checkbox_1>
+                <id_org_rh name="p_id_org_rh" type="hidden" maxlength="30" tag="id_org_rh"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <organica_rh name="p_organica_rh">Voluptatem rem sit rem amet</organica_rh>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id_org_rh name="p_id_org_rh" tag="id_org_rh">1</id_org_rh>
+                    </row>
+                    <row>
+                        <organica_rh name="p_organica_rh">Amet sit totam iste omnis</organica_rh>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id_org_rh name="p_id_org_rh" tag="id_org_rh">1</id_org_rh>
+                    </row>
+                    <row>
+                        <organica_rh name="p_organica_rh">Sed doloremque aperiam omnis totam</organica_rh>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id_org_rh name="p_id_org_rh" tag="id_org_rh">1</id_org_rh>
+                    </row>
+                    <row>
+                        <organica_rh name="p_organica_rh">Mollit accusantium mollit voluptatem unde</organica_rh>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id_org_rh name="p_id_org_rh" tag="id_org_rh">1</id_org_rh>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

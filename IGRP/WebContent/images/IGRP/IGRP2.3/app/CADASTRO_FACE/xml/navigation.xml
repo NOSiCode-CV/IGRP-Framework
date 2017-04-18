@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><navigation><item		app="CADASTRO_FACE"	page="PRECAD_CONFIG"	action="EXPORT">CADASTRO_FACE_PRECAD_CONFIG_EXPORT_table.xml</item><item		app="CADASTRO_FACE"	page="PRECAD_CONFIG"	action="UDT_FLAT">CADASTRO_FACE_PRECAD_CONFIG_UDT_FLAT_table.xml</item></navigation>

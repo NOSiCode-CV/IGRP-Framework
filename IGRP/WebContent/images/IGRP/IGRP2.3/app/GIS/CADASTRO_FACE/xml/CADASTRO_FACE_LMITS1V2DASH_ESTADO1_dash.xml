@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../CADASTRO_FACE_LMITS1V2DASH_ESTADO1_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LMITS1V2DASH</page>
+    <app>CADASTRO_FACE</app>
+    <plsql>
+        <action>ESTADO1</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>PRECAD_DSH_EST_CONSULTA_DB</package_db>
+        <package_html>PRECAD_DSH_EST_CONSULTA_HMTL</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Consulta Pública</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Estado - Consulta Pública]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <ilha name="p_ilha" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Ilha</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </ilha>
+                <cidadezona name="p_cidadezona" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Cidade/Zona</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </cidadezona>
+                <bairrolugar name="p_bairrolugar" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Bairro/Lugar</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </bairrolugar>
+                <data_inicio name="p_data_inicio" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim>
+                <natureza name="p_natureza" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Natureza</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </natureza>
+                <tipo_predio name="p_tipo_predio" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Tipo Predio</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_predio>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>CADASTRO_FACE</app>
+                    <page>LMITS1V2DASH</page>
+                    <link>ESTADO1</link>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <sb_pred type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sb_pred_tit name="p_sb_pred_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Small Box Title</value>
+                </sb_pred_tit>
+                <sb_pred_val name="p_sb_pred_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </sb_pred_val>
+                <sb_pred_url name="p_sb_pred_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sb_pred_url>
+                <sb_pred_lbl name="p_sb_pred_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </sb_pred_lbl>
+                <sb_pred_bg name="p_sb_pred_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </sb_pred_bg>
+                <sb_pred_icn name="p_sb_pred_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </sb_pred_icn>
+            </fields>
+        </sb_pred>
+        <sb_rec type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sb_rec_tit name="p_sb_rec_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Small Box Title</value>
+                </sb_rec_tit>
+                <sb_rec_val name="p_sb_rec_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </sb_rec_val>
+                <sb_rec_url name="p_sb_rec_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sb_rec_url>
+                <sb_rec_lbl name="p_sb_rec_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </sb_rec_lbl>
+                <sb_rec_bg name="p_sb_rec_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </sb_rec_bg>
+                <sb_rec_icn name="p_sb_rec_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </sb_rec_icn>
+            </fields>
+        </sb_rec>
+        <sb_rec_r type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sb_rec_r_tit name="p_sb_rec_r_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Small Box Title</value>
+                </sb_rec_r_tit>
+                <sb_rec_r_val name="p_sb_rec_r_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </sb_rec_r_val>
+                <sb_rec_r_url name="p_sb_rec_r_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sb_rec_r_url>
+                <sb_rec_r_lbl name="p_sb_rec_r_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </sb_rec_r_lbl>
+                <sb_rec_r_bg name="p_sb_rec_r_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </sb_rec_r_bg>
+                <sb_rec_r_icn name="p_sb_rec_r_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </sb_rec_r_icn>
+            </fields>
+        </sb_rec_r>
+        <sb_pred_ev type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sb_pred_ev_tit name="p_sb_pred_ev_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Small Box Title</value>
+                </sb_pred_ev_tit>
+                <sb_pred_ev_val name="p_sb_pred_ev_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>895</value>
+                </sb_pred_ev_val>
+                <sb_pred_ev_url name="p_sb_pred_ev_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sb_pred_ev_url>
+                <sb_pred_ev_lbl name="p_sb_pred_ev_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>View Details</value>
+                </sb_pred_ev_lbl>
+                <sb_pred_ev_bg name="p_sb_pred_ev_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </sb_pred_ev_bg>
+                <sb_pred_ev_icn name="p_sb_pred_ev_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </sb_pred_ev_icn>
+            </fields>
+        </sb_pred_ev>
+        <chart_zonas_em_consulta type="chart" xml-type="chart" title="Zonas em Consulta" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#c220c2</col>
+                <col>#ed0b0e</col>
+                <col>#5998be</col>
+                <col>#021833</col>
+            </colors>
+        </chart_zonas_em_consulta>
+        <zonas_em_consulta type="table" xml-type="table" title="Zonas em Consulta" gen-type="container" gen-group="true">
+            <fields>
+                <zona name="p_zona" type="text" align="left" lookup_parser="false">
+                    <label>Zona</label>
+                </zona>
+                <predios name="p_predios" type="number" align="right" lookup_parser="false">
+                    <label>Prédios</label>
+                </predios>
+                <per_zona_em_consulta name="p_per_zona_em_consulta" type="number" align="right" lookup_parser="false">
+                    <label>% Area</label>
+                </per_zona_em_consulta>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <zona name="p_zona">Anim unde perspiciatis natus consectetur</zona>
+                        <predios name="p_predios">272</predios>
+                        <per_zona_em_consulta name="p_per_zona_em_consulta">991</per_zona_em_consulta>
+                    </row>
+                    <row>
+                        <zona name="p_zona">Lorem sit rem amet rem</zona>
+                        <predios name="p_predios">409</predios>
+                        <per_zona_em_consulta name="p_per_zona_em_consulta">829</per_zona_em_consulta>
+                    </row>
+                    <row>
+                        <zona name="p_zona">Labore iste unde perspiciatis dolor</zona>
+                        <predios name="p_predios">908</predios>
+                        <per_zona_em_consulta name="p_per_zona_em_consulta">534</per_zona_em_consulta>
+                    </row>
+                    <row>
+                        <zona name="p_zona">Elit magna natus aliqua deserunt</zona>
+                        <predios name="p_predios">499</predios>
+                        <per_zona_em_consulta name="p_per_zona_em_consulta">307</per_zona_em_consulta>
+                    </row>
+                </value>
+            </table>
+        </zonas_em_consulta>
+        <chart_predios_genero type="chart" xml-type="chart" title="Predios Por Genero" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#fc5c1f</col>
+                <col>#28085e</col>
+                <col>#725aa5</col>
+                <col>#45359e</col>
+            </colors>
+        </chart_predios_genero>
+        <chart_terreno_fracao type="chart" xml-type="chart" title="Terrenos Vs Fração" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#aa7b7b</col>
+                <col>#bc4e40</col>
+                <col>#8b87d4</col>
+                <col>#74e947</col>
+            </colors>
+        </chart_terreno_fracao>
+        <chart_predios_natureza type="chart" xml-type="chart" title="Predios Por Natureza" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#4595ce</col>
+                <col>#120c02</col>
+                <col>#653f90</col>
+                <col>#7e2d62</col>
+            </colors>
+        </chart_predios_natureza>
+    </content>
+</rows>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_DASHBOARD_PEDIDOS_51_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DASHBOARD_PEDIDOS</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>5.1</action>
+        <package_instance></package_instance>
+        <package_db>LMITS_TIMING_DETALHE_DB</package_db>
+        <package_html>LMITS_TIMING_DETALHE_HTML</package_html>
+        <table_name>TIMING</table_name>
+        <with_replace>true</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista Performance</title>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_organica" type="hidden" maxlength="30" tag="organica"/>
+                <hidden name="p_data_de" type="hidden" maxlength="30" tag="data_de"/>
+                <hidden name="p_estado" type="hidden" maxlength="30" tag="estado"/>
+                <hidden name="p_data_ate" type="hidden" maxlength="30" tag="data_ate"/>
+                <hidden name="p_tipo_ato" type="hidden" maxlength="30" tag="tipo_ato"/>
+                <hidden name="p_etapa" type="hidden" maxlength="30" tag="etapa"/>
+                <hidden name="p_x" type="hidden" maxlength="300" tag="x"/>
+                <hidden name="p_y" type="hidden" maxlength="300" tag="y"/>
+                <hidden name="p_chart_type" type="hidden" maxlength="30" tag="chart_type"/>
+                <hidden name="p_z" type="hidden" maxlength="300" tag="z"/>
+            </fields>
+        </form_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="enviar_notificacao">
+                <title>Enviar Notificação</title>
+                <app>LMITS</app>
+                <page>DASHBOARD_PEDIDOS</page>
+                <link>5.1</link>
+                <target>submit</target>
+                <img>primary|fa-send</img>
+                <params>primary||fa-send|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <ds_ato name="p_ds_ato" type="text" maxlength="300" align="left" lookup_parser="false">
+                    <label>Ato</label>
+                </ds_ato>
+                <ds_etapa name="p_ds_etapa" type="text" maxlength="300" align="left" lookup_parser="false">
+                    <label>Etapa</label>
+                </ds_etapa>
+                <dt_inicio name="p_dt_inicio" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Dt Inicio</label>
+                </dt_inicio>
+                <dt_fim_previsto name="p_dt_fim_previsto" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Dt Fim Previsto</label>
+                </dt_fim_previsto>
+                <dt_fim_real name="p_dt_fim_real" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Dt Fim Real</label>
+                </dt_fim_real>
+                <estado_desc name="p_estado_desc" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Estado</label>
+                </estado_desc>
+                <atraso name="p_atraso" type="color" format="hex" maxlength="30" align="left" lookup_parser="false">
+                    <label>Atraso</label>
+                </atraso>
+                <check_not name="p_check_not" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                    <label>Check_not</label>
+                </check_not>
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ds_ato name="p_ds_ato">Dolor totam amet natus iste</ds_ato>
+                        <ds_etapa name="p_ds_etapa">Elit iste aliqua unde ipsum</ds_etapa>
+                        <dt_inicio name="p_dt_inicio"/>
+                        <dt_fim_previsto name="p_dt_fim_previsto"/>
+                        <dt_fim_real name="p_dt_fim_real"/>
+                        <estado_desc name="p_estado_desc">Omnis consectetur aliqua accusantium omnis</estado_desc>
+                        <atraso name="p_atraso">3</atraso>
+                        <check_not name="p_check_not" check="true" desc="true">1</check_not>
+                        <check_not_desc name="p_check_not_desc">1</check_not_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ds_ato name="p_ds_ato">Unde doloremque laudantium anim iste</ds_ato>
+                        <ds_etapa name="p_ds_etapa">Labore aliqua adipiscing anim doloremque</ds_etapa>
+                        <dt_inicio name="p_dt_inicio"/>
+                        <dt_fim_previsto name="p_dt_fim_previsto"/>
+                        <dt_fim_real name="p_dt_fim_real"/>
+                        <estado_desc name="p_estado_desc">Officia rem officia mollit perspiciatis</estado_desc>
+                        <atraso name="p_atraso">1</atraso>
+                        <check_not name="p_check_not" check="true" desc="true">1</check_not>
+                        <check_not_desc name="p_check_not_desc">1</check_not_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ds_ato name="p_ds_ato">Totam adipiscing aliqua aperiam aliqua</ds_ato>
+                        <ds_etapa name="p_ds_etapa">Omnis totam sit labore perspiciatis</ds_etapa>
+                        <dt_inicio name="p_dt_inicio"/>
+                        <dt_fim_previsto name="p_dt_fim_previsto"/>
+                        <dt_fim_real name="p_dt_fim_real"/>
+                        <estado_desc name="p_estado_desc">Mollit aperiam ut accusantium officia</estado_desc>
+                        <atraso name="p_atraso">6</atraso>
+                        <check_not name="p_check_not" check="true" desc="true">1</check_not>
+                        <check_not_desc name="p_check_not_desc">1</check_not_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <ds_ato name="p_ds_ato">Sit iste dolor perspiciatis sed</ds_ato>
+                        <ds_etapa name="p_ds_etapa">Omnis rem perspiciatis magna doloremque</ds_etapa>
+                        <dt_inicio name="p_dt_inicio"/>
+                        <dt_fim_previsto name="p_dt_fim_previsto"/>
+                        <dt_fim_real name="p_dt_fim_real"/>
+                        <estado_desc name="p_estado_desc">Adipiscing natus adipiscing sed natus</estado_desc>
+                        <atraso name="p_atraso">9</atraso>
+                        <check_not name="p_check_not" check="true" desc="true">1</check_not>
+                        <check_not_desc name="p_check_not_desc">1</check_not_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="ver_processo">
+                        <title>Ver Processo</title>
+                        <app>LMITS</app>
+                        <page>DASHBOARD_PEDIDOS</page>
+                        <link>5.1</link>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

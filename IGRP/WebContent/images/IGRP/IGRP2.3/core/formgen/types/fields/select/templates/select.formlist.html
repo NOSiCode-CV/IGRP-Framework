@@ -1,0 +1,19 @@
+<xsl:if test="not(#tag#/@visible)">
+  <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+    <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+    <div class="form-group" item-name="#tag#" item-type="#type#">
+        <select class="form-control select2 #[change]#" id="#parent.tag#_#tag#" name="{../../../fields/#tag#/@name}_fk" #[required]# #[multiple]# rel="F_#parent.tag#">
+        <xsl:variable name="#tag#_val" select="#tag#"/>
+        <xsl:for-each select="//#list.path#/option">
+            <option value="{value}">
+              <xsl:if test="$#tag#_val = value">
+                <xsl:attribute name="selected">selected</xsl:attribute>
+              </xsl:if>
+              <span><xsl:value-of select="text"/></span>
+            </option>
+          </xsl:for-each>
+      </select>
+    </div>
+  </td>
+</xsl:if>
+

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_SASA_T_MENU_BULK_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SA.SA_T_MENU</page>
+    <app>SA</app>
+    <plsql>
+        <action>BULK</action>
+        <package_instance></package_instance>
+        <package_db>SA_MENU_DB</package_db>
+        <package_html>SA_MENU_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Menu Para Atendimento]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <organica_fil name="p_organica_fil" change="true" type="select" required="true" maxlength="22" multiple="false" disabled="false" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica_fil>
+                <menu_principal_fil name="p_menu_principal_fil" type="select" maxlength="22" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Menu Principal</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </menu_principal_fil>
+                <titulo_fil name="p_titulo_fil" type="text" maxlength="255" required="false" change="false" readonly="false" disabled="false" right="false" placeholder="">
+                    <label>Titulo</label>
+                    <value>Elit sed aperiam laudantium elit</value>
+                </titulo_fil>
+                <procedimento_fil name="p_procedimento_fil" type="text" maxlength="2000" required="false" change="false" readonly="false" disabled="false" right="false" placeholder="">
+                    <label>Procedimento</label>
+                    <value>Consectetur anim amet doloremque amet</value>
+                </procedimento_fil>
+                <estado_fil name="p_estado_fil" type="select" maxlength="30" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_fil>
+                <hidden name="p_id_fil" type="hidden" maxlength="30" tag="id_fil"/>
+                <hidden name="p_codigo_fil" type="hidden" maxlength="30" tag="codigo_fil"/>
+                <hidden name="p_link_pagina_fil" type="hidden" maxlength="30" tag="link_pagina_fil"/>
+                <hidden name="p_ordem_fil" type="hidden" maxlength="30" tag="ordem_fil"/>
+            </fields>
+        </form_1>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="pesquisar">
+                <title>Pesquisar</title>
+                <app>SA</app>
+                <page>SA.SA_T_MENU</page>
+                <link>BULK</link>
+                <target>submit</target>
+                <img>info|fa-search</img>
+                <params>info||fa-search|www</params>
+            </item>
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>SA</app>
+                <page>SA.SA_T_MENU</page>
+                <link>FORM</link>
+                <target>_self</target>
+                <img>success|fa-plus-circle</img>
+                <params>success||fa-plus-circle|www</params>
+            </item>
+        </fmn>
+        <list type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <menu_principal name="p_menu_principal" type="text" align="center" lookup_parser="false" maxlength="300">
+                    <label>Menu Principal</label>
+                </menu_principal>
+                <titulo name="p_titulo" type="text" align="left" lookup_parser="false" maxlength="255">
+                    <label>Menu</label>
+                </titulo>
+                <estado name="p_estado" type="text" align="center" lookup_parser="false" maxlength="30">
+                    <label>Estado</label>
+                </estado>
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <codigo name="p_codigo" type="hidden" maxlength="300" tag="codigo"/>
+                <link_pagina name="p_link_pagina" type="hidden" maxlength="30" tag="link_pagina"/>
+                <ordem name="p_ordem" type="hidden" maxlength="30" tag="ordem"/>
+                <procedimento name="p_procedimento" type="hidden" maxlength="2000" tag="procedimento"/>
+                <organica name="p_organica" type="hidden" maxlength="30" tag="organica"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <menu_principal name="p_menu_principal">Laudantium unde magna consectetur sit</menu_principal>
+                        <titulo name="p_titulo">Natus ut rem ut totam</titulo>
+                        <estado name="p_estado">Sit ut unde aperiam stract</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo" tag="codigo">1</codigo>
+                        <link_pagina name="p_link_pagina" tag="link_pagina">1</link_pagina>
+                        <ordem name="p_ordem" tag="ordem">1</ordem>
+                        <procedimento name="p_procedimento" tag="procedimento">1</procedimento>
+                        <organica name="p_organica" tag="organica">1</organica>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <menu_principal name="p_menu_principal">Aliqua iste voluptatem unde aliqua</menu_principal>
+                        <titulo name="p_titulo">Magna perspiciatis ut anim sit</titulo>
+                        <estado name="p_estado">Consectetur sed accusantium doloremque dolor</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo" tag="codigo">1</codigo>
+                        <link_pagina name="p_link_pagina" tag="link_pagina">1</link_pagina>
+                        <ordem name="p_ordem" tag="ordem">1</ordem>
+                        <procedimento name="p_procedimento" tag="procedimento">1</procedimento>
+                        <organica name="p_organica" tag="organica">1</organica>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <menu_principal name="p_menu_principal">Voluptatem stract aliqua accusantium doloremque</menu_principal>
+                        <titulo name="p_titulo">Elit officia rem lorem elit</titulo>
+                        <estado name="p_estado">Aliqua omnis sit lorem voluptatem</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo" tag="codigo">1</codigo>
+                        <link_pagina name="p_link_pagina" tag="link_pagina">1</link_pagina>
+                        <ordem name="p_ordem" tag="ordem">1</ordem>
+                        <procedimento name="p_procedimento" tag="procedimento">1</procedimento>
+                        <organica name="p_organica" tag="organica">1</organica>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <menu_principal name="p_menu_principal">Mollit sit iste elit lorem</menu_principal>
+                        <titulo name="p_titulo">Anim stract elit laudantium aperiam</titulo>
+                        <estado name="p_estado">Elit voluptatem sed mollit sit</estado>
+                        <id name="p_id" tag="id">1</id>
+                        <codigo name="p_codigo" tag="codigo">1</codigo>
+                        <link_pagina name="p_link_pagina" tag="link_pagina">1</link_pagina>
+                        <ordem name="p_ordem" tag="ordem">1</ordem>
+                        <procedimento name="p_procedimento" tag="procedimento">1</procedimento>
+                        <organica name="p_organica" tag="organica">1</organica>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>SA</app>
+                        <page>SA.SA_T_MENU</page>
+                        <link>BULK</link>
+                        <target>confirm</target>
+                        <img>danger|fa-remove</img>
+                    </item>
+                    <item type="specific" code="" class="success" rel="editar">
+                        <title>Editar</title>
+                        <app>SA</app>
+                        <page>SA.SA_T_MENU</page>
+                        <link>FORM</link>
+                        <target>_self</target>
+                        <img>success|fa-pencil</img>
+                    </item>
+                </context-menu>
+            </table>
+        </list>
+    </content>
+</rows>

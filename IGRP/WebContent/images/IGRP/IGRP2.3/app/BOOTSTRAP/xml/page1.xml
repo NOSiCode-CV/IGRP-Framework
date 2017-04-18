@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../page1.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>undefined</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <toolsbar_1 type="toolsbar" structure="items">
+            <item type="specific" code="" rel="tarefas" class="default">
+                <title>Tarefas</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-list-alt</img>
+            </item>
+            <item type="specific" code="" rel="ligacoes" class="default">
+                <title>Ligações</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-wifi</img>
+            </item>
+            <item type="specific" code="" rel="reuniao" class="default">
+                <title>Reunião</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-share-alt</img>
+            </item>
+            <item type="specific" code="" rel="e_mail" class="default">
+                <title>E-mail</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" structure="fields">
+            <fields>
+                <estado name="p_estado" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <tipo name="p_tipo" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+                <prioridade name="p_prioridade" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Prioridade</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade>
+                <responsavel name="p_responsavel" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>Responsável</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </responsavel>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary">
+                    <title>Pesquisar</title>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <target>_blank</target>
+                    <img>fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lista de Actividades]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+        <table_1 type="table" structure="fields">
+            <fields>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" align="left">
+                    <label>Checkbox</label>
+                </checkbox_1>
+                <nome name="p_nome" type="text" align="left">
+                    <label>Nome</label>
+                </nome>
+                <prazo_de_entrega name="p_prazo_de_entrega" type="date" format="IGRP_datePicker" align="left">
+                    <label>Prazo de Entrega</label>
+                </prazo_de_entrega>
+                <negociolead name="p_negociolead" type="link" target="_blank" align="left">
+                    <label>Negócio/Lead</label>
+                </negociolead>
+                <cliente name="p_cliente" type="link" target="_blank" align="left">
+                    <label>Cliente</label>
+                </cliente>
+                <responsavel name="p_responsavel" type="link" target="_blank" align="left">
+                    <label>Responsável</label>
+                </responsavel>
+                <estado name="p_estado" type="color" format="hex" align="left">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                        <nome>Totam voluptatem sit anim dolor</nome>
+                        <nome_desc>Totam voluptatem sit anim dolor</nome_desc>
+                        <prazo_de_entrega/>
+                        <prazo_de_entrega_desc/>
+                        <negociolead>http://acifidu.co.uk/locvu</negociolead>
+                        <negociolead_desc>http://acifidu.co.uk/locvu</negociolead_desc>
+                        <cliente>http://fad.edu/teirvop</cliente>
+                        <cliente_desc>http://fad.edu/teirvop</cliente_desc>
+                        <responsavel>http://porpini.com/pirag</responsavel>
+                        <responsavel_desc>http://porpini.com/pirag</responsavel_desc>
+                        <estado>3</estado>
+                        <estado_desc>3</estado_desc>
+                    </row>
+                    <row>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                        <nome>Aliqua laudantium deserunt stract sit</nome>
+                        <nome_desc>Aliqua laudantium deserunt stract sit</nome_desc>
+                        <prazo_de_entrega/>
+                        <prazo_de_entrega_desc/>
+                        <negociolead>http://geehop.org/bato</negociolead>
+                        <negociolead_desc>http://geehop.org/bato</negociolead_desc>
+                        <cliente>http://mi.edu/homakojas</cliente>
+                        <cliente_desc>http://mi.edu/homakojas</cliente_desc>
+                        <responsavel>http://jipnufkom.co.uk/sepzampek</responsavel>
+                        <responsavel_desc>http://jipnufkom.co.uk/sepzampek</responsavel_desc>
+                        <estado>4</estado>
+                        <estado_desc>4</estado_desc>
+                    </row>
+                    <row>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                        <nome>Perspiciatis ipsum accusantium sit consectetur</nome>
+                        <nome_desc>Perspiciatis ipsum accusantium sit consectetur</nome_desc>
+                        <prazo_de_entrega/>
+                        <prazo_de_entrega_desc/>
+                        <negociolead>http://ce.org/zibpar</negociolead>
+                        <negociolead_desc>http://ce.org/zibpar</negociolead_desc>
+                        <cliente>http://ehameg.gov/iledicdid</cliente>
+                        <cliente_desc>http://ehameg.gov/iledicdid</cliente_desc>
+                        <responsavel>http://mutuczu.org/rug</responsavel>
+                        <responsavel_desc>http://mutuczu.org/rug</responsavel_desc>
+                        <estado>5</estado>
+                        <estado_desc>5</estado_desc>
+                    </row>
+                    <row>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                        <nome>Iste dolor anim elit anim</nome>
+                        <nome_desc>Iste dolor anim elit anim</nome_desc>
+                        <prazo_de_entrega/>
+                        <prazo_de_entrega_desc/>
+                        <negociolead>http://vurwutbar.edu/izacukif</negociolead>
+                        <negociolead_desc>http://vurwutbar.edu/izacukif</negociolead_desc>
+                        <cliente>http://caku.co.uk/ipiba</cliente>
+                        <cliente_desc>http://caku.co.uk/ipiba</cliente_desc>
+                        <responsavel>http://zizkun.org/fuge</responsavel>
+                        <responsavel_desc>http://zizkun.org/fuge</responsavel_desc>
+                        <estado>1</estado>
+                        <estado_desc>1</estado_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+    </content>
+</rows>
