@@ -1,0 +1,18 @@
+<list>
+    <option >
+        <text>Praia</text>
+        <value>1</value>
+    </option>
+    <option selected="true">
+        <text>Mindelo</text>
+        <value>2</value>
+    </option>
+    <option>
+        <text>Santa Maria</text>
+        <value>3</value>
+    </option>
+    <option>
+        <text>Porto Novo</text>
+        <value>4</value>
+    </option>
+</list>

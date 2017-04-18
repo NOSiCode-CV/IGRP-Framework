@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../NOSCRM_ESTAT_REPOR_OPP_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ESTAT_REPOR</page>
+    <app>NOSCRM</app>
+    <plsql>
+        <action>OPP</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>NOSCRM_REPORT_OPORT_DB</package_db>
+        <package_html>NOSCRM_REPORT_OPORT_HTMl</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Oportunidades</title>
+        <statbox_2 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_2_tit name="p_statbox_2_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Box Title</value>
+                </statbox_2_tit>
+                <statbox_2_val name="p_statbox_2_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>895</value>
+                </statbox_2_val>
+                <statbox_2_txt name="p_statbox_2_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_2_txt>
+                <statbox_2_url name="p_statbox_2_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_2_url>
+                <statbox_2_bg name="p_statbox_2_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-emerald</value>
+                </statbox_2_bg>
+                <statbox_2_icn name="p_statbox_2_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </statbox_2_icn>
+            </fields>
+        </statbox_2>
+        <statbox_3 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_3_tit name="p_statbox_3_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Box Title</value>
+                </statbox_3_tit>
+                <statbox_3_val name="p_statbox_3_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>895</value>
+                </statbox_3_val>
+                <statbox_3_txt name="p_statbox_3_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_3_txt>
+                <statbox_3_url name="p_statbox_3_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_3_url>
+                <statbox_3_bg name="p_statbox_3_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </statbox_3_bg>
+                <statbox_3_icn name="p_statbox_3_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </statbox_3_icn>
+            </fields>
+        </statbox_3>
+        <statbox_1 type="statbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <statbox_1_tit name="p_statbox_1_tit" type="text" maxlength="4000" persist="true">
+                    <label>Box Title</label>
+                    <value>Box Title</value>
+                </statbox_1_tit>
+                <statbox_1_val name="p_statbox_1_val" type="text" maxlength="4000" persist="true">
+                    <label>Value</label>
+                    <value>895</value>
+                </statbox_1_val>
+                <statbox_1_txt name="p_statbox_1_txt" type="text" maxlength="4000" persist="true">
+                    <label>Url Text</label>
+                    <value>Read More...</value>
+                </statbox_1_txt>
+                <statbox_1_url name="p_statbox_1_url" type="text" maxlength="4000" persist="true">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </statbox_1_url>
+                <statbox_1_bg name="p_statbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-yellow</value>
+                </statbox_1_bg>
+                <statbox_1_icn name="p_statbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </statbox_1_icn>
+            </fields>
+        </statbox_1>
+        <chart_2 type="chart" xml-type="chart" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>funnel</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#421e04</col>
+                <col>#94014d</col>
+                <col>#20e305</col>
+                <col>#e2fd3e</col>
+            </colors>
+        </chart_2>
+    </content>
+</rows>

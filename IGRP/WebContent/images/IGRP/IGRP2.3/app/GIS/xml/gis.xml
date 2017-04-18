@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../gis.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+
+    <app>GIS</app>
+    <page>MAP</page>
+   
+    <content>
+        <title>IGRP.GIS</title>
+        <map>/images/IGRPLAB2.3/extensions/GIS/map.json</map>
+    </content>
+    
+</rows>

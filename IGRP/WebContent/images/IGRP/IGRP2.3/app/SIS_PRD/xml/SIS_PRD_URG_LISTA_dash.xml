@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SIS_PRD_URG_LISTA_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>URG</page>
+    <app>SIS_PRD</app>
+    <plsql>
+        <action>LISTA</action>
+        <package_instance></package_instance>
+        <package_db>SIS_PRD_URG_LISTA_DB</package_db>
+        <package_html>SIS_PRD_URG_LISTA_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista Atendimento</title>
+        <filter_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <numero_utente type="text" name="p_numero_utente" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Número Utente</label>
+                    <value>Stract rem lorem totam voluptatem</value>
+                </numero_utente>
+                <nome_utente type="text" name="p_nome_utente" maxlength="400" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome Utente</label>
+                    <value>Aliqua natus elit voluptatem amet</value>
+                </nome_utente>
+                <numero_documento type="text" name="p_numero_documento" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Número Documento</label>
+                    <value>Dolor aperiam magna unde consectetur</value>
+                </numero_documento>
+                <data_de type="date" name="p_data_de" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="info">
+                    <label>Data De</label>
+                    <value/>
+                </data_de>
+                <data_ate type="date" name="p_data_ate" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="info">
+                    <label>Data Ate</label>
+                    <value/>
+                </data_ate>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="info" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>SIS_PRD</app>
+                    <page>URG</page>
+                    <link>LISTA</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/SIS_PRD/xml/SIS_PRD_URG_LISTA_dash.xml</parameter>
+                    <target>_self</target>
+                    <img>info|search.png</img>
+                </item>
+            </tools-bar>
+        </filter_1>
+        <gen_table type="table" xml-type="table" title="Lista de Atendimentos nas Urgências" gen-type="container" gen-group="true">
+            <fields>
+                <numero_utente type="text" align="left" name="p_numero_utente" maxlength="30" lookup_parser="false">
+                    <label>Número Utente</label>
+                </numero_utente>
+                <nome_utente_list type="text" align="left" name="p_nome_utente_list" maxlength="30" lookup_parser="false">
+                    <label>Nome Utente</label>
+                </nome_utente_list>
+                <dt_nasc_list type="date" align="left" name="p_dt_nasc_list" format="IGRP_datePicker" maxlength="30" lookup_parser="false">
+                    <label>Dt Nasc</label>
+                </dt_nasc_list>
+                <doc_list type="text" align="left" name="p_doc_list" maxlength="30" lookup_parser="false">
+                    <label>N Documento</label>
+                </doc_list>
+                <dt_hora type="date" align="left" name="p_dt_hora" format="IGRP_dateTimePicker" maxlength="30" lookup_parser="false">
+                    <label>Data e Hora</label>
+                </dt_hora>
+                <atendedor_list type="text" align="left" name="p_atendedor_list" maxlength="30" lookup_parser="false">
+                    <label>Atendedor</label>
+                </atendedor_list>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <numero_utente name="p_numero_utente">Unde doloremque dolor doloremque anim</numero_utente>
+                        <nome_utente_list name="p_nome_utente_list">Totam voluptatem iste rem deserunt</nome_utente_list>
+                        <dt_nasc_list name="p_dt_nasc_list"/>
+                        <doc_list name="p_doc_list">Ut iste perspiciatis adipiscing deserunt</doc_list>
+                        <dt_hora name="p_dt_hora"/>
+                        <atendedor_list name="p_atendedor_list">Stract dolor omnis doloremque perspiciatis</atendedor_list>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <numero_utente name="p_numero_utente">Sit aliqua officia sit laudantium</numero_utente>
+                        <nome_utente_list name="p_nome_utente_list">Sit sed sit stract laudantium</nome_utente_list>
+                        <dt_nasc_list name="p_dt_nasc_list"/>
+                        <doc_list name="p_doc_list">Natus deserunt doloremque perspiciatis natus</doc_list>
+                        <dt_hora name="p_dt_hora"/>
+                        <atendedor_list name="p_atendedor_list">Dolor mollit omnis ipsum consectetur</atendedor_list>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <numero_utente name="p_numero_utente">Elit ut mollit sit unde</numero_utente>
+                        <nome_utente_list name="p_nome_utente_list">Mollit perspiciatis sed laudantium sed</nome_utente_list>
+                        <dt_nasc_list name="p_dt_nasc_list"/>
+                        <doc_list name="p_doc_list">Stract mollit adipiscing totam accusantium</doc_list>
+                        <dt_hora name="p_dt_hora"/>
+                        <atendedor_list name="p_atendedor_list">Voluptatem officia voluptatem doloremque amet</atendedor_list>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <numero_utente name="p_numero_utente">Voluptatem adipiscing natus perspiciatis anim</numero_utente>
+                        <nome_utente_list name="p_nome_utente_list">Labore sed totam aperiam aliqua</nome_utente_list>
+                        <dt_nasc_list name="p_dt_nasc_list"/>
+                        <doc_list name="p_doc_list">Perspiciatis rem unde aliqua elit</doc_list>
+                        <dt_hora name="p_dt_hora"/>
+                        <atendedor_list name="p_atendedor_list">Lorem deserunt sed sit elit</atendedor_list>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="info" rel="recibo">
+                        <title>Recibo</title>
+                        <app>SIS_PRD</app>
+                        <page>GEST CONS</page>
+                        <link>1</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/SIS_PRD/xml/SIS_PRD_GEST CONS_1_dash.xml</parameter>
+                        <target>_blank</target>
+                        <img>info|fa-print</img>
+                    </item>
+                    <item type="specific" code="" class="info" rel="ver_utente">
+                        <title>Ver Utente</title>
+                        <app>SIS_PRD</app>
+                        <page>GEST CONS</page>
+                        <link>1</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/SIS_PRD/xml/SIS_PRD_GEST CONS_1_dash.xml</parameter>
+                        <target>_blank</target>
+                        <img>info|fa-user</img>
+                    </item>
+                    <item type="specific" code="" class="info" rel="enviar_para_m1">
+                        <title>Enviar para M1</title>
+                        <app>SIS_PRD</app>
+                        <page>GEST CONS</page>
+                        <link>1</link>
+                        <parameter>http://igrp.teste.gov.cv/images/IGRP/app/SIS_PRD/xml/SIS_PRD_GEST CONS_1_dash.xml</parameter>
+                        <target>_blank</target>
+                        <img>info|fa-send</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+    </content>
+</rows>

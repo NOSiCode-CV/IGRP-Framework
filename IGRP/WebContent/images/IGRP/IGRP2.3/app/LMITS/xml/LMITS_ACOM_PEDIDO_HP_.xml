@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_ACOM_PEDIDO_HP_.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ACOM_PEDIDO</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>HP</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>LMITS_HISTORICO_PROCESS_DB</package_db>
+        <package_html>LMITS_HISTORICO_PROCESS_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Histórico Processo</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Historico Processo]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <table_1 type="table" xml-type="table" title="Histórico" gen-type="container" gen-group="true">
+            <fields>
+                <data name="p_data" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Data</label>
+                </data>
+                <utilizador name="p_utilizador" type="text" maxlength="400" align="left" lookup_parser="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <de name="p_de" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>De</label>
+                </de>
+                <para name="p_para" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Para</label>
+                </para>
+                <resultado name="p_resultado" type="text" maxlength="400" align="left" lookup_parser="false">
+                    <label>Resultado</label>
+                </resultado>
+                <notas name="p_notas" type="plaintext" maxlength="30" align="left" lookup_parser="false">
+                    <label>Notas</label>
+                </notas>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <data name="p_data">Doloremque voluptatem stract unde consectetur</data>
+                        <utilizador name="p_utilizador">Aliqua sit amet magna doloremque</utilizador>
+                        <de name="p_de">Consectetur elit stract aperiam labore</de>
+                        <para name="p_para">Officia ipsum laudantium anim stract</para>
+                        <resultado name="p_resultado">Totam anim officia dolor totam</resultado>
+                        <notas name="p_notas">Magna sit stract sit deserunt stract dolor anim sit sit doloremque sit unde perspiciatis ut</notas>
+                    </row>
+                    <row>
+                        <data name="p_data">Adipiscing deserunt mollit iste anim</data>
+                        <utilizador name="p_utilizador">Adipiscing elit sit stract totam</utilizador>
+                        <de name="p_de">Unde dolor voluptatem aperiam aperiam</de>
+                        <para name="p_para">Omnis dolor consectetur omnis magna</para>
+                        <resultado name="p_resultado">Ut elit amet iste rem</resultado>
+                        <notas name="p_notas">Accusantium aperiam ut deserunt ut natus ut perspiciatis lorem voluptatem deserunt aliqua laudantium sed mollit</notas>
+                    </row>
+                    <row>
+                        <data name="p_data">Natus rem natus labore adipiscing</data>
+                        <utilizador name="p_utilizador">Rem officia lorem sit omnis</utilizador>
+                        <de name="p_de">Officia aliqua dolor consectetur ipsum</de>
+                        <para name="p_para">Dolor amet adipiscing totam officia</para>
+                        <resultado name="p_resultado">Iste aliqua elit anim deserunt</resultado>
+                        <notas name="p_notas">Dolor doloremque sed accusantium sed aperiam doloremque rem officia sit rem ipsum perspiciatis labore laudantium</notas>
+                    </row>
+                    <row>
+                        <data name="p_data">Lorem consectetur labore aliqua rem</data>
+                        <utilizador name="p_utilizador">Rem mollit magna accusantium natus</utilizador>
+                        <de name="p_de">Dolor lorem anim ipsum sit</de>
+                        <para name="p_para">Accusantium doloremque sit doloremque ipsum</para>
+                        <resultado name="p_resultado">Dolor anim sit totam stract</resultado>
+                        <notas name="p_notas">Unde elit anim officia consectetur amet deserunt laudantium ipsum doloremque natus consectetur perspiciatis deserunt aperiam</notas>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <numero_de_pedido name="p_numero_de_pedido" type="text" maxlength="30">
+                    <label>Número de Pedido</label>
+                    <value>Perspiciatis ipsum amet laudantium ut</value>
+                </numero_de_pedido>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30">
+                    <label>Número de Processo</label>
+                    <value>Magna anim stract deserunt elit</value>
+                </numero_de_processo>
+                <tipo_de_pedido name="p_tipo_de_pedido" type="text" maxlength="400">
+                    <label>Tipo de Pedido</label>
+                    <value>Magna elit sed mollit stract</value>
+                </tipo_de_pedido>
+                <id_pedido name="p_id_pedido" type="hidden" maxlength="30" tag="id_pedido"/>
+            </fields>
+        </view_1>
+        <box_1 type="box" xml-type="form" title="Informações do Processo" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <view_2 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <predio name="p_predio" type="text" maxlength="30">
+                    <label>Prédio</label>
+                    <value>Amet sed ipsum elit dolor</value>
+                </predio>
+                <data_do_pedido name="p_data_do_pedido" type="text" maxlength="30">
+                    <label>Data do Pedido</label>
+                    <value>Deserunt adipiscing perspiciatis totam sit</value>
+                </data_do_pedido>
+                <estado name="p_estado" type="text" maxlength="30">
+                    <label>Estado</label>
+                    <value>Labore dolor anim lorem adipiscing</value>
+                </estado>
+                <id_det_pedido name="p_id_det_pedido" type="hidden" maxlength="30" tag="id_det_pedido"/>
+            </fields>
+        </view_2>
+    </content>
+</rows>

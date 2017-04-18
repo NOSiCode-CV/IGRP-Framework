@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_LST_FUNC_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>LST_FUNC</action>
+        <package_instance>findev</package_instance>
+        <package_db>NEWCAD_LSTFUNC_DB</package_db>
+        <package_html>NEWCAD_LSTFUNC_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista Funcionários</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Lista de Funcionários]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Sit deserunt ipsum elit dolor</value>
+                </nome>
+                <data_relacao name="p_data_relacao" type="date" format="IGRP_datePicker" maxlength="20" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Relação</label>
+                    <value/>
+                </data_relacao>
+                <abonosdescontos name="p_abonosdescontos" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false">
+                    <label>Abonos/Descontos</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </abonosdescontos>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title/>
+                    <app>RH</app>
+                    <page>NEW_CADASTRO</page>
+                    <link>LST_FUNC</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_LST_FUNC_dash.xml</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title/>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>CADASTRO</link>
+                <target>_blank</target>
+                <img>success|fa-user-plus</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_CADASTRO_dash.xml</parameter>
+                <params>success||fa-user-plus|www</params>
+            </item>
+        </toolsbar_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-type="container" gen-group="true">
+            <fields>
+                <nome name="p_nome" type="link" target="changesrc" class="link" iconColor="#333" iconClass="" img="fa-link" maxlength="30" placeholder="" right="false" desc="true">
+                    <label>Nome</label>
+                </nome>
+                <nif name="p_nif" type="plaintext" maxlength="11" right="false" desc="true">
+                    <label>NIF</label>
+                </nif>
+                <data_rel name="p_data_rel" type="plaintext" maxlength="15" right="false" desc="true">
+                    <label>Data Rel</label>
+                </data_rel>
+                <valor name="p_valor" type="number" maxlength="10" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Valor</label>
+                </valor>
+                <confirmar_item name="p_confirmar_item" type="button" target="alert_submit" action="90009" service="[object Object]" transaction="false" outline="false" class="success" iconColor="#333" iconClass="" img="fa-check-square-o" maxlength="30" right="false" desc="true">
+                    <label>OK</label>
+                </confirmar_item>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome name="p_nome" desc="true">http://wioho.net/soh</nome>
+                        <nome_desc name="p_nome_desc">http://wioho.net/soh</nome_desc>
+                        <nif name="p_nif" desc="true">Omnis doloremque omnis iste amet</nif>
+                        <nif_desc name="p_nif_desc">Omnis doloremque omnis iste amet</nif_desc>
+                        <data_rel name="p_data_rel" desc="true">Elit laudantium aliqua natus ipsum</data_rel>
+                        <data_rel_desc name="p_data_rel_desc">Elit laudantium aliqua natus ipsum</data_rel_desc>
+                        <valor name="p_valor" desc="true">749</valor>
+                        <valor_desc name="p_valor_desc">749</valor_desc>
+                        <confirmar_item name="p_confirmar_item" desc="true"/>
+                        <confirmar_item_desc name="p_confirmar_item_desc"/>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">http://tal.gov/owebuhan</nome>
+                        <nome_desc name="p_nome_desc">http://tal.gov/owebuhan</nome_desc>
+                        <nif name="p_nif" desc="true">Sit unde sit labore officia</nif>
+                        <nif_desc name="p_nif_desc">Sit unde sit labore officia</nif_desc>
+                        <data_rel name="p_data_rel" desc="true">Officia accusantium officia aliqua stract</data_rel>
+                        <data_rel_desc name="p_data_rel_desc">Officia accusantium officia aliqua stract</data_rel_desc>
+                        <valor name="p_valor" desc="true">985</valor>
+                        <valor_desc name="p_valor_desc">985</valor_desc>
+                        <confirmar_item name="p_confirmar_item" desc="true"/>
+                        <confirmar_item_desc name="p_confirmar_item_desc"/>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">http://karko.com/guf</nome>
+                        <nome_desc name="p_nome_desc">http://karko.com/guf</nome_desc>
+                        <nif name="p_nif" desc="true">Laudantium aperiam deserunt accusantium aperiam</nif>
+                        <nif_desc name="p_nif_desc">Laudantium aperiam deserunt accusantium aperiam</nif_desc>
+                        <data_rel name="p_data_rel" desc="true">Ipsum natus adipiscing aperiam rem</data_rel>
+                        <data_rel_desc name="p_data_rel_desc">Ipsum natus adipiscing aperiam rem</data_rel_desc>
+                        <valor name="p_valor" desc="true">475</valor>
+                        <valor_desc name="p_valor_desc">475</valor_desc>
+                        <confirmar_item name="p_confirmar_item" desc="true"/>
+                        <confirmar_item_desc name="p_confirmar_item_desc"/>
+                    </row>
+                    <row>
+                        <nome name="p_nome" desc="true">http://vo.com/roviv</nome>
+                        <nome_desc name="p_nome_desc">http://vo.com/roviv</nome_desc>
+                        <nif name="p_nif" desc="true">Stract labore totam omnis accusantium</nif>
+                        <nif_desc name="p_nif_desc">Stract labore totam omnis accusantium</nif_desc>
+                        <data_rel name="p_data_rel" desc="true">Unde officia sit accusantium mollit</data_rel>
+                        <data_rel_desc name="p_data_rel_desc">Unde officia sit accusantium mollit</data_rel_desc>
+                        <valor name="p_valor" desc="true">211</valor>
+                        <valor_desc name="p_valor_desc">211</valor_desc>
+                        <confirmar_item name="p_confirmar_item" desc="true"/>
+                        <confirmar_item_desc name="p_confirmar_item_desc"/>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="confirmar">
+                <title>Confirmar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>LST_FUNC</link>
+                <target>alert_submit</target>
+                <img>success|fa-check-square-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_LST_FUNC_dash.xml</parameter>
+                <params>success||fa-check-square-o|www</params>
+            </item>
+        </toolsbar_2>
+        <iframe_1 type="iframe" xml-type="iframe" gen-type="container" gen-group="">
+            <fields>
+                <iframe_1_text type="text" name="p_iframe_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Iframe]]>
+                    </value>
+                </iframe_1_text>
+            </fields>
+        </iframe_1>
+    </content>
+</rows>

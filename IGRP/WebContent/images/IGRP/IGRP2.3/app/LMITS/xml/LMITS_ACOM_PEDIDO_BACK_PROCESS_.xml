@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_ACOM_PEDIDO_BACK_PROCESS_.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ACOM_PEDIDO</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>BACK_PROCESS</action>
+        <package_instance></package_instance>
+        <package_db>lmits_rolback_process_db</package_db>
+        <package_html>lmits_rolback_process_html</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Voltar Processo</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Execução do Processo]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <view_2 type="view" xml-type="view" title="Informações do Processo" gen-type="container" gen-group="">
+            <fields>
+                <numero_pedido name="p_numero_pedido" type="text" maxlength="30">
+                    <label>Número Pedido</label>
+                    <value>Deserunt aperiam consectetur accusantium doloremque</value>
+                </numero_pedido>
+                <tipo_de_pedido name="p_tipo_de_pedido" type="text" maxlength="30">
+                    <label>Tipo de Pedido</label>
+                    <value>Sed doloremque deserunt dolor aperiam</value>
+                </tipo_de_pedido>
+                <predio name="p_predio" type="text" maxlength="30">
+                    <label>Prédio</label>
+                    <value>Doloremque dolor sit sed doloremque</value>
+                </predio>
+                <etapa name="p_etapa" type="text" maxlength="30">
+                    <label>Etapa</label>
+                    <value>Dolor totam sit ipsum laudantium</value>
+                </etapa>
+                <etapa_executada_por name="p_etapa_executada_por" type="text" maxlength="30">
+                    <label>Etapa executada Por</label>
+                    <value>Amet omnis sed omnis amet</value>
+                </etapa_executada_por>
+            </fields>
+        </view_2>
+        <form_1 type="form" xml-type="form" title="Voltar Processo" gen-type="container" gen-group="">
+            <fields>
+                <etapa_deseja_voltar name="p_etapa_deseja_voltar" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Etapa deseja voltar</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </etapa_deseja_voltar>
+                <novo_fluxo name="p_novo_fluxo" type="radiolist" maxlength="30" required="true" change="false" readonly="false" disabled="false" right="false">
+                    <label>Novo Fluxo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </novo_fluxo>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="danger" rel="voltar">
+                    <title>Voltar Processo</title>
+                    <app>LMITS</app>
+                    <page>ACOM_PEDIDO</page>
+                    <link>BACK_PROCESS</link>
+                    <target>alert_submit</target>
+                    <img>danger|fa-arrow-circle-o-left</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" title="Histórico do Processo" gen-type="container" gen-group="true">
+            <fields>
+                <de name="p_de" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>De</label>
+                </de>
+                <para name="p_para" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Para</label>
+                </para>
+                <utilizador name="p_utilizador" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <data name="p_data" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Data</label>
+                </data>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <de name="p_de">Aliqua sit consectetur natus adipiscing</de>
+                        <para name="p_para">Amet laudantium aliqua rem voluptatem</para>
+                        <utilizador name="p_utilizador">Elit aperiam anim sit accusantium</utilizador>
+                        <data name="p_data"/>
+                    </row>
+                    <row>
+                        <de name="p_de">Magna deserunt accusantium unde sit</de>
+                        <para name="p_para">Dolor aperiam unde aliqua ut</para>
+                        <utilizador name="p_utilizador">Totam rem aliqua labore stract</utilizador>
+                        <data name="p_data"/>
+                    </row>
+                    <row>
+                        <de name="p_de">Stract voluptatem totam elit laudantium</de>
+                        <para name="p_para">Stract officia aperiam sit ipsum</para>
+                        <utilizador name="p_utilizador">Unde sit doloremque stract laudantium</utilizador>
+                        <data name="p_data"/>
+                    </row>
+                    <row>
+                        <de name="p_de">Ipsum stract consectetur omnis sed</de>
+                        <para name="p_para">Laudantium stract magna mollit totam</para>
+                        <utilizador name="p_utilizador">Lorem sit amet officia amet</utilizador>
+                        <data name="p_data"/>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

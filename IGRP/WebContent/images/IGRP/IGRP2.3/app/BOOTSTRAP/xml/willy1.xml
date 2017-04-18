@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../willy1.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+        <tabcontent_1 type="tabcontent" structure="tabs">
+            <item name="tab_item_1">
+                <title>Tab Item 1</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_2">
+                <title>Tab Item 2</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </tabcontent_1>
+        <table_1 type="table" structure="fields">
+            <fields>
+                <color_1 name="p_color_1" type="color" format="hex" align="left" lookup_parser="false">
+                    <label>Color</label>
+                </color_1>
+                <text_1 name="p_text_1" type="text" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <color_1>6</color_1>
+                        <color_1_desc>6</color_1_desc>
+                        <text_1>Sed accusantium adipiscing ut mollit</text_1>
+                        <text_1_desc>Sed accusantium adipiscing ut mollit</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>9</color_1>
+                        <color_1_desc>9</color_1_desc>
+                        <text_1>Officia ipsum aperiam officia iste</text_1>
+                        <text_1_desc>Officia ipsum aperiam officia iste</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>9</color_1>
+                        <color_1_desc>9</color_1_desc>
+                        <text_1>Lorem doloremque sit natus magna</text_1>
+                        <text_1_desc>Lorem doloremque sit natus magna</text_1_desc>
+                    </row>
+                    <row>
+                        <color_1>5</color_1>
+                        <color_1_desc>5</color_1_desc>
+                        <text_1>Rem lorem consectetur omnis labore</text_1>
+                        <text_1_desc>Rem lorem consectetur omnis labore</text_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+        <chart_1 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#00d226</col>
+                <col>#21ad52</col>
+                <col>#7c1fc8</col>
+                <col>#202ca3</col>
+            </colors>
+        </chart_1>
+        <chart_2 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2fce53</col>
+                <col>#dd5638</col>
+                <col>#517751</col>
+                <col>#449d32</col>
+            </colors>
+        </chart_2>
+        <chart_3 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#fc6619</col>
+                <col>#ce145a</col>
+                <col>#1d3d7c</col>
+                <col>#1f5161</col>
+            </colors>
+        </chart_3>
+        <form_1 type="form" structure="fields">
+            <fields>
+                <text name="p_text" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+                    <label>Text</label>
+                    <value>Ut adipiscing ipsum elit ut</value>
+                </text>
+                <password_1 name="p_password_1" type="password" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password_1>
+            </fields>
+        </form_1>
+    </content>
+</rows>

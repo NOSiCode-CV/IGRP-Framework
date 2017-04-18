@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../page2.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <toolsbar_1 type="toolsbar" structure="items">
+            <item type="specific" code="" rel="button_1" class="default">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item type="specific" code="" rel="button" class="info">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item type="specific" code="" rel="button" class="primary">
+                <title>Button</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </toolsbar_1>
+        <sectionheader_1 type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </text>
+            </fields>
+        </sectionheader_1>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+        <tabcontent_1 type="tabcontent" structure="tabs">
+            <item name="tab_item_1">
+                <title>Tab Item 1</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_2">
+                <title>Tab Item 2</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </tabcontent_1>
+        <form_1 type="form" structure="fields">
+            <fields>
+                <select name="p_select" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Select</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </select>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Text</label>
+                    <value>Totam sit mollit officia elit</value>
+                </text_1>
+                <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Email</label>
+                    <value>afosehpo@example.com</value>
+                </email_1>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default" placeholder="">
+                    <label>Date</label>
+                    <value/>
+                </date_1>
+                <color_1 name="p_color_1" type="color" format="hex" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Color</label>
+                    <value>#30b765</value>
+                </color_1>
+                <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Lookup</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </lookup_1>
+                <text name="p_text" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Text</label>
+                    <value>Natus adipiscing elit magna sit</value>
+                </text>
+            </fields>
+        </form_1>
+        <separatorlist_1 type="separatorlist" structure="fields">
+            <fields>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true" placeholder="">
+                    <label>Text</label>
+                    <value>Totam doloremque labore deserunt labore</value>
+                </text_1>
+                <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true" placeholder="">
+                    <label>Email</label>
+                    <value>ga@example.com</value>
+                </email_1>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" required="false" change="false" readonly="false" disabled="false" right="false" table="true">
+                    <label>Checkbox</label>
+                    <value>1</value>
+                </checkbox_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1>Unde adipiscing iste aperiam adipiscing</text_1>
+                        <text_1_desc>Unde adipiscing iste aperiam adipiscing</text_1_desc>
+                        <email_1>anwoud@example.com</email_1>
+                        <email_1_desc>anwoud@example.com</email_1_desc>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Adipiscing amet lorem totam anim</text_1>
+                        <text_1_desc>Adipiscing amet lorem totam anim</text_1_desc>
+                        <email_1>surpup@example.com</email_1>
+                        <email_1_desc>surpup@example.com</email_1_desc>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Aperiam ut unde voluptatem totam</text_1>
+                        <text_1_desc>Aperiam ut unde voluptatem totam</text_1_desc>
+                        <email_1>guflihej@example.com</email_1>
+                        <email_1_desc>guflihej@example.com</email_1_desc>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1>Aliqua sit doloremque laudantium magna</text_1>
+                        <text_1_desc>Aliqua sit doloremque laudantium magna</text_1_desc>
+                        <email_1>kuuv@example.com</email_1>
+                        <email_1_desc>kuuv@example.com</email_1_desc>
+                        <checkbox_1>1</checkbox_1>
+                        <checkbox_1_desc>1</checkbox_1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+    </content>
+</rows>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../CADASTRO_FACE_LMITS1V2DASH_EVIDENCE_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LMITS1V2DASH</page>
+    <app>CADASTRO_FACE</app>
+    <plsql>
+        <action>EVIDENCE</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>PRECAD_DSH_EVIDENCE_DB</package_db>
+        <package_html>PRECAD_DSH_EVIDENCE_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Overall Evidencias</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Evidências - Visão Geral]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <filtro type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
+            <fields>
+                <ilha name="p_ilha" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Ilha</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </ilha>
+                <cidadezona name="p_cidadezona" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Cidade/Zona</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </cidadezona>
+                <bairrolugar name="p_bairrolugar" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Bairro/Lugar</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </bairrolugar>
+                <data_inicio name="p_data_inicio" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim>
+                <natureza name="p_natureza" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Natureza</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </natureza>
+                <tipo_predio name="p_tipo_predio" type="select" multiple="false" required="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Tipo Predio</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_predio>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pes">
+                    <title>Pesquisar</title>
+                    <app>CADASTRO_FACE</app>
+                    <page>LMITS1V2DASH</page>
+                    <link>EVIDENCE</link>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </filtro>
+        <circl_pol_sem_ev type="circlestatbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <circl_pol_sem_ev_tit name="p_circl_pol_sem_ev_tit" type="text" maxlength="300" persist="true">
+                    <label>Circle Box Title</label>
+                    <value>Prédio sem Evidencias</value>
+                </circl_pol_sem_ev_tit>
+                <circl_pol_sem_ev_lbl name="p_circl_pol_sem_ev_lbl" type="text" maxlength="300" persist="true">
+                    <label>Percent Text</label>
+                    <value>percent</value>
+                </circl_pol_sem_ev_lbl>
+                <circl_pol_sem_ev_val name="p_circl_pol_sem_ev_val" type="text" maxlength="300">
+                    <label>Percent Value</label>
+                    <value>58</value>
+                </circl_pol_sem_ev_val>
+                <circl_pol_sem_ev_desc name="p_circl_pol_sem_ev_desc" type="text" maxlength="300" persist="true">
+                    <label>Description</label>
+                    <value>x de y</value>
+                </circl_pol_sem_ev_desc>
+                <circl_pol_sem_ev_url name="p_circl_pol_sem_ev_url" type="text" maxlength="300">
+                    <label>Link</label>
+                    <value>http://www.example.com</value>
+                </circl_pol_sem_ev_url>
+                <circl_pol_sem_ev_bg name="p_circl_pol_sem_ev_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </circl_pol_sem_ev_bg>
+            </fields>
+        </circl_pol_sem_ev>
+        <circl_pol_mat type="circlestatbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <circl_pol_mat_tit name="p_circl_pol_mat_tit" type="text" maxlength="300" persist="true">
+                    <label>Circle Box Title</label>
+                    <value>Prédio com Evidencias</value>
+                </circl_pol_mat_tit>
+                <circl_pol_mat_lbl name="p_circl_pol_mat_lbl" type="text" maxlength="300" persist="true">
+                    <label>Percent Text</label>
+                    <value>percent</value>
+                </circl_pol_mat_lbl>
+                <circl_pol_mat_val name="p_circl_pol_mat_val" type="text" maxlength="300">
+                    <label>Percent Value</label>
+                    <value>58</value>
+                </circl_pol_mat_val>
+                <circl_pol_mat_desc name="p_circl_pol_mat_desc" type="text" maxlength="300" persist="true">
+                    <label>Description</label>
+                    <value>x de y</value>
+                </circl_pol_mat_desc>
+                <circl_pol_mat_url name="p_circl_pol_mat_url" type="text" maxlength="300">
+                    <label>Link</label>
+                    <value>http://www.example.com</value>
+                </circl_pol_mat_url>
+                <circl_pol_mat_bg name="p_circl_pol_mat_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-teal</value>
+                </circl_pol_mat_bg>
+            </fields>
+        </circl_pol_mat>
+        <table_1 type="table" xml-type="table" title="Prédios Com Evidências" gen-type="container" gen-group="true">
+            <fields>
+                <descricao name="p_descricao" type="link" target="modal" class="link" iconColor="#333" iconClass="" img="fa-link" align="left" lookup_parser="false" desc="true">
+                    <label>Descrição</label>
+                </descricao>
+                <total name="p_total" type="text" align="left" lookup_parser="false">
+                    <label>Total</label>
+                </total>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <descricao name="p_descricao" desc="true">http://wecufe.com/tiwucci</descricao>
+                        <descricao_desc name="p_descricao_desc">http://wecufe.com/tiwucci</descricao_desc>
+                        <total name="p_total">Aliqua elit doloremque perspiciatis doloremque</total>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao" desc="true">http://tih.org/gar</descricao>
+                        <descricao_desc name="p_descricao_desc">http://tih.org/gar</descricao_desc>
+                        <total name="p_total">Rem doloremque ut deserunt sit</total>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao" desc="true">http://zadigziz.com/wage</descricao>
+                        <descricao_desc name="p_descricao_desc">http://zadigziz.com/wage</descricao_desc>
+                        <total name="p_total">Rem ut natus elit dolor</total>
+                    </row>
+                    <row>
+                        <descricao name="p_descricao" desc="true">http://lilus.io/jucij</descricao>
+                        <descricao_desc name="p_descricao_desc">http://lilus.io/jucij</descricao_desc>
+                        <total name="p_total">Elit lorem aliqua rem ipsum</total>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <table_2 type="table" xml-type="table" title="Predios Com Evidências Em falta" gen-type="container" gen-group="true">
+            <fields>
+                <description name="p_description" type="link" target="_self" class="link" iconColor="#333" iconClass="" img="fa-link" align="left" lookup_parser="false" desc="true">
+                    <label>Descricao</label>
+                </description>
+                <total_1 name="p_total_1" type="text" align="left" lookup_parser="false">
+                    <label>Total</label>
+                </total_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <description name="p_description" desc="true">http://sos.org/paji</description>
+                        <description_desc name="p_description_desc">http://sos.org/paji</description_desc>
+                        <total_1 name="p_total_1">Dolor omnis labore adipiscing anim</total_1>
+                    </row>
+                    <row>
+                        <description name="p_description" desc="true">http://pinvazvu.gov/mugite</description>
+                        <description_desc name="p_description_desc">http://pinvazvu.gov/mugite</description_desc>
+                        <total_1 name="p_total_1">Rem elit unde ipsum perspiciatis</total_1>
+                    </row>
+                    <row>
+                        <description name="p_description" desc="true">http://kicfegbig.net/rozuj</description>
+                        <description_desc name="p_description_desc">http://kicfegbig.net/rozuj</description_desc>
+                        <total_1 name="p_total_1">Perspiciatis aperiam anim aliqua dolor</total_1>
+                    </row>
+                    <row>
+                        <description name="p_description" desc="true">http://selamali.net/gel</description>
+                        <description_desc name="p_description_desc">http://selamali.net/gel</description_desc>
+                        <total_1 name="p_total_1">Deserunt labore aliqua dolor omnis</total_1>
+                    </row>
+                </value>
+            </table>
+        </table_2>
+    </content>
+</rows>

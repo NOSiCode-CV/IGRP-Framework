@@ -1,0 +1,24 @@
+<div class="box box-table-contents">
+  <div class="box-body table-box">
+    <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+    #[exportTmpl]#
+    #[hasColorTmpl]#
+    <table id="#tag#" class="table table-striped gen-data-table #[ctxMenuClass]#" exports="#[export]#">
+      <thead>
+        <tr gen-id="drop-zone" gen-field-template="th">
+          #[ctxInlineHeadTmpl]#
+        </tr>
+      </thead>
+      <tbody>
+        <xsl:for-each select="#path#/table/value/row">
+          <tr gen-id="drop-zone">
+            <xsl:apply-templates mode="context-param" select="context-menu" />
+            <gen-template name="table-rows-hiddens"/>
+            #[ctxInlineTmpl]#
+          </tr>
+        </xsl:for-each>
+      </tbody>
+    </table>
+  </div>
+  #[ctxMenuTemplate]#
+</div>

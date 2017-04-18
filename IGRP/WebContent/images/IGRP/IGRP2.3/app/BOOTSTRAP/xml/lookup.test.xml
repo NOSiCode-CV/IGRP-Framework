@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../lookup.test.xsl" type="text/xsl"?>
+<rows>
+    <target>_blank</target>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>undefined</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <form_1 type="form" structure="fields" title="Pesquisar Cliente">
+            <fields>
+                <nome name="p_nome" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>Nome</label>
+                    <value>Laudantium natus ipsum natus sit</value>
+                </nome>
+                <e_mail name="p_e_mail" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>E-mail</label>
+                    <value>akadac@example.com</value>
+                </e_mail>
+                <data_de_nascimento name="p_data_de_nascimento" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data de Nascimento</label>
+                    <value/>
+                </data_de_nascimento>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary">
+                    <title>Pesquisar</title>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <target>_blank</target>
+                    <img>fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" structure="fields" title="Clientes">
+            <fields>
+                <nome name="p_nome" type="text" align="left">
+                    <label>Nome</label>
+                </nome>
+                <e_mail name="p_e_mail" type="email" align="left">
+                    <label>E-mail</label>
+                </e_mail>
+                <estado name="p_estado" type="color" format="hex" align="left">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <ctx_form>formular_default</ctx_form>
+                            <ctx_form_idx>0</ctx_form_idx>
+                            <param>=5003405</param>
+                            <param>p_toolbar_tformservdesc=5003405 - 5003405</param>
+                            <param>p_toolbar_tformservico=15601</param>
+                        </context-menu>
+                        <nome>Rem lorem unde aperiam dolor</nome>
+                        <nome_desc>Rem lorem unde aperiam dolor</nome_desc>
+                        <e_mail>iz@example.com</e_mail>
+                        <e_mail_desc>iz@example.com</e_mail_desc>
+                        <estado>4</estado>
+                        <estado_desc>4</estado_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <ctx_form>formular_default</ctx_form>
+                            <ctx_form_idx>0</ctx_form_idx>
+                            <param>=5003405</param>
+                            <param>p_toolbar_tformservdesc=6003405 - 6003405</param>
+                            <param>p_toolbar_tformservico=15601</param>
+                        </context-menu>
+                        <nome>Rem labore adipiscing stract voluptatem</nome>
+                        <nome_desc>Rem labore adipiscing stract voluptatem</nome_desc>
+                        <e_mail>ecesuja@example.com</e_mail>
+                        <e_mail_desc>ecesuja@example.com</e_mail_desc>
+                        <estado>5</estado>
+                        <estado_desc>5</estado_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <ctx_form>formular_default</ctx_form>
+                            <ctx_form_idx>0</ctx_form_idx>
+                            <param>=5003405</param>
+                            <param>p_toolbar_tformservdesc=7003405 - 7003405</param>
+                            <param>p_toolbar_tformservico=15601</param>
+                        </context-menu>
+                        <nome>Ut accusantium sit ipsum accusantium</nome>
+                        <nome_desc>Ut accusantium sit ipsum accusantium</nome_desc>
+                        <e_mail>gev@example.com</e_mail>
+                        <e_mail_desc>gev@example.com</e_mail_desc>
+                        <estado>7</estado>
+                        <estado_desc>7</estado_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <ctx_form>formular_default</ctx_form>
+                            <ctx_form_idx>0</ctx_form_idx>
+                            <param>=5003405</param>
+                            <param>p_toolbar_tformservdesc=8003405 - 8003405</param>
+                            <param>p_toolbar_tformservico=15601</param>
+                        </context-menu>
+                        <nome>Natus dolor anim ipsum aliqua</nome>
+                        <nome_desc>Natus dolor anim ipsum aliqua</nome_desc>
+                        <e_mail>som@example.com</e_mail>
+                        <e_mail_desc>som@example.com</e_mail_desc>
+                        <estado>1</estado>
+                        <estado_desc>1</estado_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </table_1>
+    </content>
+</rows>

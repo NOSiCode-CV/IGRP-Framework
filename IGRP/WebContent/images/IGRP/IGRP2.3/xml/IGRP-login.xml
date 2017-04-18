@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../xsl/IGRP-login.xsl?v=2"?>
+<rows>
+    <content>
+        <link_img>https://nosiappsdev.gov.cv/images/IGRP/IGRP2.2</link_img>
+        <title>Login</title>
+        <version>201605181100</version>
+        <action>https://nosiappsdev.gov.cv/redglobal_dev/!redglobal.glb_dispatcher.db_login</action>
+        <footer_note>@2016 - NOSi</footer_note>
+        <messages>
+            <message type="success">Operação Realizada com sucesso!</message>
+            <message type="info">Lorem Ipsum Dolor sit Amed</message>
+            <message type="warning">This is a Warning! You better be careful</message>
+            <message type="error">Chave Activação não pode ser nula. Favor verificar.</message>
+        </messages>
+        <form>
+            <label>
+                <user type="text">Utilizador</user>
+                <password type="password">Password</password>
+                <key1>7</key1>
+                <key_value1>7 ?</key_value1>
+                <key2>2</key2>
+                <key_value2>2 ?</key_value2>
+                <button>Login</button>
+                <p_env_procedure />
+                <p_env_dml />
+            </label>
+            <value>
+                <user name="p_login" />
+                <password name="p_password" />
+                <key1   name="p_key1">7</key1>
+                <key_value1 name="p_key_value1" />
+                <key2   name="p_key2">2</key2>
+                <key_value2 name="p_key_value2" />
+                <button   name="p_button">Login</button>
+                <hidden   name="p_env_procedure">db_login</hidden>
+                <hidden   name="p_env_dml">AUTH</hidden>
+            </value>
+        </form>
+    </content>
+</rows>

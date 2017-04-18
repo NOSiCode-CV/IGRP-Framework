@@ -1,0 +1,66 @@
+widget#infowindowesri {
+    position: static;
+}
+widget#infowindowesri #iwe-window {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    border: 10px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 4px 0 rgba(50, 50, 50, 0.5);
+    display: none;
+    font-size: 14px;
+    position: absolute;
+    right:300px;
+    top:80px;
+    overflow: hidden;
+}
+widget#infowindowesri #iwe-window.active {
+    display:block;
+}
+widget#infowindowesri #iwe-menu {
+    border-bottom:1px solid;
+}
+widget#infowindowesri #iwe-menu li{
+    display: inline-block;
+    overflow: hidden;
+    padding:5px 1.2%;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 30.33%;
+    position: relative;
+    top:2px;
+}
+widget#infowindowesri #iwe-menu li.active{
+    background:black;
+    color:white;
+}
+widget#infowindowesri #iwe-f-infos .iwe-i-holder {
+    float:left;
+    width:150px;
+}
+widget#infowindowesri .iew-f-info { 
+    display:none;
+}
+widget#infowindowesri .iew-f-info.active { display: block; }
+widget#infowindowesri #iwe-f-infos{
+    font-size: 10px;
+    text-transform: uppercase;
+    line-height: 18px;
+}
+widget#infowindowesri #iwe-f-infos .iwe-i-holder.active{ display: block; }
+widget#infowindowesri #iwe-f-infos .iwe-i-holder .iwe-att-holder{ padding:2px 5px;position: relative; }
+widget#infowindowesri .iwe-att-lbl {
+    padding-right: 4px;
+}
+widget#infowindowesri .iwe-att-val {
+    font-size: 12px;
+     font-weight: bold;
+     position: relative;
+     top:1px;
+}
+/* paginat */
+widget#infowindowesri .iwe-l-paginator li {
+    display: inline-block;
+    padding-top: 4px;
+    padding-right: 4px
+}
+widget#infowindowesri .iwe-l-paginator li.active{ font-weight: bold }

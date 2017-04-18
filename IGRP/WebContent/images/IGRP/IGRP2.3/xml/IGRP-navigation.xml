@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation>
+
+<item app="HOME" page="0001" action="FORM">/images/IGRP/teste/teste-form.xml</item>
+<item app="HOME" page="0001" action="DASH">/images/IGRP/teste/teste-dashboard.xml</item>
+<item app="HOME" page="0001" action="TABLE">/images/IGRP/teste/teste-table.xml</item>
+<item app="HOME" page="0001" action="INFO"><![CDATA[javascript:IGRP_popUp5('/images/IGRP/teste/teste_form.xml')]]></item>
+<item app="HOME" page="0001" action="SAVE">/images/IGRP/xml/IGRP-biblia.xml</item>
+<item app="HOME" page="0001" action="DELETE">/images/IGRP/xml/IGRP-biblia.xml</item>
+<item app="HOME" page="0001" action="TESTE">/images/IGRP/xml/IGRP-biblia.xml</item>
+
+</navigation>

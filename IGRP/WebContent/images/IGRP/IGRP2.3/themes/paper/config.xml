@@ -1,0 +1,6 @@
+<style>
+	<css bootstrap="false" >
+		<file>css/bootstrap.min.css</file>
+	</css>
+	<logo>img/logo.png</logo>
+</style>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_SA_DOM_DOM_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SA_DOM</page>
+    <app>SA</app>
+    <plsql>
+        <action>DOM</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>SA_DOMINIO_DB</package_db>
+        <package_html>SA_DOMINIO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>form</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Gestão de Dominio Novo/Editar]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <peracoes type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar">
+                <title>Guardar</title>
+                <app>SA</app>
+                <page>SA_DOM</page>
+                <link>DOM</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <params>success||fa-save|www</params>
+            </item>
+        </peracoes>
+        <form_d type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <dominio name="p_dominio" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="100" right="false">
+                    <label>Domínio</label>
+                    <value>Dolor sit voluptatem natus omnis</value>
+                </dominio>
+                <valor name="p_valor" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="240" right="false">
+                    <label>Valor</label>
+                    <value>Stract sed adipiscing unde rem</value>
+                </valor>
+                <significado name="p_significado" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="240" right="false">
+                    <label>Significado</label>
+                    <value>Aperiam lorem ut ipsum rem</value>
+                </significado>
+                <orden name="p_orden" type="number" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false">
+                    <label>Orden</label>
+                    <value>124</value>
+                </orden>
+                <hidden name="p_id" type="hidden" tag="id"/>
+            </fields>
+        </form_d>
+    </content>
+</rows>

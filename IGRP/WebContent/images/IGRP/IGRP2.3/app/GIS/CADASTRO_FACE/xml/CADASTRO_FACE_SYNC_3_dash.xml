@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../CADASTRO_FACE_SYNC_3_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SYNC</page>
+    <app>CADASTRO_FACE</app>
+    <plsql>
+        <action>3</action>
+        <package_instance></package_instance>
+        <package_db>SYNC_REPLICA_CON_1_DB</package_db>
+        <package_html>SYNC_REPLICA_CON_1_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Conteúdo de Replica</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Conteúdo Replica]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar">
+                <title>Guardar</title>
+                <app>CADASTRO_FACE</app>
+                <page>SYNC</page>
+                <link>3</link>
+                <target>submit</target>
+                <img>primary|fa-check</img>
+                <params>primary||fa-check|www</params>
+            </item>
+            <item type="specific" code="" rel="sincronizar">
+                <title>Sincronizar</title>
+                <app>CADASTRO_FACE</app>
+                <page>SYNC</page>
+                <link>3</link>
+                <target>submit</target>
+                <img>primary|fa-refresh</img>
+                <params>primary||fa-refresh|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_conteudo_f name="p_tipo_conteudo_f" type="select" multiple="false" required="false" change="false" disabled="true" right="false">
+                    <label>Tipo Conteudo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_conteudo_f>
+                <id_registo_f name="p_id_registo_f" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>ID Registo</label>
+                    <value>Anim rem sit anim amet</value>
+                </id_registo_f>
+                <status_f name="p_status_f" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Status</label>
+                    <value>Deserunt sed consectetur natus lorem</value>
+                </status_f>
+                <user_name_f name="p_user_name_f" type="text" maxlength="200" readonly="true" required="false" change="false" disabled="false" right="false">
+                    <label>Utilizador</label>
+                    <value>Elit officia labore elit doloremque</value>
+                </user_name_f>
+                <data_registo_f name="p_data_registo_f" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default">
+                    <label>Data registo</label>
+                    <value/>
+                </data_registo_f>
+                <conteudo_xml name="p_conteudo_xml" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Conteudo XML</label>
+                    <value>Anim consectetur perspiciatis adipiscing perspiciatis officia unde aperiam amet iste ipsum mollit sit adipiscing dolor</value>
+                </conteudo_xml>
+                <hidden name="p_id" type="hidden" tag="id"/>
+                <hidden name="p_user_id" type="hidden" tag="user_id"/>
+            </fields>
+        </form_1>
+    </content>
+</rows>

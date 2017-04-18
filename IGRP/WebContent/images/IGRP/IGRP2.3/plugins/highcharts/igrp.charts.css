@@ -1,0 +1,11 @@
+
+.highcharts-container .highcharts-contextmenu>div>div{
+	font-size: 14px!important;
+}
+.highcharts-container hr{
+	margin:5px 0!important;
+}
+
+.highcharts-container{
+	padding-top: 10px;
+}

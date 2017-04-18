@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_CADASTRO_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>CADASTRO</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Cadastro</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Cadastro]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="validar_dados">
+                <title>Validar Dados</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>CADASTRO</link>
+                <target>alert_submit</target>
+                <img>success|fa-check-square</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_CADASTRO_dash.xml</parameter>
+                <params>success||fa-check-square|www</params>
+            </item>
+            <item type="specific" code="" rel="confirmar">
+                <title>Confirmar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>CONF_FUNC</link>
+                <target>alert_submit</target>
+                <img>success|fa-check</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_CONF_FUNC_dash.xml</parameter>
+                <params>success||fa-check|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_de_documento name="p_tipo_de_documento" type="radiolist" maxlength="30" required="true" change="false" readonly="false" disabled="false" right="false">
+                    <label>Tipo de Documento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_documento>
+                <binome name="p_binome" type="lookup" action="CADASTRO" page="NEW_CADASTRO" app="RH" class="primary" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>BI/Nome</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </binome>
+                <nome_completo name="p_nome_completo" type="text" maxlength="100" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nome Completo</label>
+                    <value>Doloremque adipiscing deserunt stract iste</value>
+                </nome_completo>
+                <inps name="p_inps" type="lookup" action="CADASTRO" page="NEW_CADASTRO" app="RH" class="primary" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>INPS</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </inps>
+                <nif name="p_nif" type="lookup" action="CADASTRO" page="NEW_CADASTRO" app="RH" class="primary" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>NIF</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </nif>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" align="left" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <bi name="p_bi" type="number" maxlength="8" align="left" lookup_parser="false">
+                    <label>BI</label>
+                </bi>
+                <nif name="p_nif" type="number" maxlength="12" align="left" lookup_parser="false">
+                    <label>NIF</label>
+                </nif>
+                <passaporte name="p_passaporte" type="text" maxlength="12" align="left" lookup_parser="false">
+                    <label>Passaporte</label>
+                </passaporte>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome name="p_nome">Laudantium ipsum dolor doloremque deserunt</nome>
+                        <bi name="p_bi">672</bi>
+                        <nif name="p_nif">221</nif>
+                        <passaporte name="p_passaporte">Accusantium sit stract consectetur voluptatem</passaporte>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Aliqua amet unde aliqua labore</nome>
+                        <bi name="p_bi">842</bi>
+                        <nif name="p_nif">907</nif>
+                        <passaporte name="p_passaporte">Voluptatem aliqua mollit stract accusantium</passaporte>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Magna laudantium deserunt rem officia</nome>
+                        <bi name="p_bi">114</bi>
+                        <nif name="p_nif">159</nif>
+                        <passaporte name="p_passaporte">Perspiciatis deserunt aperiam ut dolor</passaporte>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Laudantium voluptatem dolor deserunt anim</nome>
+                        <bi name="p_bi">90</bi>
+                        <nif name="p_nif">326</nif>
+                        <passaporte name="p_passaporte">Iste sit officia natus stract</passaporte>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

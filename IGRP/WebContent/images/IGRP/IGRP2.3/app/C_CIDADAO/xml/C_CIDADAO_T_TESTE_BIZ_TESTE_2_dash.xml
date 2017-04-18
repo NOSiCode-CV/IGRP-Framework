@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../C_CIDADAO_T_TESTE_BIZ_TESTE_2_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>T_TESTE_BIZ</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>TESTE_2</action>
+        <package_instance></package_instance>
+        <package_db>C_CIDADAO_TTESTEBIZ_TESTE_DB</package_db>
+        <package_html>C_CIDADAO_TTESTEBIZ_TESTE_HTML</package_html>
+        <table_name>REDGLOBAL.GLB_T_ACTION</table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste Zegui</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Teste Zegui]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="fmn-ctx-0">
+                <title>Gravar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>default|fa-angle-right</img>
+                <params>default||fa-angle-right|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>link</label>
+                    <value>Sit officia lorem doloremque stract</value>
+                </link>
+            </fields>
+        </form_1>
+        <lista type="table" xml-type="table" title="lista" gen-type="container" gen-group="true">
+            <fields>
+                <link2 name="p_link2" type="link" maxlength="30" target="_self" class="link" iconColor="#333" iconClass="" img="fa-link" align="left" lookup_parser="false" desc="true">
+                    <label>link2</label>
+                </link2>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <link2 name="p_link2" desc="true">http://doz.co.uk/giug</link2>
+                        <link2_desc name="p_link2_desc">http://doz.co.uk/giug</link2_desc>
+                    </row>
+                    <row>
+                        <link2 name="p_link2" desc="true">http://sadpi.org/cev</link2>
+                        <link2_desc name="p_link2_desc">http://sadpi.org/cev</link2_desc>
+                    </row>
+                    <row>
+                        <link2 name="p_link2" desc="true">http://ziwropfu.co.uk/veplafig</link2>
+                        <link2_desc name="p_link2_desc">http://ziwropfu.co.uk/veplafig</link2_desc>
+                    </row>
+                    <row>
+                        <link2 name="p_link2" desc="true">http://ebeuw.org/azi</link2>
+                        <link2_desc name="p_link2_desc">http://ebeuw.org/azi</link2_desc>
+                    </row>
+                </value>
+            </table>
+        </lista>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields/>
+            <table>
+                <value/>
+            </table>
+        </gen_table>
+    </content>
+</rows>

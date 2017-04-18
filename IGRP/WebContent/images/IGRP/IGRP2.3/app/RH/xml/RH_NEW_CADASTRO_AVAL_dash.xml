@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_AVAL_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>AVAL</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Avaliação</title>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <dados_gerais name="p_dados_gerais" type="button" outline="false" iconColor="#333" iconClass="" img="fa-cog" maxlength="50">
+                    <label>Dados Gerais</label>
+                    <value/>
+                </dados_gerais>
+                <mobilidades name="p_mobilidades" type="button" outline="false" iconColor="#333" iconClass="" img="fa-spinner" maxlength="50">
+                    <label>Mobilidades</label>
+                    <value/>
+                </mobilidades>
+                <formacao name="p_formacao" type="button" outline="false" iconColor="#333" iconClass="" img="fa-graduation-cap" maxlength="50">
+                    <label>Formação</label>
+                    <value/>
+                </formacao>
+                <avaliacao name="p_avaliacao" type="button" outline="false" iconColor="#333" iconClass="" img="fa-smile-o" maxlength="50">
+                    <label>Avaliação</label>
+                    <value/>
+                </avaliacao>
+                <rendenc name="p_rendenc" type="button" outline="false" iconColor="#333" iconClass="" img="fa-dollar" maxlength="50">
+                    <label>Rend/Enc</label>
+                    <value/>
+                </rendenc>
+                <relatorios name="p_relatorios" type="button" outline="false" iconColor="#333" iconClass="" img="fa-file-pdf-o" maxlength="50">
+                    <label>Relatórios</label>
+                    <value/>
+                </relatorios>
+            </fields>
+        </tabcontent_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="dados_pessoais">
+                <title>Dados Pessoais</title>
+                <app>RH</app>
+                <page>DADOS</page>
+                <link>DADOS</link>
+                <target>_self</target>
+                <img>success|fa-address-card</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RH/xml/RH_DADOS_DADOS_dash.xml</parameter>
+                <params>success||fa-address-card|www</params>
+            </item>
+            <item type="specific" code="" rel="seguranca_social">
+                <title>Segurança Social</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>SS</link>
+                <target>_self</target>
+                <img>primary|fa-heartbeat</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_SS_dash.xml</parameter>
+                <params>primary||fa-heartbeat|www</params>
+            </item>
+            <item type="specific" code="" rel="familiares_e_dependentes">
+                <title>Familiares e Dependentes</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>FAMILIARES</link>
+                <target>_self</target>
+                <img>info|fa-users</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_FAMILIARES_dash.xml</parameter>
+                <params>info||fa-users|www</params>
+            </item>
+        </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="mobilidade_resumida">
+                <title>Mobilidade Resumida</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>MOB</link>
+                <target>_self</target>
+                <img>info|fa-spinner</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_MOB_dash.xml</parameter>
+                <params>info||fa-spinner|www</params>
+            </item>
+        </toolsbar_2>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="idiomas_conhecidos">
+                <title>Idiomas Conhecidos</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>IDIOMAS</link>
+                <target>_self</target>
+                <img>success|fa-globe</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_IDIOMAS_dash.xml</parameter>
+                <params>success||fa-globe|www</params>
+            </item>
+            <item type="specific" code="" rel="habilitacao_literaria">
+                <title>Habilitação Literária</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>HAB_LIT</link>
+                <target>_self</target>
+                <img>primary|fa-graduation-cap</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_HAB_LIT_dash.xml</parameter>
+                <params>primary||fa-graduation-cap|www</params>
+            </item>
+            <item type="specific" code="" rel="formacao">
+                <title>Formação</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>FORMACAO</link>
+                <target>_self</target>
+                <img>info|fa-book</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_FORMACAO_dash.xml</parameter>
+                <params>info||fa-book|www</params>
+            </item>
+        </toolsbar_3>
+        <toolsbar_4 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="avaliacao">
+                <title>Avaliação</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVAL</link>
+                <target>_blank</target>
+                <img>success|fa-smile-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVAL_dash.xml</parameter>
+                <params>success||fa-smile-o|www</params>
+            </item>
+            <item type="specific" code="" rel="recompensas_e_condecoracoes">
+                <title>Recompensas e Condecorações</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REC_COND</link>
+                <target>_blank</target>
+                <img>primary|fa-star</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REC_COND_dash.xml</parameter>
+                <params>primary||fa-star|www</params>
+            </item>
+            <item type="specific" code="" rel="processo_disciplinar">
+                <title>Processo Disciplinar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>PROC_DISC</link>
+                <target>_blank</target>
+                <img>info|fa-meh-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_PROC_DISC_dash.xml</parameter>
+                <params>info||fa-meh-o|www</params>
+            </item>
+            <item type="specific" code="" rel="avaliacao_de_desempenho">
+                <title>Avaliação de Desempenho</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVL_DESEMP</link>
+                <target>_blank</target>
+                <img>success|fa-hourglass-half</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVL_DESEMP_dash.xml</parameter>
+                <params>success||fa-hourglass-half|www</params>
+            </item>
+        </toolsbar_4>
+        <toolsbar_5 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="rendimentos">
+                <title>Rendimentos</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REND</link>
+                <target>_blank</target>
+                <img>success|fa-dollar</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REND_dash.xml</parameter>
+                <params>success||fa-dollar|www</params>
+            </item>
+            <item type="specific" code="" rel="rendenc">
+                <title>Rend/Enc</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REND_ENC</link>
+                <target>_blank</target>
+                <img>info|fa-money</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REND_ENC_dash.xml</parameter>
+                <params>info||fa-money|www</params>
+            </item>
+        </toolsbar_5>
+        <toolsbar_6 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="relatorios">
+                <title>Relatórios</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REL</link>
+                <target>_blank</target>
+                <img>info|fa-file-pdf-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REL_dash.xml</parameter>
+                <params>info||fa-file-pdf-o|www</params>
+            </item>
+        </toolsbar_6>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Avaliação]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_7 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="avaliacao_funcionario">
+                <title>Avaliação Funcionário</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVAL_FUNC</link>
+                <target>_blank</target>
+                <img>success|fa-smile-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVAL_FUNC_dash.xml</parameter>
+                <params>success||fa-smile-o|www</params>
+            </item>
+            <item type="specific" code="" rel="avaliacao_dirigente">
+                <title>Avaliação Dirigente</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVAL_DIR</link>
+                <target>_blank</target>
+                <img>warning|fa-street-view</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVAL_DIR_dash.xml</parameter>
+                <params>warning||fa-street-view|www</params>
+            </item>
+            <item type="specific" code="" rel="actualizar">
+                <title>Actualizar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVAL</link>
+                <target>_self</target>
+                <img>info|fa-random</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVAL_dash.xml</parameter>
+                <params>info||fa-random|www</params>
+            </item>
+        </toolsbar_7>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <text_6 name="p_text_6" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_6>
+                <text_5 name="p_text_5" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_5>
+                <text_4 name="p_text_4" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_4>
+                <text_3 name="p_text_3" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_3>
+                <text_1 name="p_text_1" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_1>
+                <text_2 name="p_text_2" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_2>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Date</label>
+                </date_1>
+                <date_2 name="p_date_2" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Date</label>
+                </date_2>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_6 name="p_text_6">Sit rem lorem laudantium dolor</text_6>
+                        <text_5 name="p_text_5">Iste adipiscing doloremque natus sit</text_5>
+                        <text_4 name="p_text_4">Omnis rem doloremque aliqua stract</text_4>
+                        <text_3 name="p_text_3">Labore iste perspiciatis anim amet</text_3>
+                        <text_1 name="p_text_1">Stract iste accusantium consectetur sit</text_1>
+                        <text_2 name="p_text_2">Deserunt labore perspiciatis amet sit</text_2>
+                        <date_1 name="p_date_1"/>
+                        <date_2 name="p_date_2"/>
+                    </row>
+                    <row>
+                        <text_6 name="p_text_6">Unde aliqua ut ipsum voluptatem</text_6>
+                        <text_5 name="p_text_5">Sit deserunt amet laudantium aliqua</text_5>
+                        <text_4 name="p_text_4">Mollit doloremque natus dolor doloremque</text_4>
+                        <text_3 name="p_text_3">Mollit totam laudantium officia adipiscing</text_3>
+                        <text_1 name="p_text_1">Amet aperiam lorem elit ut</text_1>
+                        <text_2 name="p_text_2">Aliqua accusantium lorem adipiscing ut</text_2>
+                        <date_1 name="p_date_1"/>
+                        <date_2 name="p_date_2"/>
+                    </row>
+                    <row>
+                        <text_6 name="p_text_6">Ut aperiam ut doloremque omnis</text_6>
+                        <text_5 name="p_text_5">Unde labore officia laudantium unde</text_5>
+                        <text_4 name="p_text_4">Officia natus sit mollit consectetur</text_4>
+                        <text_3 name="p_text_3">Magna consectetur accusantium labore dolor</text_3>
+                        <text_1 name="p_text_1">Laudantium stract elit ipsum doloremque</text_1>
+                        <text_2 name="p_text_2">Voluptatem consectetur adipiscing sit aliqua</text_2>
+                        <date_1 name="p_date_1"/>
+                        <date_2 name="p_date_2"/>
+                    </row>
+                    <row>
+                        <text_6 name="p_text_6">Consectetur doloremque ipsum aperiam accusantium</text_6>
+                        <text_5 name="p_text_5">Laudantium perspiciatis rem sit stract</text_5>
+                        <text_4 name="p_text_4">Elit laudantium natus doloremque ipsum</text_4>
+                        <text_3 name="p_text_3">Perspiciatis ipsum accusantium stract sit</text_3>
+                        <text_1 name="p_text_1">Sit rem sit adipiscing iste</text_1>
+                        <text_2 name="p_text_2">Sed omnis sit aperiam accusantium</text_2>
+                        <date_1 name="p_date_1"/>
+                        <date_2 name="p_date_2"/>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

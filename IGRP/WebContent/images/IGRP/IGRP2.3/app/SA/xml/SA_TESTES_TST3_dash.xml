@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_TESTES_TST3_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TESTES</page>
+    <app>SA</app>
+    <plsql>
+        <action>TST3</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste 3</title>
+        <page_title type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </text>
+            </fields>
+        </page_title>
+        <gen_table type="table" structure="fields">
+            <fields />
+            <table>
+                <value />
+            </table>
+        </gen_table>
+        <form_1 type="form" structure="fields">
+            <fields>
+                <number_1 disabled="false" type="number" readonly="false" name="p_number_1" maxlength="30" right="false" placeholder="" change="false" required="false">
+                    <label>Number</label>
+                    <value>152</value>
+                </number_1>
+                <password_1 disabled="false" type="password" readonly="false" name="p_password_1" maxlength="30" right="false" placeholder="" change="false" required="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password_1>
+            </fields>
+        </form_1>
+    </content>
+</rows>

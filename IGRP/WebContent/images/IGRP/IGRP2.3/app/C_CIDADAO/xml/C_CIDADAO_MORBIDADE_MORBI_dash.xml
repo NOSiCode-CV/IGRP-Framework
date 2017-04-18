@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../C_CIDADAO_MORBIDADE_MORBI_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>MORBIDADE</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>MORBI</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>morbidade</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <box_1 type="box" xml-type="form" title="Entrada de dados de Morbidade" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <grupo name="p_grupo" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Grupo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </grupo>
+                <subgrupo name="p_subgrupo" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Subgrupo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </subgrupo>
+                <categoria name="p_categoria" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Categoria</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </categoria>
+                <ano name="p_ano" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Ano</label>
+                    <value>784</value>
+                </ano>
+            </fields>
+        </form_1>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields/>
+            <table>
+                <value/>
+            </table>
+        </gen_table>
+        <box_2 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-type="container" gen-group="true">
+            <fields>
+                <area_geografica name="p_area_geografica" type="lookup" action="MORBI" page="MORBIDADE" app="C_CIDADAO" class="default" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Área Geográfica</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </area_geografica>
+                <numero_de_casos name="p_numero_de_casos" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Numero de Casos</label>
+                    <value>813</value>
+                </numero_de_casos>
+                <sexo name="p_sexo" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Sexo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </sexo>
+                <faixa_etaria name="p_faixa_etaria" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Faixa etaria</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </faixa_etaria>
+                <incedencia name="p_incedencia" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Incedência</label>
+                    <value>795</value>
+                </incedencia>
+                <prevalencia name="p_prevalencia" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Prevalência</label>
+                    <value>908</value>
+                </prevalencia>
+                <numero_de_obito name="p_numero_de_obito" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Número de Obito</label>
+                    <value>387</value>
+                </numero_de_obito>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <area_geografica name="p_area_geografica" desc="true"/>
+                        <area_geografica_desc name="p_area_geografica_desc"/>
+                        <numero_de_casos name="p_numero_de_casos" desc="true">788</numero_de_casos>
+                        <numero_de_casos_desc name="p_numero_de_casos_desc">788</numero_de_casos_desc>
+                        <sexo name="p_sexo" desc="true"/>
+                        <sexo_desc name="p_sexo_desc"/>
+                        <faixa_etaria name="p_faixa_etaria" desc="true"/>
+                        <faixa_etaria_desc name="p_faixa_etaria_desc"/>
+                        <incedencia name="p_incedencia" desc="true">446</incedencia>
+                        <incedencia_desc name="p_incedencia_desc">446</incedencia_desc>
+                        <prevalencia name="p_prevalencia" desc="true">663</prevalencia>
+                        <prevalencia_desc name="p_prevalencia_desc">663</prevalencia_desc>
+                        <numero_de_obito name="p_numero_de_obito" desc="true">166</numero_de_obito>
+                        <numero_de_obito_desc name="p_numero_de_obito_desc">166</numero_de_obito_desc>
+                    </row>
+                    <row>
+                        <area_geografica name="p_area_geografica" desc="true"/>
+                        <area_geografica_desc name="p_area_geografica_desc"/>
+                        <numero_de_casos name="p_numero_de_casos" desc="true">174</numero_de_casos>
+                        <numero_de_casos_desc name="p_numero_de_casos_desc">174</numero_de_casos_desc>
+                        <sexo name="p_sexo" desc="true"/>
+                        <sexo_desc name="p_sexo_desc"/>
+                        <faixa_etaria name="p_faixa_etaria" desc="true"/>
+                        <faixa_etaria_desc name="p_faixa_etaria_desc"/>
+                        <incedencia name="p_incedencia" desc="true">733</incedencia>
+                        <incedencia_desc name="p_incedencia_desc">733</incedencia_desc>
+                        <prevalencia name="p_prevalencia" desc="true">862</prevalencia>
+                        <prevalencia_desc name="p_prevalencia_desc">862</prevalencia_desc>
+                        <numero_de_obito name="p_numero_de_obito" desc="true">454</numero_de_obito>
+                        <numero_de_obito_desc name="p_numero_de_obito_desc">454</numero_de_obito_desc>
+                    </row>
+                    <row>
+                        <area_geografica name="p_area_geografica" desc="true"/>
+                        <area_geografica_desc name="p_area_geografica_desc"/>
+                        <numero_de_casos name="p_numero_de_casos" desc="true">26</numero_de_casos>
+                        <numero_de_casos_desc name="p_numero_de_casos_desc">26</numero_de_casos_desc>
+                        <sexo name="p_sexo" desc="true"/>
+                        <sexo_desc name="p_sexo_desc"/>
+                        <faixa_etaria name="p_faixa_etaria" desc="true"/>
+                        <faixa_etaria_desc name="p_faixa_etaria_desc"/>
+                        <incedencia name="p_incedencia" desc="true">173</incedencia>
+                        <incedencia_desc name="p_incedencia_desc">173</incedencia_desc>
+                        <prevalencia name="p_prevalencia" desc="true">961</prevalencia>
+                        <prevalencia_desc name="p_prevalencia_desc">961</prevalencia_desc>
+                        <numero_de_obito name="p_numero_de_obito" desc="true">838</numero_de_obito>
+                        <numero_de_obito_desc name="p_numero_de_obito_desc">838</numero_de_obito_desc>
+                    </row>
+                    <row>
+                        <area_geografica name="p_area_geografica" desc="true"/>
+                        <area_geografica_desc name="p_area_geografica_desc"/>
+                        <numero_de_casos name="p_numero_de_casos" desc="true">865</numero_de_casos>
+                        <numero_de_casos_desc name="p_numero_de_casos_desc">865</numero_de_casos_desc>
+                        <sexo name="p_sexo" desc="true"/>
+                        <sexo_desc name="p_sexo_desc"/>
+                        <faixa_etaria name="p_faixa_etaria" desc="true"/>
+                        <faixa_etaria_desc name="p_faixa_etaria_desc"/>
+                        <incedencia name="p_incedencia" desc="true">742</incedencia>
+                        <incedencia_desc name="p_incedencia_desc">742</incedencia_desc>
+                        <prevalencia name="p_prevalencia" desc="true">854</prevalencia>
+                        <prevalencia_desc name="p_prevalencia_desc">854</prevalencia_desc>
+                        <numero_de_obito name="p_numero_de_obito" desc="true">712</numero_de_obito>
+                        <numero_de_obito_desc name="p_numero_de_obito_desc">712</numero_de_obito_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </form_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>C_CIDADAO</app>
+                <page>MORBIDADE</page>
+                <link>MORBI</link>
+                <target>_blank</target>
+                <img>success|fa-camera-retro</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/C_CIDADAO/xml/C_CIDADAO_MORBIDADE_MORBI_dash.xml</parameter>
+                <params>success||fa-camera-retro|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_CONFIG_INTERFACE_FORM_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CONFIG_INTERFACE</page>
+    <app>SA</app>
+    <plsql>
+        <action>FORM</action>
+        <package_instance></package_instance>
+        <package_db>SA_CONFIGINTERFACE_FORM_DB</package_db>
+        <package_html>SA_CONFIGINTERFACE_FORM_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Novo e Editar</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Novo e Editar]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>SA</app>
+                <page>CONFIG_INTERFACE</page>
+                <link>FORM</link>
+                <target>submit</target>
+                <img>success|fa-floppy-o</img>
+                <params>success||fa-floppy-o|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>SA</app>
+                <page>CONFIG_INTERFACE</page>
+                <link>1</link>
+                <target>_self</target>
+                <img>info|fa-arrow-left</img>
+                <params>info||fa-arrow-left|www</params>
+            </item>
+        </fmn>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <id_organica name="p_id_organica" type="select" required="true" multiple="false" change="false" disabled="false" right="false" maxlength="30">
+                    <label>Orgánica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </id_organica>
+                <titulo name="p_titulo" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Titulo</label>
+                    <value>Doloremque laudantium magna elit labore</value>
+                </titulo>
+                <subtitulo name="p_subtitulo" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Subtitulo</label>
+                    <value>Adipiscing aliqua ipsum doloremque amet</value>
+                </subtitulo>
+                <logo_inicio name="p_logo_inicio" type="file" required="false" disabled="false" right="false" class="info" maxlength="3000">
+                    <label>Logotipo Inicio</label>
+                    <value/>
+                </logo_inicio>
+                <link_logotipo name="p_link_logotipo" type="link" maxlength="3000" target="_blank" right="false" class="success" iconColor="#333" iconClass="" img="fa-image">
+                    <label>Ver</label>
+                    <value>http://dib.org/rogujnaw</value>
+                </link_logotipo>
+                <imagem_fundo name="p_imagem_fundo" type="file" required="false" disabled="false" right="false" class="info" maxlength="3000">
+                    <label>Imagem Fundo</label>
+                    <value/>
+                </imagem_fundo>
+                <link_imagem_fundo name="p_link_imagem_fundo" type="link" maxlength="3000" target="_blank" right="false" class="success" iconColor="#333" iconClass="" img="fa-image">
+                    <label>Ver Imagem Fundo</label>
+                    <value>http://fuf.co.uk/zigiwpe</value>
+                </link_imagem_fundo>
+                <icon_logo name="p_icon_logo" type="file" required="false" disabled="false" right="false" class="info" maxlength="3000">
+                    <label>Icon logotipo</label>
+                    <value/>
+                </icon_logo>
+                <link_icon_logotipo name="p_link_icon_logotipo" type="link" maxlength="3000" target="_blank" right="false" class="success" iconColor="#333" iconClass="" img="fa-image">
+                    <label>Ver icon Logotipo</label>
+                    <value>http://waf.net/kezafo</value>
+                </link_icon_logotipo>
+                <cor_rodape name="p_cor_rodape" type="color" maxlength="20" format="hex" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Cor Rodape</label>
+                    <value>#460427</value>
+                </cor_rodape>
+                <cor_cabecalho name="p_cor_cabecalho" type="color" maxlength="20" format="hex" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Cor Cabecalho</label>
+                    <value>#de019b</value>
+                </cor_cabecalho>
+                <hidden name="p_id" type="hidden" tag="id"/>
+                <hidden name="p_utilizador" type="hidden" tag="utilizador"/>
+                <hidden name="p_data_insert" type="hidden" tag="data_insert"/>
+                <hidden name="p_DATA_UPDATE" type="hidden" tag="data_update"/>
+            </fields>
+        </form_1>
+    </content>
+</rows>

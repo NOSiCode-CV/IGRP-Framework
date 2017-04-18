@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_RELATORIOS_DSMP_ORG_1_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RELATORIOS</page>
+    <app>SA</app>
+    <plsql>
+        <action>DSMP_ORG_1</action>
+        <package_instance></package_instance>
+        <package_db>SA_REL_DSMP_ORG_DB</package_db>
+        <package_html>SA_REL_DSMP_ORG_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Desempenho por Orgânica_1</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Desempenho Por Orgânica]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <requisito name="p_requisito" type="select" multiple="false" maxlength="300" required="false" change="true" disabled="false" right="false">
+                    <label>Requisito</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </requisito>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Orgânica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <data_inicio type="date" name="p_data_inicio" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim type="date" name="p_data_fim" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="info" rel="ps">
+                    <title>Pesquisar</title>
+                    <app>SA</app>
+                    <page>RELATORIOS</page>
+                    <link>DSMP_ORG_1</link>
+                    <target>submit</target>
+                    <img>info|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <organica_list type="text" align="left" name="p_organica_list" maxlength="500" lookup_parser="false">
+                    <label>Orgânica</label>
+                </organica_list>
+                <n_atendimentos type="text" name="p_n_atendimentos" maxlength="30" align="left" lookup_parser="false">
+                    <label>Nº De  Atendimento</label>
+                </n_atendimentos>
+                <tempo_medio_atendimento type="text" align="center" name="p_tempo_medio_atendimento" maxlength="30" lookup_parser="false">
+                    <label>Tempo Médio De Atendimento</label>
+                </tempo_medio_atendimento>
+                <requisito_list type="text" align="left" name="p_requisito_list" maxlength="400" lookup_parser="false">
+                    <label>Requisito</label>
+                </requisito_list>
+                <n_registos type="text" align="center" name="p_n_registos" maxlength="30" lookup_parser="false">
+                    <label>Nº De Avaliação</label>
+                </n_registos>
+                <media_classificacao type="text" align="left" name="p_media_classificacao" maxlength="400" lookup_parser="false">
+                    <label>Media De Avaliação</label>
+                </media_classificacao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <organica_list name="p_organica_list">Doloremque omnis totam magna aliqua</organica_list>
+                        <n_atendimentos name="p_n_atendimentos">Natus doloremque ipsum magna anim</n_atendimentos>
+                        <tempo_medio_atendimento name="p_tempo_medio_atendimento">Elit perspiciatis lorem mollit labore</tempo_medio_atendimento>
+                        <requisito_list name="p_requisito_list">Labore anim lorem magna doloremque</requisito_list>
+                        <n_registos name="p_n_registos">Mollit anim omnis voluptatem dolor</n_registos>
+                        <media_classificacao name="p_media_classificacao">Labore aperiam ut perspiciatis officia</media_classificacao>
+                    </row>
+                    <row>
+                        <organica_list name="p_organica_list">Labore amet iste labore doloremque</organica_list>
+                        <n_atendimentos name="p_n_atendimentos">Laudantium anim voluptatem unde perspiciatis</n_atendimentos>
+                        <tempo_medio_atendimento name="p_tempo_medio_atendimento">Stract elit ipsum sit officia</tempo_medio_atendimento>
+                        <requisito_list name="p_requisito_list">Ut accusantium officia amet dolor</requisito_list>
+                        <n_registos name="p_n_registos">Stract voluptatem consectetur aliqua sit</n_registos>
+                        <media_classificacao name="p_media_classificacao">Sit rem sit consectetur perspiciatis</media_classificacao>
+                    </row>
+                    <row>
+                        <organica_list name="p_organica_list">Dolor totam consectetur omnis officia</organica_list>
+                        <n_atendimentos name="p_n_atendimentos">Consectetur mollit ut natus magna</n_atendimentos>
+                        <tempo_medio_atendimento name="p_tempo_medio_atendimento">Elit unde natus ipsum aliqua</tempo_medio_atendimento>
+                        <requisito_list name="p_requisito_list">Officia adipiscing anim perspiciatis ipsum</requisito_list>
+                        <n_registos name="p_n_registos">Lorem laudantium ipsum iste amet</n_registos>
+                        <media_classificacao name="p_media_classificacao">Unde rem amet totam doloremque</media_classificacao>
+                    </row>
+                    <row>
+                        <organica_list name="p_organica_list">Ut voluptatem sit elit voluptatem</organica_list>
+                        <n_atendimentos name="p_n_atendimentos">Aperiam perspiciatis totam stract sit</n_atendimentos>
+                        <tempo_medio_atendimento name="p_tempo_medio_atendimento">Magna mollit adipiscing aperiam accusantium</tempo_medio_atendimento>
+                        <requisito_list name="p_requisito_list">Lorem aperiam iste elit iste</requisito_list>
+                        <n_registos name="p_n_registos">Omnis magna anim sit iste</n_registos>
+                        <media_classificacao name="p_media_classificacao">Natus totam unde natus sit</media_classificacao>
+                    </row>
+                </value>
+            </table>
+        </gen_table>
+    </content>
+</rows>

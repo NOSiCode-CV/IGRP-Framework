@@ -1,0 +1,9 @@
+<div class="box igrp-forms">
+	<div class="box-body">
+		<div role="form" gen-id="drop-zone">
+			<xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+		</div>
+	</div>
+	<xsl:apply-templates select="#path#/tools-bar" mode="form-buttons"/>
+</div>
+

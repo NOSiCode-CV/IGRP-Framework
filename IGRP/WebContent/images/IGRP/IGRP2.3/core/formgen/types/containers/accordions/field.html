@@ -1,0 +1,15 @@
+<div class="panel panel-#[class]#"  id="gen-accordion-#tag#">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="##[tag]#">
+                <xsl:value-of select="rows/content/#parent.tag#/item[@rel='#tag#']/title"/>
+            </a>
+        </h4>
+    </div>
+    <div id="#[tag]#" class="panel-collapse collapse in">
+        <div class="panel-body gen-rows-holder" gen-preserve-content="true">
+                
+        </div>
+    </div>
+</div>
+

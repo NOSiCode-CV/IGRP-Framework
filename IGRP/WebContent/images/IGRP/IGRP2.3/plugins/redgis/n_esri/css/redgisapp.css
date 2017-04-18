@@ -1,0 +1,639 @@
+/*RESET*/
+
+token{
+	display: none;
+}
+
+
+
+/* IGRP MAPP */
+#igrp-mapp-holder{ 
+	position:relative;width:100%;min-height:460px!important;
+}
+
+#mapp-holder {
+	font-size: 16px;
+	background: white;
+}
+mapp.map {
+	background: none;
+	height: 100%!important;
+	margin: 0;
+	width: 100%!important;
+}
+.clear {
+	clear: both
+}
+body.isDrawing #mapp_container {
+	cursor: crosshair!important
+}
+
+*[shadow="true"]{
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+}
+
+#mapp-fscreen-controller.active {
+	background:url('../img/tools/collapse.png') no-repeat center;
+}
+
+#mapp-fscreen-controller {
+	transition:all 0.4s;
+	bottom: 10px;
+	cursor: pointer;
+	position: absolute;
+	right: 16px;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	z-index: 300;
+	background:url('../img/tools/expand.png') no-repeat center;
+	background-size:14px;
+
+}
+
+#mapp-fscreen-controller img {
+	background: none repeat scroll 0 0 black;
+	max-width: 14px;
+	padding: 6px;
+	border-radius: 5px;
+}
+tools.active+#mapp-fscreen-controller {
+	/*background: black;*/
+}
+
+.-mapp-parent-holder-.full-screen {
+	position: fixed!important;
+	top: 0!important;
+	left: 0!important;
+	height: 100%!important;
+	width: 100%!important;
+	z-index: 2000000!important
+}
+
+
+/*CONFIG*/
+#loading {
+	display: none;
+}
+.black-out {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.7);
+	display: none;
+	z-index: 1000;
+}
+.black-out.active {
+	display: block
+}
+.mapp-external-holder {
+	position: absolute;
+	width: 95%;
+	height: 90%;
+	left: 2.5%;
+	top: 5%;
+	display: none;
+	background: white;
+	border: 4px solid rgba(28, 122, 169, 0.61);
+	z-index: 1001
+}
+.mapp-external-holder.active {
+	display: block
+}
+.mapp-external-holder iframe {
+	width: 100%;
+	height: 100%;
+}
+.mapp-external-holder iframe.loading {
+	background: url('../img/loading.gif') no-repeat white;
+	background-position: center;
+}
+.mapp-external-holder .closer, widgets .closer, #mapp-cert-checker .closer {
+	position: absolute;
+	padding: 5px;
+	background: url('../img/close.png') no-repeat;
+	background-position: center;
+	width: 24px;
+	height: 24px;
+	z-index: 15;
+	top: -22px;
+	right: -22px;
+	cursor: pointer;
+}
+body.mapp-loading #loading {
+	position: absolute;
+	left: calc(50% - 103px );
+	top: calc(50% - 103px);
+	display: block;
+}
+body.mapp-loading #mapp-holder {
+	visibility: hidden;
+	opacity: 0;
+}
+#mapp-holder {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+mapp {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+mapdata {
+
+	z-index: 100;
+	background: rgba(28, 122, 169, 0.9);
+	display: block;
+	position: absolute;
+	color: white;
+	height: 100%;
+	/*overflow-x: hidden;*/
+	overflow-y:auto;
+	width: 0;
+	transition: width 0.3s;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+}
+mapdata .layer-theme {
+	position: relative;
+/*border-bottom: 1px solid white;*/
+}
+
+mapdata .layer-theme.no-visible-layers{
+	display: none!important;
+}
+mapdata .layer-theme .theme-name {
+	width: 185px;
+	margin: 0 auto;
+	cursor: pointer;
+	padding: 8px 25px;
+	font-weight: normal;
+	line-height: 15px;
+	font-size: 11px;
+	text-transform: uppercase;
+}
+mapdata .layer-theme.hidden .theme-name{
+	border-bottom: 1px solid rgba(255,255,255,0.8);
+}
+
+mapdata .layer-theme.hidden layer .layer-data {
+	display: none;
+}
+mapdata layers layer {
+	display: none;
+	visibility: hidden;
+	z-index: -50000;
+}
+mapdata layers layer.onMap {
+	display: block;
+	z-index: 1;
+	visibility: visible;
+}
+mapdata layers layer[hidden="true"] {
+	display:none!important;
+}
+mapdata layers {
+	display: block;
+	position: relative;
+}
+.data-content {
+	font-size: 10px;
+	transition: width 0.3s;
+	overflow: hidden;
+}
+navigation {
+	display: block;
+	transition: margin 0.3s ease 0s;
+	-moz-transition: margin 0.3s ease 0s;
+	-webkit-transition: margin 0.3s ease 0s;
+	-o-transition: margin 0.3s ease 0s;
+	margin-left: 5px;
+	position: absolute;
+	z-index: 10000;
+}
+mapp.dataActive navigation {
+	margin-left: 170px;
+}
+mapp.dataActive mapdata {
+	width: 235px
+}
+layer .layer-data {
+	width: 235px;
+	background:rgba(255,255,255,1);
+	position: relative;
+	padding-top: 5px;
+	border-bottom: 1px solid;
+}
+mapp.dataActive #mapdata-panel-toggle {
+	left: 265px;
+}
+#mapdata-panel-toggle {
+	transition: left 0.3s;
+	width: 30px;
+	border:1px solid;
+	height: 30px;
+	/*top: calc(50% - 50px);*/
+	top:95px;
+	position: absolute;
+	background-image: url('../img/layers.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 70%;
+	cursor: pointer;
+	z-index: 10;
+	left: 30px;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+}
+.mapdata-t-lbl {
+
+	display:none;
+
+	height: 20px;
+	width: 100px;
+	position: absolute;
+	bottom: 40px;
+	left: -38px;
+	text-align: center;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+ 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	color: white;
+	font-size: 14px;
+	text-transform: uppercase;
+}
+
+mapdata .check-all-layers {
+	position: absolute;
+	top:5px;
+	left: 3px;
+	z-index: 5;
+}
+
+mapdata .layer-info {
+	position: relative;
+	padding: 5px 18px;
+	margin: 0 auto;
+}
+mapdata .layer-visibility {
+	position: absolute;
+	left: 5px;
+	top: 8px;
+	z-index: 10;
+}
+mapdata .layer-info h3.layer-name {
+	cursor: pointer;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 14px;
+	margin: 0 0 10px;
+	padding: 0 8px;
+	text-align: left;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	color:initial;
+}
+mapdata .layer-info h3.layer-name:hover {
+	text-decoration: underline;
+}
+mapdata .layer-info .layer-img {
+	border: 2px solid #fff;
+	display: none;
+}
+.layer-info .slider {
+	margin: 10px;
+	border-radius: 0!important;
+	height: 0px!important;
+	border-top:0px!important;
+	border-bottom-width:1px solid!important;
+	cursor: pointer;
+	border-color: white;
+}
+.layer-info .slider a.ui-slider-handle {
+	height: 7px;
+	background: white;
+	width: 2px;
+	border-radius: 0;
+	margin: 0;
+	border: 1px solid #1c7aa9;
+	top: -5px;
+	cursor: pointer;
+}
+
+mapp#mapp .esriSimpleSlider{
+	border-width: 1px;
+	-webkit-border-radius:0;
+	border-radius: 0
+}
+
+.esriSimpleSlider, .esriSimpleSlider *{
+	border-width: 1px!important;
+	font-weight: normal!important;
+}
+
+mapp#mapp .esriSimpleSlider, mapp#mapp .esriScalebar {
+	left: 30px!important;
+	transition: left 0.3s;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+}
+mapp#mapp.dataActive .esriSimpleSlider, mapp#mapp.dataActive .esriScalebar {
+	left: 265px!important;/*display: none;*/
+}
+.esriScalebar {
+	left: 30px;
+}
+.esriControlsBR {
+	display: none
+}
+/*TOOLS*/
+mapp tools {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 200;
+	height: 100%;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	background: rgba(28, 122, 169, 0.9);
+}
+mapp tools.hidden {
+	display: none;
+}
+mapp tools #tool-contents {
+	position: relative;
+	width: 0;
+	top: 0;
+	right: 0;
+	transition: width 0.4s;
+	max-height: 100%;
+	overflow: hidden;
+}
+mapp tools.active #tool-contents {
+	width: 60px;
+}
+mapp tools:hover .tool-control, mapp tools.active .tool-control {
+/*background: none*/
+}
+.tool-control {
+	z-index: 10;
+	display: block;
+	position: absolute;
+	padding: 1px;
+	cursor: pointer;
+	background: rgba(28, 122, 169, 0.61);
+	right: 16px;
+	top: 10px;
+}
+mapp tools .tool-control {
+}
+icon.toolsmenu {
+	background: url(../img/tools/toolsmenu.png) no-repeat center;
+	background-size: 28px;
+	height: 24px;
+	width: 24px;
+	display: block;
+}
+icon.toolsmenu[rel="mainmenu"] {
+	background-position: center;
+}
+icon.toolsmenu[rel="closer"] {
+	background-position: -25px 0;
+}
+mapp tools .tool-control img {
+	max-width: 100%
+}
+mapp tools .tool-control:hover+#tool-contents, mapp tools #tool-contents:hover {
+/*width: 54px*/
+}
+mapp mappoints info_window {
+	display: none
+}
+mapp mappoints info_window.active {
+	display: block;
+}
+.map-igrp-filter {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 235px;
+	padding: 10px;
+	background: rgba(255,255,255,0.8)
+}
+tools #tool-contents {
+	position: relative;/*<!--padding-top: 50px;-->*/
+}
+/* COLLAPSE CONFIG*/
+*[data-type="collapse-content"] {
+	display: none
+}
+*[data-type="collapse-content"].active {
+	display: block
+}
+
+/* ERORR HANDLER */
+
+#mapp-holder #mapp-error-handler{
+	position:absolute;
+	z-index: 1500;
+	border:1px solid #ccc;
+	background: #f0f0f0;
+	-webkit-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	-moz-box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.5);
+	display:none;
+	width: 600px;
+	left:50%;
+	top:50%;
+	margin-left:-300px;
+	
+	opacity:0;
+	-moz-opacity:0;
+	-webkit-opacity:0;
+
+	transition:opacity opacity 0.8s;
+	-moz-transition:opacity 0.8s;
+	-o-transition:opacity 0.8s;
+	-webkit-transition:opacity 0.8s;
+
+
+}
+
+#mapp-holder #mapp-error-handler.active{ 
+
+	opacity:1;
+	-moz-opacity:1;
+	-webkit-opacity:1;
+}
+#mapp-holder .inner-padding-10{
+	padding:10px;
+}
+
+
+/* CERTIFICADO CERTIFICATE CHECKER */
+#mapp-holder #mapp-cert-checker {
+	display:none;
+	position:absolute;
+	width:40%;
+	left:30%;
+	top:30%;
+	margin-top: -25px;
+	z-index: 1002;
+	background:whitesmoke;
+	color:black;
+}
+
+#mapp-holder #mapp-cert-checker #reloader {
+	font-size: 12px;
+	text-decoration: underline;
+
+}
+
+#mapp-holder #mapp-cert-checker .closer {
+	top:-15px;
+	right:-15px;
+}
+
+#mapp-holder #mapp-cert-msg{
+	padding:10px;
+	text-transform: none;
+	line-height: 20px
+}
+#mapp-holder #mapp-cert-msg a{ text-decoration: underline;font-weight: bold; }
+
+#mapp-holder #mapp-cert-checker.active {
+	display:block;
+}
+
+/*SORTABLE CONFIG*/
+.ui-sortable-placeholder {
+	background:rgba(255,255,255,0.5)!important;
+}
+
+.ui-sortable-helper .layer-theme{
+	background:blue!important;
+
+}
+
+/*icons*/
+#mapp-holder i{
+	width:24px;
+	height:24px;
+	position: absolute;
+	background-position: center;
+	background-repeat: no-repeat;
+	right:0;
+	top:0;
+	cursor: pointer;
+}
+/**/
+#mapp-holder i[position="right"]{
+	right:0;
+}
+#mapp-holder i[position="left"]{
+	left:0;
+}
+#mapp-holder i[rel="close"] {
+	background-image:url('../img/close_w.png');
+}
+
+/*MAPP INFO*/
+#mapp-info {
+	position: absolute;
+	z-index: 100;
+	background: white;
+	border:1px solid;
+	padding: 5px;
+	width:220px;
+	left: 50%;
+	margin-left: -110px;
+	top:150px;
+	display: none;
+}
+
+
+/*TOPO VALIDATION WINDOW*/
+.layers-topo-validation {
+	max-height:420px;
+	overflow: auto;
+}
+
+.layers-topo-validation h3.title{
+	padding: 5px 10px;
+	color:white;
+}
+.layers-topo-validation{
+	background:rgba(255,255,255,0.85);
+}
+.layers-topo-validation .topo-v-layers{
+	
+}
+.layers-topo-validation .topo-v-lyr h3{
+	padding: 8px;
+	line-height: 16px;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	background: white;
+}
+
+.layers-topo-validation .topo-v-lyr:first-child h3{
+	border-top:0;
+}
+
+.layers-topo-validation .topo-v-operations .op-name{
+	padding-right: 3px;
+}
+.layers-topo-validation .topo-v-operations .op-total{ font-weight: bold; }
+.layers-topo-validation .topo-v-operations .op-name:after{
+	content:':';
+	display: inline;
+}
+
+.layers-topo-validation .topo-v-operations{
+	padding: 0 5px 0px 10px;
+}
+.layers-topo-validation .topo-v-operations.hide{
+	display: none;
+}
+
+.layers-topo-validation .topo-v-op-holder{
+	padding: 4px 0;
+}
+
+.layers-topo-validation .topo-v-op-holder.active .op-name{
+	text-decoration: underline;
+}
+
+.layers-topo-validation .topo-v-graphic-holder{
+	border-bottom: 1px solid #ccc;
+	padding: 3px 0;
+}
+
+.layers-topo-validation .topo-v-graphic-holder:last-child{
+	border:0;
+}
+
+/* COORDS INFO */
+#mapp-coords-info {
+	position: absolute;
+	bottom:25px;
+	right:80px;
+	z-index: 100;
+	padding: 5px;
+	background:rgba(255,255,255,.6);
+}
+
+#mapp-coords-info span{
+	margin-right: 5px;
+}

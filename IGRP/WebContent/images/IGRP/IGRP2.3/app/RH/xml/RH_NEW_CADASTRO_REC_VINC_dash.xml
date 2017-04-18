@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_REC_VINC_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>REC_VINC</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Reclamar Vínculo</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <assunto name="p_assunto" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Assunto</label>
+                    <value>Omnis labore sit accusantium dolor</value>
+                </assunto>
+                <reclamacao name="p_reclamacao" type="textarea" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Reclamação</label>
+                    <value>Ipsum elit labore sit voluptatem elit mollit accusantium iste ipsum voluptatem stract aperiam labore iste</value>
+                </reclamacao>
+                <ficheiro name="p_ficheiro" type="file" accept="file_extension" multiple="false" maxlength="4000" required="false" disabled="false" right="false" class="default">
+                    <label>Ficheiro</label>
+                    <value/>
+                </ficheiro>
+                <email name="p_email" type="email" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>egsag@example.com</value>
+                </email>
+            </fields>
+        </form_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Reclamar Vínculo]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REC_VINC</link>
+                <target>alert_submit</target>
+                <img>success|fa-floppy-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REC_VINC_dash.xml</parameter>
+                <params>success||fa-floppy-o|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

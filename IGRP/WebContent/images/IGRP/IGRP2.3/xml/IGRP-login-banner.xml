@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <version>1</version>
+  <content>
+    <table>
+      <title>TABELA SIMPLES</title>
+      <label>
+        <image>Banner</image>
+        <caption>Descrição</caption>
+        <link>Link</link>
+        <flag>active</flag>
+      </label>
+      <value>
+        <row>
+          <image>1.gif</image>
+          <caption></caption>
+          <link></link>
+          <flag>1</flag>
+        </row>
+        <row>
+          <image>2.gif</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+        <row>
+          <image>3.gif</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+		<row>
+          <image>4.gif</image>
+          <caption></caption>
+          <link></link>
+          <flag>0</flag>
+        </row>
+      </value>
+    </table>
+  </content>
+</rows>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_LST_ANEXO_SS_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>LST_ANEXO_SS</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista Anexos Segurança Social</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Anexos]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>ANEXO_SS</link>
+                <target>alert_submit</target>
+                <img>success|fa-floppy-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_ANEXO_SS_dash.xml</parameter>
+                <params>success||fa-floppy-o|www</params>
+            </item>
+            <item type="specific" code="" rel="actualizar">
+                <title>Actualizar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>LST_ANEXO_SS</link>
+                <target>_self</target>
+                <img>info|fa-random</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_LST_ANEXO_SS_dash.xml</parameter>
+                <params>info||fa-random|www</params>
+            </item>
+        </toolsbar_1>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Lista Anexos" gen-type="container" gen-group="true">
+            <fields>
+                <anexo name="p_anexo" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Anexo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </anexo>
+                <ficheiro name="p_ficheiro" type="file" accept="file_extension" multiple="false" maxlength="4000" required="false" disabled="false" right="false" visible="true" class="default" desc="true">
+                    <label>Ficheiro</label>
+                    <value/>
+                </ficheiro>
+                <data_de_insercao name="p_data_de_insercao" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" class="default" desc="true">
+                    <label>Data de Inserção</label>
+                    <value/>
+                </data_de_insercao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <anexo name="p_anexo" desc="true"/>
+                        <anexo_desc name="p_anexo_desc"/>
+                        <ficheiro name="p_ficheiro" desc="true"/>
+                        <ficheiro_desc name="p_ficheiro_desc"/>
+                        <data_de_insercao name="p_data_de_insercao" desc="true"/>
+                        <data_de_insercao_desc name="p_data_de_insercao_desc"/>
+                    </row>
+                    <row>
+                        <anexo name="p_anexo" desc="true"/>
+                        <anexo_desc name="p_anexo_desc"/>
+                        <ficheiro name="p_ficheiro" desc="true"/>
+                        <ficheiro_desc name="p_ficheiro_desc"/>
+                        <data_de_insercao name="p_data_de_insercao" desc="true"/>
+                        <data_de_insercao_desc name="p_data_de_insercao_desc"/>
+                    </row>
+                    <row>
+                        <anexo name="p_anexo" desc="true"/>
+                        <anexo_desc name="p_anexo_desc"/>
+                        <ficheiro name="p_ficheiro" desc="true"/>
+                        <ficheiro_desc name="p_ficheiro_desc"/>
+                        <data_de_insercao name="p_data_de_insercao" desc="true"/>
+                        <data_de_insercao_desc name="p_data_de_insercao_desc"/>
+                    </row>
+                    <row>
+                        <anexo name="p_anexo" desc="true"/>
+                        <anexo_desc name="p_anexo_desc"/>
+                        <ficheiro name="p_ficheiro" desc="true"/>
+                        <ficheiro_desc name="p_ficheiro_desc"/>
+                        <data_de_insercao name="p_data_de_insercao" desc="true"/>
+                        <data_de_insercao_desc name="p_data_de_insercao_desc"/>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <box_2 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Officia accusantium mollit aliqua iste</value>
+                </nome>
+            </fields>
+        </form_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <vinculo name="p_vinculo" type="text" maxlength="50" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Vínculo</label>
+                    <value>Sit iste adipiscing perspiciatis rem</value>
+                </vinculo>
+            </fields>
+        </form_2>
+    </content>
+</rows>

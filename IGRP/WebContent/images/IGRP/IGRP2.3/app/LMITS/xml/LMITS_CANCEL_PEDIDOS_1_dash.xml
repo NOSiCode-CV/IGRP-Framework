@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_CANCEL_PEDIDOS_1_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CANCEL_PEDIDOS</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>1</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>LMITS_CANCEL_PEDIDO_DB</package_db>
+        <package_html>LMITS_CANCEL_PEDIDO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Cancelar Pedido</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Cancelamento de Pedido]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" title="Nota de Cancelamento" gen-type="container" gen-group="">
+            <fields>
+                <nota_cancelamento name="p_nota_cancelamento" type="textarea" maxlength="4000" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nota Cancelamento</label>
+                    <value>Aperiam sit sit totam aperiam laudantium rem iste magna ipsum anim labore doloremque rem deserunt</value>
+                </nota_cancelamento>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" title="Ações Adicionais" gen-type="container" gen-group="true">
+            <fields>
+                <selccionar name="p_selccionar" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                    <label>Selccionar</label>
+                </selccionar>
+                <accao name="p_accao" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Acção</label>
+                </accao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <selccionar name="p_selccionar" check="true" desc="true">1</selccionar>
+                        <selccionar_desc name="p_selccionar_desc">1</selccionar_desc>
+                        <accao name="p_accao">Omnis stract sed accusantium laudantium</accao>
+                    </row>
+                    <row>
+                        <selccionar name="p_selccionar" check="true" desc="true">1</selccionar>
+                        <selccionar_desc name="p_selccionar_desc">1</selccionar_desc>
+                        <accao name="p_accao">Elit doloremque ut aliqua officia</accao>
+                    </row>
+                    <row>
+                        <selccionar name="p_selccionar" check="true" desc="true">1</selccionar>
+                        <selccionar_desc name="p_selccionar_desc">1</selccionar_desc>
+                        <accao name="p_accao">Anim natus consectetur adipiscing natus</accao>
+                    </row>
+                    <row>
+                        <selccionar name="p_selccionar" check="true" desc="true">1</selccionar>
+                        <selccionar_desc name="p_selccionar_desc">1</selccionar_desc>
+                        <accao name="p_accao">Accusantium anim deserunt amet aperiam</accao>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+        <table_2 type="table" xml-type="table" title="Consequências de Cancelamento" gen-type="container" gen-group="true">
+            <fields>
+                <gravidade name="p_gravidade" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Gravidade</label>
+                </gravidade>
+                <consequencia name="p_consequencia" type="text" maxlength="200" align="left" lookup_parser="false">
+                    <label>Consequência</label>
+                </consequencia>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <gravidade name="p_gravidade">Elit rem sit officia sit</gravidade>
+                        <consequencia name="p_consequencia">Totam sed voluptatem rem magna</consequencia>
+                    </row>
+                    <row>
+                        <gravidade name="p_gravidade">Sed consectetur lorem perspiciatis mollit</gravidade>
+                        <consequencia name="p_consequencia">Lorem aliqua voluptatem natus ipsum</consequencia>
+                    </row>
+                    <row>
+                        <gravidade name="p_gravidade">Aperiam unde ipsum aperiam amet</gravidade>
+                        <consequencia name="p_consequencia">Mollit aliqua unde totam rem</consequencia>
+                    </row>
+                    <row>
+                        <gravidade name="p_gravidade">Unde officia iste dolor deserunt</gravidade>
+                        <consequencia name="p_consequencia">Adipiscing amet unde sed iste</consequencia>
+                    </row>
+                </value>
+            </table>
+        </table_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="cancelar_pedido">
+                <title>Cancelar Pedido</title>
+                <app>LMITS</app>
+                <page>CANCEL_PEDIDOS</page>
+                <link>1</link>
+                <target>alert_submit</target>
+                <img>primary|fa-check</img>
+                <params>primary||fa-check|www</params>
+            </item>
+        </toolsbar_1>
+        <view_1 type="view" xml-type="view" title="Informações de Pedido" gen-type="container" gen-group="">
+            <fields>
+                <numero_pedido name="p_numero_pedido" type="text" maxlength="200">
+                    <label>Número Pedido</label>
+                    <value>Mollit labore doloremque magna anim</value>
+                </numero_pedido>
+                <requerentes name="p_requerentes" type="text" maxlength="200">
+                    <label>Requerentes</label>
+                    <value>Consectetur sed totam dolor omnis</value>
+                </requerentes>
+                <tipos_de_pedido name="p_tipos_de_pedido" type="text" maxlength="200">
+                    <label>Tipos de Pedido</label>
+                    <value>Dolor aperiam omnis rem iste</value>
+                </tipos_de_pedido>
+                <predio name="p_predio" type="text" maxlength="30">
+                    <label>Prédio</label>
+                    <value>Laudantium perspiciatis sit amet iste</value>
+                </predio>
+                <utilizador name="p_utilizador" type="text" maxlength="200">
+                    <label>Utilizador</label>
+                    <value>Rem mollit omnis sit ut</value>
+                </utilizador>
+                <data_de_pedido name="p_data_de_pedido" type="date" format="IGRP_datePicker" maxlength="30">
+                    <label>Data de Pedido</label>
+                    <value/>
+                </data_de_pedido>
+                <id_pedido name="p_id_pedido" type="hidden" maxlength="30" tag="id_pedido"/>
+                <view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </view_1>
+    </content>
+</rows>
