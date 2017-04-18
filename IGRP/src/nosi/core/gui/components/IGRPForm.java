@@ -31,7 +31,8 @@ public class IGRPForm {
 	protected ArrayList<Field> fields;
 	public Properties properties;
 	protected String tag_name;
-	private IGRPToolsBar toolsbar;
+	protected IGRPToolsBar toolsbar;
+	protected float version = (float) 2.3;
 	
 	public IGRPForm(String tag_name) {
 		this.tag_name = tag_name;
@@ -46,6 +47,13 @@ public class IGRPForm {
 		this.toolsbar.setClassName(this);
 	}	
 
+	public IGRPForm(String tag_name,float version){
+		this(tag_name);
+		this.version = version;
+		this.properties = new Properties();
+		this.properties.put("tab", "");
+	}
+	
 	public void addField(Field field){
 		this.fields.add(field);
 	}
@@ -53,7 +61,11 @@ public class IGRPForm {
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);
-		GenXMLField.toXml(this.xml,this.fields);
+		if(this.version > (float) 2.1)
+			GenXMLField.toXml(this.xml,this.fields);
+		else if(this.version == (float) 2.1){
+			GenXMLField.toXmlV21(this.xml,this.fields);
+		}
 		this.xml.addXml(this.toolsbar.toXmlTools());
 		this.xml.endElement();
 		return this.xml.toString();

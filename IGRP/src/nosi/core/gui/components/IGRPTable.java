@@ -59,6 +59,7 @@ public class IGRPTable {
 	public Properties properties;
 	protected String tag_name;
 	private IGRPContextMenu contextmenu;
+	protected float version = (float) 2.3;
 	
 	public IGRPTable(String tag_name) {
 		this.tag_name = tag_name;
@@ -70,21 +71,35 @@ public class IGRPTable {
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
 	}	
-
+	
+	public IGRPTable(String tag_name,float version){
+		this(tag_name);
+		this.version = version;
+		this.properties = new Properties();
+		this.properties.put("operation", "");
+	}
 	public void addField(Field field){
 		this.fields.add(field);
 	}
 		
 	public String toString(){
 		this.xml.startElement(this.tag_name);
-		GenXMLField.writteAttributes(this.xml, properties);
-		GenXMLField.toXml(this.xml,this.fields);
-		this.xml.startElement("table");
-			this.xml.startElement("value");
-				//adicionar rows depois
-			this.xml.endElement();
-		this.xml.addXml(this.contextmenu.toXmlTools());
-		this.xml.endElement();
+			GenXMLField.writteAttributes(this.xml, properties);
+			if(this.version > (float) 2.1){
+				GenXMLField.toXml(this.xml,this.fields);
+				this.xml.startElement("table");
+					this.xml.startElement("value");
+						//adicionar rows depois
+					this.xml.endElement();
+				this.xml.addXml(this.contextmenu.toXmlTools());
+				this.xml.endElement();//end tag table
+			}else if(this.version == (float) 2.1){
+				GenXMLField.toXmlV21(this.xml,this.fields);
+				this.xml.startElement("value");
+					//adicionar rows depois
+				this.xml.endElement();//end tag value
+				this.xml.addXml(this.contextmenu.toXmlTools());
+			}
 		this.xml.endElement();
 		return this.xml.toString();
 	}
