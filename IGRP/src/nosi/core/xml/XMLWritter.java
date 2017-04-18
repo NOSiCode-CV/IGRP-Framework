@@ -50,7 +50,8 @@ public class XMLWritter {
 		}
 		
 		public void emptyTag (String tag) {
-			this.xmlConstruct.append("<"+tag+" />");
+			this.closeLarger();
+			this.xmlConstruct.append("<"+tag+"/>");
 		}
 
 		public void writeAttribute(String key,String value){

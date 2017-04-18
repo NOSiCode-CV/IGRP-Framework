@@ -1,7 +1,13 @@
 package nosi.teste;
 
+import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPFormList;
+import nosi.core.gui.components.IGRPParagraph;
+import nosi.core.gui.components.IGRPSectionHeader;
+import nosi.core.gui.components.IGRPTabContent;
+import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
@@ -11,8 +17,6 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.gui.page.Page;
-import nosi.webapps.igrp.pages.defaultPagina.DefaultPaginaView;
 
 public class MainTest {
 
@@ -73,12 +77,40 @@ public class MainTest {
 		IGRPContextMenu contextmenu = new IGRPContextMenu();
 		contextmenu.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger","params");
 		
+		IGRPToolsBar button = new IGRPToolsBar("button");
+		button.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name");
+		
 		System.out.println(form);
 		System.out.println(toolsbar);
-		System.out.println(contextmenu);*/
-		DefaultPaginaView view  = new DefaultPaginaView();
-		view.render();
-		System.out.println(view.getPage().renderContent(true));
+		System.out.println(contextmenu);
+		System.out.println(button.toXmlButton());
+		
+		Field nome = new TextField("nome");
+		nome.setValue("Ima");
+		
+		Field morada = new TextField("morada");
+		morada.setValue("VN");
+		
+		IGRPTable table = new IGRPTable("table_1");
+		table.addField(nome);
+		table.addField(morada);
+		
+		table.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger");
+		table.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger","params");
+		
+		IGRPFormList formlist = new IGRPFormList("formlist_1");
+		formlist.addField(nome);
+		formlist.addField(morada);
+		
+		formlist.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger");
+		formlist.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger","params");
+		
+		IGRPBox box = new IGRPBox("box_1");
+		IGRPTabContent tab = new IGRPTabContent("tabcontent_1");
+		tab.addItem("tab_item_1", "Tab Item 1", "fa-dot-circle-o");
+		tab.addItem("tab_item_2", "Tab Item 2", "fa-dot-circle-o");
+		System.out.println(tab);
+		*/
 	}
 
 }
