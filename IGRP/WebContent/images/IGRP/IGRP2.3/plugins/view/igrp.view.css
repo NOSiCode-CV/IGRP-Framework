@@ -1,0 +1,58 @@
+.view-block img{
+	width: 85px;
+	float: left;
+}
+
+.view-block[has-img="true"] .view-body{
+	padding-left: 20px;
+}
+
+.view-block[has-img="true"] .view-body{
+	width: calc(100% - 85px);
+	float: left;
+}
+
+.view-block .view-body{
+    width: 100%;
+}
+
+.view-block .view-item{
+	padding: 8px 0;
+	border-bottom:1px solid #EAEAEA;
+}
+
+.view-block .view-item:last-child{
+	border-bottom: 0
+}
+
+.view-block .view-separator{
+	color:#4496C1;
+	border-bottom: 1px solid;
+	font-size: 16px;
+}
+
+.view-block .view-label { 
+	font-weight: bold; 
+}
+
+.view-block .view-value { 
+	margin-left: 5px;
+}
+
+.view-block[has-img="true"] [gen-id="drop-zone"].no-fields{
+	height: 85px;
+}
+
+.view-block[has-img="true"] [gen-id="drop-zone"].no-fields:after{
+	padding: 0!important;
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    width: 100%;
+    left: 0;
+}
+
+.view-block .view-buttons{
+	margin-top: 15px;
+	
+}

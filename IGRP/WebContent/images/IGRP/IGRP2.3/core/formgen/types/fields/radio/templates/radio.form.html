@@ -1,0 +1,14 @@
+<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <div class="form-group">
+      <div class="radio form-check-offset">
+        <label>
+            <input type="radio" name="#name.attr#" value="1" class="checkbox #[change]#" label="#label.attr#">
+                <xsl:if test="#value.path# = '1'">
+                    <xsl:attribute name="checked">checked</xsl:attribute>
+                </xsl:if>
+            </input>
+            #label.val#
+        </label>
+      </div>
+    </div>
+</div>

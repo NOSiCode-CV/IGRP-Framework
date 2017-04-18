@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_FUNC_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>FUNC</action>
+        <package_instance>findev</package_instance>
+        <package_db>NEWCAD_PESSOAL_DB</package_db>
+        <package_html>NEWCAD_PESSOAL_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Dados Pessoais</title>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <dados_gerais name="p_dados_gerais" type="button" outline="false" iconColor="#333" iconClass="" img="fa-cog" maxlength="50">
+                    <label>Dados Gerais</label>
+                    <value/>
+                </dados_gerais>
+                <mobilidades name="p_mobilidades" type="button" outline="false" iconColor="#333" iconClass="" img="fa-spinner" maxlength="50">
+                    <label>Mobilidades</label>
+                    <value/>
+                </mobilidades>
+                <formacao name="p_formacao" type="button" outline="false" iconColor="#333" iconClass="" img="fa-graduation-cap" maxlength="50">
+                    <label>Formação</label>
+                    <value/>
+                </formacao>
+                <avaliacao name="p_avaliacao" type="button" outline="false" iconColor="#333" iconClass="" img="fa-smile-o" maxlength="50">
+                    <label>Avaliação</label>
+                    <value/>
+                </avaliacao>
+                <rendenc name="p_rendenc" type="button" outline="false" iconColor="#333" iconClass="" img="fa-dollar" maxlength="50">
+                    <label>Rend/Enc</label>
+                    <value/>
+                </rendenc>
+                <relatorios name="p_relatorios" type="button" outline="false" iconColor="#333" iconClass="" img="fa-file-pdf-o" maxlength="50">
+                    <label>Relatórios</label>
+                    <value/>
+                </relatorios>
+            </fields>
+        </tabcontent_1>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Dados Pessoais]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <view_onli type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <nome_completo name="p_nome_completo" type="text" maxlength="100">
+                    <label>Nome Completo</label>
+                    <value>Accusantium natus sed unde voluptatem</value>
+                </nome_completo>
+                <nascido_em name="p_nascido_em" type="date" format="IGRP_datePicker" maxlength="30">
+                    <label>Nascido em</label>
+                    <value/>
+                </nascido_em>
+                <estado_civil name="p_estado_civil" type="text" maxlength="30">
+                    <label>Estado Civil</label>
+                    <value>Sit natus stract consectetur sit</value>
+                </estado_civil>
+                <sexo name="p_sexo" type="text" maxlength="30">
+                    <label>Sexo</label>
+                    <value>Perspiciatis sed sit aperiam totam</value>
+                </sexo>
+                <view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </view_onli>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <mae name="p_mae" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Mãe</label>
+                    <value>Accusantium perspiciatis natus laudantium sit</value>
+                </mae>
+                <pai name="p_pai" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Pai</label>
+                    <value>Sit lorem amet natus lorem</value>
+                </pai>
+                <nacionalidade name="p_nacionalidade" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nacionalidade</label>
+                    <value>Amet rem totam elit accusantium</value>
+                </nacionalidade>
+                <naturalidade name="p_naturalidade" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Naturalidade</label>
+                    <value>Natus ut accusantium voluptatem unde</value>
+                </naturalidade>
+                <situacao_atual name="p_situacao_atual" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Situação Atual</label>
+                    <value>Sed voluptatem doloremque perspiciatis deserunt</value>
+                </situacao_atual>
+            </fields>
+        </form_1>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Contactos" gen-type="container" gen-group="true">
+            <fields>
+                <tipo_de_contacto name="p_tipo_de_contacto" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Tipo de Contacto</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_contacto>
+                <valor name="p_valor" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Valor</label>
+                    <value>Ut doloremque deserunt anim officia</value>
+                </valor>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Iste sit amet lorem aliqua</valor>
+                        <valor_desc name="p_valor_desc">Iste sit amet lorem aliqua</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Totam natus ipsum officia ut</valor>
+                        <valor_desc name="p_valor_desc">Totam natus ipsum officia ut</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Dolor ipsum unde sed ut</valor>
+                        <valor_desc name="p_valor_desc">Dolor ipsum unde sed ut</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Magna unde omnis anim labore</valor>
+                        <valor_desc name="p_valor_desc">Magna unde omnis anim labore</valor_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <toolsbar_7 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="editar">
+                <title>Editar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>CONF_FUNC</link>
+                <target>_blank</target>
+                <img>warning|fa-pencil-square-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_CONF_FUNC_dash.xml</parameter>
+                <params>warning||fa-pencil-square-o|www</params>
+            </item>
+            <item type="specific" code="" rel="eliminar">
+                <title>Eliminar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>FUNC</link>
+                <target>alert_submit</target>
+                <img>danger|fa-close</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_FUNC_dash.xml</parameter>
+                <params>danger||fa-close|www</params>
+            </item>
+        </toolsbar_7>
+        <form_3 type="form" xml-type="form" title="Dados Bancários" gen-type="container" gen-group="">
+            <fields>
+                <banco name="p_banco" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false">
+                    <label>Banco</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </banco>
+                <nib name="p_nib" type="number" maxlength="21" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>NIB</label>
+                    <value>858</value>
+                </nib>
+                <numero_de_conta name="p_numero_de_conta" type="number" maxlength="15" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Número de Conta</label>
+                    <value>772</value>
+                </numero_de_conta>
+            </fields>
+        </form_3>
+        <separatorlist_2 type="separatorlist" xml-type="separatorlist" title="Documentos" gen-type="container" gen-group="true">
+            <fields>
+                <tipo_de_documento name="p_tipo_de_documento" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Tipo de Documento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_documento>
+                <emitido_em_pass name="p_emitido_em_pass" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" class="default" desc="true">
+                    <label>Emitido em</label>
+                    <value/>
+                </emitido_em_pass>
+                <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Local de Emissão do BI</label>
+                    <value>Doloremque adipiscing lorem doloremque natus</value>
+                </local_de_emissao_do_bi>
+                <valido_ate_pass name="p_valido_ate_pass" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" class="default" desc="true">
+                    <label>Válido até</label>
+                    <value/>
+                </valido_ate_pass>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em_pass name="p_emitido_em_pass" desc="true"/>
+                        <emitido_em_pass_desc name="p_emitido_em_pass_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Dolor doloremque deserunt dolor deserunt</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Dolor doloremque deserunt dolor deserunt</local_de_emissao_do_bi_desc>
+                        <valido_ate_pass name="p_valido_ate_pass" desc="true"/>
+                        <valido_ate_pass_desc name="p_valido_ate_pass_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em_pass name="p_emitido_em_pass" desc="true"/>
+                        <emitido_em_pass_desc name="p_emitido_em_pass_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Ipsum sit labore stract accusantium</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Ipsum sit labore stract accusantium</local_de_emissao_do_bi_desc>
+                        <valido_ate_pass name="p_valido_ate_pass" desc="true"/>
+                        <valido_ate_pass_desc name="p_valido_ate_pass_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em_pass name="p_emitido_em_pass" desc="true"/>
+                        <emitido_em_pass_desc name="p_emitido_em_pass_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Consectetur accusantium aliqua sed consectetur</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Consectetur accusantium aliqua sed consectetur</local_de_emissao_do_bi_desc>
+                        <valido_ate_pass name="p_valido_ate_pass" desc="true"/>
+                        <valido_ate_pass_desc name="p_valido_ate_pass_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em_pass name="p_emitido_em_pass" desc="true"/>
+                        <emitido_em_pass_desc name="p_emitido_em_pass_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Anim omnis unde accusantium unde</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Anim omnis unde accusantium unde</local_de_emissao_do_bi_desc>
+                        <valido_ate_pass name="p_valido_ate_pass" desc="true"/>
+                        <valido_ate_pass_desc name="p_valido_ate_pass_desc"/>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_2>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="dados_pessoais">
+                <title>Dados Pessoais</title>
+                <app>RH</app>
+                <page>DADOS</page>
+                <link>DADOS</link>
+                <target>_self</target>
+                <img>success|fa-address-card</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/app/RH/xml/RH_DADOS_DADOS_dash.xml</parameter>
+                <params>success||fa-address-card|www</params>
+            </item>
+            <item type="specific" code="" rel="seguranca_social">
+                <title>Segurança Social</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>SS</link>
+                <target>_self</target>
+                <img>primary|fa-heartbeat</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_SS_dash.xml</parameter>
+                <params>primary||fa-heartbeat|www</params>
+            </item>
+            <item type="specific" code="" rel="familiares_e_dependentes">
+                <title>Familiares e Dependentes</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>FAMILIARES</link>
+                <target>_self</target>
+                <img>info|fa-users</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_FAMILIARES_dash.xml</parameter>
+                <params>info||fa-users|www</params>
+            </item>
+        </toolsbar_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="mobilidade_resumida">
+                <title>Mobilidade Resumida</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>MOB</link>
+                <target>_self</target>
+                <img>info|fa-spinner</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_MOB_dash.xml</parameter>
+                <params>info||fa-spinner|www</params>
+            </item>
+        </toolsbar_2>
+        <toolsbar_3 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="idiomas_conhecidos">
+                <title>Idiomas Conhecidos</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>IDIOMAS</link>
+                <target>_self</target>
+                <img>success|fa-globe</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_IDIOMAS_dash.xml</parameter>
+                <params>success||fa-globe|www</params>
+            </item>
+            <item type="specific" code="" rel="habilitacao_literaria">
+                <title>Habilitação Literária</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>HAB_LIT</link>
+                <target>_self</target>
+                <img>primary|fa-graduation-cap</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_HAB_LIT_dash.xml</parameter>
+                <params>primary||fa-graduation-cap|www</params>
+            </item>
+            <item type="specific" code="" rel="formacao">
+                <title>Formação</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>FORMACAO</link>
+                <target>_self</target>
+                <img>info|fa-book</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_FORMACAO_dash.xml</parameter>
+                <params>info||fa-book|www</params>
+            </item>
+        </toolsbar_3>
+        <toolsbar_4 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="avaliacao">
+                <title>Avaliação</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVAL</link>
+                <target>_blank</target>
+                <img>success|fa-smile-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVAL_dash.xml</parameter>
+                <params>success||fa-smile-o|www</params>
+            </item>
+            <item type="specific" code="" rel="recompensas_e_condecoracoes">
+                <title>Recompensas e Condecorações</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REC_COND</link>
+                <target>_blank</target>
+                <img>primary|fa-star</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REC_COND_dash.xml</parameter>
+                <params>primary||fa-star|www</params>
+            </item>
+            <item type="specific" code="" rel="processo_disciplinar">
+                <title>Processo Disciplinar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>PROC_DISC</link>
+                <target>_blank</target>
+                <img>info|fa-meh-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_PROC_DISC_dash.xml</parameter>
+                <params>info||fa-meh-o|www</params>
+            </item>
+            <item type="specific" code="" rel="avaliacao_de_desempenho">
+                <title>Avaliação de Desempenho</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>AVL_DESEMP</link>
+                <target>_blank</target>
+                <img>success|fa-hourglass-half</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_AVL_DESEMP_dash.xml</parameter>
+                <params>success||fa-hourglass-half|www</params>
+            </item>
+        </toolsbar_4>
+        <toolsbar_5 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="rendimentos">
+                <title>Rendimentos</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REND</link>
+                <target>_blank</target>
+                <img>success|fa-dollar</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REND_dash.xml</parameter>
+                <params>success||fa-dollar|www</params>
+            </item>
+            <item type="specific" code="" rel="rendenc">
+                <title>Rend/Enc</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REND_ENC</link>
+                <target>_blank</target>
+                <img>info|fa-money</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REND_ENC_dash.xml</parameter>
+                <params>info||fa-money|www</params>
+            </item>
+        </toolsbar_5>
+        <toolsbar_6 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="relatorios">
+                <title>Relatórios</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>REL</link>
+                <target>_blank</target>
+                <img>info|fa-file-pdf-o</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_REL_dash.xml</parameter>
+                <params>info||fa-file-pdf-o|www</params>
+            </item>
+        </toolsbar_6>
+    </content>
+</rows>

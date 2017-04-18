@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_DASHBOARD_PEDIDOS_3_.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DASHBOARD_PEDIDOS</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>3</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>PEDIDO_DSH_GERAL_PREDIOS_DB</package_db>
+        <package_html>PEDIDO_DSH_GERAL_PREDIOS_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Pedidos Prédios - Visão Geral</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Prédios Com Pedidos - Visão Geral]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <cidadezona name="p_cidadezona" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Cidade/Zona</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </cidadezona>
+                <bairolugar name="p_bairolugar" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Bairo/Lugar</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </bairolugar>
+                <atos name="p_atos" type="select" multiple="false" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Atos</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </atos>
+                <dt_inicio name="p_dt_inicio" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default" placeholder="">
+                    <label>Data Inicio</label>
+                    <value/>
+                </dt_inicio>
+                <data_fim name="p_data_fim" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default" placeholder="">
+                    <label>Data fim</label>
+                    <value/>
+                </data_fim>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>LMITS</app>
+                    <page>DASHBOARD_PEDIDOS</page>
+                    <link>3</link>
+                    <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/LMITS/xml/LMITS_DASHBOARD_PEDIDOS_3_.xml</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <total_pred type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <total_pred_tit name="p_total_pred_tit" type="text" maxlength="4000" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Total</value>
+                </total_pred_tit>
+                <total_pred_val name="p_total_pred_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>200</value>
+                </total_pred_val>
+                <total_pred_url name="p_total_pred_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </total_pred_url>
+                <total_pred_lbl name="p_total_pred_lbl" type="text" maxlength="4000" persist="true">
+                    <label>Url label</label>
+                    <value>Detahes</value>
+                </total_pred_lbl>
+                <total_pred_bg name="p_total_pred_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </total_pred_bg>
+                <total_pred_icn name="p_total_pred_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </total_pred_icn>
+            </fields>
+        </total_pred>
+        <smallbox_2 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_2_tit name="p_smallbox_2_tit" type="text" maxlength="4000" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Criado</value>
+                </smallbox_2_tit>
+                <smallbox_2_val name="p_smallbox_2_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>125</value>
+                </smallbox_2_val>
+                <smallbox_2_url name="p_smallbox_2_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_2_url>
+                <smallbox_2_lbl name="p_smallbox_2_lbl" type="text" maxlength="4000" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhe</value>
+                </smallbox_2_lbl>
+                <smallbox_2_bg name="p_smallbox_2_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-teal</value>
+                </smallbox_2_bg>
+                <smallbox_2_icn name="p_smallbox_2_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </smallbox_2_icn>
+            </fields>
+        </smallbox_2>
+        <smallbox_3 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_3_tit name="p_smallbox_3_tit" type="text" maxlength="4000" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Em Curso</value>
+                </smallbox_3_tit>
+                <smallbox_3_val name="p_smallbox_3_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>105</value>
+                </smallbox_3_val>
+                <smallbox_3_url name="p_smallbox_3_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_3_url>
+                <smallbox_3_lbl name="p_smallbox_3_lbl" type="text" maxlength="4000" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhe</value>
+                </smallbox_3_lbl>
+                <smallbox_3_bg name="p_smallbox_3_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-amber</value>
+                </smallbox_3_bg>
+                <smallbox_3_icn name="p_smallbox_3_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-play</value>
+                </smallbox_3_icn>
+            </fields>
+        </smallbox_3>
+        <smallbox_4 type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <smallbox_4_tit name="p_smallbox_4_tit" type="text" maxlength="4000" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Terminado</value>
+                </smallbox_4_tit>
+                <smallbox_4_val name="p_smallbox_4_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value>20</value>
+                </smallbox_4_val>
+                <smallbox_4_url name="p_smallbox_4_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </smallbox_4_url>
+                <smallbox_4_lbl name="p_smallbox_4_lbl" type="text" maxlength="4000" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhes</value>
+                </smallbox_4_lbl>
+                <smallbox_4_bg name="p_smallbox_4_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-emerald</value>
+                </smallbox_4_bg>
+                <smallbox_4_icn name="p_smallbox_4_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-delicious</value>
+                </smallbox_4_icn>
+            </fields>
+        </smallbox_4>
+        <chart_1 type="chart" xml-type="chart" title="Performance Utilizador Por Prédios Pedidos" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>bar</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#e6b06d</col>
+                <col>#440b9f</col>
+                <col>#ac5302</col>
+                <col>#7e4e72</col>
+            </colors>
+        </chart_1>
+        <chart_3 type="chart" xml-type="chart" title="Evolução de Prédios Pedidos" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#44eea3</col>
+                <col>#55ac3e</col>
+                <col>#3a7d8b</col>
+                <col>#897a5c</col>
+            </colors>
+        </chart_3>
+        <chart_2 type="chart" xml-type="chart" title="Prédios Pedidos por Localização" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>stackedgroupedcolumn</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#48a514</col>
+                <col>#680035</col>
+                <col>#a8b47a</col>
+                <col>#4a7b9c</col>
+            </colors>
+        </chart_2>
+    </content>
+</rows>

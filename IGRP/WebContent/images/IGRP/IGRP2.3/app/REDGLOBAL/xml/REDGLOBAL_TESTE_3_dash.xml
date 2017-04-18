@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../REDGLOBAL_TESTE_3_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TESTE</page>
+    <app>REDGLOBAL</app>
+    <plsql>
+        <action>3</action>
+        <package_instance></package_instance>
+        <package_db>TST_USER_LIST_DB</package_db>
+        <package_html>TST_USER_LIST_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista User</title>
+        <page_title type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" maxlength="100">
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" gen-type="container" gen-group="">
+            <fields>
+                <org_fk disabled="false" type="select" multiple="false" name="p_org_fk" right="false" change="false" required="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </org_fk>
+                <prof_tp_fk disabled="false" type="select" multiple="false" name="p_prof_tp_fk" right="false" change="false" required="false">
+                    <label>Perfil</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prof_tp_fk>
+                <nome disabled="false" type="text" readonly="false" name="p_nome" maxlength="30" placeholder="" right="false" change="false" required="false">
+                    <label>Nome</label>
+                    <value>Magna doloremque aliqua officia voluptatem</value>
+                </nome>
+            </fields>
+        </form_1>
+        <table_1 type="table" gen-type="container" gen-group="true">
+            <fields>
+                <organica type="text" name="p_organica" align="left" lookup_parser="false">
+                    <label>Organica</label>
+                </organica>
+                <perfil type="text" name="p_perfil" align="left" lookup_parser="false">
+                    <label>Perfil</label>
+                </perfil>
+                <username type="text" name="p_username" align="left" lookup_parser="false">
+                    <label>Username</label>
+                </username>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <organica name="p_organica">Mollit rem doloremque anim omnis</organica>
+                        <organica_desc name="p_organica_desc">Mollit rem doloremque anim omnis</organica_desc>
+                        <perfil name="p_perfil">Omnis labore voluptatem mollit lorem</perfil>
+                        <perfil_desc name="p_perfil_desc">Omnis labore voluptatem mollit lorem</perfil_desc>
+                        <username name="p_username">Amet doloremque consectetur omnis sit</username>
+                        <username_desc name="p_username_desc">Amet doloremque consectetur omnis sit</username_desc>
+                    </row>
+                    <row>
+                        <organica name="p_organica">Dolor aperiam anim rem amet</organica>
+                        <organica_desc name="p_organica_desc">Dolor aperiam anim rem amet</organica_desc>
+                        <perfil name="p_perfil">Sit iste sit rem totam</perfil>
+                        <perfil_desc name="p_perfil_desc">Sit iste sit rem totam</perfil_desc>
+                        <username name="p_username">Deserunt voluptatem accusantium ipsum anim</username>
+                        <username_desc name="p_username_desc">Deserunt voluptatem accusantium ipsum anim</username_desc>
+                    </row>
+                    <row>
+                        <organica name="p_organica">Adipiscing dolor aperiam magna mollit</organica>
+                        <organica_desc name="p_organica_desc">Adipiscing dolor aperiam magna mollit</organica_desc>
+                        <perfil name="p_perfil">Elit aliqua sit voluptatem amet</perfil>
+                        <perfil_desc name="p_perfil_desc">Elit aliqua sit voluptatem amet</perfil_desc>
+                        <username name="p_username">Natus ut laudantium natus accusantium</username>
+                        <username_desc name="p_username_desc">Natus ut laudantium natus accusantium</username_desc>
+                    </row>
+                    <row>
+                        <organica name="p_organica">Totam consectetur perspiciatis sit amet</organica>
+                        <organica_desc name="p_organica_desc">Totam consectetur perspiciatis sit amet</organica_desc>
+                        <perfil name="p_perfil">Consectetur unde consectetur stract sit</perfil>
+                        <perfil_desc name="p_perfil_desc">Consectetur unde consectetur stract sit</perfil_desc>
+                        <username name="p_username">Sed laudantium dolor rem doloremque</username>
+                        <username_desc name="p_username_desc">Sed laudantium dolor rem doloremque</username_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

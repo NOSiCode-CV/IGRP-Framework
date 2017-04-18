@@ -1,0 +1,21 @@
+section#gen-types-holder:before{
+	margin-top: 85px;
+}
+
+#gen-types-rel,#gen-code-view{
+	height: calc(100% - 115px);
+	top: 115px;
+}
+
+body[screen="full"] #gen-view-contents {
+	top:0;
+/*	height: 100%;*/
+}
+#gen-view-contents {
+	top:10px;
+	/*height: calc(100% - 10px);*/
+}
+
+#gen-toolbar{
+	top:85px;
+}

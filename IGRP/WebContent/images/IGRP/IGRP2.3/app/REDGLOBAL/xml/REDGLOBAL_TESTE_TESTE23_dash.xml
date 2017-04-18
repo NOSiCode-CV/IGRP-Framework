@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../REDGLOBAL_TESTE_TESTE23_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TESTE</page>
+    <app>REDGLOBAL</app>
+    <plsql>
+        <action>TESTE2.3</action>
+        <package_instance></package_instance>
+        <package_db>TESTE23_DB</package_db>
+        <package_html>TESTE23_HTML</package_html>
+        <table_name>TESTE</table_name>
+        <with_replace>true</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste 2.3</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <color_1 name="p_color_1" type="color" format="hex" align="left" lookup_parser="false">
+                    <label>Color</label>
+                </color_1>
+                <email_1 name="p_email_1" type="email" align="left" lookup_parser="false">
+                    <label>Email</label>
+                </email_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <color_1 name="p_color_1">1</color_1>
+                        <color_1_desc name="p_color_1_desc">1</color_1_desc>
+                        <email_1 name="p_email_1">robpu@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">robpu@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <color_1 name="p_color_1">6</color_1>
+                        <color_1_desc name="p_color_1_desc">6</color_1_desc>
+                        <email_1 name="p_email_1">tuhuf@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">tuhuf@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <color_1 name="p_color_1">9</color_1>
+                        <color_1_desc name="p_color_1_desc">9</color_1_desc>
+                        <email_1 name="p_email_1">pusnilus@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">pusnilus@example.com</email_1_desc>
+                    </row>
+                    <row>
+                        <color_1 name="p_color_1">6</color_1>
+                        <color_1_desc name="p_color_1_desc">6</color_1_desc>
+                        <email_1 name="p_email_1">oji@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">oji@example.com</email_1_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+            </table>
+        </gen_table>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+                    <label>Text</label>
+                    <value>Sed deserunt totam perspiciatis aliqua</value>
+                </text_1>
+                <number_1 name="p_number_1" type="number" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+                    <label>Number</label>
+                    <value>333</value>
+                </number_1>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false" class="default">
+                    <label>Date</label>
+                    <value/>
+                </date_1>
+            </fields>
+        </form_1>
+        <chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#8a3223</col>
+                <col>#cfef84</col>
+                <col>#6903ab</col>
+                <col>#b2696b</col>
+            </colors>
+        </chart_1>
+        <chart_2 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#63e643</col>
+                <col>#cf0f68</col>
+                <col>#b0324e</col>
+                <col>#02b0fa</col>
+            </colors>
+        </chart_2>
+    </content>
+</rows>

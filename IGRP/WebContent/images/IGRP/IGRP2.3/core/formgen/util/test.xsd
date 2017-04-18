@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ <xs:schema	attributeFormDefault="unqualified"	elementFormDefault="qualified"	xmlns:xs="http://www.w3.org/2001/XMLSchema"	xmlns:xdb="http://xmlns.oracle.com/xdb">
+    <xs:element	name="rows"	xdb:SQLType="T_ROWS_mod_69533">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element	name="row"	xdb:SQLType="T_ROW_mod_69533">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element	name="mimetype"	default="xml">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:pattern	value="(xml|json|csv)"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="check_box">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="combo_box">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="combo_box_multi">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="data">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:pattern	value="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-\d{4}"/>
+                                        <xs:length	value="10"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="email">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:pattern	value="[^@]+@[^\.]+\..+"/>
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="hyperlink">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:anyURI">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="hora">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	type="xs:integer"	name="numero"/>
+                            <xs:element	name="password">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="lookup">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="plain_texg">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="radio">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="checkbox_list">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="radio_list">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="teclado">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="texteditor">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="textarea">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="text">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="time">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	type="xs:base64Binary"	name="upload"	xdb:SQLType="CLOB"/>
+                            <xs:element	name="formlist_1"	xdb:SQLType="T_FORMLIST_1_mod_69533">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element	name="row"	maxOccurs="unbounded"	minOccurs="0"	xdb:SQLCollType="T_FORMLISCOL_mod_69533"	xdb:SQLType="T_FORMLISROW_mod_69533">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element	name="nome">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:pattern	value="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-\d{4}"/>
+                                                                <xs:length	value="10"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	type="xs:integer"	name="idade"/>
+                                                    <xs:element	name="pesquisa">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="teclado2">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="rad">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="img_1">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element	name="nome">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	type="xs:integer"	name="numer"/>
+                            <xs:element	name="link">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:anyURI">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="checker">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="date_picker">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:pattern	value="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-\d{4}"/>
+                                        <xs:length	value="10"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="nif">
+                                <xs:simpleType>
+                                    <xs:restriction	base="xs:string">
+                                        <xs:maxLength	value="30"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element	name="table"	xdb:SQLType="T_TABLE_mod_69533">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element	name="row"	maxOccurs="unbounded"	minOccurs="0"	xdb:SQLCollType="T_TABLECOL_mod_69533"	xdb:SQLType="T_TABLEROW_mod_69533">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element	name="selecionar">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="selecionar_check">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="selecionar_desc">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	name="nome">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:maxLength	value="30"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                    <xs:element	type="xs:integer"	name="idade"/>
+                                                    <xs:element	name="dt_nascimento">
+                                                        <xs:simpleType>
+                                                            <xs:restriction	base="xs:string">
+                                                                <xs:pattern	value="(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[012])-\d{4}"/>
+                                                                <xs:length	value="10"/>
+                                                            </xs:restriction>
+                                                        </xs:simpleType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

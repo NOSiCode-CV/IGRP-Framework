@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../REDGLOBAL_APLIC_INFO_4_dash - Copy.xsl" type="text/xsl"?>
+<rows>
+  <title>IGRP</title>
+  <link>/images/IGRP/xml/IGRP-home.xml</link>
+  <site>
+    <welcome_note>Ola</welcome_note>
+    <footer_note>2011 - Copyright NOSI</footer_note>
+    <user_name>red-igrp</user_name>
+    <button		type="specific">
+      <title>Sair</title>
+      <page />
+      <link>#</link>
+      <target>_self</target>
+      <img>exit.png</img>
+    </button>
+  </site>
+  <app>REDGLOBAL</app>
+  <page>APLIC_INFO</page>
+  <navigation	file="navigation.xml" />
+  <top_menu	file="/images/IGRP/xml/IGRP-top_menu.xml" />
+  <slide-menu	file="slide-menu.xml" />
+  <content>
+    <title>Suporte Aplicacao</title>
+    <messages>
+      <message		type="confirm">Deseja continuar a Accao?</message>
+    </messages>
+    <table>
+      <label></label>
+      <value>
+        <row></row>
+        <row></row>
+        <row></row>
+        <row></row>
+        <row></row>
+      </value>
+    </table>
+	<applications>
+		<title>Centro de Recursos</title>
+		
+		<application available="yes">
+			<link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+			<img>help-app.png</img>
+			<title>Help n Support</title>
+			<description>
+				Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.  
+			</description>
+		</application>
+
+		<application available="yes">
+			<link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+			<img>resources-app.png</img>
+			<title>Resource Center</title>
+			<description>
+				Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.  
+			</description>
+		</application>
+		
+		<application available="yes">
+			<link>../app/MZ_TUR/xml/MZ_TUR_1_11_dash.xml</link>
+			<img>video-app.png</img>
+			<title>Video Tutorials</title>
+			<description>
+				Integer sollicitudin, libero a commodo tincidunt, tortor dui congue massa.  
+			</description>
+		</application>				
+	</applications>
+	
+    <!--APLICATION INFO-->
+    <application_info>
+      <form>
+        <label>
+          <link>Link Aplication</link>
+          <img>Icon Aplication</img>
+          <title>Application Title</title>
+          <versao>Aplication Version</versao>
+        </label>
+        <value>
+          <link>../app/BONIF/xml/BONIF___.xml</link>
+          <img>icone_bonificacao.png</img>
+          <title>Bonificação</title>
+          <versao>versão 1.0</versao>
+        </value>
+      </form>
+    </application_info>
+    <!--END APLICATION INFO-->
+  </content>
+</rows>

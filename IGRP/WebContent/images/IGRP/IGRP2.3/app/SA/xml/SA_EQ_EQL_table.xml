@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_EQ_EQL_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>EQ</page>
+    <app>SA</app>
+    <plsql>
+        <action>EQL</action>
+        <package_instance></package_instance>
+        <package_db>SA_EQUIPAMENTO_LIST_NOVO_DB</package_db>
+        <package_html>SA_EQUIPAMENTO_LIST_NOVO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>EQUIPAMENTO LISTA NOVO</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Gestão de Equipamentos]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <descricao name="p_descricao" type="text" maxlength="500" align="left" lookup_parser="false">
+                    <label>Descrição</label>
+                </descricao>
+                <marca_list name="p_marca_list" type="text" maxlength="100" align="left" lookup_parser="false">
+                    <label>Marca</label>
+                </marca_list>
+                <modelo_list name="p_modelo_list" type="text" maxlength="100" align="left" lookup_parser="false">
+                    <label>Modelo</label>
+                </modelo_list>
+                <estado_list name="p_estado_list" type="text" maxlength="20" align="left" lookup_parser="false">
+                    <label>Estado</label>
+                </estado_list>
+                <imei_list name="p_imei_list" type="text" maxlength="50" align="left" lookup_parser="false">
+                    <label>Imei</label>
+                </imei_list>
+                <global_id_list name="p_global_id_list" type="text" maxlength="50" align="left" lookup_parser="false">
+                    <label>Global ID</label>
+                </global_id_list>
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <descricao name="p_descricao">Consectetur ut consectetur voluptatem amet</descricao>
+                        <marca_list name="p_marca_list">Anim ipsum magna aperiam adipiscing</marca_list>
+                        <modelo_list name="p_modelo_list">Totam rem aliqua sit accusantium</modelo_list>
+                        <estado_list name="p_estado_list">Anim omnis perspiciatis lorem sed</estado_list>
+                        <imei_list name="p_imei_list">Sit sit labore magna dolor</imei_list>
+                        <global_id_list name="p_global_id_list">Lorem aperiam unde laudantium labore</global_id_list>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <descricao name="p_descricao">Ipsum accusantium iste labore laudantium</descricao>
+                        <marca_list name="p_marca_list">Amet labore magna aliqua deserunt</marca_list>
+                        <modelo_list name="p_modelo_list">Officia adipiscing sit dolor stract</modelo_list>
+                        <estado_list name="p_estado_list">Labore lorem accusantium ipsum consectetur</estado_list>
+                        <imei_list name="p_imei_list">Adipiscing sit aliqua unde sed</imei_list>
+                        <global_id_list name="p_global_id_list">Stract labore anim aliqua deserunt</global_id_list>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <descricao name="p_descricao">Dolor amet sit iste omnis</descricao>
+                        <marca_list name="p_marca_list">Magna doloremque lorem aperiam consectetur</marca_list>
+                        <modelo_list name="p_modelo_list">Stract voluptatem laudantium dolor stract</modelo_list>
+                        <estado_list name="p_estado_list">Amet iste ut natus ut</estado_list>
+                        <imei_list name="p_imei_list">Perspiciatis magna amet magna ut</imei_list>
+                        <global_id_list name="p_global_id_list">Natus mollit doloremque sit officia</global_id_list>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <descricao name="p_descricao">Sit amet anim consectetur lorem</descricao>
+                        <marca_list name="p_marca_list">Ut stract natus stract accusantium</marca_list>
+                        <modelo_list name="p_modelo_list">Ut magna anim ipsum sed</modelo_list>
+                        <estado_list name="p_estado_list">Iste sed laudantium mollit labore</estado_list>
+                        <imei_list name="p_imei_list">Ipsum rem magna officia sed</imei_list>
+                        <global_id_list name="p_global_id_list">Laudantium ut rem mollit consectetur</global_id_list>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="success" rel="editar">
+                        <title>Editar</title>
+                        <app>SA</app>
+                        <page>EQ</page>
+                        <link>EQN</link>
+                        <target>modal</target>
+                        <img>success|fa-edit</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>SA</app>
+                        <page>EQ</page>
+                        <link>EQL</link>
+                        <target>alert_submit</target>
+                        <img>danger|fa-minus-circle</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+        <form_pesq type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <modelo name="p_modelo" type="lookup" action="PESQ" page="PESQUISAS" app="SA" class="success" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Modelo</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </modelo>
+                <marca name="p_marca" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Marca</label>
+                    <value>Perspiciatis accusantium iste natus officia</value>
+                </marca>
+                <estado name="p_estado" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <imei name="p_imei" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Imei</label>
+                    <value>Dolor consectetur natus omnis adipiscing</value>
+                </imei>
+                <global_id name="p_global_id" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Global ID</label>
+                    <value>Perspiciatis dolor unde dolor accusantium</value>
+                </global_id>
+                <hidden name="p_id_modelo" type="hidden" maxlength="30" tag="id_modelo"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="novo">
+                    <title>Novo</title>
+                    <app>SA</app>
+                    <page>EQ</page>
+                    <link>EQN</link>
+                    <target>modal</target>
+                    <img>success|fa-plus</img>
+                </item>
+                <item type="form" code="" class="info" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>SA</app>
+                    <page>EQ</page>
+                    <link>EQL</link>
+                    <target>submit</target>
+                    <img>info|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_pesq>
+    </content>
+</rows>

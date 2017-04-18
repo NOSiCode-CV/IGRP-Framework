@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_RQ_LRQ_table.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RQ</page>
+    <app>SA</app>
+    <plsql>
+        <action>LRQ</action>
+        <package_instance></package_instance>
+        <package_db>SA_REQUISITO_LISTA_NOVO_DB</package_db>
+        <package_html>SA_REQUISITO_LISTA_NOVO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>LISTA_REQ_NOVO</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Gestão de Requisito]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_filtro type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <organica name="p_organica" type="select" multiple="true" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <nome name="p_nome" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="200" right="false" placeholder="">
+                    <label>Nome</label>
+                    <value>Ipsum officia labore natus consectetur</value>
+                </nome>
+                <estado name="p_estado" type="select" multiple="false" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="novo">
+                    <title>Novo</title>
+                    <app>SA</app>
+                    <page>RQ</page>
+                    <link>RQ</link>
+                    <target>_self</target>
+                    <img>success|fa-plus</img>
+                </item>
+                <item type="form" code="" class="info" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>SA</app>
+                    <page>RQ</page>
+                    <link>LRQ</link>
+                    <target>submit</target>
+                    <img>info|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_filtro>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nome_list name="p_nome_list" type="text" align="left" maxlength="200" lookup_parser="false">
+                    <label>Nome</label>
+                </nome_list>
+                <estado_list name="p_estado_list" type="text" align="left" maxlength="30" lookup_parser="false">
+                    <label>Estado</label>
+                </estado_list>
+                <descricao name="p_descricao" type="text" align="left" maxlength="500" lookup_parser="false">
+                    <label>Descricao</label>
+                </descricao>
+                <utilizador name="p_utilizador" type="text" align="left" maxlength="200" lookup_parser="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <data name="p_data" type="text" align="left" maxlength="30" lookup_parser="false">
+                    <label>Data</label>
+                </data>
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_list name="p_nome_list">Mollit perspiciatis mollit ipsum totam</nome_list>
+                        <estado_list name="p_estado_list">Rem aperiam doloremque natus perspiciatis</estado_list>
+                        <descricao name="p_descricao">Aperiam perspiciatis magna laudantium magna</descricao>
+                        <utilizador name="p_utilizador">Accusantium deserunt anim lorem anim</utilizador>
+                        <data name="p_data">Ut elit sed magna sit</data>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_list name="p_nome_list">Totam doloremque magna voluptatem rem</nome_list>
+                        <estado_list name="p_estado_list">Perspiciatis dolor amet iste aliqua</estado_list>
+                        <descricao name="p_descricao">Aliqua magna unde mollit labore</descricao>
+                        <utilizador name="p_utilizador">Sed amet mollit magna unde</utilizador>
+                        <data name="p_data">Sit lorem sed lorem totam</data>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_list name="p_nome_list">Labore ut laudantium adipiscing consectetur</nome_list>
+                        <estado_list name="p_estado_list">Dolor perspiciatis iste natus labore</estado_list>
+                        <descricao name="p_descricao">Sit lorem officia voluptatem totam</descricao>
+                        <utilizador name="p_utilizador">Accusantium perspiciatis sit amet sit</utilizador>
+                        <data name="p_data">Omnis aliqua totam labore elit</data>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <nome_list name="p_nome_list">Sit stract adipiscing dolor iste</nome_list>
+                        <estado_list name="p_estado_list">Omnis accusantium officia aliqua totam</estado_list>
+                        <descricao name="p_descricao">Doloremque adipiscing consectetur lorem amet</descricao>
+                        <utilizador name="p_utilizador">Amet iste perspiciatis elit sed</utilizador>
+                        <data name="p_data">Natus unde dolor aliqua ipsum</data>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="success" rel="editar">
+                        <title>Editar</title>
+                        <app>SA</app>
+                        <page>RQ</page>
+                        <link>RQ</link>
+                        <target>_self</target>
+                        <img>success|fa-edit</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>SA</app>
+                        <page>RQ</page>
+                        <link>LRQ</link>
+                        <target>alert_submit</target>
+                        <img>danger|fa-minus-circle</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+    </content>
+</rows>

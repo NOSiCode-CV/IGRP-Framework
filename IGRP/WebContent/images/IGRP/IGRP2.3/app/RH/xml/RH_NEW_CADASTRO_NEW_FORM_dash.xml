@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_NEW_FORM_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>NEW_FORM</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Nova Formação</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Nova Formação]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>NEW_FORM</link>
+                <target>alert_submit</target>
+                <img>success|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_NEW_FORM_dash.xml</parameter>
+                <params>success||fa-save|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <pais name="p_pais" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                    <label>País</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </pais>
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+                <estabelecimento name="p_estabelecimento" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Estabelecimento</label>
+                    <value>Accusantium sed laudantium unde natus</value>
+                </estabelecimento>
+                <curso name="p_curso" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false">
+                    <label>Curso</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </curso>
+                <descricao name="p_descricao" type="textarea" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descrição</label>
+                    <value>Iste adipiscing sit dolor sed aliqua amet mollit sed deserunt elit doloremque adipiscing perspiciatis laudantium</value>
+                </descricao>
+                <efeito name="p_efeito" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Efeito</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </efeito>
+                <data_inicio name="p_data_inicio" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim>
+                <tipo_de_duracao name="p_tipo_de_duracao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo de Duração</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_duracao>
+                <duracao name="p_duracao" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Duração</label>
+                    <value>Mollit consectetur accusantium aperiam omnis</value>
+                </duracao>
+                <observacao name="p_observacao" type="textarea" maxlength="300" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Observação</label>
+                    <value>Unde deserunt unde deserunt dolor rem labore officia iste labore laudantium sed sit adipiscing consectetur</value>
+                </observacao>
+            </fields>
+        </form_1>
+    </content>
+</rows>

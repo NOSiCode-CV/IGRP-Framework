@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../RH_NEW_CADASTRO_CONF_FUNC_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NEW_CADASTRO</page>
+    <app>RH</app>
+    <plsql>
+        <action>CONF_FUNC</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Cadastro - Confirmar</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Inserir Funcionário - Confirmar]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>CONF_FUNC</link>
+                <target>alert_submit</target>
+                <img>success|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_CONF_FUNC_dash.xml</parameter>
+                <params>success||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>RH</app>
+                <page>NEW_CADASTRO</page>
+                <link>LST_FUNC</link>
+                <target>_self</target>
+                <img>primary|fa-arrow-circle-left</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RH/xml/RH_NEW_CADASTRO_LST_FUNC_dash.xml</parameter>
+                <params>primary||fa-arrow-circle-left|www</params>
+            </item>
+        </toolsbar_1>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_funcionario name="p_tipo_funcionario" type="radiolist" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false">
+                    <label>Tipo Funcionário</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_funcionario>
+                <dados_pessoais name="p_dados_pessoais" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Dados Pessoais</label>
+                </dados_pessoais>
+                <nome_completo name="p_nome_completo" type="text" maxlength="100" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nome Completo</label>
+                    <value>Unde sit unde labore mollit</value>
+                </nome_completo>
+                <sexo name="p_sexo" type="radiolist" maxlength="30" required="true" change="false" readonly="true" disabled="false" right="false">
+                    <label>Sexo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </sexo>
+                <situacao_atual name="p_situacao_atual" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Situação Atual</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </situacao_atual>
+                <estado_civil name="p_estado_civil" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Estado Civil</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado_civil>
+                <nascido_em name="p_nascido_em" type="date" format="IGRP_datePicker" maxlength="30" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false" class="default">
+                    <label>Nascido em</label>
+                    <value/>
+                </nascido_em>
+                <local_de_residencia name="p_local_de_residencia" type="lookup" action="CONF_FUNC" page="NEW_CADASTRO" app="RH" class="default" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" lookup_type="LOOKUP">
+                    <label>Local de Residência</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </local_de_residencia>
+                <nacionalidade name="p_nacionalidade" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Nacionalidade</label>
+                    <value>Mollit sit aliqua lorem unde</value>
+                </nacionalidade>
+                <naturalidade name="p_naturalidade" type="text" maxlength="30" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Naturalidade</label>
+                    <value>Deserunt iste sit perspiciatis dolor</value>
+                </naturalidade>
+                <mae name="p_mae" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Mãe</label>
+                    <value>Laudantium aperiam deserunt aperiam ut</value>
+                </mae>
+                <pai name="p_pai" type="text" maxlength="100" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Pai</label>
+                    <value>Dolor natus aperiam officia omnis</value>
+                </pai>
+            </fields>
+        </form_1>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" title="Contactos" gen-type="container" gen-group="true">
+            <fields>
+                <tipo_de_contacto name="p_tipo_de_contacto" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Tipo de Contacto</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_contacto>
+                <valor name="p_valor" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Valor</label>
+                    <value>Consectetur mollit rem dolor unde</value>
+                </valor>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Magna deserunt sit aliqua perspiciatis</valor>
+                        <valor_desc name="p_valor_desc">Magna deserunt sit aliqua perspiciatis</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Sit voluptatem labore amet mollit</valor>
+                        <valor_desc name="p_valor_desc">Sit voluptatem labore amet mollit</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Sed elit aliqua deserunt elit</valor>
+                        <valor_desc name="p_valor_desc">Sed elit aliqua deserunt elit</valor_desc>
+                    </row>
+                    <row>
+                        <tipo_de_contacto name="p_tipo_de_contacto" desc="true"/>
+                        <tipo_de_contacto_desc name="p_tipo_de_contacto_desc"/>
+                        <valor name="p_valor" desc="true">Dolor sed ut lorem dolor</valor>
+                        <valor_desc name="p_valor_desc">Dolor sed ut lorem dolor</valor_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <form_2 type="form" xml-type="form" title="Dados Bancários" gen-type="container" gen-group="">
+            <fields>
+                <banco name="p_banco" type="select" multiple="false" maxlength="50" required="true" change="false" disabled="false" right="false">
+                    <label>Banco</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </banco>
+                <nib name="p_nib" type="number" maxlength="21" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>NIB</label>
+                    <value>578</value>
+                </nib>
+                <numero_de_conta name="p_numero_de_conta" type="number" maxlength="15" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Número de Conta</label>
+                    <value>772</value>
+                </numero_de_conta>
+            </fields>
+        </form_2>
+        <separatorlist_2 type="separatorlist" xml-type="separatorlist" title="Documentos" gen-type="container" gen-group="true">
+            <fields>
+                <tipo_de_documento name="p_tipo_de_documento" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Tipo de Documento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_de_documento>
+                <emitido_em name="p_emitido_em" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" class="default" desc="true">
+                    <label>Emitido em</label>
+                    <value/>
+                </emitido_em>
+                <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Local de Emissão do BI</label>
+                    <value>Totam laudantium totam mollit elit</value>
+                </local_de_emissao_do_bi>
+                <valido_ate name="p_valido_ate" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" class="default" desc="true">
+                    <label>Válido até</label>
+                    <value/>
+                </valido_ate>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em name="p_emitido_em" desc="true"/>
+                        <emitido_em_desc name="p_emitido_em_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Stract totam iste consectetur unde</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Stract totam iste consectetur unde</local_de_emissao_do_bi_desc>
+                        <valido_ate name="p_valido_ate" desc="true"/>
+                        <valido_ate_desc name="p_valido_ate_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em name="p_emitido_em" desc="true"/>
+                        <emitido_em_desc name="p_emitido_em_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Aperiam consectetur perspiciatis rem omnis</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Aperiam consectetur perspiciatis rem omnis</local_de_emissao_do_bi_desc>
+                        <valido_ate name="p_valido_ate" desc="true"/>
+                        <valido_ate_desc name="p_valido_ate_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em name="p_emitido_em" desc="true"/>
+                        <emitido_em_desc name="p_emitido_em_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Mollit doloremque adipiscing stract omnis</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Mollit doloremque adipiscing stract omnis</local_de_emissao_do_bi_desc>
+                        <valido_ate name="p_valido_ate" desc="true"/>
+                        <valido_ate_desc name="p_valido_ate_desc"/>
+                    </row>
+                    <row>
+                        <tipo_de_documento name="p_tipo_de_documento" desc="true"/>
+                        <tipo_de_documento_desc name="p_tipo_de_documento_desc"/>
+                        <emitido_em name="p_emitido_em" desc="true"/>
+                        <emitido_em_desc name="p_emitido_em_desc"/>
+                        <local_de_emissao_do_bi name="p_local_de_emissao_do_bi" desc="true">Dolor elit laudantium labore amet</local_de_emissao_do_bi>
+                        <local_de_emissao_do_bi_desc name="p_local_de_emissao_do_bi_desc">Dolor elit laudantium labore amet</local_de_emissao_do_bi_desc>
+                        <valido_ate name="p_valido_ate" desc="true"/>
+                        <valido_ate_desc name="p_valido_ate_desc"/>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_2>
+    </content>
+</rows>

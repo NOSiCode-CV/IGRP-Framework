@@ -1,0 +1,14 @@
+<style>
+	<colors>
+		<color name="1">#00bcd4</color>
+		<color name="2">#008495</color> 
+		<link hover="#008495">#00bcd4</link>
+		<button>
+			<primary hover="#008495">#00bcd4</primary>
+			<secondary color="white" hover="#267199">#267199</secondary>
+		</button>
+	</colors>
+	<css></css>
+	<js></js>
+	<logo>img/logo.png</logo>
+</style>

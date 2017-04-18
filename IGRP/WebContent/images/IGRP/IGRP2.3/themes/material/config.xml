@@ -1,0 +1,13 @@
+<style>
+	<css>
+		<file>css/bootstrap-material-design.min.css</file>
+		<file>css/ripples.min.css</file>
+		<file>css/igrp.material.css</file>
+	</css>
+	<js>
+		<file>js/material.min.js</file>
+		<file>js/ripples.min.js</file>
+		<file>js/igrp.material.bs.js</file>
+	</js>
+	<logo>img/logo.png</logo>
+</style>

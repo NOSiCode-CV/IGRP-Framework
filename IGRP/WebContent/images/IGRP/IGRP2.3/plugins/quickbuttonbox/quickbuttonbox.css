@@ -1,0 +1,76 @@
+.purple {
+    background: #603CBA ;
+    border-color: #603CBA ;
+    color: #fff;
+}
+
+.red {
+    background: red ;
+    border-color: red ;
+    color: #fff;
+}
+
+.quick-button.metro {
+    position: relative;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+    filter: none;
+    padding: 30px 10px 0px 10px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.quick-button {
+    border: 1px solid #ddd;
+    margin-bottom: -1px;
+    padding: 30px 0px 10px 0px;
+    font-size: 14px;
+    background-color: #fafafa;
+    background-image: -moz-linear-gradient(top, #fafafa, #efefef);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#efefef));
+    background-image: -webkit-linear-gradient(top, #fafafa, #efefef);
+    background-image: -o-linear-gradient(top, #fafafa, #efefef);
+    background-image: linear-gradient(to bottom, #fafafa, #efefef);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fafafa', endColorstr='#efefef', GradientType=0);
+    -webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, .8);
+    -moz-box-shadow: 0 1px 0px rgba(255, 255, 255, .8);
+    box-shadow: 0 1px 0px rgba(255, 255, 255, .8);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    display: block;
+    color: #646464;
+    text-shadow: 0 1px 0px rgba(255, 255, 255, .6);
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.quick-button.metro i {
+    font-size: 64px;
+    text-align: center !important;
+}
+
+.quick-button.metro p {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.quick-button.metro .badge {
+    text-align: center !important;
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    background: none;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .25);
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 3px 6px;
+}

@@ -1,0 +1,7 @@
+<xsl:if test="not(#tag#/@visible)">
+	<td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+		<input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+		<input type="hidden" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" class="#type# form-control" rel="F_#parent.tag#"/>
+		<p item-name="#tag#" item-type="#type#"><xsl:value-of select="#tag#"/></p>
+	</td>
+</xsl:if>

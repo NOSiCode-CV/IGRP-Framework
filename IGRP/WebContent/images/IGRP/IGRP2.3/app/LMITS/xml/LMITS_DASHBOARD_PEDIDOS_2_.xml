@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_DASHBOARD_PEDIDOS_2_.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DASHBOARD_PEDIDOS</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>2</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>PEDIDO_DSH_GERAL_ATOS_DB</package_db>
+        <package_html>PEDIDO_DSH_GERAL_ATOS_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Pedidos Atos - Visão Geral</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Actos - Visão Geral]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <dt_inicio name="p_dt_inicio" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default" placeholder="">
+                    <label>Data Inicio</label>
+                    <value/>
+                </dt_inicio>
+                <data_fim name="p_data_fim" type="date" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" class="default" placeholder="">
+                    <label>Data fim</label>
+                    <value/>
+                </data_fim>
+                <atos name="p_atos" type="select" multiple="false" required="false" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Atos</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </atos>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>LMITS</app>
+                    <page>DASHBOARD_PEDIDOS</page>
+                    <link>2</link>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <sml_tot_atos type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sml_tot_atos_tit name="p_sml_tot_atos_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Total</value>
+                </sml_tot_atos_tit>
+                <sml_tot_atos_val name="p_sml_tot_atos_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>250</value>
+                </sml_tot_atos_val>
+                <sml_tot_atos_url name="p_sml_tot_atos_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sml_tot_atos_url>
+                <sml_tot_atos_lbl name="p_sml_tot_atos_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhe</value>
+                </sml_tot_atos_lbl>
+                <sml_tot_atos_bg name="p_sml_tot_atos_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </sml_tot_atos_bg>
+                <sml_tot_atos_icn name="p_sml_tot_atos_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-list</value>
+                </sml_tot_atos_icn>
+            </fields>
+        </sml_tot_atos>
+        <sml_tot_criado type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sml_tot_criado_tit name="p_sml_tot_criado_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Criado</value>
+                </sml_tot_criado_tit>
+                <sml_tot_criado_val name="p_sml_tot_criado_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>125</value>
+                </sml_tot_criado_val>
+                <sml_tot_criado_url name="p_sml_tot_criado_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sml_tot_criado_url>
+                <sml_tot_criado_lbl name="p_sml_tot_criado_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhe</value>
+                </sml_tot_criado_lbl>
+                <sml_tot_criado_bg name="p_sml_tot_criado_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-teal</value>
+                </sml_tot_criado_bg>
+                <sml_tot_criado_icn name="p_sml_tot_criado_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-check</value>
+                </sml_tot_criado_icn>
+            </fields>
+        </sml_tot_criado>
+        <sml_tot_curso type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sml_tot_curso_tit name="p_sml_tot_curso_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Em Curso</value>
+                </sml_tot_curso_tit>
+                <sml_tot_curso_val name="p_sml_tot_curso_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>105</value>
+                </sml_tot_curso_val>
+                <sml_tot_curso_url name="p_sml_tot_curso_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sml_tot_curso_url>
+                <sml_tot_curso_lbl name="p_sml_tot_curso_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhe</value>
+                </sml_tot_curso_lbl>
+                <sml_tot_curso_bg name="p_sml_tot_curso_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-amber</value>
+                </sml_tot_curso_bg>
+                <sml_tot_curso_icn name="p_sml_tot_curso_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-play</value>
+                </sml_tot_curso_icn>
+            </fields>
+        </sml_tot_curso>
+        <sml_tot_iniciado type="smallbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sml_tot_iniciado_tit name="p_sml_tot_iniciado_tit" type="text" maxlength="300" persist="true">
+                    <label>Small Box Title</label>
+                    <value>Terminado</value>
+                </sml_tot_iniciado_tit>
+                <sml_tot_iniciado_val name="p_sml_tot_iniciado_val" type="text" maxlength="300">
+                    <label>Value</label>
+                    <value>20</value>
+                </sml_tot_iniciado_val>
+                <sml_tot_iniciado_url name="p_sml_tot_iniciado_url" type="text" maxlength="300">
+                    <label>Url</label>
+                    <value>http://www.example.com</value>
+                </sml_tot_iniciado_url>
+                <sml_tot_iniciado_lbl name="p_sml_tot_iniciado_lbl" type="text" maxlength="300" persist="true">
+                    <label>Url label</label>
+                    <value>Detalhes</value>
+                </sml_tot_iniciado_lbl>
+                <sml_tot_iniciado_bg name="p_sml_tot_iniciado_bg" type="text" maxlength="300" persist="true">
+                    <label>Background</label>
+                    <value>cp-emerald</value>
+                </sml_tot_iniciado_bg>
+                <sml_tot_iniciado_icn name="p_sml_tot_iniciado_icn" type="text" maxlength="300" persist="true">
+                    <label>Icon</label>
+                    <value>fa-delicious</value>
+                </sml_tot_iniciado_icn>
+            </fields>
+        </sml_tot_iniciado>
+        <chart_etp_atos type="chart" xml-type="chart" title="Etapa Por Atos Em Curso" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#749b4c</col>
+                <col>#37551b</col>
+                <col>#4fb167</col>
+                <col>#1102cc</col>
+            </colors>
+        </chart_etp_atos>
+        <chart_perf_user type="chart" xml-type="chart" title="Performance Utilizador Registo" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#8b31cf</col>
+                <col>#e629d4</col>
+                <col>#a21173</col>
+                <col>#84810b</col>
+            </colors>
+        </chart_perf_user>
+        <chart_per_atos type="chart" xml-type="chart" title="Performance de Atos" gen-type="container" gen-group="">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#988566</col>
+                <col>#1e6d0b</col>
+                <col>#35c34d</col>
+                <col>#5232ff</col>
+            </colors>
+        </chart_per_atos>
+        <table_1 type="table" xml-type="table" title="Atos Por Estados" gen-type="container" gen-group="true">
+            <fields>
+                <ato name="p_ato" type="text" maxlength="200" align="left" lookup_parser="false">
+                    <label>Ato</label>
+                </ato>
+                <criado name="p_criado" type="number" maxlength="30" align="center" lookup_parser="false">
+                    <label>Criado</label>
+                </criado>
+                <iniciado name="p_iniciado" type="number" maxlength="30" align="center" lookup_parser="false">
+                    <label>Em Curso</label>
+                </iniciado>
+                <terminado name="p_terminado" type="number" maxlength="30" align="center" lookup_parser="false">
+                    <label>Terminado</label>
+                </terminado>
+                <total name="p_total" type="number" maxlength="30" align="center" lookup_parser="false">
+                    <label>Total</label>
+                </total>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <ato name="p_ato">Elit lorem consectetur magna doloremque</ato>
+                        <criado name="p_criado">371</criado>
+                        <iniciado name="p_iniciado">538</iniciado>
+                        <terminado name="p_terminado">686</terminado>
+                        <total name="p_total">55</total>
+                    </row>
+                    <row>
+                        <ato name="p_ato">Unde sed amet laudantium omnis</ato>
+                        <criado name="p_criado">122</criado>
+                        <iniciado name="p_iniciado">108</iniciado>
+                        <terminado name="p_terminado">118</terminado>
+                        <total name="p_total">46</total>
+                    </row>
+                    <row>
+                        <ato name="p_ato">Lorem natus totam elit deserunt</ato>
+                        <criado name="p_criado">617</criado>
+                        <iniciado name="p_iniciado">682</iniciado>
+                        <terminado name="p_terminado">885</terminado>
+                        <total name="p_total">914</total>
+                    </row>
+                    <row>
+                        <ato name="p_ato">Rem voluptatem lorem amet doloremque</ato>
+                        <criado name="p_criado">595</criado>
+                        <iniciado name="p_iniciado">502</iniciado>
+                        <terminado name="p_terminado">850</terminado>
+                        <total name="p_total">716</total>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

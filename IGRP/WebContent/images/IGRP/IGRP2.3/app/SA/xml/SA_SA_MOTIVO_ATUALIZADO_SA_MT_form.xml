@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_SA_MOTIVO_ATUALIZADO_SA_MT_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>SA_MOTIVO_ATUALIZADO</page>
+    <app>SA</app>
+    <plsql>
+        <action>SA_MT</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>SA_MOTIVO_ATUALIZADO_DB</package_db>
+        <package_html>SA_MOTIVO_ATUALIZADO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>SA_MOTIVO_FORMULARIO_ATUALIZADO</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Gestão de Motivo - Novo/Editar]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <tb_acao type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar">
+                <title>Guardar</title>
+                <app>SA</app>
+                <page>SA_MOTIVO_ATUALIZADO</page>
+                <link>SA_MT</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <params>success||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="back">
+                <title>Voltar</title>
+                <app>SA</app>
+                <page>SA_MOTIVO_ATUALIZADO</page>
+                <link>MOTIVO_LISTA</link>
+                <target>_back</target>
+                <img>secondary|fa-chevron-left</img>
+                <params>secondary||fa-chevron-left|www</params>
+            </item>
+        </tb_acao>
+        <frm type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" required="true" change="true" disabled="false" maxlength="30" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <organica name="p_organica" type="select" multiple="false" required="true" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <nome name="p_nome" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="50" right="false">
+                    <label>Nome</label>
+                    <value>Dolor deserunt natus adipiscing dolor</value>
+                </nome>
+                <imagem name="p_imagem" type="file" required="false" disabled="false" maxlength="4000" right="false" class="success">
+                    <label>Imagem</label>
+                    <value/>
+                </imagem>
+                <link name="p_link" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="3000" right="false">
+                    <label>Link</label>
+                    <value>Mollit voluptatem mollit anim perspiciatis</value>
+                </link>
+                <estado name="p_estado" type="select" multiple="false" required="true" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <hidden name="p_id" type="hidden" tag="id"/>
+            </fields>
+        </frm>
+    </content>
+</rows>

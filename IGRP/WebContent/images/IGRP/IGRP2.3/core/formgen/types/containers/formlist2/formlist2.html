@@ -1,0 +1,20 @@
+<div class="box box-table-contents">
+  <div class="box-body table-box">
+    <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
+    <div id="formlist_1" class="IGRP_formlist" type="box" rel="T_formlist_1">
+       <xsl:for-each select="#path#/table/value/row">
+        <div class="box fl-box clear" row="{position()}" gen-id="drop-zone">
+          
+
+          <input type="hidden" name="p_formlist_1_id" value="{#tag#_id}"/>
+        </div>
+
+
+      </xsl:for-each>
+    </div>
+
+  </div>
+</div>
+
+
+

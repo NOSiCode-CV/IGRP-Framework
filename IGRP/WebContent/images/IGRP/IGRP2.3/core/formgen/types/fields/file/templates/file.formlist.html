@@ -1,0 +1,16 @@
+<xsl:if test="not(#tag#/@visible)">
+    <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+        <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
+        <div class="form-group" item-name="#tag#" item-type="#type#">
+            <div class="input-group">
+                <input type="text" class="form-control form-hidden" readonly=""/>
+                <span class="input-group-btn">
+                    <span class="btn btn-#[class]# file-btn-holder">
+                        <i class="fa fa-upload"></i>
+                        <input id="{../../../fields/#tag#/@name}_fk" name="{../../../fields/#tag#/@name}_fk" #[required]# value="{#tag#}" class="transparent" type="file" #[multiple]# accept="#[accept]#" rel="F_#parent.tag#"/>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </td>
+</xsl:if>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../SA_RQ_RQ_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RQ</page>
+    <app>SA</app>
+    <plsql>
+        <action>RQ</action>
+        <package_instance></package_instance>
+        <package_db>SA_REQUISITO_NOVO_DB</package_db>
+        <package_html>SA_REQUISITO_NOVO_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>FORM_NOVO</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="100">
+                    <value>
+                        <![CDATA[Gestao de Requisito ]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <tool_operacao type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>SA</app>
+                <page>RQ</page>
+                <link>RQ</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <params>success||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>SA</app>
+                <page>RQ</page>
+                <link>LRQ</link>
+                <target>_self</target>
+                <img>info|fa-arrow-left</img>
+                <params>info||fa-arrow-left|www</params>
+            </item>
+        </tool_operacao>
+        <form_req type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" required="true" change="false" readonly="false" disabled="false" maxlength="200" right="false" placeholder="">
+                    <label>Nome</label>
+                    <value>Labore dolor perspiciatis amet anim</value>
+                </nome>
+                <estado name="p_estado" type="select" multiple="false" required="true" change="false" disabled="false" maxlength="30" right="false">
+                    <label>Estado</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </estado>
+                <ordem_requisito name="p_ordem_requisito" type="number" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" placeholder="">
+                    <label>Ordem Requisito</label>
+                    <value>609</value>
+                </ordem_requisito>
+                <descricao name="p_descricao" type="textarea" required="false" change="false" readonly="false" disabled="false" maxlength="500" right="false" placeholder="">
+                    <label>Descrição</label>
+                    <value>Sit aliqua magna unde lorem laudantium totam sed anim deserunt aperiam labore mollit omnis amet</value>
+                </descricao>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+        </form_req>
+        <sep_motivograu type="separatorlist" xml-type="separatorlist" title="Associar Grau" gen-type="container" gen-group="true">
+            <fields>
+                <grau name="p_grau" type="select" multiple="false" required="true" change="false" disabled="false" maxlength="30" right="false" visible="true" desc="true">
+                    <label>Grau</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </grau>
+                <pontuacao name="p_pontuacao" type="number" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" visible="true" placeholder="" desc="true">
+                    <label>Pontuação</label>
+                    <value>894</value>
+                </pontuacao>
+                <orden name="p_orden" type="number" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" visible="true" placeholder="" desc="true">
+                    <label>Orden</label>
+                    <value>943</value>
+                </orden>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <grau name="p_grau" desc="true"/>
+                        <grau_desc name="p_grau_desc"/>
+                        <pontuacao name="p_pontuacao" desc="true">562</pontuacao>
+                        <pontuacao_desc name="p_pontuacao_desc">562</pontuacao_desc>
+                        <orden name="p_orden" desc="true">116</orden>
+                        <orden_desc name="p_orden_desc">116</orden_desc>
+                    </row>
+                    <row>
+                        <grau name="p_grau" desc="true"/>
+                        <grau_desc name="p_grau_desc"/>
+                        <pontuacao name="p_pontuacao" desc="true">391</pontuacao>
+                        <pontuacao_desc name="p_pontuacao_desc">391</pontuacao_desc>
+                        <orden name="p_orden" desc="true">875</orden>
+                        <orden_desc name="p_orden_desc">875</orden_desc>
+                    </row>
+                    <row>
+                        <grau name="p_grau" desc="true"/>
+                        <grau_desc name="p_grau_desc"/>
+                        <pontuacao name="p_pontuacao" desc="true">917</pontuacao>
+                        <pontuacao_desc name="p_pontuacao_desc">917</pontuacao_desc>
+                        <orden name="p_orden" desc="true">321</orden>
+                        <orden_desc name="p_orden_desc">321</orden_desc>
+                    </row>
+                    <row>
+                        <grau name="p_grau" desc="true"/>
+                        <grau_desc name="p_grau_desc"/>
+                        <pontuacao name="p_pontuacao" desc="true">225</pontuacao>
+                        <pontuacao_desc name="p_pontuacao_desc">225</pontuacao_desc>
+                        <orden name="p_orden" desc="true">879</orden>
+                        <orden_desc name="p_orden_desc">879</orden_desc>
+                    </row>
+                </value>
+            </table>
+        </sep_motivograu>
+        <sep_associar_organica type="separatorlist" xml-type="separatorlist" title="Associar Organica" gen-type="container" gen-group="true">
+            <fields>
+                <organica_req name="p_organica_req" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica_req>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <organica_req name="p_organica_req" desc="true"/>
+                        <organica_req_desc name="p_organica_req_desc"/>
+                    </row>
+                    <row>
+                        <organica_req name="p_organica_req" desc="true"/>
+                        <organica_req_desc name="p_organica_req_desc"/>
+                    </row>
+                    <row>
+                        <organica_req name="p_organica_req" desc="true"/>
+                        <organica_req_desc name="p_organica_req_desc"/>
+                    </row>
+                    <row>
+                        <organica_req name="p_organica_req" desc="true"/>
+                        <organica_req_desc name="p_organica_req_desc"/>
+                    </row>
+                </value>
+            </table>
+        </sep_associar_organica>
+    </content>
+</rows>

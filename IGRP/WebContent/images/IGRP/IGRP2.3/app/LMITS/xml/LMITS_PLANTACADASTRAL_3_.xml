@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_PLANTACADASTRAL_3_.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>PLANTACADASTRAL</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>3</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Report Planta Cadastral</title>
+        <planta_head type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <cmp name="p_cmp" type="text" maxlength="30">
+                    <label>Cmp</label>
+                    <value>Sed ut aperiam laudantium sed</value>
+                </cmp>
+                <documento name="p_documento" type="text" maxlength="30">
+                    <label>Documento</label>
+                    <value>Sit sed aperiam aliqua amet</value>
+                </documento>
+                <cidade name="p_cidade" type="text" maxlength="30">
+                    <label>Cidade</label>
+                    <value>Dolor doloremque mollit laudantium amet</value>
+                </cidade>
+                <view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </planta_head>
+        <planta_map1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <img name="p_img" type="img" img="http://www.slidesjs.com/examples/callbacks/img/example-slide-1.jpg" maxlength="30" placeholder="" right="false">
+                    <label>Img</label>
+                    <value/>
+                </img>
+                <escala name="p_escala" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="true">
+                    <label>Escala</label>
+                    <value>Magna mollit iste rem omnis</value>
+                </escala>
+            </fields>
+        </planta_map1>
+        <planta_titular type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <titular name="p_titular" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>TITULAR</label>
+                    <value>Officia rem unde totam rem</value>
+                </titular>
+            </fields>
+        </planta_titular>
+        <planta_map2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <img name="p_img" type="img" img="http://www.slidesjs.com/examples/callbacks/img/example-slide-1.jpg" maxlength="30" placeholder="" right="false">
+                    <label>Img</label>
+                    <value/>
+                </img>
+            </fields>
+        </planta_map2>
+        <view_2 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <codigo_barra name="p_codigo_barra" type="text" maxlength="30">
+                    <label>Codigo barra</label>
+                    <value>Doloremque voluptatem labore laudantium totam</value>
+                </codigo_barra>
+                <codigo_de_barra_1 name="p_codigo_de_barra_1" type="text" maxlength="30">
+                    <label>Codigo de barra 1</label>
+                    <value>Ipsum iste rem consectetur aperiam</value>
+                </codigo_de_barra_1>
+                <processar_por_computador name="p_processar_por_computador" type="text" maxlength="30">
+                    <label>Processar por computador</label>
+                    <value>Accusantium voluptatem mollit aliqua accusantium</value>
+                </processar_por_computador>
+            </fields>
+        </view_2>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <nip name="p_nip" type="text" maxlength="30">
+                    <label>Nip</label>
+                    <value>Voluptatem deserunt voluptatem elit rem</value>
+                </nip>
+                <zona name="p_zona" type="text" maxlength="30">
+                    <label>Zona</label>
+                    <value>Consectetur rem consectetur labore natus</value>
+                </zona>
+                <text_1 name="p_text_1" type="text" maxlength="30">
+                    <label>Text</label>
+                    <value>Unde laudantium adipiscing sed amet</value>
+                </text_1>
+                <uso name="p_uso" type="text" maxlength="30">
+                    <label>Uso</label>
+                    <value>Natus labore natus sed aperiam</value>
+                </uso>
+                <area name="p_area" type="text" maxlength="30">
+                    <label>Área</label>
+                    <value>Adipiscing dolor deserunt adipiscing labore</value>
+                </area>
+                <n_piso name="p_n_piso" type="text" maxlength="30">
+                    <label>Nº Piso</label>
+                    <value>Mollit aliqua sed ut doloremque</value>
+                </n_piso>
+                <indicie_de_ocupcao_terreno name="p_indicie_de_ocupcao_terreno" type="text" maxlength="30">
+                    <label>Índicie de ocupção terreno</label>
+                    <value>Lorem natus labore aperiam stract</value>
+                </indicie_de_ocupcao_terreno>
+                <taxa_de_ocupacao name="p_taxa_de_ocupacao" type="text" maxlength="30">
+                    <label>Taxa de ocupação</label>
+                    <value>Amet adipiscing laudantium labore voluptatem</value>
+                </taxa_de_ocupacao>
+                <cota_de_solteira name="p_cota_de_solteira" type="text" maxlength="30">
+                    <label>Cota de Solteira</label>
+                    <value>Amet perspiciatis anim labore sed</value>
+                </cota_de_solteira>
+                <cercea name="p_cercea" type="text" maxlength="30">
+                    <label>Cércea</label>
+                    <value>Elit rem sit iste voluptatem</value>
+                </cercea>
+                <goteira name="p_goteira" type="text" maxlength="30">
+                    <label>Goteira</label>
+                    <value>Mollit ipsum dolor amet unde</value>
+                </goteira>
+                <dimensoes name="p_dimensoes" type="text" maxlength="30">
+                    <label>Dimensões</label>
+                    <value>Sit aperiam unde totam elit</value>
+                </dimensoes>
+                <norte name="p_norte" type="text" maxlength="30">
+                    <label>Norte:</label>
+                    <value>Magna mollit consectetur deserunt unde</value>
+                </norte>
+                <sul name="p_sul" type="text" maxlength="30">
+                    <label>Sul:</label>
+                    <value>Mollit totam officia anim sed</value>
+                </sul>
+                <este name="p_este" type="text" maxlength="30">
+                    <label>Este:</label>
+                    <value>Ipsum mollit magna anim sit</value>
+                </este>
+                <oeste name="p_oeste" type="text" maxlength="30">
+                    <label>Oeste:</label>
+                    <value>Sed ipsum laudantium sit adipiscing</value>
+                </oeste>
+                <afastamento name="p_afastamento" type="text" maxlength="30">
+                    <label>Afastamento:</label>
+                    <value>Dolor officia elit dolor aliqua</value>
+                </afastamento>
+                <norte name="p_norte" type="text" maxlength="30">
+                    <label>Norte:</label>
+                    <value>Accusantium sit labore magna dolor</value>
+                </norte>
+                <sul name="p_sul" type="text" maxlength="30">
+                    <label>Sul:</label>
+                    <value>Magna sit labore totam officia</value>
+                </sul>
+                <este name="p_este" type="text" maxlength="30">
+                    <label>Este:</label>
+                    <value>Aperiam sit consectetur elit sed</value>
+                </este>
+                <oeste name="p_oeste" type="text" maxlength="30">
+                    <label>Oeste:</label>
+                    <value>Lorem doloremque stract dolor magna</value>
+                </oeste>
+                <n_pedido name="p_n_pedido" type="text" maxlength="30">
+                    <label>Nº Pedido</label>
+                    <value>Omnis stract sit aperiam sit</value>
+                </n_pedido>
+                <data_emissao name="p_data_emissao" type="text" maxlength="30">
+                    <label>Data Emissão</label>
+                    <value>Labore accusantium elit doloremque sit</value>
+                </data_emissao>
+                <emitido_por name="p_emitido_por" type="text" maxlength="30">
+                    <label>Emitido Por:</label>
+                    <value>Labore natus aperiam anim accusantium</value>
+                </emitido_por>
+            </fields>
+        </view_1>
+    </content>
+</rows>

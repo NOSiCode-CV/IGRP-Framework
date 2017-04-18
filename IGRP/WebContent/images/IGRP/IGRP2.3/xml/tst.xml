@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../test.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <page_title type="sectionheader" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Tarefas Disponiveis]]>
+                    </value>
+                </text>
+            </fields>
+        </page_title>
+        <gen_menu type="toolsbar" structure="items">
+            <item type="specific" code="" rel="minhas_tarefas" class="primary">
+                <title>Minhas tarefas</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>fa-list-alt</img>
+                <params>primary|fa-list-alt|www</params>
+            </item>
+            <item type="specific" code="" rel="disponiveis" class="success">
+                <title>Disponiveis</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>fa-check-square-o</img>
+                <params>success|fa-check-square-o|www</params>
+            </item>
+            <item type="specific" code="" rel="estatistica" class="info">
+                <title>Estatistica</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>fa-line-chart</img>
+                <params>info|fa-line-chart|www</params>
+            </item>
+            <item type="specific" code="" rel="gerir_tarefas" class="warning">
+                <title>Gerir tarefas</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>fa-list-ol</img>
+                <params>warning|fa-list-ol|www</params>
+            </item>
+            <item type="specific" code="" rel="colaboradores" class="default">
+                <title>Colaboradores</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_self</target>
+                <img>fa-users</img>
+                <params>default|fa-users|www</params>
+            </item>
+        </gen_menu>
+        <filter_1 type="form" structure="fields">
+            <fields>
+                <numero_processo name="p_numero_processo" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Numero Processo</label>
+                    <value>654</value>
+                </numero_processo>
+                <tipo_processo name="p_tipo_processo" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_processo>
+                <data_inicio name="p_data_inicio" type="date" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </data_inicio>
+                <data_fim name="p_data_fim" type="date" maxlength="30" format="IGRP_datePicker" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </data_fim>
+                <prioridade name="p_prioridade" type="select" multiple="false" required="false" change="false" disabled="false" right="false">
+                    <label>Prioridade</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </prioridade>
+                <search name="p_search" type="text" maxlength="500" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Pesquisa</label>
+                    <value>Aperiam rem unde labore lorem</value>
+                </search>
+                <pesquisar name="p_pesquisar" type="link" target="_blank" maxlength="30" placeholder="" right="false" button="true">
+                    <label>Pesquisar</label>
+                    <value>http://hudooce.io/iwairu</value>
+                </pesquisar>
+            </fields>
+        </filter_1>
+        <gen_table_toolsbar type="toolsbar" structure="items">
+            <item type="specific" code="" rel="assumir" class="success">
+                <title/>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>fa-check</img>
+                <params>success|fa-check|www</params>
+            </item>
+        </gen_table_toolsbar>
+        <gen_table type="table" structure="fields">
+            <fields>
+                <priority name="p_priority" type="number" align="right" lookup_parser="false">
+                    <label>!</label>
+                </priority>
+                <tarefa name="p_tarefa" type="text" align="left" lookup_parser="false">
+                    <label>Tarefa</label>
+                </tarefa>
+                <categoria_processo name="p_categoria_processo" type="text" align="left" lookup_parser="false">
+                    <label>Categoria Processo</label>
+                </categoria_processo>
+                <dt__entrada name="p_dt__entrada" type="date" align="center" format="IGRP_datePicker" lookup_parser="false">
+                    <label>Dt. Entrada</label>
+                </dt__entrada>
+                <marcar name="p_marcar" type="checkbox" align="left" lookup_parser="false">
+                    <label>Check</label>
+                </marcar>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <priority>791</priority>
+                        <priority_desc>791</priority_desc>
+                        <tarefa>Mollit sed magna natus consectetur</tarefa>
+                        <tarefa_desc>Mollit sed magna natus consectetur</tarefa_desc>
+                        <categoria_processo>Accusantium unde magna ipsum stract</categoria_processo>
+                        <categoria_processo_desc>Accusantium unde magna ipsum stract</categoria_processo_desc>
+                        <dt__entrada/>
+                        <dt__entrada_desc/>
+                        <marcar>1</marcar>
+                        <marcar_desc>1</marcar_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <priority>824</priority>
+                        <priority_desc>824</priority_desc>
+                        <tarefa>Laudantium iste lorem deserunt elit</tarefa>
+                        <tarefa_desc>Laudantium iste lorem deserunt elit</tarefa_desc>
+                        <categoria_processo>Stract doloremque labore natus anim</categoria_processo>
+                        <categoria_processo_desc>Stract doloremque labore natus anim</categoria_processo_desc>
+                        <dt__entrada/>
+                        <dt__entrada_desc/>
+                        <marcar>1</marcar>
+                        <marcar_desc>1</marcar_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <priority>539</priority>
+                        <priority_desc>539</priority_desc>
+                        <tarefa>Natus dolor doloremque omnis perspiciatis</tarefa>
+                        <tarefa_desc>Natus dolor doloremque omnis perspiciatis</tarefa_desc>
+                        <categoria_processo>Unde sit perspiciatis aliqua officia</categoria_processo>
+                        <categoria_processo_desc>Unde sit perspiciatis aliqua officia</categoria_processo_desc>
+                        <dt__entrada/>
+                        <dt__entrada_desc/>
+                        <marcar>1</marcar>
+                        <marcar_desc>1</marcar_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <priority>379</priority>
+                        <priority_desc>379</priority_desc>
+                        <tarefa>Aperiam ut perspiciatis deserunt ut</tarefa>
+                        <tarefa_desc>Aperiam ut perspiciatis deserunt ut</tarefa_desc>
+                        <categoria_processo>Voluptatem iste elit deserunt stract</categoria_processo>
+                        <categoria_processo_desc>Voluptatem iste elit deserunt stract</categoria_processo_desc>
+                        <dt__entrada/>
+                        <dt__entrada_desc/>
+                        <marcar>1</marcar>
+                        <marcar_desc>1</marcar_desc>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="default">
+                        <title>Assumir</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <target>confirm</target>
+                        <img>fa-dot-circle-o</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+        <tarefas_por_executar type="chart" structure="graphic" title="Tarefas por executar">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#6fdf1b</col>
+                <col>#878f92</col>
+                <col>#5d18e7</col>
+                <col>#c99142</col>
+            </colors>
+        </tarefas_por_executar>
+        <tarefas_por_prioridade type="chart" structure="graphic" title="Tarefas por prioridade">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2ede82</col>
+                <col>#9b6c30</col>
+                <col>#8cf9fa</col>
+                <col>#c186bf</col>
+            </colors>
+        </tarefas_por_prioridade>
+        <tarefas_disponiveis type="chart" structure="graphic" title="Tarefas Disponiveis">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#76ccc3</col>
+                <col>#116cb4</col>
+                <col>#f35020</col>
+                <col>#ec4f65</col>
+            </colors>
+        </tarefas_disponiveis>
+        <paragraph_1 type="paragraph" structure="text">
+            <fields>
+                <text>
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </text>
+            </fields>
+        </paragraph_1>
+    </content>
+</rows>

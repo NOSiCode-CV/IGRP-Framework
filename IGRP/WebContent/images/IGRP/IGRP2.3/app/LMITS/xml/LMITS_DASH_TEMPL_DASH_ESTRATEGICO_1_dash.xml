@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../LMITS_DASH_TEMPL_DASH_ESTRATEGICO_1_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DASH_TEMPL</page>
+    <app>LMITS</app>
+    <plsql>
+        <action>DASH_ESTRATEGICO_1</action>
+        <package_instance>devnosi</package_instance>
+        <package_db>DASHTEMPL_DASH_ESTR_1_DB</package_db>
+        <package_html>DASHTEMPL_DASH_ESTR_1_HTML</package_html>
+        <table_name>TST_WWW</table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_dev/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Dashboard Estratégico</title>
+        <view_1 type="view" structure="fields">
+            <fields>
+                <view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </view_1>
+    </content>
+</rows>
