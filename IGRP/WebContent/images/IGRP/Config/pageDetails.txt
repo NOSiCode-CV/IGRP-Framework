@@ -1,0 +1,1 @@
+{"action": "BIB-DET","action_descr": "Detalhe Lista","app": "RED","filename": "RED_BIBLIO_BIB-DET_dash.xsl","id": "51694","page": "BIBLIO","page_descr": "Biblioteca"}

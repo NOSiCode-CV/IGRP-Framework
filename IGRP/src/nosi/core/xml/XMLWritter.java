@@ -20,7 +20,7 @@ public class XMLWritter {
 	    
 		public XMLWritter(String rootElement, String xslPath, String contentType){
 			this();
-			//this.xmlConstruct.append("<?xml-stylesheet href=\""+xslPath+"\" type=\"text/xsl\"?>");
+			this.xmlConstruct.append("<?xml-stylesheet href=\""+xslPath+"\" type=\"text/xsl\"?>");
 			this.xmlConstruct.append(lineSeparator);
 			this.startElement(rootElement);
 			this.closeLarger();

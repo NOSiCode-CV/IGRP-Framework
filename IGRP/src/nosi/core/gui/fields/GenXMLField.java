@@ -54,6 +54,78 @@ public class GenXMLField {
 		}
 	}
 
+	/*
+	 * Generate field xml for Generator
+	 *  <label>
+            <env_fk     name="p_env_fk" type="select"   maxlength="30">Aplicacao</env_fk>
+            ...
+        </label>
+        <value>
+        	...
+        </value>
+         <list>
+            <env_fk     name="p_env_fk">
+                <option>
+                    <text>-- Aplicação --</text>
+                    <value />
+                </option>
+                <option     selected="true">
+                    <text>API - Gerador</text>
+                    <value>807</value>
+                </option>
+                ...
+            </env_fk>
+        </list>
+        ...
+	 */
+	public static void toXmlV21(XMLWritter xml, ArrayList<Field> fields){
+		if(fields.size() > 0){
+			xml.startElement("label");
+				for(Field field:fields){
+					xml.startElement(field.getTagName());
+					writteAttributes(xml,field.propertie());
+					xml.text(field.getLabel());
+					xml.endElement();
+				}
+			xml.endElement();
+			xml.startElement("value");
+				for(Field field:fields){
+					if(field.propertie().get("type").toString().compareTo("select") != 0 && field.propertie().get("type").toString().compareTo("radiolist") != 0 && field.propertie().get("type").toString().compareTo("checkboxlist") != 0 ){
+						xml.startElement(field.getTagName());
+						writteAttributes(xml,field.propertie());
+						xml.text(""+field.getValue());
+						if(field.propertie().get("type").toString().compareTo("lookup")==0){
+							xml.setElement("lookup", field.getLookup());
+							/*
+							 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+				                    <label>Lookup</label>
+				                    <value/>
+				                    <lookup>http://xpto/file.xml</lookup>
+				                </lookup_1>
+							 */
+						}
+						xml.endElement();
+					}
+				}
+			xml.endElement();
+			xml.startElement("list");
+			for(Field field:fields){
+				if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
+					xml.startElement(field.getTagName());
+					writteAttributes(xml,field.propertie());
+					for(Entry<Object, Object> obj : field.getOptions().entrySet()){
+						xml.startElement("option");
+						xml.setElement("text", obj.getValue().toString());
+						xml.setElement("value", obj.getKey().toString());
+						xml.endElement();
+					}
+					xml.endElement();
+				}
+			}
+			xml.endElement();
+		}
+	}
+	
 	/*Generate attributes
 	 * name="p_text_1" type="text"
 	 */
