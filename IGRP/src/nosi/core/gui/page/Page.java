@@ -3,6 +3,7 @@ package nosi.core.gui.page;
 import java.util.Queue;
 import java.util.PriorityQueue;
 import nosi.core.xml.XMLWritter;
+import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.webapp.Igrp;
 
@@ -31,47 +32,12 @@ public class Page {
 	
 	private void createTemplate(){
 		XMLWritter xml = new XMLWritter("rows", "", "utf-8");
-		xml.setElement("title", "xpto"/*Igrp.getInstance().getCurrentController().getView().getPageTitle()*/);
-		xml.setElement("version", "");
-		xml.setElement("link", "");
-		
-		xml.startElement("site");
-		xml.setElement("welcome", "");
-		xml.setElement("footer_note", "");
-		xml.setElement("user_name", "");
-		
-		
-		IGRPToolsBar button = new IGRPToolsBar("button");
-		button.addItem("Button name", "App name", "Page name", "Action name", "Target", "Image name");
-		
-		xml.addXml(button.toXmlButton());
-		
-		xml.endElement();
-		
-		
-		xml.setElement("app", "");
-		
-		xml.startElement("navigation");
-		xml.writeAttribute("file", "");
-		xml.writeAttribute("prm_app", "");
-		xml.writeAttribute("prm_page", "");
-		xml.writeAttribute("prm_action", "");
-		xml.endElement();
-		
-		xml.startElement("top_menu");
-		xml.writeAttribute("file", "");
-		xml.endElement();
-		
-		xml.startElement("slide_top");
-		xml.writeAttribute("file", "");
-		xml.endElement();
-		
+		xml.addXml(Config.getHeader());
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
 		xml.text(":_content");
-		xml.endElement();
-		
+		xml.endElement();		
 		this.template = xml + "";
 	}
 	
