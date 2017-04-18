@@ -1,8 +1,8 @@
 package nosi.core.webapp;
 
 import java.io.IOException;
-
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.pages.defaultPagina.DefaultPaginaController;
 /**
  * @author Marcel Iekiny
@@ -33,33 +33,29 @@ public abstract class Controller {
 	}
 	
 	// Nao é permitido fazer Override desse method ...
+	private final void redirect(String url){
+		System.out.println(url);
+		//Igrp.getInstance().getResponse().sendRedirect("" + url);
+	}
+	
+	// Nao é permitido fazer Override desse method ...
 	protected final void redirect(String app, String page, String action, String qs) throws IOException{
-		String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + qs);
-		aux = Igrp.getInstance().getBaseRoute() + aux;
-		System.out.println(aux);
-		//Igrp.getInstance().getResponse().sendRedirect("" + aux);
+		this.redirect(Route.toUrl(app, page, action, qs));
 	}
 	
 	// Nao é permitido fazer Override desse method ...
 	protected final void redirect(String r, String qs) throws IOException{
-		String []aux = r.split("/");
-		this.redirect(aux[0], aux[1], aux[2], qs);
+		this.redirect(Route.toUrl(r, qs));
 	}
 	
 	// Nao é permitido fazer Override desse method ...
 	protected final void redirect(String app, String page, String action) throws IOException{
-		this.redirect(app, page, action, "");
+		this.redirect(Route.toUrl(app, page, action));
 	}
 	
 	// Nao é permitido fazer Override desse method ...
 	protected final void redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
-		String aux = "";
-		for(int i = 0; i < paramNames.length; i++){
-			if(i > 0 && i < paramNames.length)
-				aux += "&";
-			aux = aux + paramNames[i] + "=" + paramValues[i];
-		}
-		this.redirect(app, page, action, aux);
+		this.redirect(Route.toUrl(app, page, action, paramNames, paramValues));
 	}
 	
 	public View getView(){

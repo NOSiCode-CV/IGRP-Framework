@@ -1,7 +1,6 @@
 package nosi.core.webapp;
 
 import nosi.core.servlet.IgrpServlet;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -116,6 +115,7 @@ public class Igrp {
 		String auxActionName = "action" + this.currentActionName.substring(0, 1).toUpperCase() + this.currentActionName.substring(1);
 		String controllerPath = "nosi.webapps." + this.currentAppName + ".pages." + this.currentPageName + "." + auxControllerName;
 		try {
+			
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = c.getMethod(auxActionName, null);
