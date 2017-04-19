@@ -8,6 +8,6 @@ public interface Identity {
 	public Object findIdentityById(int identityId);
 	public int getIdentityId();
 	public Object findIdentityByUsername(String username);
-	public boolean validate(); // Combine username and password to get login ...
+	public boolean validate(String inputPassword); // Combine username and password to get login ...
 	
 }
