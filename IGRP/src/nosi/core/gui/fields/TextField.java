@@ -8,7 +8,7 @@ package nosi.core.gui.fields;
  */
 public class TextField extends AbstractField {
 
-	public TextField(String name){
+	public TextField(Object model,String name){
 		super();
 		this.propertie.put("type","text");
 		this.setTagName(name);
@@ -20,6 +20,7 @@ public class TextField extends AbstractField {
 		this.propertie.put("change", false);
 		this.propertie.put("required", false);
 		this.propertie.put("maxlength", 30);
+		this.configValue(model);
 	}
 
 }

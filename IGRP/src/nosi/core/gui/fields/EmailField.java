@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class EmailField extends TextField {
 
-	public EmailField(String name) {
-		super(name);
+	public EmailField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type","email");
 	}
 

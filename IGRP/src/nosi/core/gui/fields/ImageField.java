@@ -8,7 +8,7 @@ package nosi.core.gui.fields;
  */
 public class ImageField extends AbstractField {
 
-	public ImageField(String name) {
+	public ImageField(Object model,String name) {
 		super();
 		this.setTagName(name);
 		this.propertie.put("type","img");
@@ -17,6 +17,7 @@ public class ImageField extends AbstractField {
 		this.propertie.put("placeholder", "");
 		this.propertie.put("right", false);
 		this.propertie.put("maxlength", 30);
+		this.configValue(model);
 	}
 
 }

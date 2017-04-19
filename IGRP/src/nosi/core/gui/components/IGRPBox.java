@@ -26,7 +26,9 @@ public class IGRPBox {
 		this.xml = new XMLWritter();
 		this.properties = new Properties();
 		this.properties.put("type", "box");
-		this.properties.put("structure", "fields");
+		this.properties.put("xml-type", "form");
+		this.properties.put("gen-type", "container");
+		this.properties.put("gen-group", "");
 	}
 
 	public String toString(){

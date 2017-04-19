@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class LookupField extends TextField {
 
-	public LookupField(String name) {
-		super(name);
+	public LookupField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type", "lookup");
 	}
 

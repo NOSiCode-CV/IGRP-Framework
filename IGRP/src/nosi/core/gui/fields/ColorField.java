@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class ColorField extends TextField {
 
-	public ColorField(String name) {
-		super(name);
+	public ColorField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type", "color");
 		this.propertie.put("format", "hex");
 	}

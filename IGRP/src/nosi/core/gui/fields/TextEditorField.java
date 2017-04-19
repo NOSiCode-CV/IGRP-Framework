@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class TextEditorField extends TextField {
 
-	public TextEditorField(String name) {
-		super(name);
+	public TextEditorField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type","texteditor");
 	}
 

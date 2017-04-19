@@ -38,8 +38,11 @@ public class IGRPSectionHeader {
 		this.fields = new ArrayList<>();
 		this.properties = new Properties();
 		this.properties.put("type", "sectionheader");
-		this.properties.put("structure", "text");
-		Field _text = new TextField(tag);
+		this.properties.put("xml-type", "form");
+		this.properties.put("gen-type", "container");
+		this.properties.put("gen-group", "");
+		Field _text = new TextField(null,tag);
+		_text.propertie().put("persist","true");
 		_text.setValue("<![CDATA["+text+"]]");
 		this.addField(_text);
 	}

@@ -8,7 +8,7 @@ package nosi.core.gui.fields;
  */
 public class SeparatorField extends AbstractField {
 
-	public SeparatorField(String name) {
+	public SeparatorField(Object model,String name) {
 		super();
 		this.propertie.put("type","separator");
 		this.setTagName(name);
@@ -16,6 +16,7 @@ public class SeparatorField extends AbstractField {
 		this.propertie.put("right", false);
 		this.propertie.put("placeholder", "");
 		this.propertie.put("maxlength", 30);
+		this.configValue(model);
 	}
 
 }

@@ -26,7 +26,9 @@ public class IGRPTabContent extends IGRPBox {
 	public IGRPTabContent(String tag_name) {
 		super(tag_name);
 		this.properties.put("type", "tabcontent");
-		this.properties.put("structure", "tabs");
+		this.properties.put("xml-type", "form");
+		this.properties.put("gen-type", "container");
+		this.properties.put("gen-group", "");
 		this.items = new ArrayList<>();
 	}
 

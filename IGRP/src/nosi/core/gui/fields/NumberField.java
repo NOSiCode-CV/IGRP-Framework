@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class NumberField extends TextField {
 
-	public NumberField(String name){
-		super(name);
+	public NumberField(Object model,String name){
+		super(model,name);
 		this.propertie.put("type","number");
 	}
 }

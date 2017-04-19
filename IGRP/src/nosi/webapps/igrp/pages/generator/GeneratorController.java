@@ -9,10 +9,13 @@ public class GeneratorController extends Controller{
 	public void actionIndex() throws IOException{
 		
 		GeneratorModel model = new GeneratorModel();
-	
-		this.renderView(
-				new GeneratorView().
-				addModel("model", model),true
-				);
+
+		model.setGen_elements("images/IGRP/Config/formgen.config.txt?id=");
+		model.setId_objeto(11);
+		model.setLink_image("images/IGRP/Config/img.list.php?name=");
+		model.setLink_save("images/IGRP/Config/data.txt");
+		GeneratorView view = new GeneratorView();
+		view.addModel("model", model);
+		this.renderView(view,true);
 		}
 }

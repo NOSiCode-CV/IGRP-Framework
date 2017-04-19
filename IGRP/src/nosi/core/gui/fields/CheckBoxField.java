@@ -8,10 +8,10 @@ package nosi.core.gui.fields;
  */
 public class CheckBoxField extends TextField {
 
-	public CheckBoxField(String name) {
-		super(name);
+	public CheckBoxField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type", "checkbox");
 		this.propertie.put("check", true);
 	}
-
+	
 }

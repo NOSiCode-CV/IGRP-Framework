@@ -8,9 +8,10 @@ package nosi.core.gui.fields;
  */
 public class CheckBoxListField extends ListField {
 
-	public CheckBoxListField(String name) {
-		super(name);
+	public CheckBoxListField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type","checkboxlist");
 		this.propertie.remove("multiple");
+		this.configValue(model);
 	}
 }

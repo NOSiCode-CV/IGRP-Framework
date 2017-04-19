@@ -12,7 +12,7 @@ public class DefaultPaginaView extends View{
 	@Override
 	public void render(){
 		
-		IGRPForm form = new IGRPForm("form_1");
+		/*IGRPForm form = new IGRPForm("form_1");
 		Field nome = new TextField("nome");
 		
 		nome.setValue("Ima");
@@ -32,7 +32,7 @@ public class DefaultPaginaView extends View{
 		form.addField(hidden);
 		form.addField(select);
 		
-		this.addToPage(form);
+		this.addToPage(form);*/
 	}
 
 }

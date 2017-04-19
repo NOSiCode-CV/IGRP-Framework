@@ -7,6 +7,8 @@ package nosi.core.gui.fields;
  * Description: abstract class to configure any field
  */
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -16,6 +18,7 @@ public abstract class AbstractField implements Field{
 	private Object value="";
 	private String label = "";
 	private String lookup = "";
+	private boolean isVisible=true;
 	
 	public Properties propertie;
 	
@@ -64,4 +67,27 @@ public abstract class AbstractField implements Field{
 	public void setLookup(String lookup) {
 		this.lookup = lookup;
 	}	
+	public boolean isVisible() {
+		return isVisible;
+	}
+	public void setVisible(boolean isVisible) {
+		this.isVisible = isVisible;
+	}
+	protected void configValue(Object model){
+		if(model!=null){		
+			this.value = "";
+			Method[] allMethods = model.getClass().getDeclaredMethods();
+		    for (Method m : allMethods) {
+		    	String methodName = this.getTagName().substring(0, 1).toUpperCase()+this.getTagName().substring(1);
+		    	if(m.getName().contains(methodName) && m.getName().startsWith("get")){
+			    	try {
+			    		if(m.invoke(model)!=null)
+			    			this.value = ""+ m.invoke(model);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}                                                                     
+		    	}
+		    }
+		}
+	}
 }

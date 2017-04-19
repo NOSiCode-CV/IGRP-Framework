@@ -13,7 +13,7 @@ public class ListField extends AbstractField {
 	private HashMap<Object,Object> list;
 	public Object value = null;
 	
-	public ListField(String name){
+	public ListField(Object model, String name){
 		super();
 		this.list = new HashMap<>();
 		this.propertie.put("type","select");
@@ -25,6 +25,7 @@ public class ListField extends AbstractField {
 		this.propertie.put("change", false);
 		this.propertie.put("required", false);
 		this.setTagName(name);
+		this.configValue(model);
 	}
 	
 	@Override
