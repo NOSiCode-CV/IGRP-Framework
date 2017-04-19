@@ -8,7 +8,7 @@ package nosi.core.gui.fields;
  */
 public class LinkField extends AbstractField {
 
-	public LinkField(String name) {
+	public LinkField(Object model,String name) {
 		super();
 		this.setTagName(name);
 		this.propertie.put("type","link");
@@ -21,6 +21,7 @@ public class LinkField extends AbstractField {
 		this.propertie.put("placeholder", "");
 		this.propertie.put("right", false);
 		this.propertie.put("maxlength", 30);
+		this.configValue(model);
 	}
 
 }

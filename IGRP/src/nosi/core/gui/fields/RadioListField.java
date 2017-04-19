@@ -8,8 +8,8 @@ package nosi.core.gui.fields;
  */
 public class RadioListField extends ListField {
 
-	public RadioListField(String name) {
-		super(name);
+	public RadioListField(Object model,String name) {
+		super(model,name);
 		this.propertie.put("type","radiolist");
 	}
 

@@ -26,25 +26,27 @@ public class GenXMLField {
 		if(fields.size() > 0){
 			xml.startElement("fields");
 				for(Field field:fields){
-					xml.startElement(field.getTagName());
-					writteAttributes(xml,field.propertie());
-					if(field.propertie().get("type").toString().compareTo("hidden")!=0){//Hidden field not contain tag label
-						xml.setElement("label", field.getLabel());
+					if(field.isVisible()){
+						xml.startElement(field.getTagName());
+						writteAttributes(xml,field.propertie());
+						if(field.propertie().get("type").toString().compareTo("hidden")!=0){//Hidden field not contain tag label
+							xml.setElement("label", field.getLabel());
+						}
+						if(field.propertie().get("type").toString().compareTo("separator")!=0){//Seprator field not contain tag value
+							getXmlValue(xml,field);
+						}
+						if(field.propertie().get("type").toString().compareTo("lookup")==0){
+							xml.setElement("lookup", field.getLookup());
+							/*
+							 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+				                    <label>Lookup</label>
+				                    <value/>
+				                    <lookup>http://xpto/file.xml</lookup>
+				                </lookup_1>
+							 */
+						}
+						xml.endElement();
 					}
-					if(field.propertie().get("type").toString().compareTo("separator")!=0){//Seprator field not contain tag value
-						getXmlValue(xml,field);
-					}
-					if(field.propertie().get("type").toString().compareTo("lookup")==0){
-						xml.setElement("lookup", field.getLookup());
-						/*
-						 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
-			                    <label>Lookup</label>
-			                    <value/>
-			                    <lookup>http://xpto/file.xml</lookup>
-			                </lookup_1>
-						 */
-					}
-					xml.endElement();
 				}
 			if(view_img.toString().compareTo("") > 0){//add tag view_img in case the View
 				xml.setElement("view_img", view_img);//<view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
@@ -82,44 +84,50 @@ public class GenXMLField {
 		if(fields.size() > 0){
 			xml.startElement("label");
 				for(Field field:fields){
-					xml.startElement(field.getTagName());
-					writteAttributes(xml,field.propertie());
-					xml.text(field.getLabel());
-					xml.endElement();
+					if(field.isVisible()){
+						xml.startElement(field.getTagName());
+						writteAttributes(xml,field.propertie());
+						xml.text(field.getLabel());
+						xml.endElement();
+					}
 				}
 			xml.endElement();
 			xml.startElement("value");
 				for(Field field:fields){
-					if(field.propertie().get("type").toString().compareTo("select") != 0 && field.propertie().get("type").toString().compareTo("radiolist") != 0 && field.propertie().get("type").toString().compareTo("checkboxlist") != 0 ){
-						xml.startElement(field.getTagName());
-						writteAttributes(xml,field.propertie());
-						xml.text(""+field.getValue());
-						if(field.propertie().get("type").toString().compareTo("lookup")==0){
-							xml.setElement("lookup", field.getLookup());
-							/*
-							 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
-				                    <label>Lookup</label>
-				                    <value/>
-				                    <lookup>http://xpto/file.xml</lookup>
-				                </lookup_1>
-							 */
+					if(field.isVisible()){
+						if(field.propertie().get("type").toString().compareTo("select") != 0 && field.propertie().get("type").toString().compareTo("radiolist") != 0 && field.propertie().get("type").toString().compareTo("checkboxlist") != 0 ){
+							xml.startElement(field.getTagName());
+							writteAttributes(xml,field.propertie());
+							xml.text(""+field.getValue());
+							if(field.propertie().get("type").toString().compareTo("lookup")==0){
+								xml.setElement("lookup", field.getLookup());
+								/*
+								 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
+					                    <label>Lookup</label>
+					                    <value/>
+					                    <lookup>http://xpto/file.xml</lookup>
+					                </lookup_1>
+								 */
+							}
+							xml.endElement();
 						}
-						xml.endElement();
 					}
 				}
 			xml.endElement();
 			xml.startElement("list");
 			for(Field field:fields){
-				if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
-					xml.startElement(field.getTagName());
-					writteAttributes(xml,field.propertie());
-					for(Entry<Object, Object> obj : field.getOptions().entrySet()){
-						xml.startElement("option");
-						xml.setElement("text", obj.getValue().toString());
-						xml.setElement("value", obj.getKey().toString());
+				if(field.isVisible()){
+					if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
+						xml.startElement(field.getTagName());
+						writteAttributes(xml,field.propertie());
+						for(Entry<Object, Object> obj : field.getOptions().entrySet()){
+							xml.startElement("option");
+							xml.setElement("text", obj.getValue().toString());
+							xml.setElement("value", obj.getKey().toString());
+							xml.endElement();
+						}
 						xml.endElement();
 					}
-					xml.endElement();
 				}
 			}
 			xml.endElement();

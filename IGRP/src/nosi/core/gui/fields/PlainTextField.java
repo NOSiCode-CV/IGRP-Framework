@@ -8,7 +8,7 @@ package nosi.core.gui.fields;
  */
 public class PlainTextField extends AbstractField {
 
-	public PlainTextField(String name) {
+	public PlainTextField(Object model,String name) {
 		super();
 		this.propertie.put("type","plaintext");
 		this.setTagName(name);
@@ -16,6 +16,7 @@ public class PlainTextField extends AbstractField {
 		this.propertie.put("clear", false);
 		this.propertie.put("maxlength", 30);
 		this.propertie.put("right", false);
+		this.configValue(model);
 	}
 
 }

@@ -105,12 +105,14 @@ public class MainTest {
 		formlist.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_1","danger");
 		formlist.addButton("Button name", "App name", "Page name", "Action name", "Target", "Image name", "","buuton_2","danger","params");
 		
-		IGRPBox box = new IGRPBox("box_1");
+		
 		IGRPTabContent tab = new IGRPTabContent("tabcontent_1");
 		tab.addItem("tab_item_1", "Tab Item 1", "fa-dot-circle-o");
 		tab.addItem("tab_item_2", "Tab Item 2", "fa-dot-circle-o");
-		System.out.println(tab);
+		
 		*/
+		IGRPParagraph box = new IGRPParagraph("section", "Teste");
+		System.out.println(box);
 	}
 
 }
