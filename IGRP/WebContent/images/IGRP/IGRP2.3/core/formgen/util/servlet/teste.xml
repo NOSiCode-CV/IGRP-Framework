@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="XSL_GENERATOR.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>undefined</page>
+    <app>undefined</app>
+    <plsql>
+        <action>undefined</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index?id=</preserve_url>
+    </plsql>
+    <content>
+        <title>undefined</title>
+       <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <text_1 name="p_text_1" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Text</label>
+                    <value>Aperiam natus aperiam dolor ipsum</value>
+                </text_1>
+            </fields>
+        </form_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <number_1 name="p_number_1" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Number</label>
+                    <value>656</value>
+                </number_1>
+            </fields>
+        </form_2>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <text_1 name="p_text_1" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Text</label>
+                </text_1>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Date</label>
+                </date_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1 name="p_text_1">Elit totam officia aliqua laudantium</text_1>
+                        <date_1 name="p_date_1"/>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Magna ut laudantium rem iste</text_1>
+                        <date_1 name="p_date_1"/>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Sit omnis ipsum perspiciatis natus</text_1>
+                        <date_1 name="p_date_1"/>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Consectetur elit magna anim mollit</text_1>
+                        <date_1 name="p_date_1"/>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

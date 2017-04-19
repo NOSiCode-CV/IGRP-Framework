@@ -8,7 +8,6 @@ package nosi.core.gui.fields;
  */
 
 import java.util.HashMap;
-import java.util.Properties;
 
 public interface Field {
 	public String getTagName();
@@ -22,7 +21,7 @@ public interface Field {
 	public HashMap<Object,Object> getOptions();
 	public void setLabel(String label);
 	public String getLabel();
-	public Properties propertie();
+	public FieldProperties propertie();
 	public void setLookup(String lookup);
 	public String getLookup();
 	public void setVisible(boolean visible);

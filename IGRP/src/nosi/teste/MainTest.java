@@ -21,7 +21,11 @@ import nosi.core.gui.fields.TextField;
 public class MainTest {
 
 	public static void main(String[] args) {
-		
+		IGRPForm form = new IGRPForm("form_1");
+		Field nome = new TextField(null,"nome");		
+		nome.setValue("Ima");
+		nome.propertie().add("ajha", "hssd");
+		form.addField(nome);
 		/*IGRPForm form = new IGRPForm("form_1");
 		IGRPForm form2 = new IGRPForm("form_2");
 		IGRPView view = new IGRPView("view_1");
@@ -112,7 +116,8 @@ public class MainTest {
 		
 		*/
 		IGRPParagraph box = new IGRPParagraph("section", "Teste");
-		System.out.println(box);
+	
+		System.out.println(form);
 	}
 
 }
