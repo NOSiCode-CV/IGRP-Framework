@@ -58,7 +58,7 @@ public class IgrpDb {
 				this.connectionName = "jdbc:sqlite:" + this.dbName;
 			break;
 			
-			case "PostgreSQL":	
+			case "postgresql":	
 			default: // Default connection
 				this.driverName = "org.postgresql.Driver";
 				this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
@@ -84,10 +84,4 @@ public class IgrpDb {
 	public Connection unwrap(){
 		return this.conn;
 	}
-	
-	// Para testar connections ...
-	public static void main(String []args){
-		new IgrpDb("teste", "postgres", "nunes").newConnection("postgre");
-	}
-	
 }
