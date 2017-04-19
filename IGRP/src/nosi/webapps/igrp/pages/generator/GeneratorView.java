@@ -29,12 +29,12 @@ public class GeneratorView extends View{
 	public Field xsl_path;
 	public Field on_click;
 	public Field icon;
-	public TextField title;
-	public TextField id;
-	public TextField id_pai;
-	public LinkField link;
-	public LinkField link_desc;
-	public TextField tipo;
+	public Field title;
+	public Field id;
+	public Field id_pai;
+	public Field link;
+	public Field link_desc;
+	public Field tipo;
 	
 	@Override
 	public void render(){

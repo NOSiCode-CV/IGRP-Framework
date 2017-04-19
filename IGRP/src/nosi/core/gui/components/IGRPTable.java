@@ -1,10 +1,10 @@
 package nosi.core.gui.components;
 
 import java.util.ArrayList;
-import java.util.Properties;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
 
 /**
@@ -56,7 +56,7 @@ public class IGRPTable {
 
 	protected XMLWritter xml;
 	protected ArrayList<Field> fields;
-	public Properties properties;
+	public FieldProperties properties;
 	protected String tag_name;
 	private IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
@@ -65,7 +65,7 @@ public class IGRPTable {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
-		this.properties = new Properties();
+		this.properties = new FieldProperties();
 		this.properties.put("type", "table");
 		this.properties.put("structure", "fields");
 		this.contextmenu = new IGRPContextMenu();
@@ -75,7 +75,7 @@ public class IGRPTable {
 	public IGRPTable(String tag_name,float version){
 		this(tag_name);
 		this.version = version;
-		this.properties = new Properties();
+		this.properties = new FieldProperties();
 		this.properties.put("operation", "");
 	}
 	public void addField(Field field){

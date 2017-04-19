@@ -10,7 +10,6 @@ package nosi.core.gui.fields;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Properties;
 
 public abstract class AbstractField implements Field{
 
@@ -20,13 +19,13 @@ public abstract class AbstractField implements Field{
 	private String lookup = "";
 	private boolean isVisible=true;
 	
-	public Properties propertie;
+	public FieldProperties propertie;
 	
-	public Properties propertie(){
+	public FieldProperties propertie(){
 		return this.propertie;
 	}
 	public AbstractField(){
-		this.propertie = new Properties();
+		this.propertie = new FieldProperties();
 	}
 	public String getLabel() {
 		label = label != ""?label:this.propertie.get("name").toString().toUpperCase();

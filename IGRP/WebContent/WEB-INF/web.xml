@@ -16,6 +16,7 @@
 	 <servlet-mapping>
 	    <servlet-name>default</servlet-name>
 	    <url-pattern>/images/IGRP/IGRP2.3/*</url-pattern>
+	    <url-pattern>/images/IGRP/IGRP2.3/core/formgen/util/servlet/*</url-pattern>
 	    <url-pattern>/images/IGRP/Config/*</url-pattern>
 	</servlet-mapping>
 	

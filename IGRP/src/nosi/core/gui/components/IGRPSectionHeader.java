@@ -18,10 +18,10 @@ package nosi.core.gui.components;
 	</sectionheader_1>
  */
 import java.util.ArrayList;
-import java.util.Properties;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.TextField;
 import nosi.core.xml.XMLWritter;
 
@@ -29,14 +29,14 @@ public class IGRPSectionHeader {
 	
 	private XMLWritter xml;
 	private String tag_name;
-	protected Properties properties;
+	protected FieldProperties properties;
 	protected ArrayList<Field> fields;
 	
 	public IGRPSectionHeader(String tag,String text) {
 		this.tag_name = tag;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
-		this.properties = new Properties();
+		this.properties = new FieldProperties();
 		this.properties.put("type", "sectionheader");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
