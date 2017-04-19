@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.defaultPagina;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-
 import nosi.core.webapp.*;
 /**
  * @author Marcel Iekiny
@@ -10,10 +9,11 @@ import nosi.core.webapp.*;
  */
 public class DefaultPaginaController extends Controller{
 	
-	public void actionIndex() throws IOException{
+	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 	
 	DefaultPaginaModel model = new DefaultPaginaModel();
 	
+	model.load();
 	/*
 	 * Start put your other model here ...
 	 * */
@@ -31,7 +31,7 @@ public class DefaultPaginaController extends Controller{
 	this.renderView(
 			new DefaultPaginaView().
 			addModel("model1", model).
-			addModel("model2", new String("Iekiny Marcel"))
+			addModel("model2", new String("Iekiny Marcel")), true
 			);
 	}
 	
