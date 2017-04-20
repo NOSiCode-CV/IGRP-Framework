@@ -8,7 +8,7 @@
 
 	
 	<!--
-		Declare fields and create instance
+		Declare fields and create instance in class view
     	if(type=='declare'){
      		Field text_1;
      		Field text_2;
@@ -21,11 +21,10 @@
 			...
 		}
 	-->
-     <xsl:template name="gen-field">
-		<xsl:param name="type_content" /> 
+     <xsl:template name="gen-field-view">
 		<xsl:param name="type" /> 
-		<xsl:for-each select="rows/content/*[@type=$type_content]/fields/*">
-			<xsl:if test="not(@name=preceding::node()/@name)">
+        <xsl:for-each select="//fields/*">
+            <xsl:if test="not(@name=preceding::node()/@name)">
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
 						<xsl:value-of select="$tab"/>
@@ -34,13 +33,28 @@
 					<xsl:when test="$type='instance'">
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat(name(),' = new ')"/>
-						<xsl:call-template name="typeField">
+						<xsl:call-template name="typeFieldClass">
 				    		<xsl:with-param name="type" select="@type" />
 				    	</xsl:call-template>
-						<xsl:value-of select="concat('(',$double_quotes,name(),$double_quotes,');')"/>
+						<xsl:value-of select="concat('(','model',',',$double_quotes,name(),$double_quotes,');')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat(name(),'.setLabel(',$double_quotes,./label,$double_quotes,');')"/>
+						<xsl:variable name="_tag">
+							<xsl:value-of select="name()"/>
+						</xsl:variable>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+
+						<!-- 
+							add recursive properies
+							date_1.propertie().add("name","p_date_1").add("type","date");
+						-->
+						<xsl:value-of select="concat(name(),'.propertie()')"/>
+						<xsl:for-each select="@*">
+							<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+		    			</xsl:for-each>
+						<xsl:value-of select="';'"/>
 					</xsl:when>
 				</xsl:choose>				
 				<xsl:value-of select="$newline"/>
@@ -48,13 +62,14 @@
 		</xsl:for-each>
 	</xsl:template>
 
+
 	<!--
  		Add field into container, for example:
 	 	form_1.addField(text_1);
 	-->
 	<xsl:template name="add-field">
 		<xsl:param name="type" /> 
-		<xsl:for-each select="rows/content/*[@type=$type]/*">
+		<xsl:for-each select="/rows/content/*[@type=$type]/*">
 			<xsl:if test="local-name() = 'fields'">
 			 	<xsl:variable name="instance_name">
 			 		<xsl:value-of select="local-name(parent::*)"/>
@@ -69,8 +84,8 @@
 		</xsl:for-each>
 	</xsl:template>
 
-	<!-- get type field -->
-	<xsl:template name="typeField">
+	<!-- get type class field -->
+	<xsl:template name="typeFieldClass">
     	<xsl:param name="type"/>    	
 	    	<xsl:choose>
 	    		<xsl:when test="$type='number'">
@@ -137,6 +152,76 @@
 	    			<xsl:value-of select="'VirtaulKeyboardField'" />
 	    		</xsl:when>
 	    		<xsl:otherwise />   		
+	    	</xsl:choose>    	
+    </xsl:template>      
+
+    <!-- get type field -->
+	<xsl:template name="typeField">
+    	<xsl:param name="type"/>    	
+	    	<xsl:choose>
+	    		<xsl:when test="$type='number'">
+	    			<xsl:value-of select="'float'" />
+	    		</xsl:when>
+	    		<xsl:otherwise>
+	    			<xsl:value-of select="'String'" />
+	    		</xsl:otherwise>	
+	    	</xsl:choose>    	
+    </xsl:template> 
+
+    <!-- gen get and set field -->
+	<xsl:template name="getSetField">
+    	<xsl:param name="type"/>   
+    	<xsl:param name="name"/>   
+    		<xsl:variable name="name_">
+    			<xsl:call-template name="CamelCaseWord">
+			        <xsl:with-param name="text">
+			        	<xsl:value-of select="$name"/>
+			        </xsl:with-param>
+		        </xsl:call-template>
+    		</xsl:variable> 	
+	    	<xsl:choose>
+	    		<xsl:when test="$type='number'">
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="concat('public void set',$name_,'(float ',$name,'){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2"/>
+	    			<xsl:value-of select="concat('this.',$name,' = ',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="'}'"/>
+
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="concat('public float get',$name_,'(){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2"/>
+	    			<xsl:value-of select="concat('return this.',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="'}'"/>
+	    		</xsl:when>
+	    		<xsl:otherwise>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="concat('public void set',$name_,'(String ',$name,'){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2"/>
+	    			<xsl:value-of select="concat('this.',$name,' = ',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="'}'"/>
+
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="concat('public String get',$name_,'(){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2"/>
+	    			<xsl:value-of select="concat('return this.',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab"/>
+	    			<xsl:value-of select="'}'"/>
+	    		</xsl:otherwise>	
 	    	</xsl:choose>    	
     </xsl:template>      
 </xsl:stylesheet>

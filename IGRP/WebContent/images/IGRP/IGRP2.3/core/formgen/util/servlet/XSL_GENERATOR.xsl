@@ -12,6 +12,7 @@
 
     <xsl:template match="/">
     	<xsl:call-template name="create-model"></xsl:call-template>
-    	<xsl:call-template name="create-view"></xsl:call-template>
+        <xsl:call-template name="create-view"></xsl:call-template>
+    	<xsl:call-template name="create-controller"></xsl:call-template>
     </xsl:template>
 </xsl:stylesheet>

@@ -6,43 +6,46 @@
     <xsl:output method="text" encoding="UTF-8" indent="no" />
      <xsl:preserve-space elements="*"/>
 
-   
-	<!-- get class name instance -->
-	<xsl:template name="typeClass">
-    	<xsl:param name="type"/>    	
-    	<xsl:choose>
-    		<xsl:when test="$type='form'">
-    			<xsl:value-of select="'IGRPForm'" />
-    		</xsl:when>
-    		<xsl:when test="$type='table'">
-    			<xsl:value-of select="'IGRPTable'" />
-    		</xsl:when>
-    		<xsl:otherwise />   
-    	</xsl:choose>
-    </xsl:template>
+   	<!--
+		Declare get and set mehtods in class model
+    	public String getText(){
+    		return this.text;
+    	}
+    	...
+	-->
+    <xsl:template name="gen-get-set-model">
+        <xsl:for-each select="//fields/*">
+            <xsl:if test="not(@name=preceding::node()/@name)">	
+				<xsl:value-of select="$tab"/>
+				<xsl:call-template name="getSetField">
+		    		<xsl:with-param name="type" select="@type" />
+		    		<xsl:with-param name="name" select="name()" />
+		    	</xsl:call-template>
+				<xsl:value-of select="$newline"/>
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
 
-   
-    <!-- declare variables in the class model -->
- 	<xsl:template name="declare-variables-model">
-		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:call-template name="gen-field">
-			<xsl:with-param name="type_content">
-				<xsl:value-of select="'form'" />
-			</xsl:with-param>
-			<xsl:with-param name="type">
-				<xsl:value-of select="'declare'" />
-			</xsl:with-param>
-		</xsl:call-template>
-		<xsl:call-template name="gen-field">
-			<xsl:with-param name="type_content">
-				<xsl:value-of select="'table'" />
-			</xsl:with-param>
-			<xsl:with-param name="type">
-				<xsl:value-of select="'declare'" />
-			</xsl:with-param>
-		</xsl:call-template>
- 	</xsl:template>
+	<!--
+		Declare fields in class model
+    	private String text;
+    	private int id;
+    	...
+	-->
+    <xsl:template name="declare-variables-model">
+        <xsl:for-each select="//fields/*">
+            <xsl:if test="not(@name=preceding::node()/@name)">		
+				<xsl:value-of select="$tab"/>
+				<xsl:variable name="type_field">
+					<xsl:call-template name="typeField">
+			    		<xsl:with-param name="type" select="@type" />
+			    	</xsl:call-template>
+				</xsl:variable>
+				<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>				
+				<xsl:value-of select="$newline"/>
+			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
 
  	<!-- import all class to using in model -->
  	<xsl:template name="import-packages-model">
@@ -58,6 +61,7 @@
 	 		<xsl:value-of select="$tab2"/>
 	 		<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="declare-variables-model"></xsl:call-template>
+	 		<xsl:call-template name="gen-get-set-model"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
  	</xsl:template>
