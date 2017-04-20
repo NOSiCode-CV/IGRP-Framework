@@ -22,5 +22,11 @@
     <xsl:variable name="import_components">import nosi.core.gui.components.*;</xsl:variable>
     <xsl:variable name="import_view">import nosi.core.webapp.View;</xsl:variable>
     <xsl:variable name="import_model">import nosi.core.webapp.Model;</xsl:variable>
+    <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
     <xsl:variable name="class_name">Teste</xsl:variable>
+    <xsl:template name="CamelCaseWord">
+      <xsl:param name="text"/>
+      <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />
+      <xsl:value-of select="translate(substring($text,2,string-length($text)-1),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')" />
+    </xsl:template>
 </xsl:stylesheet>
