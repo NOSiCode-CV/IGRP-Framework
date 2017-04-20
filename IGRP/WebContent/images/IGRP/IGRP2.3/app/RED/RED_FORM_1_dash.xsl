@@ -67,7 +67,7 @@
                             <li rel="gen-plsql" xslt-path="{$path}/core/formgen/util/plsql" xslt-file="XSL-plsql.xsl" text-color="1">
                                 <span>PLSQL</span>
                             </li>
-                            <li rel="gen-java" xslt-path="{$path}/core/formgen/util/servlet" xslt-file="XSL_GENERATOR.xsl" text-color="1">
+                            <li rel="gen-java" xslt-path="{$path}/core/formgen/util/java" xslt-file="XSL_GENERATOR.xsl" text-color="1">
                                 <span>JAVA</span>
                             </li>
                         </ul>
