@@ -33,10 +33,10 @@
  		<xsl:text>public void actionIndex() throws IOException{</xsl:text>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($class_name,'Model',' model = ',$class_name,'Model();')"/>
+		<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($class_name,'View',' view = ',$class_name,'View();')"/>
+		<xsl:value-of select="concat($class_name,'View',' view = new ',$class_name,'View();')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
 		<xsl:value-of select="concat('view.addModel(',$double_quotes,'model',$double_quotes,',','model);')"/>

@@ -44,7 +44,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$tab"/>
-			<xsl:value-of select="concat($class_name,'Model',' model = (',$class_name,'Model) this.getModel(',$double_quotes,'model',$double_quotes,');')"/>
+			<xsl:value-of select="concat($class_name,' model = (',$class_name,') this.getModel(',$double_quotes,'model',$double_quotes,');')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
 			<xsl:value-of select="$newline"/>
@@ -110,7 +110,10 @@
 			 	<xsl:choose>
 			 		<xsl:when test="$type='instance'">
 						<xsl:value-of select="$tab"/>
-			 			<xsl:value-of select="concat($className,' ',$instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
+			 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
+			 		</xsl:when>
+			 		<xsl:when test="$type='declare'">
+			 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
 			 		</xsl:when>
 			 		<xsl:when test="$type='add-to-page'">
 			 			<xsl:value-of select="$tab"/>
@@ -131,6 +134,16 @@
 				<xsl:value-of select="'declare'" />
 			</xsl:with-param>
 		</xsl:call-template>
+		<xsl:for-each select="//content/*">
+ 			<xsl:call-template name="gen-instance-components">
+				<xsl:with-param name="type_content">
+					<xsl:value-of select="@type" />
+				</xsl:with-param>
+				<xsl:with-param name="type">
+					<xsl:value-of select="'declare'" />
+				</xsl:with-param>
+			</xsl:call-template>
+ 		</xsl:for-each>
  	</xsl:template>
 
  	<!-- instances components in the class view -->
@@ -209,6 +222,18 @@
     		</xsl:when>
     		<xsl:when test="$type='view'">
     			<xsl:value-of select="'IGRPView'" />
+    		</xsl:when>    		
+    		<xsl:when test="$type='mapchart'">
+    			<xsl:value-of select="'IGRPMapChart'" />
+    		</xsl:when>  		
+    		<xsl:when test="$type='map'">
+    			<xsl:value-of select="'IGRPMapEsri'" />
+    		</xsl:when>  		
+    		<xsl:when test="$type='iframe'">
+    			<xsl:value-of select="'IGRPIframe'" />
+    		</xsl:when>		
+    		<xsl:when test="$type='video'">
+    			<xsl:value-of select="'IGRPVideo'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>

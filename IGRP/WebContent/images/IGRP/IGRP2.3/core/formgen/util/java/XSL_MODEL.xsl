@@ -57,7 +57,7 @@
  	<xsl:template name="create-model">
  		<xsl:call-template name="import-packages-model"></xsl:call-template>
  		<xsl:value-of select="$newline"/>
-	 		<xsl:value-of select="concat('public class ',$class_name,'Model extends Model{')"/>
+	 		<xsl:value-of select="concat('public class ',$class_name,' extends Model{')"/>
 	 		<xsl:value-of select="$tab2"/>
 	 		<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="declare-variables-model"></xsl:call-template>
