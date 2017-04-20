@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.io.File;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
@@ -119,7 +120,45 @@ public class Igrp {
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = c.getMethod(auxActionName, null);
-			action.invoke(controller, null);
+			int countParameter = action.getParameterCount();
+			ArrayList paramValues = new ArrayList();
+			
+			if(countParameter > 0){
+				
+				for(Parameter parameter : action.getParameters()){
+					
+					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
+						
+						// Dependency Injection for models
+						
+						Class c_ = Class.forName(parameter.getType().getName());
+						paramValues.add(c_.newInstance());
+						
+					}else{
+					
+					if(!parameter.getType().getGenericSuperclass().getTypeName().equals("java.lang.Object") && parameter.getAnnotation(QSParam.class) != null){
+						
+							// Dependency Injection for simple vars ...
+							if(parameter.getType().isArray()){
+								
+								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(QSParam.class).qsParamName());
+								paramValues.add(result);
+								
+							}else{
+								
+								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(QSParam.class).qsParamName());
+								paramValues.add(result);
+							}
+						
+						}
+					}
+				}
+				
+				action.invoke(controller, paramValues.toArray());
+				
+			}else{
+				action.invoke(controller, null);
+			}
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
