@@ -13,7 +13,7 @@ public class MyTeste {
 	private MyTeste teste;
 	private boolean []xpto;
 	
-	public void func(@QSParam(qsParamName = "param1") String name){
+	public void func(@QSParam(qsParamName = "param1") String name, int x){
 		System.out.println(name);
 	}
 
@@ -21,7 +21,13 @@ public class MyTeste {
 		MyTeste obj =  new MyTeste();
 		Class c = obj.getClass();
 		for(Method method : c.getDeclaredMethods()){
-			
+			if(method.getName().equals("func")){
+				for(Parameter parameter : method.getParameters()){
+					if(parameter.getAnnotation(QSParam.class) != null)
+						System.out.println(parameter.getAnnotation(QSParam.class).qsParamName());
+				}
+					
+			}
 			/*for(Parameter parameter :method.getParameters()){
 				QSParam a = parameter.getAnnotation(QSParam.class);
 				System.out.println(a.qsParamName());
