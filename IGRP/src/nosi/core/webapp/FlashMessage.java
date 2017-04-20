@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
@@ -9,11 +10,11 @@ import nosi.core.webapp.Igrp;
  * @author Marcel Iekiny
  * Apr 19, 2017
  */
-public class FlashMessage {
+public class FlashMessage implements Serializable{
 	
 	private Message msgs;
 	
-	public FlashMessage(){
+	public FlashMessage(){	// "flash" is the reserved name for messages in session
 		this.msgs = new Message();
 		if(Igrp.getInstance().getRequest().getSession(true).getAttribute("flash") == null){
 			Igrp.getInstance().getRequest().getSession(true).setAttribute("flash", this.msgs);
@@ -47,7 +48,7 @@ public class FlashMessage {
 		return this.msgs;
 	}
 	
-	private class Message{ // inner/internal class for all message
+	private class Message implements Serializable{ // inner/internal class for all message
 		
 		private Map<String, ArrayList<String>> msg;
 		

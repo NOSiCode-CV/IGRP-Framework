@@ -14,13 +14,8 @@ public class DefaultPaginaController extends Controller{
 	
 	FlashMessage flashMessage = new FlashMessage();
 	
-	//flashMessage.addMessage("error", "Error1 ...");
+	//flashMessage.addMessage("error", "Error2 ...");
 	
-	//Igrp.getInstance().getRequest().getSession().setAttribute("att1", "12");
-	
-	//System.out.println(Igrp.getInstance().getRequest().getSession().getAttribute("flash"));
-	
-	//System.out.println(Igrp.getInstance().getRequest().getSession().getAttribute("flash"));
 	System.out.println(flashMessage.getMessages("error"));
 	/*
 	 * Start put your other model here ...
