@@ -19,8 +19,8 @@ package nosi.core.gui.components;
  */
 public class IGRPParagraph extends IGRPSectionHeader {
 
-	public IGRPParagraph(String tag, String text) {
-		super(tag, text);
+	public IGRPParagraph(String tag) {
+		super(tag);
 		this.properties.put("type", "paragraph");
 	}
 

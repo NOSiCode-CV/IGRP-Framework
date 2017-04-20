@@ -11,8 +11,24 @@
     <xsl:include href="XSL_CONTROLLER.xsl" />
 
     <xsl:template match="/">
-    	<xsl:call-template name="create-model"></xsl:call-template>
-        <xsl:call-template name="create-view"></xsl:call-template>
-    	<xsl:call-template name="create-controller"></xsl:call-template>
+    	<xsl:text>/*Create Model*/</xsl:text>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    		<xsl:call-template name="create-model"></xsl:call-template>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    	<xsl:text>/*End Model*/</xsl:text>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    	<xsl:text>/*Create View*/</xsl:text>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+        	<xsl:call-template name="create-view"></xsl:call-template>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    	<xsl:text>/*End View*/</xsl:text>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    	<xsl:text>/*Create Controller*/</xsl:text>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    		<xsl:call-template name="create-controller"></xsl:call-template>
+   		<xsl:value-of select="$newline"></xsl:value-of>
+    	<xsl:text>/*End Controller*/</xsl:text>
     </xsl:template>
 </xsl:stylesheet>

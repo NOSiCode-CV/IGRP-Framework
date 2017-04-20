@@ -11,21 +11,26 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.components.IGRPView;
 import nosi.core.gui.fields.CheckBoxListField;
+import nosi.core.gui.fields.DateField;
 import nosi.core.gui.fields.EmailField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
+import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
 
 public class MainTest {
-
+	
 	public static void main(String[] args) {
-		IGRPForm form = new IGRPForm("form_1");
-		Field nome = new TextField(null,"nome");		
-		nome.setValue("Ima");
-		nome.propertie().add("ajha", "hssd");
-		form.addField(nome);
+		 Field sectionheader_1_text;
+		 Field date_1;
+		 Field number_1;
+		 Field view_img;
+		 IGRPSectionHeader sectionheader_1;
+		 IGRPForm form_1;
+		 IGRPFormList formlist_1;
+		 IGRPView view_1;
 		/*IGRPForm form = new IGRPForm("form_1");
 		IGRPForm form2 = new IGRPForm("form_2");
 		IGRPView view = new IGRPView("view_1");
@@ -114,10 +119,42 @@ public class MainTest {
 		tab.addItem("tab_item_1", "Tab Item 1", "fa-dot-circle-o");
 		tab.addItem("tab_item_2", "Tab Item 2", "fa-dot-circle-o");
 		
-		*/
-		IGRPParagraph box = new IGRPParagraph("section", "Teste");
-	
-		System.out.println(form);
+		
+		IGRPParagraph box = new IGRPParagraph("section");
+		box.addField();*/
+		TesteModel model = new TesteModel();
+		
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
+		form_1 = new IGRPForm("form_1");
+		formlist_1 = new IGRPFormList("formlist_1");
+		view_1 = new IGRPView("view_1");
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel("");
+		sectionheader_1_text.setValue("Teste");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		date_1 = new DateField(model,"date_1");
+		date_1.setLabel("Date");
+		date_1.propertie().add("name","p_date_1").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
+		number_1 = new NumberField(model,"number_1");
+		number_1.setLabel("Number");
+		number_1.propertie().add("name","p_number_1").add("type","number").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("desc","true");
+		view_img = new TextField(model,"view_img");
+		view_img.setLabel("");
+		view_img.propertie().add("maxlength","300");
+
+		sectionheader_1.addField(sectionheader_1_text);
+
+		form_1.addField(date_1);
+
+		formlist_1.addField(number_1);
+
+		view_1.addField(number_1);
+		view_1.addField(date_1);
+		view_1.addField(view_img);
+		System.out.println(form_1);
+		System.out.println(formlist_1);
+		System.out.println(view_1);
+		System.out.println(sectionheader_1);
 	}
 
 }
