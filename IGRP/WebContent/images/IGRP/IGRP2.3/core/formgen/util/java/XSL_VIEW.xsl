@@ -27,6 +27,10 @@
  	<xsl:template name="import-packages-view">
  		<xsl:value-of select="$import_view"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_components"/>
+		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_fields"/>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
 
  	<!-- create render method 
