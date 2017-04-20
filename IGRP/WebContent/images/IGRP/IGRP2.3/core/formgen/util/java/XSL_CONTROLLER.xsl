@@ -24,6 +24,8 @@
  	<xsl:template name="import-packages-controller">
  		<xsl:value-of select="$import_controller"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_exception"/>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
 
  	<!-- add actionIndex() - it is default method in any controller -->

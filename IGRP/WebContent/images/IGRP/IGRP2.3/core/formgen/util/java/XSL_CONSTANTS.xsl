@@ -20,9 +20,11 @@
     </xsl:variable>
     <xsl:variable name="double_quotes">"</xsl:variable>
     <xsl:variable name="import_components">import nosi.core.gui.components.*;</xsl:variable>
+    <xsl:variable name="import_fields">import nosi.core.gui.fields.*;</xsl:variable>
     <xsl:variable name="import_view">import nosi.core.webapp.View;</xsl:variable>
     <xsl:variable name="import_model">import nosi.core.webapp.Model;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
+    <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
     <xsl:variable name="class_name">Teste</xsl:variable>
     <xsl:template name="CamelCaseWord">
       <xsl:param name="text"/>

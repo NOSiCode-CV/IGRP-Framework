@@ -159,7 +159,9 @@
 	    		<xsl:when test="$type='virtualkeyboard'">
 	    			<xsl:value-of select="'VirtaulKeyboardField'" />
 	    		</xsl:when>
-	    		<xsl:otherwise />   		
+	    		<xsl:otherwise>
+	    			<xsl:value-of select="'TextField'" />
+	    		</xsl:otherwise>  		
 	    	</xsl:choose>    	
     </xsl:template>      
 
