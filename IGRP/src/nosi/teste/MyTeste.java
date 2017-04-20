@@ -1,6 +1,8 @@
 package nosi.teste;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
+import nosi.core.webapp.QSParam;;
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
@@ -11,33 +13,20 @@ public class MyTeste {
 	private MyTeste teste;
 	private boolean []xpto;
 	
-	public void func(String name, String surname, int age){
-		System.out.println(name + " - " + surname + " - " + age);
+	public void func(@QSParam(qsParamName = "param1") String name){
+		System.out.println(name);
 	}
 
 	public static void main(String []args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException{
-		
-		MyTeste obj = new MyTeste();
-
-		for(Field f : obj.getClass().getDeclaredFields()){
-			f.setAccessible(true);
-			System.out.println(f.getType().getName());
+		MyTeste obj =  new MyTeste();
+		Class c = obj.getClass();
+		for(Method method : c.getDeclaredMethods()){
+			
+			/*for(Parameter parameter :method.getParameters()){
+				QSParam a = parameter.getAnnotation(QSParam.class);
+				System.out.println(a.qsParamName());
+			}*/
 		}
-		
-		/*	Class c = Class.forName("nosi.teste.MyTeste");
-		MyTeste myTeste = (MyTeste) c.newInstance();
-		
-		Method m = null;
-		
-		for(Method aux : c.getMethods())
-			if("func".equals(aux.getName()))
-				m = aux;
-		
-		Class []paramTypes = m.getParameterTypes();
-		int count = m.getParameterCount();
-		Object []param = new Object[]{"Iekiny", "Marcel", 23};
-		
-		m.invoke(myTeste, param);*/
 	}
 	
 }
