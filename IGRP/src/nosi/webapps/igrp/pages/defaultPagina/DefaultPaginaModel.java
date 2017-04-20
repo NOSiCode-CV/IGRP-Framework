@@ -9,7 +9,8 @@ public class DefaultPaginaModel extends Model{
 	
 	private int cod;
 	private String nome;
-	private String []contato;
+	private short []contato;
+	private DefaultPaginaModel model1;
 	
 	
 	public DefaultPaginaModel(){
@@ -32,11 +33,11 @@ public class DefaultPaginaModel extends Model{
 		this.nome = nome;
 	}
 
-	public String[] getContato() {
+	public short[] getContato() {
 		return contato;
 	}
 	
-	public void setContato(String[] contato) {
+	public void setContato(short[] contato) {
 		this.contato = contato;
 	}
 	

@@ -15,20 +15,23 @@ public class FlashMessage {
 	
 	public FlashMessage(){
 		this.msgs = new Message();
-		if(Igrp.getInstance().getRequest().getSession().getAttribute("flash") == null)
-			Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
+		if(Igrp.getInstance().getRequest().getSession(true).getAttribute("flash") == null){
+			Igrp.getInstance().getRequest().getSession(true).setAttribute("flash", this.msgs);
+		}
 		else
-			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("flash");
+			this.msgs = (Message) Igrp.getInstance().getRequest().getSession(true).getAttribute("flash");
 	}
 	
 	public void addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
 		// actualizar session
+		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
 	public void setMessage(String name, String msg){
 		this.msgs.setMessage(name, msg);
 		// actualizar session
+		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
 	public boolean hasMessage(String name){
@@ -44,7 +47,7 @@ public class FlashMessage {
 		return this.msgs;
 	}
 	
-	private class Message{
+	private class Message{ // inner/internal class for all message
 		
 		private Map<String, ArrayList<String>> msg;
 		
@@ -84,16 +87,5 @@ public class FlashMessage {
 		}
 		
 	}
-	
-	/* For teste purpose
-	 * public static void main(String []args){
-		FlashMessage msg = new FlashMessage();
-		Message msgs = msg.getMessage();
-		
-		msgs.addMessage("error", "Error djkfjdf dkfjdfkdf");
-		msgs.addMessage("error", "Error djkfjdf dkfjdfkdf (2)");
-		
-		System.out.println(msgs.getMessage("error"));
-	}*/
 
 }

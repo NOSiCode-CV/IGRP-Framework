@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.defaultPagina;
 
-import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.*;
 /**
@@ -13,7 +12,16 @@ public class DefaultPaginaController extends Controller{
 	
 	DefaultPaginaModel model = new DefaultPaginaModel();
 	
-	model.load();
+	FlashMessage flashMessage = new FlashMessage();
+	
+	//flashMessage.addMessage("error", "Error1 ...");
+	
+	//Igrp.getInstance().getRequest().getSession().setAttribute("att1", "12");
+	
+	//System.out.println(Igrp.getInstance().getRequest().getSession().getAttribute("flash"));
+	
+	//System.out.println(Igrp.getInstance().getRequest().getSession().getAttribute("flash"));
+	System.out.println(flashMessage.getMessages("error"));
 	/*
 	 * Start put your other model here ...
 	 * */
