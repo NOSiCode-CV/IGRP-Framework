@@ -6,6 +6,7 @@ import nosi.core.webapp.Controller;
 
 public class GeneratorController extends Controller{
 
+	
 	public void actionIndex() throws IOException{
 		
 		GeneratorModel model = new GeneratorModel();
@@ -16,6 +17,7 @@ public class GeneratorController extends Controller{
 		model.setLink_save("images/IGRP/Config/data.txt");
 		GeneratorView view = new GeneratorView();
 		view.addModel("model", model);
+		
 		this.renderView(view,true);
-		}
+	}
 }

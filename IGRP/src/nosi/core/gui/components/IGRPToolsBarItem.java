@@ -1,6 +1,6 @@
 package nosi.core.gui.components;
 
-import java.util.Properties;
+import nosi.core.gui.fields.FieldProperties;
 
 public class IGRPToolsBarItem {
 	
@@ -11,10 +11,10 @@ public class IGRPToolsBarItem {
     private String target = "";
     private String img = "";
     private String params = "";
-    public Properties propertie;
+    public FieldProperties propertie;
     
     public IGRPToolsBarItem(){
-    	this.propertie = new Properties();
+    	this.propertie = new FieldProperties();
     }
     
 	public String getTitle() {
@@ -59,7 +59,7 @@ public class IGRPToolsBarItem {
 	public void setParams(String params) {
 		this.params = params;
 	}
-	public Properties getProperties() {
+	public FieldProperties getProperties() {
 		return this.propertie;
 	}
 }

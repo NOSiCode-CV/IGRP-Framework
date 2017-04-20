@@ -7,10 +7,10 @@ package nosi.core.gui.components;
  * Description: class to generate xml of Form
  */
 import java.util.ArrayList;
-import java.util.Properties;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
 
 /*Generate XML Form
@@ -29,7 +29,7 @@ public class IGRPForm {
 
 	protected XMLWritter xml;
 	protected ArrayList<Field> fields;
-	public Properties properties;
+	public FieldProperties properties;
 	protected String tag_name;
 	protected IGRPToolsBar toolsbar;
 	protected float version = (float) 2.3;
@@ -38,7 +38,7 @@ public class IGRPForm {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
-		this.properties = new Properties();
+		this.properties = new FieldProperties();
 		this.properties.put("type", "form");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
@@ -50,7 +50,7 @@ public class IGRPForm {
 	public IGRPForm(String tag_name,float version){
 		this(tag_name);
 		this.version = version;
-		this.properties = new Properties();
+		this.properties = new FieldProperties();
 		this.properties.put("tab", "");
 	}
 	
