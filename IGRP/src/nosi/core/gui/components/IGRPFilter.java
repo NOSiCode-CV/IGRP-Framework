@@ -16,17 +16,4 @@ public class IGRPFilter extends IGRPForm{
 		this.properties.put("tab", "");
 		this.properties.put("type", "filter");
 	}
-	
-	/*public String toString(){
-		this.xml.startElement(this.tag_name);
-		GenXMLField.writteAttributes(this.xml, properties);
-		GenXMLField.toXmlGenerator(this.xml,this.fields);
-		this.xml.addXml(this.toolsbar.toXmlTools());
-		this.xml.endElement();
-		return this.xml.toString();
-	}*/
-	
-	public void addButton(String title,String app, String page, String link, String target, String img){
-		this.toolsbar.addItem(title, app, page, link, target, img, "","","");
-	}
 }

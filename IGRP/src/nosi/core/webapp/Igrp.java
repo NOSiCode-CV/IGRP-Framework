@@ -80,16 +80,18 @@ public class Igrp {
 	
 	private void resolveRoute() throws IOException{
 		String r = this.request.getParameter("r");// Catch always the first "r" parameter in query string
-		//if(r != null && r.matches("[a-zA-Z]{2,255}/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}")){
-			String []aux = r.split("/");
-			this.currentAppName = aux[0];
-			this.currentPageName = aux[1];
-			this.currentActionName = aux[2];
-			
-			if(!this.validateAppName() || !this.validatePageName() || !this.validateActionName())
-				throw new NotFoundHttpException("Page not found.");
-		//}else
-			//throw new ServerErrorHttpException("The route format is invalid.");
+		if(r!=null){
+			if(r != null && r.matches("[a-zA-Z]{2,255}/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}")){
+				String []aux = r.split("/");
+				this.currentAppName = aux[0];
+				this.currentPageName = aux[1];
+				this.currentActionName = aux[2];
+				
+				if(!this.validateAppName() || !this.validatePageName() || !this.validateActionName())
+					throw new NotFoundHttpException("Page not found.");
+			}else
+				throw new ServerErrorHttpException("The route format is invalid.");
+		}
 	}
 	
 	private boolean validateAppName(){

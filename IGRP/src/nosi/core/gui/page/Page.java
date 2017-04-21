@@ -1,33 +1,31 @@
 package nosi.core.gui.page;
 
-import java.util.Queue;
-import java.util.PriorityQueue;
-import nosi.core.xml.XMLWritter;
+import java.util.ArrayList;
+import java.util.List;
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPToolsBar;
-import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
 
 public class Page {
 	
 	private String template;
-	private String content;
-	
-	Queue<Object> gui;
+	List<Object> gui;
 	
 	
 	public Page(){
-		this.gui = new PriorityQueue<Object>();
+		this.gui = new ArrayList<Object>();
 	}
 	
 	private String convertContentToXml(){
 		String xml = "";
-		while(!this.gui.isEmpty())
-			xml += this.gui.poll();
+		for(Object obj:this.gui){
+			xml += obj.toString();
+		}
+		this.gui = null;
 	 return xml;
 	}
 	
 	public void addContent(Object c){
-		this.gui.offer(c);
+		this.gui.add(c);
 	}
 	
 	private void createTemplate(){

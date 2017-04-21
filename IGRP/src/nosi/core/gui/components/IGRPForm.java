@@ -29,6 +29,7 @@ public class IGRPForm {
 
 	protected XMLWritter xml;
 	protected ArrayList<Field> fields;
+	protected ArrayList<IGRPButton> buttons;
 	public FieldProperties properties;
 	protected String tag_name;
 	protected IGRPToolsBar toolsbar;
@@ -38,6 +39,7 @@ public class IGRPForm {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
+		this.buttons = new ArrayList<>();
 		this.properties = new FieldProperties();
 		this.properties.put("type", "form");
 		this.properties.put("xml-type", "form");
@@ -57,7 +59,12 @@ public class IGRPForm {
 	public void addField(Field field){
 		this.fields.add(field);
 	}
-		
+
+	public void addButton(IGRPButton button){
+		button.propertie.put("type", "form");
+		this.buttons.add(button);
+	}
+			
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);
@@ -66,15 +73,16 @@ public class IGRPForm {
 		else if(this.version == (float) 2.1){
 			GenXMLField.toXmlV21(this.xml,this.fields);
 		}
+		this.toolsbar.setButtons(this.buttons);
 		this.xml.addXml(this.toolsbar.toXmlTools());
 		this.xml.endElement();
 		return this.xml.toString();
 	}
 	
-	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class){
+	/*public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class){
 		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class);
 	}
 	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class, String params){
 		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class, params);
-	}
+	}*/
 }
