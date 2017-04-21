@@ -16,7 +16,7 @@ public abstract class Controller {
 		this.view = null;
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	protected final void renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout
 		this.view = view;
 		view.setContext(this); // associa controller ao view
@@ -27,43 +27,44 @@ public abstract class Controller {
 		app.getResponse().getWriter().append(result);
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	protected final void renderView(View view) throws IOException{ // Overload ...
 		this.renderView(view, false);
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	private final void redirect(String url){
 		System.out.println(url);
 		//Igrp.getInstance().getResponse().sendRedirect("" + url);
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action, String qs) throws IOException{
 		this.redirect(Route.toUrl(app, page, action, qs));
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	protected final void redirect(String r, String qs) throws IOException{
 		this.redirect(Route.toUrl(r, qs));
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	/// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action) throws IOException{
 		this.redirect(Route.toUrl(app, page, action));
 	}
 	
-	// Nao é permitido fazer Override desse method ...
+	// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
 		this.redirect(Route.toUrl(app, page, action, paramNames, paramValues));
+	}
+	
+	protected final void redirectToExternal(String url){
+		this.redirect(url);
 	}
 	
 	public View getView(){
 		return this.view;
 	}
 	
-	public static void main(String []args) throws IOException{
-		new DefaultPaginaController().redirect("igrp", "page1", "action1");
-	}
 	
 }

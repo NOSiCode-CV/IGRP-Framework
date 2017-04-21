@@ -9,11 +9,9 @@ import nosi.core.webapp.*;
  */
 public class DefaultPaginaController extends Controller{
 	
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public void actionIndex(@QSParam(qsParamName = "cod") int cod, @QSParam(qsParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
 	DefaultPaginaModel model = new DefaultPaginaModel();
-	
-	//model.load();
 	/*
 	 * Start put your other model here ...
 	 * */

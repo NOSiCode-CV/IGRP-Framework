@@ -38,11 +38,14 @@ public class Route {
 	}
 	
 	public static void remember(){ // For back button funcionality purpose ...
-		
+		String route = Igrp.getInstance().getRequest().getQueryString();
+		Igrp.getInstance().getRequest().getSession().setAttribute("_route", route);
 	}
 	
 	public static String previous(){ // Catch the previous url in session
-		return "";
+		String result = Igrp.getInstance().getRequest().getSession().getAttribute("_route").toString();
+		result = Igrp.getInstance().getBaseRoute() + result;
+		return result;
 	}
 	
 	public static String toExternalUrl(){ // (Opcional)
