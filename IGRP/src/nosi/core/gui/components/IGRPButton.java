@@ -2,7 +2,7 @@ package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
 
-public class IGRPToolsBarItem {
+public class IGRPButton {
 	
 	private String title = "";
     private String app = "";
@@ -11,9 +11,21 @@ public class IGRPToolsBarItem {
     private String target = "";
     private String img = "";
     private String params = "";
+    
     public FieldProperties propertie;
     
-    public IGRPToolsBarItem(){
+    public IGRPButton(String title,String app,String page,String link,String target,String img,String params){
+    	this.propertie = new FieldProperties();
+    	this.title = title;
+    	this.app = app;
+    	this.page = page;
+    	this.link = link;
+    	this.target = target;
+    	this.img = img;
+    	this.params = params;
+    }
+
+    public IGRPButton(){
     	this.propertie = new FieldProperties();
     }
     

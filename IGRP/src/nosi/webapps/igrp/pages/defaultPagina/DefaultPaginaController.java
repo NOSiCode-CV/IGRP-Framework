@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.defaultPagina;
 
+import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.*;
 /**
@@ -11,13 +12,6 @@ public class DefaultPaginaController extends Controller{
 	public void actionIndex(@QSParam(qsParamName = "cod") int cod, @QSParam(qsParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
 	DefaultPaginaModel model = new DefaultPaginaModel();
-	
-	
-	//FlashMessage flashMessage = new FlashMessage();
-	
-	//flashMessage.addMessage("error", "Error2 ...");
-	
-	//System.out.println(flashMessage.getMessages("error"));
 	/*
 	 * Start put your other model here ...
 	 * */
@@ -39,4 +33,11 @@ public class DefaultPaginaController extends Controller{
 			);
 	}
 	
+	public void actionGravar(){
+		System.out.println("Gravado");
+	}
+	
+	public void actionPublicar(){
+		System.out.println("Publicado");
+	}
 }

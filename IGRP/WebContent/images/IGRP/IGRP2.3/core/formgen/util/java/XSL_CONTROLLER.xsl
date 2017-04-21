@@ -44,7 +44,7 @@
 		<xsl:value-of select="concat('view.addModel(',$double_quotes,'model',$double_quotes,',','model);')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="'this.renderView(view,true);'"/>
+		<xsl:value-of select="'this.renderView(view);'"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:text>}</xsl:text>
