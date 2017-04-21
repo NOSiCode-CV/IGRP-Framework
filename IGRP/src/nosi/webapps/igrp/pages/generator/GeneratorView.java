@@ -73,8 +73,8 @@ public class GeneratorView extends View{
 		link_desc = new LinkField(model,"link_desc");
 		link_desc.propertie().put("type", "field_copy");
 		tipo = new TextField(model,"tipo");
-		btn_gravar = new IGRPButton("Publicar", "igrp", "defaultPagina", "gravar", "submit", "save.png", "");
-		btn_publicar = new IGRPButton("Gravar", "igrp", "defaultPagina", "publicar", "submit", "save.png", "");
+		btn_gravar = new IGRPButton("Publicar", "igrp", "page", "saveGenPage", "submit", "save.png", "");
+		btn_publicar = new IGRPButton("Gravar", "igrp", "page", "publishGenPage", "submit", "save.png", "");
 		btn_pesquisar = new IGRPButton("Pesquisar", "igrp", "form", "1", "_self", "search.png","");
 	}
 	
@@ -107,7 +107,7 @@ public class GeneratorView extends View{
 		table.addField(tipo);		
 
 		form.addButton(btn_gravar);
-		form.addButton(btn_publicar);
+		//form.addButton(btn_publicar);
 		filter.addButton(btn_pesquisar);
 		Generator2_3 gen23 = new Generator2_3(filter.toString()+form.toString()+table.toString());
 		

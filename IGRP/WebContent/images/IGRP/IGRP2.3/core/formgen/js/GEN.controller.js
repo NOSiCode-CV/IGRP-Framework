@@ -1992,11 +1992,12 @@ var GENERATOR = function(genparams){
 			var pageXSL = vkbeautify.xml(GEN.getXSL({
 				removeGenAttrs:true
 			}));
-
+			
 			var vParam  =  [
 				{ name:'p_data'    , value: GEN.export() },//json
 				{ name:'p_page_xml', value: pageXML },//xml
-				{ name:'p_page_xsl', value: pageXSL }//xsl
+				{ name:'p_page_xsl', value: pageXSL },//xslxml
+				{ name:'p_page_java', value: GEN.getJava()},//java
 			];
 			
 			var vItemId = getPageId();
@@ -2017,6 +2018,8 @@ var GENERATOR = function(genparams){
 			           		{name:'p_id_objeto', value:vItemId},
 			           		{name:'p_table_name', value:GEN.SETTINGS.table},
 			           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+							{ name:'p_package', value: GEN.SETTINGS.package},//pacote
+							{ name:'p_class', value: GEN.SETTINGS.html}//class name
 			           	]
 			        },
 					pComplete   :function(xml,text,status){
@@ -2189,7 +2192,14 @@ var GENERATOR = function(genparams){
 		/*sort containers*/
 		//GEN.configSortable($(VARS.html.containersPlaceHolder));
 	}
-
+	
+	GEN.getJava = function(){
+		if(getActiveEditor()){
+			return getActiveEditor().getValue();
+		}
+	};
+	
+	
 	var getItemBeforeDrop = function(type,genType){
 		var gType = genType ? genType : 'container';
 

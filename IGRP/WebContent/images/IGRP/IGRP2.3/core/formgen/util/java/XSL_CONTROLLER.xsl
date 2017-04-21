@@ -22,6 +22,8 @@
 
      <!-- import all class to using in controller -->
  	<xsl:template name="import-packages-controller">
+ 		<xsl:value-of select="concat('package ',$package_name)"/>
+		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_controller"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_exception"/>
@@ -38,10 +40,7 @@
 		<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($class_name,'View',' view = new ',$class_name,'View();')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat('view.addModel(',$double_quotes,'model',$double_quotes,',','model);')"/>
+		<xsl:value-of select="concat($class_name,'View',' view = new ',$class_name,'View(model);')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
 		<xsl:value-of select="'this.renderView(view);'"/>
