@@ -65,6 +65,7 @@ public class IgrpDb {
 				this.connectionName = "jdbc:oracle:thin:@" + this.hostName + ":" + (this.hostPort == 0 ? "8080" : this.hostPort) + ":" + this.dbName;
 				
 			break;
+			
 			case "sqlite":
 				this.driverName = "org.sqlite.JDBC";
 				this.connectionName = "jdbc:sqlite:" + this.dbName;
