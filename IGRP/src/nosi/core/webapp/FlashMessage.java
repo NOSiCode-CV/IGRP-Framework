@@ -16,11 +16,11 @@ public class FlashMessage implements Serializable{
 	
 	public FlashMessage(){	// "flash" is the reserved name for messages in session
 		this.msgs = new Message();
-		if(Igrp.getInstance().getRequest().getSession(true).getAttribute("flash") == null){
-			Igrp.getInstance().getRequest().getSession(true).setAttribute("flash", this.msgs);
+		if(Igrp.getInstance().getRequest().getSession().getAttribute("flash") == null){
+			Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 		}
 		else
-			this.msgs = (Message) Igrp.getInstance().getRequest().getSession(true).getAttribute("flash");
+			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("flash");
 	}
 	
 	public void addMessage(String name, String msg){
