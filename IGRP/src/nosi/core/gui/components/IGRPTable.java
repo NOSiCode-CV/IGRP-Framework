@@ -60,11 +60,13 @@ public class IGRPTable {
 	protected String tag_name;
 	private IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
+	protected ArrayList<IGRPButton> buttons;
 	
 	public IGRPTable(String tag_name) {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.fields = new ArrayList<>();
+		this.buttons = new ArrayList<>();
 		this.properties = new FieldProperties();
 		this.properties.put("type", "table");
 		this.properties.put("structure", "fields");
@@ -81,7 +83,12 @@ public class IGRPTable {
 	public void addField(Field field){
 		this.fields.add(field);
 	}
-		
+
+	public void addButton(IGRPButton button){
+		button.propertie.put("type", "form");
+		this.buttons.add(button);
+	}
+			
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 			GenXMLField.writteAttributes(this.xml, properties);
@@ -91,6 +98,7 @@ public class IGRPTable {
 					this.xml.startElement("value");
 						//adicionar rows depois
 					this.xml.endElement();
+				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 				this.xml.endElement();//end tag table
 			}else if(this.version == (float) 2.1){
@@ -98,16 +106,11 @@ public class IGRPTable {
 				this.xml.startElement("value");
 					//adicionar rows depois
 				this.xml.endElement();//end tag value
+				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 			}
 		this.xml.endElement();
 		return this.xml.toString();
 	}
-	
-	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class){
-		this.contextmenu.addItem(title, app, page, link, target, img, code, rel, _class);
-	}
-	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class, String params){
-		this.contextmenu.addItem(title, app, page, link, target, img, code, rel, _class, params);
-	}
+
 }

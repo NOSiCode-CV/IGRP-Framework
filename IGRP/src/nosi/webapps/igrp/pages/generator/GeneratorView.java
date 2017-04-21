@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.generator;
 
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPFilter;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
@@ -35,15 +36,19 @@ public class GeneratorView extends View{
 	public Field link;
 	public Field link_desc;
 	public Field tipo;
+	public Field env_fk;
+	public IGRPFilter filter;
+	public IGRPForm form;
+	public IGRPTable table;
+	public IGRPButton btn_publicar;
+	public IGRPButton btn_gravar;
+	public IGRPButton btn_pesquisar;
 	
-	@Override
-	public void render(){
-		GeneratorModel model = (GeneratorModel) this.getModel("model");
-		IGRPFilter filter = new IGRPFilter("filter", (float) 2.1);
-		Field env_fk = new ListField(model,"env_fk");
-		filter.addField(env_fk);
-		filter.addButton("Pesquisar", "igrp", "form", "1", "_self", "search.png");
-		IGRPForm form = new IGRPForm("form", (float) 2.1);
+	public GeneratorView(GeneratorModel model) {
+		table = new IGRPTable("table", (float) 2.1);
+		form = new IGRPForm("form", (float) 2.1);		
+		filter = new IGRPFilter("filter", (float) 2.1);
+		env_fk = new ListField(model,"env_fk");
 		gen_elements = new LinkField(model,"gen_elements");
 		has_menu = new TextField(model,"has_menu");
 		id_objeto = new NumberField(model,"id_objeto");			
@@ -61,7 +66,21 @@ public class GeneratorView extends View{
 		xsl_path = new TextField(model,"xsl_path");
 		on_click = new TextField(model,"on_click");
 		icon = new TextField(model,"icon");
-		
+		title = new TextField(model,"title");
+		id = new TextField(model,"id");
+		id_pai = new TextField(model,"id_pai");
+		link = new LinkField(model,"link");
+		link_desc = new LinkField(model,"link_desc");
+		link_desc.propertie().put("type", "field_copy");
+		tipo = new TextField(model,"tipo");
+		btn_gravar = new IGRPButton("Publicar", "igrp", "defaultPagina", "gravar", "submit", "save.png", "");
+		btn_publicar = new IGRPButton("Gravar", "igrp", "defaultPagina", "publicar", "submit", "save.png", "");
+		btn_pesquisar = new IGRPButton("Pesquisar", "igrp", "form", "1", "_self", "search.png","");
+	}
+	
+	@Override
+	public void render(){	
+		filter.addField(env_fk);		
 		form.addField(gen_elements);
 		form.addField(has_menu);
 		form.addField(id_objeto);
@@ -77,29 +96,19 @@ public class GeneratorView extends View{
 		form.addField(tool_nome);
 		form.addField(xsl_path);
 		form.addField(on_click);
-		form.addField(icon);
+		form.addField(icon);		
 		
-		form.addButton("Publicar", "igrp", "form", "1", "submit", "save.png", "","","");
-		form.addButton("Gravar", "igrp", "form", "1", "submit", "save.png", "","","");
-		
-
-		IGRPTable table = new IGRPTable("table", (float) 2.1);
-		title = new TextField(model,"title");
-		id = new TextField(model,"id");
-		id_pai = new TextField(model,"id_pai");
-		link = new LinkField(model,"link");
-		link_desc = new LinkField(model,"link_desc");
-		link_desc.propertie().put("type", "field_copy");
-		tipo = new TextField(model,"tipo");
 		table.addField(title);
 		table.addField(id);
 		table.addField(id_pai);
 		table.addField(link);
 		table.addField(link_desc);
 		table.addField(id_objeto);
-		table.addField(tipo);
-		
+		table.addField(tipo);		
 
+		form.addButton(btn_gravar);
+		form.addButton(btn_publicar);
+		filter.addButton(btn_pesquisar);
 		Generator2_3 gen23 = new Generator2_3(filter.toString()+form.toString()+table.toString());
 		
 		this.addToPage(gen23);

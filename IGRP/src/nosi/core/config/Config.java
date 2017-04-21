@@ -1,5 +1,6 @@
 package nosi.core.config;
 
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.xml.XMLWritter;
 
@@ -22,7 +23,7 @@ public class Config {
 			xml.setElement("footer_note", "2011 - Copyright NOSI");
 			xml.setElement("user_name", "red-igrp");
 			IGRPToolsBar button = new IGRPToolsBar("button");
-			button.addItem("Sair", "igrp", "", "#", "_self", "exit.png");
+			button.addButton(new IGRPButton("Sair", "igrp", "", "#", "_self", "exit.png",""));
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
 		xml.setElement("app", "igrp");

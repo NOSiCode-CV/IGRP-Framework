@@ -21,7 +21,7 @@ import nosi.core.gui.fields.GenXMLField;
 
 public class IGRPTabContent extends IGRPBox {
 
-	protected ArrayList<IGRPToolsBarItem> items;
+	protected ArrayList<IGRPButton> items;
 	
 	public IGRPTabContent(String tag_name) {
 		super(tag_name);
@@ -33,7 +33,7 @@ public class IGRPTabContent extends IGRPBox {
 	}
 
 	public void addItem(String name,String title,String img){
-		IGRPToolsBarItem item = new IGRPToolsBarItem();
+		IGRPButton item = new IGRPButton();
 		item.setTitle(title);
 		item.setImg(img);
 		item.propertie.put("name", name);
@@ -43,7 +43,7 @@ public class IGRPTabContent extends IGRPBox {
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, this.properties);
-		for(IGRPToolsBarItem item:items){
+		for(IGRPButton item:items){
 			this.xml.startElement("item");
 			GenXMLField.writteAttributes(this.xml, item.getProperties());
 			this.xml.setElement("title", item.getTitle());
