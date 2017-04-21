@@ -125,7 +125,7 @@ public class Igrp {
 		this.currentActionName = "create-user";
 		this.currentPageName = "default-pagina";
 		this.currentAppName = "igrp-sis";
-		
+		//
 		String auxAppName = "";
 		String auxActionName = "";
 		String auxPageName = "";
