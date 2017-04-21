@@ -9,10 +9,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.File;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
-import nosi.core.exception.ServerErrorHttpException;;
+import nosi.core.exception.ServerErrorHttpException;
 
 /**
  * @author Marcel Iekiny
@@ -114,9 +116,57 @@ public class Igrp {
 	}
 	
 	public void runAction(){ // run a action in the specific controller
-		String auxControllerName = this.currentPageName.substring(0, 1).toUpperCase() + this.currentPageName.substring(1) + "Controller";
-		String auxActionName = "action" + this.currentActionName.substring(0, 1).toUpperCase() + this.currentActionName.substring(1);
-		String controllerPath = "nosi.webapps." + this.currentAppName + ".pages." + this.currentPageName + "." + auxControllerName;
+		
+		this.load(this.convertRoute());
+		
+	}
+	
+	private Map<String, String> convertRoute(){
+		this.currentActionName = "create-user";
+		this.currentPageName = "default-pagina";
+		this.currentAppName = "igrp-sis";
+		
+		String auxAppName = "";
+		String auxActionName = "";
+		String auxPageName = "";
+		String auxcontrollerPath = "";
+		
+		
+		for(String aux : this.currentAppName.split("-"))
+			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		
+		for(String aux : this.currentActionName.split("-"))
+			auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		
+		String splitPageName = "";
+		
+		for(String aux : this.currentPageName.split("-")){
+			auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			splitPageName += aux;
+		}
+		
+		auxActionName = "action" + auxActionName;
+		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
+		
+		
+		System.out.println(auxActionName);
+		System.out.println(auxcontrollerPath);
+		
+		System.exit(1);
+		
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("controllerPath", auxcontrollerPath);
+		result.put("actionName", auxActionName);
+		
+		return result; // because i need to return 2 variable in one result statement ... 
+		
+	}
+	
+	private void load(Map<String, String> m){ // load and apply some dependency injection ...
+		
+		String controllerPath = m.get("controllerPath");
+		String actionName = m.get("actionName");
+		
 		try {
 			
 			Class c = Class.forName(controllerPath);
@@ -126,7 +176,7 @@ public class Igrp {
 			
 			
 			for(Method aux : c.getDeclaredMethods())
-				if(aux.getName().equals(auxActionName))
+				if(aux.getName().equals(actionName))
 					action = aux;
 			
 			int countParameter = action.getParameterCount();
@@ -207,5 +257,4 @@ public class Igrp {
 	public static void main(String []args){
 		Igrp.getInstance().runAction();
 	}
-	
 }
