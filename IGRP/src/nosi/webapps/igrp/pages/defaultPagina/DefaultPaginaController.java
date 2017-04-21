@@ -8,15 +8,16 @@ import nosi.core.webapp.*;
  */
 public class DefaultPaginaController extends Controller{
 	
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public void actionIndex(@QSParam(qsParamName = "cod") int cod, @QSParam(qsParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
 	DefaultPaginaModel model = new DefaultPaginaModel();
 	
-	FlashMessage flashMessage = new FlashMessage();
+	
+	//FlashMessage flashMessage = new FlashMessage();
 	
 	//flashMessage.addMessage("error", "Error2 ...");
 	
-	System.out.println(flashMessage.getMessages("error"));
+	//System.out.println(flashMessage.getMessages("error"));
 	/*
 	 * Start put your other model here ...
 	 * */

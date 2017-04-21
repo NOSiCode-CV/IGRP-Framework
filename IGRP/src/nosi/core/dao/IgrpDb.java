@@ -3,11 +3,18 @@ package nosi.core.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 /**
  * @author Marcel Iekiny
  * Apr 16, 2017
  */
 public class IgrpDb {
+	
+	/*
+	 * This class implement the "FlyWeigth" Design Pattern ...
+	 * */
 	
 	private String driverName;
 	private String connectionName;
@@ -19,10 +26,13 @@ public class IgrpDb {
 	private String hostName;
 	private int hostPort;
 	
-	private Connection conn;
+	private static Map<String, Connection> conns = new HashMap<String, Connection>(); // A pool of connections
 	
 	private String dbmsName;
 	
+	public IgrpDb(){
+		// Not set yet
+	}
 	
 	public IgrpDb(String hostName, int hostPort, String dbName, String username, String password){
 		this.hostName = hostName;
@@ -36,7 +46,9 @@ public class IgrpDb {
 		this("localhost", 0, dbName, username, password);
 	}
 	
-	public IgrpDb newConnection(String dbmsName){
+	private Connection newConnection(String dbmsName){
+		
+		Connection conn = null;
 	
 		switch(dbmsName){
 		
@@ -68,7 +80,7 @@ public class IgrpDb {
 		
 			try {
 				Class.forName(this.driverName);
-				this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
+				conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
 				this.dbmsName = dbmsName;
 				System.out.println("Connection is ok ...");
 			} catch (ClassNotFoundException e) {
@@ -78,10 +90,40 @@ public class IgrpDb {
 				e.printStackTrace();
 			}
 			
-		return this;
+		return conn;
 	}
 	
-	public Connection unwrap(){
-		return this.conn;
+	public Connection createUnwrap(String connectionName, String dbmsName){ // create or/and unwrap connection
+		if(IgrpDb.conns.containsKey(connectionName))
+			return IgrpDb.conns.get(connectionName);
+		Connection conn = this.newConnection(dbmsName);
+		IgrpDb.conns.put(connectionName, conn);
+	return conn;
+	}
+	
+	public Connection unwrap(String connectionName){
+		return IgrpDb.conns.get(connectionName);
+	}
+	
+	public void closeAllConnection(){
+		Iterator<Connection> i = (Iterator<Connection>) IgrpDb.conns.values();
+			try {
+				while(i.hasNext())
+				if(!i.next().isClosed())
+					i.next().close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		IgrpDb.conns.clear(); // Clear all connection
+	}
+	
+	public void closeConnection(String connectionName){
+		try {
+			if(!IgrpDb.conns.get(connectionName).isClosed())
+				IgrpDb.conns.get(connectionName).close();
+			IgrpDb.conns.remove(connectionName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

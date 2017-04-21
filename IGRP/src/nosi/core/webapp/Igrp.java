@@ -119,9 +119,15 @@ public class Igrp {
 			
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
-			Method action = c.getMethod(auxActionName, null);
-			int countParameter = action.getParameterCount();
+			Method action = null;
 			ArrayList paramValues = new ArrayList();
+			
+			
+			for(Method aux : c.getDeclaredMethods())
+				if(aux.getName().equals(auxActionName))
+					action = aux;
+			
+			int countParameter = action.getParameterCount();
 			
 			if(countParameter > 0){
 				
@@ -132,7 +138,9 @@ public class Igrp {
 						// Dependency Injection for models
 						
 						Class c_ = Class.forName(parameter.getType().getName());
-						paramValues.add(c_.newInstance());
+						nosi.core.webapp.Model model = (Model) c_.newInstance();
+						model.load();
+						paramValues.add(model);
 						
 					}else{
 					
@@ -150,7 +158,8 @@ public class Igrp {
 								paramValues.add(result);
 							}
 						
-						}
+						}else
+							paramValues.add(null);
 					}
 				}
 				
@@ -160,7 +169,7 @@ public class Igrp {
 				action.invoke(controller, null);
 			}
 			
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 	}
