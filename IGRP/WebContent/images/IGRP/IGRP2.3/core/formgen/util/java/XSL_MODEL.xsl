@@ -49,6 +49,8 @@
 
  	<!-- import all class to using in model -->
  	<xsl:template name="import-packages-model">
+ 		<xsl:value-of select="concat('package ',$package_name)"/>
+		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_model"/>
 		<xsl:value-of select="$newline"/>
  	</xsl:template>

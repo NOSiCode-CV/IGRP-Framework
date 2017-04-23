@@ -1,7 +1,7 @@
-package nosi.webapps.igrp.pages.teste;
+package nosi.webapps.igrp.pages.page;
 import nosi.core.webapp.Model;
 
-public class Teste extends Model{		
+public class Page extends Model{		
 	private float n_bi;
 	private String nome;
 	private String morada;

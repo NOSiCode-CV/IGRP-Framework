@@ -1,10 +1,10 @@
-package nosi.webapps.igrp.pages.teste;
+package nosi.webapps.igrp.pages.page;
 
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
-public class TesteView extends View {		
+public class PageView extends View {		
 	
 	public Field n_bi;
 	public Field nome;
@@ -17,7 +17,7 @@ public class TesteView extends View {
 		
 	@Override
 	public void render(){
-		Teste model = (Teste) this.getModel("model");
+		Page model = (Page) this.getModel("model");
 	
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
