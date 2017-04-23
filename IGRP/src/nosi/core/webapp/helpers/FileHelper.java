@@ -2,8 +2,10 @@ package nosi.core.webapp.helpers;
 
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -33,10 +35,12 @@ public class FileHelper {
 	}
 	
 	public static boolean save(String path,String text){
+		//System.out.println(file.getSubmittedFileName());
 		return true;
 	}
 	
 	public static boolean save(String path,Part file){
+		System.out.println(file.getSubmittedFileName());
 		return true;
 	}
 }

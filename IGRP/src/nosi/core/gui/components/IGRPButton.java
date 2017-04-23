@@ -48,7 +48,7 @@ public class IGRPButton {
 		this.page = page;
 	}
 	public String getLink() {
-		return link;
+		return app+"/"+page+"/"+link;
 	}
 	public void setLink(String link) {
 		this.link = link;

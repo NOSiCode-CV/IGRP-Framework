@@ -41,7 +41,6 @@ public class PageController extends Controller {
 			}
 		}
 		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operação falhada</message></messages>");
-		//return "<messages><message type=\"error\">KO - [GRAVAR] operação falhada</message></messages>";
 	}
 	
 	public void actionPublishGenPage() throws IOException{

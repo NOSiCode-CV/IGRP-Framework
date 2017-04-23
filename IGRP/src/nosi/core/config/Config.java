@@ -43,9 +43,9 @@ public class Config {
 		xml.endElement();
 		xml.startElement("navigation");
 		xml.writeAttribute("url", "images/IGRP/IGRP2.3/xml/IGRP-navigation.xml");
-		xml.writeAttribute("prm_app", "p_prm_app");
-		xml.writeAttribute("prm_page", "p_prm_page");
-		xml.writeAttribute("prm_action", "r");
+		xml.writeAttribute("prm_app", "");
+		xml.writeAttribute("prm_page", "");
+		xml.writeAttribute("prm_action", "");
 		xml.endElement();
 		
 		xml.startElement("top_menu");
