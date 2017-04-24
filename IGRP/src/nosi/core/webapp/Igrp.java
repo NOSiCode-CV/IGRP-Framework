@@ -89,33 +89,41 @@ public class Igrp {
 				this.currentPageName = aux[1];
 				this.currentActionName = aux[2];
 				
-				if(!this.validateAppName() || !this.validatePageName() || !this.validateActionName())
-					throw new NotFoundHttpException("Page not found.");
+				if(!this.validateAppName())
+					throw new NotFoundHttpException("Aplicação inválida.");
+				if(!this.validatePageName())
+					throw new NotFoundHttpException("Esta página não foi encontrada.");
 			}else
 				throw new ServerErrorHttpException("The route format is invalid.");
 		}
 	}
 	
 	private boolean validateAppName(){
-		String path = "Igrp.java";
-		System.out.println(path);
-		File file = new File(path);
-		System.out.print("isDirectory: " + file.isDirectory());
-		System.out.println("Absolute Path: " + file.getAbsolutePath());
-		/*System.out.println(file.getAbsolutePath());
-		System.out.println(file.exists());
-		return file.exists();*/
-		return true;
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName);
+		File file = null;
+		try{
+			file = new File(path);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		 file = new File(path);
+		return file.exists() && file.isDirectory();
 	}
 	
 	private boolean validatePageName(){
-		/*File file = new File("src/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
-		return file.exists();*/
-		return true;
-	}
-	
-	private boolean validateActionName(){
-		return true;
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
+		File file = null;
+		try{
+			file = new File(path);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		/*
+		 * Validação com base de dados
+		 * */
+		return file.exists() && file.isDirectory();
 	}
 	
 	public void runAction(){ // run a action in the specific controller
@@ -241,9 +249,5 @@ public class Igrp {
 	
 	public String getHomeUrl(){
 		return this.homeUrl;
-	}
-	
-	public static void main(String []args){
-		Igrp.getInstance().runAction();
 	}
 }
