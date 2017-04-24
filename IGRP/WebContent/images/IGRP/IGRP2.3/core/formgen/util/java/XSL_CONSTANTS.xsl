@@ -25,7 +25,17 @@
     <xsl:variable name="import_model">import nosi.core.webapp.Model;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
     <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
-    <xsl:variable name="class_name">Teste</xsl:variable>
+    <xsl:variable name="class_name">
+    	<xsl:call-template name="CamelCaseWord">
+    		<xsl:with-param name="text">
+    			<xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
+    		</xsl:with-param>
+    	</xsl:call-template>
+    </xsl:variable>
+    <xsl:variable name="package_name">
+		<xsl:value-of select="concat(rows/plsql/package_db,';')"></xsl:value-of>
+    </xsl:variable>
+    
     <xsl:template name="CamelCaseWord">
       <xsl:param name="text"/>
       <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />

@@ -42,10 +42,10 @@ public class Config {
 			xml.setElement("package_copy_html", "");
 		xml.endElement();
 		xml.startElement("navigation");
-		xml.writeAttribute("file", "images/IGRP/IGRP2.3/xml/IGRP-navigation.xml");
+		xml.writeAttribute("url", "images/IGRP/IGRP2.3/xml/IGRP-navigation.xml");
 		xml.writeAttribute("prm_app", "p_prm_app");
 		xml.writeAttribute("prm_page", "p_prm_page");
-		xml.writeAttribute("prm_action", "p_prm_action");
+		xml.writeAttribute("prm_action", "r");
 		xml.endElement();
 		
 		xml.startElement("top_menu");

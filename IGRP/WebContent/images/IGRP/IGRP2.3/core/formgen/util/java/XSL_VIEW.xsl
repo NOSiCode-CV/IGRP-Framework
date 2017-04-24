@@ -16,8 +16,9 @@
 	     	<xsl:value-of select="$newline"/>
 	     	<xsl:call-template name="declare-variables-view"></xsl:call-template>
 	     	<xsl:value-of select="$newline"/>
-	 		<xsl:value-of select="$tab2"/>
+	 		<xsl:call-template name="create-construct"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
+	 		<xsl:value-of select="$tab2"/>
 	 		<xsl:call-template name="render"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
@@ -25,6 +26,8 @@
 
      <!-- import all class to using in view -->
  	<xsl:template name="import-packages-view">
+ 		<xsl:value-of select="concat('package ',$package_name)"/>
+		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_view"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_components"/>
@@ -32,7 +35,18 @@
  		<xsl:value-of select="$import_fields"/>
 		<xsl:value-of select="$newline"/>
  	</xsl:template>
-
+ 	
+	<!--  create construct view class -->
+	<xsl:template name="create-construct">
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>
+			<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="instance-components-view"></xsl:call-template>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$tab"></xsl:value-of>
+		<xsl:value-of select="'}'"></xsl:value-of>
+	</xsl:template>
+	
  	<!-- create render method 
 	@Override
 	public void render(){
@@ -46,16 +60,8 @@
 		<xsl:value-of select="$tab"/>
  		<xsl:text>public void render(){</xsl:text>
 		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="$tab"/>
-			<xsl:value-of select="concat($class_name,' model = (',$class_name,') this.getModel(',$double_quotes,'model',$double_quotes,');')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:call-template name="instance-components-view"></xsl:call-template>
-			<xsl:value-of select="$newline"/>
 			<xsl:call-template name="add-fields"></xsl:call-template>
-			<xsl:value-of select="$newline"/>
 			<xsl:call-template name="add-to-page"></xsl:call-template>
-		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:text>}</xsl:text>
  	</xsl:template>
