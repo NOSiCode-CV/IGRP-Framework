@@ -97,9 +97,12 @@ public class Igrp {
 	}
 	
 	private boolean validateAppName(){
-		/*String path = this.request.getRequestURI() + "/src/nosi/webapps/" + this.currentAppName;
+		String path = "Igrp.java";
+		System.out.println(path);
 		File file = new File(path);
-		System.out.println(file.getAbsolutePath());
+		System.out.print("isDirectory: " + file.isDirectory());
+		System.out.println("Absolute Path: " + file.getAbsolutePath());
+		/*System.out.println(file.getAbsolutePath());
 		System.out.println(file.exists());
 		return file.exists();*/
 		return true;

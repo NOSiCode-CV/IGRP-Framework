@@ -13,8 +13,6 @@ public class DefaultpaginaController extends Controller{
 	
 	DefaultpaginaModel model = new DefaultpaginaModel();
 	model.load();
-	System.out.print(model.getCod());
-	System.out.print(model.getNome());
 	/*
 	 * Start put your other model here ...
 	 * */
