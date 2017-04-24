@@ -27,11 +27,13 @@ public class MyTeste {
 
 	public static void main(String []args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException{
 	
+		// ([a-zA-Z]+[0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+))+
+		String str = "posdps_/default/index";
+		String pattern = "([a-zA-Z]+[0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+))+/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}";
 		
-		String str = "Iekiny Marcel";
+		System.out.println(str.matches(pattern));
 		
-		File file = new File("");
-		
+		System.exit(1);
 		
 		MyTeste obj =  new MyTeste();
 		Class c = obj.getClass();
