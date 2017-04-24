@@ -58,7 +58,12 @@ public abstract class Model { // IGRP super model
 				}
 			}else{
 				// Awesome again !!! I need make casts for all primitive type ... pff
-				String aux = Igrp.getInstance().getRequest().getParameter(m.getName());
+				String aux = Igrp.getInstance().getRequest().getParameter(
+							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
+									m.getAnnotation(RParam.class).rParamName()
+									: m.getName() // default case use the name of field
+						);
+				String defaultResult = aux;
 				aux = aux == null || aux.equals("") ? "0" : aux; // For throw format exception purpose
 				switch(typeName){
 					case "int":
@@ -81,7 +86,7 @@ public abstract class Model { // IGRP super model
 							m.setBoolean(this, Boolean.parseBoolean(aux));
 						break;
 					default:
-						m.set(this, typeName == "java.lang.String" ? aux : null); // The field could be a Object
+						m.set(this, typeName == "java.lang.String" ? defaultResult : null); // The field could be a Object
 				}
 			}
 		}

@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * Apr 20, 2017
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface QSParam {
-	public String qsParamName() default "";
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+public @interface RParam { // Request parameter
+	public String rParamName() default "";
 }

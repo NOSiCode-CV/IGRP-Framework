@@ -116,16 +116,10 @@ public class Igrp {
 	}
 	
 	public void runAction(){ // run a action in the specific controller
-		
 		this.load(this.convertRoute());
-		
 	}
 	
 	private Map<String, String> convertRoute(){
-		this.currentActionName = "create-user";
-		this.currentPageName = "default-pagina";
-		this.currentAppName = "igrp-sis";
-		//
 		String auxAppName = "";
 		String auxActionName = "";
 		String auxPageName = "";
@@ -148,12 +142,6 @@ public class Igrp {
 		auxActionName = "action" + auxActionName;
 		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
 		
-		
-		System.out.println(auxActionName);
-		System.out.println(auxcontrollerPath);
-		
-		System.exit(1);
-		
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
 		result.put("actionName", auxActionName);
@@ -168,7 +156,6 @@ public class Igrp {
 		String actionName = m.get("actionName");
 		
 		try {
-			
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = null;
@@ -196,17 +183,17 @@ public class Igrp {
 						
 					}else{
 					
-					if(!parameter.getType().getGenericSuperclass().getTypeName().equals("java.lang.Object") && parameter.getAnnotation(QSParam.class) != null){
+					if(parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null){
 						
 							// Dependency Injection for simple vars ...
 							if(parameter.getType().isArray()){
 								
-								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(QSParam.class).qsParamName());
+								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
 								
 							}else{
 								
-								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(QSParam.class).qsParamName());
+								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
 							}
 						
@@ -214,11 +201,10 @@ public class Igrp {
 							paramValues.add(null);
 					}
 				}
-				
 				action.invoke(controller, paramValues.toArray());
 				
 			}else{
-				action.invoke(controller, null);
+				action.invoke(controller);
 			}
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
