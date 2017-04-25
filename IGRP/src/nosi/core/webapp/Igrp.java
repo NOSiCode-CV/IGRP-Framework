@@ -122,9 +122,9 @@ public class Igrp {
 	}
 	
 	private Map<String, String> convertRoute(){
-		this.currentActionName = "create-user";
-		this.currentPageName = "default-pagina";
-		this.currentAppName = "igrp-sis";
+		//this.currentActionName = "create-user";
+		//this.currentPageName = "default-pagina";
+		//this.currentAppName = "igrp";
 		//
 		String auxAppName = "";
 		String auxActionName = "";
@@ -149,10 +149,10 @@ public class Igrp {
 		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
 		
 		
-		System.out.println(auxActionName);
-		System.out.println(auxcontrollerPath);
+		//System.out.println(auxActionName);
+		//System.out.println(auxcontrollerPath);
 		
-		System.exit(1);
+		//System.exit(1);
 		
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
@@ -166,7 +166,6 @@ public class Igrp {
 		
 		String controllerPath = m.get("controllerPath");
 		String actionName = m.get("actionName");
-		
 		try {
 			
 			Class c = Class.forName(controllerPath);

@@ -32,31 +32,13 @@
     		</xsl:with-param>
     	</xsl:call-template>
     </xsl:variable>
-    <xsl:variable name="page">
-    	<xsl:call-template name="lowerCase">
-    		<xsl:with-param name="text">
-    			<xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
-    		</xsl:with-param>
-    	</xsl:call-template>
-    </xsl:variable>
     <xsl:variable name="package_name">
-		<xsl:value-of select="concat(rows/plsql/package_db,'.',$page,';')"></xsl:value-of>
+		<xsl:value-of select="concat(rows/plsql/package_db,';')"></xsl:value-of>
     </xsl:variable>
-    <xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" /> 
-    <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" /> 
-   
+    
     <xsl:template name="CamelCaseWord">
       <xsl:param name="text"/>
       <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />
       <xsl:value-of select="translate(substring($text,2,string-length($text)-1),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')" />
     </xsl:template>
-    <xsl:template name="upperCase">
-        <xsl:param name="text"/>
-        <xsl:value-of select="translate($text, $smallcase, $uppercase)"/>
-    </xsl:template>
-    
-    <xsl:template name="lowerCase">
-        <xsl:param name="text"/>
-        <xsl:value-of select="translate($text, $uppercase, $smallcase)"/>
-    </xsl:template>  
 </xsl:stylesheet>

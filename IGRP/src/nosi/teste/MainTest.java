@@ -1,6 +1,7 @@
 package nosi.teste;
 
 import nosi.core.gui.components.IGRPBox;
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPFormList;
@@ -23,7 +24,7 @@ import nosi.core.gui.fields.TextField;
 public class MainTest {
 	
 	public static void main(String[] args) {
-		 Field sectionheader_1_text;
+		/* Field sectionheader_1_text;
 		 Field date_1;
 		 Field number_1;
 		 Field view_img;
@@ -31,7 +32,7 @@ public class MainTest {
 		 IGRPForm form_1;
 		 IGRPFormList formlist_1;
 		 IGRPView view_1;
-		/*IGRPForm form = new IGRPForm("form_1");
+		IGRPForm form = new IGRPForm("form_1");
 		IGRPForm form2 = new IGRPForm("form_2");
 		IGRPView view = new IGRPView("view_1");
 		Field nome = new TextField("nome");
@@ -121,7 +122,7 @@ public class MainTest {
 		
 		
 		IGRPParagraph box = new IGRPParagraph("section");
-		box.addField();*/
+		box.addField();
 		TesteModel model = new TesteModel();
 		
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -154,7 +155,14 @@ public class MainTest {
 		System.out.println(form_1);
 		System.out.println(formlist_1);
 		System.out.println(view_1);
-		System.out.println(sectionheader_1);
+		System.out.println(sectionheader_1);*/
+		IGRPButton bt1 = new IGRPButton("Teste", "red", "page", "save", "_self", "save.png", "","");
+		IGRPButton bt2 = new IGRPButton("Teste2", "red", "page", "save", "_self", "save.png", "","");
+		bt1.propertie.add("rel", "save");
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar1.addButton(bt1);
+		toolsbar1.addButton(bt2);
+		System.out.println(toolsbar1);
 	}
 
 }

@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.generator;
 import nosi.core.webapp.Model;
 
-public class GeneratorModel extends Model{
+public class Generator extends Model{
 	private String gen_elements;
 	private String has_menu;
 	private int id_objeto;
