@@ -274,7 +274,7 @@ var GENSTRUCTURES = function(){
 			var rtn      = '<'+tag+'>';
 			
 			ctx.forEach(function(item){
-
+				
 				var app    = item.action && item.action.app    ? item.action.app    : '',
 					page   = item.action && item.action.page   ? item.action.page   : '',
 					link   = item.action && item.action.action ? item.action.action : '',
@@ -288,7 +288,7 @@ var GENSTRUCTURES = function(){
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
 	                    '<link>'+link+'</link>'+
-	                    '<parameter>'+testPATH+'/'+item.action.link+'</parameter>'+
+	                    '<parameter></parameter>'+
 	                    '<target>'+item.GET.target()+'</target>'+
 	                    '<img>'+_class+'|'+item.GET.img()+'</img>'+
 	                     map+
@@ -318,7 +318,7 @@ var GENSTRUCTURES = function(){
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'';
 				params = _class+'|'+img+'|'+'www';
-
+				try{
 				//console.log(params);
 			rtn+='<item type="specific" code="" rel="'+tag+'" '+tran+' '+parent+'>'+
 		            '<title>'+title+'</title>'+
@@ -331,6 +331,9 @@ var GENSTRUCTURES = function(){
 		            map+
 		            '<params>'+params+'</params>'+
 		        '</item>';
+				}catch(e){
+					null;
+				}
 		});
 
 		return rtn;

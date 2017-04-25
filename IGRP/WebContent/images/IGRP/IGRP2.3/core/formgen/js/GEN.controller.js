@@ -1407,7 +1407,7 @@ var GENERATOR = function(genparams){
 
 	GEN.getDefaultIncludesStr = function(relative){
 		var rtn = "";
-		var iPath = relative ? '../..' : path;
+		var iPath = relative ? '/IGRP/images/IGRP/IGRP2.3' : path;
 		GEN.defaultIncludes.forEach(function(name){
 			rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+_getDate()+'"/>';
 		});
@@ -3450,7 +3450,7 @@ var GENERATOR = function(genparams){
 		var includeTmpl = function(name){
 
 			includes.push(name);
-			includesStr+='<xsl:include href="../../xsl/tmpl/'+name+'?v='+_getDate()+'"/>';
+			includesStr+='<xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/'+name+'?v='+_getDate()+'"/>';
 		}
 		
 		var jsIncludes = "";

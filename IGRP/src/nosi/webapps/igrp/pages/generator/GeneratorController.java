@@ -8,7 +8,7 @@ public class GeneratorController extends Controller{
 
 	
 	public void actionIndex() throws IOException{		
-		GeneratorModel model = new GeneratorModel();
+		Generator model = new Generator();
 		model.setGen_elements("images/IGRP/Config/formgen.config.txt?id=");
 		model.setId_objeto(11);
 		model.setLink_image("images/IGRP/Config/img.list.php?name=");

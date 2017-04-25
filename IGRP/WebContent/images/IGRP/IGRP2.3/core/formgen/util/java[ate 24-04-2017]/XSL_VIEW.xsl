@@ -54,7 +54,6 @@
 	}
  	-->
  	<xsl:template name="render">
-		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:text>@Override</xsl:text>
 		<xsl:value-of select="$newline"/>
@@ -105,13 +104,12 @@
 	<xsl:template name="gen-instance-components">
 		<xsl:param name="type_content" /> 
 		<xsl:param name="type" /> 
-		<xsl:param name="content_" select="''"/> 
-		<xsl:choose>
-			<xsl:when test="$type_content='toolsbar'">
-				<xsl:variable name="instance_name">
-			 		<xsl:value-of select="local-name()"/>
+		<xsl:for-each select="/rows/content/*[@type=$type_content]/*">
+			<xsl:if test="local-name() = 'fields'">
+			 	<xsl:variable name="instance_name">
+			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
-			 	<xsl:value-of select="$tab"/>
+				<xsl:value-of select="$tab"/>
 			 	<xsl:variable name="className">
 			 		<xsl:call-template name="typeClass">
 			 			<xsl:with-param name="type">                
@@ -121,140 +119,22 @@
 			 	</xsl:variable>
 			 	<xsl:choose>
 			 		<xsl:when test="$type='instance'">
-			 			<xsl:if test="$instance_name != 'tools-bar'">
-							<xsl:value-of select="$tab"/>
-				 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
-				 		</xsl:if>
-			 			<xsl:for-each select="*">
-			 				<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab"/>
-							<xsl:variable name="instance_name_item">
-						 		<xsl:value-of select="concat('btn_',@rel)"/>
-						 	</xsl:variable>
-						 	<xsl:value-of select="$tab"/>
-						 	<xsl:variable name="classNameItem">
-						 		<xsl:call-template name="typeClass">
-						 			<xsl:with-param name="type">                
-						 				<xsl:value-of select="'button'"/>
-						 			</xsl:with-param>
-						 		</xsl:call-template>
-						 	</xsl:variable>		 				
-			 			
-					 		<xsl:value-of select="concat($instance_name_item,' = new ',$classNameItem,'(',$double_quotes,./title,$double_quotes,',',$double_quotes,./app,$double_quotes,',',$double_quotes,./page,$double_quotes,',',$double_quotes,./link,$double_quotes,',',$double_quotes,./target,$double_quotes,',',$double_quotes,./img,$double_quotes,',',$double_quotes,./params,$double_quotes,',',$double_quotes,./parameter,$double_quotes,');')"/>
-							<xsl:value-of select="$newline"/>
-							<xsl:value-of select="$tab2"/>
-						 	<xsl:value-of select="concat($instance_name_item,'.propertie')"/>
-						 	<xsl:for-each select="@*">
-				 				<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
-						 	</xsl:for-each>	
-						 	<xsl:value-of select="';'"/>					 	
-						</xsl:for-each>
+						<xsl:value-of select="$tab"/>
+			 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
 			 		</xsl:when>
 			 		<xsl:when test="$type='declare'">
-			 			<xsl:if test="$instance_name != 'tools-bar'">
-		 					<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>	
-		 				</xsl:if>		 			
-			 			<xsl:for-each select="*">
-			 				<xsl:value-of select="$newline"/>
-							<xsl:variable name="instance_name_item">
-						 		<xsl:value-of select="concat('btn_',@rel)"/>
-						 	</xsl:variable>
-						 	<xsl:value-of select="$tab"/>
-						 	<xsl:variable name="classNameItem">
-						 		<xsl:call-template name="typeClass">
-						 			<xsl:with-param name="type">                
-						 				<xsl:value-of select="'button'"/>
-						 			</xsl:with-param>
-						 		</xsl:call-template>
-						 	</xsl:variable>
-			 				<xsl:value-of select="concat('public ',$classNameItem,' ',$instance_name_item,';')"/>
-						</xsl:for-each>						
+			 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
 			 		</xsl:when>
 			 		<xsl:when test="$type='add-to-page'">
-			 			<!--  -->
-		 				<xsl:for-each select="*">
-							<xsl:variable name="instance_name_item">
-						 		<xsl:value-of select="concat('btn_',@rel)"/>
-						 	</xsl:variable>
-						 	<xsl:variable name="classNameItem">
-						 		<xsl:call-template name="typeClass">
-						 			<xsl:with-param name="type">                
-						 				<xsl:value-of select="'button'"/>
-						 			</xsl:with-param>
-						 		</xsl:call-template>
-						 	</xsl:variable>	
-							<xsl:value-of select="$tab"/>
-			 				<xsl:choose>
-						 		<xsl:when test="$instance_name != 'tools-bar'">
-								 	<xsl:value-of select="concat($instance_name,'.addButton(',$instance_name_item,');')"/>
-					 				<xsl:value-of select="$newline"/>
-									<xsl:value-of select="$tab"/>
-								 </xsl:when>
-						 		<xsl:when test="$instance_name = 'tools-bar' and $content_ != ''">
-								 	<xsl:value-of select="concat($content_,'.addButton(',$instance_name_item,');')"/>
-					 				<xsl:value-of select="$newline"/>
-									<xsl:value-of select="$tab"/>
-								 </xsl:when>
-							</xsl:choose>
-						</xsl:for-each>
-						<xsl:if test="$instance_name != 'tools-bar'">
-				 			<xsl:value-of select="$tab"/>
-				 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
-				 		</xsl:if>
+			 			<xsl:value-of select="$tab"/>
+			 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
 			 		</xsl:when>
 			 	</xsl:choose>
 			 	<xsl:value-of select="$newline"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:for-each select="/rows/content/*[@type=$type_content]/*">
-					<xsl:choose>
-						<xsl:when test="local-name() = 'fields'">
-						 	<xsl:variable name="instance_name">
-						 		<xsl:value-of select="local-name(parent::*)"/>
-						 	</xsl:variable>
-							<xsl:value-of select="$tab"/>
-						 	<xsl:variable name="className">
-						 		<xsl:call-template name="typeClass">
-						 			<xsl:with-param name="type">                
-						 				<xsl:value-of select="$type_content"/>
-						 			</xsl:with-param>
-						 		</xsl:call-template>
-						 	</xsl:variable>
-						 	<xsl:choose>
-						 		<xsl:when test="$type='instance'">
-									<xsl:value-of select="$tab"/>
-						 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
-						 		</xsl:when>
-						 		<xsl:when test="$type='declare'">
-						 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
-						 		</xsl:when>
-						 		<xsl:when test="$type='add-to-page'">
-						 			<xsl:value-of select="$tab"/>
-						 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
-						 		</xsl:when>
-						 	</xsl:choose>
-						 	<xsl:value-of select="$newline"/>
-						</xsl:when>
-						<xsl:when test="local-name() = 'tools-bar'">
-							<xsl:call-template name="gen-instance-components">
-								<xsl:with-param name="type_content">
-									<xsl:value-of select="'toolsbar'"/>
-								</xsl:with-param>
-								<xsl:with-param name="type">
-									<xsl:value-of select="$type"/>
-								</xsl:with-param>
-								<xsl:with-param name="content_">
-									<xsl:value-of select="local-name(parent::*)"/>
-								</xsl:with-param>
-							</xsl:call-template>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
+			</xsl:if>
+		</xsl:for-each>
 	</xsl:template>
 	
-
 	<!-- declare variables in the class view -->
  	<xsl:template name="declare-variables-view">
 		<xsl:value-of select="$tab"/>
@@ -364,12 +244,6 @@
     		</xsl:when>		
     		<xsl:when test="$type='video'">
     			<xsl:value-of select="'IGRPVideo'" />
-    		</xsl:when>
-    		<xsl:when test="$type='toolsbar'">
-    			<xsl:value-of select="'IGRPToolsBar'" />
-    		</xsl:when>
-    		<xsl:when test="$type='button'">
-    			<xsl:value-of select="'IGRPButton'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
