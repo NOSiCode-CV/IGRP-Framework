@@ -17,11 +17,12 @@ package nosi.core.gui.components;
  */
 import java.util.ArrayList;
 
+import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 
 public class IGRPTabContent extends IGRPBox {
 
-	protected ArrayList<IGRPButton> items;
+	protected ArrayList<Field> fields;
 	
 	public IGRPTabContent(String tag_name) {
 		super(tag_name);
@@ -29,27 +30,17 @@ public class IGRPTabContent extends IGRPBox {
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
 		this.properties.put("gen-group", "");
-		this.items = new ArrayList<>();
+		this.fields = new ArrayList<>();
 	}
 
-	public void addItem(String name,String title,String img){
-		IGRPButton item = new IGRPButton();
-		item.setTitle(title);
-		item.setImg(img);
-		item.propertie.put("name", name);
-		this.items.add(item );
+	public void addField(Field field){
+		this.fields.add(field);
 	}
 	
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, this.properties);
-		for(IGRPButton item:items){
-			this.xml.startElement("item");
-			GenXMLField.writteAttributes(this.xml, item.getProperties());
-			this.xml.setElement("title", item.getTitle());
-			this.xml.setElement("img", item.getImg());
-			this.xml.endElement();
-		}
+		GenXMLField.toXml(this.xml,this.fields);
 		this.xml.endElement();
 		return this.xml.toString();
 	}

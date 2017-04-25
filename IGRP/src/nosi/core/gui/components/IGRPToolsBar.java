@@ -95,6 +95,9 @@ public class IGRPToolsBar {
 		if(item.getParams().compareTo("") != 0){
 			xml.setElement("params", item.getParams());
 		}
+		if(item.getParams().compareTo("") != 0){
+			xml.setElement("parameter", item.getParameter());
+		}
 		xml.endElement();
 	}
 	
