@@ -186,15 +186,6 @@ public class Config_env implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
-			/*id = 144;
-			host = "localhost";
-			type_db = "postgre";
-			name_db = "db_igrp";
-			username = "postgres";
-			password = "nunes";
-			charset = "utf-8";
-			name = "name teste update";
-			env_fk = 1;*/
 			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_config_env "
 					+ "SET port=?, type_db=?, host=?, name_db=?, username=?, "
 					+ "password=?, charset=?, name=?, env_fk = ? WHERE id = " + this.id);
