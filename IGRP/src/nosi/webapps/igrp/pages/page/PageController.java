@@ -39,9 +39,9 @@ public class PageController extends Controller {
 		if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path!=null && path!="" && class_name!=null && class_name!=""){
 			String[] partsJavaCode = javaCode.toString().split(" END ");
 			if(
-					FileHelper.save(path,class_name+".java", partsJavaCode[0]) && // save model
-					FileHelper.save(path,class_name+"View.java", partsJavaCode[1]) && // save view
-					FileHelper.save(path,class_name+"Controller.java", partsJavaCode[2]) && // save controller
+					FileHelper.save(path,class_name+".java", partsJavaCode[0]+"*/") && // save model
+					FileHelper.save(path,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
+					FileHelper.save(path,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
 					FileHelper.save(path,class_name+".xml", fileXml) && // save xml
 					FileHelper.save(path,class_name+".xsl", fileXsl) && // save xsl
 					FileHelper.save(path,class_name+".json", fileJson) // save json
