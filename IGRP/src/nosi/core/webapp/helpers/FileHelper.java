@@ -51,14 +51,12 @@ public class FileHelper {
 	}
 	
 	public static boolean save(String path,String file_name,String data) throws IOException{
-		/*String real_path = Config.ROOT_PATH + path;
+		String real_path = Config.ROOT_PATH + path;
 		createDiretory(real_path);
-
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 			try {
 				File file = new File(real_path+"/"+file_name);
-				System.out.println(file.getAbsoluteFile());
 				// if file doesnt exists, then create it
 				if (!file.exists()) {
 					file.createNewFile();
@@ -69,22 +67,18 @@ public class FileHelper {
 				bw.write(data);
 				return true;
 			} catch (IOException e) {
-				e.printStackTrace();
-	
+				e.printStackTrace();	
 			} finally {
-				try {
-	
+				try {	
 					if (bw != null)
-						bw.close();
-	
+						bw.close();	
 					if (fw != null)
 						fw.close();
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				}
-			}
-		*/
-		return true;
+			}		
+		return false;
 	}
 	
 	public static boolean save(String path,String filename,Part file) throws IOException{
@@ -101,7 +95,6 @@ public class FileHelper {
 		        result = true;
 		    } 
 		    catch(SecurityException se){
-		        //handle it
 		    }  
 		}
 		return result;

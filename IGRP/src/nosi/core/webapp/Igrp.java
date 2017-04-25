@@ -226,6 +226,15 @@ public class Igrp {
 		}
 	}
 	
+	
+	public IgrpServlet getServlet() {
+		return servlet;
+	}
+
+	public void setServlet(IgrpServlet servlet) {
+		this.servlet = servlet;
+	}
+
 	public IgrpDb getDao(){
 		return this.igrpDb;
 	}
