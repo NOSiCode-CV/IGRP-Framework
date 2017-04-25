@@ -19,7 +19,6 @@
  		<xsl:value-of select="'}'"/>
     </xsl:template>
 
-
      <!-- import all class to using in controller -->
  	<xsl:template name="import-packages-controller">
  		<xsl:value-of select="concat('package ',$package_name)"/>
@@ -29,7 +28,29 @@
  		<xsl:value-of select="$import_exception"/>
 		<xsl:value-of select="$newline"/>
  	</xsl:template>
-
+	
+	<!-- create actions based in button -->
+	<xsl:template name="createActions">
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+            
+        </xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="actions">
+		<xsl:param name="class_name"/>
+		<xsl:param name="action_name"/>
+		<xsl:param name="target"/>
+		
+		<xsl:choose>
+			<xsl:when test="$target='submit'">
+			</xsl:when>
+			<xsl:when test="$target='_self'">
+			</xsl:when>
+		</xsl:choose>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+	</xsl:template>
+	
  	<!-- add actionIndex() - it is default method in any controller -->
 	<xsl:template name="actionIndex">
 		<xsl:value-of select="$newline"/>
