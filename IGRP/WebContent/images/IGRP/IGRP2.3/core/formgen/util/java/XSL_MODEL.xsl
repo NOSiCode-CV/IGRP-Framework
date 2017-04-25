@@ -41,6 +41,9 @@
 			    		<xsl:with-param name="type" select="@type" />
 			    	</xsl:call-template>
 				</xsl:variable>
+				<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,'p_',name(),$double_quotes,')')"/>			
+				<xsl:value-of select="$newline"/>			
+				<xsl:value-of select="$tab"/>
 				<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>				
 				<xsl:value-of select="$newline"/>
 			</xsl:if>
@@ -52,6 +55,8 @@
  		<xsl:value-of select="concat('package ',$package_name)"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_model"/>
+		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_annotations"/>
 		<xsl:value-of select="$newline"/>
  	</xsl:template>
 
