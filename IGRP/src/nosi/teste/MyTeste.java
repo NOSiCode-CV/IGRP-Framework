@@ -28,7 +28,7 @@ public class MyTeste {
 	public static void main(String []args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException{
 	
 		// ([a-zA-Z]+[0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))+
-		String str = "dhgfhdgf_121221-/default/index";
+		String str = "dhgfhjejrhdgf_121221-/default/index";
 		String pattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}";
 		
 		System.out.println(str.matches(pattern));
