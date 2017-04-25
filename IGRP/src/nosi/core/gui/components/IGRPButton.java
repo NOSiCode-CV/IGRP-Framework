@@ -11,10 +11,10 @@ public class IGRPButton {
     private String target = "";
     private String img = "";
     private String params = "";
-    
+    private String parameter = "";
     public FieldProperties propertie;
     
-    public IGRPButton(String title,String app,String page,String link,String target,String img,String params){
+    public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params){
     	this.propertie = new FieldProperties();
     	this.title = title;
     	this.app = app;
@@ -23,6 +23,7 @@ public class IGRPButton {
     	this.target = target;
     	this.img = img;
     	this.params = params;
+    	this.parameter = parameter;
     }
 
     public IGRPButton(){
@@ -48,7 +49,7 @@ public class IGRPButton {
 		this.page = page;
 	}
 	public String getLink() {
-		return link;
+		return app+"/"+page+"/"+link;
 	}
 	public void setLink(String link) {
 		this.link = link;
@@ -71,6 +72,15 @@ public class IGRPButton {
 	public void setParams(String params) {
 		this.params = params;
 	}
+	
+	public String getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(String parameter) {
+		this.parameter = parameter;
+	}
+
 	public FieldProperties getProperties() {
 		return this.propertie;
 	}

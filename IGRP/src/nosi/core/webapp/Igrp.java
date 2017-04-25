@@ -82,8 +82,9 @@ public class Igrp {
 	
 	private void resolveRoute() throws IOException{
 		String r = this.request.getParameter("r");// Catch always the first "r" parameter in query string
+		String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
 		if(r!=null){
-			if(r != null && r.matches("[a-zA-Z]{2,255}/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}")){
+			if(r != null && r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 				String []aux = r.split("/");
 				this.currentAppName = aux[0];
 				this.currentPageName = aux[1];
@@ -218,8 +219,10 @@ public class Igrp {
 				action.invoke(controller);
 			}
 			
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
+				InvocationTargetException | NullPointerException e) {
 			e.printStackTrace();
+			throw new NotFoundHttpException("Página não encontrada.");
 		}
 	}
 	

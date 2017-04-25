@@ -10,10 +10,13 @@ var BTNFIELD = function(type,params){
 		GEN.setTargetAttr(field,{
 			value: (proprieties && proprieties.target) ? proprieties.target : '_blank'
 		});
-		
-		GEN.setBtnActionAttr(field,{
-			value: proprieties && proprieties.action ? proprieties.action : ''
-		});
+		try{
+			GEN.setBtnActionAttr(field,{
+				value: proprieties && proprieties.action ? proprieties.action : ''
+			});
+		}catch(e){
+			null;
+		}
 
 		GEN.service.set(field);
 

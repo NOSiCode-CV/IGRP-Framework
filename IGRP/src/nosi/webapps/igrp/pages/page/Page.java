@@ -1,4 +1,5 @@
 package nosi.webapps.igrp.pages.page;
+
 import nosi.core.webapp.Model;
 
 public class Page extends Model{		
