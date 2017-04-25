@@ -84,6 +84,7 @@ public class FlashMessage implements Serializable{
 				while(i.hasNext())
 					result += i.next() + " ";
 			}
+			this.msg.get(name).clear();
 			return result;
 		}
 		

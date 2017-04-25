@@ -3,7 +3,7 @@ package nosi.core.webapp;
 import java.io.IOException;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Route;
-import nosi.webapps.igrp.pages.defaultPagina.DefaultPaginaController;
+import nosi.webapps.igrp.pages.defaultpagina.DefaultpaginaController;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017

@@ -9,10 +9,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.File;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
-import nosi.core.exception.ServerErrorHttpException;;
+import nosi.core.exception.ServerErrorHttpException;
 
 /**
  * @author Marcel Iekiny
@@ -87,38 +89,84 @@ public class Igrp {
 				this.currentPageName = aux[1];
 				this.currentActionName = aux[2];
 				
-				if(!this.validateAppName() || !this.validatePageName() || !this.validateActionName())
-					throw new NotFoundHttpException("Page not found.");
+				if(!this.validateAppName())
+					throw new NotFoundHttpException("Aplicação inválida.");
+				if(!this.validatePageName())
+					throw new NotFoundHttpException("Esta página não foi encontrada.");
 			}else
 				throw new ServerErrorHttpException("The route format is invalid.");
 		}
 	}
 	
 	private boolean validateAppName(){
-		/*String path = this.request.getRequestURI() + "/src/nosi/webapps/" + this.currentAppName;
-		File file = new File(path);
-		System.out.println(file.getAbsolutePath());
-		System.out.println(file.exists());
-		return file.exists();*/
-		return true;
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName);
+		File file = null;
+		try{
+			file = new File(path);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		 file = new File(path);
+		return file.exists() && file.isDirectory();
 	}
 	
 	private boolean validatePageName(){
-		/*File file = new File("src/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
-		return file.exists();*/
-		return true;
-	}
-	
-	private boolean validateActionName(){
-		return true;
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
+		File file = null;
+		try{
+			file = new File(path);
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		/*
+		 * Validação com base de dados
+		 * */
+		return file.exists() && file.isDirectory();
 	}
 	
 	public void runAction(){ // run a action in the specific controller
-		String auxControllerName = this.currentPageName.substring(0, 1).toUpperCase() + this.currentPageName.substring(1) + "Controller";
-		String auxActionName = "action" + this.currentActionName.substring(0, 1).toUpperCase() + this.currentActionName.substring(1);
-		String controllerPath = "nosi.webapps." + this.currentAppName + ".pages." + this.currentPageName + "." + auxControllerName;
+		this.load(this.convertRoute());
+	}
+	
+	private Map<String, String> convertRoute(){
+		String auxAppName = "";
+		String auxActionName = "";
+		String auxPageName = "";
+		String auxcontrollerPath = "";
+		
+		
+		for(String aux : this.currentAppName.split("-"))
+			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		
+		for(String aux : this.currentActionName.split("-"))
+			auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		
+		String splitPageName = "";
+		
+		for(String aux : this.currentPageName.split("-")){
+			auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			splitPageName += aux;
+		}
+		
+		auxActionName = "action" + auxActionName;
+		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
+		
+		Map<String, String> result = new HashMap<String, String>();
+		result.put("controllerPath", auxcontrollerPath);
+		result.put("actionName", auxActionName);
+		
+		return result; // because i need to return 2 variable in one result statement ... 
+		
+	}
+	
+	private void load(Map<String, String> m){ // load and apply some dependency injection ...
+		
+		String controllerPath = m.get("controllerPath");
+		String actionName = m.get("actionName");
+		
 		try {
-			
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = null;
@@ -126,7 +174,7 @@ public class Igrp {
 			
 			
 			for(Method aux : c.getDeclaredMethods())
-				if(aux.getName().equals(auxActionName))
+				if(aux.getName().equals(actionName))
 					action = aux;
 			
 			int countParameter = action.getParameterCount();
@@ -146,17 +194,17 @@ public class Igrp {
 						
 					}else{
 					
-					if(!parameter.getType().getGenericSuperclass().getTypeName().equals("java.lang.Object") && parameter.getAnnotation(QSParam.class) != null){
+					if(parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null){
 						
 							// Dependency Injection for simple vars ...
 							if(parameter.getType().isArray()){
 								
-								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(QSParam.class).qsParamName());
+								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
 								
 							}else{
 								
-								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(QSParam.class).qsParamName());
+								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
 							}
 						
@@ -164,11 +212,10 @@ public class Igrp {
 							paramValues.add(null);
 					}
 				}
-				
 				action.invoke(controller, paramValues.toArray());
 				
 			}else{
-				action.invoke(controller, null);
+				action.invoke(controller);
 			}
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
@@ -203,9 +250,4 @@ public class Igrp {
 	public String getHomeUrl(){
 		return this.homeUrl;
 	}
-	
-	public static void main(String []args){
-		Igrp.getInstance().runAction();
-	}
-	
 }

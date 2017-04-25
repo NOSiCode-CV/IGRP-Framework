@@ -1,19 +1,24 @@
-package nosi.webapps.igrp.pages.defaultPagina;
+package nosi.webapps.igrp.pages.defaultpagina;
 
 import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public class DefaultPaginaModel extends Model{
+public class DefaultpaginaModel extends Model{
 	
+	@RParam(rParamName = "p_cod")
 	private int cod;
+	
+	@RParam(rParamName = "p_nome")
 	private String nome;
+	
+	@RParam(rParamName = "p_contato")
 	private short []contato;
-	private DefaultPaginaModel model1;
 	
 	
-	public DefaultPaginaModel(){
+	public DefaultpaginaModel(){
 		//this.nome = "imarcelf";
 	}
 
