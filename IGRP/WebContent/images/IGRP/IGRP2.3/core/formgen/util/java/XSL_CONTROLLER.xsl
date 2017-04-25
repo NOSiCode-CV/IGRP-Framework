@@ -16,6 +16,8 @@
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
+	 		<xsl:call-template name="createActions"></xsl:call-template>
+	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
     </xsl:template>
 
@@ -32,42 +34,121 @@
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
 		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-            
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
+          	<xsl:call-template name="actions">
+				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+            </xsl:call-template>
+           </xsl:for-each>
+           <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
+          	<xsl:call-template name="actions">
+				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+            </xsl:call-template>
+           </xsl:for-each>           
+           <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
+          	<xsl:call-template name="actions">
+				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+            </xsl:call-template>
+           </xsl:for-each>
         </xsl:if>
 	</xsl:template>
 	
 	<xsl:template name="actions">
-		<xsl:param name="class_name"/>
-		<xsl:param name="action_name"/>
-		<xsl:param name="target"/>
+		<xsl:param name="page_"/>
+		<xsl:param name="app_"/>
+		<xsl:param name="target_"/>
+		<xsl:param name="link_"/>
+		<xsl:param name="title_"/>
 		
 		<xsl:choose>
-			<xsl:when test="$target='submit'">
+			<xsl:when test="$target_='submit'">
+				<xsl:call-template name="gen-action">
+					<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
+					<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
+					<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
+					<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>
+					<xsl:with-param name="type_render_"><xsl:value-of select="'render'"/></xsl:with-param>
+				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="$target='_self'">
-			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="gen-action">
+					<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
+					<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
+					<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
+					<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>
+					<xsl:with-param name="type_render_"><xsl:value-of select="'redirect'"/></xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 	</xsl:template>
 	
+	<xsl:template name="gen-action">
+		<xsl:param name="action_name_"/>
+		<xsl:param name="page_" select="''"/>
+		<xsl:param name="app_" select="''"/>
+		<xsl:param name="link_" select="''"/>
+		<xsl:param name="type_render_"/>
+		
+		<xsl:variable name="model">
+			<xsl:call-template name="CamelCaseWord">
+	    		<xsl:with-param name="text">
+	    			<xsl:value-of select="$page_"></xsl:value-of>
+	    		</xsl:with-param>
+	    	</xsl:call-template>
+		</xsl:variable>
+			
+		<xsl:variable name="action">
+			<xsl:call-template name="CamelCaseWord">
+	    		<xsl:with-param name="text">
+	    			<xsl:value-of select="$action_name_"></xsl:value-of>
+	    		</xsl:with-param>
+	    	</xsl:call-template>
+		</xsl:variable>
+		
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+     	<xsl:value-of select="concat('public void action',$action,'() throws IOException{')"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/>
+		<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/>
+		<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/>
+		<xsl:choose>
+			<xsl:when test="$type_render_='render'">
+				<xsl:value-of select="'this.renderView(view);'"/>
+			</xsl:when>
+			<xsl:when test="$type_render_='redirect'">
+				<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
+			</xsl:when>
+		</xsl:choose>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:value-of select="'}'"/>
+	</xsl:template>
+	
  	<!-- add actionIndex() - it is default method in any controller -->
 	<xsl:template name="actionIndex">
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab"/>
- 		<xsl:text>public void actionIndex() throws IOException{</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($class_name,'View',' view = new ',$class_name,'View(model);')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="'this.renderView(view);'"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab"/>
- 		<xsl:text>}</xsl:text>
+		<xsl:call-template name="gen-action">
+			<xsl:with-param name="action_name_"><xsl:value-of select="'index'"/></xsl:with-param>
+			<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+			<xsl:with-param name="type_render_"><xsl:value-of select="'render'"/></xsl:with-param>
+		</xsl:call-template>
  	</xsl:template>
 
 </xsl:stylesheet>
