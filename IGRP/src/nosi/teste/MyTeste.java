@@ -2,8 +2,11 @@ package nosi.teste;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import nosi.core.webapp.QSParam;
-import nosi.webapps.igrp.pages.defaultPagina.DefaultPaginaModel;;
+
+import java.io.*;
+
+import nosi.core.webapp.RParam;
+import nosi.webapps.igrp.pages.defaultpagina.DefaultpaginaModel;;
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
@@ -14,7 +17,7 @@ public class MyTeste {
 	private MyTeste teste;
 	private boolean []xpto;
 	
-	public void func(@QSParam(qsParamName = "param1") String name, DefaultPaginaModel model){
+	public void func(@RParam(rParamName = "param1") String name, DefaultpaginaModel model){
 		System.out.println(name);
 	}
 	
@@ -24,14 +27,22 @@ public class MyTeste {
 
 	public static void main(String []args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException{
 	
+		// ([a-zA-Z]+[0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+))+
+		String str = "posdps_/default/index";
+		String pattern = "([a-zA-Z]+[0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+))+/[a-zA-Z]{2,255}/[a-zA-Z]{2,255}";
+		
+		System.out.println(str.matches(pattern));
+		
+		System.exit(1);
+		
 		MyTeste obj =  new MyTeste();
 		Class c = obj.getClass();
 		for(Method method : c.getDeclaredMethods()){
 			if(method.getName().equals("func")){
 				for(Parameter parameter : method.getParameters()){
 					System.out.println(parameter.getType().getName());// teste if the parameter is primitive
-					if(parameter.getAnnotation(QSParam.class) != null)
-						System.out.println(parameter.getAnnotation(QSParam.class).qsParamName());
+					if(parameter.getAnnotation(RParam.class) != null)
+						System.out.println(parameter.getAnnotation(RParam.class).rParamName());
 				}
 					
 			}

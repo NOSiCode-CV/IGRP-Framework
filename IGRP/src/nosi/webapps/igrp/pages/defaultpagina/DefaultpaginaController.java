@@ -1,4 +1,4 @@
-package nosi.webapps.igrp.pages.defaultPagina;
+package nosi.webapps.igrp.pages.defaultpagina;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
@@ -7,15 +7,16 @@ import nosi.core.webapp.*;
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public class DefaultPaginaController extends Controller{
+public class DefaultpaginaController extends Controller{
 	
-	public void actionIndex(@QSParam(qsParamName = "cod") int cod, @QSParam(qsParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public void actionIndex(@RParam(rParamName = "cod") String cod, @RParam(rParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
-	DefaultPaginaModel model = new DefaultPaginaModel();
+	DefaultpaginaModel model = new DefaultpaginaModel();
+	model.load();
 	/*
 	 * Start put your other model here ...
 	 * */
-	
+		
 	/*
 	 * To refer a POST/GET parameter just put:
 	 * 		String xpto = IGRP.getInstance().getRequest().getParameter("parameter_name");
@@ -27,8 +28,7 @@ public class DefaultPaginaController extends Controller{
 	 * */
 	
 	this.renderView(
-			new DefaultPaginaView().
-			addModel("model1", model).
+			new DefaultpaginaView().
 			addModel("model2", new String("Iekiny Marcel")), true
 			);
 	}
