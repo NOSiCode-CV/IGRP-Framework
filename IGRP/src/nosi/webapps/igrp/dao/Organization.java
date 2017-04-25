@@ -20,13 +20,14 @@ public class Organization implements RowDataGateway {
 	private int status;
 	private int user_create_fk;
 	private int self_fk; 
+	private Connection con;
 	
 	@Override
 	public String toString() {
 		return "Organization [id=" + id + ", code=" + code + ", name=" + name + ", sigof_fk=" + sigof_fk + ", env_fk="
 				+ env_fk + ", status=" + status + ", user_create_fk=" + user_create_fk + ", self_fk=" + self_fk + "]";
 	}
-	private static Connection con;
+	
 	
 	public Organization() {
 		super();
@@ -135,7 +136,7 @@ public class Organization implements RowDataGateway {
 	public Object getOne() {
 		Organization obj = new Organization();
 		try{
-			id = 18;
+			//id = 18;
 			Statement st = con.createStatement();
 			ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_organization where id= "+ this.id);
 			
@@ -150,7 +151,7 @@ public class Organization implements RowDataGateway {
 				obj.setStatus(result.getInt("status"));
 				obj.setSelf_fk(result.getInt("self_fk"));
 				
-				//list.add(obj);
+				
 			}
 			
 			st.close();
@@ -188,11 +189,10 @@ public class Organization implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try{
-			id = 120;
+			//id = 120;
 			Statement st = con.createStatement();
 	        st.executeUpdate("DELETE FROM public.glb_t_organization where id = " + this.id);
 	        st.close();
-			con.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -236,11 +236,12 @@ public class Organization implements RowDataGateway {
 			Organization obj = (Organization) i;
 			System.out.println(obj.getCode());
 		}*/
-		//System.out.println(new Organization().getOne());
+		System.out.println(new Organization().getOne());
 		
 		//new Organization().delete();	
-		new Organization().update();
-		new IgrpDb().closeConnection("conexao");//para fechar a base de dados
+		//new Organization().update();
+		
+		//new IgrpDb().closeConnection("conexao");//para fechar a base de dados
 	}
 
 }
