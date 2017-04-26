@@ -50,14 +50,12 @@ public class FileHelper {
 		return null;
 	}
 	
-	public static boolean save(String path,String file_name,String data) throws IOException{
-		String real_path = Config.ROOT_PATH + path;
-		System.out.println(real_path+"/"+file_name);
-		createDiretory(real_path);
+	public static boolean save(String path,String file_name,String data) throws IOException{	
+		createDiretory(path);
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 			try {
-				File file = new File(real_path+"/"+file_name);
+				File file = new File(path+"/"+file_name);
 				// if file doesnt exists, then create it
 				if (!file.exists()) {
 					file.createNewFile();
