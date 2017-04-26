@@ -1,6 +1,7 @@
 package nosi.teste;
 
 import nosi.core.gui.components.IGRPBox;
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPFormList;
@@ -19,11 +20,76 @@ import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
+import nosi.webapps.igrp.pages.testetabela.Testetabela;
+import nosi.webapps.igrp.pages.testetabela.TestetabelaView;
+import nosi.webapps.igrp.pages.testetabela.Testetabela.Table1;
 
 public class MainTest {
 	
 	public static void main(String[] args) {
-		 Field sectionheader_1_text;
+		Testetabela model = new Testetabela();
+		
+		
+		Field n_bi;
+		Field nome;
+		Field data_nascimento;
+		IGRPForm form_1;
+		IGRPTable table_1;
+
+		IGRPToolsBar toolsbar_1;
+		IGRPButton btn_save;
+		IGRPButton btn_pesquisar;
+
+		IGRPButton btn_button_1 = new IGRPButton("Button","","","","_blank","default|fa-angle-right","","");
+		btn_button_1.propertie.add("type","specific").add("code","").add("class","default").add("rel","button_1");
+		
+		form_1 = new IGRPForm("form_1");
+		table_1 = new IGRPTable("table_1");
+		n_bi = new NumberField(model,"n_bi");
+		n_bi.setLabel("Nº BI");
+		n_bi.propertie().add("name","p_n_bi").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		nome = new TextField(model,"nome");
+		nome.setLabel("Nome");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		data_nascimento = new DateField(model,"data_nascimento");
+		data_nascimento.setLabel("Data Nascimento");
+		data_nascimento.propertie().add("name","p_data_nascimento").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
+
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		btn_save = new IGRPButton("Save","RED","Teste","Action","_blank","default|fa-save","default||fa-save|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_save.propertie.add("type","specific").add("code","").add("rel","save");
+		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","_blank","default|fa-search","","");
+		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
+		Testetabela.Table1 table1 = new Testetabela().new Table1();
+		
+		table1.setData_nascimento("2000-10-10");
+		table1.setN_bi(1);
+		table1.setNome("Teste");
+		model.setTable1(table1);
+		table_1.addData(model.getTable_1());
+		
+		Testetabela.Table1 table2 = new Testetabela().new Table1();
+		
+		table2.setData_nascimento("2000-10-10");
+		table2.setN_bi(1);
+		table2.setNome("Teste");
+		model.setTable1(table1);
+		table_1.addData(model.getTable_1());
+		n_bi.setParam(true);
+		form_1.addField(n_bi);
+		form_1.addField(nome);
+		form_1.addField(data_nascimento);
+
+		table_1.addField(n_bi);
+		table_1.addField(nome);
+		table_1.addField(data_nascimento);
+		table_1.addButton(btn_button_1);
+		toolsbar_1.addButton(btn_save);
+		form_1.addButton(btn_pesquisar);
+		
+		//System.out.println(form_1);
+		System.out.println(table_1);
+		/* Field sectionheader_1_text;
 		 Field date_1;
 		 Field number_1;
 		 Field view_img;
@@ -121,7 +187,7 @@ public class MainTest {
 		
 		
 		IGRPParagraph box = new IGRPParagraph("section");
-		box.addField();*/
+		box.addField();
 		TesteModel model = new TesteModel();
 		
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -154,7 +220,7 @@ public class MainTest {
 		System.out.println(form_1);
 		System.out.println(formlist_1);
 		System.out.println(view_1);
-		System.out.println(sectionheader_1);
+		System.out.println(sectionheader_1);*/
 	}
 
 }

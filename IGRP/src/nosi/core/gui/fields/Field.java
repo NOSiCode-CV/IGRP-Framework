@@ -24,6 +24,8 @@ public interface Field {
 	public FieldProperties propertie();
 	public void setLookup(String lookup);
 	public String getLookup();
-	public void setVisible(boolean visible);
+	public void setVisible(boolean isVisible);
 	public boolean isVisible();
+	public void setParam(boolean isParam);
+	public boolean isParam();
 }
