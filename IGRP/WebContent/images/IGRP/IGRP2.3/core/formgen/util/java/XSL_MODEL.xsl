@@ -52,7 +52,7 @@
 				</xsl:if>
 			</xsl:for-each>
     	</xsl:for-each> 
-    	<xsl:for-each select="/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist']">
+    	<xsl:for-each select="/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']">
     		<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
 	 		<xsl:value-of select="$newline"/>			
 			<xsl:value-of select="$tab"/>
@@ -73,6 +73,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_annotations"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_array_list"/>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
 
  	<!-- Join all template to create a class model -->
@@ -90,7 +92,7 @@
  		<xsl:value-of select="'}'"/>
  	</xsl:template>
  	
- 	
+ 	<!-- Gen attributes for subclass -->
  	<xsl:template name="gen-ttributes-subclass">
  		<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab"/>
@@ -120,6 +122,37 @@
 		<xsl:value-of select="'}'"/> 	
  	</xsl:template>
  	
+ 	<!-- Gen attributes for chart -->
+ 	<xsl:template name="gen-ttributes-subclass-chart">
+ 		<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab"/>
+			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
+ 		<xsl:value-of select="concat('public class ',$tableName,'{')"/>
+ 		<xsl:for-each select="label/*">
+			<xsl:variable name="type_field">
+				<xsl:call-template name="typeField">
+		    		<xsl:with-param name="type" select="@type" />
+		    	</xsl:call-template>
+			</xsl:variable>
+ 			<xsl:value-of select="$newline"/>
+ 			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('private ',$type_field,' ',.,';')"/>
+ 		</xsl:for-each>
+ 		<xsl:for-each select="label/*">
+			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type" select="@type" />
+	    		<xsl:with-param name="name" select="." />
+	    		<xsl:with-param name="tab_" select="$tab2" />
+	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+		</xsl:for-each>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'}'"/> 	
+ 	</xsl:template>
+ 	
+ 	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
  		<xsl:for-each select="/rows/content/*[@type='table']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
@@ -129,6 +162,9 @@
  		</xsl:for-each> 		
  		<xsl:for-each select="/rows/content/*[@type='formlist']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each>		
+ 		<xsl:for-each select="/rows/content/*[@type='chart']">
+ 			<xsl:call-template name="gen-ttributes-subclass-chart"></xsl:call-template>
  		</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>
