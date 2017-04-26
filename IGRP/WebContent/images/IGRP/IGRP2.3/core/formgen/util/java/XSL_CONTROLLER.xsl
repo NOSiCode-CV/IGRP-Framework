@@ -123,20 +123,22 @@
      	<xsl:value-of select="concat('public void action',$action,'() throws IOException{')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:choose>
-			<xsl:when test="$type_render_='render'">
-				<xsl:value-of select="'this.renderView(view);'"/>
-			</xsl:when>
-			<xsl:when test="$type_render_='redirect'">
-				<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:if test="$page_ != ''">
+			<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:choose>
+				<xsl:when test="$type_render_='render'">
+					<xsl:value-of select="'this.renderView(view);'"/>
+				</xsl:when>
+				<xsl:when test="$type_render_='redirect'">
+					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:if>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:value-of select="'}'"/>
