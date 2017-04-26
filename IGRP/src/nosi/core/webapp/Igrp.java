@@ -67,8 +67,8 @@ public class Igrp {
 			this.homeUrl = "app_name/page_name/action_name";
 			
 			// init of others configuration
-			this.igrpDb = new IgrpDb();
-			this.igrpDb.init();
+			//this.igrpDb = new IgrpDb();
+			//this.igrpDb.init();
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
@@ -82,7 +82,7 @@ public class Igrp {
 	}
 	
 	private void exit(){ // Destroy todos os componentes da applicação
-		this.igrpDb.destroy();
+		//this.igrpDb.destroy();
 	}
 	
 	private void resolveRoute() throws IOException{
@@ -95,10 +95,10 @@ public class Igrp {
 				this.currentPageName = aux[1];
 				this.currentActionName = aux[2];
 				
-				if(!this.validateAppName())
+				/*if(!this.validateAppName())
 					throw new NotFoundHttpException("Aplicação inválida.");
 				if(!this.validatePageName())
-					throw new NotFoundHttpException("Esta página não foi encontrada.");
+					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
 			}else
 				throw new ServerErrorHttpException("The route format is invalid.");
 		
@@ -119,6 +119,7 @@ public class Igrp {
 	
 	private boolean validatePageName(){
 		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
+		System.out.println(path);
 		File file = null;
 		try{
 			file = new File(path);

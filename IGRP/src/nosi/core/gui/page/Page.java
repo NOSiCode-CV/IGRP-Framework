@@ -29,7 +29,7 @@ public class Page {
 	}
 	
 	private void createTemplate(){
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/TST/teste.xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "/IGRP/webapps/src/nosi/webapps/igrp/pages/pesquisarorganica/PesquisarOrganica.xsl", "utf-8");
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");
 		xml.writeAttribute("type", "");

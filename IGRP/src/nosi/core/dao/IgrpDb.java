@@ -79,6 +79,7 @@ public class IgrpDb implements Component{
 				case "postgresql":	
 					this.driverName = "org.postgresql.Driver";
 					this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
+				break;
 				
 				default: // Default connection (use H2)
 					this.driverName = "org.h2.Drive";
@@ -91,7 +92,7 @@ public class IgrpDb implements Component{
 					this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
 					this.dbmsName = dbmsName;
 					System.out.println("Connection is ok ...");
-				} catch (ClassNotFoundException e) {
+				}catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 				catch(SQLException e){
