@@ -6,6 +6,7 @@
 
     <xsl:include href="XSL_CONSTANTS.xsl" />
     <xsl:include href="XSL_FIELDS.xsl" />
+    <xsl:include href="XSL_BUTTON.xsl"/>
     <xsl:include href="XSL_MODEL.xsl" />
     <xsl:include href="XSL_VIEW.xsl" />
     <xsl:include href="XSL_CONTROLLER.xsl" />
