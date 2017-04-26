@@ -29,6 +29,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_exception"/>
 		<xsl:value-of select="$newline"/>
+		<xsl:call-template name="gen-import-class"></xsl:call-template>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
 	
 	<!-- create actions based in button -->
@@ -103,11 +105,7 @@
 		<xsl:param name="type_render_"/>
 		
 		<xsl:variable name="model">
-			<xsl:call-template name="CamelCaseWord">
-	    		<xsl:with-param name="text">
-	    			<xsl:value-of select="$page_"></xsl:value-of>
-	    		</xsl:with-param>
-	    	</xsl:call-template>
+   			<xsl:value-of select="$page_"></xsl:value-of>
 		</xsl:variable>
 			
 		<xsl:variable name="action">

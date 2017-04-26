@@ -14,15 +14,17 @@
     	...
 	-->
     <xsl:template name="gen-get-set-model">
-        <xsl:for-each select="//fields/*">
-            <xsl:if test="not(@name=preceding::node()/@name)">	
-				<xsl:value-of select="$tab"/>
-				<xsl:call-template name="getSetField">
-		    		<xsl:with-param name="type" select="@type" />
-		    		<xsl:with-param name="name" select="name()" />
-		    	</xsl:call-template>
-				<xsl:value-of select="$newline"/>
-			</xsl:if>
+    	<xsl:for-each select="/rows/content/*[@type != 'table']">
+    		<xsl:for-each select="fields/*">
+	            <xsl:if test="not(@name=preceding::node()/@name)">	
+					<xsl:value-of select="$tab"/>
+					<xsl:call-template name="getSetField">
+			    		<xsl:with-param name="type" select="@type" />
+			    		<xsl:with-param name="name" select="name()" />
+			    	</xsl:call-template>
+					<xsl:value-of select="$newline"/>
+				</xsl:if>
+			</xsl:for-each>
 		</xsl:for-each>
 	</xsl:template>
 
@@ -33,21 +35,34 @@
     	...
 	-->
     <xsl:template name="declare-variables-model">
-        <xsl:for-each select="//fields/*">
-            <xsl:if test="not(@name=preceding::node()/@name)">		
-				<xsl:value-of select="$tab"/>
-				<xsl:variable name="type_field">
-					<xsl:call-template name="typeField">
-			    		<xsl:with-param name="type" select="@type" />
-			    	</xsl:call-template>
-				</xsl:variable>
-				<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,'p_',name(),$double_quotes,')')"/>			
-				<xsl:value-of select="$newline"/>			
-				<xsl:value-of select="$tab"/>
-				<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>				
-				<xsl:value-of select="$newline"/>
-			</xsl:if>
-		</xsl:for-each>
+    	<xsl:for-each select="/rows/content/*[@type != 'table']">
+    		<xsl:for-each select="fields/*">
+	            <xsl:if test="not(@name=preceding::node()/@name)">		
+					<xsl:value-of select="$tab"/>
+					<xsl:variable name="type_field">
+						<xsl:call-template name="typeField">
+				    		<xsl:with-param name="type" select="@type" />
+				    	</xsl:call-template>
+					</xsl:variable>
+					<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,'p_',name(),$double_quotes,')')"/>			
+					<xsl:value-of select="$newline"/>			
+					<xsl:value-of select="$tab"/>
+					<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>				
+					<xsl:value-of select="$newline"/>
+				</xsl:if>
+			</xsl:for-each>
+    	</xsl:for-each> 
+    	<xsl:for-each select="/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist']">
+    		<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
+	 		<xsl:value-of select="$newline"/>			
+			<xsl:value-of select="$tab"/>
+			<xsl:value-of select="concat('private ArrayList&lt;',$tableName,'&gt; ',name(),' = new ArrayList&lt;&gt;();')"/>
+			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type" select="'arraylist'" />
+	    		<xsl:with-param name="name" select="name()" />
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>		
+    	</xsl:for-each>       
 	</xsl:template>
 
  	<!-- import all class to using in model -->
@@ -70,6 +85,50 @@
 	 		<xsl:call-template name="declare-variables-model"></xsl:call-template>
 	 		<xsl:call-template name="gen-get-set-model"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
+	 		<xsl:call-template name="gen-subclass"></xsl:call-template>
+	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
+ 	</xsl:template>
+ 	
+ 	
+ 	<xsl:template name="gen-ttributes-subclass">
+ 		<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab"/>
+			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
+ 		<xsl:value-of select="concat('public class ',$tableName,'{')"/>
+ 		<xsl:for-each select="fields/*">
+			<xsl:variable name="type_field">
+				<xsl:call-template name="typeField">
+		    		<xsl:with-param name="type" select="@type" />
+		    	</xsl:call-template>
+			</xsl:variable>
+ 			<xsl:value-of select="$newline"/>
+ 			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>
+ 		</xsl:for-each>
+ 		<xsl:for-each select="fields/*">
+			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type" select="@type" />
+	    		<xsl:with-param name="name" select="name()" />
+	    		<xsl:with-param name="tab_" select="$tab2" />
+	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+		</xsl:for-each>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'}'"/> 	
+ 	</xsl:template>
+ 	
+ 	<xsl:template name="gen-subclass">
+ 		<xsl:for-each select="/rows/content/*[@type='table']">
+ 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each> 		
+ 		<xsl:for-each select="/rows/content/*[@type='separatorlist']">
+ 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each> 		
+ 		<xsl:for-each select="/rows/content/*[@type='formlist']">
+ 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>

@@ -44,7 +44,7 @@ public class IGRPFormList extends IGRPTable {
 		GenXMLField.toXml(this.xml,this.fields);
 		this.xml.startElement("table");
 			this.xml.startElement("value");
-				//rows
+				this.genRows();
 			this.xml.endElement();
 		this.xml.endElement();
 		this.xml.endElement();

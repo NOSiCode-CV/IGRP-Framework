@@ -146,12 +146,36 @@
 			 	<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
-           		<xsl:for-each select="/rows/content/*[@type = 'form']/tools-bar/item">
+           		<xsl:for-each select="item">
+					<xsl:value-of select="$tab2"/>
+	           		<xsl:value-of select="concat($form_,'.addButton(btn_',@rel,');')"/>
+					<xsl:value-of select="$newline"/>
+				</xsl:for-each>
+           </xsl:for-each>
+           <xsl:for-each select="/rows/content/*[@type = 'table']/table"><!-- add button on table -->           		
+			 	<xsl:variable name="form_">
+			 		<xsl:value-of select="local-name(parent::*)"/>
+			 	</xsl:variable>
+           		<xsl:for-each select="context-menu/item">
 					<xsl:value-of select="$tab2"/>
 	           		<xsl:value-of select="concat($form_,'.addButton(btn_',@rel,');')"/>
 					<xsl:value-of select="$newline"/>
 				</xsl:for-each>
            </xsl:for-each>
           </xsl:if>
+        </xsl:template>
+        
+        <!-- import class based in button select action -->
+        <xsl:template name="gen-import-class">
+        	<xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">
+       			<xsl:variable name="app_">
+       				<xsl:call-template name="lowerCase"><xsl:with-param name="text"><xsl:value-of select="./app"/> </xsl:with-param> </xsl:call-template>
+       			</xsl:variable>
+       			<xsl:variable name="page_">
+       				<xsl:call-template name="lowerCase"><xsl:with-param name="text"><xsl:value-of select="./page"/> </xsl:with-param> </xsl:call-template>
+       			</xsl:variable>
+       			<xsl:value-of select="concat($base_import,$app_,'.',$page_,'.',./page,';')"></xsl:value-of>
+				<xsl:value-of select="$newline"/>
+        	</xsl:for-each>
         </xsl:template>
 </xsl:stylesheet>
