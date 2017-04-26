@@ -1,4 +1,3 @@
-
 package nosi.webapps.igrp.dao;
 
 import java.sql.Connection;
@@ -7,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import nosi.core.dao.IgrpDb;
 /**
  * @author Isaias.Nunes
  *
  */
 import nosi.core.dao.RowDataGateway;
+import nosi.core.webapp.Igrp;
 public class Action implements RowDataGateway{
 	
 	private int id;
@@ -280,8 +279,12 @@ public class Action implements RowDataGateway{
 
 	public Action() {
 		super();
-		new IgrpDb("db_igrp", "postgres", "nunes").createUnwrap("conexao", "postgresql");
-		this.con = new IgrpDb().unwrap("conexao");
+		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		
+		/*IgrpDb db = new IgrpDb();
+		db.newConnection("", "", "", "");
+		this.con = db.unwrap("");
+		*/
 	}
 
 	

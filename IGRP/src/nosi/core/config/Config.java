@@ -8,6 +8,7 @@ public class Config {
 	
 	public  static final String ROOT_PATH = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
 	public Config() {
+
 		// TODO Auto-generated constructor stub
 	}
 

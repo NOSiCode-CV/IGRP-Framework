@@ -18,6 +18,7 @@ public abstract class AbstractField implements Field{
 	private String label = "";
 	private String lookup = "";
 	private boolean isVisible=true;
+	private boolean isParam = false;
 	
 	public FieldProperties propertie;
 	
@@ -71,6 +72,12 @@ public abstract class AbstractField implements Field{
 	}
 	public void setVisible(boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+	public boolean isParam() {
+		return isParam;
+	}
+	public void setParam(boolean isParam) {
+		this.isParam = isParam;
 	}
 	protected void configValue(Object model){
 		if(model!=null){		

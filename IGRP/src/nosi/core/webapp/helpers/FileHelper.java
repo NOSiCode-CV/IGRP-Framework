@@ -52,6 +52,7 @@ public class FileHelper {
 	
 	public static boolean save(String path,String file_name,String data) throws IOException{
 		String real_path = Config.ROOT_PATH + path;
+		System.out.println(real_path+"/"+file_name);
 		createDiretory(real_path);
 			BufferedWriter bw = null;
 			FileWriter fw = null;

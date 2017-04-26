@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import nosi.core.dao.IgrpDb;
 import nosi.core.dao.RowDataGateway;
+import nosi.core.webapp.Igrp;
 
 public class Organization implements RowDataGateway {
 	
@@ -31,8 +31,7 @@ public class Organization implements RowDataGateway {
 	
 	public Organization() {
 		super();
-		new IgrpDb("db_igrp", "postgres", "nunes").createUnwrap("conexao","postgre");
-		this.con = new IgrpDb().unwrap("conexao");
+		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
 	}
 
 	public int getId() {

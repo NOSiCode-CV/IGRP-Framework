@@ -29,6 +29,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_exception"/>
 		<xsl:value-of select="$newline"/>
+		<xsl:call-template name="gen-import-class"></xsl:call-template>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
 	
 	<!-- create actions based in button -->
@@ -103,11 +105,7 @@
 		<xsl:param name="type_render_"/>
 		
 		<xsl:variable name="model">
-			<xsl:call-template name="CamelCaseWord">
-	    		<xsl:with-param name="text">
-	    			<xsl:value-of select="$page_"></xsl:value-of>
-	    		</xsl:with-param>
-	    	</xsl:call-template>
+   			<xsl:value-of select="$page_"></xsl:value-of>
 		</xsl:variable>
 			
 		<xsl:variable name="action">
@@ -123,20 +121,22 @@
      	<xsl:value-of select="concat('public void action',$action,'() throws IOException{')"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
-		<xsl:choose>
-			<xsl:when test="$type_render_='render'">
-				<xsl:value-of select="'this.renderView(view);'"/>
-			</xsl:when>
-			<xsl:when test="$type_render_='redirect'">
-				<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:if test="$page_ != ''">
+			<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:choose>
+				<xsl:when test="$type_render_='render'">
+					<xsl:value-of select="'this.renderView(view);'"/>
+				</xsl:when>
+				<xsl:when test="$type_render_='redirect'">
+					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:if>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:value-of select="'}'"/>
