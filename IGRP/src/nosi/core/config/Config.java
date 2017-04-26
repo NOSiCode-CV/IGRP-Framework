@@ -6,8 +6,8 @@ import nosi.core.xml.XMLWritter;
 
 public class Config {
 	
-	public  static final String ROOT_PATH = "D:/git/IGRP-Framework/IGRP/src";
-	public Config() {
+	public  static final String ROOT_PATH = "D:/git/IGRP-Framework/IGRP/src/";
+	public Config() { 
 		// TODO Auto-generated constructor stub
 	}
 
