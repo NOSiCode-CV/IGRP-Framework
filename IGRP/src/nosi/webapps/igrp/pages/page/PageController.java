@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
@@ -32,19 +33,21 @@ public class PageController extends Controller {
 		Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 		String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
 		String class_name = Igrp.getInstance().getRequest().getParameter("p_class");
-		String path = Igrp.getInstance().getRequest().getParameter("p_package");
-		path = path.replace(".", "/") + "/"+class_name.toLowerCase();
+		String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
+		path_class = path_class.replace(".", "/") + "/"+class_name.toLowerCase();
 		class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
+		String path_xsl = Config.PATH_XSL + class_name.toLowerCase();
+		path_class = Config.PATH_CLASS + path_class;
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-		if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path!=null && path!="" && class_name!=null && class_name!=""){
+		if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
 			String[] partsJavaCode = javaCode.toString().split(" END ");
 			if(
-					FileHelper.save(path,class_name+".java", partsJavaCode[0]+"*/") && // save model
-					FileHelper.save(path,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
-					FileHelper.save(path,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
-					FileHelper.save(path,class_name+".xml", fileXml) && // save xml
-					FileHelper.save(path,class_name+".xsl", fileXsl) && // save xsl
-					FileHelper.save(path,class_name+".json", fileJson) // save json
+					FileHelper.save(path_class,class_name+".java", partsJavaCode[0]+"*/") && // save model
+					FileHelper.save(path_class,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
+					FileHelper.save(path_class,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
+					FileHelper.save(path_xsl,class_name+".xml", fileXml) && // save xml
+					FileHelper.save(path_xsl,class_name+".xsl", fileXsl) && // save xsl
+					FileHelper.save(path_xsl,class_name+".json", fileJson) // save json
 			){
 				return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 			}
