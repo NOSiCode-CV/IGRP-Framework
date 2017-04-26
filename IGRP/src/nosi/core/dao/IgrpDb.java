@@ -71,16 +71,18 @@ public class IgrpDb implements Component{
 					
 				break;
 				
-				case "sqlite":
+				case "sqlite": // Bugs ... Perhaps !
 					this.driverName = "org.sqlite.JDBC";
 					this.connectionName = "jdbc:sqlite:" + this.dbName;
 				break;
 				
 				case "postgresql":	
-				default: // Default connection
 					this.driverName = "org.postgresql.Driver";
 					this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
 				
+				default: // Default connection (use H2)
+					this.driverName = "org.h2.Drive";
+					this.connectionName = "jdbc:h2:~/" + this.dbName;
 				
 			}
 			
@@ -120,19 +122,17 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void init() { // Defaults connections ...
-		this.newConnection("db1", "db_igrp", "imarcelf", "");// Connection to PostgreSQL (default)
+		this.newConnection("db1", "postgresql","db_igrp", "imarcelf", "");// Connection to PostgreSQL (default)
+		
 	}
 	
-	public void newConnection(String connectionName,String dbName, String username, String password){
-		Db db = new Db(dbName, username, password);
-		db.newConnection(dbName);
-		if(db.getConnection() != null)
-			IgrpDb.conns.put(connectionName, db);
+	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
+		this.newConnection("localhost", 0, connectionName, dbmsName, dbName, username, password);
 	}
 	
-	public void newConnection(String hostName, int hostPort, String connectionName, String dbName, String username, String password){
+	public void newConnection(String hostName, int hostPort, String connectionName, String dbmsName,String dbName, String username, String password){
 		Db db = new Db(hostName, hostPort, dbName, username, password);
-		db.newConnection(dbName);
+		db.newConnection(dbmsName);
 		if(db.getConnection() != null)
 			IgrpDb.conns.put(connectionName, db);
 	}
