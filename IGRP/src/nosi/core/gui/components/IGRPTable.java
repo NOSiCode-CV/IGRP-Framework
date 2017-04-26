@@ -7,6 +7,7 @@ import java.util.List;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.webapp.helpers.Helper;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
 
@@ -126,21 +127,21 @@ public class IGRPTable {
 	}
 
 	protected void genRows() {
-		if(this.data.size() > 0 && this.fields.size() > 0){
+		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
 				this.xml.startElement("rows");
 				if(this.buttons.size() > 0){
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getTagName()+"="+this.getValue(obj, field.getTagName()));
+							this.xml.setElement("param", field.getTagName()+"="+Helper.getValue(obj, field.getTagName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					this.xml.text(this.getValue(obj, field.getTagName()));
+					this.xml.text(Helper.getValue(obj, field.getTagName()));
 					this.xml.endElement();
 				}
 				this.xml.endElement();
@@ -148,23 +149,5 @@ public class IGRPTable {
 		}
 	}
 
-	protected String getValue(Object model,String name){
-		String value = "";
-		if(model!=null){		
-			value = "";
-			Method[] allMethods = model.getClass().getDeclaredMethods();
-		    for (Method m : allMethods) {
-		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
-		    	if(m.getName().contains(methodName) && m.getName().startsWith("get")){
-			    	try {
-			    		if(m.invoke(model)!=null)
-			    			value = ""+ m.invoke(model);
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
-					}                                                                     
-		    	}
-		    }
-		}
-		return value;
-	}
+	
 }

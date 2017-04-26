@@ -1,4 +1,8 @@
 package nosi.core.webapp.helpers;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -44,4 +48,23 @@ public class Helper {
 		return array; // default purpose ...
 	}
 	
+	public static String getValue(Object model,String name){
+		String value = "";
+		if(model!=null){		
+			value = "";
+			Method[] allMethods = model.getClass().getDeclaredMethods();
+		    for (Method m : allMethods) {
+		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
+		    	if(m.getName().contains(methodName) && m.getName().startsWith("get")){
+			    	try {
+			    		if(m.invoke(model)!=null)
+			    			value = ""+ m.invoke(model);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}                                                                     
+		    	}
+		    }
+		}
+		return value;
+	}
 }
