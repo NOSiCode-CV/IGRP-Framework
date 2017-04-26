@@ -67,12 +67,18 @@
  		<xsl:text>}</xsl:text>
  	</xsl:template>
 
- 	<!-- add fields in construct class -->
+ 	<!-- add fields in container: form_1.addField(text_1); -->
  	<xsl:template name="add-fields">
  		<xsl:for-each select="//content/*">
- 			<xsl:call-template name="add-field">
-	 			<xsl:with-param name="type"><xsl:value-of select="@type"/></xsl:with-param>
-	 		</xsl:call-template>
+		 	<xsl:variable name="instance_name">
+		 		<xsl:value-of select="local-name()"/>
+		 	</xsl:variable>		 
+		 	<xsl:for-each select="fields/*">
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
+				<xsl:value-of select="$newline"/>
+		 	</xsl:for-each>
+			<xsl:value-of select="$newline"/>
  		</xsl:for-each>
  	</xsl:template>
 
@@ -85,14 +91,13 @@
 	-->
  	<xsl:template name="add-to-page">
  		<xsl:call-template name="add-button-to-container"></xsl:call-template>
- 		<xsl:for-each select="//content/*">
+ 		<xsl:for-each select="//content/*[@type!='toolsbar']">
+ 		
+		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
-				<xsl:with-param name="type_content">
-					<xsl:value-of select="@type" />
-				</xsl:with-param>
-				<xsl:with-param name="type">
-					<xsl:value-of select="'add-to-page'" />
-				</xsl:with-param>
+				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
+				<xsl:with-param name="type"><xsl:value-of select="'add-to-page'" /></xsl:with-param>
+				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
 			</xsl:call-template>
  		</xsl:for-each>
  	</xsl:template>
@@ -100,50 +105,35 @@
  	  <!--
 		Declare and create instances components, for example:
 	 	public IGRPForm form_1;
-	 	public IGRPTables form_1;
+	 	public IGRPTable table_1;
 	 	....
 	-->
 	<xsl:template name="gen-instance-components">
 		<xsl:param name="type_content" /> 
 		<xsl:param name="type" /> 
-		<xsl:for-each select="/rows/content/*[@type=$type_content]/*">
-		 	<xsl:variable name="instance_name">
-		 		<xsl:value-of select="local-name(parent::*)"/>
-		 	</xsl:variable>
-			<xsl:choose>
-				<xsl:when test="local-name() = 'fields'">
-					<xsl:value-of select="$tab"/>
-				 	<xsl:variable name="className">
-				 		<xsl:call-template name="typeClass">
-				 			<xsl:with-param name="type">                
-				 				<xsl:value-of select="$type_content"/>
-				 			</xsl:with-param>
-				 		</xsl:call-template>
-				 	</xsl:variable>
-				 	<xsl:choose>
-				 		<xsl:when test="$type='instance'">
-							<xsl:value-of select="$tab"/>
-				 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
-				 		</xsl:when>
-				 		<xsl:when test="$type='declare'">
-				 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
-				 		</xsl:when>
-				 		<xsl:when test="$type='add-to-page'">
-				 			<xsl:value-of select="$tab"/>
-				 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
-				 		</xsl:when>
-				 	</xsl:choose>
-				 	<xsl:value-of select="$newline"/>
-				</xsl:when>
-				<xsl:when test="local-name()='item'">
-					<xsl:if test="$type='add-to-page'">
-			 			<xsl:value-of select="$tab2"/>
-			 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
-				 		<xsl:value-of select="$newline"/>
-			 		</xsl:if>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:for-each>
+		<xsl:param name="instance_name" /> 
+		<xsl:value-of select="$tab"/>
+	 	<xsl:variable name="className">
+	 		<xsl:call-template name="typeClass">
+	 			<xsl:with-param name="type">                
+	 				<xsl:value-of select="$type_content"/>
+	 			</xsl:with-param>
+	 		</xsl:call-template>
+	 	</xsl:variable>
+	 	<xsl:choose>
+	 		<xsl:when test="$type='instance'">
+				<xsl:value-of select="$tab"/>
+	 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
+	 		</xsl:when>
+	 		<xsl:when test="$type='declare'">
+	 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
+	 		</xsl:when>
+	 		<xsl:when test="$type='add-to-page'">
+	 			<xsl:value-of select="$tab"/>
+	 			<xsl:value-of select="concat('this.addToPage(',$instance_name,');')"/>
+	 		</xsl:when>
+	 	</xsl:choose>
+	 	<xsl:value-of select="$newline"/>
 	</xsl:template>
 
 	<!-- declare variables in the class view -->
@@ -151,18 +141,14 @@
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:call-template name="gen-field-view">
-			<xsl:with-param name="type">
-				<xsl:value-of select="'declare'" />
-			</xsl:with-param>
+			<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 		</xsl:call-template>
-		<xsl:for-each select="//content/*">
+		<xsl:for-each select="//content/*[@type!='toolsbar']">
+		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
-				<xsl:with-param name="type_content">
-					<xsl:value-of select="@type" />
-				</xsl:with-param>
-				<xsl:with-param name="type">
-					<xsl:value-of select="'declare'" />
-				</xsl:with-param>
+				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
+				<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
+				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
  		<xsl:call-template name="gen-toolsbar">
@@ -178,14 +164,12 @@
  	<xsl:template name="instance-components-view">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:for-each select="//content/*">
+		<xsl:for-each select="//content/*[@type!='toolsbar']">
+		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
-				<xsl:with-param name="type_content">
-					<xsl:value-of select="@type" />
-				</xsl:with-param>
-				<xsl:with-param name="type">
-					<xsl:value-of select="'instance'" />
-				</xsl:with-param>
+				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
+				<xsl:with-param name="type"><xsl:value-of select="'instance'" /></xsl:with-param>				
+				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
 

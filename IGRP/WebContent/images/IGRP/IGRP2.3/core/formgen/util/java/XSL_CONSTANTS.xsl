@@ -23,15 +23,14 @@
     <xsl:variable name="import_fields">import nosi.core.gui.fields.*;</xsl:variable>
     <xsl:variable name="import_view">import nosi.core.webapp.View;</xsl:variable>
     <xsl:variable name="import_model">import nosi.core.webapp.Model;</xsl:variable>
+    <xsl:variable name="import_array_list">import java.util.ArrayList;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
     <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
     <xsl:variable name="import_annotations">import nosi.core.webapp.RParam;</xsl:variable>
+    <xsl:variable name="base_import">import nosi.webapps.</xsl:variable>
+   
     <xsl:variable name="class_name">
-    	<xsl:call-template name="CamelCaseWord">
-    		<xsl:with-param name="text">
-    			<xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
-    		</xsl:with-param>
-    	</xsl:call-template>
+		<xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
     </xsl:variable>
     <xsl:variable name="page">
     	<xsl:call-template name="lowerCase">
