@@ -11,8 +11,8 @@ public class DefaultpaginaController extends Controller{
 	
 	public void actionIndex(@RParam(rParamName = "cod") String cod, @RParam(rParamName = "name") String name) throws IOException, IllegalArgumentException, IllegalAccessException{
 	
-	DefaultpaginaModel model = new DefaultpaginaModel();
-	model.load();
+	//DefaultpaginaModel model = new DefaultpaginaModel();
+	//model.load();
 	/*
 	 * Start put your other model here ...
 	 * */

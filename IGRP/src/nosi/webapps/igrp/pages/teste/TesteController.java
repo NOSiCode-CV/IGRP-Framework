@@ -4,6 +4,8 @@
 
 package nosi.webapps.igrp.pages.teste;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
+
 import java.io.IOException;
 
 public class TesteController extends Controller {		

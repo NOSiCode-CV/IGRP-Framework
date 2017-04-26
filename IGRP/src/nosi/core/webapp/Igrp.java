@@ -41,10 +41,12 @@ public class Igrp {
 	// Others Web Application Components
 	// Db component
 	private IgrpDb igrpDb;
-
+	
+	//Flash Message
+	private FlashMessage flashMessage;
 	/**/
 	
-	private Igrp(){
+	private Igrp(){ // Private and empty default constructor ... allow Singleton class
 	}
 	
 	public static Igrp getInstance(){ // Permite definir a classe Igrp como um Singleton
@@ -65,7 +67,10 @@ public class Igrp {
 			this.homeUrl = "app_name/page_name/action_name";
 			
 			// init of others configuration
-			//this.igrpDb = new IgrpDb("igrp", "root", "").newConnection("");
+			this.igrpDb = new IgrpDb();
+			this.igrpDb.init();
+			
+			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 		return this;
 	}
@@ -73,17 +78,17 @@ public class Igrp {
 	public void run() throws IOException{ // run the web app 
 		this.resolveRoute(); // (1)
 		this.runAction(); // (2)
-		//this.exit(); // (3)
+		this.exit(); // (3)
 	}
 	
 	private void exit(){ // Destroy todos os componentes da applicação
-		
+		this.igrpDb.destroy();
 	}
 	
 	private void resolveRoute() throws IOException{
 		String r = this.request.getParameter("r");// Catch always the first "r" parameter in query string
 		String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
-		if(r!=null){
+		
 			if(r != null && r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 				String []aux = r.split("/");
 				this.currentAppName = aux[0];
@@ -96,7 +101,7 @@ public class Igrp {
 					throw new NotFoundHttpException("Esta página não foi encontrada.");
 			}else
 				throw new ServerErrorHttpException("The route format is invalid.");
-		}
+		
 	}
 	
 	private boolean validateAppName(){
@@ -136,7 +141,11 @@ public class Igrp {
 		String auxActionName = "";
 		String auxPageName = "";
 		String auxcontrollerPath = "";
-		
+	/*	
+		this.currentAppName = "igrp";
+		this.currentActionName = "index";
+		this.currentPageName = "TestePagina";
+		*/
 		
 		for(String aux : this.currentAppName.split("-"))
 			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
@@ -157,6 +166,9 @@ public class Igrp {
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
 		result.put("actionName", auxActionName);
+		
+		//System.out.println(auxcontrollerPath);
+		//System.out.println(auxActionName);
 		
 		return result; // because i need to return 2 variable in one result statement ... 
 		
@@ -262,4 +274,13 @@ public class Igrp {
 	public String getHomeUrl(){
 		return this.homeUrl;
 	}
+	
+	public FlashMessage getFlashMessage(){
+		return this.flashMessage;
+	}
+
+	public static void main(String []args){
+		//Igrp.getInstance().convertRoute();
+	}
+	
 }
