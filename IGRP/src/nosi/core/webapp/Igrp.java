@@ -95,10 +95,10 @@ public class Igrp {
 				this.currentPageName = aux[1];
 				this.currentActionName = aux[2];
 				
-				if(!this.validateAppName())
+				/*if(!this.validateAppName())
 					throw new NotFoundHttpException("Aplicação inválida.");
 				if(!this.validatePageName())
-					throw new NotFoundHttpException("Esta página não foi encontrada.");
+					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
 			}else
 				throw new ServerErrorHttpException("The route format is invalid.");
 		

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../Teste.xml" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Transaccao</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Gestão de Transações]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <codigo name="p_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código</label>
+                    <value>Aperiam unde ipsum magna ut</value>
+                </codigo>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Orgânica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="pesquisar">
+                <title>Pesquisar</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>_blank</target>
+                <img>default|fa-search</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-search|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Código</label>
+                </codigo>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Descrição</label>
+                </descricao>
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <codigo name="p_codigo">Adipiscing sed dolor stract labore</codigo>
+                        <descricao name="p_descricao">Magna lorem perspiciatis aperiam elit</descricao>
+                        <estado name="p_estado">Deserunt totam lorem totam natus</estado>
+                    </row>
+                    <row>
+                        <codigo name="p_codigo">Officia laudantium amet labore elit</codigo>
+                        <descricao name="p_descricao">Anim ut lorem stract ut</descricao>
+                        <estado name="p_estado">Aperiam sed perspiciatis doloremque consectetur</estado>
+                    </row>
+                    <row>
+                        <codigo name="p_codigo">Rem omnis adipiscing magna labore</codigo>
+                        <descricao name="p_descricao">Amet aperiam officia anim officia</descricao>
+                        <estado name="p_estado">Accusantium labore sit sed accusantium</estado>
+                    </row>
+                    <row>
+                        <codigo name="p_codigo">Ut natus aliqua sit aliqua</codigo>
+                        <descricao name="p_descricao">Aliqua perspiciatis voluptatem dolor magna</descricao>
+                        <estado name="p_estado">Deserunt voluptatem sed sit dolor</estado>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

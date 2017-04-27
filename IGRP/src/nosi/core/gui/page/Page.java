@@ -29,7 +29,7 @@ public class Page {
 	}
 	
 	private void createTemplate(){
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/RED/RED_FORM_1_dash.xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/pesquisarperfil/PesquisarPerfil.xsl", "utf-8");
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");
 		xml.writeAttribute("type", "");

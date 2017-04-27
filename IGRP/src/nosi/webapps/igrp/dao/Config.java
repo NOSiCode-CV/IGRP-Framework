@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import nosi.core.dao.IgrpDb;
 
 /**
  * @author Isaias.Nunes
@@ -17,6 +16,7 @@ import nosi.core.dao.IgrpDb;
  */
 
 import nosi.core.dao.RowDataGateway;
+import nosi.core.webapp.Igrp;
 
 public class Config implements RowDataGateway {
 
@@ -26,8 +26,7 @@ public class Config implements RowDataGateway {
 	
 	public Config() {
 		super();
-		new IgrpDb("db_igrp", "postgres", "nunes").createUnwrap("conexao", "postgresql");
-		this.con = new IgrpDb().unwrap("conexao");
+		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
 	}
 
 	
