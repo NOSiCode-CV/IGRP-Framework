@@ -8,10 +8,11 @@ public class Config {
 	
 	public static final String PATH_CLASS = "D://git/IGRP-Framework/IGRP/src/";
 	public static final String PATH_XSL = "D://git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
+	
 	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";
 	
 	public Config() { 
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public static String getHeader(){

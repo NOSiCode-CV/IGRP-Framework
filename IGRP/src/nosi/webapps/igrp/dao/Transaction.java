@@ -7,8 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import nosi.core.dao.IgrpDb;
 import nosi.core.dao.RowDataGateway;
+import nosi.core.webapp.Igrp;
 public class Transaction implements RowDataGateway {
 	
 	private int id;
@@ -20,8 +20,7 @@ public class Transaction implements RowDataGateway {
 	
 	public Transaction() {
 		super();
-		new IgrpDb("db_igrp", "postgres", "nunes").createUnwrap("conexao","postgre");
-		this.con = new IgrpDb().unwrap("conexao");
+		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
 	}
 	
 	

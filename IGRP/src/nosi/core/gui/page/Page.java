@@ -29,7 +29,7 @@ public class Page {
 	}
 	
 	private void createTemplate(){
-
+		
 		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/pesquisarmenu/PesquisarMenu.xsl", "utf-8");
 
 		xml.addXml(Config.getHeader());

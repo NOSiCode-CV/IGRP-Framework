@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import nosi.core.dao.IgrpDb;
 import nosi.core.dao.RowDataGateway;
+import nosi.core.webapp.Igrp;
 
 public class Profile_type implements RowDataGateway {
 	
@@ -24,8 +24,7 @@ public class Profile_type implements RowDataGateway {
 	
 	public Profile_type() {
 		super();
-		new IgrpDb("db_igrp", "postgres", "nunes").createUnwrap("conexao","postgre");
-		this.con = new IgrpDb().unwrap("conexao");
+		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
 	}
 	
 	public int getId() {
@@ -199,8 +198,8 @@ public class Profile_type implements RowDataGateway {
 		
 		//new Profile_type().delete();
 		//new Profile_type().insert();
-		new Profile_type().update();
-		new IgrpDb().closeConnection("conexao");//para fechar a base de dadosS
+		//new Profile_type().update();
+		//new IgrpDb().closeConnection("conexao");//para fechar a base de dadosS
 	}
 
 	@Override

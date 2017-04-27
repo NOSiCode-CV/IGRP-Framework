@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../Teste.xml" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>NovoMenu</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Gestão Menu - Novo]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>_self</target>
+                <img>default|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>_back</target>
+                <img>default|fa-arrow-left</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-arrow-left|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <codigo name="p_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código</label>
+                    <value>Aperiam laudantium totam consectetur omnis</value>
+                </codigo>
+                <titulo name="p_titulo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Título</label>
+                    <value>Aliqua ipsum laudantium ipsum consectetur</value>
+                </titulo>
+                <menu_principal name="p_menu_principal" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Menu Principal</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </menu_principal>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <pagina name="p_pagina" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Página</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </pagina>
+                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Target</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </target>
+                <ordem name="p_ordem" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Ordem</label>
+                    <value>Labore mollit ut officia elit</value>
+                </ordem>
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Activo?</label>
+                    <value>1</value>
+                </activo>
+                <menu_base name="p_menu_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Menu Base?</label>
+                    <value>1</value>
+                </menu_base>
+                <link_procedure name="p_link_procedure" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Link (Procedure)</label>
+                    <value>Omnis anim lorem perspiciatis ut</value>
+                </link_procedure>
+            </fields>
+        </form_1>
+    </content>
+</rows>

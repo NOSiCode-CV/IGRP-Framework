@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import nosi.core.dao.IgrpDb;
 /**
  * @author Isaias.Nunes
  *
