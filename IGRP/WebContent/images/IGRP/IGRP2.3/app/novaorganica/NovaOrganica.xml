@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../Teste.xml" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>NovaOrganica</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <codigo name="p_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Elit laudantium anim stract lorem</value>
+                </codigo>
+                <nome name="p_nome" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Deserunt accusantium iste anim aliqua</value>
+                </nome>
+                <aplicacao name="p_aplicacao" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Aplicacao</label>
+                    <value>Omnis officia voluptatem ipsum lorem</value>
+                </aplicacao>
+                <ativo name="p_ativo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Ativo</label>
+                    <value>1</value>
+                </ativo>
+                <organica_pai name="p_organica_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Organica Pai</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica_pai>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="gravar">
+                    <title>Gravar</title>
+                    <app>RED</app>
+                    <page>Teste</page>
+                    <link>Action</link>
+                    <parameter/>
+                    <target>submit</target>
+                    <img>default|fa-angle-right</img>
+                </item>
+                <item type="form" code="" class="default" rel="voltar">
+                    <title>Voltar</title>
+                    <app>RED</app>
+                    <page>Teste</page>
+                    <link>Action</link>
+                    <parameter/>
+                    <target>_back</target>
+                    <img>default|fa-angle-right</img>
+                </item>
+            </tools-bar>
+        </form_1>
+    </content>
+</rows>

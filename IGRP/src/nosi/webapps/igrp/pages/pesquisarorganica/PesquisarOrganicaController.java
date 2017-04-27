@@ -17,12 +17,10 @@ public class PesquisarOrganicaController extends Controller {
 
 	public void actionNovo() throws IOException{
 		
-		this.redirect("RED","Teste","Action");
 	}
 	
 	public void actionPesquisar() throws IOException{
 		
-		this.redirect("RED","Teste","Action");
 	}
 	
 }
