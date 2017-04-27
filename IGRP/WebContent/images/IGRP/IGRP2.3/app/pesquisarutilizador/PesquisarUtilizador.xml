@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../Teste.xml" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>PesquisarUtilizador</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Gestao de utilizador]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false">
+                    <label>Perfil</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </perfil>
+                <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username</label>
+                    <value>Omnis unde ipsum aperiam voluptatem</value>
+                </username>
+                <email name="p_email" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>Perspiciatis sit stract perspiciatis magna</value>
+                </email>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>RED</app>
+                    <page>Teste</page>
+                    <link>Action</link>
+                    <parameter/>
+                    <target>submit</target>
+                    <img>default|fa-angle-right</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>_self</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-angle-right|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <nominho name="p_nominho" type="plaintext" maxlength="50" align="left" lookup_parser="false">
+                    <label>Nominho</label>
+                </nominho>
+                <email name="p_email" type="plaintext" maxlength="100" align="left" lookup_parser="false">
+                    <label>Email</label>
+                </email>
+                <perfil name="p_perfil" type="plaintext" maxlength="50" align="left" lookup_parser="false">
+                    <label>Perfil</label>
+                </perfil>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome name="p_nome">Unde sed iste deserunt iste mollit ut lorem perspiciatis aliqua laudantium anim totam omnis aliqua</nome>
+                        <nominho name="p_nominho">Doloremque natus totam anim stract doloremque stract amet aliqua sed ipsum sed omnis lorem natus</nominho>
+                        <email name="p_email">Doloremque adipiscing sit unde laudantium magna mollit consectetur aperiam unde amet sit unde voluptatem dolor</email>
+                        <perfil name="p_perfil">Aliqua magna adipiscing rem magna stract magna aliqua rem officia adipiscing anim omnis adipiscing ut</perfil>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Sit elit aperiam natus sit dolor elit sit laudantium ipsum sit consectetur rem amet lorem</nome>
+                        <nominho name="p_nominho">Perspiciatis magna stract iste consectetur totam voluptatem elit iste anim doloremque sed mollit lorem voluptatem</nominho>
+                        <email name="p_email">Amet lorem totam amet accusantium lorem anim aliqua sit ipsum elit perspiciatis iste dolor iste</email>
+                        <perfil name="p_perfil">Natus unde aliqua omnis voluptatem aperiam accusantium iste mollit adipiscing natus magna officia sed sit</perfil>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Stract magna totam natus ut adipiscing amet totam sit ipsum stract dolor rem omnis lorem</nome>
+                        <nominho name="p_nominho">Natus laudantium ut magna sit sit laudantium elit sed totam sed sit aliqua adipiscing dolor</nominho>
+                        <email name="p_email">Labore consectetur mollit anim voluptatem elit sit rem iste stract totam adipiscing rem ipsum anim</email>
+                        <perfil name="p_perfil">Elit mollit labore unde stract iste rem omnis doloremque dolor elit deserunt natus doloremque elit</perfil>
+                    </row>
+                    <row>
+                        <nome name="p_nome">Voluptatem sit mollit lorem natus officia unde elit ipsum sit mollit consectetur omnis voluptatem dolor</nome>
+                        <nominho name="p_nominho">Deserunt totam elit laudantium magna omnis laudantium aliqua elit aperiam sit stract sit officia accusantium</nominho>
+                        <email name="p_email">Voluptatem mollit officia accusantium elit iste accusantium totam omnis aperiam ipsum voluptatem amet lorem natus</email>
+                        <perfil name="p_perfil">Sit adipiscing totam doloremque adipiscing accusantium adipiscing magna dolor sed lorem laudantium ut officia iste</perfil>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>
