@@ -1,12 +1,9 @@
-package nosi.webapps.igrp.pages.page;
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 24, 2017
- *
- * Description: class to operation IGRP pages
- */
+/*-------------------------*/
 
+/*Create Controller*/
+
+package nosi.webapps.igrp.pages.page;
+import nosi.core.webapp.Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,17 +11,25 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
 import nosi.core.config.Config;
-import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 
 public class PageController extends Controller {		
-	
+
 	public void actionIndex() throws IOException{
 		Page model = new Page();
-		PageView view = new PageView();
-		view.addModel("model",model);
+		PageView view = new PageView(model);
 		this.renderView(view);
+	}
+
+	public void actionGravar() throws IOException{
+		/*Teste model = new Teste();
+		TesteView view = new TesteView(model);
+		this.renderView(view);*/
+	}
+	
+	public void actionVoltar() throws IOException{
+		this.redirect("igrp","page","index");
 	}
 	
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
@@ -91,7 +96,7 @@ public class PageController extends Controller {
 		String action_descr = "Detalhe App";
 		String app = "RED";
 		String page = "Teste";
-		String filename = "Teste.xml";
+		String filename = "Teste.xsl";
 		String page_descr = "Detalhe Page";
 		
 		String json = "{";

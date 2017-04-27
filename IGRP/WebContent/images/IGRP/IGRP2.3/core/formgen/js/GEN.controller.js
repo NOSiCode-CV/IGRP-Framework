@@ -189,7 +189,7 @@ var GENERATOR = function(genparams){
 		    app      = GEN.DETAILS ? GEN.DETAILS.app          : '',
 		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '';
 
-		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="../'+filename+'" type="text/xsl"?>';
+		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
 		
 		rtn+='<rows>';
 			rtn+=VARS.xml.site;
