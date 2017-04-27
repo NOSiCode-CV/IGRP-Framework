@@ -69,8 +69,9 @@ public class IGRPChart {
 		this.url = url;
 	}
 
-	public void addColor(String color){
+	public IGRPChart addColor(String color){
 		this.colors.add(color);
+		return this;
 	}
 	
 	public String toString(){

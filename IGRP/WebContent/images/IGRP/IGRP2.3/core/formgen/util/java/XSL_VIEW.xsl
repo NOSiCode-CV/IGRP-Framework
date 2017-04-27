@@ -43,6 +43,9 @@
 			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$tab2"></xsl:value-of>
+		<xsl:call-template name="config-chart"></xsl:call-template>
+		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
 		<xsl:value-of select="'}'"></xsl:value-of>
 	</xsl:template>
@@ -112,6 +115,8 @@
 		<xsl:param name="type_content" /> 
 		<xsl:param name="type" /> 
 		<xsl:param name="instance_name" /> 
+		<xsl:param name="title_" select="''" /> 
+		
 		<xsl:value-of select="$tab"/>
 	 	<xsl:variable name="className">
 	 		<xsl:call-template name="typeClass">
@@ -123,7 +128,14 @@
 	 	<xsl:choose>
 	 		<xsl:when test="$type='instance'">
 				<xsl:value-of select="$tab"/>
-	 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
+	 			<xsl:choose>
+	 				<xsl:when test="$type_content='chart'">
+	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,',',$double_quotes,$title_,$double_quotes,');')"/>
+	 				</xsl:when>
+	 				<xsl:otherwise>	
+	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
+	 				</xsl:otherwise>
+	 			</xsl:choose>
 	 		</xsl:when>
 	 		<xsl:when test="$type='declare'">
 	 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
@@ -170,6 +182,7 @@
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 				<xsl:with-param name="type"><xsl:value-of select="'instance'" /></xsl:with-param>				
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
 
@@ -187,4 +200,33 @@
 		</xsl:call-template>
 	</xsl:template>
 
+	<xsl:template name="config-chart">
+		<xsl:for-each select="//content/*[@type='chart']">
+		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+		 	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setCaption(',$double_quotes,./caption,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setChart_type(',$double_quotes,./chart_type,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setXaxys(',$double_quotes,./xaxys,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setYaxys(',$double_quotes,./yaxys,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setUrl(',$double_quotes,./url,$double_quotes,');')"></xsl:value-of>
+		
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="$instance_name"/>
+			<xsl:for-each select="colors/*">
+	 			<xsl:value-of select="concat('.addColor(',$double_quotes,.,$double_quotes,')')"></xsl:value-of>
+			</xsl:for-each>	
+			<xsl:value-of select="';'"/>	
+			<xsl:value-of select="$newline"/>
+ 		</xsl:for-each>
+	</xsl:template>
 </xsl:stylesheet>

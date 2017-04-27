@@ -2,6 +2,7 @@ package nosi.teste;
 
 import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPButton;
+import nosi.core.gui.components.IGRPChart;
 import nosi.core.gui.components.IGRPContextMenu;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPFormList;
@@ -86,9 +87,31 @@ public class MainTest {
 		table_1.addButton(btn_button_1);
 		toolsbar_1.addButton(btn_save);
 		form_1.addButton(btn_pesquisar);
+		Testetabela.Chart1 chart1 = new Testetabela().new Chart1();
+		chart1.setAno("2010");
+		chart1.setX1("265");
+		chart1.setX2("658");
+		chart1.setX3("498");
+		chart1.setX4("698");
 		
+
+		Testetabela.Chart1 chart2 = new Testetabela().new Chart1();
+		chart2.setAno("2009");
+		chart2.setX1("784");
+		chart2.setX2("258");
+		chart2.setX3("594");
+		chart2.setX4("498");
+		
+		model.setChart1(chart1);
+		model.setChart1(chart2);
+		
+		IGRPChart chart = new IGRPChart("chart_1","Teste");
+		chart.addData(model.getChart1());
+		chart.addColor("#7dc86c").addColor("#d9910b").addColor("#3e09f2").addColor("#b3cd93");
+		
+		System.out.println(chart);
 		//System.out.println(form_1);
-		System.out.println(table_1);
+		//System.out.println(table_1);
 		/* Field sectionheader_1_text;
 		 Field date_1;
 		 Field number_1;

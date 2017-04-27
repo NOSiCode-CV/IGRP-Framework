@@ -5,11 +5,12 @@ import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.xml.XMLWritter;
 
 public class Config {
-	
-	public  static final String ROOT_PATH = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
-	public Config() {
 
-		// TODO Auto-generated constructor stub
+	
+	public static final String PATH_CLASS = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
+	public static final String PATH_XSL = "C://Users/isaias.nunes/git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
+	public Config() { 
+
 	}
 
 	public static String getHeader(){
