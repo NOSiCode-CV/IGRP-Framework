@@ -105,9 +105,9 @@ public class PageView extends View {
 		p_proc_name.propertie().add("name","p_proc_name").add("type","hidden").add("maxlength","30").add("tag","proc_name");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","RED","Teste","Action","submit","default|fa-floppy-o","default||fa-floppy-o|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_gravar = new IGRPButton("Gravar","igrp","page","gravar","submit","default|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","RED","Teste","Action","_self","default|fa-arrow-left","default||fa-arrow-left|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_voltar = new IGRPButton("Voltar","igrp","page","voltar","_self","default|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

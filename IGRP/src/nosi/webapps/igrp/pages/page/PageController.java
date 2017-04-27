@@ -13,19 +13,51 @@ import javax.servlet.http.Part;
 import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.webapps.igrp.dao.Action;
 
 public class PageController extends Controller {		
 
 	public void actionIndex() throws IOException{
 		Page model = new Page();
 		PageView view = new PageView(model);
+		view.env_fk.addOption("--- Selecionar Página ---",null);
+		view.env_fk.addOption("IGRP", 1);
 		this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException{
-		/*Teste model = new Teste();
-		TesteView view = new TesteView(model);
-		this.renderView(view);*/
+	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		Page model = new Page();
+		//System.out.println(Igrp.getInstance().getRequest().getMethod().toUpperCase());
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();
+			//System.out.println("Env id: "+model.getEnv_fk());
+			Action action = new Action();
+			action.setAction(model.getP_action());
+			action.setAction_descr(model.getAction_descr());
+			action.setTable_name(model.getP_table_name());
+			action.setFlg_transaction(model.getP_flg_transaction());
+			action.setDb_connection(model.getP_db_connection());
+			action.setPage_descr(model.getP_page_descr());
+			action.setFlg_internet(model.getP_flg_transaction());
+			action.setFlg_menu(model.getP_flg_menu());
+			action.setFlg_offline(model.getP_flg_offline());
+			action.setEnv_fk(model.getEnv_fk());
+			action.setSelf_fw_id(model.getP_self_id());
+			action.setImg_src(model.getP_img_src());
+			action.setXsl_src(model.getP_xsl_src());
+			action.setSelf_fw_id(model.getP_self_fw_id());
+			action.setPage(model.getPage());
+			action.setPage_type(model.getP_page_type());
+			action.setProc_name(model.getP_proc_name());
+			action.setStatus(model.getP_status());
+			action.setVersion(model.getP_version());
+			if(action.insert()){
+				System.out.println("save");
+			}else{
+				System.out.println("failed");
+			}
+		}
+		this.redirect("igrp", "page", "index");
 	}
 	
 	public void actionVoltar() throws IOException{

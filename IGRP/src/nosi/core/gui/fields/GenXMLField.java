@@ -158,7 +158,10 @@ public class GenXMLField {
 			for(Entry<Object, Object> obj : field.getOptions().entrySet()){
 				xml.startElement("option");
 				xml.setElement("text", obj.getValue().toString());
-				xml.setElement("value", obj.getKey().toString());
+				if(obj.getKey() == null || obj.getKey().toString()=="")
+					xml.emptyTag("value");
+				else
+					xml.setElement("value", obj.getKey().toString());
 				xml.endElement();
 			}
 			xml.endElement();

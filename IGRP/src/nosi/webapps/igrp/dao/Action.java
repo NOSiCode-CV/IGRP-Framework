@@ -279,7 +279,7 @@ public class Action implements RowDataGateway{
 
 	public Action() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 		
 		/*IgrpDb db = new IgrpDb();
 		db.newConnection("", "", "", "");
