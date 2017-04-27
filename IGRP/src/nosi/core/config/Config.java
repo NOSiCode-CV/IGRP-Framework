@@ -6,9 +6,10 @@ import nosi.core.xml.XMLWritter;
 
 public class Config {
 
-	
-	public static final String PATH_CLASS = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
+	public static final String PATH_CLASS = "C://Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
 	public static final String PATH_XSL = "C://Users/isaias.nunes/git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
+	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";
+
 	public Config() { 
 
 	}
@@ -19,8 +20,8 @@ public class Config {
 		xml.setElement("title", "API - Gerador");
 		xml.setElement("version", "201532");
 		xml.setElement("link", "images/IGRP/IGRP2.3/xml/IGRP-home.xml");
-		xml.setElement("link_img", "/IGRP/images/IGRP/IGRP2.3");
-		xml.setElement("target", "_blank");
+		xml.setElement("link_img",LINK_IMG);
+	//	xml.setElement("target", "_blank");
 		xml.startElement("site");
 			xml.setElement("welcome_note", "Ola");
 			xml.setElement("footer_note", "2011 - Copyright NOSI");
