@@ -16,11 +16,21 @@
     <xsl:template name="gen-get-set-model">
     	<xsl:for-each select="/rows/content/*[@type != 'table']">
     		<xsl:for-each select="fields/*">
+    			<xsl:variable name="tag_name">
+					<xsl:choose>
+						<xsl:when test="@type='hidden'">
+							<xsl:value-of select="@name"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="name()"/>
+						</xsl:otherwise>
+					</xsl:choose>
+			 	</xsl:variable>
 	            <xsl:if test="not(@name=preceding::node()/@name)">	
 					<xsl:value-of select="$tab"/>
 					<xsl:call-template name="getSetField">
 			    		<xsl:with-param name="type" select="@type" />
-			    		<xsl:with-param name="name" select="name()" />
+			    		<xsl:with-param name="name" select="$tag_name" />
 			    	</xsl:call-template>
 					<xsl:value-of select="$newline"/>
 				</xsl:if>
@@ -37,6 +47,16 @@
     <xsl:template name="declare-variables-model">
     	<xsl:for-each select="/rows/content/*[@type != 'table']">
     		<xsl:for-each select="fields/*">
+    			<xsl:variable name="tag_name">
+					<xsl:choose>
+						<xsl:when test="@type='hidden'">
+							<xsl:value-of select="@name"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="name()"/>
+						</xsl:otherwise>
+					</xsl:choose>
+			 	</xsl:variable>
 	            <xsl:if test="not(@name=preceding::node()/@name)">		
 					<xsl:value-of select="$tab"/>
 					<xsl:variable name="type_field">
@@ -44,10 +64,10 @@
 				    		<xsl:with-param name="type" select="@type" />
 				    	</xsl:call-template>
 					</xsl:variable>
-					<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,'p_',name(),$double_quotes,')')"/>			
+					<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,@name,$double_quotes,')')"/>			
 					<xsl:value-of select="$newline"/>			
 					<xsl:value-of select="$tab"/>
-					<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>				
+					<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>				
 					<xsl:value-of select="$newline"/>
 				</xsl:if>
 			</xsl:for-each>
@@ -99,6 +119,16 @@
 			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
  		<xsl:value-of select="concat('public class ',$tableName,'{')"/>
  		<xsl:for-each select="fields/*">
+ 			<xsl:variable name="tag_name">
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="@name"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="name()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+		 	</xsl:variable>
 			<xsl:variable name="type_field">
 				<xsl:call-template name="typeField">
 		    		<xsl:with-param name="type" select="@type" />
@@ -106,12 +136,22 @@
 			</xsl:variable>
  			<xsl:value-of select="$newline"/>
  			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('private ',$type_field,' ',name(),';')"/>
+			<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>
  		</xsl:for-each>
  		<xsl:for-each select="fields/*">
+ 			<xsl:variable name="tag_name">
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="@name"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="name()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+		 	</xsl:variable>
 			<xsl:call-template name="getSetField">
 	    		<xsl:with-param name="type" select="@type" />
-	    		<xsl:with-param name="name" select="name()" />
+	    		<xsl:with-param name="name" select="$tag_name" />
 	    		<xsl:with-param name="tab_" select="$tab2" />
 	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
 	    	</xsl:call-template>

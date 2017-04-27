@@ -27,15 +27,20 @@ public class GenXMLField {
 			xml.startElement("fields");
 				for(Field field:fields){
 					if(field.isVisible()){
-						xml.startElement(field.getTagName());
+						if(field instanceof HiddenField){
+							xml.startElement("hidden");
+							field.propertie().remove("maxlength");							
+						}else{
+							xml.startElement(field.getTagName());
+						}
 						writteAttributes(xml,field.propertie());
-						if(field.propertie().get("type").toString().compareTo("hidden")!=0){//Hidden field not contain tag label
+						if(!(field instanceof HiddenField)){//Hidden field not contain tag label
 							xml.setElement("label", field.getLabel());
 						}
-						if(field.propertie().get("type").toString().compareTo("separator")!=0){//Seprator field not contain tag value
+						if(!(field instanceof SeparatorField)){//Seprator field not contain tag value
 							getXmlValue(xml,field);
 						}
-						if(field.propertie().get("type").toString().compareTo("lookup")==0){
+						if(field instanceof LookupField){
 							xml.setElement("lookup", field.getLookup());
 							/*
 							 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
