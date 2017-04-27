@@ -28,28 +28,46 @@
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
 						<xsl:value-of select="$tab"/>
-						<xsl:value-of select="concat('public Field ',name(),';')"/>
+						<xsl:choose>
+							<xsl:when test="@type='hidden'">
+								<xsl:value-of select="concat('public Field ',@name,';')"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="concat('public Field ',name(),';')"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:when>
 					<xsl:when test="$type='instance'">
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat(name(),' = new ')"/>
+						<xsl:variable name="tag_name">
+							<xsl:choose>
+								<xsl:when test="@type='hidden'">
+									<xsl:value-of select="@name"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="name()"/>
+								</xsl:otherwise>
+							</xsl:choose>
+					 	</xsl:variable>
+						
+						<xsl:value-of select="concat($tag_name,' = new ')"/>
 						<xsl:call-template name="typeFieldClass">
 				    		<xsl:with-param name="type" select="@type" />
 				    	</xsl:call-template>
-						<xsl:value-of select="concat('(','model',',',$double_quotes,name(),$double_quotes,');')"/>
+						<xsl:value-of select="concat('(','model',',',$double_quotes,$tag_name,$double_quotes,');')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat(name(),'.setLabel(',$double_quotes,./label,$double_quotes,');')"/>
+						<xsl:value-of select="concat($tag_name,'.setLabel(',$double_quotes,./label,$double_quotes,');')"/>
 						<xsl:variable name="container_type">
 					 		<xsl:value-of select="../../@type"/>
 					 	</xsl:variable>
 					 	<xsl:if test="$container_type='sectionheader' or $container_type='paragraph'  or $container_type='video'  or $container_type='iframe'">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
-							<xsl:value-of select="concat(name(),'.setValue(',$double_quotes,normalize-space(./value),$double_quotes,');')"/>
+							<xsl:value-of select="concat($tag_name,'.setValue(',$double_quotes,normalize-space(./value),$double_quotes,');')"/>
 						</xsl:if>
 						<xsl:variable name="_tag">
-							<xsl:value-of select="name()"/>
+							<xsl:value-of select="$tag_name"/>
 						</xsl:variable>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
@@ -58,7 +76,7 @@
 							add recursive properies
 							date_1.propertie().add("name","p_date_1").add("type","date");
 						-->
-						<xsl:value-of select="concat(name(),'.propertie()')"/>
+						<xsl:value-of select="concat($tag_name,'.propertie()')"/>
 						<xsl:for-each select="@*">
 							<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
 		    			</xsl:for-each>

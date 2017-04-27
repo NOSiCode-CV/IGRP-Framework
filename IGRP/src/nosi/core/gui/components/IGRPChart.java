@@ -112,7 +112,7 @@ public class IGRPChart {
 	}
 	
 	private void setField(){
-		if(this.data.size() > 0 ){
+		if(this.data != null && this.data.size() > 0 ){
 			java.lang.reflect.Field[] fields_ = this.data.get(0).getClass().getDeclaredFields();
 			for(java.lang.reflect.Field f:fields_){
 				if(f.getName() !="this$0"){

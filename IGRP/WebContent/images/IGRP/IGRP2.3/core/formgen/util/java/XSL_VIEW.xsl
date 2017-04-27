@@ -78,7 +78,14 @@
 		 	</xsl:variable>		 
 		 	<xsl:for-each select="fields/*">
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="concat($instance_name,'.addField(',@name,');')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
+					</xsl:otherwise>
+				</xsl:choose>
 				<xsl:value-of select="$newline"/>
 		 	</xsl:for-each>
 			<xsl:value-of select="$newline"/>
@@ -102,6 +109,16 @@
 				<xsl:with-param name="type"><xsl:value-of select="'add-to-page'" /></xsl:with-param>
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
 			</xsl:call-template>
+ 		</xsl:for-each>
+ 		<xsl:for-each select="//content/*[@type='toolsbar']"> 	
+ 			<xsl:if test="local-name() != 'tools-bar'">
+			 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+	 			<xsl:call-template name="gen-instance-components">
+					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
+					<xsl:with-param name="type"><xsl:value-of select="'add-to-page'" /></xsl:with-param>
+					<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
+				</xsl:call-template>
+			</xsl:if>	
  		</xsl:for-each>
  	</xsl:template>
 
