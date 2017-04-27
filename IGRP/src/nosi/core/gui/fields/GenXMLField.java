@@ -29,7 +29,8 @@ public class GenXMLField {
 					if(field.isVisible()){
 						if(field instanceof HiddenField){
 							xml.startElement("hidden");
-							field.propertie().remove("maxlength");							
+							field.propertie().add("value", field.getValue());
+							field.propertie().remove("maxlength");
 						}else{
 							xml.startElement(field.getTagName());
 						}
@@ -37,7 +38,7 @@ public class GenXMLField {
 						if(!(field instanceof HiddenField)){//Hidden field not contain tag label
 							xml.setElement("label", field.getLabel());
 						}
-						if(!(field instanceof SeparatorField)){//Seprator field not contain tag value
+						if(!(field instanceof SeparatorField) && !(field instanceof HiddenField)){//Seprator field not contain tag value
 							getXmlValue(xml,field);
 						}
 						if(field instanceof LookupField){

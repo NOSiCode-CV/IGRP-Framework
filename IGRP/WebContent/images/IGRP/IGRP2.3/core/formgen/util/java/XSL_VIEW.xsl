@@ -39,7 +39,10 @@
 	<!--  create construct view class -->
 	<xsl:template name="create-construct">
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>
+		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>		
+	     	<xsl:value-of select="$newline"/>
+	 		<xsl:value-of select="$tab2"/>
+	     	<xsl:value-of select="concat('Condig.TITLE = ',$double_quotes,/rows/content/title,$double_quotes,';')"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>

@@ -12,7 +12,7 @@ public class GeneratorController extends Controller{
 		model.setGen_elements("images/IGRP/Config/formgen.config.txt?id=");
 		model.setId_objeto(11);
 		model.setLink_image("images/IGRP/Config/img.list.php?name=");
-		model.setLink_save("images/IGRP/Config/data.txt");
+		model.setLink_save("images/IGRP/IGRP2.3/app/env/Env.txt");
 		GeneratorView view = new GeneratorView(model);
 		this.renderView(view,true);
 	}

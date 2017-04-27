@@ -41,7 +41,7 @@
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
             </xsl:call-template>
            </xsl:for-each>
@@ -50,7 +50,7 @@
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
             </xsl:call-template>
            </xsl:for-each>           
@@ -59,7 +59,7 @@
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
             </xsl:call-template>
            </xsl:for-each>
@@ -122,17 +122,18 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
 		<xsl:if test="$page_ != ''">
-			<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
 			<xsl:choose>
 				<xsl:when test="$type_render_='render'">
+					<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
 					<xsl:value-of select="'this.renderView(view);'"/>
 				</xsl:when>
 				<xsl:when test="$type_render_='redirect'">
+					<xsl:value-of select="$tab"/>
 					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,');')"/>
 				</xsl:when>
 			</xsl:choose>
