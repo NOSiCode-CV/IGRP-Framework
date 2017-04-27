@@ -22,7 +22,7 @@
 				<xsl:with-param name="type_"><xsl:value-of select="$type_"/></xsl:with-param>
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
 				<xsl:with-param name="img_"><xsl:value-of select="./img"/></xsl:with-param>
@@ -37,7 +37,7 @@
 				<xsl:with-param name="type_"><xsl:value-of select="$type_"/></xsl:with-param>
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
 				<xsl:with-param name="img_"><xsl:value-of select="./img"/></xsl:with-param>
@@ -52,7 +52,7 @@
 				<xsl:with-param name="type_"><xsl:value-of select="$type_"/></xsl:with-param>
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="@rel"/></xsl:with-param>
 				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
 				<xsl:with-param name="img_"><xsl:value-of select="./img"/></xsl:with-param>
@@ -85,7 +85,7 @@
 			<xsl:when test="$type_='instance'">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat($name_,' = new ',$class_name_,'(',$double_quotes,$title_,$double_quotes,',',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link_,$double_quotes,',',$double_quotes,$target_,$double_quotes,',',$double_quotes,$img_,$double_quotes,',',$double_quotes,$params_,$double_quotes,',',$double_quotes,$parameter_,$double_quotes,');')"/>
+				<xsl:value-of select="concat($name_,' = new ',$class_name_,'(',$double_quotes,$title_,$double_quotes,',',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,$link_,$double_quotes,',',$double_quotes,$target_,$double_quotes,',',$double_quotes,$img_,$double_quotes,',',$double_quotes,$params_,$double_quotes,',',$double_quotes,$parameter_,$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 				 	<xsl:value-of select="concat($name_,'.propertie')"/>
