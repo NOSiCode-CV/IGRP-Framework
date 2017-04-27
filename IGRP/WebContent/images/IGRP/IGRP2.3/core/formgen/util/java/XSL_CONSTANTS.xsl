@@ -39,6 +39,14 @@
     		</xsl:with-param>
     	</xsl:call-template>
     </xsl:variable>
+    <xsl:variable name="app">
+    	<xsl:call-template name="lowerCase">
+    		<xsl:with-param name="text">
+    			<xsl:value-of select="rows/app"></xsl:value-of>
+    		</xsl:with-param>
+    	</xsl:call-template>
+    </xsl:variable>
+    
     <xsl:variable name="package_name">
 		<xsl:value-of select="concat(rows/plsql/package_db,'.',$page,';')"></xsl:value-of>
     </xsl:variable>
