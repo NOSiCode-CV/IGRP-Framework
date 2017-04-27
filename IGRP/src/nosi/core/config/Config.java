@@ -6,8 +6,15 @@ import nosi.core.xml.XMLWritter;
 
 public class Config {
 	
+<<<<<<< HEAD
 	public static final String PATH_CLASS = "D://git/IGRP-Framework/IGRP/src/";
 	public static final String PATH_XSL = "D://git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
+=======
+	public static final String PATH_CLASS = "C://Users/Yma/git/IGRP-Framework/IGRP/src/";
+	public static final String PATH_XSL = "C://Users/Yma/git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
+	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";
+	
+>>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
 	public Config() { 
 		// TODO Auto-generated constructor stub
 	}
@@ -18,8 +25,8 @@ public class Config {
 		xml.setElement("title", "API - Gerador");
 		xml.setElement("version", "201532");
 		xml.setElement("link", "images/IGRP/IGRP2.3/xml/IGRP-home.xml");
-		xml.setElement("link_img", "/IGRP/images/IGRP/IGRP2.3");
-		xml.setElement("target", "_blank");
+		xml.setElement("link_img",LINK_IMG);
+	//	xml.setElement("target", "_blank");
 		xml.startElement("site");
 			xml.setElement("welcome_note", "Ola");
 			xml.setElement("footer_note", "2011 - Copyright NOSI");
