@@ -34,7 +34,7 @@ public class Page {
 	
 	private void createTemplate(){
 		
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/novoperfil/NovoPerfil.xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl", "utf-8");
 
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");

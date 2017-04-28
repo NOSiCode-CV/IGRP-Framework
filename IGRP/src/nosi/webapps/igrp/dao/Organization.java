@@ -31,7 +31,7 @@ public class Organization implements RowDataGateway {
 	
 	public Organization() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
 	public int getId() {
@@ -200,7 +200,7 @@ public class Organization implements RowDataGateway {
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Organization> lista = new ArrayList<>();
+		ArrayList<Organization> lista = new ArrayList<Organization>();
 		
 		try{
 			Statement st = con.createStatement();
@@ -209,7 +209,7 @@ public class Organization implements RowDataGateway {
 			while(result.next()){
 				
 				Organization obj = new Organization();
-				
+				obj.setId(result.getInt("id"));
 				obj.setCode(result.getString("code"));
 				obj.setName(result.getString("name"));
 				obj.setSigof_fk(result.getInt("sigof_fk"));

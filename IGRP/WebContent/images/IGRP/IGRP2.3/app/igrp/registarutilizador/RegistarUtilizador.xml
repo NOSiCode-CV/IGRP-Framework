@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="Teste.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>RegistarUtilizador</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Registar utilizador]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="guardar">
+                <title>Guardar</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>submit</target>
+                <img>default|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>RED</app>
+                <page>Teste</page>
+                <link>Action</link>
+                <target>_back</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <params>default||fa-angle-right|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Aliqua consectetur natus anim totam</value>
+                </nome>
+                <username name="p_username" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username</label>
+                    <value>Doloremque sit voluptatem sit ipsum</value>
+                </username>
+                <email name="p_email" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>Stract natus laudantium mollit sit</value>
+                </email>
+                <password name="p_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password>
+                <confirmar_password name="p_confirmar_password" type="password" maxlength="20" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Confirmar password</label>
+                    <value>******</value>
+                </confirmar_password>
+            </fields>
+        </form_1>
+    </content>
+</rows>

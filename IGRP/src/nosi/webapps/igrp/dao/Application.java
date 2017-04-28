@@ -250,7 +250,7 @@ public class Application implements RowDataGateway {
 	}
 
 	@Override
-	public Object[] getAll() {
+	public Object []getAll() {
 		
 		ArrayList<Application> lista = new ArrayList<>();
 		
@@ -260,7 +260,7 @@ public class Application implements RowDataGateway {
 			
 			while(result.next()){
 				Application obj = new Application();
-				
+				obj.setId(result.getInt("id"));
 				obj.setName(result.getString("name"));
 			    obj.setDad(result.getString("dad")); 
 				obj.setImg_src(result.getString("img_src") );
@@ -274,7 +274,6 @@ public class Application implements RowDataGateway {
 				obj.setHost(result.getString("host"));
 				obj.setFlg_external(result.getInt("flg_external"));
 				obj.setStatus(result.getInt("status"));
-				
 				
 				lista.add(obj);
 		}
