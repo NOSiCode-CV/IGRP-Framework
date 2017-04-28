@@ -32,7 +32,7 @@ public class Application implements RowDataGateway {
 	
 	public Application() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
 	public String getDad() {
@@ -150,19 +150,6 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
-			dad = "dad teste insert";
-			name = "name teste instert";
-			img_src = "img teste insert";
-			description = "description teste insert";
-			action_fk = 1;
-			status = 1;
-			flg_old = 0;
-			link_menu = " teste insert";
-			link_center = "teste insert";
-			apache_dad = "teste insert";
-			templates = "teste insert";
-			host = "teste insert";
-			flg_external = 1;
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_env"+
 			             "(name, dad, img_src, description, action_fk, link_menu, link_center, apache_dad, templates, host, flg_old, status, flg_external)" +
 					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -181,8 +168,7 @@ public class Application implements RowDataGateway {
 			st.setInt(13,this.flg_external);
 			st.executeUpdate();
 			st.close();
-			
-			System.out.println("Query Executado e Base de Dados fechado com sucesso");
+			return true;
 		}catch(SQLException e){
 			System.out.println(e);
 			e.printStackTrace();
@@ -194,9 +180,8 @@ public class Application implements RowDataGateway {
 	public Object getOne() {
 		Application obj = new Application();
 		try{
-		id = 1;
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_env where id = "+ this.id);
+		ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_env where (id = "+ this.id+") or (dad='"+this.dad+"')");
 
 		while(result.next()){
 			
@@ -227,10 +212,6 @@ public class Application implements RowDataGateway {
 		
 		try{
 			Statement st = con.createStatement();
-			id = 119;
-			dad = "Update dad 1";
-			action_fk = 1;
-			name = "Nome teste update";
 	        st.executeUpdate("UPDATE public.glb_t_env SET "
 	        		+ "name= '" + this.name
 	        		+ "',dad= '" + this.dad
@@ -247,7 +228,7 @@ public class Application implements RowDataGateway {
 	        		+ ",status = " + this.status
 	        		+ "WHERE id = "+ this.id);
 	        st.close();
-			
+			return true;
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -257,11 +238,11 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try{
-			id = 107;
 			Statement st = con.createStatement();
 	        st.executeUpdate("DELETE FROM public.glb_t_env where id = " + this.id);
 	        st.close();
 			con.close();
+			return true;
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -304,21 +285,7 @@ public class Application implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
-	public static void main(String[] args){
-		 //new IgrpDb("db_igrp", "postgres", "nunes").newConnection("postgresql");
-		
-		/*Application teste = new Application();
-		for(Object i: teste.getAll()){
-			Application obj = (Application) i;
-			System.out.println(obj.getName());
-		}*/
-		
-		System.out.println(new Application().getOne());
-		//new Application().delete();
-		//new Application().update();
-		//new Application().insert();
-		
-	}
+
 	// Pega o objeto que o metodo retorna e transforma em string 
 	@Override
 	public String toString() {

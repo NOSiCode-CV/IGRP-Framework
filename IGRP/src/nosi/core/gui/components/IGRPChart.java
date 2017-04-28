@@ -127,7 +127,7 @@ public class IGRPChart {
 		this.xml.startElement("value");
 		if(this.data != null && this.data.size() > 0 ){
 			for(Object obj:this.data){
-				this.xml.startElement("rows");
+				this.xml.startElement("row");
 				for(Field field:this.fields){
 					this.xml.startElement("col");
 					this.xml.text(Helper.getValue(obj, field.getTagName()));

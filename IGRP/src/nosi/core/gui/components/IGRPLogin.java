@@ -19,15 +19,15 @@ public class IGRPLogin extends IGRPForm{
 		super(tag_name);
 		this.properties = null;//No properties
 		this.xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl", "");
-		this.xml.setElement("link_img", Config.LINK_IMG);
+		this.xml.setElement("link_img", Config.getLinkImg());
 		this.xml.startElement("content");
 	}
 
 	public String toString(){
-		this.xml.setElement("link_img", Config.LINK_IMG);
+		this.xml.setElement("link_img", Config.getLinkImg());
 		this.xml.setElement("title", "Login");
 		this.xml.setElement("version","201704270952");
-		this.xml.setElement("action", "webapps?r=igrp/login/index");
+		this.xml.setElement("action", "webapps?r=igrp/login/login");
 		this.xml.setElement("footer_note", "Copyright NOSI 2011");
 		this.genForm();
 		return this.xml.toString();

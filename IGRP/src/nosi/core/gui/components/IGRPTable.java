@@ -129,7 +129,7 @@ public class IGRPTable {
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
-				this.xml.startElement("rows");
+				this.xml.startElement("row");
 				if(this.buttons.size() > 0){
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){

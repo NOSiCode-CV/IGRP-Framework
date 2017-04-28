@@ -26,7 +26,7 @@ public class Config implements RowDataGateway {
 	
 	public Config() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
 	

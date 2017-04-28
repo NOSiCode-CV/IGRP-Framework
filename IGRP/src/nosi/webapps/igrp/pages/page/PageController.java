@@ -73,8 +73,8 @@ public class PageController extends Controller {
 		String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
 		path_class = path_class.replace(".", "/") + "/"+class_name.toLowerCase();
 		class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
-		String path_xsl = Config.PATH_XSL + class_name.toLowerCase();
-		path_class = Config.PATH_CLASS + path_class;
+		String path_xsl = Config.getPathXsl() + class_name.toLowerCase();
+		path_class = Config.getPathClass() + path_class;
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
 			String[] partsJavaCode = javaCode.toString().split(" END ");
