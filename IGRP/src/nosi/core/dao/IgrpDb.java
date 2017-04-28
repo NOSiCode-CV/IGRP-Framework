@@ -141,6 +141,13 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void destroy() { // Close all connection
+<<<<<<< HEAD
+		Iterator<Db> i = IgrpDb.conns.values().iterator();
+		/*try {
+			while(i.hasNext())
+			if(!i.next().getConnection().isClosed())
+				i.next().getConnection().close();
+=======
 		Iterator<Db> i = IgrpDb.conns.values().iterator(); // More eficient when used Iterator ...
 		try {
 			while(i.hasNext()){
@@ -148,9 +155,10 @@ public class IgrpDb implements Component{
 			if(!db.getConnection().isClosed())
 				db.getConnection().close();
 			}
+>>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 	IgrpDb.conns.clear(); // Clear all connection
 	}
 }
