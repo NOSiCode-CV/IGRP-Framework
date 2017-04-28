@@ -14,7 +14,7 @@ public class Config {
 	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";*/
 	//""
 	public static String TITLE = "";
-	
+	public static String target = "";
 	public static String getHeader(){
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
@@ -22,7 +22,9 @@ public class Config {
 		xml.setElement("version",getVersion());
 		xml.setElement("link",getLink());
 		xml.setElement("link_img",getLinkImg());
-	//	xml.setElement("target", "_blank");
+		if(!target.equals("")){
+			xml.setElement("target", target);
+		}
 		xml.startElement("site");
 			xml.setElement("welcome_note",getWelcomeNote());
 			xml.setElement("footer_note", getFooterName());
@@ -60,6 +62,8 @@ public class Config {
 		xml.startElement("slide-menu");
 		xml.writeAttribute("file",getLinkSileMenu());
 		xml.endElement();
+		target = "";
+		TITLE = "";
 		return xml.toString();
 	}
 	

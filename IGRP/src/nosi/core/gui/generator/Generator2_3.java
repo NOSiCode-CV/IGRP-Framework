@@ -25,6 +25,8 @@ public class Generator2_3 {
 	
 	public Generator2_3(String xml) {
 		this.xml = new XMLWritter("rows","images/IGRP/IGRP2.3/app/RED/RED_FORM_1_dash.xsl", "dash");
+		Config.TITLE = "API Generator";
+		Config.target = "_blank";
 		this.xml.addXml(Config.getHeader());
 		this.xml.startElement("content");
 		this.xml.writeAttribute("type", "dash");
