@@ -55,7 +55,7 @@ public class ListaPageView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden");
 		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","lista-page","novo","_self","default|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp","page","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		
 		btn_editar = new IGRPButton("Editar","igrp","page","editar","_self","default|fa-pencil","","");
@@ -67,7 +67,7 @@ public class ListaPageView extends View {
 		btn_visualizar = new IGRPButton("Visualizar","igrp","page","visualizar","_target","default|fa-eye","","");
 		btn_visualizar.propertie.add("type","specific").add("code","").add("rel","visualizar");
 		
-		btn_gerar = new IGRPButton("Gerar Pagina","igrp","generator","index","_target","default|fa-plus","","");
+		btn_gerar = new IGRPButton("Gerar Pagina","igrp","generator","index","_target","default|fa-gears","","");
 		btn_gerar.propertie.add("type","specific").add("code","").add("rel","gerar");
 		
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-page","pesquisar","submit","default|fa-search","","");
