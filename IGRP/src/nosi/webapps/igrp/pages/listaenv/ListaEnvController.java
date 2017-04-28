@@ -24,6 +24,7 @@ public class ListaEnvController extends Controller {
 			table.setName(""+a.getName());
 			table.setStatus(a.getStatus());
 			table.setHost(""+a.getHost());
+			table.setId(a.getId());
 			lista.add(table);
 		}
 		model.setTable_1(lista);
@@ -31,6 +32,7 @@ public class ListaEnvController extends Controller {
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
 		view.title = "Lista Aplicação";
+		view.id.setParam(true);
 		this.renderView(view);
 	}
 
