@@ -4,7 +4,11 @@
 
 package nosi.webapps.igrp.pages.page;
 import nosi.core.webapp.Controller;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -14,6 +18,7 @@ import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 public class PageController extends Controller {		
 
@@ -21,23 +26,29 @@ public class PageController extends Controller {
 		Page model = new Page();
 		PageView view = new PageView(model);
 		view.env_fk.addOption("--- Selecionar Página ---",null);
-		view.env_fk.addOption("IGRP", 1);
+		for(Object obj: new Application().getAll()){
+			Application app = (Application) obj;
+			view.env_fk.addOption(app.getName(),app.getId());
+		}
 		this.renderView(view);
 	}
 
 	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
-		//System.out.println(Igrp.getInstance().getRequest().getMethod().toUpperCase());
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-			//System.out.println("Env id: "+model.getEnv_fk());
+			Application app = new Application();
+			app.setId(model.getEnv_fk());
+			Application a = (Application) app.getOne();
+			//model.setP_xsl_src(Config.getPathXsl()+a.getDad()+"/"+nosi.core.gui.page.Page.getPageFolder(model.getP_action())+"/"+model.getP_action()+".xsl");
+			
 			Action action = new Action();
-			action.setAction(model.getP_action());
+			action.setAction("index");
 			action.setAction_descr(model.getAction_descr());
 			action.setTable_name(model.getP_table_name());
 			action.setFlg_transaction(model.getP_flg_transaction());
 			action.setDb_connection(model.getP_db_connection());
-			action.setPage_descr(model.getP_page_descr());
+			action.setPage_descr(model.getAction_descr());
 			action.setFlg_internet(model.getP_flg_transaction());
 			action.setFlg_menu(model.getP_flg_menu());
 			action.setFlg_offline(model.getP_flg_offline());
@@ -46,7 +57,7 @@ public class PageController extends Controller {
 			action.setImg_src(model.getP_img_src());
 			action.setXsl_src(model.getP_xsl_src());
 			action.setSelf_fw_id(model.getP_self_fw_id());
-			action.setPage(model.getPage());
+			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			action.setPage_type(model.getP_page_type());
 			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
@@ -65,28 +76,37 @@ public class PageController extends Controller {
 	}
 	
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
-		Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
-		Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
-		Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
-		String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
-		String class_name = Igrp.getInstance().getRequest().getParameter("p_class");
-		String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
-		path_class = path_class.replace(".", "/") + "/"+class_name.toLowerCase();
-		class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
-		String path_xsl = Config.getPathXsl() + class_name.toLowerCase();
-		path_class = Config.getPathClass() + path_class;
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-		if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
-			String[] partsJavaCode = javaCode.toString().split(" END ");
-			if(
-					FileHelper.save(path_class,class_name+".java", partsJavaCode[0]+"*/") && // save model
-					FileHelper.save(path_class,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
-					FileHelper.save(path_class,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
-					FileHelper.save(path_xsl,class_name+".xml", fileXml) && // save xml
-					FileHelper.save(path_xsl,class_name+".xsl", fileXsl) && // save xsl
-					FileHelper.save(path_xsl,class_name+".json", fileJson) // save json
-			){
-				return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
+		
+		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
+		Object obj = new Action().getOne(Integer.parseInt(p_id));
+		if(obj!=null){
+			Action ac = (Action) obj;			
+			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
+			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
+			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
+			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
+			String class_name = Igrp.getInstance().getRequest().getParameter("p_class");
+			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
+			path_class = path_class.replace(".", "/") + "/" +ac.getPage().toLowerCase();
+			class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
+			String path_xsl = Config.getPathXsl()  +"/"+ac.getEnv().getDad().toLowerCase() + ac.getPage().toLowerCase();			
+			path_class = Config.getPathClass() + path_class;
+			
+			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
+				String[] partsJavaCode = javaCode.toString().split(" END ");
+				if(
+						FileHelper.save(path_class,class_name+".java", partsJavaCode[0]+"*/") && // save model
+						FileHelper.save(path_class,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
+						FileHelper.save(path_class,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
+						FileHelper.save(path_xsl,class_name+".xml", fileXml) && // save xml
+						FileHelper.save(path_xsl,class_name+".xsl", fileXsl) && // save xsl
+						FileHelper.save(path_xsl,class_name+".json", fileJson) // save json
+				){
+					ac.setXsl_src(path_xsl);
+					ac.update();
+					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
+				}
 			}
 		}
 		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operação falhada</message></messages>");
@@ -97,24 +117,21 @@ public class PageController extends Controller {
 	}
 
 	public void actionListPage() throws IOException{
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
-		for(int i=0;i<3;i++){
-			String action = "Action";
-			String app = "RED";
-			String page = "Teste";
-			String link = "Teste.xml";
-			String description = "Detalhe Page";
-			String id = "12345";
-			
-			json += "{";
-			json += "\"action\":\""+action +"\",";
-			json += "\"app\":\""+app +"\",";
-			json += "\"page\":\""+page +"\",";
-			json += "\"id\":\""+id +"\",";
-			json += "\"description\":\""+description +"\",";
-			json += "\"link\":\""+link +"\"";
-			json += "},";
+		Object[] o = new Action().getAll(p_dad);
+		if(o!=null){
+			for(Object obj:o){
+				Action ac = (Action) obj;
+				json += "{";
+				json += "\"action\":\""+ac.getAction() +"\",";
+				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"page\":\""+ac.getPage() +"\",";
+				json += "\"id\":\""+ac.getId() +"\",";
+				json += "\"description\":\""+ac.getPage_descr() +"\",";
+				json += "\"link\":\""+ac.getPage() +".xsl\"";
+				json += "},";
+			}
 		}
 		json = json.substring(0, json.length()-1);
 		json += "]";
@@ -123,29 +140,25 @@ public class PageController extends Controller {
 	}
 	
 	public void actionDetailPage() throws IOException{
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String action = "Action";
-		String action_descr = "Detalhe App";
-		String app = "RED";
-		String page = "Teste";
-		String filename = "Teste.xsl";
-		String page_descr = "Detalhe Page";
-		
+		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
+		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));		
 		String json = "{";
-			json += "\"action\":\""+action +"\",";
-			json += "\"action_descr\":\""+action_descr +"\",";
-			json += "\"app\":\""+app +"\",";
-			json += "\"page\":\""+page +"\",";
-			json += "\"id\":\""+p_id +"\",";
-			json += "\"filename\":\""+filename +"\",";
-			json += "\"page_descr\":\""+page_descr +"\"";
+		if(ac!=null){
+				json += "\"action\":\""+ac.getAction() +"\",";
+				json += "\"action_descr\":\""+ac.getAction_descr() +"\",";
+				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"page\":\""+ac.getPage() +"\",";
+				json += "\"id\":\""+ac.getId() +"\",";
+				json += "\"filename\":\""+ac.getPage() +".xsl\",";
+				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
+			}
 		json += "}";
 		Igrp.getInstance().getResponse().setContentType("application/json");
 		Igrp.getInstance().getResponse().getWriter().println(json);
 	}
 	
 	public void actionImageList() throws IOException{
-		String param = Igrp.getInstance().getRequest().getParameter("name");
+		String param = Igrp.getInstance().getRequest().getParameter("amp;name");
 		String menu = "";
 		if(param == "menu"){
 			menu = "[\"themes/default/img/icon/menu/CVM_agente.png\",\"themes/default/img/icon/menu/CVM_cell.png\",\"themes/default/img/icon/menu/CVM_data.png\",\"themes/default/img/icon/menu/CVM_gestor_agente.png\",\"themes/default/img/icon/menu/CVM_pontos_venda.png\",\"themes/default/img/icon/menu/CVM_spots.png\",\"themes/default/img/icon/menu/CVM_torre.png\",\"themes/default/img/icon/menu/Minhas_tarefas.png\",\"themes/default/img/icon/menu/Registo_distribuicao.png\",\"themes/default/img/icon/menu/Registo_extracao.png\",\"themes/default/img/icon/menu/Tarefas_concluidas.png\",\"themes/default/img/icon/menu/abono.png\",\"themes/default/img/icon/menu/accao_topologia.png\",\"themes/default/img/icon/menu/alerta.png\",\"themes/default/img/icon/menu/alteracao_PIN.png\",\"themes/default/img/icon/menu/autotanque.png\",\"themes/default/img/icon/menu/bancos.png\",\"themes/default/img/icon/menu/basemaps.png\",\"themes/default/img/icon/menu/bloco_notas_privado.png\",\"themes/default/img/icon/menu/bonificados.png\",\"themes/default/img/icon/menu/cabimento.png\",\"themes/default/img/icon/menu/clientes.png\",\"themes/default/img/icon/menu/colocacoes.png\",\"themes/default/img/icon/menu/componentes.png\",\"themes/default/img/icon/menu/condecoracao.png\",\"themes/default/img/icon/menu/confirmacao_PIN.png\",\"themes/default/img/icon/menu/consultas.png\",\"themes/default/img/icon/menu/conta-corrente.png\",\"themes/default/img/icon/menu/conteudos.png\",\"themes/default/img/icon/menu/context_menu.png\",\"themes/default/img/icon/menu/contrato.png\",\"themes/default/img/icon/menu/contribuicoes.png\",\"themes/default/img/icon/menu/descendentes.png\",\"themes/default/img/icon/menu/desenpenho.png\",\"themes/default/img/icon/menu/dessalinizadora.png\",\"themes/default/img/icon/menu/dique_1.png\",\"themes/default/img/icon/menu/disponibilidade.png\",\"themes/default/img/icon/menu/dividas.png\",\"themes/default/img/icon/menu/documentos.png\",\"themes/default/img/icon/menu/duplicar.png\",\"themes/default/img/icon/menu/enquadramento.png\",\"themes/default/img/icon/menu/espelhos.png\",\"themes/default/img/icon/menu/est.especies.png\",\"themes/default/img/icon/menu/est.fiscalizacao.png\",\"themes/default/img/icon/menu/estabelecimento.png\",\"themes/default/img/icon/menu/estast.performance-global.png\",\"themes/default/img/icon/menu/estatistica-bonificados.png\",\"themes/default/img/icon/menu/estatistica-financeira.png\",\"themes/default/img/icon/menu/estatistica.png\",\"themes/default/img/icon/menu/estatistica_contratos.png\",\"themes/default/img/icon/menu/etapas.png\",\"themes/default/img/icon/menu/exames.png\",\"themes/default/img/icon/menu/fim.png\",\"themes/default/img/icon/menu/flag_eng.png\",\"themes/default/img/icon/menu/flag_france.png\",\"themes/default/img/icon/menu/flg_port.png\",\"themes/default/img/icon/menu/fotografias.png\",\"themes/default/img/icon/menu/historico.png\",\"themes/default/img/icon/menu/historico_clinico.png\",\"themes/default/img/icon/menu/identificacao-.png\",\"themes/default/img/icon/menu/identificacao.png\",\"themes/default/img/icon/menu/idioma.png\",\"themes/default/img/icon/menu/info-menu-.png\",\"themes/default/img/icon/menu/info-menu.png\",\"themes/default/img/icon/menu/iniciar.png\",\"themes/default/img/icon/menu/internamento.png\",\"themes/default/img/icon/menu/investidores.png\",\"themes/default/img/icon/menu/layers.png\",\"themes/default/img/icon/menu/legenda.png\",\"themes/default/img/icon/menu/m_BAU.png\",\"themes/default/img/icon/menu/m_alerta_caducidade.png\",\"themes/default/img/icon/menu/m_alerta_prazos_.png\",\"themes/default/img/icon/menu/m_caixas.png\",\"themes/default/img/icon/menu/m_calendario.png\",\"themes/default/img/icon/menu/m_categoria.png\",\"themes/default/img/icon/menu/m_classificacao.png\",\"themes/default/img/icon/menu/m_empresa.png\",\"themes/default/img/icon/menu/m_empresa_.png\",\"themes/default/img/icon/menu/m_error.png\",\"themes/default/img/icon/menu/m_especies.png\",\"themes/default/img/icon/menu/m_est.licenca.png\",\"themes/default/img/icon/menu/m_est.trofeus.png\",\"themes/default/img/icon/menu/m_fiscalizacao.png\",\"themes/default/img/icon/menu/m_fontenario.png\",\"themes/default/img/icon/menu/m_frequencia_estimativa.png\",\"themes/default/img/icon/menu/m_furos.png\",\"themes/default/img/icon/menu/m_gerencia.png\",\"themes/default/img/icon/menu/m_guia.png\",\"themes/default/img/icon/menu/m_integracao.png\",\"themes/default/img/icon/menu/m_licenca.png\",\"themes/default/img/icon/menu/m_licenca_ambiental.png\",\"themes/default/img/icon/menu/m_lista.png\",\"themes/default/img/icon/menu/m_mapa.png\",\"themes/default/img/icon/menu/m_material.png\",\"themes/default/img/icon/menu/m_movimentos.png\",\"themes/default/img/icon/menu/m_outras-licencas.png\",\"themes/default/img/icon/menu/m_pesquisa_licenca_.png\",\"themes/default/img/icon/menu/m_pesquisa_mapa.png\",\"themes/default/img/icon/menu/m_pesquisa_projecto.png\",\"themes/default/img/icon/menu/m_ponto.fscalizacao.png\",\"themes/default/img/icon/menu/m_proj_investimento.png\",\"themes/default/img/icon/menu/m_reservatorio.png\",\"themes/default/img/icon/menu/m_taxas.png\",\"themes/default/img/icon/menu/m_transportes.png\",\"themes/default/img/icon/menu/m_trofeus.png\",\"themes/default/img/icon/menu/mapa_menu.png\",\"themes/default/img/icon/menu/marcacoes.png\",\"themes/default/img/icon/menu/menu_lista.png\",\"themes/default/img/icon/menu/meta-type.png\",\"themes/default/img/icon/menu/morada.png\",\"themes/default/img/icon/menu/movimentos.png\",\"themes/default/img/icon/menu/nascente.png\",\"themes/default/img/icon/menu/nivel_habilitacao.png\",\"themes/default/img/icon/menu/notas.png\",\"themes/default/img/icon/menu/notificacoes-.png\",\"themes/default/img/icon/menu/notificacoes.png\",\"themes/default/img/icon/menu/obitos.png\",\"themes/default/img/icon/menu/observacoes.png\",\"themes/default/img/icon/menu/origem.png\",\"themes/default/img/icon/menu/outdoor-menu.png\",\"themes/default/img/icon/menu/partilhados.png\",\"themes/default/img/icon/menu/partilhar.png\",\"themes/default/img/icon/menu/penas.png\",\"themes/default/img/icon/menu/perda_bonificacao.png\",\"themes/default/img/icon/menu/perda_bonificacao_2.png\",\"themes/default/img/icon/menu/permissao.png\",\"themes/default/img/icon/menu/pino_amarelo-(digital).png\",\"themes/default/img/icon/menu/pino_amarelo.png\",\"themes/default/img/icon/menu/pino_preto-(digital).png\",\"themes/default/img/icon/menu/pino_preto.png\",\"themes/default/img/icon/menu/pino_verde-(digital).png\",\"themes/default/img/icon/menu/pino_verde.png\",\"themes/default/img/icon/menu/pino_vermelho-(digital).png\",\"themes/default/img/icon/menu/pino_vermelho.png\",\"themes/default/img/icon/menu/pino_vermelho_ponto-preto-(digital).png\",\"themes/default/img/icon/menu/pino_vermelho_ponto-preto.png\",\"themes/default/img/icon/menu/poco_1.png\",\"themes/default/img/icon/menu/poco_2.png\",\"themes/default/img/icon/menu/poco_3.png\",\"themes/default/img/icon/menu/prestacoes.png\",\"themes/default/img/icon/menu/processos.png\",\"themes/default/img/icon/menu/qualidade_agua2.png\",\"themes/default/img/icon/menu/qualidade_agua4.png\",\"themes/default/img/icon/menu/regime_trab.png\",\"themes/default/img/icon/menu/registos_ligacao.png\",\"themes/default/img/icon/menu/registos_tratamento.png\",\"themes/default/img/icon/menu/regras_topologia.png\",\"themes/default/img/icon/menu/reinicializacao_PIN.png\",\"themes/default/img/icon/menu/renovacoes.png\",\"themes/default/img/icon/menu/retiradas.png\",\"themes/default/img/icon/menu/saneamento_ETAR_.png\",\"themes/default/img/icon/menu/saneamento_UDR.png\",\"themes/default/img/icon/menu/saneamento_reg_equip_recolha.png\",\"themes/default/img/icon/menu/saneamento_reg_recolha.png\",\"themes/default/img/icon/menu/saneamento_tratamento_residuos.png\",\"themes/default/img/icon/menu/seg_social.png\",\"themes/default/img/icon/menu/seguros.png\",\"themes/default/img/icon/menu/sis_abastecimento.png\",\"themes/default/img/icon/menu/sis_abastecimento2.png\",\"themes/default/img/icon/menu/sis_abastecimento3.png\",\"themes/default/img/icon/menu/sis_abastecimento4.png\",\"themes/default/img/icon/menu/tarefas.png\",\"themes/default/img/icon/menu/tarefas_pendentes.png\",\"themes/default/img/icon/menu/taxas.png\",\"themes/default/img/icon/menu/tema.png\",\"themes/default/img/icon/menu/tipo_cor.png\",\"themes/default/img/icon/menu/tipo_energia.png\",\"themes/default/img/icon/menu/tipo_equipamento.png\",\"themes/default/img/icon/menu/tipo_identificacao.png\",\"themes/default/img/icon/menu/tipo_tratamento.png\",\"themes/default/img/icon/menu/tipos.png\",\"themes/default/img/icon/menu/tratamento.png\",\"themes/default/img/icon/menu/tratamento_residuos.png\",\"themes/default/img/icon/menu/tratamento_residuos2.png\",\"themes/default/img/icon/menu/ultimas_consultas.png\",\"themes/default/img/icon/menu/ultimos_exames.png\",\"themes/default/img/icon/menu/ultimos_internamentos.png\"]";
@@ -155,4 +168,38 @@ public class PageController extends Controller {
 		Igrp.getInstance().getResponse().setContentType("application/json");
 		Igrp.getInstance().getResponse().getWriter().println(menu);
 	}
+	
+	public void actionPreserveUrl(){
+		
+	}
+	
+	public void actionListService(){
+		
+	}
+	
+	public void actionVisualizar() throws IOException{
+		/*String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
+		if(ac!=null){
+			Igrp.getInstance().getResponse().setContentType("text/xml");
+			 try{
+			        PrintWriter out=Igrp.getInstance().getResponse().getWriter();
+			        FileInputStream fis=new FileInputStream("images/IGRP/IGRP2.3/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml");
+			        BufferedReader br=new BufferedReader(new InputStreamReader(fis));
+			        while(true){
+			            String s=br.readLine();
+			            if(s==null)
+			              break;
+			            out.println(s);
+			            out.flush();
+			        }
+			        fis.close();
+			    }
+			    catch(Exception e){ 
+			        e.printStackTrace();
+			    }
+			
+		}*/
+	}
+	
 }
