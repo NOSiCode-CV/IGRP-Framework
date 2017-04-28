@@ -34,8 +34,13 @@ public abstract class Controller {
 	
 	// Not is allow to do Override of this method ...
 	private final void redirect(String url){
-		System.out.println(url);
-		//Igrp.getInstance().getResponse().sendRedirect("" + url);
+		//System.out.println(url);
+		try {
+			Igrp.getInstance().getResponse().sendRedirect("" + url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// Not is allow to do Override of this method ...
