@@ -140,13 +140,13 @@ public class IgrpDb implements Component{
 	@Override
 	public void destroy() { // Close all connection
 		Iterator<Db> i = IgrpDb.conns.values().iterator();
-		try {
+		/*try {
 			while(i.hasNext())
 			if(!i.next().getConnection().isClosed())
 				i.next().getConnection().close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 	IgrpDb.conns.clear(); // Clear all connection
 	}
 }
