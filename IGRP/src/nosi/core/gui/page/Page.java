@@ -5,6 +5,10 @@ import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.xml.XMLWritter;
 
+/**
+ * @author Marcel Iekiny
+ * Apr 15, 2017
+ */
 public class Page {
 	
 	private String template;
@@ -30,7 +34,7 @@ public class Page {
 	
 	private void createTemplate(){
 		
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/page/Page.xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/novoperfil/NovoPerfil.xsl", "utf-8");
 
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");

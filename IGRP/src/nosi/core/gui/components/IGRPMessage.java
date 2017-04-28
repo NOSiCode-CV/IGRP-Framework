@@ -12,43 +12,57 @@ package nosi.core.gui.components;
  * 		...
  * </messages>
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import nosi.core.xml.XMLWritter;
+import nosi.core.webapp.FlashMessage;
 
 public class IGRPMessage {
-
-	private static ArrayList<HashMap<String,String>> messages = new ArrayList<>();
 	
-	public static void addMessage(String type,String message){
-		HashMap<String,String> m = new HashMap<>();
-		m.put(type, message);
-		messages.add(m);
-	}
-
-	public static ArrayList<HashMap<String, String>> getMessages(){
-		return messages;
-	}
+	private XMLWritter result;
 	
-	public static void reset() {
-		messages = new ArrayList<>();
-	}
-	
-	public static String getXml(){
-		XMLWritter xml = new XMLWritter();
-		xml.startElement("messages");
-		for(int i=0;i<IGRPMessage.getMessages().size();i++){
-			for(Entry<String,String> msg : getMessages().get(i).entrySet()){
-				xml.startElement("message");
-				xml.writeAttribute("type", msg.getKey());
-				xml.text(msg.getValue());
-				xml.endElement();
-			}
+	public IGRPMessage(){
+		this.result = new XMLWritter();
+		FlashMessage flashMessage = new FlashMessage();
+		System.out.println("Funcionou");
+		this.result.startElement("messages");
+		// Success
+		for(String msg : flashMessage.getMessages("success")){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "success");
+			this.result.text(msg);
+			this.result.endElement();
+			System.out.println(msg);
 		}
-		xml.endElement();
-		reset();
-		return xml.toString();
+		
+		// Error
+		for(String msg : flashMessage.getMessages("error")){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "error");
+			this.result.text(msg);
+			this.result.endElement();
+		}
+		
+		// Info
+		for(String msg : flashMessage.getMessages("info")){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "info");
+			this.result.text(msg);
+			this.result.endElement();
+		}
+		
+		// Warning
+		for(String msg : flashMessage.getMessages("warning")){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "warning");
+			this.result.text(msg);
+			this.result.endElement();
+		}
+		
+		this.result.endElement();
 	}
+	
+	@Override
+	public String toString() {
+		return result.toString();
+	}
+	
 }

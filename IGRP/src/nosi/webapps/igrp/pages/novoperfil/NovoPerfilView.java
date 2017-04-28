@@ -74,6 +74,7 @@ public class NovoPerfilView extends View {
 		this.addToPage(form_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(toolsbar_1);
+		
 	}
 }
 /*-------------------------*/

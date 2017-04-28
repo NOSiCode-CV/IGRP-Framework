@@ -23,15 +23,16 @@ public class FlashMessage implements Serializable{
 			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("flash");
 	}
 	
-	public void addMessage(String name, String msg){
+	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
+		return this;
 		// actualizar session
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
 	public void setMessage(String name, String msg){
 		this.msgs.setMessage(name, msg);
-		// actualizar session
+		// actualizar session /* Sorry we dont need it */
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
@@ -39,14 +40,18 @@ public class FlashMessage implements Serializable{
 		return this.msgs.hasMessage(name);
 	}
 	
-	public String getMessages(String name){
-		return this.msgs.getMessage(name);
+	public String getMessagesAsString(String name){
+		return this.msgs.getMessagesAsString(name);
 	}
 	
-	// Please comment this method below ...
-	public Message getMessage(){
-		return this.msgs;
+	public ArrayList<String> getMessages(String name){
+		return this.msgs.getMessages(name);
 	}
+	
+	// Please dont uncomment this method below ... (because it is only for test purpose)
+	/*public Message getMessage(){
+		return this.msgs;
+	}*/
 	
 	private class Message implements Serializable{ // inner/internal class for all message
 		
@@ -77,7 +82,7 @@ public class FlashMessage implements Serializable{
 			return this.msg.containsKey(name);
 		}
 		
-		public String getMessage(String name){
+		public String getMessagesAsString(String name){ // return all specific message as a String
 			String result = "";
 			if(this.msg.containsKey(name)){
 				Iterator<String> i = this.msg.get(name).iterator();
@@ -85,6 +90,15 @@ public class FlashMessage implements Serializable{
 					result += i.next() + " ";
 			}
 			this.msg.get(name).clear();
+			return result;
+		}
+		
+		public ArrayList<String> getMessages(String name){
+			ArrayList<String> result = new ArrayList<String>(); // empty ArrayList for NullPointerException when return it ...
+			if(this.msg.containsKey(name)){
+				result = new ArrayList<String>(this.msg.get(name)); // to make clone of collection
+				this.msg.get(name).clear();
+			}
 			return result;
 		}
 		
