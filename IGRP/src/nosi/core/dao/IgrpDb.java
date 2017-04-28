@@ -124,7 +124,7 @@ public class IgrpDb implements Component{
 	@Override
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
-		this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
+		this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
 		//this.newConnection("db1", "mysql", "db_dc", "root", "");
 	}
 	
@@ -141,24 +141,16 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void destroy() { // Close all connection
-
-		Iterator<Db> i = IgrpDb.conns.values().iterator();
-		/*try {
-			while(i.hasNext())
-			if(!i.next().getConnection().isClosed())
-				i.next().getConnection().close();
-=======
-		Iterator<Db> i = IgrpDb.conns.values().iterator(); // More eficient when used Iterator ...
+	Iterator<Db> i = IgrpDb.conns.values().iterator(); // More eficient when used Iterator ...
 		try {
 			while(i.hasNext()){
 				Db db = i.next();
 			if(!db.getConnection().isClosed())
 				db.getConnection().close();
 			}
->>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
+		}
 	IgrpDb.conns.clear(); // Clear all connection
 	}
 }
