@@ -3,6 +3,8 @@
 /*Create View*/
 
 package nosi.webapps.igrp.pages.novoutilizador;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;

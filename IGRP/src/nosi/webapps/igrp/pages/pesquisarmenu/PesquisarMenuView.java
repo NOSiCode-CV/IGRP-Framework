@@ -13,10 +13,11 @@ public class PesquisarMenuView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field menu_principal;
+	public Field descricao;
 	public Field titulo;
 	public Field pagina;
-	public Field activo;
-	public Field checkbox_1;
+	public Field ativo;
+	public Field checkbox;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -25,7 +26,8 @@ public class PesquisarMenuView extends View {
 	public IGRPButton btn_novo;
 	public IGRPButton btn_menu_base;
 	public IGRPButton btn_pesquisar;
-	public PesquisarMenuView(PesquisarMenu model){			
+	public PesquisarMenuView(PesquisarMenu model){
+		Condig.TITLE = "Detalhe App";			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
@@ -42,18 +44,21 @@ public class PesquisarMenuView extends View {
 		menu_principal = new ListField(model,"menu_principal");
 		menu_principal.setLabel("Menu Principal");
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		descricao = new PlainTextField(model,"descricao");
+		descricao.setLabel("Descricao");
+		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		titulo = new PlainTextField(model,"titulo");
 		titulo.setLabel("Titulo");
 		titulo.propertie().add("name","p_titulo").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		pagina = new PlainTextField(model,"pagina");
 		pagina.setLabel("Pagina");
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
-		activo = new PlainTextField(model,"activo");
-		activo.setLabel("Activo");
-		activo.propertie().add("name","p_activo").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
-		checkbox_1 = new CheckBoxField(model,"checkbox_1");
-		checkbox_1.setLabel("Checkbox");
-		checkbox_1.propertie().add("name","p_checkbox_1").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
+		ativo = new PlainTextField(model,"ativo");
+		ativo.setLabel("Ativo");
+		ativo.propertie().add("name","p_ativo").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		checkbox = new CheckBoxField(model,"checkbox");
+		checkbox.setLabel("Checkbox");
+		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","default|fa-plus-square","default||fa-plus-square|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
@@ -75,11 +80,11 @@ public class PesquisarMenuView extends View {
 		form_1.addField(menu_principal);
 
 
-		table_1.addField(menu_principal);
+		table_1.addField(descricao);
 		table_1.addField(titulo);
 		table_1.addField(pagina);
-		table_1.addField(activo);
-		table_1.addField(checkbox_1);
+		table_1.addField(ativo);
+		table_1.addField(checkbox);
 
 		toolsbar_1.addButton(btn_novo);
 		toolsbar_1.addButton(btn_menu_base);

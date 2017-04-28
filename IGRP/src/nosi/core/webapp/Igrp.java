@@ -82,7 +82,7 @@ public class Igrp {
 	}
 	
 	private void exit(){ // Destroy todos os componentes da applicação
-		this.igrpDb.destroy();
+		this.igrpDb.destroy(); // destroy the Db pool
 	}
 	
 	private void resolveRoute() throws IOException{

@@ -21,7 +21,7 @@ public class IgrpDb implements Component{
 	private static Map<String, Db> conns = new HashMap<String, Db>(); // A pool of connections
 	
 	public IgrpDb(){
-		
+		// Empty constructor ???
 	}
 	
 	private class Db{
@@ -91,7 +91,7 @@ public class IgrpDb implements Component{
 					Class.forName(this.driverName);
 					this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
 					this.dbmsName = dbmsName;
-					System.out.println("Connection is ok ...");
+					System.out.println("Connection is ok ... (" + this.driverName + ")");
 				}catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -118,12 +118,14 @@ public class IgrpDb implements Component{
 	}
 	
 	public Connection unwrap(String connectionName){
-		return this.conns.get(connectionName).getConnection();
+		return IgrpDb.conns.get(connectionName).getConnection();
 	}
 
 	@Override
 	public void init() { // Defaults connections ...
-		this.newConnection("db1", "postgresql","db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
+		/* Please put all your connection here */
+		//this.newConnection("db1", "postgresql", "db_igrp", "postgre", "Softwaredeveloper10");// Connection to PostgreSQL (default)
+		this.newConnection("db1", "mysql", "db_dc", "root", "");
 	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
@@ -139,11 +141,13 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void destroy() { // Close all connection
-		Iterator<Db> i = IgrpDb.conns.values().iterator();
+		Iterator<Db> i = IgrpDb.conns.values().iterator(); // More eficient when used Iterator ...
 		try {
-			while(i.hasNext())
-			if(!i.next().getConnection().isClosed())
-				i.next().getConnection().close();
+			while(i.hasNext()){
+				Db db = i.next();
+			if(!db.getConnection().isClosed())
+				db.getConnection().close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
