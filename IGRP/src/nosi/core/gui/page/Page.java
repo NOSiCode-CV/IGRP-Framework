@@ -6,6 +6,7 @@ import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 /**
  * @author Marcel Iekiny
@@ -41,9 +42,11 @@ public class Page {
 		String action = Igrp.getInstance().getCurrentActionName();
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
 			Action ac = new Action();
+			Application env = new Application();
+			env.setDad(app);
 			ac.setAction(action);
-			ac.setPage(page);
-			ac.getEnv().setDad(app);
+			ac.setPage(resolvePageName(page));
+			ac.setEnv(env);
 			path_xsl = ac.getXslPath();
 		}
 		
@@ -67,5 +70,25 @@ public class Page {
 		return this.convertContentToXml();
 	}
 	
+	public static String getPageName(String page){
+		page = page.replaceAll("\\s+", "");
+		page = page.replaceAll("-", "");
+		return page;
+	}
+	
+	public static String getPageFolder(String page){
+		page = page.toLowerCase();
+		page = page.replaceAll("\\s+", "");
+		page = page.replaceAll("-", "");
+		return page;
+	}
+	
+	public static String resolvePageName(String page){
+		String page_name = "";
+		for(String aux : page.split("-")){
+			page_name += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		}
+		return page_name;
+	}
 }
 

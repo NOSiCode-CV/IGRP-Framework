@@ -170,7 +170,6 @@ public class Application implements RowDataGateway {
 			st.close();
 			return true;
 		}catch(SQLException e){
-			System.out.println(e);
 			e.printStackTrace();
 		}
 		return false;
@@ -274,6 +273,7 @@ public class Application implements RowDataGateway {
 				obj.setHost(result.getString("host"));
 				obj.setFlg_external(result.getInt("flg_external"));
 				obj.setStatus(result.getInt("status"));
+				obj.setId(result.getInt("id"));
 				
 				
 				lista.add(obj);
