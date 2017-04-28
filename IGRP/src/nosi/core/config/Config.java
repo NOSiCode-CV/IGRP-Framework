@@ -15,6 +15,7 @@ public class Config {
 	//""
 	public static String TITLE = "";
 	public static String target = "";
+	
 	public static String getHeader(){
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
