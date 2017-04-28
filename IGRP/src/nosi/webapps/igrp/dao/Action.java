@@ -34,9 +34,22 @@ public class Action implements RowDataGateway{
 	private int flg_offline;
 	private int flg_internet;
 	private int status;
+	private Application env;
 	private Connection con;
 	
 	
+	public Application getEnv() {
+		return env;
+	}
+
+
+
+	public void setEnv(Application env) {
+		this.env = env;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
@@ -370,6 +383,29 @@ public class Action implements RowDataGateway{
 		return obj;
 	}
 
+
+	public String getXslPath() {
+		String xsl_src = "";
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM public.glb_t_action A join public.glb_t_env E"
+					+ "WHERE A.env_fk=E.id AND A.page = ? AND A.action=? AND E.dad=? ");
+		
+			st.setString(1, this.page);
+			st.setString(2, this.action);
+			st.setString(3, this.getEnv().getDad());
+			
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				xsl_src = rs.getString("xsl_src");
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return xsl_src;
+	}
+	
 	@Override
 	public boolean update() {
 		/*id = 133;

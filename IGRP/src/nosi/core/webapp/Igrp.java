@@ -280,6 +280,31 @@ public class Igrp {
 		return this.flashMessage;
 	}
 
+	
+	public String getCurrentAppName() {
+		return currentAppName;
+	}
+
+	public void setCurrentAppName(String currentAppName) {
+		this.currentAppName = currentAppName;
+	}
+
+	public String getCurrentPageName() {
+		return currentPageName;
+	}
+
+	public void setCurrentPageName(String currentPageName) {
+		this.currentPageName = currentPageName;
+	}
+
+	public String getCurrentActionName() {
+		return currentActionName;
+	}
+
+	public void setCurrentActionName(String currentActionName) {
+		this.currentActionName = currentActionName;
+	}
+
 	public static void main(String []args){
 		//Igrp.getInstance().convertRoute();
 	}
