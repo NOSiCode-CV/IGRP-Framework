@@ -14,6 +14,8 @@ import nosi.core.gui.generator.Generator2_3;
 import nosi.core.webapp.View;
 
 public class GeneratorView extends View{
+	public Field package_;
+	public Field page;
 	public Field gen_elements;
 	public Field has_menu;
 	public Field id_objeto;
@@ -74,6 +76,8 @@ public class GeneratorView extends View{
 		link_desc = new LinkField(model,"link_desc");
 		link_desc.propertie().put("type", "field_copy");
 		tipo = new TextField(model,"tipo");
+		package_ = new TextField(model, "package_");
+		page = new TextField(model,"page");
 		btn_gravar = new IGRPButton("Gravar", "igrp", "page", "saveGenPage", "submit", "save.png", "","");
 		btn_publicar = new IGRPButton("Publicar1", "igrp", "page", "publishGenPage", "submit", "save.png", "","");
 		btn_pesquisar = new IGRPButton("Pesquisar", "igrp", "form", "1", "_self", "search.png","","");
@@ -98,7 +102,8 @@ public class GeneratorView extends View{
 		form.addField(xsl_path);
 		form.addField(on_click);
 		form.addField(icon);		
-		
+		form.addField(package_);
+		form.addField(page);
 		table.addField(title);
 		table.addField(id);
 		table.addField(id_pai);

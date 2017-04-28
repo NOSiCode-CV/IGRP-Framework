@@ -85,7 +85,7 @@
 			<xsl:when test="$type_='instance'">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat($name_,' = new ',$class_name_,'(',$double_quotes,$title_,$double_quotes,',',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,$link_,$double_quotes,',',$double_quotes,$target_,$double_quotes,',',$double_quotes,$img_,$double_quotes,',',$double_quotes,$params_,$double_quotes,',',$double_quotes,$parameter_,$double_quotes,');')"/>
+				<xsl:value-of select="concat($name_,' = new ',$class_name_,'(',$double_quotes,$title_,$double_quotes,',',$double_quotes,$app_,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,',',$double_quotes,$target_,$double_quotes,',',$double_quotes,$img_,$double_quotes,',',$double_quotes,$double_quotes,',',$double_quotes,$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 				 	<xsl:value-of select="concat($name_,'.propertie')"/>

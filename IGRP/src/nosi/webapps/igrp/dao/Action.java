@@ -34,7 +34,7 @@ public class Action implements RowDataGateway{
 	private int flg_offline;
 	private int flg_internet;
 	private int status;
-	private Application env;
+	private Application env = new Application();
 	private Connection con;
 	
 	
@@ -305,9 +305,6 @@ public class Action implements RowDataGateway{
 	@Override
 	public boolean insert() {
 		try {
-			/*page = "page teste 1";
-			action = "accao teste 1";
-			env_fk = 1;*/
 			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_action("
 					+ "env_fk, page, action, table_name, xsl_src, img_src, "
 					+ "page_type, page_descr, action_descr, flg_menu, "
@@ -382,18 +379,55 @@ public class Action implements RowDataGateway{
 		
 		return obj;
 	}
-
+	
+	public Object getOne(int id) {
+		Action obj = new Action();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action A, public.glb_t_env E "
+					+ " WHERE A.env_fk=E.id AND A.id = ? ");
+		
+			st.setInt(1,id);
+			
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				obj.setEnv_fk(rs.getInt("env_fk"));
+				obj.setPage(rs.getString("page"));
+				obj.setAction(rs.getString("action"));
+				obj.setTable_name(rs.getString("table_name"));
+				obj.setXsl_src(rs.getString("xsl_src"));
+				obj.setImg_src(rs.getString("img_src"));
+				obj.setPage_type(rs.getString("page_type"));
+				obj.setPage_descr(rs.getString("page_descr"));
+				obj.setAction_descr(rs.getString("action_descr"));
+				obj.setFlg_menu(rs.getInt("flg_menu"));
+				obj.setFlg_transaction(rs.getInt("flg_transaction"));
+				obj.setSelf_id(rs.getInt("self_id"));
+				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
+				obj.setVersion(rs.getInt("version"));
+				obj.setDb_connection(rs.getString("db_connection"));
+				obj.setFlg_offline(rs.getInt("flg_offline"));
+				obj.setFlg_internet(rs.getInt("flg_internet"));
+				obj.setStatus(rs.getInt("status"));
+				obj.setProc_name(rs.getString("proc_name"));
+				obj.env.setDad(rs.getString("dad"));
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return obj;
+	}
 
 	public String getXslPath() {
 		String xsl_src = "";
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM public.glb_t_action A join public.glb_t_env E"
-					+ "WHERE A.env_fk=E.id AND A.page = ? AND A.action=? AND E.dad=? ");
+			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM public.glb_t_action A, public.glb_t_env E"
+					+ " WHERE A.env_fk=E.id AND A.page = ? AND A.action=? AND E.dad=?");
 		
 			st.setString(1, this.page);
 			st.setString(2, this.action);
 			st.setString(3, this.getEnv().getDad());
-			
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				xsl_src = rs.getString("xsl_src");
@@ -407,11 +441,7 @@ public class Action implements RowDataGateway{
 	}
 	
 	@Override
-	public boolean update() {
-		/*id = 133;
-		page = "page teste 1";
-		action = "accao teste 1 Update";
-		env_fk = 1;	*/	
+	public boolean update() {	
 		try {
 			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_action	SET "
 					+ "env_fk=?, "
@@ -463,7 +493,6 @@ public class Action implements RowDataGateway{
 
 	@Override
 	public boolean delete() {
-		//id = 132;
 		try {
 			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_action WHERE id= " + this.id);
 			st.executeUpdate();
@@ -482,6 +511,7 @@ public class Action implements RowDataGateway{
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Action obj = new Action();
+				obj.setId(rs.getInt("id"));
 				obj.setEnv_fk(rs.getInt("env_fk"));
 				obj.setPage(rs.getString("page"));
 				obj.setAction(rs.getString("action"));
@@ -510,6 +540,42 @@ public class Action implements RowDataGateway{
 	}
 	
 	
+	public Object[] getAll(String dad) {
+		ArrayList<Action> lista = new ArrayList<>();
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action A, public.glb_t_env E WHERE A.env_fk=E.id AND E.dad=?");
+			st.setString(1, dad);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				Action obj = new Action();
+				obj.setId(rs.getInt("id"));
+				obj.setEnv_fk(rs.getInt("env_fk"));
+				obj.setPage(rs.getString("page"));
+				obj.setAction(rs.getString("action"));
+				obj.setTable_name(rs.getString("table_name"));
+				obj.setXsl_src(rs.getString("xsl_src"));
+				obj.setImg_src(rs.getString("img_src"));
+				obj.setPage_type(rs.getString("page_type"));
+				obj.setPage_descr(rs.getString("page_descr"));
+				obj.setAction_descr(rs.getString("action_descr"));
+				obj.setFlg_menu(rs.getInt("flg_menu"));
+				obj.setFlg_transaction(rs.getInt("flg_transaction"));
+				obj.setSelf_id(rs.getInt("self_id"));
+				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
+				obj.setVersion(rs.getInt("version"));
+				obj.setDb_connection(rs.getString("db_connection"));
+				obj.setFlg_offline(rs.getInt("flg_offline"));
+				obj.setFlg_internet(rs.getInt("flg_internet"));
+				obj.setStatus(rs.getInt("status"));
+				obj.setProc_name(rs.getString("proc_name"));
+				obj.env.setDad(rs.getString("dad"));
+				lista.add(obj);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
 	public static void main(String[] args) {
 		//new Action().insert();
 		//System.out.println(new Action().getOne());
