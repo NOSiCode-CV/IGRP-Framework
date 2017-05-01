@@ -79,29 +79,37 @@ public class ProfileType implements RowDataGateway {
 
 	@Override
 	public boolean insert() {
+		int result = 0;
 		try{
-		/*descr = "Teste Tipo de Perfil";
-		code = "Teste"; 
-		env_fk = 1;
-		self_fk = 18;
-		org_fk = 17;
-		status = 1;*/
 		PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_profile_type"
 				+ "(descr, code, env_fk, self_fk, org_fk, status) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)");
 		st.setString(1, this.descr);
 		st.setString(2, this.code);
+		
+		if(this.env_fk == 0) // Default value
+			st.setNull(3, 0);
+		else
 		st.setInt(3, this.env_fk);
+		
+		if(this.self_fk == 0)
+			st.setNull(4,0);
+		else
 		st.setInt(4, this.self_fk);
+		
+		if(this.org_fk == 0)
+			st.setNull(5,0);
+		else
 		st.setInt(5, this.org_fk);
+		
 		st.setInt(6, this.status);
 		
-		st.executeUpdate();
+		result = st.executeUpdate();
 		st.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return false;
+		return result > 0;
 	}
 
 	@Override

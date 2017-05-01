@@ -505,7 +505,7 @@ public class Action implements RowDataGateway{
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Action> lista = new ArrayList<>();
+		ArrayList<Action> lista = new ArrayList<Action>();
 		try{
 			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action");
 			ResultSet rs = st.executeQuery();
@@ -576,19 +576,6 @@ public class Action implements RowDataGateway{
 		}
 		return lista.toArray();
 	}
-	public static void main(String[] args) {
-		//new Action().insert();
-		//System.out.println(new Action().getOne());
-		/*for(Object i: new Action().getAll()){
-			Action obj = (Action) i;
-			System.out.println(obj.getStatus());
-		}*/
-		
-		//new Action().update();
-		//new Action().delete();
-	}
-
-
 
 	@Override
 	public String toString() {

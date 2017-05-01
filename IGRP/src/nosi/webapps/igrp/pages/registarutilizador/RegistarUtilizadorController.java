@@ -5,7 +5,7 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.UserDAO;
+import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 
 
@@ -18,11 +18,15 @@ public class RegistarUtilizadorController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
 			model.load();
-			UserDAO user = new UserDAO();
+			User user = new User();
 			user.setName(model.getNome());
 			user.setPass_hash(model.getPassword());
 			user.setEmail(model.getEmail());
 			user.setUser_name(model.getUsername());
+			user.setStatus(1);
+			user.setCreated_at(10);
+			user.setUpdated_at(12);// System.currentTimeMillis()
+			user.setAuth_key("XPTO");
 			
 			if(user.insert()){
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Utilizador registado com sucesso");

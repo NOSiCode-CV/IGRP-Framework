@@ -4,7 +4,9 @@
 
 package nosi.webapps.igrp.pages.novoperfil;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.FlashMessage.Message;
 
 import java.io.IOException;
 
@@ -20,10 +22,26 @@ public class NovoPerfilController extends Controller {
 		NovoPerfil model = new NovoPerfil();
 
 		NovoPerfilView view = new NovoPerfilView(model);
-		
+			
 		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
+			
 			model.load();
-			Profile profile = new Profile();
+			
+			ProfileType pt = new ProfileType();
+		
+			pt.setCode(model.getCodigo());
+			pt.setDescr(model.getDescricao());
+			pt.setOrg_fk(model.getOrganica());
+			pt.setSelf_fk(model.getPerfil());
+			pt.setStatus(model.getActivo());
+			pt.setEnv_fk(model.getAplicacao());
+			
+			if(pt.insert())
+				System.out.println("Ok");
+			else
+				System.out.println("Error");
+			
+			
 		}
 		
 		Object []applications =  new Application().getAll();
@@ -31,7 +49,7 @@ public class NovoPerfilController extends Controller {
 		Object []organizations = new Organization().getAll();
 		
 		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
-		for(Object application : applications){
+		for(Object application : applications){ 
 			Application obj = (Application)application;
 			view.aplicacao.addOption(obj.getName(), obj.getId());
 		}
@@ -47,7 +65,6 @@ public class NovoPerfilController extends Controller {
 			Organization obj = (Organization)organization;
 			view.organica.addOption(obj.getName(), obj.getId());
 		}
-		
 		
 		this.renderView(view);
 	}

@@ -31,7 +31,6 @@ public class Application implements RowDataGateway {
 	private Connection con;	
 	
 	public Application() {
-		super();
 		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 

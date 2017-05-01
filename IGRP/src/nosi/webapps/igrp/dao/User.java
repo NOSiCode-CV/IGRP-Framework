@@ -5,14 +5,17 @@ import nosi.core.webapp.Igrp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import nosi.core.dao.RowDataGateway;
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
  */
-public class UserDAO implements Identity, RowDataGateway{
+public class User implements Identity, RowDataGateway{
 	
 	private int id;
 	private String name;
@@ -20,7 +23,7 @@ public class UserDAO implements Identity, RowDataGateway{
 	private String pass_hash; // Apply md5 or sha1 ... I dont know yet ?????
 	private String userProfile;
 	private String valid_until; // Date type
-	private String status;
+	private int status;
 	private String remarks;
 	private int activation_key;
 	private String user_name;
@@ -28,32 +31,97 @@ public class UserDAO implements Identity, RowDataGateway{
 	private String signature_id;
 	private String mobile;
 	private String phone;
+	private String password_reset_token;
+	private String auth_key;
+	private int created_at;
+	private int updated_at;
 	
 	private Connection conn;
 	
-	public UserDAO(){
+	public User(){
 		this.conn = Igrp.getInstance().getDao().unwrap("db1");
 	}
 	
-	public UserDAO(String username, String password){
+	public User(String username, String password){
 		this.name = username;
 		this.pass_hash = password;
 	}
 
 	@Override
 	public Object findIdentityById(int identityId) {
-		return null;
+		try{
+		PreparedStatement ps = this.conn.prepareStatement("select * from glb_t_user where id = ?");
+		ps.setInt(1, identityId);
+		ResultSet rs = ps.executeQuery();
+		while(rs.next()){
+			this.id = rs.getInt("id");
+			this.name = rs.getString("name");
+			this.email = rs.getString("email");
+			this.pass_hash = rs.getString("pass_hash");
+			this.userProfile = rs.getString("userprofile");
+			this.valid_until = rs.getString("valid_until");
+			this.status = rs.getInt("status");
+			this.remarks = rs.getString("remarks");
+			this.activation_key = rs.getInt("activation_key");
+			this.user_name = rs.getString("user_name");
+			this.photo_id = rs.getString("photo_id");
+			this.signature_id = rs.getString("signature_id");
+			this.mobile = rs.getString("mobile");
+			this.phone = rs.getString("phone");
+			this.password_reset_token = rs.getString("password_reset_token");
+			this.auth_key = rs.getString("auth_key");
+			this.created_at = rs.getInt("created_at");
+			this.updated_at = rs.getInt("updated_at");
+		}
+		ps.close();
+		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return this.id != 0 ? this : null;
 	}
 
 	@Override
 	public int getIdentityId() {
-		return 0;
+		return this.id;
 	}
 
 	@Override
 	public Object findIdentityByUsername(String username) {
-		this.user_name = "imarcelf";
-		return this;
+		boolean result = false;
+		try{
+			PreparedStatement ps = this.conn.prepareStatement("select * from glb_t_user where user_name = ?");
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				this.id = rs.getInt("id");
+				this.name = rs.getString("name");
+				this.email = rs.getString("email");
+				this.pass_hash = rs.getString("pass_hash");
+				this.userProfile = rs.getString("userprofile");
+				this.valid_until = rs.getString("valid_until");
+				this.status = rs.getInt("status");
+				this.remarks = rs.getString("remarks");
+				this.activation_key = rs.getInt("activation_key");
+				this.user_name = rs.getString("user_name");
+				this.photo_id = rs.getString("photo_id");
+				this.signature_id = rs.getString("signature_id");
+				this.mobile = rs.getString("mobile");
+				this.phone = rs.getString("phone");
+				this.password_reset_token = rs.getString("password_reset_token");
+				this.auth_key = rs.getString("auth_key");
+				this.created_at = rs.getInt("created_at");
+				this.updated_at = rs.getInt("updated_at");
+				result = true;
+			}
+			ps.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		
+		return  result ? this : null;
 	}
 
 	@Override
@@ -73,10 +141,10 @@ public class UserDAO implements Identity, RowDataGateway{
 			ps.setString(2, this.user_name);
 			ps.setString(3, this.email);
 			ps.setString(4, this.pass_hash);
-			ps.setInt(5, 1);
-			ps.setInt(6, 10);
-			ps.setInt(7, 30);// System.currentTimeMillis()
-			ps.setString(8, "xpto");
+			ps.setInt(5, this.status);
+			ps.setInt(6, this.created_at);
+			ps.setInt(7, this.updated_at);
+			ps.setString(8, this.auth_key);
 			result = ps.executeUpdate();
 			ps.close();
 		}catch(SQLException e){
@@ -199,14 +267,14 @@ public class UserDAO implements Identity, RowDataGateway{
 	/**
 	 * @return the status
 	 */
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -306,6 +374,63 @@ public class UserDAO implements Identity, RowDataGateway{
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	/**
+	 * @return the password_reset_token
+	 */
+	public String getPassword_reset_token() {
+		return password_reset_token;
+	}
+
+	/**
+	 * @param password_reset_token the password_reset_token to set
+	 */
+	public void setPassword_reset_token(String password_reset_token) {
+		this.password_reset_token = password_reset_token;
+	}
+
+	/**
+	 * @return the auth_key
+	 */
+	public String getAuth_key() {
+		return auth_key;
+	}
+
+	/**
+	 * @param auth_key the auth_key to set
+	 */
+	public void setAuth_key(String auth_key) {
+		this.auth_key = auth_key;
+	}
+
+	/**
+	 * @return the created_at
+	 */
+	public int getCreated_at() {
+		return created_at;
+	}
+
+	/**
+	 * @param created_at the created_at to set
+	 */
+	public void setCreated_at(int created_at) {
+		this.created_at = created_at;
+	}
+
+	/**
+	 * @return the updated_at
+	 */
+	public int getUpdated_at() {
+		return updated_at;
+	}
+
+	/**
+	 * @param updated_at the updated_at to set
+	 */
+	public void setUpdated_at(int updated_at) {
+		this.updated_at = updated_at;
 	}	
+	
 	
 }
