@@ -3,9 +3,7 @@ package nosi.core.gui.page;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
-import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Action;
 
 /**
  * @author Marcel Iekiny
@@ -35,19 +33,8 @@ public class Page {
 	}
 	
 	private void createTemplate(){
-		String path_xsl = "";
-		String app = Igrp.getInstance().getCurrentAppName();
-		String page = Igrp.getInstance().getCurrentPageName();
-		String action = Igrp.getInstance().getCurrentActionName();
-		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			Action ac = new Action();
-			ac.setAction(action);
-			ac.setPage(page);
-			ac.getEnv().setDad(app);
-			path_xsl = ac.getXslPath();
-		}
 		
-		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl", "utf-8");
 
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");
@@ -68,4 +55,3 @@ public class Page {
 	}
 	
 }
-

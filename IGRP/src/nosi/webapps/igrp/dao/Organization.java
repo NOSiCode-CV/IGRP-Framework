@@ -141,7 +141,6 @@ public class Organization implements RowDataGateway {
 			
 			while(result.next()){
 				
-				
 				obj.setCode(result.getString("code"));
 				obj.setName(result.getString("name"));
 				obj.setSigof_fk(result.getInt("sigof_fk"));
@@ -227,20 +226,20 @@ public class Organization implements RowDataGateway {
 			}
 		return lista.toArray();
 	}
-	public static void main(String [] args){
+	/*public static void main(String [] args){
 		
-		//new Organization().getOne();
-		//new Organization().insert();
-		/*for(Object i: new Organization().getAll()){
+		new Organization().getOne();
+		new Organization().insert();
+		for(Object i: new Organization().getAll()){
 			Organization obj = (Organization) i;
 			System.out.println(obj.getCode());
-		}*/
+		}
 		System.out.println(new Organization().getOne());
 		
-		//new Organization().delete();	
-		//new Organization().update();
+		new Organization().delete();	
+		new Organization().update();
 		
-		//new IgrpDb().closeConnection("conexao");//para fechar a base de dados
-	}
+		new IgrpDb().closeConnection("conexao");//para fechar a base de dados
+	}*/
 
 }
