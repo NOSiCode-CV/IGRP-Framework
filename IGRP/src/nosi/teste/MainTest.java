@@ -1,5 +1,7 @@
 package nosi.teste;
 
+import java.util.HashMap;
+
 import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPChart;
@@ -25,7 +27,19 @@ import nosi.core.gui.fields.TextField;
 public class MainTest {
 	
 	public static void main(String[] args) {
-		String url ="listaPage";
+		TesteModel model = new TesteModel();
+		Field list = new ListField(model, "list");
+		HashMap<Integer,String> value = new HashMap<>();
+		value.put(null, "-- Selecionar ---");
+		value.put(1, "App 1");
+		value.put(2, "app 2");
+		list.setValue(value);
+		
+		IGRPForm form1 = new IGRPForm("form_1");
+		form1.addField(list);
+		
+		System.out.println(form1);
+		/*String url ="listaPage";
 		String url_ = "";
 		for(String aux : url.split("-")){
 			url_ += aux.substring(0, 1).toUpperCase() + aux.substring(1);

@@ -6,11 +6,12 @@ package nosi.webapps.igrp.pages.page;
 import nosi.core.webapp.Controller;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
@@ -25,11 +26,7 @@ public class PageController extends Controller {
 	public void actionIndex() throws IOException{
 		Page model = new Page();
 		PageView view = new PageView(model);
-		view.env_fk.addOption("--- Selecionar Página ---",null);
-		for(Object obj: new Application().getAll()){
-			Application app = (Application) obj;
-			view.env_fk.addOption(app.getName(),app.getId());
-		}
+		view.env_fk.setValue(new Application().getListApps());
 		this.renderView(view);
 	}
 
@@ -39,9 +36,6 @@ public class PageController extends Controller {
 			model.load();
 			Application app = new Application();
 			app.setId(model.getEnv_fk());
-			Application a = (Application) app.getOne();
-			//model.setP_xsl_src(Config.getPathXsl()+a.getDad()+"/"+nosi.core.gui.page.Page.getPageFolder(model.getP_action())+"/"+model.getP_action()+".xsl");
-			
 			Action action = new Action();
 			action.setAction("index");
 			action.setAction_descr(model.getAction_descr());
@@ -75,6 +69,7 @@ public class PageController extends Controller {
 		this.redirect("igrp","page","index");
 	}
 	
+	//Save page generated
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		
@@ -90,7 +85,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
 			path_class = path_class.replace(".", "/") + "/" +ac.getPage().toLowerCase();
 			class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
-			String path_xsl = Config.getPathXsl()  +"/"+ac.getEnv().getDad().toLowerCase() + ac.getPage().toLowerCase();			
+			String path_xsl = Config.getPathXsl()  +"/"+ac.getEnv().getDad().toLowerCase()+"/" + ac.getPage().toLowerCase();			
 			path_class = Config.getPathClass() + path_class;
 			
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
@@ -129,7 +124,7 @@ public class PageController extends Controller {
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+ac.getPage_descr() +"\",";
-				json += "\"link\":\""+ac.getPage() +".xsl\"";
+				json += "\"link\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+ac.getPage() +".xsl\"";
 				json += "},";
 			}
 		}
@@ -149,7 +144,7 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\""+ac.getPage() +".xsl\",";
+				json += "\"filename\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage() +".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
@@ -178,28 +173,26 @@ public class PageController extends Controller {
 	}
 	
 	public void actionVisualizar() throws IOException{
-		/*String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		Igrp.getInstance().getResponse().setContentType("text/xml");
+		String p_id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
 		if(ac!=null){
-			Igrp.getInstance().getResponse().setContentType("text/xml");
-			 try{
-			        PrintWriter out=Igrp.getInstance().getResponse().getWriter();
-			        FileInputStream fis=new FileInputStream("images/IGRP/IGRP2.3/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml");
-			        BufferedReader br=new BufferedReader(new InputStreamReader(fis));
-			        while(true){
-			            String s=br.readLine();
-			            if(s==null)
-			              break;
-			            out.println(s);
-			            out.flush();
-			        }
-			        fis.close();
-			    }
-			    catch(Exception e){ 
-			        e.printStackTrace();
-			    }
-			
-		}*/
+			String filename = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml";
+			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
+			InputStream inputStrem = context.getResourceAsStream(filename);
+	        if (inputStrem != null) {
+	            InputStreamReader inputSReader = new InputStreamReader(inputStrem);
+	            BufferedReader reader = new BufferedReader(inputSReader);
+	            PrintWriter writer = Igrp.getInstance().getResponse().getWriter();
+	            String text;
+	            while ((text = reader.readLine()) != null) {
+	                writer.println(text);
+	            }
+	            reader.close();
+	            inputSReader.close();
+	            writer.flush();
+	        }
+		}
 	}
 	
 }

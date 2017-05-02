@@ -11,22 +11,11 @@ package nosi.core.webapp.helpers;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import javax.annotation.Resources;
 import javax.servlet.http.Part;
-
-import nosi.core.config.Config;
-import nosi.core.webapp.Igrp;
 
 public class FileHelper {
 

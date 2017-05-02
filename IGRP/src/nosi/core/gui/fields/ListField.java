@@ -6,16 +6,13 @@ package nosi.core.gui.fields;
  *
  * Description: class to configure list field
  */
-import java.util.HashMap;
+
 
 public class ListField extends AbstractField {
-	
-	private HashMap<Object,Object> list;
 	public Object value = null;
 	
 	public ListField(Object model, String name){
 		super();
-		this.list = new HashMap<>();
 		this.propertie.put("type","select");
 		this.propertie.put("name","p_"+name);
 		this.propertie.put("multiple", false);
@@ -26,15 +23,7 @@ public class ListField extends AbstractField {
 		this.propertie.put("required", false);
 		this.setTagName(name);
 		this.configValue(model);
-	}
-	
-	@Override
-	public void addOption(Object name, Object value) {
-		list.put(value, name);
-	}	
-	
-	@Override
-	public HashMap<Object,Object> getOptions(){
-		return this.list;
+		this.propertie.put("value", this.getValue());
+		this.value = null;
 	}
 }

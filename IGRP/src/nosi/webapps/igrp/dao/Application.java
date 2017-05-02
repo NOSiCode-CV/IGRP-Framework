@@ -1,11 +1,14 @@
 package nosi.webapps.igrp.dao;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
@@ -254,8 +257,36 @@ public class Application implements RowDataGateway {
 		ArrayList<Application> lista = new ArrayList<>();
 		
 		try{
-			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_env order by id");
+			String conditions = "WHERE 1=1 ";
+			Method[] methods = this.getClass().getDeclaredMethods();
+			for(Method method:methods){
+				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
+					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
+				}
+			}
+			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_env "+ conditions+ " order by id");
+			int i=1;
+			for(Method method:methods){
+				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
+					switch(method.getReturnType().getSimpleName()){
+						case "int":
+							st.setInt(i,Integer.parseInt(method.invoke(this).toString()));
+							break;
+						case "String":
+							st.setString(i,method.invoke(this).toString());
+							break;
+						case "double":
+							st.setDouble(i,Double.parseDouble(method.invoke(this).toString()));
+							break;
+						case "float":
+							st.setFloat(i,Float.parseFloat(method.invoke(this).toString()));
+							break;
+					}
+					i++;
+				}
+			}
+			
+			ResultSet result = st.executeQuery();
 			
 			while(result.next()){
 				Application obj = new Application();
@@ -273,8 +304,7 @@ public class Application implements RowDataGateway {
 				obj.setHost(result.getString("host"));
 				obj.setFlg_external(result.getInt("flg_external"));
 				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));
-				
+				obj.setId(result.getInt("id"));		
 				
 				lista.add(obj);
 		}
@@ -282,10 +312,28 @@ public class Application implements RowDataGateway {
 		
 		}catch(SQLException e){
 			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return lista.toArray();
 	}
 
+	public HashMap<Integer,String> getListApps(){
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Aplicação ---");
+		for(Object obj:new Application().getAll()){
+			Application app = (Application) obj;
+			lista.put(app.getId(), app.getName());
+		}
+		return lista;
+	}
 	// Pega o objeto que o metodo retorna e transforma em string 
 	@Override
 	public String toString() {

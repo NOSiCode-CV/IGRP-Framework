@@ -7,8 +7,8 @@ package nosi.core.gui.fields;
  * Description: class to generate xml of fields
  */
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map.Entry;
-
 import nosi.core.xml.XMLWritter;
 
 public class GenXMLField {
@@ -101,11 +101,11 @@ public class GenXMLField {
 			xml.startElement("value");
 				for(Field field:fields){
 					if(field.isVisible()){
-						if(field.propertie().get("type").toString().compareTo("select") != 0 && field.propertie().get("type").toString().compareTo("radiolist") != 0 && field.propertie().get("type").toString().compareTo("checkboxlist") != 0 ){
+						if(!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxField)){
 							xml.startElement(field.getTagName());
 							writteAttributes(xml,field.propertie());
 							xml.text(""+field.getValue());
-							if(field.propertie().get("type").toString().compareTo("lookup")==0){
+							if(field instanceof LookupField){
 								xml.setElement("lookup", field.getLookup());
 								/*
 								 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
@@ -123,14 +123,17 @@ public class GenXMLField {
 			xml.startElement("list");
 			for(Field field:fields){
 				if(field.isVisible()){
-					if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
+					if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxField){
 						xml.startElement(field.getTagName());
 						writteAttributes(xml,field.propertie());
-						for(Entry<Object, Object> obj : field.getOptions().entrySet()){
-							xml.startElement("option");
-							xml.setElement("text", obj.getValue().toString());
-							xml.setElement("value", obj.getKey().toString());
-							xml.endElement();
+						if(field.getValue()!=null && field.getValue() instanceof HashMap){
+							HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
+							for(Entry<?, ?> obj : values.entrySet()){
+								xml.startElement("option");
+								xml.setElement("text", obj.getValue().toString());
+								xml.setElement("value", obj.getKey().toString());
+								xml.endElement();
+							}
 						}
 						xml.endElement();
 					}
@@ -153,16 +156,24 @@ public class GenXMLField {
 	 * <value>Text 1</value>
 	 */
 	private static void getXmlValue(XMLWritter xml, Field field) {
-		if(field.propertie().get("type").toString().compareTo("select") == 0 || field.propertie().get("type").toString().compareTo("radiolist") == 0 || field.propertie().get("type").toString().compareTo("checkboxlist") == 0 ){
+		if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxField){
 			xml.startElement("list");
-			for(Entry<Object, Object> obj : field.getOptions().entrySet()){
-				xml.startElement("option");
-				xml.setElement("text", obj.getValue().toString());
-				if(obj.getKey() == null || obj.getKey().toString()=="")
-					xml.emptyTag("value");
-				else
-					xml.setElement("value", obj.getKey().toString());
-				xml.endElement();
+			if(field.getValue()!=null && field.getValue() instanceof HashMap){
+				HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
+				for(Entry<?, ?> obj : values.entrySet()){
+					xml.startElement("option");
+					if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+						xml.writeAttribute("selected", "true");
+					}else if((field instanceof CheckBoxField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+						xml.writeAttribute("checked", "true");
+					}
+					xml.setElement("text", obj.getValue().toString());
+					if(obj.getKey() == null || obj.getKey().toString()=="")
+						xml.emptyTag("value");
+					else
+						xml.setElement("value", obj.getKey().toString());
+					xml.endElement();
+				}
 			}
 			xml.endElement();
 		}else{
