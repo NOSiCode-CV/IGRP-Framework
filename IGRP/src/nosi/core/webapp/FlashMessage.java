@@ -1,12 +1,14 @@
 package nosi.core.webapp;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -53,7 +55,7 @@ public class FlashMessage implements Serializable{
 	public ArrayList<String> getMessages(String name){
 		return this.msgs.getMessages(name);
 	}
-	
+
 	// Please dont uncomment this method below ... (because it is only for test purpose)
 	/*public Message getMessage(){
 		return this.msgs;
@@ -72,7 +74,7 @@ public class FlashMessage implements Serializable{
 		}
 		
 		public void addMessage(String name, String msg){
-			if(this.msg.containsKey(name))
+			if(this.msg!=null && this.msg.containsKey(name))
 				this.msg.get(name).add(msg);
 			else
 				this.setMessage(name, msg);

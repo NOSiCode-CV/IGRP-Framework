@@ -6,7 +6,6 @@ package nosi.webapps.igrp.pages.novoperfil;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.FlashMessage.Message;
 
 import java.io.IOException;
 
@@ -47,7 +46,7 @@ public class NovoPerfilController extends Controller {
 		Object []applications =  new Application().getAll();
 		Object []profiles = new ProfileType().getAll();
 		Object []organizations = new Organization().getAll();
-		
+		/*
 		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
 		for(Object application : applications){ 
 			Application obj = (Application)application;
@@ -65,7 +64,7 @@ public class NovoPerfilController extends Controller {
 			Organization obj = (Organization)organization;
 			view.organica.addOption(obj.getName(), obj.getId());
 		}
-		
+		*/
 		this.renderView(view);
 	}
 

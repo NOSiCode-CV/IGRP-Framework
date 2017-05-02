@@ -42,7 +42,7 @@ public class NovaOrganicaController extends Controller {
 		Object []applications =  new Application().getAll();
 		Object []profiles = new ProfileType().getAll();
 		Object []organizations = new Organization().getAll();
-		
+		/*
 		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
 		for(Object application : applications){ 
 			Application obj = (Application)application;
@@ -54,7 +54,7 @@ public class NovaOrganicaController extends Controller {
 			Organization obj = (Organization)organization;
 			view.organica_pai.addOption(obj.getName(), obj.getId());
 		}
-		
+		*/
 		this.renderView(view);
 	}
 }
