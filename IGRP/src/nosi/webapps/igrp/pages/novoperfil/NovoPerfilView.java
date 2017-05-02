@@ -33,10 +33,10 @@ public class NovoPerfilView extends View {
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicação");
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
 		organica.setLabel("Orgânica");
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel("Perfil");
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
@@ -49,9 +49,9 @@ public class NovoPerfilView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","RED","Teste","Action","submit","default|fa-save","default||fa-save|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_gravar = new IGRPButton("Gravar","igrp","novo-perfil","index","submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","RED","Teste","Action","_back","default|fa-arrow-left","default||fa-arrow-left|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_voltar = new IGRPButton("Voltar","RED","Teste","Action","_back","default|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
@@ -74,6 +74,8 @@ public class NovoPerfilView extends View {
 		this.addToPage(form_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(toolsbar_1);
+		
+		//this.addToPage(new IGRPMessage());
 		
 	}
 }

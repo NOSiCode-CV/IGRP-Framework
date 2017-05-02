@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="Teste.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>RED</app>
+    <plsql>
+        <action>Action</action>
+        <package_instance></package_instance>
+        <package_db>df</package_db>
+        <package_html>fd</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe App</title>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <action_descr name="p_action_descr" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Cod. Modulo</label>
+                </action_descr>
+                <page name="p_page" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Cod. Pagina</label>
+                </page>
+                <page_descr name="p_page_descr" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Pagina</label>
+                </page_descr>
+                <version name="p_version" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Versao</label>
+                </version>
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                    <label>Ativo?</label>
+                </status>
+                <hidden_1 name="p_hidden_1" type="hidden" maxlength="30" tag="hidden_1"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <action_descr name="p_action_descr">Omnis aliqua sit deserunt unde</action_descr>
+                        <page name="p_page">Omnis elit consectetur lorem adipiscing</page>
+                        <page_descr name="p_page_descr">Ipsum adipiscing dolor labore aliqua</page_descr>
+                        <version name="p_version">Accusantium perspiciatis anim accusantium aliqua</version>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <action_descr name="p_action_descr">Ipsum consectetur elit mollit stract</action_descr>
+                        <page name="p_page">Consectetur voluptatem labore aliqua anim</page>
+                        <page_descr name="p_page_descr">Lorem omnis amet omnis laudantium</page_descr>
+                        <version name="p_version">Stract magna adipiscing perspiciatis amet</version>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <action_descr name="p_action_descr">Unde magna ut sit deserunt</action_descr>
+                        <page name="p_page">Amet natus consectetur sed omnis</page>
+                        <page_descr name="p_page_descr">Labore officia doloremque ut lorem</page_descr>
+                        <version name="p_version">Dolor officia iste officia dolor</version>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <action_descr name="p_action_descr">Totam voluptatem amet aliqua iste</action_descr>
+                        <page name="p_page">Adipiscing omnis totam unde doloremque</page>
+                        <page_descr name="p_page_descr">Totam accusantium iste elit sit</page_descr>
+                        <version name="p_version">Unde consectetur dolor unde deserunt</version>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="button_1">
+                        <title>Button</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="button_1">
+                        <title>Button</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="button_1">
+                        <title>Button</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="button_1">
+                        <title>Button</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
+                <page name="p_page" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Cod. Modulo</label>
+                    <value>Perspiciatis lorem magna stract rem</value>
+                </page>
+                <page_descr name="p_page_descr" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Cod. Pagina</label>
+                    <value>Doloremque consectetur unde totam perspiciatis</value>
+                </page_descr>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>ListaPage</page>
+                    <link>index</link>
+                    <parameter/>
+                    <target>submit</target>
+                    <img>default|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>igrp</app>
+                <page>page</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-plus-square</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/page.xsl</parameter>
+                <params>default||fa-plus-square|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.novoperfil;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class NovoPerfil extends Model{		
 	@RParam(rParamName = "p_codigo")
@@ -10,13 +9,13 @@ public class NovoPerfil extends Model{
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	@RParam(rParamName = "p_organica")
-	private String organica;
+	private int organica;
 	@RParam(rParamName = "p_perfil")
-	private String perfil;
+	private int perfil;
 	@RParam(rParamName = "p_activo")
-	private String activo;
+	private int activo;
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	
@@ -34,31 +33,31 @@ public class NovoPerfil extends Model{
 		return this.descricao;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
+	public void setOrganica(int organica){
 		this.organica = organica;
 	}
-	public String getOrganica(){
+	public int getOrganica(){
 		return this.organica;
 	}
 	
-	public void setPerfil(String perfil){
+	public void setPerfil(int perfil){
 		this.perfil = perfil;
 	}
-	public String getPerfil(){
+	public int getPerfil(){
 		return this.perfil;
 	}
 	
-	public void setActivo(String activo){
+	public void setActivo(int activo){
 		this.activo = activo;
 	}
-	public String getActivo(){
+	public int getActivo(){
 		return this.activo;
 	}
 	

@@ -16,10 +16,18 @@ public class ListaEnv extends Model{
 
 
 	public class Table_1{
+		private int id;
 		private String dad;
 		private String name;
 		private String host;
-		private int status;
+		private int status;		
+		
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
 		public void setDad(String dad){
 			this.dad = dad;
 		}

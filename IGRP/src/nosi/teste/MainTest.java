@@ -21,14 +21,17 @@ import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.RadioListField;
 import nosi.core.gui.fields.TextField;
-import nosi.webapps.igrp.pages.testetabela.Testetabela;
-import nosi.webapps.igrp.pages.testetabela.TestetabelaView;
-import nosi.webapps.igrp.pages.testetabela.Testetabela.Table1;
 
 public class MainTest {
 	
 	public static void main(String[] args) {
-		Testetabela model = new Testetabela();
+		String url ="listaPage";
+		String url_ = "";
+		for(String aux : url.split("-")){
+			url_ += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		}
+		System.out.println(url_);
+		/*Testetabela model = new Testetabela();
 		
 		
 		Field n_bi;
@@ -244,6 +247,7 @@ public class MainTest {
 		System.out.println(formlist_1);
 		System.out.println(view_1);
 		System.out.println(sectionheader_1);*/
+		
 	}
 
 }

@@ -27,7 +27,7 @@ public class PesquisarMenuView extends View {
 	public IGRPButton btn_menu_base;
 	public IGRPButton btn_pesquisar;
 	public PesquisarMenuView(PesquisarMenu model){
-		Condig.TITLE = "Detalhe App";			
+		//Condig.TITLE = "Detalhe App";			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");

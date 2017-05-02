@@ -107,7 +107,7 @@ public class PageView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","page","gravar","submit","default|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","page","voltar","_self","default|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","lista-page","index","_self","default|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

@@ -22,7 +22,6 @@ public class IGRPMessage {
 	public IGRPMessage(){
 		this.result = new XMLWritter();
 		FlashMessage flashMessage = new FlashMessage();
-		System.out.println("Funcionou");
 		this.result.startElement("messages");
 		// Success
 		for(String msg : flashMessage.getMessages("success")){
@@ -30,7 +29,6 @@ public class IGRPMessage {
 			this.result.writeAttribute("type", "success");
 			this.result.text(msg);
 			this.result.endElement();
-			System.out.println(msg);
 		}
 		
 		// Error

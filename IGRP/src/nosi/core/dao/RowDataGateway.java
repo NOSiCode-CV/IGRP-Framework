@@ -1,5 +1,7 @@
 package nosi.core.dao;
 
+import java.sql.SQLException;
+
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017

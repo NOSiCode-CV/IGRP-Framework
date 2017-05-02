@@ -44,6 +44,9 @@ public class Igrp {
 	
 	//Flash Message
 	private FlashMessage flashMessage;
+	
+	// User component (Identity)
+	private User user;
 	/**/
 	
 	private Igrp(){ // Private and empty default constructor ... allow Singleton class
@@ -71,6 +74,9 @@ public class Igrp {
 			this.igrpDb.init();
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
+			
+			// User component (Identity)
+			this.user = new User();
 			
 		return this;
 	}
@@ -303,6 +309,10 @@ public class Igrp {
 
 	public void setCurrentActionName(String currentActionName) {
 		this.currentActionName = currentActionName;
+	}
+	
+	public User getUser(){
+		return this.user;
 	}
 
 	public static void main(String []args){
