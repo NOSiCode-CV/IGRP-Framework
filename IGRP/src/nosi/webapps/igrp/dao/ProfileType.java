@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
 
-public class Profile_type implements RowDataGateway {
+public class ProfileType implements RowDataGateway {
 	
 	private int id;
 	private String descr;
@@ -20,11 +20,12 @@ public class Profile_type implements RowDataGateway {
 	private int self_fk;
 	private int org_fk;
 	private int status;
+	
 	private Connection con;
 	
-	public Profile_type() {
+	public ProfileType() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 	
 	public int getId() {
@@ -78,34 +79,42 @@ public class Profile_type implements RowDataGateway {
 
 	@Override
 	public boolean insert() {
+		int result = 0;
 		try{
-		/*descr = "Teste Tipo de Perfil";
-		code = "Teste"; 
-		env_fk = 1;
-		self_fk = 18;
-		org_fk = 17;
-		status = 1;*/
 		PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_profile_type"
 				+ "(descr, code, env_fk, self_fk, org_fk, status) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)");
 		st.setString(1, this.descr);
 		st.setString(2, this.code);
+		
+		if(this.env_fk == 0) // Default value
+			st.setNull(3, 0);
+		else
 		st.setInt(3, this.env_fk);
+		
+		if(this.self_fk == 0)
+			st.setNull(4,0);
+		else
 		st.setInt(4, this.self_fk);
+		
+		if(this.org_fk == 0)
+			st.setNull(5,0);
+		else
 		st.setInt(5, this.org_fk);
+		
 		st.setInt(6, this.status);
 		
-		st.executeUpdate();
+		result = st.executeUpdate();
 		st.close();
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return false;
+		return result > 0;
 	}
 
 	@Override
 	public Object getOne() {
-		Profile_type obj = new Profile_type();
+		ProfileType obj = new ProfileType();
 		try{
 			//id = 17;
 			Statement st = con.createStatement();
@@ -168,14 +177,15 @@ public class Profile_type implements RowDataGateway {
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Profile_type> lista = new ArrayList<>(); 
+		ArrayList<ProfileType> lista = new ArrayList<>(); 
 		try{
 			//id = 17;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT id, descr, code, env_fk, self_fk, org_fk, status "
 					+ "FROM public.glb_t_profile_type order by id");
 			while(res.next()){
-				Profile_type obj = new Profile_type();
+				ProfileType obj = new ProfileType();
+				obj.setId(res.getInt("id"));
 				obj.setDescr(res.getString("descr"));
 				obj.setCode(res.getString("code"));
 				obj.setEnv_fk(res.getInt("env_fk"));

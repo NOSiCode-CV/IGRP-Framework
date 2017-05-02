@@ -48,7 +48,6 @@ public class LoginView extends View {
 		p_env_dml = new HiddenField(model,"p_env_dml");
 		p_env_dml.propertie().add("name","p_p_env_dml").add("type","hidden").add("maxlength","100").add("tag","p_env_dml");
 
-		
 	}
 		
 	@Override
@@ -65,6 +64,8 @@ public class LoginView extends View {
 		form_1.addField(p_env_dml);
 
 		this.addToPage(form_1);
+		
+		//this.addToPage(new IGRPMessage());
 	}
 }
 /*-------------------------*/

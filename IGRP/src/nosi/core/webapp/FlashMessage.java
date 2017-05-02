@@ -15,8 +15,8 @@ public class FlashMessage implements Serializable{
 	private Message msgs;
 	
 	public FlashMessage(){	// "flash" is the reserved name for messages in session
-		this.msgs = new Message();
 		if(Igrp.getInstance().getRequest().getSession().getAttribute("flash") == null){
+			this.msgs = new Message();
 			Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 		}
 		else
@@ -25,9 +25,9 @@ public class FlashMessage implements Serializable{
 	
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
-		return this;
 		// actualizar session
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
+		return this;
 	}
 	
 	public void setMessage(String name, String msg){
@@ -53,7 +53,7 @@ public class FlashMessage implements Serializable{
 		return this.msgs;
 	}*/
 	
-	private class Message implements Serializable{ // inner/internal class for all message
+	public class Message implements Serializable{ // inner/internal class for all message
 		
 		private Map<String, ArrayList<String>> msg;
 		
@@ -79,7 +79,7 @@ public class FlashMessage implements Serializable{
 		}
 		
 		public boolean hasMessage(String name){
-			return this.msg.containsKey(name);
+			return this.msg.containsKey(name) && this.msg.get(name).size() > 0;
 		}
 		
 		public String getMessagesAsString(String name){ // return all specific message as a String

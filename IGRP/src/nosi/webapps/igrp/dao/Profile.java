@@ -63,11 +63,12 @@ public class Profile implements RowDataGateway {
 	
 	public Profile() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
 	@Override
 	public boolean insert() {
+		int result = 0;
 		try {
 			/*user_fk = 2;
 			type = "PROF";
@@ -83,12 +84,13 @@ public class Profile implements RowDataGateway {
 			st.setInt(4, this.type_fk);
 			st.setInt(5, this.org_fk);
 			
-			st.executeUpdate();
+			result = st.executeUpdate();
+			
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return result > 0;
 	}
 
 	@Override

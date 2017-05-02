@@ -45,7 +45,7 @@ public class NovaOrganicaView extends View {
 		organica_pai.propertie().add("name","p_organica_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","RED","Teste","Action","submit","default|fa-angle-right","default||fa-angle-right|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_gravar = new IGRPButton("Gravar","igrp","nova-organica","index","submit","default|fa-angle-right","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		btn_voltar = new IGRPButton("Voltar","RED","Teste","Action","_back","default|fa-angle-right","default||fa-angle-right|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");

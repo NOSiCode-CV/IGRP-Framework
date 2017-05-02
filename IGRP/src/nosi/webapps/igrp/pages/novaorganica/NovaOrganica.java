@@ -4,19 +4,25 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
-public class NovaOrganica extends Model{		
+public class NovaOrganica extends Model{	
+	
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+	
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
+	
 	@RParam(rParamName = "p_nome")
 	private String nome;
+	
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
+	
 	@RParam(rParamName = "p_ativo")
-	private String ativo;
+	private int ativo;
+	
 	@RParam(rParamName = "p_organica_pai")
-	private String organica_pai;
+	private int organica_pai;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -39,24 +45,24 @@ public class NovaOrganica extends Model{
 		return this.nome;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setAtivo(String ativo){
+	public void setAtivo(int ativo){
 		this.ativo = ativo;
 	}
-	public String getAtivo(){
+	public int getAtivo(){
 		return this.ativo;
 	}
 	
-	public void setOrganica_pai(String organica_pai){
+	public void setOrganica_pai(int organica_pai){
 		this.organica_pai = organica_pai;
 	}
-	public String getOrganica_pai(){
+	public int getOrganica_pai(){
 		return this.organica_pai;
 	}
 

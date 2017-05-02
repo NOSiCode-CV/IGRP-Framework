@@ -31,7 +31,7 @@ public class Organization implements RowDataGateway {
 	
 	public Organization() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
 	public int getId() {
@@ -100,35 +100,44 @@ public class Organization implements RowDataGateway {
 
 	@Override
 	public boolean insert() {
+		int result = 0;
 		try{
-			code = "code teste 2";
-			name = "Nome teste 1";
-			sigof_fk = 0;
-			env_fk = 1;
-			status = 0;
-			user_create_fk = 0;
-			self_fk = 17;
 			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_organization"
 					+ "(code, name, sigof_fk, env_fk, status, user_create_fk, self_fk)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
 			
 			st.setString(1, this.code);
 			st.setString(2, this.name);
+			
+			if(this.sigof_fk == 0)
+				st.setNull(3, 0);
+			else
 			st.setInt(3, this.sigof_fk);
+			
+			if(this.env_fk == 0)
+				st.setNull(4, 0);
+			else
 			st.setInt(4, this.env_fk);
+			
 			st.setInt(5, this.status);
+			
+			if(this.user_create_fk == 0)
+				st.setNull(6, 0);
+			else
 			st.setInt(6, this.user_create_fk);
+			
+			if(this.self_fk == 0)
+				st.setNull(7, 0);
+			else
 			st.setInt(7, this.self_fk);
 			
-			st.executeUpdate();
+			result = st.executeUpdate();
 			st.close();
-			
-			System.out.println("Query Executado e Base de Dados fechado com sucesso");
 		}catch(SQLException e){
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		return false;
+		return result > 0;
 	}
 
 	@Override
@@ -200,7 +209,7 @@ public class Organization implements RowDataGateway {
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Organization> lista = new ArrayList<>();
+		ArrayList<Organization> lista = new ArrayList<Organization>();
 		
 		try{
 			Statement st = con.createStatement();
@@ -209,7 +218,7 @@ public class Organization implements RowDataGateway {
 			while(result.next()){
 				
 				Organization obj = new Organization();
-				
+				obj.setId(result.getInt("id"));
 				obj.setCode(result.getString("code"));
 				obj.setName(result.getString("name"));
 				obj.setSigof_fk(result.getInt("sigof_fk"));

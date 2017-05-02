@@ -196,7 +196,7 @@ public class Menu implements RowDataGateway {
 
 	public Menu() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 	
 	
@@ -340,18 +340,35 @@ public class Menu implements RowDataGateway {
 	}
 	
 	
-	
-	public static void main(String[] args) {
-		//new Menu().insert();
-		//System.out.println(new Menu().getOne());
-		//new Menu().update();
-		//new Menu().delete();
-		for(Object i: new Menu().getAll()){
-			Menu obj = (Menu) i;
-			System.out.println(obj.getStatus());
-		}
-	}
 
+	public Object[] getAllPrincipalMenu() {
+		ArrayList<Menu> lista = new ArrayList<Menu>();
+		try {
+			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_menu where flg_base = 1");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				Menu obj = new Menu();
+				obj.setSelf_id(rs.getInt("id"));
+				obj.setDescr(rs.getString("descr"));
+				obj.setLink(rs.getString("link"));
+				obj.setSelf_id(rs.getInt("self_id"));
+				obj.setEnv_fk(rs.getInt("env_fk"));
+				obj.setImg_src(rs.getString("img_src"));
+				obj.setArea(rs.getString("area"));
+				obj.setAction_fk(rs.getInt("action_fk"));
+				obj.setOrderby(rs.getInt("orderby"));
+				obj.setStatus(rs.getInt("status"));
+				obj.setCode(rs.getString("code"));
+				obj.setFlg_base(rs.getInt("flg_base"));
+				obj.setTarget(rs.getString("target"));
+				lista.add(obj);
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
 
 
 	@Override
