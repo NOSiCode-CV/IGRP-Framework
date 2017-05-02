@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
@@ -16,18 +17,23 @@ public class FlashMessage implements Serializable{
 	
 	private Message msgs;
 	
-	public FlashMessage(){	// "flash" is the reserved name for messages in session
-		if(Igrp.getInstance().getRequest().getSession().getAttribute("flash") == null){
+	public static final String SUCCESS = "success";
+	public static final String ERROR = "error";
+	public static final String WARNING = "warning";
+	public static final String INFO = "info";
+	
+	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
+		// "_flash" is the reserved name for messages in session
+		if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){
 			this.msgs = new Message();
-			Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
-		}
-		else
-			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("flash");
+			Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
+		}else
+			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("_flash");
 	}
 	
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
-		// actualizar session
+		// actualizar session  /* Sorry we dont need it */
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 		return this;
 	}
@@ -55,16 +61,16 @@ public class FlashMessage implements Serializable{
 		return this.msgs;
 	}*/
 	
-	public class Message implements Serializable{ // inner/internal class for all message
+	private class Message implements Serializable{ // inner/internal class for all message
 		
 		private Map<String, ArrayList<String>> msg;
 		
 		public Message(){
 			this.msg = new HashMap<String, ArrayList<String>>();
-			this.msg.put("error", new ArrayList<String>());
-			this.msg.put("success", new ArrayList<String>());
-			this.msg.put("info", new ArrayList<String>());
-			this.msg.put("warning", new ArrayList<String>());
+			this.msg.put(FlashMessage.ERROR, new ArrayList<String>());
+			this.msg.put(FlashMessage.SUCCESS, new ArrayList<String>());
+			this.msg.put(FlashMessage.INFO, new ArrayList<String>());
+			this.msg.put(FlashMessage.WARNING, new ArrayList<String>());
 		}
 		
 		public void addMessage(String name, String msg){

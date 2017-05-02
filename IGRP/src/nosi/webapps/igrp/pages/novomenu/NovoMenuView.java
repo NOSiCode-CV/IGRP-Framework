@@ -77,7 +77,6 @@ public class NovoMenuView extends View {
 
 		sectionheader_1.addField(sectionheader_1_text);
 
-
 		form_1.addField(codigo);
 		form_1.addField(titulo);
 		form_1.addField(menu_principal);
@@ -94,6 +93,8 @@ public class NovoMenuView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+		
+		this.addToPage(new IGRPMessage());
 	}
 }
 /*-------------------------*/
