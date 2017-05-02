@@ -88,7 +88,7 @@ public class Config {
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"";
 	}
 	public static String getLinkSileMenu(){
-		return getConfig().get("link_slide_menu")!=null? getConfig().get("link_slide_menu").toString():"";
+		return getConfig().get("link_slide_menu")!=null? getConfig().get("link_slide_menu").toString():"igrp/menu/myMenu";
 	}
 	public static String getLinkTopMenu(){
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
