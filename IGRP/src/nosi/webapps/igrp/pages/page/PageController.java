@@ -22,6 +22,8 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.pages.home.HomeAppView;
+import nosi.webapps.igrp.pages.home.HomeView;
 
 public class PageController extends Controller {		
 
@@ -237,4 +239,8 @@ public class PageController extends Controller {
 		}
 	}
 	
+	public void actionDefaultPage() throws IOException{
+		HomeAppView view = new HomeAppView();
+		this.renderView(view,true);
+	}
 }

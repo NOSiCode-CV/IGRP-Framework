@@ -16,7 +16,7 @@
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
-	 		<!-- <xsl:call-template name="createActions"></xsl:call-template>-->
+	 		 <xsl:call-template name="createActions"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
     </xsl:template>
