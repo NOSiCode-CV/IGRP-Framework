@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Isaias.Nunes
@@ -344,7 +345,7 @@ public class Menu implements RowDataGateway {
 	public Object[] getAllPrincipalMenu() {
 		ArrayList<Menu> lista = new ArrayList<Menu>();
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_menu where flg_base = 1");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_menu where flg_base = 1");
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();
@@ -370,7 +371,46 @@ public class Menu implements RowDataGateway {
 		return lista.toArray();
 	}
 
-
+	public Object[] getMyMenu() {
+		ArrayList<Menu> lista = new ArrayList<Menu>();
+		try {
+			PreparedStatement st = con.prepareStatement(
+					  "SELECT M1.descr sub_title,M1.target,M1.id,M1.status,M2.descr super_title,M2.id super_id,E.dad,A.Page "
+					+ " FROM glb_t_menu M1,glb_t_menu M2,glb_t_env E,glb_t_action A "
+					+ " WHERE M1.SELF_ID=M2.ID"
+					+ " AND E.ID = M1.ENV_FK"
+					+ " AND E.ID = M2.ENV_FK"
+					+ " AND A.ID = M1.ACTION_FK");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				Menu obj = new Menu();
+				obj.setSelf_id(rs.getInt("id"));
+				obj.setDescr(rs.getString("sub_title"));
+				obj.setCode(rs.getString("super_title"));
+				obj.setId(rs.getInt("super_id"));
+				obj.setLink(rs.getString("dad")+"/"+rs.getString("page")+"/index");
+				obj.setTarget(rs.getString("target"));
+				obj.setStatus(rs.getInt("status"));
+				lista.add(obj);
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+	
+	public HashMap<Integer,String> getListPrincipalMenus(){
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Menu Principal ---");
+		for(Object obj:new Menu().getAllPrincipalMenu()){
+			Menu m = (Menu) obj;
+			lista.put(m.getId(),m.getDescr());
+		}
+		return lista;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Menu [id=" + id + ", area=" + area + ", link=" + link + ", self_id=" + self_id + ", env_fk=" + env_fk

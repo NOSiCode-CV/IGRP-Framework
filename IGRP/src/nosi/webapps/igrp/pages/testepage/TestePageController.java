@@ -2,15 +2,15 @@
 
 /*Create Controller*/
 
-package nosi.webapps.igrp.pages.testeima;
+package nosi.webapps.igrp.pages.testepage;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 
-public class TesteImaController extends Controller {		
+public class TestePageController extends Controller {		
 
 	public void actionIndex() throws IOException{
-		TesteIma model = new TesteIma();
-		TesteImaView view = new TesteImaView(model);
+		TestePage model = new TestePage();
+		TestePageView view = new TestePageView(model);
 		this.renderView(view);
 	}
 

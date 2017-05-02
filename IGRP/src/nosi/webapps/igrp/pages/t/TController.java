@@ -2,15 +2,15 @@
 
 /*Create Controller*/
 
-package nosi.webapps.igrp.pages.testenovo;
+package nosi.webapps.igrp.pages.t;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 
-public class TesteNovoController extends Controller {		
+public class TController extends Controller {		
 
 	public void actionIndex() throws IOException{
-		TesteNovo model = new TesteNovo();
-		TesteNovoView view = new TesteNovoView(model);
+		T model = new T();
+		TView view = new TView(model);
 		this.renderView(view);
 	}
 

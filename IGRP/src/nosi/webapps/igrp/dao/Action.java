@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * @author Isaias.Nunes
@@ -306,8 +307,9 @@ public class Action implements RowDataGateway{
 
 	@Override
 	public boolean insert() {
+		boolean result = false;
 		try {
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_action("
+			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_action("
 					+ "env_fk, page, action, table_name, xsl_src, img_src, "
 					+ "page_type, page_descr, action_descr, flg_menu, "
 					+ "flg_transaction, self_id, self_fw_id, version, "
@@ -336,18 +338,18 @@ public class Action implements RowDataGateway{
 			
 			st.executeUpdate();
 			st.close();
+			result  = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return result;
 	}
 
 	@Override
 	public Object getOne() {
 		Action obj = new Action();
-		id = 133;
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action "
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_action "
 					+ "WHERE ID = ? ");
 		
 			st.setInt(1, this.id);
@@ -373,6 +375,7 @@ public class Action implements RowDataGateway{
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
 				obj.setProc_name(rs.getString("proc_name"));
+				obj.setId(rs.getInt("id"));
 			}
 			st.close();
 		} catch (SQLException e) {
@@ -385,7 +388,7 @@ public class Action implements RowDataGateway{
 	public Object getOne(int id) {
 		Action obj = new Action();
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action A, public.glb_t_env E "
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_action A, glb_t_env E "
 					+ " WHERE A.env_fk=E.id AND A.id = ? ");
 		
 			st.setInt(1,id);
@@ -424,7 +427,7 @@ public class Action implements RowDataGateway{
 	public String getXslPath() {
 		String xsl_src = "";
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM public.glb_t_action A, public.glb_t_env E"
+			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM glb_t_action A, glb_t_env E"
 					+ " WHERE A.env_fk=E.id AND A.page = ? AND A.action=? AND E.dad=?");
 		
 			st.setString(1, this.page);
@@ -444,8 +447,9 @@ public class Action implements RowDataGateway{
 	
 	@Override
 	public boolean update() {	
+		boolean result = false;
 		try {
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_action	SET "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_action	SET "
 					+ "env_fk=?, "
 					+ "page=?, "
 					+ "action=?, "
@@ -465,7 +469,7 @@ public class Action implements RowDataGateway{
 					+ "flg_internet=?, "
 					+ "status=?, "
 					+ "proc_name=? WHERE id = " + this.id);
-			
+			System.out.println("Env:"+this.id);
 			st.setInt(1, this.env_fk);
 			st.setString(2, this.page);
 			st.setString(3, this.action);
@@ -487,22 +491,25 @@ public class Action implements RowDataGateway{
 			st.setString(19, this.proc_name);
 			st.executeUpdate();
 			st.close();
+			result = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		return false;
+		return result;
 	}
 
 	@Override
 	public boolean delete() {
+		boolean result = false;
 		try {
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_action WHERE id= " + this.id);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_action WHERE id= " + this.id);
 			st.executeUpdate();
 			st.close();
+			result = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return result ;
 	}
 
 	@Override
@@ -516,7 +523,7 @@ public class Action implements RowDataGateway{
 					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
 				}
 			}
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action "+conditions);
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_action "+conditions);
 			int i=1;
 			for(Method method:methods){
 				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
@@ -581,7 +588,7 @@ public class Action implements RowDataGateway{
 	public Object[] getAll(String dad) {
 		ArrayList<Action> lista = new ArrayList<>();
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action A, public.glb_t_env E WHERE A.env_fk=E.id AND E.dad=?");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_action A, glb_t_env E WHERE A.env_fk=E.id AND E.dad=?");
 			st.setString(1, dad);
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
@@ -615,6 +622,19 @@ public class Action implements RowDataGateway{
 		return lista.toArray();
 	}
 
+	public HashMap<Integer,String> getListActions(){
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Página ---");
+		for(Object obj:new Action().getAll()){
+			Action ac = (Action) obj;
+			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
+				lista.put(ac.getId(), ac.getPage_descr());
+			else
+				lista.put(ac.getId(), ac.getPage());
+		}
+		return lista;
+	}
+	
 	@Override
 	public String toString() {
 		return "Action [id=" + id + ", env_fk=" + env_fk + ", page=" + page + ", action=" + action + ", proc_name="

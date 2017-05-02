@@ -26,7 +26,7 @@ public class Config {
 			xml.setElement("footer_note", getFooterName());
 			xml.setElement("user_name", "red-igrp");
 			IGRPToolsBar button = new IGRPToolsBar("button");
-			button.addButton(new IGRPButton("Sair", "igrp", "login", "logout", "_self", "exit.png","",""));
+			button.addButton(new IGRPButton("Sair", "webapps?r=igrp", "login", "logout", "_self", "exit.png","",""));
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
 		xml.setElement("app", "igrp");
@@ -58,6 +58,42 @@ public class Config {
 		xml.startElement("slide-menu");
 		xml.writeAttribute("file",getLinkSileMenu());
 		xml.endElement();
+		target = "";
+		TITLE = "";
+		return xml.toString();
+	}
+	
+	public static String getHeaderHome(){
+		XMLWritter xml = new XMLWritter();
+		xml.setElement("tamplate", "");
+		xml.setElement("title", TITLE);
+		xml.setElement("version",getVersion());
+		xml.setElement("link",getLink());
+		xml.setElement("link_img",getLinkImg());
+		xml.startElement("site");
+			xml.setElement("welcome_note",getWelcomeNote());
+			xml.setElement("footer_note", getFooterName());
+			xml.setElement("user_name", "red-igrp");
+			IGRPToolsBar button = new IGRPToolsBar("button");
+			button.addButton(new IGRPButton("Sair", "webapps?r=igrp", "login", "logout", "_self", "exit.png","",""));
+			xml.addXml(button.toXmlButton());
+		xml.endElement();
+		xml.setElement("app", "igrp");
+		xml.setElement("page", "form");
+		xml.startElement("plsql");
+			xml.setElement("action", "1");
+			xml.setElement("package_db", "FORM_DESIGNER_DB");
+			xml.setElement("package_html", "FORM_DESIGNER_HTML");
+			xml.setElement("package_instance", "");
+			xml.setElement("with_replace", "false");
+			xml.setElement("with_label", "false");
+			xml.setElement("with_biztalk", "false");
+			xml.setElement("dynamic_menu", "false");
+			xml.setElement("copy_menu", "false");
+			xml.setElement("package_copy_db", "");
+			xml.setElement("package_copy_html", "");
+		xml.endElement();
+
 		target = "";
 		TITLE = "";
 		return xml.toString();

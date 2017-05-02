@@ -3,6 +3,8 @@ package nosi.core.gui.page;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPMessage;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -59,6 +61,11 @@ public class Page {
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
 		xml.text(":_content");
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		if(m!=null){
+			xml.addXml(m);
+		}
 		xml.endElement();		
 		this.template = xml + "";
 	}
