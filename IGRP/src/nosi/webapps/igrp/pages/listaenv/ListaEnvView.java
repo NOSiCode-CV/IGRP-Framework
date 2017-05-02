@@ -42,7 +42,7 @@ public class ListaEnvView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_novo = new IGRPButton("Novo","igrp","env","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","pesquisar","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_button_1 = new IGRPButton("Editar","igrp","env","editar","submit","default|fa-pencil","","");
 		btn_button_1.propertie.add("type","specific").add("code","").add("class","default").add("rel","button_1");

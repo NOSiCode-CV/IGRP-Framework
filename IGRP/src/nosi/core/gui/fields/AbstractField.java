@@ -9,7 +9,6 @@ package nosi.core.gui.fields;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 
 public abstract class AbstractField implements Field{
 
@@ -47,11 +46,6 @@ public abstract class AbstractField implements Field{
 	public void setValue(Object value) {
 		this.value = value;
 	}
-	public void addOption(Object name, Object value) {
-	}	
-	public HashMap<Object,Object> getOptions(){
-		return null;
-	}	
 	public void setValue(int value) {
 		this.value = value;
 	}	

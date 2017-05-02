@@ -12,6 +12,5 @@ public class CheckBoxListField extends ListField {
 		super(model,name);
 		this.propertie.put("type","checkboxlist");
 		this.propertie.remove("multiple");
-		this.configValue(model);
 	}
 }

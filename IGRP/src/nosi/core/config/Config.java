@@ -8,11 +8,6 @@ import nosi.core.xml.XMLWritter;
 
 public class Config {
 	
-	/*public static final String PATH_CLASS = "D://git/IGRP-Framework/IGRP/src/";
-	public static final String PATH_XSL = "D://git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
-	
-	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";*/
-	//""
 	public static String TITLE = "";
 	public static String target = "";
 	
@@ -93,7 +88,7 @@ public class Config {
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"";
 	}
 	public static String getLinkSileMenu(){
-		return getConfig().get("link_slide_menu")!=null? getConfig().get("link_slide_menu").toString():"";
+		return getConfig().get("link_slide_menu")!=null? getConfig().get("link_slide_menu").toString():"igrp/menu/myMenu";
 	}
 	public static String getLinkTopMenu(){
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
@@ -103,5 +98,9 @@ public class Config {
 	}
 	public static String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"";
+	}
+	
+	public static String getPageVersion(){
+		return "2.3";
 	}
 }

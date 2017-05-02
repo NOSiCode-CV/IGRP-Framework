@@ -1,5 +1,7 @@
 package nosi.webapps.igrp.dao;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -507,8 +509,35 @@ public class Action implements RowDataGateway{
 	public Object[] getAll() {
 		ArrayList<Action> lista = new ArrayList<Action>();
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action");
-			ResultSet rs = st.executeQuery();
+			String conditions = "WHERE 1=1 ";
+			Method[] methods = this.getClass().getDeclaredMethods();
+			for(Method method:methods){
+				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
+					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
+				}
+			}
+			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_action "+conditions);
+			int i=1;
+			for(Method method:methods){
+				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
+					switch(method.getReturnType().getSimpleName()){
+						case "int":
+							st.setInt(i,Integer.parseInt(method.invoke(this).toString()));
+							break;
+						case "String":
+							st.setString(i,method.invoke(this).toString());
+							break;
+						case "double":
+							st.setDouble(i,Double.parseDouble(method.invoke(this).toString()));
+							break;
+						case "float":
+							st.setFloat(i,Float.parseFloat(method.invoke(this).toString()));
+							break;
+					}
+					i++;
+				}
+			}
+			ResultSet rs = st.executeQuery();			
 			while(rs.next()){
 				Action obj = new Action();
 				obj.setId(rs.getInt("id"));
@@ -534,6 +563,15 @@ public class Action implements RowDataGateway{
 				lista.add(obj);
 			}
 		}catch(SQLException e){
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return lista.toArray();
