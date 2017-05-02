@@ -14,6 +14,7 @@ package nosi.core.gui.components;
  */
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 
 public class IGRPMessage {
 	
@@ -21,10 +22,10 @@ public class IGRPMessage {
 	
 	public IGRPMessage(){
 		this.result = new XMLWritter();
-		FlashMessage flashMessage = new FlashMessage();
+		FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
 		this.result.startElement("messages");
 		// Success
-		for(String msg : flashMessage.getMessages("success")){
+		for(String msg : flashMessage.getMessages(FlashMessage.SUCCESS)){
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "success");
 			this.result.text(msg);
@@ -32,7 +33,7 @@ public class IGRPMessage {
 		}
 		
 		// Error
-		for(String msg : flashMessage.getMessages("error")){
+		for(String msg : flashMessage.getMessages(FlashMessage.ERROR)){
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "error");
 			this.result.text(msg);
@@ -40,7 +41,7 @@ public class IGRPMessage {
 		}
 		
 		// Info
-		for(String msg : flashMessage.getMessages("info")){
+		for(String msg : flashMessage.getMessages(FlashMessage.INFO)){
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "info");
 			this.result.text(msg);
@@ -48,7 +49,7 @@ public class IGRPMessage {
 		}
 		
 		// Warning
-		for(String msg : flashMessage.getMessages("warning")){
+		for(String msg : flashMessage.getMessages(FlashMessage.WARNING)){
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "warning");
 			this.result.text(msg);
