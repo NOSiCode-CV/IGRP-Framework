@@ -6,7 +6,6 @@ package nosi.webapps.igrp.pages.novoperfil;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.FlashMessage.Message;
 
 import java.io.IOException;
 
