@@ -50,7 +50,7 @@ public class Page {
 			path_xsl = ac.getXslPath();*/
 			
 		}
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/pesquisar-menu/PesquisarMenu.xsl", "utf-8");
+		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl", "utf-8");
 		
 	//	XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
 
