@@ -8,14 +8,12 @@ import nosi.core.xml.XMLWritter;
 
 public class Config {
 	
-<<<<<<< HEAD
 	/*public static final String PATH_CLASS = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/src/";
 	public static final String PATH_XSL = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/WebContent/images/IGRP/IGRP2.3/app/";
 	
 	public static final String LINK_IMG = "/IGRP/images/IGRP/IGRP2.3";*/
 	//""
-=======
->>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
+
 	public static String TITLE = "";
 	public static String target = "";
 	
