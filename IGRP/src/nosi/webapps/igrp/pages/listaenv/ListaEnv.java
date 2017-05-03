@@ -4,7 +4,17 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
-public class ListaEnv extends Model{		
+public class ListaEnv extends Model{			
+	@RParam(rParamName = "p_dad")
+	private String dad;
+	
+	public String getDad() {
+		return dad;
+	}
+	public void setDad(String dad) {
+		this.dad = dad;
+	}
+
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){

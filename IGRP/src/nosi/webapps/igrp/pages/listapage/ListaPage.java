@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ListaPage extends Model{		
 	@RParam(rParamName = "p_env_fk")
-	private String env_fk;
+	private int env_fk;
 	@RParam(rParamName = "p_page")
 	private String page;
 	@RParam(rParamName = "p_page_descr")
@@ -20,10 +20,10 @@ public class ListaPage extends Model{
 		return this.table_1;
 	}
 	
-	public void setEnv_fk(String env_fk){
+	public void setEnv_fk(int env_fk){
 		this.env_fk = env_fk;
 	}
-	public String getEnv_fk(){
+	public int getEnv_fk(){
 		return this.env_fk;
 	}
 	
@@ -43,52 +43,44 @@ public class ListaPage extends Model{
 
 
 	public class Table_1{
-		private String page;
-		private String page_descr;
-		private String action_descr;
-		private String version;
-		private int status;
-		private int p_id;
-		
-		public int getP_id() {
-			return p_id;
+		private String nome_page;
+		private String descricao_page;
+		private String versao_page;
+		private String status_page;
+		private int id;
+		public void setNome_page(String nome_page){
+			this.nome_page = nome_page;
 		}
-		public void setP_Id(int id) {
-			this.p_id = id;
-		}
-		public void setPage(String page){
-			this.page = page;
-		}
-		public String getPage(){
-			return this.page;
+		public String getNome_page(){
+			return this.nome_page;
 		}
 
-		public void setPage_descr(String page_descr){
-			this.page_descr = page_descr;
+		public void setDescricao_page(String descricao_page){
+			this.descricao_page = descricao_page;
 		}
-		public String getPage_descr(){
-			return this.page_descr;
-		}
-
-		public void setAction_descr(String action_descr){
-			this.action_descr = action_descr;
-		}
-		public String getAction_descr(){
-			return this.action_descr;
+		public String getDescricao_page(){
+			return this.descricao_page;
 		}
 
-		public void setVersion(String version){
-			this.version = version;
+		public void setVersao_page(String versao_page){
+			this.versao_page = versao_page;
 		}
-		public String getVersion(){
-			return this.version;
+		public String getVersao_page(){
+			return this.versao_page;
 		}
 
-		public void setStatus(int status){
-			this.status = status;
+		public void setStatus_page(String status_page){
+			this.status_page = status_page;
 		}
-		public int getStatus(){
-			return this.status;
+		public String getStatus_page(){
+			return this.status_page;
+		}
+
+		public void setId(int p_id_page){
+			this.id = p_id_page;
+		}
+		public int getId(){
+			return this.id;
 		}
 
 	}

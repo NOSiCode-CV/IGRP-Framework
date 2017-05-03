@@ -7,8 +7,6 @@ package nosi.core.gui.fields;
  * Description: interface contain method to implemented in class Fields
  */
 
-import java.util.HashMap;
-
 public interface Field {
 	public String getTagName();
 	public void setTagName(String tag_name);
@@ -17,8 +15,6 @@ public interface Field {
 	public void setValue(int value);
 	public void setValue(float value);
 	public void setValue(double value);
-	public void addOption(Object name,Object value);
-	public HashMap<Object,Object> getOptions();
 	public void setLabel(String label);
 	public String getLabel();
 	public FieldProperties propertie();

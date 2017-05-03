@@ -5,6 +5,10 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-42.0.0.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Yma/Downloads/postgresql-42.0.0.jar"/>
+>>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -61,11 +61,11 @@ public class PesquisarMenuView extends View {
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","default|fa-plus-square","default||fa-plus-square|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_novo = new IGRPButton("Novo","igrp","novo-menu","index","_self","default|fa-plus-square","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_menu_base = new IGRPButton("Menu Base","RED","Teste","Action","submit","default|fa-save","default||fa-save|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_menu_base = new IGRPButton("Menu Base","igrp","pesquisar-menu","base","submit","default|fa-save","","");
 		btn_menu_base.propertie.add("type","specific").add("code","").add("rel","menu_base");
-		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","pesquisar-menu","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
 	}

@@ -8,15 +8,6 @@ package nosi.core.gui.generator;
  */
 
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPFilter;
-import nosi.core.gui.components.IGRPForm;
-import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.FileField;
-import nosi.core.gui.fields.LinkField;
-import nosi.core.gui.fields.ListField;
-import nosi.core.gui.fields.NumberField;
-import nosi.core.gui.fields.TextField;
 import nosi.core.xml.XMLWritter;
 
 public class Generator2_3 {

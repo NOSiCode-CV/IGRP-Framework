@@ -4,17 +4,20 @@
 
 package nosi.webapps.igrp.pages.page;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
@@ -24,12 +27,35 @@ public class PageController extends Controller {
 
 	public void actionIndex() throws IOException{
 		Page model = new Page();
-		PageView view = new PageView(model);
-		view.env_fk.addOption("--- Selecionar Página ---",null);
-		for(Object obj: new Application().getAll()){
-			Application app = (Application) obj;
-			view.env_fk.addOption(app.getName(),app.getId());
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(id!=null){
+			Action ac = new Action();
+			ac.setId(Integer.parseInt(id));
+			Action a = (Action) ac.getOne();
+			if(a!=null){
+				model.setAction_descr(a.getAction_descr());
+				model.setEnv_fk(a.getEnv_fk());
+				model.setP_action(a.getAction());
+				model.setP_page_descr(a.getPage_descr());
+				model.setPage(a.getPage());
+				model.setP_id(a.getId());
+				model.setP_version(a.getVersion());
+				model.setP_xsl_src(a.getXsl_src());
+				model.setP_db_connection(a.getDb_connection());
+				model.setP_flg_internet(a.getFlg_internet());
+				model.setP_flg_menu(a.getFlg_menu());
+				model.setP_flg_offline(a.getFlg_offline());
+				model.setP_flg_transaction(a.getFlg_transaction());
+				model.setP_img_src(a.getImg_src());
+				model.setP_page_type(a.getPage_type());
+				model.setP_proc_name(a.getProc_name());
+				model.setP_self_fw_id(a.getSelf_fw_id());
+				model.setP_self_id(a.getSelf_id());
+				model.setP_status(a.getStatus());
+			}
 		}
+		PageView view = new PageView(model);
+		view.env_fk.setValue(new Application().getListApps());
 		this.renderView(view);
 	}
 
@@ -37,11 +63,9 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
+			
 			Application app = new Application();
 			app.setId(model.getEnv_fk());
-			Application a = (Application) app.getOne();
-			//model.setP_xsl_src(Config.getPathXsl()+a.getDad()+"/"+nosi.core.gui.page.Page.getPageFolder(model.getP_action())+"/"+model.getP_action()+".xsl");
-			
 			Action action = new Action();
 			action.setAction("index");
 			action.setAction_descr(model.getAction_descr());
@@ -61,23 +85,37 @@ public class PageController extends Controller {
 			action.setPage_type(model.getP_page_type());
 			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
-			action.setVersion(model.getP_version());
-			if(action.insert()){
-				System.out.println("save");
+			//action.setVersion(model.getP_version());
+			action.setVersion(3);	
+			boolean result = false;
+			if(model.getP_id()!=0){
+				result = action.update();
 			}else{
-				System.out.println("failed");
+				result = action.insert();
+			}
+			if(result){
+				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 			}
 		}
 		this.redirect("igrp", "page", "index");
 	}
 	
-	public void actionVoltar() throws IOException{
-		this.redirect("igrp","page","index");
+	public void actionEliminar() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		Action ac = new Action();
+		ac.setId(Integer.parseInt(id));
+		if(ac.delete())
+			Igrp.getInstance().getFlashMessage().addMessage("success","Página eliminado com sucesso");
+		else
+			Igrp.getInstance().getFlashMessage().addMessage("error","Não foi possivel eliminar a página");
+		this.redirect("igrp","lista-page","index");
 	}
 	
+	//Save page generated
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");
-		
+		Igrp.getInstance().getResponse().setContentType("text/xml");		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Object obj = new Action().getOne(Integer.parseInt(p_id));
 		if(obj!=null){
@@ -86,24 +124,23 @@ public class PageController extends Controller {
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
-			String class_name = Igrp.getInstance().getRequest().getParameter("p_class");
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
 			path_class = path_class.replace(".", "/") + "/" +ac.getPage().toLowerCase();
-			class_name = class_name.substring(0,1).toUpperCase() + class_name.substring(1);
-			String path_xsl = Config.getPathXsl()  +"/"+ac.getEnv().getDad().toLowerCase() + ac.getPage().toLowerCase();			
+			String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
 			path_class = Config.getPathClass() + path_class;
 			
-			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!="" && class_name!=null && class_name!=""){
+			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
 				String[] partsJavaCode = javaCode.toString().split(" END ");
 				if(
-						FileHelper.save(path_class,class_name+".java", partsJavaCode[0]+"*/") && // save model
-						FileHelper.save(path_class,class_name+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
-						FileHelper.save(path_class,class_name+"Controller.java","/*"+partsJavaCode[2]) && // save controller
-						FileHelper.save(path_xsl,class_name+".xml", fileXml) && // save xml
-						FileHelper.save(path_xsl,class_name+".xsl", fileXsl) && // save xsl
-						FileHelper.save(path_xsl,class_name+".json", fileJson) // save json
+						FileHelper.save(path_class,ac.getPage()+".java", partsJavaCode[0]+"*/") && // save model
+						FileHelper.save(path_class,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
+						FileHelper.save(path_class,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]) && // save controller
+						FileHelper.save(path_xsl,ac.getPage()+".xml", fileXml) && // save xml
+						FileHelper.save(path_xsl,ac.getPage()+".xsl", fileXsl) && // save xsl
+						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) // save json
 				){
-					ac.setXsl_src(path_xsl);
+					ac.setId(Integer.parseInt(p_id));
+					ac.setXsl_src("images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
@@ -129,7 +166,7 @@ public class PageController extends Controller {
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+ac.getPage_descr() +"\",";
-				json += "\"link\":\""+ac.getPage() +".xsl\"";
+				json += "\"link\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
 		}
@@ -149,7 +186,7 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\""+ac.getPage() +".xsl\",";
+				json += "\"filename\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage() +".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
@@ -178,28 +215,26 @@ public class PageController extends Controller {
 	}
 	
 	public void actionVisualizar() throws IOException{
-		/*String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		Igrp.getInstance().getResponse().setContentType("text/xml");
+		String p_id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
 		if(ac!=null){
-			Igrp.getInstance().getResponse().setContentType("text/xml");
-			 try{
-			        PrintWriter out=Igrp.getInstance().getResponse().getWriter();
-			        FileInputStream fis=new FileInputStream("images/IGRP/IGRP2.3/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml");
-			        BufferedReader br=new BufferedReader(new InputStreamReader(fis));
-			        while(true){
-			            String s=br.readLine();
-			            if(s==null)
-			              break;
-			            out.println(s);
-			            out.flush();
-			        }
-			        fis.close();
-			    }
-			    catch(Exception e){ 
-			        e.printStackTrace();
-			    }
-			
-		}*/
+			String filename = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml";
+			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
+			InputStream inputStrem = context.getResourceAsStream(filename);
+	        if (inputStrem != null) {
+	            InputStreamReader inputSReader = new InputStreamReader(inputStrem);
+	            BufferedReader reader = new BufferedReader(inputSReader);
+	            PrintWriter writer = Igrp.getInstance().getResponse().getWriter();
+	            String text;
+	            while ((text = reader.readLine()) != null) {
+	                writer.println(text);
+	            }
+	            reader.close();
+	            inputSReader.close();
+	            writer.flush();
+	        }
+		}
 	}
 	
 }
