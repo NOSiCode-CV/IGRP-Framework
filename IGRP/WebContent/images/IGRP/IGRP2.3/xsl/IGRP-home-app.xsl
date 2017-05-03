@@ -64,6 +64,6 @@
       
 </xsl:template>
 
-<xsl:include href="../xsl/tmpl//IGRP-variables.tmpl.xsl?v=1476098525269"/>
+<xsl:include href="tmpl/IGRP-variables.tmpl.xsl?v=1476098525269"/>
  
 </xsl:stylesheet>

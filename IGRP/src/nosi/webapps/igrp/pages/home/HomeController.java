@@ -9,6 +9,7 @@ public class HomeController extends Controller {
 
 	public void actionIndex() throws IOException{
 		HomeView view = new HomeView();
+		view.title = "Home";
 		this.renderView(view,true);
 		//this.redirect("igrp", "login", "login");
 	}

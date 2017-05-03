@@ -76,7 +76,7 @@ public class EnvController extends Controller {
 			Application app = (Application) obj;
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", "webapps?r=igrp/page/defaultPage");
+			xml_menu.setElement("link", "webapps?r=igrp/page/defaultPage&amp;title="+app.getName());
 			xml_menu.setElement("img", "app_casacidadao.png");
 			xml_menu.setElement("title", app.getName());
 			xml_menu.setElement("num_alert", ""+i);

@@ -32,7 +32,11 @@
       </body>
     </html>
   </xsl:template>
-<xsl:include href="tmpl/IGRP-variables.tmpl.xsl"/>
+  <xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
+  <xsl:include href="../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
+  <xsl:include href="../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
+  <xsl:include href="../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="../xsl/tmpl/IGRP-apps.tmpl.xsl?v=1463090556312"/>
 
  
 

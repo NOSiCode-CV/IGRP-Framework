@@ -241,6 +241,7 @@ public class PageController extends Controller {
 	
 	public void actionDefaultPage() throws IOException{
 		HomeAppView view = new HomeAppView();
+		view.title = Igrp.getInstance().getRequest().getParameter("title");
 		this.renderView(view,true);
 	}
 }
