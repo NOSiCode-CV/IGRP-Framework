@@ -21,7 +21,7 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganica model = new NovaOrganica();
 		NovaOrganicaView view = new NovaOrganicaView(model);
 		
-		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			
 			model.load();
 			
