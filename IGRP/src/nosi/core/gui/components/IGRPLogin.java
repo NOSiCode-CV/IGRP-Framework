@@ -21,6 +21,11 @@ public class IGRPLogin extends IGRPForm{
 		this.xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl", "");
 		this.xml.setElement("link_img", Config.getLinkImg());
 		this.xml.startElement("content");
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		if(m!=null){
+			this.xml.addXml(m);
+		}
 	}
 
 	public String toString(){
