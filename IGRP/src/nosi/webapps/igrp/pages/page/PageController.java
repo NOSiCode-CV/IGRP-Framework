@@ -3,9 +3,6 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.page;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.FlashMessage;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,13 +14,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
 import nosi.core.config.Config;
-import nosi.core.gui.components.IGRPMessage;
+import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.pages.home.HomeAppView;
-import nosi.webapps.igrp.pages.home.HomeView;
 
 public class PageController extends Controller {		
 
@@ -109,9 +105,9 @@ public class PageController extends Controller {
 		Action ac = new Action();
 		ac.setId(Integer.parseInt(id));
 		if(ac.delete())
-			Igrp.getInstance().getFlashMessage().addMessage("success","Página eliminado com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Não foi possivel eliminar a página");
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		this.redirect("igrp","lista-page","index");
 	}
 	
