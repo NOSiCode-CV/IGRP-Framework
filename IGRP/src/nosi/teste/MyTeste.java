@@ -6,7 +6,6 @@ import java.lang.reflect.*;
 import java.io.*;
 
 import nosi.core.webapp.RParam;
-import nosi.webapps.igrp.pages.defaultpagina.DefaultpaginaModel;;
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
@@ -16,11 +15,11 @@ public class MyTeste {
 	private float []array;
 	private MyTeste teste;
 	private boolean []xpto;
-	
+	/*
 	public void func(@RParam(rParamName = "param1") String name, DefaultpaginaModel model){
 		System.out.println(name);
 	}
-	
+	*/
 	public void  func2(int x){
 		System.out.println("Ok");
 	}
