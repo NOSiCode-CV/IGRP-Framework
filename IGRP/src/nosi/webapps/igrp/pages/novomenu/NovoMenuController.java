@@ -4,6 +4,7 @@
 
 package nosi.webapps.igrp.pages.novomenu;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -23,8 +24,9 @@ public class NovoMenuController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
 			model.load();
-			
-			
+			Igrp.getInstance().getFlashMessage().addMessage("info", "Ok");
+			this.redirect("igrp", "novo-menu", "index");
+			return; // Die ...
 		}
 		
 		Object []applications =  new Application().getAll();
@@ -37,18 +39,12 @@ public class NovoMenuController extends Controller {
 			view.aplicacao.addOption(obj.getName(), obj.getId());
 		}
 		
-		/*
-		view.pagina.addOption("-- Pagina --", ""); // Prompt
-		/*for(Object action : actions){ 
-			Action obj = (Action)action;
-			view.pagina.addOption(obj.getPage_descr(), obj.getId());
-		}
-		*/
-		/*view.menu_principal.addOption("-- Menu base --", ""); // Prompt
+	
+		view.menu_principal.addOption("-- Menu base --", ""); // Prompt
 		for(Object menu : menus){ 
 			Menu obj = (Menu)menu;
 			view.menu_principal.addOption(obj.getDescr(), obj.getId());
-		}*/
+		}
 		
 		view.target.addOption("-- Target --", ""); // prompt
 		view.target.addOption("Mesma Página", "_self");

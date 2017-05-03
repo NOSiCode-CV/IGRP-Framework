@@ -12,19 +12,25 @@ public abstract class Controller {
 	
 	private View view;
 	
+	private boolean isRedirect; // To specify when to redirect or render the content ... (Detected by the bug with flash message)
+	
 	public Controller(){
 		this.view = null;
+		this.isRedirect = false; // Default value ...
 	}
 	
 	// Not is allow to do Override of this method ...
 	protected final void renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout
-		this.view = view;
-		view.setContext(this); // associa controller ao view
-		this.view.render();
-		String result = this.view.getPage().renderContent(!isRenderPartial);
-		Igrp app = Igrp.getInstance();
-		app.getResponse().setContentType("text/xml;charset=UTF-8");
-		app.getResponse().getWriter().append(result);
+		if(!this.isRedirect){
+			this.view = view;
+			view.setContext(this); // associa controller ao view
+			this.view.render();
+			String result = this.view.getPage().renderContent(!isRenderPartial);
+			Igrp app = Igrp.getInstance();
+			app.getResponse().setContentType("text/xml;charset=UTF-8");
+			app.getResponse().getWriter().append(result);
+		}
+		
 	}
 	
 	// Not is allow to do Override of this method ...
@@ -34,7 +40,7 @@ public abstract class Controller {
 	
 	// Not is allow to do Override of this method ...
 	private final void redirect(String url){
-		//System.out.println(url);
+		this.isRedirect = true;
 		try {
 			Igrp.getInstance().getResponse().sendRedirect("webapps" + url);
 		} catch (IOException e) {
