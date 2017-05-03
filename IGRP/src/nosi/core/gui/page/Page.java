@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
