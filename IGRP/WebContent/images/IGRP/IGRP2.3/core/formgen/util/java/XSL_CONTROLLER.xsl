@@ -16,7 +16,7 @@
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
-	 		<!-- <xsl:call-template name="createActions"></xsl:call-template>-->
+	 		 <xsl:call-template name="createActions"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="'}'"/>
     </xsl:template>
@@ -74,7 +74,7 @@
 		<xsl:param name="title_"/>
 		
 		<xsl:choose>
-			<xsl:when test="$target_='submit'">
+			<xsl:when test="$target_='submit' or $target_='_self'">
 				<xsl:call-template name="gen-action">
 					<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
 					<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
