@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/c_cidadao/testepaginacc/TestePaginaCC.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>TestePaginaCC</page>
+    <app>c_cidadao</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.c_cidadao.pages</package_db>
+        <package_html>TestePaginaCC</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title></title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="mesma_pagina">
+                <title>Mesma Pagina</title>
+                <app>c_cidadao</app>
+                <page>TestePaginaCC</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/c_cidadao/testepaginacc/TestePaginaCC.xsl</parameter>
+                <params>default||fa-angle-right|www</params>
+            </item>
+        </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <number_1 name="p_number_1" type="number" maxlength="30">
+                    <label>Number</label>
+                    <value>161</value>
+                </number_1>
+                <date_1 name="p_date_1" type="date" format="IGRP_datePicker" maxlength="30">
+                    <label>Date</label>
+                    <value/>
+                </date_1>
+                <email_1 name="p_email_1" type="email" maxlength="30">
+                    <label>Email</label>
+                    <value>wobetroc@example.com</value>
+                </email_1>
+                <view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+            </fields>
+        </view_1>
+    </content>
+</rows>

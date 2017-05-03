@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 
@@ -41,7 +42,19 @@ public class EnvController extends Controller {
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
 			app.setTemplates(model.getTemplates());
-			if(app.insert()){
+			String pageController = "package nosi.webapps."+app.getDad().toLowerCase()+".pages.defaultpage;\n"
+					 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
+					 + "import java.io.IOException;\n"
+					 + "import nosi.core.webapp.Igrp;\n"
+					 + "import nosi.core.webapp.Controller;\n"
+					 + "public class DefaultPageController extends Controller {	\n"
+							+ "public void actionIndex() throws IOException{\n"
+								+ "HomeAppView view = new HomeAppView();\n"
+								+ "view.title = Igrp.getInstance().getRequest().getParameter(\"title\");\n"
+								+ "this.renderView(view,true);\n"
+							+ "}\n"
+					  + "}";
+			if(app.insert() && FileHelper.createDiretory(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages") && FileHelper.save(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java",pageController)){
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Operação efetuada com sucesso!");
 				this.redirect("igrp", "lista-env","index");
 				return;
@@ -68,14 +81,16 @@ public class EnvController extends Controller {
 		int i=1;
 		for(Object obj:new Application().getAll()){
 			Application app = (Application) obj;
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", "webapps?r=igrp/page/defaultPage&amp;title="+app.getName());
-			xml_menu.setElement("img", "app_casacidadao.png");
-			xml_menu.setElement("title", app.getName());
-			xml_menu.setElement("num_alert", ""+i);
-			xml_menu.endElement();
-			i++;
+			if(!app.getDad().toLowerCase().equals("igrp")){
+				xml_menu.startElement("application");
+				xml_menu.writeAttribute("available", "yes");
+				xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
+				xml_menu.setElement("img", "app_casacidadao.png");
+				xml_menu.setElement("title", app.getName());
+				xml_menu.setElement("num_alert", ""+i);
+				xml_menu.endElement();
+				i++;
+			}
 		}
 		xml_menu.endElement();
 		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
