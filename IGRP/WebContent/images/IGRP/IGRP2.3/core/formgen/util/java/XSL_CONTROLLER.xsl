@@ -122,13 +122,13 @@
 	    		</xsl:with-param>
 	    	</xsl:call-template>
 		</xsl:variable>			
-		<xsl:variable name="page__">
+		<!--  <xsl:variable name="page__">
 			<xsl:call-template name="lowerCase">
 	    		<xsl:with-param name="text">
 	    			<xsl:value-of select="$page_"></xsl:value-of>
 	    		</xsl:with-param>
 	    	</xsl:call-template>
-		</xsl:variable>
+		</xsl:variable>-->
 		<xsl:variable name="link__">
 			<xsl:call-template name="lowerCase">
 	    		<xsl:with-param name="text">
@@ -154,7 +154,7 @@
 				</xsl:when>
 				<xsl:when test="$type_render_='redirect'">
 					<xsl:value-of select="$tab"/>
-					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page__,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
 				</xsl:when>
 			</xsl:choose>
 		</xsl:if>

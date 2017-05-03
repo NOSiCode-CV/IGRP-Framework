@@ -22,7 +22,9 @@ public class ListaEnvView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
-	public IGRPButton btn_button_1;
+	public IGRPButton btn_editar;
+	public IGRPButton btn_eliminar;
+	
 	public ListaEnvView(ListaEnv model){			
 		table_1 = new IGRPTable("table_1");
 		form_1 = new IGRPForm("form_1");
@@ -42,11 +44,15 @@ public class ListaEnvView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_novo = new IGRPButton("Novo","igrp","env","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
+		
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		btn_button_1 = new IGRPButton("Editar","igrp","env","editar","submit","default|fa-pencil","","");
-		btn_button_1.propertie.add("type","specific").add("code","").add("class","default").add("rel","button_1");
 		
+		btn_editar = new IGRPButton("Editar","igrp","lista-env","editar","submit","default|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
+		
+		btn_eliminar = new IGRPButton("Eliminar","igrp","lista-env","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 	}
 		
 	@Override
@@ -63,7 +69,9 @@ public class ListaEnvView extends View {
 
 		toolsbar_1.addButton(btn_novo);
 		form_1.addButton(btn_pesquisar);
-		table_1.addButton(btn_button_1);
+		table_1.addButton(btn_editar);
+		table_1.addButton(btn_eliminar);
+		
 		this.addToPage(table_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

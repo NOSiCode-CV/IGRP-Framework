@@ -162,9 +162,9 @@ public class GenXMLField {
 				HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
 				for(Entry<?, ?> obj : values.entrySet()){
 					xml.startElement("option");
-					if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("selected", "true");
-					}else if((field instanceof CheckBoxField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					}else if((field instanceof CheckBoxField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", obj.getValue().toString());
