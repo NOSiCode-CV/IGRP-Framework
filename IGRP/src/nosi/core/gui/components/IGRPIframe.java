@@ -12,7 +12,7 @@ public class IGRPIframe extends IGRPForm {
 	
 	@Override
 	public void addField(Field field){
-		field.setValue("<![CDATA["+field.getValue()+"]]");
+		field.setValue("<![CDATA["+field.getValue()+"]]>");
 		this.fields.add(field);
 	}
 }

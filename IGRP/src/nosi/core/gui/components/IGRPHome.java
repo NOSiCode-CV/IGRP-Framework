@@ -22,6 +22,11 @@ public class IGRPHome {
 		 Config.type_header = "home";
 		 this.xml.addXml(Config.getHeader());
 		 this.xml.startElement("content");
+		 IGRPMessage msg = new IGRPMessage();
+		 String m = msg.toString();
+		 if(m!=null){
+			this.xml.addXml(m);
+		 }			
 		 this.xml.setElement("title", Config.TITLE);
 		 if(this.type_home.equals("home-app")){
 			 IGRPForm form_1 = new IGRPForm("form_1");
