@@ -35,7 +35,6 @@ public class IGRPMessage {
 		
 		// Error
 		for(String msg : flashMessage.getMessages(FlashMessage.ERROR)){
-			System.out.println("Exceutado");
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "error");
 			this.result.text(msg);
