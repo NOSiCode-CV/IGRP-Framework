@@ -41,18 +41,18 @@ public class Page {
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			/*Action ac = new Action();
+			Action ac = new Action();
 			Application env = new Application();
 			env.setDad(app);
 			ac.setAction(action);
 			ac.setPage(resolvePageName(page));
 			ac.setEnv(env);
-			path_xsl = ac.getXslPath();*/
+			path_xsl = ac.getXslPath();
 			
 		}
-		XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/pesquisar-menu/PesquisarMenu.xsl", "utf-8");
+		//XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl", "utf-8");
 		
-	//	XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
+		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
 
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");
