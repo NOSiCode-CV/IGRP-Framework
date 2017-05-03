@@ -3,20 +3,17 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.env;
-import nosi.core.config.Config;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
-import nosi.core.xml.XMLWritter;
-import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Menu;
-
 import java.io.IOException;
 /*import nosi.webapps.red.teste.Teste;
 import nosi.webapps.red.teste.Teste;
 */
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map.Entry;
+
+import nosi.core.config.Config;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Application;
 
 public class EnvController extends Controller {		
 
@@ -45,10 +42,11 @@ public class EnvController extends Controller {
 			app.setStatus(model.getStatus());
 			app.setTemplates(model.getTemplates());
 			if(app.insert()){
-				System.out.println("saved");
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Operação efetuada com sucesso!");
 				this.redirect("igrp", "lista-env","index");
+				return;
 			}else{
-				System.err.println("failed");
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao efetuar esta operação!");
 			}
 		}
 		this.redirect("igrp", "env", "index");
@@ -68,7 +66,7 @@ public class EnvController extends Controller {
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
-		xml_menu.setElement("title", "Milhas Aplicações");
+		xml_menu.setElement("title", "Minhas Aplicações");
 		xml_menu.setElement("subtitle", "Outras Aplicações");
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;

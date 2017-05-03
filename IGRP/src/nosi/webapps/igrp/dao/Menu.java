@@ -380,7 +380,9 @@ public class Menu implements RowDataGateway {
 					+ " WHERE M1.SELF_ID=M2.ID"
 					+ " AND E.ID = M1.ENV_FK"
 					+ " AND E.ID = M2.ENV_FK"
-					+ " AND A.ID = M1.ACTION_FK");
+					+ " AND A.ID = M1.ACTION_FK"
+					+ " AND E.DAD = ?");
+			st.setString(1, Igrp.getInstance().getCurrentAppName());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();
