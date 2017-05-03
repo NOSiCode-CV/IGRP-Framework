@@ -7,8 +7,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.Organization;
 
 import java.io.IOException;
 
@@ -40,7 +38,6 @@ public class NovaOrganicaController extends Controller {
 		}
 		
 		Object []applications =  new Application().getAll();
-		Object []profiles = new ProfileType().getAll();
 		Object []organizations = new Organization().getAll();
 		/*
 		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
@@ -57,4 +54,14 @@ public class NovaOrganicaController extends Controller {
 		*/
 		this.renderView(view);
 	}
+
+	public void actionGravar() throws IOException{
+		
+	}
+	
+	public void actionVoltar() throws IOException{
+		
+		this.redirect("RED","Teste","Action");
+	}
+	
 }

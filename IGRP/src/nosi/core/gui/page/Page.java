@@ -52,7 +52,12 @@ public class Page {
 			path_xsl = ac.getXslPath();
 			
 		}
+<<<<<<< HEAD
+		//XMLWritter xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl", "utf-8");
+		
+=======
     
+>>>>>>> branch 'master' of https://github.com/IMarcelF/IGRP-Framework.git
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
 
 		xml.addXml(Config.getHeader());
@@ -99,4 +104,3 @@ public class Page {
 		return page_name;
 	}
 }
-
