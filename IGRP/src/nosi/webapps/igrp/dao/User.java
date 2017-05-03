@@ -36,6 +36,9 @@ public class User implements Identity, RowDataGateway{
 	private int created_at;
 	private int updated_at;
 	
+	// User current perfil id
+	private int currentPerfilId;
+	
 	private Connection conn;
 	
 	public User(){
@@ -430,6 +433,20 @@ public class User implements Identity, RowDataGateway{
 	 */
 	public void setUpdated_at(int updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	/**
+	 * @return the currentPerfilId
+	 */
+	public int getCurrentPerfilId() {
+		return currentPerfilId;
+	}
+
+	/**
+	 * @param currentPerfilId the currentPerfilId to set
+	 */
+	public void setCurrentPerfilId(int currentPerfilId) {
+		this.currentPerfilId = currentPerfilId;
 	}	
 	
 	
