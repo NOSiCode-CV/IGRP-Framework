@@ -12,6 +12,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.Igrp;
 
 public class IGRPLogin extends IGRPForm{
 

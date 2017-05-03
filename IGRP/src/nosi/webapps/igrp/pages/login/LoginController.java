@@ -33,9 +33,11 @@ public class LoginController extends Controller {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
+			//this.redirect("igrp", "login", "login");
 		}
 		
 		this.renderView(view,true);
+		System.out.println();
 	}
 
 	public void actionLogout() throws IOException{

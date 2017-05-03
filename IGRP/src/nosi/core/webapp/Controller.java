@@ -19,9 +19,8 @@ public abstract class Controller {
 		this.isRedirect = false; // Default value ...
 	}
 	
-	// Not is allow to do Override of this method ...
 	protected final void renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout
-		if(!this.isRedirect){
+		if(!this.isRedirect){ // (Bug to fixe) dont render content if redirect
 			this.view = view;
 			view.setContext(this); // associa controller ao view
 			this.view.render();
@@ -33,12 +32,10 @@ public abstract class Controller {
 		
 	}
 	
-	// Not is allow to do Override of this method ...
 	protected final void renderView(View view) throws IOException{ // Overload ...
 		this.renderView(view, false);
 	}
 	
-	// Not is allow to do Override of this method ...
 	private final void redirect(String url){
 		this.isRedirect = true;
 		try {
@@ -49,22 +46,18 @@ public abstract class Controller {
 		}
 	}
 	
-	// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action, String qs) throws IOException{
 		this.redirect(Route.toUrl(app, page, action, qs));
 	}
 	
-	// Not is allow to do Override of this method ...
 	protected final void redirect(String r, String qs) throws IOException{
 		this.redirect(Route.toUrl(r, qs));
 	}
 	
-	/// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action) throws IOException{
 		this.redirect(Route.toUrl(app, page, action));
 	}
 	
-	// Not is allow to do Override of this method ...
 	protected final void redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
 		this.redirect(Route.toUrl(app, page, action, paramNames, paramValues));
 	}
@@ -76,6 +69,5 @@ public abstract class Controller {
 	public View getView(){
 		return this.view;
 	}
-	
 	
 }

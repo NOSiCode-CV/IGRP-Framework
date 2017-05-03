@@ -24,6 +24,7 @@ public class IGRPMessage {
 		this.result = new XMLWritter();
 		FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
 		this.result.startElement("messages");
+		
 		// Success
 		for(String msg : flashMessage.getMessages(FlashMessage.SUCCESS)){
 			this.result.startElement("message");
@@ -34,6 +35,7 @@ public class IGRPMessage {
 		
 		// Error
 		for(String msg : flashMessage.getMessages(FlashMessage.ERROR)){
+			System.out.println("Exceutado");
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "error");
 			this.result.text(msg);
