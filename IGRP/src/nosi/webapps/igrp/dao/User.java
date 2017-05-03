@@ -33,8 +33,11 @@ public class User implements Identity, RowDataGateway{
 	private String phone;
 	private String password_reset_token;
 	private String auth_key;
-	private int created_at;
-	private int updated_at;
+	private long created_at;
+	private long updated_at;
+	
+	// User current perfil id
+	private int currentPerfilId;
 	
 	private Connection conn;
 	
@@ -70,8 +73,8 @@ public class User implements Identity, RowDataGateway{
 			this.phone = rs.getString("phone");
 			this.password_reset_token = rs.getString("password_reset_token");
 			this.auth_key = rs.getString("auth_key");
-			this.created_at = rs.getInt("created_at");
-			this.updated_at = rs.getInt("updated_at");
+			this.created_at = rs.getLong("created_at");
+			this.updated_at = rs.getLong("updated_at");
 		}
 		ps.close();
 		
@@ -111,8 +114,8 @@ public class User implements Identity, RowDataGateway{
 				this.phone = rs.getString("phone");
 				this.password_reset_token = rs.getString("password_reset_token");
 				this.auth_key = rs.getString("auth_key");
-				this.created_at = rs.getInt("created_at");
-				this.updated_at = rs.getInt("updated_at");
+				this.created_at = rs.getLong("created_at");
+				this.updated_at = rs.getLong("updated_at");
 				result = true;
 			}
 			ps.close();
@@ -142,8 +145,8 @@ public class User implements Identity, RowDataGateway{
 			ps.setString(3, this.email);
 			ps.setString(4, this.pass_hash);
 			ps.setInt(5, this.status);
-			ps.setInt(6, this.created_at);
-			ps.setInt(7, this.updated_at);
+			ps.setLong(6, this.created_at);
+			ps.setLong(7, this.updated_at);
 			ps.setString(8, this.auth_key);
 			result = ps.executeUpdate();
 			ps.close();
@@ -407,29 +410,43 @@ public class User implements Identity, RowDataGateway{
 	/**
 	 * @return the created_at
 	 */
-	public int getCreated_at() {
+	public long getCreated_at() {
 		return created_at;
 	}
 
 	/**
 	 * @param created_at the created_at to set
 	 */
-	public void setCreated_at(int created_at) {
+	public void setCreated_at(long created_at) {
 		this.created_at = created_at;
 	}
 
 	/**
 	 * @return the updated_at
 	 */
-	public int getUpdated_at() {
+	public long getUpdated_at() {
 		return updated_at;
 	}
 
 	/**
 	 * @param updated_at the updated_at to set
 	 */
-	public void setUpdated_at(int updated_at) {
+	public void setUpdated_at(long updated_at) {
 		this.updated_at = updated_at;
+	}
+
+	/**
+	 * @return the currentPerfilId
+	 */
+	public int getCurrentPerfilId() {
+		return currentPerfilId;
+	}
+
+	/**
+	 * @param currentPerfilId the currentPerfilId to set
+	 */
+	public void setCurrentPerfilId(int currentPerfilId) {
+		this.currentPerfilId = currentPerfilId;
 	}	
 	
 	

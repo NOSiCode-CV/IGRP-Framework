@@ -3,6 +3,7 @@
 /*Create View*/
 
 package nosi.webapps.igrp.pages.login;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
@@ -20,7 +21,7 @@ public class LoginView extends View {
 	public Field p_env_dml;
 	public IGRPLogin form_1;
 
-	public LoginView(Login model){			
+	public LoginView(Login model){
 		form_1 = new IGRPLogin("form_1");
 		user = new TextField(model,"user");
 		user.setLabel("Utilizador");
@@ -52,7 +53,7 @@ public class LoginView extends View {
 		
 	@Override
 	public void render(){
-
+		//System.out.println(Igrp.getInstance().getFlashMessage().getMessages("error").size());
 		form_1.addField(user);
 		form_1.addField(password);
 		form_1.addField(button);
@@ -64,8 +65,6 @@ public class LoginView extends View {
 		form_1.addField(p_env_dml);
 
 		this.addToPage(form_1);
-		
-		//this.addToPage(new IGRPMessage());
 	}
 }
 /*-------------------------*/

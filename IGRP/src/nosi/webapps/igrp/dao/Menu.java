@@ -204,33 +204,38 @@ public class Menu implements RowDataGateway {
 
 	@Override
 	public boolean insert() {
+		boolean result = false;
+		String sql = "INSERT INTO glb_t_menu("
+				+ "descr, link,  env_fk, img_src, area, orderby, status, code, flg_base, target,self_id,action_fk) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		if(this.getAction_fk()==0 && this.getSelf_id()==0){
+			sql = "INSERT INTO glb_t_menu("
+					+ "descr, link, env_fk, img_src, area, orderby, status, code, flg_base, target) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		}
 		try{
-			/*descr = "descricao teste";
-			action_fk = 5;
-			env_fk = 1;
-			self_id = 3;*/
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_menu("
-					+ "descr, link, self_id, env_fk, img_src, area, action_fk, orderby, status, code, flg_base, target) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, this.descr);
 			st.setString(2, this.link);
-			st.setInt(3, this.self_id);
-			st.setInt(4, this.env_fk);
-			st.setString(5, this.img_src);
-			st.setString(6, this.area);
-			st.setInt(7, this.action_fk);
-			st.setInt(8, this.orderby);
-			st.setInt(9, this.status);
-			st.setString(10, this.code);
-			st.setInt(11, this.flg_base);
-			st.setString(12, this.target);
-			
+			st.setInt(3, this.env_fk);
+			st.setString(4, this.img_src);
+			st.setString(5, this.area);
+			st.setInt(6, this.orderby);
+			st.setInt(7, this.status);
+			st.setString(8, this.code);
+			st.setInt(9, this.flg_base);
+			st.setString(10, this.target);
+			if(this.getAction_fk()!=0 && this.getSelf_id()!=0){
+				st.setInt(11, this.self_id);
+				st.setInt(12, this.action_fk);
+			}
 			st.executeUpdate();
 			st.close();
+			result = true;
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return false;
+		return result;
 	}
 
 	@Override
@@ -238,7 +243,7 @@ public class Menu implements RowDataGateway {
 		Menu obj = new Menu();
 		try{
 			//id = 19;
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_menu where id = " + this.id);
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_menu where id = " + this.id);
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()){
@@ -349,7 +354,7 @@ public class Menu implements RowDataGateway {
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();
-				obj.setSelf_id(rs.getInt("id"));
+				obj.setId(rs.getInt("id"));
 				obj.setDescr(rs.getString("descr"));
 				obj.setLink(rs.getString("link"));
 				obj.setSelf_id(rs.getInt("self_id"));
@@ -381,6 +386,7 @@ public class Menu implements RowDataGateway {
 					+ " AND E.ID = M1.ENV_FK"
 					+ " AND E.ID = M2.ENV_FK"
 					+ " AND A.ID = M1.ACTION_FK");
+		//	st.setString(1, Igrp.getInstance().getCurrentAppName());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();

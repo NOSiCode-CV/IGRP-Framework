@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPMessage;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -75,7 +74,9 @@ public class Page {
 			this.createTemplate();
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
-		return this.convertContentToXml();
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		return this.convertContentToXml().replace(":_message_reseved", m);
 	}
 	
 	public static String getPageName(String page){

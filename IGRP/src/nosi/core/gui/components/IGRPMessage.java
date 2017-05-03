@@ -24,6 +24,7 @@ public class IGRPMessage {
 		this.result = new XMLWritter();
 		FlashMessage flashMessage = Igrp.getInstance().getFlashMessage();
 		this.result.startElement("messages");
+		
 		// Success
 		for(String msg : flashMessage.getMessages(FlashMessage.SUCCESS)){
 			this.result.startElement("message");

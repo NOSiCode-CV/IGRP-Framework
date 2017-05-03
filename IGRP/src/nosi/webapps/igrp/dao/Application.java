@@ -182,7 +182,7 @@ public class Application implements RowDataGateway {
 		Application obj = new Application();
 		try{
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_env where (id = "+ this.id+") or (dad='"+this.dad+"')");
+		ResultSet result = st.executeQuery("SELECT * FROM glb_t_env where (id = "+ this.id+") or (dad='"+this.dad+"')");
 
 		while(result.next()){
 			
@@ -213,7 +213,7 @@ public class Application implements RowDataGateway {
 		
 		try{
 			Statement st = con.createStatement();
-	        st.executeUpdate("UPDATE public.glb_t_env SET "
+	        st.executeUpdate("UPDATE glb_t_env SET "
 	        		+ "name= '" + this.name
 	        		+ "',dad= '" + this.dad
 	        		+ "',img_src= '" + this.img_src
@@ -240,7 +240,7 @@ public class Application implements RowDataGateway {
 	public boolean delete() {
 		try{
 			Statement st = con.createStatement();
-	        st.executeUpdate("DELETE FROM public.glb_t_env where id = " + this.id);
+	        st.executeUpdate("DELETE FROM glb_t_env where id = " + this.id);
 	        st.close();
 			con.close();
 			return true;
@@ -263,7 +263,7 @@ public class Application implements RowDataGateway {
 					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
 				}
 			}
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_env "+ conditions+ " order by id");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_env "+ conditions+ " order by id");
 			int i=1;
 			for(Method method:methods){
 				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
@@ -333,7 +333,7 @@ public class Application implements RowDataGateway {
 		}
 		return lista;
 	}
-	// Pega o objeto que o metodo retorna e transforma em string 
+	
 	@Override
 	public String toString() {
 		return "Application [dad=" + dad + ", name=" + name + ", id=" + id + ", img_src=" + img_src + ", description="

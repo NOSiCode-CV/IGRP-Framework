@@ -22,6 +22,7 @@ public class IGRPHome {
 		 Config.type_header = "home";
 		 this.xml.addXml(Config.getHeader());
 		 this.xml.startElement("content");
+		 this.xml.text(":_message_reseved");		
 		 this.xml.setElement("title", Config.TITLE);
 		 if(this.type_home.equals("home-app")){
 			 IGRPForm form_1 = new IGRPForm("form_1");

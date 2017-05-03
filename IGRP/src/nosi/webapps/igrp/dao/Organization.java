@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
@@ -236,20 +237,15 @@ public class Organization implements RowDataGateway {
 			}
 		return lista.toArray();
 	}
-	public static void main(String [] args){
-		
-		//new Organization().getOne();
-		//new Organization().insert();
-		/*for(Object i: new Organization().getAll()){
-			Organization obj = (Organization) i;
-			System.out.println(obj.getCode());
-		}*/
-		System.out.println(new Organization().getOne());
-		
-		//new Organization().delete();	
-		//new Organization().update();
-		
-		//new IgrpDb().closeConnection("conexao");//para fechar a base de dados
+	
+	public HashMap<String,String> getListApps(){
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Orgânica ---");
+		for(Object obj:new Organization().getAll()){
+			Organization org = (Organization) obj;
+			lista.put(org.getId()+"", org.getName());
+		}
+		return lista;
 	}
 
 }

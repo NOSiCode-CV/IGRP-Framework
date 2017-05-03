@@ -200,19 +200,49 @@ public class Profile implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
-	public static void main(String[] args) {
-		for(Object i: new Profile().getAll()){
-			Profile obj = (Profile) i;
-			System.out.println(obj.getUser_fk());
+	
+	public Object getByUser(int userId) {
+		boolean flag = false;
+		try{
+			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ?");
+			st.setInt(1, userId);
+			ResultSet res = st.executeQuery();
+			while(res.next()){
+				this.setProf_type_fk(res.getInt("prof_type_fk"));
+				this.setUser_fk(res.getInt("user_fk"));
+				this.setType(res.getString("type"));
+				this.setType_fk(res.getInt("type_fk"));
+				this.setOrg_fk(res.getInt("org_fk"));
+				flag = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
-		
-		//System.out.println(new Profile().getOne());
-		
-		//new Profile().delete();
-		//new Profile().insert();
-		//new Profile().update();
+		return flag ? this : null;
 	}
-
+	
+	public Object getByUserAndPerfil(int userId, int profileId) {
+		boolean flag = false;
+		try{
+			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ? and TYPE_FK = ?");
+			st.setInt(1, userId);
+			st.setInt(2, profileId);
+			ResultSet res = st.executeQuery();
+			while(res.next()){
+				this.setProf_type_fk(res.getInt("prof_type_fk"));
+				this.setUser_fk(res.getInt("user_fk"));
+				this.setType(res.getString("type"));
+				this.setType_fk(res.getInt("type_fk"));
+				this.setOrg_fk(res.getInt("org_fk"));
+				flag = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return flag ? this : null;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Profile [prof_type_fk=" + prof_type_fk + ", user_fk=" + user_fk + ", type=" + type + ", type_fk="

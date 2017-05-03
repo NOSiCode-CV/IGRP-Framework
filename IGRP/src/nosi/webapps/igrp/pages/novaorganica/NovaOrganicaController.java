@@ -4,6 +4,7 @@
 
 package nosi.webapps.igrp.pages.novaorganica;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -11,6 +12,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Organization;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 
 public class NovaOrganicaController extends Controller {		
@@ -23,8 +25,6 @@ public class NovaOrganicaController extends Controller {
 			
 			model.load();
 			
-			System.out.println(model.getOrganica_pai());
-			
 			Organization organization = new Organization();
 			organization.setCode(model.getCodigo());
 			organization.setEnv_fk(model.getAplicacao());
@@ -33,28 +33,19 @@ public class NovaOrganicaController extends Controller {
 			organization.setName(model.getNome());
 			
 			if(organization.insert())
-				System.out.println("Success");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica registada com sucesso");
 			else
-				System.out.println("Failure");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro.");
 			
 		}
 		
-		Object []applications =  new Application().getAll();
-		Object []profiles = new ProfileType().getAll();
-		Object []organizations = new Organization().getAll();
-		/*
-		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
-		for(Object application : applications){ 
-			Application obj = (Application)application;
-			view.aplicacao.addOption(obj.getName(), obj.getId());
-		}
-			
-		view.organica_pai.addOption("-- Orgânica --", ""); // Prompt
-		for(Object organization : organizations){
-			Organization obj = (Organization)organization;
-			view.organica_pai.addOption(obj.getName(), obj.getId());
-		}
-		*/
+		HashMap<Integer,String> applications =  new Application().getListApps();
+		HashMap<String,String> organizations =  new Organization().getListApps();
+		
+		view.aplicacao.setValue(applications);
+		
+		view.organica_pai.setValue(organizations);
+		
 		this.renderView(view);
 	}
 }
