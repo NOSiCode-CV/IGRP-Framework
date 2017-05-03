@@ -86,10 +86,10 @@ public class Config {
 		return getConfig().get("path_xsl")!=null? getConfig().get("path_xsl").toString():"";
 	}
 	public static String getLinkImg(){
-		return getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"";
+		return getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"/IGRP/images/IGRP/IGRP2.3";
 	}
 	public static String getLink(){
-		return getConfig().get("link")!=null? getConfig().get("link").toString():"";
+		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
 	}
 	public static String getVersion(){
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"";

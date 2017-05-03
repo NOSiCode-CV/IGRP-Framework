@@ -74,7 +74,9 @@ public class Page {
 			this.createTemplate();
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
-		return this.convertContentToXml();
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		return this.convertContentToXml().replace(":_message_reseved", m);
 	}
 	
 	public static String getPageName(String page){
