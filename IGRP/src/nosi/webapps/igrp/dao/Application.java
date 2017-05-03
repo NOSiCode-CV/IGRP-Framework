@@ -333,7 +333,7 @@ public class Application implements RowDataGateway {
 		}
 		return lista;
 	}
-	// Pega o objeto que o metodo retorna e transforma em string 
+	
 	@Override
 	public String toString() {
 		return "Application [dad=" + dad + ", name=" + name + ", id=" + id + ", img_src=" + img_src + ", description="

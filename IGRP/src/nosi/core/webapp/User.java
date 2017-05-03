@@ -49,7 +49,7 @@ public class User{
 	}
 	
 	public boolean logout(){ // Reset all login session/cookies information
-		//Igrp.getInstance().getRequest().getSession().invalidate();
+		Igrp.getInstance().getRequest().getSession().invalidate();
 		return true;
 	}
 	

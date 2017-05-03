@@ -16,10 +16,12 @@ public class LoginController extends Controller {
 
 	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Login model = new Login();
+		
+		model.load();
+		
 		LoginView view = new LoginView(model);
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			model.load();
 			User user = (User) new User().findIdentityByUsername(model.getUser());
 			if(user != null && user.validate(model.getPassword())){
 				if(user.getStatus() == 1){
@@ -41,7 +43,7 @@ public class LoginController extends Controller {
 	}
 
 	public void actionLogout() throws IOException{
-		//Igrp.getInstance().getUser().logout();
+		Igrp.getInstance().getUser().logout();
 		this.redirect("igrp", "login", "login");
 	}
 }
