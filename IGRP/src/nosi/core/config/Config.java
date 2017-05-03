@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
+import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 
 public class Config {
@@ -95,7 +96,7 @@ public class Config {
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"";
 	}
 	public static String getLinkSileMenu(){
-		return "webapps?r=igrp/pesquisar-menu/myMenu";
+		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Igrp.getInstance().getCurrentAppName();
 	}
 	public static String getLinkTopMenu(){
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";

@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.Part;
 
@@ -74,8 +77,18 @@ public class FileHelper {
 	}
 	
 	public static boolean createDiretory(String path){
+		Path dir = Paths.get(path);
+		try {
+			if(!Files.exists(dir)){
+				Files.createDirectories(dir);
+				return true;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+		/*
 		File dir = new File(path);
-		boolean result = false;
 		// if the directory does not exist, create it
 		if (!dir.exists()) {
 		    try{
@@ -85,6 +98,6 @@ public class FileHelper {
 		    catch(SecurityException se){
 		    }  
 		}
-		return result;
+		return result;*/
 	}
 }
