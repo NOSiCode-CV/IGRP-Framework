@@ -3,12 +3,11 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.listaenv;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 
 
@@ -41,4 +40,22 @@ public class ListaEnvController extends Controller {
 		this.renderView(view);
 	}
 	
+	
+	public void actionEditar() throws IOException{
+		/*Env model = new Env();
+		EnvView view = new EnvView(model);
+		this.renderView(view);*/
+		this.redirect("igrp", "env", "index");
+	}
+	
+	public void actionEliminar() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		Application app = new Application();
+		app.setId(Integer.parseInt(id));
+		if(app.delete())
+			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+		else
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+		this.redirect("igrp","lista-env","index");
+	}
 }

@@ -52,10 +52,6 @@ public class EnvController extends Controller {
 		this.redirect("igrp", "env", "index");
 	}
 	
-	public void actionEditar(){
-		
-	}
-	
 	public void actionVoltar() throws IOException{
 		this.redirect("igrp", "lista-env","index");
 	}
