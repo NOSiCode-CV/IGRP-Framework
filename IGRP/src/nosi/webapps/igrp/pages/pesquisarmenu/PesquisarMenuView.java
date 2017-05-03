@@ -33,7 +33,7 @@ public class PesquisarMenuView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao Menu");
+		sectionheader_1_text.setValue("Gestão Menu");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicacao");
