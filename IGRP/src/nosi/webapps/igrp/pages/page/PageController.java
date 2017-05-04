@@ -143,7 +143,12 @@ public class PageController extends Controller {
 				}
 			}
 		}
-		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operação falhada</message></messages>");
+		/*String relativeWebPath = "src/nosi/webapps/";
+		
+		String absoluteDiskPath = Igrp.getInstance().getServlet().getServletContext().getRealPath(relativeWebPath);
+		
+		System.out.println(absoluteDiskPath);*/
+		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operacao falhada</message></messages>");
 	}
 	
 	public void actionPublishGenPage() throws IOException{
@@ -162,7 +167,8 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"description\":\""+ac.getPage_descr() +"\",";
+				String descr = (ac.getPage_descr()!=null)?ac.getPage_descr():ac.getPage();
+				json += "\"description\":\""+descr+"\",";
 				json += "\"link\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
