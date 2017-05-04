@@ -33,11 +33,27 @@ public class Menu implements RowDataGateway {
 	private int flg_base;
 	private String target;
 	private Connection con;
+	private Action action;
+	private Organization organica;
 	
-	
-	
-	
-	
+	public Organization getOrganica() {
+		return organica;
+	}
+
+	public void setOrganica(Organization organica) {
+		this.organica = organica;
+	}
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
@@ -406,6 +422,47 @@ public class Menu implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
+	
+	
+	
+	
+	public Object[] getAllPisquisarMenu() {
+		ArrayList<Menu> lista = new ArrayList<Menu>();
+		try {
+			PreparedStatement st = con.prepareStatement(
+					  " SELECT "
+					  + "M1.descr super_title, "
+					  + "M2.descr sub_title, "
+					  + "M1.id, "
+					  + "M2.status, "
+					  + "M1.id super_id, "
+					  + "A.Page page"
+					+ " FROM glb_t_menu M1, glb_t_menu M2, glb_t_action A "
+					+ " WHERE M2.SELF_ID = M1.ID "
+					+ " AND A.ID = M2.ACTION_FK");
+			ResultSet rs = st.executeQuery();
+			while(rs.next()){
+				Menu obj = new Menu();
+				Action objAct = new Action();
+				
+				obj.setSelf_id(rs.getInt("id"));
+				obj.setDescr(rs.getString("sub_title"));
+				obj.setCode(rs.getString("super_title"));
+				obj.setId(rs.getInt("super_id"));
+				obj.setStatus(rs.getInt("status"));
+				objAct.setPage(rs.getString("page"));
+				obj.setAction(objAct);
+				lista.add(obj);
+			}
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+	
+	
+	
 	
 	public HashMap<Integer,String> getListPrincipalMenus(){
 		HashMap<Integer,String> lista = new HashMap<>();

@@ -69,8 +69,7 @@ public class IgrpDb implements Component{
 					this.driverName = "oracle.jdbc.driver.OracleDriver";
 					this.connectionName = "jdbc:oracle:thin:@" + this.hostName + ":" + (this.hostPort == 0 ? "8080" : this.hostPort) + ":" + this.dbName;
 					
-				break;
-				
+				break;				
 				case "sqlite": // Bugs ... Perhaps !
 					this.driverName = "org.sqlite.JDBC";
 					this.connectionName = "jdbc:sqlite:" + this.dbName;
@@ -80,8 +79,7 @@ public class IgrpDb implements Component{
 					this.driverName = "org.postgresql.Driver";
 					this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
 				break;
-				
-				default: // Default connection (use H2)
+								default: // Default connection (use H2)
 					this.driverName = "org.h2.Drive";
 					this.connectionName = "jdbc:h2:~/" + this.dbName;
 				
@@ -91,8 +89,7 @@ public class IgrpDb implements Component{
 					Class.forName(this.driverName);
 					this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
 					this.dbmsName = dbmsName;
-					System.out.println("Connection is ok ... (" + this.driverName + ")");
-				}catch (ClassNotFoundException e) {
+					System.out.println("Connection is ok ... (" + this.driverName + ")");				}catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 				catch(SQLException e){
@@ -122,10 +119,16 @@ public class IgrpDb implements Component{
 	}
 
 	@Override
+
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
-		this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
+		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "nunes");// Connection to PostgreSQL (default)
+
+	public void init() { // Defaults connections ...
+		/* Please put all your connection here */
+		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
 		//this.newConnection("db1", "mysql", "db_dc", "root", "");
+
 	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
