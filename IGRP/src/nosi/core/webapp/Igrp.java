@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+
+import nosi.core.config.H2Migrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.ServerErrorHttpException;
@@ -73,12 +75,12 @@ public class Igrp {
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
-			/*
-			String path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/db/h2.sql");
-			File file = new File(path);
-			System.out.println(path);
-			System.out.println(file.exists());
-			*/
+			try {
+				H2Migrate.createIgrpSchema();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
