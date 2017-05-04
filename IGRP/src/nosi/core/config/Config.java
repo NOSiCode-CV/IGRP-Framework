@@ -81,10 +81,10 @@ public class Config {
 	}
 	
 	public static String getPathClass(){
-		return getConfig().get("path_class")!=null? getConfig().get("path_class").toString():"";
+		return "src/nosi/webapps/";// getConfig().get("path_class")!=null? getConfig().get("path_class").toString():"";
 	}
 	public static String getPathXsl(){
-		return getConfig().get("path_xsl")!=null? getConfig().get("path_xsl").toString():"";
+		return "src/nosi/webapps/";// getConfig().get("path_xsl")!=null? getConfig().get("path_xsl").toString():"";
 	}
 	public static String getLinkImg(){
 		return getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"/IGRP/images/IGRP/IGRP2.3";
