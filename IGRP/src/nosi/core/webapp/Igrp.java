@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+
+import nosi.core.config.H2Migrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.ServerErrorHttpException;
@@ -72,6 +74,13 @@ public class Igrp {
 			// init of others configuration
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
+			
+			try {
+				H2Migrate.createIgrpSchema();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
