@@ -45,12 +45,11 @@ public class EnvController extends Controller {
 			String pageController = "package nosi.webapps."+app.getDad().toLowerCase()+".pages.defaultpage;\n"
 					 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
 					 + "import java.io.IOException;\n"
-					 + "import nosi.core.webapp.Igrp;\n"
 					 + "import nosi.core.webapp.Controller;\n"
 					 + "public class DefaultPageController extends Controller {	\n"
 							+ "public void actionIndex() throws IOException{\n"
 								+ "HomeAppView view = new HomeAppView();\n"
-								+ "view.title = Igrp.getInstance().getRequest().getParameter(\"title\");\n"
+								+ "view.title = \""+app.getName()+"\";\n"
 								+ "this.renderView(view,true);\n"
 							+ "}\n"
 					  + "}";

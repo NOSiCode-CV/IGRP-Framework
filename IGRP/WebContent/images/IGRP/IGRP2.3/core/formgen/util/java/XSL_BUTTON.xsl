@@ -46,19 +46,21 @@
             </xsl:call-template>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-          	<xsl:call-template name="gen-item">
-				<xsl:with-param name="name_"><xsl:value-of select="concat('btn_',@rel)"/></xsl:with-param>
-				<xsl:with-param name="class_name_"><xsl:value-of select="$className"/></xsl:with-param>
-				<xsl:with-param name="type_"><xsl:value-of select="$type_"/></xsl:with-param>
-				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
-				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-				<xsl:with-param name="link_"><xsl:value-of select="@rel"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
-				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
-				<xsl:with-param name="img_"><xsl:value-of select="./img"/></xsl:with-param>
-				<xsl:with-param name="params_"><xsl:value-of select="./params"/></xsl:with-param>
-				<xsl:with-param name="parameter_"><xsl:value-of select="./parameter"/></xsl:with-param>
-            </xsl:call-template>
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
+	          	<xsl:call-template name="gen-item">
+					<xsl:with-param name="name_"><xsl:value-of select="concat('btn_',@rel)"/></xsl:with-param>
+					<xsl:with-param name="class_name_"><xsl:value-of select="$className"/></xsl:with-param>
+					<xsl:with-param name="type_"><xsl:value-of select="$type_"/></xsl:with-param>
+					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+					<xsl:with-param name="link_"><xsl:value-of select="@rel"/></xsl:with-param>
+					<xsl:with-param name="title_"><xsl:value-of select="./title"/></xsl:with-param>
+					<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+					<xsl:with-param name="img_"><xsl:value-of select="./img"/></xsl:with-param>
+					<xsl:with-param name="params_"><xsl:value-of select="./params"/></xsl:with-param>
+					<xsl:with-param name="parameter_"><xsl:value-of select="./parameter"/></xsl:with-param>
+	            </xsl:call-template>
+            </xsl:if>
            </xsl:for-each>
         </xsl:if>
 	</xsl:template>
@@ -153,14 +155,16 @@
 					<xsl:value-of select="$newline"/>
 				</xsl:for-each>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'table']/table"><!-- add button on table -->           		
+           <xsl:for-each select="/rows/content/*[@type = 'table']/table"><!-- add button on table --> 
 			 	<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
            		<xsl:for-each select="context-menu/item">
-					<xsl:value-of select="$tab2"/>
-	           		<xsl:value-of select="concat($form_,'.addButton(btn_',@rel,');')"/>
-					<xsl:value-of select="$newline"/>
+           		<xsl:if test="not(@rel=preceding::node()/@rel)">
+						<xsl:value-of select="$tab2"/>
+		           		<xsl:value-of select="concat($form_,'.addButton(btn_',@rel,');')"/>
+						<xsl:value-of select="$newline"/>
+				</xsl:if>
 				</xsl:for-each>
            </xsl:for-each>
           </xsl:if>
