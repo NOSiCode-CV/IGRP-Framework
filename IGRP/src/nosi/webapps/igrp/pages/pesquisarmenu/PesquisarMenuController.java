@@ -25,7 +25,7 @@ public class PesquisarMenuController extends Controller {
 		
 		Menu menu_db = new Menu();
 		
-		//condiccao para pesquisar com filtros
+		//condiccao para pesquisar com filtro
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			menu_db.setEnv_fk(model.getAplicacao());
