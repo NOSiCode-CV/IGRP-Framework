@@ -54,7 +54,7 @@ public class EnvController extends Controller {
 								+ "this.renderView(view,true);\n"
 							+ "}\n"
 					  + "}";
-			if(app.insert() && FileHelper.createDiretory(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages") && FileHelper.save(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java",pageController)){
+			if(app.insert() && FileHelper.createDiretory(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages") && FileHelper.save(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java",pageController) && FileHelper.compile(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java")){
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Operação efetuada com sucesso!");
 				this.redirect("igrp", "lista-env","index");
 				return;
