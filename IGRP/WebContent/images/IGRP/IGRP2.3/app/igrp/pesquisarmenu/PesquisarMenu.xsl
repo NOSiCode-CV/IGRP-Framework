@@ -115,7 +115,7 @@
                                                     <div class="box box-table-contents gen-container-item " gen-class="" item-name="table_1">
                                                         <div class="box-body table-box">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/table_1/fields"/>
-                                                            <table id="table_1" class="table table-striped gen-data-table " exports="">
+                                                            <table id="table_1" class="table table-striped gen-data-table IGRP_contextmenu" exports="">
                                                                 <thead>
                                                                     <tr>
                                                                         <xsl:if test="rows/content/table_1/fields/descricao">
@@ -157,6 +157,8 @@
                                                                     <xsl:for-each select="rows/content/table_1/table/value/row">
                                                                         <tr>
                                                                             <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                            <input type="hidden" name="p_id_fk" value="{id}"/>
+                                                                            <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
                                                                             <xsl:if test="descricao">
                                                                                 <td align="left" data-row="{position()}" data-title="{../../fields/descricao/label}" class="plaintext">
                                                                                     <span class="">
@@ -201,6 +203,7 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
+                                                        <xsl:apply-templates select="rows/content/table_1/table/context-menu" mode="table-context-menu"/>
                                                     </div>
                                                 </xsl:if>
                                             </div>
@@ -214,16 +217,19 @@
                 </form>
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <!-- TABLE JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js"/>
+                <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js"/>
                 <!-- SELECT JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1493317033802"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1493317033802"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1493317033802"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1493317033802"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1493317033803"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1493317033803"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1493989020990"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1493989020990"/>
 </xsl:stylesheet>

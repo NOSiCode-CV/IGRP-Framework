@@ -226,10 +226,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1493918656729"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1493918656729"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1493918656729"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1493918656729"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1493918656730"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1493918656730"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1493989020989"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1493989020990"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1493989020990"/>
 </xsl:stylesheet>
