@@ -82,7 +82,7 @@ public class IgrpDb implements Component{
 				break;
 				
 				default: // Default connection (use H2)
-					this.driverName = "org.h2.Drive";
+					this.driverName = "org.h2.Driver";
 					this.connectionName = "jdbc:h2:~/" + this.dbName;
 				
 			}
@@ -124,8 +124,8 @@ public class IgrpDb implements Component{
 	@Override
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
-		this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
-		//this.newConnection("db1", "mysql", "db_dc", "root", "");
+		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
+		this.newConnection("db1", "h2", "test", "sa", "");
 	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
