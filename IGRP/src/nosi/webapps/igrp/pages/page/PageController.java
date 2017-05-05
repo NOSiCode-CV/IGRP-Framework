@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -134,7 +132,10 @@ public class PageController extends Controller {
 						FileHelper.save(path_class,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]) && // save controller
 						FileHelper.save(path_xsl,ac.getPage()+".xml", fileXml) && // save xml
 						FileHelper.save(path_xsl,ac.getPage()+".xsl", fileXsl) && // save xsl
-						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) // save json
+						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) && // save json
+						FileHelper.compile(path_class,ac.getPage()+".java") && //Compile model
+						FileHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
+						FileHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
 					ac.setId(Integer.parseInt(p_id));
 					ac.setXsl_src("images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
@@ -162,7 +163,7 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"description\":\""+ac.getPage_descr() +"\",";
+				json += "\"description\":\""+(ac.getPage_descr()!=null?ac.getPage_descr():ac.getPage()) +"\",";
 				json += "\"link\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}

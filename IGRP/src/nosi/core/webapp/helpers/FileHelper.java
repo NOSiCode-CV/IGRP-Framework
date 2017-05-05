@@ -17,8 +17,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.servlet.http.Part;
+import nosi.core.config.Config;
 
 public class FileHelper {
 
@@ -87,17 +87,13 @@ public class FileHelper {
 			e.printStackTrace();
 		}
 		return false;
-		/*
-		File dir = new File(path);
-		// if the directory does not exist, create it
-		if (!dir.exists()) {
-		    try{
-		        dir.mkdir();
-		        result = true;
-		    } 
-		    catch(SecurityException se){
-		    }  
-		}
-		return result;*/
 	}
+	
+	//Compile files and save
+	public static boolean compile(String pathDestination,String className){
+		className = pathDestination+"/"+className;
+		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getPathClass(),"-d",Config.getPathClass(),className}) == 0;
+	}
+	 
+
 }
