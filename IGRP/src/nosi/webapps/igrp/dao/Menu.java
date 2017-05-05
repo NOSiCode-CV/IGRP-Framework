@@ -426,6 +426,7 @@ public class Menu implements RowDataGateway {
 				+ " FROM glb_t_menu M1, glb_t_menu M2, glb_t_action A, glb_t_profile prof"	
 				    + " WHERE M2.SELF_ID = M1.ID AND A.ID = M2.ACTION_FK AND prof.type_fk = M2.id AND prof.type = 'MEN' ";
 		try {
+			
 			//Falta alguns codigos para o filtro completo(Falta somente a organica)
 			sql = sql + (this.env_fk != 0 ? "and (M1.env_fk = " + this.env_fk + " AND M2.env_fk = " + this.env_fk + ") " : "");
 			sql = sql + (this.id != 0 ? "and M1.id = " + this.id + " " : "");

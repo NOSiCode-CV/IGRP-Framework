@@ -36,6 +36,7 @@ public class PesquisarMenuController extends Controller {
 		}
 		
 		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
+		
 		//Preenchendo a tabela
 		for(Object ob:menu_db.getAllPisquisarMenu()){
 			Menu menu_db1 = (Menu)ob;
