@@ -75,12 +75,12 @@ public class Igrp {
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
-			try {
+			/*try {
 				H2Migrate.createIgrpSchema();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
@@ -114,8 +114,12 @@ public class Igrp {
 					throw new NotFoundHttpException("Aplicação inválida.");
 				if(!this.validatePageName())
 					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
-			}else
-				throw new ServerErrorHttpException("The route format is invalid.");
+			}else{
+				this.currentAppName = "igrp";
+				this.currentPageName = "login";
+				this.currentActionName = "login";
+				//throw new ServerErrorHttpException("The route format is invalid.");
+			}
 		
 	}
 	

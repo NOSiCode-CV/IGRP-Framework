@@ -20,7 +20,7 @@ public class H2Migrate {
 
 	public static void createIgrpSchema() throws IOException{
 		/*
-		 * Load H2 Igrp DB Schema  (Begin)
+		 * Load H2 Igrp DB Schema  (Begin).
 		 * */
 		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/h2.sql");
 		File file = new File(path);
