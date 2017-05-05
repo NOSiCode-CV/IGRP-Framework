@@ -80,7 +80,7 @@ public class IgrpDb implements Component{
 					this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
 				break;
 								default: // Default connection (use H2)
-					this.driverName = "org.h2.Drive";
+					this.driverName = "org.h2.Driver";
 					this.connectionName = "jdbc:h2:~/" + this.dbName;
 				
 			}
