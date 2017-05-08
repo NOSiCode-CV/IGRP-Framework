@@ -63,7 +63,7 @@
 	  `FLG_TRANSACTION` smallint(6) DEFAULT '0',
 	  `SELF_ID` int(11) DEFAULT NULL,
 	  `SELF_FW_ID` int(11) DEFAULT NULL,
-	  `VERSION` varchar(3) DEFAULT '2_2',
+	  `VERSION` varchar(3) DEFAULT '2.3',
 	  `DB_CONNECTION` varchar(100) DEFAULT NULL,
 	  `FLG_OFFLINE` smallint(6) DEFAULT '0',
 	  `FLG_INTERNET` smallint(6) DEFAULT '0',
@@ -210,7 +210,7 @@
 		(1, 'transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl');
 		
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
-	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 10, 2017, 2017);
+	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
 
 	INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
 	VALUES (1, 'ADMS', 'Administrador', NULL, 1, 1, 1, NULL);
@@ -220,3 +220,20 @@
 
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1), (1, 1, 'MEN', 2, 1), (1, 1, 'MEN', 3, 1), (1, 1, 'MEN_PROF', 2, 1), (1, 1, 'PROF', 1, 1);
+	
+	INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
+	(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
+	(2, 'Detalhes de Aplicação', 2, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(5, 'Parâmetros Gerais', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
+	(6, 'Gestão de Organica', 6, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),	
+	(10, 'Gestão de Transação', 15, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self')
+	;
+	
+	
+	
+	

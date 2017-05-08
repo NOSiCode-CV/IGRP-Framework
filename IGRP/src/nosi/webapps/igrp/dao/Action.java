@@ -32,7 +32,7 @@ public class Action implements RowDataGateway{
 	private int flg_transaction;
 	private int self_id;
 	private int self_fw_id;
-	private int version;
+	private String version;
 	private String table_name; 
 	private int flg_offline;
 	private int flg_internet;
@@ -233,13 +233,13 @@ public class Action implements RowDataGateway{
 
 
 
-	public int getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
 
 
-	public void setVersion(int version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 
@@ -314,7 +314,7 @@ public class Action implements RowDataGateway{
 					+ "page_type, page_descr, action_descr, flg_menu, "
 					+ "flg_transaction, self_id, self_fw_id, version, "
 					+ "db_connection, flg_offline, "
-					+ "flg_internet, status, proc_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					+ "flg_internet, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
 			st.setInt(1, this.env_fk);
 			st.setString(2, this.page);
@@ -329,12 +329,11 @@ public class Action implements RowDataGateway{
 			st.setInt(11, this.flg_transaction);
 			st.setInt(12, this.self_id);
 			st.setInt(13, this.self_fw_id);
-			st.setInt(14, this.version);
+			st.setString(14, this.version);
 			st.setString(15, this.db_connection);
 			st.setInt(16, this.flg_offline);
 			st.setInt(17, this.flg_internet);
 			st.setInt(18, this.status);
-			st.setString(19, this.proc_name);
 			
 			st.executeUpdate();
 			st.close();
@@ -369,12 +368,11 @@ public class Action implements RowDataGateway{
 				obj.setFlg_transaction(rs.getInt("flg_transaction"));
 				obj.setSelf_id(rs.getInt("self_id"));
 				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
-				obj.setVersion(rs.getInt("version"));
+				obj.setVersion(rs.getString("version"));
 				obj.setDb_connection(rs.getString("db_connection"));
 				obj.setFlg_offline(rs.getInt("flg_offline"));
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
-				obj.setProc_name(rs.getString("proc_name"));
 				obj.setId(rs.getInt("id"));
 			}
 			st.close();
@@ -408,12 +406,11 @@ public class Action implements RowDataGateway{
 				obj.setFlg_transaction(rs.getInt("flg_transaction"));
 				obj.setSelf_id(rs.getInt("self_id"));
 				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
-				obj.setVersion(rs.getInt("version"));
+				obj.setVersion(rs.getString("version"));
 				obj.setDb_connection(rs.getString("db_connection"));
 				obj.setFlg_offline(rs.getInt("flg_offline"));
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
-				obj.setProc_name(rs.getString("proc_name"));
 				obj.env.setDad(rs.getString("dad"));
 			}
 			st.close();
@@ -468,7 +465,7 @@ public class Action implements RowDataGateway{
 					+ "flg_offline=?, "
 					+ "flg_internet=?, "
 					+ "status=?, "
-					+ "proc_name=? WHERE id = " + this.id);
+					+ "WHERE id = " + this.id);
 			System.out.println("Env:"+this.id);
 			st.setInt(1, this.env_fk);
 			st.setString(2, this.page);
@@ -483,12 +480,11 @@ public class Action implements RowDataGateway{
 			st.setInt(11, this.flg_transaction);
 			st.setInt(12, this.self_id);
 			st.setInt(13, this.self_fw_id);
-			st.setInt(14, this.version);
+			st.setString(14, this.version);
 			st.setString(15, this.db_connection);
 			st.setInt(16, this.flg_offline);
 			st.setInt(17, this.flg_internet);
 			st.setInt(18, this.status);
-			st.setString(19, this.proc_name);
 			st.executeUpdate();
 			st.close();
 			result = true;
@@ -561,12 +557,11 @@ public class Action implements RowDataGateway{
 				obj.setFlg_transaction(rs.getInt("flg_transaction"));
 				obj.setSelf_id(rs.getInt("self_id"));
 				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
-				obj.setVersion(rs.getInt("version"));
+				obj.setVersion(rs.getString("version"));
 				obj.setDb_connection(rs.getString("db_connection"));
 				obj.setFlg_offline(rs.getInt("flg_offline"));
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
-				obj.setProc_name(rs.getString("proc_name"));
 				lista.add(obj);
 			}
 		}catch(SQLException e){
@@ -607,12 +602,11 @@ public class Action implements RowDataGateway{
 				obj.setFlg_transaction(rs.getInt("flg_transaction"));
 				obj.setSelf_id(rs.getInt("self_id"));
 				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
-				obj.setVersion(rs.getInt("version"));
+				obj.setVersion(rs.getString("version"));
 				obj.setDb_connection(rs.getString("db_connection"));
 				obj.setFlg_offline(rs.getInt("flg_offline"));
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
-				obj.setProc_name(rs.getString("proc_name"));
 				obj.env.setDad(rs.getString("dad"));
 				lista.add(obj);
 			}
@@ -637,8 +631,8 @@ public class Action implements RowDataGateway{
 	
 	@Override
 	public String toString() {
-		return "Action [id=" + id + ", env_fk=" + env_fk + ", page=" + page + ", action=" + action + ", proc_name="
-				+ proc_name + ", xsl_src=" + xsl_src + ", img_src=" + img_src + ", page_type=" + page_type
+		return "Action [id=" + id + ", env_fk=" + env_fk + ", page=" + page + ", action=" + action + ", "
+				+", xsl_src=" + xsl_src + ", img_src=" + img_src + ", page_type=" + page_type
 				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", db_connection=" + db_connection
 				+ ", flg_menu=" + flg_menu + ", flg_transaction=" + flg_transaction + ", self_id=" + self_id
 				+ ", self_fw_id=" + self_fw_id + ", version=" + version + ", table_name=" + table_name
