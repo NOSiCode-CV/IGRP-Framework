@@ -55,13 +55,15 @@
             </xsl:call-template>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-          	<xsl:call-template name="actions">
-				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
-				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
-				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
-            </xsl:call-template>
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
+	          	<xsl:call-template name="actions">
+					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+					<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+					<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+					<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+	            </xsl:call-template>
+            </xsl:if>
            </xsl:for-each>
         </xsl:if>
 	</xsl:template>

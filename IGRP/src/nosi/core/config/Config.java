@@ -80,20 +80,24 @@ public class Config {
 		return configs;
 	}
 	
+	public static String getPathLib(){
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/lib/");
+	}
+	
 	public static String getPathClass(){
-		return getConfig().get("path_class")!=null? getConfig().get("path_class").toString():"";
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 	public static String getPathXsl(){
-		return getConfig().get("path_xsl")!=null? getConfig().get("path_xsl").toString():"";
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	public static String getLinkImg(){
-		return getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"/IGRP/images/IGRP/IGRP2.3";
+		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"images/IGRP/IGRP2.3");
 	}
 	public static String getLink(){
 		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
 	}
 	public static String getVersion(){
-		return getConfig().get("version")!=null? getConfig().get("version").toString():"";
+		return getConfig().get("version")!=null? getConfig().get("version").toString():"1.0";
 	}
 	public static String getLinkSileMenu(){
 		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Igrp.getInstance().getCurrentAppName();
@@ -102,13 +106,17 @@ public class Config {
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
 	}
 	public static String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2011 - Copyright NOSI";
 	}
 	public static String getWelcomeNote(){
-		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"";
+		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
 	}
 	
 	public static String getPageVersion(){
 		return "2.3";
+	}
+	
+	public static String getRootPaht(){
+		return Igrp.getInstance().getBasePath()+"/";
 	}
 }

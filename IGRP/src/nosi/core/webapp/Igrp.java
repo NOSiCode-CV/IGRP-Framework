@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+
+import nosi.core.config.H2Migrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.ServerErrorHttpException;
@@ -73,10 +75,18 @@ public class Igrp {
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
+		/*	try {
+				H2Migrate.createIgrpSchema();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// User component (Identity)
 			this.user = new User();
+			this.user.init();
 			
 		return this;
 	}
@@ -105,8 +115,12 @@ public class Igrp {
 					throw new NotFoundHttpException("Aplicação inválida.");
 				if(!this.validatePageName())
 					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
-			}else
-				throw new ServerErrorHttpException("The route format is invalid.");
+			}else{
+				this.currentAppName = "igrp";
+				this.currentPageName = "login";
+				this.currentActionName = "login";
+				//throw new ServerErrorHttpException("The route format is invalid.");
+			}
 		
 	}
 	

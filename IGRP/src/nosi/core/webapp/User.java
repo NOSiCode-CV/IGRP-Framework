@@ -1,12 +1,14 @@
 package nosi.core.webapp;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
  */
-public class User{
+public class User implements Component{
 	
 	private Identity identity;
 	private int expire;
@@ -19,7 +21,7 @@ public class User{
 		this.expire = expire;
 		
 		// Create the session context
-		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId());
+		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "" /* convert it to string*/);
 		
 		// Create the cookie context (Begin)
 		/* For perfil information */
@@ -39,12 +41,13 @@ public class User{
 	}
 	
 	private boolean checkSessionContext(){
-		String aux = (String) Igrp.getInstance().getRequest().getAttribute("_identity");
+		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
 		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");
 		this.identity = (Identity) new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
-		if(this.identity == null){
-			System.out.println("Need to login ... Redirect to login page");
-		}
+		return this.identity != null;
+	}
+	
+	public boolean isAuthenticated(){
 		return this.identity != null;
 	}
 	
@@ -55,6 +58,27 @@ public class User{
 	
 	public Identity getIdentity(){
 		return this.identity;
+	}
+
+	@Override
+	public void init() {
+		boolean isLoginPage = false;
+		String aux = Igrp.getInstance().getRequest().getParameter("r");
+		if(aux != null) /* test the login page (TOO_MANY_REQUEST purpose)*/
+			isLoginPage = aux.contains("login"); // bug ... Perhaps
+		try{
+			if(!this.checkSessionContext() && !isLoginPage){
+				Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
+				System.out.println("Entrado");
+			}
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void destroy() {
+		// not set yet
 	}
 	
 }

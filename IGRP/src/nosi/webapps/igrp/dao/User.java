@@ -65,7 +65,7 @@ public class User implements Identity, RowDataGateway{
 			this.valid_until = rs.getString("valid_until");
 			this.status = rs.getInt("status");
 			this.remarks = rs.getString("remarks");
-			this.activation_key = rs.getInt("activation_key");
+			//this.activation_key = rs.getInt("activation_key");
 			this.user_name = rs.getString("user_name");
 			this.photo_id = rs.getString("photo_id");
 			this.signature_id = rs.getString("signature_id");

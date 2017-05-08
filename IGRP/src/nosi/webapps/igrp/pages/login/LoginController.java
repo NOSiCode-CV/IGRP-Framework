@@ -15,10 +15,14 @@ import java.io.IOException;
 public class LoginController extends Controller {		
 
 	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+		// first
+		if(Igrp.getInstance().getUser().isAuthenticated()){
+			this.redirect("igrp", "home", "index"); // go to home (Bug here)
+			return;
+		}
+		
 		Login model = new Login();
-		
 		model.load();
-		
 		LoginView view = new LoginView(model);
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
@@ -35,11 +39,9 @@ public class LoginController extends Controller {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
-			//this.redirect("igrp", "login", "login");
 		}
 		
 		this.renderView(view,true);
-		System.out.println();
 	}
 
 	public void actionLogout() throws IOException{
