@@ -75,7 +75,7 @@ public class Igrp {
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
-			/*try {
+		/*	try {
 				H2Migrate.createIgrpSchema();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -86,6 +86,7 @@ public class Igrp {
 			
 			// User component (Identity)
 			this.user = new User();
+			this.user.init();
 			
 		return this;
 	}
