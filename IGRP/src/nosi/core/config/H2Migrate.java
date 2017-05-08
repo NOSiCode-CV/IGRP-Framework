@@ -69,13 +69,19 @@ public class H2Migrate {
 		try {
 			s2 = conn.createStatement();
 			ResultSet rs1 = s2.executeQuery("select * from glb_t_user");
-			ResultSet rs2 = s2.executeQuery("select * from glb_t_profile");
+			/*ResultSet rs2 = s2.executeQuery("select * from glb_t_profile");
 			ResultSet rs3 = s2.executeQuery("select * from glb_t_profile_type");
 			ResultSet rs4 = s2.executeQuery("select * from glb_t_env");
 			ResultSet rs5 = s2.executeQuery("select * from glb_t_action");
-			ResultSet rs6 = s2.executeQuery("select * from glb_t_organization");
+			ResultSet rs6 = s2.executeQuery("select * from glb_t_organization");*/
 			
-			if(!rs1.next() && !rs2.next() && !rs3.next() && !rs4.next() && !rs5.next() && !rs6.next()){
+			if(!rs1.next()/* && 
+					!rs2.next() && 
+					!rs3.next() && 
+					!rs4.next() && 
+					!rs5.next() && 
+					!rs6.next()*/
+					){
 				r = s2.executeUpdate(dml);
 			}
 			conn.commit();
