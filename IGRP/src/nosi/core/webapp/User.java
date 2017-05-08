@@ -16,7 +16,7 @@ public class User implements Component{
 	public User(){
 	}
 	
-	public boolean login(Identity identity, int expire, int currentPerfilId){ // Make login and authenticate the user ... using session and cookies
+	public boolean login(Identity identity, int expire, int currentPerfilId, int currentOrgId){ // Make login and authenticate the user ... using session and cookies
 		this.identity = identity;
 		this.expire = expire;
 		
@@ -26,14 +26,29 @@ public class User implements Component{
 		// Create the cookie context (Begin)
 		/* For perfil information */
 		Cookie aux = null;
+		Cookie aux1 = null;
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_p"))
 				aux = c;
-		if(aux != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), currentPerfilId) != null)
+			else if(c.getName().equals("_org"))
+				aux1 = c;
+		
+		if(aux != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), currentPerfilId) != null){
 			((nosi.webapps.igrp.dao.User)this.identity).setCurrentPerfilId(Integer.parseInt(aux.getValue()));
+			System.out.println("_p: "+aux.getValue());
+		}
+		else if(aux1 != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), currentPerfilId) != null){
+			((nosi.webapps.igrp.dao.User)this.identity).setCurrentOrganization(Integer.parseInt(aux1.getValue()));
+			System.out.println("_org: "+aux1.getValue());
+		}
 		else{
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_p", ""+currentPerfilId));
 			((nosi.webapps.igrp.dao.User)this.identity).setCurrentPerfilId(currentPerfilId);
+			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+currentOrgId));
+			((nosi.webapps.igrp.dao.User)this.identity).setCurrentOrganization(currentOrgId);
+
+			System.out.println("_org: "+currentOrgId);
+			System.out.println("_p: "+currentPerfilId);
 		}
 		// (END)
 		
@@ -69,7 +84,6 @@ public class User implements Component{
 		try{
 			if(!this.checkSessionContext() && !isLoginPage){
 				Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
-				System.out.println("Entrado");
 			}
 		}catch(IOException e){
 			e.printStackTrace();

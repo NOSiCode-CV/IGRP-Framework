@@ -395,15 +395,23 @@ public class Menu implements RowDataGateway {
 	public Object[] getMyMenu() {
 		ArrayList<Menu> lista = new ArrayList<Menu>();
 		try {
-			PreparedStatement st = con.prepareStatement(
-					  " SELECT M1.descr sub_title,M1.target,M1.id,M1.status,M2.descr super_title,M2.id super_id,E.dad,A.Page "
-					+ " FROM glb_t_menu M1,glb_t_menu M2,glb_t_env E,glb_t_action A "
-					+ " WHERE M1.SELF_ID=M2.ID"
-					+ " AND E.ID = M1.ENV_FK"
-					+ " AND E.ID = M2.ENV_FK"
-					+ " AND A.ID = M1.ACTION_FK"
-					+ " AND E.DAD = ?");
+			PreparedStatement st = con.prepareStatement(" SELECT M1.descr sub_title,M1.target,M1.id,M1.status,M2.descr super_title,M2.id super_id,E.dad,A.Page "
+					+ " FROM glb_t_menu M1,glb_t_menu M2,glb_t_env E,glb_t_action A, glb_t_profile P "
+					+ " WHERE M1.SELF_ID=M2.ID "
+					+ " AND E.ID = M1.ENV_FK  "
+					+ " AND E.ID = M2.ENV_FK  "
+					+ " AND A.ID = M1.ACTION_FK "
+					+ " AND E.DAD = ? "
+					+ " AND P.type = 'MEN' "
+					+ " AND P.type_fk = M1.ID "
+					+ " AND P.prof_type_fk = ? "
+					+ " AND P.org_fk = ?");
+			
 			st.setString(1, Igrp.getInstance().getRequest().getParameter("dad"));
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(2,u.getCurrentPerfilId());
+			st.setInt(3,u.getCurrentOrganization());
+			
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();

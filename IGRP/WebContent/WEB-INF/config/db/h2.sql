@@ -188,7 +188,7 @@
 	-------------------------------------------------------------
 	
 	INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
-	VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+	VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, '', NULL, 1);
 	
 	INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`) 
 	VALUES
@@ -220,11 +220,20 @@
 	VALUES (1, 'Administrador', 'Admin', 1, NULL, 1, 1);
 
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
-	VALUES (1, 1, 'ENV', 1, 1), (1, 1, 'MEN', 2, 1), (1, 1, 'MEN', 3, 1), (1, 1, 'MEN_PROF', 2, 1), (1, 1, 'PROF', 1, 1);
+	VALUES (1, 1, 'ENV', 1, 1),
+		   (1, 1, 'PROF', 1, 1), 
+		   (1, 1, 'MEN', 2, 1), 
+		   (1, 1, 'MEN', 3, 1), 
+		   (1, 1, 'MEN', 4, 1), 
+		   (1, 1, 'MEN', 6, 1), 
+		   (1, 1, 'MEN', 7, 1), 
+		   (1, 1, 'MEN', 8, 1), 
+		   (1, 1, 'MEN', 9, 1), 
+		   (1, 1, 'MEN', 10, 1); 
 	
 	INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
 	(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(2, 'Detalhes de Aplicação', 2, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
+	(2, 'Detalhes de Aplicação', 3, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
 	(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
 	(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 1, '_self'),
 	(5, 'Parâmetros Gerais', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),

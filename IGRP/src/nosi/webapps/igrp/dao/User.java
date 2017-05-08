@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.Cookie;
+
 import nosi.core.dao.RowDataGateway;
 /**
  * @author Marcel Iekiny
@@ -40,6 +42,7 @@ public class User implements Identity, RowDataGateway{
 	
 	// User current perfil id
 	private int currentPerfilId;
+	private int currentOrganization;
 	
 	private Connection conn;
 	
@@ -502,7 +505,11 @@ public class User implements Identity, RowDataGateway{
 	 * @return the currentPerfilId
 	 */
 	public int getCurrentPerfilId() {
-		return currentPerfilId;
+		Cookie aux = null;
+		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+			if(c.getName().equals("_p"))
+				aux = c;		
+		return aux!=null?Integer.parseInt(aux.getValue()):0;
 	}
 
 	/**
@@ -510,6 +517,18 @@ public class User implements Identity, RowDataGateway{
 	 */
 	public void setCurrentPerfilId(int currentPerfilId) {
 		this.currentPerfilId = currentPerfilId;
+	}
+
+	public int getCurrentOrganization() {
+		Cookie aux = null;
+		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+			if(c.getName().equals("_org"))
+				aux = c;		
+		return aux!=null?Integer.parseInt(aux.getValue()):0;
+	}
+
+	public void setCurrentOrganization(int currentOrganization) {
+		this.currentOrganization = currentOrganization;
 	}
 
 	public ProfileType getProfile() {
