@@ -428,11 +428,11 @@ public class Action implements RowDataGateway{
 		String xsl_src = "";
 		try {
 			PreparedStatement st = con.prepareStatement("SELECT xsl_src FROM glb_t_action A, glb_t_env E"
-					+ " WHERE A.env_fk=E.id AND A.page = ? AND A.action=? AND E.dad=?");
+					+ " WHERE A.env_fk=E.id AND A.page = ? AND E.dad=?");
 		
 			st.setString(1, this.page);
-			st.setString(2, this.action);
-			st.setString(3, this.getEnv().getDad());
+			//st.setString(2, this.action);
+			st.setString(2, this.getEnv().getDad());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				xsl_src = rs.getString("xsl_src");
