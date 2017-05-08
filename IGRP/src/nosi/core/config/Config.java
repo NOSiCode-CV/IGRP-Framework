@@ -53,11 +53,6 @@ public class Config {
 		xml.writeAttribute("prm_page", "prm_page");
 		xml.writeAttribute("prm_action", "r");
 		xml.endElement();
-		/*
-		xml.startElement("top_menu");
-		xml.writeAttribute("file", getLinkTopMenu());
-		xml.endElement();
-		*/
 		xml.startElement("slide-menu");
 		xml.writeAttribute("file",getLinkSileMenu());
 		xml.endElement();
