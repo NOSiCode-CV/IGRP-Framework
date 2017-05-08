@@ -10,13 +10,13 @@ public class NovoUtilizador extends Model{
 	@RParam(rParamName = "p_email")
 	private String email;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	@RParam(rParamName = "p_organica")
-	private String organica;
+	private int organica;
 	@RParam(rParamName = "p_perfil")
-	private String perfil;
+	private int perfil;
 	@RParam(rParamName = "p_portal")
-	private String portal;
+	private int portal;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -32,31 +32,31 @@ public class NovoUtilizador extends Model{
 		return this.email;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
+	public void setOrganica(int organica){
 		this.organica = organica;
 	}
-	public String getOrganica(){
+	public int getOrganica(){
 		return this.organica;
 	}
 	
-	public void setPerfil(String perfil){
+	public void setPerfil(int perfil){
 		this.perfil = perfil;
 	}
-	public String getPerfil(){
+	public int getPerfil(){
 		return this.perfil;
 	}
 	
-	public void setPortal(String portal){
+	public void setPortal(int portal){
 		this.portal = portal;
 	}
-	public String getPortal(){
+	public int getPortal(){
 		return this.portal;
 	}
 

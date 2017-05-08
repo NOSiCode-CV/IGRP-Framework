@@ -53,7 +53,7 @@ public class Config implements RowDataGateway {
 		name = "Nome teste";
 		value = "valor teste";
 		try{
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_config (name, value) VALUES (?, ?)");
+			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_config (name, value) VALUES (?, ?)");
 			
 			st.setString(1, this.name);
 			st.setString(2, this.value);
@@ -72,7 +72,7 @@ public class Config implements RowDataGateway {
 		Config obj = new Config();
 		try{
 			//name = "Nome teste";
-			PreparedStatement st = con.prepareStatement("SELECT name, value FROM public.glb_t_config WHERE name = '" + this.name + "'");
+			PreparedStatement st = con.prepareStatement("SELECT name, value FROM glb_t_config WHERE name = '" + this.name + "'");
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()){
@@ -92,7 +92,7 @@ public class Config implements RowDataGateway {
 		try{
 			/*this.name = "Nome teste";
 			this.value = "valor update";*/
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_config SET name=?, value = ? "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_config SET name=?, value = ? "
 					+ "WHERE name = '" + this.name + "'");
 			st.setString(1, this.name);
 			st.setString(2, this.value);
@@ -108,7 +108,7 @@ public class Config implements RowDataGateway {
 	public boolean delete() {
 		try{
 			name = "Nome teste";
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_config WHERE name = '" + this.name + "'");
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_config WHERE name = '" + this.name + "'");
 			st.executeUpdate();
 			st.close();
 		}catch(SQLException e){
@@ -121,7 +121,7 @@ public class Config implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<Config> lista = new ArrayList<>();
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT name, value FROM public.glb_t_config");
+			PreparedStatement st = con.prepareStatement("SELECT name, value FROM glb_t_config");
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()){

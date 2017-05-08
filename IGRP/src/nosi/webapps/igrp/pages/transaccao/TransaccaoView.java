@@ -46,7 +46,7 @@ public class TransaccaoView extends View {
 		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","_blank","default|fa-search","default||fa-search|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","transacao","index","_blank","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","specific").add("code","").add("rel","pesquisar");
 		
 	}

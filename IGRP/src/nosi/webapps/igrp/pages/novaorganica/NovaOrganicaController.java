@@ -40,7 +40,7 @@ public class NovaOrganicaController extends Controller {
 		}
 		
 		HashMap<Integer,String> applications =  new Application().getListApps();
-		HashMap<String,String> organizations =  new Organization().getListApps();
+		HashMap<String,String> organizations =  new Organization().getListOrganizations();
 		
 		view.aplicacao.setValue(applications);
 		
