@@ -46,7 +46,7 @@ public class PesquisarPerfil extends Model{
 		private String codigo;
 		private String descricao;
 		private String organica;
-		private String estado;
+		private int estado;
 		public void setCodigo(String codigo){
 			this.codigo = codigo;
 		}
@@ -68,10 +68,10 @@ public class PesquisarPerfil extends Model{
 			return this.organica;
 		}
 
-		public void setEstado(String estado){
+		public void setEstado(int estado){
 			this.estado = estado;
 		}
-		public String getEstado(){
+		public int getEstado(){
 			return this.estado;
 		}
 

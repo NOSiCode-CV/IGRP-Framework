@@ -168,6 +168,9 @@
 	    		<xsl:when test="$type='number'">
 	    			<xsl:value-of select="'float'" />
 	    		</xsl:when>
+	    		<xsl:when test="$type='checkbox'">
+	    			<xsl:value-of select="'int'" />
+	    		</xsl:when>
 	    		<xsl:otherwise>
 	    			<xsl:value-of select="'String'" />
 	    		</xsl:otherwise>	
@@ -209,6 +212,28 @@
 	    			<xsl:value-of select="$tab_"/>
 	    			<xsl:value-of select="'}'"/>
 	    		</xsl:when>
+	    		<xsl:when test="$type='checkbox'">
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="concat('public void set',$name_,'(int ',$name,'){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2_"/>
+	    			<xsl:value-of select="concat('this.',$name,' = ',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="'}'"/>
+
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="concat('public int get',$name_,'(){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2_"/>
+	    			<xsl:value-of select="concat('return this.',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="'}'"/>
+	    		</xsl:when>
+	    		
 	    		<xsl:when test="$type='arraylist'">
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>

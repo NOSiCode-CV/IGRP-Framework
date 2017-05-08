@@ -51,9 +51,9 @@ public class PesquisarPerfilView extends View {
 		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","default|fa-plus-circle","default||fa-plus-circle|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_novo = new IGRPButton("Novo","igrp","novo-perfil","index","_self","default|fa-plus-circle","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","pesquisar-perfil","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
 	}

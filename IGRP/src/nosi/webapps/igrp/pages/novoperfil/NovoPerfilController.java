@@ -22,7 +22,7 @@ public class NovoPerfilController extends Controller {
 
 		NovoPerfilView view = new NovoPerfilView(model);
 			
-		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			
 			model.load();
 			
@@ -34,37 +34,19 @@ public class NovoPerfilController extends Controller {
 			pt.setSelf_fk(model.getPerfil());
 			pt.setStatus(model.getActivo());
 			pt.setEnv_fk(model.getAplicacao());
-			
-			if(pt.insert())
-				System.out.println("Ok");
-			else
-				System.out.println("Error");
-			
-			
-		}
 		
-		Object []applications =  new Application().getAll();
-		Object []profiles = new ProfileType().getAll();
-		Object []organizations = new Organization().getAll();
-		/*
-		view.aplicacao.addOption("-- Aplicação --", ""); // Prompt
-		for(Object application : applications){ 
-			Application obj = (Application)application;
-			view.aplicacao.addOption(obj.getName(), obj.getId());
+			if(pt.insert()){
+				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				this.redirect("igrp", "pesquisar-perfil", "index");
+				return;
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+			}
+			
 		}
-		
-		view.perfil.addOption("-- Perfil --", ""); // Prompt
-		for(Object profile : profiles){
-			ProfileType obj = (ProfileType)profile;
-			view.perfil.addOption(obj.getDescr(), obj.getId());
-		}
-		
-		view.organica.addOption("-- Orgânica --", ""); // Prompt
-		for(Object organization : organizations){
-			Organization obj = (Organization)organization;
-			view.organica.addOption(obj.getName(), obj.getId());
-		}
-		*/
+		view.aplicacao.setValue(new Application().getListApps());
+		view.perfil.setValue(new ProfileType().getListProfiles());
+		view.organica.setValue(new Organization().getListOrganizations());
 		this.renderView(view);
 	}
 

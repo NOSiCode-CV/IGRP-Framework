@@ -90,7 +90,7 @@ public class SettingsView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_aplicar = new IGRPButton("Aplicar","RED","Teste","Action","_self","default|fa-check","default||fa-check|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_aplicar = new IGRPButton("Aplicar","igrp","settings","index","_self","default|fa-check","","");
 		btn_aplicar.propertie.add("type","specific").add("code","").add("rel","aplicar");
 		
 	}

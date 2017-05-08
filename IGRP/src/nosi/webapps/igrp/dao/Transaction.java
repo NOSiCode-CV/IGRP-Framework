@@ -74,7 +74,7 @@ public class Transaction implements RowDataGateway {
 			descr = "descr 1 teste";
 			env_fk = 2;
 			status = 1;*/
-		PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_transaction"
+		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 				+ "(code, descr, env_fk, status) "
 				+ "VALUES (?, ?, ?, ?)");
 		st.setString(1, this.code);
@@ -96,7 +96,7 @@ public class Transaction implements RowDataGateway {
 			//id = 127;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("SELECT id, code, descr, env_fk, status "
-					+ "FROM public.glb_t_transaction "
+					+ "FROM glb_t_transaction "
 					+ "WHERE id = " + this.id);
 			
 			while(rs.next()){
@@ -120,7 +120,7 @@ public class Transaction implements RowDataGateway {
 			descr = "descr 1 teste";
 			env_fk = 2;
 			status = 1;*/
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_transaction SET "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
 					+ "code=?, "
 					+ "descr=?, "
 					+ "env_fk=?, "
@@ -143,7 +143,7 @@ public class Transaction implements RowDataGateway {
 	public boolean delete() {
 		id = 128;
 		try{
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_transaction WHERE id = ?");
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_transaction WHERE id = ?");
 			st.setInt(1, this.id);
 			st.executeUpdate();
 			st.close();
@@ -160,7 +160,7 @@ public class Transaction implements RowDataGateway {
 			//id = 127;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("SELECT id, code, descr, env_fk, status "
-					+ "FROM public.glb_t_transaction");
+					+ "FROM glb_t_transaction");
 			
 			while(rs.next()){
 				Transaction obj = new Transaction();
