@@ -36,7 +36,7 @@ public class Page extends Model{
 	@RParam(rParamName = "p_self_fw_id")
 	private int p_self_fw_id;
 	@RParam(rParamName = "p_version")
-	private int p_version;
+	private String p_version;
 	@RParam(rParamName = "p_db_connection")
 	private String p_db_connection;
 	@RParam(rParamName = "p_flg_offline")
@@ -153,10 +153,10 @@ public class Page extends Model{
 		return this.p_self_fw_id;
 	}
 	
-	public void setP_version(int p_version){
+	public void setP_version(String p_version){
 		this.p_version = p_version;
 	}
-	public int getP_version(){
+	public String getP_version(){
 		return this.p_version;
 	}
 	

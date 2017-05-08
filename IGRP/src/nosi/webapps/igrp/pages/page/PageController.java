@@ -81,7 +81,7 @@ public class PageController extends Controller {
 			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
 			//action.setVersion(model.getP_version());
-			action.setVersion(3);	
+			action.setVersion("2.3");	
 			boolean result = false;
 			if(model.getP_id()!=0){
 				result = action.update();
