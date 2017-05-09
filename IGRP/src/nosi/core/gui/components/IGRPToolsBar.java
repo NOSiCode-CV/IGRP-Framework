@@ -102,11 +102,14 @@ public class IGRPToolsBar {
 	}
 	
 	public void addButton(IGRPButton button){
-		button.propertie.put("type", "specific");
-		this.buttons.add(button);
+		if(this.buttons!=null){
+			button.propertie.put("type", "specific");
+			this.buttons.add(button);
+		}
 	}
 	
 	public void setButtons(ArrayList<IGRPButton> buttons){
-		this.buttons = buttons;
+		if(this.buttons!=null)
+			this.buttons = buttons;
 	}
 }

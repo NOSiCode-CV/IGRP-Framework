@@ -5,6 +5,7 @@ import java.io.IOException;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 
 public class GeneratorController extends Controller{
@@ -21,8 +22,9 @@ public class GeneratorController extends Controller{
 		model.setId(ac.getId());
 		model.setId_pai(ac.getEnv_fk());
 		model.setLink_image("images/IGRP/Config/img.list.php?name=");	
-		if(ac!=null && ac.getXsl_src()!=null && !ac.getXsl_src().equals("")){
-			model.setPage_form("images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".json");
+		String json = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".json";
+		if(ac!=null && FileHelper.fileExists(Config.getPathXsl()+"/"+json)){
+			model.setPage_form(json);
 		}
 		model.setPackage_("nosi.webapps."+ac.getEnv().getDad().toLowerCase()+".pages");
 		model.setPage(ac.getPage());

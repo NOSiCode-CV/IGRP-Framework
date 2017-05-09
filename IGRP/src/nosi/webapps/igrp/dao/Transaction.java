@@ -74,6 +74,7 @@ public class Transaction implements RowDataGateway {
 			descr = "descr 1 teste";
 			env_fk = 2;
 			status = 1;*/
+		con.setAutoCommit(true);
 		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 				+ "(code, descr, env_fk, status) "
 				+ "VALUES (?, ?, ?, ?)");
@@ -120,6 +121,7 @@ public class Transaction implements RowDataGateway {
 			descr = "descr 1 teste";
 			env_fk = 2;
 			status = 1;*/
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
 					+ "code=?, "
 					+ "descr=?, "
@@ -143,6 +145,7 @@ public class Transaction implements RowDataGateway {
 	public boolean delete() {
 		id = 128;
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_transaction WHERE id = ?");
 			st.setInt(1, this.id);
 			st.executeUpdate();

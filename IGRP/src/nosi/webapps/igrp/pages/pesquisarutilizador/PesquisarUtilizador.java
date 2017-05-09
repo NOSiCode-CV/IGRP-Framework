@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -74,6 +73,7 @@ public class PesquisarUtilizador extends Model{
 		private String nominho;
 		private String email;
 		private String perfil;
+		private int p_id;
 		public void setNome(String nome){
 			this.nome = nome;
 		}
@@ -102,6 +102,12 @@ public class PesquisarUtilizador extends Model{
 			return this.perfil;
 		}
 
+		public void setP_id(int p_id){
+			this.p_id = p_id;
+		}
+		public int getP_id(){
+			return this.p_id;
+		}
+
 	}
 }
-/*-------------------------*/

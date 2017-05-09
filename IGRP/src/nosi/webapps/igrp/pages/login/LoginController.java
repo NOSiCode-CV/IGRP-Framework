@@ -30,7 +30,7 @@ public class LoginController extends Controller {
 			if(user != null && user.validate(model.getPassword())){
 				if(user.getStatus() == 1){
 					Profile profile = (Profile) new Profile().getByUser(user.getId());
-						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk()))
+						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk(),profile.getOrg_fk()))
 							this.redirect("igrp", "home", "index");
 						else
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");

@@ -6,6 +6,7 @@ import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.User;
 
 public class Config {
 	
@@ -26,7 +27,7 @@ public class Config {
 		xml.startElement("site");
 			xml.setElement("welcome_note",getWelcomeNote());
 			xml.setElement("footer_note", getFooterName());
-			xml.setElement("user_name", "red-igrp");
+			xml.setElement("user_name", getUserName());
 			IGRPToolsBar button = new IGRPToolsBar("button");
 			button.addButton(new IGRPButton("Sair", "webapps?r=igrp", "login", "logout", "_self", "exit.png","",""));
 			xml.addXml(button.toXmlButton());
@@ -52,11 +53,6 @@ public class Config {
 		xml.writeAttribute("prm_page", "prm_page");
 		xml.writeAttribute("prm_action", "r");
 		xml.endElement();
-		/*
-		xml.startElement("top_menu");
-		xml.writeAttribute("file", getLinkTopMenu());
-		xml.endElement();
-		*/
 		xml.startElement("slide-menu");
 		xml.writeAttribute("file",getLinkSileMenu());
 		xml.endElement();
@@ -71,6 +67,11 @@ public class Config {
 		return xml.toString();
 	}
 	
+	private static String getUserName() {
+		User u = (User) Igrp.getInstance().getUser().getIdentity();
+		return (u!=null)?u.getName():"red-igrp";
+	}
+
 	public static Properties getConfig(){
 		Properties configs = new Properties();
 		for(Object c: new nosi.webapps.igrp.dao.Config().getAll()){
