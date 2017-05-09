@@ -103,7 +103,7 @@ public class Organization implements RowDataGateway {
 	public boolean insert() {
 		int result = 0;
 		try{
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_organization"
+			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_organization"
 					+ "(code, name, sigof_fk, env_fk, status, user_create_fk, self_fk)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
 			
@@ -147,7 +147,7 @@ public class Organization implements RowDataGateway {
 		try{
 			//id = 18;
 			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_organization where id= "+ this.id);
+			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id= "+ this.id);
 			
 			while(result.next()){
 				
@@ -178,7 +178,7 @@ public class Organization implements RowDataGateway {
 			env_fk = 1;
 			self_fk = 17;
 			Statement st = con.createStatement();
-	        st.executeUpdate("UPDATE public.glb_t_organization SET "
+	        st.executeUpdate("UPDATE glb_t_organization SET "
 	        		+ "name='" + this.name
 	        		+"',code= '" + this.code
 	        		+ "',sigof_fk= " + this.sigof_fk
@@ -200,7 +200,7 @@ public class Organization implements RowDataGateway {
 		try{
 			//id = 120;
 			Statement st = con.createStatement();
-	        st.executeUpdate("DELETE FROM public.glb_t_organization where id = " + this.id);
+	        st.executeUpdate("DELETE FROM glb_t_organization where id = " + this.id);
 	        st.close();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -214,7 +214,7 @@ public class Organization implements RowDataGateway {
 		
 		try{
 			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM public.glb_t_organization");
+			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization");
 			
 			while(result.next()){
 				
@@ -238,7 +238,7 @@ public class Organization implements RowDataGateway {
 		return lista.toArray();
 	}
 	
-	public HashMap<String,String> getListApps(){
+	public HashMap<String,String> getListOrganizations(){
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, "--- Selecionar Orgânica ---");
 		for(Object obj:new Organization().getAll()){

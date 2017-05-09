@@ -24,6 +24,7 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
+	public IGRPButton btn_convite;
 	public PesquisarUtilizadorView(PesquisarUtilizador model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -55,11 +56,13 @@ public class PesquisarUtilizadorView extends View {
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","default|fa-angle-right","default||fa-angle-right|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","default|fa-angle-right","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","submit","default|fa-angle-right","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","Action","submit","default|fa-angle-right","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		
+
+		btn_convite = new IGRPButton("Convidar Utilizador","igrp","novo-utilizador","index","_self","default|fa-angle-right","","");
+		btn_convite.propertie.add("type","specific").add("code","").add("rel","Convite");
 	}
 		
 	@Override
@@ -80,6 +83,7 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(perfil);
 
 		toolsbar_1.addButton(btn_novo);
+		toolsbar_1.addButton(btn_convite);
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);

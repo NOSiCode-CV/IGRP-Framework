@@ -75,7 +75,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;*/
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_profile"
+			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile"
 					+ "(prof_type_fk, user_fk, type, type_fk, org_fk) "
 					+ "VALUES (?, ?, ?, ?, ?)");
 			st.setInt(1, this.prof_type_fk);
@@ -103,7 +103,7 @@ public class Profile implements RowDataGateway {
 			prof_type_fk = 18;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT prof_type_fk, user_fk, type, type_fk, org_fk "
-					+ "FROM public.glb_t_profile where prof_type_fk = " + this.prof_type_fk + " and user_fk = " + 
+					+ "FROM glb_t_profile where prof_type_fk = " + this.prof_type_fk + " and user_fk = " + 
 					this.user_fk  + " and type_fk = " + this.type_fk + " and org_fk = " + this.org_fk);
 			while(res.next()){
 				obj.setProf_type_fk(res.getInt("prof_type_fk"));
@@ -126,7 +126,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_profile SET "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile SET "
 					+ "prof_type_fk=?, "
 					+ "user_fk=?, "
 					+ "type=?, "
@@ -158,7 +158,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;*/
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_profile where "
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
 					+ "prof_type_fk = ? "
 					+ "and user_fk =? "
 					+ "and type =? "
@@ -185,7 +185,7 @@ public class Profile implements RowDataGateway {
 			
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT prof_type_fk, user_fk, type, type_fk, org_fk "
-					+ "FROM public.glb_t_profile");
+					+ "FROM glb_t_profile");
 			while(res.next()){
 				Profile obj = new Profile();
 				obj.setProf_type_fk(res.getInt("prof_type_fk"));

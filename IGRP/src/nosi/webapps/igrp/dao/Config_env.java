@@ -132,7 +132,7 @@ public class Config_env implements RowDataGateway {
 			charset = "utf-8";
 			name = "name teste";
 			env_fk = 1;*/
-			PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_config_env("
+			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_config_env("
 					+ "port, type_db, host, name_db, username, password, charset, name, env_fk)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			
@@ -160,7 +160,7 @@ public class Config_env implements RowDataGateway {
 		Config_env obj = new Config_env();
 		try {
 			id = 144;
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_config_env WHERE id = " + this.id);
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_config_env WHERE id = " + this.id);
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				obj.setPort(rs.getInt("port"));
@@ -194,7 +194,7 @@ public class Config_env implements RowDataGateway {
 			charset = "utf-8";
 			name = "name teste update";
 			env_fk = 1;*/
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_config_env "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_config_env "
 					+ "SET port=?, type_db=?, host=?, name_db=?, username=?, "
 					+ "password=?, charset=?, name=?, env_fk = ? WHERE id = " + this.id);
 			
@@ -221,7 +221,7 @@ public class Config_env implements RowDataGateway {
 	public boolean delete() {
 		try{
 			id = 145;
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_config_env WHERE id = " + this.id);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_config_env WHERE id = " + this.id);
 			st.executeUpdate();
 			st.close();
 		}catch(SQLException e){
@@ -235,7 +235,7 @@ public class Config_env implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<Config_env> lista = new ArrayList<>();
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_config_env");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_config_env");
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Config_env obj = new Config_env();

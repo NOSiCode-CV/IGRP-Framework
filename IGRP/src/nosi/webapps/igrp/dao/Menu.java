@@ -288,7 +288,7 @@ public class Menu implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_menu SET "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_menu SET "
 					+ "descr=?, link=?, self_id=?, env_fk=?, img_src=?, area=?, "
 					+ "action_fk=?, orderby=?, status=?, code=?, flg_base=?, target = ? WHERE id = " + this.id);
 			
@@ -316,7 +316,7 @@ public class Menu implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try {
-			PreparedStatement st = con.prepareStatement("DELETE FROM public.glb_t_menu WHERE id = " + this.id);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_menu WHERE id = " + this.id);
 			st.executeUpdate();
 			st.close();
 		} catch (SQLException e) {
@@ -329,7 +329,7 @@ public class Menu implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<Menu> lista = new ArrayList<>();
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM public.glb_t_menu");
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_menu");
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();

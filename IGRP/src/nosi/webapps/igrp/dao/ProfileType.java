@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
@@ -20,6 +21,7 @@ public class ProfileType implements RowDataGateway {
 	private int self_fk;
 	private int org_fk;
 	private int status;
+	private Organization organica;
 	
 	private Connection con;
 	
@@ -77,11 +79,19 @@ public class ProfileType implements RowDataGateway {
 		this.status = status;
 	}
 
+	public Organization getOrganica() {
+		return organica;
+	}
+
+	public void setOrganica(Organization organica) {
+		this.organica = organica;
+	}
+
 	@Override
 	public boolean insert() {
 		int result = 0;
 		try{
-		PreparedStatement st = con.prepareStatement("INSERT INTO public.glb_t_profile_type"
+		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile_type"
 				+ "(descr, code, env_fk, self_fk, org_fk, status) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)");
 		st.setString(1, this.descr);
@@ -119,7 +129,7 @@ public class ProfileType implements RowDataGateway {
 			//id = 17;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT id, descr, code, env_fk, self_fk, org_fk, status "
-					+ "FROM public.glb_t_profile_type where id= " + this.id);
+					+ "FROM glb_t_profile_type where id= " + this.id);
 			while(res.next()){
 				obj.setDescr(res.getString("descr"));
 				obj.setCode(res.getString("code"));
@@ -144,7 +154,7 @@ public class ProfileType implements RowDataGateway {
 		org_fk = 17;
 		status = 1;*/
 		try {
-			PreparedStatement st = con.prepareStatement("UPDATE public.glb_t_profile_type SET "
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile_type SET "
 					+ "descr=?, code=?, env_fk=?, self_fk=?, org_fk=?, status = ? WHERE id = " + this.id);
 			
 			st.setString(1, this.descr);
@@ -167,7 +177,7 @@ public class ProfileType implements RowDataGateway {
 		try{
 			//id = 84;
 			Statement st = con.createStatement();
-			st.executeUpdate("DELETE FROM public.glb_t_profile_type WHERE id = " + this.id);
+			st.executeUpdate("DELETE FROM glb_t_profile_type WHERE id = " + this.id);
 			st.close();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -181,8 +191,8 @@ public class ProfileType implements RowDataGateway {
 		try{
 			//id = 17;
 			Statement st = con.createStatement();
-			ResultSet res = st.executeQuery("SELECT id, descr, code, env_fk, self_fk, org_fk, status "
-					+ "FROM public.glb_t_profile_type order by id");
+			ResultSet res = st.executeQuery("SELECT p.*,o.name as organiza "
+					+ "FROM glb_t_profile_type p, glb_t_organization o where o.id=p.org_fk order by id");
 			while(res.next()){
 				ProfileType obj = new ProfileType();
 				obj.setId(res.getInt("id"));
@@ -192,6 +202,9 @@ public class ProfileType implements RowDataGateway {
 				obj.setSelf_fk(res.getInt("self_fk"));
 				obj.setOrg_fk(res.getInt("org_fk"));
 				obj.setStatus(res.getInt("status"));
+				Organization org = new Organization();
+				org.setName(res.getString("organiza"));
+				obj.setOrganica(org);
 				lista.add(obj);
 			}
 		}catch(SQLException e){
@@ -199,6 +212,17 @@ public class ProfileType implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
+	
+	public HashMap<String,String> getListProfiles(){
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Perfil ---");
+		for(Object obj:new ProfileType().getAll()){
+			ProfileType p = (ProfileType) obj;
+			lista.put(p.getId()+"", p.getDescr());
+		}
+		return lista;
+	}
+	
 	public static void main(String[] args) {
 		//System.out.println(new Profile_type().getOne());
 		/*for(Object i: new Profile_type().getAll()){

@@ -19,7 +19,7 @@ public class RegistarUtilizadorController extends Controller {
 		RegistarUtilizador model = new RegistarUtilizador();
 		boolean isError = false;
 		
-		if(Igrp.getInstance().getRequest().getMethod() == "POST"){
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			
 			model.load();
 			
@@ -52,6 +52,7 @@ public class RegistarUtilizadorController extends Controller {
 		}
 		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
+		view.title = "";
 		this.renderView(view);
 	}
 
@@ -61,14 +62,6 @@ public class RegistarUtilizadorController extends Controller {
 	
 	public void actionVoltar() throws IOException{
 			this.redirect("red","teste","action");
-	}
-	
-	public static void main(String []args) throws NoSuchAlgorithmException{
-		MessageDigest m = MessageDigest.getInstance("MD5");
-		String str = "capeverde";
-		String result = new String(m.digest(str.getBytes()));
-		System.out.println(result);
-	}
-	
+	}	
 	
 }

@@ -24,8 +24,7 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenu model = new PesquisarMenu();
 		
 		Menu menu_db = new Menu();
-		
-		//condiccao para pesquisar com filtro
+
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			menu_db.setEnv_fk(model.getAplicacao());
@@ -53,13 +52,14 @@ public class PesquisarMenuController extends Controller {
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		HashMap<Integer,String> applications =  new Application().getListApps();
 		view.aplicacao.setValue(applications);
-		HashMap<String,String> organizations =  new Organization().getListApps();
+		HashMap<String,String> organizations =  new Organization().getListOrganizations();
 		view.organica.setValue(organizations);
 		HashMap<Integer, String> menu_principal = menu_db.getListPrincipalMenus();
 		view.menu_principal.setValue(menu_principal);
-		
+
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
-		view.p_id.setParam(true);		
+		view.p_id.setParam(true);
+		view.title = "";
 		view.table_1.addData(lista);
 		this.renderView(view);
 	}

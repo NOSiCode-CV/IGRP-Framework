@@ -16,7 +16,7 @@ public class TransaccaoController extends Controller {
 
 	public void actionPesquisar() throws IOException{
 	
-		this.redirect("RED","Teste","Action");
+		this.redirect("igrp","transacao","index");
 	}
 	
 }

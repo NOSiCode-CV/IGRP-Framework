@@ -23,6 +23,7 @@ public class RegistarUtilizadorView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_guardar;
 	public IGRPButton btn_voltar;
+	
 	public RegistarUtilizadorView(RegistarUtilizador model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -49,8 +50,9 @@ public class RegistarUtilizadorView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_guardar = new IGRPButton("Guardar","igrp","registar-utilizador","index","submit","default|fa-save","","");
 		btn_guardar.propertie.add("type","specific").add("code","").add("rel","guardar");
-		btn_voltar = new IGRPButton("Voltar","red","registarutilizador","voltar","_back","default|fa-angle-right","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","default|fa-angle-right","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+		
 		
 	}
 		

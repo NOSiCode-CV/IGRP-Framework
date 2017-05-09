@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import nosi.core.dao.RowDataGateway;
 /**
@@ -35,6 +36,7 @@ public class User implements Identity, RowDataGateway{
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
+	private ProfileType profile;
 	
 	// User current perfil id
 	private int currentPerfilId;
@@ -127,6 +129,42 @@ public class User implements Identity, RowDataGateway{
 		return  result ? this : null;
 	}
 
+	public Object findIdentityByEmail(String email) {
+		boolean result = false;
+		try{
+			PreparedStatement ps = this.conn.prepareStatement("select * from glb_t_user where email = ?");
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()){
+				this.id = rs.getInt("id");
+				this.name = rs.getString("name");
+				this.email = rs.getString("email");
+				this.pass_hash = rs.getString("pass_hash");
+				this.userProfile = rs.getString("userprofile");
+				this.valid_until = rs.getString("valid_until");
+				this.status = rs.getInt("status");
+				this.remarks = rs.getString("remarks");
+				this.activation_key = rs.getInt("activation_key");
+				this.user_name = rs.getString("user_name");
+				this.photo_id = rs.getString("photo_id");
+				this.signature_id = rs.getString("signature_id");
+				this.mobile = rs.getString("mobile");
+				this.phone = rs.getString("phone");
+				this.password_reset_token = rs.getString("password_reset_token");
+				this.auth_key = rs.getString("auth_key");
+				this.created_at = rs.getLong("created_at");
+				this.updated_at = rs.getLong("updated_at");
+				result = true;
+			}
+			ps.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		
+		return  result ? this : null;
+	}
+	
 	@Override
 	public boolean validate(String inputPassword) {
 		return this.pass_hash.equals(inputPassword);
@@ -180,7 +218,32 @@ public class User implements Identity, RowDataGateway{
 	
 	@Override
 	public Object[] getAll() {
-		return null;
+		ArrayList<User> lista = new ArrayList<User>();
+		
+		try{
+			PreparedStatement st = conn.prepareStatement("SELECT u.*,tp.descr as perfil FROM glb_t_user u,glb_t_profile p, glb_t_profile_type tp "
+					+ " WHERE u.id=p.user_fk and tp.id=p.type_fk and p.type=?");
+			st.setString(1, "PROF");
+			ResultSet result = st.executeQuery();
+			
+			while(result.next()){
+				
+				User obj = new User();
+				obj.setId(result.getInt("id"));
+				obj.setEmail(result.getString("email"));;
+				obj.setUser_name(result.getString("user_name"));
+				obj.setName(result.getString("name"));
+				ProfileType prof = new ProfileType();
+				prof.setDescr(result.getString("perfil"));
+				obj.setProfile(prof);
+				lista.add(obj);
+			}
+			st.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		return lista.toArray();
 	}
 
 	/**
@@ -447,6 +510,14 @@ public class User implements Identity, RowDataGateway{
 	 */
 	public void setCurrentPerfilId(int currentPerfilId) {
 		this.currentPerfilId = currentPerfilId;
+	}
+
+	public ProfileType getProfile() {
+		return profile;
+	}
+
+	public void setProfile(ProfileType profile) {
+		this.profile = profile;
 	}	
 	
 	

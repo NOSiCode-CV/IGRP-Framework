@@ -35,7 +35,7 @@ public class PesquisarOrganica extends Model{
 
 	public class Table_1{
 		private String descricao;
-		private String estado;
+		private int estado;
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
@@ -43,10 +43,10 @@ public class PesquisarOrganica extends Model{
 			return this.descricao;
 		}
 
-		public void setEstado(String estado){
+		public void setEstado(int estado){
 			this.estado = estado;
 		}
-		public String getEstado(){
+		public int getEstado(){
 			return this.estado;
 		}
 
