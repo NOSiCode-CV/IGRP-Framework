@@ -53,6 +53,7 @@ public class Config implements RowDataGateway {
 		name = "Nome teste";
 		value = "valor teste";
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_config (name, value) VALUES (?, ?)");
 			
 			st.setString(1, this.name);
@@ -92,6 +93,7 @@ public class Config implements RowDataGateway {
 		try{
 			/*this.name = "Nome teste";
 			this.value = "valor update";*/
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_config SET name=?, value = ? "
 					+ "WHERE name = '" + this.name + "'");
 			st.setString(1, this.name);
@@ -108,6 +110,7 @@ public class Config implements RowDataGateway {
 	public boolean delete() {
 		try{
 			name = "Nome teste";
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_config WHERE name = '" + this.name + "'");
 			st.executeUpdate();
 			st.close();

@@ -89,6 +89,10 @@ public class PageController extends Controller {
 				result = action.insert();
 			}
 			if(result){
+				String dad = ((Application)app.getOne()).getDad().toLowerCase();
+				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+				String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+dad+"/"+action.getPage().toLowerCase();			
+				FileHelper.save(path_xsl, action.getPage()+".json", json);
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");

@@ -1,13 +1,11 @@
-/*-------------------------*/
-
-/*Create View*/
-
 package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.config.Config; 
 
-public class PesquisarPerfilView extends View {		
+public class PesquisarPerfilView extends View {
+	public String title = "";		
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -16,13 +14,18 @@ public class PesquisarPerfilView extends View {
 	public Field descricao;
 	public Field organica;
 	public Field estado;
+	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
+	public IGRPButton btn_editar;
+	public IGRPButton btn_eliminar;
+	public IGRPButton btn_menu;
+	public IGRPButton btn_transacao;
+	public IGRPButton btn_etapa;
 	public PesquisarPerfilView(PesquisarPerfil model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -49,17 +52,29 @@ public class PesquisarPerfilView extends View {
 		estado = new TextField(model,"estado");
 		estado.setLabel("Estado");
 		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		p_id = new HiddenField(model,"p_id");
+		p_id.setLabel("");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","novo-perfil","index","_self","default|fa-plus-circle","","");
-		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","pesquisar-perfil","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarPerfil","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","submit","default|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
+		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","submit","default|fa-angle-right","","");
+		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
+		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","submit","default|fa-angle-right","","");
+		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
+		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarPerfil","etapa","submit","default|fa-angle-right","","");
+		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
 		
 	}
 		
 	@Override
 	public void render(){
+		Config.TITLE = this.title;
 
 		sectionheader_1.addField(sectionheader_1_text);
 
@@ -71,13 +86,17 @@ public class PesquisarPerfilView extends View {
 		table_1.addField(descricao);
 		table_1.addField(organica);
 		table_1.addField(estado);
+		table_1.addField(p_id);
 
-		toolsbar_1.addButton(btn_novo);
 		form_1.addButton(btn_pesquisar);
+		table_1.addButton(btn_editar);
+		table_1.addButton(btn_eliminar);
+		table_1.addButton(btn_menu);
+		table_1.addButton(btn_transacao);
+		table_1.addButton(btn_etapa);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
 }
-/*-------------------------*/

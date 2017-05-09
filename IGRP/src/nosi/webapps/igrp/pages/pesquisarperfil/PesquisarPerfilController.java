@@ -40,17 +40,39 @@ public class PesquisarPerfilController extends Controller {
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil().new Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
-			table1.setEstado(p.getStatus());
+			table1.setEstado(p.getStatus()==1?"Ativo":"Inativo");
 			table1.setOrganica(p.getOrganica().getName());
+			table1.setP_id(p.getId());
 			lista.add(table1);
 		}
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		//view..setParam(true);
+		view.p_id.setParam(true);
 		view.table_1.addData(lista);
-		this.renderView(view);
-		this.renderView(view);
-		
 		this.renderView(view);
 	}
 	
+	public void actionPesquisar() throws IOException{
+		
+	}
+	
+	public void actionEditar() throws IOException{
+		
+	}
+	
+	public void actionEliminar() throws IOException{
+		
+	}
+	
+	public void actionMenu() throws IOException{
+		
+	}
+	
+	public void actionTransacao() throws IOException{
+		
+	}
+	
+	public void actionEtapa() throws IOException{
+		
+	}
 }

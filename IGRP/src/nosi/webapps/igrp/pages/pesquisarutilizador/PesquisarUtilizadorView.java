@@ -1,13 +1,11 @@
-/*-------------------------*/
-
-/*Create View*/
-
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.config.Config; 
 
-public class PesquisarUtilizadorView extends View {		
+public class PesquisarUtilizadorView extends View {
+	public String title = "";		
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -17,14 +15,16 @@ public class PesquisarUtilizadorView extends View {
 	public Field email;
 	public Field nome;
 	public Field nominho;
+	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
-	public IGRPButton btn_convite;
+	public IGRPButton btn_editar;
+	public IGRPButton btn_eliminar;
+	public IGRPButton btn_convidar;
 	public PesquisarUtilizadorView(PesquisarUtilizador model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -54,19 +54,25 @@ public class PesquisarUtilizadorView extends View {
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel("Nominho");
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false");
+		p_id = new HiddenField(model,"p_id");
+		p_id.setLabel("");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","default|fa-angle-right","","");
-		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","Action","submit","default|fa-angle-right","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","default|fa-angle-right","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-
-		btn_convite = new IGRPButton("Convidar Utilizador","igrp","novo-utilizador","index","_self","default|fa-angle-right","","");
-		btn_convite.propertie.add("type","specific").add("code","").add("rel","Convite");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","submit","default|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
+		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
+		
 	}
 		
 	@Override
 	public void render(){
+		Config.TITLE = this.title;
 
 		sectionheader_1.addField(sectionheader_1_text);
 
@@ -81,14 +87,15 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(nominho);
 		table_1.addField(email);
 		table_1.addField(perfil);
+		table_1.addField(p_id);
 
-		toolsbar_1.addButton(btn_novo);
-		toolsbar_1.addButton(btn_convite);
 		form_1.addButton(btn_pesquisar);
+		table_1.addButton(btn_editar);
+		table_1.addButton(btn_eliminar);
+		table_1.addButton(btn_convidar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
 }
-/*-------------------------*/

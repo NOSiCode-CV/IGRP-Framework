@@ -230,6 +230,7 @@ public class Menu implements RowDataGateway {
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		}
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, this.descr);
 			st.setString(2, this.link);
@@ -287,12 +288,8 @@ public class Menu implements RowDataGateway {
 
 	@Override
 	public boolean update() {
-		id = 138;
-		descr = "descricao teste update";
-		action_fk = 5;
-		env_fk = 1;
-		self_id = 3;
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_menu SET "
 					+ "descr=?, link=?, self_id=?, env_fk=?, img_src=?, area=?, "
 					+ "action_fk=?, orderby=?, status=?, code=?, flg_base=?, target = ? WHERE id = " + this.id);
@@ -320,8 +317,8 @@ public class Menu implements RowDataGateway {
 
 	@Override
 	public boolean delete() {
-		id = 138;
 		try {
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_menu WHERE id = " + this.id);
 			st.executeUpdate();
 			st.close();
@@ -411,7 +408,6 @@ public class Menu implements RowDataGateway {
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
 			st.setInt(2,u.getCurrentPerfilId());
 			st.setInt(3,u.getCurrentOrganization());
-			
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();

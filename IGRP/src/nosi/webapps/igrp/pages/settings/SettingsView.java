@@ -1,14 +1,13 @@
-/*-------------------------*/
-
-/*Create View*/
-
 package nosi.webapps.igrp.pages.settings;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+import nosi.core.config.Config; 
 
-public class SettingsView extends View {		
+public class SettingsView extends View {
+	public String title = "";		
 	
+	public Field sectionheader_1_text;
 	public Field nome;
 	public Field email;
 	public Field username;
@@ -25,17 +24,22 @@ public class SettingsView extends View {
 	public Field auto_complete;
 	public Field notificacao;
 	public Field receber_notificacao;
-	public Field sectionheader_1_text;
+	public IGRPSectionHeader sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
-	public IGRPSectionHeader sectionheader_1;
 
 	public IGRPToolsBar toolsbar_1;
+
 	public IGRPButton btn_aplicar;
+	
 	public SettingsView(Settings model){			
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		view_1 = new IGRPView("view_1");
 		form_1 = new IGRPForm("form_1");
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel("");
+		sectionheader_1_text.setValue("Settings Aplicação :");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nome = new TextField(model,"nome");
 		nome.setLabel("Nome");
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100");
@@ -52,10 +56,10 @@ public class SettingsView extends View {
 		telemovel.setLabel("Telemóvel");
 		telemovel.propertie().add("name","p_telemovel").add("type","text").add("maxlength","30");
 		ultimo_acesso_igrp = new TextField(model,"ultimo_acesso_igrp");
-		ultimo_acesso_igrp.setLabel("Último Acesso IGRP");
+		ultimo_acesso_igrp.setLabel("Ultimo Acesso IGRP");
 		ultimo_acesso_igrp.propertie().add("name","p_ultimo_acesso_igrp").add("type","text").add("maxlength","30");
 		ultimo_acesso_rede_estado = new TextField(model,"ultimo_acesso_rede_estado");
-		ultimo_acesso_rede_estado.setLabel("Último Acesso Rede Estado");
+		ultimo_acesso_rede_estado.setLabel("Ultimo Acesso Rede Estado");
 		ultimo_acesso_rede_estado.propertie().add("name","p_ultimo_acesso_rede_estado").add("type","text").add("maxlength","30");
 		password_expira_em = new TextField(model,"password_expira_em");
 		password_expira_em.setLabel("Password Expira em");
@@ -63,14 +67,14 @@ public class SettingsView extends View {
 		view_img = new TextField(model,"view_img");
 		view_img.setLabel("");
 		view_img.propertie().add("maxlength","300");
-		organica = new TextField(model,"organica");
-		organica.setLabel("Orgânica");
-		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		perfil = new TextField(model,"perfil");
+		organica = new ListField(model,"organica");
+		organica.setLabel("Organica");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		perfil = new ListField(model,"perfil");
 		perfil.setLabel("Perfil");
-		perfil.propertie().add("name","p_perfil").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		janela_inicil = new ListField(model,"janela_inicil");
-		janela_inicil.setLabel("Janela Inicial");
+		janela_inicil.setLabel("Janela Inicil");
 		janela_inicil.propertie().add("name","p_janela_inicil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		idioma = new ListField(model,"idioma");
 		idioma.setLabel("Idioma");
@@ -79,15 +83,11 @@ public class SettingsView extends View {
 		auto_complete.setLabel("Auto Complete");
 		auto_complete.propertie().add("name","p_auto_complete").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		notificacao = new SeparatorField(model,"notificacao");
-		notificacao.setLabel("NOTIFICAÇÃO");
+		notificacao.setLabel("Notificação");
 		notificacao.propertie().add("name","p_notificacao").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		receber_notificacao = new CheckBoxField(model,"receber_notificacao");
 		receber_notificacao.setLabel("Receber Notificação?");
 		receber_notificacao.propertie().add("name","p_receber_notificacao").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
-		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Settings Aplicação :");
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_aplicar = new IGRPButton("Aplicar","igrp","settings","index","_self","default|fa-check","","");
@@ -97,6 +97,9 @@ public class SettingsView extends View {
 		
 	@Override
 	public void render(){
+		Config.TITLE = this.title;
+
+		sectionheader_1.addField(sectionheader_1_text);
 
 		view_1.addField(nome);
 		view_1.addField(email);
@@ -118,14 +121,12 @@ public class SettingsView extends View {
 		form_1.addField(receber_notificacao);
 		form_1.addField(email);
 		form_1.addField(telemovel);
-
-		sectionheader_1.addField(sectionheader_1_text);
-
+		
 		toolsbar_1.addButton(btn_aplicar);
+		
+		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
 		this.addToPage(form_1);
-		this.addToPage(sectionheader_1);
 		this.addToPage(toolsbar_1);
 	}
 }
-/*-------------------------*/

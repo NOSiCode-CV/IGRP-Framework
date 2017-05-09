@@ -91,6 +91,7 @@ public class ProfileType implements RowDataGateway {
 	public boolean insert() {
 		int result = 0;
 		try{
+			con.setAutoCommit(true);
 		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile_type"
 				+ "(descr, code, env_fk, self_fk, org_fk, status) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)");
@@ -154,6 +155,7 @@ public class ProfileType implements RowDataGateway {
 		org_fk = 17;
 		status = 1;*/
 		try {
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile_type SET "
 					+ "descr=?, code=?, env_fk=?, self_fk=?, org_fk=?, status = ? WHERE id = " + this.id);
 			
@@ -176,6 +178,7 @@ public class ProfileType implements RowDataGateway {
 	public boolean delete() {
 		try{
 			//id = 84;
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 			st.executeUpdate("DELETE FROM glb_t_profile_type WHERE id = " + this.id);
 			st.close();

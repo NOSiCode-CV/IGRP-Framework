@@ -152,6 +152,7 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_env"+
 			             "(name, dad, img_src, description, action_fk, link_menu, link_center, apache_dad, templates, host, flg_old, status, flg_external)" +
 					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -212,6 +213,7 @@ public class Application implements RowDataGateway {
 	public boolean update() {
 		
 		try{
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("UPDATE glb_t_env SET "
 	        		+ "name= '" + this.name
@@ -239,6 +241,7 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try{
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("DELETE FROM glb_t_env where id = " + this.id);
 	        st.close();

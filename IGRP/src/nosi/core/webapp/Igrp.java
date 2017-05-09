@@ -75,12 +75,12 @@ public class Igrp {
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
-		/*	try {
+			try {
 				H2Migrate.createIgrpSchema();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			

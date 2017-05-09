@@ -22,36 +22,26 @@ public class User implements Component{
 		
 		// Create the session context
 		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "" /* convert it to string*/);
-		
+		int perf = currentPerfilId;
+		int org = currentOrgId;
 		// Create the cookie context (Begin)
 		/* For perfil information */
 		Cookie aux = null;
 		Cookie aux1 = null;
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-			if(c.getName().equals("_p"))
+			if(c.getName().equals("_perf"))
 				aux = c;
 			else if(c.getName().equals("_org"))
 				aux1 = c;
 		
-		if(aux != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), currentPerfilId) != null){
-			((nosi.webapps.igrp.dao.User)this.identity).setCurrentPerfilId(Integer.parseInt(aux.getValue()));
-			System.out.println("_p: "+aux.getValue());
+		if(aux != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), Integer.parseInt(aux.getValue())) != null){
+			perf = Integer.parseInt(aux.getValue());
 		}
-		else if(aux1 != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), currentPerfilId) != null){
-			((nosi.webapps.igrp.dao.User)this.identity).setCurrentOrganization(Integer.parseInt(aux1.getValue()));
-			System.out.println("_org: "+aux1.getValue());
+		else if(aux1 != null && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), Integer.parseInt(aux.getValue())) != null){
+			org = Integer.parseInt(aux1.getValue());
 		}
-		else{
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_p", ""+currentPerfilId));
-			((nosi.webapps.igrp.dao.User)this.identity).setCurrentPerfilId(currentPerfilId);
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+currentOrgId));
-			((nosi.webapps.igrp.dao.User)this.identity).setCurrentOrganization(currentOrgId);
-
-			System.out.println("_org: "+currentOrgId);
-			System.out.println("_p: "+currentPerfilId);
-		}
-		// (END)
-		
+		Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+org));
+		Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""+perf));
 		return true;
 	}
 	

@@ -40,10 +40,6 @@ public class User implements Identity, RowDataGateway{
 	private long updated_at;
 	private ProfileType profile;
 	
-	// User current perfil id
-	private int currentPerfilId;
-	private int currentOrganization;
-	
 	private Connection conn;
 	
 	public User(){
@@ -180,6 +176,7 @@ public class User implements Identity, RowDataGateway{
 				+ "values(?, ?, ?, ?, ?, ?, ?,?);";
 		int result = 0;
 		try{
+			conn.setAutoCommit(true);
 			PreparedStatement ps = this.conn.prepareStatement(sql);
 			ps.setString(1, this.name);
 			ps.setString(2, this.user_name);
@@ -507,16 +504,9 @@ public class User implements Identity, RowDataGateway{
 	public int getCurrentPerfilId() {
 		Cookie aux = null;
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-			if(c.getName().equals("_p"))
+			if(c.getName().equals("_perf"))
 				aux = c;		
 		return aux!=null?Integer.parseInt(aux.getValue()):0;
-	}
-
-	/**
-	 * @param currentPerfilId the currentPerfilId to set
-	 */
-	public void setCurrentPerfilId(int currentPerfilId) {
-		this.currentPerfilId = currentPerfilId;
 	}
 
 	public int getCurrentOrganization() {
@@ -525,10 +515,6 @@ public class User implements Identity, RowDataGateway{
 			if(c.getName().equals("_org"))
 				aux = c;		
 		return aux!=null?Integer.parseInt(aux.getValue()):0;
-	}
-
-	public void setCurrentOrganization(int currentOrganization) {
-		this.currentOrganization = currentOrganization;
 	}
 
 	public ProfileType getProfile() {
