@@ -25,6 +25,8 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_convidar;
+	public IGRPButton btn_novo;
+	
 	public PesquisarUtilizadorView(PesquisarUtilizador model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -59,7 +61,7 @@ public class PesquisarUtilizadorView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","default|fa-angle-right","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","submit","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
@@ -68,6 +70,9 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
 		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
 		
+
+		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","default|fa-plus","","");
+		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		
 	@Override
@@ -93,6 +98,9 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_convidar);
+		
+		toolsbar_1.addButton(btn_novo);
+		toolsbar_1.addButton(btn_convidar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);

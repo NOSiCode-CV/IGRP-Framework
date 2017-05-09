@@ -24,6 +24,8 @@ public class PesquisarOrganicaView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
 	public IGRPButton btn_etapa;
+	public IGRPButton btn_novo;
+	
 	public PesquisarOrganicaView(PesquisarOrganica model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -46,7 +48,7 @@ public class PesquisarOrganicaView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarOrganica","pesquisar","_blank","default|fa-angle-right","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarOrganica","pesquisar","_blank","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_eidtar = new IGRPButton("Eidtar","igrp","PesquisarOrganica","eidtar","submit","default|fa-pencil","","");
 		btn_eidtar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eidtar");
@@ -58,7 +60,8 @@ public class PesquisarOrganicaView extends View {
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarOrganica","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
-		
+		btn_novo = new IGRPButton("Novo","igrp","NovaOrganica","index","_self","default|fa-plus","","");
+		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		
 	@Override
@@ -80,6 +83,8 @@ public class PesquisarOrganicaView extends View {
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
 		table_1.addButton(btn_etapa);
+
+		toolsbar_1.addButton(btn_novo);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
