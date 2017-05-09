@@ -251,4 +251,41 @@ public class Organization implements RowDataGateway {
 		return lista;
 	}
 
+	
+	public Object[] getOrgMenu(){
+		ArrayList<Menu> lista = new ArrayList<Menu>();		
+		try{
+			Statement st = con.createStatement();
+			ResultSet r = st.executeQuery("SELECT * FROM glb_t_menu WHERE flg_base=0");			
+			while(r.next()){				
+				Menu m = new Menu();
+				m.setDescr(r.getString("descr"));		
+				m.setId(r.getInt("id"));
+				lista.add(m);
+			}
+			st.close();			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+
+
+	public Object[] getPerfilMenu(int org) {
+		ArrayList<Menu> lista = new ArrayList<Menu>();		
+		try{
+			Statement st = con.createStatement();
+			ResultSet r = st.executeQuery("SELECT M.* FROM glb_t_menu M, glb_t_profile P WHERE flg_base=0 AND P.type_fk=M.ID AND P.type='MEN' AND P.org_fk="+org);			
+			while(r.next()){				
+				Menu m = new Menu();
+				m.setDescr(r.getString("descr"));		
+				m.setId(r.getInt("id"));
+				lista.add(m);
+			}
+			st.close();			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
 }

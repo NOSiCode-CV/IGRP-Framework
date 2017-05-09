@@ -208,8 +208,9 @@
 		(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
 		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
 		(16,1, 'transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
-		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl');
-		
+		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
+		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl');
+	
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
 
@@ -242,6 +243,14 @@
 		   (1, 1, 'MEN', 7, 1), 
 		   (1, 1, 'MEN', 8, 1), 
 		   (1, 1, 'MEN', 9, 1), 
-		   (1, 1, 'MEN', 10, 1); 
+		   (1, 1, 'MEN', 10, 1),
+		   (1, 1, 'MEN_PROF', 2, 1), 
+		   (1, 1, 'MEN_PROF', 3, 1), 
+		   (1, 1, 'MEN_PROF', 4, 1), 
+		   (1, 1, 'MEN_PROF', 6, 1), 
+		   (1, 1, 'MEN_PROF', 7, 1), 
+		   (1, 1, 'MEN_PROF', 8, 1), 
+		   (1, 1, 'MEN_PROF', 9, 1), 
+		   (1, 1, 'MEN_PROF', 10, 1); 
 	
 	

@@ -70,11 +70,6 @@ public class Profile implements RowDataGateway {
 	public boolean insert() {
 		int result = 0;
 		try {
-			/*user_fk = 2;
-			type = "PROF";
-			org_fk = 17;
-			type_fk = 18;
-			prof_type_fk = 18;*/
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile"
 					+ "(prof_type_fk, user_fk, type, type_fk, org_fk) "
@@ -86,7 +81,6 @@ public class Profile implements RowDataGateway {
 			st.setInt(5, this.org_fk);
 			
 			result = st.executeUpdate();
-			
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -98,10 +92,6 @@ public class Profile implements RowDataGateway {
 	public Object getOne() {
 		Profile obj = new Profile();
 		try{
-			user_fk = 2;
-			org_fk = 17;
-			type_fk = 18;
-			prof_type_fk = 18;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT prof_type_fk, user_fk, type, type_fk, org_fk "
 					+ "FROM glb_t_profile where prof_type_fk = " + this.prof_type_fk + " and user_fk = " + 
@@ -155,11 +145,6 @@ public class Profile implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try{
-			/*user_fk = 2;
-			type = "PROF";
-			org_fk = 17;
-			type_fk = 18;
-			prof_type_fk = 18;*/
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
 					+ "prof_type_fk = ? "
@@ -180,7 +165,51 @@ public class Profile implements RowDataGateway {
 		}
 		return false;
 	}
-
+	
+	
+	public boolean deleteAllOrgProfile() {
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
+					+ "prof_type_fk = ? "
+					+ "and user_fk =? "
+					+ "and type =? "
+					+ "and org_fk =?");
+			st.setInt(1, this.prof_type_fk );
+			st.setInt(2, this.user_fk );
+			st.setString(3, this.type  );
+			st.setInt(4, this.org_fk );
+			
+			st.executeUpdate();
+			st.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	public boolean deleteAllPerfilProfile() {
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
+					+ "prof_type_fk = ? "
+					+ "and user_fk =? "
+					+ "and type =? "
+					+ "and org_fk =?");
+			st.setInt(1, this.prof_type_fk );
+			st.setInt(2, this.user_fk );
+			st.setString(3, this.type  );
+			st.setInt(4, this.org_fk );
+			
+			st.executeUpdate();
+			st.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	@Override
 	public Object[] getAll() {
 		ArrayList<Profile> lista = new ArrayList<>();

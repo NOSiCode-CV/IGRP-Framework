@@ -123,9 +123,9 @@ public class IgrpDb implements Component{
 
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
-		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
+		this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
 		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
-		this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
+		//this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
 	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
