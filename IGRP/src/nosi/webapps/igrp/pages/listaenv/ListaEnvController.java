@@ -23,13 +23,15 @@ public class ListaEnvController extends Controller {
 		}
 		for(Object app:apps.getAll()){
 			Application a = (Application) app;
-			ListaEnv.Table_1 table = new ListaEnv().new Table_1();
-			table.setDad(a.getDad());
-			table.setName(""+a.getName());
-			table.setStatus(a.getStatus());
-			table.setHost(""+a.getHost());
-			table.setId(a.getId());
-			lista.add(table);
+			if(!a.getDad().toLowerCase().equals("igrp")){
+				ListaEnv.Table_1 table = new ListaEnv().new Table_1();
+				table.setDad(a.getDad());
+				table.setName(""+a.getName());
+				table.setStatus(a.getStatus());
+				table.setHost(""+a.getHost());
+				table.setId(a.getId());
+				lista.add(table);
+			}
 		}
 		model.setTable_1(lista);
 		

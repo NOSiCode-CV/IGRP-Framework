@@ -74,14 +74,14 @@ public class Igrp {
 			// init of others configuration
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
-			/*
+			
 			try {
 				H2Migrate.createIgrpSchema();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			*/
+			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// User component (Identity)

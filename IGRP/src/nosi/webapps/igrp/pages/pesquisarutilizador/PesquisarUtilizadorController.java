@@ -45,12 +45,29 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setNome(u.getUser_name());
 			table1.setNominho(u.getName());
 			table1.setPerfil(u.getProfile().getDescr());
+			table1.setP_id(u.getId());
 			lista.add(table1);
 		}
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		//view..setParam(true);
+		view.p_id.setParam(true);
 		view.table_1.addData(lista);
 		this.renderView(view);
-		this.renderView(view);
+	}
+	
+	public void actionPesquisar() throws IOException{
+		
+	}
+	
+	public void actionEditar() throws IOException{
+		
+	}
+	
+	public void actionEliminar() throws IOException{
+		
+	}
+	
+	public void actionConvidar() throws IOException{
+		this.redirect("igrp", "NovoUtilizador","index");
 	}
 }

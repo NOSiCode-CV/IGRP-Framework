@@ -103,6 +103,7 @@ public class Organization implements RowDataGateway {
 	public boolean insert() {
 		int result = 0;
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_organization"
 					+ "(code, name, sigof_fk, env_fk, status, user_create_fk, self_fk)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -177,6 +178,7 @@ public class Organization implements RowDataGateway {
 			id = 118;
 			env_fk = 1;
 			self_fk = 17;
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("UPDATE glb_t_organization SET "
 	        		+ "name='" + this.name
@@ -199,6 +201,7 @@ public class Organization implements RowDataGateway {
 	public boolean delete() {
 		try{
 			//id = 120;
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("DELETE FROM glb_t_organization where id = " + this.id);
 	        st.close();

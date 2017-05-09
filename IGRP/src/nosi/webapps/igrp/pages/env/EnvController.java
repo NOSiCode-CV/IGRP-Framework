@@ -78,7 +78,7 @@ public class EnvController extends Controller {
 		xml_menu.setElement("subtitle", "Outras Aplicações");
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;
-		for(Object obj:new Application().getAll()){
+		for(Object obj:new Application().getMyApp()){
 			Application app = (Application) obj;
 			if(!app.getDad().toLowerCase().equals("igrp")){
 				xml_menu.startElement("application");

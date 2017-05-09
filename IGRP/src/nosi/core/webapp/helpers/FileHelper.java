@@ -96,4 +96,8 @@ public class FileHelper {
 	}
 	 
 
+	public static boolean fileExists(String fileName){
+		Path dir = Paths.get(fileName);
+		return Files.exists(dir);
+	}
 }

@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -46,7 +45,8 @@ public class PesquisarPerfil extends Model{
 		private String codigo;
 		private String descricao;
 		private String organica;
-		private int estado;
+		private String estado;
+		private int p_id;
 		public void setCodigo(String codigo){
 			this.codigo = codigo;
 		}
@@ -68,13 +68,20 @@ public class PesquisarPerfil extends Model{
 			return this.organica;
 		}
 
-		public void setEstado(int estado){
+		public void setEstado(String estado){
 			this.estado = estado;
 		}
-		public int getEstado(){
+		public String getEstado(){
 			return this.estado;
+		}
+
+		public void setP_id(int p_id){
+			this.p_id = p_id;
+		}
+		public int getP_id(){
+			return this.p_id;
 		}
 
 	}
 }
-/*-------------------------*/
+/*------------------------- END -------------------------*/

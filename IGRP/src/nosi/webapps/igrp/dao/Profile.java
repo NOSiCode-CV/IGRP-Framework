@@ -75,6 +75,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;*/
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile"
 					+ "(prof_type_fk, user_fk, type, type_fk, org_fk) "
 					+ "VALUES (?, ?, ?, ?, ?)");
@@ -126,6 +127,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile SET "
 					+ "prof_type_fk=?, "
 					+ "user_fk=?, "
@@ -158,6 +160,7 @@ public class Profile implements RowDataGateway {
 			org_fk = 17;
 			type_fk = 18;
 			prof_type_fk = 18;*/
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
 					+ "prof_type_fk = ? "
 					+ "and user_fk =? "

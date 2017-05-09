@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.pesquisarorganica;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -35,7 +34,8 @@ public class PesquisarOrganica extends Model{
 
 	public class Table_1{
 		private String descricao;
-		private int estado;
+		private String estado;
+		private int p_id;
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
@@ -43,13 +43,19 @@ public class PesquisarOrganica extends Model{
 			return this.descricao;
 		}
 
-		public void setEstado(int estado){
+		public void setEstado(String estado){
 			this.estado = estado;
 		}
-		public int getEstado(){
+		public String getEstado(){
 			return this.estado;
+		}
+
+		public void setP_id(int p_id){
+			this.p_id = p_id;
+		}
+		public int getP_id(){
+			return this.p_id;
 		}
 
 	}
 }
-/*-------------------------*/

@@ -23,7 +23,7 @@
  </servlet-mapping>
  <servlet-mapping>
   <servlet-name>default</servlet-name>
-  <url-pattern>/images/IGRP/IGRP2.3/*</url-pattern>
+  <url-pattern>/images/*</url-pattern>
  </servlet-mapping>
  <welcome-file-list>
   <welcome-file>index.html</welcome-file>

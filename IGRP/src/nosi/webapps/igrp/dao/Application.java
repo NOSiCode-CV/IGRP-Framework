@@ -152,6 +152,7 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_env"+
 			             "(name, dad, img_src, description, action_fk, link_menu, link_center, apache_dad, templates, host, flg_old, status, flg_external)" +
 					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -167,7 +168,7 @@ public class Application implements RowDataGateway {
 			st.setString(10,this.host);
 			st.setInt(11, this.flg_old);
 			st.setInt(12,this.status);
-			st.setInt(13,this.flg_external);
+			st.setInt(13,this.flg_external);	
 			st.executeUpdate();
 			st.close();
 			return true;
@@ -212,6 +213,7 @@ public class Application implements RowDataGateway {
 	public boolean update() {
 		
 		try{
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("UPDATE glb_t_env SET "
 	        		+ "name= '" + this.name
@@ -239,6 +241,7 @@ public class Application implements RowDataGateway {
 	@Override
 	public boolean delete() {
 		try{
+			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("DELETE FROM glb_t_env where id = " + this.id);
 	        st.close();
@@ -340,6 +343,47 @@ public class Application implements RowDataGateway {
 				+ description + ", action_fk=" + action_fk + ", status=" + status + ", flg_old=" + flg_old
 				+ ", link_menu=" + link_menu + ", link_center=" + link_center + ", apache_dad=" + apache_dad
 				+ ", templates=" + templates + ", host=" + host + ", flg_external=" + flg_external + "]";
+	}
+
+	public Object[] getMyApp() {		
+		ArrayList<Application> lista = new ArrayList<>();		
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
+					+ "	WHERE E.id = P.type_fk "
+					+ "	AND P.type='ENV'"
+					+ " AND P.prof_type_fk = ? "
+					+ " AND P.org_fk = ?"
+					+ "	ORDER BY id");
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,u.getCurrentPerfilId());
+			st.setInt(2,u.getCurrentOrganization());
+			
+			ResultSet result = st.executeQuery();			
+			while(result.next()){
+				Application obj = new Application();
+				obj.setId(result.getInt("id"));
+				obj.setName(result.getString("name"));
+			    obj.setDad(result.getString("dad")); 
+				obj.setImg_src(result.getString("img_src") );
+				obj.setDescription(result.getString("description"));
+				obj.setAction_fk(result.getInt("action_fk")); 
+				obj.setFlg_old(result.getInt("flg_old"));
+				obj.setLink_menu(result.getString("link_menu")); 
+				obj.setLink_center(result.getString("link_center"));
+				obj.setApache_dad(result.getString("apache_dad")); 
+				obj.setTemplates(result.getString("templates"));
+				obj.setHost(result.getString("host"));
+				obj.setFlg_external(result.getInt("flg_external"));
+				obj.setStatus(result.getInt("status"));
+				obj.setId(result.getInt("id"));		
+				
+				lista.add(obj);
+		}
+		st.close();		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
 	}
 	
 	

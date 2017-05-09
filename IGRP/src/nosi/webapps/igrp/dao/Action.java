@@ -309,6 +309,7 @@ public class Action implements RowDataGateway{
 	public boolean insert() {
 		boolean result = false;
 		try {
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_action("
 					+ "env_fk, page, action, table_name, xsl_src, img_src, "
 					+ "page_type, page_descr, action_descr, flg_menu, "
@@ -446,6 +447,7 @@ public class Action implements RowDataGateway{
 	public boolean update() {	
 		boolean result = false;
 		try {
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_action	SET "
 					+ "env_fk=?, "
 					+ "page=?, "
@@ -498,6 +500,7 @@ public class Action implements RowDataGateway{
 	public boolean delete() {
 		boolean result = false;
 		try {
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_action WHERE id= " + this.id);
 			st.executeUpdate();
 			st.close();

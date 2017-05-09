@@ -124,6 +124,7 @@ public class Config_env implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
+			con.setAutoCommit(true);
 			/*host = "localhost";
 			type_db = "postgre";
 			name_db = "db_igrp";
@@ -194,6 +195,7 @@ public class Config_env implements RowDataGateway {
 			charset = "utf-8";
 			name = "name teste update";
 			env_fk = 1;*/
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_config_env "
 					+ "SET port=?, type_db=?, host=?, name_db=?, username=?, "
 					+ "password=?, charset=?, name=?, env_fk = ? WHERE id = " + this.id);
@@ -221,6 +223,7 @@ public class Config_env implements RowDataGateway {
 	public boolean delete() {
 		try{
 			id = 145;
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_config_env WHERE id = " + this.id);
 			st.executeUpdate();
 			st.close();
