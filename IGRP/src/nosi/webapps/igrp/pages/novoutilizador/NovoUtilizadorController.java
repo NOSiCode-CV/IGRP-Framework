@@ -35,11 +35,18 @@ public class NovoUtilizadorController extends Controller {
 			p.setOrg_fk(model.getOrganica());
 			p.setProf_type_fk(model.getPerfil());
 			p.setType("PROF");
+			
+			Profile p1 = new Profile();
+			p1.setOrg_fk(model.getOrganica());
+			p1.setProf_type_fk(model.getPerfil());
+			p1.setType("ENV");
+			p1.setType_fk(model.getAplicacao());
 			User u = (User) new User().findIdentityByEmail(model.getEmail());
 			if(u!=null){
 				p.setUser_fk(u.getId());
+				p1.setUser_fk(u.getId());
 				p.setType_fk(model.getPerfil());
-				if(p.insert()){
+				if(p.insert() && p1.insert()){
 					Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
