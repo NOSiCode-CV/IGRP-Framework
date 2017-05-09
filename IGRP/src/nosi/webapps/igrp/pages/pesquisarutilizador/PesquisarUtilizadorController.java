@@ -68,6 +68,6 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public void actionConvidar() throws IOException{
-		
+		this.redirect("igrp", "NovoUtilizador","index");
 	}
 }

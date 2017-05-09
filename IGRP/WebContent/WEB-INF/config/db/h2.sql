@@ -19,8 +19,8 @@
 	  `PASSWORD_RESET_TOKEN` varchar(255) DEFAULT NULL,
 	  `AUTH_KEY` varchar(255) NOT NULL,
 	  `STATUS` smallint(6) NOT NULL DEFAULT '10',
-	  `CREATED_AT` int(11) NOT NULL,
-	  `UPDATED_AT` int(11) NOT NULL,
+	  `CREATED_AT` bigint(11) NOT NULL,
+	  `UPDATED_AT` bigint(11) NOT NULL,
 	  
 	  PRIMARY KEY (`ID`),
 	  UNIQUE KEY `EMAIL` (`EMAIL`),

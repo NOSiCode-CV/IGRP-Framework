@@ -26,6 +26,8 @@ public class PesquisarPerfilView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
 	public IGRPButton btn_etapa;
+	public IGRPButton btn_novo;
+	
 	public PesquisarPerfilView(PesquisarPerfil model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -70,6 +72,8 @@ public class PesquisarPerfilView extends View {
 		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarPerfil","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
 		
+		btn_novo = new IGRPButton("Novo","igrp","NovoPerfil","index","_self","default|fa-plus","","");
+		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		
 	@Override
@@ -94,6 +98,9 @@ public class PesquisarPerfilView extends View {
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
 		table_1.addButton(btn_etapa);
+		
+		toolsbar_1.addButton(btn_novo);
+		
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
