@@ -5,7 +5,6 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -24,6 +23,11 @@ public class NovoUtilizadorController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations());
 		view.perfil.setValue(new ProfileType().getListProfiles());
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(id!=null && !id.equals("")){
+			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
+			view.email.setValue(u.getEmail());
+		}
 		this.renderView(view);
 	}
 
