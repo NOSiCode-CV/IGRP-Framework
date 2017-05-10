@@ -12,4 +12,7 @@ public class DefaultPageController extends Controller{
 		view.title = Igrp.getInstance().getRequest().getParameter("title");
 		this.renderView(view,true);
 	}
+	public void actionGravar(){
+		
+	}
 }
