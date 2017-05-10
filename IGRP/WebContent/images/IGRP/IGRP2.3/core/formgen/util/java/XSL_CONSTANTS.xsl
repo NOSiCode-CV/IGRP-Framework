@@ -50,6 +50,10 @@
     <xsl:variable name="package_name">
 		<xsl:value-of select="concat(rows/plsql/package_db,'.',$page,';')"></xsl:value-of>
     </xsl:variable>
+    
+    <xsl:variable name="package_import_name">
+		<xsl:value-of select="concat('import ',rows/plsql/package_db)"/>
+	</xsl:variable>
     <xsl:variable name="smallcase" select="'abcdefghijklmnopqrstuvwxyz'" /> 
     <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" /> 
    
