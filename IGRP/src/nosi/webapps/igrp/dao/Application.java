@@ -353,11 +353,12 @@ public class Application implements RowDataGateway {
 					+ "	AND P.type='ENV'"
 					+ " AND P.prof_type_fk = ? "
 					+ " AND P.org_fk = ?"
+					+ " AND E.dad <> ? "
 					+ "	ORDER BY id");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
 			st.setInt(1,u.getCurrentPerfilId());
 			st.setInt(2,u.getCurrentOrganization());
-			
+			st.setString(3,"igrp");
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();
@@ -386,5 +387,50 @@ public class Application implements RowDataGateway {
 		return lista.toArray();
 	}
 	
+	public Object[] getOtherApp() {		
+		ArrayList<Application> lista = new ArrayList<>();		
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
+					+ "	WHERE E.id = P.type_fk "
+					+ "	AND P.type='ENV'"
+					+ " AND P.prof_type_fk <> ? "
+					+ " AND P.org_fk <> ?"
+					+ " AND E.dad <>?"
+					+ " UNION "
+					+ " SELECT E.* FROM glb_t_env E"
+					+ " WHERE E.id NOT IN (SELECT P.type_fk FROM glb_t_profile P WHERE P.type=?)");
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,u.getCurrentPerfilId());
+			st.setInt(2,u.getCurrentOrganization());
+			st.setString(3,"igrp");
+			st.setString(4,"ENV");
+			
+			ResultSet result = st.executeQuery();			
+			while(result.next()){
+				Application obj = new Application();
+				obj.setId(result.getInt("id"));
+				obj.setName(result.getString("name"));
+			    obj.setDad(result.getString("dad")); 
+				obj.setImg_src(result.getString("img_src") );
+				obj.setDescription(result.getString("description"));
+				obj.setAction_fk(result.getInt("action_fk")); 
+				obj.setFlg_old(result.getInt("flg_old"));
+				obj.setLink_menu(result.getString("link_menu")); 
+				obj.setLink_center(result.getString("link_center"));
+				obj.setApache_dad(result.getString("apache_dad")); 
+				obj.setTemplates(result.getString("templates"));
+				obj.setHost(result.getString("host"));
+				obj.setFlg_external(result.getInt("flg_external"));
+				obj.setStatus(result.getInt("status"));
+				obj.setId(result.getInt("id"));		
+				
+				lista.add(obj);
+		}
+		st.close();		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
 	
 }

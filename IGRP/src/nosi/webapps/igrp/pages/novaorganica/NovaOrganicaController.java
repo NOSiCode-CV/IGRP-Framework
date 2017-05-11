@@ -40,11 +40,11 @@ public class NovaOrganicaController extends Controller {
 		}
 		
 		HashMap<Integer,String> applications =  new Application().getListApps();
-		HashMap<String,String> organizations =  new Organization().getListOrganizations();
+		HashMap<String,String> profiles =  new ProfileType().getListProfiles();
 		
 		view.aplicacao.setValue(applications);
 		
-		view.organica_pai.setValue(organizations);
+		view.organica_pai.setValue(profiles);
 		
 		this.renderView(view);
 	}

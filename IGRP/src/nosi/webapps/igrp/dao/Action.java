@@ -466,9 +466,8 @@ public class Action implements RowDataGateway{
 					+ "db_connection=?, "
 					+ "flg_offline=?, "
 					+ "flg_internet=?, "
-					+ "status=?, "
+					+ "status=? "
 					+ "WHERE id = " + this.id);
-			System.out.println("Env:"+this.id);
 			st.setInt(1, this.env_fk);
 			st.setString(2, this.page);
 			st.setString(3, this.action);

@@ -72,24 +72,40 @@ public class EnvController extends Controller {
 	public PrintWriter actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+		Object[] myApp = new Application().getMyApp();
+		Object[] otherApp = new Application().getOtherApp();
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
-		xml_menu.setElement("title", "Minhas Aplicações");
-		xml_menu.setElement("subtitle", "Outras Aplicações");
+		if(myApp.length>0){
+			System.out.println(myApp);
+			xml_menu.setElement("title", "Minhas Aplicações");
+		}
+		if(otherApp.length>0){
+			xml_menu.setElement("subtitle", "Outras Aplicações");
+		}
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;
-		for(Object obj:new Application().getMyApp()){
+		for(Object obj:myApp){
 			Application app = (Application) obj;
-			if(!app.getDad().toLowerCase().equals("igrp")){
-				xml_menu.startElement("application");
-				xml_menu.writeAttribute("available", "yes");
-				xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
-				xml_menu.setElement("img", "app_casacidadao.png");
-				xml_menu.setElement("title", app.getName());
-				xml_menu.setElement("num_alert", ""+i);
-				xml_menu.endElement();
-				i++;
-			}
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "yes");
+			xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
+			xml_menu.setElement("img", "app_casacidadao.png");
+			xml_menu.setElement("title", app.getName());
+			xml_menu.setElement("num_alert", ""+i);
+			xml_menu.endElement();
+			i++;
+		}
+		for(Object obj:otherApp){
+			Application app = (Application) obj;
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "no");
+			xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
+			xml_menu.setElement("img", "app_casacidadao.png");
+			xml_menu.setElement("title", app.getName());
+			xml_menu.setElement("num_alert", ""+i);
+			xml_menu.endElement();
+			i++;
 		}
 		xml_menu.endElement();
 		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());

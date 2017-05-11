@@ -85,4 +85,20 @@ public class User implements Component{
 		// not set yet
 	}
 	
+	public static int getCurrentPerfilId() {
+		Cookie aux = null;
+		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+			if(c.getName().equals("_perf"))
+				aux = c;		
+		return aux!=null?Integer.parseInt(aux.getValue()):0;
+	}
+
+	public static int getCurrentOrganization() {
+		Cookie aux = null;
+		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+			if(c.getName().equals("_org"))
+				aux = c;		
+		return aux!=null?Integer.parseInt(aux.getValue()):0;
+	}
+	
 }
