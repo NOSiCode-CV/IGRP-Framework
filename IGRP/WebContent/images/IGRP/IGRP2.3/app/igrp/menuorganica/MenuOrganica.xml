@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl" type="text/xsl"?>
+<?xml-stylesheet href="http://localhost:8080/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -73,7 +73,8 @@
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
-                        <menu_desc name="p_menu_desc">1</menu_desc>
+                        <menu_check>1</menu_check>
+                        <menu_desc name="p_menu_desc">hhsdjjdshsd</menu_desc>
                         <descricao name="p_descricao">Perspiciatis officia lorem stract sed</descricao>
                     </row>
                     <row>

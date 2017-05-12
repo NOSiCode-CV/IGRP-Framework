@@ -8,6 +8,7 @@ public class MenuOrganicaView extends View {
 	public String title = "";	
 	public Field menu;
 	public Field descricao;
+	public Field menu_check;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -17,6 +18,8 @@ public class MenuOrganicaView extends View {
 		table_1 = new IGRPTable("table_1");
 		menu = new CheckBoxField(model,"menu");
 		menu.setLabel("Menu");
+		menu_check = new CheckBoxField(model,"menu_check");
+		menu_check.setLabel("Menu");
 		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel("Descricao");
@@ -37,7 +40,7 @@ public class MenuOrganicaView extends View {
 
 		table_1.addField(menu);
 		table_1.addField(descricao);
-
+		table_1.addField(menu_check);
 		toolsbar_1.addButton(btn_gravar);
 		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(table_1);

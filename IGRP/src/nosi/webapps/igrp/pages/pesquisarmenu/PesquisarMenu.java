@@ -55,8 +55,9 @@ public class PesquisarMenu extends Model{
 		private String descricao;
 		private String titulo;
 		private String pagina;
-		private int ativo;
-		private String checkbox;
+		private String ativo;
+		private int checkbox;
+		private int checkbox_check;
 		private String p_id;
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
@@ -79,20 +80,26 @@ public class PesquisarMenu extends Model{
 			return this.pagina;
 		}
 
-		public void setAtivo(int ativo){
+		public void setAtivo(String ativo){
 			this.ativo = ativo;
 		}
-		public int getAtivo(){
+		public String getAtivo(){
 			return this.ativo;
 		}
 
-		public void setCheckbox(String checkbox){
+		public void setCheckbox(int checkbox){
 			this.checkbox = checkbox;
 		}
-		public String getCheckbox(){
+		public int getCheckbox(){
 			return this.checkbox;
 		}
 
+		public int getCheckbox_check() {
+			return checkbox_check;
+		}
+		public void setCheckbox_check(int checkbox_check) {
+			this.checkbox_check = checkbox_check;
+		}
 		public void setP_id(String p_id){
 			this.p_id = p_id;
 		}

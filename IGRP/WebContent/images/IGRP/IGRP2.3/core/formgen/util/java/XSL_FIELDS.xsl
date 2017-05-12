@@ -32,6 +32,12 @@
 							<xsl:when test="@type='hidden'">
 								<xsl:value-of select="concat('public Field ',@name,';')"/>
 							</xsl:when>
+							<xsl:when test="@type='checkbox'">
+								<xsl:value-of select="concat('public Field ',name(),';')"/>
+								<xsl:value-of select="$newline"/>
+								<xsl:value-of select="$tab"/>
+								<xsl:value-of select="concat('public Field ',name(),'_check',';')"/>
+							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 							</xsl:otherwise>
@@ -81,6 +87,25 @@
 							<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
 		    			</xsl:for-each>
 						<xsl:value-of select="';'"/>
+						
+						
+				 		<xsl:if test="$container_type='table' and @type='checkbox'">
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+					 		<xsl:value-of select="concat($tag_name,'_check = new ')"/>
+							<xsl:call-template name="typeFieldClass">
+					    		<xsl:with-param name="type" select="@type" />
+					    	</xsl:call-template>
+							<xsl:value-of select="concat('(','model',',',$double_quotes,$tag_name,'_check',$double_quotes,');')"/>
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+							<xsl:value-of select="concat($tag_name,'_check','.propertie()')"/>
+							<xsl:for-each select="@*">
+								<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+			    			</xsl:for-each>
+							<xsl:value-of select="';'"/>
+					 	</xsl:if>
+					 	
 					</xsl:when>
 				</xsl:choose>				
 				<xsl:value-of select="$newline"/>
@@ -179,7 +204,8 @@
 
     <!-- gen get and set field -->
 	<xsl:template name="getSetField">
-    	<xsl:param name="type"/>   
+    	<xsl:param name="type"/> 
+    	<xsl:param name="type_content" select="''"/>     
     	<xsl:param name="name"/>   
     	<xsl:param name="tab_" select="$tab"/>   
     	<xsl:param name="tab2_" select="$tab2"/>   
@@ -232,6 +258,28 @@
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>
 	    			<xsl:value-of select="'}'"/>
+	    			
+	    			<xsl:if test="$type_content='table'">
+	    				<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab_"/>
+		    			<xsl:value-of select="concat('public void set',$name_,'_check(int ',$name,'_check){')" />
+		    			<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab2_"/>
+		    			<xsl:value-of select="concat('this.',$name,'_check = ',$name,'_check;')"/>
+		    			<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab_"/>
+		    			<xsl:value-of select="'}'"/>
+	
+		    			<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab_"/>
+		    			<xsl:value-of select="concat('public int get',$name_,'_check(){')" />
+		    			<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab2_"/>
+		    			<xsl:value-of select="concat('return this.',$name,'_check;')"/>
+		    			<xsl:value-of select="$newline"/>
+		    			<xsl:value-of select="$tab_"/>
+		    			<xsl:value-of select="'}'"/>
+	    			</xsl:if>
 	    		</xsl:when>
 	    		
 	    		<xsl:when test="$type='arraylist'">

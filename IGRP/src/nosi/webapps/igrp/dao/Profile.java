@@ -92,10 +92,18 @@ public class Profile implements RowDataGateway {
 	public Object getOne() {
 		Profile obj = new Profile();
 		try{
-			Statement st = con.createStatement();
-			ResultSet res = st.executeQuery("SELECT prof_type_fk, user_fk, type, type_fk, org_fk "
-					+ "FROM glb_t_profile where prof_type_fk = " + this.prof_type_fk + " and user_fk = " + 
-					this.user_fk  + " and type_fk = " + this.type_fk + " and org_fk = " + this.org_fk);
+			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_profile "
+					+ " WHERE prof_type_fk=? "
+					+ " AND user_fk=? "
+					+ " AND type_fk=? "
+					+ " AND type=? "
+					+ " AND org_fk=?");
+			st.setInt(1, this.prof_type_fk);
+			st.setInt(2, this.user_fk);
+			st.setInt(3, this.type_fk);
+			st.setString(4, this.type);
+			st.setInt(5, this.org_fk);
+			ResultSet res = st.executeQuery();
 			while(res.next()){
 				obj.setProf_type_fk(res.getInt("prof_type_fk"));
 				obj.setUser_fk(res.getInt("user_fk"));

@@ -30,8 +30,11 @@ public class ListaPageController extends Controller {
 			table1.setId(ac.getId());
 			table1.setNome_page(ac.getPage());
 			table1.setDescricao_page(ac.getPage_descr());
-			table1.setVersao_page(""+ac.getVersion());
-			table1.setStatus_page(""+ac.getStatus());
+			table1.setVersao_page(ac.getVersion());
+			if(ac.getStatus()==1){
+				table1.setStatus_page_check(ac.getStatus());
+				table1.setStatus_page(ac.getStatus());
+			}
 			lista.add(table1);
 		}
 		ListaPageView view = new ListaPageView(model);
