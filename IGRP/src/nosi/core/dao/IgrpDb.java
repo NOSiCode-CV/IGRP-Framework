@@ -1,12 +1,16 @@
 package nosi.core.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import nosi.core.config.H2Migrate;
 import nosi.core.webapp.Component;
+import nosi.core.webapp.Igrp;
 /**
  * @author Marcel Iekiny
  * Apr 16, 2017
@@ -89,12 +93,22 @@ public class IgrpDb implements Component{
 					Class.forName(this.driverName);
 					this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
 					this.dbmsName = dbmsName;
-					System.out.println("Connection is ok ... (" + this.driverName + ")");				}
-				catch (ClassNotFoundException e) {
+					System.out.println("Connection is ok ... (" + this.driverName + ")");
+					}catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}catch(SQLException e){
 					e.printStackTrace();
 				}
-				catch(SQLException e){
-					e.printStackTrace();
+				
+				switch(this.driverName){
+				case "org.h2.Driver":
+						try {
+							H2Migrate.createIgrpSchema(this.conn); // bug ... catch the connection before init method is finished
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					break;
 				}
 				
 		}
@@ -120,7 +134,6 @@ public class IgrpDb implements Component{
 	}
 
 	@Override
-
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
 		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
