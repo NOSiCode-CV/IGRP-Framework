@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/transacao/Transacao.xsl" type="text/xsl"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -14,10 +14,10 @@
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>Transaccao</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
+        <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>Transaccao</package_html>
@@ -29,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>null</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -46,7 +46,7 @@
             <fields>
                 <codigo name="p_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Aperiam unde ipsum magna ut</value>
+                    <value>Aliqua stract lorem amet sit</value>
                 </codigo>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
                     <label>Aplicação</label>
@@ -95,12 +95,12 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="pesquisar">
                 <title>Pesquisar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_blank</target>
+                <app>igrp</app>
+                <page>Transaccao</page>
+                <link>index</link>
+                <target>submit</target>
                 <img>default|fa-search</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl</parameter>
                 <params>default||fa-search|www</params>
             </item>
         </toolsbar_1>
@@ -119,26 +119,71 @@
             <table>
                 <value>
                     <row>
-                        <codigo name="p_codigo">Adipiscing sed dolor stract labore</codigo>
-                        <descricao name="p_descricao">Magna lorem perspiciatis aperiam elit</descricao>
-                        <estado name="p_estado">Deserunt totam lorem totam natus</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Anim laudantium ipsum accusantium magna</codigo>
+                        <descricao name="p_descricao">Rem adipiscing iste dolor anim</descricao>
+                        <estado name="p_estado">Omnis sed stract rem mollit</estado>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Officia laudantium amet labore elit</codigo>
-                        <descricao name="p_descricao">Anim ut lorem stract ut</descricao>
-                        <estado name="p_estado">Aperiam sed perspiciatis doloremque consectetur</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Unde anim deserunt sed aperiam</codigo>
+                        <descricao name="p_descricao">Amet doloremque aperiam iste adipiscing</descricao>
+                        <estado name="p_estado">Mollit sit elit laudantium mollit</estado>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Rem omnis adipiscing magna labore</codigo>
-                        <descricao name="p_descricao">Amet aperiam officia anim officia</descricao>
-                        <estado name="p_estado">Accusantium labore sit sed accusantium</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Magna omnis totam aperiam aliqua</codigo>
+                        <descricao name="p_descricao">Unde amet ipsum perspiciatis unde</descricao>
+                        <estado name="p_estado">Rem totam natus voluptatem unde</estado>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Ut natus aliqua sit aliqua</codigo>
-                        <descricao name="p_descricao">Aliqua perspiciatis voluptatem dolor magna</descricao>
-                        <estado name="p_estado">Deserunt voluptatem sed sit dolor</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Officia rem ut stract mollit</codigo>
+                        <descricao name="p_descricao">Sit officia stract aperiam rem</descricao>
+                        <estado name="p_estado">Mollit laudantium aperiam deserunt stract</estado>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="default" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter/>
+                        <target>submit</target>
+                        <img>default|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter/>
+                        <target>confirm</target>
+                        <img>default|fa-trash</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="alterar_estado">
+                        <title>Alterar Estado</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter/>
+                        <target>confirm</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>

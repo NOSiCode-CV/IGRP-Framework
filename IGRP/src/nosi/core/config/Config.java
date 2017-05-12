@@ -1,11 +1,16 @@
 package nosi.core.config;
 
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Properties;
-
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
+import nosi.teste.MainTest;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
 public class Config {
@@ -88,6 +93,18 @@ public class Config {
 	public static String getPathClass(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
+	
+	public static String getPathClassWorkSapce(){
+		String dir_base = System.getProperty("user.dir").replace("\\", "/");
+		return dir_base+"/src/";
+	}
+	
+	public static String getPathXslWorkSpace(){
+		//System.out.println(Igrp.getInstance().getServlet().getServletContext().getContextPath());
+		String dir_base = System.getProperty("user.dir").replace("\\", "/");
+		return dir_base+"/WebContent/";
+	}
+	
 	public static String getPathXsl(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
@@ -107,17 +124,36 @@ public class Config {
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
 	}
 	public static String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2011 - Copyright NOSI";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2017 - Copyright NOSI";
 	}
 	public static String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
 	}
 	
 	public static String getPageVersion(){
+		String app = Igrp.getInstance().getCurrentAppName();
+		String page = Igrp.getInstance().getCurrentPageName();
+		String action = Igrp.getInstance().getCurrentActionName();
+		if(!app.equals("") && !page.equals("") && !action.equals("")){
+			Action ac = new Action();
+			Application env = new Application();
+			env.setDad(app);
+			ac.setAction(action);
+			ac.setPage(Page.resolvePageName(page));
+			ac.setEnv(env);
+			return ac.getVersion();		
+		}
 		return "2.3";
 	}
 	
 	public static String getRootPaht(){
 		return Igrp.getInstance().getBasePath()+"/";
+	}
+
+	public static HashMap<String,String> getVersions() {
+		HashMap<String,String> versions = new HashMap<>();
+		versions.put("2.2", "2.2");
+		versions.put("2.3", "2.3");
+		return versions;
 	}
 }
