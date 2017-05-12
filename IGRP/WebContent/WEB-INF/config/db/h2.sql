@@ -207,7 +207,7 @@
 		(13,1, 'NovoUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl'),
 		(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
 		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
-		(16,1, 'transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
+		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
 		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
 		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl');
 	
@@ -230,7 +230,7 @@
 	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
 	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
 	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),	
-	(10, 'Gestão de Transação', 15, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self')
+	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self')
 	;
 	
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 

@@ -20,7 +20,7 @@ public class Transaction implements RowDataGateway {
 	
 	public Transaction() {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("postgresql");
+		this.con = Igrp.getInstance().getDao().unwrap("db1");
 	}
 	
 	
@@ -70,10 +70,6 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
-			/*code = "code 1 teste";
-			descr = "descr 1 teste";
-			env_fk = 2;
-			status = 1;*/
 		con.setAutoCommit(true);
 		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 				+ "(code, descr, env_fk, status) "
@@ -94,7 +90,6 @@ public class Transaction implements RowDataGateway {
 	public Object getOne() {
 		Transaction obj = new Transaction();
 		try{
-			//id = 127;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("SELECT id, code, descr, env_fk, status "
 					+ "FROM glb_t_transaction "
@@ -116,11 +111,6 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
-			/*id = 127;
-			code = "code 1 teste update";
-			descr = "descr 1 teste";
-			env_fk = 2;
-			status = 1;*/
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
 					+ "code=?, "
@@ -143,7 +133,6 @@ public class Transaction implements RowDataGateway {
 
 	@Override
 	public boolean delete() {
-		id = 128;
 		try{
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_transaction WHERE id = ?");
@@ -160,7 +149,6 @@ public class Transaction implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<Transaction> lista = new ArrayList<>();
 		try{
-			//id = 127;
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery("SELECT id, code, descr, env_fk, status "
 					+ "FROM glb_t_transaction");
@@ -178,18 +166,6 @@ public class Transaction implements RowDataGateway {
 			e.printStackTrace();
 		}
 		return lista.toArray();
-	}
-	
-	public static void main(String [] args){
-		//new Transaction().insert();
-		//System.out.println(new Transaction().getOne()); 
-		/*for(Object i: new Transaction().getAll()){
-			Transaction obj = (Transaction) i;
-			System.out.println(obj.getCode());
-		}*/
-		
-		//new Transaction().update();
-		new Transaction().delete();
 	}
 
 	@Override

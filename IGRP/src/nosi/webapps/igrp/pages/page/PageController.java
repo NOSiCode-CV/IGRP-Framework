@@ -51,6 +51,7 @@ public class PageController extends Controller {
 		}
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
+		view.version.setValue(Config.getVersions());
 		this.renderView(view);
 	}
 
@@ -80,8 +81,7 @@ public class PageController extends Controller {
 			action.setPage_type(model.getP_page_type());
 			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
-			//action.setVersion(model.getP_version());
-			action.setVersion("2.3");	
+			action.setVersion(model.getP_version());
 			boolean result = false;
 			if(model.getP_id()!=0){
 				result = action.update();
@@ -91,7 +91,7 @@ public class PageController extends Controller {
 			if(result){
 				String dad = ((Application)app.getOne()).getDad().toLowerCase();
 				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+dad+"/"+action.getPage().toLowerCase();			
+				String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+action.getVersion()+"/app/"+dad+"/"+action.getPage().toLowerCase();			
 				FileHelper.save(path_xsl, action.getPage()+".json", json);
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
@@ -114,6 +114,7 @@ public class PageController extends Controller {
 	
 	//Save page generated
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
+		//System.out.println(Config.getPathClassWorkSapce());
 		Igrp.getInstance().getResponse().setContentType("text/xml");		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Object obj = new Action().getOne(Integer.parseInt(p_id));
@@ -126,7 +127,9 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
 			path_class = path_class.replace(".", "/") + "/" +ac.getPage().toLowerCase();
 			String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl_work_space = Config.getPathXslWorkSpace()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
 			path_class = Config.getPathClass() + path_class;
+			String path_class_work_space = Config.getPathClassWorkSapce() + path_class;
 			
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
 				String[] partsJavaCode = javaCode.toString().split(" END ");
@@ -141,6 +144,14 @@ public class PageController extends Controller {
 						FileHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
 						FileHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
+//					if(FileHelper.fileExists(path_class_work_space) && FileHelper.fileExists(path_xsl_work_space)){
+//						FileHelper.save(path_class_work_space,ac.getPage()+".java", partsJavaCode[0]+"*/"); // save model
+//						FileHelper.save(path_class_work_space,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/"); // save view
+//						FileHelper.save(path_class_work_space,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]); // save controller
+//						FileHelper.save(path_xsl_work_space,ac.getPage()+".xml", fileXml) ; // save xml
+//						FileHelper.save(path_xsl_work_space,ac.getPage()+".xsl", fileXsl) ; // save xsl
+//						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
+//					}
 					ac.setId(Integer.parseInt(p_id));
 					ac.setXsl_src("images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
