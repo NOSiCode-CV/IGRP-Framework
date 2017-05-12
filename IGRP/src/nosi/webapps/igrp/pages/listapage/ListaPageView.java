@@ -18,6 +18,7 @@ public class ListaPageView extends View {
 	public Field descricao_page;
 	public Field versao_page;
 	public Field status_page;
+	public Field status_page_check;
 	public Field id;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -55,6 +56,9 @@ public class ListaPageView extends View {
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel("Ativo?");
 		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
+		status_page_check = new CheckBoxField(model,"status_page_check");
+		status_page_check.setLabel("Ativo?");
+		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		id = new HiddenField(model,"id");
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","p_id");
 
@@ -91,6 +95,7 @@ public class ListaPageView extends View {
 		table_1.addField(descricao_page);
 		table_1.addField(versao_page);
 		table_1.addField(status_page);
+		table_1.addField(status_page_check);
 		table_1.addField(id);
 
 		toolsbar_1.addButton(btn_novo);

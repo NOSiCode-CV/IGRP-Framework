@@ -91,6 +91,13 @@
           </div>
           <xsl:call-template name="IGRP-bottom"/>
         </form>
+        <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+        <!-- TABLE JS INCLUDES -->
+        <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js"/>
+        <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js"/>
+        <!-- SELECT JS INCLUDES -->
+        <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
+        <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
       </body>
     </html>
   </xsl:template>

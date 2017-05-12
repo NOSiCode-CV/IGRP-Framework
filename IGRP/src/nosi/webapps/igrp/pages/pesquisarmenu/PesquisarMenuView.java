@@ -20,6 +20,7 @@ public class PesquisarMenuView extends View {
 	public Field pagina;
 	public Field ativo;
 	public Field checkbox;
+	public Field checkbox_check;
 	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
@@ -57,12 +58,15 @@ public class PesquisarMenuView extends View {
 		pagina = new PlainTextField(model,"pagina");
 		pagina.setLabel("Pagina");
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
-		ativo = new PlainTextField(model,"ativo");
+		ativo = new TextField(model,"ativo");
 		ativo.setLabel("Ativo");
-		ativo.propertie().add("name","p_ativo").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		ativo.propertie().add("name","p_ativo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel("Checkbox");
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
+		checkbox_check = new CheckBoxField(model,"checkbox_check");
+		checkbox_check.setLabel("Checkbox");
+		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel("");
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
@@ -99,7 +103,8 @@ public class PesquisarMenuView extends View {
 		table_1.addField(ativo);
 		table_1.addField(checkbox);
 		table_1.addField(p_id);
-
+		table_1.addField(checkbox_check);
+		
 		toolsbar_1.addButton(btn_novo);
 		toolsbar_1.addButton(btn_menu_base);
 		form_1.addButton(btn_pesquisar);

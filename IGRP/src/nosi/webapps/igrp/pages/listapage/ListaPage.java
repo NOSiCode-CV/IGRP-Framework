@@ -46,7 +46,8 @@ public class ListaPage extends Model{
 		private String nome_page;
 		private String descricao_page;
 		private String versao_page;
-		private String status_page;
+		private int status_page;
+		private int status_page_check;
 		private int id;
 		public void setNome_page(String nome_page){
 			this.nome_page = nome_page;
@@ -69,13 +70,19 @@ public class ListaPage extends Model{
 			return this.versao_page;
 		}
 
-		public void setStatus_page(String status_page){
+		public void setStatus_page(int status_page){
 			this.status_page = status_page;
 		}
-		public String getStatus_page(){
+		public int getStatus_page(){
 			return this.status_page;
 		}
 
+		public int getStatus_page_check() {
+			return status_page_check;
+		}
+		public void setStatus_page_check(int status_page_check) {
+			this.status_page_check = status_page_check;
+		}
 		public void setId(int p_id_page){
 			this.id = p_id_page;
 		}

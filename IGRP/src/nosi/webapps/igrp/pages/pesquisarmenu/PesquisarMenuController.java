@@ -43,7 +43,11 @@ public class PesquisarMenuController extends Controller {
 			table1.setDescricao(menu_db1.getCode());//aqui entra os valores do menu Principal com flg_base = 1
 			table1.setTitulo(menu_db1.getDescr());//aqui fica os subMenus do menu_principal com flg_base = 0
 			table1.setPagina(menu_db1.getAction().getPage());
-			table1.setAtivo(menu_db1.getStatus());
+			table1.setAtivo(menu_db1.getStatus()==1?"Ativo":"Inativo");
+			table1.setCheckbox(menu_db1.getId());
+			if(menu_db1.getStatus()==1){
+				table1.setCheckbox_check(menu_db1.getId());
+			}
 			lista.add(table1);
 		}
 		
@@ -97,6 +101,8 @@ public class PesquisarMenuController extends Controller {
 		xml_menu.endElement();
 		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
 	}
+	
+	
 	public void actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Menu menu_db = new Menu();

@@ -18,7 +18,7 @@ import nosi.core.webapp.Igrp;
  */
 public class H2Migrate {
 
-	public static void createIgrpSchema() throws IOException{
+	public static void createIgrpSchema(Connection conn) throws IOException{
 		/*
 		 * Load H2 Igrp DB Schema  (Begin)
 		 * */
@@ -40,7 +40,6 @@ public class H2Migrate {
 		/*
 		 * Create Igrp DB Schema (Begin)
 		 * */
-		Connection conn = Igrp.getInstance().getDao().unwrap("db1");
 		try {
 			conn.setAutoCommit(false);
 		} catch (SQLException e1) {

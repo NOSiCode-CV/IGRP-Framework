@@ -19,8 +19,7 @@ public class MenuOrganicaController extends Controller {
 			MenuOrganica model = new MenuOrganica();
 			model.setId(id);
 			model.setType(type);
-			MenuOrganicaView view = new MenuOrganicaView(model);
-			
+			MenuOrganicaView view = new MenuOrganicaView(model);			
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 			Object[] menus = null;
 			if(type.equals("org")){
@@ -35,10 +34,27 @@ public class MenuOrganicaController extends Controller {
 				Menu m = (Menu) obj;
 				MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
 				table.setMenu(m.getId());
+				Profile prof = new Profile();
+				prof.setOrg_fk(Integer.parseInt(id));
+				prof.setProf_type_fk(1);
+				prof.setUser_fk(1);
+				prof.setType_fk(m.getId());
+				if(type.equals("org")){
+					prof.setType("MEN");
+				}else if(type.equals("perfil")){
+					ProfileType pt = new ProfileType();
+					pt.setId(Integer.parseInt(id));
+					ProfileType p = (ProfileType) pt.getOne();
+					prof.setOrg_fk(p.getOrg_fk());
+					prof.setProf_type_fk(1);
+					prof.setType("MEN_PROF");	
+				}
+				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType()!=null && ((Profile)prof.getOne()).getType_fk()==m.getId()){
+					table.setMenu_check(m.getId());
+				}
 				table.setDescricao(m.getDescr());
 				data.add(table);
-			}
-			
+			}			
 			view.table_1.addData(data);
 			this.renderView(view);
 		}
