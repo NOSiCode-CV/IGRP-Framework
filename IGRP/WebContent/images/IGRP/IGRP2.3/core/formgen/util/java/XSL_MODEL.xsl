@@ -78,6 +78,7 @@
 			<xsl:value-of select="$tab"/>
 			<xsl:value-of select="concat('private ArrayList&lt;',$tableName,'&gt; ',name(),' = new ArrayList&lt;&gt;();')"/>
 			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type_content" select="../../@type" />
 	    		<xsl:with-param name="type" select="'arraylist'" />
 	    		<xsl:with-param name="name" select="name()" />
 	    	</xsl:call-template>
@@ -137,6 +138,11 @@
  			<xsl:value-of select="$newline"/>
  			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>
+			<xsl:if test="@type = 'checkbox'">				
+	 			<xsl:value-of select="$newline"/>
+	 			<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>
+			</xsl:if>
  		</xsl:for-each>
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
@@ -150,6 +156,7 @@
 				</xsl:choose>
 		 	</xsl:variable>
 			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type_content" select="../../@type" />
 	    		<xsl:with-param name="type" select="@type" />
 	    		<xsl:with-param name="name" select="$tag_name" />
 	    		<xsl:with-param name="tab_" select="$tab2" />
@@ -180,6 +187,7 @@
  		</xsl:for-each>
  		<xsl:for-each select="label/*">
 			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type_content" select="../../@type" />
 	    		<xsl:with-param name="type" select="@type" />
 	    		<xsl:with-param name="name" select="." />
 	    		<xsl:with-param name="tab_" select="$tab2" />

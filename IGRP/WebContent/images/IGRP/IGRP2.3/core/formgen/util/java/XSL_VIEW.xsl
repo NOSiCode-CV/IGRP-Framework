@@ -81,12 +81,21 @@
  		<xsl:for-each select="//content/*">
 		 	<xsl:variable name="instance_name">
 		 		<xsl:value-of select="local-name()"/>
-		 	</xsl:variable>		 
+		 	</xsl:variable>		
+		 	<xsl:variable name="type_content">
+		 		<xsl:value-of select="@type"/>
+		 	</xsl:variable>	 
 		 	<xsl:for-each select="fields/*">
 				<xsl:value-of select="$tab2"/>
 				<xsl:choose>
 					<xsl:when test="@type='hidden'">
 						<xsl:value-of select="concat($instance_name,'.addField(',@name,');')"/>
+					</xsl:when>
+					<xsl:when test="@type='checkbox' and $type_content='table'">
+						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($instance_name,'.addField(',name(),'_check);')"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
