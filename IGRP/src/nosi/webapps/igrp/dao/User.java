@@ -197,15 +197,48 @@ public class User implements Identity, RowDataGateway{
 	
 	@Override
 	public Object getOne() {
-		// TODO Auto-generated method stub
-		return null;
+		User obj = null;
+		try{
+			Statement st = this.conn.createStatement();
+			ResultSet result = st.executeQuery("SELECT * FROM glb_t_user where id = "+ this.id);
+			
+			if(result.next()){
+				obj = new User();
+				obj.setId(result.getInt("id"));
+				obj.setEmail(result.getString("email"));;
+				obj.setUser_name(result.getString("user_name"));
+				obj.setName(result.getString("name"));
+			}
+			
+			st.close();
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		return obj;
 	}
 
 	
 	@Override
 	public boolean update() {
-		// TODO Auto-generated method stub
-		return false;
+		int result = 0;
+		try{ // name, user_name, email, pass_hash, status, created_at, updated_at, auth_key
+			this.conn.setAutoCommit(true);
+			PreparedStatement ps = this.conn.prepareStatement("update glb_t_user set "
+					+ "name = ?, user_name = ?, email = ?, pass_hash = ?, status = ?, created_at = ?, updated_at = ? "
+					+ "where id = ?");
+			ps.setString(1, this.name);
+			ps.setString(2, this.user_name);
+			ps.setString(3, this.email);
+			ps.setString(4, this.pass_hash);
+			ps.setInt(5, this.status);
+			ps.setLong(6, this.created_at);
+			ps.setLong(7, this.updated_at);
+			ps.setInt(8, this.id);
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+		return result > 0;
 	}
 
 
@@ -523,6 +556,16 @@ public class User implements Identity, RowDataGateway{
 
 	public void setProfile(ProfileType profile) {
 		this.profile = profile;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + ", userProfile="
+				+ userProfile + ", valid_until=" + valid_until + ", status=" + status + ", remarks=" + remarks
+				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
+				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
+				+ ", password_reset_token=" + password_reset_token + ", auth_key=" + auth_key + ", created_at="
+				+ created_at + ", updated_at=" + updated_at + ", profile=" + profile + ", conn=" + conn + "]";
 	}	
 	
 	

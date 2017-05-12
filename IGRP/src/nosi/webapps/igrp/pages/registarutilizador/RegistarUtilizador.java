@@ -9,6 +9,8 @@ public class RegistarUtilizador extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_nome")
 	private String nome;
+	@RParam(rParamName = "p_id")
+	private String id;
 	@RParam(rParamName = "p_username")
 	private String username;
 	@RParam(rParamName = "p_email")
@@ -58,6 +60,13 @@ public class RegistarUtilizador extends Model{
 	}
 	public String getConfirmar_password(){
 		return this.confirmar_password;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 

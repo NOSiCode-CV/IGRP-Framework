@@ -63,7 +63,7 @@ public class PesquisarUtilizadorView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","submit","default|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","RegistarUtilizador","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");

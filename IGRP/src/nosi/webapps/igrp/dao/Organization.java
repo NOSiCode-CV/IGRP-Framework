@@ -174,10 +174,10 @@ public class Organization implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
-			name = "Nome update 1";
+			/*name = "Nome update 1";
 			id = 118;
 			env_fk = 1;
-			self_fk = 17;
+			self_fk = 17;*/
 			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 	        st.executeUpdate("UPDATE glb_t_organization SET "
