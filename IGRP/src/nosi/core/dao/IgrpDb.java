@@ -143,6 +143,8 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void init() { // Defaults connections ...
+		/* Please put all your connection here */
+		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
 		
 		// Load connection config from db.properties
 		/*String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/db.xml");

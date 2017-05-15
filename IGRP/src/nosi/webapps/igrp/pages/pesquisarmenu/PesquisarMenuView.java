@@ -76,17 +76,16 @@ public class PesquisarMenuView extends View {
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_menu_base = new IGRPButton("Menu Base","igrp","PesquisarMenu","menu_base","submit","default|fa-save","","");
 		btn_menu_base.propertie.add("type","specific").add("code","").add("rel","menu_base");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarMenu","pesquisar","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarMenu","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","pesquisar-menu","index","_self","default|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","novo-menu","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("rel","editar");
 		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","pesquisar-menu","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("rel","eliminar");
-		
 	}
-		
+	
 	@Override
 	public void render(){
 		Config.TITLE = this.title;
@@ -110,7 +109,7 @@ public class PesquisarMenuView extends View {
 		toolsbar_1.addButton(btn_menu_base);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_eliminar);
-		table_1.addButton(btn_eliminar);
+		table_1.addButton(btn_editar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);

@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.novomenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
@@ -27,7 +28,7 @@ public class NovoMenuController extends Controller {
 		view.action_fk.setValue(new Action().getListActions());
 		view.self_id.setValue(new Menu().getListPrincipalMenus());
 		view.target.setValue(targets); // prompt
-
+		
 		this.renderView(view);
 	}
 
@@ -60,8 +61,33 @@ public class NovoMenuController extends Controller {
 		this.redirect("igrp", "novo-menu", "index");
 	}
 	
+	public void actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException{
+			
+			Menu menu_db = new Menu();
+			menu_db.setId(Integer.parseInt(id_menu));
+			menu_db = (Menu) menu_db.getOne();
+			
+			NovoMenu model = new NovoMenu();
+			NovoMenuView view = new NovoMenuView(model);
+			
+			
+			HashMap<String,String> targets = new HashMap<>();
+			targets.put(null, "--- Selecionar Target ---");
+			targets.put("_self", "Mesma página");
+			targets.put("target", "Popup");
+			targets.put("submit", "Submit");
+			targets.put("confirm", "Confirm");
+			view.target.setValue(targets);
+			
+			view.env_fk.setValue(new Application().getListAppsOne(Integer.parseInt(id_menu)));
+			
+			//model.setCode(menu_db.getCode());
+			this.renderView(view);
+		
+	}
+	
 	public void actionVoltar() throws IOException{
-			this.redirect("igrp","ListaEnv","index");
+			this.redirect("igrp","pesquisar-menu","index");
 	}
 	
 }
