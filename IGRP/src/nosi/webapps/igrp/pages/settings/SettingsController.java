@@ -50,10 +50,10 @@ public class SettingsController extends Controller {
 		view.password_expira_em.setValue(user.getValid_until());
 		*/
 		
-		HashMap<String,String> organizations =  new Organization().getListOrganizations();
+		HashMap<String,String> organizations =  new Organization().getListMyOrganizations();
 		view.organica.setValue(organizations);
 		
-		HashMap<String,String> profiles =  new ProfileType().getListProfiles();
+		HashMap<String,String> profiles =  new ProfileType().getListMyProfiles();
 		view.perfil.setValue(profiles);
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();

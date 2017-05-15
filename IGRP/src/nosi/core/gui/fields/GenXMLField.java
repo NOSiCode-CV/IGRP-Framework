@@ -101,7 +101,7 @@ public class GenXMLField {
 			xml.startElement("value");
 				for(Field field:fields){
 					if(field.isVisible()){
-						if(!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxField)){
+						if(!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxListField)){
 							xml.startElement(field.getTagName());
 							writteAttributes(xml,field.propertie());
 							xml.text(""+field.getValue());
@@ -123,7 +123,7 @@ public class GenXMLField {
 			xml.startElement("list");
 			for(Field field:fields){
 				if(field.isVisible()){
-					if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxField){
+					if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField){
 						xml.startElement(field.getTagName());
 						writteAttributes(xml,field.propertie());
 						if(field.getValue()!=null && field.getValue() instanceof HashMap){
@@ -156,7 +156,7 @@ public class GenXMLField {
 	 * <value>Text 1</value>
 	 */
 	private static void getXmlValue(XMLWritter xml, Field field) {
-		if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxField){
+		if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField){
 			xml.startElement("list");
 			if(field.getValue()!=null && field.getValue() instanceof HashMap){
 				HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
@@ -164,7 +164,7 @@ public class GenXMLField {
 					xml.startElement("option");
 					if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("selected", "true");
-					}else if((field instanceof CheckBoxField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+					}else if((field instanceof CheckBoxListField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
 						xml.writeAttribute("checked", "true");
 					}
 					xml.setElement("text", obj.getValue().toString());
