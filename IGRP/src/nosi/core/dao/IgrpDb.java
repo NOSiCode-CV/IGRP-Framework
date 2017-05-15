@@ -157,7 +157,7 @@ public class IgrpDb implements Component{
 		/*if(!isIgrpCoreDb) // H2 is the defualt db for Igrp
 			this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
 			*/
-	}
+		}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
 		this.newConnection("localhost", 0, connectionName, dbmsName, dbName, username, password);

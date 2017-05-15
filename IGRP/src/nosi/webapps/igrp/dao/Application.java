@@ -263,7 +263,7 @@ public class Application implements RowDataGateway {
 			Method[] methods = this.getClass().getDeclaredMethods();
 			for(Method method:methods){
 				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
-					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
+					conditions+=" AND "+method.getName().substring(3).toLowerCase()+" LIKE ? ";
 				}
 			}
 			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_env "+ conditions+ " order by id");
@@ -275,7 +275,7 @@ public class Application implements RowDataGateway {
 							st.setInt(i,Integer.parseInt(method.invoke(this).toString()));
 							break;
 						case "String":
-							st.setString(i,method.invoke(this).toString());
+							st.setString(i,method.invoke(this).toString()+"%");
 							break;
 						case "double":
 							st.setDouble(i,Double.parseDouble(method.invoke(this).toString()));
@@ -336,6 +336,32 @@ public class Application implements RowDataGateway {
 		}
 		return lista;
 	}
+	
+	public HashMap<Integer,String> getListAppsOne(int id){
+		HashMap<Integer,String> lista = new HashMap<>();
+		
+		try{
+			Statement st = con.createStatement();
+			ResultSet result = st.executeQuery("SELECT app.id, app.name FROM glb_t_env app, glb_t_profile pro, glb_t_organization org "
+					+ "where pro.type = 'MEN' "
+					+ "and org.id = env_fk "
+					+ "and pro.org_fk = org.id "
+					+ " and pro.type_fk = " + id);
+
+			while(result.next()){
+				
+				lista.put(result.getInt(1), result.getString(2));
+			}
+			st.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		
+		
+		return lista;
+	}
+	
 	
 	@Override
 	public String toString() {

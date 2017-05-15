@@ -22,27 +22,19 @@ public class PesquisarMenuController extends Controller {
 	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		PesquisarMenu model = new PesquisarMenu();
-		PesquisarMenuView view = new PesquisarMenuView(model);
-		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
+		
 		Menu menu_db = new Menu();
-		
-		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
-		HashMap<String,String> organizations =  new Organization().getListOrganizations();
-		view.organica.setValue(organizations);
-		HashMap<Integer, String> menu_principal = menu_db.getListPrincipalMenus();
-		view.menu_principal.setValue(menu_principal);
-		
-		//condiccao para pesquisar com filtros
+
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			menu_db.setEnv_fk(model.getAplicacao());
 			Organization objOrg = new Organization();
 			objOrg.setId(model.getOrganica());
 			menu_db.setOrganica(objOrg);
-			menu_db.setFlg_base(model.getMenu_principal());
+			menu_db.setId(model.getMenu_principal());
 		}
+		
+		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 		
 		//Preenchendo a tabela
 		for(Object ob:menu_db.getAllPisquisarMenu()){
@@ -53,11 +45,23 @@ public class PesquisarMenuController extends Controller {
 			table1.setPagina(menu_db1.getAction().getPage());
 			table1.setAtivo(menu_db1.getStatus()==1?"Ativo":"Inativo");
 			table1.setCheckbox(menu_db1.getId());
+			table1.setP_id(menu_db1.getId());
 			if(menu_db1.getStatus()==1){
 				table1.setCheckbox_check(menu_db1.getId());
 			}
 			lista.add(table1);
 		}
+		
+		PesquisarMenuView view = new PesquisarMenuView(model);
+		
+		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		HashMap<Integer,String> applications =  new Application().getListApps();
+		view.aplicacao.setValue(applications);
+		HashMap<String,String> organizations =  new Organization().getListOrganizations();
+		view.organica.setValue(organizations);
+		HashMap<Integer, String> menu_principal = menu_db.getListPrincipalMenus();
+		view.menu_principal.setValue(menu_principal);
+
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.title = "";
