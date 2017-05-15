@@ -1,14 +1,18 @@
 package nosi.core.config;
 
-import java.net.URL;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Properties;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
-import nosi.teste.MainTest;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
@@ -86,26 +90,30 @@ public class Config {
 		return configs;
 	}
 	
+	public static String getBasePathConfig(){
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
+	}
+	
 	public static String getPathLib(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/lib/");
 	}
 	
-	public static String getPathClass(){
+	public static String getBasePathClass(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 	
-	public static String getPathClassWorkSapce(){
-		String dir_base = System.getProperty("user.dir").replace("\\", "/");
-		return dir_base+"/src/";
+	public static String getProject_loc(){
+		try {
+			JAXBContext context = JAXBContext.newInstance(LinkedResources.class);
+			Unmarshaller unmarshaller = (Unmarshaller) context.createUnmarshaller();
+			LinkedResources lR = (LinkedResources) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"LinkedResource.xml"));
+			return lR.getProject_loc();
+		} catch (JAXBException e) {
+		} 		
+		return null;
 	}
 	
-	public static String getPathXslWorkSpace(){
-		//System.out.println(Igrp.getInstance().getServlet().getServletContext().getContextPath());
-		String dir_base = System.getProperty("user.dir").replace("\\", "/");
-		return dir_base+"/WebContent/";
-	}
-	
-	public static String getPathXsl(){
+	public static String getBasePathXsl(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	public static String getLinkImg(){
@@ -155,5 +163,27 @@ public class Config {
 		versions.put("2.2", "2.2");
 		versions.put("2.3", "2.3");
 		return versions;
+	}
+	
+	public static String getResolvePathXsl(String app,String page,String version){
+		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+	}
+	
+	public static String getResolvePathClass(String app,String page,String version){
+		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+	}
+	
+	public static String getDefaultPageController(String app,String title){
+		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n"
+				 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
+				 + "import java.io.IOException;\n"
+				 + "import nosi.core.webapp.Controller;\n"
+				 + "public class DefaultPageController extends Controller {	\n"
+						+ "public void actionIndex() throws IOException{\n"
+							+ "HomeAppView view = new HomeAppView();\n"
+							+ "view.title = \""+title+"\";\n"
+							+ "this.renderView(view,true);\n"
+						+ "}\n"
+				  + "}";
 	}
 }
