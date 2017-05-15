@@ -1,11 +1,20 @@
 package nosi.core.config;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Properties;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
 public class Config {
@@ -81,14 +90,30 @@ public class Config {
 		return configs;
 	}
 	
+	public static String getBasePathConfig(){
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/");
+	}
+	
 	public static String getPathLib(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/lib/");
 	}
 	
-	public static String getPathClass(){
+	public static String getBasePathClass(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
-	public static String getPathXsl(){
+	
+	public static String getProject_loc(){
+		try {
+			JAXBContext context = JAXBContext.newInstance(LinkedResources.class);
+			Unmarshaller unmarshaller = (Unmarshaller) context.createUnmarshaller();
+			LinkedResources lR = (LinkedResources) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"LinkedResource.xml"));
+			return lR.getProject_loc();
+		} catch (JAXBException e) {
+		} 		
+		return null;
+	}
+	
+	public static String getBasePathXsl(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	public static String getLinkImg(){
@@ -107,17 +132,58 @@ public class Config {
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
 	}
 	public static String getFooterName(){
-		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2011 - Copyright NOSI";
+		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2017 - Copyright NOSI";
 	}
 	public static String getWelcomeNote(){
 		return getConfig().get("welcome_note")!=null? getConfig().get("welcome_note").toString():"Ola";
 	}
 	
 	public static String getPageVersion(){
+		String app = Igrp.getInstance().getCurrentAppName();
+		String page = Igrp.getInstance().getCurrentPageName();
+		String action = Igrp.getInstance().getCurrentActionName();
+		if(!app.equals("") && !page.equals("") && !action.equals("")){
+			Action ac = new Action();
+			Application env = new Application();
+			env.setDad(app);
+			ac.setAction(action);
+			ac.setPage(Page.resolvePageName(page));
+			ac.setEnv(env);
+			return ac.getVersion();		
+		}
 		return "2.3";
 	}
 	
 	public static String getRootPaht(){
 		return Igrp.getInstance().getBasePath()+"/";
+	}
+
+	public static HashMap<String,String> getVersions() {
+		HashMap<String,String> versions = new HashMap<>();
+		versions.put("2.2", "2.2");
+		versions.put("2.3", "2.3");
+		return versions;
+	}
+	
+	public static String getResolvePathXsl(String app,String page,String version){
+		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+	}
+	
+	public static String getResolvePathClass(String app,String page,String version){
+		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+	}
+	
+	public static String getDefaultPageController(String app,String title){
+		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n"
+				 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
+				 + "import java.io.IOException;\n"
+				 + "import nosi.core.webapp.Controller;\n"
+				 + "public class DefaultPageController extends Controller {	\n"
+						+ "public void actionIndex() throws IOException{\n"
+							+ "HomeAppView view = new HomeAppView();\n"
+							+ "view.title = \""+title+"\";\n"
+							+ "this.renderView(view,true);\n"
+						+ "}\n"
+				  + "}";
 	}
 }

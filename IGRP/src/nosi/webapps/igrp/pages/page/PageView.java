@@ -24,7 +24,7 @@ public class PageView extends View {
 	public Field p_flg_transaction;
 	public Field p_self_id;
 	public Field p_self_fw_id;
-	public Field p_version;
+	public Field version;
 	public Field p_db_connection;
 	public Field p_flg_offline;
 	public Field p_flg_internet;
@@ -85,9 +85,9 @@ public class PageView extends View {
 		p_self_fw_id = new HiddenField(model,"p_self_fw_id");
 		p_self_fw_id.setLabel("");
 		p_self_fw_id.propertie().add("name","p_self_fw_id").add("type","hidden").add("maxlength","30").add("tag","self_fw_id");
-		p_version = new HiddenField(model,"p_version");
-		p_version.setLabel("");
-		p_version.propertie().add("name","p_version").add("type","hidden").add("maxlength","30").add("tag","version");
+		version = new ListField(model,"version");
+		version.setLabel("Versão de Pagina");
+		version.propertie().add("name","p_version").add("type","select").add("maxlength","30").add("tag","version");
 		p_db_connection = new HiddenField(model,"p_db_connection");
 		p_db_connection.setLabel("");
 		p_db_connection.propertie().add("name","p_db_connection").add("type","hidden").add("maxlength","30").add("tag","db_connection");
@@ -132,7 +132,7 @@ public class PageView extends View {
 		form_1.addField(p_flg_transaction);
 		form_1.addField(p_self_id);
 		form_1.addField(p_self_fw_id);
-		form_1.addField(p_version);
+		form_1.addField(version);
 		form_1.addField(p_db_connection);
 		form_1.addField(p_flg_offline);
 		form_1.addField(p_flg_internet);

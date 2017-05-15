@@ -22,8 +22,8 @@ public class GeneratorController extends Controller{
 		model.setId(ac.getId());
 		model.setId_pai(ac.getEnv_fk());
 		model.setLink_image("images/IGRP/Config/img.list.php?name=");	
-		String json = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".json";
-		if(ac!=null && FileHelper.fileExists(Config.getPathXsl()+"/"+json)){
+		String json = Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
+		if(ac!=null && FileHelper.fileExists(Config.getBasePathXsl()+json)){
 			model.setPage_form(json);
 		}
 		model.setPackage_("nosi.webapps."+ac.getEnv().getDad().toLowerCase()+".pages");

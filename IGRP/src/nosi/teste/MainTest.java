@@ -1,7 +1,9 @@
 package nosi.teste;
 
+import java.net.URL;
 import java.util.HashMap;
 
+import jdk.management.resource.ResourceContext;
 import nosi.core.gui.components.IGRPBox;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPChart;
@@ -27,7 +29,11 @@ import nosi.core.gui.fields.TextField;
 public class MainTest {
 	
 	public static void main(String[] args) {
-		TesteModel model = new TesteModel();
+		 URL location = MainTest.class.getProtectionDomain().getCodeSource().getLocation();
+	        System.out.println(location.getFile());
+		/*final String dir = System.getProperty("user.dir");
+		System.out.println("current dir = " + dir);
+	/*	TesteModel model = new TesteModel();
 		Field list = new ListField(model, "list");
 		HashMap<Integer,String> value = new HashMap<>();
 		value.put(null, "-- Selecionar ---");

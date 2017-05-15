@@ -42,18 +42,10 @@ public class EnvController extends Controller {
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
 			app.setTemplates(model.getTemplates());
-			String pageController = "package nosi.webapps."+app.getDad().toLowerCase()+".pages.defaultpage;\n"
-					 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
-					 + "import java.io.IOException;\n"
-					 + "import nosi.core.webapp.Controller;\n"
-					 + "public class DefaultPageController extends Controller {	\n"
-							+ "public void actionIndex() throws IOException{\n"
-								+ "HomeAppView view = new HomeAppView();\n"
-								+ "view.title = \""+app.getName()+"\";\n"
-								+ "this.renderView(view,true);\n"
-							+ "}\n"
-					  + "}";
-			if(app.insert() && FileHelper.createDiretory(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages") && FileHelper.save(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java",pageController) && FileHelper.compile(Config.getPathClass()+"nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage", "DefaultPageController.java")){
+			if(app.insert() && FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages") && FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())) && FileHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java")){
+				if(FileHelper.fileExists(Config.getProject_loc()) && FileHelper.createDiretory(Config.getProject_loc()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getProject_loc()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				}
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Operação efetuada com sucesso!");
 				this.redirect("igrp", "lista-env","index");
 				return;

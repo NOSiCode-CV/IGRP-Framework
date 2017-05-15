@@ -62,7 +62,6 @@ public class RegistarUtilizadorView extends View {
 
 		sectionheader_1.addField(sectionheader_1_text);
 
-
 		form_1.addField(nome);
 		form_1.addField(username);
 		form_1.addField(email);

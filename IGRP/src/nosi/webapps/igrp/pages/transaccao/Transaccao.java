@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.transaccao;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -78,4 +77,3 @@ public class Transaccao extends Model{
 
 	}
 }
-/*-------------------------*/

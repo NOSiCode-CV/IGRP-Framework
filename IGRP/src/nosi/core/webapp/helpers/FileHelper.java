@@ -92,10 +92,9 @@ public class FileHelper {
 	//Compile files and saves
 	public static boolean compile(String pathDestination,String className){
 		className = pathDestination+"/"+className;
-		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getPathClass(),"-d",Config.getPathClass(),className}) == 0;
+		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getBasePathClass(),"-d",Config.getBasePathClass(),className}) == 0;
 	}
-	 
-
+	
 	public static boolean fileExists(String fileName){
 		Path dir = Paths.get(fileName);
 		return Files.exists(dir);

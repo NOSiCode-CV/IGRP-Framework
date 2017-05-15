@@ -15,11 +15,11 @@ import java.io.IOException;
 public class LoginController extends Controller {		
 
 	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
-		// first
+		/*// first
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			this.redirect("igrp", "home", "index"); // go to home (Bug here)
 			return;
-		}
+		}*/
 		
 		Login model = new Login();
 		model.load();
