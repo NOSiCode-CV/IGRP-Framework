@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<db>
+		<connectionName>db1</connectionName>
+		<dbmsName>mysql</dbmsName>
+		<dbName>db_igrp</dbName>
+		<user>root</user>
+		<password></password>
+	</db>
+</Config>

@@ -1,5 +1,9 @@
 package nosi.core.dao;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +11,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
+import nosi.core.config.DbConfig;
+
+import javax.xml.bind.JAXB;
 
 import nosi.core.config.H2Migrate;
 import nosi.core.webapp.Component;
@@ -135,6 +143,14 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void init() { // Defaults connections ...
+		
+		// Load connection config from db.properties
+		/*String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/db.xml");
+		File file = new File(path);
+		DbConfig dbConfig = JAXB.unmarshal(file, DbConfig.class);
+		
+		System.out.println(dbConfig);
+		*/
 		/* Please put all your connection here */
 		//this.newConnection("db1", "mysql", "db_igrp", "root", "");// Connection to PostgreSQL (default)
 		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
