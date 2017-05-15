@@ -45,6 +45,7 @@ public class PesquisarMenuController extends Controller {
 			table1.setPagina(menu_db1.getAction().getPage());
 			table1.setAtivo(menu_db1.getStatus()==1?"Ativo":"Inativo");
 			table1.setCheckbox(menu_db1.getId());
+			table1.setP_id(menu_db1.getId());
 			if(menu_db1.getStatus()==1){
 				table1.setCheckbox_check(menu_db1.getId());
 			}

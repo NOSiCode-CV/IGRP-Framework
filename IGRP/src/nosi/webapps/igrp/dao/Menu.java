@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -259,12 +260,12 @@ public class Menu implements RowDataGateway {
 	public Object getOne() {
 		Menu obj = new Menu();
 		try{
-			//id = 19;
-			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_menu where id = " + this.id);
-			ResultSet rs = st.executeQuery();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM glb_t_menu where id = "+ this.id);
 			
 			while(rs.next()){
-				obj.setSelf_id(rs.getInt("id"));
+				System.out.println("ok entrar");
+				obj.setId(rs.getInt("id"));
 				obj.setDescr(rs.getString("descr"));
 				obj.setLink(rs.getString("link"));
 				obj.setSelf_id(rs.getInt("self_id"));
