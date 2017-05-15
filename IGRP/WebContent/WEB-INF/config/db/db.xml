@@ -2,9 +2,10 @@
 <Config>
 	<db>
 		<connectionName>db1</connectionName>
-		<dbmsName>mysql</dbmsName>
+		<dbmsName>h2</dbmsName>
 		<dbName>db_igrp</dbName>
-		<user>root</user>
-		<password></password>
+		<user>user.igrp</user>
+		<password>password.igrp</password>
 	</db>
+	<!-- Place others DB connection info. here -->
 </Config>

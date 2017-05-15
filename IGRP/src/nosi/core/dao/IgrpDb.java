@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import nosi.core.config.DbConfig;
+import nosi.core.config.DbInfo;
 
 import javax.xml.bind.JAXB;
 
@@ -143,18 +144,19 @@ public class IgrpDb implements Component{
 
 	@Override
 	public void init() { // Defaults connections ...
-		
 		// Load connection config from db.properties
-		/*String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/db.xml");
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/db.xml");
 		File file = new File(path);
 		DbConfig dbConfig = JAXB.unmarshal(file, DbConfig.class);
-		
-		System.out.println(dbConfig);
-		*/
-		/* Please put all your connection here */
-		//this.newConnection("db1", "mysql", "db_igrp", "root", "");// Connection to PostgreSQL (default)
-		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
-		this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
+		boolean isIgrpCoreDb = false;
+		for(DbInfo dbInfo : dbConfig.getDbInfo()){
+			this.newConnection(dbInfo.getConnectionName(), dbInfo.getDbmsName(), dbInfo.getDbName(), dbInfo.getUser(), dbInfo.getPassword());
+			if(dbInfo.getConnectionName().equals("db1")) // default connection name for default Igrp Data Base
+				isIgrpCoreDb = true;
+		}
+		/*if(!isIgrpCoreDb) // H2 is the defualt db for Igrp
+			this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
+			*/
 	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
