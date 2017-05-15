@@ -36,13 +36,17 @@
 	<xsl:template name="import-class-models">
 		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
-          	  	<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
+          	  	<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name">
+          	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
+           		</xsl:if>
            </xsl:for-each>
            <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
-          	  	<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
+         		<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name">
+          	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
+           		</xsl:if>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-            <xsl:if test="not(@rel=preceding::node()/@rel)">
+            <xsl:if test="not(@rel=preceding::node()/@rel) and not(./page=preceding::node()/./page) and $class_name!=@rel">
 	          	<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
             </xsl:if>
            </xsl:for-each>
@@ -58,8 +62,10 @@
 	    		</xsl:with-param>
 	    	</xsl:call-template>
 		</xsl:variable>	
-		<xsl:value-of select="concat($package_import_name,'.',$pacak_import,'.*',';')"/>
-		<xsl:value-of select="$newline"/>	
+		<xsl:if test="$page__ != ''">
+			<xsl:value-of select="concat($package_import_name,'.',$pacak_import,'.*',';')"/>
+			<xsl:value-of select="$newline"/>	
+		</xsl:if>
 	</xsl:template>
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
