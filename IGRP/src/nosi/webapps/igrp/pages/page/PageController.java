@@ -90,10 +90,13 @@ public class PageController extends Controller {
 				result = action.insert();
 			}
 			if(result){
-				String dad = ((Application)app.getOne()).getDad().toLowerCase();
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+action.getVersion()+"/app/"+dad+"/"+action.getPage().toLowerCase();			
+				Application dad = ((Application)app.getOne());
+				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad.getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(dad.getDad(), action.getPage(), action.getVersion());		
 				FileHelper.save(path_xsl, action.getPage()+".json", json);
+				if(FileHelper.fileExists(Config.getProject_loc())){
+					FileHelper.save(Config.getProject_loc()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+dad.getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				}
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
@@ -115,7 +118,6 @@ public class PageController extends Controller {
 	
 	//Save page generated
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
-		//System.out.println(Config.getPathClassWorkSapce());
 		Igrp.getInstance().getResponse().setContentType("text/xml");		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Object obj = new Action().getOne(Integer.parseInt(p_id));
@@ -126,11 +128,11 @@ public class PageController extends Controller {
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
-			path_class = path_class.replace(".", "/") + "/" +ac.getPage().toLowerCase();
-			String path_xsl = Config.getPathXsl()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			String path_xsl_work_space = Config.getPathXslWorkSpace()  +"/images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			path_class = Config.getPathClass() + path_class;
-			String path_class_work_space = Config.getPathClassWorkSapce() + path_class;
+			path_class = path_class.replace(".","/") + "/" +ac.getPage().toLowerCase();
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_class_work_space = Config.getProject_loc() +"/src/"+ path_class;
+			path_class = Config.getBasePathClass()+ path_class;
 			
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
 				String[] partsJavaCode = javaCode.toString().split(" END ");
@@ -145,16 +147,19 @@ public class PageController extends Controller {
 						FileHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
 						FileHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
-//					if(FileHelper.fileExists(path_class_work_space) && FileHelper.fileExists(path_xsl_work_space)){
-//						FileHelper.save(path_class_work_space,ac.getPage()+".java", partsJavaCode[0]+"*/"); // save model
-//						FileHelper.save(path_class_work_space,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/"); // save view
-//						FileHelper.save(path_class_work_space,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]); // save controller
-//						FileHelper.save(path_xsl_work_space,ac.getPage()+".xml", fileXml) ; // save xml
-//						FileHelper.save(path_xsl_work_space,ac.getPage()+".xsl", fileXsl) ; // save xsl
-//						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
-//					}
+					if(FileHelper.fileExists(Config.getProject_loc())){
+						if(!FileHelper.fileExists(path_class_work_space)){//check directory
+							FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+						}
+						FileHelper.save(path_class_work_space,ac.getPage()+".java", partsJavaCode[0]+"*/"); // save model
+						FileHelper.save(path_class_work_space,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/"); // save view
+						FileHelper.save(path_class_work_space,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]); // save controller
+						FileHelper.save(path_xsl_work_space,ac.getPage()+".xml", fileXml) ; // save xml
+						FileHelper.save(path_xsl_work_space,ac.getPage()+".xsl", fileXsl) ; // save xsl
+						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
+					}
 					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src("images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
+					ac.setXsl_src(Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
@@ -167,6 +172,7 @@ public class PageController extends Controller {
 		
 	}
 
+	//list all page of an application
 	public void actionListPage() throws IOException{
 		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
@@ -180,7 +186,7 @@ public class PageController extends Controller {
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+(ac.getPage_descr()!=null?ac.getPage_descr():ac.getPage()) +"\",";
-				json += "\"link\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl\"";
+				json += "\"link\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
 		}
@@ -190,6 +196,7 @@ public class PageController extends Controller {
 		Igrp.getInstance().getResponse().getWriter().println(json);
 	}
 	
+	//get detail page
 	public void actionDetailPage() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));		
@@ -200,7 +207,7 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage() +".xsl\",";
+				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
@@ -228,12 +235,13 @@ public class PageController extends Controller {
 		
 	}
 	
+	//View page with xml
 	public void actionVisualizar() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		String p_id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
-		if(ac!=null){
-			String filename = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xml";
+		if(ac!=null){			
+			String filename = Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
 			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
 			InputStream inputStrem = context.getResourceAsStream(filename);
 	        if (inputStrem != null) {
