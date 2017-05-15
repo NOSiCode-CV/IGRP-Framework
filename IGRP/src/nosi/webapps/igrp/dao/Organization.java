@@ -144,15 +144,16 @@ public class Organization implements RowDataGateway {
 
 	@Override
 	public Object getOne() {
-		Organization obj = new Organization();
+		Organization obj = null;
 		try{
 			//id = 18;
 			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id= "+ this.id);
+			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id = " + this.id);
 			
-			while(result.next()){
+			if(result.next()){
 				
-				
+				obj = new Organization();
+				obj.setId(result.getInt("id"));
 				obj.setCode(result.getString("code"));
 				obj.setName(result.getString("name"));
 				obj.setSigof_fk(result.getInt("sigof_fk"));
