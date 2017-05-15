@@ -1,6 +1,6 @@
-	 -------------------------------------------------------------
+	 --
 	 --	DDL Igrp for H2 DataBase (Begin) 
-	 -------------------------------------------------------------
+	 --
 	
 	CREATE TABLE IF NOT EXISTS `glb_t_user` (
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -24,7 +24,7 @@
 	  
 	  PRIMARY KEY (`ID`),
 	  UNIQUE KEY `EMAIL` (`EMAIL`),
-	  UNIQUE KEY `USER_NAME` (`USER_NAME`),
+	  UNIQUE KEY `USER_NAME` (`USER_NAME`)
           
 	    
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -45,7 +45,7 @@
 	  `FLG_EXTERNAL` smallint(1) DEFAULT '0',
 	  `STATUS` smallint(6) NOT NULL DEFAULT '1',
 		PRIMARY KEY (`ID`),
-		UNIQUE KEY `DAD` (`DAD`),
+		UNIQUE KEY `DAD` (`DAD`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	CREATE TABLE IF NOT EXISTS `glb_t_action` (
@@ -177,15 +177,15 @@
 	 CONSTRAINT `GLB_T_PROFILE_USER_FK` FOREIGN KEY (`USER_FK`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
-	-------------------------------------------------------------
+	--
 	--	DDL Igrp for H2 DataBase (End)
-	-------------------------------------------------------------
+	--
 	 
 [SPLIT]
 	
-	-------------------------------------------------------------
-	--	DML (nsert) Igrp for H2 DataBase (Begin)
-	-------------------------------------------------------------
+	--
+	--	DML (insert) Igrp for H2 DataBase (Begin)
+	--
 	
 	INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
 	VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, '', NULL, 1);
@@ -230,8 +230,7 @@
 	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
 	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
 	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),	
-	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self')
-	;
+	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self');
 	
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1),

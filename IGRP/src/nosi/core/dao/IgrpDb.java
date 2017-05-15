@@ -136,7 +136,7 @@ public class IgrpDb implements Component{
 	@Override
 	public void init() { // Defaults connections ...
 		/* Please put all your connection here */
-		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "postgres");// Connection to PostgreSQL (default)
+		//this.newConnection("db1", "mysql", "db_igrp", "root", "");// Connection to PostgreSQL (default)
 		//this.newConnection("db1", "postgresql", "db_igrp", "postgres", "softwaredeveloper");// Connection to PostgreSQL (default)
 		this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
 	}

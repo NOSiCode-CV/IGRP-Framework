@@ -11,6 +11,5 @@ public class HomeController extends Controller {
 		HomeView view = new HomeView();
 		view.title = "Home";
 		this.renderView(view,true);
-		//this.redirect("igrp", "login", "login");
 	}
 }
