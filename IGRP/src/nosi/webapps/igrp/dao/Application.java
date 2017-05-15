@@ -263,7 +263,7 @@ public class Application implements RowDataGateway {
 			Method[] methods = this.getClass().getDeclaredMethods();
 			for(Method method:methods){
 				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
-					conditions+=" AND "+method.getName().substring(3).toLowerCase()+"=? ";
+					conditions+=" AND "+method.getName().substring(3).toLowerCase()+" LIKE ? ";
 				}
 			}
 			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_env "+ conditions+ " order by id");
@@ -275,7 +275,7 @@ public class Application implements RowDataGateway {
 							st.setInt(i,Integer.parseInt(method.invoke(this).toString()));
 							break;
 						case "String":
-							st.setString(i,method.invoke(this).toString());
+							st.setString(i,method.invoke(this).toString()+"%");
 							break;
 						case "double":
 							st.setDouble(i,Double.parseDouble(method.invoke(this).toString()));
