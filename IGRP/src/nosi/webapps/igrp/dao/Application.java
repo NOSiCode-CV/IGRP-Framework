@@ -337,6 +337,32 @@ public class Application implements RowDataGateway {
 		return lista;
 	}
 	
+	public HashMap<Integer,String> getListAppsOne(int id){
+		HashMap<Integer,String> lista = new HashMap<>();
+		
+		try{
+			Statement st = con.createStatement();
+			ResultSet result = st.executeQuery("SELECT app.id, app.name FROM glb_t_env app, glb_t_profile pro, glb_t_organization org "
+					+ "where pro.type = 'MEN' "
+					+ "and org.id = env_fk "
+					+ "and pro.org_fk = org.id "
+					+ " and pro.type_fk = " + id);
+
+			while(result.next()){
+				
+				lista.put(result.getInt(1), result.getString(2));
+			}
+			st.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		
+		
+		return lista;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Application [dad=" + dad + ", name=" + name + ", id=" + id + ", img_src=" + img_src + ", description="

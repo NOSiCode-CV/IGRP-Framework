@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -259,12 +260,12 @@ public class Menu implements RowDataGateway {
 	public Object getOne() {
 		Menu obj = new Menu();
 		try{
-			//id = 19;
-			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_menu where id = " + this.id);
-			ResultSet rs = st.executeQuery();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM glb_t_menu where id = "+ this.id);
 			
 			while(rs.next()){
-				obj.setSelf_id(rs.getInt("id"));
+				System.out.println("ok entrar");
+				obj.setId(rs.getInt("id"));
 				obj.setDescr(rs.getString("descr"));
 				obj.setLink(rs.getString("link"));
 				obj.setSelf_id(rs.getInt("self_id"));
@@ -437,18 +438,16 @@ public class Menu implements RowDataGateway {
 	
 	public Object[] getAllPisquisarMenu() {
 		ArrayList<Menu> lista = new ArrayList<Menu>();
+		String sql = "SELECT M1.descr super_title, M2.descr sub_title, M1.id, M2.status, M1.id super_id,A.Page page"
+				+ " FROM glb_t_menu M1, glb_t_menu M2, glb_t_action A, glb_t_profile prof"	
+				    + " WHERE M2.SELF_ID = M1.ID AND A.ID = M2.ACTION_FK AND prof.type_fk = M2.id AND prof.type = 'MEN' ";
 		try {
-			PreparedStatement st = con.prepareStatement(
-					  " SELECT "
-					  + "M1.descr super_title, "
-					  + "M2.descr sub_title, "
-					  + "M1.id, "
-					  + "M2.status, "
-					  + "M1.id super_id, "
-					  + "A.Page page"
-					+ " FROM glb_t_menu M1, glb_t_menu M2, glb_t_action A "
-					+ " WHERE M2.SELF_ID = M1.ID "
-					+ " AND A.ID = M2.ACTION_FK");
+			
+			//Falta alguns codigos para o filtro completo(Falta somente a organica)
+			sql = sql + (this.env_fk != 0 ? "and (M1.env_fk = " + this.env_fk + " AND M2.env_fk = " + this.env_fk + ") " : "");
+			sql = sql + (this.id != 0 ? "and M1.id = " + this.id + " " : "");
+			System.out.println(sql);
+			PreparedStatement st = con.prepareStatement(sql); 
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();

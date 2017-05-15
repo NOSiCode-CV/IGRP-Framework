@@ -89,7 +89,7 @@ public class FileHelper {
 		return false;
 	}
 	
-	//Compile files and save
+	//Compile files and saves
 	public static boolean compile(String pathDestination,String className){
 		className = pathDestination+"/"+className;
 		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getBasePathClass(),"-d",Config.getBasePathClass(),className}) == 0;

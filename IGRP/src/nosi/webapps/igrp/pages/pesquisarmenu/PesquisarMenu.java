@@ -58,7 +58,7 @@ public class PesquisarMenu extends Model{
 		private String ativo;
 		private int checkbox;
 		private int checkbox_check;
-		private String p_id;
+		private int p_id;
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
@@ -100,10 +100,10 @@ public class PesquisarMenu extends Model{
 		public void setCheckbox_check(int checkbox_check) {
 			this.checkbox_check = checkbox_check;
 		}
-		public void setP_id(String p_id){
+		public void setP_id(int p_id){
 			this.p_id = p_id;
 		}
-		public String getP_id(){
+		public int getP_id(){
 			return this.p_id;
 		}
 

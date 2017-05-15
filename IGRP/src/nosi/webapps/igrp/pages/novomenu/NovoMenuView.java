@@ -9,7 +9,7 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class NovoMenuView extends View {
-	public String title = "Teste bnovo";		
+	public String title = "Novo Menu";		
 	
 	public Field sectionheader_1_text;
 	public Field code;
@@ -81,7 +81,7 @@ public class NovoMenuView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoMenu","gravar","submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","NovoMenu","voltar","_back","default|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","NovoMenu","voltar","_self","default|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

@@ -69,15 +69,14 @@ public class User implements Component{
 	public void init() {
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
-		if(aux != null) /* test the login page (TOO_MANY_REQUEST purpose)*/
+		/* test the login page (TOO_MANY_REQUEST purpose)*/
+		if(aux != null) 
 			isLoginPage = aux.contains("login"); // bug ... Perhaps
-		try{
+		
 			if(!this.checkSessionContext() && !isLoginPage){
-				Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
+				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
+				System.out.println("Go to login page.");
 			}
-		}catch(IOException e){
-			e.printStackTrace();
-		}
 	}
 
 	@Override
