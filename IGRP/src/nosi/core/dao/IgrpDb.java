@@ -150,7 +150,11 @@ public class IgrpDb implements Component{
 		DbConfig dbConfig = JAXB.unmarshal(file, DbConfig.class);
 		boolean isIgrpCoreDb = false;
 		for(DbInfo dbInfo : dbConfig.getDbInfo()){
-			this.newConnection(dbInfo.getConnectionName(), dbInfo.getDbmsName(), dbInfo.getDbName(), dbInfo.getUser(), dbInfo.getPassword());
+			this.newConnection(
+					dbInfo.getHostName() != null ? dbInfo.getHostName() : "localhost",
+					dbInfo.getPort(),
+					dbInfo.getConnectionName(), dbInfo.getDbmsName(), dbInfo.getDbName(), dbInfo.getUser(), dbInfo.getPassword()
+					);
 			if(dbInfo.getConnectionName().equals("db1")) // default connection name for default Igrp Data Base
 				isIgrpCoreDb = true;
 		}
