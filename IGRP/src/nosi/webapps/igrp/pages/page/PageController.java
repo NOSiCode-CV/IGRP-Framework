@@ -11,6 +11,11 @@ import java.io.PrintWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -18,7 +23,7 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-
+import nosi.webapps.igrp.dao.Transaction;
 public class PageController extends Controller {		
 
 	public void actionIndex() throws IOException{
@@ -133,7 +138,7 @@ public class PageController extends Controller {
 			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getProject_loc() +"/src/"+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
-			
+			this.processJson(fileJson);
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
 				String[] partsJavaCode = javaCode.toString().split(" END ");
 				if(
@@ -168,6 +173,81 @@ public class PageController extends Controller {
 		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operação falhada</message></messages>");
 	}
 	
+	//Read json and extract transactions
+	private void processJson(Part fileJson) throws IOException {
+		if(fileJson!=null){
+			JSONObject objJson;
+			try {
+				objJson = new JSONObject(FileHelper.convertToString(fileJson));
+				JSONArray rows = objJson.getJSONArray("rows");				
+				for(int i=0;i<rows.length();i++){
+					JSONArray collumns;
+					try{
+						collumns = rows.getJSONObject(i).getJSONArray("columns");
+						for(int j=0;j<collumns.length();j++){
+							JSONArray containers;
+							try{
+								containers = collumns.getJSONObject(j).getJSONArray("containers");
+								for(int h=0;h<containers.length();h++){
+									JSONArray fields;
+									try{
+										fields = containers.getJSONObject(h).getJSONArray("fields");
+										this.processTransactions(fields,h);
+									}catch (JSONException e) {
+									}
+									JSONArray contextMenu;
+									try{
+										contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
+										this.processTransactions(contextMenu,h);
+									}catch (JSONException e) {
+									}
+								}
+							}catch (JSONException e) {
+							}
+						}
+					}catch (JSONException e) {
+					}
+				}	
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	//Extract transactions
+	private void processTransactions(JSONArray properties,int i) {
+		JSONObject p;
+		try{
+			p = properties.getJSONObject(i).getJSONObject("properties");
+			try{
+				if(p.get("transaction")!=null && p.get("transaction").toString().equals("true")){
+					this.saveTransaction(p.get("name").toString(),p.get("label").toString(),p.get("action").toString(),p.get("tag").toString());
+				}
+			}catch (JSONException e) {
+			}
+		}catch (JSONException e) {
+		}
+	}
+
+	//Save transactions
+	private void saveTransaction(String name, String label, String action, String tag) {
+		Action a = new Action();
+		a.setId(Integer.parseInt(action));
+		Action ac = (Action)a.getOne();
+		if(ac!=null && name!=null && tag!=null){
+			Transaction t = new Transaction();
+			String code = ac.getEnv().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
+			t.setCode(code);
+			if(((Transaction)t.getOne()).getCode()==null){
+				t.setCode(code);
+				t.setDescr(label);
+				t.setEnv_fk(ac.getEnv_fk());
+				t.setStatus(1);
+				t.insert();
+			}
+		}
+	}
+
 	public void actionPublishGenPage() throws IOException{
 		
 	}
