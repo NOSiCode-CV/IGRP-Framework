@@ -1,6 +1,11 @@
-	 --
-	 --	DDL Igrp for H2 DataBase (Begin) 
-	 --
+	-- (MySQL) Create the Igrp core database 
+	CREATE DATABASE IF NOT EXISTS db_igrp;
+	
+	use db_igrp;
+	
+	--
+	-- DDL Igrp for MySQL DataBase (Begin) 
+	--
 	
 	CREATE TABLE IF NOT EXISTS `glb_t_user` (
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -178,13 +183,13 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
 	--
-	--	DDL Igrp for H2 DataBase (End)
+	--	DDL Igrp for MySQL DataBase (End)
 	--
 	 
 [SPLIT]
 	
 	--
-	--	DML (insert) Igrp for H2 DataBase (Begin)
+	--	DML (insert) Igrp for MySQL DataBase (Begin)
 	--
 	
 	INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
@@ -209,8 +214,7 @@
 		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
 		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
 		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
-		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
-		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl');
+		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl');
 	
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
@@ -252,5 +256,3 @@
 		   (1, 1, 'MEN_PROF', 8, 1), 
 		   (1, 1, 'MEN_PROF', 9, 1), 
 		   (1, 1, 'MEN_PROF', 10, 1); 
-	
-	

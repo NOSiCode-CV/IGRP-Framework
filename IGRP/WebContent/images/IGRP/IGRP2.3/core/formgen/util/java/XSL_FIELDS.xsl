@@ -32,7 +32,7 @@
 							<xsl:when test="@type='hidden'">
 								<xsl:value-of select="concat('public Field ',@name,';')"/>
 							</xsl:when>
-							<xsl:when test="@type='checkbox'">
+							<xsl:when test="@type='checkbox' or @type='radio'">
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 								<xsl:value-of select="$newline"/>
 								<xsl:value-of select="$tab"/>
@@ -89,7 +89,7 @@
 						<xsl:value-of select="';'"/>
 						
 						
-				 		<xsl:if test="$container_type='table' and @type='checkbox'">
+				 		<xsl:if test="$container_type='table' and (@type='checkbox' or @type='radio')">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 					 		<xsl:value-of select="concat($tag_name,'_check = new ')"/>
@@ -193,7 +193,7 @@
 	    		<xsl:when test="$type='number'">
 	    			<xsl:value-of select="'float'" />
 	    		</xsl:when>
-	    		<xsl:when test="$type='checkbox'">
+	    		<xsl:when test="$type='checkbox' or $type='radio'">
 	    			<xsl:value-of select="'int'" />
 	    		</xsl:when>
 	    		<xsl:otherwise>
@@ -238,7 +238,7 @@
 	    			<xsl:value-of select="$tab_"/>
 	    			<xsl:value-of select="'}'"/>
 	    		</xsl:when>
-	    		<xsl:when test="$type='checkbox'">
+	    		<xsl:when test="$type='checkbox' or $type='radio'">
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>
 	    			<xsl:value-of select="concat('public void set',$name_,'(int ',$name,'){')" />

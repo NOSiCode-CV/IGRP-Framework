@@ -16,13 +16,14 @@ import nosi.core.webapp.Igrp;
  * @author Marcel Iekiny
  * May 3, 2017
  */
-public class H2Migrate {
+public class IgrpDbMigrate {
 
-	public static void createIgrpSchema(Connection conn) throws IOException{
+	// H2
+	public static void createIgrpSchemaH2(Connection conn) throws IOException{
 		/*
 		 * Load H2 Igrp DB Schema  (Begin)
 		 * */
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/h2.sql");
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/schema/h2.sql");
 		File file = new File(path);
 		DataInputStream in = new DataInputStream(new FileInputStream(file));
 		String content = "";
@@ -68,19 +69,7 @@ public class H2Migrate {
 		try {
 			s2 = conn.createStatement();
 			ResultSet rs1 = s2.executeQuery("select * from glb_t_user");
-			/*ResultSet rs2 = s2.executeQuery("select * from glb_t_profile");
-			ResultSet rs3 = s2.executeQuery("select * from glb_t_profile_type");
-			ResultSet rs4 = s2.executeQuery("select * from glb_t_env");
-			ResultSet rs5 = s2.executeQuery("select * from glb_t_action");
-			ResultSet rs6 = s2.executeQuery("select * from glb_t_organization");*/
-			
-			if(!rs1.next()/* && 
-					!rs2.next() && 
-					!rs3.next() && 
-					!rs4.next() && 
-					!rs5.next() && 
-					!rs6.next()*/
-					){
+			if(!rs1.next()){
 				r = s2.executeUpdate(dml);
 			}
 			conn.commit();
@@ -96,9 +85,45 @@ public class H2Migrate {
 				e1.printStackTrace();
 			}
 		}
+		try {
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		/*
 		 * */
+	}
+	
+	// MySQL
+	public static void createIgrpSchemaMySql(Connection conn) throws IOException{
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/schema/mysql.sql");
+		File file = new File(path);
+		DataInputStream in = null;
+		try {
+			in = new DataInputStream(new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String content = "";
+		String aux;
+		while((aux = in.readLine()) != null)
+			content += aux + System.lineSeparator();
+		in.close();
+		String []arrayHelper = content.split("\\[SPLIT\\]");
+		String ddl = "";
+		String dml = "";
+		if(arrayHelper != null && arrayHelper.length == 2){
+			 ddl = arrayHelper[0];
+			 dml = arrayHelper[1]; // For insert data
+		}
+	}
+	
+	// Postgres
+	public static void createIgrpSchemaPostgres(Connection conn){
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/schema/postgres.sql");
 	}
 	
 }

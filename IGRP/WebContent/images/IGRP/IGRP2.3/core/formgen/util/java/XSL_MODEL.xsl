@@ -138,7 +138,7 @@
  			<xsl:value-of select="$newline"/>
  			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>
-			<xsl:if test="@type = 'checkbox'">				
+			<xsl:if test="@type = 'checkbox' or @type='radio'">				
 	 			<xsl:value-of select="$newline"/>
 	 			<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>
