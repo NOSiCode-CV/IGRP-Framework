@@ -260,34 +260,13 @@ public class Application implements RowDataGateway {
 		
 		try{
 			String conditions = "WHERE 1=1 ";
-			Method[] methods = this.getClass().getDeclaredMethods();
-			for(Method method:methods){
-				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
-					conditions+=" AND "+method.getName().substring(3).toLowerCase()+" LIKE ? ";
-				}
+			if(this.getDad()!=null && !this.getDad().equals("")){
+				conditions+= " AND dad=?";
 			}
 			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_env "+ conditions+ " order by id");
-			int i=1;
-			for(Method method:methods){
-				if((method.getReturnType().getSimpleName().equals("String") || method.getReturnType().isPrimitive()) && method.getName().startsWith("get") && method.invoke(this)!=null && !method.invoke(this).equals("") && !method.invoke(this).toString().equals("0")){
-					switch(method.getReturnType().getSimpleName()){
-						case "int":
-							st.setInt(i,Integer.parseInt(method.invoke(this).toString()));
-							break;
-						case "String":
-							st.setString(i,method.invoke(this).toString()+"%");
-							break;
-						case "double":
-							st.setDouble(i,Double.parseDouble(method.invoke(this).toString()));
-							break;
-						case "float":
-							st.setFloat(i,Float.parseFloat(method.invoke(this).toString()));
-							break;
-					}
-					i++;
-				}
+			if(this.getDad()!=null && !this.getDad().equals("")){
+				st.setString(1, this.getDad());
 			}
-			
 			ResultSet result = st.executeQuery();
 			
 			while(result.next()){
@@ -314,13 +293,7 @@ public class Application implements RowDataGateway {
 		
 		}catch(SQLException e){
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		}catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -411,6 +384,33 @@ public class Application implements RowDataGateway {
 			e.printStackTrace();
 		}
 		return lista.toArray();
+	}
+	
+	public boolean getPermissionApp(String app) {		
+		ArrayList<Application> lista = new ArrayList<>();		
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
+					+ "	WHERE E.id = P.type_fk "
+					+ "	AND P.type='ENV'"
+					+ " AND P.prof_type_fk = ? "
+					+ " AND P.org_fk = ?"
+					+ " AND E.dad = ? "
+					+ "	ORDER BY id");
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,u.getCurrentPerfilId());
+			st.setInt(2,u.getCurrentOrganization());
+			st.setString(3,app);
+			ResultSet result = st.executeQuery();			
+			while(result.next()){
+				Application obj = new Application();
+				obj.setId(result.getInt("id"));
+				lista.add(obj);
+		}
+		st.close();		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.size() > 0;
 	}
 	
 	public Object[] getOtherApp() {		
