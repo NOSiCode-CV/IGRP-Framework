@@ -349,8 +349,8 @@ public class Action implements RowDataGateway{
 	public Object getOne() {
 		Action obj = new Action();
 		try {
-			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_action "
-					+ "WHERE ID = ? ");
+			PreparedStatement st = con.prepareStatement("SELECT a.*,e.dad FROM glb_t_action a, glb_t_env e "
+					+ " WHERE a.env_fk=e.id AND a.id = ? ");
 		
 			st.setInt(1, this.id);
 			
@@ -375,6 +375,10 @@ public class Action implements RowDataGateway{
 				obj.setFlg_internet(rs.getInt("flg_internet"));
 				obj.setStatus(rs.getInt("status"));
 				obj.setId(rs.getInt("id"));
+				Application e = new Application();
+				e.setDad(rs.getString("dad"));
+				e.setId(rs.getInt("env_fk"));
+				obj.setEnv(e);
 			}
 			st.close();
 		} catch (SQLException e) {
