@@ -85,6 +85,12 @@ public class IgrpDbMigrate {
 				e1.printStackTrace();
 			}
 		}
+		try {
+			conn.setAutoCommit(true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		/*
 		 * */
