@@ -51,22 +51,26 @@ public class PesquisarUtilizadorView extends View {
 		email.setLabel("Email");
 		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome = new PlainTextField(model,"nome");
-		nome.setLabel("Nome");
+		nome.setLabel("User Name");
 		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		nominho = new PlainTextField(model,"nominho");
-		nominho.setLabel("Nominho");
+		nominho.setLabel("Name");
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel("");
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","default|fa-search","","");
+		
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
+		
 		btn_editar = new IGRPButton("Editar","igrp","RegistarUtilizador","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
+		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
+		
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
 		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
 		

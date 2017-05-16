@@ -22,7 +22,7 @@ public class ProfileType implements RowDataGateway {
 	private int org_fk;
 	private int status;
 	private Organization organica;
-	
+	private Application aplicacao;
 	private Connection con;
 	
 	public ProfileType() {
@@ -85,6 +85,14 @@ public class ProfileType implements RowDataGateway {
 
 	public void setOrganica(Organization organica) {
 		this.organica = organica;
+	}
+
+	public Application getAplicacao() {
+		return aplicacao;
+	}
+
+	public void setAplicacao(Application aplicacao) {
+		this.aplicacao = aplicacao;
 	}
 
 	@Override
@@ -215,6 +223,46 @@ public class ProfileType implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
+	
+	
+	
+	public Object[] getAllComFiltro() {
+		ArrayList<ProfileType> lista = new ArrayList<>(); 
+		try{
+			
+			String sql = "SELECT DISTINCT pro_typ.*, org.name as organiza "
+					+ "FROM glb_t_profile_type pro_typ, glb_t_organization org,  glb_t_profile pro "
+					+ "where "
+					+ "org.id = pro_typ.org_fk "
+					+ "and org.id = pro.org_fk "
+					+ "and pro_typ.id = pro.type_fk ";
+			
+			sql += this.getAplicacao().getId() != 0 ? " and pro.type = 'ENV' and org.env_fk = " + this.getAplicacao().getId() : " ";
+			sql += this.getOrganica().getId() != 0 ? " and pro.type = 'ENV' and pro.org_fk = " + this.getOrganica().getId() : " ";
+			
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet res = st.executeQuery();
+			while(res.next()){
+				ProfileType obj = new ProfileType();
+				obj.setId(res.getInt("id"));
+				obj.setDescr(res.getString("descr"));
+				obj.setCode(res.getString("code"));
+				obj.setEnv_fk(res.getInt("env_fk"));
+				obj.setSelf_fk(res.getInt("self_fk"));
+				obj.setOrg_fk(res.getInt("org_fk"));
+				obj.setStatus(res.getInt("status"));
+				Organization org = new Organization();
+				org.setName(res.getString("organiza"));
+				obj.setOrganica(org);
+				lista.add(obj);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+	
+	
 	
 	public HashMap<String,String> getListProfiles(){
 		HashMap<String,String> lista = new HashMap<>();

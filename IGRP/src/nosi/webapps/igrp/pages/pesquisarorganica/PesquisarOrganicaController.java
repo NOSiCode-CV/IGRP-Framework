@@ -14,25 +14,19 @@ import java.util.HashMap;
 
 public class PesquisarOrganicaController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarOrganica model = new PesquisarOrganica();
-		PesquisarOrganicaView view = new PesquisarOrganicaView(model);
 		ArrayList<PesquisarOrganica.Table_1> lista = new ArrayList<>();
-		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
+		Organization organica_db = new Organization();
+		
 		//condiccao para pesquisar com filtros
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			/*model.load();
-			menu_db.setEnv_fk(model.getAplicacao());
-			Organization objOrg = new Organization();
-			objOrg.setId(model.getOrganica());
-			menu_db.setOrganica(objOrg);
-			menu_db.setFlg_base(model.getMenu_principal());*/
+			model.load();
+			organica_db.setEnv_fk(model.getAplicacao());
 		}
 		
 		//Preenchendo a tabela
-		for(Object obj:new Organization().getAll()){
+		for(Object obj:organica_db.getAllComFiltro()){
 			Organization org = (Organization) obj;
 			PesquisarOrganica.Table_1 table1 = new PesquisarOrganica().new Table_1();
 			table1.setDescricao(org.getName());
@@ -40,16 +34,17 @@ public class PesquisarOrganicaController extends Controller {
 			table1.setP_id(org.getId());
 			lista.add(table1);
 		}
+		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		PesquisarOrganicaView view = new PesquisarOrganicaView(model);
+		HashMap<Integer,String> applications =  new Application().getListApps();
+		view.aplicacao.setValue(applications);
+		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
-		//view..setParam(true);
 		view.table_1.addData(lista);
 		view.p_id.setParam(true);
 		this.renderView(view);
 	}
 
-	public void actionPesquisar() throws IOException{
-		
-	}
 	
 	public void actionEidtar() throws IOException{
 		

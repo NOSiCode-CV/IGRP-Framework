@@ -6,7 +6,6 @@ import nosi.core.webapp.Igrp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,9 +37,27 @@ public class User implements Identity, RowDataGateway{
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
-	private ProfileType profile;
-	
 	private Connection conn;
+	private ProfileType profileType;
+	private Organization organica;
+	private Application aplicacao;
+	
+	public Organization getOrganica() {
+		return organica;
+	}
+
+	public void setOrganica(Organization organica) {
+		this.organica = organica;
+	}
+
+	public Application getAplicacao() {
+		return aplicacao;
+	}
+
+	public void setAplicacao(Application aplicacao) {
+		this.aplicacao = aplicacao;
+	}
+
 	
 	public User(){
 		this.conn = Igrp.getInstance().getDao().unwrap("db1");
@@ -270,6 +287,7 @@ public class User implements Identity, RowDataGateway{
 				prof.setDescr(result.getString("perfil"));
 				obj.setProfile(prof);
 				lista.add(obj);
+				System.out.println(obj);
 			}
 			st.close();
 			
@@ -278,6 +296,50 @@ public class User implements Identity, RowDataGateway{
 			}
 		return lista.toArray();
 	}
+	
+	
+	
+	public Object[] getAllComFiltros() {
+		ArrayList<User> lista = new ArrayList<User>();
+		String sql = "SELECT DISTINCT u.*,tp.descr as perfil FROM glb_t_user u,glb_t_profile p, glb_t_profile_type tp, glb_t_organization org "
+				+ " WHERE u.id=p.user_fk and tp.id=p.type_fk and u.id = p.user_fk and org.id = p.org_fk ";
+		try{
+			sql += this.user_name != null && this.user_name != ""? " and user_name like '%" + this.user_name + "%'": " ";
+			sql += this.email != null && this.email != ""? " and email like '%" + this.email + "%'": " ";
+			sql += this.getAplicacao().getId() != 0 ? " and p.type = 'ENV' and org.env_fk = " + this.getAplicacao().getId() : " ";
+			sql += this.getOrganica().getId() != 0 ? " and p.type = 'ENV' and p.org_fk = " + this.getOrganica().getId() : " ";
+			sql += this.getProfile().getId() != 0 ? " and p.type = 'PROF' and p.type_fk = " + this.getProfile().getId():  " ";
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet result = st.executeQuery();
+			
+			int i = 0;
+			while(result.next()){
+				if(i >10)
+					break;
+				User obj = new User();
+				obj.setId(result.getInt("id"));
+				obj.setEmail(result.getString("email"));;
+				obj.setUser_name(result.getString("user_name"));
+				obj.setName(result.getString("name"));
+				ProfileType prof = new ProfileType();
+				prof.setDescr(result.getString("perfil"));
+				obj.setProfile(prof);
+				lista.add(obj);
+				i++;
+				//System.out.println(obj);
+			}
+			st.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		return lista.toArray();
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * @return the id
@@ -551,11 +613,11 @@ public class User implements Identity, RowDataGateway{
 	}
 
 	public ProfileType getProfile() {
-		return profile;
+		return profileType;
 	}
 
 	public void setProfile(ProfileType profile) {
-		this.profile = profile;
+		this.profileType = profile;
 	}
 
 	@Override
@@ -565,7 +627,7 @@ public class User implements Identity, RowDataGateway{
 				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
 				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
 				+ ", password_reset_token=" + password_reset_token + ", auth_key=" + auth_key + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", profile=" + profile + ", conn=" + conn + "]";
+				+ created_at + ", updated_at=" + updated_at + ", profile=" + profileType + ", conn=" + conn + "]";
 	}	
 	
 	

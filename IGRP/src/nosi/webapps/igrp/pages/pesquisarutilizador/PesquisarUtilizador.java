@@ -7,11 +7,11 @@ public class PesquisarUtilizador extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	@RParam(rParamName = "p_organica")
-	private String organica;
+	private int organica;
 	@RParam(rParamName = "p_perfil")
-	private String perfil;
+	private int perfil;
 	@RParam(rParamName = "p_username")
 	private String username;
 	@RParam(rParamName = "p_email")
@@ -32,24 +32,24 @@ public class PesquisarUtilizador extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
+	public void setOrganica(int organica){
 		this.organica = organica;
 	}
-	public String getOrganica(){
+	public int getOrganica(){
 		return this.organica;
 	}
 	
-	public void setPerfil(String perfil){
+	public void setPerfil(int perfil){
 		this.perfil = perfil;
 	}
-	public String getPerfil(){
+	public int getPerfil(){
 		return this.perfil;
 	}
 	
