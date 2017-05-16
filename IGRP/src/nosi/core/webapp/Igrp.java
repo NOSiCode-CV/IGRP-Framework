@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 
-import nosi.core.config.H2Migrate;
+import nosi.core.config.IgrpDbMigrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.ServerErrorHttpException;
