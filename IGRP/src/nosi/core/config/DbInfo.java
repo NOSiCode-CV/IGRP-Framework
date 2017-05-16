@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 /**
- * Marcel Iekiny
+ * @author Marcel Iekiny
  * May 15, 2017
  */
 

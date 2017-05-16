@@ -5,7 +5,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
- * Marcel Iekiny
+ * @author Marcel Iekiny
  * May 15, 2017
  */
 

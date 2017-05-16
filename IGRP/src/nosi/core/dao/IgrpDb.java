@@ -1,9 +1,6 @@
 package nosi.core.dao;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,12 +8,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
+import javax.xml.bind.JAXB;
 import nosi.core.config.DbConfig;
 import nosi.core.config.DbInfo;
-
-import javax.xml.bind.JAXB;
-
 import nosi.core.config.H2Migrate;
 import nosi.core.webapp.Component;
 import nosi.core.webapp.Igrp;
