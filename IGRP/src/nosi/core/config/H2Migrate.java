@@ -22,7 +22,7 @@ public class H2Migrate {
 		/*
 		 * Load H2 Igrp DB Schema  (Begin)
 		 * */
-		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/h2.sql");
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/db/schema/h2.sql");
 		File file = new File(path);
 		DataInputStream in = new DataInputStream(new FileInputStream(file));
 		String content = "";
