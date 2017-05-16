@@ -75,7 +75,9 @@ public class User implements Component{
 		
 			if(!this.checkSessionContext() && !isLoginPage){
 				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
-				System.out.println("Go to login page.");
+				Igrp.getInstance().setCurrentAppName("igrp");
+				Igrp.getInstance().setCurrentPageName("login");
+				Igrp.getInstance().setCurrentActionName("login");
 			}
 	}
 

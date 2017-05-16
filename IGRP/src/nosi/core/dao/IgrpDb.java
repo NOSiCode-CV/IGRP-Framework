@@ -11,7 +11,7 @@ import java.util.Map;
 import javax.xml.bind.JAXB;
 import nosi.core.config.DbConfig;
 import nosi.core.config.DbInfo;
-import nosi.core.config.H2Migrate;
+import nosi.core.config.IgrpDbMigrate;
 import nosi.core.webapp.Component;
 import nosi.core.webapp.Igrp;
 /**
@@ -106,7 +106,7 @@ public class IgrpDb implements Component{
 				switch(this.driverName){
 				case "org.h2.Driver":
 						try {
-							H2Migrate.createIgrpSchema(this.conn); // bug ... catch the connection before init method is finished
+							IgrpDbMigrate.createIgrpSchemaH2(this.conn); // bug ... catch the connection before init method is finished
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

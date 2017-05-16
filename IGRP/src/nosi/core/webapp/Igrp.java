@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
 
-import nosi.core.config.H2Migrate;
+import nosi.core.config.IgrpDbMigrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.PermissionException;
@@ -179,9 +179,9 @@ public class Igrp {
 	}
 	
 	private void load(Map<String, String> m){ // load and apply some dependency injection ...
-		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+		/*if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
 			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
-			
+			*/
 		String controllerPath = m.get("controllerPath");
 		String actionName = m.get("actionName");
 		

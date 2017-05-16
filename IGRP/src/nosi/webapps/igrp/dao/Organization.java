@@ -242,6 +242,42 @@ public class Organization implements RowDataGateway {
 		return lista.toArray();
 	}
 	
+	
+	
+	public Object[] getAllComFiltro() {
+		ArrayList<Organization> lista = new ArrayList<Organization>();
+		
+		try{
+			String sql = "SELECT * FROM glb_t_organization where 1=1 ";
+			sql += this.env_fk != 0 ? " and env_fk = " + this.env_fk : " ";
+ 			Statement st = con.createStatement();
+			ResultSet result = st.executeQuery(sql);
+			
+			while(result.next()){
+				
+				Organization obj = new Organization();
+				obj.setId(result.getInt("id"));
+				obj.setCode(result.getString("code"));
+				obj.setName(result.getString("name"));
+				obj.setSigof_fk(result.getInt("sigof_fk"));
+				obj.setEnv_fk(result.getInt("env_fk"));
+				obj.setUser_create_fk(result.getInt("user_create_fk"));
+				obj.setStatus(result.getInt("status"));
+				obj.setSelf_fk(result.getInt("self_fk"));
+				
+				lista.add(obj);
+			}
+			st.close();
+			
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+		return lista.toArray();
+	}
+	
+	
+	
+	
 	public HashMap<String,String> getListOrganizations(){
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, "--- Selecionar Orgânica ---");

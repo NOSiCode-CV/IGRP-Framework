@@ -17,28 +17,28 @@ import java.util.HashMap;
 
 public class PesquisarUtilizadorController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
-		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
-		
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
-		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
-		view.organica.setValue(new Organization().getListOrganizations());
-		view.perfil.setValue(new ProfileType().getListProfiles());
+		
+		User user_db = new User();
+		Application objApp = new Application();
+		user_db.setAplicacao(objApp);
+		Organization objOrg = new Organization();
+		user_db.setOrganica(objOrg);
+		ProfileType objProTy = new ProfileType();
+		user_db.setProfile(objProTy);
 		//condiccao para pesquisar com filtros
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			/*model.load();
-			menu_db.setEnv_fk(model.getAplicacao());
-			Organization objOrg = new Organization();
+			model.load();
+			objApp.setId(model.getAplicacao());
 			objOrg.setId(model.getOrganica());
-			menu_db.setOrganica(objOrg);
-			menu_db.setFlg_base(model.getMenu_principal());*/
+			objProTy.setId(model.getPerfil());
+			user_db.setUser_name(model.getUsername());
+			user_db.setEmail(model.getEmail());
 		}
-		
 		//Preenchendo a tabela
-		for(Object obj:new User().getAll()){
+		for(Object obj:user_db.getAllComFiltros()){
 			User u = (User) obj;
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador().new Table_1();
 			table1.setEmail(u.getEmail());
@@ -48,16 +48,21 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setP_id(u.getId());
 			lista.add(table1);
 		}
+		
+		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
+		HashMap<Integer,String> applications =  new Application().getListApps();
+		view.aplicacao.setValue(applications);
+		view.organica.setValue(new Organization().getListOrganizations());
+		view.perfil.setValue(new ProfileType().getListProfiles());
+		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
-		//view..setParam(true);
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
+		
 		this.renderView(view);
 	}
 	
-	public void actionPesquisar() throws IOException{
-		
-	}
 	
 	public void actionEditar() throws IOException{
 		
