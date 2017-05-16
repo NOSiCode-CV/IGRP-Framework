@@ -2,9 +2,12 @@ package nosi.core.config;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+/**
+ * @author Marcel Iekiny
+ * May 15, 2017
+ */
 
 @XmlRootElement(name = "Config")
 public class DbConfig implements Serializable{
