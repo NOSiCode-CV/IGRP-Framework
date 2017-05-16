@@ -17,8 +17,8 @@ public class Profile implements RowDataGateway {
 	private String type;
 	private int type_fk;
 	private int org_fk;
-	private Connection con;
-	
+	private Connection con;	
+
 	public int getProf_type_fk() {
 		return prof_type_fk;
 	}

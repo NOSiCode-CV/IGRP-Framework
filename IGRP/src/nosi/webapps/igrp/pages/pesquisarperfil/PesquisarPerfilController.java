@@ -7,6 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,26 +17,27 @@ import java.util.HashMap;
 
 public class PesquisarPerfilController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarPerfil model = new PesquisarPerfil();
-		PesquisarPerfilView view = new PesquisarPerfilView(model);
+		
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
-		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
-		view.organia.setValue(new Organization().getListOrganizations());
+		ProfileType profile_db = new ProfileType();
+		
+		
 		//condiccao para pesquisar com filtros
+		Application objapp = new Application();
+		profile_db.setAplicacao(objapp);
+		Organization objOrg = new Organization();
+		profile_db.setOrganica(objOrg);
+		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			/*model.load();
-			menu_db.setEnv_fk(model.getAplicacao());
-			Organization objOrg = new Organization();
-			objOrg.setId(model.getOrganica());
-			menu_db.setOrganica(objOrg);
-			menu_db.setFlg_base(model.getMenu_principal());*/
+			model.load();
+			objapp.setId(model.getAplicacao());
+			objOrg.setId(model.getOrgania());
 		}
 		
 		//Preenchendo a tabela
-		for(Object obj:new ProfileType().getAll()){
+		for(Object obj:profile_db.getAllComFiltro()){
 			ProfileType p = (ProfileType) obj;
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil().new Table_1();
 			table1.setCodigo(p.getCode());
@@ -45,16 +47,16 @@ public class PesquisarPerfilController extends Controller {
 			table1.setP_id(p.getId());
 			lista.add(table1);
 		}
+		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		PesquisarPerfilView view = new PesquisarPerfilView(model);
+		view.aplicacao.setValue(new Application().getListApps());
+		view.organia.setValue(new Organization().getListOrganizations());
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
-		//view..setParam(true);
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
 		this.renderView(view);
 	}
 	
-	public void actionPesquisar() throws IOException{
-		
-	}
 	
 	public void actionEditar() throws IOException{
 		

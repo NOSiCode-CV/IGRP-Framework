@@ -7,7 +7,7 @@ public class PesquisarOrganica extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -24,10 +24,10 @@ public class PesquisarOrganica extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 
