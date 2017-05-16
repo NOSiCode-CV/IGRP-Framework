@@ -26,11 +26,34 @@
   <url-pattern>/images/*</url-pattern>
  </servlet-mapping>
  <welcome-file-list>
-  <welcome-file>index.html</welcome-file>
-  <welcome-file>index.htm</welcome-file>
-  <welcome-file>index.jsp</welcome-file>
-  <welcome-file>default.html</welcome-file>
-  <welcome-file>default.htm</welcome-file>
-  <welcome-file>default.jsp</welcome-file>
+  <welcome-file>/webapps?r=igrp/home/index</welcome-file>
  </welcome-file-list>
+ <error-page>
+ 	<error-code>404</error-code>
+ 	<location>/webapps?r=igrp/error-page/notFound</location>
+ </error-page>
+ <error-page>
+ 	<exception-type>nosi.core.exception.NotFoundHttpException</exception-type>
+ 	<location>/webapps?r=igrp/error-page/notFound</location>
+ </error-page>
+  <error-page>
+ 	<exception-type>nosi.core.exception.ServerErrorHttpException</exception-type>
+ 	<location>/webapps?r=igrp/error-page/exception</location>
+ </error-page>
+ <error-page>
+ 	<exception-type>java.lang.reflect.InvocationTargetException</exception-type>
+ 	<location>/webapps?r=igrp/error-page/exception</location>
+ </error-page>
+  <error-page>
+ 	<exception-type>java.lang.Exception</exception-type>
+ 	<location>/webapps?r=igrp/error-page/exception</location>
+ </error-page>
+  <error-page>
+ 	<exception-type>nosi.core.exception.PermissionException</exception-type>
+ 	<location>/webapps?r=igrp/error-page/permission</location>
+ </error-page>
+ <error-page>
+ 	<error-code>501</error-code>
+ 	<location>/webapps?r=igrp/error-page/permission</location>
+ </error-page>
 </web-app>

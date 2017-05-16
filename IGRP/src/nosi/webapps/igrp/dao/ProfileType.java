@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
 
@@ -192,7 +191,6 @@ public class ProfileType implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<ProfileType> lista = new ArrayList<>(); 
 		try{
-			//id = 17;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT p.*,o.name as organiza "
 					+ "FROM glb_t_profile_type p, glb_t_organization o where o.id=p.org_fk order by id");
@@ -226,17 +224,35 @@ public class ProfileType implements RowDataGateway {
 		return lista;
 	}
 	
-	public static void main(String[] args) {
-		//System.out.println(new Profile_type().getOne());
-		/*for(Object i: new Profile_type().getAll()){
-			Profile_type obj = (Profile_type) i;
-		System.out.println(obj.getDescr());
-		}*/
-		
-		//new Profile_type().delete();
-		//new Profile_type().insert();
-		//new Profile_type().update();
-		//new IgrpDb().closeConnection("conexao");//para fechar a base de dadosS
+	
+	public HashMap<String,String> getListMyProfiles(){
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Perfil ---");
+		for(Object obj:new ProfileType().getMyPerfil()){
+			ProfileType p = (ProfileType) obj;
+			lista.put(p.getId()+"", p.getDescr());
+		}
+		return lista;
+	}
+	
+	private Object[] getMyPerfil() {
+		ArrayList<ProfileType> lista = new ArrayList<>(); 
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT pt.* "
+					+ "FROM glb_t_profile_type pt, glb_t_profile p where pt.id=p.type_fk and p.type=? AND p.user_fk=? order by pt.descr");
+			st.setString(1, "PROF");
+			st.setInt(2,Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			ResultSet res = st.executeQuery();
+			while(res.next()){
+				ProfileType obj = new ProfileType();
+				obj.setId(res.getInt("id"));
+				obj.setDescr(res.getString("descr"));
+				lista.add(obj);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
 	}
 
 	@Override
