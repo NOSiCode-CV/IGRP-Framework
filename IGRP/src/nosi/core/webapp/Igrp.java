@@ -1,6 +1,8 @@
 package nosi.core.webapp;
 
 import nosi.core.servlet.IgrpServlet;
+import nosi.core.webapp.helpers.Permission;
+
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import java.io.File;
 import nosi.core.config.IgrpDbMigrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
+import nosi.core.exception.PermissionException;
 import nosi.core.exception.ServerErrorHttpException;
 
 /**
@@ -109,10 +112,7 @@ public class Igrp {
 				if(!this.validatePageName())
 					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
 			}else{
-				this.currentAppName = "igrp";
-				this.currentPageName = "login";
-				this.currentActionName = "login";
-				//throw new ServerErrorHttpException("The route format is invalid.");
+				throw new ServerErrorHttpException("The route format is invalid.");
 			}
 		
 	}
@@ -155,12 +155,6 @@ public class Igrp {
 		String auxActionName = "";
 		String auxPageName = "";
 		String auxcontrollerPath = "";
-	/*	
-		this.currentAppName = "igrp";
-		this.currentActionName = "index";
-		this.currentPageName = "TestePagina";
-		*/
-		
 		for(String aux : this.currentAppName.split("-"))
 			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 		
@@ -180,16 +174,14 @@ public class Igrp {
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
 		result.put("actionName", auxActionName);
-		
-		//System.out.println(auxcontrollerPath);
-		//System.out.println(auxActionName);
-		
 		return result; // because i need to return 2 variable in one result statement ... 
 		
 	}
 	
 	private void load(Map<String, String> m){ // load and apply some dependency injection ...
-		
+		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
+			
 		String controllerPath = m.get("controllerPath");
 		String actionName = m.get("actionName");
 		
