@@ -3,7 +3,7 @@
  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
  <display-name>IGRP</display-name>
- <filter>
+ <!-- <filter>
   <description>Authentication IGRP ...</description>
   <display-name>Authentication</display-name>
   <filter-name>AuthenticationFilter</filter-name>
@@ -12,7 +12,7 @@
  <filter-mapping>
  	<filter-name>AuthenticationFilter</filter-name>
  	<url-pattern>/*</url-pattern>
- </filter-mapping>
+ </filter-mapping>-->
  <servlet>
   <servlet-name>igrp</servlet-name>
   <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
