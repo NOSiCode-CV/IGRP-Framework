@@ -46,14 +46,15 @@ public class TransaccaoController extends Controller {
 	}
 	
 	public void actionEliminar() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("id");
+		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
-		t.setId(Integer.parseInt(id));
+		t.setCode(code);
+		t = (Transaction) t.getOne();
 		if(t.delete())
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		this.redirect("igrp","transacao","index");
+		this.redirect("igrp","Transaccao","index");
 	}
 	
 	public void actionAlterar_estado() throws IOException{
@@ -63,10 +64,8 @@ public class TransaccaoController extends Controller {
 		if(((Transaction) t.getOne()).getCode()!=null){
 			t = (Transaction) t.getOne();
 			if(t.getStatus()==0){
-				System.out.println("alterar para 1");
 				t.setStatus(1);
 			}else if(t.getStatus()==1){
-				System.out.println("alterar para 0");
 				t.setStatus(0);
 			}
 			if(t.update())	

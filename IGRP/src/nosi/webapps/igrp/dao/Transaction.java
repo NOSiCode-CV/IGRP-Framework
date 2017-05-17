@@ -70,7 +70,6 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
-			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 					+ "(code, descr, env_fk, status) "
 					+ "VALUES (?, ?, ?, ?)");
@@ -111,6 +110,7 @@ public class Transaction implements RowDataGateway {
 				obj.setDescr(rs.getString("descr"));
 				obj.setEnv_fk(rs.getInt("env_fk"));
 				obj.setStatus(rs.getInt("status"));
+				obj.setId(rs.getInt("id"));
 			}
 			st.close();
 		}catch(SQLException e){
@@ -122,7 +122,6 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
-			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
 					+ "code=?, "
 					+ "descr=?, "
