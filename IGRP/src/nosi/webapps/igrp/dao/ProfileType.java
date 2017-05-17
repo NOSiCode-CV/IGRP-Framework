@@ -134,11 +134,11 @@ public class ProfileType implements RowDataGateway {
 	public Object getOne() {
 		ProfileType obj = new ProfileType();
 		try{
-			//id = 17;
 			Statement st = con.createStatement();
 			ResultSet res = st.executeQuery("SELECT id, descr, code, env_fk, self_fk, org_fk, status "
 					+ "FROM glb_t_profile_type where id= " + this.id);
 			while(res.next()){
+				obj.setId(res.getInt("id"));
 				obj.setDescr(res.getString("descr"));
 				obj.setCode(res.getString("code"));
 				obj.setEnv_fk(res.getInt("env_fk"));
@@ -154,13 +154,7 @@ public class ProfileType implements RowDataGateway {
 
 	@Override
 	public boolean update() {
-		/*id = 126;
-		descr = "Teste Tipo de Perfil update";
-		code = "Teste"; 
-		env_fk = 1;
-		self_fk = 126;
-		org_fk = 17;
-		status = 1;*/
+		int result = 0;
 		try {
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile_type SET "
@@ -168,23 +162,35 @@ public class ProfileType implements RowDataGateway {
 			
 			st.setString(1, this.descr);
 			st.setString(2, this.code);
-			st.setInt(3, this.env_fk);
-			st.setInt(4, this.self_fk);
-			st.setInt(5, this.org_fk);
+			
+			if(this.env_fk == 0)
+				st.setNull(3, this.env_fk);
+			else
+				st.setInt(3, this.env_fk);
+			
+			if(this.self_fk == 0)
+				st.setNull(4, this.self_fk);
+			else
+				st.setInt(4, this.self_fk);
+			
+			if(this.org_fk == 0)
+				st.setNull(5, 0);
+			else
+				st.setInt(5, this.org_fk);
+			
 			st.setInt(6, this.status);
-			st.executeUpdate();
+			result = st.executeUpdate();
 			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return false;
+		return result > 0;
 	}
 
 	@Override
 	public boolean delete() {
 		try{
-			//id = 84;
 			con.setAutoCommit(true);
 			Statement st = con.createStatement();
 			st.executeUpdate("DELETE FROM glb_t_profile_type WHERE id = " + this.id);

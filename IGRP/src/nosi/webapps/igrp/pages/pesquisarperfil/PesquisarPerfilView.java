@@ -62,7 +62,7 @@ public class PesquisarPerfilView extends View {
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarPerfil","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","submit","default|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","NovoPerfil","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
 		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","confirm","default|fa-trash","","");
