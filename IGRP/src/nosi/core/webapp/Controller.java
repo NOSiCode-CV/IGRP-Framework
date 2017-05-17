@@ -36,7 +36,7 @@ public abstract class Controller {
 		this.renderView(view, false);
 	}
 	
-	private final void redirect(String url){
+	private final void redirect_(String url){
 		this.isRedirect = true;
 		try {
 			Igrp.getInstance().getResponse().sendRedirect("webapps" + url);
@@ -47,23 +47,27 @@ public abstract class Controller {
 	}
 	
 	protected final void redirect(String app, String page, String action, String qs) throws IOException{
-		this.redirect(Route.toUrl(app, page, action, qs));
+		this.redirect_(Route.toUrl(app, page, action, qs));
 	}
 	
 	protected final void redirect(String r, String qs) throws IOException{
-		this.redirect(Route.toUrl(r, qs));
+		this.redirect_(Route.toUrl(r, qs));
+	}
+	
+	protected final void redirect(String r){
+		this.redirect_(Route.toUrl(r));
 	}
 	
 	protected final void redirect(String app, String page, String action) throws IOException{
-		this.redirect(Route.toUrl(app, page, action));
+		this.redirect_(Route.toUrl(app, page, action));
 	}
 	
 	protected final void redirect(String app, String page, String action, String []paramNames, String []paramValues) throws IOException{
-		this.redirect(Route.toUrl(app, page, action, paramNames, paramValues));
+		this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
 	}
 	
 	protected final void redirectToExternal(String url){
-		this.redirect(url);
+		//this.redirect_(url);
 	}
 	
 	public View getView(){

@@ -13,6 +13,8 @@ public class User implements Component{
 	private Identity identity;
 	private int expire;
 	
+	public static final String loginUrl = "igrp/login/login";
+	
 	public User(){
 	}
 	
@@ -70,9 +72,9 @@ public class User implements Component{
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
 		/* test the login page (TOO_MANY_REQUEST purpose)*/
-		if(aux != null) 
-			isLoginPage = aux.contains("login"); // bug ... Perhaps
-		
+		if(aux != null){ 
+			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
+		}
 			if(!this.checkSessionContext() && !isLoginPage){
 				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
 				Igrp.getInstance().setCurrentAppName("igrp");
