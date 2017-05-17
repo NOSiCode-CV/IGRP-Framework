@@ -59,14 +59,18 @@ public class PesquisarPerfilView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarPerfil","pesquisar","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarPerfil","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
+		
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","submit","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
+		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
+		
 		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","submit","default|fa-angle-right","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
+		
 		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","submit","default|fa-angle-right","","");
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarPerfil","etapa","submit","default|fa-angle-right","","");

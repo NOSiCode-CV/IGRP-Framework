@@ -30,11 +30,14 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse rp = (HttpServletResponse) response;
 		String identityId = (String) rq.getSession().getAttribute("_identity");
 		boolean isLoginPage = false;
+		
 		if(rq.getParameter("r") != null) /* test the login page (TOO_MANY_REQUEST purpose)*/
 			isLoginPage = rq.getParameter("r").contains("login"); // bug ... Perhaps
-		if(!isLoginPage && identityId == null) // just test the session context
+		
+		if(!isLoginPage && identityId == null) {// just test the session context
 			rp.sendRedirect("webapps?r=igrp/login/login"); // go to login page
-		else	
+			//rq.getRequestDispatcher("webapps?r=igrp/login/login").forward(request, response);
+		}else	
 			chain.doFilter(request, response);
 	}
 

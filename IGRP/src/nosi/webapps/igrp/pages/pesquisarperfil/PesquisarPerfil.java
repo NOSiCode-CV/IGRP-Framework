@@ -7,9 +7,9 @@ public class PesquisarPerfil extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	@RParam(rParamName = "p_organia")
-	private String organia;
+	private int organia;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -26,17 +26,17 @@ public class PesquisarPerfil extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrgania(String organia){
+	public void setOrgania(int organia){
 		this.organia = organia;
 	}
-	public String getOrgania(){
+	public int getOrgania(){
 		return this.organia;
 	}
 

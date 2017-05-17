@@ -32,7 +32,7 @@ public class PesquisarOrganicaView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao Organica");
+		sectionheader_1_text.setValue("Gestão Orgânica");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicacao");
@@ -48,7 +48,7 @@ public class PesquisarOrganicaView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarOrganica","pesquisar","_blank","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarOrganica","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_eidtar = new IGRPButton("Eidtar","igrp","nova-organica","editar","_self","default|fa-pencil","","");
 		btn_eidtar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eidtar");
