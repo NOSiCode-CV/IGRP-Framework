@@ -60,7 +60,8 @@ public class PesquisarOrganicaController extends Controller {
 	}
 	
 	public void actionTransacao() throws IOException{
-		
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=org");
 	}
 	
 	public void actionEtapa() throws IOException{

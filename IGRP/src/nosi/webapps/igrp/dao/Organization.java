@@ -356,4 +356,42 @@ public class Organization implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
+
+
+	public Object[] getOrgTransaction() {
+		ArrayList<Transaction> lista = new ArrayList<Transaction>();		
+		try{
+			Statement st = con.createStatement();
+			ResultSet r = st.executeQuery("SELECT * FROM glb_t_transaction ");			
+			while(r.next()){				
+				Transaction t = new Transaction();
+				t.setDescr(r.getString("descr"));		
+				t.setId(r.getInt("id"));
+				lista.add(t);
+			}
+			st.close();			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+
+
+	public Object[] getPerfilTransaction(int org) {
+		ArrayList<Transaction> lista = new ArrayList<Transaction>();		
+		try{
+			Statement st = con.createStatement();
+			ResultSet r = st.executeQuery("SELECT T.* FROM glb_t_transaction T, glb_t_profile P WHERE P.type_fk=T.ID AND P.type='TRANS' AND P.org_fk="+org);			
+			while(r.next()){				
+				Transaction t = new Transaction();
+				t.setDescr(r.getString("descr"));		
+				t.setId(r.getInt("id"));
+				lista.add(t);
+			}
+			st.close();			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
 }

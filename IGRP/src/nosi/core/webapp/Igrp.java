@@ -52,19 +52,19 @@ public class Igrp {
 	
 	// User component (Identity)
 	private User user;
-	/**/
+	
 	
 	private Igrp(){ // Private and empty default constructor ... allow Singleton class
 	}
 	
-	public static Igrp getInstance(){ // Permite definir a classe Igrp como um Singleton
+	public static Igrp getInstance(){ // Allow us to define the only one instance of Igrp class as a Singleton
 		if(Igrp.app == null){
 			Igrp.app = new Igrp();
 		}
 	return Igrp.app;
 	}
 	
-	// Inicializa os componentes da web app
+	// Inicialize the web app components
 	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
 			this.request = request;
@@ -72,7 +72,7 @@ public class Igrp {
 			
 			this.basePath = this.request.getContextPath();
 			this.baseRoute = this.request.getServletPath();
-			this.homeUrl = "app_name/page_name/action_name";
+			this.homeUrl = "igrp/home/index";
 			
 			// init of others configuration
 			this.igrpDb = new IgrpDb();

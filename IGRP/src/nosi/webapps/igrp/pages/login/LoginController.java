@@ -17,7 +17,7 @@ public class LoginController extends Controller {
 	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		// first
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			this.redirect("igrp", "home", "index"); // go to home (Bug here)
+			this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 			return;
 		}
 		

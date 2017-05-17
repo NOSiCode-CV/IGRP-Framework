@@ -6,7 +6,7 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class TransaccaoView extends View {
-	public String title = "null";		
+	public String title = "";		
 	
 	public Field sectionheader_1_text;
 	public Field codigo;
