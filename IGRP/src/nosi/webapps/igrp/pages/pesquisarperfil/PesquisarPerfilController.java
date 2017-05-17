@@ -7,11 +7,9 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 
@@ -22,8 +20,7 @@ public class PesquisarPerfilController extends Controller {
 		
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
 		ProfileType profile_db = new ProfileType();
-		
-		
+				
 		//condiccao para pesquisar com filtros
 		Application objapp = new Application();
 		profile_db.setAplicacao(objapp);
@@ -72,7 +69,8 @@ public class PesquisarPerfilController extends Controller {
 	}
 	
 	public void actionTransacao() throws IOException{
-		
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");
 	}
 	
 	public void actionEtapa() throws IOException{
