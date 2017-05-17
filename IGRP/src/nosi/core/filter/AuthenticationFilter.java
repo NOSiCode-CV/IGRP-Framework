@@ -35,8 +35,8 @@ public class AuthenticationFilter implements Filter {
 			isLoginPage = rq.getParameter("r").contains("login"); // bug ... Perhaps
 		
 		if(!isLoginPage && identityId == null) {// just test the session context
-			//rp.sendRedirect("webapps?r=igrp/login/login"); // go to login page
-			rq.getRequestDispatcher("webapps?r=igrp/login/login").forward(request, response);
+			rp.sendRedirect("webapps?r=igrp/login/login"); // go to login page
+			//rq.getRequestDispatcher("webapps?r=igrp/login/login").forward(request, response);
 		}else	
 			chain.doFilter(request, response);
 	}
