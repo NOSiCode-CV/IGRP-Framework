@@ -16,6 +16,7 @@ public class Transaction implements RowDataGateway {
 	private String descr;
 	private int env_fk;
 	private int status;
+	private int org_fk;
 	private Connection con;
 	
 	public Transaction() {
@@ -65,8 +66,14 @@ public class Transaction implements RowDataGateway {
 		this.status = status;
 	}
 	
-	
-	
+	public int getOrg_fk() {
+		return org_fk;
+	}
+
+	public void setOrg_fk(int org_fk) {
+		this.org_fk = org_fk;
+	}
+
 	@Override
 	public boolean insert() {
 		try{
@@ -159,10 +166,30 @@ public class Transaction implements RowDataGateway {
 	public Object[] getAll() {
 		ArrayList<Transaction> lista = new ArrayList<>();
 		try{
-			Statement st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT id, code, descr, env_fk, status "
-					+ "FROM glb_t_transaction");
-			
+			String sql = "SELECT id, code, descr, env_fk, status "
+					   + "FROM glb_t_transaction WHERE env_fk=?";
+			if(this.org_fk!=0 && (this.code==null || this.code.equals(""))){
+				sql = "SELECT T.* "
+						   + "FROM glb_t_transaction T,glb_t_profile P WHERE T.env_fk=? AND T.id=P.type_fk AND P.type=? AND P.org_fk=?";
+			}if(this.org_fk==0 && this.code!=null && !this.code.equals("")){
+				sql +=" AND code=? ";
+			}if(this.org_fk!=0 && this.code!=null && !this.code.equals("")){
+				sql = "SELECT T.* "
+						   + "FROM glb_t_transaction T,glb_t_profile P WHERE T.env_fk=? AND T.id=P.type_fk AND P.type=? AND P.org_fk=? AND T.code=?";
+			}
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, this.env_fk);
+			if(this.org_fk!=0 && (this.code==null  || this.code.equals(""))){
+				st.setString(2, "TRANS");
+				st.setInt(3,this.org_fk);
+			}if(this.org_fk==0 && this.code!=null  && !this.code.equals("")){
+				st.setString(2, this.code);
+			}if(this.org_fk!=0 && this.code!=null  && !this.code.equals("")){
+				st.setString(2, "TRANS");
+				st.setInt(3,this.org_fk);
+				st.setString(4, this.code);
+			}
+			ResultSet rs = st.executeQuery();			
 			while(rs.next()){
 				Transaction obj = new Transaction();
 				obj.setCode(rs.getString("code"));

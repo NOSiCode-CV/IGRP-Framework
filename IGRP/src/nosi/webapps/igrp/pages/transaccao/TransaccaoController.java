@@ -12,10 +12,19 @@ import java.util.ArrayList;
 
 public class TransaccaoController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Transaccao model = new Transaccao();		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
-		for(Object obj:new Transaction().getAll()){
+		Transaction trans = new Transaction();
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();		
+			if(model.getAplicacao()!=null && !model.getAplicacao().equals(""))
+				trans.setEnv_fk(Integer.parseInt(model.getAplicacao()));
+			if(model.getOrganica()!=null && !model.getOrganica().equals(""))
+				trans.setOrg_fk(Integer.parseInt(model.getOrganica()));
+			trans.setCode(model.getCodigo());
+		}
+		for(Object obj:trans.getAll()){
 			Transaction t = (Transaction) obj;
 			Transaccao.Table_1 table = new Transaccao().new Table_1();
 			table.setCodigo(t.getCode());
@@ -30,12 +39,6 @@ public class TransaccaoController extends Controller {
 		view.organica.setValue(new Organization().getListOrganizations());
 		view.table_1.addData(table_1);
 		view.codigo.setParam(true);
-		this.renderView(view);
-	}
-
-	public void actionPesquisar() throws IOException{
-		Transaccao model = new Transaccao();
-		TransaccaoView view = new TransaccaoView(model);
 		this.renderView(view);
 	}
 	
@@ -56,6 +59,7 @@ public class TransaccaoController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		this.redirect("igrp","Transaccao","index");
 	}
+	
 	
 	public void actionAlterar_estado() throws IOException{
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
