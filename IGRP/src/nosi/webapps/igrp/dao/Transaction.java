@@ -70,7 +70,6 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
-			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 					+ "(code, descr, env_fk, status) "
 					+ "VALUES (?, ?, ?, ?)");
@@ -111,6 +110,7 @@ public class Transaction implements RowDataGateway {
 				obj.setDescr(rs.getString("descr"));
 				obj.setEnv_fk(rs.getInt("env_fk"));
 				obj.setStatus(rs.getInt("status"));
+				obj.setId(rs.getInt("id"));
 			}
 			st.close();
 		}catch(SQLException e){
@@ -134,7 +134,7 @@ public class Transaction implements RowDataGateway {
 			st.setInt(4, this.status);
 	        st.executeUpdate();
 	        st.close();
-			
+			return true;
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -148,6 +148,7 @@ public class Transaction implements RowDataGateway {
 			st.setInt(1, this.id);
 			st.executeUpdate();
 			st.close();
+			return true;
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -176,13 +177,5 @@ public class Transaction implements RowDataGateway {
 		}
 		return lista.toArray();
 	}
-
-	@Override
-	public String toString() {
-		return "Transaction [id=" + id + ", code=" + code + ", descr=" + descr + ", env_fk=" + env_fk + ", status="
-				+ status + "]";
-	}
-	
-	
 
 }

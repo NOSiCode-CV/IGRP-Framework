@@ -101,7 +101,7 @@ public class PesquisarPerfilView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
-		table_1.addButton(btn_etapa);
+		//table_1.addButton(btn_etapa);
 		
 		toolsbar_1.addButton(btn_novo);
 		

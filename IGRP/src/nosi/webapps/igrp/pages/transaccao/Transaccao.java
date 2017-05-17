@@ -75,5 +75,8 @@ public class Transaccao extends Model{
 			return this.estado;
 		}
 
+		public String toString(){
+			return "codigo: "+this.codigo+" | descricao: "+this.descricao;
+		}
 	}
 }
