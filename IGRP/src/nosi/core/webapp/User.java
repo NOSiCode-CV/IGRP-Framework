@@ -76,7 +76,8 @@ public class User implements Component{
 			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
 		}
 			if(!this.checkSessionContext() && !isLoginPage){
-				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login"); // go to login page "again"
+					//Igrp.getInstance().getResponse().sendRedirect("webapps?r=igrp/login/login");
+				// go to login page "again"
 				Igrp.getInstance().setCurrentAppName("igrp");
 				Igrp.getInstance().setCurrentPageName("login");
 				Igrp.getInstance().setCurrentActionName("login");

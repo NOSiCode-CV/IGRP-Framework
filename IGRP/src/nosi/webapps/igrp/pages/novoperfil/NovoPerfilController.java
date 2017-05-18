@@ -89,7 +89,7 @@ public class NovoPerfilController extends Controller {
 		
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
 		
-		view.btn_gravar.setLink("editar&amp;p_id="+id);
+		view.btn_gravar.setLink("editar&p_id="+id);
 		
 		view.aplicacao.setValue(new Application().getListApps());
 		view.perfil.setValue(new ProfileType().getListProfiles());

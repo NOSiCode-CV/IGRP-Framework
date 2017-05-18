@@ -88,8 +88,8 @@ public class Igrp {
 	}
 	
 	public void run() throws IOException{ // run the web app 
-		this.resolveRoute(); // (1)
-		this.runAction(); // (2)
+			this.resolveRoute(); // (1)
+			this.runAction(); // (2)
 		this.exit(); // (3)
 	}
 	

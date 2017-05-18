@@ -80,7 +80,7 @@ public class NovoMenuController extends Controller {
 			model.setOrderby(menu_db.getOrderby());
 			model.setDescr(menu_db.getDescr());
 			
-			//System.out.println(menu_db);
+			System.out.println(menu_db);
 			
 			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 				model.load();
