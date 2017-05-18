@@ -105,7 +105,7 @@ public class RegistarUtilizadorController extends Controller {
 		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
 		view.title = "Atualizar utilizador";
-		view.btn_guardar.setLink("editar&amp;p_id=" + idUser);
+		view.btn_guardar.setLink("editar&p_id=" + idUser);
 		this.renderView(view);
 	}
 	

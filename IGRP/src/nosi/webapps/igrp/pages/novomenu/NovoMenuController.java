@@ -61,13 +61,31 @@ public class NovoMenuController extends Controller {
 		this.redirect("igrp", "novo-menu", "index");
 	}
 	
-	public void actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException{
+	public void actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException, IllegalArgumentException, IllegalAccessException{
 			
 			Menu menu_db = new Menu();
 			menu_db.setId(Integer.parseInt(id_menu));
 			menu_db = (Menu) menu_db.getOne();
 			
 			NovoMenu model = new NovoMenu();
+			
+			model.setCode(menu_db.getCode());
+			model.setSelf_id(menu_db.getSelf_id());
+			model.setStatus(menu_db.getStatus());
+			model.setFlg_base(menu_db.getFlg_base());
+			model.setEnv_fk(menu_db.getEnv_fk());
+			model.setTarget(menu_db.getTarget());
+			model.setAction_fk(menu_db.getAction_fk());
+			model.setOrderby(menu_db.getOrderby());
+			model.setDescr(menu_db.getDescr());
+			
+			System.out.println(menu_db);
+			
+			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+				model.load();
+			}
+			
+			
 			NovoMenuView view = new NovoMenuView(model);
 			
 			
@@ -79,9 +97,12 @@ public class NovoMenuController extends Controller {
 			targets.put("confirm", "Confirm");
 			view.target.setValue(targets);
 			
-			view.env_fk.setValue(new Application().getListAppsOne(Integer.parseInt(id_menu)));
+			//view.env_fk.setValue(new Application().getListAppsOne(Integer.parseInt(id_menu)));
 			
-			//model.setCode(menu_db.getCode());
+			view.env_fk.setValue(new Application().getListApps());
+			view.action_fk.setValue(new Action().getListActions());
+			view.self_id.setValue(new Menu().getListPrincipalMenus());
+			
 			this.renderView(view);
 		
 	}

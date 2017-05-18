@@ -90,7 +90,7 @@ public class NovaOrganicaController extends Controller {
 		
 		view.sectionheader_1_text.setValue("Gestão de Orgânica - Atualizar");
 		
-		view.btn_gravar.setLink("editar&amp;p_id=" + idOrganica);
+		view.btn_gravar.setLink("editar&p_id=" + idOrganica);
 		
 		
 		this.renderView(view);

@@ -264,7 +264,6 @@ public class Menu implements RowDataGateway {
 			ResultSet rs = st.executeQuery("SELECT * FROM glb_t_menu where id = "+ this.id);
 			
 			while(rs.next()){
-				System.out.println("ok entrar");
 				obj.setId(rs.getInt("id"));
 				obj.setDescr(rs.getString("descr"));
 				obj.setLink(rs.getString("link"));
