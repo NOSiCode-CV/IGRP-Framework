@@ -86,7 +86,7 @@ public class IGRPToolsBar {
 
 	private void genXmlItem(IGRPButton item, String tag) {
 		if(item.getProperties().getProperty("flg_transaction")!=null && item.getProperties().getProperty("flg_transaction").equals("true")){
-			if(Permission.isPermission(item.getApp()+"_"+item.getPage()+"_"+item.getProperties().getProperty("rel"))){
+			if(Permission.isPermission(item.getApp().toLowerCase()+"_"+item.getPage()+"_"+item.getProperties().getProperty("rel"))){
 				this.genItem(tag, item);
 			}
 		}else{
