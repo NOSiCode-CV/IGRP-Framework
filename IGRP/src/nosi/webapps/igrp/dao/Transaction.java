@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.dao;
 
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,6 +76,7 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean insert() {
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
 					+ "(code, descr, env_fk, status) "
 					+ "VALUES (?, ?, ?, ?)");
@@ -203,6 +203,37 @@ public class Transaction implements RowDataGateway {
 			e.printStackTrace();
 		}
 		return lista.toArray();
+	}
+
+
+
+	public boolean getPermission(String transaction) {
+		ArrayList<Transaction> lista = new ArrayList<>();		
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT T.* FROM glb_t_transaction T,glb_t_profile P "
+					+ "	WHERE T.id = P.type_fk "
+					+ "	AND P.type=?"
+					+ " AND P.prof_type_fk = ? "
+					+ " AND P.org_fk = ?"
+					+ " AND T.code = ? "
+					+ " AND T.status=1 "
+					+ "	ORDER BY id");
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setString(1,"TRANS_PROF");
+			st.setInt(2,u.getCurrentPerfilId());
+			st.setInt(3,u.getCurrentOrganization());
+			st.setString(4,transaction);
+			ResultSet result = st.executeQuery();			
+			while(result.next()){
+				Transaction obj = new Transaction();
+				obj.setId(result.getInt("id"));
+				lista.add(obj);
+		}
+		st.close();		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.size() > 0;
 	}
 
 }

@@ -2,6 +2,7 @@ package nosi.core.webapp.helpers;
 
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Transaction;
 
 public class Permission {
 
@@ -29,5 +30,9 @@ public class Permission {
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean isPermission(String transaction){
+		return new Transaction().getPermission(transaction);
 	}
 }

@@ -175,7 +175,7 @@ public class PageController extends Controller {
 			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getProject_loc() +"/src/"+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
-			this.processJson(fileJson);
+			this.processJson(fileJson,ac);
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
 				String[] partsJavaCode = javaCode.toString().split(" END ");
 				if(
@@ -211,7 +211,7 @@ public class PageController extends Controller {
 	}
 	
 	//Read json and extract transactions
-	private void processJson(Part fileJson) throws IOException {
+	private void processJson(Part fileJson,Action ac) throws IOException {
 		if(fileJson!=null){
 			JSONObject objJson;
 			try {
@@ -229,13 +229,13 @@ public class PageController extends Controller {
 									JSONArray fields;
 									try{
 										fields = containers.getJSONObject(h).getJSONArray("fields");
-										this.processTransactions(fields,h);
+										this.processTransactions(fields,ac);
 									}catch (JSONException e) {
 									}
 									JSONArray contextMenu;
 									try{
 										contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
-										this.processTransactions(contextMenu,h);
+										this.processTransactions(contextMenu,ac);
 									}catch (JSONException e) {
 									}
 								}
@@ -252,25 +252,24 @@ public class PageController extends Controller {
 	}
 	
 	//Extract transactions
-	private void processTransactions(JSONArray properties,int i) {
-		JSONObject p;
-		try{
-			p = properties.getJSONObject(i).getJSONObject("properties");
+	private void processTransactions(JSONArray fields,Action ac) {
+		for(int i=0;i<fields.length();i++){
+			JSONObject p;
 			try{
-				if(p.get("transaction")!=null && p.get("transaction").toString().equals("true")){
-					this.saveTransaction(p.get("name").toString(),p.get("label").toString(),p.get("action").toString(),p.get("tag").toString());
+				p = fields.getJSONObject(i).getJSONObject("properties");
+				try{
+					if(p.get("transaction")!=null && p.get("transaction").toString().equals("true")){
+						this.saveTransaction(p.get("name").toString(),p.get("label").toString(),p.get("action").toString(),p.get("tag").toString(),ac);
+					}
+				}catch (JSONException e) {
 				}
 			}catch (JSONException e) {
 			}
-		}catch (JSONException e) {
 		}
 	}
 
 	//Save transactions
-	private void saveTransaction(String name, String label, String action, String tag) {
-		Action a = new Action();
-		a.setId(Integer.parseInt(action));
-		Action ac = (Action)a.getOne();
+	private void saveTransaction(String name, String label, String action, String tag,Action ac) {
 		if(ac!=null && name!=null && tag!=null){
 			Transaction t = new Transaction();
 			String code = ac.getEnv().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
