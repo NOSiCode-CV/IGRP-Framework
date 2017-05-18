@@ -9,7 +9,7 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class TransacaoOrganicaView extends View {
-	public String title = "Pagina para atribuir permissao sobre transacoes";		
+	public String title = "Permissao sobre transacoes";		
 	
 	public Field transacao;
 	public Field transacao_check;
