@@ -57,4 +57,7 @@
  	<error-code>501</error-code>
  	<location>/webapps?r=igrp/error-page/permission</location>
  </error-page>
+ <session-config>
+ 	<session-timeout>-1</session-timeout>
+ </session-config>
 </web-app>

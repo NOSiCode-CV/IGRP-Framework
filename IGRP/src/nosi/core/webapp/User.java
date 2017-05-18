@@ -23,7 +23,7 @@ public class User implements Component{
 		this.expire = expire;
 		
 		// Create the session context
-		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "" /* convert it to string*/);
+		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "");
 		int perf = currentPerfilId;
 		int org = currentOrgId;
 		// Create the cookie context (Begin)
