@@ -71,12 +71,12 @@ public class NovaOrganicaController extends Controller {
 			organization.setSelf_fk(model.getOrganica_pai());
 			organization.setStatus(model.getAtivo());
 			
-			if(organization.update())
+			if(organization.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica actualizada com sucesso.");
-			else
+				this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
+				return;
+			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar.");
-			
-			this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
 		}
 		
 		NovaOrganicaView view = new NovaOrganicaView(model);

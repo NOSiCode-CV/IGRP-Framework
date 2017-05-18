@@ -75,13 +75,13 @@ public class NovoPerfilController extends Controller {
 			p.setSelf_fk(model.getPerfil());
 			p.setStatus(model.getActivo());
 			
-			if(p.update())
+			if(p.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Perfil atualizado com sucesso.");
+				this.redirect("igrp", "novo-perfil", "editar", new String[]{"p_id"}, new String[]{p.getId() + ""});
+				return; // exit here
+			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar o perfil.");
-			
-			this.redirect("igrp", "novo-perfil", "editar", new String[]{"p_id"}, new String[]{p.getId() + ""});
-			return; // exit here
 			
 		}
 		

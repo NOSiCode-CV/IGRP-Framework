@@ -4,6 +4,7 @@
 
 package nosi.webapps.igrp.pages.novomenu;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Action;
@@ -79,10 +80,28 @@ public class NovoMenuController extends Controller {
 			model.setOrderby(menu_db.getOrderby());
 			model.setDescr(menu_db.getDescr());
 			
-			System.out.println(menu_db);
+			//System.out.println(menu_db);
 			
 			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 				model.load();
+				menu_db.setCode(model.getCode());
+				menu_db.setSelf_id(model.getSelf_id());
+				menu_db.setStatus(model.getStatus());
+				menu_db.setFlg_base(model.getFlg_base());
+				menu_db.setEnv_fk(model.getEnv_fk());
+				menu_db.setTarget(model.getTarget());
+				menu_db.setAction_fk(model.getAction_fk());
+				menu_db.setOrderby(model.getOrderby());
+				menu_db.setDescr(model.getDescr());
+				
+				if(menu_db.update()){
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Menu atualizado com sucesso.");
+					this.redirect("igrp", "novo-menu", "editar", new String[]{"p_id"}, new String[]{menu_db.getId() + ""});
+					return;
+				}
+				else
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar menu.");
+				
 			}
 			
 			
@@ -102,6 +121,8 @@ public class NovoMenuController extends Controller {
 			view.env_fk.setValue(new Application().getListApps());
 			view.action_fk.setValue(new Action().getListActions());
 			view.self_id.setValue(new Menu().getListPrincipalMenus());
+			
+			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 			
 			this.renderView(view);
 		
