@@ -52,7 +52,7 @@ public class IGRPButton {
 		return app+"/"+page+"/"+link;
 	}
 	public void setLink(String link) {
-		this.link = link;
+		this.link = link.replace("&", "&amp;");
 	}
 	public String getTarget() {
 		return target;

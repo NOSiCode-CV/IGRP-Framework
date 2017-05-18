@@ -160,6 +160,7 @@ public class Config {
 
 	public static HashMap<String,String> getVersions() {
 		HashMap<String,String> versions = new HashMap<>();
+		versions.put("", "--- Version ---");
 		versions.put("2.2", "2.2");
 		versions.put("2.3", "2.3");
 		return versions;

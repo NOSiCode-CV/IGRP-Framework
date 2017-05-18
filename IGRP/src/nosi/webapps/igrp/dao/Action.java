@@ -449,7 +449,7 @@ public class Action implements RowDataGateway{
 	
 	@Override
 	public boolean update() {	
-		boolean result = false;
+		int result = 0;
 		try {
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_action	SET "
@@ -490,13 +490,12 @@ public class Action implements RowDataGateway{
 			st.setInt(16, this.flg_offline);
 			st.setInt(17, this.flg_internet);
 			st.setInt(18, this.status);
-			st.executeUpdate();
+			result = st.executeUpdate();
 			st.close();
-			result = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
-		return result;
+		return result > 0;
 	}
 
 	@Override

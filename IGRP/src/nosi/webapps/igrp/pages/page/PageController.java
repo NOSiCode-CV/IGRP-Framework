@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.FileHelper;
@@ -60,9 +61,8 @@ public class PageController extends Controller {
 		this.renderView(view);
 	}
 	
-	public void actionEditar(@RParam(rParamName = "id")String id) throws IOException{
+	public void actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
-		PageView view = new PageView(model);
 		
 		Action action = new Action();
 		action.setId(Integer.parseInt(id));
@@ -70,13 +70,31 @@ public class PageController extends Controller {
 		
 		model.setEnv_fk(action.getEnv_fk());
 		model.setP_version(action.getVersion());
-		model.setPage(action.getAction());
-		model.setAction_descr(action.getAction_descr());
+		model.setPage(action.getPage());
+		model.setAction_descr(action.getPage_descr());
+		
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+			model.load();
+			action.setEnv_fk(model.getEnv_fk());
+			action.setVersion(model.getP_version());
+			action.setPage(model.getPage());
+			action.setPage_descr(model.getAction_descr());
+			
+			if(action.update())
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Página atualizada com sucesso.");
+			else
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a página.");
+			this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
+			return;
+		}
+		
+		PageView view = new PageView(model);
 		
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
 		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
-		view.btn_gravar.setLink("editar&amp;id="+id);
+		view.btn_gravar.setLink("editar&id="+id);
+		
 		this.renderView(view);
 	}
 	
