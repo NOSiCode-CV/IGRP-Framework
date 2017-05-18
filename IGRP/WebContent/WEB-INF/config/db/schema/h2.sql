@@ -209,7 +209,9 @@
 		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
 		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
 		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
-		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl');
+		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
+		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
+		(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl');
 	
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
@@ -222,15 +224,15 @@
 	
 	INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
 	(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(2, 'Detalhes de Aplicação', 3, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
-	(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
-	(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
+	(2, 'Detalhes de Aplicação', 3, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
 	(5, 'Parâmetros Gerais', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(6, 'Gestão de Organica', 6, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
-	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
-	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),
-	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self'),	
-	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 0, NULL, 0, '_self');
+	(6, 'Gestão de Organica', 6, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),	
+	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
 	
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1),
