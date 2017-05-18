@@ -11,7 +11,9 @@ import java.io.PrintWriter;
 
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
@@ -60,6 +62,8 @@ public class EnvController extends Controller {
 		this.redirect("igrp", "lista-env","index");
 	}
 	
+	
+	
 	//App list I have access to
 	public PrintWriter actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
@@ -102,4 +106,67 @@ public class EnvController extends Controller {
 		xml_menu.endElement();
 		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
 	}
+	
+	
+	public void actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
+		Env model = new Env();
+		
+		Application aplica_db = new Application();
+		aplica_db.setId(Integer.parseInt(idAplicacao));
+		aplica_db = (Application) aplica_db.getOne();
+		
+		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
+		model.setName(aplica_db.getName());
+		model.setDescription(aplica_db.getDescription());
+		model.setAction_fk(aplica_db.getAction_fk());
+		model.setApache_dad(aplica_db.getApache_dad());
+		model.setFlg_external(aplica_db.getFlg_external());
+		model.setImg_src(aplica_db.getImg_src());
+		model.setStatus(aplica_db.getStatus());
+		model.setFlg_old(aplica_db.getFlg_old());
+		model.setLink_center(aplica_db.getLink_center());
+		model.setLink_menu(aplica_db.getLink_menu());
+		model.setTemplates(aplica_db.getTemplates());
+		model.setHost(aplica_db.getHost());
+		
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+			model.load();
+			
+			aplica_db.setDad(model.getDad());
+			aplica_db.setName(model.getName());
+			aplica_db.setImg_src(model.getImg_src());
+			aplica_db.setDescription(model.getDescription());
+			aplica_db.setAction_fk(model.getAction_fk());
+			aplica_db.setStatus(model.getStatus());
+			aplica_db.setFlg_old(model.getFlg_old());
+			aplica_db.setLink_menu(model.getLink_menu());
+			aplica_db.setLink_center(model.getLink_center());
+			aplica_db.setApache_dad(model.getApache_dad());
+			aplica_db.setTemplates(model.getTemplates());
+			aplica_db.setHost(model.getHost());
+			aplica_db.setFlg_external(model.getFlg_external());
+			
+			if(aplica_db.update()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
+				this.redirect("igrp", "lista-env", "index");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
+			}
+			
+		}
+		
+		
+		EnvView view = new EnvView(model);
+		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
+		view.btn_gravar.setLink("editar&amp;id=" + idAplicacao);
+		this.renderView(view);
+	}
+	
 }
+
+
+
+
+
+
+

@@ -42,14 +42,6 @@ public class ListaEnvController extends Controller {
 		this.renderView(view);
 	}
 	
-	
-	public void actionEditar() throws IOException{
-		/*Env model = new Env();
-		EnvView view = new EnvView(model);
-		this.renderView(view);*/
-		this.redirect("igrp", "env", "index");
-	}
-	
 	public void actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
