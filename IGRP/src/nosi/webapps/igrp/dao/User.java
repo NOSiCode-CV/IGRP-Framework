@@ -302,16 +302,16 @@ public class User implements Identity, RowDataGateway{
 	public Object[] getAllComFiltros() {
 		ArrayList<User> lista = new ArrayList<User>();
 		String sql = "SELECT DISTINCT u.*,tp.descr as perfil FROM glb_t_user u,glb_t_profile p, glb_t_profile_type tp, glb_t_organization org "
-				+ " WHERE u.id=p.user_fk and tp.id=p.type_fk and u.id = p.user_fk and org.id = p.org_fk ";
+				+ " WHERE u.id=p.user_fk and tp.id=p.type_fk and org.id = p.org_fk and tp.org_fk = org.id and p.type = 'PROF'";
 		try{
-			sql += this.user_name != null && this.user_name != ""? " and user_name like '%" + this.user_name + "%'": " ";
-			sql += this.email != null && this.email != ""? " and email like '%" + this.email + "%'": " ";
-			sql += this.getAplicacao().getId() != 0 ? " and p.type = 'ENV' and org.env_fk = " + this.getAplicacao().getId() : " ";
-			sql += this.getOrganica().getId() != 0 ? " and p.type = 'ENV' and p.org_fk = " + this.getOrganica().getId() : " ";
-			sql += this.getProfile().getId() != 0 ? " and p.type = 'PROF' and p.type_fk = " + this.getProfile().getId():  " ";
+			sql += (this.user_name != null && !this.user_name.equals(""))? " and user_name like '%" + this.user_name + "%'": " ";
+			sql += (this.email != null && !this.email.equals(""))? " and email like '%" + this.email + "%'": " ";
+			sql += (this.getAplicacao()!=null && this.getAplicacao().getId() != 0 )? " and org.env_fk = " + this.getAplicacao().getId() : " ";
+			sql += (this.getOrganica()!=null && this.getOrganica().getId() != 0) ? " and p.org_fk = " + this.getOrganica().getId() : " ";
+			sql += (this.getProfile()!=null && this.getProfile().getId() != 0) ? " and tp.id = " + this.getProfile().getId():  " ";
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet result = st.executeQuery();
-			
+			System.out.println(sql);
 			int i = 0;
 			while(result.next()){
 				if(i >10)
@@ -326,7 +326,7 @@ public class User implements Identity, RowDataGateway{
 				obj.setProfile(prof);
 				lista.add(obj);
 				i++;
-				//System.out.println(obj);
+				System.out.println(obj);
 			}
 			st.close();
 			
