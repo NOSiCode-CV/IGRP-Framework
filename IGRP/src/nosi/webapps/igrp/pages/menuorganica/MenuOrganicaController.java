@@ -49,8 +49,10 @@ public class MenuOrganicaController extends Controller {
 					prof.setProf_type_fk(1);
 					prof.setType("MEN_PROF");	
 				}
-				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType()!=null && ((Profile)prof.getOne()).getType_fk()==m.getId()){
+				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType_fk()==m.getId()){
 					table.setMenu_check(m.getId());
+				}else{
+					table.setMenu_check(-1);
 				}
 				table.setDescricao(m.getDescr());
 				data.add(table);

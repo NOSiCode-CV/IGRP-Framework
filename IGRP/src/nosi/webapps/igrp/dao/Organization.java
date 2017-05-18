@@ -174,30 +174,34 @@ public class Organization implements RowDataGateway {
 
 	@Override
 	public boolean update() {
+		int result = 0;
 		try{
-			/*name = "Nome update 1";
-			id = 118;
-			env_fk = 1;
-			self_fk = 17;*/
 			con.setAutoCommit(true);
-			Statement st = con.createStatement();
-	        st.executeUpdate("UPDATE glb_t_organization SET "
-	        		+ "name='" + this.name
-	        		+"',code= '" + this.code
-	        		+ "',sigof_fk= " + this.sigof_fk
-	        		+ ",env_fk=" + this.env_fk
-	        		+ ",status=" + this.status
-	        		+ ",user_create_fk=" + this.user_create_fk
-	        		+ ",self_fk = " + this.self_fk
-	        		+ "where id = " + this.id);
-	        st.close();
+			String sql = "UPDATE glb_t_organization SET "
+					+ "name = ?, code = ?, sigof_fk = ?, env_fk = ?, status = ?, user_create_fk = ?, self_fk = ? "
+					+ "where id = " + this.id;
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, this.name);
+			ps.setString(2, this.code);
+			ps.setInt(3, this.sigof_fk);
+			ps.setInt(4, this.env_fk);
+			ps.setInt(5, this.status);
+			ps.setInt(6, this.user_create_fk);
+			
+			if(this.self_fk == 0)
+				ps.setNull(7, 0);
+			else
+			ps.setInt(7, this.self_fk);
+			
+	        result = ps.executeUpdate();
+	        ps.close();
 			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		return false;
+		return result > 0;
 	}
-
+	
 	@Override
 	public boolean delete() {
 		try{

@@ -69,12 +69,14 @@ public class NovaOrganicaController extends Controller {
 			organization.setName(model.getNome());
 			organization.setEnv_fk(model.getAplicacao());
 			organization.setSelf_fk(model.getOrganica_pai());
+			organization.setStatus(model.getAtivo());
 			
-			if(organization.update()){
-				
-			}
-				
+			if(organization.update())
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica actualizada com sucesso.");
+			else
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar.");
 			
+			this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
 		}
 		
 		NovaOrganicaView view = new NovaOrganicaView(model);
@@ -88,7 +90,7 @@ public class NovaOrganicaController extends Controller {
 		
 		view.sectionheader_1_text.setValue("Gestão de Orgânica - Atualizar");
 		
-		view.btn_gravar.setLink("editar&amp;=" + idOrganica);
+		view.btn_gravar.setLink("editar&amp;p_id=" + idOrganica);
 		
 		
 		this.renderView(view);

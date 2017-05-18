@@ -53,8 +53,10 @@ public class TransacaoOrganicaController extends Controller {
 					prof.setProf_type_fk(1);
 					prof.setType("TRANS_PROF");	
 				}
-				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType()!=null && ((Profile)prof.getOne()).getType_fk()==t.getId()){
+				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType_fk()==t.getId()){
 					table.setTransacao_check(t.getId());
+				}else{
+					table.setTransacao_check(-1);
 				}
 				data.add(table);
 			}

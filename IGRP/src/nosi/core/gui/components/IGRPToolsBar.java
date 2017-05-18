@@ -9,6 +9,7 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 
 public class IGRPToolsBar {
@@ -84,6 +85,16 @@ public class IGRPToolsBar {
 	}
 
 	private void genXmlItem(IGRPButton item, String tag) {
+		if(item.getProperties().getProperty("flg_transaction")!=null && item.getProperties().getProperty("flg_transaction").equals("true")){
+			if(Permission.isPermission(item.getApp()+"_"+item.getPage()+"_"+item.getProperties().getProperty("rel"))){
+				this.genItem(tag, item);
+			}
+		}else{
+			this.genItem(tag, item);
+		}		
+	}
+	
+	private void genItem(String tag,IGRPButton item){
 		xml.startElement(tag);
 		GenXMLField.writteAttributes(xml, item.getProperties());
 		xml.setElement("title", item.getTitle());

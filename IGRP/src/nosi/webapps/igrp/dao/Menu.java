@@ -446,7 +446,7 @@ public class Menu implements RowDataGateway {
 			//Falta alguns codigos para o filtro completo(Falta somente a organica)
 			sql = sql + (this.env_fk != 0 ? "and (M1.env_fk = " + this.env_fk + " AND M2.env_fk = " + this.env_fk + ") " : "");
 			sql = sql + (this.id != 0 ? "and M1.id = " + this.id + " " : "");
-			System.out.println(sql);
+			sql = sql + (this.organica!=null && this.organica.getId()!=0? " AND prof.org_fk= "+this.organica.getId():"");
 			PreparedStatement st = con.prepareStatement(sql); 
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
@@ -469,9 +469,7 @@ public class Menu implements RowDataGateway {
 		return lista.toArray();
 	}
 	
-	
-	
-	
+
 	public HashMap<Integer,String> getListPrincipalMenus(){
 		HashMap<Integer,String> lista = new HashMap<>();
 		lista.put(null, "--- Selecionar Menu Principal ---");

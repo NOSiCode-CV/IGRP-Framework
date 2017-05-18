@@ -283,12 +283,5 @@ public class Profile implements RowDataGateway {
 	}
 	
 	
-	@Override
-	public String toString() {
-		return "Profile [prof_type_fk=" + prof_type_fk + ", user_fk=" + user_fk + ", type=" + type + ", type_fk="
-				+ type_fk + ", org_fk=" + org_fk + "]";
-	}
-	
-	
 	
 }

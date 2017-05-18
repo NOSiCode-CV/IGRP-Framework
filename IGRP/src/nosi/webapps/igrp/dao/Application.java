@@ -388,15 +388,16 @@ public class Application implements RowDataGateway {
 		try{
 			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
 					+ "	WHERE E.id = P.type_fk "
-					+ "	AND P.type='ENV'"
+					+ "	AND P.type=?"
 					+ " AND P.prof_type_fk = ? "
 					+ " AND P.org_fk = ?"
 					+ " AND E.dad = ? "
 					+ "	ORDER BY id");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(1,u.getCurrentPerfilId());
-			st.setInt(2,u.getCurrentOrganization());
-			st.setString(3,app);
+			st.setString(1, "ENV");
+			st.setInt(2,u.getCurrentPerfilId());
+			st.setInt(3,u.getCurrentOrganization());
+			st.setString(4,app);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();

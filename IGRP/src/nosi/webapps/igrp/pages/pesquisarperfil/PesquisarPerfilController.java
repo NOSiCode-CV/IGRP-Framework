@@ -54,11 +54,6 @@ public class PesquisarPerfilController extends Controller {
 		this.renderView(view);
 	}
 	
-	
-	public void actionEditar() throws IOException{
-		
-	}
-	
 	public void actionEliminar() throws IOException{
 		
 	}
