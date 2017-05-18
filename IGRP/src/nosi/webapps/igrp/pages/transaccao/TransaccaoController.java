@@ -2,6 +2,7 @@
 package nosi.webapps.igrp.pages.transaccao;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Transaction;
@@ -42,10 +43,11 @@ public class TransaccaoController extends Controller {
 		this.renderView(view);
 	}
 	
-	public void actionEditar() throws IOException{
-		Transaccao model = new Transaccao();
-		TransaccaoView view = new TransaccaoView(model);
-		this.renderView(view);
+	public void actionEditar(@RParam(rParamName = "codigo")String codigo) throws IOException{
+		if(codigo!=null && !codigo.equals(""))
+			this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
+		else
+			this.redirect("igrp", "error-page", "permission");
 	}
 	
 	public void actionEliminar() throws IOException{
