@@ -11,6 +11,8 @@ import nosi.core.config.Config;
 public class ListaEnvView extends View {
 	public String title = "Detalhe App";		
 	
+	public Field sectionheader_1_text;
+	public IGRPSectionHeader sectionheader_1;
 	public Field id;
 	public Field dad;
 	public Field name;
@@ -26,8 +28,13 @@ public class ListaEnvView extends View {
 	public IGRPButton btn_eliminar;
 	
 	public ListaEnvView(ListaEnv model){			
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		table_1 = new IGRPTable("table_1");
 		form_1 = new IGRPForm("form_1");
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel("");
+		sectionheader_1_text.setValue("Gestao de Aplicação");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		dad = new TextField(model,"dad");
 		dad.setLabel("Schema");
 		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
@@ -48,7 +55,7 @@ public class ListaEnvView extends View {
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","lista-env","editar","submit","default|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","env","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
 		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","lista-env","eliminar","confirm","default|fa-trash","","");
@@ -57,6 +64,7 @@ public class ListaEnvView extends View {
 		
 	@Override
 	public void render(){
+		sectionheader_1.addField(sectionheader_1_text);
 		Config.TITLE = this.title;
 
 		table_1.addField(dad);
@@ -66,6 +74,8 @@ public class ListaEnvView extends View {
 		table_1.addField(id);
 
 		form_1.addField(dad);
+		
+		
 
 		toolsbar_1.addButton(btn_novo);
 		form_1.addButton(btn_pesquisar);

@@ -10,7 +10,6 @@ import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.Organization;
 
 import java.io.IOException;
 import java.util.HashMap;

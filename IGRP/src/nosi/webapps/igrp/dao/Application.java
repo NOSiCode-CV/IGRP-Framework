@@ -183,7 +183,7 @@ public class Application implements RowDataGateway {
 		ResultSet result = st.executeQuery("SELECT * FROM glb_t_env where (id = "+ this.id+") or (dad='"+this.dad+"')");
 
 		while(result.next()){
-			
+			obj.setId(result.getInt("id"));
 			obj.setName(result.getString("name"));
 			obj.setDad(result.getString("dad"));
 			obj.setImg_src(result.getString("img_src"));
@@ -217,16 +217,16 @@ public class Application implements RowDataGateway {
 	        		+ "',dad= '" + this.dad
 	        		+ "',img_src= '" + this.img_src
 	        		+ "',description= '" + this.description
-	        		+ "',action_fk= " + this.action_fk
-	        		+ ",flg_old= " + this.flg_old
+	        		//+ "',action_fk= " + this.action_fk
+	        		+ "',flg_old= " + this.flg_old
 	        		+ ",link_menu= '" + this.link_menu
 	        		+ "',link_center= '" + this.link_center
-	        		+ "',apache_dad= " + this.apache_dad
-	        		+ ",templates= '" + this.templates
+	        		+ "',apache_dad= '" + this.apache_dad
+	        		+ "',templates= '" + this.templates
 	        		+ "',host= '" + this.host
 	        		+ "',flg_external= " + this.flg_external
 	        		+ ",status = " + this.status
-	        		+ "WHERE id = "+ this.id);
+	        		+ " WHERE id = "+ this.id);
 	        st.close();
 			return true;
 		}catch(SQLException e){
