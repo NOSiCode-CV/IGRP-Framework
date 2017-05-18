@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -56,6 +57,26 @@ public class PageController extends Controller {
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
+		this.renderView(view);
+	}
+	
+	public void actionEditar(@RParam(rParamName = "id")String id) throws IOException{
+		Page model = new Page();
+		PageView view = new PageView(model);
+		
+		Action action = new Action();
+		action.setId(Integer.parseInt(id));
+		action = (Action) action.getOne();
+		
+		model.setEnv_fk(action.getEnv_fk());
+		model.setP_version(action.getVersion());
+		model.setPage(action.getAction());
+		model.setAction_descr(action.getAction_descr());
+		
+		view.env_fk.setValue(new Application().getListApps());
+		view.version.setValue(Config.getVersions());
+		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
+		view.btn_gravar.setLink("editar&amp;id="+id);
 		this.renderView(view);
 	}
 	
