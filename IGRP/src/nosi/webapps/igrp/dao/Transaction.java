@@ -129,6 +129,7 @@ public class Transaction implements RowDataGateway {
 	@Override
 	public boolean update() {
 		try{
+			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
 					+ "code=?, "
 					+ "descr=?, "

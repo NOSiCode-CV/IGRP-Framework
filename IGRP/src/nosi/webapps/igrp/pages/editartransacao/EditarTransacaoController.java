@@ -16,7 +16,7 @@ import java.io.IOException;
 public class EditarTransacaoController extends Controller {		
 
 	public void actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
-		if(codigo!=null && !codigo.equals("")){
+		if(codigo!=null){
 			Transaction t = new Transaction();
 			t.setCode(codigo);
 			t = (Transaction)t.getOne();
@@ -26,15 +26,16 @@ public class EditarTransacaoController extends Controller {
 				model.setAplicacao(t.getEnv_fk());
 				model.setDescricao(t.getDescr());
 				model.setStatus(t.getStatus());
-				model.setId(t.getId());
+				model.setP_id(t.getId());
 			}
 			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 				model.load();
+				t = new Transaction();
 				t.setCode(model.getCodigo());
 				t.setDescr(model.getDescricao());
-				t.setEnv_fk(t.getEnv_fk());
-				t.setStatus(t.getStatus());
-				t.setId(model.getId());
+				t.setEnv_fk(model.getAplicacao());
+				t.setStatus(model.getStatus());
+				t.setId(Integer.parseInt(codigo));
 				if(t.update())
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Transacao atualizada com sucesso.");
 				else
@@ -44,7 +45,8 @@ public class EditarTransacaoController extends Controller {
 			}
 			EditarTransacaoView view = new EditarTransacaoView(model);
 			view.aplicacao.setValue(new Application().getListApps());
-			view.btn_gravar.setLink("index&codigo="+codigo);
+			view.btn_gravar.setLink("index&codigo="+model.getP_id());
+			view.id.setValue(t.getId());
 			this.renderView(view);
 		}
 		else
