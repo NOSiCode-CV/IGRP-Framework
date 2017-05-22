@@ -36,17 +36,17 @@
 	<xsl:template name="import-class-models">
 		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
-          	  	<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name">
+          	  	<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name and ./target!='_self'">
           	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
            		</xsl:if>
            </xsl:for-each>
            <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
-         		<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name">
+         		<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name and ./target!='_self'">
           	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
            		</xsl:if>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(./page=preceding::node()/./page) and $class_name!=@rel">
+            <xsl:if test="not(@rel=preceding::node()/@rel) and not(./page=preceding::node()/./page) and $class_name!=@rel and ./target!='_self'">
 	          	<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
             </xsl:if>
            </xsl:for-each>

@@ -142,6 +142,9 @@
     		<xsl:when test="$type='button'">
     			<xsl:value-of select="'IGRPButton'" />
     		</xsl:when>
+    		<xsl:when test="$type='calendar'">
+    			<xsl:value-of select="'IGRPCalendar'" />
+    		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
     </xsl:template>

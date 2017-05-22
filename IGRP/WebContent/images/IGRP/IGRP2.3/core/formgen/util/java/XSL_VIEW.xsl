@@ -50,6 +50,9 @@
 		<xsl:call-template name="config-chart"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
+		<xsl:call-template name="config-calendar"></xsl:call-template>
+		<xsl:value-of select="$newline"></xsl:value-of>
+		<xsl:value-of select="$tab"></xsl:value-of>
 		<xsl:value-of select="'}'"></xsl:value-of>
 	</xsl:template>
 	
@@ -259,6 +262,20 @@
 			</xsl:for-each>	
 			<xsl:value-of select="';'"/>	
 			<xsl:value-of select="$newline"/>
+ 		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template name="config-calendar">
+		<xsl:for-each select="//content/*[@type='calendar']">
+		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+		 	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setLang(',$double_quotes,./lang,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+ 			<xsl:value-of select="concat($instance_name,'.setDataUrl(',$double_quotes,./dataUrl,$double_quotes,');')"></xsl:value-of>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
  		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
