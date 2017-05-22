@@ -234,15 +234,13 @@ public class ProfileType implements RowDataGateway {
 		ArrayList<ProfileType> lista = new ArrayList<>(); 
 		try{
 			
-			String sql = "SELECT DISTINCT pro_typ.*, org.name as organiza "
-					+ "FROM glb_t_profile_type pro_typ, glb_t_organization org,  glb_t_profile pro "
-					+ "where "
-					+ "org.id = pro_typ.org_fk "
-					+ "and org.id = pro.org_fk "
-					+ "and pro_typ.id = pro.type_fk ";
+			String sql = "SELECT DISTINCT p.*, o.name as organiza "
+					+ " FROM glb_t_profile_type p, glb_t_organization o"
+					+ " WHERE "
+					+ " o.id = p.org_fk ";
 			
-			sql += this.getAplicacao().getId() != 0 ? " and pro.type = 'ENV' and org.env_fk = " + this.getAplicacao().getId() : " ";
-			sql += this.getOrganica().getId() != 0 ? " and pro.type = 'ENV' and pro.org_fk = " + this.getOrganica().getId() : " ";
+			sql += this.getAplicacao().getId() != 0 ? " AND o.env_fk = " + this.getAplicacao().getId() : " ";
+			sql += this.getOrganica().getId() != 0 ? " AND p.org_fk = " + this.getOrganica().getId() : " ";
 			
 			PreparedStatement st = con.prepareStatement(sql);
 			ResultSet res = st.executeQuery();
