@@ -46,7 +46,7 @@ public class MenuOrganicaController extends Controller {
 					pt.setId(Integer.parseInt(id));
 					ProfileType p = (ProfileType) pt.getOne();
 					prof.setOrg_fk(p.getOrg_fk());
-					prof.setProf_type_fk(1);
+					prof.setProf_type_fk(pt.getId());
 					prof.setType("MEN_PROF");	
 				}
 				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType_fk()==m.getId()){
