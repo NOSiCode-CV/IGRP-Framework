@@ -13,7 +13,7 @@ public class EditarTransacao extends Model{
 	@RParam(rParamName = "p_status")
 	private int status;
 	@RParam(rParamName = "p_id")
-	private int id;
+	private int p_id;
 	
 	public void setCodigo(String codigo){
 		this.codigo = codigo;
@@ -43,11 +43,11 @@ public class EditarTransacao extends Model{
 	public int getStatus(){
 		return this.status;
 	}
-	public int getId() {
-		return id;
+	public int getP_id() {
+		return p_id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setP_id(int id) {
+		this.p_id = id;
 	}
 
 }

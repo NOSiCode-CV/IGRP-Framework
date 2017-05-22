@@ -36,7 +36,9 @@ public class EditarTransacaoView extends View {
 		status = new CheckBoxField(model,"status");
 		status.setLabel("Ativo?");
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
-		id = new HiddenField(model, "p_id");
+		id = new HiddenField(model,"id");
+		id.setLabel("");
+		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","EditarTransacao","gravar","submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
