@@ -158,7 +158,7 @@ public class EnvController extends Controller {
 		
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
-		view.btn_gravar.setLink("editar&amp;id=" + idAplicacao);
+		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		this.renderView(view);
 	}
 	
