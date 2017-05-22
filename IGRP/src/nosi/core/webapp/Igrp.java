@@ -43,6 +43,8 @@ public class Igrp {
 	private String basePath;
 	private String baseRoute;
 	
+	private boolean die;
+	
 	// Others Web Application Components
 	// Db component
 	private IgrpDb igrpDb;
@@ -88,13 +90,16 @@ public class Igrp {
 	}
 	
 	public void run() throws IOException{ // run the web app 
+		if(!this.die){
 			this.resolveRoute(); // (1)
 			this.runAction(); // (2)
+		}
 		this.exit(); // (3)
 	}
 	
 	private void exit(){ // Destroy todos os componentes da applicação
 		this.igrpDb.destroy(); // destroy the Db pool
+		this.die = false;
 	}
 	
 	private void resolveRoute() throws IOException{
@@ -314,8 +319,8 @@ public class Igrp {
 		return this.user;
 	}
 
-	public static void main(String []args){
-		//Igrp.getInstance().convertRoute();
+	public void die(){
+		this.die = true;
 	}
-	
+
 }
