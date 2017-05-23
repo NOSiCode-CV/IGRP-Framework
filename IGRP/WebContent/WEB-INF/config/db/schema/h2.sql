@@ -180,7 +180,55 @@
 	--
 	--	DDL Igrp for H2 DataBase (End)
 	--
-	 
+	
+	
+	-------------------------------- Base dados do demo Marcacao de consultas --------------------------------------	 
+-- --------------------------------------------------------
+--
+-- Estrutura da tabela `tbl_medico`
+--
+
+CREATE TABLE  IF NOT EXISTS `tbl_medico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `morada` varchar(100) NOT NULL,
+  `num_consulta_dia` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_utente`
+--
+
+CREATE TABLE  IF NOT EXISTS `tbl_utente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(100) NOT NULL,
+  `morada` varchar(100) NOT NULL,
+  `data_nascimento` date NOT NULL,
+  `sexo` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Estrutura da tabela `tbl_marcao_consulta`
+--
+
+-- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_medico` int(11) NOT NULL,
+  `id_utente` int(11) NOT NULL,
+  `data_consulta` datetime NOT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `tbl_medico_fk` FOREIGN KEY (`id_medico`) REFERENCES `tbl_medico` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `tbl_utente_fk` FOREIGN KEY (`id_utente`) REFERENCES `tbl_utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	
 [SPLIT]
 	
 	--
@@ -255,4 +303,70 @@
 		   (1, 1, 'MEN_PROF', 9, 1), 
 		   (1, 1, 'MEN_PROF', 10, 1); 
 	
-	
+		   
+
+INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`)
+VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', '', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
+
+INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
+	VALUES
+(22, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+(23, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+(24, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+(25, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+(26, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+(27, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+(28, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+
+INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
+(11, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+(12, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+(13, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
+(14, 'Registar Utente', 25,11, '', 2,'','', 0, 1, '', 0, '_self'),
+(15, 'Listar Utentes', 26, 11, '', 2,'','', 0, 1, '', 0, '_self'),
+(16, 'Registar Medico', 23,12, '', 2,'','', 0, 1, '', 0, '_self'),
+(17, 'Listar Medicos', 22, 12, '', 2,'','', 0, 1, '', 0, '_self'),
+(18, 'Marcar Consultas',24,13, '', 2,'','', 0, 1, '', 0, '_self'),
+(19, 'Consultas Pendentes',27,13, '', 2,'','', 0, 1, '', 0, '_self'),
+(20, 'Dash Board',28,13, '', 2,'','', 0, 1, '', 0, '_self');
+		   
+
+
+-- ------------------------------------------ Config demo app (App marcacao consulta) --------------------------------
+INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
+VALUES(2, 'org-m.consulta', 'Tec. Marcacao Consulta',NULL, 2, 1,1, NULL);
+
+
+INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
+	VALUES 
+(2, 'Tec. Marcacao Consulta', 'Perf-m.consulta', 2,NULL, 2, 1);
+
+INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
+	VALUES 
+(1, 1, 'MEN', 9, 2),
+(1, 1, 'MEN', 11, 2),
+(1, 1, 'MEN', 12, 2),
+(1, 1, 'MEN', 13, 2),
+(1, 1, 'MEN', 14, 2),
+(1, 1, 'MEN', 15, 2),
+(1, 1, 'MEN', 16, 2),
+(1, 1, 'MEN', 17, 2),
+(1, 1, 'MEN', 18, 2),
+(1, 1, 'MEN', 19, 2),
+(1, 1, 'MEN', 20, 2),
+(2, 1, 'MEN_PROF', 9, 2),
+(2, 1, 'MEN_PROF', 11, 2),
+(2, 1, 'MEN_PROF', 12, 2),
+(2, 1, 'MEN_PROF', 13, 2),
+(2, 1, 'MEN_PROF', 14, 2),
+(2, 1, 'MEN_PROF', 15, 2),
+(2, 1, 'MEN_PROF', 16, 2),
+(2, 1, 'MEN_PROF', 17, 2),
+(2, 1, 'MEN_PROF', 18, 2),
+(2, 1, 'MEN_PROF', 19, 2),
+(2, 1, 'MEN_PROF', 20, 2),
+(2, 1, 'ENV', 2, 2),
+(2, 1, 'PROF', 2, 2);
+
+
+
