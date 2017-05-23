@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>RegistarMedico</page>
+    <app>marcao_consulta</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.marcao_consulta.pages</package_db>
+        <package_html>RegistarMedico</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Registar Medico</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>marcao_consulta</app>
+                <page>RegistarMedico</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>default|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl</parameter>
+                <params>default||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>marcao_consulta</app>
+                <page>ListaMedico</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-angle-right</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl</parameter>
+                <params>default||fa-angle-right|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Doloremque deserunt unde lorem sit</value>
+                </nome>
+                <morada name="p_morada" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Morada</label>
+                    <value>Iste doloremque totam stract sit</value>
+                </morada>
+                <n_consulta_por_dia name="p_n_consulta_por_dia" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nº Consulta por dia</label>
+                    <value>956</value>
+                </n_consulta_por_dia>
+            </fields>
+        </form_1>
+    </content>
+</rows>
