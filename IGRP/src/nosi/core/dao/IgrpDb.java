@@ -133,7 +133,7 @@ public class IgrpDb implements Component{
 	}
 	
 	public Connection unwrap(String connectionName){
-		return IgrpDb.conns.get(connectionName).getConnection();
+		return IgrpDb.conns.get(connectionName)!=null?IgrpDb.conns.get(connectionName).getConnection():null;
 	}
 
 	@Override
