@@ -65,7 +65,7 @@ public class SettingsView extends View {
 		password_expira_em.setLabel("Password Expira em");
 		password_expira_em.propertie().add("name","p_password_expira_em").add("type","text").add("maxlength","30");
 		view_img = new TextField(model,"view_img");
-		view_img.setLabel("");
+		view_img.setLabel("http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg");
 		view_img.propertie().add("maxlength","300");
 		organica = new ListField(model,"organica");
 		organica.setLabel("Organica");
