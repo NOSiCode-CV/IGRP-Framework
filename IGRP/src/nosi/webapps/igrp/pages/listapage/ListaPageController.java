@@ -23,7 +23,8 @@ public class ListaPageController extends Controller {
 			a.setPage(model.getPage());
 			a.setPage_descr(model.getPage_descr());
 		}
-		for(Object obj:a.getAll() ){
+		
+		for(Object obj:a.getAll_() ){
 			Action ac = (Action) obj;
 			ListaPage.Table_1 table1 = new ListaPage().new Table_1();
 			table1.setId(ac.getId());
