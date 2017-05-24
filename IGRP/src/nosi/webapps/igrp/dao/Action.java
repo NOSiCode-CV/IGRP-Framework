@@ -516,6 +516,7 @@ public class Action implements RowDataGateway{
 	@Override
 	public Object[] getAll() {
 		ArrayList<Action> lista = new ArrayList<Action>();
+		System.out.println(this.getPage());
 		try{
 			String conditions = "WHERE 1=1 ";
 			Method[] methods = this.getClass().getDeclaredMethods();

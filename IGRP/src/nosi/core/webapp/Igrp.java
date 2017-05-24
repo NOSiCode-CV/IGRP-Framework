@@ -33,7 +33,7 @@ public class Igrp {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
-	private Controller controller; // Representa instancia de um controller da qual foi feito request ...
+	private Controller controller; // Current controller ...
 	
 	private String currentAppName;
 	private String currentPageName;
