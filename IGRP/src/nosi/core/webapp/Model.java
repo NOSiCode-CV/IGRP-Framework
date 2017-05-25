@@ -1,7 +1,6 @@
 package nosi.core.webapp;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
