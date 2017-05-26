@@ -29,10 +29,6 @@ public class SettingsController extends Controller {
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", model.getPerfil()));
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", model.getOrganica()));
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
-			/*
-			 * this.redirect("igrp", "home", "index");
-			 * return;
-			 * */
 		}
 		
 		model.setPerfil(nosi.core.webapp.User.getCurrentPerfilId() + "");

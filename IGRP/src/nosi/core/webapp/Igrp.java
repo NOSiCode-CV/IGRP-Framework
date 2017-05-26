@@ -152,6 +152,9 @@ public class Igrp {
 	}
 	
 	public void runAction(){ // run a action in the specific controller
+		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
+		
 		this.load(this.convertRoute());
 	}
 	
@@ -184,9 +187,6 @@ public class Igrp {
 	}
 	
 	private void load(Map<String, String> m){ // load and apply some dependency injection ...
-		/*if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
-			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
-			*/
 		String controllerPath = m.get("controllerPath");
 		String actionName = m.get("actionName");
 		

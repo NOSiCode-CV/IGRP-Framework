@@ -601,7 +601,7 @@ public class User implements Identity, RowDataGateway{
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_perf"))
 				aux = c;		
-		return aux!=null?Integer.parseInt(aux.getValue()):0;
+		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
 	}
 
 	public int getCurrentOrganization() {
@@ -609,7 +609,7 @@ public class User implements Identity, RowDataGateway{
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_org"))
 				aux = c;		
-		return aux!=null?Integer.parseInt(aux.getValue()):0;
+		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
 	}
 
 	public ProfileType getProfile() {
@@ -619,16 +619,5 @@ public class User implements Identity, RowDataGateway{
 	public void setProfile(ProfileType profile) {
 		this.profileType = profile;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + ", userProfile="
-				+ userProfile + ", valid_until=" + valid_until + ", status=" + status + ", remarks=" + remarks
-				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
-				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
-				+ ", password_reset_token=" + password_reset_token + ", auth_key=" + auth_key + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", profile=" + profileType + ", conn=" + conn + "]";
-	}	
-	
 	
 }

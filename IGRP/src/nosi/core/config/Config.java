@@ -12,6 +12,7 @@ import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -126,7 +127,7 @@ public class Config {
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"1.0";
 	}
 	public static String getLinkSileMenu(){
-		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Igrp.getInstance().getCurrentAppName();
+		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Permission.getCurrentEnv();
 	}
 	public static String getLinkTopMenu(){
 		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";

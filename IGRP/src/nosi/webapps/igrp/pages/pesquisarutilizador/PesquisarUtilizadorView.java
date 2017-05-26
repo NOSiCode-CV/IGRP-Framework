@@ -26,6 +26,8 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_convidar;
 	public IGRPButton btn_novo;
+	public IGRPButton btn_menu;
+	public IGRPButton btn_transacao;
 	
 	public PesquisarUtilizadorView(PesquisarUtilizador model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -77,6 +79,12 @@ public class PesquisarUtilizadorView extends View {
 
 		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
+		
+		btn_menu = new IGRPButton("Menu","igrp","MenuOrganica","index","_self","default|fa-angle-right","","");
+		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
+
+		btn_transacao = new IGRPButton("Transacao","igrp","TransacaoOrganica","index","_self","default|fa-angle-right","","");
+		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 	}
 		
 	@Override
@@ -102,6 +110,8 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_convidar);
+//		table_1.addButton(btn_menu);
+//		table_1.addButton(btn_transacao);
 		
 		toolsbar_1.addButton(btn_novo);
 		toolsbar_1.addButton(btn_convidar);

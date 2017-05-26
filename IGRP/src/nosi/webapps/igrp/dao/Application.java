@@ -217,8 +217,8 @@ public class Application implements RowDataGateway {
 	        		+ "',dad= '" + this.dad
 	        		+ "',img_src= '" + this.img_src
 	        		+ "',description= '" + this.description
-	        		//+ "',action_fk= " + this.action_fk
-	        		+ "',flg_old= " + this.flg_old
+	        		+ "',action_fk= " + this.action_fk
+	        		+ ",flg_old= " + this.flg_old
 	        		+ ",link_menu= '" + this.link_menu
 	        		+ "',link_center= '" + this.link_center
 	        		+ "',apache_dad= '" + this.apache_dad
@@ -331,30 +331,21 @@ public class Application implements RowDataGateway {
 		
 		return lista;
 	}
-	
-	
-	@Override
-	public String toString() {
-		return "Application [dad=" + dad + ", name=" + name + ", id=" + id + ", img_src=" + img_src + ", description="
-				+ description + ", action_fk=" + action_fk + ", status=" + status + ", flg_old=" + flg_old
-				+ ", link_menu=" + link_menu + ", link_center=" + link_center + ", apache_dad=" + apache_dad
-				+ ", templates=" + templates + ", host=" + host + ", flg_external=" + flg_external + "]";
-	}
 
 	public Object[] getMyApp() {		
 		ArrayList<Application> lista = new ArrayList<>();		
 		try{
 			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
-					+ "	WHERE E.id = P.type_fk "
-					+ "	AND P.type='ENV'"
-					+ " AND P.prof_type_fk = ? "
-					+ " AND P.org_fk = ?"
-					+ " AND E.dad <> ? "
+					+ "	WHERE "
+					+ " E.id = P.type_fk "
+					+ "	AND P.type=?"
+					+ " AND P.user_fk=?"
+					+ " AND E.id <> ? "
 					+ "	ORDER BY id");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(1,u.getCurrentPerfilId());
-			st.setInt(2,u.getCurrentOrganization());
-			st.setString(3,"igrp");
+			st.setString(1, "ENV");
+			st.setInt(2, u.getId());
+			st.setInt(3,1);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();
@@ -386,24 +377,25 @@ public class Application implements RowDataGateway {
 	public boolean getPermissionApp(String app) {		
 		ArrayList<Application> lista = new ArrayList<>();		
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
-					+ "	WHERE E.id = P.type_fk "
+			PreparedStatement st = con.prepareStatement("SELECT E.* FROM "
+					+ " glb_t_env E,"
+					+ " glb_t_profile P "
+					+ "	WHERE "
+					+ " E.id = P.type_fk "
 					+ "	AND P.type=?"
-					+ " AND P.prof_type_fk = ? "
-					+ " AND P.org_fk = ?"
-					+ " AND E.dad = ? "
+					+ " AND P.user_fk=?"
+					+ " AND E.dad =?"
 					+ "	ORDER BY id");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
 			st.setString(1, "ENV");
-			st.setInt(2,u.getCurrentPerfilId());
-			st.setInt(3,u.getCurrentOrganization());
-			st.setString(4,app);
+			st.setInt(2, u.getId());
+			st.setString(3, dad);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();
 				obj.setId(result.getInt("id"));
 				lista.add(obj);
-		}
+			}
 		st.close();		
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -414,21 +406,13 @@ public class Application implements RowDataGateway {
 	public Object[] getOtherApp() {		
 		ArrayList<Application> lista = new ArrayList<>();		
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
-					+ "	WHERE E.id = P.type_fk "
-					+ "	AND P.type='ENV'"
-					+ " AND P.prof_type_fk <> ? "
-					+ " AND P.org_fk <> ?"
-					+ " AND E.dad <>?"
-					+ " UNION "
+			PreparedStatement st = con.prepareStatement(""
 					+ " SELECT E.* FROM glb_t_env E"
-					+ " WHERE E.id NOT IN (SELECT P.type_fk FROM glb_t_profile P WHERE P.type=?)");
+					+ " WHERE E.id NOT IN (SELECT P.type_fk FROM glb_t_profile P WHERE P.type=? AND P.user_fk=?)  AND E.id<>?");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(1,u.getCurrentPerfilId());
-			st.setInt(2,u.getCurrentOrganization());
-			st.setString(3,"igrp");
-			st.setString(4,"ENV");
-			
+			st.setString(1,"ENV");
+			st.setInt(2, u.getId());
+			st.setInt(3, 1);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();
@@ -446,8 +430,7 @@ public class Application implements RowDataGateway {
 				obj.setHost(result.getString("host"));
 				obj.setFlg_external(result.getInt("flg_external"));
 				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));		
-				
+				obj.setId(result.getInt("id"));					
 				lista.add(obj);
 		}
 		st.close();		
