@@ -12,8 +12,10 @@ import java.util.Map;
 import java.io.File;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
+import nosi.core.exception.PermissionException;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.servlet.IgrpServlet;
+import nosi.core.webapp.helpers.Permission;
 
 /**
  * @author Marcel Iekiny
