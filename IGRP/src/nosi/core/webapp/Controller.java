@@ -28,7 +28,6 @@ public abstract class Controller {
 			app.getResponse().setContentType("text/xml;charset=UTF-8");
 			app.getResponse().getWriter().append(result);
 		}
-		
 	}
 	
 	protected final void renderView(View view) throws IOException{ // Overload ...
