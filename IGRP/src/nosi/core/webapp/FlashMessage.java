@@ -1,14 +1,11 @@
 package nosi.core.webapp;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
-import nosi.core.xml.XMLWritter;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017

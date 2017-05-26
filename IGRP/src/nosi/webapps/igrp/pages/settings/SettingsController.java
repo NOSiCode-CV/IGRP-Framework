@@ -3,24 +3,20 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.settings;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import java.util.HashMap;
-
 import javax.servlet.http.Cookie;
-
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
-
-
 public class SettingsController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Settings model = new Settings();
 		model.load();
@@ -28,7 +24,7 @@ public class SettingsController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", model.getPerfil()));
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", model.getOrganica()));
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] OperaÃ§Ã£o efectuada com sucesso");
 		}
 		
 		model.setPerfil(nosi.core.webapp.User.getCurrentPerfilId() + "");
@@ -54,9 +50,9 @@ public class SettingsController extends Controller {
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", "--- Selecionar Idioma ---");
-		idioma.put("PT", "Português");
-		idioma.put("EN", "Inglês");
-		idioma.put("FR", "Francês");
+		idioma.put("PT", "PortuguÃªs");
+		idioma.put("EN", "InglÃªs");
+		idioma.put("FR", "FrancÃªs");
 		idioma.put("ES", "Espanhol");
 		view.idioma.setValue(idioma);
 		
@@ -65,6 +61,5 @@ public class SettingsController extends Controller {
 
 	public void actionAplicar() throws IOException{
 		this.redirect("RED","Teste","Action");
-	}
-	
+	}	
 }
