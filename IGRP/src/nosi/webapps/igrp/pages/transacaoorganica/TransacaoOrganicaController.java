@@ -40,20 +40,17 @@ public class TransacaoOrganicaController extends Controller {
 				table.setDescricao(t.getDescr());
 				Profile prof = new Profile();
 				prof.setOrg_fk(Integer.parseInt(id));
-				prof.setProf_type_fk(1);
-				prof.setUser_fk(1);
+				prof.setProf_type_fk(0);
+				prof.setUser_fk(0);
 				prof.setType_fk(t.getId());
-				if(type.equals("org")){
-					prof.setType("TRANS");
-				}else if(type.equals("perfil")){
+				if(type.equals("perfil")){
 					ProfileType pt = new ProfileType();
 					pt.setId(Integer.parseInt(id));
 					ProfileType p = (ProfileType) pt.getOne();
 					prof.setOrg_fk(p.getOrg_fk());
-					prof.setProf_type_fk(1);
-					prof.setType("TRANS_PROF");	
+					prof.setProf_type_fk(pt.getId());
 				}
-				if(prof.getOne()!=null && ((Profile)prof.getOne()).getType_fk()==t.getId()){
+				if((type.equals("org") && prof.isInsertedOrgTrans()) || (type.equals("perfil") && prof.isInsertedPerfTrans())){
 					table.setTransacao_check(t.getId());
 				}else{
 					table.setTransacao_check(-1);
@@ -72,42 +69,42 @@ public class TransacaoOrganicaController extends Controller {
 			TransacaoOrganica model = new TransacaoOrganica();
 			model.load();
 			Profile profD = new Profile();
+			profD.setProf_type_fk(0);
 			if(type.equals("org")){
 				profD.setOrg_fk(Integer.parseInt(id));
 				profD.setType("TRANS");
-				profD.setProf_type_fk(1);
-				profD.setUser_fk(1);
+				profD.setUser_fk(0);
 				profD.deleteAllOrgProfile();
 			}else if(type.equals("perfil")){
 				ProfileType pt = new ProfileType();
 				pt.setId(Integer.parseInt(id));
 				ProfileType p = (ProfileType) pt.getOne();
 				profD.setOrg_fk(p.getOrg_fk());
-				profD.setType("TRANS_PROF");
-				profD.setUser_fk(1);
+				profD.setType("TRANS");
 				profD.setProf_type_fk(Integer.parseInt(id));
 				profD.deleteAllPerfilProfile();
 			}
-			
-			for(String x:Igrp.getInstance().getRequest().getParameterValues("p_transacao")){
-				Profile prof = new Profile();
-				if(type.equals("org")){
-					prof.setOrg_fk(Integer.parseInt(id));
-					prof.setType("TRANS");
-					prof.setType_fk(Integer.parseInt(x.toString()));
-					prof.setProf_type_fk(1);
-					prof.setUser_fk(1);
-				}else if(type.equals("perfil")){
-					ProfileType pt = new ProfileType();
-					pt.setId(Integer.parseInt(id));
-					ProfileType p = (ProfileType) pt.getOne();
-					prof.setOrg_fk(p.getOrg_fk());
-					prof.setType("TRANS_PROF");
-					prof.setType_fk(Integer.parseInt(x.toString()));
-					prof.setProf_type_fk(Integer.parseInt(id));
-					prof.setUser_fk(1);
+			String [] trans = Igrp.getInstance().getRequest().getParameterValues("p_transacao");
+			if(trans!=null  && trans.length>0){
+				for(String x:trans){
+					Profile prof = new Profile();
+					prof.setUser_fk(0);
+					if(type.equals("org")){
+						prof.setOrg_fk(Integer.parseInt(id));
+						prof.setType("TRANS");
+						prof.setType_fk(Integer.parseInt(x.toString()));
+						prof.setProf_type_fk(0);
+					}else if(type.equals("perfil")){
+						ProfileType pt = new ProfileType();
+						pt.setId(Integer.parseInt(id));
+						ProfileType p = (ProfileType) pt.getOne();
+						prof.setOrg_fk(p.getOrg_fk());
+						prof.setType("TRANS");
+						prof.setType_fk(Integer.parseInt(x.toString()));
+						prof.setProf_type_fk(Integer.parseInt(id));
+					}
+					prof.insert();
 				}
-				prof.insert();
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Operação realizada com sucesso");
 		}

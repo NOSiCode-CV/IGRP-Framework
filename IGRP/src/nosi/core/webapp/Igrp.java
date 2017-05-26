@@ -110,6 +110,9 @@ public class Igrp {
 	}
 	
 	public void runAction(){ // run a action in the specific controller
+		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
+		
 		this.load(this.convertRoute());
 	}
 	

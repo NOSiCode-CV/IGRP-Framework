@@ -2,6 +2,7 @@ package nosi.core.webapp;
 
 import java.io.IOException;
 import javax.servlet.http.Cookie;
+import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Profile;
 /**
  * @author Marcel Iekiny
@@ -20,9 +21,29 @@ public class User implements Component{
 	public boolean login(Identity identity, int expire, int currentPerfilId, int currentOrgId){ // Make login and authenticate the user ... using session and cookies
 		this.identity = identity;
 		this.expire = expire;
+		Permission.changeOrgAndProfile("igrp");
 		// Create the session context
 		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "");
-		this.checkAndLoadPerfilOrganization(currentPerfilId, currentOrgId);
+		//int perf = currentPerfilId;
+		//int org = currentOrgId;
+		// Create the cookie context (Begin)
+		/* For perfil information */
+//		Cookie aux = null;
+//		Cookie aux1 = null;
+//		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+//			if(c.getName().equals("_perf"))
+//				aux = c;
+//			else if(c.getName().equals("_org"))
+//				aux1 = c;
+//		
+//		if(aux != null && !aux.getValue().equals("") && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), Integer.parseInt(aux.getValue())) != null){
+//			perf = Integer.parseInt(aux.getValue());
+//		}
+//		else if(aux1 != null && !aux1.getValue().equals("") && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(this.identity.getIdentityId(), Integer.parseInt(aux.getValue())) != null){
+//			org = Integer.parseInt(aux1.getValue());
+//		}
+		//Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+org));
+		//Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""+perf));
 		return true;
 	}
 	
@@ -47,6 +68,7 @@ public class User implements Component{
 		}
 		Igrp.getInstance().getResponse().addCookie(new Cookie("_org", "" + org));
 		Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", "" + perf));
+
 	}
 	
 	private boolean checkSessionContext(){
