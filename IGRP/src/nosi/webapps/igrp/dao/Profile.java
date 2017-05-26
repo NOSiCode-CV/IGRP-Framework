@@ -268,7 +268,7 @@ public class Profile implements RowDataGateway {
 			st.setInt(1, userId);
 			st.setInt(2, profileId);
 			ResultSet res = st.executeQuery();
-			if(res.next()){
+			while(res.next()){
 				this.setProf_type_fk(res.getInt("prof_type_fk"));
 				this.setUser_fk(res.getInt("user_fk"));
 				this.setType(res.getString("type"));
@@ -282,6 +282,91 @@ public class Profile implements RowDataGateway {
 		return flag ? this : null;
 	}
 	
+
+	public Object getByUserPerfil(int userId,int id_app) {
+		try{
+			PreparedStatement st = this.con.prepareStatement("SELECT p.* FROM glb_t_profile p, glb_t_profile_type pt WHERE p.prof_type_fk=pt.id AND p.TYPE = ? AND p.user_fk = ? AND pt.env_fk=?");
+			st.setString(1, "PROF");
+			st.setInt(2, userId);
+			st.setInt(3, id_app);
+			ResultSet res = st.executeQuery();
+			Profile p = new Profile();
+			while(res.next()){
+				p.setProf_type_fk(res.getInt("prof_type_fk"));
+				p.setUser_fk(res.getInt("user_fk"));
+				p.setType(res.getString("type"));
+				p.setType_fk(res.getInt("type_fk"));
+				p.setOrg_fk(res.getInt("org_fk"));
+				return p;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public boolean isInsertedOrgTrans() {
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_ORG_TRANS WHERE org_fk=? AND id=?");
+			st.setInt(1, this.org_fk);
+			st.setInt(2, this.type_fk);
+			ResultSet res = st.executeQuery();
+			if(res.next()){
+				return res.getInt("org_fk") > 0;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean isInsertedPerfTrans() {
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_PROF_TRANS WHERE org_fk=? AND id=?");
+			st.setInt(1, this.org_fk);
+			st.setInt(2, this.type_fk);
+			ResultSet res = st.executeQuery();
+			if(res.next()){
+				return res.getInt("org_fk") > 0;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+
+	public boolean isInsertedOrgMen() {
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_ORG_MENU WHERE org_fk=? AND id=?");
+			st.setInt(1, this.org_fk);
+			st.setInt(2, this.type_fk);
+			ResultSet res = st.executeQuery();
+			if(res.next()){
+				return res.getInt("org_fk") > 0;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean isInsertedPerfMen() {
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT prof_type_fk FROM GLB_V_PROF_MENU WHERE org_fk=? AND prof_type_fk=? AND id=?");
+			st.setInt(1, this.org_fk);
+			st.setInt(2, this.prof_type_fk);
+			st.setInt(3, this.type_fk);
+			ResultSet res = st.executeQuery();
+			if(res.next()){
+				return res.getInt("prof_type_fk") > 0;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public Object getByUserAndOrganization(int userId, int organizationId) {
 		boolean flag = false;
 		try{

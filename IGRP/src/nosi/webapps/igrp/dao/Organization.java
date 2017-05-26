@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 
 public class Organization implements RowDataGateway {
 	
@@ -305,9 +306,13 @@ public class Organization implements RowDataGateway {
 	private Object[] getMyOrganization() {
 		ArrayList<Organization> lista = new ArrayList<Organization>();		
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT o.* FROM glb_t_organization o, glb_t_profile p where p.org_fk=o.id and p.type=? and p.user_fk=? order by o.name");
+			PreparedStatement st = con.prepareStatement("SELECT o.* FROM glb_t_organization o, glb_t_profile p where p.org_fk=o.id and p.type=? and p.user_fk=? and o.env_fk=? order by o.name");
 			st.setString(1, "PROF");
 			st.setInt(2, Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			Application app = new Application();
+			app.setDad(Permission.getCurrentEnv());
+			app = (Application) app.getOne();
+			st.setInt(3, app.getId());
 			ResultSet result = st.executeQuery();			
 			while(result.next()){				
 				Organization obj = new Organization();
@@ -347,7 +352,7 @@ public class Organization implements RowDataGateway {
 		ArrayList<Menu> lista = new ArrayList<Menu>();		
 		try{
 			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT M.* FROM glb_t_menu M, glb_t_profile P WHERE flg_base=0 AND P.type_fk=M.ID AND P.type='MEN' AND P.org_fk="+org);			
+			ResultSet r = st.executeQuery("SELECT * FROM GLB_V_ORG_MENU WHERE org_fk="+org);			
 			while(r.next()){				
 				Menu m = new Menu();
 				m.setDescr(r.getString("descr"));		
@@ -384,8 +389,9 @@ public class Organization implements RowDataGateway {
 	public Object[] getPerfilTransaction(int org) {
 		ArrayList<Transaction> lista = new ArrayList<Transaction>();		
 		try{
-			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT T.* FROM glb_t_transaction T, glb_t_profile P WHERE P.type_fk=T.ID AND P.type='TRANS' AND P.org_fk="+org);			
+			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_ORG_TRANS WHERE org_fk=?");
+			st.setInt(1, org);			
+			ResultSet r = st.executeQuery();			
 			while(r.next()){				
 				Transaction t = new Transaction();
 				t.setDescr(r.getString("descr"));		
@@ -397,5 +403,11 @@ public class Organization implements RowDataGateway {
 			e.printStackTrace();
 		}
 		return lista.toArray();
+	}
+
+
+	public Object[] getUserMenu(int org_fk) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

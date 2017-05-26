@@ -41,12 +41,14 @@ public class AuthenticationFilter implements Filter {
 //			rq.getRequestDispatcher("webapps?r=igrp/login/login").forward(request, response);
 //		}else	
 //			chain.doFilter(request, response);
-		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
-			if(Permission.isPermition(Igrp.getInstance().getCurrentAppName(), Igrp.getInstance().getCurrentPageName(), Igrp.getInstance().getCurrentActionName()))
-				chain.doFilter(request, response);
-		}else{
+//		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
+//			if(Permission.isPermition(Igrp.getInstance().getCurrentAppName(), Igrp.getInstance().getCurrentPageName(), Igrp.getInstance().getCurrentActionName()))
+//				chain.doFilter(request, response);
+//		}else{
+		//System.out.println(((HttpServletRequest) request).getParameter("r"));
 			chain.doFilter(request, response);
-		}
+		//}
+		
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

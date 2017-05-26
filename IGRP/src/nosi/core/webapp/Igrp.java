@@ -12,8 +12,10 @@ import java.util.Map;
 import java.io.File;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
+import nosi.core.exception.PermissionException;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.servlet.IgrpServlet;
+import nosi.core.webapp.helpers.Permission;
 
 /**
  * @author Marcel Iekiny
@@ -110,6 +112,9 @@ public class Igrp {
 	}
 	
 	public void runAction(){ // run a action in the specific controller
+		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
+		
 		this.load(this.convertRoute());
 	}
 	
