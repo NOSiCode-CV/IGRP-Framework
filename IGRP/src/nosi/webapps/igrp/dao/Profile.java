@@ -289,7 +289,6 @@ public class Profile implements RowDataGateway {
 			st.setString(1, "PROF");
 			st.setInt(2, userId);
 			st.setInt(3, id_app);
-			System.out.println("id_app:"+id_app);
 			ResultSet res = st.executeQuery();
 			Profile p = new Profile();
 			while(res.next()){
@@ -366,6 +365,27 @@ public class Profile implements RowDataGateway {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public Object getByUserAndOrganization(int userId, int organizationId) {
+		boolean flag = false;
+		try{
+			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ? and TYPE_FK = ?");
+			st.setInt(1, userId);
+			st.setInt(2, organizationId);
+			ResultSet res = st.executeQuery();
+			if(res.next()){
+				this.setProf_type_fk(res.getInt("prof_type_fk"));
+				this.setUser_fk(res.getInt("user_fk"));
+				this.setType(res.getString("type"));
+				this.setType_fk(res.getInt("type_fk"));
+				this.setOrg_fk(res.getInt("org_fk"));
+				flag = true;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return flag ? this : null;
 	}
 	
 }
