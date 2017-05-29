@@ -5,8 +5,11 @@ import javax.servlet.http.Cookie;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.webapps.igrp.dao.User;
 
 public class Permission {
 
@@ -49,6 +52,8 @@ public class Permission {
 		Application app = new Application();
 		app.setDad(dad);
 		app = (Application) app.getOne();
+		ProfileType profType = new ProfileType();
+		Organization org = new Organization();
 		if(app!=null && app.getId()!=0){
 			int id_user = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 			int id_app = app.getId();
@@ -68,6 +73,8 @@ public class Permission {
 //					else if(aux1 != null && !aux1.getValue().equals("") && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(id_user, Integer.parseInt(aux.getValue())) != null){
 //						prof.setOrg_fk(Integer.parseInt(aux1.getValue()));
 //					}
+					org.setId(prof.getOrg_fk());
+					profType.setId(prof.getProf_type_fk());
 					Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+prof.getOrg_fk()));
 					Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""+prof.getProf_type_fk()));
 				}
@@ -80,6 +87,10 @@ public class Permission {
 			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""));
 		}
 		Igrp.getInstance().getResponse().addCookie(new Cookie("_env", dad));
+		
+		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
+		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
+		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 	}
 	
 	public static String getCurrentEnv() {
