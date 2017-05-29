@@ -1,4 +1,8 @@
 package nosi.core.webapp.helpers;
+/**
+ * @author Emanuel Pereira
+ * May 29, 2017
+ */
 
 import javax.servlet.http.Cookie;
 
@@ -55,38 +59,55 @@ public class Permission {
 			if(app.getPermissionApp(dad)){
 				Profile prof = (Profile) new Profile().getByUserPerfil(id_user,id_app);
 				if(prof!=null){
-//					Cookie aux = null;
-//					Cookie aux1 = null;
-//					for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-//						if(c.getName().equals("_perf"))
-//							aux = c;
-//						else if(c.getName().equals("_org"))
-//							aux1 = c;					
-//					if(aux != null && !aux.getValue().equals("") && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(id_user, Integer.parseInt(aux.getValue())) != null){
-//						prof.setProf_type_fk(Integer.parseInt(aux.getValue()));
-//					}
-//					else if(aux1 != null && !aux1.getValue().equals("") && new nosi.webapps.igrp.dao.Profile().getByUserAndPerfil(id_user, Integer.parseInt(aux.getValue())) != null){
-//						prof.setOrg_fk(Integer.parseInt(aux1.getValue()));
-//					}
-					Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""+prof.getOrg_fk()));
-					Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""+prof.getProf_type_fk()));
+					String data_cache = getDataCache(dad);
+					if(data_cache==null){
+						String data = prof.getOrg_fk()+"-"+prof.getProf_type_fk();
+						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
+					}
 				}
 			}else{
-				Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""));
-				Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""));
+				System.err.println("No permission");
+				Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
 			}
 		}else{
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", ""));
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", ""));
+			System.err.println("No app");
+			Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
 		}
 		Igrp.getInstance().getResponse().addCookie(new Cookie("_env", dad));
 	}
 	
 	public static String getCurrentEnv() {
-		Cookie aux = null;
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_env"))
-				aux = c;		
-		return aux!=null?aux.getValue():"igrp";
+				return c.getValue();		
+		return "igrp";
+	}
+	
+	private static String getDataCache(String dad){
+		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+			if(c.getName().equals(dad)){
+				return c.getValue();
+			}
+		return null;
+	}
+	
+	public static int getCurrentPerfilId() {
+		String dad = getCurrentEnv();
+		String data_cache = getDataCache(dad);
+		if(data_cache!=null){
+			String[] parts = data_cache.split("-");
+			return Integer.parseInt(parts[1]);
+		}
+		return -1;
+	}
+
+	public static int getCurrentOrganization() {
+		String dad = getCurrentEnv();
+		String data_cache = getDataCache(dad);
+		if(data_cache!=null){
+			String[] parts = data_cache.split("-");
+			return Integer.parseInt(parts[0]);
+		}
+		return -1;
 	}
 }

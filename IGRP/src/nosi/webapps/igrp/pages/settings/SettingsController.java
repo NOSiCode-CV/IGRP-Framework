@@ -7,6 +7,8 @@ package nosi.webapps.igrp.pages.settings;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
+
 import java.io.IOException;
 import java.util.HashMap;
 import javax.servlet.http.Cookie;
@@ -22,13 +24,19 @@ public void actionIndex() throws IOException, IllegalArgumentException, IllegalA
 		model.load();
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", model.getPerfil()));
-			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", model.getOrganica()));
+			String data = model.getOrganica()+"-"+model.getPerfil();
+			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
+			
+//			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", model.getPerfil()));
+//			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", model.getOrganica()));
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
 		}
 		
-		model.setPerfil(nosi.core.webapp.User.getCurrentPerfilId() + "");
-		model.setOrganica(nosi.core.webapp.User.getCurrentOrganization() + "");
+		//model.setPerfil(nosi.core.webapp.User.getCurrentPerfilId() + "");
+		//model.setOrganica(nosi.core.webapp.User.getCurrentOrganization() + "");
+		
+		model.setPerfil(Permission.getCurrentPerfilId() + "");
+		model.setOrganica(Permission.getCurrentOrganization() + "");
 		
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		

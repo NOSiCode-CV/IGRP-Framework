@@ -394,14 +394,14 @@ public class Menu implements RowDataGateway {
 		ArrayList<Menu> lista = new ArrayList<Menu>();
 		try {
 			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?)");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(1,u.getCurrentPerfilId());
-			st.setInt(2,u.getCurrentOrganization());
+			//User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,Permission.getCurrentPerfilId());
+			st.setInt(2,Permission.getCurrentOrganization());
 			Application a = new Application();
 			a.setDad(Permission.getCurrentEnv());
 			a = (Application) a.getOne();
 			st.setInt(3, a.getId());
-			st.setInt(4,u.getCurrentOrganization());
+			st.setInt(4,Permission.getCurrentOrganization());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();
@@ -481,10 +481,10 @@ public class Menu implements RowDataGateway {
 		ArrayList<Application> lista = new ArrayList<>();		
 		try{
 			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?)");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(1,u.getCurrentPerfilId());
-			st.setInt(2,u.getCurrentOrganization());
-			st.setInt(3,u.getCurrentOrganization());
+			//User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,Permission.getCurrentPerfilId());
+			st.setInt(2,Permission.getCurrentOrganization());
+			st.setInt(3,Permission.getCurrentOrganization());
 			Application a = new Application();
 			a.setDad(app.toLowerCase());
 			a = (Application) a.getOne();
