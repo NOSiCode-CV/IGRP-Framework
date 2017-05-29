@@ -27,13 +27,8 @@ public void actionIndex() throws IOException, IllegalArgumentException, IllegalA
 			String data = model.getOrganica()+"-"+model.getPerfil();
 			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
 			
-//			Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", model.getPerfil()));
-//			Igrp.getInstance().getResponse().addCookie(new Cookie("_org", model.getOrganica()));
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] OperaÃ§Ã£o efectuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
 		}
-		
-		//model.setPerfil(nosi.core.webapp.User.getCurrentPerfilId() + "");
-		//model.setOrganica(nosi.core.webapp.User.getCurrentOrganization() + "");
 		
 		model.setPerfil(Permission.getCurrentPerfilId() + "");
 		model.setOrganica(Permission.getCurrentOrganization() + "");

@@ -349,15 +349,11 @@ public class Session implements RowDataGateway{
 	
 	public static void afterLogin(){
 		Session currentSession = new Session();
-		
 		currentSession.setUserId(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-		
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
-		
 		currentSession.setEnvId(user.getAplicacao().getId());
 		currentSession.setOrgId(user.getOrganica().getId());
 		currentSession.setProfTypeId(user.getProfile().getId());
-		
 		currentSession.setIpAddress(Igrp.getInstance().getRequest().getRemoteAddr());
 		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setUserName(user.getUser_name());
@@ -370,7 +366,6 @@ public class Session implements RowDataGateway{
 		long time = System.currentTimeMillis();
 		currentSession.setStartTime(time);
 		currentSession.setEndTime(time);
-		
 		if(currentSession.insert())
 			System.out.println("Session registado com sucesso.");
 		else
