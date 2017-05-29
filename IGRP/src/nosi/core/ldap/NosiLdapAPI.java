@@ -31,13 +31,6 @@ public class NosiLdapAPI {
 
 	public NosiLdapAPI() {
 		super();
-
-		/*
-		 * l_ldap_url = "ldap://gov.cv:389"; l_ldap_username =
-		 * "CN= SELECTLDAP,OU= Service Accounts,DC=gov,DC=cv"; l_ldap_password =
-		 * "Cr3d4query1dap"; l_ldap_base = "DC=gov,DC=cv";
-		 */
-
 	}
 
 	public NosiLdapAPI(String l_ldap_url, String l_ldap_username, String l_ldap_password, String l_ldap_base) {
