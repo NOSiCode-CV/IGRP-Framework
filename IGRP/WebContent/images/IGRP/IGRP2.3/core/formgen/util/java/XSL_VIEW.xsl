@@ -119,7 +119,7 @@
 	-->
  	<xsl:template name="add-to-page">
  		<xsl:call-template name="add-button-to-container"></xsl:call-template>
- 		<xsl:for-each select="//content/*[@type!='toolsbar']">
+ 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
  		
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
@@ -128,8 +128,8 @@
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>				
 			</xsl:call-template>
  		</xsl:for-each>
- 		<xsl:for-each select="//content/*[@type='toolsbar']"> 	
- 			<xsl:if test="local-name() != 'tools-bar'">
+ 		<xsl:for-each select="//content/*[@type='toolsbar' or @type='verticalmenu']"> 	
+ 			<xsl:if test="local-name() != 'tools-bar' and local-name() != 'verticalmenu'">
 			 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 			<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
@@ -190,7 +190,7 @@
  		<xsl:call-template name="gen-field-view">
 			<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 		</xsl:call-template>
-		<xsl:for-each select="//content/*[@type!='toolsbar']">
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
@@ -211,7 +211,7 @@
  	<xsl:template name="instance-components-view">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:for-each select="//content/*[@type!='toolsbar']">
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>

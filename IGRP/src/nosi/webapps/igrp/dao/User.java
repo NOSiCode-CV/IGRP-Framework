@@ -350,11 +350,6 @@ public class User implements Identity, RowDataGateway{
 			}
 		return lista.toArray();
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * @return the id

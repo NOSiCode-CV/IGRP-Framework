@@ -45,9 +45,6 @@ public abstract class Model { // IGRP super model
 							//m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
 							m.set(this, (float[])Helper.convertToArray(aux, "float"));
 							break;
-						case "[Z": // boolean
-							m.set(this, (boolean[])Helper.convertToArray(aux, "boolean"));
-							break;
 						default:
 							m.set(this, typeName == "java.lang.String" ? aux : null); // The field could be a Object
 					}
@@ -63,7 +60,7 @@ public abstract class Model { // IGRP super model
 									: m.getName() // default case use the name of field
 						);
 				String defaultResult = aux;
-				aux = aux == null || aux.equals("") || aux.isEmpty() ? "0" : String.format("%s", aux); // For throw format exception purpose
+				aux = aux == null || aux.equals("") || aux.isEmpty() ? "0" : aux;
 				switch(typeName){
 					case "int":
 							m.setInt(this, Integer.parseInt(aux));
@@ -80,10 +77,6 @@ public abstract class Model { // IGRP super model
 					case "short":
 							m.setShort(this, Short.parseShort(aux));
 						break;
-					case "boolean":
-							aux = aux == null ? "false" : aux;
-							m.setBoolean(this, Boolean.parseBoolean(aux));
-						break;
 					default:
 						m.set(this, typeName == "java.lang.String" ? defaultResult : null); // The field could be a Object
 				}
@@ -92,6 +85,4 @@ public abstract class Model { // IGRP super model
 	}
 	
 	//... Others methods ...
-
-	
 }

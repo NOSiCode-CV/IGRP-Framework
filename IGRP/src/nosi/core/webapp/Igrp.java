@@ -125,25 +125,20 @@ public class Igrp {
 		String auxcontrollerPath = "";
 		for(String aux : this.currentAppName.split("-"))
 			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		
 		for(String aux : this.currentActionName.split("-"))
 			auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		
 		String splitPageName = "";
-		
 		for(String aux : this.currentPageName.split("-")){
 			auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			splitPageName += aux;
 		}
-		
 		auxActionName = "action" + auxActionName;
 		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
-		
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
 		result.put("actionName", auxActionName);
-		return result; // because i need to return 2 variable in one result statement ... so amazing !
 		
+		return result; // because i need to return 2 variable in one result statement ... so amazing !
 	}
 	
 	private void load(Map<String, String> m){ // load and apply some dependency injection ...
