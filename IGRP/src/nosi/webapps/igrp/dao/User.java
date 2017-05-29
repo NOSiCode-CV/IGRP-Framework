@@ -34,10 +34,12 @@ public class User implements Identity, RowDataGateway{
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
-	private Connection conn;
+	
 	private ProfileType profileType;
 	private Organization organica;
 	private Application aplicacao;
+	
+	private Connection conn;
 	
 	public Organization getOrganica() {
 		return organica;

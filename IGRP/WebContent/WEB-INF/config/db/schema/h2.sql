@@ -180,9 +180,9 @@
 	CREATE TABLE  IF NOT EXISTS GLB_T_SESSION 
 	(  
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
-	  `SESSION_ID` char(32), 
-	  `START_TIME` DATE, 
-	  `END_TIME` DATE, 
+	  `SESSION_ID` char(50), 
+	  `START_TIME` bigint(11), 
+	  `END_TIME` bigint(11), 
 	  `USER_ID` int(10), 
 	  `IP_ADDRESS` char(15), 
 	  `USER_NAME` char(50), 
@@ -191,7 +191,7 @@
 	  `ORG_ID` int(10), 
 	  `PROF_TYPE_ID` int(10), 
 	  `HTTPS` smallint(1) DEFAULT '0', 
-	  `SESSION_OLD_ID` char(22), 
+	  `SESSION_OLD_ID` char(50) , 
 	  `HOST` char(30), 
 	  `HOST_NAME` char(100), 
 	  `MEDIA_TYPE` char(30), 

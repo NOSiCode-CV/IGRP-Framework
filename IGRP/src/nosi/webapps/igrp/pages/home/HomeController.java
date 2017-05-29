@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.home;
 import java.io.IOException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.helpers.Permission;
+import nosi.webapps.igrp.dao.Session;
 
 public class HomeController extends Controller {		
 

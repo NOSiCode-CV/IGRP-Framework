@@ -26,30 +26,6 @@ public class User implements Component{
 		return true;
 	}
 	
-	private void checkAndLoadPerfilOrganization(int currentPerfilId, int currentOrgId){
-//		int perf = currentPerfilId;
-//		int org = currentOrgId;
-//		// Create the cookie context (Begin)
-//		/* For perfil information */
-//		Cookie _p = null;
-//		Cookie _org = null;
-//		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-//			if(c.getName().equals("_perf"))
-//				_p = c;
-//			else if(c.getName().equals("_org"))
-//				_org = c;
-//		
-//		if(_p != null && new Profile().getByUserAndPerfil(this.identity.getIdentityId(), Integer.parseInt(_p.getValue())) != null){
-//			perf = Integer.parseInt(_p.getValue());
-//		}
-//		else if(_org != null && new Profile().getByUserAndOrganization(this.identity.getIdentityId(), Integer.parseInt(_org.getValue())) != null){
-//			org = Integer.parseInt(_org.getValue());
-//		}
-//		Igrp.getInstance().getResponse().addCookie(new Cookie("_org", "" + org));
-//		Igrp.getInstance().getResponse().addCookie(new Cookie("_perf", "" + perf));
-
-	}
-	
 	private boolean checkSessionContext(){
 		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
 		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");

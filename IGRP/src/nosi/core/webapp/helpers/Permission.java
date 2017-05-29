@@ -9,8 +9,11 @@ import javax.servlet.http.Cookie;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
+import nosi.webapps.igrp.dao.User;
 
 public class Permission {
 
@@ -53,27 +56,33 @@ public class Permission {
 		Application app = new Application();
 		app.setDad(dad);
 		app = (Application) app.getOne();
+		ProfileType profType = new ProfileType();
+		Organization org = new Organization();
 		if(app!=null && app.getId()!=0){
 			int id_user = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 			int id_app = app.getId();
 			if(app.getPermissionApp(dad)){
 				Profile prof = (Profile) new Profile().getByUserPerfil(id_user,id_app);
-				if(prof!=null){
+				if(prof!=null){          
+					org.setId(prof.getOrg_fk());
+					profType.setId(prof.getProf_type_fk());
 					String data_cache = getDataCache(dad);
 					if(data_cache==null){
 						String data = prof.getOrg_fk()+"-"+prof.getProf_type_fk();
 						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
-					}
+          }
 				}
 			}else{
-				System.err.println("No permission");
 				Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
 			}
 		}else{
-			System.err.println("No app");
 			Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
 		}
 		Igrp.getInstance().getResponse().addCookie(new Cookie("_env", dad));
+		
+		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
+		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
+		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 	}
 	
 	public static String getCurrentEnv() {
