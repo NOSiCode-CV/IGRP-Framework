@@ -177,12 +177,206 @@
 	 CONSTRAINT `GLB_T_PROFILE_USER_FK` FOREIGN KEY (`USER_FK`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 	
+	CREATE TABLE  IF NOT EXISTS GLB_T_SESSION 
+	(  
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `SESSION_ID` char(32), 
+	  `START_TIME` DATE, 
+	  `END_TIME` DATE, 
+	  `USER_ID` int(10), 
+	  `IP_ADDRESS` char(15), 
+	  `USER_NAME` char(50), 
+	  `ENV_ID` int(10) DEFAULT 1 NOT NULL, 
+	  `TARGET` char(20), 
+	  `ORG_ID` int(10), 
+	  `PROF_TYPE_ID` int(10), 
+	  `HTTPS` smallint(1) DEFAULT '0', 
+	  `SESSION_OLD_ID` char(22), 
+	  `HOST` char(30), 
+	  `HOST_NAME` char(100), 
+	  `MEDIA_TYPE` char(30), 
+	  PRIMARY KEY (`ID`),
+	  UNIQUE KEY `GLB_T_SESSION_SESSION_ID` (`SESSION_ID`),
+	  CONSTRAINT `GLB_T_SESSION_ENV_FK` FOREIGN KEY (`ENV_ID`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_SESSION_USER_FK` FOREIGN KEY (`USER_ID`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_SESSION_ORG_FK` FOREIGN KEY (`ORG_ID`) REFERENCES `glb_t_organization` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_SESSION_PROF_TYPE_FK` FOREIGN KEY (`PROF_TYPE_ID`) REFERENCES `glb_t_profile_type` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	  
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+----------------------------- CREATE VIEWS ------------------------------------
+ CREATE OR REPLACE FORCE VIEW GLB_MV_ALL_MENUS (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
+ 	SELECT  a.ID,
+            b.descr || ' - ' || a.DESCR descr,
+            a.descr descr_menu,
+            a.LINK,
+            a.SELF_ID,
+            a.ENV_FK,
+            a.IMG_SRC,
+            a.AREA,
+            a.ACTION_FK,
+            a.ORDERBY
+  	FROM  glb_t_menu A,
+            glb_t_menu b
+ 	WHERE  b.id = a.self_id AND a.self_id IS NOT NULL;
+ 
+  CREATE OR REPLACE FORCE VIEW GLB_MV_MENU (`ID`, `DESCR`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) AS 
+  	SELECT `ID`,`DESCR`,`LINK`,`SELF_ID`,`ENV_FK`,`IMG_SRC`,`AREA`,`ACTION_FK`,`ORDERBY`,`STATUS`,`CODE`,`FLG_BASE`,`TARGET` 
+  	FROM GLB_T_MENU;
+  
+  CREATE OR REPLACE FORCE VIEW GLB_V_MENU (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
+  	SELECT a.ID,
+	    b.descr
+	    || ' - '
+	    || a.DESCR descr,
+	    a.descr descr_menu,
+	    a.LINK,
+	    a.SELF_ID,
+	    a.ENV_FK,
+	    a.IMG_SRC,
+	    a.AREA,
+	    a.ACTION_FK,
+	    a.ORDERBY
+	 FROM glb_mv_menu A,
+	    glb_mv_menu b
+	 WHERE b.id     = a.self_id
+	 AND a.self_id IS NOT NULL;
+  
+  CREATE OR REPLACE FORCE VIEW GLB_V_ORG_MENU (`ID`, `DESCR`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`, `FLG_BASE`) AS 
+  	SELECT a.id,
+	    e.descr
+	    || ' - '
+	    || a.descr descr,
+	    a.orderby,
+	    a.env_fk,
+	    a.self_id,
+	    b.prof_type_fk,
+	    b.user_fk,
+	    'ALL' prof_code,
+	    'ALL PROFILE' prof_name,
+	    b.org_fk,
+	    a.flg_base
+	  FROM glb_t_menu a,
+	    glb_t_menu e,
+	    glb_t_profile b
+	  WHERE e.id         = a.self_id
+	  AND a.self_id     IS NOT NULL
+	  AND a.id           = b.type_fk
+	  AND b.TYPE         = 'MEN'
+	  AND b.prof_type_fk = 0;
+  
+
+
+ CREATE OR REPLACE FORCE VIEW GLB_MV_PROFILE (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) AS 
+  SELECT `PROF_TYPE_FK`,`USER_FK`,`TYPE`,`TYPE_FK`,`ORG_FK` 
+  FROM GLB_T_PROFILE;
+ 
+ CREATE OR REPLACE FORCE VIEW GLB_MV_PROFILE_TYPE (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `STATUS`, `ORG_FK`) AS 
+   SELECT `ID`,`DESCR`,`CODE`,`ENV_FK`,`SELF_FK`,`STATUS`,`ORG_FK` 
+   FROM GLB_T_PROFILE_TYPE;
+ 
+ CREATE OR REPLACE FORCE VIEW GLB_V_PROFILE(`ORG_FK`, `PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `PROF_CODE`, `PROF_NAME`, `PROF_NAME_DESC`, `ENV_FK`, `SELF_FK`) AS 
+  SELECT   b.org_fk,
+         b.prof_type_fk,
+         b.user_fk,
+         b.TYPE,
+         b.type_fk,
+         d.code prof_code,
+         d.descr prof_name,
+         d.code || ' - ' || d.descr prof_name_desc,
+         d.env_fk,
+         d.self_fk
+  FROM   glb_mv_profile b,
+         glb_mv_profile_type d
+ WHERE   d.id = b.prof_type_fk;
+ 
+ CREATE OR REPLACE FORCE VIEW GLB_V_PROFILE_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+ 	SELECT a.id,
+	    e.descr descr,
+	    a.descr descr_menu,
+	    a.orderby,
+	    a.env_fk,
+	    a.self_id,
+	    a.action_fk,
+	    b.prof_type_fk,
+	    b.user_fk,
+	    d.code prof_code,
+	    d.descr prof_name,
+	    b.org_fk,
+	    a.status,
+	    a.target,
+        d.env_fk as env_fk_prof_type
+ 	FROM glb_mv_menu a,
+	    glb_mv_menu e,
+	    glb_mv_profile b,
+	    glb_mv_profile_type d
+	WHERE e.id     = a.self_id
+	AND a.self_id IS NOT NULL
+	AND a.id       = b.type_fk
+	AND b.TYPE     = 'MEN'
+	AND d.id       = b.prof_type_fk;
+  
+ CREATE OR REPLACE FORCE VIEW GLB_V_USER_MENU (`ID`, `DESCR`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  SELECT `ID`,`DESCR`,`ORDERBY`,`ENV_FK`,`SELF_ID`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` 
+  FROM GLB_V_PROFILE_MENU 
+  WHERE USER_FK<>0;
+ 
+  CREATE OR REPLACE FORCE VIEW GLB_V_PROF_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+ 	SELECT  `ID`,
+            `DESCR`,
+            `DESCR_MENU`,
+            `ORDERBY`,
+            `ENV_FK`,
+            `SELF_ID`,
+            `ACTION_FK`,
+            `PROF_TYPE_FK`,
+            `USER_FK`,
+            `PROF_CODE`,
+            `PROF_NAME`,
+            `ORG_FK`,
+            `STATUS`,
+            `TARGET`,
+            `env_fk_prof_type`
+ 	FROM  GLB_V_PROFILE_MENU
+ 	WHERE  PROF_TYPE_FK <> 0 AND USER_FK = 0;
+ 	
+ 	
+ CREATE OR REPLACE FORCE VIEW GLB_MV_TRANSACTION (`ID`, `CODE`, `DESCR`, `ENV_FK`, `STATUS`) AS 
+  select `ID`,`CODE`,`DESCR`,`ENV_FK`,`STATUS` from GLB_T_TRANSACTION;
+  
+
+  CREATE OR REPLACE FORCE VIEW GLB_V_PROFILE_TRANS (`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  SELECT   a.id,
+         a.code,
+         a.descr,
+         a.env_fk,
+         b.prof_type_fk,
+         b.user_fk,
+         b.prof_code,
+         b.prof_name,
+         b.org_fk
+  FROM   glb_t_transaction a,
+         glb_v_profile b
+  WHERE   a.id = b.type_fk AND b.TYPE = 'TRANS';
+  
+  CREATE OR REPLACE FORCE VIEW GLB_V_PROF_TRANS(`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  SELECT `ID`,`CODE`,`DESCR`,`ENV_FK`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK<>0 AND USER_FK=0;
+
+  CREATE OR REPLACE FORCE VIEW GLB_V_ORG_TRANS(`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  SELECT `ID`,`CODE`,`DESCR`,`ENV_FK`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` FROM GLB_V_PROFILE_TRANS WHERE PROF_TYPE_FK=0;
+  
+  CREATE OR REPLACE FORCE VIEW GLB_V_USER_TRANS (`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  SELECT `ID`,`CODE`,`DESCR`,`ENV_FK`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` FROM GLB_V_PROFILE_TRANS WHERE USER_FK<>0;
+ 
+  ----------------------------- END CREATE VIEWS --------------------------------
+	
 	--
 	--	DDL Igrp for H2 DataBase (End)
 	--
 	
 	
-	-------------------------------- Base dados do demo Marcacao de consultas --------------------------------------	 
+/*	-------------------------------- Base dados do demo Marcacao de consultas --------------------------------------	 
+*/
 -- --------------------------------------------------------
 --
 -- Estrutura da tabela `tbl_medico`
@@ -263,13 +457,15 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 		(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl');
 	
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
-	VALUES (1, 'Admin', 'admin@gmail.com', 'demo', 'USER', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
+	VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017),
+		   (1, 'Nositeste', 'nositeste@nosi.cv', 'n0s1teste', 'ADMIN', NULL, NULL, '123456789', 'nositeste', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
 
 	INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
-	VALUES (1, 'ADMS', 'Administrador', NULL, 1, 1, 1, NULL);
+	VALUES (1, '01.03', 'NOSI', NULL, 1, 1, 1, NULL);
 
 	INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
-	VALUES (1, 'Administrador', 'Admin', 1, NULL, 1, 1);
+	VALUES (0, 'ALL PROFILE', 'ALL', NULL, NULL, NULL, 1),
+		   (1, 'Administrador', 'Admin', 1, NULL, 1, 1);
 	
 	INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
 	(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
@@ -286,87 +482,83 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1),
 		   (1, 1, 'PROF', 1, 1), 
-		   (1, 1, 'MEN', 2, 1), 
-		   (1, 1, 'MEN', 3, 1), 
-		   (1, 1, 'MEN', 4, 1), 
-		   (1, 1, 'MEN', 6, 1), 
-		   (1, 1, 'MEN', 7, 1), 
-		   (1, 1, 'MEN', 8, 1), 
-		   (1, 1, 'MEN', 9, 1), 
-		   (1, 1, 'MEN', 10, 1),
-		   (1, 1, 'MEN_PROF', 2, 1), 
-		   (1, 1, 'MEN_PROF', 3, 1), 
-		   (1, 1, 'MEN_PROF', 4, 1), 
-		   (1, 1, 'MEN_PROF', 6, 1), 
-		   (1, 1, 'MEN_PROF', 7, 1), 
-		   (1, 1, 'MEN_PROF', 8, 1), 
-		   (1, 1, 'MEN_PROF', 9, 1), 
-		   (1, 1, 'MEN_PROF', 10, 1); 
-	
-		   
-
-INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`)
-VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', '', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
-
-INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
-	VALUES
-(22, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
-(23, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
-(24, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
-(25, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
-(26, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
-(27, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
-(28, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
-
-INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
-(11, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
-(12, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
-(13, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
-(14, 'Registar Utente', 25,11, '', 2,'','', 0, 1, '', 0, '_self'),
-(15, 'Listar Utentes', 26, 11, '', 2,'','', 0, 1, '', 0, '_self'),
-(16, 'Registar Medico', 23,12, '', 2,'','', 0, 1, '', 0, '_self'),
-(17, 'Listar Medicos', 22, 12, '', 2,'','', 0, 1, '', 0, '_self'),
-(18, 'Marcar Consultas',24,13, '', 2,'','', 0, 1, '', 0, '_self'),
-(19, 'Consultas Pendentes',27,13, '', 2,'','', 0, 1, '', 0, '_self'),
-(20, 'Dash Board',28,13, '', 2,'','', 0, 1, '', 0, '_self');
+		   (0, 0, 'MEN', 2, 1), 
+		   (0, 0, 'MEN', 3, 1), 
+		   (0, 0, 'MEN', 4, 1), 
+		   (0, 0, 'MEN', 6, 1), 
+		   (0, 0, 'MEN', 7, 1), 
+		   (0, 0, 'MEN', 8, 1), 
+		   (0, 0, 'MEN', 9, 1), 
+		   (0, 0, 'MEN', 10, 1),
+		   (1, 0, 'MEN', 2, 1), 
+		   (1, 0, 'MEN', 3, 1), 
+		   (1, 0, 'MEN', 4, 1), 
+		   (1, 0, 'MEN', 6, 1), 
+		   (1, 0, 'MEN', 7, 1), 
+		   (1, 0, 'MEN', 8, 1), 
+		   (1, 0, 'MEN', 9, 1), 
+		   (1, 0, 'MEN', 10, 1); 
 		   
 
 
 -- ------------------------------------------ Config demo app (App marcacao consulta) --------------------------------
+INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`)
+	VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', '', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
+
 INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
-VALUES(2, 'org-m.consulta', 'Tec. Marcacao Consulta',NULL, 2, 1,1, NULL);
+	VALUES(2, 'org-m.consulta', 'Tec. Marcacao Consulta',NULL, 2, 1,1, NULL);
 
 
 INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
-	VALUES 
-(2, 'Tec. Marcacao Consulta', 'Perf-m.consulta', 2,NULL, 2, 1);
+	VALUES (2, 'Tec. Marcacao Consulta', 'Perf-m.consulta', 2,NULL, 2, 1);
 
+INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
+	VALUES
+	(22, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+	(23, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+	(24, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+	(25, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+	(26, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+	(27, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+	(28, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+
+INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) 
+	VALUES
+	(11, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+	(12, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+	(13, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
+	(14, 'Registar Utente', 25,11, '', 2,'','', 0, 1, '', 0, '_self'),
+	(15, 'Listar Utentes', 26, 11, '', 2,'','', 0, 1, '', 0, '_self'),
+	(16, 'Registar Medico', 23,12, '', 2,'','', 0, 1, '', 0, '_self'),
+	(17, 'Listar Medicos', 22, 12, '', 2,'','', 0, 1, '', 0, '_self'),
+	(18, 'Marcar Consultas',24,13, '', 2,'','', 0, 1, '', 0, '_self'),
+	(19, 'Consultas Pendentes',27,13, '', 2,'','', 0, 1, '', 0, '_self'),
+	(20, 'Dash Board',28,13, '', 2,'','', 0, 1, '', 0, '_self');
+/**/
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 
-(1, 1, 'MEN', 9, 2),
-(1, 1, 'MEN', 11, 2),
-(1, 1, 'MEN', 12, 2),
-(1, 1, 'MEN', 13, 2),
-(1, 1, 'MEN', 14, 2),
-(1, 1, 'MEN', 15, 2),
-(1, 1, 'MEN', 16, 2),
-(1, 1, 'MEN', 17, 2),
-(1, 1, 'MEN', 18, 2),
-(1, 1, 'MEN', 19, 2),
-(1, 1, 'MEN', 20, 2),
-(2, 1, 'MEN_PROF', 9, 2),
-(2, 1, 'MEN_PROF', 11, 2),
-(2, 1, 'MEN_PROF', 12, 2),
-(2, 1, 'MEN_PROF', 13, 2),
-(2, 1, 'MEN_PROF', 14, 2),
-(2, 1, 'MEN_PROF', 15, 2),
-(2, 1, 'MEN_PROF', 16, 2),
-(2, 1, 'MEN_PROF', 17, 2),
-(2, 1, 'MEN_PROF', 18, 2),
-(2, 1, 'MEN_PROF', 19, 2),
-(2, 1, 'MEN_PROF', 20, 2),
-(2, 1, 'ENV', 2, 2),
-(2, 1, 'PROF', 2, 2);
-
-
+	(0, 0, 'MEN', 9, 2),
+	(0, 0, 'MEN', 11, 2),
+	(0, 0, 'MEN', 12, 2),
+	(0, 0, 'MEN', 13, 2),
+	(0, 0, 'MEN', 14, 2),
+	(0, 0, 'MEN', 15, 2),
+	(0, 0, 'MEN', 16, 2),
+	(0, 0, 'MEN', 17, 2),
+	(0, 0, 'MEN', 18, 2),
+	(0, 0, 'MEN', 19, 2),
+	(0, 0, 'MEN', 20, 2),
+	(2, 0, 'MEN', 9, 2),
+	(2, 0, 'MEN', 11, 2),
+	(2, 0, 'MEN', 12, 2),
+	(2, 0, 'MEN', 13, 2),
+	(2, 0, 'MEN', 14, 2),
+	(2, 0, 'MEN', 15, 2),
+	(2, 0, 'MEN', 16, 2),
+	(2, 0, 'MEN', 17, 2),
+	(2, 0, 'MEN', 18, 2),
+	(2, 0, 'MEN', 19, 2),
+	(2, 0, 'MEN', 20, 2),
+	(2, 1, 'ENV', 2, 2),
+	(2, 1, 'PROF', 2, 2);
 

@@ -1,10 +1,6 @@
 package nosi.core.webapp;
 
-import nosi.core.servlet.IgrpServlet;
-import nosi.core.webapp.helpers.Permission;
-
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.InvocationTargetException;
@@ -14,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
-
-import nosi.core.config.IgrpDbMigrate;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.PermissionException;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.servlet.IgrpServlet;
+import nosi.core.webapp.helpers.Permission;
 
 /**
  * @author Marcel Iekiny
@@ -105,53 +101,20 @@ public class Igrp {
 	private void resolveRoute() throws IOException{
 		String r = this.request.getParameter("r");// Catch always the first "r" parameter in query string
 		String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
-		
 			if(r != null && r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 				String []aux = r.split("/");
 				this.currentAppName = aux[0];
 				this.currentPageName = aux[1];
 				this.currentActionName = aux[2];
-				
-				/*if(!this.validateAppName())
-					throw new NotFoundHttpException("Aplicação inválida.");
-				if(!this.validatePageName())
-					throw new NotFoundHttpException("Esta página não foi encontrada.");*/
 			}else{
 				throw new ServerErrorHttpException("The route format is invalid.");
 			}
-		
-	}
-	
-	private boolean validateAppName(){
-		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName);
-		File file = null;
-		try{
-			file = new File(path);
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
-		}
-		 file = new File(path);
-		return file.exists() && file.isDirectory();
-	}
-	
-	private boolean validatePageName(){
-		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/classes/nosi/webapps/" + this.currentAppName + "/pages/" + this.currentPageName);
-		System.out.println(path);
-		File file = null;
-		try{
-			file = new File(path);
-		}catch(Exception e){
-			e.printStackTrace();
-			return false;
-		}
-		/*
-		 * Validação com base de dados
-		 * */
-		return file.exists() && file.isDirectory();
 	}
 	
 	public void runAction(){ // run a action in the specific controller
+		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
+			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
+		
 		this.load(this.convertRoute());
 	}
 	
@@ -179,23 +142,18 @@ public class Igrp {
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("controllerPath", auxcontrollerPath);
 		result.put("actionName", auxActionName);
-		return result; // because i need to return 2 variable in one result statement ... 
+		return result; // because i need to return 2 variable in one result statement ... so amazing !
 		
 	}
 	
 	private void load(Map<String, String> m){ // load and apply some dependency injection ...
-		/*if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
-			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
-			*/
 		String controllerPath = m.get("controllerPath");
 		String actionName = m.get("actionName");
-		
 		try {
 			Class c = Class.forName(controllerPath);
 			Object controller = c.newInstance();
 			Method action = null;
 			ArrayList paramValues = new ArrayList();
-			
 			
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))

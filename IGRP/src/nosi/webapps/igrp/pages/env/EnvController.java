@@ -15,7 +15,9 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
 public class EnvController extends Controller {		
@@ -23,6 +25,7 @@ public class EnvController extends Controller {
 	public void actionIndex() throws IOException{
 		Env model = new Env();
 		EnvView view = new EnvView(model);
+		view.action_fk.setValue(new Action().getListActions());
 		this.renderView(view);
 	}
 
@@ -73,7 +76,6 @@ public class EnvController extends Controller {
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
 		if(myApp.length>0){
-			System.out.println(myApp);
 			xml_menu.setElement("title", "Minhas Aplicações");
 		}
 		if(otherApp.length>0){
@@ -85,8 +87,16 @@ public class EnvController extends Controller {
 			Application app = (Application) obj;
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
-			xml_menu.setElement("img", "app_casacidadao.png");
+			String page = "/default-page/index&amp;title="+app.getName();
+			if(app.getAction_fk()!=0){
+				Action ac = new Action();
+				ac.setId(app.getAction_fk());
+				ac = (Action) ac.getOne();
+				page = (ac!=null && ac.getPage()!=null)?ac.getPage()+"/"+ac.getAction():page;
+				page = "/"+page;
+			}
+			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+app.getDad().toLowerCase()+"&amp;page="+page);
+			xml_menu.setElement("img", app.getImg_src());
 			xml_menu.setElement("title", app.getName());
 			xml_menu.setElement("num_alert", ""+i);
 			xml_menu.endElement();
@@ -96,12 +106,11 @@ public class EnvController extends Controller {
 			Application app = (Application) obj;
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", "webapps?r="+app.getDad().toLowerCase()+"/default-page/index&amp;title="+app.getName());
-			xml_menu.setElement("img", "app_casacidadao.png");
+			xml_menu.setElement("link", "");
+			xml_menu.setElement("img", app.getImg_src());
 			xml_menu.setElement("title", app.getName());
-			xml_menu.setElement("num_alert", ""+i);
+			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
-			i++;
 		}
 		xml_menu.endElement();
 		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
@@ -109,12 +118,10 @@ public class EnvController extends Controller {
 	
 	
 	public void actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
-		Env model = new Env();
-		
+		Env model = new Env();		
 		Application aplica_db = new Application();
 		aplica_db.setId(Integer.parseInt(idAplicacao));
-		aplica_db = (Application) aplica_db.getOne();
-		
+		aplica_db = (Application) aplica_db.getOne();		
 		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
@@ -130,8 +137,7 @@ public class EnvController extends Controller {
 		model.setHost(aplica_db.getHost());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			model.load();
-			
+			model.load();			
 			aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());
@@ -144,24 +150,27 @@ public class EnvController extends Controller {
 			aplica_db.setApache_dad(model.getApache_dad());
 			aplica_db.setTemplates(model.getTemplates());
 			aplica_db.setHost(model.getHost());
-			aplica_db.setFlg_external(model.getFlg_external());
-			
+			aplica_db.setFlg_external(model.getFlg_external());			
 			if(aplica_db.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
 				this.redirect("igrp", "lista-env", "index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
 			}
-			
-		}
-		
-		
+		}	
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
+		view.action_fk.setValue(new Action().getListActions());
 		this.renderView(view);
 	}
 	
+	
+	public void actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
+		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
+		String[] p = page.split("/");
+		this.redirect(app, p[1], p[2]);
+	}
 }
 
 

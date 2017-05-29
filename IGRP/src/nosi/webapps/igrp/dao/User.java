@@ -217,14 +217,28 @@ public class User implements Identity, RowDataGateway{
 		User obj = null;
 		try{
 			Statement st = this.conn.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM glb_t_user where id = "+ this.id);
+			ResultSet rs = st.executeQuery("SELECT * FROM glb_t_user where id = "+ this.id);
 			
-			if(result.next()){
+			if(rs.next()){
 				obj = new User();
-				obj.setId(result.getInt("id"));
-				obj.setEmail(result.getString("email"));;
-				obj.setUser_name(result.getString("user_name"));
-				obj.setName(result.getString("name"));
+				obj.id = rs.getInt("id");
+				obj.name = rs.getString("name");
+				obj.email = rs.getString("email");
+				obj.pass_hash = rs.getString("pass_hash");
+				obj.userProfile = rs.getString("userprofile");
+				obj.valid_until = rs.getString("valid_until");
+				obj.status = rs.getInt("status");
+				obj.remarks = rs.getString("remarks");
+				obj.activation_key = rs.getInt("activation_key");
+				obj.user_name = rs.getString("user_name");
+				obj.photo_id = rs.getString("photo_id");
+				obj.signature_id = rs.getString("signature_id");
+				obj.mobile = rs.getString("mobile");
+				obj.phone = rs.getString("phone");
+				obj.password_reset_token = rs.getString("password_reset_token");
+				obj.auth_key = rs.getString("auth_key");
+				obj.created_at = rs.getLong("created_at");
+				obj.updated_at = rs.getLong("updated_at");
 			}
 			
 			st.close();
@@ -241,7 +255,7 @@ public class User implements Identity, RowDataGateway{
 		try{ // name, user_name, email, pass_hash, status, created_at, updated_at, auth_key
 			this.conn.setAutoCommit(true);
 			PreparedStatement ps = this.conn.prepareStatement("update glb_t_user set "
-					+ "name = ?, user_name = ?, email = ?, pass_hash = ?, status = ?, created_at = ?, updated_at = ? "
+					+ "name = ?, user_name = ?, email = ?, pass_hash = ?, status = ?, created_at = ?, updated_at = ?, mobile = ? "
 					+ "where id = ?");
 			ps.setString(1, this.name);
 			ps.setString(2, this.user_name);
@@ -250,7 +264,8 @@ public class User implements Identity, RowDataGateway{
 			ps.setInt(5, this.status);
 			ps.setLong(6, this.created_at);
 			ps.setLong(7, this.updated_at);
-			ps.setInt(8, this.id);
+			ps.setString(8, this.mobile);
+			ps.setInt(9, this.id);
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -601,7 +616,7 @@ public class User implements Identity, RowDataGateway{
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_perf"))
 				aux = c;		
-		return aux!=null?Integer.parseInt(aux.getValue()):0;
+		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
 	}
 
 	public int getCurrentOrganization() {
@@ -609,7 +624,7 @@ public class User implements Identity, RowDataGateway{
 		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
 			if(c.getName().equals("_org"))
 				aux = c;		
-		return aux!=null?Integer.parseInt(aux.getValue()):0;
+		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
 	}
 
 	public ProfileType getProfile() {
@@ -619,16 +634,5 @@ public class User implements Identity, RowDataGateway{
 	public void setProfile(ProfileType profile) {
 		this.profileType = profile;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass_hash=" + pass_hash + ", userProfile="
-				+ userProfile + ", valid_until=" + valid_until + ", status=" + status + ", remarks=" + remarks
-				+ ", activation_key=" + activation_key + ", user_name=" + user_name + ", photo_id=" + photo_id
-				+ ", signature_id=" + signature_id + ", mobile=" + mobile + ", phone=" + phone
-				+ ", password_reset_token=" + password_reset_token + ", auth_key=" + auth_key + ", created_at="
-				+ created_at + ", updated_at=" + updated_at + ", profile=" + profileType + ", conn=" + conn + "]";
-	}	
-	
 	
 }

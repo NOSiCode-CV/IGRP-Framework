@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 
 public class Menu implements RowDataGateway {
 	
@@ -392,35 +393,33 @@ public class Menu implements RowDataGateway {
 	public Object[] getMyMenu() {
 		ArrayList<Menu> lista = new ArrayList<Menu>();
 		try {
-			PreparedStatement st = con.prepareStatement(" SELECT M1.descr sub_title,M1.target,M1.id,M1.status,M2.descr super_title,M2.id super_id,E.dad,A.Page "
-					+ " FROM glb_t_menu M1,glb_t_menu M2,glb_t_env E,glb_t_action A, glb_t_profile P, glb_t_profile P1 "
-					+ " WHERE M1.SELF_ID=M2.ID "
-					+ " AND E.ID = M1.ENV_FK  "
-					+ " AND E.ID = M2.ENV_FK  "
-					+ " AND A.ID = M1.ACTION_FK "
-					+ " AND E.DAD = ? "
-					+ " AND P.type = 'MEN_PROF' "
-					+ " AND P.type_fk = M1.ID "
-					+ " AND P.prof_type_fk = ? "
-					+ " AND P.org_fk = ?"
-					+ " AND P.org_fk=P1.org_fk"
-					+ " AND P1.type='MEN' "
-					+ " AND P1.type_fk = M1.ID "
-					+ " AND P1.org_fk = ?");
-			
-			st.setString(1, Igrp.getInstance().getRequest().getParameter("dad"));
+			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?)");
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setInt(2,u.getCurrentPerfilId());
-			st.setInt(3,u.getCurrentOrganization());
-			st.setInt(4, u.getCurrentOrganization());
+			st.setInt(1,u.getCurrentPerfilId());
+			st.setInt(2,u.getCurrentOrganization());
+			Application a = new Application();
+			a.setDad(Permission.getCurrentEnv());
+			a = (Application) a.getOne();
+			st.setInt(3, a.getId());
+			st.setInt(4,u.getCurrentOrganization());
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				Menu obj = new Menu();
 				obj.setSelf_id(rs.getInt("id"));
-				obj.setDescr(rs.getString("sub_title"));
-				obj.setCode(rs.getString("super_title"));
-				obj.setId(rs.getInt("super_id"));
-				obj.setLink(rs.getString("dad")+"/"+rs.getString("page")+"/index");
+				obj.setDescr(rs.getString("descr_menu"));
+				obj.setCode(rs.getString("descr"));
+				obj.setId(rs.getInt("self_id"));
+				Application app = new Application();
+				app.setId(rs.getInt("env_fk"));
+				app = (Application) app.getOne();
+				String dad0 = app.getDad();
+				app.setId(rs.getInt("env_fk_prof_type"));
+				app = (Application) app.getOne();
+				String dad1 = app.getDad();				
+				Action ac = new Action();
+				ac.setId(rs.getInt("action_fk"));
+				ac = (Action) ac.getOne();
+				obj.setLink(dad0.toLowerCase()+"/"+ac.getPage()+"/"+ac.getAction()+"&amp;dad="+dad1.toLowerCase());
 				obj.setTarget(rs.getString("target"));
 				obj.setStatus(rs.getInt("status"));
 				lista.add(obj);
@@ -440,8 +439,7 @@ public class Menu implements RowDataGateway {
 		String sql = "SELECT M1.descr super_title, M2.descr sub_title, M1.id, M2.status, M1.id super_id,A.Page page"
 				+ " FROM glb_t_menu M1, glb_t_menu M2, glb_t_action A, glb_t_profile prof"	
 				    + " WHERE M2.SELF_ID = M1.ID AND A.ID = M2.ACTION_FK AND prof.type_fk = M2.id AND prof.type = 'MEN' ";
-		try {
-			
+		try {			
 			//Falta alguns codigos para o filtro completo(Falta somente a organica)
 			sql = sql + (this.env_fk != 0 ? "and (M1.env_fk = " + this.env_fk + " AND M2.env_fk = " + this.env_fk + ") " : "");
 			sql = sql + (this.id != 0 ? " and M1.id = " + this.id + " " : "");
@@ -478,14 +476,32 @@ public class Menu implements RowDataGateway {
 		}
 		return lista;
 	}
+
+	public boolean getPermissionMen(String app) {
+		ArrayList<Application> lista = new ArrayList<>();		
+		try{
+			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?)");
+			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			st.setInt(1,u.getCurrentPerfilId());
+			st.setInt(2,u.getCurrentOrganization());
+			st.setInt(3,u.getCurrentOrganization());
+			Application a = new Application();
+			a.setDad(app.toLowerCase());
+			a = (Application) a.getOne();
+			st.setInt(4, a.getId());
+			
+			ResultSet result = st.executeQuery();	
 	
-	
-	@Override
-	public String toString() {
-		return "Menu [id=" + id + ", area=" + area + ", link=" + link + ", self_id=" + self_id + ", env_fk=" + env_fk
-				+ ", img_src=" + img_src + ", descr=" + descr + ", action_fk=" + action_fk + ", orderby=" + orderby
-				+ ", status=" + status + ", code=" + code + ", flg_base=" + flg_base + ", target=" + target + "]";
+			while(result.next()){
+				Application obj = new Application();
+				obj.setId(result.getInt("id"));
+				lista.add(obj);
+		}
+		st.close();		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return lista.size() > 0;
 	}
-	
 	
 }

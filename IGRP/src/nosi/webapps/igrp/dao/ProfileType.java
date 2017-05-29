@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 
 public class ProfileType implements RowDataGateway {
 	
@@ -291,9 +292,13 @@ public class ProfileType implements RowDataGateway {
 		ArrayList<ProfileType> lista = new ArrayList<>(); 
 		try{
 			PreparedStatement st = con.prepareStatement("SELECT pt.* "
-					+ "FROM glb_t_profile_type pt, glb_t_profile p where pt.id=p.type_fk and p.type=? AND p.user_fk=? order by pt.descr");
+					+ "FROM glb_t_profile_type pt, glb_t_profile p where pt.id=p.type_fk and p.type=? AND p.user_fk=? AND pt.env_fk=? order by pt.descr");
 			st.setString(1, "PROF");
 			st.setInt(2,Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			Application app = new Application();
+			app.setDad(Permission.getCurrentEnv());
+			app = (Application) app.getOne();
+			st.setInt(3, app.getId());
 			ResultSet res = st.executeQuery();
 			while(res.next()){
 				ProfileType obj = new ProfileType();

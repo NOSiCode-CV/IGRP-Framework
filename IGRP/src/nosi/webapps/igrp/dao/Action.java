@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -516,7 +517,6 @@ public class Action implements RowDataGateway{
 	@Override
 	public Object[] getAll() {
 		ArrayList<Action> lista = new ArrayList<Action>();
-		System.out.println(this.getPage());
 		try{
 			String conditions = "WHERE 1=1 ";
 			Method[] methods = this.getClass().getDeclaredMethods();
@@ -580,6 +580,49 @@ public class Action implements RowDataGateway{
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista.toArray();
+	}
+	
+	
+	public Object[] getAll_(){
+		ArrayList<Action> lista = new ArrayList<Action>();
+		try{
+			String sql = "SELECT * FROM glb_t_action where 1=1 ";
+			Statement st = con.createStatement();
+			
+			sql += this.page != null && !this.page.equals("") ? " and page like '%" + this.page + "%'" : "";
+			sql += this.page_descr != null && !this.page_descr.equals("") ? " and page_descr like '%" + this.page_descr + "%'" : "";
+			sql += this.env_fk != 0 ? " and env_fk = " + this.env_fk : "";
+			
+			System.out.println(sql);
+			
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next()){
+				Action obj = new Action();
+				obj.setId(rs.getInt("id"));
+				obj.setEnv_fk(rs.getInt("env_fk"));
+				obj.setPage(rs.getString("page"));
+				obj.setAction(rs.getString("action"));
+				obj.setTable_name(rs.getString("table_name"));
+				obj.setXsl_src(rs.getString("xsl_src"));
+				obj.setImg_src(rs.getString("img_src"));
+				obj.setPage_type(rs.getString("page_type"));
+				obj.setPage_descr(rs.getString("page_descr"));
+				obj.setAction_descr(rs.getString("action_descr"));
+				obj.setFlg_menu(rs.getInt("flg_menu"));
+				obj.setFlg_transaction(rs.getInt("flg_transaction"));
+				obj.setSelf_id(rs.getInt("self_id"));
+				obj.setSelf_fw_id(rs.getInt("self_fw_id"));
+				obj.setVersion(rs.getString("version"));
+				obj.setDb_connection(rs.getString("db_connection"));
+				obj.setFlg_offline(rs.getInt("flg_offline"));
+				obj.setFlg_internet(rs.getInt("flg_internet"));
+				obj.setStatus(rs.getInt("status"));
+				lista.add(obj);
+			}
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		return lista.toArray();
