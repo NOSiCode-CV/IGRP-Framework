@@ -12,6 +12,7 @@ import nosi.core.webapp.Igrp;
 
 public class Medico implements RowDataGateway{
 
+	
 	private int id;
 	private String nome;
 	private String morada;
