@@ -139,11 +139,17 @@
     		<xsl:when test="$type='toolsbar'">
     			<xsl:value-of select="'IGRPToolsBar'" />
     		</xsl:when>
+    		<xsl:when test="$type='verticalmenu'">
+    			<xsl:value-of select="'IGRPVerticalMenu'" />
+    		</xsl:when>
     		<xsl:when test="$type='button'">
     			<xsl:value-of select="'IGRPButton'" />
     		</xsl:when>
     		<xsl:when test="$type='calendar'">
     			<xsl:value-of select="'IGRPCalendar'" />
+    		</xsl:when>
+    		<xsl:when test="$type='carousel'">
+    			<xsl:value-of select="'IGRPCarousel'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
