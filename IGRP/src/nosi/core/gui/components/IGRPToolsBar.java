@@ -18,7 +18,7 @@ public class IGRPToolsBar {
 	protected ArrayList<IGRPButton> buttons;
 	protected Object class_name = this;
 	protected XMLWritter xml;
-	
+	protected String type = "toolsbar";
 	public IGRPToolsBar(String tag_name) {
 		this.tag_name = tag_name;
 		this.buttons = new ArrayList<>();
@@ -52,7 +52,7 @@ public class IGRPToolsBar {
 		if(this.buttons.size() > 0){
 			xml.startElement(this.tag_name);
 			if(this.getClassName().compareTo("IGRPToolsBar") == 0){
-				xml.writeAttribute("type", "toolsbar");
+				xml.writeAttribute("type",this.type);
 				xml.writeAttribute("structure", "items");
 			}
 			for(IGRPButton item:buttons){

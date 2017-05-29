@@ -14,8 +14,8 @@
 	 			</xsl:with-param>
 	 		</xsl:call-template>
 	 	</xsl:variable>
-		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-           <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
           	<xsl:call-template name="gen-item">
 				<xsl:with-param name="name_"><xsl:value-of select="concat('btn_',@rel)"/></xsl:with-param>
 				<xsl:with-param name="class_name_"><xsl:value-of select="$className"/></xsl:with-param>
@@ -101,16 +101,16 @@
 	
 	
 	<xsl:template name="gen-toolsbar">	
-		<xsl:param name="type_"/>
-	 	<xsl:variable name="className">
-	 		<xsl:call-template name="typeClass">
-	 			<xsl:with-param name="type">                
-	 				<xsl:value-of select="'toolsbar'"/>
-	 			</xsl:with-param>
-	 		</xsl:call-template>
-	 	</xsl:variable>
-		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-          <xsl:for-each select="/rows/content/*[@type = 'toolsbar']">
+		<xsl:param name="type_"/>	 	
+		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
+          <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']">
+	         <xsl:variable name="className">
+		 		<xsl:call-template name="typeClass">
+		 			<xsl:with-param name="type">                
+		 				<xsl:value-of select="@type"/>
+		 			</xsl:with-param>
+		 		</xsl:call-template>
+		 	 </xsl:variable>
           	<xsl:choose>
 				<xsl:when test="$type_='declare'">
 					<xsl:value-of select="$newline"/>
@@ -136,8 +136,8 @@
 	 			</xsl:with-param>
 	 		</xsl:call-template>
 	 	</xsl:variable>
-		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-           <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item"><!-- add button on toolsbar -->           		
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']/item"><!-- add button on toolsbar -->           		
 			 	<xsl:variable name="toolsbar">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
@@ -172,7 +172,7 @@
         
         <!-- import class based in button select action -->
         <xsl:template name="gen-import-class">
-        	<xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">
+        	<xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">
        			<xsl:variable name="app_">
        				<xsl:call-template name="lowerCase"><xsl:with-param name="text"><xsl:value-of select="./app"/> </xsl:with-param> </xsl:call-template>
        			</xsl:variable>

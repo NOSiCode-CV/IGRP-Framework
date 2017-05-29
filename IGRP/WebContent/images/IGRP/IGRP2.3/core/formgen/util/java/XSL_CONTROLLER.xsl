@@ -34,8 +34,8 @@
  	</xsl:template>
 	
 	<xsl:template name="import-class-models">
-		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-           <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
+		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
           	  	<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name and ./target!='_self'">
           	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
            		</xsl:if>
@@ -69,8 +69,8 @@
 	</xsl:template>
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
-		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-           <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in tools-bar -->
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
           	<xsl:call-template name="actions">
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
