@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class ErrorPageController extends Controller {		
 
-	public void actionNotFound() throws IOException{
+	/*public void actionNotFound() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Page not found");
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha na execução da operação");
 			ErrorPage model = new ErrorPage();
 			ErrorPageView view = new ErrorPageView(model);
 			this.renderView(view);
@@ -21,10 +21,11 @@ public class ErrorPageController extends Controller {
 		else
 			this.redirect("igrp", "login", "login");
 	}
-	
+	*/
 	public void actionException() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Error found");
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha na execução da operação");
+			Igrp.getInstance().getFlashMessage().addMessage("info", "Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)");
 			ErrorPage model = new ErrorPage();
 			ErrorPageView view = new ErrorPageView(model);
 			this.renderView(view);
@@ -33,14 +34,14 @@ public class ErrorPageController extends Controller {
 			this.redirect("igrp", "login", "login");
 	}
 	
-	public void actionPermission() throws IOException{
+	/*public void actionPermission() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Sem permissao para aceder esta pagina");
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha na execução da operação");
 			ErrorPage model = new ErrorPage();
 			ErrorPageView view = new ErrorPageView(model);
 			this.renderView(view);
 		}
 		else
 			this.redirect("igrp", "login", "login");
-	}
+	}*/
 }
