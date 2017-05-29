@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ldap>
+	<url>ldap://localhost:389</url>
+	<username>ldapuser</username>
+	<password>ldappwd</password>
+	<base>DC=test,DC=cv</base>
+</ldap>
+
