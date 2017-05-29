@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 public class Transaction implements RowDataGateway {
 	
 	private int id;
@@ -219,10 +220,10 @@ public class Transaction implements RowDataGateway {
 					+ " AND T.code = ? "
 					+ " AND T.status=1 "
 					+ "	ORDER BY id");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
+			//User u = (User) Igrp.getInstance().getUser().getIdentity();
 			st.setString(1,"TRANS_PROF");
-			st.setInt(2,u.getCurrentPerfilId());
-			st.setInt(3,u.getCurrentOrganization());
+			st.setInt(2,Permission.getCurrentPerfilId());
+			st.setInt(3,Permission.getCurrentOrganization());
 			st.setString(4,transaction);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
