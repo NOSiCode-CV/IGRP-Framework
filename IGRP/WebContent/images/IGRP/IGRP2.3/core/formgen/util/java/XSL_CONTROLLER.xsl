@@ -108,7 +108,14 @@
 		<xsl:param name="target_"/>
 		<xsl:param name="link_"/>
 		<xsl:param name="title_"/>
-		
+		<xsl:call-template name="gen-action">
+			<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
+			<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
+			<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
+			<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>
+			<xsl:with-param name="type_render_"><xsl:value-of select="'redirect'"/></xsl:with-param>
+		</xsl:call-template>
+		<!-- 		
 		<xsl:choose>
 			<xsl:when test="$target_='submit' or $target_='submit_ajax'">
 				<xsl:call-template name="gen-action">
@@ -129,6 +136,7 @@
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
+		-->
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 	</xsl:template>
