@@ -10,8 +10,10 @@ import java.lang.Float;
 import java.lang.Double;
 import java.lang.Boolean;
 import java.lang.Short;
+import java.lang.annotation.Annotation;
 import java.lang.Long;
 
+import nosi.core.validator.Validator;
 import nosi.core.webapp.helpers.Helper;
 /**
  * @author Marcel Iekiny
@@ -120,13 +122,14 @@ public abstract class Model { // IGRP super model
 	}
 	
 	public boolean validate(){
-		boolean isErrors = false;
 		Class c = this.getClass();
 		for(Field m : c.getDeclaredFields()){
-			
-			
+			for(Annotation a : m.getDeclaredAnnotations()){
+				Validator validator = Validator.createValidator(a.annotationType().getSimpleName());
+				validator.validateField(this, m.getName());
+			}
 		}
-		return !isErrors;
+		return this.hasErrors();
 	}
 	
 	public boolean hasErrors(){
