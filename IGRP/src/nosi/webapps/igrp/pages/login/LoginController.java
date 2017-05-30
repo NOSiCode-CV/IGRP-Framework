@@ -17,7 +17,7 @@ public class LoginController extends Controller {
 
 	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		// first
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, "Login com Utilizador: nositeste e Password: n0s1teste");
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, "Login com Utilizador: demo e Password: demo");
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 			return;
