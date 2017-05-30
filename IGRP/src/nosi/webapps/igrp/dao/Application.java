@@ -419,7 +419,7 @@ public class Application implements RowDataGateway {
 			User u = (User) Igrp.getInstance().getUser().getIdentity();
 			st.setString(1, "ENV");
 			st.setInt(2, u.getId());
-			st.setString(3, dad);
+			st.setString(3, app);
 			ResultSet result = st.executeQuery();			
 			while(result.next()){
 				Application obj = new Application();

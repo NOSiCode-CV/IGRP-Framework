@@ -67,10 +67,10 @@ public class Permission {
 					org.setId(prof.getOrg_fk());
 					profType.setId(prof.getProf_type_fk());
 					String data_cache = getDataCache(dad);
-					if(data_cache==null){
+					if(data_cache==null || data_cache.equals("")){
 						String data = prof.getOrg_fk()+"-"+prof.getProf_type_fk();
 						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
-          }
+					}
 				}
 			}else{
 				Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
@@ -103,7 +103,7 @@ public class Permission {
 	public static int getCurrentPerfilId() {
 		String dad = getCurrentEnv();
 		String data_cache = getDataCache(dad);
-		if(data_cache!=null){
+		if(data_cache!=null && !data_cache.equals("")){
 			String[] parts = data_cache.split("-");
 			return Integer.parseInt(parts[1]);
 		}
@@ -113,7 +113,7 @@ public class Permission {
 	public static int getCurrentOrganization() {
 		String dad = getCurrentEnv();
 		String data_cache = getDataCache(dad);
-		if(data_cache!=null){
+		if(data_cache!=null && !data_cache.equals("")){
 			String[] parts = data_cache.split("-");
 			return Integer.parseInt(parts[0]);
 		}

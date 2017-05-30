@@ -345,15 +345,18 @@ public class Action implements RowDataGateway{
 		}
 		return result;
 	}
-
+	
+	
 	@Override
 	public Object getOne() {
 		Action obj = new Action();
 		try {
+			String condicions = "";
+			condicions += this.id!=0?" AND a.id="+this.id:"";
+			condicions += this.page!=null && !this.page.equals("")?" AND a.page='"+this.page+"'":"";
+			condicions += this.action!=null && !this.action.equals("")?" AND a.action='"+this.action+"'":"";
 			PreparedStatement st = con.prepareStatement("SELECT a.*,e.dad FROM glb_t_action a, glb_t_env e "
-					+ " WHERE a.env_fk=e.id AND a.id = ? ");
-		
-			st.setInt(1, this.id);
+					+ " WHERE a.env_fk=e.id "+condicions);
 			
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){

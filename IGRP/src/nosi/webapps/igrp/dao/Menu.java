@@ -480,8 +480,7 @@ public class Menu implements RowDataGateway {
 	public boolean getPermissionMen(String app) {
 		ArrayList<Application> lista = new ArrayList<>();		
 		try{
-			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?)");
-			//User u = (User) Igrp.getInstance().getUser().getIdentity();
+			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=?");
 			st.setInt(1,Permission.getCurrentPerfilId());
 			st.setInt(2,Permission.getCurrentOrganization());
 			st.setInt(3,Permission.getCurrentOrganization());
@@ -489,9 +488,12 @@ public class Menu implements RowDataGateway {
 			a.setDad(app.toLowerCase());
 			a = (Application) a.getOne();
 			st.setInt(4, a.getId());
-			
-			ResultSet result = st.executeQuery();	
-	
+			Action ac = new Action();
+			ac.setPage(Igrp.getInstance().getCurrentPageName());
+			ac.setAction(Igrp.getInstance().getCurrentActionName());
+			ac = (Action) ac.getOne();
+			st.setInt(5, ac.getId());
+			ResultSet result = st.executeQuery();
 			while(result.next()){
 				Application obj = new Application();
 				obj.setId(result.getInt("id"));
