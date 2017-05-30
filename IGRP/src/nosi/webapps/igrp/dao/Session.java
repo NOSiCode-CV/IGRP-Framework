@@ -365,7 +365,7 @@ public class Session implements RowDataGateway{
 		currentSession.setTarget("_blank");
 		long time = System.currentTimeMillis();
 		currentSession.setStartTime(time);
-		currentSession.setEndTime(time);
+		currentSession.setEndTime(time + 30*60); // add 30 min.
 		if(currentSession.insert())
 			System.out.println("Session registado com sucesso.");
 		else
