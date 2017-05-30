@@ -125,7 +125,7 @@ public abstract class Model { // IGRP super model
 		Class c = this.getClass();
 		for(Field m : c.getDeclaredFields()){
 			for(Annotation a : m.getDeclaredAnnotations()){
-				Validator validator = Validator.createValidator(a.annotationType().getSimpleName());
+				Validator validator = Validator.createValidator(a.annotationType().getSimpleName(), a);
 				validator.validateField(this, m.getName());
 			}
 		}
@@ -162,6 +162,16 @@ public abstract class Model { // IGRP super model
 	
 	public ArrayList<String> getErrors(String fieldName){
 		return this.errors != null ? this.errors.get(fieldName) : null;
+	}
+	
+	public Object getFieldValueAsObject(String fieldName){
+		Object obj = null;
+		try {
+			obj = this.getClass().getField(fieldName).get(this);
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+		return obj;
 	}
 	
 	//... Others methods ...

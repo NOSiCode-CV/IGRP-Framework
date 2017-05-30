@@ -1,5 +1,7 @@
 package nosi.core.validator;
 
+import java.lang.annotation.Annotation;
+
 import nosi.core.webapp.Model;
 /**
  * Marcel Iekiny
@@ -16,6 +18,8 @@ public abstract class Validator {
 	private boolean skipOnError = false;
 	
 	public abstract void validateField(Model model, String fieldName); // Validate a single attribute/filed
+	
+	public abstract void init(Annotation annotation); // Inicialize the validators attributes from annotations params
 	
 	protected void addError(Model model, String fieldName, String message){ // Add error to a single attribute/field
 		model.addError(fieldName, message);
@@ -61,15 +65,16 @@ public abstract class Validator {
 		this.skipOnError = skipOnError;
 	}
 	
-	public static Validator createValidator(String validatorName){
+	public static Validator createValidator(String validatorName, Annotation annotationValidator){
 		try {
 			Class c = Class.forName("nosi.core.validator." + validatorName + "Validator");
-			return (Validator) c.newInstance();
+			Validator validator = (Validator) c.newInstance();
+			validator.init(annotationValidator);
+			return validator;
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
 }
