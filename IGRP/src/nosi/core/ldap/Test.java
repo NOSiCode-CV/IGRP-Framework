@@ -31,7 +31,7 @@ public class Test {
 		l_ldap_base = ldapinfo.getBase();
 		
 		System.out.println("url:"+l_ldap_url);
-		//TesteLogin();
+		TesteLogin();
 		//
 		TestePesquisa();
 
@@ -39,7 +39,7 @@ public class Test {
 
 	static void TesteLogin() {
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
-		if (ldap.validateLogin("nositeste", "********"))
+		if (ldap.validateLogin("zeguimoko", "Pa$$w0rd"))
 			System.out.println("User Válido");
 		else {
 			System.out.println("User Inválido: " + ldap.getError());
@@ -48,7 +48,7 @@ public class Test {
 
 	static void TestePesquisa() {
 
-		String email = "nositeste@nosi.cv";
+		String email = "zeguimoko@moko.cv";
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
 
 		ArrayList<LdapPerson> personArray = ldap.getUser(email);

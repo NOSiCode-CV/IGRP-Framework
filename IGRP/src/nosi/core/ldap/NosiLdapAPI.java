@@ -212,7 +212,7 @@ public class NosiLdapAPI {
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			this.setError(e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 
 		}
 
