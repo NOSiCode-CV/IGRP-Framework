@@ -29,30 +29,30 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_exception"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:call-template name="import-class-models"></xsl:call-template>
+		<!--<xsl:call-template name="import-class-models"></xsl:call-template>  -->
 		<xsl:value-of select="$newline"/>
  	</xsl:template>
-	
-	<xsl:template name="import-class-models">
+	<!--
+	 <xsl:template name="import-class-models">
 		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
-           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
+           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">  
           	  	<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name and ./target!='_self'">
           	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
            		</xsl:if>
            </xsl:for-each>
-           <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
+           <xsl:for-each select="//tools-bar/item">  
          		<xsl:if test="not(./page=preceding::node()/./page) and ./page!=$class_name and ./target!='_self'">
           	  		<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
            		</xsl:if>
            </xsl:for-each>           
-           <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
+           <xsl:for-each select="//context-menu/item">   
             <xsl:if test="not(@rel=preceding::node()/@rel) and not(./page=preceding::node()/./page) and $class_name!=@rel and ./target!='_self'">
 	          	<xsl:call-template name="gen-import-model"><xsl:with-param name="page__"><xsl:value-of select="./page"/> </xsl:with-param></xsl:call-template>
             </xsl:if>
            </xsl:for-each>
         </xsl:if>
 	</xsl:template>
-	
+
 	<xsl:template name="gen-import-model">
 		<xsl:param name="page__"></xsl:param>
 		<xsl:variable name="pacak_import">
@@ -67,6 +67,7 @@
 			<xsl:value-of select="$newline"/>	
 		</xsl:if>
 	</xsl:template>
+		-->
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
 		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
