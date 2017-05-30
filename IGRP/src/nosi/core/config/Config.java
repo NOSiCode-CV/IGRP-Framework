@@ -105,9 +105,9 @@ public class Config {
 	
 	public static String getProject_loc(){
 		try {
-			JAXBContext context = JAXBContext.newInstance(LinkedResources.class);
+			JAXBContext context = JAXBContext.newInstance(AppConfig.class);
 			Unmarshaller unmarshaller = (Unmarshaller) context.createUnmarshaller();
-			LinkedResources lR = (LinkedResources) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"LinkedResource.xml"));
+			AppConfig lR = (AppConfig) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"app.xml"));
 			return lR.getProject_loc();
 		} catch (JAXBException e) {
 		} 		

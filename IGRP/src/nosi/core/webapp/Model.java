@@ -1,6 +1,10 @@
 package nosi.core.webapp;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
@@ -14,6 +18,21 @@ import nosi.core.webapp.helpers.Helper;
  * Apr 15, 2017
  */
 public abstract class Model { // IGRP super model
+	
+	private String scenario; // For validation fields
+	private Map<String, ArrayList<String>> errors; // to store errors for each fields
+	
+	public Model(){
+		this.scenario = "default"; // Default scenario for validation
+		this.createErrorsPool();
+	}
+	
+	private void createErrorsPool(){
+		this.errors = new HashMap<String, ArrayList<String>>();
+		Class c = this.getClass();
+		for(Field m : c.getDeclaredFields())
+			this.errors.put(m.getName(), new ArrayList<String>());
+	}
 	
 	// this mehtod allow auto-inicialization for all sub-models
 	public void load() throws IllegalArgumentException, IllegalAccessException{
@@ -82,6 +101,64 @@ public abstract class Model { // IGRP super model
 				}
 			}
 		}
+	}
+
+	public String getScenario() {
+		return scenario;
+	}
+
+	public void setScenario(String scenario) {
+		this.scenario = scenario;
+	}
+
+	public Map<String, ArrayList<String>> getErrors() {
+		return errors;
+	}
+
+	private void setErrors(Map<String, ArrayList<String>> errors) {
+		this.errors = errors;
+	}
+	
+	public boolean validate(){
+		boolean isErrors = false;
+		Class c = this.getClass();
+		for(Field m : c.getDeclaredFields()){
+			
+			
+		}
+		return !isErrors;
+	}
+	
+	public boolean hasErrors(){
+		boolean flag = false;
+		if(this.errors != null){
+			Iterator<ArrayList<String>> i = this.errors.values().iterator();
+			while(i.hasNext())
+				if(!i.next().isEmpty()){
+					flag = true;
+					break;
+				}
+		}
+		return flag;
+	}
+	
+	public boolean hasErrors(String fieldName){
+		return this.errors != null && this.errors.get(fieldName) != null && this.errors.get(fieldName).size() > 0;
+	}
+	
+	public void addError(String fieldName, String message){
+		if(this.errors != null)
+			if(this.errors.get(fieldName) != null)
+				this.errors.get(fieldName).add(message);
+			else{
+				ArrayList<String> aux = new ArrayList<String>();
+				aux.add(message);
+				this.errors.put(fieldName, aux);
+			}
+	}
+	
+	public ArrayList<String> getErrors(String fieldName){
+		return this.errors != null ? this.errors.get(fieldName) : null;
 	}
 	
 	//... Others methods ...

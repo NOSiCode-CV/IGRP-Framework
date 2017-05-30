@@ -9,7 +9,6 @@ public class Route {
 
 	public static String toUrl(String app, String page, String action, String qs){
 		String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + qs);
-		//aux = Igrp.getInstance().getBaseRoute() + aux;
 		return aux;
 	}
 	
