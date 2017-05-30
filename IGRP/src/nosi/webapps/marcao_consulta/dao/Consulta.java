@@ -128,18 +128,21 @@ public class Consulta  implements RowDataGateway{
 	}
 	
 	public Object[] getChart1(){
-		String sql = "SELECT total_f,total_m,data_m,data_f"
-				+ " FROM "
-				+ " (SELECT count(*) as total_f,YEAR(m.data_consulta) as data_f FROM TBL_MARCAO_CONSULTA m, tbl_utente u WHERE m.estado=1 AND m.id_utente=u.id AND u.sexo=1 group by YEAR(data_consulta)),"
-				+ " (SELECT count(*) as total_m,YEAR(m.data_consulta)  as data_m FROM TBL_MARCAO_CONSULTA m, tbl_utente u WHERE m.estado=1 AND m.id_utente=u.id AND u.sexo=2 group by YEAR(data_consulta))"
-				+ "";
+		String sql = "select sum(Total_Masculino) total_m, sum(Total_Feminino) total_f, Ano from "
+				+ "(Select count(*) as Total_Masculino, 0 as Total_Feminino, YEAR(m.data_consulta) as Ano "
+				+ "from TBL_MARCAO_CONSULTA m, tbl_utente u "
+				+ "where m.estado =1 AND m.id_utente=u.id AND u.sexo=2 group by YEAR(m.data_consulta)"
+				+ " union "
+				+ "Select 0 as Total_Masculino, count(*) as Total_Feminino, YEAR(m.data_consulta) as Ano "
+				+ "from TBL_MARCAO_CONSULTA m, tbl_utente u"
+				+ " where m.estado =1 AND m.id_utente=u.id AND u.sexo=1 group by YEAR(m.data_consulta)) group by Ano";
 		ArrayList<DashBoard.Chart_1> consultas = new ArrayList<>();
 		try {
 			PreparedStatement ps = this.con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
 				DashBoard.Chart_1 c = new DashBoard().new Chart_1();
-				c.setAno(rs.getInt("data_m"));
+				c.setAno(rs.getInt("Ano"));
 				c.setHomem(rs.getInt("total_m"));
 				c.setMulher(rs.getInt("total_f"));
 				consultas.add(c);

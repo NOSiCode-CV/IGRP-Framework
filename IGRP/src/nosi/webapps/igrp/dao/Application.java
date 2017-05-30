@@ -205,6 +205,36 @@ public class Application implements RowDataGateway {
 		}
 		return obj;
 	}
+	
+	public Object getByDadName() {
+		Application obj = new Application();
+		try{
+		Statement st = con.createStatement();
+		ResultSet result = st.executeQuery("SELECT * FROM glb_t_env where dad='" + this.dad + "'");
+
+		while(result.next()){
+			obj.setId(result.getInt("id"));
+			obj.setName(result.getString("name"));
+			obj.setDad(result.getString("dad"));
+			obj.setImg_src(result.getString("img_src"));
+			obj.setDescription(result.getString("description"));
+			obj.setAction_fk(result.getInt("action_fk"));
+			obj.setLink_menu(result.getString("link_menu"));
+			obj.setLink_center(result.getString("link_center"));
+			obj.setApache_dad(result.getString("apache_dad"));
+			obj.setTemplates(result.getString("templates"));
+			obj.setHost(result.getString("host"));
+			obj.setFlg_old(result.getInt("flg_old"));
+			obj.setStatus(result.getInt("status"));
+			obj.setFlg_external(result.getInt("flg_external"));
+		}
+		st.close();
+		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return obj;
+	}
 
 	@Override
 	public boolean update() {

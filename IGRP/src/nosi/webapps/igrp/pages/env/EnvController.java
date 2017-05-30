@@ -65,8 +65,6 @@ public class EnvController extends Controller {
 		this.redirect("igrp", "lista-env","index");
 	}
 	
-	
-	
 	//App list I have access to
 	public PrintWriter actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");

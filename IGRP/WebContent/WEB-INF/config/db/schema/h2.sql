@@ -180,9 +180,9 @@
 	CREATE TABLE  IF NOT EXISTS GLB_T_SESSION 
 	(  
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
-	  `SESSION_ID` char(32), 
-	  `START_TIME` DATE, 
-	  `END_TIME` DATE, 
+	  `SESSION_ID` char(50), 
+	  `START_TIME` bigint(11), 
+	  `END_TIME` bigint(11), 
 	  `USER_ID` int(10), 
 	  `IP_ADDRESS` char(15), 
 	  `USER_NAME` char(50), 
@@ -191,7 +191,7 @@
 	  `ORG_ID` int(10), 
 	  `PROF_TYPE_ID` int(10), 
 	  `HTTPS` smallint(1) DEFAULT '0', 
-	  `SESSION_OLD_ID` char(22), 
+	  `SESSION_OLD_ID` char(50) , 
 	  `HOST` char(30), 
 	  `HOST_NAME` char(100), 
 	  `MEDIA_TYPE` char(30), 
@@ -390,6 +390,7 @@ CREATE TABLE  IF NOT EXISTS `tbl_medico` (
   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 -- --------------------------------------------------------
 
 --
@@ -424,7 +425,10 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 
 	
 [SPLIT]
-	
+	INSERT INTO tbl_medico(id,nome,morada,num_consulta_dia) values (1,'Agostinho','Palmarejo',2), (2,'Eliza Barbosa','Fazenda',3);
+	INSERT INTO tbl_utente(id,nome,morada,data_nascimento,sexo) values (1,'Zequinha','Achadinha','2000-01-30',2), (2,'Maria','Safende','1995-01-25',1), (3,'Jidea','Castelao','1949-03-20',1), (4,'Ana','Achada Mato','1969-03-20',1), (5,'Paulinho','Achada Grande Frente','1989-03-20',2);
+	INSERT INTO tbl_marcao_consulta(id,id_medico,id_utente,data_consulta,estado) values (1,1,1,'2017-01-30 00:00:00.0',1), (2,2,2,'2017-01-30 00:00:00.0',1), (3,1,2,'2016-12-30 00:00:00.0',1), (4,1,3,'2016-12-30 00:00:00.0',1), (5,2,4,'2016-12-30 00:00:00.0',1), (6,2,5,'2017-05-30 00:00:00.0',1);
+
 	--
 	--	DML (insert) Igrp for H2 DataBase (Begin)
 	--
@@ -458,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 	
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017),
-		   (1, 'Nositeste', 'nositeste@nosi.cv', 'n0s1teste', 'ADMIN', NULL, NULL, '123456789', 'nositeste', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
+		   (1, 'Nositeste', 'nositeste@nosi.cv', 'demo', 'ADMIN', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
 
 	INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
 	VALUES (1, '01.03', 'NOSI', NULL, 1, 1, 1, NULL);

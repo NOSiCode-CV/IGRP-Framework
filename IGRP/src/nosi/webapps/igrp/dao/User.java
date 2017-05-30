@@ -9,9 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import javax.servlet.http.Cookie;
-
 import nosi.core.dao.RowDataGateway;
 /**
  * @author Marcel Iekiny
@@ -37,10 +34,12 @@ public class User implements Identity, RowDataGateway{
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
-	private Connection conn;
+	
 	private ProfileType profileType;
 	private Organization organica;
 	private Application aplicacao;
+	
+	private Connection conn;
 	
 	public Organization getOrganica() {
 		return organica;
@@ -601,25 +600,6 @@ public class User implements Identity, RowDataGateway{
 	 */
 	public void setUpdated_at(long updated_at) {
 		this.updated_at = updated_at;
-	}
-
-	/**
-	 * @return the currentPerfilId
-	 */
-	public int getCurrentPerfilId() {
-		Cookie aux = null;
-		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-			if(c.getName().equals("_perf"))
-				aux = c;		
-		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
-	}
-
-	public int getCurrentOrganization() {
-		Cookie aux = null;
-		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-			if(c.getName().equals("_org"))
-				aux = c;		
-		return (aux!=null && !aux.getValue().equals(""))?Integer.parseInt(aux.getValue()):0;
 	}
 
 	public ProfileType getProfile() {
