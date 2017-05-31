@@ -11,11 +11,14 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class LoginController extends Controller {		
 
-	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
 		// first
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, "Login com Utilizador: demo e Password: demo");
 		if(Igrp.getInstance().getUser().isAuthenticated()){
@@ -29,7 +32,13 @@ public class LoginController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			User user = (User) new User().findIdentityByUsername(model.getUser());
-			if(user != null && user.validate(model.getPassword())){
+			
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			byte[] password = model.getPassword().getBytes();
+			byte[] thedigest = m.digest(password);
+			BigInteger password_bi = new BigInteger(1, thedigest);
+			
+			if(user != null && user.validate(password_bi.toString(16))){
 				if(user.getStatus() == 1){
 					Profile profile = (Profile) new Profile().getByUser(user.getId());
 						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk(),profile.getOrg_fk())){

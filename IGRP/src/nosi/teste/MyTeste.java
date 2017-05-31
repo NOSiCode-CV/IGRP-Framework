@@ -1,23 +1,25 @@
 package nosi.teste;
 
-import java.lang.annotation.Annotation;
-
-import nosi.core.webapp.RParam;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MyTeste {
-	
-	@RParam(rParamName = "")
-	private int cod;
-	
-	private String name;
 
 	public static void main(String []args) throws NoSuchFieldException, SecurityException{
-		MyTeste myTeste = new MyTeste();
-		Class c = myTeste.getClass();
-		Annotation []annotation = c.getDeclaredField("cod").getAnnotations();
-		for(Annotation a : annotation){
-			System.out.println(a.annotationType().getSimpleName());
+		
+		try {
+			byte[] teste = "demo".getBytes();
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			byte[] thedigest = m.digest(teste);
+			BigInteger bi = new BigInteger(1, thedigest); 
+			
+			System.out.println(bi.toString(16));
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
 		}
+		
+		
 	}
 	
 }

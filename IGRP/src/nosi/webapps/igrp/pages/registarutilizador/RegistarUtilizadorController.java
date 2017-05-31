@@ -11,6 +11,7 @@ import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -31,11 +32,19 @@ public class RegistarUtilizadorController extends Controller {
 			}
 				
 			if(!isError){
-				//MessageDigest m = MessageDigest.getInstance("MD5");
-				//m.update(model.getPassword().getBytes());
+				
 				User user = new User();
+				
 				user.setName(model.getNome());
-				user.setPass_hash(model.getPassword());
+				
+				//encrypting the password
+				MessageDigest m = MessageDigest.getInstance("MD5");
+				byte[] password = model.getPassword().getBytes();
+				byte[] thedigest = m.digest(password);
+				BigInteger password_bi = new BigInteger(1, thedigest);
+				
+				user.setPass_hash(password_bi.toString(16));
+				
 				user.setEmail(model.getEmail());
 				user.setUser_name(model.getUsername());
 				user.setStatus(1);
