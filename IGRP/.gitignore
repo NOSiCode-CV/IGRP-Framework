@@ -1,7 +1,4 @@
 /build/
-.classpath
 /bin/
-.classpath
-.project
 .classpath
 /WebContent/WEB-INF/config/*
