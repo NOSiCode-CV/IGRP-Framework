@@ -33,7 +33,8 @@ public abstract class Model { // IGRP super model
 		this.errors = new HashMap<String, ArrayList<String>>();
 		Class c = this.getClass();
 		for(Field m : c.getDeclaredFields())
-			this.errors.put(m.getName(), new ArrayList<String>());
+			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
+				this.errors.put(m.getName(), new ArrayList<String>());
 	}
 	
 	// this mehtod allow auto-inicialization for all sub-models
@@ -126,6 +127,8 @@ public abstract class Model { // IGRP super model
 		for(Field m : c.getDeclaredFields()){
 			for(Annotation a : m.getDeclaredAnnotations()){
 				Validator validator = Validator.createValidator(a.annotationType().getSimpleName(), a);
+				if(validator == null) // if dont exist validator class for the annotation
+					continue; 
 				validator.validateField(this, m.getName());
 			}
 		}
@@ -167,7 +170,10 @@ public abstract class Model { // IGRP super model
 	public Object getFieldValueAsObject(String fieldName){
 		Object obj = null;
 		try {
-			obj = this.getClass().getField(fieldName).get(this);
+			Field field = this.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			obj = field.get(this);
+			field.setAccessible(false);
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
 			e.printStackTrace();
 		}
