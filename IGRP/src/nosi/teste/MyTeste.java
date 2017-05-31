@@ -1,22 +1,20 @@
 package nosi.teste;
 
-import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
-import nosi.core.webapp.RParam;
+import nosi.webapps.igrp.pages.login.Login;
 
 public class MyTeste {
 	
-	@RParam(rParamName = "")
-	private int cod;
-	
-	private String name;
-
-	public static void main(String []args) throws NoSuchFieldException, SecurityException{
-		MyTeste myTeste = new MyTeste();
-		Class c = myTeste.getClass();
-		Annotation []annotation = c.getDeclaredField("cod").getAnnotations();
-		for(Annotation a : annotation){
-			System.out.println(a.annotationType().getSimpleName());
+	public static void main(String []args){
+		Login model = new Login();
+		model.setUser("Iekiny Marcel Mendes Fernandes");
+		model.validate();
+		Map<String, ArrayList<String>> map = model.getErrors();
+		for(Map.Entry<String, ArrayList<String>> obj : map.entrySet()){
+			System.out.println(obj.getKey() + " - " + obj.getValue().size());
 		}
 	}
 	

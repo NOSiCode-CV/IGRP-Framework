@@ -4,23 +4,36 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
-public class Login extends Model{		
+import nosi.core.validator.annotation.*;
+
+public class Login extends Model{
+	
 	@RParam(rParamName = "p_user")
+	@Required(message = "Este campo nao pode ser vazio")
 	private String user;
+	
 	@RParam(rParamName = "p_password")
+	@Required
 	private String password;
+	
 	@RParam(rParamName = "p_button")
 	private String button;
+	
 	@RParam(rParamName = "p_buttontoken")
 	private String buttontoken;
+	
 	@RParam(rParamName = "p_sam_message")
 	private String sam_message;
+	
 	@RParam(rParamName = "p_sam_message_digest")
 	private String sam_message_digest;
+	
 	@RParam(rParamName = "p_sam_certificate")
 	private String sam_certificate;
+	
 	@RParam(rParamName = "p_p_env_procedure")
 	private String p_env_procedure;
+	
 	@RParam(rParamName = "p_p_env_dml")
 	private String p_env_dml;
 	
@@ -81,7 +94,6 @@ public class Login extends Model{
 	public void setP_env_dml(String p_env_dml) {
 		this.p_env_dml = p_env_dml;
 	}
-
-
+	
 }
 /*-------------------------*/

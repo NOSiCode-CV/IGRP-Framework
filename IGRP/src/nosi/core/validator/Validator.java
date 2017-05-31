@@ -1,6 +1,8 @@
 package nosi.core.validator;
 
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
+import java.util.Map;
 
 import nosi.core.webapp.Model;
 /**
@@ -71,10 +73,12 @@ public abstract class Validator {
 			Validator validator = (Validator) c.newInstance();
 			validator.init(annotationValidator);
 			return validator;
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException e) {
+			// Do Nothing yet ...
+		} catch(InstantiationException | IllegalAccessException e){
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
 }
