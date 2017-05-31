@@ -1,21 +1,25 @@
 package nosi.teste;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
-import nosi.webapps.igrp.pages.login.Login;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MyTeste {
-	
-	public static void main(String []args){
-		Login model = new Login();
-		model.setUser("Iekiny Marcel Mendes Fernandes");
-		model.validate();
-		Map<String, ArrayList<String>> map = model.getErrors();
-		for(Map.Entry<String, ArrayList<String>> obj : map.entrySet()){
-			System.out.println(obj.getKey() + " - " + obj.getValue().size());
+
+	public static void main(String []args) throws NoSuchFieldException, SecurityException{
+		
+		try {
+			byte[] teste = "demo".getBytes();
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			byte[] thedigest = m.digest(teste);
+			BigInteger bi = new BigInteger(1, thedigest); 
+			
+			System.out.println(bi.toString(16));
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
 		}
+		
+		
 	}
 	
 }
