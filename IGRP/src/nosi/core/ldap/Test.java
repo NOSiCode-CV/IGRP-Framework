@@ -22,7 +22,7 @@ public class Test {
 		// TODO Auto-generated method stub
 
 		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml");
-		String path="C:\\Users\\adilson.rodrigues\\git\\IGRP-Framework\\IGRP\\WebContent\\WEB-INF\\config\\ldap\\ldap.xml";
+		String path="D:\\git\\IGRP-Framework\\IGRP\\WebContent\\WEB-INF\\config\\ldap\\ldap.xml";
 		File file = new File(path);
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		l_ldap_url = ldapinfo.getUrl();
@@ -31,24 +31,26 @@ public class Test {
 		l_ldap_base = ldapinfo.getBase();
 		
 		System.out.println("url:"+l_ldap_url);
-		//TesteLogin();
+		TesteLogin();
 		//
-		TestePesquisa();
+		//TestePesquisa();
 
 	}
 
 	static void TesteLogin() {
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
-		if (ldap.validateLogin("nositeste", "********"))
-			System.out.println("User V·lido");
+
+		if (ldap.validateLogin("zeguimoko", "Pa$$w0rd"))
+			System.out.println("User V√°lido");
 		else {
-			System.out.println("User Inv·lido: " + ldap.getError());
+			System.out.println("User Inv√°lido: " + ldap.getError());
 		}
 	}
 
 	static void TestePesquisa() {
 
-		String email = "nositeste@nosi.cv";
+		String email = "zeguimoko@moko.cv";
+
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
 
 		ArrayList<LdapPerson> personArray = ldap.getUser(email);
@@ -66,7 +68,7 @@ public class Test {
 				System.out.println("ProxyAdrresses:" + p.getProxyAddresses());
 			}
 		} else
-			System.out.println("Pesquisa n„o encontrada: " + ldap.getError());
+			System.out.println("Pesquisa n√£o encontrada: " + ldap.getError());
 
 	}
 

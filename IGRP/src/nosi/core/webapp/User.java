@@ -1,7 +1,10 @@
 package nosi.core.webapp;
 
 import java.io.IOException;
-
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.Permission;
 /**
  * @author Marcel Iekiny
@@ -56,6 +59,7 @@ public class User implements Component{
 		}
 			if(!this.checkSessionContext() && !isLoginPage){
 				try {
+					Route.remember(); // remember the url that was requested by the client ...
 					Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
 					Igrp.getInstance().die();
 				} catch (IOException e) {
@@ -70,6 +74,14 @@ public class User implements Component{
 		// not set yet
 	}
 	
-	
+	public static String encryptToHash(String target, String algorithm/* MD5 or SHA1 */){
+		String result = "";
+		try {
+			result = new BigInteger(1, MessageDigest.getInstance(algorithm).digest(target.getBytes())).toString(16/*Hexadecimal codification*/);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }
