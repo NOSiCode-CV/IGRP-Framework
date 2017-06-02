@@ -9,7 +9,7 @@ import nosi.core.validator.annotation.*;
 public class Login extends Model{
 	
 	@RParam(rParamName = "p_user")
-	@Required(message = "Este campo nao pode ser vazio")
+	@Email
 	private String user;
 	
 	@RParam(rParamName = "p_password")

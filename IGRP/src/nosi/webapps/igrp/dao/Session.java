@@ -347,7 +347,7 @@ public class Session implements RowDataGateway{
 				+ mediaType + ", conn=" + conn + "]";
 	}
 	
-	public static void afterLogin(){
+	public static boolean afterLogin(){
 		Session currentSession = new Session();
 		currentSession.setUserId(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
@@ -366,23 +366,18 @@ public class Session implements RowDataGateway{
 		long time = System.currentTimeMillis();
 		currentSession.setStartTime(time);
 		currentSession.setEndTime(time + 30*60); // add 30 min.
-		if(currentSession.insert())
-			System.out.println("Session registado com sucesso.");
-		else
-			System.out.println("Ocorreu um erro.");
+		
+		return currentSession.insert();
 		
 	}
 	
-	public static void afterLogout(String sessionId){
+	public static boolean afterLogout(String sessionId){
 		Session session = new Session();
 		session.setSessionId(sessionId);
 		session = (Session) session.getBySessionId();
 		session.setEndTime(System.currentTimeMillis());
 		
-		if(session.update())
-			System.out.println("Logout success.");
-		else
-			System.out.println("Logout error.");
+		return session.update();
 	}
 	
 }

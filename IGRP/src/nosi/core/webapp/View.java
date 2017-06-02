@@ -56,5 +56,7 @@ public abstract class View {
 	public String getPageTitle(){
 		return this.pageTitle;
 	}
+	
+	//... Others methods ...
 
 }
