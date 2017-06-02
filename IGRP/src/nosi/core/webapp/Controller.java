@@ -64,12 +64,20 @@ public abstract class Controller {
 		this.redirect_(Route.toUrl(app, page, action, paramNames, paramValues));
 	}
 	
-	protected final void redirectToExternal(String url){
-		//this.redirect_(url);
+	protected final void redirectToUrl(String url){
+		this.isRedirect = true;
+		try {
+			Igrp.getInstance().getResponse().sendRedirect(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public View getView(){
 		return this.view;
 	}
+	
+	//... Others methods ...
 	
 }

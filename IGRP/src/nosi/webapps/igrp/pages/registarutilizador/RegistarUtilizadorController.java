@@ -36,15 +36,7 @@ public class RegistarUtilizadorController extends Controller {
 				User user = new User();
 				
 				user.setName(model.getNome());
-				
-				//encrypting the password
-				MessageDigest m = MessageDigest.getInstance("MD5");
-				byte[] password = model.getPassword().getBytes();
-				byte[] thedigest = m.digest(password);
-				BigInteger password_bi = new BigInteger(1, thedigest);
-				
-				user.setPass_hash(password_bi.toString(16));
-				
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getPassword(), "MD5"));
 				user.setEmail(model.getEmail());
 				user.setUser_name(model.getUsername());
 				user.setStatus(1);

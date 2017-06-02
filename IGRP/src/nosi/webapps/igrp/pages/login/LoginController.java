@@ -1,26 +1,19 @@
-/*-------------------------*/
-
-/*Create Controller*/
-
 package nosi.webapps.igrp.pages.login;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
-
+import nosi.core.webapp.helpers.Route;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class LoginController extends Controller {		
 
-	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
+	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		// first
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, "Login com Utilizador: demo e Password: demo");
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 			return;
@@ -32,18 +25,17 @@ public class LoginController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			User user = (User) new User().findIdentityByUsername(model.getUser());
-			
-			MessageDigest m = MessageDigest.getInstance("MD5");
-			byte[] password = model.getPassword().getBytes();
-			byte[] thedigest = m.digest(password);
-			BigInteger password_bi = new BigInteger(1, thedigest);
-			
-			if(user != null && user.validate(password_bi.toString(16))){
+			if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(model.getPassword(), "MD5"))){
 				if(user.getStatus() == 1){
 					Profile profile = (Profile) new Profile().getByUser(user.getId());
 						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk(),profile.getOrg_fk())){
-							Session.afterLogin();
-							this.redirect("igrp", "home", "index");
+							if(!Session.afterLogin())
+								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
+							String backUrl = Route.previous(); // remember the last url that was requested by the user
+							if(backUrl != null)
+								this.redirectToUrl(backUrl);
+							else
+								this.redirect("igrp", "home", "index");
 							return;
 						}
 						else
@@ -61,7 +53,8 @@ public class LoginController extends Controller {
 	public void actionLogout() throws IOException{
 		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 		if(Igrp.getInstance().getUser().logout()){
-			Session.afterLogout(currentSessionId);
+			if(!Session.afterLogout(currentSessionId))
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um erro com registo session ...");
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro no logout.");
 		this.redirect("igrp", "login", "login");
