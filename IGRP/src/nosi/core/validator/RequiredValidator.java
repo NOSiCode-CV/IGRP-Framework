@@ -9,7 +9,6 @@ import nosi.core.webapp.Model;
  * Marcel Iekiny
  * May 30, 2017
  */
-
 public class RequiredValidator extends Validator{
 	
 	private String requiredValue;
