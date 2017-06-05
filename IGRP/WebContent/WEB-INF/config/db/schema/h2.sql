@@ -507,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 
 -- ------------------------------------------ Config demo app (App marcacao consulta) --------------------------------
 INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`)
-	VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', '', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
+	VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', 'icon_saude.png', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
 
 INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
 	VALUES(2, 'org-m.consulta', 'Tec. Marcacao Consulta',NULL, 2, 1,1, NULL);
