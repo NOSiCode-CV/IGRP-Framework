@@ -536,13 +536,13 @@ INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`
 	(13, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(14, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(15, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
-	(16, 'Registar Utente', 26,11, '', 2,'','', 0, 1, '', 0, '_self'),
-	(17, 'Listar Utentes', 27, 11, '', 2,'','', 0, 1, '', 0, '_self'),
-	(18, 'Registar Medico', 24,12, '', 2,'','', 0, 1, '', 0, '_self'),
-	(19, 'Listar Medicos', 23, 12, '', 2,'','', 0, 1, '', 0, '_self'),
-	(20, 'Marcar Consultas',25,13, '', 2,'','', 0, 1, '', 0, '_self'),
-	(21, 'Consultas Pendentes',28,13, '', 2,'','', 0, 1, '', 0, '_self'),
-	(22, 'Dash Board',29,13, '', 2,'','', 0, 1, '', 0, '_self');
+	(16, 'Registar Utente', 26,13, '', 2,'','', 0, 1, '', 0, '_self'),
+	(17, 'Listar Utentes', 27, 13, '', 2,'','', 0, 1, '', 0, '_self'),
+	(18, 'Registar Medico', 24,14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(19, 'Listar Medicos', 23, 14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(20, 'Marcar Consultas',25,15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(21, 'Consultas Pendentes',28,15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(22, 'Dash Board',29,15, '', 2,'','', 0, 1, '', 0, '_self');
 /**/
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 
