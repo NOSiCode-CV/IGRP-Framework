@@ -9,7 +9,6 @@ import nosi.core.webapp.Model;
  * Marcel Iekiny
  * May 30, 2017
  */
-
 public class RequiredValidator extends Validator{
 	
 	private String requiredValue;
@@ -17,13 +16,15 @@ public class RequiredValidator extends Validator{
 	@Override
 	public void validateField(Model model, String fieldName) {
 		Object obj = model.getFieldValueAsObject(fieldName);
-		String value = obj + "";
+		String value = (obj + "").trim();
 		String msg = this.getMessage();
+		if(msg.equals(""))
+			msg = this.requiredValue.equals("") ? "The field " + fieldName + " could not be blank." : "The field " + fieldName + " must be " + this.requiredValue;
 		if(
 				((value.equals("") || value.equals("null")) && this.isSkipOnError() && !model.hasErrors()) || 
 				((value.equals("") || value.equals("null")) && !this.isSkipOnError())
 			)
-			this.addError(model, fieldName, msg != null && !msg.equals("") ? msg : "The field " + fieldName + " could not be blank.");
+			this.addError(model, fieldName, msg);
 	}
 
 	@Override

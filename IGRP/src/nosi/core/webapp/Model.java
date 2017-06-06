@@ -8,7 +8,6 @@ import java.util.Map;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
-import java.lang.Boolean;
 import java.lang.Short;
 import java.lang.annotation.Annotation;
 import java.lang.Long;
@@ -29,24 +28,19 @@ public abstract class Model { // IGRP super model
 		this.createErrorsPool();
 	}
 	
-	private void createErrorsPool(){
-		this.errors = new HashMap<String, ArrayList<String>>();
-		Class c = this.getClass();
-		for(Field m : c.getDeclaredFields())
-			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
-				this.errors.put(m.getName(), new ArrayList<String>());
-	}
-	
+	/*
+	 * Load/auto-populate (begin)
+	 * */
 	// this mehtod allow auto-inicialization for all sub-models
 	public void load() throws IllegalArgumentException, IllegalAccessException{
-		Class c = this.getClass();
+		Class<? extends Model> c = this.getClass();
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if(m.getType().isArray()){
 				String []aux = Igrp.getInstance().getRequest().getParameterValues(m.getName());
 				if(aux != null){
-					// Awesome !!! I need make casts for all [] primitive type ... pff
+					// Awesome !!! We need make casts for all [] primitive type ... pff
 					switch(typeName){
 						case "[I": // Array of int
 							//m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
@@ -75,7 +69,7 @@ public abstract class Model { // IGRP super model
 					m.set(this, aux);
 				}
 			}else{
-				// Awesome again !!! I need make casts for all primitive type ... pff
+				// Awesome again !!! We need make casts for all primitive type ... pff
 				String aux = Igrp.getInstance().getRequest().getParameter(
 							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 									m.getAnnotation(RParam.class).rParamName()
@@ -105,7 +99,22 @@ public abstract class Model { // IGRP super model
 			}
 		}
 	}
-
+	/*
+	 * Load/auto-populate (end)
+	 * */
+	
+	/*
+	 * Errors/validation purpose (begin)
+	 * */
+	
+	private void createErrorsPool(){
+		this.errors = new HashMap<String, ArrayList<String>>();
+		Class<? extends Model> c = this.getClass();
+		for(Field m : c.getDeclaredFields())
+			if(m.getDeclaredAnnotations().length > 0) // For just fields that contains annotations
+				this.errors.put(m.getName(), new ArrayList<String>());
+	}
+	
 	public String getScenario() {
 		return scenario;
 	}
@@ -123,7 +132,7 @@ public abstract class Model { // IGRP super model
 	}
 	
 	public boolean validate(){
-		Class c = this.getClass();
+		Class<? extends Model> c = this.getClass(); // use "Curringa" for warning purpose
 		for(Field m : c.getDeclaredFields()){
 			for(Annotation a : m.getDeclaredAnnotations()){
 				Validator validator = Validator.createValidator(a.annotationType().getSimpleName(), a);
@@ -179,6 +188,9 @@ public abstract class Model { // IGRP super model
 		}
 		return obj;
 	}
+	/*
+	 * Errors/validation purpose (end)
+	 * */
 	
 	//... Others methods ...
 }

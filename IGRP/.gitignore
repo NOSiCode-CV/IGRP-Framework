@@ -1,3 +1,4 @@
 .classpath
 /WebContent/WEB-INF/config/*
 /bin/
+.project

@@ -980,3 +980,106 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 
 --
 -- PostgreSQL database dump complete
+
+
+-------------------------------- Base dados do demo Marcacao de consultas --------------------------------------	 
+
+-- --------------------------------------------------------
+--
+-- Estrutura da tabela `tbl_medico`
+--
+CREATE SEQUENCE tbl_medico_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE  IF NOT EXISTS tbl_medico (
+  id integer DEFAULT nextval('tbl_medico_id_sequence'::regclass) NOT NULL ,
+  nome character varying(100) NOT NULL,
+  morada character varying(100) NOT NULL,
+  num_consulta_dia integer NOT NULL DEFAULT '1'
+)
+
+ALTER TABLE tbl_medico 
+    ADD CONSTRAINT glb_tbl_medico_pkey PRIMARY KEY (id);
+
+INSERT INTO tbl_medico(nome,morada,num_consulta_dia) 
+values 
+('Agostinho','Palmarejo',2), 
+('Eliza Barbosa','Fazenda',3);
+
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_utente`
+--
+CREATE SEQUENCE tbl_utente_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE  IF NOT EXISTS tbl_utente (
+  id integer default nextval('tbl_utente_id_sequence'::regclass) NOT NULL,
+  nome character varying(100) NOT NULL,
+  morada character varying(100) NOT NULL,
+  data_nascimento date NOT NULL,
+  sexo smallint NOT NULL
+)
+
+ALTER TABLE tbl_utente 
+    ADD CONSTRAINT glb_tbl_utente_pkey PRIMARY KEY (id);
+
+INSERT INTO tbl_utente(nome,morada,data_nascimento,sexo) 
+values 
+('Zequinha','Achadinha','2000-01-30',2), 
+('Maria','Safende','1995-01-25',1), 
+('Jidea','Castelao','1949-03-20',1), 
+('Ana','Achada Mato','1969-03-20',1), 
+('Paulinho','Achada Grande Frente','1989-03-20',2);
+
+
+--
+-- Estrutura da tabela `tbl_marcao_consulta`
+--
+
+-- --------------------------------------------------------
+
+CREATE SEQUENCE tbl_marcao_consulta_id_sequence
+    START WITH 1
+    INCREMENT BY 1
+    MINVALUE 0
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS tbl_marcao_consulta (
+  id integer default nextval('tbl_marcao_consulta_id_sequence'::regclass) NOT NULL,
+  id_medico integer NOT NULL,
+  id_utente integer NOT NULL,
+  data_consulta date NOT NULL,
+  estado smallint NOT NULL DEFAULT '0',
+)
+
+Alter Table tbl_marcao_consulta 
+    ADD CONSTRAINT glb_tbl_marcao_consulta_pkey PRIMARY KEY (id);
+
+ALTER TABLE tbl_marcao_consulta
+    ADD CONSTRAINT tbl_medico_fk FOREIGN KEY (id_medico) REFERENCES tbl_medico(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE tbl_marcao_consulta
+    ADD CONSTRAINT tbl_utente_fk FOREIGN KEY (id_utente) REFERENCES tbl_utente(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+  INSERT INTO tbl_marcao_consulta(id_medico,id_utente,data_consulta,estado) 
+  values 
+  (1,1,'2017-01-30 00:00:00.0',1), 
+  (2,2,'2017-01-30 00:00:00.0',1), 
+  (1,2,'2016-12-30 00:00:00.0',1), 
+  (1,3,'2016-12-30 00:00:00.0',1), 
+  (2,4,'2016-12-30 00:00:00.0',1), 
+  (2,5,'2017-05-30 00:00:00.0',1);
