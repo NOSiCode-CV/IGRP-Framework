@@ -17,18 +17,20 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import javax.servlet.http.Part;
+
 import nosi.core.config.Config;
 
 public class FileHelper {
 
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){
-			InputStream fileContent1 = file.getInputStream();		   
+			InputStream fileContent = file.getInputStream();		   
 		    StringBuilder  stringBuilder = new StringBuilder();
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
-		    DataInputStream in = new DataInputStream(fileContent1);   
+		    DataInputStream in = new DataInputStream(fileContent);   
 		   try {
 		        while((line = in.readLine()) != null) {
 		            stringBuilder.append(line);

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import nosi.core.dao.RowDataGateway;
@@ -198,8 +199,32 @@ public class Session implements RowDataGateway{
 
 	@Override
 	public Object[] getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Session> sessions = new ArrayList<>();
+		try {
+			PreparedStatement ps = this.conn.prepareStatement("SELECT * FROM GLB_T_SESSION");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				Session s = new Session();
+				s.setId(rs.getInt("id"));
+				s.setEndTime(rs.getLong("end_time"));
+				s.setStartTime(rs.getLong("start_time"));
+				s.setUserId(rs.getInt("user_id"));
+				s.setEnvId(rs.getInt("env_id"));
+				s.setIpAddress(rs.getString("ip_address"));
+				s.setUserName(rs.getString("user_name"));
+				s.setTarget(rs.getString("target"));
+				s.setOrgId(rs.getInt("org_id"));
+				s.setProfTypeId(rs.getInt("prof_type_id"));
+				s.setHttps(rs.getInt("htttps"));
+				s.setSessionOldId(rs.getString("session_old_id"));
+				s.setHost(rs.getString("host"));
+				s.setHostName(rs.getString("host_name"));
+				s.setMediaType(rs.getString("media_type"));
+				sessions.add(s);
+			}
+		} catch (SQLException e) {
+		}
+		return sessions.toArray();
 	}
 
 	public int getId() {
