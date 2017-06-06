@@ -25,7 +25,7 @@ import java.util.zip.CheckedOutputStream;
 
 public class JarUnJarFile {
 	
-	//save data on .jar
+	//save data to jar format
 	public static void saveJarFiles(String jarName,HashMap<String,String>files,int level){
 		if(jarName.contains(".jar") && files.size() > 0 && (level >= 0 && level <= 9))
 		try{
@@ -48,7 +48,7 @@ public class JarUnJarFile {
 		}
 	}
 	
-	//Extract files .jar
+	//Extract files jar format
 	public static HashMap<String,String> getJarFiles(String jarName){
 		HashMap<String,String> contents = null;
 		if(jarName.contains(".jar")){

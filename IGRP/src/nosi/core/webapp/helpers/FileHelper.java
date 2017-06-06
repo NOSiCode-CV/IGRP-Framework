@@ -26,11 +26,11 @@ public class FileHelper {
 
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){
-			InputStream fileContent1 = file.getInputStream();		   
+			InputStream fileContent = file.getInputStream();		   
 		    StringBuilder  stringBuilder = new StringBuilder();
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
-		    DataInputStream in = new DataInputStream(fileContent1);   
+		    DataInputStream in = new DataInputStream(fileContent);   
 		   try {
 		        while((line = in.readLine()) != null) {
 		            stringBuilder.append(line);
