@@ -8,26 +8,15 @@
 
 package nosi.core.webapp.helpers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
 
 import javax.servlet.http.Part;
 
@@ -111,45 +100,5 @@ public class FileHelper {
 	public static boolean fileExists(String fileName){
 		Path dir = Paths.get(fileName);
 		return Files.exists(dir);
-	}
-	
-	public static void saveJarFiles(String jarName,String[] files,int level) throws IOException{
-		if(jarName.contains(".jar") && files.length>0 && (level>=0 && level<=9)){
-			try {
-				FileOutputStream fos = new FileOutputStream(jarName);
-				CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
-				JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
-				jos.setLevel(level);
-				for(String file:files){
-					JarEntry je = new JarEntry(file);
-					jos.putNextEntry(je);	
-					FileInputStream fis = new FileInputStream(file);
-					for(int c=fis.read(); c!=-1;c=fis.read()){
-						jos.write(c);
-					}
-					fis.close();
-				}
-				jos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}		
-	}
-	
-	public static void unjarFiles(String fileZip){
-		if(fileZip.contains(".jar")){
-			try{
-				FileInputStream fis = new FileInputStream(fileZip);
-				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
-				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
-				ZipEntry entry = null;
-				while((entry = jis.getNextJarEntry())!=null){
-					System.out.println(entry.getTime());
-				}
-				jis.close();
-			}catch(IOException e){
-				
-			}			
-		}
 	}
 }
