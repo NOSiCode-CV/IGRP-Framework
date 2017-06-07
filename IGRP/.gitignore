@@ -1,4 +1,4 @@
 .classpath
 /bin/
 .project
-/WebContent/WEB-INF/config/app/*
+WebContent/WEB-INF/config/app/*.xml
