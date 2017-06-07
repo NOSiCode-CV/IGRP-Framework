@@ -20,10 +20,12 @@ public class LoginController extends Controller {
 		}
 		
 		Login model = new Login();
-		model.load();
 		LoginView view = new LoginView(model);
-		
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+		//Set user and password for demo
+		view.user.setValue("demo");
+		view.password.setValue("demo");
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();
 			User user = (User) new User().findIdentityByUsername(model.getUser());
 			if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(model.getPassword(), "MD5"))){
 				if(user.getStatus() == 1){
