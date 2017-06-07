@@ -8,7 +8,7 @@ public class MyTeste {
 
 	public static void main(String []args){
 		Login model = new Login();
-		model.setUser("iekjd2323ini.fernandes@nosi.cv.pt");
+		model.setUser("0.1");
 		model.validate();
 		System.out.println(model.hasErrors("user"));
 	}
