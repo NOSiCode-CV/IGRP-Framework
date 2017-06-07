@@ -53,8 +53,6 @@ public class NovoMenuController extends Controller {
 			//menu.setAction_fk(model.getPagina());
 			if(menu.insert()){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
-				this.redirect("igrp", "pesquisar-menu", "index");
-				return;
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
 			}

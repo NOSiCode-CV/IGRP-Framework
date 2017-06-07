@@ -35,6 +35,13 @@ public class IGRPLogin extends IGRPForm{
 	}
 	
 	private void genForm(){
+		//Mensagem de informacao para login de demo
+		this.xml.startElement("messages");
+			this.xml.startElement("message");
+				this.xml.writeAttribute("type", "info");
+				this.xml.text("Faça login com user: demo e password: demo");
+			this.xml.endElement();
+		this.xml.endElement();
 		this.xml.startElement("form");
 			this.xml.startElement("label");
 			if(this.fields.size() > 0){

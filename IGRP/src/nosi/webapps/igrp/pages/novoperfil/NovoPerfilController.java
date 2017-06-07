@@ -7,10 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-
 import java.io.IOException;
-
-import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
@@ -38,7 +35,7 @@ public class NovoPerfilController extends Controller {
 		
 			if(pt.insert()){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
-				this.redirect("igrp", "pesquisar-perfil", "index");
+				this.redirect("igrp", "novo-perfil", "index");
 				return;
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
