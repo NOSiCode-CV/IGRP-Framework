@@ -599,8 +599,6 @@ public class Action implements RowDataGateway{
 			sql += this.page_descr != null && !this.page_descr.equals("") ? " and page_descr like '%" + this.page_descr + "%'" : "";
 			sql += this.env_fk != 0 ? " and env_fk = " + this.env_fk : "";
 			
-			System.out.println(sql);
-			
 			ResultSet rs = st.executeQuery(sql);
 			while(rs.next()){
 				Action obj = new Action();

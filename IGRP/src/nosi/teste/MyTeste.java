@@ -1,5 +1,7 @@
 package nosi.teste;
 
+import java.util.*;
+
 import nosi.webapps.igrp.pages.login.Login;
 
 public class MyTeste {

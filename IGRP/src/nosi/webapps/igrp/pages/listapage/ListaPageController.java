@@ -17,6 +17,7 @@ public class ListaPageController extends Controller {
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		Action a = new Action();
+		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
 			a.setEnv_fk(model.getEnv_fk());
@@ -24,7 +25,7 @@ public class ListaPageController extends Controller {
 			a.setPage_descr(model.getPage_descr());
 		}
 		
-		for(Object obj:a.getAll_() ){
+		for(Object obj : a.getAll_() ){
 			Action ac = (Action) obj;
 			ListaPage.Table_1 table1 = new ListaPage().new Table_1();
 			table1.setId(ac.getId());
@@ -37,11 +38,13 @@ public class ListaPageController extends Controller {
 			}
 			lista.add(table1);
 		}
+		
 		ListaPageView view = new ListaPageView(model);
 		view.id.setParam(true);
 		view.env_fk.setLabel("Aplicação");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
+		
 		this.renderView(view);
 	}
 
