@@ -25,13 +25,11 @@ public class EmailValidator extends Validator{
 	@Override
 	public void init(Annotation annotation) {
 		Email aux = (Email) annotation;
-		
 		// (RFC) Please go to "http://www.regular-expressions.info/email.html" for more information and eventually bugs
 		// RFC Standard ???
 		this.emailPattern = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
 		// allow the user name concatenate with the email address
 		this.fullEmailPattern = "[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>";
-		
 		this.setAcceptedScenarios(aux.acceptedScenarios());
 		this.setIgnoredScenarios(aux.ignoredScenarios());
 		this.setSkipOnError(aux.skipOnError());
