@@ -1,5 +1,4 @@
 package nosi.webapps.marcao_consulta.pages.defaultpage;
-import nosi.webapps.igrp.pages.home.HomeAppView;
 import java.io.IOException;
 import nosi.core.webapp.Controller;
 public class DefaultPageController extends Controller {	

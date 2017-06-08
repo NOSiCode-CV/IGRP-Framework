@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.registarutilizador;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class RegistarUtilizador extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

@@ -2,7 +2,6 @@
 package nosi.webapps.marcao_consulta.pages.pagetesttransaction;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class PageTestTransaction extends Model{		
 	@RParam(rParamName = "p_text_1")

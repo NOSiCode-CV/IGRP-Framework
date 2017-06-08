@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.xml.XMLWritter;
-
 
 public class IGRPForm extends IGRPComponent{
 	protected ArrayList<Field> fields;

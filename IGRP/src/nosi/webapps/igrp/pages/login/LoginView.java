@@ -3,7 +3,6 @@
 /*Create View*/
 
 package nosi.webapps.igrp.pages.login;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;

@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.login;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 import nosi.core.validator.annotation.*;
 

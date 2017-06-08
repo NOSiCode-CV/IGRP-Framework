@@ -94,8 +94,10 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_annotations"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_array_list"/>
-		<xsl:value-of select="$newline"/>
+		<xsl:if test="count(/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']) > 0">
+	 		<xsl:value-of select="$import_array_list"/>
+			<xsl:value-of select="$newline"/>
+		</xsl:if>
  	</xsl:template>
 
  	<!-- Join all template to create a class model -->
