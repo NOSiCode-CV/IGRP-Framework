@@ -4,15 +4,15 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
 import nosi.core.validator.annotation.*;
+import nosi.core.validator.annotation.Number;
 
 public class Login extends Model{
 	
 	@RParam(rParamName = "p_user")
-	@Email
+	@Number(minValue = 0, maxValue = 91)
 	private String user;
 	
 	@RParam(rParamName = "p_password")
-	@Required
 	private String password;
 	
 	@RParam(rParamName = "p_button")

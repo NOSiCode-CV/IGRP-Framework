@@ -570,4 +570,3 @@ INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_
 	(2, 0, 'MEN', 22, 2),
 	(2, 1, 'ENV', 2, 2),
 	(2, 1, 'PROF', 2, 2);
-
