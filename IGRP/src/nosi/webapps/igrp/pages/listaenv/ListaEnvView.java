@@ -74,7 +74,7 @@ public class ListaEnvView extends View {
 		table_1.addField(id);
 
 		form_1.addField(dad);
-		
+		form_1.addField(name);
 		
 
 		toolsbar_1.addButton(btn_novo);
