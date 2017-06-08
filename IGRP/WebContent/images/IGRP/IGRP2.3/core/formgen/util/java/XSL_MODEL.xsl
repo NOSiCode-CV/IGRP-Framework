@@ -100,6 +100,7 @@
 		</xsl:if>
  	</xsl:template>
 
+
  	<!-- Join all template to create a class model -->
  	<xsl:template name="create-model">
  		<xsl:call-template name="import-packages-model"></xsl:call-template>
