@@ -2,8 +2,6 @@
 package nosi.webapps.igrp.pages.login;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-import nosi.core.validator.annotation.*;
 import nosi.core.validator.annotation.Number;
 
 public class Login extends Model{

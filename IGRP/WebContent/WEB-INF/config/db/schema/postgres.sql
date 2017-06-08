@@ -21,12 +21,8 @@ SET row_security = off;
 -- Name: db_igrp; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE db_igrp WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'English_United States.1252' LC_CTYPE = 'English_United States.1252';
-
-
 ALTER DATABASE db_igrp OWNER TO postgres;
 
-\connect db_igrp
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -825,7 +821,14 @@ CREATE TABLE tbl_utente (
     sexo smallint NOT NULL
 );
 
-
+CREATE VIEW view_consulta_dash  AS  Select count(*) as total_m, 0 as total_f,date_part('year',data_consulta) as Ano 
+				from TBL_MARCAO_CONSULTA m, tbl_utente u 
+				where m.estado =1 AND m.id_utente=u.id AND u.sexo=2 group by date_part('year',data_consulta)
+				 union 
+				Select 0 as Total_Masculino, count(*) as Total_Feminino,date_part('year',data_consulta) as Ano 
+				from TBL_MARCAO_CONSULTA m, tbl_utente u
+				 where m.estado =1 AND m.id_utente=u.id AND u.sexo=1 group by date_part('year',data_consulta) ;
+ 
 ALTER TABLE tbl_utente OWNER TO postgres;
 
 --
@@ -994,48 +997,54 @@ INSERT INTO glb_t_organization (id, code, name, sigof_fk, env_fk, status, user_c
 -- Data for Name: glb_t_profile; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 3, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 4, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 6, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 7, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 8, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 9, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 10, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN', 2, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 3, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 4, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 6, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 7, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 8, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 9, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'MEN_PROF', 2, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'ENV', 1, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (1, 1, 'PROF', 1, 1);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 9, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 13, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 14, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 15, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 16, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 17, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 18, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 19, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 20, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 21, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (0, 0, 'MEN', 22, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 9, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 13, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 14, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 15, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 16, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 17, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 18, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 19, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 20, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 21, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 0, 'MEN', 22, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 1, 'ENV', 2, 2);
-INSERT INTO glb_t_profile (prof_type_fk, user_fk, type, type_fk, org_fk) VALUES (2, 1, 'PROF', 2, 2);
-
+INSERT INTO glb_t_profile (PROF_TYPE_FK, USER_FK, TYPE, TYPE_FK, ORG_FK) 
+	VALUES (1, 1, 'ENV', 1, 1),
+		   (1, 1, 'PROF', 1, 1), 
+		   (0, 0, 'MEN', 2, 1), 
+		   (0, 0, 'MEN', 3, 1), 
+		   (0, 0, 'MEN', 4, 1), 
+		   (0, 0, 'MEN', 6, 1), 
+		   (0, 0, 'MEN', 7, 1), 
+		   (0, 0, 'MEN', 8, 1), 
+		   (0, 0, 'MEN', 9, 1), 
+		   (0, 0, 'MEN', 10, 1),
+		   (0, 0, 'MEN', 12, 1),
+		   (1, 0, 'MEN', 2, 1), 
+		   (1, 0, 'MEN', 3, 1), 
+		   (1, 0, 'MEN', 4, 1), 
+		   (1, 0, 'MEN', 6, 1), 
+		   (1, 0, 'MEN', 7, 1), 
+		   (1, 0, 'MEN', 8, 1), 
+		   (1, 0, 'MEN', 9, 1), 
+		   (1, 0, 'MEN', 10, 1), 
+		   (1, 0, 'MEN', 12, 1); 
+		   
+INSERT INTO glb_t_profile (PROF_TYPE_FK, USER_FK, TYPE, TYPE_FK, ORG_FK) 
+	VALUES 
+	(0, 0, 'MEN', 9, 2),
+	(0, 0, 'MEN', 13, 2),
+	(0, 0, 'MEN', 14, 2),
+	(0, 0, 'MEN', 15, 2),
+	(0, 0, 'MEN', 16, 2),
+	(0, 0, 'MEN', 17, 2),
+	(0, 0, 'MEN', 18, 2),
+	(0, 0, 'MEN', 19, 2),
+	(0, 0, 'MEN', 20, 2),
+	(0, 0, 'MEN', 21, 2),
+	(0, 0, 'MEN', 22, 2),
+	(2, 0, 'MEN', 9, 2),
+	(2, 0, 'MEN', 13, 2),
+	(2, 0, 'MEN', 14, 2),
+	(2, 0, 'MEN', 15, 2),
+	(2, 0, 'MEN', 16, 2),
+	(2, 0, 'MEN', 17, 2),
+	(2, 0, 'MEN', 18, 2),
+	(2, 0, 'MEN', 19, 2),
+	(2, 0, 'MEN', 20, 2),
+	(2, 0, 'MEN', 21, 2),
+	(2, 0, 'MEN', 22, 2),
+	(2, 1, 'ENV', 2, 2),
+	(2, 1, 'PROF', 2, 2);
 
 --
 -- TOC entry 2413 (class 0 OID 25433)

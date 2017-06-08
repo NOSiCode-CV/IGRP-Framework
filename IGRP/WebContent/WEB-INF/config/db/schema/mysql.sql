@@ -1,5 +1,5 @@
- 	 --
-	 --	DDL Igrp for MySQL DataBase (Begin) 
+	 --
+	 --	DDL Igrp for H2 DataBase (Begin) 
 	 --
 	
 	CREATE TABLE IF NOT EXISTS `glb_t_user` (
@@ -204,7 +204,7 @@
 	  
 	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- CREATE VIEWS
+
  CREATE OR REPLACE  VIEW GLB_MV_ALL_MENUS (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
  	SELECT  a.ID,
             b.descr || ' - ' || a.DESCR descr,
@@ -226,9 +226,7 @@
   
   CREATE OR REPLACE  VIEW GLB_V_MENU (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
   	SELECT a.ID,
-	    b.descr
-	    || ' - '
-	    || a.DESCR descr,
+	    b.descr || ' - ' || a.DESCR descr,
 	    a.descr descr_menu,
 	    a.LINK,
 	    a.SELF_ID,
@@ -242,11 +240,9 @@
 	 WHERE b.id     = a.self_id
 	 AND a.self_id IS NOT NULL;
   
-  CREATE OR REPLACE  VIEW GLB_V_ORG_MENU (`ID`, `DESCR`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`, `FLG_BASE`) AS 
+  CREATE OR REPLACE VIEW GLB_V_ORG_MENU (`ID`, `DESCR`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`, `FLG_BASE`) AS 
   	SELECT a.id,
-	    e.descr
-	    || ' - '
-	    || a.descr descr,
+	    e.descr || ' - ' || a.descr descr,
 	    a.orderby,
 	    a.env_fk,
 	    a.self_id,
@@ -290,7 +286,7 @@
          glb_mv_profile_type d
  WHERE   d.id = b.prof_type_fk;
  
- CREATE OR REPLACE  VIEW GLB_V_PROFILE_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+ CREATE OR REPLACE  VIEW GLB_V_PROFILE_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`,`STATUS`,`TARGET`,`ENV_FK_PROF_TYPE`) AS 
  	SELECT a.id,
 	    e.descr descr,
 	    a.descr descr_menu,
@@ -321,7 +317,7 @@
   FROM GLB_V_PROFILE_MENU 
   WHERE USER_FK<>0;
  
-  CREATE OR REPLACE  VIEW GLB_V_PROF_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  CREATE OR REPLACE  VIEW GLB_V_PROF_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`,`STATUS`,`TARGET`,`ENV_FK_PROF_TYPE`) AS 
  	SELECT  `ID`,
             `DESCR`,
             `DESCR_MENU`,
@@ -368,16 +364,13 @@
   CREATE OR REPLACE  VIEW GLB_V_USER_TRANS (`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
   SELECT `ID`,`CODE`,`DESCR`,`ENV_FK`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` FROM GLB_V_PROFILE_TRANS WHERE USER_FK<>0;
  
-  -- END CREATE VIEWS
-	
 	--
 	--	DDL Igrp for H2 DataBase (End)
 	--
 	
 	
-	-- Base dados do demo Marcacao de consultas	 
+#	-------------------------------- Base dados do demo Marcacao de consultas --------------------------------------	 
 
--- 
 --
 -- Estrutura da tabela `tbl_medico`
 --
@@ -387,11 +380,9 @@ CREATE TABLE  IF NOT EXISTS `tbl_medico` (
   `nome` varchar(100) NOT NULL,
   `morada` varchar(100) NOT NULL,
   `num_consulta_dia` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
--- 
 
 --
 -- Estrutura da tabela `tbl_utente`
@@ -403,14 +394,14 @@ CREATE TABLE  IF NOT EXISTS `tbl_utente` (
   `morada` varchar(100) NOT NULL,
   `data_nascimento` date NOT NULL,
   `sexo` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Estrutura da tabela `tbl_marcao_consulta`
 --
 
--- 
+-- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -423,91 +414,102 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
   CONSTRAINT `tbl_utente_fk` FOREIGN KEY (`id_utente`) REFERENCES `tbl_utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE VIEW `view_consulta_dash`  AS  select count(0) AS `total_m`,0 AS `total_f`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 2)) group by year(`m`.`data_consulta`) union select 0 AS `Total_Masculino`,count(0) AS `Total_Feminino`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 1)) group by year(`m`.`data_consulta`) ;
+	
+ 
+INSERT INTO tbl_medico(id,nome,morada,num_consulta_dia) values (1,'Agostinho','Palmarejo',2), (2,'Eliza Barbosa','Fazenda',3);
+INSERT INTO tbl_utente(id,nome,morada,data_nascimento,sexo) values (1,'Zequinha','Achadinha','2000-01-30',2), (2,'Maria','Safende','1995-01-25',1), (3,'Jidea','Castelao','1949-03-20',1), (4,'Ana','Achada Mato','1969-03-20',1), (5,'Paulinho','Achada Grande Frente','1989-03-20',2);
+INSERT INTO tbl_marcao_consulta(id,id_medico,id_utente,data_consulta,estado) values (1,1,1,'2017-01-30 00:00:00.0',1), (2,2,2,'2017-01-30 00:00:00.0',1), (3,1,2,'2016-12-30 00:00:00.0',1), (4,1,3,'2016-12-30 00:00:00.0',1), (5,2,4,'2016-12-30 00:00:00.0',1), (6,2,5,'2017-05-30 00:00:00.0',1);
 
-	INSERT INTO tbl_medico(id,nome,morada,num_consulta_dia) values (1,'Agostinho','Palmarejo',2), (2,'Eliza Barbosa','Fazenda',3);
-	INSERT INTO tbl_utente(id,nome,morada,data_nascimento,sexo) values (1,'Zequinha','Achadinha','2000-01-30',2), (2,'Maria','Safende','1995-01-25',1), (3,'Jidea','Castelao','1949-03-20',1), (4,'Ana','Achada Mato','1969-03-20',1), (5,'Paulinho','Achada Grande Frente','1989-03-20',2);
-	INSERT INTO tbl_marcao_consulta(id,id_medico,id_utente,data_consulta,estado) values (1,1,1,'2017-01-30 00:00:00.0',1), (2,2,2,'2017-01-30 00:00:00.0',1), (3,1,2,'2016-12-30 00:00:00.0',1), (4,1,3,'2016-12-30 00:00:00.0',1), (5,2,4,'2016-12-30 00:00:00.0',1), (6,2,5,'2017-05-30 00:00:00.0',1);
+--
+--	DML (insert) Igrp for H2 DataBase (Begin)
+--
 
-	--
-	--	DML (insert) Igrp for H2 DataBase (Begin)
-	--
-	
-	INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
-	VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, '', NULL, 1);
-	
-	INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`) 
-	VALUES
-		(1,1, 'ListaPage', 'index', 'images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl'),
-		(2,1, 'Env', 'index', 'images/IGRP/IGRP2.3/app/igrp/env/Env.xsl'),
-		(3,1, 'ListaEnv', 'index', 'images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl'),
-		(4,1, 'Dominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl'),
-		(5,1, 'NovoDominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl'),
-		(6,1, 'PesquisarOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl'),
-		(7,1, 'NovaOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl'),
-		(8,1, 'NovoMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl'),
-		(9,1, 'PesquisarMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl'),
-		(10,1, 'NovoPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl'),
-		(11,1, 'PesquisarPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl'),
-		(12,1, 'PesquisarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl'),
-		(13,1, 'NovoUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl'),
-		(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
-		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
-		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
-		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
-		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
-		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
-		(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl'),
-		(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl'),
-		(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl');
-	
-	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
-	VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017),
-		   (1, 'Nositeste', 'nositeste@nosi.cv', 'fe01ce2a7fbac8fafaed7c982a04e229', 'ADMIN', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
+INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
+VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, '', NULL, 1);
 
-	INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
-	VALUES (1, '01.03', 'NOSI', NULL, 1, 1, 1, NULL);
+INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`) 
+VALUES
+	(1,1, 'ListaPage', 'index', 'images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl'),
+	(2,1, 'Env', 'index', 'images/IGRP/IGRP2.3/app/igrp/env/Env.xsl'),
+	(3,1, 'ListaEnv', 'index', 'images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl'),
+	(4,1, 'Dominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl'),
+	(5,1, 'NovoDominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl'),
+	(6,1, 'PesquisarOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl'),
+	(7,1, 'NovaOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl'),
+	(8,1, 'NovoMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl'),
+	(9,1, 'PesquisarMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl'),
+	(10,1, 'NovoPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl'),
+	(11,1, 'PesquisarPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl'),
+	(12,1, 'PesquisarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl'),
+	(13,1, 'NovoUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl'),
+	(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
+	(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
+	(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
+	(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
+	(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
+	(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
+	(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl'),
+	(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl'),
+	(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl');;
 
-	INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
-	VALUES (0, 'ALL PROFILE', 'ALL', NULL, NULL, NULL, 1),
-		   (1, 'Administrador', 'Admin', 1, NULL, 1, 1);
-	
-	INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
-	(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(2, 'Detalhes de Aplicação', 3, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(5, 'Parâmetros Gerais', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(6, 'Gestão de Organica', 6, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),	
-	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(11, 'Auditoria', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
-	
-	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
-	VALUES (1, 1, 'ENV', 1, 1),
-		   (1, 1, 'PROF', 1, 1), 
-		   (0, 0, 'MEN', 2, 1), 
-		   (0, 0, 'MEN', 3, 1), 
-		   (0, 0, 'MEN', 4, 1), 
-		   (0, 0, 'MEN', 6, 1), 
-		   (0, 0, 'MEN', 7, 1), 
-		   (0, 0, 'MEN', 8, 1), 
-		   (0, 0, 'MEN', 9, 1), 
-		   (0, 0, 'MEN', 10, 1),
-		   (0, 0, 'MEN', 12, 1),
-		   (1, 0, 'MEN', 2, 1), 
-		   (1, 0, 'MEN', 3, 1), 
-		   (1, 0, 'MEN', 4, 1), 
-		   (1, 0, 'MEN', 6, 1), 
-		   (1, 0, 'MEN', 7, 1), 
-		   (1, 0, 'MEN', 8, 1), 
-		   (1, 0, 'MEN', 9, 1), 
-		   (1, 0, 'MEN', 10, 1), 
-		   (1, 0, 'MEN', 12, 1); 
+INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
+VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
+UPDATE `glb_t_user` SET `ID` = '0' WHERE `glb_t_user`.`ID` = 1;
+
+INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
+VALUES (1, 'Nositeste', 'nositeste@nosi.cv', 'fe01ce2a7fbac8fafaed7c982a04e229', 'ADMIN', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
+
+
+INSERT INTO `glb_t_organization` (`ID`, `CODE`, `NAME`, `SIGOF_FK`, `ENV_FK`, `STATUS`, `USER_CREATE_FK`, `SELF_FK`) 
+VALUES (1, '01.03', 'NOSI', NULL, 1, 1, 1, NULL);
+
+INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
+VALUES (0, 'ALL PROFILE', 'ALL', NULL, NULL, NULL, 1);
+UPDATE `glb_t_profile_type` SET `ID` = '0' WHERE `glb_t_profile_type`.`ID` = 1;
+
+INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `ORG_FK`, `STATUS`) 
+VALUES 	   (1, 'Administrador', 'Admin', 1, NULL, 1, 1);
+
+INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) VALUES
+(1, 'Gestão de Aplicação', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
+(2, 'Detalhes de Aplicação', 3, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(3, 'Gestão de Pagina', 1, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(4, 'Gestão de Menu', 9, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(5, 'Parâmetros Gerais', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
+(6, 'Gestão de Organica', 6, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(7, 'Gestão de Perfil', 11, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(8, 'Gestão de Utilizador', 12, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),	
+(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+(11, 'Auditoria', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
+(12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
+
+INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
+VALUES (1, 1, 'ENV', 1, 1),
+	   (1, 1, 'PROF', 1, 1), 
+	   (0, 0, 'MEN', 2, 1), 
+	   (0, 0, 'MEN', 3, 1), 
+	   (0, 0, 'MEN', 4, 1), 
+	   (0, 0, 'MEN', 6, 1), 
+	   (0, 0, 'MEN', 7, 1), 
+	   (0, 0, 'MEN', 8, 1), 
+	   (0, 0, 'MEN', 9, 1), 
+	   (0, 0, 'MEN', 10, 1),
+	   (0, 0, 'MEN', 12, 1),
+	   (1, 0, 'MEN', 2, 1), 
+	   (1, 0, 'MEN', 3, 1), 
+	   (1, 0, 'MEN', 4, 1), 
+	   (1, 0, 'MEN', 6, 1), 
+	   (1, 0, 'MEN', 7, 1), 
+	   (1, 0, 'MEN', 8, 1), 
+	   (1, 0, 'MEN', 9, 1), 
+	   (1, 0, 'MEN', 10, 1), 
+	   (1, 0, 'MEN', 12, 1); 
 		   
--- Config demo app (App marcacao consulta) 
+
+
+-- ------------------------------------------ Config demo app (App marcacao consulta) --------------------------------
 INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`)
 	VALUES (2, 'Marcacao de Consulta', 'marcao_consulta', 'icon_saude.png', 'App para marcacao de consulta', 0, 0, '', '', '', '', '', 0, 1);
 
@@ -541,6 +543,7 @@ INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`
 	(21, 'Consultas Pendentes',28,15, '', 2,'','', 0, 1, '', 0, '_self'),
 	(22, 'Dash Board',29,15, '', 2,'','', 0, 1, '', 0, '_self');
 
+	
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 
 	(0, 0, 'MEN', 9, 2),
@@ -567,4 +570,3 @@ INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_
 	(2, 0, 'MEN', 22, 2),
 	(2, 1, 'ENV', 2, 2),
 	(2, 1, 'PROF', 2, 2);
-	

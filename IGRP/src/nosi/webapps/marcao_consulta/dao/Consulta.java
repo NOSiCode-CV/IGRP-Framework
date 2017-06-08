@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import nosi.core.config.DbConfig;
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.marcao_consulta.pages.dashboard.DashBoard;
@@ -128,14 +129,8 @@ public class Consulta  implements RowDataGateway{
 	}
 	
 	public Object[] getChart1(){
-		String sql = "select sum(Total_Masculino) total_m, sum(Total_Feminino) total_f, Ano from "
-				+ "(Select count(*) as Total_Masculino, 0 as Total_Feminino, YEAR(m.data_consulta) as Ano "
-				+ "from TBL_MARCAO_CONSULTA m, tbl_utente u "
-				+ "where m.estado =1 AND m.id_utente=u.id AND u.sexo=2 group by YEAR(m.data_consulta)"
-				+ " union "
-				+ "Select 0 as Total_Masculino, count(*) as Total_Feminino, YEAR(m.data_consulta) as Ano "
-				+ "from TBL_MARCAO_CONSULTA m, tbl_utente u"
-				+ " where m.estado =1 AND m.id_utente=u.id AND u.sexo=1 group by YEAR(m.data_consulta)) group by Ano";
+		
+		String sql = "select sum(total_m) total_m, sum(total_f) total_f, Ano from view_consulta_dash group by Ano ORDER BY Ano DESC";
 		ArrayList<DashBoard.Chart_1> consultas = new ArrayList<>();
 		try {
 			PreparedStatement ps = this.con.prepareStatement(sql);

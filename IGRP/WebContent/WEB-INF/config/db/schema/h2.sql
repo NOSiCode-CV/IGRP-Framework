@@ -290,7 +290,7 @@
          glb_mv_profile_type d
  WHERE   d.id = b.prof_type_fk;
  
- CREATE OR REPLACE FORCE VIEW GLB_V_PROFILE_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+ CREATE OR REPLACE FORCE VIEW GLB_V_PROFILE_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`,`STATUS`,`TARGET`,`ENV_FK_PROF_TYPE`) AS 
  	SELECT a.id,
 	    e.descr descr,
 	    a.descr descr_menu,
@@ -321,7 +321,7 @@
   FROM GLB_V_PROFILE_MENU 
   WHERE USER_FK<>0;
  
-  CREATE OR REPLACE FORCE VIEW GLB_V_PROF_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
+  CREATE OR REPLACE FORCE VIEW GLB_V_PROF_MENU (`ID`, `DESCR`, `DESCR_MENU`, `ORDERBY`, `ENV_FK`, `SELF_ID`, `ACTION_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`,`STATUS`,`TARGET`,`ENV_FK_PROF_TYPE`) AS 
  	SELECT  `ID`,
             `DESCR`,
             `DESCR_MENU`,
@@ -423,7 +423,8 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
   CONSTRAINT `tbl_utente_fk` FOREIGN KEY (`id_utente`) REFERENCES `tbl_utente` (`id`) ON DELETE CASCADE ON UPDATE CASCADE  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-	
+CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select count(0) AS `total_m`,0 AS `total_f`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 2)) group by year(`m`.`data_consulta`) union select 0 AS `Total_Masculino`,count(0) AS `Total_Feminino`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 1)) group by year(`m`.`data_consulta`) ;
+				 
 [SPLIT]
 	INSERT INTO tbl_medico(id,nome,morada,num_consulta_dia) values (1,'Agostinho','Palmarejo',2), (2,'Eliza Barbosa','Fazenda',3);
 	INSERT INTO tbl_utente(id,nome,morada,data_nascimento,sexo) values (1,'Zequinha','Achadinha','2000-01-30',2), (2,'Maria','Safende','1995-01-25',1), (3,'Jidea','Castelao','1949-03-20',1), (4,'Ana','Achada Mato','1969-03-20',1), (5,'Paulinho','Achada Grande Frente','1989-03-20',2);

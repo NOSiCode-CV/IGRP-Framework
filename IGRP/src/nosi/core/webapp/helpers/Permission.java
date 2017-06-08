@@ -86,17 +86,23 @@ public class Permission {
 	}
 	
 	public static String getCurrentEnv() {
-		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
-			if(c.getName().equals("_env"))
-				return c.getValue();		
+		Cookie[] cookies = Igrp.getInstance().getRequest().getCookies();
+		if(cookies!=null && cookies.length>0){
+			for(Cookie c : cookies)
+				if(c.getName().equals("_env"))
+					return c.getValue();	
+		}
 		return "igrp";
 	}
 	
 	private static String getDataCache(String dad){
-		for(Cookie c : Igrp.getInstance().getRequest().getCookies())
+		Cookie[] cookies = Igrp.getInstance().getRequest().getCookies();
+		if(cookies!=null && cookies.length>0){
+			for(Cookie c : cookies)
 			if(c.getName().equals(dad)){
 				return c.getValue();
 			}
+		}
 		return null;
 	}
 	

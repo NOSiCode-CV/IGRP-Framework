@@ -13,7 +13,7 @@
      	<xsl:value-of select="$newline"/>
  		<xsl:value-of select="concat('public class ',$class_name,'View extends View {')"/> 			
 	 		<xsl:value-of select="$newline"/>
-	     	<xsl:value-of select="$tab"/>
+	     	<xsl:value-of select="$tab"/>	
 	     	<xsl:value-of select="concat('public String title = ',$double_quotes,/rows/content/title,$double_quotes,';')"/>
 	 		<xsl:value-of select="$tab2"/>
 	     	<xsl:value-of select="$newline"/>
@@ -42,8 +42,12 @@
 	<!--  create construct view class -->
 	<xsl:template name="create-construct">
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>		
+		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>	
+			<xsl:value-of select="$newline"/>	
 	     	<xsl:value-of select="$tab2"/>
+	     	<xsl:value-of select="'this.setPageTitle(this.title);'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	     	
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab2"></xsl:value-of>
@@ -71,8 +75,6 @@
  		<xsl:text>public void render(){</xsl:text>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$tab2"/>
-     	<xsl:value-of select="'Config.TITLE = this.title;'"/>
-		<xsl:value-of select="$newline"/>
 			<xsl:call-template name="add-fields"></xsl:call-template>
 			<xsl:call-template name="add-to-page"></xsl:call-template>
 		<xsl:value-of select="$tab"/>
