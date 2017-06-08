@@ -52,7 +52,7 @@ public class SessionView extends View {
 		filter.setLabel("");
 		filter.propertie().add("name","p_table_1_filter").add("type","filter_az");
 
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Session","pesquisar","_blank","default|fa-search","","");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Session","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_ver_logs = new IGRPButton("Ver Logs","igrp","Session","ver_logs","submit","default|fa-angle-right","","");
 		btn_ver_logs.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_logs");
