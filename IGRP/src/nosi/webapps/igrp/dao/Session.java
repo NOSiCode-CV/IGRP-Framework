@@ -195,10 +195,10 @@ public class Session implements RowDataGateway{
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Session> sessions = new ArrayList<>();
+		ArrayList<Session> sessions = new ArrayList<Session>();
 		try {
-			PreparedStatement ps = this.conn.prepareStatement("SELECT * FROM GLB_T_SESSION");
-			ResultSet rs = ps.executeQuery();
+			Statement statement = this.conn.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT * FROM GLB_T_SESSION");
 			while(rs.next()){
 				Session s = new Session();
 				s.setId(rs.getInt("id"));
@@ -211,7 +211,39 @@ public class Session implements RowDataGateway{
 				s.setTarget(rs.getString("target"));
 				s.setOrgId(rs.getInt("org_id"));
 				s.setProfTypeId(rs.getInt("prof_type_id"));
-				s.setHttps(rs.getInt("htttps"));
+				s.setHttps(rs.getInt("https"));
+				s.setSessionOldId(rs.getString("session_old_id"));
+				s.setHost(rs.getString("host"));
+				s.setHostName(rs.getString("host_name"));
+				s.setMediaType(rs.getString("media_type"));
+				sessions.add(s);
+			}
+		} catch (SQLException e) {
+		}
+		return sessions.toArray();
+	} 
+
+	public Object[] getAllWithFilter() {
+		ArrayList<Session> sessions = new ArrayList<Session>();
+		try {
+			Statement statement = this.conn.createStatement();
+			String sql = "SELECT * FROM GLB_T_SESSION where 1=1 and count(*) < 3 ";
+			sql += this.envId != 0 ? " and env_id = " + this.envId : ""; 
+			sql += this.userName != null && !this.userName.equals("") ? " and user_name = '" + this.userName + "' " : "";
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				Session s = new Session();
+				s.setId(rs.getInt("id"));
+				s.setEndTime(rs.getLong("end_time"));
+				s.setStartTime(rs.getLong("start_time"));
+				s.setUserId(rs.getInt("user_id"));
+				s.setEnvId(rs.getInt("env_id"));
+				s.setIpAddress(rs.getString("ip_address"));
+				s.setUserName(rs.getString("user_name"));
+				s.setTarget(rs.getString("target"));
+				s.setOrgId(rs.getInt("org_id"));
+				s.setProfTypeId(rs.getInt("prof_type_id"));
+				s.setHttps(rs.getInt("https"));
 				s.setSessionOldId(rs.getString("session_old_id"));
 				s.setHost(rs.getString("host"));
 				s.setHostName(rs.getString("host_name"));
@@ -222,7 +254,7 @@ public class Session implements RowDataGateway{
 		}
 		return sessions.toArray();
 	}
-
+	
 	public int getId() {
 		return id;
 	}

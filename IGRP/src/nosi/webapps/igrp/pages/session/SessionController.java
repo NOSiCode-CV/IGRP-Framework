@@ -9,31 +9,41 @@ import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
 public class SessionController extends Controller {		
 
-	public void actionIndex(@RParam(rParamName = "dad") String dad) throws IOException{
+	public void actionIndex(@RParam(rParamName = "dad") String dad) throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		Session model = new Session();
+		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			System.out.println("Ok");
+			model.load();
+			session.setEnvId(model.getAplicacao());
+			session.setUserName(model.getUtilizador());
 		}
 		
-		SessionView view = new SessionView(model);
 		ArrayList<Session.Table_1> data = new ArrayList<>();
-		for(Object obj:new nosi.webapps.igrp.dao.Session().getAll()){
+		for(Object obj : session.getAllWithFilter()){
 			nosi.webapps.igrp.dao.Session s = (nosi.webapps.igrp.dao.Session)obj;
 			Session.Table_1 table = new Session().new Table_1();
 			table.setAplicacao(""+s.getEnvId());
-			table.setData_fim(""+s.getEndTime());
-			table.setData_inicio(""+s.getStartTime());
+			Date auxEndTime = new Date(s.getEndTime());
+			Date auxStartTime = new Date(s.getStartTime());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("Y-MM-dd"); /*HH:mm:ss*/
+			table.setData_fim(""+dateFormat.format(auxEndTime));
+			table.setData_inicio(""+dateFormat.format(auxStartTime));
 			table.setIp(s.getIpAddress());
 			table.setUtilizador(s.getUserName());
 			data.add(table);
 		}
+		
+		SessionView view = new SessionView(model);
 		view.table_1.addData(data);
 		
 		HashMap<Integer,String> applications =  new Application().getListApps();

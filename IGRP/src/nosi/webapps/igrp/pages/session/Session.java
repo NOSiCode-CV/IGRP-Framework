@@ -4,15 +4,20 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
-public class Session extends Model{		
+public class Session extends Model{	
+	
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
+	
 	@RParam(rParamName = "p_utilizador")
 	private String utilizador;
+	
 	@RParam(rParamName = "p_data_inicio")
 	private String data_inicio;
+	
 	@RParam(rParamName = "p_data_fim")
 	private String data_fim;
+	
 	@RParam(rParamName = "p_estado")
 	private String estado;
 
@@ -40,10 +45,10 @@ public class Session extends Model{
 		return this.chart_t_session_app;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 	
