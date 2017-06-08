@@ -5,15 +5,7 @@ package nosi.core.gui.components;
  * Apr 14, 2017
  *
  * Description: class to generate xml of Form
- */
-import java.util.ArrayList;
-
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.FieldProperties;
-import nosi.core.xml.XMLWritter;
-
-/*Generate XML Form
+/*
  * Form can contain one or more fields
  * <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
         <fields>
@@ -25,22 +17,22 @@ import nosi.core.xml.XMLWritter;
         </fields>
    </form_1>
  */
-public class IGRPForm {
+import java.util.ArrayList;
 
-	protected XMLWritter xml;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.FieldProperties;
+import nosi.core.gui.fields.GenXMLField;
+
+public class IGRPForm extends IGRPComponent{
 	protected ArrayList<Field> fields;
 	protected ArrayList<IGRPButton> buttons;
-	public FieldProperties properties;
-	protected String tag_name;
 	protected IGRPToolsBar toolsbar;
 	protected float version = (float) 2.3;
 	
 	public IGRPForm(String tag_name) {
-		this.tag_name = tag_name;
-		this.xml = new XMLWritter();
+		super(tag_name);
 		this.fields = new ArrayList<>();
 		this.buttons = new ArrayList<>();
-		this.properties = new FieldProperties();
 		this.properties.put("type", "form");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
@@ -79,10 +71,4 @@ public class IGRPForm {
 		return this.xml.toString();
 	}
 	
-	/*public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class){
-		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class);
-	}
-	public void addButton(String title,String app, String page, String link, String target, String img, String code, String rel, String _class, String params){
-		this.toolsbar.addItem(title, app, page, link, target, img, code, rel, _class, params);
-	}*/
 }

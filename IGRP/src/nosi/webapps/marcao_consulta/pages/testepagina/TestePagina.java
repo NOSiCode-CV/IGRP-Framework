@@ -2,7 +2,6 @@
 package nosi.webapps.marcao_consulta.pages.testepagina;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class TestePagina extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")

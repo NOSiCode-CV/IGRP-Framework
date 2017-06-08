@@ -5,8 +5,6 @@
 package nosi.webapps.igrp.pages.testetransaction;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.webapps.igrp.pages.transaccao.*;
-
 
 public class TesteTransactionController extends Controller {		
 

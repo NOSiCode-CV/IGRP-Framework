@@ -1,21 +1,26 @@
 package nosi.core.gui.components;
+/**
+ * @author: Emanuel Pereira
+ * 
+ * May 10, 2017
+ *
+ * Description: class to generate xml of calendar
+ */
+/*
+ * <calendar_1 type="calendar" xml-type="calendar" gen-type="container" gen-group="">
+        <lang>pt</lang>
+        <dataUrl>/images/IGRP/IGRP2.3/core/calendar/3.0.1/data/calendar.json</dataUrl>
+    </calendar_1>
+ */
 
-import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.xml.XMLWritter;
 
-public class IGRPCalendar{
-
-	private String tag_name;
-	private XMLWritter xml;
-	private FieldProperties properties;
+public class IGRPCalendar extends IGRPComponent{
 	private String lang;
 	private String dataUrl;
 	
 	public IGRPCalendar(String tag_name){
-		this.tag_name = tag_name;
-		this.xml = new XMLWritter();
-		this.properties = new FieldProperties();
+		super(tag_name);
 		this.properties.put("type", "calendar");
 		this.properties.put("xml-type", "calendar");
 		this.properties.put("gen-type", "container");

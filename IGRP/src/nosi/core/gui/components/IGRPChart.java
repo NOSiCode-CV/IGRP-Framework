@@ -1,22 +1,51 @@
 package nosi.core.gui.components;
-
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * May 10, 2017
+ *
+ * Description: class to generate xml of chart
+ */
+/*
+ * 
+<chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+<caption/>
+<chart_type>line</chart_type>
+<xaxys>Eixo de X</xaxys>
+<yaxys>Eixo de Y</yaxys>
+<url>#</url>
+<label>
+    <col>Ano</col>
+    <col>X1</col>
+    <col>X2</col>
+    <col>X3</col>
+    <col>X4</col>
+</label>
+<value>
+    <row>
+        <col>2010</col>
+        <col>265</col>
+        <col>658</col>
+        <col>498</col>
+        <col>698</col>
+    </row>
+</value>
+<colors>
+    <col>#bdd2a7</col>
+    <col>#1a49bc</col>
+    <col>#290f60</col>
+    <col>#c4aacf</col>
+</colors>
+</chart_1>
+*/
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.helpers.Helper;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.FieldProperties;
-import nosi.core.xml.XMLWritter;
 
-public class IGRPChart {
-	
-	private String tag_name;
-	private XMLWritter xml;
-	private FieldProperties properties;
+public class IGRPChart extends IGRPComponent{
 	private List<?> data;
 	protected ArrayList<Field> fields;
 	private String caption;
@@ -27,11 +56,9 @@ public class IGRPChart {
 	private ArrayList<String> colors;
 	
 	public IGRPChart(String tag_name,String title) {
-		this.tag_name = tag_name;
-		this.xml = new XMLWritter();
+		super(tag_name);
 		this.fields = new ArrayList<>();
 		this.colors = new ArrayList<>();
-		this.properties = new FieldProperties();
 		this.properties.put("type", "chart");
 		this.properties.put("structure", "graphic");
 		this.properties.put("title",title);

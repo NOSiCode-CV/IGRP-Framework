@@ -3,17 +3,13 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.registarutilizador;
-import nosi.core.gui.components.IGRPButton;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.User;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class RegistarUtilizadorController extends Controller {		

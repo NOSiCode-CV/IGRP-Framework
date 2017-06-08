@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.settings;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class Settings extends Model{		
 	@RParam(rParamName = "p_nome")
