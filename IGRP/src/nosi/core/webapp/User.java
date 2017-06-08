@@ -59,7 +59,7 @@ public class User implements Component{
 		}
 			if(!this.checkSessionContext() && !isLoginPage){
 				try {
-					Route.remember(); // remember the url that was requested by the client ...
+					//Route.remember(); // remember the url that was requested by the client ...
 					Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
 					Igrp.getInstance().die();
 				} catch (IOException e) {

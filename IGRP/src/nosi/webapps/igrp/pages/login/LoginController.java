@@ -33,12 +33,8 @@ public class LoginController extends Controller {
 						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk(),profile.getOrg_fk())){
 							if(!Session.afterLogin())
 								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
-							String backUrl = Route.previous(); // remember the last url that was requested by the user
-							if(backUrl != null)
-								this.redirectToUrl(backUrl);
-							else
-								this.redirect("igrp", "home", "index");
-							return;
+							//String backUrl = Route.previous(); // remember the last url that was requested by the user
+							this.redirect("igrp", "home", "index"); // always go to home index url
 						}
 						else
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
