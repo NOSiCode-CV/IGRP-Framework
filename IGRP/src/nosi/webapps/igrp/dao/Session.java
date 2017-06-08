@@ -227,11 +227,16 @@ public class Session implements RowDataGateway{
 		ArrayList<Session> sessions = new ArrayList<Session>();
 		try {
 			Statement statement = this.conn.createStatement();
-			String sql = "SELECT * FROM GLB_T_SESSION where 1=1 and count(*) < 3 ";
+			String sql = "SELECT * FROM GLB_T_SESSION where 1=1 ";
 			sql += this.envId != 0 ? " and env_id = " + this.envId : ""; 
 			sql += this.userName != null && !this.userName.equals("") ? " and user_name = '" + this.userName + "' " : "";
+			//sql += this.startTime != 0 ? " and (start_time - " + this.startTime + " < 24*60)" : "";
+			//sql += this.endTime != 0 ? " and (end_time - " + this.endTime + " < 24*60)" : "";
 			ResultSet rs = statement.executeQuery(sql);
+			System.out.println(sql);
+			int limit = 0;
 			while(rs.next()){
+				if(++limit > 20)break;
 				Session s = new Session();
 				s.setId(rs.getInt("id"));
 				s.setEndTime(rs.getLong("end_time"));

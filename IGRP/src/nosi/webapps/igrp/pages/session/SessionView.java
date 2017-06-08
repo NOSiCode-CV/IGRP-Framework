@@ -9,7 +9,8 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class SessionView extends View {
-	public String title = "Gest√£o de Sessao";		
+	
+	public String title = "Gest„o de Sess„o";		
 	
 	public Field aplicacao;
 	public Field utilizador;
@@ -25,7 +26,7 @@ public class SessionView extends View {
 
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_ver_logs;
-	public SessionView(Session model){			
+	public SessionView(Session model){
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
 		chart_t_sessao = new IGRPChart("chart_t_sessao","Total Sessoes");
