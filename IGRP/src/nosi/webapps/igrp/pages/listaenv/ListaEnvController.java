@@ -20,6 +20,7 @@ public class ListaEnvController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
 			apps.setDad(model.getDad());
+			apps.setName(model.getName());
 		}
 		for(Object app:apps.getAll()){
 			Application a = (Application) app;

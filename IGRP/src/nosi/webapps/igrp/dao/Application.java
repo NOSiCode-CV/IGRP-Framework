@@ -286,16 +286,12 @@ public class Application implements RowDataGateway {
 		ArrayList<Application> lista = new ArrayList<>();
 		
 		try{
-			String conditions = "WHERE 1=1 ";
-			if(this.getDad()!=null && !this.getDad().equals("")){
-				conditions+= " AND dad=?";
-			}
-			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_env "+ conditions+ " order by id");
-			if(this.getDad()!=null && !this.getDad().equals("")){
-				st.setString(1, this.getDad());
-			}
-			ResultSet result = st.executeQuery();
+			String sql = "SELECT * FROM glb_t_env where 1=1 ";
+			sql += (this.getDad()!=null && !this.getDad().equals("")) ? " and dad like '%" + this.getDad() + "%' ": " ";
+			sql += (this.getName()!=null && !this.getName().equals("")) ? " and name like '%" + this.getName() + "%' ": " ";
 			
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet result = st.executeQuery();
 			while(result.next()){
 				Application obj = new Application();
 				obj.setId(result.getInt("id"));

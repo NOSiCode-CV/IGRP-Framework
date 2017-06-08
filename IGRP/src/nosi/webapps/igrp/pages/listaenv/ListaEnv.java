@@ -7,6 +7,15 @@ import java.util.ArrayList;
 public class ListaEnv extends Model{			
 	@RParam(rParamName = "p_dad")
 	private String dad;
+	@RParam(rParamName = "p_name")
+	private String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public String getDad() {
 		return dad;
