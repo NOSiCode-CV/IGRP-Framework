@@ -21,21 +21,14 @@ import java.util.ArrayList;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.FieldProperties;
-import nosi.core.xml.XMLWritter;
 
-public class IGRPSectionHeader {
+public class IGRPSectionHeader extends IGRPComponent{
 	
-	private XMLWritter xml;
-	private String tag_name;
-	protected FieldProperties properties;
 	protected ArrayList<Field> fields;
 	
-	public IGRPSectionHeader(String tag) {
-		this.tag_name = tag;
-		this.xml = new XMLWritter();
+	public IGRPSectionHeader(String tag_name) {
+		super(tag_name);
 		this.fields = new ArrayList<>();
-		this.properties = new FieldProperties();
 		this.properties.put("type", "sectionheader");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");

@@ -1,11 +1,19 @@
 package nosi.core.gui.components;
 
+/**
+ * @author: Emanuel Pereira
+ * 
+ * May 19, 2017
+ *
+ * Description: class to generate xml for home page
+ */
+
 import nosi.core.config.Config;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.SeparatorField;
 import nosi.core.xml.XMLWritter;
 
-public class IGRPHome {
+public class IGRPHome{
 	private XMLWritter xml;
 	public String type_home="";
 	

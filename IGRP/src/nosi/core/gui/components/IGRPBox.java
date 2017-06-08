@@ -11,21 +11,12 @@ package nosi.core.gui.components;
         <fields/>
     </box_1>
  */
-
-
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.FieldProperties;
-import nosi.core.xml.XMLWritter;
 
-public class IGRPBox {
-	protected FieldProperties properties;
-	protected XMLWritter xml;
-	protected String tag_name;
+public class IGRPBox extends IGRPComponent{
 	
 	public IGRPBox(String tag_name) {
-		this.tag_name = tag_name;
-		this.xml = new XMLWritter();
-		this.properties = new FieldProperties();
+		super(tag_name);
 		this.properties.put("type", "box");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
