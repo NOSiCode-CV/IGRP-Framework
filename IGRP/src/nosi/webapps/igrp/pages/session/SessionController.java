@@ -8,10 +8,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Session_;
-import nosi.webapps.igrp.pages.session.Session.Chart_t_sessao;
-import nosi.webapps.marcao_consulta.dao.Consulta;
-import nosi.webapps.marcao_consulta.pages.dashboard.DashBoard;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,26 +33,8 @@ public class SessionController extends Controller {
 			session.setEndTime(model.getData_fim() != null && !model.getData_fim().equals("") ? auxFormat.parse(model.getData_fim()).getTime() : 0);
 		}
 		
-		ArrayList<Session.Chart_t_sessao> graph1 = new ArrayList<Session.Chart_t_sessao>();
-		Object []auxArray = session.getTotalSessions();
-		Object []auxArray2 = session.getTotalSessions();
-		for(Object obj : auxArray){
-			int count = 0;
-			Session.Chart_t_sessao auxChart = (Session.Chart_t_sessao) obj;
-			String auxYear = auxFormat.format(new Date(Long.parseLong(auxChart.getAno())));
-			for(int i = 0; i < auxArray2.length; i++){
-				Object obj2 = auxArray2[i];
-				Session.Chart_t_sessao auxChart2 = (Session.Chart_t_sessao) obj2;
-				if(auxYear.equals(auxFormat.format(new Date(Long.parseLong(auxChart2.getAno()))))){
-					count++;
-					auxArray2[i] = "0"; // to remove it
-				}
-			}
-			graph1.add(auxChart);
-			
-			System.out.println(auxYear);
-			System.out.println(count);
-		}
+		System.out.println(session.getStartTime());
+		System.out.println(session.getEndTime());
 		
 		ArrayList<Session.Table_1> data = new ArrayList<>();
 		for(Object obj : session.getAllWithFilter()){
