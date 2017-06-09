@@ -52,7 +52,7 @@ public class SessionView extends View {
 		filter = new TextField(model,"filter");
 		filter.setLabel("");
 		filter.propertie().add("name","p_table_1_filter").add("type","filter_az");
-
+		
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Session","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_ver_logs = new IGRPButton("Ver Logs","igrp","Session","ver_logs","submit","default|fa-angle-right","","");
@@ -64,7 +64,7 @@ public class SessionView extends View {
 		chart_t_sessao.setYaxys("Eixo de Y");
 		chart_t_sessao.setUrl("#");
 		chart_t_sessao.addColor("#6dc530").addColor("#604a68").addColor("#129020").addColor("#b7dbe1");
-
+		
 		chart_t_session_app.setCaption("");
 		chart_t_session_app.setChart_type("pie");
 		chart_t_session_app.setXaxys("Eixo de X");

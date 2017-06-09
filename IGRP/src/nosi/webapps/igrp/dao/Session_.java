@@ -9,13 +9,14 @@ import java.util.ArrayList;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
-
+import nosi.webapps.igrp.pages.session.Session.Chart_t_sessao;
+import nosi.webapps.igrp.pages.session.Session;
 /**
  * Marcel Iekiny
  * May 29, 2017
  */
 
-public class Session implements RowDataGateway{
+public class Session_ implements RowDataGateway{
 	  
 	private int id;
 	private String sessionId;
@@ -36,7 +37,7 @@ public class Session implements RowDataGateway{
 	
 	private Connection conn;	
 	
-	public Session() {
+	public Session_() {
 		this.conn = Igrp.getInstance().getDao().unwrap("db1");
 	}
 
@@ -75,13 +76,13 @@ public class Session implements RowDataGateway{
 
 	@Override
 	public Object getOne() {
-		Session obj = null;
+		Session_ obj = null;
 		try{
 			Statement st = this.conn.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM glb_t_session where id = "+ this.id);
 			
 			if(rs.next()){
-				obj = new Session();
+				obj = new Session_();
 				obj.id = rs.getInt("id");
 				obj.sessionId = rs.getString("SESSION_ID");
 				obj.startTime = rs.getLong("START_TIME");
@@ -107,14 +108,14 @@ public class Session implements RowDataGateway{
 	}
 	
 	public Object getBySessionId() {
-		Session obj = null;
+		Session_ obj = null;
 		try{
 			String sql = "SELECT * FROM glb_t_session where session_id = ?";
 			PreparedStatement ps = this.conn.prepareStatement(sql);
 			ps.setString(1, this.sessionId);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()){
-				obj = new Session();
+				obj = new Session_();
 				obj.id = rs.getInt("id");
 				obj.sessionId = rs.getString("SESSION_ID");
 				obj.startTime = rs.getLong("START_TIME");
@@ -195,12 +196,12 @@ public class Session implements RowDataGateway{
 
 	@Override
 	public Object[] getAll() {
-		ArrayList<Session> sessions = new ArrayList<Session>();
+		ArrayList<Session_> sessions = new ArrayList<Session_>();
 		try {
 			Statement statement = this.conn.createStatement();
 			ResultSet rs = statement.executeQuery("SELECT * FROM GLB_T_SESSION");
 			while(rs.next()){
-				Session s = new Session();
+				Session_ s = new Session_();
 				s.setId(rs.getInt("id"));
 				s.setEndTime(rs.getLong("end_time"));
 				s.setStartTime(rs.getLong("start_time"));
@@ -224,7 +225,7 @@ public class Session implements RowDataGateway{
 	} 
 
 	public Object[] getAllWithFilter() {
-		ArrayList<Session> sessions = new ArrayList<Session>();
+		ArrayList<Session_> sessions = new ArrayList<Session_>();
 		try {
 			Statement statement = this.conn.createStatement();
 			String sql = "SELECT * FROM GLB_T_SESSION where 1=1 ";
@@ -233,11 +234,10 @@ public class Session implements RowDataGateway{
 			//sql += this.startTime != 0 ? " and (start_time - " + this.startTime + " < 24*60)" : "";
 			//sql += this.endTime != 0 ? " and (end_time - " + this.endTime + " < 24*60)" : "";
 			ResultSet rs = statement.executeQuery(sql);
-			System.out.println(sql);
 			int limit = 0;
 			while(rs.next()){
 				if(++limit > 20)break;
-				Session s = new Session();
+				Session_ s = new Session_();
 				s.setId(rs.getInt("id"));
 				s.setEndTime(rs.getLong("end_time"));
 				s.setStartTime(rs.getLong("start_time"));
@@ -406,7 +406,7 @@ public class Session implements RowDataGateway{
 	}
 	
 	public static boolean afterLogin(){
-		Session currentSession = new Session();
+		Session_ currentSession = new Session_();
 		currentSession.setUserId(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
 		currentSession.setEnvId(user.getAplicacao().getId());
@@ -430,12 +430,42 @@ public class Session implements RowDataGateway{
 	}
 	
 	public static boolean afterLogout(String sessionId){
-		Session session = new Session();
+		Session_ session = new Session_();
 		session.setSessionId(sessionId);
-		session = (Session) session.getBySessionId();
+		session = (Session_) session.getBySessionId();
 		session.setEndTime(System.currentTimeMillis());
 		
 		return session.update();
+	}
+	
+	public Object[] getTotalSessions(){
+			
+			String sql = "select a.start_time data, count(*) total from glb_t_session a where a.start_time between ? and ? group by a.start_time order by 1;";
+			ArrayList<nosi.webapps.igrp.pages.session.Session.Chart_t_sessao> result = new ArrayList<>();
+			try {
+				PreparedStatement ps = this.conn.prepareStatement(sql);
+				ps.setLong(1, this.startTime);
+				ps.setLong(2, this.endTime);
+				
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+				Session.Chart_t_sessao c = new Session().new Chart_t_sessao();
+				c.setAno("" + rs.getLong(1));
+				/*c.setAno(rs.getInt("Ano"));
+				c.setHomem(rs.getInt("total_m"));
+				c.setMulher(rs.getInt("total_f"));*/
+				
+				result.add(c);
+				}
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return result.toArray();
+		}
+	
+	public Object[] getTotalSessionsByApp(){
+		return null;
 	}
 	
 }
