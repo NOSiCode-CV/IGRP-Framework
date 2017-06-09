@@ -1,5 +1,10 @@
-/*-------------------------*/
-
+/**
+ * @author: Emanuel Pereira
+ * 
+ * Apr 20, 2017
+ *
+ *
+ */
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.page;
@@ -19,6 +24,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -185,9 +191,9 @@ public class PageController extends Controller {
 						FileHelper.save(path_xsl,ac.getPage()+".xml", fileXml) && // save xml
 						FileHelper.save(path_xsl,ac.getPage()+".xsl", fileXsl) && // save xsl
 						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) && // save json
-						FileHelper.compile(path_class,ac.getPage()+".java") && //Compile model
-						FileHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
-						FileHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
+						CompilerHelper.compile(path_class,ac.getPage()+".java") && //Compile model
+						CompilerHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
+						CompilerHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
 					if(FileHelper.fileExists(Config.getProject_loc())){
 						if(!FileHelper.fileExists(path_class_work_space)){//check directory
@@ -343,8 +349,31 @@ public class PageController extends Controller {
 		Igrp.getInstance().getResponse().getWriter().println(menu);
 	}
 	
-	public void actionPreserveUrl(){
-		
+	//Extracting reserve code inserted by programmer
+	public PrintWriter actionPreserveUrl() throws IOException{
+		Igrp.getInstance().getResponse().setContentType("text/xml");
+		String type = Igrp.getInstance().getRequest().getParameter("type");
+		String page = Igrp.getInstance().getRequest().getParameter("page");
+		String app = Igrp.getInstance().getRequest().getParameter("app");
+		String ac = Igrp.getInstance().getRequest().getParameter("ac");
+		String your_code = "";
+		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
+			String basePath = Config.getProject_loc()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
+			String controller = FileHelper.readFile(basePath, page+"Controller.java");
+			if(controller!=null && !controller.equals("")){
+				if(type.equals("c_import")){
+					your_code = controller.substring(controller.indexOf(Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER)+Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END));
+				}else if(type.equals("c_actions")){
+					your_code = controller.substring(controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER)+Config.RESERVE_CODE_ACTIONS_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END,controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER)));
+				}else if(ac!=null && !ac.equals("") && type.equals("c_on_action")){
+					String actionName = "action"+ac;
+					int after = controller.indexOf(actionName);
+					int x = controller.indexOf(Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER,after);
+					your_code = after!=-1?controller.substring(x+Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END,x)):"";
+				}
+			}
+		}
+		return Igrp.getInstance().getResponse().getWriter().append("<your_code>"+your_code+"</your_code>");
 	}
 	
 	public void actionListService(){
