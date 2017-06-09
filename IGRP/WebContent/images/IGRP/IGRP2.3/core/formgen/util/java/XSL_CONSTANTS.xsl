@@ -27,8 +27,15 @@
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
     <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
     <xsl:variable name="import_annotations">import nosi.core.webapp.RParam;</xsl:variable>
-    <xsl:variable name="base_import">import nosi.webapps.</xsl:variable>
-   
+    <xsl:variable name="base_import">import nosi.webapps.</xsl:variable>   
+    <xsl:variable name="preserve_url" select="rows/plsql/preserve_url"/>
+    <xsl:variable name="begin_reserve_code_controller_actions" select="'/*---- Insert your actions here... ----*/'"/>
+    <xsl:variable name="begin_reserve_code_controller_import" select="'/*---- Import your packages here... ----*/'"/>
+    <xsl:variable name="begin_reserve_code_controller_on_action" select="'/*---- Insert your code here... ----*/'"/>
+    <xsl:variable name="end_reserve_code" select="'/*---- End ----*/'"/>
+    <xsl:variable name="app_name"><xsl:value-of select="rows/app"/></xsl:variable>
+    <xsl:variable name="page_name"><xsl:value-of select="rows/page"/></xsl:variable>
+    
     <xsl:variable name="class_name">
 		<xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
     </xsl:variable>

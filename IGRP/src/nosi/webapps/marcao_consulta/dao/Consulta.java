@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import nosi.core.config.DbConfig;
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.marcao_consulta.pages.dashboard.DashBoard;

@@ -8,19 +8,19 @@
 
 package nosi.core.webapp.helpers;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.servlet.http.Part;
 
-import nosi.core.config.Config;
 
 public class FileHelper {
 
@@ -89,16 +89,33 @@ public class FileHelper {
 			e.printStackTrace();
 		}
 		return false;
-	}
-	
-	//Compile files and saves
-	public static boolean compile(String pathDestination,String className){
-		className = pathDestination+"/"+className;
-		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getBasePathClass(),"-d",Config.getBasePathClass(),className}) == 0;
-	}
+	}	
 	
 	public static boolean fileExists(String fileName){
 		Path dir = Paths.get(fileName);
 		return Files.exists(dir);
+	}
+	
+	public static String readFile(String basePath,String fileName){
+		String code = "";
+		fileName = basePath+"/"+fileName;
+		if(fileExists(fileName)){
+			try {
+				FileInputStream fis = new FileInputStream(new File(fileName));
+				BufferedInputStream bis = new BufferedInputStream(fis);
+				byte [] data = new byte[2048];
+				while((bis.read(data))!=-1){
+					code += new String(data);
+				}
+				fis.close();
+				bis.close();
+			} catch (IOException e) {
+				//e.printStackTrace();
+				System.err.println(e.getMessage());
+			}
+		}else{
+			System.err.println("File not found");
+		}
+		return code;
 	}
 }

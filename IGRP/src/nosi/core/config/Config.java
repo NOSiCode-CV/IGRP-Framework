@@ -23,7 +23,10 @@ public class Config {
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
-	
+	public static String RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER = "/*---- Import your packages here... ----*/";
+	public static String RESERVE_CODE_ACTIONS_CONTROLLER = "/*---- Insert your actions here... ----*/";
+	public static String RESERCE_CODE_ON_ACTIONS_CONTROLLER = "/*---- Insert your code here... ----*/";
+	public static String RESERVE_CODE_END = "/*---- End ----*/";
 	public static String getHeader(){
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
