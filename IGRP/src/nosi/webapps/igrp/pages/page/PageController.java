@@ -362,14 +362,19 @@ public class PageController extends Controller {
 			String controller = FileHelper.readFile(basePath, page+"Controller.java");
 			if(controller!=null && !controller.equals("")){
 				if(type.equals("c_import")){
-					your_code = controller.substring(controller.indexOf(Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER)+Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END));
+					int start = controller.indexOf(Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER);
+					int end = controller.indexOf(Config.RESERVE_CODE_END);
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER.length(), end):"";
 				}else if(type.equals("c_actions")){
-					your_code = controller.substring(controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER)+Config.RESERVE_CODE_ACTIONS_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END,controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER)));
+					int start = controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER);
+					int end =  start!=-1? controller.indexOf(Config.RESERVE_CODE_END,start):-1;
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_ACTIONS_CONTROLLER.length(),end):"";
 				}else if(ac!=null && !ac.equals("") && type.equals("c_on_action")){
 					String actionName = "action"+ac;
-					int after = controller.indexOf(actionName);
-					int x = controller.indexOf(Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER,after);
-					your_code = after!=-1?controller.substring(x+Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER.length(), controller.indexOf(Config.RESERVE_CODE_END,x)):"";
+					int start_ = controller.indexOf(actionName);
+					int start = start_!=-1?controller.indexOf(Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER,start_):-1;
+					int end = start!=-1?controller.indexOf(Config.RESERVE_CODE_END,start):-1;
+					your_code = (start!=-1 && start_!=-1 && end!=-1)?controller.substring(start+Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER.length(), end):"";
 				}
 			}
 		}
