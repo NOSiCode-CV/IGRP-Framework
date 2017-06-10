@@ -8,7 +8,7 @@
 
 package nosi.core.webapp.helpers;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,26 +25,34 @@ import javax.servlet.http.Part;
 
 public class FileHelper {
 
+	//COnverte file to string
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){
-			InputStream fileContent = file.getInputStream();		   
-		    StringBuilder  stringBuilder = new StringBuilder();
+			InputStream is = file.getInputStream();		   
+		    StringBuilder  code = new StringBuilder();
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
-		    DataInputStream in = new DataInputStream(fileContent);   
+		    DataInputStream in = new DataInputStream(is);   
+		    BufferedReader d = new BufferedReader(new InputStreamReader(in));
 		   try {
-		        while((line = in.readLine()) != null) {
-		            stringBuilder.append(line);
-		            stringBuilder.append(ls);
-		        }	        
-		    } finally {
+		        while((line = d.readLine()) != null) {
+		            code.append(line);
+		            code.append(ls);
+		        }
+		        is.close();
 		        in.close();
+		        d.close();
+		    } finally {
+		    	is.close();
+		        in.close();
+		        d.close();
 		    }
-		   return stringBuilder.toString();
+		   return code.toString();
 		}
 		return null;
 	}
 	
+	//Save file in a specific directory
 	public static boolean save(String path,String file_name,String data) throws IOException{	
 		createDiretory(path);
 			BufferedWriter bw = null;
@@ -78,6 +87,7 @@ public class FileHelper {
 		return save(path,filename,convertToString(file));
 	}
 	
+	//Create directories
 	public static boolean createDiretory(String path){
 		Path dir = Paths.get(path);
 		try {
@@ -96,26 +106,30 @@ public class FileHelper {
 		return Files.exists(dir);
 	}
 	
+	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
-		String code = "";
+		StringBuilder  code = new StringBuilder();
 		fileName = basePath+"/"+fileName;
 		if(fileExists(fileName)){
 			try {
-				FileInputStream fis = new FileInputStream(new File(fileName));
-				BufferedInputStream bis = new BufferedInputStream(fis);
-				byte [] data = new byte[2048];
-				while((bis.read(data))!=-1){
-					code += new String(data);
-				}
-				fis.close();
-				bis.close();
+				InputStream is = new FileInputStream(new File(fileName));				
+			    String         ls = System.getProperty("line.separator");
+			    String         line = null;
+			    DataInputStream in = new DataInputStream(is);   
+			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+			    while((line=d.readLine())!=null){
+			    	code.append(line);
+			    	code.append(ls);
+			    }
+			    is.close();
+			    in.close();
+			    d.close();
 			} catch (IOException e) {
-				//e.printStackTrace();
 				System.err.println(e.getMessage());
 			}
 		}else{
 			System.err.println("File not found");
 		}
-		return code;
+		return code.toString();
 	}
 }
