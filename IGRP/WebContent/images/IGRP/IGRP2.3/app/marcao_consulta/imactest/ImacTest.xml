@@ -40,9 +40,9 @@
                 <page>DashBoard</page>
                 <link>index</link>
                 <target>_self</target>
-                <img>default|fa-angle-right</img>
+                <img>secondary|fa-angle-right</img>
                 <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl</parameter>
-                <params>default||fa-angle-right|www</params>
+                <params>secondary||fa-angle-right|www</params>
             </item>
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
@@ -69,11 +69,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Sit elit natus anim rem</value>
+                    <value>Perspiciatis adipiscing accusantium adipiscing laudantium</value>
                 </nome>
                 <id name="p_id" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>ID</label>
-                    <value>848</value>
+                    <value>739</value>
                 </id>
             </fields>
         </form_1>
