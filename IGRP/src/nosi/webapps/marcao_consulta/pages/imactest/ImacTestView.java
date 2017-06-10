@@ -6,7 +6,6 @@ package nosi.webapps.marcao_consulta.pages.imactest;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
 
 public class ImacTestView extends View {
 	public String title = "Imac Test";		
