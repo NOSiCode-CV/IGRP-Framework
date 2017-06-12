@@ -35,7 +35,7 @@ public class User implements Component{
 		this.identity = (Identity) new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
 		return this.identity != null;// && this.checkPerfilOrganizationContext();
 	}
-//	
+	
 	public boolean isAuthenticated(){
 		return this.identity != null;
 	}
