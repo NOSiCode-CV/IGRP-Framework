@@ -3,6 +3,8 @@ package nosi.core.webapp;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXB;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -10,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+
+import nosi.core.config.AppConfig;
+import nosi.core.config.DbConfig;
 import nosi.core.dao.IgrpDb;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.PermissionException;
@@ -40,6 +45,9 @@ public class Igrp {
 	private String baseRoute;
 	
 	private boolean die;
+	
+	// Store all igrp app config. information
+	private AppConfig appConfig;
 	
 	// Others Web Application Components
 	// Db component
@@ -73,6 +81,11 @@ public class Igrp {
 			this.homeUrl = "igrp/home/index";
 			
 			// init of others configuration
+			
+			// load app configuration
+			this.loadAppConfig();
+			
+			// Db pool
 			this.igrpDb = new IgrpDb();
 			this.igrpDb.init();
 			
@@ -275,5 +288,15 @@ public class Igrp {
 	public void die(){
 		this.die = true;
 	}
-
+	
+	private void loadAppConfig(){
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/app/app.xml");
+		File file = new File(path);
+		this.appConfig = JAXB.unmarshal(file, AppConfig.class);
+	}
+	
+	public AppConfig getAppConfig(){
+		return this.appConfig;
+	}
+	
 }
