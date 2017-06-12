@@ -47,10 +47,10 @@ public class SessionController extends Controller {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); /*HH:mm:ss*/
 			
 			if((model.getData_inicio() != null && !model.getData_inicio().equals("") && 
-					!model.getData_inicio().equals(dateFormat.format(auxStartTime))) 
+					model.getData_inicio().compareTo(dateFormat.format(auxStartTime)) < 0)
 					||
 					(model.getData_fim() != null && !model.getData_fim().equals("") && 
-					!model.getData_fim().equals(dateFormat.format(auxEndTime)))
+					model.getData_fim().compareTo(dateFormat.format(auxEndTime)) > 1)
 					)
 					continue;
 			
