@@ -287,8 +287,8 @@ public class Application implements RowDataGateway {
 		
 		try{
 			String sql = "SELECT * FROM glb_t_env where 1=1 ";
-			sql += (this.getDad()!=null && !this.getDad().equals("")) ? " and dad like '%" + this.getDad() + "%' ": " ";
-			sql += (this.getName()!=null && !this.getName().equals("")) ? " and name like '%" + this.getName() + "%' ": " ";
+			sql += (this.getDad()!=null && !this.getDad().equals("")) ? " and lower (dad) like lower ('%" + this.getDad() + "%') ": " ";
+			sql += (this.getName()!=null && !this.getName().equals("")) ? " and lower (name) like lower ('%" + this.getName() + "%') ": " ";
 			
 			PreparedStatement st = con.prepareStatement(sql);
 			ResultSet result = st.executeQuery();
