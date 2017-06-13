@@ -4,7 +4,7 @@ package nosi.core.gui.generator;
  * 
  * Apr 18, 2017
  *
- * Description: class to build API Generator
+ * Description: class to build UI Desgin
  */
 
 import nosi.core.config.Config;
