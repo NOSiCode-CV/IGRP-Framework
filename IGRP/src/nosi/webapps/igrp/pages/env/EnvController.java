@@ -57,7 +57,7 @@ public class EnvController extends Controller {
 			if(app.insert() && FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages") && FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())) && CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java")){
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
 				app = (Application) app.getOne();
-				System.out.println("Id de aplicacao = " + app.getId());
+				
 				Organization org = new Organization();
 				ProfileType proty = new ProfileType();
 				
@@ -69,8 +69,6 @@ public class EnvController extends Controller {
 				if(org.insert()){
 					Igrp.getInstance().getFlashMessage().addMessage("success", "Orgânica registada com sucesso!");
 					org = (Organization) org.getOne();
-					
-					System.out.println("Id de organica = " + org.getId());
 					
 					proty.setCode("Admin." + org.getName());
 					proty.setDescr("PefilAdmin.default " + org.getName());
