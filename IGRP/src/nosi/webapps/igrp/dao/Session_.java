@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.pages.session.Session.Chart_t_sessao;
 import nosi.webapps.igrp.pages.session.Session;
 /**
  * Marcel Iekiny
