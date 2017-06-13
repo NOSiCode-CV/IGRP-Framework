@@ -78,6 +78,12 @@ public abstract class Controller {
 		return this.view;
 	}
 	
+	// ... main statics methods ...
+	
+	public static void initControllerAndRunAction(){
+		
+	}
+	
 	//... Others methods ...
 	
 }

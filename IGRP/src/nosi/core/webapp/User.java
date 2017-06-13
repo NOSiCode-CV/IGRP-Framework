@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.Permission;
 /**
  * @author Marcel Iekiny
@@ -20,7 +19,7 @@ public class User implements Component{
 	public User(){
 	}
 	
-	public boolean login(Identity identity, int expire, int currentPerfilId, int currentOrgId){ // Make login and authenticate the user ... using session and cookies
+	public boolean login(Identity identity, int expire){ // Make login and authenticate the user ... using session and cookies
 		this.identity = identity;
 		this.expire = expire;
 		Permission.changeOrgAndProfile("igrp");
@@ -33,7 +32,7 @@ public class User implements Component{
 		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
 		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");
 		this.identity = (Identity) new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
-		return this.identity != null;// && this.checkPerfilOrganizationContext();
+		return this.identity != null;
 	}
 	
 	public boolean isAuthenticated(){

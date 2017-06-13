@@ -121,10 +121,13 @@ public class Igrp {
 			}
 	}
 	
-	public void runAction(){ // run a action in the specific controller
+	private void runController(){
+		
+	}
+	
+	private void runAction(){ // run a action in the specific controller
 		if(!Permission.isPermition(this.currentAppName,this.currentPageName,this.currentActionName))
 			throw new PermissionException("Nao tem permissao para aceder esta aplicacao");
-		
 		this.load(this.convertRoute());
 	}
 	
@@ -159,38 +162,25 @@ public class Igrp {
 			Object controller = c.newInstance();
 			Method action = null;
 			ArrayList paramValues = new ArrayList();
-			
 			for(Method aux : c.getDeclaredMethods())
 				if(aux.getName().equals(actionName))
 					action = aux;
-			
 			int countParameter = action.getParameterCount();
-			
 			if(countParameter > 0){
-				
 				for(Parameter parameter : action.getParameters()){
-					
 					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
-						
 						// Dependency Injection for models
-						
 						Class c_ = Class.forName(parameter.getType().getName());
 						nosi.core.webapp.Model model = (Model) c_.newInstance();
 						model.load();
 						paramValues.add(model);
-						
 					}else{
-					
 					if(parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null){
-						
 							// Dependency Injection for simple vars ...
 							if(parameter.getType().isArray()){
-								
 								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
-								
 							}else{
-								
 								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName());
 								paramValues.add(result);
 							}
@@ -204,7 +194,6 @@ public class Igrp {
 			}else{
 				action.invoke(controller);
 			}
-			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
 			e.printStackTrace();

@@ -410,6 +410,7 @@ public class Session_ implements RowDataGateway{
 		currentSession.setUserId(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
 		currentSession.setEnvId(user.getAplicacao().getId());
+		System.out.println(user.getAplicacao().getId());
 		currentSession.setOrgId(user.getOrganica().getId());
 		currentSession.setProfTypeId(user.getProfile().getId());
 		currentSession.setIpAddress(Igrp.getInstance().getRequest().getRemoteAddr());
@@ -424,7 +425,6 @@ public class Session_ implements RowDataGateway{
 		long time = System.currentTimeMillis();
 		currentSession.setStartTime(time);
 		currentSession.setEndTime(time + 30*60); // add 30 min.
-		
 		return currentSession.insert();
 		
 	}

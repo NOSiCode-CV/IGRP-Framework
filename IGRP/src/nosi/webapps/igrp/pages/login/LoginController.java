@@ -4,7 +4,9 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session_;
 import nosi.core.webapp.helpers.Route;
 import java.io.IOException;
@@ -24,12 +26,17 @@ public class LoginController extends Controller {
 		view.user.setValue("demo");
 		view.password.setValue("demo");
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			
 			model.load();
+			
 			switch(Igrp.getInstance().getAppConfig().getAuthenticationType()){
 			
 				case "db": this.loginWithDb(model.getUser(), model.getPassword()); break;
+				
 				case "ldap": this.loginWithLdap(); break;
+				
 				case "oauth2":break;
+				
 				default:;
 			}
 		}
@@ -42,8 +49,17 @@ public class LoginController extends Controller {
 		User user = (User) new User().findIdentityByUsername(username);
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
 			if(user.getStatus() == 1){
+				
 				Profile profile = (Profile) new Profile().getByUser(user.getId());
-					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30, profile.getProf_type_fk(),profile.getOrg_fk())){
+				Organization organization = new Organization();
+				ProfileType profileType = new ProfileType();
+				
+				profileType.setId(profile.getProf_type_fk());
+				organization.setId(profile.getOrg_fk());
+				
+				user.setOrganica(organization);
+				user.setProfile(profileType);
+					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
 						if(!Session_.afterLogin())
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
@@ -61,9 +77,9 @@ public class LoginController extends Controller {
 	
 	// Use ldap protocol to make login
 	private void loginWithLdap(){
-		
+		// Not set yet
 	}
-
+	
 	public void actionLogout() throws IOException{
 		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 		if(Igrp.getInstance().getUser().logout()){
