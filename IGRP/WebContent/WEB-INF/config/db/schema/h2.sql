@@ -460,8 +460,9 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
 		(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl'),
 		(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl'),
-		(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl');;
-	
+		(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl'),
+		(23,1, 'WebReport', 'index','images/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl');
+
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017),
 		   (1, 'Nositeste', 'nositeste@nosi.cv', 'fe01ce2a7fbac8fafaed7c982a04e229', 'ADMIN', NULL, NULL, '123456789', 'demo', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
@@ -485,7 +486,8 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 	(9, 'Settings', 14, 5,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),	
 	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
 	(11, 'Auditoria', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
-	(12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
+	(12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
+	(13, 'Web Report', 23, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
 	
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1),
@@ -499,6 +501,7 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 		   (0, 0, 'MEN', 9, 1), 
 		   (0, 0, 'MEN', 10, 1),
 		   (0, 0, 'MEN', 12, 1),
+		   (0, 0, 'MEN', 13, 1),
 		   (1, 0, 'MEN', 2, 1), 
 		   (1, 0, 'MEN', 3, 1), 
 		   (1, 0, 'MEN', 4, 1), 
@@ -507,7 +510,8 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 		   (1, 0, 'MEN', 8, 1), 
 		   (1, 0, 'MEN', 9, 1), 
 		   (1, 0, 'MEN', 10, 1), 
-		   (1, 0, 'MEN', 12, 1); 
+		   (1, 0, 'MEN', 12, 1), 
+		   (1, 0, 'MEN', 13, 1); 
 		   
 
 
@@ -524,31 +528,30 @@ INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `O
 
 INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
 	VALUES
-	(23, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
-	(24, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
-	(25, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
-	(26, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
-	(27, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
-	(28, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
-	(29, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+	(24, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+	(25, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+	(26, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+	(27, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+	(28, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+	(29, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+	(30, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
 
 INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) 
 	VALUES
-	(13, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
-	(14, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
-	(15, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
-	(16, 'Registar Utente', 26,13, '', 2,'','', 0, 1, '', 0, '_self'),
-	(17, 'Listar Utentes', 27, 13, '', 2,'','', 0, 1, '', 0, '_self'),
-	(18, 'Registar Medico', 24,14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(19, 'Listar Medicos', 23, 14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(20, 'Marcar Consultas',25,15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(21, 'Consultas Pendentes',28,15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(22, 'Dash Board',29,15, '', 2,'','', 0, 1, '', 0, '_self');
+	(14, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+	(15, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
+	(16, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
+	(17, 'Registar Utente', 27,14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(18, 'Listar Utentes', 28, 14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(19, 'Registar Medico', 25,15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(20, 'Listar Medicos', 24, 15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(21, 'Marcar Consultas',26,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(22, 'Consultas Pendentes',29,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(23, 'Dash Board',30,16, '', 2,'','', 0, 1, '', 0, '_self');
 /**/
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 
 	(0, 0, 'MEN', 9, 2),
-	(0, 0, 'MEN', 13, 2),
 	(0, 0, 'MEN', 14, 2),
 	(0, 0, 'MEN', 15, 2),
 	(0, 0, 'MEN', 16, 2),
@@ -558,8 +561,8 @@ INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_
 	(0, 0, 'MEN', 20, 2),
 	(0, 0, 'MEN', 21, 2),
 	(0, 0, 'MEN', 22, 2),
+	(0, 0, 'MEN', 23, 2),
 	(2, 0, 'MEN', 9, 2),
-	(2, 0, 'MEN', 13, 2),
 	(2, 0, 'MEN', 14, 2),
 	(2, 0, 'MEN', 15, 2),
 	(2, 0, 'MEN', 16, 2),
@@ -569,5 +572,6 @@ INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_
 	(2, 0, 'MEN', 20, 2),
 	(2, 0, 'MEN', 21, 2),
 	(2, 0, 'MEN', 22, 2),
+	(2, 0, 'MEN', 23, 2),
 	(2, 1, 'ENV', 2, 2),
 	(2, 1, 'PROF', 2, 2);

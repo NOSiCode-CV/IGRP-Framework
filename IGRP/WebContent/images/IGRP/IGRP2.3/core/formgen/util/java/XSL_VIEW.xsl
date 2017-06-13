@@ -14,8 +14,6 @@
  		<xsl:value-of select="concat('public class ',$class_name,'View extends View {')"/> 			
 	 		<xsl:value-of select="$newline"/>
 	     	<xsl:value-of select="$tab"/>	
-	     	<xsl:value-of select="concat('public String title = ',$double_quotes,/rows/content/title,$double_quotes,';')"/>
-	 		<xsl:value-of select="$tab2"/>
 	     	<xsl:value-of select="$newline"/>
 	     	<xsl:call-template name="declare-variables-view"></xsl:call-template>
 	     	<xsl:value-of select="$newline"/>
@@ -45,7 +43,7 @@
 		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>	
 			<xsl:value-of select="$newline"/>	
 	     	<xsl:value-of select="$tab2"/>
-	     	<xsl:value-of select="'this.setPageTitle(this.title);'"/>
+	     	<xsl:value-of select="concat('this.setPageTitle(',$double_quotes,/rows/content/title,$double_quotes,');')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	     	
 			<xsl:call-template name="instance-components-view"></xsl:call-template>
