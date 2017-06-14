@@ -1,0 +1,14 @@
+<xsl:choose>
+	<xsl:when test="//#parent.path#/fields/#tag#/@table='true'">
+		<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+			<span class="showResponsiveTable ctxmenu"/>
+			<span class="separator-list-td-val"><xsl:value-of select="#tag#_desc" disable-output-escaping="yes"/></span>
+			<input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+			<input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+		</td>
+	</xsl:when>
+	<xsl:when test="//#parent.path#/fields/#tag#/@table='false'">
+		<input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
+  		<input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+	</xsl:when>
+</xsl:choose>

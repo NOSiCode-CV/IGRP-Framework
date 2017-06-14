@@ -1,0 +1,137 @@
+body{margin:0; font-size: 14px; font-family:Arial; line-height: 20px;}
+.col{display:block;background: #ccc;padding: 10px;font-size: 14px; font-weight: bold;}
+table{border:#cecece 1px solid;border-spacing:0;border-collapse:collapse;position: relative;width: 100%;}
+table thead tr th, table tbody tr td{border:#cecece 1px solid; padding:1px;line-height:25px;}
+table thead tr th{background: #d8d8d8;}
+table tbody tr td{vertical-align:text-top;}
+table th{text-transform:capitalize;}
+table tr:nth-child(odd){background-color: #f7f7f7;}
+table tr:nth-child(even){background-color: #e2e2e2;}
+
+.header{display: block;height:65px; position: relative;left: 0;right: 0;top: 0;/*background: #07466f;*/border-bottom: 2px solid #05314e;z-index: 5;}
+.header .nave{padding:5px 60px;display: block; position: relative;}
+.header .nave .headleft, .header .nave .headright{display: inline-block;position: relative;}
+.header .nave .headleft{ width: 80%;}
+.header .nave .headleft .logo{ display: inline-block; width: 50px; height: 50px;}
+.header .nave .headleft .logo img{width: 100%; height: 100%; margin:0; padding: 0;}
+.header .nave .headleft .title{display: inline-block;padding:15px 10px 10px 10px;font-size: 18px; letter-spacing:1px; line-height: 20px; text-transform: capitalize; color:#929292; vertical-align:top;}
+.header .nave .headright{width: 19%; height:38px;}
+.header .nave .headright .brasao{position: absolute; top:-17px; left: 10px; text-align: center;}
+.header .nave .headright .brasao img{ width:40px; height:40px; position: relative;}
+
+#tri {
+  background: #05314e;
+  display: inline-block;
+  height:38px;
+  position: relative;
+  width:60px;
+}
+#tri:before {
+  border-top:22px solid #05314e;
+  border-left:30px solid transparent;
+  border-right:30px solid transparent;
+  content: "";
+  height: 0;
+  left: 0;
+  position: absolute;
+  top:38px;
+  width: 0;
+}
+.naver{display: block;position: relative;}
+.naver .nave{padding: 10px 60px;display: block;position: relative; margin-bottom: 60px;}
+.footer{display: block; background: #8097a5; height: 60px;}
+.footer .nave{padding: 0 60px;}
+#containerQrcode{display: inline-block; margin-top: -60px; padding: 10px; background: #fff;}
+.contraProva{display: inline-block;padding: 0 10px;font-size: 16px; }
+.contraProva .label{text-transform:uppercase; text-align: left; color: #4b4b4b;}
+.contraProva .val{color: #fff; font-size: 18px;}
+.userprint{float: right;padding-top:40px;font-size: 11px; color: #4b4b4b; display: inline-block;}
+.userprint span{padding: 0 5px}
+
+@media print {
+
+  body{margin:0; font-size: 14px; font-family:Arial; line-height: 20px;}
+  .col{display:block;background: #ccc;padding: 10px;font-size: 14px; font-weight: bold;}
+  table{border:#cecece 1px solid;border-spacing:0;border-collapse:collapse;position: relative;width: 100%;}
+  table thead tr th, table tbody tr td{border:#cecece 1px solid; padding:1px;line-height:25px;}
+  table thead tr th{background: #d8d8d8;}
+  table th{text-transform:capitalize;}
+  table tr:nth-child(odd){background-color: #f7f7f7;}
+  table tr:nth-child(even){background-color: #e2e2e2;}
+
+  .header{display: block;height:65px; position: relative;left: 0;right: 0;top: 0;/*background: #07466f;*/border-bottom: 2px solid #05314e;z-index: 5;}
+  .header .nave{padding:5px 60px;display: block; position: relative;}
+  .header .nave .headleft, .header .nave .headright{display: inline-block;position: relative;}
+  .header .nave .headleft{ width: 80%;}
+  .header .nave .headleft .logo{ display: inline-block; width: 50px; height: 50px;}
+  .header .nave .headleft .logo img{width: 100%; height: 100%; margin:0; padding: 0;}
+  .header .nave .headleft .title{display: inline-block;padding:15px 10px 10px 10px;font-size: 18px; letter-spacing:1px; line-height: 20px; text-transform: capitalize; color:#929292; vertical-align:top;}
+  .header .nave .headright{width: 19%; height:38px;}
+  .header .nave .headright .brasao{position: absolute; top:-17px; left: 10px; text-align: center;}
+  .header .nave .headright .brasao img{ width:40px; height:40px; position: relative;}
+
+  #tri {
+    background: #05314e;
+    display: inline-block;
+    height:38px;
+    position: relative;
+    width:60px;
+  }
+  #tri:before {
+    border-top:22px solid #05314e;
+    border-left:30px solid transparent;
+    border-right:30px solid transparent;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    top:38px;
+    width: 0;
+  }
+  .naver{display: block;position: relative;}
+  .naver .nave{padding: 10px 10px;display: block;position: relative; margin-bottom: 60px;}
+  .footer{display: block; background: #8097a5; height: 60px;}
+  .footer .nave{padding: 0 10px;}
+  #containerQrcode{display: inline-block; margin-top: -60px; padding: 10px; background: #fff;}
+  .contraProva{display: inline-block;padding: 0 10px;font-size: 16px; }
+  .contraProva .label{text-transform:uppercase; text-align: left; color: #4b4b4b;}
+  .contraProva .val{color: #fff; font-size: 18px;}
+  .userprint{float: right;padding-top:40px;font-size: 11px; color: #4b4b4b; display: inline-block;}
+  .userprint span{padding: 0 5px}
+
+  body{-webkit-print-color-adjust:exact;}
+	@page {
+    margin:1.5cm;
+    size: letter portrait;
+    @top-left { content: element(header);/*class*/ }
+  }
+  .col{display:block;background: #ccc;padding: 10px;font-size: 14px; font-weight: bold;}
+  .wrap { 
+    width: 100%; 
+    margin: 0; 
+    float: none !important;
+    page-break-after:always; 
+  }
+  img {
+    max-width: 100%;
+    position: relative;
+  }
+  p a {
+  	word-wrap: break-word;
+  }
+  a:link:after, a:visited:after { 
+    content: "(" attr(href) ") ";
+  }
+  a:after, a[href^="javascript:"]:after, a[href^="#"]:after { 
+    content: ""; 
+  }
+  table{border:#cecece 1px solid !important;border-spacing:0;border-collapse:collapse;position: relative;width: 100%;}
+  table thead tr th, table tbody tr td{border:#cecece 1px solid !important; padding:1px;line-height:25px;}
+  table thead tr th{background: #d8d8d8;}
+  table th{text-transform:capitalize;}
+  table tr:nth-child(odd){background-color: #f7f7f7;}
+  table tr:nth-child(even){background-color: #e2e2e2;}
+  table thead {display: table-header-group;}
+	table tfoot { display: table-footer-group;}
+	table tbody { display: table-row-group;}
+}

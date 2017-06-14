@@ -1,0 +1,29 @@
+<div class="col-1-#[size]# item" item-name="select">
+  <div class="igrp_item select">
+    <label class="#[required]#">
+      <xsl:if test="string-length(#label.path#) >45">
+         <xsl:attribute name="title"><xsl:value-of select="#label.path#"/></xsl:attribute>
+      </xsl:if>
+      <span>#label.val#</span>
+    </label>
+   
+    <select rel="F_#parent.tag#" name="#name.attr#" #[multiple]# chosen="select" id="#name.attr#" data-placeholder="{#list.path#/option[position() = 1]/text}" class="select #[change]# #[required]#" #[disabled]#>
+      
+      <xsl:call-template name="FIELD_validator">
+        <xsl:with-param name="field" select="#path#"/>
+      </xsl:call-template>
+
+      <xsl:for-each select="#list.path#/option[position() != 1]">
+        <option value="{value}">
+          <xsl:if test="@selected='true'">
+            <xsl:attribute name="selected">selected</xsl:attribute>
+          </xsl:if>
+          <span><xsl:value-of select="text"/></span>
+        </option>
+      </xsl:for-each>
+
+    </select>
+    <div class="_clear"/>
+  </div>
+  <div class="_clear"/>
+</div>

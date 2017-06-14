@@ -1,0 +1,10 @@
+<xsl:if test="not(#tag#/@visible)">
+	<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+      <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
+      <input type="#type#" name="p_#tag#_fk" value="{#tag#}" class="#type#" rel="F_#parent.tag#">
+        <xsl:call-template name="FIELD_validator">
+          <xsl:with-param name="field" select="../../fields/#tag#"/>
+        </xsl:call-template>
+      </input>
+    </td>
+</xsl:if>

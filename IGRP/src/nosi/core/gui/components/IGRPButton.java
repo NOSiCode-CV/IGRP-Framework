@@ -12,6 +12,7 @@ public class IGRPButton {
     private String img = "";
     private String params = "";
     private String parameter = "";
+    private String type = "form";
     public FieldProperties propertie;
     
     public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params){
@@ -30,6 +31,14 @@ public class IGRPButton {
     	this.propertie = new FieldProperties();
     }
     
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getTitle() {
 		return title;
 	}

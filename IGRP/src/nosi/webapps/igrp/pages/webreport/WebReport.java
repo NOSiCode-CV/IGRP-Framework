@@ -23,8 +23,63 @@ public class WebReport extends Model{
 	private String reports;
 	private String data_source;
 	private String link_config;
+	private String p_env_frm_url;
+	private String p_env_dml;
+	private String p_prm_target;
+	private String p_fwl_tab_page;
+	private String p_fwl_workflow;
+	private String p_fwl_dialogbox;
+	private String p_fwl_relbox;
+	private String p_fwl_tab_menu;
 	
-	
+	public String getP_env_frm_url() {
+		return p_env_frm_url;
+	}
+	public void setP_env_frm_url(String p_env_frm_url) {
+		this.p_env_frm_url = p_env_frm_url;
+	}
+	public String getP_env_dml() {
+		return p_env_dml;
+	}
+	public void setP_env_dml(String p_env_dml) {
+		this.p_env_dml = p_env_dml;
+	}
+	public String getP_prm_target() {
+		return p_prm_target;
+	}
+	public void setP_prm_target(String p_prm_target) {
+		this.p_prm_target = p_prm_target;
+	}
+	public String getP_fwl_tab_page() {
+		return p_fwl_tab_page;
+	}
+	public void setP_fwl_tab_page(String p_fwl_tab_page) {
+		this.p_fwl_tab_page = p_fwl_tab_page;
+	}
+	public String getP_fwl_workflow() {
+		return p_fwl_workflow;
+	}
+	public void setP_fwl_workflow(String p_fwl_workflow) {
+		this.p_fwl_workflow = p_fwl_workflow;
+	}
+	public String getP_fwl_dialogbox() {
+		return p_fwl_dialogbox;
+	}
+	public void setP_fwl_dialogbox(String p_fwl_dialogbox) {
+		this.p_fwl_dialogbox = p_fwl_dialogbox;
+	}
+	public String getP_fwl_relbox() {
+		return p_fwl_relbox;
+	}
+	public void setP_fwl_relbox(String p_fwl_relbox) {
+		this.p_fwl_relbox = p_fwl_relbox;
+	}
+	public String getP_fwl_tab_menu() {
+		return p_fwl_tab_menu;
+	}
+	public void setP_fwl_tab_menu(String p_fwl_tab_menu) {
+		this.p_fwl_tab_menu = p_fwl_tab_menu;
+	}
 	public String getLink_config() {
 		return link_config;
 	}

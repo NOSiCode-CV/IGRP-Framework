@@ -207,7 +207,7 @@ public class PageController extends Controller {
 						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
 					}
 					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl");
+					ac.setXsl_src(ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}

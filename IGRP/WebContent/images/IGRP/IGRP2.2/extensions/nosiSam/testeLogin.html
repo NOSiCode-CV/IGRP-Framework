@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>Teste Login Token</title>   	
+
+
+<script language="javascript" type="text/javascript" src="js/NosiSAM.js?v=006"></script>
+
+<script language="javascript" type="text/javascript">
+//Pa$$w0rd0
+function show(pId,pValue)
+{
+	document.getElementById(pId).value=pValue;
+}
+
+function get(pId)
+{
+	return document.getElementById(pId).value;
+}
+
+
+function showLog()
+{
+	show("p_log",NosiSAM.getLog());
+	NosiSAM.clearLog();
+}
+
+function Local_isTokenPresent()
+{
+	
+	NosiSAM.start(null);
+	if(NosiSAM.getTerminals().length!=0)
+		document.getElementById("activartoken").style.display="block";
+	else
+		document.getElementById("activartoken").style.display="none";
+	
+	showLog();
+	//alert(NosiSAM.getCurrentTokenSerial());
+	
+	//alert("start");
+	 //document.nositoken.etokenispresent("show2");
+	 
+	 //eToken=new ActiveXObject("eToken");
+	
+	
+}
+
+function Local_Login()
+{
+	var obj = JSON.parse(NosiSAM.doAuthentication("Teste Message"));
+	
+	if(obj.status=="true")
+		alert("message:"+obj.message+"\nmessage_digest:"+obj.message_digest+"\ncertificate:"+obj.certificate);
+	else
+		alert("status_text:"+obj.status_text);
+		
+	showLog();
+	
+}
+
+
+</script>
+
+</head>
+<body>
+<h3>Teste Login Token</h3>
+
+
+<!--<object classid="clsid:208CE54E-F15E-4DCB-823A-9DA0DFD1B2E1"
+    	codebase="SBDCSigner.ocx#version=1,1,0,0" width="500" height="240">
+    <param name="Data" value="base64-encoded xml request" />
+    <param name="SessionID" value="unique text" />
+    <param name="Color" value="color value in form #RRGGBB" />
+    <param name="DataURL" value="absolute or relative url" />
+    <param name="GoURL" value="absolute or relative url" />
+    <param name="PKCS11Registry" value="absolute path in windows registry w/o HKLM or HKCU marks" />
+    <param name="Token" value="token name" />
+    <param name="PKCS11Libraries" value="eTPKCS11.dll" />
+</object>-->
+
+<table border="0">
+
+<tr>
+ <td valign="top">
+<input type="text" id="p_user" name="p_user" size="30" value=""/>
+ </td>
+ </tr>
+ 
+ 
+ <tr>
+  <td valign="top">
+<input type="text" id="p_pwd" name="p_pwd" size="30" value=""/>
+ </td>
+</tr>
+
+ <tr>
+  <td valign="top">
+<input type="button" name="activar" value="Activar" />
+<input type="button" id="activartoken" name="activartoken" value="Entrar com Token" style="display:none" onclick="Local_Login();"/>
+ </td>
+</tr>
+
+
+ <tr>
+ <td valign="top">
+ <br />
+  <br />
+<textarea name="p_log" id="p_log" rows="5" cols="80"></textarea>
+ </td>
+ </tr>
+
+ </table>
+ <!--<br />
+ <input type="button" name="runapplet" value="Run Applet" onclick="javascript:Local_isTokenPresent();"/>-->
+ 
+ 
+ 
+
+ 
+</body>
+
+<script language="javascript" type="text/javascript"> 
+
+ setInterval("Local_isTokenPresent()", 5);
+
+</script>
+
+</html>

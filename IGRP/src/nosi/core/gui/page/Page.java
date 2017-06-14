@@ -48,8 +48,7 @@ public class Page {
 			ac.setAction(action);
 			ac.setPage(resolvePageName(page));
 			ac.setEnv(env);
-			path_xsl = ac.getXslPath();
-			
+			path_xsl = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getXslPath();
 		}
     
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");

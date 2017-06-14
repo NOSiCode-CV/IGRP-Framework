@@ -1,0 +1,10 @@
+<div class="col" gen-structure="graphic" style="border:1px solid #d1d1d1 !important">
+	<xsl:call-template name="igrp-graph">
+        <xsl:with-param name="table" select="#path#" />
+        <xsl:with-param name="chart_type" select="'#[chart_type]#'"/>
+        <xsl:with-param name="height" select="'#[height]#'"/>
+        <xsl:with-param name="title" select="'#title#'"/>
+        <xsl:with-param name="url" select="#path#/url"/>
+    </xsl:call-template>
+	<div class="_clear"/>
+</div>

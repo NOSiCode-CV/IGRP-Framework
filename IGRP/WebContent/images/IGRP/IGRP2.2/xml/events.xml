@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+	<content>
+		<table>
+      <label>
+        <title>Titulo do Evento</title>
+        <start>Inicio do Evento</start>
+        <id>ID do Evento</id>
+        <end>Fim do Evento</end>
+        <bgcolor>Cor de Fundo do Evento simboliza prioridade</bgcolor>
+      </label>
+      <value>
+        <row>
+          <title>Long Event</title>
+          <start>2015-01-07</start>
+          <id>2</id>
+          <end>2015-01-10</end>
+          <context-menu>
+            <param>p1=linha1</param>
+            <param>p2=linha1</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>All Day Event</title>
+          <start>2015-01-01</start>
+          <id>1</id>
+          <end>2015-01-01</end>
+          <context-menu>
+            <param>p1=linha2</param>
+            <param>p2=linha2</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>Repeating Event</title>
+          <start>2015-01-09T16:00:00</start>
+          <id>3</id>
+          <end>2015-01-09-</end>
+          <bgcolor>#F00000</bgcolor>
+          <context-menu>
+            <param>p1=linha3</param>
+            <param>p2=linha3</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>Repeating Event</title>
+          <start>2015-01-16T16:00:00</start>
+          <id>3</id>
+          <end>2015-01-16</end>
+          <bgcolor>#F00000</bgcolor>
+          <context-menu>
+            <param>p1=linha4</param>
+            <param>p2=linha4</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>Conferencet</title>
+          <start>2015-01-11</start>
+          <id>4</id>
+          <end>2015-01-13</end>
+          <context-menu>
+            <param>p1=linha5</param>
+            <param>p2=linha5</param>
+            <param>ctx_hidden=Relacoes,Anexar Documetos,Efectuar Pagamento,Relacoes Eliminar</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>Meeting</title>
+          <start>2015-01-19T10:30:00</start>
+          <id>5</id>
+          <end>2015-01-19T12:30:00</end>
+          <context-menu>
+            <param>p1=linha6</param>
+            <param>p2=linha6</param>
+            <param>ctx_hidden=Relacoes</param>
+          </context-menu>
+        </row>
+        <row>
+          <title>Meeting</title>
+          <start>2015-01-20T10:30:00</start>
+          <id>6</id>
+          <end>2015-01-20T12:30:00</end>
+          <context-menu>
+            <param>p1=linha7</param>
+            <param>p2=linha7</param>
+            <param>ctx_hidden=Relacoes,Efectuar Pagamento</param>
+          </context-menu>
+        </row>
+      </value>
+      <context-menu>
+        <item   type="specific">
+          <title>Relacoes</title>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+          <link>AD2</link>
+          <target>_blank</target>
+          <img>edit.png</img>
+          <parameter>&amp;p_nome=zegui&amp;p_idade=29</parameter>
+        </item>
+        <item>
+          <img>pagar.png</img>
+          <link>http://teste.html?p_id=#P1&amp;p_nr_processo=#P2</link>
+          <title>Efectuar Pagamento</title>
+          <target>self</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+        <item>
+          <img>send.png</img>
+          <link>http://teste.html?p_id=#P1&amp;p_nr_processo=#P2</link>
+          <title>Anexar Documetos</title>
+          <target>_blank</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+        <item>
+          <img>delete.png</img>
+          <link>DELETE</link>
+          <title>Relacoes Eliminar</title>
+          <target>confirm</target>
+          <app>HOME</app>
+          <page>CRIACAO_EMPRESA</page>
+        </item>
+      </context-menu>
+    </table>
+	</content>
+</rows>

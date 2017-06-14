@@ -1,0 +1,288 @@
+/* for BPMN.html */
+
+/* Diagram and palette area */
+
+#myDiagram {
+  float: left;
+  width: 70%;
+ /* margin-left: 0.5%;*/
+  height: 700px;
+  background-color: white;
+}
+canvas{ outline: none;}
+#description {
+  float: left;
+  margin-left: 4px;
+}
+.dataJSON{display: none;}
+#sideBar div.IGRP-menu{visibility: hidden; height: 0;}
+#sideBar div.IGRP-menu.active{visibility:visible; height: auto;}
+#PaletteAndDiagram {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.IGRP-menu a.addArea{float: right;cursor: pointer; display: none;}
+.IGRP-menu a.addArea.active{display: block;}
+
+.bpmn_loading{position:absolute; display: none; left:28.5%; right: 0; top:0; bottom: 0;background:url(../../../themes/default/img/loading.gif) no-repeat rgba(255,255,255,0.8) center; z-index:2;}
+.bpmn_loading.active{ display: block;}
+#sideBar {
+  float: left;
+  width: 28%;
+  min-height:700px;
+  position: relative;
+  border-right: 1px solid #d1d1d1; 
+}
+
+#sideBar .IGRP-menu .chosen-drop ul.chosen-results li{ width: 100% !important; max-width: none !important;  min-width: none !important;}
+
+#myPalette {
+  width: 100%;
+  min-height: 625px;
+  text-align: center;
+}
+
+#myOverview {
+  width: 100%;
+  height: 225px;
+  position: relative;
+}
+
+.overviw{
+  width: 375px;
+  left: -367px;
+  position: fixed;
+  height: 225px;
+  z-index: 3;
+  bottom: 20px;
+  webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.cOverviw{
+  position: absolute;
+  right:-45px;
+  top: 22px;
+  z-index: 4;
+  padding: 5px;
+  background:#FAFAFA;
+  border: 1px solid #ccc;
+  cursor: pointer !important;
+  -ms-transform: rotate(-90deg); /* IE 9 */
+  -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+
+.overviw.active{left: 8px;}
+
+.overviw.active #myOverview{ visibility: visible;}
+
+/* top bar area */
+
+#menuBar {
+  border: none;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  font: 67.5% 'Lucida Sans Unicode', 'Bitstream Vera Sans', 'Trebuchet Unicode MS', 'Lucida Grande', Verdana, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  width: auto;
+}
+
+#menuBar ul {
+  background: #ededed;
+  height: 25px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#menuBar li {
+  float: left;
+  padding: 0px;
+}
+
+#menuBar li a {
+  background: #ededed;
+  display: block;
+  font-weight: normal;
+  line-height: 25px;
+  margin: 0px;
+  padding: 0px 5px;
+  text-align: center;
+  text-decoration: none;
+}
+
+#menuBar > ul > li > a {
+  color: black;
+}
+
+#menuBar ul ul a {
+  color: black;
+}
+
+#menuBar li > a:hover,
+#menuBar ul li:hover > a {
+  background: #007FFF;
+  color: white;
+  text-decoration: none;
+}
+
+#menuBar li ul {
+  background: #9CCB19;
+  display: none;
+  height: auto;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  position: absolute;
+  width: 150px;
+  z-index: 200;
+}
+
+#menuBar li:hover ul {
+  display: block;
+}
+
+#menuBar li li {
+  background: #ededed;
+  display: block;
+  float: none;
+  margin: 0px;
+  padding: 0px;
+  width: 150px;
+}
+
+#menuBar li:hover li a {
+  background: none;
+}
+
+#menuBar li ul a {
+  display: block;
+  height: 25px;
+  font-size: 12px;
+  font-style: normal;
+  margin: 0px;
+  padding: 0px 10px 0px 15px;
+  text-align: left;
+}
+
+#menuBar li ul a:hover,
+#menuBar li ul li:hover > a {
+  background: #007FFF;
+  border: 0px;
+  color: white;
+  text-decoration: none;
+}
+
+/*sub-sublist*/
+#nav li:hover ul ul {
+  display: none;
+}
+
+#nav li li:hover ul {
+  background: #9CCB19;
+  margin-left: 150px;
+  margin-top: -25px;
+  display: block;
+}
+/*sub-sub-sublist*/
+#nav li li:hover ul ul {
+  display: none;
+}
+
+#nav li li li:hover ul {
+  background: #9CCB19;
+  margin-left: 150px;
+  margin-top: -25px;
+  display: block;
+  color: #0276FD;
+}
+
+#myOverview {
+  background-color: lightgray;
+  visibility: hidden;
+}
+#currentFile {
+  padding: 10px;
+  top: 7px;
+  position: absolute;
+  font-size: 14px;
+  display: none;
+  color:#267199;
+  display: none;
+}
+
+.draggable {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid gray;
+  background-color: #e2e2e2;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 300px;
+  height: 200px;
+  z-index: 500;
+}
+
+.handle {
+  background-color: #9CCB19;
+  text-align: center;
+  font: bold 12px sans-serif;
+}
+
+.elementText {
+  font-family: Arial;
+  font-size: medium;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.mySavedFiles {
+  font-family: Arial;
+  font-size: medium;
+  width: 250px;
+  margin-left: 25px;
+}
+
+.elementBtn {
+  margin-top: 20px;
+  font-family: Arial;
+  font-size: medium;
+  margin-left: 20px;
+}
+
+
+/* WILLY 18.19.15 - ENV_FK FIXED ON TOP*/
+.apps-selector{
+  position: absolute;
+  width: 280px;
+  text-align: left;
+  top:0;
+  left: 0;
+  display:none;
+
+}
+.apps-selector.set{ display: block; }
+.apps-selector label{
+  display: none
+}
+.apps-selector ul{
+  float: none!important;
+  width: auto!important;
+  height: auto!important;
+  background: none!important;
+}
+.tool-bar .apps-selector  ul li{
+  height: auto!important;
+  float:none!important;
+  min-width: 0!important;
+  max-width: none!important;
+  background: none;
+}

@@ -1,0 +1,1 @@
+{"link_page_detail":"pageDetails.txt?p_id=","link_page_list":"link_page_list.txt?p_dad=","link_service_list":"RED_BIZ_SERVICE_SEARCH_table.xml","link_image_list":"img.list.php?name=","preserve_url":"#","link_service_xsd":"/images/IGRPLAB2.2/extensions/formgen/util/test.xsd"}

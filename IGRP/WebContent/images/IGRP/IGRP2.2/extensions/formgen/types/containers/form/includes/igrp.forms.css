@@ -1,0 +1,81 @@
+/*-------------------------------IGRP Item Form----------------------------------------*/
+#formular_default input, #formular_default label, #formular_default select{width:100%;}
+#formular_default input:first-letter, #formular_default label:first-letter, #formular_default textarea:first-letter{text-transform:capitalize;}
+#formular_default textarea{width:99%;height:100px;}
+#formular_default .col-1-2 textarea{width:99%;}
+#formular_default .col-1-1 textarea{width:99%;}
+#formular_default .igrp_item{position:relative;margin:5px;padding:5px;clear:both;}
+#formular_default .igrp_item .itemIcon{position:relative;display:block;clear:both;}
+#formular_default .igrp_item.radio, #formular_default .igrp_item.checkbox{padding:35px 0 5px 0;}
+#formular_default .igrp_item.radio span.riquired, #formular_default .igrp_item.checkbox span.riquired{margin:0 0 0 3px;}
+#formular_default .igrp_item.link{padding:35px 0 15px 0;}
+#formular_default .igrp_item.vkb_az, #formular_default .igrp_item.vkb_aznum, #formular_default .igrp_item.vkb_num{padding-bottom:1px;}
+#formular_default .igrp_item.link a{ padding:10px 0;}
+/*#formular_default .igrp_item.color{padding-bottom:7px;}*/
+#formular_default .igrp_item.texteditor textarea.textEditor{display:block !important; height:0px !important;}
+#formular_default input[class*='LOOKUP'], #formular_default input[class*='lookup']{padding-right:28px;width: calc(100% - 35px);}
+#formular_default input{border:1px solid; padding:5px; width:calc(100% - 10px);}
+#formular_default select{height:30px; border:1px solid;}
+#formular_default input[type='number']{text-align:right;}
+/*#formular_default .igrp_item.selectchange, #formular_default .igrp_item.select, #formular_default .igrp_item.selectlist{padding-bottom:2px;}*/
+#formular_default input[type='radio'], #formular_default input[type='checkbox']{width:15px;height:32px; border:none; padding:2px;}
+/*#formular_default input[type='radio']:focus, #formular_default input[type='checkbox']:focus{height:15px;margin:4px;}*/
+#formular_default input[type='radio']{margin-top:-2px;}
+#formular_default input[type='checkbox']{height:20px;}
+#formular_default label{float:left;margin:10px 5px 5px 0px;text-align:left;}
+#formular_default .igrp_item.texteditor label{margin-left:8px;}
+#formular_default .igrp_item label{width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+#formular_default .igrp_item label.error{overflow:inherit;white-space:normal;}
+#formular_default input[type='file'], span.upload{position:absolute;margin:0;padding:0;top:1px; }
+span.upload{padding:2px;height:21px;width:25px;line-height:23px;text-align:center;cursor:pointer !important;right:-1px;}
+#formular_default input[type='file']{cursor:pointer;opacity:0;filter:alpha(opacity=0);height:25px;/*width:calc(100% - 50px);*/ left:11px;}
+#formular_default .calendar{position:absolute;height:25px;width:25px;right:-1px;top:1px;cursor:pointer;}
+#formular_default input.colorPicker{display:none;}
+span.riquired{margin:0 2px 0 0;}
+iframe{display:block;position:relative;width:100%;min-height:520px;}
+.coverImage{background-position:50%;background-repeat:no-repeat;background-size:contain;margin:0 auto;min-height:150px;max-height:300px;max-width:1000px;display:block;position:relative;overflow:hidden;}
+.plaintext{display:block;position:relative;padding:5px;text-align:justify;min-height:100px;max-height:300px;overflow-y:auto;line-height:20px;}
+#formular_default .igrp_item.plaintext .plaintext{border:1px solid;height:100px;}
+#formular_default .igrp_item.iframe, #formular_default .igrp_item.image{padding:0;}
+/*#formular_default .item.textEditor{ margin-bottom:100px !important;}*/
+/*--------------------------------VKB--------------------------------*/
+#formular_default div.VKB_geral{width:100%;padding:2px;position:relative;}
+#formular_default div.VKB_geral .VKB, div.VKB_geral .VKB{cursor:pointer;position:absolute;width:32px;height:25px;right:6px;top:3px;border-left:1px solid;display:block;}
+#formular_default div.VKB_geral .VKB img, div.VKB_geral .VKB img{padding:0 0 0 0.6px;margin-top:-2px;border:none;}
+#formular_default div.VKB_geral div.VKB_main{position:absolute;display:none;z-index:2;font-size:10px;border:1px solid;width:calc(100% - 19px); padding:5px 5px 0 5px;}
+#formular_default div.VKB_geral input.VKB_input, div.VKB_geral input.VKB_input{padding-right:37px;width:calc(100% - 47px);}
+.message div.VKB_geral input.VKB_input{padding: 5px;width: calc(100% - 16px); margin:0 0 2px 0;}
+.message #samterminaltoken{height: 30px; margin-bottom:5px; width:99.4%;}
+#formular_default div.VKB_geral div.VKB_main div input.VKB_button, div.VKB_geral div.VKB_main div input.VKB_button{display:inline-block;width:9%;margin:0.5%;border:1px solid;height:24px;cursor:pointer;padding:1px;text-decoration:none;}
+#formular_default div.VKB_main input.VKBOK_but, div.VKB_main input.VKBOK_but,
+#formular_default div.VKB_main input.VKBLP_but, div.VKB_main input.VKBLP_but,
+#formular_default div.VKB_main input.SHIFT_but, div.VKB_main input.SHIFT_but,
+#formular_default div.VKB_main input.VKBCAN_but, div.VKB_main input.VKBCAN_but{margin:5px 0;cursor:pointer;font-size:10px;border:1px solid;}
+#formular_default div.VKB_main input.VKBOK_but, div.VKB_main input.VKBOK_but{float:left;width:30px;}
+#formular_default div.VKB_main input.VKBLP_but, div.VKB_main input.VKBLP_but,
+#formular_default div.VKB_main input.VKBCAN_but, div.VKB_main input.VKBCAN_but{float:right;width:50px;}
+.message div.VKB_main input.VKBLP_but, .message div.VKB_main input.VKBCAN_but, .message div.VKB_main input.VKBOK_but{padding: 5px;}
+#formular_default div.VKB_main input.VKBCAN_but, div.VKB_main input.VKBCAN_but{margin-left: 5px;}
+div.VKB_geral div.vkb_az div.VKB_num, div.VKB_#formular_default div.VKB_main input.VKBCAN_butgeral div.vkb_num div.VKB_az{display:none;}
+#formular_default div.VKB_geral div.VKB_main.vkb_num input.SHIFT_but, div.VKB_geral div.VKB_main.vkb_num input.SHIFT_but{display:none;}
+#formular_default div.VKB_main input.SHIFT_but, div.VKB_main input.SHIFT_but{position:absolute;width:50px;height:24px;border:1px solid;right:6px;line-height:3px; bottom:29px;}
+.VKB_main.vkb_all .VKB_az{margin-bottom: 29px;}
+.message div.VKB_geral div.VKB_main{margin-left: -2px;}
+/*--------------------------------lookup--------------------------------*/
+.IGRP_lookupPopup{position:absolute;top:1px;right:1px;text-align:center;float:right;height:25px;width:28px;}
+.IGRP_lookupPopup img{border:none;vertical-align:baseline;}
+/*--------------------------------datepicker--------------------------------*/
+#formular_default .IGRP_datepicker{ padding-right:25px;width:calc(100% - 30px);}
+#ui-datepicker-div{ width:280px;border:1px solid;padding:5px; display:none;}
+.ui-icon-circle-triangle-w, .ui-icon-circle-triangle-e{padding:0;font-size:0;width:32px;height:32px;cursor:pointer;border:2px solid;border-radius:20px}
+.ui-datepicker-header{ display:block; width:100%; height:35px;}
+.ui-icon-circle-triangle-w{float:left;}
+.ui-icon-circle-triangle-e{float:right;}
+.ui-datepicker-title{ float:left; margin:0 12px; padding-top:2px; width:60%;}
+.ui-datepicker-title select{ margin-left:5px; height:25px; width:65px;}
+.ui-datepicker-title .ui-datepicker-year{ float:right;}
+#ui-datepicker-div .ui-datepicker-calendar{width: 100%;margin: 0;}
+#ui-datepicker-div table {display:table;border-collapse: separate;border-spacing: 2px;}
+#ui-datepicker-div table tr td[data-handler="selectDay"]{border:1px solid;}
+#ui-datepicker-div table tr td {text-align: center;padding:0;}
+#ui-datepicker-div table tr td a {padding:5px 0;display: block; text-decoration:none;}

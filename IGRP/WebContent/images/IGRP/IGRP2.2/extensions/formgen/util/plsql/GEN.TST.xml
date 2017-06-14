@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="XSL-plsql.xsl?v={19ADCEB7-8840-9B0B-E050-040A8406547B}" type="text/xsl"?>
+<rows>
+    <plsql>
+        <action/>
+        <package_db/>
+        <package_html/>
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db/>
+        <package_copy_html/>
+    </plsql>
+    <content>
+        <toolsbar_1 type="toolsbar">
+            <item type="specific" code="" rel="button">
+                <title>button</title>
+                <app/>
+                <page/>
+                <link>#</link>
+                <target>_blank</target>
+                <img>default.png</img>
+            </item>
+            <item type="specific" code="" rel="button">
+                <title>button</title>
+                <app/>
+                <page/>
+                <link>#</link>
+                <target>_blank</target>
+                <img>default.png</img>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form">
+            <fields>
+                <text name="p_text" type="text" required="false" maxlength="40">
+                    <label>text</label>
+                    <value>Rem sit magna elit doloremque</value>
+                </text>
+                <number name="p_number" type="number" required="false" maxlength="40">
+                    <label>number</label>
+                    <value>492</value>
+                </number>
+                <date name="p_date" type="date" format="IGRP_datePicker" required="false" maxlength="40">
+                    <label>date</label>
+                    <value/>
+                </date>
+            </fields>
+            <tools-bar>
+                <item type="form" code="">
+                    <title>button</title>
+                    <app/>
+                    <page/>
+                    <link>#</link>
+                    <target>_blank</target>
+                    <img>default.png</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        
+        <chart_1 type="chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>link da pagina</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </chart_1>
+
+        <chart_2 type="chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>link da pagina</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </chart_2>
+
+    </content>
+</rows>

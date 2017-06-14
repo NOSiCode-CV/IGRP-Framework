@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="../xsl/IGRP-process.xsl?sessid=2012070601" type="text/xsl"?>
+<rows>
+  <title>CUBHIS [Teste]</title>
+  <link>https://nosiodb01.gov.cv/redglobaldep01/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpbccaaeeffe=359763040007010045&amp;p_env_dad=//86049</link>
+  <link_img>/images/IGRPLAB2.2</link_img>
+  <site>
+    <welcome_note>Olá</welcome_note>
+    <footer_note>2011 - Copyright NOSI</footer_note>
+    <user_name>milton.cabral</user_name>
+    <button		type="specific">
+      <title>Sair</title>
+      <app>CADASTRO_V02</app>
+      <page />
+      <link>https://nosiodb01.gov.cv/redglobaldep01/redglobal.glb_dispatcher.logout</link>
+      <target>_self</target>
+      <img>exit.png</img>
+    </button>
+  </site>
+  <app>CADASTRO_V02</app>
+  <page>WORKFLOW</page>
+  <target>_blank</target>
+  <applications file="/images/IGRPLAB2.2/xml/IGRP-applications.xml" />
+  <top_menu file="/images/IGRPLAB2.2/xml/IGRP-top_menu.xml" />
+  <slide-menu file="/images/IGRPLAB2.2/xml/IGRP-slide-menu.xml?v=2" />
+  <language file="/images/IGRPLAB2.2/xml/IGRP-language.xml?v=1"/>
+  <content>
+    <title>8.1.1 - HOJE [ 1 - Etapa Inicial ]</title>
+    <messages>
+      <message		type="error">OOPS</message>
+      <message		type="debug">06-07-2012 09:44:10 :: SESSID: C42747CB03A75F4AE040040A08025549</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_env_dml :</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_prm_target : _blank</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_env_procedure : //27103108098095104111109101046104111109101</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_prm_app : //50114101100103108111098097108</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_prm_page : //23119111114107102108111119</message>
+      <message		type="debug">06-07-2012 09:44:10 :: p_prm_action : //70119102095110101120116</message>
+      <message		type="debug">06-07-2012 09:44:10 :: START: //27103108098095104111109101046104111109101</message>
+      <message		type="debug">06-07-2012 09:44:10 :: APP: REDGLOBAL</message>
+      <message		type="debug">06-07-2012 09:44:10 :: PAGE: WORKFLOW</message>
+      <message		type="debug">06-07-2012 09:44:10 :: ACTION: WF_NEXT</message>
+      <message		type="debug">06-07-2012 09:44:10 :: DAD_ID: 1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: DEFAULT_DAD_ID: 1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: START ACTION: WORKFLOW - WF_NEXT [REDWF.GLB_ENGINE_HTML.save_next]</message>
+      <message		type="debug">06-07-2012 09:44:10 :: acti_id actual =</message>
+      <message		type="debug">06-07-2012 09:44:10 :: BEFORE-SAVE::REDGLOBAL.WF_PROCESS_811_HTML.DML_ACTIVITY_1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: COMPONET-VALIDATION::1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: L_EX_VALIDATION: ORA-20002:  - ORA-06512: at "REDGLOBAL.GLB_CORE", line 254
+        ORA-06512: at "REDGLOBAL.REDGLOBAL_WF_COMP_22_DB", line 30
+        ORA-06512: at line 1
+        ORA-06512: at "REDWF.GLB_ENGINE_DB", line 1309
+        ORA-06512: at "REDWF.GLB_ENGINE_DB", line 1345
+        ORA-06512: at "REDGLOBAL.GLB_CORE", line 1516
+        ORA-06512: at "REDGLOBAL.WF_PROCESS_811_DB", line 47
+        ORA-06512: at "REDGLOBAL.WF_PROCESS_811_HTML", line 43
+        ORA-06512: at line 1
+        ORA-06512: at "REDGLOBAL.GLB_DISPATCHER", line 470
+        ORA-06512: at "REDWF.GLB_ENGINE_DB", line 1246
+        ORA-06512: at "REDWF.GLB_ENGINE_DB", line 1073
+        ORA-06512: at "REDWF.GLB_ENGINE_HTML", line 435</message>
+      <message		type="debug">06-07-2012 09:44:10 :: APP: REDGLOBAL</message>
+      <message		type="debug">06-07-2012 09:44:10 :: PAGE: WORKFLOW</message>
+      <message		type="debug">06-07-2012 09:44:10 :: ACTION: WF_SHOW</message>
+      <message		type="debug">06-07-2012 09:44:10 :: DAD_ID: 1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: DEFAULT_DAD_ID: 1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: GO_TO_PAGE ACTION:  - WORKFLOW - WF_SHOW [REDWF.GLB_ENGINE_HTML.show]</message>
+      <message		type="debug">06-07-2012 09:44:10 :: BEFORE-SHOW::REDGLOBAL.WF_PROCESS_811_HTML.FORM_ACTIVITY_1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: COMPONET-SELECT::1</message>
+      <message		type="debug">06-07-2012 09:44:10 :: COMPONENT REDGLOBAL.REDGLOBAL_WF_COMP_22_DB.dml_select</message>
+      <message		type="confirm">Deseja continuar a Acção?</message>
+    </messages>
+    <filter>
+      <label>
+        <p_env_frm_url	name="p_env_frm_url"	type="hidden"	maxlength="50" />
+        <p_prm_target	name="p_prm_target"	type="hidden"	maxlength="50" />
+        <p_fwl_tab_page		name="p_fwl_tab_page"	type="hidden"	maxlength="50">fwl_tab_page</p_fwl_tab_page>
+      </label>
+      <value>
+        <hidden		name="p_env_frm_url">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//45052049051054</hidden>
+        <hidden		name="p_prm_target">_blank</hidden>
+        <hidden	name="p_fwl_tab_page" />
+      </value>
+    </filter>
+    <form>
+      <label>
+        <p_wf_proc_tp_fk		name="p_wf_proc_tp_fk"	type="hidden"	maxlength="30">p_wf_proc_tp_fk</p_wf_proc_tp_fk>
+        <p_wf_acti_tp_fk		name="p_wf_acti_tp_fk"	type="hidden"	maxlength="30">p_wf_acti_tp_fk</p_wf_acti_tp_fk>
+        <p_wf_proc_id		name="p_wf_proc_id"	type="hidden"	maxlength="30">p_wf_proc_id</p_wf_proc_id>
+        <p_wf_acti_id		name="p_wf_acti_id"	type="hidden"	maxlength="30">p_wf_acti_id</p_wf_acti_id>
+        <p_wf_on_save		name="p_wf_on_save"	type="hidden"	maxlength="30">p_wf_on_save</p_wf_on_save>
+        <separator1		name="separator1"	type="separator"	maxlength="30">TESTE Edson</separator1>
+        <nome		name="p_nome"	type="LOOKUP_BI" rel="separator1" maxlength="30"	readonly="readonly">nome</nome>
+		<color name="p_color" type="color"  rel="separator1" format="hex">Estado</color>
+        <idade		name="p_idade"	type="time"	 rel="separator1" required="true"	maxlength="30"	readonly="true">idade</idade>
+        <bi		name="p_bi"	rel="separator1" type="group" maxlength="30">bi</bi>
+        <radio		name="p_radio"	type="radiolist"  rel="separator1"	readonly="onchange"	maxlength="30">radio</radio>
+        <teste		name="p_teste"	type="selectchange"	  rel="separator1" maxlength="30">Teste</teste>
+		<selectlist		name="p_selectlist"	type="selectlist"  rel="separator1"	maxlength="30">Teste selectlist</selectlist>
+		<textarea		name="p_textarea"	type="textarea"  rel="separator1" maxlength="40">Teste textarea</textarea>
+		<texteditor		name="p_texteditor"	type="texteditor"  rel="separator1" maxlength="40">Teste texteditor</texteditor>
+		<teclado		name="p_teclado"	type="vkb_az"  rel="separator1" maxlength="40">Teste texteditor</teclado>
+        <teste_link		name="p_teste_link"	type="link" rel="separator1" 	maxlength="2000">Teste Link</teste_link>
+        <teste_grupo		type="separatordialog">Teste Grupo</teste_grupo>
+        <teste1		name="p_teste1"	type="date"	rel="teste_grupo"	maxlength="30">teste1</teste1>
+        <teste2		name="p_teste2"	type="textarea"	rel="teste_grupo"	maxlength="30">teste2</teste2>
+        <morada		name="p_morada"	type="LOOKUP_GEOG"	rel="teste_grupo"	maxlength="30"	visible="false">Morada</morada>
+        <morada_id		name="p_morada_id"	type="hidden"	rel="teste_grupo"	maxlength="30">morada_id</morada_id>
+        <anexar_documentos		type="separatorlist">Anexar Documentos</anexar_documentos>
+        <wf_acti_doctype_fk		name="p_wf_acti_doctype_fk"	type="select"	rel="anexar_documentos"	maxlength="22">Tipo Documento</wf_acti_doctype_fk>
+        <wf_document		name="p_wf_document"	type="file"	rel="anexar_documentos"	maxlength="30">Documento</wf_document>
+        <separator2		name="separator1"	type="separator"	maxlength="30">Notificação Contacto</separator2>
+        <wfo_email		name="p_wfo_email"	type="email" rel="separator2"	maxlength="30">E-mail</wfo_email>
+        <wfo_sms		name="p_wfo_sms" required="true" type="number"	rel="separator2" maxlength="30">Nº Móvel</wfo_sms>
+        <wfo_notifications		type="list">Notificações</wfo_notifications>
+        <wfo_notification		name="p_wfo_notification"	type="text"	rel="wfo_notifications"	maxlength="30">Notificação</wfo_notification>
+        <wfo_preview		name="p_wfo_preview"	type="link"	rel="wfo_notifications"	maxlength="30">Preview</wfo_preview>
+        <wfo_status		name="p_wfo_status"	type="text"	rel="wfo_notifications"	maxlength="30">Estado</wfo_status>
+        <p_env_frm_url	name="p_env_frm_url"	type="hidden"	maxlength="50" />
+        <p_env_dml	name="p_env_dml"	type="hidden"	maxlength="50" />
+        <p_prm_target	name="p_prm_target"	type="hidden"	maxlength="50" />
+		<biometric_view name="biometric_view" type="biometric">Biometric view</biometric_view>
+      </label>
+      <value>
+        <nome		name="p_nome">ADILSON DE CARVALHO RODRIGUES</nome>
+        <idade		name="p_idade">22</idade>
+        <bi		name="p_bi">80569</bi>
+        <teste_link	name="p_teste_link" />
+        <teste1	name="p_teste1" />
+        <teste2	name="p_teste2" />
+        <morada	name="p_morada" />
+        <wf_document	name="p_wf_document" />
+        <wfo_email	name="p_wfo_email">nosi@nosi.cv</wfo_email>
+        <wfo_sms	name="p_wfo_sms" />
+        <wfo_notification	name="p_wfo_notification" />
+        <wfo_preview	name="p_wfo_preview" />
+        <wfo_status	name="p_wfo_status" />
+        <hidden		name="p_wf_proc_tp_fk">1028</hidden>
+        <hidden		name="p_wf_acti_tp_fk">3226</hidden>
+        <hidden	name="p_wf_proc_id" />
+        <hidden	name="p_wf_acti_id" />
+        <hidden		name="p_wf_on_save">ON_SAVE</hidden>
+        <hidden		name="p_morada_id"	rel="teste_grupo">049</hidden>
+        <hidden		name="p_env_frm_url">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//45052049051054</hidden>
+        <hidden	name="p_env_dml" />
+        <hidden		name="p_prm_target">_blank</hidden>
+		<color name="p_color">#F00</color>
+		<textarea		name="p_textarea">Teste textarea</textarea>
+		<texteditor		name="p_texteditor"	>Teste texteditor</texteditor>
+      </value>
+      <lookup>
+        <nome>&amp;p_prm_target=_blank&amp;p_fw_db=BI&amp;p_fwl_name=p_nome&amp;p_fwl_dt_nasc=XXX&amp;p_fwl_numero=XXX&amp;p_fwl_sexo=XXX&amp;p_fwl_estado_civil=XXX&amp;p_fwl_nm_mae=XXX&amp;p_fwl_nm_pai=XXX&amp;p_fwl_morada=XXX&amp;p_fwl_cppostal=XXX&amp;p_fwl_email=XXX&amp;p_fwl_fax=XXX&amp;p_fwl_movel=XXX&amp;p_fwl_phone=XXX</nome>
+        <bi>&amp;p_prm_app=//50114101100103108111098097108&amp;p_prm_page=//XX&amp;p_prm_action=//69108111111107117112&amp;p_prm_target=_blank&amp;p_fw_db=LOOKUP&amp;p_fwl_name=p_bi&amp;p_fwl_dt_nasc=XXX&amp;p_fwl_numero=XXX&amp;p_fwl_sexo=XXX&amp;p_fwl_estado_civil=XXX&amp;p_fwl_nm_mae=XXX&amp;p_fwl_nm_pai=XXX&amp;p_fwl_morada=XXX&amp;p_fwl_cppostal=XXX&amp;p_fwl_email=XXX&amp;p_fwl_fax=XXX&amp;p_fwl_movel=XXX&amp;p_fwl_phone=XXX</bi>
+        <morada>&amp;p_prm_target=_blank&amp;p_cx_id=p_morada_id&amp;p_cx_nome=p_morada&amp;p_cx_nivel_saida=6&amp;p_cx_codigo=XXX&amp;p_fwl_copy_id=XXX</morada>
+      </lookup>
+      <list>
+        <radio		name="p_radio">
+          <option		selected="true">
+            <text>Opção 1</text>
+            <value>1</value>
+          </option>
+          <option>
+            <text>Opção 2</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Opção 3</text>
+            <value>3</value>
+          </option>
+        </radio>
+        <teste		name="p_teste">
+          <option>
+            <text>-- Teste --</text>
+            <value />
+          </option>
+          <option>
+            <text>Opção 1</text>
+            <value>1</value>
+          </option>
+          <option		selected="true">
+            <text>Opção 2</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Opção 3</text>
+            <value>3</value>
+          </option>
+        </teste>
+		<selectlist		name="p_selectlist">
+          <option>
+            <text>-- Teste --</text>
+            <value />
+          </option>
+          <option>
+            <text>Opção 1</text>
+            <value>1</value>
+          </option>
+          <option		selected="true">
+            <text>Opção 2</text>
+            <value>2</value>
+          </option>
+          <option>
+            <text>Opção 3</text>
+            <value>3</value>
+          </option>
+        </selectlist>
+        <wf_acti_doctype_fk		name="p_wf_acti_doctype_fk">
+          <option>
+            <text>-- Tipo Documento --</text>
+            <value />
+          </option>
+          <option>
+            <text>23 - BlaBlaBla</text>
+            <value>393</value>
+          </option>
+        </wf_acti_doctype_fk>
+      </list>
+      <table>
+        <teste_grupo>
+          <label>
+            <teste1		name="p_teste1"	type="date">teste1</teste1>
+            <teste1_desc		name="p_teste1_desc"	type="date">teste1</teste1_desc>
+            <teste2		name="p_teste2"	type="textarea">teste2</teste2>
+            <teste2_desc		name="p_teste2_desc"	type="textarea">teste2</teste2_desc>
+            <morada		name="p_morada"	type="lookup_geog"	visible="false">Morada</morada>
+            <morada_desc		name="p_morada_desc"	type="lookup_geog">Morada</morada_desc>
+            <morada_id		name="p_morada_id"	type="hidden">morada_id</morada_id>
+            <morada_id_desc		name="p_morada_id_desc"	type="hidden">morada_id</morada_id_desc>
+            <teste_grupo_id		name="p_teste_grupo_id"	type="hidden">morada_id</teste_grupo_id>
+          </label>
+          <value>
+            <row>
+              <teste1		name="p_teste1"	type="date">20-07-2012</teste1>
+              <teste1_desc		name="p_teste1_desc"	type="date">20-07-2012</teste1_desc>
+              <teste2		name="p_teste2"	type="textarea">aaaa</teste2>
+              <teste2_desc		name="p_teste2_desc"	type="textarea">aaaa</teste2_desc>
+              <morada		name="p_morada"	type="lookup_geog"	visible="false">Abecásia</morada>
+              <morada_desc		name="p_morada_desc"	type="lookup_geog">Abecásia</morada_desc>
+              <morada_id	name="p_morada_id"	type="hidden" />
+              <morada_id_desc	name="p_morada_id_desc"	type="hidden" />
+              <teste_grupo_id	name="p_teste_grupo_id"	type="hidden" />
+            </row>
+            <row>
+              <teste1		name="p_teste1"	type="date">26-07-2012</teste1>
+              <teste1_desc		name="p_teste1_desc"	type="date">26-07-2012</teste1_desc>
+              <teste2		name="p_teste2"	type="textarea">bbbb</teste2>
+              <teste2_desc		name="p_teste2_desc"	type="textarea">bbbb</teste2_desc>
+              <morada		name="p_morada"	type="lookup_geog"	visible="false">Alemanha</morada>
+              <morada_desc		name="p_morada_desc"	type="lookup_geog">Alemanha</morada_desc>
+              <morada_id	name="p_morada_id"	type="hidden" />
+              <morada_id_desc	name="p_morada_id_desc"	type="hidden" />
+              <teste_grupo_id	name="p_teste_grupo_id"	type="hidden" />
+            </row>
+          </value>
+        </teste_grupo>
+        <anexar_documentos>
+          <label>
+            <wf_acti_doctype_fk		name="p_wf_acti_doctype_fk"	type="select">Tipo Documento</wf_acti_doctype_fk>
+            <wf_acti_doctype_fk_desc		name="p_wf_acti_doctype_fk_desc"	type="select">Tipo Documento</wf_acti_doctype_fk_desc>
+            <wf_document		name="p_wf_document"	type="file">Documento</wf_document>
+            <wf_document_desc		name="p_wf_document_desc"	type="file">Documento</wf_document_desc>
+            <anexar_documentos_id		name="p_anexar_documentos_id"	type="hidden">Documento</anexar_documentos_id>
+          </label>
+          <value>
+            <row>
+              <wf_acti_doctype_fk		name="p_wf_acti_doctype_fk"	type="select">393</wf_acti_doctype_fk>
+              <wf_acti_doctype_fk_desc		name="p_wf_acti_doctype_fk_desc"	type="select">23 - BlaBlaBla</wf_acti_doctype_fk_desc>
+              <wf_document		name="p_wf_document"	type="file">F4747/PAD-CARTÃO.txt</wf_document>
+              <wf_document_desc		name="p_wf_document_desc"	type="file">C:\fakepath\PAD-CARTÃO.txt</wf_document_desc>
+              <anexar_documentos_id	name="p_anexar_documentos_id"	type="hidden" />
+            </row>
+          </value>
+        </anexar_documentos>
+        <wfo_notifications>
+          <label>
+            <wfo_notification		name="p_wfo_notification"	type="text">Notificação</wfo_notification>
+            <wfo_notification_desc		name="p_wfo_notification_desc"	type="text">Notificação</wfo_notification_desc>
+            <wfo_preview		name="p_wfo_preview"	type="link">Preview</wfo_preview>
+            <wfo_preview_desc		name="p_wfo_preview_desc"	type="link">Preview</wfo_preview_desc>
+            <wfo_status		name="p_wfo_status"	type="text">Estado</wfo_status>
+            <wfo_status_desc		name="p_wfo_status_desc"	type="text">Estado</wfo_status_desc>
+            <wfo_notifications_id		name="p_wfo_notifications_id"	type="hidden">Estado</wfo_notifications_id>
+          </label>
+          <value>
+            <row>
+              <wfo_notification		name="p_wfo_notification"	type="text">1 - teste doc 1</wfo_notification>
+              <wfo_notification_desc		name="p_wfo_notification_desc"	type="text">1 - teste doc 1</wfo_notification_desc>
+              <wfo_preview		name="p_wfo_preview"	type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//90050055054055050&amp;p_prm_target=_blank&amp;p_acti_doctype_id=268</wfo_preview>
+              <wfo_preview_desc		name="p_wfo_preview_desc"	type="link">Ver</wfo_preview_desc>
+              <wfo_status		name="p_wfo_status"	type="text">Activo</wfo_status>
+              <wfo_status_desc		name="p_wfo_status_desc"	type="text">Activo</wfo_status_desc>
+              <wfo_notifications_id		name="p_wfo_notifications_id"	type="hidden">268</wfo_notifications_id>
+            </row>
+            <row>
+              <wfo_notification		name="p_wfo_notification"	type="text">23 - BlaBlaBla</wfo_notification>
+              <wfo_notification_desc		name="p_wfo_notification_desc"	type="text">23 - BlaBlaBla</wfo_notification_desc>
+              <wfo_preview		name="p_wfo_preview"	type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//90050055054055050&amp;p_prm_target=_blank&amp;p_acti_doctype_id=452</wfo_preview>
+              <wfo_preview_desc		name="p_wfo_preview_desc"	type="link">Ver</wfo_preview_desc>
+              <wfo_status		name="p_wfo_status"	type="text">Activo</wfo_status>
+              <wfo_status_desc		name="p_wfo_status_desc"	type="text">Activo</wfo_status_desc>
+              <wfo_notifications_id		name="p_wfo_notifications_id"	type="hidden">452</wfo_notifications_id>
+            </row>
+            <row>
+              <wfo_notification		name="p_wfo_notification"	type="text">Cod 5 - Desenho das várias peças de mobiliário &amp;#341; escala 1:20</wfo_notification>
+              <wfo_notification_desc		name="p_wfo_notification_desc"	type="text">Cod 5 - Desenho das várias peças de mobiliário &amp;#341; escala 1:20</wfo_notification_desc>
+              <wfo_preview		name="p_wfo_preview"	type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//90050055054055050&amp;p_prm_target=_blank&amp;p_acti_doctype_id=249</wfo_preview>
+              <wfo_preview_desc		name="p_wfo_preview_desc"	type="link">Ver</wfo_preview_desc>
+              <wfo_status		name="p_wfo_status"	type="text">Activo</wfo_status>
+              <wfo_status_desc		name="p_wfo_status_desc"	type="text">Activo</wfo_status_desc>
+              <wfo_notifications_id		name="p_wfo_notifications_id"	type="hidden">249</wfo_notifications_id>
+            </row>
+            <row>
+              <wfo_notification		name="p_wfo_notification"	type="text">Reg_Crim - Certificado do Registo Criminal</wfo_notification>
+              <wfo_notification_desc		name="p_wfo_notification_desc"	type="text">Reg_Crim - Certificado do Registo Criminal</wfo_notification_desc>
+              <wfo_preview		name="p_wfo_preview"	type="link">https://nosiodb01.gov.cv/redglobal/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpccbafaea=427470375404004008025549&amp;p_env_menu=//90050055054055050&amp;p_prm_target=_blank&amp;p_acti_doctype_id=267</wfo_preview>
+              <wfo_preview_desc		name="p_wfo_preview_desc"	type="link">Ver</wfo_preview_desc>
+              <wfo_status		name="p_wfo_status"	type="text">Activo</wfo_status>
+              <wfo_status_desc		name="p_wfo_status_desc"	type="text">Activo</wfo_status_desc>
+              <wfo_notifications_id		name="p_wfo_notifications_id"	type="hidden">267</wfo_notifications_id>
+            </row>
+          </value>
+        </wfo_notifications>
+      </table>
+      <tools-bar>
+        <item		type="specific">
+          <title>Seguinte</title>
+          <app>//50114101100103108111098097108</app>
+          <page>//23119111114107102108111119</page>
+          <link>//70119102095110101120116</link>
+          <target>submit</target>
+          <img>next.png</img>
+        </item>
+        <item		type="specific">
+          <title>Gravar</title>
+          <app>//50114101100103108111098097108</app>
+          <page>//23119111114107102108111119</page>
+          <link>//68119102095115097118101</link>
+          <target>submit</target>
+          <img>save.png</img>
+        </item>
+      </tools-bar>
+    </form>
+	<fingerprint><label><link		name="p_link"	type="text"	rel="xxx_no"	maxlength="2000">link</link>
+<photo_link		name="p_photo_link"	type="text"	rel="xxx_no"	maxlength="2000">Foto</photo_link>
+<fingerright_link		name="p_fingerright_link"	type="text"	rel="xxx_no"	maxlength="2000">Dedo Direito</fingerright_link>
+<fingerleft_link		name="p_fingerleft_link"	type="text"	rel="xxx_no"	maxlength="2000">Dedo Esquerdo</fingerleft_link>
+<signature_link		name="p_signature_link"	type="text"	rel="xxx_no"	maxlength="2000">Assinatura</signature_link>
+<self_service		name="p_self_service"	type="text"	rel="xxx_no"	maxlength="100">Self Service</self_service>
+<process_start		name="p_process_start"	type="text"	rel="xxx_no"	maxlength="100">Iniciar Processo</process_start>
+<number_process		name="p_number_process"	type="number"	rel="xxx_no"	maxlength="30">N  Processo</number_process>
+<photo_id		name="p_photo_id"	type="hidden"	rel="xxx_no"	maxlength="30">photo_id</photo_id>
+<photo_jp2000_id		name="p_photo_jp2000_id"	type="hidden"	rel="xxx_no"	maxlength="30">photo_jp2000_id</photo_jp2000_id>
+<fingerleft_id		name="p_fingerleft_id"	type="hidden"	rel="xxx_no"	maxlength="30">fingerleft_id</fingerleft_id>
+<fingerleft_wsq_id		name="p_fingerleft_wsq_id"	type="hidden"	rel="xxx_no"	maxlength="30">fingerleft_wsq_id</fingerleft_wsq_id>
+<fingerright_id		name="p_fingerright_id"	type="hidden"	rel="xxx_no"	maxlength="30">fingerright_id</fingerright_id>
+<fingerright_wsq_id		name="p_fingerright_wsq_id"	type="hidden"	rel="xxx_no"	maxlength="30">fingerright_wsq_id</fingerright_wsq_id>
+<signature_id		name="p_signature_id"	type="hidden"	rel="xxx_no"	maxlength="30">signature_id</signature_id>
+<kiosk_session_key		name="p_kiosk_session_key"	type="hidden"	rel="xxx_no"	maxlength="30">kiosk_session_key</kiosk_session_key>
+<greyscale_id		name="p_greyscale_id"	type="hidden"	rel="xxx_no"	maxlength="30">greyscale_id</greyscale_id>
+<greyscale_link		name="p_greyscale_link"	type="text"	rel="xxx_no"	maxlength="2000">Greyscale</greyscale_link>
+<face_icaoheader_id		name="p_face_icaoheader_id"	type="hidden"	rel="xxx_no"	maxlength="40">face_icaoheader_id</face_icaoheader_id>
+<finger_headerleft_id		name="p_finger_headerleft_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_headerleft_id</finger_headerleft_id>
+<finger_headerright_id		name="p_finger_headerright_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_headerright_id</finger_headerright_id>
+<face_jp2_icaoheader_id		name="p_face_jp2_icaoheader_id"	type="hidden"	rel="xxx_no"	maxlength="40">Face_jp2_IcaoHeader_id</face_jp2_icaoheader_id>
+<face_raw_id		name="p_face_raw_id"	type="hidden"	rel="xxx_no"	maxlength="40">face_raw_id</face_raw_id>
+<height_measure_id		name="p_height_measure_id"	type="hidden"	rel="xxx_no"	maxlength="40">Height_measure_id</height_measure_id>
+<finger_wsq_left_cbeff_id		name="p_finger_wsq_left_cbeff_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_wsq_left_cbeff_id</finger_wsq_left_cbeff_id>
+<finger_wsq_right_cbeff_id		name="p_finger_wsq_right_cbeff_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_wsq_right_cbeff_id</finger_wsq_right_cbeff_id>
+<finger_position_left_id		name="p_finger_position_left_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_position_left_id</finger_position_left_id>
+<finger_position_right_id		name="p_finger_position_right_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_position_right_id</finger_position_right_id>
+<finger_metadata_left_id		name="p_finger_metadata_left_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_metadata_left_id</finger_metadata_left_id>
+<finger_metadata_right_id		name="p_finger_metadata_right_id"	type="hidden"	rel="xxx_no"	maxlength="40">Finger_metadata_right_id</finger_metadata_right_id>
+<finger_witheader_left_id		name="p_finger_witheader_left_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_witheader_left_id</finger_witheader_left_id>
+<finger_witheader_right_id		name="p_finger_witheader_right_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_witheader_right_id</finger_witheader_right_id>
+<finger_mopc_left_id		name="p_finger_mopc_left_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_mopc_left_id</finger_mopc_left_id>
+<finger_mopc_right_id		name="p_finger_mopc_right_id"	type="hidden"	rel="xxx_no"	maxlength="40">finger_mopc_right_id</finger_mopc_right_id>
+</label>
+<value><link		name="p_link">/images/IGRP/xml/teste-bio.xml?v=1</link>
+<photo_link		name="p_photo_link">/images/IGRP/themes/default/img/funcionario.png</photo_link>
+<fingerright_link		name="p_fingerright_link">/images/IGRP/themes/default/img/bio2.png</fingerright_link>
+<fingerleft_link		name="p_fingerleft_link">/images/IGRP/themes/default/img/bio2.png</fingerleft_link>
+<signature_link		name="p_signature_link">/images/IGRP/themes/default/img/assinatura.png</signature_link>
+<self_service	name="p_self_service" />
+<process_start	name="p_process_start" />
+<number_process	name="p_number_process" />
+<greyscale_link		name="p_greyscale_link">/images/IGRP/themes/default/img/funcionario.png</greyscale_link>
+<hidden	name="p_photo_id"	rel="xxx_no" />
+<hidden	name="p_photo_jp2000_id"	rel="xxx_no" />
+<hidden	name="p_fingerleft_id"	rel="xxx_no" />
+<hidden	name="p_fingerleft_wsq_id"	rel="xxx_no" />
+<hidden	name="p_fingerright_id"	rel="xxx_no" />
+<hidden	name="p_fingerright_wsq_id"	rel="xxx_no" />
+<hidden	name="p_signature_id"	rel="xxx_no" />
+<hidden	name="p_kiosk_session_key"	rel="xxx_no" />
+<hidden	name="p_greyscale_id"	rel="xxx_no" />
+<hidden	name="p_face_icaoheader_id"	rel="xxx_no" />
+<hidden	name="p_finger_headerleft_id"	rel="xxx_no" />
+<hidden	name="p_finger_headerright_id"	rel="xxx_no" />
+<hidden	name="p_face_jp2_icaoheader_id"	rel="xxx_no" />
+<hidden	name="p_face_raw_id"	rel="xxx_no" />
+<hidden	name="p_height_measure_id"	rel="xxx_no" />
+<hidden	name="p_finger_wsq_left_cbeff_id"	rel="xxx_no" />
+<hidden	name="p_finger_wsq_right_cbeff_id"	rel="xxx_no" />
+<hidden	name="p_finger_position_left_id"	rel="xxx_no" />
+<hidden	name="p_finger_position_right_id"	rel="xxx_no" />
+<hidden	name="p_finger_metadata_left_id"	rel="xxx_no" />
+<hidden	name="p_finger_metadata_right_id"	rel="xxx_no" />
+<hidden	name="p_finger_witheader_left_id"	rel="xxx_no" />
+<hidden	name="p_finger_witheader_right_id"	rel="xxx_no" />
+<hidden	name="p_finger_mopc_left_id"	rel="xxx_no" />
+<hidden	name="p_finger_mopc_right_id"	rel="xxx_no" />
+</value>
+</fingerprint>
+    <!--<table>
+        <label>
+          <title>Titulo Processo</title>
+          <type>Tipo Processo</type>
+          <img>Imagem</img>
+		  <link>Link</link>
+        </label>
+        <value>
+          <row>
+            <title>Pedido Licenca Pedido Licenca Pedido Licenca Pedido Licenca</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1 </title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+		  <row>
+            <title>Pedido Licenca1</title>
+            <type>stage</type>
+            <img>stage.png</img>
+		  	<link>#</link>
+          </row>
+			<row>
+            <title>Pedido Licenca1</title>
+            <type>curent</type>
+            <img>curent.png</img>
+		  	<link>#</link>
+          </row>
+			<row>
+				<title>Fim</title>
+				<type>end</type>
+				<img>end.png</img>
+				<link>#</link>
+			</row>
+
+
+		</value>
+      </table>-->
+  </content>
+</rows>

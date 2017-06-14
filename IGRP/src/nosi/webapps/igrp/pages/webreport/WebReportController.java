@@ -15,7 +15,7 @@ public class WebReportController extends Controller {
 		/*---- Insert your code here... ----*/
 		WebReport model = new WebReport();
 		model.setPage_title_text("<![CDATA[Web Report]]>");
-		WebReportView view = new WebReportView(model);
+		WebReportViewV2_2 view = new WebReportViewV2_2(model);
 		this.renderView(view);
 		/*---- End ----*/
 	}
