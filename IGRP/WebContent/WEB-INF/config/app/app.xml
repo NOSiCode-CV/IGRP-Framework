@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Config>
-<<<<<<< HEAD
 	<ProjectLoc>C:\Users\Yma\git\IGRP-Framework\IGRP</ProjectLoc>
-=======
-	<ProjectLoc></ProjectLoc>
 	<!-- Authenticaton type for the IGRP: db, OAuth2, ldap, ... -->
 	<AuthenticationType>db</AuthenticationType>
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 </Config>
