@@ -204,6 +204,7 @@
 	  
 	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+	
 ----------------------------- CREATE VIEWS ------------------------------------
  CREATE OR REPLACE FORCE VIEW GLB_MV_ALL_MENUS (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
  	SELECT  a.ID,
@@ -424,8 +425,9 @@ CREATE TABLE IF NOT EXISTS `tbl_marcao_consulta` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select count(0) AS `total_m`,0 AS `total_f`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 2)) group by year(`m`.`data_consulta`) union select 0 AS `Total_Masculino`,count(0) AS `Total_Feminino`,year(`m`.`data_consulta`) AS `Ano` from (`tbl_marcao_consulta` `m` join `tbl_utente` `u`) where ((`m`.`estado` = 1) and (`m`.`id_utente` = `u`.`id`) and (`u`.`sexo` = 1)) group by year(`m`.`data_consulta`) ;
-				 
-[SPLIT]
+	
+ [SPLIT]
+ 
 	INSERT INTO tbl_medico(id,nome,morada,num_consulta_dia) values (1,'Agostinho','Palmarejo',2), (2,'Eliza Barbosa','Fazenda',3);
 	INSERT INTO tbl_utente(id,nome,morada,data_nascimento,sexo) values (1,'Zequinha','Achadinha','2000-01-30',2), (2,'Maria','Safende','1995-01-25',1), (3,'Jidea','Castelao','1949-03-20',1), (4,'Ana','Achada Mato','1969-03-20',1), (5,'Paulinho','Achada Grande Frente','1989-03-20',2);
 	INSERT INTO tbl_marcao_consulta(id,id_medico,id_utente,data_consulta,estado) values (1,1,1,'2017-01-30 00:00:00.0',1), (2,2,2,'2017-01-30 00:00:00.0',1), (3,1,2,'2016-12-30 00:00:00.0',1), (4,1,3,'2016-12-30 00:00:00.0',1), (5,2,4,'2016-12-30 00:00:00.0',1), (6,2,5,'2017-05-30 00:00:00.0',1);
@@ -548,7 +550,7 @@ INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`
 	(21, 'Marcar Consultas',26,16, '', 2,'','', 0, 1, '', 0, '_self'),
 	(22, 'Consultas Pendentes',29,16, '', 2,'','', 0, 1, '', 0, '_self'),
 	(23, 'Dash Board',30,16, '', 2,'','', 0, 1, '', 0, '_self');
-/**/
+
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 
 	(0, 0, 'MEN', 9, 2),
