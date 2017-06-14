@@ -4,4 +4,4 @@
 .project
 .classpath
 .settings/
-WebContent/WEB-INF/config/app/*.xml
+/WebContent/WEB-INF/config/app/*.xml
