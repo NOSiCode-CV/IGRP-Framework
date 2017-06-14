@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../REDGLOBAL_TESTE_TESTE_EDSON_dash.xsl?v={0F73EE92-A605-D994-E050-040A08021B86}" type="text/xsl"?>
+<rows>
+  <title>IGRP</title>
+  <version>0F74595CF959760AE050040A08021E23</version>
+  <link>/images/IGRP/xml/IGRP-home.xml</link>
+  <site>
+    <welcome_note>Ola</welcome_note>
+    <footer_note>2011 - Copyright NOSI</footer_note>
+    <user_name>red-igrp</user_name>
+    <button		type="specific">
+      <title>Sair</title>
+      <app>RED</app>
+      <page />
+      <link>#</link>
+      <target>_self</target>
+      <img>exit.png</img>
+    </button>
+  </site>
+  <app>REDGLOBAL</app>
+  <page>TESTE</page>
+  <navigation	file="navigation.xml?v={0F73EE92-A603-D994-E050-040A08021B86}"	prm_app="p_prm_app"	prm_page="p_prm_page"	prm_action="p_prm_action" />
+  <top_menu	file="/images/IGRP/xml/IGRP-top_menu.xml" />
+  <slide-menu	file="slide-menu.xml?v=6" />
+  <content		type="dash">
+    <title>EDSON</title>
+    <menu>
+      <group		title="Menu"	align="left">
+        <item		type="">
+          <title>menu 1</title>
+          <app>REDGLOBAL</app>
+          <page>GLB_AUDIT</page>
+          <link>
+          CONS
+          </link>
+          <target>specific</target>
+        </item>
+      </group>
+      <group		title="Menu"	align="left">
+        <item		type="">
+          <title>menu 2</title>
+          <app>REDGLOBAL</app>
+          <page>GLB_AUDIT</page>
+          <link>
+          CONS
+          </link>
+          <target>specific</target>
+        </item>
+        <item		type="link">
+          <title>menu 3</title>
+          <app>REDGLOBAL</app>
+          <page>GLB_AUDIT</page>
+          <link>
+          CONS
+          </link>
+          <target>specific</target>
+        </item>
+      </group>
+      <group		title="Menu 1"	align="left">
+        <item		type="">
+          <title>menu 11</title>
+          <app>REDGLOBAL</app>
+          <page>GLB_AUDIT</page>
+          <link>
+          CONS
+          </link>
+          <target>specific</target>
+        </item>
+        <item		type="">
+          <title>menu 12</title>
+          <app>REDGLOBAL</app>
+          <page>GLB_AUDIT</page>
+          <link>
+          CONS
+          </link>
+          <target>specific</target>
+        </item>
+      </group>
+    </menu>
+    <table		operation="menu">
+      <label>
+        <campo		name="p_campo"	type="number"	align="">campo</campo>
+        <texto		name="p_texto"	type="text"	align="">texto</texto>
+        <link		name="p_link"	type="link"	align="">
+        link
+          </link>
+        
+        <link_desc		name="p_link_desc"	type="field_copy"	align="">link</link_desc>
+      </label>
+      <value>
+        <row>
+          <campo		name="p_link_desc"	type="field_copy"	align="">3886779</campo>
+          <texto		name="p_link_desc"	type="field_copy"	align="">Bdqwpifkjubeyzowfgf</texto>
+          <link		name="p_link_desc"	type="field_copy"	align="">
+          http://www.brboidlmky.qhw
+            </link>
+          
+          <link_desc	name="p_link_desc"	type="field_copy"	align="" />
+        </row>
+        <row>
+          <campo		name="p_link_desc"	type="field_copy"	align="">4529311</campo>
+          <texto		name="p_link_desc"	type="field_copy"	align="">Rtoiirxoh</texto>
+          <link		name="p_link_desc"	type="field_copy"	align="">
+          http://www.bviaypyvab.inf
+            </link>
+          
+          <link_desc	name="p_link_desc"	type="field_copy"	align="" />
+        </row>
+        <row>
+          <campo		name="p_link_desc"	type="field_copy"	align="">2897694</campo>
+          <texto		name="p_link_desc"	type="field_copy"	align="">Gnznggesymiwocumdn</texto>
+          <link		name="p_link_desc"	type="field_copy"	align="">
+          http://www.kpgsjilazu.cmm
+            </link>
+          
+          <link_desc	name="p_link_desc"	type="field_copy"	align="" />
+        </row>
+        <row>
+          <campo		name="p_link_desc"	type="field_copy"	align="">4702477</campo>
+          <texto		name="p_link_desc"	type="field_copy"	align="">Nwoybgfo</texto>
+          <link		name="p_link_desc"	type="field_copy"	align="">
+          http://www.efpbjlyoly.tyy
+            </link>
+          
+          <link_desc	name="p_link_desc"	type="field_copy"	align="" />
+        </row>
+        <row>
+          <campo		name="p_link_desc"	type="field_copy"	align="">7099146</campo>
+          <texto		name="p_link_desc"	type="field_copy"	align="">Nyhjtqrfaelndbsrrpeicugzmx</texto>
+          <link		name="p_link_desc"	type="field_copy"	align="">
+          http://www.oalxqumexr.syk
+            </link>
+          
+          <link_desc	name="p_link_desc"	type="field_copy"	align="" />
+        </row>
+      </value>
+      <tools-bar>
+        <item		type="specific">
+          <title>Gravar</title>
+          <app>REDGLOBAL</app>
+          <page />
+          <link />
+          <target>_self</target>
+        </item>
+        <item		type="specific">
+          <title>novo</title>
+          <app>REDGLOBAL</app>
+          <page />
+          <link />
+          <target>_self</target>
+        </item>
+        <item		type="specific">
+          <title>elimninar um novo item</title>
+          <app>REDGLOBAL</app>
+          <page />
+          <link />
+          <target>_self</target>
+        </item>
+      </tools-bar>
+      <context-menu>
+        <item		type="specific">
+          <title>novo</title>
+          <app>REDGLOBAL</app>
+          <page>WORKFLOW</page>
+          <link>
+          WF_ACTIVITY
+            </link>
+          
+          <target>_blank</target>
+        </item>
+        <item		type="specific">
+          <title>edit</title>
+          <app>REDGLOBAL</app>
+          <page>WORKFLOW</page>
+          <link>
+          WF_ACTIVITY
+            </link>
+          
+          <target>_blank</target>
+        </item>
+        <item		type="specific">
+          <title>delite</title>
+          <app>REDGLOBAL</app>
+          <page>WORKFLOW</page>
+          <link>
+          WF_ACTIVITY
+            </link>
+          
+          <target>_blank</target>
+        </item>
+      </context-menu>
+    </table>
+    <js_validation>
+      <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>2</value>
+        <action>hide</action>
+        <target>p_bi</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>18</value>
+        <action>hide</action>
+        <target>separador</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>20</value>
+        <action>show</action>
+        <target>separador</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_nif</field>
+        <operation>equal</operation>
+        <value>3</value>
+        <action>show</action>
+        <target>p_bi</target>
+      </row>
+      <row>
+        <event>blur</event>
+        <field>p_idade</field>
+        <operation>equal</operation>
+        <value>25</value>
+        <action>remote_list</action>
+        <target>separador</target>
+        <action_url>redglobal.redglobal_teste_teste_eds_db.remote_idade_list</action_url>
+        <action_submit>#</action_submit>
+      </row>
+    </js_validation>
+  </content>
+</rows>

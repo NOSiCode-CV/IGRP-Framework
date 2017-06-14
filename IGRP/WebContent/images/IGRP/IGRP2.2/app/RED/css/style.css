@@ -1,0 +1,92 @@
+ @charset "utf-8";
+/* CSS Document */
+
+.sided {
+	width: 300px;
+}
+#request-panel {
+	float: left;
+}
+#main-operations {
+	width: 60%;
+	float: left
+}
+#service-panel {
+	float: right;
+	text-align: right;
+}
+._jsPlumb_endpoint {
+	cursor: pointer;
+}
+.clear {
+	clear: both
+}
+/*TREE CSS*/
+.row {
+	padding-left: 20px;
+	clear: both;
+}
+.child {
+	margin-left: 7px;
+}
+.row.hidden {
+	display: none;
+}
+#service-panel .row {
+	padding-left: 0;
+	padding-right: 20px;
+}
+.row-name {
+	cursor: pointer;
+	font-size: 15px;
+	padding: 2px 10px;
+	display: block;
+	float: left;
+}
+.xsd-title { margin:10px 0;font-size:14px;color:#1c7aa9 }
+#request-panel .row-name {
+	padding-left: 0;
+}
+#service-panel .row-name {
+	padding-right: 0;
+	float: right
+}
+.row-symbol {
+	cursor: pointer;
+}
+#request-panel .row-symbol {
+	margin-right: 8px;
+	margin-top: 5px;
+	float: left;
+	width: 15px;
+	height: 15px;
+	background-repeat: no-repeat;
+	background: url(row.png);
+}
+#service-panel .row-symbol {
+	margin-left: 8px;
+	margin-top: 5px;
+	float: right;
+	width: 15px;
+	height: 15px;
+	background-repeat: no-repeat;
+	background: url(rowL.png);
+}
+.has-child > .row-symbol, ul.tree > li > .row-symbol {
+	background: url("minus.png")!important;
+	margin-top: 2px!important;
+}
+.has-child > .row-symbol.closed,  ul.tree > li > .row-symbol.closed  {
+	background: url("plus.png")!important;
+}
+/*DRAG CONFIG*/
+.drag-init {
+	border: 1px solid;
+}
+
+svg._jsPlumb_connector.hidden {
+	visibility:hidden;opacity:0;	
+}
+svg._jsPlumb_connector.visible {
+	visibility:visible;opacity:1;	
+}

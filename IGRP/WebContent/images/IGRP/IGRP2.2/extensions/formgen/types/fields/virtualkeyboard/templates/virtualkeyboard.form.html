@@ -1,0 +1,22 @@
+<div class="col-1-#[size]# item" item-name="#tag#">
+    <div class="igrp_item vkb_aznum">
+        <label>
+            <xsl:if test="string-length(#label.path#) >45">
+                <xsl:attribute name="title">
+                    <xsl:value-of select="#label.path#" disable-output-escaping="yes"/>
+                </xsl:attribute>
+            </xsl:if>
+           #label.val#
+        </label>
+        <div class="itemIcon">
+            <xsl:call-template name="VirtualKeyBoard">
+                <xsl:with-param name="type" select="'#[keyType]#'"/>
+                <xsl:with-param name="rel" select="concat('#tag#_',position())"/>
+                <xsl:with-param name="input_type" select="'password'"/>
+                <xsl:with-param name="input_name" select="#path#/@name"/>
+            </xsl:call-template>
+        </div>
+        <div class="_clear"/>
+    </div>
+    <div class="_clear"/>
+</div>

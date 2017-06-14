@@ -121,7 +121,7 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	public static String getLinkImg(){
-		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"images/IGRP/IGRP2.3");
+		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
 	}
 	public static String getLink(){
 		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
@@ -153,7 +153,8 @@ public class Config {
 			ac.setAction(action);
 			ac.setPage(Page.resolvePageName(page));
 			ac.setEnv(env);
-			return ac.getVersion();		
+			ac = (Action) ac.getOne();
+			return ac.getVersion()!=null?ac.getVersion():"2.3";		
 		}
 		return "2.3";
 	}

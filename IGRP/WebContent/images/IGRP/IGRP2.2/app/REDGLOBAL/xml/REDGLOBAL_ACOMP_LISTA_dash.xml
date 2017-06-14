@@ -1,0 +1,216 @@
+<?xml-stylesheet href="../REDGLOBAL_ACOMP_LISTA_dash.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>ACOMP</page>
+    <app>REDGLOBAL</app>
+    <plsql>
+        <action>LISTA</action>
+        <package_instance></package_instance>
+        <package_db>GLB_REQUEST_LIST_DB</package_db>
+        <package_html>GLB_REQUEST_LIST_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_lab/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Consultar Pedidos</title>
+        <filter_1 type="form">
+            <fields>
+                <code type="text" name="p_code" maxlength="22" required="false">
+                    <label>Codigo</label>
+                    <value>Elit sit deserunt totam rem</value>
+                </code>
+                <req_name type="text" name="p_req_name" maxlength="250" required="false">
+                    <label>Nome</label>
+                    <value>Voluptatem elit stract voluptatem adipiscing</value>
+                </req_name>
+                <req_doc_type type="select" multiple="false" name="p_req_doc_type" maxlength="22" required="false">
+                    <label>TIpo Documento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </req_doc_type>
+                <req_doc_number type="text" name="p_req_doc_number" maxlength="50" required="false">
+                    <label>Numero Documento</label>
+                    <value>Elit omnis dolor accusantium doloremque</value>
+                </req_doc_number>
+                <req_contra_prova type="text" name="p_req_contra_prova" maxlength="50" required="false">
+                    <label>Contra Prova</label>
+                    <value>Doloremque ut deserunt labore iste</value>
+                </req_contra_prova>
+                <id_process type="text" name="p_id_process" maxlength="22" required="false">
+                    <label>Processo</label>
+                    <value>Unde anim deserunt doloremque accusantium</value>
+                </id_process>
+                <sep_intevalo type="separator" maxlength="40" required="false">
+                    <label>Intervalo</label>
+                </sep_intevalo>
+                <dt_reg_de type="date" name="p_dt_reg_de" maxlength="10" required="false" format="IGRP_datePicker">
+                    <label>Data De</label>
+                    <value />
+                </dt_reg_de>
+                <dt_reg_ate type="date" name="p_dt_reg_ate" maxlength="30" required="false" format="IGRP_datePicker">
+                    <label>Data Ate</label>
+                    <value />
+                </dt_reg_ate>
+            </fields>
+            <tools-bar>
+                <item type="form" code="">
+                    <title>Pesquisar</title>
+                    <app>REDGLOBAL</app>
+                    <page>ACOMP</page>
+                    <link>LISTA</link>
+                    <target>_self</target>
+                    <img>search.png</img>
+                </item>
+            </tools-bar>
+        </filter_1>
+        <gen_table type="table">
+            <fields>
+                <code type="number" align="center" name="p_code">
+                    <label>Codigo</label>
+                </code>
+                <dt_reg type="date" align="center" name="p_dt_reg" format="IGRP_datePicker">
+                    <label>Data Registo</label>
+                </dt_reg>
+                <date_1 type="date" align="left" name="p_date_1" format="IGRP_datePicker">
+                    <label>date</label>
+                </date_1>
+                <req_name type="text" align="left" name="p_req_name">
+                    <label>Nome</label>
+                </req_name>
+                <req_doc_type type="text" align="left" name="p_req_doc_type">
+                    <label>Tipo Documento</label>
+                </req_doc_type>
+                <req_doc_number type="text" align="left" name="p_req_doc_number">
+                    <label>Numero Documento</label>
+                </req_doc_number>
+                <id_process type="number" align="center" name="p_id_process">
+                    <label>Processo</label>
+                </id_process>
+                <req_contra_prova type="text" align="left" name="p_req_contra_prova">
+                    <label>Contra Prova</label>
+                </req_contra_prova>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <code>505</code>
+                        <code_desc>233</code_desc>
+                        <dt_reg />
+                        <dt_reg_desc />
+                        <date_1 />
+                        <date_1_desc />
+                        <req_name>Officia amet iste lorem totam</req_name>
+                        <req_name_desc>Adipiscing anim voluptatem adipiscing accusantium</req_name_desc>
+                        <req_doc_type>Aperiam rem laudantium elit aperiam</req_doc_type>
+                        <req_doc_type_desc>Magna rem amet voluptatem officia</req_doc_type_desc>
+                        <req_doc_number>Accusantium omnis rem sit anim</req_doc_number>
+                        <req_doc_number_desc>Sit rem sed ut omnis</req_doc_number_desc>
+                        <id_process>442</id_process>
+                        <id_process_desc>954</id_process_desc>
+                        <req_contra_prova>Officia stract perspiciatis sit lorem</req_contra_prova>
+                        <req_contra_prova_desc>Adipiscing accusantium dolor adipiscing ipsum</req_contra_prova_desc>
+                    </row>
+                    <row>
+                        <code>208</code>
+                        <code_desc>639</code_desc>
+                        <dt_reg />
+                        <dt_reg_desc />
+                        <date_1 />
+                        <date_1_desc />
+                        <req_name>Accusantium voluptatem ipsum sed anim</req_name>
+                        <req_name_desc>Labore officia ipsum doloremque perspiciatis</req_name_desc>
+                        <req_doc_type>Adipiscing totam anim dolor elit</req_doc_type>
+                        <req_doc_type_desc>Consectetur elit magna ut aperiam</req_doc_type_desc>
+                        <req_doc_number>Adipiscing rem mollit ipsum iste</req_doc_number>
+                        <req_doc_number_desc>Natus consectetur unde labore magna</req_doc_number_desc>
+                        <id_process>252</id_process>
+                        <id_process_desc>775</id_process_desc>
+                        <req_contra_prova>Anim adipiscing rem aliqua consectetur</req_contra_prova>
+                        <req_contra_prova_desc>Sit accusantium rem natus sit</req_contra_prova_desc>
+                    </row>
+                    <row>
+                        <code>90</code>
+                        <code_desc>646</code_desc>
+                        <dt_reg />
+                        <dt_reg_desc />
+                        <date_1 />
+                        <date_1_desc />
+                        <req_name>Sed omnis laudantium omnis anim</req_name>
+                        <req_name_desc>Ipsum sit anim mollit amet</req_name_desc>
+                        <req_doc_type>Stract aliqua magna sit magna</req_doc_type>
+                        <req_doc_type_desc>Aliqua dolor sit totam amet</req_doc_type_desc>
+                        <req_doc_number>Sed stract magna voluptatem sed</req_doc_number>
+                        <req_doc_number_desc>Sit mollit iste laudantium magna</req_doc_number_desc>
+                        <id_process>358</id_process>
+                        <id_process_desc>463</id_process_desc>
+                        <req_contra_prova>Totam consectetur lorem mollit omnis</req_contra_prova>
+                        <req_contra_prova_desc>Labore unde natus aliqua consectetur</req_contra_prova_desc>
+                    </row>
+                    <row>
+                        <code>986</code>
+                        <code_desc>380</code_desc>
+                        <dt_reg />
+                        <dt_reg_desc />
+                        <date_1 />
+                        <date_1_desc />
+                        <req_name>Ut doloremque officia labore anim</req_name>
+                        <req_name_desc>Lorem stract omnis magna officia</req_name_desc>
+                        <req_doc_type>Laudantium voluptatem doloremque accusantium stract</req_doc_type>
+                        <req_doc_type_desc>Lorem rem accusantium amet natus</req_doc_type_desc>
+                        <req_doc_number>Natus iste dolor voluptatem mollit</req_doc_number>
+                        <req_doc_number_desc>Perspiciatis officia doloremque stract totam</req_doc_number_desc>
+                        <id_process>747</id_process>
+                        <id_process_desc>519</id_process_desc>
+                        <req_contra_prova>Rem aliqua omnis perspiciatis aperiam</req_contra_prova>
+                        <req_contra_prova_desc>Mollit officia voluptatem perspiciatis doloremque</req_contra_prova_desc>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="">
+                        <title>Consultar Detalhe</title>
+                        <app>REDGLOBAL</app>
+                        <page>ACOMP</page>
+                        <link>ACOMP</link>
+                        <target>_blank</target>
+                        <img>edit.png</img>
+                    </item>
+                </context-menu>
+            </table>
+        </gen_table>
+    </content>
+</rows>

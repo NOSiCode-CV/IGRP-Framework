@@ -1,0 +1,82 @@
+<div class="box-content resetPadding" sep-name="#tag#">
+  <div class="box-collapser">
+    
+    <div class="D_#tag# IGRP_dialogbox" sep-name="group-#tag#">
+      
+      <div class="IGRP_dialogboxTop">
+        <div class="titlecollapser">
+          <xsl:value-of select="#path#/@title" disable-output-escaping="yes"/>
+        </div>
+        <div class="IGRP_btn_close" rel="#tag#"/>
+      </div>
+
+      <div class="IGRP_dialogboxCenter" gen-id="drop-zone">
+       
+        <div class="_clear"/>
+      </div>
+      <div class="dialog_btnContainer" sep-name="op-#tag#">
+        <div class="col">
+          <div class="addRow separador">
+            <a rel="#tag#" class="IGRP_row_confirm" item-name="save-{$path_tmpl}">
+              <img src="{$path_tmpl}/img/icon/tools-bar/sepAdd.png"/>
+              <span>
+                <xsl:value-of select="$lngPath/separatorlist_dialog/save" disable-output-escaping="yes"/>
+              </span>
+            </a>
+            <a rel="#tag#" class="IGRP_row_confirmClose" item-name="save-close-{$path_tmpl}">
+              <img src="{$path_tmpl}/img/icon/tools-bar/sepAdd.png"/>
+              <span>
+                <xsl:value-of select="$lngPath/separatorlist_dialog/save_close" disable-output-escaping="yes"/>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="_clear"/>
+    </div>
+    <xsl:call-template name="tools-bar-form-group">
+      <xsl:with-param name="class" select="'IGRP_addRow_diag'"/>
+      <xsl:with-param name="rel" select="'#tag#'"/>
+    </xsl:call-template>
+    <div class="col" sep-name="list-#tag#">
+    
+      <div class="box-table table-responsive">
+        <ul class="contextMenu ctxSepListDialog" id="data-#tag#" sep-name="btn-#tag#">
+          <li rel="#tag#" class="IGRP_editRow operationTable" item-name="edit-#tag#" type="_diag">
+            <img src="{$path_tmpl}/img/icon/tools-bar/edit.png"/>
+            <span>
+              <xsl:value-of select="$lngPath/separatorlist_dialog/edit" disable-output-escaping="yes"/>
+            </span>
+          </li>
+          <li rel="#tag#" class="IGRP_delRow operationTable" item-name="del-#tag#" type="_diag">
+            <img src="{$path_tmpl}/img/icon/tools-bar/delete.png"/>
+            <span>
+              <xsl:value-of select="$lngPath/separatorlist_dialog/delete" disable-output-escaping="yes"/>
+            </span>
+          </li>
+        </ul>
+        <table rel="T_#tag#" data-control="data-#tag#">
+          <thead>
+            <tr gen-id="drop-zone" gen-fields-holder="true" gen-field-template="th">
+              <th gen-preserve="last" class="bEdDel"/>
+            </tr>
+          </thead>
+          <tbody>
+            <xsl:for-each select="#table.rows#">
+              <tr row="{position()}" gen-id="drop-zone" gen-field-template="separatorlist.td">
+
+                <td data-row="{position()}" data-title="{../../../fields/#tag#/label}" gen-preserve="last" class="bEdDel">
+                  <img src="{$path_tmpl}/img/icon/tools-bar/edit.png" rel="#tag#" class="IGRP_editRow_diag" title="{$lngPath/separatorlist_dialog/edit}"/>
+                  <img src="{$path_tmpl}/img/icon/tools-bar/delete.png" rel="#tag#" class="IGRP_delRow" title="{$lngPath/separatorlist_dialog/delete}"/>
+                </td>
+
+              </tr>
+            </xsl:for-each>
+          </tbody>
+        </table>
+      </div>
+     </div>
+      <div class="_clear"/>
+    </div>
+    <div class="_clear"/>
+  </div>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rows>
+  <photo_link		name="p_photo_link">http://igrp.teste.gov.cv/images/IGRP/templates/default/img/agentes-culturais.png</photo_link>
+  <fingerright_link		name="p_fingerright_link">http://igrp.teste.gov.cv/images/IGRP/templates/default/img/agentes-culturais.png</fingerright_link>
+  <fingerleft_link		name="p_fingerleft_link">http://igrp.teste.gov.cv/images/IGRP/templates/default/img/agentes-culturais.png</fingerleft_link>
+  <signature_link		name="p_signature_link">http://igrp.teste.gov.cv/images/IGRP/templates/default/img/agentes-culturais.png</signature_link>
+</rows>

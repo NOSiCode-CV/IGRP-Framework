@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="../REDGLOBAL_APLIC_INFO_2_dash - Copy.xsl" type="text/xsl"?>
+<rows>
+  <title>IGRP</title>
+  <link>
+  /images/IGRP/xml/IGRP-home.xml
+  </link>
+  <site>
+    <welcome_note>Ola</welcome_note>
+    <footer_note>2011 - Copyright NOSI</footer_note>
+    <user_name>red-igrp</user_name>
+    <button		type="specific">
+    <title>Sair</title>
+    <page />
+    <link>
+    #
+    </link>
+    <target>_self</target>
+    <img>exit.png</img> </button>
+  </site>
+  <app>REDGLOBAL</app>
+  <page>APLIC_INFO</page>
+  <navigation	file="navigation.xml" />
+  <top_menu	file="/images/IGRP/xml/IGRP-top_menu.xml" />
+  <slide-menu	file="slide-menu.xml" />
+  <content>
+    <title>Info Aplicacao</title>
+    <messages>
+      <message type="confirm">Deseja continuar a Accao?</message>
+    </messages>
+        <!--APLICATION INFO-->
+    <application_info>
+      <form>
+        <label>
+          <link>
+          Link Aplication
+          </link>
+          <img>Icon Aplication</img>
+          <title>Application Title</title>
+          <versao>Aplication Version</versao>
+        </label>
+        <value>
+          <link>
+          ../app/BONIF/xml/BONIF___.xml
+          </link>
+          <img>icone_bonificacao.png</img>
+          <title>Bonificação</title>
+          <versao>versão 1.0</versao>
+        </value>
+      </form>
+    </application_info>
+	<!--END APLICATION INFO-->
+	
+	<!--APLICATION DETAIL-->
+    <form>
+      	<label>
+			<area>Area Negocio</area>
+			<system>Sistema Associado</system>
+			<descricao>Descricao</descricao>
+			<objectivo>Descricao</objectivo>
+		</label>
+		  <value>
+				<area>Financas</area>
+				<system>SIGOF - Bonificação</system>
+				<descricao>
+					O crédito bonificado para habitação e aquisição de terrenos para a construção de habitação própria, concedido pelo Estado através dos bancos comerciais, sofreu recentemente alterações no decreto de lei que o rege, com vista a colmatar diversas lacunas resultantes das especificidades do contexto actual e da necessidade de munir o Estado de maior controlo sobre todo o processo de concessão e respectivos acompanhamentos.
+          Existem 3 regimes:
+          - Regime Geral
+          - Regime de Crédito Bonificado
+          - Regime de Crédito Jovem Bonificado
+				</descricao>
+				<objectivo>- Desenvolvimento de um sistema que permite ao Estado, através da Direcção Geral do Tesouro, aprovar e controlar todo o ciclo de vida de um crédito bonificado concedido – atribuição e acompanhamento das amortizações;
+          - Produção de Estatísticas;
+          - Recuperar o histórico das bonificações concedidas até então.
+		  		</objectivo>
+		</value>
+	  </form>
+	<!--END APLICATION INFO-->
+    
+	<!--XML video-->
+	<video>
+		<form>
+		  <label> 
+			<!--<video>Video</video>--> 
+		  </label>
+		  <value>
+			<video>bbb_trailer_mobile.m4v</video>
+		  </value>
+		</form>
+	</video>
+    <!--fim XML video--> 
+    
+  </content>
+</rows>

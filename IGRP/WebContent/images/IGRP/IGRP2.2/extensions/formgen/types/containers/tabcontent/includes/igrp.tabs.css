@@ -1,0 +1,226 @@
+/*  WILLY TABS HOLDER CSS*/
+
+.gen-tab-holder{
+	position: relative;
+
+}
+
+.gen-tab-holder .gen-tab-menu-h:after { 
+	display: block;
+	content: '';
+	clear: both;
+}
+
+.gen-tab-holder .gen-tab-menu-h { 
+	position: relative;
+	z-index: 1;
+}
+
+.gen-tab-holder > .gen-tab-menu-h li { 
+	padding:15px;
+	font-size: 14px;
+	cursor: pointer;
+	position: relative;
+}
+
+.gen-tab-holder > .gen-tab-menu-h li.on-edition,.gen-tab-holder > .gen-tab-menu-h li:hover { 
+	border-bottom:0!important;
+}
+
+.gen-tab-holder > .gen-tab-menu-h .ui-sortable-helper {
+	display: none!important;
+}
+
+.gen-tab-holder .gen-tab-placeholder {
+	background:rgba(255, 255, 150, 0.3)!important;
+	width: 50px;
+}
+
+.gen-tab-holder .gen-tab-placeholder:after {
+	content:"."!important;
+	display: block;
+	color:transparent;
+}
+
+.gen-tab-holder > .gen-tab-menu-h li { 
+}
+
+.gen-tab-holder .gen-tab-c-item.active { 
+	display: block; 
+}
+
+.gen-tab-holder .gen-tab-c-item { 
+	display: none;
+}
+
+#gen-tabs-settings.active { 
+	display: block; 
+}
+
+#gen-tabs-settings {
+	display: none;
+}
+
+li.gen-tab-holder {     
+	margin: 8px;
+    position: relative; 
+}
+
+.gen-tab-menu-h li.tab-title-set{
+	padding: 8px 10px!important;
+}
+
+.gen-tab-holder .gen-tab-adder {
+	position: absolute;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    right: 15px;
+    top: 15px;
+    background: #019A00;
+    cursor: pointer;
+    z-index: 10;
+    color: white;
+    opacity: .4;
+}
+
+.gen-tab-holder .gen-tab-adder:after{
+	content:'+';
+	display: block;
+	text-align: center;
+	font-size: 16px;
+}
+
+.gen-tab-holder .gen-tab-adder:hover {
+	box-shadow: 0 0 5px #ccc;
+	opacity: 1;
+}
+
+.gen-tab-holder .gen-tab-menu-h li:hover .gen-tab-remover{
+	display: block;
+}
+
+.gen-tab-holder .gen-tab-remover{
+	display: none;
+	position: absolute;
+    z-index: 2;
+    top: -5px;
+    right: -5px;
+    font-size: 10px;
+    text-align: center;
+    text-transform: lowercase;
+    color: white;
+    background: #ee0909;
+    padding: 1px;
+    border:1px solid #ee0909;
+    opacity: .2;
+}
+
+.gen-tab-holder .gen-tab-remover:hover{
+	box-shadow: 0 0 5px #ee0909;
+	opacity: 1;
+}
+    
+.gen-tab-holder .gen-tab-remover:after{
+	content: "X";
+	display:block;
+	width: 10px;
+	height: 10px;
+	text-decoration: none;
+}
+
+/* DEFAULT */
+.gen-tab-holder[tab-template="default"] > .gen-tab-menu-h { 
+	border-top:1px solid #ccc; 
+	border-right:1px solid #ccc; 
+	background: #e1e1e1
+}
+
+.gen-tab-holder[tab-template="default"] > .gen-tab-menu-h li.active { 
+	border-top: 2px solid orange;
+	border-bottom:1px solid #fafafa;
+	line-height: 11px;
+	background: #fafafa;
+}
+
+.gen-tab-holder[tab-template="default"] > .gen-tab-menu-h li:last-child { 
+	border-right: 1px solid #ccc; 
+}
+
+.gen-tab-holder[tab-template="default"] > .gen-tab-menu-h li { 
+	display: block;
+	padding:15px;
+	border-left: 1px solid #ccc;
+	font-size: 14px;
+	cursor: pointer;
+	position: relative;
+	float: left;
+}
+.gen-tab-holder[tab-template="default"] > .gen-tab-contents-h {
+	background: #fafafa;
+	position: relative;
+	top: -1px;
+}
+
+.gen-tab-holder[tab-template="default"] > .gen-tab-contents-h > .gen-tab-c-item { 
+	border:1px solid #ccc;
+	padding: 5px; 
+}
+
+
+/*CLEAN*/
+.gen-tab-holder[tab-template="clean"]{
+	
+}
+.gen-tab-holder[tab-template="clean"] > .gen-tab-menu-h{
+	font-size:14px;
+	position: relative;
+	z-index: 2;
+}
+.gen-tab-holder[tab-template="clean"] > .gen-tab-menu-h li:last-child {
+	border-right: 1px solid #ddd;
+}
+.gen-tab-holder[tab-template="clean"] > .gen-tab-menu-h li:hover {
+	color:#888;
+}
+.gen-tab-holder[tab-template="clean"] > .gen-tab-menu-h li {
+	float: left;
+	padding: 0;
+	border: 1px solid #ddd;
+	border-right: 0;
+    background: #fafafa;
+    color:#bbb;
+    padding: 15px;
+}
+.gen-tab-holder[tab-template="clean"] > .gen-tab-menu-h li.active {
+	color:#363636;
+	border-bottom: 1px solid #fafafa;
+	border-top: 2px solid orange;
+	line-height: 13px;
+}
+
+.gen-tab-holder[tab-template="clean"] > .gen-tab-contents-h {
+	border:1px solid #ddd;
+	position: relative;
+	top:-1px;
+	background: #fafafa;
+}
+
+
+/* PROCESS */
+.gen-tab-holder[tab-template="buttons"] > .gen-tab-menu-h li {
+	float:left;
+	margin: 4px;
+	border-radius: 2px;
+}
+
+.gen-tab-holder[tab-template="buttons"] > .gen-tab-menu-h li.active {
+	background:#267199;
+	color:white; 
+}
+
+.gen-tab-holder[tab-template="buttons"] > .gen-tab-menu-h li:after,
+.gen-tab-holder[tab-template="buttons"] > .gen-tab-menu-h li:before {
+	content:"";
+	display: block;
+}

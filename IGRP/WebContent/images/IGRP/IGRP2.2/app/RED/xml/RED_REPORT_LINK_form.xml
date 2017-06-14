@@ -1,0 +1,186 @@
+<?xml-stylesheet href="../RED_REPORT_LINK_form.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>REPORT</page>
+    <app>RED</app>
+    <plsql>
+        <action>LINK</action>
+        <package_instance></package_instance>
+        <package_db>RED_REPORT_LINK_DB</package_db>
+        <package_html>RED_REPORT_LINK_HTML</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/redglobal_lab/red.form_designer_db.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>TESTAR WEB REPORT</title>
+        <gen_form_1 type="form">
+            <fields>
+                <text_1 disabled="false" type="text" name="p_text_1" maxlength="40" readonly="false" change="false" required="false">
+                    <label>text</label>
+                    <value>Natus perspiciatis amet sit deserunt</value>
+                </text_1>
+                <number_1 disabled="false" type="number" name="p_number_1" maxlength="40" readonly="false" change="false" required="false">
+                    <label>number</label>
+                    <value>844</value>
+                </number_1>
+                <report type="link" name="p_report" target="_blank" maxlength="3000">
+                    <label>REPORT</label>
+                    <value>http://hegmurped.com/evicof</value>
+                </report>
+                <email_1 disabled="false" type="email" name="p_email_1" maxlength="40" readonly="false" change="false" required="false">
+                    <label>email</label>
+                    <value>ce@example.com</value>
+                </email_1>
+            </fields>
+            <tools-bar>
+                <item type="form" code="">
+                    <title>button</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>_blank</target>
+                    <img>default.png</img>
+                    <service-map code="5003353">
+                        <map>
+                            <from>gen_form_1.text_1</from>
+                            <to>link</to>
+                        </map>
+                    </service-map>
+                </item>
+            </tools-bar>
+        </gen_form_1>
+        <formlist_1 type="formlist">
+            <fields>
+                <email_1 type="email" name="p_email_1">
+                    <label>email</label>
+                </email_1>
+                <textarea_1 type="textarea" name="p_textarea_1">
+                    <label>textarea</label>
+                </textarea_1>
+                <text_1 type="text" name="p_text_1">
+                    <label>text</label>
+                </text_1>
+                <date_1 type="date" name="p_date_1" format="IGRP_datePicker">
+                    <label>date</label>
+                </date_1>
+                <hidden_1 type="hidden" name="p_hidden_1" />
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <email_1>womnuzufo@example.com</email_1>
+                        <email_1_desc>duk@example.com</email_1_desc>
+                        <textarea_1>Consectetur totam accusantium consectetur sit sit voluptatem labore iste laudantium elit stract anim natus rem</textarea_1>
+                        <textarea_1_desc>Natus sed accusantium adipiscing magna iste elit aliqua iste deserunt perspiciatis iste omnis stract unde</textarea_1_desc>
+                        <text_1>Laudantium unde magna voluptatem aperiam</text_1>
+                        <text_1_desc>Doloremque lorem officia anim elit</text_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <hidden_1>1</hidden_1>
+                    </row>
+                    <row>
+                        <email_1>lan@example.com</email_1>
+                        <email_1_desc>wuphuzwed@example.com</email_1_desc>
+                        <textarea_1>Sit anim consectetur aperiam sit sit deserunt anim stract voluptatem doloremque magna accusantium officia iste</textarea_1>
+                        <textarea_1_desc>Iste ipsum voluptatem doloremque ut adipiscing laudantium sit omnis natus omnis elit sit lorem adipiscing</textarea_1_desc>
+                        <text_1>Deserunt consectetur mollit sed magna</text_1>
+                        <text_1_desc>Accusantium aliqua laudantium consectetur officia</text_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <hidden_1>1</hidden_1>
+                    </row>
+                    <row>
+                        <email_1>manirek@example.com</email_1>
+                        <email_1_desc>zorja@example.com</email_1_desc>
+                        <textarea_1>Adipiscing iste dolor omnis laudantium amet mollit iste labore magna voluptatem rem elit rem doloremque</textarea_1>
+                        <textarea_1_desc>Voluptatem natus stract adipiscing elit lorem iste accusantium lorem mollit rem consectetur mollit aperiam mollit</textarea_1_desc>
+                        <text_1>Consectetur doloremque totam mollit ut</text_1>
+                        <text_1_desc>Officia sit natus laudantium aliqua</text_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <hidden_1>1</hidden_1>
+                    </row>
+                    <row>
+                        <email_1>hod@example.com</email_1>
+                        <email_1_desc>iladura@example.com</email_1_desc>
+                        <textarea_1>Ipsum sit iste accusantium aliqua perspiciatis consectetur doloremque elit dolor rem accusantium anim voluptatem adipiscing</textarea_1>
+                        <textarea_1_desc>Rem sit anim voluptatem amet anim ut sit rem aliqua amet ipsum elit aliqua adipiscing</textarea_1_desc>
+                        <text_1>Laudantium sit labore natus accusantium</text_1>
+                        <text_1_desc>Consectetur aperiam iste anim consectetur</text_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <hidden_1>1</hidden_1>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <table_1 type="table">
+            <fields>
+                <password_1 type="password" align="left" name="p_password_1">
+                    <label>password</label>
+                </password_1>
+                <date_1 type="date" align="left" name="p_date_1" format="IGRP_datePicker">
+                    <label>date</label>
+                </date_1>
+                <text_1 type="text" align="left" name="p_text_1">
+                    <label>text</label>
+                </text_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <text_1>Unde stract doloremque elit sit</text_1>
+                        <text_1_desc>Omnis doloremque voluptatem officia aliqua</text_1_desc>
+                    </row>
+                    <row>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <text_1>Doloremque ut sed doloremque accusantium</text_1>
+                        <text_1_desc>Aperiam labore voluptatem aliqua ut</text_1_desc>
+                    </row>
+                    <row>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <text_1>Anim doloremque aperiam accusantium iste</text_1>
+                        <text_1_desc>Mollit stract sit laudantium aperiam</text_1_desc>
+                    </row>
+                    <row>
+                        <password_1>******</password_1>
+                        <password_1_desc>******</password_1_desc>
+                        <date_1 />
+                        <date_1_desc />
+                        <text_1>Lorem ipsum laudantium doloremque laudantium</text_1>
+                        <text_1_desc>Voluptatem ut laudantium aperiam accusantium</text_1_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

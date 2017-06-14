@@ -610,29 +610,29 @@ VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL
 
 INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`) 
 	VALUES
-		(1,1, 'ListaPage', 'index', 'images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl'),
-		(2,1, 'Env', 'index', 'images/IGRP/IGRP2.3/app/igrp/env/Env.xsl'),
-		(3,1, 'ListaEnv', 'index', 'images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl'),
-		(4,1, 'Dominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl'),
-		(5,1, 'NovoDominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl'),
-		(6,1, 'PesquisarOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl'),
-		(7,1, 'NovaOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl'),
-		(8,1, 'NovoMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl'),
-		(9,1, 'PesquisarMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl'),
-		(10,1, 'NovoPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl'),
-		(11,1, 'PesquisarPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl'),
-		(12,1, 'PesquisarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl'),
-		(13,1, 'NovoUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl'),
-		(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
-		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
-		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
-		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
-		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
-		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
-		(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl'),
-		(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl'),
-		(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl'),
-		(23,1, 'WebReport', 'index','images/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl');
+		(1,1, 'ListaPage', 'index', 'igrp/listapage/ListaPage.xsl'),
+		(2,1, 'Env', 'index', 'igrp/env/Env.xsl'),
+		(3,1, 'ListaEnv', 'index', 'igrp/listaenv/ListaEnv.xsl'),
+		(4,1, 'Dominio', 'index', 'igrp/dominio/Dominio.xsl'),
+		(5,1, 'NovoDominio', 'index', 'igrp/novodominio/NovoDominio.xsl'),
+		(6,1, 'PesquisarOrganica', 'index', 'igrp/pesquisarorganica/PesquisarOrganica.xsl'),
+		(7,1, 'NovaOrganica', 'index', 'igrp/novaorganica/NovaOrganica.xsl'),
+		(8,1, 'NovoMenu', 'index', 'igrp/novomenu/NovoMenu.xsl'),
+		(9,1, 'PesquisarMenu', 'index', 'igrp/pesquisarmenu/PesquisarMenu.xsl'),
+		(10,1, 'NovoPerfil', 'index', 'igrp/novoperfil/NovoPerfil.xsl'),
+		(11,1, 'PesquisarPerfil', 'index', 'igrp/pesquisarperfil/PesquisarPerfil.xsl'),
+		(12,1, 'PesquisarUtilizador', 'index', 'igrp/pesquisarutilizador/PesquisarUtilizador.xsl'),
+		(13,1, 'NovoUtilizador', 'index', 'igrp/novoutilizador/NovoUtilizador.xsl'),
+		(14,1, 'Settings', 'index', 'igrp/settings/Settings.xsl'),
+		(15,1, 'RegistarUtilizador', 'index', 'igrp/registarutilizador/RegistarUtilizador.xsl'),
+		(16,1, 'Transaccao', 'index', 'igrp/transaccao/Transaccao.xsl'),
+		(17,1, 'Page', 'index', 'igrp/page/Page.xsl'),
+		(18,1, 'MenuOrganica','index','igrp/menuorganica/MenuOrganica.xsl'),
+		(19,1, 'ErrorPage','index','igrp/errorpage/ErrorPage.xsl'),
+		(20,1, 'TransacaoOrganica','index','igrp/transacaoorganica/TransacaoOrganica.xsl'),
+		(21,1, 'EditarTransacao','index','igrp/editartransacao/EditarTransacao.xsl'),
+		(22,1, 'Session','index','igrp/session/Session.xsl'),
+		(23,1, 'WebReport', 'index','igrp/webreport/WebReport.xsl');
 
 INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
@@ -706,13 +706,13 @@ INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `O
 
 INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
 	VALUES
-	(24, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
-	(25, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
-	(26, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
-	(27, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
-	(28, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
-	(29, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
-	(30, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+	(24, 2, 'ListaMedico', 'index', 'marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+	(25, 2, 'RegistarMedico', 'index', 'marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+	(26, 2, 'MarcarConsulta', 'index', 'marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+	(27, 2, 'RegistarUtente', 'index',  'marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+	(28, 2, 'ListarUtente', 'index', 'marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+	(29, 2, 'ConsultaPendente', 'index', 'marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+	(30, 2, 'DashBoard', 'index', 'marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
 
 INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) 
 	VALUES

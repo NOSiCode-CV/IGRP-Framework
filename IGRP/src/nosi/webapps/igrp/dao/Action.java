@@ -355,9 +355,9 @@ public class Action implements RowDataGateway{
 			condicions += this.id!=0?" AND a.id="+this.id:"";
 			condicions += this.page!=null && !this.page.equals("")?" AND a.page='"+this.page+"'":"";
 			condicions += this.action!=null && !this.action.equals("")?" AND a.action='"+this.action+"'":"";
+			condicions += this.getEnv().getDad()!=null && !this.getEnv().getDad().equals("")?" AND e.dad='"+this.getEnv().getDad()+"'":"";
 			PreparedStatement st = con.prepareStatement("SELECT a.*,e.dad FROM glb_t_action a, glb_t_env e "
 					+ " WHERE a.env_fk=e.id "+condicions);
-			
 			ResultSet rs = st.executeQuery();
 			while(rs.next()){
 				obj.setEnv_fk(rs.getInt("env_fk"));

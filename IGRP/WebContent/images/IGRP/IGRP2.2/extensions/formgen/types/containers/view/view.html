@@ -1,0 +1,34 @@
+<div class="box-content resetPadding" gen-id="body">
+    <div class="box-collapser">
+        <div class="col">
+            <xsl:variable name="hasImg" select="#path#/fields/view_img"/>
+            <xsl:if test="$hasImg">
+                <div class="col15">
+                    <div class="viewFoto">
+                        <img src="{#path#/fields/view_img}" />
+                    </div>
+                </div>
+            </xsl:if>
+            <xsl:variable name="class">
+                <xsl:choose>
+                    <xsl:when test="$hasImg">
+                        <xsl:value-of select="'col85'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="'col'"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <div gen-id="view-content">
+                <div class="{$class}" gen-id="view-data">
+                    <div class="viewDados addPaddingBottom10" gen-id="drop-zone"></div>
+                    <div class="_clear"></div>
+                </div>
+                <div class="_clear"></div>
+            </div>
+            <div class="_clear"></div>
+        </div>
+        <div class="_clear"></div>
+    </div>
+    <div class="_clear"></div>
+</div>
