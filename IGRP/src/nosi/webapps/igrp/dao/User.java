@@ -301,7 +301,6 @@ public class User implements Identity, RowDataGateway{
 				prof.setDescr(result.getString("perfil"));
 				obj.setProfile(prof);
 				lista.add(obj);
-				System.out.println(obj);
 			}
 			st.close();
 			
@@ -325,7 +324,7 @@ public class User implements Identity, RowDataGateway{
 			sql += (this.getProfile()!=null && this.getProfile().getId() != 0) ? " and tp.id = " + this.getProfile().getId():  " ";
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet result = st.executeQuery();
-			System.out.println(sql);
+			
 			int i = 0;
 			while(result.next()){
 				if(i >10)
@@ -340,7 +339,7 @@ public class User implements Identity, RowDataGateway{
 				obj.setProfile(prof);
 				lista.add(obj);
 				i++;
-				System.out.println(obj);
+				
 			}
 			st.close();
 			

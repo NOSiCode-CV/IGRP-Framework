@@ -124,7 +124,7 @@
 	  `ACTION_FK` int(11) DEFAULT NULL,
 	  `ORDERBY` int(11) DEFAULT NULL,
 	  `STATUS` smallint(6) DEFAULT '1',
-	  `CODE` varchar(20) DEFAULT NULL,
+	  `CODE` varchar(50) DEFAULT NULL,
 	  `FLG_BASE` smallint(6) DEFAULT '0',
 	  `TARGET` varchar(20) DEFAULT '_self',
 		PRIMARY KEY (`ID`),
@@ -137,7 +137,7 @@
 	CREATE TABLE IF NOT EXISTS `glb_t_profile_type` (
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
 	  `DESCR` varchar(50) NOT NULL,
-	  `CODE` varchar(20) DEFAULT NULL,
+	  `CODE` varchar(50) DEFAULT NULL,
 	  `ENV_FK` int(11) DEFAULT NULL,
 	  `SELF_FK` int(11) DEFAULT NULL,
 	  `ORG_FK` int(11) DEFAULT NULL,
