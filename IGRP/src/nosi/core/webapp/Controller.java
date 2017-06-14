@@ -172,9 +172,6 @@ public abstract class Controller {
 		}
 		auxActionName = "action" + auxActionName;
 		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
-		Map<String, String> result = new HashMap<String, String>();
-		result.put("controllerPath", auxcontrollerPath);
-		result.put("actionName", auxActionName);
 		
 		load(auxcontrollerPath, auxActionName); // :-)
 	}
