@@ -69,11 +69,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Perspiciatis adipiscing accusantium adipiscing laudantium</value>
+                    <value>Aliqua consectetur voluptatem unde rem</value>
                 </nome>
                 <id name="p_id" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>ID</label>
-                    <value>739</value>
+                    <value>170</value>
                 </id>
             </fields>
         </form_1>
