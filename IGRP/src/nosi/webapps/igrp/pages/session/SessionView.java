@@ -9,7 +9,8 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class SessionView extends View {
-	public String title = "Gest√£o de Sessao";		
+	
+	public String title = "Gest„o de Sess„o";		
 	
 	public Field aplicacao;
 	public Field utilizador;
@@ -25,7 +26,7 @@ public class SessionView extends View {
 
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_ver_logs;
-	public SessionView(Session model){			
+	public SessionView(Session model){
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
 		chart_t_sessao = new IGRPChart("chart_t_sessao","Total Sessoes");
@@ -51,7 +52,7 @@ public class SessionView extends View {
 		filter = new TextField(model,"filter");
 		filter.setLabel("");
 		filter.propertie().add("name","p_table_1_filter").add("type","filter_az");
-
+		
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Session","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_ver_logs = new IGRPButton("Ver Logs","igrp","Session","ver_logs","submit","default|fa-angle-right","","");
@@ -63,7 +64,7 @@ public class SessionView extends View {
 		chart_t_sessao.setYaxys("Eixo de Y");
 		chart_t_sessao.setUrl("#");
 		chart_t_sessao.addColor("#6dc530").addColor("#604a68").addColor("#129020").addColor("#b7dbe1");
-
+		
 		chart_t_session_app.setCaption("");
 		chart_t_session_app.setChart_type("pie");
 		chart_t_session_app.setXaxys("Eixo de X");

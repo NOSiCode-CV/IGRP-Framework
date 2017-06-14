@@ -147,9 +147,9 @@ public class Organization implements RowDataGateway {
 	public Object getOne() {
 		Organization obj = null;
 		try{
-			//id = 18;
+			
 			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id = " + this.id);
+			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id = " + this.id + " or id = (select max(id) from glb_t_organization  )");
 			
 			if(result.next()){
 				

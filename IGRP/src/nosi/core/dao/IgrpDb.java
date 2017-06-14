@@ -19,11 +19,9 @@ import nosi.core.webapp.Igrp;
  * Apr 16, 2017
  */
 public class IgrpDb implements Component{
-	
 	/*
 	 * This class implement the "FlyWeigth" Design Pattern ...
 	 * */
-	
 	private static Map<String, Db> conns = new HashMap<String, Db>(); // A pool of connections
 	
 	public IgrpDb(){
@@ -34,17 +32,14 @@ public class IgrpDb implements Component{
 		
 		private String driverName;
 		private String connectionName;
-		
 		private String username;
 		private String password;
 		private String dbName;
-		
 		private String hostName;
 		private int hostPort;
+		private String dbmsName;
 		
 		private Connection conn;
-		
-		private String dbmsName;
 		
 		
 		public Db(String hostName, int hostPort, String dbName, String username, String password){
@@ -60,38 +55,27 @@ public class IgrpDb implements Component{
 		}
 		
 		public void newConnection(String dbmsName){
-		
 			switch(dbmsName){
-			
 				case "mysql":
-					
 					this.driverName = "com.mysql.jdbc.Driver";
 					this.connectionName = "jdbc:" + dbmsName + "://" + this.hostName + ":" + (this.hostPort == 0 ? "3306" : this.hostPort) + "/" + this.dbName;
-					
 				break;
-					
 				case "oracle":
-					
 					this.driverName = "oracle.jdbc.driver.OracleDriver";
 					this.connectionName = "jdbc:oracle:thin:@" + this.hostName + ":" + (this.hostPort == 0 ? "8080" : this.hostPort) + ":" + this.dbName;
-					
 				break;				
 				case "sqlite": // Bugs ... Perhaps !
 					this.driverName = "org.sqlite.JDBC";
 					this.connectionName = "jdbc:sqlite:" + this.dbName;
 				break;
-				
 				case "postgresql":	
 					this.driverName = "org.postgresql.Driver";
 					this.connectionName = "jdbc:postgresql://" + this.hostName +  ":" + (this.hostPort == 0 ? "5432" : this.hostPort) + "/" + this.dbName;
 				break;
-				
 				default: // Default connection (use H2)
 					this.driverName = "org.h2.Driver";
 					this.connectionName = "jdbc:h2:~/" + this.dbName;
-				
 			}
-			
 				try {
 					Class.forName(this.driverName);
 					this.conn = DriverManager.getConnection(this.connectionName, this.username, this.password);
@@ -102,7 +86,6 @@ public class IgrpDb implements Component{
 				}catch(SQLException e){
 					e.printStackTrace();
 				}
-				
 				switch(this.driverName){
 				case "org.h2.Driver":
 						try {
@@ -113,7 +96,6 @@ public class IgrpDb implements Component{
 						}
 					break;
 				}
-				
 		}
 		
 		public void closeConnection(){
@@ -126,6 +108,34 @@ public class IgrpDb implements Component{
 			}
 		}
 		
+		public String getConnectionName() {
+			return connectionName;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public String getDbName() {
+			return dbName;
+		}
+
+		public String getHostName() {
+			return hostName;
+		}
+
+		public int getHostPort() {
+			return hostPort;
+		}
+
+		public String getDbmsName() {
+			return dbmsName;
+		}
+
 		public Connection getConnection(){
 			return this.conn;
 		}
@@ -152,10 +162,7 @@ public class IgrpDb implements Component{
 			if(dbInfo.getConnectionName().equals("db1")) // default connection name for default Igrp Data Base
 				isIgrpCoreDb = true;
 		}
-		/*if(!isIgrpCoreDb) // H2 is the defualt db for Igrp
-			this.newConnection("db1", "h2", "db_igrp", "user.igrp", "password.igrp");
-			*/
-		}
+	}
 	
 	public void newConnection(String connectionName, String dbmsName,String dbName, String username, String password){
 		this.newConnection("localhost", 0, connectionName, dbmsName, dbName, username, password);
@@ -166,6 +173,19 @@ public class IgrpDb implements Component{
 		db.newConnection(dbmsName);
 		if(db.getConnection() != null)
 			IgrpDb.conns.put(connectionName, db);
+	}
+	
+	public DbInfo getDbInfo(String connectionName){ // get the basic information about db connection specified by param
+		Db db = IgrpDb.conns.get(connectionName);
+		DbInfo dbInfo = new DbInfo();
+		dbInfo.setConnectionName(db.getConnectionName());
+		dbInfo.setDbmsName(db.getDbmsName());
+		dbInfo.setDbName(db.getDbName());
+		dbInfo.setHostName(db.getHostName());
+		dbInfo.setPort(db.getHostPort());
+		dbInfo.setPassword(db.getPassword());
+		dbInfo.setUser(db.getUsername());
+	return dbInfo;
 	}
 
 	@Override

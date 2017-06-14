@@ -40,6 +40,20 @@
                                     </input>
                                   </div>
                                 </xsl:if>
+                                
+                                <xsl:if test="rows/content/form_1/fields/name">
+                                  <div class="form-group col-md-4   gen-fields-holder" item-name="name" item-type="text">
+                                    <label for="{rows/content/form_1/fields/name/@name}">
+                                      <span>
+                                        <xsl:value-of select="rows/content/form_1/fields/name/label"/>
+                                      </span>
+                                    </label>
+                                    <input type="text" value="{rows/content/form_1/fields/name/value}" class="form-control " id="{rows/content/form_1/fields/name/@name}" name="{rows/content/form_1/fields/name/@name}" maxlength="80" placeholder="">
+                                    </input>
+                                  </div>
+                                </xsl:if>
+                                
+                                
                               </div>
                             </div>
                             <xsl:apply-templates select="rows/content/form_1/tools-bar" mode="form-buttons"/>
