@@ -1,7 +1,10 @@
 << GITHUB PROJECT AND DOCUMENTS IN CONSTRUCTION >>
 
+## Why contribute?
 
-DISCLAIMER
+You get paid if it's a good contribution and recognized with a certificate (diamond, gold, silver) by NOSi
+
+## DISCLAIMER
 
 O IGRP é uma plataforma informática criada e desenvolvida pelo NOSi.
 O NOSi detém, em regime de exclusividade, todos os direitos de propriedade sobre a plataforma IGRP, o código fonte, parte das ideias do código fonte ou das ideias subjacentes ao código fonte.
