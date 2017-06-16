@@ -124,14 +124,14 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getTagName()+"="+Helper.getValue(obj, field.getTagName()));
+							this.xml.setElement("param", field.getName()+"="+Helper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					this.xml.text(Helper.getValue(obj, field.getTagName()));
+					this.xml.text(Helper.getValue(obj, field.getName()));
 					this.xml.endElement();
 				}
 				this.xml.endElement();

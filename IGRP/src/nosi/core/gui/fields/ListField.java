@@ -13,6 +13,7 @@ public class ListField extends AbstractField {
 	
 	public ListField(Object model, String name){
 		super();
+		this.setName(name);
 		this.propertie.put("type","select");
 		this.propertie.put("name","p_"+name);
 		this.propertie.put("multiple", false);

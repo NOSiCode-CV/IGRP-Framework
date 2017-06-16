@@ -204,83 +204,93 @@
 	  
 	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS  `glb_t_rep_instance` (
-  `id` int(11) NOT NULL,
-  `id_template` int(11) NOT NULL,
-  `contra_prova` varchar(100) NOT NULL,
-  `dt_created` date NOT NULL,
-  `user_created` int(11) NOT NULL,
-  `xml_content_fk` int(11) NOT NULL,
-  `xsl_content_fk` int(11) NOT NULL,
-  `reference` varchar(4000) NOT NULL,
-  `ref_fk` int(11) NOT NULL,
-  `env_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+	
+	CREATE TABLE IF NOT EXISTS `glb_t_clob` (
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(256) NOT NULL,
+	  `mime_type` varchar(128),
+	  `c_lob_content` blob NOT NULL,
+	  `dt_created` date NOT NULL,
+	   PRIMARY KEY (`ID`)
+	 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	 
+	CREATE TABLE IF NOT EXISTS `glb_t_rep_source`
+	(
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(100) NOT NULL,
+	  `type` varchar(20) NOT NULL,
+	  `type_fk` int(11) NOT NULL,
+	  `type_name` varchar(100) NOT NULL,
+	  `type_query` varchar(4000) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	  `status` tinyint(4) NOT NULL,
+	  `env_fk_source` int(11) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `dt_updated` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `user_updated_fk` int(11) NOT NULL,
+	  PRIMARY KEY (`ID`),
+	  CONSTRAINT `glb_t_rep_source_env_fk` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_source_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_source_user_updated_fk` FOREIGN KEY (`user_updated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `glb_t_rep_source`
---
-
-CREATE TABLE  IF NOT EXISTS  `glb_t_rep_source` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `type` varchar(20) NOT NULL,
-  `type_fk` int(11) NOT NULL,
-  `type_name` varchar(100) NOT NULL,
-  `type_query` varchar(4000) NOT NULL,
-  `env_fk` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `env_fk_source` int(11) NOT NULL,
-  `dt_created` date NOT NULL,
-  `dt_updated` date NOT NULL,
-  `user_created_fk` int(11) NOT NULL,
-  `user_updated_fk` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `glb_t_rep_template`
---
-
-CREATE TABLE  IF NOT EXISTS  `glb_t_rep_template` (
-  `id` int(11) NOT NULL,
-  `code` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `env_fk` int(11) NOT NULL,
-  `html_content_fk` int(11) NOT NULL,
-  `xsl_content_fk` int(11) NOT NULL,
-  `dt_created` date NOT NULL,
-  `dt_updated` date NOT NULL,
-  `user_created_fk` int(11) NOT NULL,
-  `user_cupdated_fk` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `glb_t_rep_template_param`
---
-
-CREATE TABLE  IF NOT EXISTS  `glb_t_rep_template_param` (
-  `id_template` int(11) NOT NULL,
-  `parameter` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `glb_t_rep_template_source`
---
-
-CREATE TABLE  IF NOT EXISTS  `glb_t_rep_template_source` (
-  `data_source_id` int(11) NOT NULL,
-  `template_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+	CREATE TABLE  IF NOT EXISTS `GLB_T_REP_TEMPLATE` 
+	(  
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `code` varchar(100) NOT NULL,
+	  `name` varchar(100) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	  `html_content_fk` int(11) NOT NULL,
+	  `xsl_content_fk` int(11) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `dt_updated` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `user_updated_fk` int(11) NOT NULL,
+	  `status` tinyint(4) NOT NULL,
+	  PRIMARY KEY (`ID`),
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_ENV_FK` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_user_updated_fk` FOREIGN KEY (`user_updated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_html_content_fk` FOREIGN KEY (`html_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_xsl_content_fk` FOREIGN KEY (`xsl_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE  IF NOT EXISTS `glb_t_rep_template_param` 
+	(
+	  `id_template` int(11) NOT NULL,
+	  `parameter` varchar(50) NOT NULL,
+	  CONSTRAINT `glb_t_rep_template_param_template_id` FOREIGN KEY (`id_template`) REFERENCES `GLB_T_REP_TEMPLATE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE  IF NOT EXISTS `glb_t_rep_template_source` 
+	(
+	  `data_source_id` int(11) NOT NULL,
+	  `template_id` int(11) NOT NULL,
+	  CONSTRAINT `glb_t_rep_template_source_data_source_id` FOREIGN KEY (`data_source_id`) REFERENCES `glb_t_rep_source` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_template_source_template_id` FOREIGN KEY (`template_id`) REFERENCES `GLB_T_REP_TEMPLATE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE   IF NOT EXISTS `glb_t_rep_instance` (
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `id_template` int(11) NOT NULL,
+	  `contra_prova` varchar(100) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `xml_content_fk` int(11) NOT NULL,
+	  `xsl_content_fk` int(11) NOT NULL,
+	  `reference` varchar(4000) NOT NULL,
+	  `ref_fk` int(11) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	   PRIMARY KEY (`ID`),
+	   CONSTRAINT `glb_t_rep_instance_ENV_FK` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `Gglb_t_rep_instance_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `glb_t_rep_instance_id_template` FOREIGN KEY (`id_template`) REFERENCES `glb_t_rep_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE, 
+	   CONSTRAINT `glb_t_rep_instance_html_content_fk` FOREIGN KEY (`xml_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `glb_t_rep_instance_xsl_content_fk` FOREIGN KEY (`xsl_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	 
 
  CREATE OR REPLACE  VIEW GLB_MV_ALL_MENUS (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
  	SELECT  a.ID,
@@ -440,110 +450,7 @@ CREATE TABLE  IF NOT EXISTS  `glb_t_rep_template_source` (
   
   CREATE OR REPLACE  VIEW GLB_V_USER_TRANS (`ID`, `CODE`, `DESCR`, `ENV_FK`, `PROF_TYPE_FK`, `USER_FK`, `PROF_CODE`, `PROF_NAME`, `ORG_FK`) AS 
   SELECT `ID`,`CODE`,`DESCR`,`ENV_FK`,`PROF_TYPE_FK`,`USER_FK`,`PROF_CODE`,`PROF_NAME`,`ORG_FK` FROM GLB_V_PROFILE_TRANS WHERE USER_FK<>0;
- 
-  
-  ALTER TABLE `glb_t_rep_instance`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_template` (`id_template`),
-  ADD KEY `user_created` (`user_created`),
-  ADD KEY `xml_content_fk` (`xml_content_fk`),
-  ADD KEY `xsl_content_fk` (`xsl_content_fk`),
-  ADD KEY `ref_fk` (`ref_fk`),
-  ADD KEY `env_fk` (`env_fk`);
 
---
--- Indexes for table `glb_t_rep_source`
---
-ALTER TABLE `glb_t_rep_source`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `env_fk` (`env_fk`),
-  ADD KEY `user_created_fk` (`user_created_fk`),
-  ADD KEY `user_updated_fk` (`user_updated_fk`);
-
---
--- Indexes for table `glb_t_rep_template`
---
-ALTER TABLE `glb_t_rep_template`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `env_fk` (`env_fk`),
-  ADD KEY `html_content_fk` (`html_content_fk`),
-  ADD KEY `xsl_content_fk` (`xsl_content_fk`),
-  ADD KEY `user_created_fk` (`user_created_fk`),
-  ADD KEY `user_cupdated_fk` (`user_cupdated_fk`);
-
---
--- Indexes for table `glb_t_rep_template_param`
---
-ALTER TABLE `glb_t_rep_template_param`
-  ADD KEY `id_template` (`id_template`);
-
---
--- Indexes for table `glb_t_rep_template_source`
---
-ALTER TABLE `glb_t_rep_template_source`
-  ADD KEY `data_source_id` (`data_source_id`,`template_id`),
-  ADD KEY `template_id` (`template_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `glb_t_rep_instance`
---
-ALTER TABLE `glb_t_rep_instance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `glb_t_rep_source`
---
-ALTER TABLE `glb_t_rep_source`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `glb_t_rep_template`
---
-ALTER TABLE `glb_t_rep_template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- Constraints for dumped tables
---
-
---
--- Limitadores para a tabela `glb_t_rep_instance`
---
-ALTER TABLE `glb_t_rep_instance`
-  ADD CONSTRAINT `glb_t_rep_instance_ibfk_1` FOREIGN KEY (`id_template`) REFERENCES `glb_t_rep_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_instance_ibfk_2` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limitadores para a tabela `glb_t_rep_source`
---
-ALTER TABLE `glb_t_rep_source`
-  ADD CONSTRAINT `glb_t_rep_source_ibfk_1` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_source_ibfk_2` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_source_ibfk_3` FOREIGN KEY (`user_updated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limitadores para a tabela `glb_t_rep_template`
---
-ALTER TABLE `glb_t_rep_template`
-  ADD CONSTRAINT `glb_t_rep_template_ibfk_1` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_template_ibfk_2` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_template_ibfk_3` FOREIGN KEY (`user_cupdated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limitadores para a tabela `glb_t_rep_template_param`
---
-ALTER TABLE `glb_t_rep_template_param`
-  ADD CONSTRAINT `glb_t_rep_template_param_ibfk_1` FOREIGN KEY (`id_template`) REFERENCES `glb_t_rep_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limitadores para a tabela `glb_t_rep_template_source`
---
-ALTER TABLE `glb_t_rep_template_source`
-  ADD CONSTRAINT `glb_t_rep_template_source_ibfk_1` FOREIGN KEY (`data_source_id`) REFERENCES `glb_t_rep_source` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `glb_t_rep_template_source_ibfk_2` FOREIGN KEY (`template_id`) REFERENCES `glb_t_rep_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-  
 	--
 	--	DDL Igrp for H2 DataBase (End)
 	--

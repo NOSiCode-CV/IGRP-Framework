@@ -74,7 +74,8 @@ public class WebReportViewV2_2 extends View{
 		env_fk.propertie().add("name","p_env_fk").add("multiple","false").add("required","false").add("change","false").add("disabled","false").add("right","false").add("maxlength","30");
 		datasorce_app = new ListField(model, "datasorce_app");
 		datasorce_app.setLabel("Data Source");
-		datasorce_app.propertie().add("name","p_datasorce_app").add("multiple","true").add("required","false").add("change","false").add("disabled","false").add("right","false").add("maxlength","30");
+		datasorce_app.propertie().clear();
+		datasorce_app.propertie().add("name","p_datasorce_app").add("type", "selectlist").add("multiple","true").add("code","DATASORCE_APP").add("maxlength","30");
 		report_editor = new TextEditorField(model,"report_editor");
 		report_editor.setLabel("Report Editor");
 		report_editor.propertie().add("name", "p_report_editor").add("maxlength","30");
@@ -84,7 +85,7 @@ public class WebReportViewV2_2 extends View{
 		edit_name_report.propertie().add("name", "p_edit_name_report");
 		link_add_source = new LinkField(model,"link_add_source");
 		link_add_source.setLabel("Link Add Source");
-		link_add_source.propertie().add("name", "p_link_add_source").add("maxlength","2000").add("target", "_self").add("right", "false").add("iconColor","#333").add("iconClass","").add("img","fa-link");
+		link_add_source.propertie().add("name", "p_link_add_source").add("maxlength","2000");
 		dialog_titulo_report = new PlainTextField(model,"dialog_titulo_report");
 		dialog_titulo_report.setLabel("Titulo Report");
 		dialog_titulo_report.propertie().add("name", "p_dialog_titulo_report").add("maxlength","30");
@@ -164,8 +165,8 @@ public class WebReportViewV2_2 extends View{
 		table.addField(link);
 		table.addField(link_desc);
 
+		menu.addGroup(" Reports",report);
 		menu.addGroup("Data Source",data_source);
-		menu.addGroup("Reports",report);
 		
 		this.addToPage(menu);
 		this.addToPage(form);
