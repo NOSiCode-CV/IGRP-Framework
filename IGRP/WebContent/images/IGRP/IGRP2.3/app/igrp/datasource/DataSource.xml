@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DataSource</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>DataSource</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Data Source</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>DataSource</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>default|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
+                <params>default||fa-save|www</params>
+            </item>
+            <item type="specific" code="" rel="fechar">
+                <title>Fechar</title>
+                <app>igrp</app>
+                <page>DataSource</page>
+                <link>index</link>
+                <target>_close</target>
+                <img>default|fa-close</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
+                <params>default||fa-close|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Tipo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Iste aliqua rem officia omnis</value>
+                </nome>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <area name="p_area" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Area</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </area>
+                <processo name="p_processo" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Processo</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </processo>
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Etapa</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </etapa>
+                <objecto name="p_objecto" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Objecto</label>
+                    <value>Rem omnis rem elit anim</value>
+                </objecto>
+                <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Pagina</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </pagina>
+                <query name="p_query" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Query</label>
+                    <value>Unde labore consectetur totam voluptatem stract deserunt sed consectetur dolor aliqua elit natus elit accusantium</value>
+                </query>
+                <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Servico</label>
+                    <value/>
+                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
+                </servico>
+            </fields>
+        </form_1>
+    </content>
+</rows>

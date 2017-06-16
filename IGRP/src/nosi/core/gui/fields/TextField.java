@@ -11,6 +11,7 @@ public class TextField extends AbstractField {
 	public TextField(Object model,String name){
 		super();
 		this.propertie.put("type","text");
+		this.setName(name);
 		this.setTagName(name);
 		this.propertie.put("name","p_"+name);
 		this.propertie.put("right", false);

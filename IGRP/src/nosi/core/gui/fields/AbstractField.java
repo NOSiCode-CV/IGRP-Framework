@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 
 public abstract class AbstractField implements Field{
 
+	private String name;
 	private String tag_name;
 	private Object value="";
 	private String label = "";
@@ -35,6 +36,7 @@ public abstract class AbstractField implements Field{
 		this.label = label;
 	}
 	public String getTagName() {
+		tag_name = this.propertie.get("tag")!=null?this.propertie.get("tag").toString().toLowerCase():tag_name;
 		return tag_name;
 	}
 	public void setTagName(String tag_name) {
@@ -73,12 +75,19 @@ public abstract class AbstractField implements Field{
 	public void setParam(boolean isParam) {
 		this.isParam = isParam;
 	}
+	public void setName(String name){
+		this.name = name;
+	}
+	public String getName(){
+		return this.name;
+	}
+	
 	protected void configValue(Object model){
 		if(model!=null){		
 			this.value = "";
 			Method[] allMethods = model.getClass().getDeclaredMethods();
 		    for (Method m : allMethods) {
-		    	String methodName = this.getTagName().substring(0, 1).toUpperCase()+this.getTagName().substring(1);
+		    	String methodName = this.getName().substring(0, 1).toUpperCase()+this.getName().substring(1);
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
 			    		if(m.invoke(model)!=null)

@@ -48,4 +48,7 @@ public class ListaPageController extends Controller {
 		this.renderView(view);
 	}
 
+	public void actionGetPages(){
+		
+	}
 }

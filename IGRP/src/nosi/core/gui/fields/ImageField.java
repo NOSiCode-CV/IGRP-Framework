@@ -10,6 +10,7 @@ public class ImageField extends AbstractField {
 
 	public ImageField(Object model,String name) {
 		super();
+		this.setName(name);
 		this.setTagName(name);
 		this.propertie.put("type","img");
 		this.propertie.put("name","p_"+name);

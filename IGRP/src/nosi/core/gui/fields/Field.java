@@ -9,6 +9,8 @@ package nosi.core.gui.fields;
 
 public interface Field {
 	public String getTagName();
+	public String getName();
+	public void setName(String name);
 	public void setTagName(String tag_name);
 	public Object getValue();
 	public void setValue(Object value);
