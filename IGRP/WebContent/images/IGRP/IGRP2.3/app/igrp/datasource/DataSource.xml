@@ -32,32 +32,32 @@
         <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Data Source</title>
+        <title>null</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>igrp</app>
-                <page>DataSource</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
                 <params>default||fa-save|www</params>
             </item>
             <item type="specific" code="" rel="fechar">
                 <title>Fechar</title>
-                <app>igrp</app>
-                <page>DataSource</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>_close</target>
                 <img>default|fa-close</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
                 <params>default||fa-close|www</params>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <tipo name="p_tipo" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false">
                     <label>Tipo</label>
                     <list>
                         <option>
@@ -78,11 +78,11 @@
                         </option>
                     </list>
                 </tipo>
-                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Iste aliqua rem officia omnis</value>
+                    <value>Voluptatem aperiam consectetur sit ut</value>
                 </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
                     <label>Aplicacao</label>
                     <list>
                         <option>
@@ -103,7 +103,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <area name="p_area" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <area name="p_area" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
                     <label>Area</label>
                     <list>
                         <option>
@@ -124,7 +124,7 @@
                         </option>
                     </list>
                 </area>
-                <processo name="p_processo" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
                     <label>Processo</label>
                     <list>
                         <option>
@@ -145,7 +145,7 @@
                         </option>
                     </list>
                 </processo>
-                <etapa name="p_etapa" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
                     <label>Etapa</label>
                     <list>
                         <option>
@@ -166,24 +166,26 @@
                         </option>
                     </list>
                 </etapa>
-                <objecto name="p_objecto" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Rem omnis rem elit anim</value>
+                    <value>Voluptatem laudantium voluptatem adipiscing consectetur</value>
                 </objecto>
-                <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
                     <value/>
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
                 </pagina>
-                <query name="p_query" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Unde labore consectetur totam voluptatem stract deserunt sed consectetur dolor aliqua elit natus elit accusantium</value>
+                    <value>Labore totam magna deserunt doloremque omnis laudantium unde lorem totam officia laudantium doloremque ipsum mollit</value>
                 </query>
-                <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
                     <value/>
                     <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
                 </servico>
+                <hidden name="p_id_pagina" type="hidden" maxlength="30" tag="id_pagina"/>
+                <hidden name="p_id_servico" type="hidden" maxlength="30" tag="id_servico"/>
             </fields>
         </form_1>
     </content>

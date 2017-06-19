@@ -11,11 +11,11 @@ public class DataSource extends Model{
 	@RParam(rParamName = "p_aplicacao")
 	private int aplicacao;
 	@RParam(rParamName = "p_area")
-	private String area;
+	private int area;
 	@RParam(rParamName = "p_processo")
-	private String processo;
+	private int processo;
 	@RParam(rParamName = "p_etapa")
-	private String etapa;
+	private int etapa;
 	@RParam(rParamName = "p_objecto")
 	private String objecto;
 	@RParam(rParamName = "p_pagina")
@@ -24,6 +24,10 @@ public class DataSource extends Model{
 	private String query;
 	@RParam(rParamName = "p_servico")
 	private String servico;
+	@RParam(rParamName = "p_id_pagina")
+	private int p_id_pagina;
+	@RParam(rParamName = "p_id_servico")
+	private int p_id_servico;
 	
 	public void setTipo(String tipo){
 		this.tipo = tipo;
@@ -46,24 +50,24 @@ public class DataSource extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setArea(String area){
+	public void setArea(int area){
 		this.area = area;
 	}
-	public String getArea(){
+	public int getArea(){
 		return this.area;
 	}
 	
-	public void setProcesso(String processo){
+	public void setProcesso(int processo){
 		this.processo = processo;
 	}
-	public String getProcesso(){
+	public int getProcesso(){
 		return this.processo;
 	}
 	
-	public void setEtapa(String etapa){
+	public void setEtapa(int etapa){
 		this.etapa = etapa;
 	}
-	public String getEtapa(){
+	public int getEtapa(){
 		return this.etapa;
 	}
 	
@@ -93,6 +97,20 @@ public class DataSource extends Model{
 	}
 	public String getServico(){
 		return this.servico;
+	}
+	
+	public void setP_id_pagina(int p_id_pagina){
+		this.p_id_pagina = p_id_pagina;
+	}
+	public int getP_id_pagina(){
+		return this.p_id_pagina;
+	}
+	
+	public void setP_id_servico(int p_id_servico){
+		this.p_id_servico = p_id_servico;
+	}
+	public int getP_id_servico(){
+		return this.p_id_servico;
 	}
 
 

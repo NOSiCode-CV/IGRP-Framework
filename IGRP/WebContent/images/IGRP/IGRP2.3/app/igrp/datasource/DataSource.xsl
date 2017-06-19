@@ -66,7 +66,7 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/nome/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/nome/value}" class="form-control " id="{rows/content/form_1/fields/nome/@name}" name="{rows/content/form_1/fields/nome/@name}" required="required" maxlength="30" placeholder=""></input>
+                                                                        <input type="text" value="{rows/content/form_1/fields/nome/value}" class="form-control " id="{rows/content/form_1/fields/nome/@name}" name="{rows/content/form_1/fields/nome/@name}" required="required" maxlength="80" placeholder=""></input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/aplicacao">
@@ -152,7 +152,7 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/objecto/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/objecto/value}" class="form-control " id="{rows/content/form_1/fields/objecto/@name}" name="{rows/content/form_1/fields/objecto/@name}" maxlength="30" placeholder=""></input>
+                                                                        <input type="text" value="{rows/content/form_1/fields/objecto/value}" class="form-control " id="{rows/content/form_1/fields/objecto/@name}" name="{rows/content/form_1/fields/objecto/@name}" maxlength="100" placeholder=""></input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/pagina">
@@ -161,7 +161,7 @@
                                                                             <xsl:value-of select="rows/content/form_1/fields/pagina/label"/>
                                                                         </label>
                                                                         <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/pagina/value}" class="form-control gen-lookup " id="form_1_pagina" name="{rows/content/form_1/fields/pagina/@name}" maxlength="30"/>
+                                                                            <input type="text" value="{rows/content/form_1/fields/pagina/value}" class="form-control gen-lookup " id="form_1_pagina" name="{rows/content/form_1/fields/pagina/@name}" maxlength="100"/>
                                                                             <xsl:call-template name="lookup-tool">
                                                                                 <xsl:with-param name="page" select="rows/page"/>
                                                                                 <xsl:with-param name="ad_hoc" select="'1'"/>
@@ -179,7 +179,7 @@
                                                                         <label for="{rows/content/form_1/fields/query/@name}">
                                                                             <xsl:value-of select="rows/content/form_1/fields/query/label"/>
                                                                         </label>
-                                                                        <textarea name="{rows/content/form_1/fields/query/@name}" class="textarea form-control " maxlength="30">
+                                                                        <textarea name="{rows/content/form_1/fields/query/@name}" class="textarea form-control " maxlength="4000">
                                                                             <xsl:value-of select="rows/content/form_1/fields/query/value"/>
                                                                         </textarea>
                                                                     </div>
@@ -190,7 +190,7 @@
                                                                             <xsl:value-of select="rows/content/form_1/fields/servico/label"/>
                                                                         </label>
                                                                         <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/servico/value}" class="form-control gen-lookup " id="form_1_servico" name="{rows/content/form_1/fields/servico/@name}" maxlength="30"/>
+                                                                            <input type="text" value="{rows/content/form_1/fields/servico/value}" class="form-control gen-lookup " id="form_1_servico" name="{rows/content/form_1/fields/servico/@name}" maxlength="200"/>
                                                                             <xsl:call-template name="lookup-tool">
                                                                                 <xsl:with-param name="page" select="rows/page"/>
                                                                                 <xsl:with-param name="ad_hoc" select="'1'"/>
@@ -227,9 +227,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1497519849922"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1497519849922"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1497519849922"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1497519849922"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1497519849922"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1497868732301"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1497868732301"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1497868732301"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1497868732301"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1497868732302"/>
 </xsl:stylesheet>
