@@ -572,7 +572,7 @@ INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`
 (10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
 (11, 'Auditoria', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
 (12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-(13, 'Web Report', 23, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
+(13, 'Report Design', 23, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
 
 	
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
