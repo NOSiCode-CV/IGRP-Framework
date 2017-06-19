@@ -207,9 +207,9 @@
 	
 	CREATE TABLE IF NOT EXISTS `glb_t_clob` (
 	  `ID` int(11) NOT NULL AUTO_INCREMENT,
-	  `name` varchar(256) NOT NULL,
+	  `name` varchar(256),
 	  `mime_type` varchar(128),
-	  `c_lob_content` blob NOT NULL,
+	  `c_lob_content` clob NOT NULL,
 	  `dt_created` date NOT NULL,
 	   PRIMARY KEY (`ID`)
 	 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

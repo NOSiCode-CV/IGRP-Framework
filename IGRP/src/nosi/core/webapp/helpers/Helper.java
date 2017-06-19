@@ -55,7 +55,7 @@ public class Helper {
 			Method[] allMethods = model.getClass().getDeclaredMethods();
 		    for (Method m : allMethods) {
 		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
-		    	if(m.getName().contains(methodName) && m.getName().startsWith("get")){
+		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
 			    		if(m.invoke(model)!=null)
 			    			value = ""+ m.invoke(model);

@@ -195,5 +195,42 @@ public class WebReport extends Model{
 		this.link_desc = link_desc;
 	}
 	
+	public class Table_1{
+		private String title;
+		private String link;
+		private String link_desc;
+		private String descricao;
+		private int id;
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getLink() {
+			return link;
+		}
+		public void setLink(String link) {
+			this.link = link;
+		}
+		public String getLink_desc() {
+			return link_desc;
+		}
+		public void setLink_desc(String link_desc) {
+			this.link_desc = link_desc;
+		}
+		public String getDescricao() {
+			return descricao;
+		}
+		public void setDescricao(String descricao) {
+			this.descricao = descricao;
+		}
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}	
+	}
 }
 /*-------------------------*/

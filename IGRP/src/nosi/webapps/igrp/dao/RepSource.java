@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
@@ -192,8 +195,7 @@ public class RepSource implements RowDataGateway {
 			obj.setDt_updated(result.getDate("dt_updated")); 
 			obj.setUser_created_fk(result.getInt("user_created_fk"));
 			obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-			obj.setStatus(result.getInt("status"));
-			obj.setId(result.getInt("id"));					
+			obj.setStatus(result.getInt("status"));			
 		}
 		st.close();
 		
@@ -239,8 +241,7 @@ public class RepSource implements RowDataGateway {
 				obj.setDt_updated(result.getDate("dt_updated")); 
 				obj.setUser_created_fk(result.getInt("user_created_fk"));
 				obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));						
+				obj.setStatus(result.getInt("status"));				
 				lista.add(obj);
 		}
 		st.close();		
@@ -268,15 +269,26 @@ public class RepSource implements RowDataGateway {
 		HashMap<String,Boolean> columns = new HashMap<>();
 		try {
 			Statement s = con.createStatement();
+			List<String> keys = getKeysQuery(query);
+			query =query.replaceAll(":\\w+", "null");
 			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 			for(int i=1;i<=rsd.getColumnCount();i++){
-				columns.put(rsd.getColumnName(i),false);
+				columns.put(rsd.getColumnName(i),keys.contains(rsd.getColumnName(i).toLowerCase()));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return columns;
+	}
+	
+	private List<String> getKeysQuery(String query){
+		List<String> keys = new ArrayList<String>();
+		Matcher m = Pattern.compile("\\w+=:").matcher(query);
+		while (m.find()) {
+		   keys.add(m.group().replaceAll("=:", "").toLowerCase());
+		}
+		return keys;
 	}
 
 }
