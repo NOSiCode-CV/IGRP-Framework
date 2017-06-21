@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 
 import nosi.core.dao.RowDataGateway;
 import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
 
 /**
  * @Author: Emanuel Pereira
@@ -265,11 +266,25 @@ public class RepSource implements RowDataGateway {
 	}
 
 
-	public HashMap<String,Boolean> getSqlColumns(String query) {
+	public boolean validateQuery(String query){
+		try {
+			Statement s = con.createStatement();
+			query =query.replaceAll(":\\w+", "null");
+			ResultSet rs =s.executeQuery(query);
+			if(rs.next()){
+				return true;
+			}
+		} catch (SQLException e) {
+			return false;
+		}
+		return false;
+	}
+	
+	public HashMap<String,Boolean> getSqlColumns(int template_id,String query) {
 		HashMap<String,Boolean> columns = new HashMap<>();
 		try {
 			Statement s = con.createStatement();
-			List<String> keys = getKeysQuery(query);
+			List<String> keys = getKeysQuery(template_id,query);
 			query =query.replaceAll(":\\w+", "null");
 			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 			for(int i=1;i<=rsd.getColumnCount();i++){
@@ -282,13 +297,66 @@ public class RepSource implements RowDataGateway {
 		return columns;
 	}
 	
-	private List<String> getKeysQuery(String query){
+	private List<String> getKeysQuery(int template_id,String query){
 		List<String> keys = new ArrayList<String>();
-		Matcher m = Pattern.compile("\\w+=:").matcher(query);
-		while (m.find()) {
-		   keys.add(m.group().replaceAll("=:", "").toLowerCase());
+		if(template_id!=0){
+			Matcher m = Pattern.compile("\\w+=:").matcher(query);
+			while (m.find()) {
+			   keys.add(m.group().replaceAll("=:", "").toLowerCase());
+			}
+			RepTemplateParam rtp = new RepTemplateParam();
+			rtp.setId_template(template_id);
+			for(Object obj:rtp.getAll()){
+				RepTemplateParam r = (RepTemplateParam) obj;
+				keys.add(r.getParameter().toLowerCase());
+			}
 		}
 		return keys;
 	}
+	
+	public HashMap<String,Object> executeQuery(String query){
+		HashMap<String,Object> data = new HashMap<>();
+		try {
+			Statement s = con.createStatement();
+			ResultSet r = s.executeQuery(query);
+			ResultSetMetaData rsd = r.getMetaData();
+		    while (r.next()) {
+		    	for (int i = 1; i <= rsd.getColumnCount(); i++) {
+					data.put(rsd.getColumnName(i),r.getString(rsd.getColumnName(i)));
+		        }
+		    }
+		    s.close();
+		    r.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	//Query data and convert to xml
+	public String queryToXmlRows(String query){
+		XMLWritter xml = new XMLWritter();
+		try {
+			Statement s = con.createStatement();
+			ResultSet r = s.executeQuery(query);
+			ResultSetMetaData rsd = r.getMetaData();
+		    while (r.next()) {
+		    	xml.startElement("row");
+		    	for (int i = 1; i <= rsd.getColumnCount(); i++) {
+		          xml.startElement(rsd.getColumnName(i));
+			          xml.writeAttribute("name", "p_"+rsd.getColumnName(i).toLowerCase());
+			          xml.text(r.getString(rsd.getColumnName(i)));
+		          xml.endElement();
+		        }
+		        xml.endElement();
+		    }
+		    s.close();
+		    r.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return xml.toString();
+	}
+			
 
 }
