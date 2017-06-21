@@ -141,5 +141,24 @@ public class CLob{
 		}
 		return lista.toArray();
 	}
+
+	public CLob update() {
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_clob SET "+
+			             "name=?,mime_type=?,c_lob_content=?,dt_created=? WHERE id=?");			
+			st.setString(1,this.getName());
+			st.setString(2, this.getMime_type());
+			st.setString(3, this.getC_lob_content());
+			st.setDate(4, (Date)this.getDt_created());
+			st.setInt(5,this.getId());
+			st.executeUpdate();
+			st.close();
+			return getOne();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return this;
+	}
 	
 }

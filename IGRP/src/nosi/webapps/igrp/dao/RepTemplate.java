@@ -28,6 +28,7 @@ public class RepTemplate{
 	private int status;
 	private int data_source_id;
 	private int template_id;
+	private Application env;
 	
 	
 	private Connection con;
@@ -122,8 +123,12 @@ public class RepTemplate{
 		this.status = status;
 	}
 	
-	
-	
+	public Application getEnv() {
+		return env;
+	}
+	public void setEnv(Application env) {
+		this.env = env;
+	}
 	public int getData_source_id() {
 		return data_source_id;
 	}
@@ -166,7 +171,7 @@ public class RepTemplate{
 		return this;
 	}
 	
-	public RepTemplate insertTemDataSource(int id_t,int id_dt) {
+	public RepTemplate insertTemplateDataSource(int id_t,int id_dt) {
 		try{
 			con.setAutoCommit(true);
 			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_rep_template_source"+
@@ -186,7 +191,7 @@ public class RepTemplate{
 		RepTemplate obj = new RepTemplate();
 		try{
 		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM glb_t_rep_template where (id = "+ this.id+")");
+		ResultSet result = st.executeQuery("SELECT r.*,e.dad,e.img_src FROM glb_t_rep_template r, glb_t_env e where (r.env_fk=e.id) AND (r.id = "+ this.id+")");
 		while(result.next()){
 			obj.setId(result.getInt("id"));
 			obj.setName(result.getString("name"));
@@ -199,6 +204,10 @@ public class RepTemplate{
 			obj.setUser_created_fk(result.getInt("user_created_fk"));
 			obj.setUser_updated_fk(result.getInt("user_updated_fk"));
 			obj.setStatus(result.getInt("status"));		
+			Application a = new Application();
+			a.setDad(result.getString("dad"));
+			a.setImg_src(result.getString("img_src"));
+			obj.setEnv(a);
 		}
 		st.close();
 		
@@ -280,4 +289,44 @@ public class RepTemplate{
 		return lista.toArray();
 	}
 	
+	
+	public RepTemplate update() {
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("UPDATE glb_t_rep_template SET "+
+			             "code=?,name=?,env_fk=?,html_content_fk=?,xsl_content_fk=?,dt_created=?,dt_updated=?,user_created_fk=?,user_updated_fk=?,status=? WHERE id=?");			
+			st.setString(1, this.code);
+			st.setString(2, this.name);
+			st.setInt(3, this.env_fk);
+			st.setInt(4, this.html_content_fk);
+			st.setInt(5, this.xsl_content_fk);
+			st.setDate(6, (Date)this.dt_created);
+			st.setDate(7,(Date)this.dt_updated);
+			st.setInt(8, this.user_created_fk);
+			st.setInt(9,this.user_updated_fk);
+			st.setInt(10,this.status);
+			st.setInt(11,this.id);
+			st.executeUpdate();
+			st.close();
+			return getOne();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return this;
+	}
+	public boolean deleteTemplateDataSource(int id) {
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("DELETE FROM GLB_T_REP_TEMPLATE_SOURCE WHERE template_id=?");	
+			st.setInt(1, this.id);
+			st.executeUpdate();
+			st.close();
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+
 }

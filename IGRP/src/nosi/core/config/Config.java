@@ -123,6 +123,10 @@ public class Config {
 	public static String getLinkImg(){
 		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
 	}
+	public static String getLinkImg2_2(){
+		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP2.2/");
+	}
+	
 	public static String getLink(){
 		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
 	}

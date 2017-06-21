@@ -77,13 +77,22 @@ public class RepTemplateParam implements RowDataGateway{
 
 	@Override
 	public boolean update() {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public boolean delete() {
-		// TODO Auto-generated method stub
+		try{
+			con.setAutoCommit(true);
+			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_rep_template_param WHERE id_template=?");	
+			st.setInt(1, this.id_template);
+			st.executeUpdate();
+			st.close();
+			return true;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
 		return false;
 	}
 

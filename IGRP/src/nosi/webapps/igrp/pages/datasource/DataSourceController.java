@@ -36,7 +36,7 @@ public class DataSourceController extends Controller {
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
 		//view.pagina.setValue(new Action().getListActions());
-		view.pagina.setLookup("r=igrp/lista-page/index&amp;dad=igrp");
+		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
 		this.renderView(view);
 		/*---- End ----*/
 	}
@@ -57,6 +57,15 @@ public class DataSourceController extends Controller {
 			}
 			if(model.getTipo().equals("page")){
 				rep.setType_fk(Integer.parseInt(model.getPagina()));
+			}
+			if(model.getTipo().equals("object") || model.getTipo().equals("query")){
+				String query = rep.getType_query();
+				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
+				if(!rep.validateQuery(query)){
+					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
+					this.redirect("igrp","DataSource","index");
+					return;
+				}
 			}
 			rep.setEnv_fk(model.getAplicacao());
 			rep.setStatus(1);
@@ -97,12 +106,14 @@ public class DataSourceController extends Controller {
 	//Print data source in xml format
 	public PrintWriter actionGetDataSource() throws IOException{
 		String [] p_id = Igrp.getInstance().getRequest().getParameterValues("p_id");
+		String p_template_id = Igrp.getInstance().getRequest().getParameter("p_template_id");
+		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		String list ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 			   list += "<rows>\n";		
 		if(p_id!=null && p_id.length > 0){
 			for(String id:p_id){
-				list += this.loadDataSource(Integer.parseInt(id));
+				list += this.loadDataSource(Integer.parseInt(id),(p_template_id!=null && !p_template_id.equals(""))?Integer.parseInt(p_template_id):0);
 			}
 		}
 		list +="</rows>";
@@ -110,7 +121,7 @@ public class DataSourceController extends Controller {
 	}
 
 	//Load data source
-	private String loadDataSource(int id) {
+	private String loadDataSource(int id,int template_id) {
 		RepSource rep = new RepSource();
 		rep.setId(id);
 		rep = (RepSource) rep.getOne();
@@ -120,7 +131,7 @@ public class DataSourceController extends Controller {
 			if(rep.getType().equals("object") || rep.getType().equals("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
-				columns = rep.getSqlColumns(query);
+				columns = rep.getSqlColumns(template_id,query);
 				return this.transformToXml(title,columns);
 			}else if(rep.getType().equals("page")){
 				Action ac = new Action();
