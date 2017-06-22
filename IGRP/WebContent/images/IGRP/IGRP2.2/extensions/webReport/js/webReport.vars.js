@@ -2,6 +2,11 @@ var WEBREPORT = {
   textEditor:'p_report_editor',
   toolsBar:'.bWebReport',
   classDrag:'.drag',
+  tmpl:'<hr class="page"><div size="A4">'+
+    '<div id="header"><p>-- Cabe&ccedil;alho --&nbsp;</p></div><p class="page">&nbsp;</p>'+
+    '<div id="content"><p>-- Corpo --&nbsp;</p></div>'+
+    '<div id="footer"></div>'+
+    '</div><hr class="page" /><p class="page">&nbsp;</p>',
   tabMenu:{
     id:'tab',
     classItem:'.itemMenu'
@@ -318,39 +323,25 @@ var WEBREPORT = {
       '<!ENTITY diams    "&#9830;" >]>'+
       '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">'+
       '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
-      '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />'+
-      '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />',
-    initBody:'</head><body><div class="wrap">',
-    endBody:'</div></body></html></xsl:template>',
+      '<xsl:template match="/"><html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />'+
+      '<meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />',
+    initBody:'</head><body>',
+    endBody:'</body></html></xsl:template>',
     endEnvelope:'</xsl:stylesheet>',
-    header:'<div class="header">'+
-      '<div class="nave">'+
-       '<div class="headleft">'+
-          '<div class="logo">'+
-            '<xsl:if test="rows/print_report/img_app !='+"''"+'">'+
-            '<img src="{rows/print_report/link_img}/iconApp/{rows/print_report/img_app}"/>'+
-            '</xsl:if></div>'+
-          '<div class="title"><xsl:value-of select="rows/print_report/name_app"/></div>'+
-        '</div>'+
-        '<div class="headright">'+
-          '<div class="brasao"><div id="tri"><xsl:if test="rows/print_report/img_brasao !='+"''"+'">'+
-            '<img src="{rows/print_report/link_img}/iconApp/{rows/print_report/img_brasao}"/>'+
-          '</xsl:if></div></div>'+
-        '</div>'+
-      '</div>'+  
-    '</div><div class="naver"><div class="nave">',
-    footer:'</div><div class="footer">'+
+    header:'',
+    footer:'<div class="footer notprint">'+
         '<div class="nave">'+
+          '<div class="lfooter"></div>'+
           '<div id="containerQrcode"></div>'+
+          '<div class="rfooter">'+
           '<div class="contraProva">'+
             '<div class="label"><xsl:value-of select="rows/print_report/name_contraprova"/></div>'+
             '<div class="val"><xsl:value-of select="rows/print_report/value_contraprova"/></div>'+
           '</div>'+
           '<div class="userprint"><span><xsl:value-of select="rows/print_report/user_print"/></span>'+
           '/<span><xsl:value-of select="rows/print_report/data_print"/></span></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>',
+        '</div></div>'+
+      '</div>',
     includCss:'<link media="all" rel="stylesheet" href="{rows/print_report/link_img}extensions/webReport/css/webReportPrint.css?v='+IGRP_returnTime()+'"/>',
     includeJs:'<script type="text/javascript" src="{rows/print_report/link_img}js/jquery-2.1.1.min.js"></script>'+
       '<script type="text/javascript"> var qrcodeResult = '+"'"+'<xsl:value-of select="rows/print_report/link_qrcode"/>'+"'"+';'+

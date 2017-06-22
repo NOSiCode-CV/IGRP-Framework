@@ -9,13 +9,13 @@ public class DataSource extends Model{
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_aplicacao")
-	private int aplicacao;
+	private String aplicacao;
 	@RParam(rParamName = "p_area")
-	private int area;
+	private String area;
 	@RParam(rParamName = "p_processo")
-	private int processo;
+	private String processo;
 	@RParam(rParamName = "p_etapa")
-	private int etapa;
+	private String etapa;
 	@RParam(rParamName = "p_objecto")
 	private String objecto;
 	@RParam(rParamName = "p_pagina")
@@ -25,9 +25,11 @@ public class DataSource extends Model{
 	@RParam(rParamName = "p_servico")
 	private String servico;
 	@RParam(rParamName = "p_id_pagina")
-	private int p_id_pagina;
+	private String p_id_pagina;
 	@RParam(rParamName = "p_id_servico")
-	private int p_id_servico;
+	private String p_id_servico;
+	@RParam(rParamName = "p_id")
+	private String p_id;
 	
 	public void setTipo(String tipo){
 		this.tipo = tipo;
@@ -43,31 +45,31 @@ public class DataSource extends Model{
 		return this.nome;
 	}
 	
-	public void setAplicacao(int aplicacao){
+	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public int getAplicacao(){
+	public String getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setArea(int area){
+	public void setArea(String area){
 		this.area = area;
 	}
-	public int getArea(){
+	public String getArea(){
 		return this.area;
 	}
 	
-	public void setProcesso(int processo){
+	public void setProcesso(String processo){
 		this.processo = processo;
 	}
-	public int getProcesso(){
+	public String getProcesso(){
 		return this.processo;
 	}
 	
-	public void setEtapa(int etapa){
+	public void setEtapa(String etapa){
 		this.etapa = etapa;
 	}
-	public int getEtapa(){
+	public String getEtapa(){
 		return this.etapa;
 	}
 	
@@ -99,18 +101,25 @@ public class DataSource extends Model{
 		return this.servico;
 	}
 	
-	public void setP_id_pagina(int p_id_pagina){
+	public void setP_id_pagina(String p_id_pagina){
 		this.p_id_pagina = p_id_pagina;
 	}
-	public int getP_id_pagina(){
+	public String getP_id_pagina(){
 		return this.p_id_pagina;
 	}
 	
-	public void setP_id_servico(int p_id_servico){
+	public void setP_id_servico(String p_id_servico){
 		this.p_id_servico = p_id_servico;
 	}
-	public int getP_id_servico(){
+	public String getP_id_servico(){
 		return this.p_id_servico;
+	}
+	
+	public void setP_id(String p_id){
+		this.p_id = p_id;
+	}
+	public String getP_id(){
+		return this.p_id;
 	}
 
 

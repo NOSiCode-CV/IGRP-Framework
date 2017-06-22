@@ -80,7 +80,7 @@
                 </tipo>
                 <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Voluptatem aperiam consectetur sit ut</value>
+                    <value>Officia amet totam amet lorem</value>
                 </nome>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
                     <label>Aplicacao</label>
@@ -168,7 +168,7 @@
                 </etapa>
                 <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Voluptatem laudantium voluptatem adipiscing consectetur</value>
+                    <value>Mollit deserunt aperiam consectetur natus</value>
                 </objecto>
                 <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
@@ -177,7 +177,7 @@
                 </pagina>
                 <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Labore totam magna deserunt doloremque omnis laudantium unde lorem totam officia laudantium doloremque ipsum mollit</value>
+                    <value>Sit lorem mollit omnis consectetur totam amet omnis sit elit consectetur sit stract elit lorem</value>
                 </query>
                 <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
@@ -186,6 +186,7 @@
                 </servico>
                 <hidden name="p_id_pagina" type="hidden" maxlength="30" tag="id_pagina"/>
                 <hidden name="p_id_servico" type="hidden" maxlength="30" tag="id_servico"/>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
             </fields>
         </form_1>
     </content>

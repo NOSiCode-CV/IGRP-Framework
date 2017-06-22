@@ -3,7 +3,7 @@ div.bodyPageLeft+div.bodyPageRigth{margin-top: initial;}
 .tool-bar {position: fixed;top: 0;left: 0;z-index:1;right: 0;}
 div.bodyPageLeft+div.bodyPageRigth .tool-bar{ position: relative;}
 .tool-bar ul li{height: 40px !important;}
-div[sep-name="report_editor"]{position:fixed;width:73.5%;}
+div[sep-name="report_editor"]{position:fixed;width:73.5%;margin: 0;}
 ul.listTree li.listGetter a[type='line']{cursor:move;} 
 #transfome{width:400px;height:240px;top:-99999999999999999px;position:absolute;visibility:hidden;z-index:-1000000;}
 .report_app{position:fixed;width: 327px;top:7px;left:7px; z-index: 2;}
@@ -25,7 +25,7 @@ div.bodyPageLeft+div.bodyPageRigth .report_app{position:absolute;}
 .IGRP-menu .itemIcon .addDataSource.active{display: block;}
 #listReports{padding-top:0 !important;margin-top: 0 !important; position: relative;}
 #listReports ul.listTree a .tree-menu-options .btn{display: inline-block;}
-#listReports .info{word-wrap: break-word;line-height: 18px;width:245px; padding: 10px; position: absolute; left: 10px;webkit-box-shadow:3px 3px 5px rgba(0,0,0,0.3);box-shadow:3px 3px 5px rgba(0,0,0,0.3);display: none;border-color:rgba(204,204,204,0.8);background:#fff;color:#000; z-index: 5; border:1px solid #4a97d9;}
+#listReports .info{word-wrap: break-word;line-height: 18px;width:245px; padding: 10px; position: absolute; /*left: 10px;*/webkit-box-shadow:3px 3px 5px rgba(0,0,0,0.3);box-shadow:3px 3px 5px rgba(0,0,0,0.3);display: none;border-color:rgba(204,204,204,0.8);background:#fff;color:#000; z-index: 5; border:1px solid #4a97d9;}
 #listReports .info:after{content: "";display: inline-block;vertical-align: middle;margin-right: 10px;width: 0;height: 0;position: absolute;top: -1px;right: -21px;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:10px solid #4a97d9;}
 #listReports .info.bottom:after{top:auto;bottom:-1px;}
 #listReports .info.active{display: block;}
@@ -39,3 +39,4 @@ div.bodyPageLeft+div.bodyPageRigth .report_app{position:absolute;}
 #showTitle span{display: inline-block;padding:5px;}
 #showTitle span.spanTitle{font-size: 12px;color:#07466f;}
 img.listType{vertical-align:top;}
+#formular_default .ui-dialog .igrp_item{min-height:auto;}

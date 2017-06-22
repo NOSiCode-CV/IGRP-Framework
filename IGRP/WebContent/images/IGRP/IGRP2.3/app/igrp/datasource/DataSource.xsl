@@ -224,12 +224,16 @@
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
                 <!-- LOOKUP JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/lookup/igrp.lookup.js"/>
+                <!-- RULES -->
+                <script src="{$path}/core/igrp/IGRP.rules.class.js"/>
+                <script>
+$.IGRP.rules.set({"p_tipo":[{"name":"","event":"load","condition":"null","value":"","value2":"","patern":"","patern_custom":"","action":"hide","targets":"nome,aplicacao,area,processo,etapa,objecto,pagina,query,servico","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},{"name":"","event":"change","condition":"equal","value":"object","value2":"","patern":"","patern_custom":"","action":"show","targets":"nome,objecto","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},{"name":"","event":"change","condition":"equal","value":"page","value2":"","patern":"","patern_custom":"","action":"show","targets":"nome,aplicacao,etapa","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false},{"name":"","event":"change","condition":"equal","value":"query","value2":"","patern":"","patern_custom":"","action":"show","targets":"nome,query","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false}]});</script>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1497868732301"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1497868732301"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1497868732301"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1497868732301"/>
-    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1497868732302"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-functions.tmpl.xsl?v=1498139498578"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-variables.tmpl.xsl?v=1498139498578"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1498139498578"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-utils.tmpl.xsl?v=1498139498578"/>
+    <xsl:include href="/IGRP/images/IGRP/IGRP2.3/xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1498139498579"/>
 </xsl:stylesheet>

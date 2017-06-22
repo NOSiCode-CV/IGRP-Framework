@@ -7,6 +7,10 @@ $(function(){
   CKEDITOR.config.forceEnterMode = true;
   CKEDITOR.config.forcePasteAsPlainText = true;
   CKEDITOR.config.toolbarCanCollapse = true;
+  if(vTmpl){
+    CKEDITOR.config.readOnly = true;
+    $('li[item-name="btn-1"]').addClass('hideItem');
+  }
   CKEDITOR.config.height = $(window).height() - 205;
   var vData         = '', 
     vArrayTable     = [], 
@@ -23,7 +27,8 @@ $(function(){
     vPreview        = false, 
     vLoadDataSource = false, 
     vCodigoReport   = null,
-    vOcourid        = null;
+    vOcourid        = null,
+    vNewTmpl        = false;
 
   var sTrXsl = function(value){
     return value.substring(value.indexOf('[')+1,value.lastIndexOf(']')).toLowerCase();
@@ -51,10 +56,22 @@ $(function(){
         },
         table:function(element){
           var attr  = element.attributes.rel,
-            pos     = element.attributes.pos;
+            pos     = element.attributes.pos,
+            group   = element.attributes.group,
+            groupCol= element.attributes.groupcolitem;
+
+          if (group != '' && group != undefined)
+            group = group.split(',');
+
+          if(groupCol != '' && groupCol != undefined)
+            groupCol = groupCol.split(',');
+
           if(attr != undefined){
             delete element.attributes.rel;
             delete element.attributes.pos;
+            delete element.attributes.group;
+            delete element.attributes.groupcolitem;
+
             var td = '', th = '', 
               vTagName = false, vHas = false, vHasRel = [], vHasAllRel = [],
               vVariableTag = '', vNVariableTag = '',
@@ -67,13 +84,13 @@ $(function(){
 
              element.forEach(function(node){
                 if (node.name == 'th') {
-                  th+='<th>'+
-                    IGRP_htmlDecode(node.getHtml().capitalizeFirstLetter())+
-                  '</th>';
+                  var styleth = node.attributes.style ? ' style="'+node.attributes.style+'"' :'';
+                  th+='<th '+styleth+' >'+node.getHtml().capitalizeFirstLetter()+'</th>';
                 }
                 if (node.name == 'td') {
-                  var vNode = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," "),
-                    vNodeRel = node.attributes.rel;
+                  var vNode   = node.getHtml().replace(/&nbsp;/g, " ").replace(/\s+/g," "),
+                    vNodeRel  = node.attributes.rel,
+                    style     = node.attributes.style ? ' style="'+node.attributes.style+'"' :'';
                     if(vNodeRel != undefined){
                       vVariableTag += '<xsl:variable name="v'+vNodeRel+'" select="'+vNodeRel+'"/>';
                       vIdx += 1;
@@ -111,7 +128,8 @@ $(function(){
 
                         elementTable.forEach(function(nodeTable){
                           if (nodeTable.name == 'li') {
-                            vLi+='<li><xsl:value-of select="'+nodeTable.attributes.rel+'"/></li>';
+                            var stylen = nodeTable.attributes.style ? ' style="'+nodeTable.attributes.style+'"' :'';
+                            vLi+='<li '+stylen+'><xsl:value-of select="'+nodeTable.attributes.rel+'"/></li>';
                           }
                         });
                         
@@ -139,7 +157,8 @@ $(function(){
 
                         elementTable.forEach(function(nodeTable){
                           if (nodeTable.name == 'li') {
-                            vLi+='<li><xsl:value-of select="'+nodeTable.attributes.rel+'"/></li>';
+                            var stylen = nodeTable.attributes.style ? ' style="'+nodeTable.attributes.style+'"' :'';
+                            vLi+='<li '+stylen+'><xsl:value-of select="'+nodeTable.attributes.rel+'"/></li>';
                           }
                         });
                         
@@ -151,14 +170,20 @@ $(function(){
                     }
                   });
                   var fragmentTable = CKEDITOR.htmlParser.fragment.fromHtml(vNode);
-                  var writerTable = new CKEDITOR.htmlParser.basicWriter();
+                  var writerTable = new CKEDITOR.htmlParser.basicWriter(),
+                      valCol = vNodeRel;
+
+                  if ($.inArray('col',group) != -1 && $.inArray(vNodeRel,groupCol) != -1) {
+                    valCol += '[not(.=preceding::*)]';
+                  }
 
                   filterTable.applyTo(fragmentTable);
                   fragmentTable.writeHtml(writerTable);
 
                   td+=(writerTable.getHtml() != '')?
-                    '<td>'+writerTable.getHtml()+'</td>':
-                    '<td><xsl:value-of select="'+vNodeRel+'"/></td>';
+                    '<td '+style+'><div class="sep"><xsl:value-of select="'+valCol+'" disable-output-escaping="yes"/></div>'+
+                      writerTable.getHtml()+'</td>':
+                    '<td '+style+'><xsl:value-of select="'+valCol+'" disable-output-escaping="yes"/></td>';
                 }
               });
               var vXslForeach   = '<xsl:for-each select="'+vPath+'/value/row">',
@@ -181,8 +206,11 @@ $(function(){
                 vVariableTag = vHas?vNVariableTag:vVariableTag;
                 vXslForeach  = '<xsl:for-each select="'+vPath+'/value/row['+vPreceding+']">';
                 vPreceding = '';
-              }else
+              }else{
                 vVariableTag = '';
+                if ($.inArray('row',group) != -1)
+                  vXslForeach  = '<xsl:for-each select="'+vPath+'/value/row[not(.=preceding::*)]">';
+              }
 
               var vDataTable = '<thead><tr>'+th+'</tr></thead>'+
               '<tbody>'+vXslForeach+vVariableTag+vXslPreceding+
@@ -211,7 +239,8 @@ $(function(){
 
             element.forEach(function(node){
               if (node.name == 'li') {
-                li+='<li><xsl:value-of select="'+node.attributes.rel+'"/></li>';
+                var style = node.attributes.style ? ' style="'+node.attributes.style+'"' :'';
+                li+='<li '+style+'><xsl:value-of select="'+node.attributes.rel+'"/></li>';
               }
             });
             element.setHtml('<xsl:for-each select="'+vPath+'/value/row">'+li+'</xsl:for-each>');
@@ -232,7 +261,8 @@ $(function(){
 
             element.forEach(function(node){
               if (node.name == 'li') {
-                li+='<li><xsl:value-of select="'+node.attributes.rel+'"/></li>';
+                var style = node.attributes.style ? ' style="'+node.attributes.style+'"' :'';
+                li+='<li '+style+'><xsl:value-of select="'+node.attributes.rel+'"/></li>';
               }
             });
             element.setHtml('<xsl:for-each select="'+vPath+'/value/row">'+li+'</xsl:for-each>');
@@ -288,6 +318,14 @@ $(function(){
       td+='<td rel="'+vTagItem[i]+'">Text '+(i+1)+'</td>';
     });
     return{th:th,td:td};
+  }
+
+  function creatOptionColTabel(pTable){
+    var input= '';
+    pTable.forEach(function(e,i){
+      input+='<div class="col-1-3"><input type="checkbox" name="groupListCol" class="checkboxlist" value="'+vTagItem[i]+'"/>'+e+'</div>';
+    });
+    return '<div class="igrp_item groupListCol hideItem">'+input+'</div>';
   }
 
   function setItemArray(pItem,pRel){
@@ -401,6 +439,7 @@ $(function(){
         if(vValReport!= '' && vValReport!= null){
           vReportTitle = vValReport;
           vCodigoReport = vCodigo;
+          vIdResports = null;
           $(WEBREPORT.listReport.classItem).removeClass('active');//retirar ativado de qq item da lista dos templates
           $(WEBREPORT.listReport.reportTitle, WEBREPORT.listReport.showTitle).html(vValReport);//adeciona o titulo
           $(WEBREPORT.listReport.showTitle).addClass('active');
@@ -408,10 +447,10 @@ $(function(){
           IGRP_blackBody({pType:false});
           $("input[name='"+WEBREPORT.dialogReport.addTitle.inputName+"']",WEBREPORT.dialogReport.id).val('');
           $("input[name='"+WEBREPORT.dialogReport.addTitle.inputCodName+"']",WEBREPORT.dialogReport.id).val('');
-          if(vIdResports != null)
-            CKEDITOR.instances[WEBREPORT.textEditor].setData('');
-
-          vIdResports = null;
+          //if(vIdResports != null)
+          CKEDITOR.instances[WEBREPORT.textEditor].setData(WEBREPORT.tmpl);
+          //$(WEBREPORT.toolsBar+'[target="submit"]').click();
+          vNewTmpl = true;
         }else
           $("input[name='"+WEBREPORT.dialogReport.addTitle.inputName+"']",WEBREPORT.dialogReport.id).addClass('error');
       });
@@ -464,6 +503,7 @@ $(function(){
         pArrayItem:pObj.pArrayItem
       },
       pComplete:function(xml){
+        vReportTitle = null;
         $('#'+WEBREPORT.aplicacao.selectName).trigger('change');
         $(WEBREPORT.dialogReport.id).removeClass('active');
         $(WEBREPORT.tabMenu.classItem).removeClass('active');
@@ -475,7 +515,7 @@ $(function(){
 
         $('#'+WEBREPORT.tabMenu.id+'1').addClass('active');
         if(vIdResports != null)
-          $(WEBREPORT.listReport.id+" ul li a#"+vIdResports).trigger('click');
+          $(WEBREPORT.listReport.id+" ul li a#"+vIdResports).click();
 
         IGRP_blackBody({pType:false});
         validateOcorencia(xml);
@@ -520,13 +560,17 @@ $(function(){
           WEBREPORT.envelopeXsl.initBody+
           WEBREPORT.envelopeXsl.header+
           //xsl gerado
-          webReportValue().replace(/&nbsp;/g, " ")+
+          webReportValue()+
           WEBREPORT.envelopeXsl.footer+
           WEBREPORT.envelopeXsl.endBody+vInclud+
           WEBREPORT.envelopeXsl.endEnvelope;
-
+         console.log(webReportValue());
+        /*   console.log('-------------------------');*/
         vData = $.trim(vData.replace(/"/g, "'").replace(/\s+/g," "));//texto do report para podemos fazer edicao
-        /*console.log(vXslData);
+        /*console.log(vData);
+        console.log('-------------------------');
+        console.log(webReportValue().replace(/&nbsp;/g, " "));
+        console.log(vXslData);
         console.log('-------------.replace(/&nbsp;/g, " ")');
         console.log(vData);*/
         var vArrayItem = [], vKeyArray = []; //array de parametros a ser envidos, array dos chaves associado ao template report
@@ -576,6 +620,7 @@ $(function(){
               },pComplete:function(xml){
                 //$('#p_env_fk').trigger('change');
                 //$("#listReports ul li a#"+vIdResports).trigger('click');
+                vReportTitle = null;
                 validateOcorencia(xml);
                 if($(xml).find('p_id').text()!= '' && $(xml).find('p_id').text() != null)
                   vIdResports = $(xml).find('p_id').text();
@@ -596,7 +641,8 @@ $(function(){
                     vCodigoReport = $("input[name='"+WEBREPORT.dialogReport.addTitle.inputCodName+"']",WEBREPORT.dialogReport.id).val();//get codigo report
                   if (vReportTitle!= '' && vReportTitle!= null) {//caso temos titulo
                     $(WEBREPORT.dialogReport.id).removeClass('active');//esconder o dialog
-                    vArrayItem.push({name:WEBREPORT.save.title,value:vReportTitle});//adecionar o titulo no array dos parametros
+
+                    vArrayItem.push({name:WEBREPORT.save.title,value:encodeURIComponent(vReportTitle)});//adecionar o titulo no array dos parametros
                     
                     if (vCodigoReport != null) //verificar se temos codigo de report e adeciona-lo
                       vArrayItem.push({name:WEBREPORT.dialogReport.addTitle.inputCodName,value:vCodigoReport});
@@ -612,8 +658,8 @@ $(function(){
               //caso clicamos no botao cancelar 
               cancelAddReports();
             }else{
-              //caso ja temos titulo do template report
-              vArrayItem.push({name:WEBREPORT.save.title,value:vReportTitle});
+              //caso ja temos titulo do template report$('<div/>').text(vReportTitle).html()
+              vArrayItem.push({name:WEBREPORT.save.title,value:encodeURIComponent(vReportTitle)});
               if (vCodigoReport != null) //verificar se temos codigo de report e adeciona-lo
                 vArrayItem.push({name:WEBREPORT.dialogReport.addTitle.inputCodName,value:vCodigoReport});
 
@@ -629,6 +675,7 @@ $(function(){
           //if (vLoadDataSource) {//caso ja temos data source 
             if(vIdResports != null){// caso ja temos id do template report
               vUrl = IGRP_getUrl(vUrl)+'p_id='+vIdResports;//adecionamos o id ao url
+              //vUrl += vIdResports;
               var vInputKey = '', vKeyArray = [];
               //criar os campos chaves para ser adecionado os valores
               $(WEBREPORT.dataSource.options+' .btn input:checked',WEBREPORT.dataSource.id).each(function(ikey,ekey){
@@ -639,7 +686,7 @@ $(function(){
                 }
               });
               vKeyArray = [];
-              if(vInputKey!= ''){//caso temos campos que soa chaves
+              if(vInputKey!= ''){//caso temos campos que sao chaves
                 vInputKey ='<div class="col">'+vInputKey+'</div>';
                 $('.title',WEBREPORT.dialogReport.id).html(WEBREPORT.dialogReport.listKeys.title);//mudar o titulo do dialog
                 $('.message',WEBREPORT.dialogReport.id).html(vInputKey);//adecionar os campos chave no dialog
@@ -689,7 +736,7 @@ $(function(){
               }
             }else{//caso nao temos id do template report forsamos click no botao submit 
               vPreview = true;
-              $(WEBREPORT.toolsBar+'[target="submit"]').trigger('click');
+              $(WEBREPORT.toolsBar+'[target="submit"]').click();
             }
           //} 
         break;
@@ -724,6 +771,28 @@ $(function(){
   vTagItem = [];
   return vObj;
  }
+
+ function groupList(){
+    $(WEBREPORT.dialogReport.id).unbind("change").on('change','input[name="listType"]',function(){
+      if($(this).val() == 'table'){
+        $('.groupList').removeClass('hideItem');
+      }else{
+        $('.groupList input:checkbox').removeAttr('checked');
+        $('.groupList').addClass('hideItem');
+      }
+    });
+
+    $(WEBREPORT.dialogReport.id).on('change','input[name="groupList"]',function(){
+      if ($(this).val() == 'col' && $(this).is(':checked')) {
+        $('.groupListCol').removeClass('hideItem');
+      }else{
+        if (!$('input[value="col"]').is(':checked')) {
+          $('.groupListCol input:checkbox').removeAttr('checked');
+          $('.groupListCol').addClass('hideItem');
+        }
+      }
+    });
+ }
  
  function creatLisType(pObj){
   var vItemList = '';
@@ -733,11 +802,39 @@ $(function(){
   });
   $('.title',WEBREPORT.dialogReport.id).html('List Type');//mudar o titulo do dialog
   $('.message',WEBREPORT.dialogReport.id).html('<div class="igrp_item">'+vItemList+'</div>');//adecionar os campos chave no dialog
+  var htmlGroup = '<div class="igrp_item groupList hideItem"><label>Agrupar Por</label><div class="col-1-3">'+
+          '<input type="radio" name="groupList" value="row" class="radiolist"/>Linha</div>'+
+          '<div class="col-1-3"><input type="radio" name="groupList" value="col" class="radiolist"/>Coluna</div></div>';
+  $(htmlGroup).insertAfter('#reportTitle .message .igrp_item');
+  $(creatOptionColTabel(vItem)).insertAfter('#reportTitle .message .groupList');
   IGRP_blackBody({pType:true});//escorece ecra
   $(WEBREPORT.dialogReport.id).data('key','listType').addClass('active');//adecionar atributo chaves e mostrar o dialog
+  groupList();
   $(WEBREPORT.dialogReport.id).unbind("click").on('click',WEBREPORT.dialogReport.ok,function(){//caso clicamos no botao OK
     if ($(WEBREPORT.dialogReport.id).data('key') == 'listType') {//e o dialog ja tem o atributo key
       vType = $('input[name="listType"]:checked',WEBREPORT.dialogReport.id).val();
+      var group = $('input[name="groupList"]',WEBREPORT.dialogReport.id).serializeArray(),
+        groupItem = '',
+        groupCol  = $('input[name="groupListCol"]',WEBREPORT.dialogReport.id).serializeArray(),
+        groupColItem = '';
+      if (group.length > 0) {
+        group.forEach(function(e,i){
+          if (i > 0)
+            groupItem += ',';
+
+          groupItem += e.value;
+        });
+      }
+
+      if (groupCol.length > 0 && $('input[value="col"]',WEBREPORT.dialogReport.id).is(':checked')) {
+        groupCol.forEach(function(e,i){
+          if (i > 0)
+            groupColItem += ',';
+
+          groupColItem += e.value;
+        });
+      }
+
       if (vType) {
         var vObj = '';
         switch(vType.toLowerCase()){
@@ -749,7 +846,7 @@ $(function(){
           break;
           default:
             var table = creatListObjType(vType);
-            vObj = '<table rel="'+pObj.pRel+'" type="'+pObj.pTagType+'" pos="'+pObj.pPos+'" class="IGRP_table default-table">'+
+            vObj = '<table group="'+groupItem+'" groupColItem="'+groupColItem+'" rel="'+pObj.pRel+'" type="'+pObj.pTagType+'" pos="'+pObj.pPos+'" class="IGRP_table default-table">'+
               '<thead><tr>'+table.th+'</tr></thead>'+
               '<tbody><tr>'+table.td+'</tr></tbody></table>';
           break;
@@ -838,8 +935,8 @@ $(function(){
         }else if(vElement == 'chart'){
           vHtml = null;
           var chartType = vThisParent.attr('charttype'), vChartExist = false, vChartExistVal = null;
-          //var vUrl = $("input[name='"+WEBREPORT.aplicacao.link+"']").val();
-          var vUrl ='http://igrpresp.teste.gov.cv/images/IGRP/app/RED/xml/RED_REPORT_REP_dash.xml';
+          var vUrl = $("input[name='"+WEBREPORT.aplicacao.link+"']").val();
+          //var vUrl ='http://igrpresp.teste.gov.cv/images/IGRP/app/RED/xml/RED_REPORT_REP_dash.xml';
           vArrayCharts.forEach(function(e,i){
             if (e.name == vRel){
               vChartExist = true;
@@ -890,6 +987,8 @@ $(function(){
           if(vNoType == 'select' || vNoType == 'selectlist' || vNoType == 'checkboxlist' || vNoType == 'link'){
             vHtml = vKey?'<span key="true" rel="'+vRel+'" type="'+vNoType+'" no="'+vNo+'" pos="'+vPos+'">'+vTag+'</span>':
               '<span rel="'+vRel+'" type="'+vNoType+'" no="'+vNo+'" pos="'+vPos+'">'+vTag+'</span>';
+          }else if(vNoType == 'image'){
+            vHtml = '<img src="'+path+'/iconApp/default.png" pos="'+vPos+'" no="'+vNo+'" rel="'+vRel+'" style="height:80px; margin:5px; width:80px"/>';
           }
         }
 
@@ -933,7 +1032,7 @@ $(function(){
           vLoadDataSource = true;
           reportDraggble();
           if ($('#'+WEBREPORT.dataSource.add).attr('href')) {
-            $(WEBREPORT.dataSource.edit).attr('href',IGRP_getUrl($('#'+WEBREPORT.dataSource.add).attr('href'))+vName+'='+vIdDataSorce);
+            //$(WEBREPORT.dataSource.edit).attr('href',IGRP_getUrl($('#'+WEBREPORT.dataSource.add).attr('href'))+vName+'='+vIdDataSorce);
             $(WEBREPORT.dataSource.edit).addClass('active');
           }
         }
@@ -1004,6 +1103,9 @@ $(function(){
             $('#'+WEBREPORT.dataSource.add).addClass('active');//mostrar os botoes
           }
           remoteCombobox({pXml:vXml,pSel:vSelectDataSorce});//adecionar valor ao select data source
+          if(!vNewTmpl)
+            CKEDITOR.instances[WEBREPORT.textEditor].setData('');//limpar textEditor
+          vNewTmpl = false;
         }
       });
       vItem = [];
@@ -1077,26 +1179,36 @@ $(function(){
     }
   });
 
-  //Template Report hover btn
-  $('body').on('mouseover',WEBREPORT.listReport.info,function(e){
+  //Template Report hover btn /*mouseover*/
+  $('body').on('click',WEBREPORT.listReport.info,function(e){
+    //$(e.currentTarget).parents('li:first').addClass('infoReport');
     var vTop = $(e.currentTarget).parents('li:first').position().top+4, 
       vInfo = $(this).parents('a').attr('info'),
       vBodyHeight = $(e.delegateTarget).height();
       $(WEBREPORT.listReport.divInfo).html(vInfo);
     var vInfoHolder = $(WEBREPORT.listReport.divInfo).height();
     $(WEBREPORT.listReport.divInfo).removeClass("active bottom").removeAttr('style');
-    
+    //console.log($(e.currentTarget).parents('li:first').position());
     var vInfoTop = window.ActiveXObject?(vTop+(vInfoHolder*2)):(vInfoHolder+vTop+(vInfoHolder/2))
     if(vInfoTop >= vBodyHeight) {
       $(WEBREPORT.listReport.divInfo).addClass("bottom");
-      vTop -=vInfoHolder; 
+      vTop -= vInfoHolder; 
     }
-    
-    $(WEBREPORT.listReport.divInfo).css({top:vTop}).addClass("active");
+    //$(WEBREPORT.listReport.divInfo).addClass('infoReport');
+    var right = ($("#listReports").width() - ($("#listReports").width() - ($(WEBREPORT.listReport.divInfo).width()/4)));
+    $(WEBREPORT.listReport.divInfo).css({top:vTop,right:right}).addClass("active");
   });
   
-  $('body').on('mouseout',WEBREPORT.listReport.info,function(e){
-    $(WEBREPORT.listReport.divInfo).removeClass("active bottom").removeAttr('style');
+  /*$('body').on('mouseout',WEBREPORT.listReport.info,function(e){
+    $(WEBREPORT.listReport.divInfo).removeClass("active bottom infoReport").removeAttr('style');
+    $("#listReports ul li").removeClass('infoReport');
+  });*/
+
+  $('body').on('click',function(e){
+    if(!$(e.target).hasClass('info') && !$(e.target).parents('div:first').hasClass('infoReport')){
+      $(WEBREPORT.listReport.divInfo).removeClass("active bottom infoReport").removeAttr('style');
+      $("#listReports ul li").removeClass('infoReport');
+    }
   });
 
   $('body').on('click',WEBREPORT.listReport.edit,function(e){
@@ -1115,7 +1227,7 @@ $(function(){
         vParamEdit +='&'+WEBREPORT.save.title+'='+vTitle;
         if (vCodigo != '' && vCodigo != null)
           vParamEdit+='&'+WEBREPORT.dialogReport.addTitle.inputCodName+'='+vCodigo;
-
+        
         vUrl = $("input[name='"+WEBREPORT.listReport.linkEdit+"']").val();
         IGRP_blackBody({pType:false});
         $(WEBREPORT.dialogReport.id).removeClass('active');//esconder o dialog
@@ -1147,6 +1259,32 @@ $(function(){
     cancelAddReports();//caso clicamos no cancelar esconde o dialog
   });
 
+  $('body').on('click',WEBREPORT.dataSource.edit,function(e){
+  	e.preventDefault();
+  	var sel 	= $("select[name='"+WEBREPORT.dataSource.selectName+"']"), item = '',
+  		href 	= $(this).attr('href'), vVal = sel.val();
+  	sel.find("option:selected").each(function() {
+  		item += '<div class="col">'+
+  			'<input type="radio" name="'+WEBREPORT.dataSource.selectName+'" value="'+$(this).val()+'"/>'+$(this).text()+'</div>';
+  	});
+  	if(vVal.length >= 2){
+	  	$('.title',WEBREPORT.dialogReport.id).html('Editar Data Source');//mudar o titulo do dialog
+	    $('.message',WEBREPORT.dialogReport.id).html(item);//adecionar os campos chave no dialog
+	    IGRP_blackBody({pType:true});//escorece ecra
+	    $(WEBREPORT.dialogReport.id).data('key','true').addClass('active');//adecionar atributo chaves e mostrar o dialog
+	    $(WEBREPORT.dialogReport.id).unbind("click").on('click',WEBREPORT.dialogReport.ok,function(){//caso clicamos no botao OK
+	    	var valEdit = $('.message input[type="radio"]:checked').val();
+	    	href = IGRP_getUrl(href)+WEBREPORT.dataSource.selectName+'='+valEdit;
+	    	IGRP_h_popupCtx({pUrl:href,pWin:"IGRP_win"+IGRP_returnTime()});
+	    	IGRP_blackBody({pType:false});
+	        $(WEBREPORT.dialogReport.id).removeClass('active');//esconder o dialog
+	    });
+	    cancelAddReports();//caso clicamos no cancelar esconde o dialog
+    }else{
+    	IGRP_h_popupCtx({pUrl:IGRP_getUrl(href)+WEBREPORT.dataSource.selectName+'='+vVal[0],pWin:"IGRP_win"+IGRP_returnTime()});
+    }
+  });
+
   buttonWebReportClick();//chamada da funcsao submit ou preview do template reportif
 
   if($('#p_fwl_load_template')[0]){
@@ -1166,4 +1304,6 @@ $(function(){
       },1100);
     }
   }
+  $("ul#tabs li[rel='"+WEBREPORT.tabMenu.id+"1']").addClass('active');
+  $("#"+WEBREPORT.tabMenu.id+'1').addClass('active');
 });
