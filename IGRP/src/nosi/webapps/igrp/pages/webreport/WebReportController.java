@@ -6,14 +6,19 @@ import java.io.IOException;
 
 /*---- Import your packages here... ----*/
 import nosi.core.config.Config;
+import nosi.core.exception.NotFoundHttpException;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.RepSource;
@@ -21,6 +26,9 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.User;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +50,6 @@ public class WebReportController extends Controller {
 		WebReport model = new WebReport();
 		model.setPage_title_text("<![CDATA[Report Design]]>");
 		WebReportViewV2_2 view = new WebReportViewV2_2(model);
-		model.setLink_add_source("www.web-report.cv");
 //		WebReportView view = new WebReportView(model);
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -222,53 +229,88 @@ public class WebReportController extends Controller {
 				String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
 				String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 				query = rs.getType().equals("object")?"SELECT * FROM "+query:query;
-				query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";
-				
-				//Mapping parameters an applying filters
-				if(value_array!=null && value_array.length > 0){
-					Map<String, String> paramsUrl = (Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> name_array[i], i -> value_array[i]));
-					Set<Entry<String,String>> pUrl = paramsUrl.entrySet();
-					for(Entry<String, String> p:pUrl){
-						String param = p.getKey().toString().toLowerCase();
-						param = param.replaceAll("p_", "");
-						RepTemplateParam rtp = new RepTemplateParam();
-						rtp.setId_template(rt.getId());
-						rtp.setParameter(param);
-						rtp = (RepTemplateParam) rtp.getOne();
-						if(rtp.getParameter()!=null && p.getValue()!=null){
-							query = query.replaceAll(":p_"+rtp.getParameter(), p.getValue());
-							query += " AND "+rtp.getParameter()+"='"+p.getValue()+"'";
-						}
-					}					
-				}else{
-					query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
-				}
-				HashMap<String, Object> data = rs.executeQuery(query);
-				xml += transformToXml(rt.getName(), data,rs.queryToXmlRows(query));
+				query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";				
+				query += this.applyParams(query,name_array,value_array,rep,rs);
+				xml += this.processXml(xml,query,rep,rs);
 			}
-			XMLWritter xmlW = new XMLWritter("rows", "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+rt.getXsl_content_fk(), "");
-			xmlW.startElement("print_report");
-				xmlW.setElement("name_app",rt.getEnv().getDad());
-				xmlW.setElement("img_app",rt.getEnv().getImg_src());
-				xmlW.setElement("link_qrcode", "por adicionar");
-				xmlW.setElement("img_brasao", "por adicionar");
-				xmlW.setElement("name_brasao", "por adicionar");
-				xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
-				xmlW.setElement("name_contraprova", "por adicionar");
-				xmlW.setElement("value_contraprova", "por adicionar");
-				int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
-				User user = new User();
-				user.setId(user_id);
-				user = (User) user.getOne();
-				xmlW.setElement("user_print",user.getName());
-				xmlW.setElement("link_img",Config.getLinkImg2_2());
-				xmlW.setElement("template", "fdghjm");
-			xmlW.endElement();
-			xmlW.addXml(xml);
-			xmlW.endElement();
-			xml = xmlW.toString();
+			xml = this.genXml(xml,rt);
 		}
 		return Igrp.getInstance().getResponse().getWriter().append(xml);
+	}	
+	
+	private String processXml(String xml,String query, RepTemplate rt, RepSource rs) {
+		if(rs.getType().equals("object") || rs.getType().equals("query")){
+			HashMap<String, Object> data = rs.executeQuery(query);
+			return transformDataToXml(rt.getName(), data,rs.queryToXmlRows(query));
+		}else if(rs.getType().equals("page")){
+			Action ac = new Action();
+			ac.setId(rs.getType_fk());
+			ac = (Action) ac.getOne();
+			String actionName = "";
+			for(String aux : ac.getAction().split("-"))
+				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			actionName = "action" + actionName;
+			String controllerPath = "nosi.webapps." + ac.getEnv().getDad().toLowerCase() + ".pages." + ac.getPage().toLowerCase() + "." + ac.getPage() + "Controller";
+			Object ob = Page.loadPage(controllerPath,actionName);
+			if(ob!=null){
+				Response resp = (Response) ob;
+				if(resp!=null){
+					String content = resp.getContent();
+					int start = content.indexOf("<content");
+					int end = content.indexOf("</rows>");
+					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+					return content;
+				}
+			}
+		}
+		return "";
+	}
+
+	//Mapping parameters an applying filters
+	private String applyParams(String query, String[] name_array, String[] value_array, RepTemplate rt,RepSource rs) {
+		if(value_array!=null && value_array.length > 0){
+			Map<String, String> paramsUrl = (Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> name_array[i], i -> value_array[i]));
+			Set<Entry<String,String>> pUrl = paramsUrl.entrySet();
+			for(Entry<String, String> p:pUrl){
+				String param = p.getKey().toString().toLowerCase();
+				param = param.replaceAll("p_", "");
+				RepTemplateParam rtp = new RepTemplateParam();
+				rtp.setId_template(rt.getId());
+				rtp.setParameter(param);
+				rtp = (RepTemplateParam) rtp.getOne();
+				if(rtp.getParameter()!=null && p.getValue()!=null){
+					query = query.replaceAll(":p_"+rtp.getParameter(), p.getValue());
+					query += " AND "+rtp.getParameter()+"='"+p.getValue()+"'";
+				}
+			}					
+		}else{
+			query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
+		}
+		return query;
+	}
+
+	private String genXml(String xml,RepTemplate rt){
+		XMLWritter xmlW = new XMLWritter("rows", "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+rt.getXsl_content_fk(), "");
+		xmlW.startElement("print_report");
+			xmlW.setElement("name_app",rt.getEnv().getDad());
+			xmlW.setElement("img_app",rt.getEnv().getImg_src());
+			xmlW.setElement("link_qrcode", "por adicionar");
+			xmlW.setElement("img_brasao", "por adicionar");
+			xmlW.setElement("name_brasao", "por adicionar");
+			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
+			xmlW.setElement("name_contraprova", "por adicionar");
+			xmlW.setElement("value_contraprova", "por adicionar");
+			int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+			User user = new User();
+			user.setId(user_id);
+			user = (User) user.getOne();
+			xmlW.setElement("user_print",user.getName());
+			xmlW.setElement("link_img",Config.getLinkImg2_2());
+			xmlW.setElement("template", "fdghjm");
+		xmlW.endElement();
+		xmlW.addXml(xml);
+		xmlW.endElement();
+		return xmlW.toString();
 	}
 	
 	//Get xsl content of report
@@ -285,7 +327,7 @@ public class WebReportController extends Controller {
 	}
 	
 	//Transform data source into xml
-	private String transformToXml(String title,HashMap<String, Object> data,String tableRows) {
+	private String transformDataToXml(String title,HashMap<String, Object> data,String tableRows) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 			xml.setElement("title", title);

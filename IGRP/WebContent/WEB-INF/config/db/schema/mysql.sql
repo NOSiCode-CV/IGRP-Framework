@@ -539,7 +539,8 @@ INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`)
 		(20,1, 'TransacaoOrganica','index','igrp/transacaoorganica/TransacaoOrganica.xsl'),
 		(21,1, 'EditarTransacao','index','igrp/editartransacao/EditarTransacao.xsl'),
 		(22,1, 'Session','index','igrp/session/Session.xsl'),
-		(23,1, 'WebReport', 'index','igrp/webreport/WebReport.xsl');
+		(23,1, 'WebReport', 'index','igrp/webreport/WebReport.xsl'),
+		(25,1, 'LookupListPage', 'index','igrp/lookuplistpage/LookupListPage.xsl','2.3');
 
 INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017);
@@ -613,26 +614,26 @@ INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `O
 
 INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
 	VALUES
-	(24, 2, 'ListaMedico', 'index', 'marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
-	(25, 2, 'RegistarMedico', 'index', 'marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
-	(26, 2, 'MarcarConsulta', 'index', 'marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
-	(27, 2, 'RegistarUtente', 'index',  'marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
-	(28, 2, 'ListarUtente', 'index', 'marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
-	(29, 2, 'ConsultaPendente', 'index', 'marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
-	(30, 2, 'DashBoard', 'index', 'marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+	(26, 2, 'ListaMedico', 'index', 'marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+	(27, 2, 'RegistarMedico', 'index', 'marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+	(28, 2, 'MarcarConsulta', 'index', 'marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+	(29, 2, 'RegistarUtente', 'index',  'marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+	(30, 2, 'ListarUtente', 'index', 'marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+	(31, 2, 'ConsultaPendente', 'index', 'marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+	(32, 2, 'DashBoard', 'index', 'marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
 
 INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) 
 	VALUES
 	(14, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(15, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(16, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
-	(17, 'Registar Utente', 27,14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(18, 'Listar Utentes', 28, 14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(19, 'Registar Medico', 25,15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(20, 'Listar Medicos', 24, 15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(21, 'Marcar Consultas',26,16, '', 2,'','', 0, 1, '', 0, '_self'),
-	(22, 'Consultas Pendentes',29,16, '', 2,'','', 0, 1, '', 0, '_self'),
-	(23, 'Dash Board',30,16, '', 2,'','', 0, 1, '', 0, '_self');
+	(17, 'Registar Utente', 28,14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(18, 'Listar Utentes', 29, 14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(19, 'Registar Medico', 26,15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(20, 'Listar Medicos', 25, 15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(21, 'Marcar Consultas',27,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(22, 'Consultas Pendentes',30,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(23, 'Dash Board',31,16, '', 2,'','', 0, 1, '', 0, '_self');
 
 	
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 

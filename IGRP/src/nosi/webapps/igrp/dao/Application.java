@@ -325,7 +325,7 @@ public class Application implements RowDataGateway {
 
 	public HashMap<Integer,String> getListApps(){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Aplicação ---");
+		lista.put(null, "--- Selecionar Aplicacao ---");
 		for(Object obj:new Application().getAll()){
 			Application app = (Application) obj;
 			lista.put(app.getId(), app.getName());
