@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 
 public class PesquisarUtilizadorController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();
 		
@@ -60,7 +61,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 	
@@ -72,7 +73,7 @@ public class PesquisarUtilizadorController extends Controller {
 		
 	}
 	
-	public void actionConvidar() throws IOException{
-		this.redirect("igrp", "NovoUtilizador","index","id="+Igrp.getInstance().getRequest().getParameter("p_id"));
+	public Response actionConvidar() throws IOException{
+		return this.redirect("igrp", "NovoUtilizador","index","id="+Igrp.getInstance().getRequest().getParameter("p_id"));
 	}
 }

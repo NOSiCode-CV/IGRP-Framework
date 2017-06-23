@@ -15,6 +15,7 @@ import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
 import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -29,7 +30,7 @@ import java.util.Set;
 
 public class DataSourceController extends Controller {		
 
-	public void actionIndex() throws IOException{		
+	public Response actionIndex() throws IOException{		
 		/*---- Insert your code here... ----*/		
 		DataSource model = new DataSource();
 		DataSourceView view = new DataSourceView(model);
@@ -38,12 +39,12 @@ public class DataSourceController extends Controller {
 		//view.pagina.setValue(new Action().getListActions());
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
 		Config.target = "_blank";
-		this.renderView(view);
+		return this.renderView(view);
 		/*---- End ----*/
 	}
 
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
 		DataSource model = new DataSource();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -64,8 +65,7 @@ public class DataSourceController extends Controller {
 				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
 				if(!rep.validateQuery(query)){
 					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
-					this.redirect("igrp","DataSource","index");
-					return;
+					return this.redirect("igrp","DataSource","index");
 				}
 			}
 			rep.setEnv_fk(Integer.parseInt(model.getAplicacao()));
@@ -82,14 +82,14 @@ public class DataSourceController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
 			}
 		}
-		this.redirect("igrp","DataSource","index");
+		return this.redirect("igrp","DataSource","index");
 		/*---- End ----*/
 	}
 	
 
-	public void actionFechar() throws IOException{
+	public Response actionFechar() throws IOException{
 		/*---- Insert your code here... ----*/
-		this.redirect("igrp","DataSource","index");
+		return this.redirect("igrp","DataSource","index");
 		/*---- End ----*/
 	}
 	

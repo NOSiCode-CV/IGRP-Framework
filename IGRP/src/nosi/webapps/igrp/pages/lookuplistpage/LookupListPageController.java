@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.core.config.Config;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class LookupListPageController extends Controller {		
 
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
 		LookupListPage model = new LookupListPage();
 		ArrayList<LookupListPage.Table_1> lista = new ArrayList<>();
@@ -47,14 +48,14 @@ public class LookupListPageController extends Controller {
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		Config.target = "_blank";
-		this.renderView(view);
+		return this.renderView(view);
 		/*---- End ----*/
 	}
 
 
-	public void actionPesquisar() throws IOException{
+	public Response actionPesquisar() throws IOException{
 		/*---- Insert your code here... ----*/
-		this.redirect("igrp","ListaPage","index");
+		return this.redirect("igrp","ListaPage","index");
 		/*---- End ----*/
 	}
 	

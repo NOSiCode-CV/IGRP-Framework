@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.novoutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 public class NovoUtilizadorController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		NovoUtilizador model = new NovoUtilizador();
 		
 		NovoUtilizadorView view = new NovoUtilizadorView(model);
@@ -28,10 +29,10 @@ public class NovoUtilizadorController extends Controller {
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
 		}
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoUtilizador model = new NovoUtilizador();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -59,7 +60,7 @@ public class NovoUtilizadorController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error","Email inválido");
 			}
 		}
-		this.redirect("igrp", "novo-utilizador", "index");
+		return this.redirect("igrp", "novo-utilizador", "index");
 	}
 	
 }

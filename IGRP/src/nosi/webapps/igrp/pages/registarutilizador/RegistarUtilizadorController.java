@@ -9,12 +9,13 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 
 
 public class RegistarUtilizadorController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
 		RegistarUtilizador model = new RegistarUtilizador();
 		boolean isError = false;
 		
@@ -42,7 +43,7 @@ public class RegistarUtilizadorController extends Controller {
 				
 				if(user.insert()){
 					Igrp.getInstance().getFlashMessage().addMessage("success", "Utilizador registado com sucesso.");
-					this.redirect("igrp", "registar-utilizador", "index");
+					return this.redirect("igrp", "registar-utilizador", "index");
 				}
 				else
 					Igrp.getInstance().getFlashMessage().addMessage("error", "Error ao registar uilizador.");
@@ -52,7 +53,7 @@ public class RegistarUtilizadorController extends Controller {
 		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
 		view.title = "";
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
 	public void actionGuardar() throws IOException{

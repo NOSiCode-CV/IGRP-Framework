@@ -8,12 +8,13 @@ import java.util.ArrayList;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 
 
 public class ListaEnvController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaEnv model = new ListaEnv();
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
 		Application apps = new Application();
@@ -40,10 +41,10 @@ public class ListaEnvController extends Controller {
 		view.table_1.addData(model.gettable_1());
 		view.title = "Lista Aplicação";
 		view.id.setParam(true);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionEliminar() throws IOException{
+	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		app.setId(Integer.parseInt(id));
@@ -51,6 +52,6 @@ public class ListaEnvController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		this.redirect("igrp","lista-env","index");
+		return this.redirect("igrp","lista-env","index");
 	}
 }
