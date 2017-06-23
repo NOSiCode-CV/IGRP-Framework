@@ -7,6 +7,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Route;
 /**
@@ -130,54 +131,6 @@ public abstract class Controller {
 			}
 	}
 	
-	private static Object load(String ...params){ // load and apply some dependency injection ...
-		String controllerPath = params[0];
-		String actionName = params[1];
-		try {
-			Class c = Class.forName(controllerPath);
-			Object controller = c.newInstance();
-			Igrp.getInstance().setCurrentController((Controller) controller); // store the requested contoller 
-			Method action = null;
-			ArrayList paramValues = new ArrayList();
-			for(Method aux : c.getDeclaredMethods())
-				if(aux.getName().equals(actionName))
-					action = aux;
-			int countParameter = action.getParameterCount();
-			if(countParameter > 0){
-				for(Parameter parameter : action.getParameters()){
-					if(parameter.getType().getSuperclass().getName().equals("nosi.core.webapp.Model")){
-						// Dependency Injection for models
-						Class c_ = Class.forName(parameter.getType().getName());
-						nosi.core.webapp.Model model = (Model) c_.newInstance();
-						model.load();
-						paramValues.add(model);
-					}else{
-					if(parameter.getType().getName().equals("java.lang.String") && parameter.getAnnotation(RParam.class) != null){
-							// Dependency Injection for simple vars ...
-							if(parameter.getType().isArray()){
-								String []result = Igrp.getInstance().getRequest().getParameterValues(parameter.getAnnotation(RParam.class).rParamName());
-								paramValues.add(result);
-							}else{
-								String result = Igrp.getInstance().getRequest().getParameter(parameter.getAnnotation(RParam.class).rParamName());
-								paramValues.add(result);
-							}
-						
-						}else
-							paramValues.add(null);
-					}
-				}
-				return action.invoke(controller, paramValues.toArray());
-				
-			}else{
-				return  action.invoke(controller);
-			}
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
-				InvocationTargetException | NullPointerException e) {
-			e.printStackTrace();
-			throw new NotFoundHttpException("Página não encontrada.");
-		}
-	}
-	
 	private static Object run(){ 
 		Igrp app = Igrp.getInstance();
 		String auxAppName = "";
@@ -195,7 +148,7 @@ public abstract class Controller {
 		auxActionName = "action" + auxActionName;
 		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
 		
-		return load(auxcontrollerPath, auxActionName); // :-)
+		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
 	
 	//... Others methods ...

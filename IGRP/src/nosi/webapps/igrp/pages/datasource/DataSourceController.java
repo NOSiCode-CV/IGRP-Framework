@@ -57,8 +57,8 @@ public class DataSourceController extends Controller {
 			if(model.getTipo().equals("object")){
 				rep.setType_query(model.getObjecto());
 			}
-			if(model.getTipo().equals("page")){
-				rep.setType_fk(Integer.parseInt(model.getPagina()));
+			if(model.getTipo().equals("page")){				
+				rep.setType_fk(/*Integer.parseInt(model.getPagina())*/2);
 			}
 			if(model.getTipo().equals("object") || model.getTipo().equals("query")){
 				String query = rep.getType_query();
