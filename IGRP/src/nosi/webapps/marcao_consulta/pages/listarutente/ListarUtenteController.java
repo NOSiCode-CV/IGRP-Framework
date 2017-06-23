@@ -5,6 +5,7 @@
 package nosi.webapps.marcao_consulta.pages.listarutente;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ import nosi.webapps.marcao_consulta.dao.Utente;
 
 public class ListarUtenteController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListarUtente model = new ListarUtente();
 		ListarUtenteView view = new ListarUtenteView(model);
 		ArrayList<ListarUtente.Table_1> data = new ArrayList<>();
@@ -48,20 +49,20 @@ public class ListarUtenteController extends Controller {
 		sexo .put(1, "F");
 		sexo.put(2, "M");
 		view.sexo.setValue(sexo);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionNovo_utente() throws IOException{
-		this.redirect("marcao_consulta", "RegistarUtente", "index");
+	public Response actionNovo_utente() throws IOException{
+		return this.redirect("marcao_consulta", "RegistarUtente", "index");
 	}
 	
-	public void actionPesquisar() throws IOException{
-		this.redirect("marcao_consulta", "ListarUtente", "index");		
+	public Response actionPesquisar() throws IOException{
+		return this.redirect("marcao_consulta", "ListarUtente", "index");		
 	}
 	
-	public void actionMarcar_consulta() throws IOException{
+	public Response actionMarcar_consulta() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		this.redirect("marcao_consulta", "MarcarConsulta", "index&id="+id);
+		return this.redirect("marcao_consulta", "MarcarConsulta", "index&id="+id);
 	}
 	
 }

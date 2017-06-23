@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
@@ -19,7 +20,7 @@ import java.util.Map.Entry;
 
 public class PesquisarMenuController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		PesquisarMenu model = new PesquisarMenu();
 		
@@ -66,7 +67,7 @@ public class PesquisarMenuController extends Controller {
 		view.p_id.setParam(true);
 		view.title = "";
 		view.table_1.addData(lista);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 	//Menu list I have access to
@@ -106,7 +107,7 @@ public class PesquisarMenuController extends Controller {
 	}
 	
 	
-	public void actionEliminar() throws IOException{
+	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Menu menu_db = new Menu();
 		menu_db.setId(Integer.parseInt(id));
@@ -114,6 +115,6 @@ public class PesquisarMenuController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		this.redirect("igrp","pesquisar-menu","index");
+		return this.redirect("igrp","pesquisar-menu","index");
 	}
 }

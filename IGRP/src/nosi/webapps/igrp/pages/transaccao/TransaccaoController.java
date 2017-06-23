@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.transaccao;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Transaction;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class TransaccaoController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Transaccao model = new Transaccao();		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();
@@ -40,17 +41,17 @@ public class TransaccaoController extends Controller {
 		view.organica.setValue(new Organization().getListOrganizations());
 		view.table_1.addData(table_1);
 		view.codigo.setParam(true);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionEditar(@RParam(rParamName = "codigo")String codigo) throws IOException{
+	public Response actionEditar(@RParam(rParamName = "codigo")String codigo) throws IOException{
 		if(codigo!=null && !codigo.equals(""))
-			this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
+			return this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
 		else
-			this.redirect("igrp", "error-page", "permission");
+			return this.redirect("igrp", "error-page", "permission");
 	}
 	
-	public void actionEliminar() throws IOException{
+	public Response actionEliminar() throws IOException{
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
 		t.setCode(code);
@@ -59,7 +60,7 @@ public class TransaccaoController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		this.redirect("igrp","Transaccao","index");
+		return this.redirect("igrp","Transaccao","index");
 	}
 	
 	

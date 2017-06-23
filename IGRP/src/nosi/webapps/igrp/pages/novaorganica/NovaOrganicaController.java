@@ -7,6 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 
 public class NovaOrganicaController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovaOrganica model = new NovaOrganica();
 		NovaOrganicaView view = new NovaOrganicaView(model);
 		
@@ -46,10 +47,10 @@ public class NovaOrganicaController extends Controller {
 		
 		view.organica_pai.setValue(profiles);
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionEditar(@RParam(rParamName = "p_id") String idOrganica) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica) throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovaOrganica model = new NovaOrganica();
 		
 		Organization organization = new Organization();
@@ -72,8 +73,7 @@ public class NovaOrganicaController extends Controller {
 			
 			if(organization.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica actualizada com sucesso.");
-				this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
-				return;
+				return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar.");
 		}
@@ -92,7 +92,7 @@ public class NovaOrganicaController extends Controller {
 		view.btn_gravar.setLink("editar&p_id=" + idOrganica);
 		
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 }

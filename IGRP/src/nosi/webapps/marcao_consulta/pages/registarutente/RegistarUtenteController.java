@@ -5,6 +5,7 @@
 package nosi.webapps.marcao_consulta.pages.registarutente;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.marcao_consulta.dao.Utente;
 
 import java.io.IOException;
@@ -16,17 +17,17 @@ import java.util.HashMap;
 
 public class RegistarUtenteController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		RegistarUtente model = new RegistarUtente();
 		RegistarUtenteView view = new RegistarUtenteView(model);
 		HashMap<Integer, String> sexo = new HashMap<>();
 		sexo.put(1, "F");
 		sexo.put(2, "M");
 		view.sexo.setValue(sexo);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			RegistarUtente model = new RegistarUtente();
 			model.load();
@@ -43,11 +44,11 @@ public class RegistarUtenteController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Erro ao registar Cliente");
 			}
 		}
-		this.redirect("marcao_consulta","RegistarUtente","index");
+		return this.redirect("marcao_consulta","RegistarUtente","index");
 	}
 	
-	public void actionVoltar() throws IOException{
-			this.redirect("marcao_consulta","ListarUtente","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("marcao_consulta","ListarUtente","index");
 	}
 	
 }

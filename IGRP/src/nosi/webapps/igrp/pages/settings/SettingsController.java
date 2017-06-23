@@ -7,6 +7,7 @@ package nosi.webapps.igrp.pages.settings;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import nosi.webapps.igrp.dao.User;
 
 public class SettingsController extends Controller {		
 
-public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Settings model = new Settings();
 		model.load();
@@ -59,10 +60,10 @@ public void actionIndex() throws IOException, IllegalArgumentException, IllegalA
 		idioma.put("ES", "Espanhol");
 		view.idioma.setValue(idioma);
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionAplicar() throws IOException{
-		this.redirect("RED","Teste","Action");
+	public Response actionAplicar() throws IOException{
+		return this.redirect("RED","Teste","Action");
 	}	
 }

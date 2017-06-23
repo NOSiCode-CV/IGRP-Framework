@@ -5,13 +5,14 @@ import java.io.IOException;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 
 public class GeneratorController extends Controller{
 
 	
-	public void actionIndex() throws IOException{		
+	public Response actionIndex() throws IOException{		
 		Generator model = new Generator();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
@@ -31,12 +32,12 @@ public class GeneratorController extends Controller{
 				model.setPackage_("nosi.webapps."+ac.getEnv().getDad().toLowerCase()+".pages");
 				model.setPage(ac.getPage());
 				GeneratorView view = new GeneratorView(model);
-				this.renderView(view,true);
+				return this.renderView(view,true);
 			}catch(NumberFormatException e){
-				this.redirect("igrp", "error-page", "exception");
+				return this.redirect("igrp", "error-page", "exception");
 			}
 		}else{
-			this.redirect("igrp", "error-page", "exception");
+			return this.redirect("igrp", "error-page", "exception");
 		}
 	}
 }

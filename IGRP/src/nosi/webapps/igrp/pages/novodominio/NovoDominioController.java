@@ -4,26 +4,28 @@
 
 package nosi.webapps.igrp.pages.novodominio;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Response;
+
 import java.io.IOException;
 
 
 
 public class NovoDominioController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		NovoDominio model = new NovoDominio();
 		NovoDominioView view = new NovoDominioView(model);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException{
+	public Response actionGravar() throws IOException{
 	
-		this.redirect("RED","Teste","Action");
+		return this.redirect("RED","Teste","Action");
 	}
 	
-	public void actionVoltar() throws IOException{
+	public Response actionVoltar() throws IOException{
 	
-		this.redirect("RED","Teste","Action");
+		return this.redirect("RED","Teste","Action");
 	}
 	
 }

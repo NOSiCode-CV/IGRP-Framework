@@ -7,6 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public class NovoMenuController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		NovoMenuView view = new NovoMenuView(model);
 		HashMap<String,String> targets = new HashMap<>();
@@ -30,10 +31,10 @@ public class NovoMenuController extends Controller {
 		view.self_id.setValue(new Menu().getListPrincipalMenus());
 		view.target.setValue(targets); // prompt
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoMenu model = new NovoMenu();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -57,10 +58,10 @@ public class NovoMenuController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
 			}
 		}
-		this.redirect("igrp", "novo-menu", "index");
+		return this.redirect("igrp", "novo-menu", "index");
 	}
 	
-	public void actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException, IllegalArgumentException, IllegalAccessException{
 			
 			Menu menu_db = new Menu();
 			menu_db.setId(Integer.parseInt(id_menu));
@@ -77,8 +78,7 @@ public class NovoMenuController extends Controller {
 			model.setAction_fk(menu_db.getAction_fk());
 			model.setOrderby(menu_db.getOrderby());
 			model.setDescr(menu_db.getDescr());
-			
-			System.out.println(menu_db);
+		
 			
 			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 				model.load();
@@ -94,8 +94,7 @@ public class NovoMenuController extends Controller {
 				
 				if(menu_db.update()){
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Menu atualizado com sucesso.");
-					this.redirect("igrp", "novo-menu", "editar", new String[]{"p_id"}, new String[]{menu_db.getId() + ""});
-					return;
+					return this.redirect("igrp", "novo-menu", "editar", new String[]{"p_id"}, new String[]{menu_db.getId() + ""});
 				}
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar menu.");
@@ -122,12 +121,12 @@ public class NovoMenuController extends Controller {
 			
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 			
-			this.renderView(view);
+			return this.renderView(view);
 		
 	}
 	
-	public void actionVoltar() throws IOException{
-			this.redirect("igrp","pesquisar-menu","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("igrp","pesquisar-menu","index");
 	}
 	
 }

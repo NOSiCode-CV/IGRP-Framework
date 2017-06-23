@@ -11,6 +11,7 @@ import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
@@ -19,7 +20,6 @@ import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.User;
-
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import javax.servlet.http.Part;
 public class WebReportController extends Controller {		
 
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		/*---- Insert your code here... ----*/
 		WebReport model = new WebReport();
 		model.setPage_title_text("<![CDATA[Report Design]]>");
@@ -94,7 +94,7 @@ public class WebReportController extends Controller {
 		view.link_source.setValue("webapps?r=igrp/data-source/get-data-source&amp;dad=igrp");
 		view.edit_name_report.setValue("webapps?r=igrp/web-report/save-edit-template&amp;dad=igrp");
 		view.prm_target.setValue("_blank");
-		this.renderView(view);
+		return this.renderView(view);
 		/*---- End ----*/
 	}
 

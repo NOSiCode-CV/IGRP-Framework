@@ -29,6 +29,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_exception"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_response"/>
+		<xsl:value-of select="$newline"/>
 		<!--         Imports created by programmer -->
 		<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_import','&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
@@ -159,7 +161,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
-     	<xsl:value-of select="concat('public void action',$action,'() throws IOException{')"/>
+     	<xsl:value-of select="concat('public Response action',$action,'() throws IOException{')"/>
 		<xsl:value-of select="$newline"/>	
      	<xsl:value-of select="$tab2"/>     	
      	<!--         Actions modified by programmer -->     	
@@ -186,14 +188,14 @@
 					<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="'this.renderView(view);'"/>
+					<xsl:value-of select="'return this.renderView(view);'"/>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab"/>  
 				</xsl:when>
 				<xsl:when test="$type_render_='redirect'">
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat('this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>  
 					<xsl:value-of select="$tab"/>
 				</xsl:when>

@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class PesquisarPerfilController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarPerfil model = new PesquisarPerfil();
 		
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
@@ -51,16 +52,16 @@ public class PesquisarPerfilController extends Controller {
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 	public void actionEliminar() throws IOException{
 		
 	}
 	
-	public void actionMenu() throws IOException{
+	public Response actionMenu() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");
+		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");
 	}
 	
 	public void actionTransacao() throws IOException{

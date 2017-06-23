@@ -5,6 +5,7 @@
 package nosi.webapps.marcao_consulta.pages.registarmedico;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.marcao_consulta.dao.Medico;
 
 import java.io.IOException;
@@ -12,13 +13,13 @@ import java.io.IOException;
 
 public class RegistarMedicoController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		RegistarMedico model = new RegistarMedico();
 		RegistarMedicoView view = new RegistarMedicoView(model);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			RegistarMedico model = new RegistarMedico();
 			model.load();
@@ -32,11 +33,11 @@ public class RegistarMedicoController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Erro ao registar Medico");
 			}
 		}
-		this.redirect("marcao_consulta","ListaMedico","index");
+		return this.redirect("marcao_consulta","ListaMedico","index");
 	}
 	
-	public void actionVoltar() throws IOException{
-			this.redirect("marcao_consulta","ListaMedico","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("marcao_consulta","ListaMedico","index");
 	}
 	
 }
