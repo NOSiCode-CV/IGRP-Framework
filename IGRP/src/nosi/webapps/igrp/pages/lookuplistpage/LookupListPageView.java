@@ -39,10 +39,10 @@ public class LookupListPageView extends View {
 		
 		nome_page = new LinkField(model,"nome_page");
 		nome_page.setLabel("Nome Pagina");
-		nome_page.propertie().add("name","p_nome_page").add("type","link").add("target","_self").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
+		nome_page.propertie().add("name","p_nome_page").add("type","link").add("target","lookup").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
 		descricao_page = new LinkField(model,"descricao_page");
 		descricao_page.setLabel("Descrição");
-		descricao_page.propertie().add("name","p_descricao_page").add("type","link").add("target","_self").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
+		descricao_page.propertie().add("name","p_descricao_page").add("type","link").add("target","lookup").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
 		
 		nome_page_desc = new TextField(model,"nome_page_desc");
 		nome_page_desc.setLabel("Nome Pagina");

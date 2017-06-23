@@ -37,6 +37,7 @@ public class DataSourceController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		//view.pagina.setValue(new Action().getListActions());
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
+		Config.target = "_blank";
 		this.renderView(view);
 		/*---- End ----*/
 	}
@@ -67,9 +68,9 @@ public class DataSourceController extends Controller {
 					return;
 				}
 			}
-			rep.setEnv_fk(model.getAplicacao());
+			rep.setEnv_fk(Integer.parseInt(model.getAplicacao()));
 			rep.setStatus(1);
-			rep.setEnv_fk_source(model.getAplicacao());
+			rep.setEnv_fk_source(Integer.parseInt(model.getAplicacao()));
 			Date dt = new Date(System.currentTimeMillis());
 			rep.setDt_created(dt);
 			rep.setDt_updated(dt);

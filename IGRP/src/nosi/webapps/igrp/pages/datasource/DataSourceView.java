@@ -4,7 +4,6 @@
 
 package nosi.webapps.igrp.pages.datasource;
 import nosi.core.webapp.View;
-import nosi.core.config.Config;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
@@ -23,13 +22,14 @@ public class DataSourceView extends View {
 	public Field servico;
 	public Field p_id_pagina;
 	public Field p_id_servico;
+	public Field p_id;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_fechar;
 	public DataSourceView(DataSource model){
-		this.setPageTitle("Data Source");
+		this.setPageTitle("null");
 			
 		form_1 = new IGRPForm("form_1");
 		tipo = new ListField(model,"tipo");
@@ -68,6 +68,9 @@ public class DataSourceView extends View {
 		p_id_servico = new HiddenField(model,"p_id_servico");
 		p_id_servico.setLabel("");
 		p_id_servico.propertie().add("name","p_id_servico").add("type","hidden").add("maxlength","30").add("tag","id_servico");
+		p_id = new HiddenField(model,"p_id");
+		p_id.setLabel("");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","default|fa-save","","");
@@ -80,7 +83,7 @@ public class DataSourceView extends View {
 		
 	@Override
 	public void render(){
-		Config.target = "_blank";		
+		
 
 		form_1.addField(tipo);
 		form_1.addField(nome);
@@ -94,6 +97,7 @@ public class DataSourceView extends View {
 		form_1.addField(servico);
 		form_1.addField(p_id_pagina);
 		form_1.addField(p_id_servico);
+		form_1.addField(p_id);
 
 		toolsbar_1.addButton(btn_gravar);
 		toolsbar_1.addButton(btn_fechar);

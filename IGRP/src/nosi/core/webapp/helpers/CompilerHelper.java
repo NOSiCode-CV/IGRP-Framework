@@ -15,7 +15,12 @@ public class CompilerHelper {
 	//Compile files and saves
 	public static boolean compile(String pathDestination,String className){
 		className = pathDestination+"/"+className;
-		return com.sun.tools.javac.Main.compile(new String[]{"-classpath",Config.getBasePathClass(),"-d",Config.getBasePathClass(),className}) == 0;
+		
+		return com.sun.tools.javac.Main.compile(new String[]{
+				"-classpath",Config.getBasePathClass(),
+				"-cp",Config.getBasePathClass()+System.getProperty("path.separator")+"."+System.getProperty("path.separator")+Config.getPathLib()+"javax.servlet.jar"+System.getProperty("path.separator")+Config.getPathLib()+"IGRP.jar",
+				"-d",Config.getBasePathClass(),
+				className}) == 0;
 	}
 	
 	public static String decompile(String basePath,String className){
