@@ -55,7 +55,10 @@ public class EnvController extends Controller {
 			app.setStatus(model.getStatus());
 			app.setTemplates(model.getTemplates());
 			
-			if(app.insert() && FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages") && FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())) && CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java")){
+			if(app.insert()){
+				System.out.println(FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"));
+				System.out.println(FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())));
+				System.out.println(CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java"));
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
 				app = (Application) app.getOne();
 				
@@ -68,30 +71,22 @@ public class EnvController extends Controller {
 				org.setStatus(1);
 				
 				if(org.insert()){
-					Igrp.getInstance().getFlashMessage().addMessage("success", "Orgânica registada com sucesso!");
-					org = (Organization) org.getOne();
-					
+					org = (Organization) org.getOne();					
 					proty.setCode("Admin." + org.getName());
 					proty.setDescr("PefilAdmin.default " + org.getName());
 					proty.setEnv_fk(app.getId());
 					proty.setOrg_fk(org.getId());
-					proty.setStatus(1);
-					
-					if(proty.insert()){
-						Igrp.getInstance().getFlashMessage().addMessage("success", "Perfil registado com sucesso!");
-					}else{
+					proty.setStatus(1);					
+					if(!proty.insert()){
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
-					}
-					
+					}					
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
 				}
 				
-				
 				if(FileHelper.fileExists(Config.getProject_loc()) && FileHelper.createDiretory(Config.getProject_loc()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(Config.getProject_loc()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}
-				
+				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
