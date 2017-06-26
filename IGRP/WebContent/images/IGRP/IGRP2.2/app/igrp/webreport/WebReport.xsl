@@ -289,9 +289,9 @@
     </html>
   </xsl:template>
 
-  <xsl:include href="/IGRP/images/IGRP/IGRP2.2/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150629"/>
-  <xsl:include href="/IGRP/images/IGRP/IGRP2.2/xsl/tmpl/IGRP-setAttribute.tmpl.xsl?v=20150629"/>
-  <xsl:include href="/IGRP/images/IGRP/IGRP2.2/xsl/tmpl/IGRP-slide-menu.tmpl.xsl?v=20150629"/>
-  <xsl:include href="/IGRP/images/IGRP/IGRP2.2/extensions/webReport/xsl/IGRP-datasorce.tmpl.xsl?v=20150629"/>
-  <xsl:include href="/IGRP/images/IGRP/IGRP2.2/extensions/webReport/xsl/IGRP-reports.tmpl.xsl?v=20150629"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150629"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-setAttribute.tmpl.xsl?v=20150629"/>
+  <xsl:include href="../../../xsl/tmpl/IGRP-slide-menu.tmpl.xsl?v=20150629"/>
+  <xsl:include href="../../../extensions/webReport/xsl/IGRP-datasorce.tmpl.xsl?v=20150629"/>
+  <xsl:include href="../../../extensions/webReport/xsl/IGRP-reports.tmpl.xsl?v=20150629"/>
 </xsl:stylesheet>
