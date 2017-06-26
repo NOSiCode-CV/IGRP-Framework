@@ -1,7 +1,6 @@
-/bin/
-/lib/
-/classes/
-.project
+bin
+target
 .classpath
 .settings/
-/WebContent/WEB-INF/config/app/
+.project
+WebContent/WEB-INF/config/app/
