@@ -1,7 +1,0 @@
-/bin/
-/lib/
-/classes/
-.project
-.classpath
-.settings/
-/WebContent/WEB-INF/config/app/

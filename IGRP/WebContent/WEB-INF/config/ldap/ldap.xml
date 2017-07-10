@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ldap>
-	<url>ldap://10.73.110.168:389</url>
-	<username>ldapuser</username>
-	<password>Pa$$w0rd</password>
-	<base>DC=moko,DC=cv</base>
-</ldap>
-

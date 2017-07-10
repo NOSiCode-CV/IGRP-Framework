@@ -1,9 +1,0 @@
-<xsl:if test="not(#tag#/@visible)">
-  <td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="textarea">
-    <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
-    
-    <textarea name="{../../fields/#tag#/@name}_fk" class="textarea form-control" maxlength="#[maxlength]#" rel="F_#parent.tag#">
-      <xsl:value-of select="#tag#" disable-output-escaping="yes"/>
-    </textarea>
-  </td>
-</xsl:if>
