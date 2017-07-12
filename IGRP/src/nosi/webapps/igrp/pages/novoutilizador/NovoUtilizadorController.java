@@ -11,15 +11,13 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-
 import java.io.IOException;
 
 
 public class NovoUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException{
-		NovoUtilizador model = new NovoUtilizador();
-		
+		NovoUtilizador model = new NovoUtilizador();		
 		NovoUtilizadorView view = new NovoUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations());
@@ -37,22 +35,27 @@ public class NovoUtilizadorController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			Profile p = new Profile();
-			p.setOrg_fk(model.getOrganica());
-			p.setProf_type_fk(model.getPerfil());
+			p.setOrganization(new Organization().findOne(model.getOrganica()));
+			p.setProfileType(new ProfileType().findOne(model.getPerfil()));
 			p.setType("PROF");
-			
-			Profile p1 = new Profile();
-			p1.setOrg_fk(model.getOrganica());
-			p1.setProf_type_fk(model.getPerfil());
-			p1.setType("ENV");
-			p1.setType_fk(model.getAplicacao());
-			User u = (User) new User().findIdentityByEmail(model.getEmail());
+			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
 			if(u!=null){
-				p.setUser_fk(u.getId());
-				p1.setUser_fk(u.getId());
+				p.setUser(u);
 				p.setType_fk(model.getPerfil());
-				if(p.insert() && p1.insert()){
-					Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				p = p.insert();
+				if(p!=null){
+					p = new Profile();
+					p.setUser(u);
+					p.setOrganization(new Organization().findOne(model.getOrganica()));
+					p.setProfileType(new ProfileType().findOne(model.getPerfil()));
+					p.setType("ENV");
+					p.setType_fk(model.getAplicacao());
+					p = p.insert();
+					if(p!=null){
+						Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+					}else{
+						Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+					}
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 				}

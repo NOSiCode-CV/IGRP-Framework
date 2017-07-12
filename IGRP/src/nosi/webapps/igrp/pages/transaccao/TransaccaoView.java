@@ -67,7 +67,7 @@ public class TransaccaoView extends View {
 
 		form_1.addField(codigo);
 		form_1.addField(aplicacao);
-		form_1.addField(organica);
+//		form_1.addField(organica);
 
 
 		table_1.addField(codigo);

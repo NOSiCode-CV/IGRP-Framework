@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+    xmlns="http://java.sun.com/xml/ns/persistence" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="mysql" transaction-type="RESOURCE_LOCAL">
+        <!-- Persistence provider -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- The JDBC driver of your database -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <!-- The JDBC URL to the database instance -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/igrp_db" />
+            <!-- The database username -->
+            <property name="javax.persistence.jdbc.user" value="root" />
+            <!-- The database password -->
+            <property name="javax.persistence.jdbc.password" value="root" />
+  			 <property name="hibernate.hbm2ddl.auto" value="update"/>
+  		 	<!-- <property name="hibernate.show_sql" value="true"/>
+  			<property name="hibernate.format_sql" value="true"/> -->
+  			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+  			Configuring Connection Pool
+	      <property name="hibernate.c3p0.min_size" value="10" />
+	      <property name="hibernate.c3p0.max_size" value="20" />
+	      <property name="hibernate.c3p0.timeout" value="1800" />
+	      <property name="hibernate.c3p0.max_statements" value="50" />
+	      <property name="hibernate.c3p0.idle_test_period" value="3000" />
+		  <property name="hibernate.c3p0.acquire_increment" value="1"/> -->
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="postgres" transaction-type="RESOURCE_LOCAL">
+        <!-- Persistence provider -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!-- The JDBC driver of your database -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <!-- The JDBC URL to the database instance -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/db_igrp" />
+            <!-- The database username -->
+            <property name="javax.persistence.jdbc.user" value="postgres" />
+            <!-- The database password -->
+            <property name="javax.persistence.jdbc.password" value="postgres" />
+  			<property name="hibernate.hbm2ddl.auto" value="update"/>
+  		 	<!-- <property name="hibernate.show_sql" value="true"/>
+  			<property name="hibernate.format_sql" value="true"/> -->
+        </properties>
+    </persistence-unit>
+    
+    <persistence-unit name="h2" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:~/igrp_db" />
+			<property name="javax.persistence.jdbc.user" value="user.igrp" />
+            <property name="javax.persistence.jdbc.password" value="password.igrp" />
+  			<property name="hibernate.hbm2ddl.auto" value="update"/>
+  		 	<!-- <property name="hibernate.show_sql" value="true"/>
+  			<property name="hibernate.format_sql" value="true"/> -->
+		</properties>
+	</persistence-unit>
+</persistence>

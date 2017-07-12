@@ -50,10 +50,10 @@ public class PesquisarMenuView extends View {
 		menu_principal.setLabel("Menu Principal");
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel("Menu Principal");
 		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		titulo = new PlainTextField(model,"titulo");
-		titulo.setLabel("Titulo");
+		titulo.setLabel("Menu");
 		titulo.propertie().add("name","p_titulo").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		pagina = new PlainTextField(model,"pagina");
 		pagina.setLabel("Pagina");

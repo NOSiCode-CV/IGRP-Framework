@@ -17,31 +17,21 @@ import java.util.ArrayList;
 public class PesquisarPerfilController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		PesquisarPerfil model = new PesquisarPerfil();
-		
+		PesquisarPerfil model = new PesquisarPerfil();		
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
-		ProfileType profile_db = new ProfileType();
-				
-		//condiccao para pesquisar com filtros
-		Application objapp = new Application();
-		profile_db.setAplicacao(objapp);
-		Organization objOrg = new Organization();
-		profile_db.setOrganica(objOrg);
-		
+		ProfileType profile_db = new ProfileType();		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-			objapp.setId(model.getAplicacao());
-			objOrg.setId(model.getOrgania());
-		}
-		
+		}		
 		//Preenchendo a tabela
-		for(Object obj:profile_db.getAllComFiltro()){
-			ProfileType p = (ProfileType) obj;
+		for(ProfileType p:profile_db.find().andWhere("application", "=", model.getAplicacao()).andWhere("organization", "=", model.getOrgania()).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil().new Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
 			table1.setEstado(p.getStatus()==1?"Ativo":"Inativo");
-			table1.setOrganica(p.getOrganica().getName());
+			if(p.getOrganization()!=null){
+				table1.setOrganica(p.getOrganization().getName());
+			}
 			table1.setP_id(p.getId());
 			lista.add(table1);
 		}
@@ -55,8 +45,14 @@ public class PesquisarPerfilController extends Controller {
 		return this.renderView(view);
 	}
 	
-	public void actionEliminar() throws IOException{
-		
+	public Response actionEliminar() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		ProfileType p = new ProfileType();
+		if(p.delete(Integer.parseInt(id)))
+			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+		else
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+		return this.redirect("igrp","PesquisarPerfil","index");
 	}
 	
 	public Response actionMenu() throws IOException{

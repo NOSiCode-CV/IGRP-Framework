@@ -1,36 +1,60 @@
 package nosi.webapps.igrp.dao;
-
-import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import nosi.core.dao.RowDataGateway;
-import nosi.core.webapp.Igrp;
+import javax.persistence.CascadeType;
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Query;
+import javax.persistence.Table;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.helpers.Permission;
-public class Transaction implements RowDataGateway {
+import java.io.Serializable;
+
+@Entity
+@Table(name="tbl_transaction")
+public class Transaction extends BaseActiveRecord<Transaction> implements Serializable {
 	
-	private int id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2765636370127502462L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false)
 	private String code;
+	@Column(nullable=false)
 	private String descr;
-	private int env_fk;
 	private int status;
-	private int org_fk;
-	private Connection con;
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="TRANSACTION_SOURCE_ENV_FK"),nullable=false)
+	private Application application;
+
+	public Transaction(){}
 	
-	public Transaction() {
+	public Transaction(String code, String descr, int status, Application application) {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+		this.code = code;
+		this.descr = descr;
+		this.status = status;
+		this.application = application;
 	}
-	
-	
-	
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -50,14 +74,6 @@ public class Transaction implements RowDataGateway {
 		this.descr = descr;
 	}
 
-	public int getEnv_fk() {
-		return env_fk;
-	}
-
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-
 	public int getStatus() {
 		return status;
 	}
@@ -65,177 +81,35 @@ public class Transaction implements RowDataGateway {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	public int getOrg_fk() {
-		return org_fk;
+
+	public Application getApplication() {
+		return application;
 	}
 
-	public void setOrg_fk(int org_fk) {
-		this.org_fk = org_fk;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
-
-	@Override
-	public boolean insert() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_transaction"
-					+ "(code, descr, env_fk, status) "
-					+ "VALUES (?, ?, ?, ?)");
-			st.setString(1, this.code);
-			st.setString(2, this.descr);
-			st.setInt(3, this.env_fk);
-			st.setInt(4, this.status);
-			st.executeUpdate();
-			st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public Object getOne() {
-		Transaction obj = new Transaction();
-		try{
-			String conditions = "";
-			if(this.id!=0){
-				conditions+=" AND id=? ";
-			}if(this.code!=null && !this.code.equals("")){
-				conditions+=" AND code=? ";
-			}
-			PreparedStatement st = con.prepareStatement("SELECT id, code, descr, env_fk, status "
-					+ "FROM glb_t_transaction "
-					+ "WHERE 1=1 "+conditions);
-			if(this.id!=0){
-				st.setInt(1, this.id);
-			}if(this.code!=null && !this.code.equals("")){
-				st.setString(1, this.code);
-			}
-			ResultSet rs = st.executeQuery();			
-			while(rs.next()){
-				obj.setCode(rs.getString("code"));
-				obj.setDescr(rs.getString("descr"));
-				obj.setEnv_fk(rs.getInt("env_fk"));
-				obj.setStatus(rs.getInt("status"));
-				obj.setId(rs.getInt("id"));
-			}
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
-	}
-
-	@Override
-	public boolean update() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("UPDATE glb_t_transaction SET "
-					+ "code=?, "
-					+ "descr=?, "
-					+ "env_fk=?, "
-					+ "status =? "
-					+ "WHERE id = " + this.id);
-			st.setString(1, this.code);
-			st.setString(2, this.descr);
-			st.setInt(3, this.env_fk);
-			st.setInt(4, this.status);
-	        st.executeUpdate();
-	        st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean delete() {
-		try{
-			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_transaction WHERE id = ?");
-			st.setInt(1, this.id);
-			st.executeUpdate();
-			st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public Object[] getAll() {
-		ArrayList<Transaction> lista = new ArrayList<>();
-		try{
-			String sql = "SELECT id, code, descr, env_fk, status "
-					   + "FROM glb_t_transaction WHERE env_fk=?";
-			if(this.org_fk!=0 && (this.code==null || this.code.equals(""))){
-				sql = "SELECT T.* "
-						   + "FROM glb_t_transaction T,glb_t_profile P WHERE T.env_fk=? AND T.id=P.type_fk AND P.type=? AND P.org_fk=?";
-			}if(this.org_fk==0 && this.code!=null && !this.code.equals("")){
-				sql +=" AND code=? ";
-			}if(this.org_fk!=0 && this.code!=null && !this.code.equals("")){
-				sql = "SELECT T.* "
-						   + "FROM glb_t_transaction T,glb_t_profile P WHERE T.env_fk=? AND T.id=P.type_fk AND P.type=? AND P.org_fk=? AND T.code=?";
-			}
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, this.env_fk);
-			if(this.org_fk!=0 && (this.code==null  || this.code.equals(""))){
-				st.setString(2, "TRANS");
-				st.setInt(3,this.org_fk);
-			}if(this.org_fk==0 && this.code!=null  && !this.code.equals("")){
-				st.setString(2, this.code);
-			}if(this.org_fk!=0 && this.code!=null  && !this.code.equals("")){
-				st.setString(2, "TRANS");
-				st.setInt(3,this.org_fk);
-				st.setString(4, this.code);
-			}
-			ResultSet rs = st.executeQuery();			
-			while(rs.next()){
-				Transaction obj = new Transaction();
-				obj.setCode(rs.getString("code"));
-				obj.setDescr(rs.getString("descr"));
-				obj.setEnv_fk(rs.getInt("env_fk"));
-				obj.setStatus(rs.getInt("status"));
-				lista.add(obj);
-			}
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-
-
 
 	public boolean getPermission(String transaction) {
-		ArrayList<Transaction> lista = new ArrayList<>();		
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT T.* FROM glb_t_transaction T,glb_t_profile P "
-					+ "	WHERE T.id = P.type_fk "
-					+ "	AND P.type=?"
-					+ " AND P.prof_type_fk = ? "
-					+ " AND P.org_fk = ?"
-					+ " AND T.code = ? "
-					+ " AND T.status=1 "
-					+ "	ORDER BY id");
-			//User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setString(1,"TRANS_PROF");
-			st.setInt(2,Permission.getCurrentPerfilId());
-			st.setInt(3,Permission.getCurrentOrganization());
-			st.setString(4,transaction);
-			ResultSet result = st.executeQuery();			
-			while(result.next()){
-				Transaction obj = new Transaction();
-				obj.setId(result.getInt("id"));
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.size() > 0;
-	}
-
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		String sql = "SELECT T.* FROM tbl_transaction T,tbl_profile P "
+				+ "	WHERE T.id = P.type_fk "
+				+ "	AND P.type=?"
+				+ " AND P.prof_type_fk = ? "
+				+ " AND P.org_fk = ?"
+				+ " AND T.code = ? "
+				+ " AND T.status=1 "
+				+ "	ORDER BY T.id";
+		Query q =  em.createNativeQuery(sql);
+		q.setParameter(1,"TRANS");
+		q.setParameter(2,Permission.getCurrentPerfilId());
+		q.setParameter(3,Permission.getCurrentOrganization());	
+		q.setParameter(4,transaction);	
+		int x = q.getResultList().size();
+		t.commit();
+		em.close();
+		return x > 0;
+	}	
 }

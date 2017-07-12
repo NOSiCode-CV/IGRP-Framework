@@ -6,9 +6,10 @@ import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
-
+import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MenuOrganicaController extends Controller {		
@@ -16,41 +17,31 @@ public class MenuOrganicaController extends Controller {
 	public Response actionIndex() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
+		MenuOrganica model = new MenuOrganica();	
+		MenuOrganicaView view = null;
 		if(id!=null && type!=null){
-			MenuOrganica model = new MenuOrganica();
 			model.setId(id);
-			model.setType(type);
-			MenuOrganicaView view = new MenuOrganicaView(model);			
+			model.setType(type);		
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
-			Object[] menus = null;
+			List<Menu> menus = null;
 			if(type.equals("org")){
 				menus = new Organization().getOrgMenu();
 			}else if(type.equals("perfil")){
-				ProfileType pt = new ProfileType();
-				pt.setId(Integer.parseInt(id));
-				ProfileType p = (ProfileType) pt.getOne();
-				menus = new Organization().getPerfilMenu(p.getOrg_fk());
-			}/*else if(type.equals("user")){
-				Profile p = new Profile();
-				p.setUser_fk(Integer.parseInt(id));
-				p = (Profile) p.getOne();
-				menus = new Organization().getUserMenu(p.getOrg_fk());
-			}*/
-			for(Object obj:menus){
-				Menu m = (Menu) obj;
+				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
+			}
+			for(Menu m:menus){
 				MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
 				table.setMenu(m.getId());
 				Profile prof = new Profile();
-				prof.setOrg_fk(Integer.parseInt(id));
-				prof.setProf_type_fk(0);
-				prof.setUser_fk(0);
+				prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+				prof.setProfileType(new ProfileType().findOne(0));
+				prof.setUser(new User().findOne(0));
 				prof.setType_fk(m.getId());
 				if(type.equals("perfil")){
-					ProfileType pt = new ProfileType();
-					pt.setId(Integer.parseInt(id));
-					ProfileType p = (ProfileType) pt.getOne();
-					prof.setOrg_fk(p.getOrg_fk());
-					prof.setProf_type_fk(pt.getId());
+					ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+					prof.setOrganization(p.getOrganization());
+					prof.setProfileType(new ProfileType().findOne(p.getId()));
 				}
 				if((type.equals("org") && prof.isInsertedOrgMen()) || (type.equals("perfil") && prof.isInsertedPerfMen())){
 					table.setMenu_check(m.getId());
@@ -59,11 +50,11 @@ public class MenuOrganicaController extends Controller {
 				}
 				table.setDescricao(m.getDescr());
 				data.add(table);
-			}			
+			}		
+			view = new MenuOrganicaView(model);	
 			view.table_1.addData(data);
-			return this.renderView(view);
 		}
-		return null;
+		return this.renderView(view);
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
@@ -74,42 +65,36 @@ public class MenuOrganicaController extends Controller {
 			model.load();
 			Profile profD = new Profile();
 			if(type.equals("org")){
-				profD.setOrg_fk(Integer.parseInt(id));
+				profD.setOrganization(new Organization().findOne(Integer.parseInt(id)));
 				profD.setType("MEN");
-				profD.setProf_type_fk(0);
-				profD.setUser_fk(0);
-				profD.deleteAllOrgProfile();
+				profD.setProfileType(new ProfileType().findOne(0));
+				profD.setUser(new User().findOne(0));
+				profD.deleteAllProfile();
 			}else if(type.equals("perfil")){
-				ProfileType pt = new ProfileType();
-				pt.setId(Integer.parseInt(id));
-				ProfileType p = (ProfileType) pt.getOne();
-				profD.setOrg_fk(p.getOrg_fk());
+				ProfileType pt = new ProfileType().findOne(Integer.parseInt(id));
+				profD.setOrganization(pt.getOrganization());
 				profD.setType("MEN");
-				profD.setUser_fk(0);
-				profD.setProf_type_fk(Integer.parseInt(id));
-				profD.deleteAllPerfilProfile();
+				profD.setUser(new User().findOne(0));
+				profD.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
+				profD.deleteAllProfile();
 			}
 			
 			String[] mens = Igrp.getInstance().getRequest().getParameterValues("p_menu");
 			if(mens!=null && mens.length>0){
 				for(String x:mens){
 					Profile prof = new Profile();
-					prof.setUser_fk(0);
+					prof.setUser(new User().findOne(0));
+					prof.setType("MEN");
+					prof.setType_fk(Integer.parseInt(x.toString()));
 					if(type.equals("org")){
-						prof.setOrg_fk(Integer.parseInt(id));
-						prof.setType("MEN");
-						prof.setType_fk(Integer.parseInt(x.toString()));
-						prof.setProf_type_fk(0);
+						prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+						prof.setProfileType(new ProfileType().findOne(0));
 					}else if(type.equals("perfil")){
-						ProfileType pt = new ProfileType();
-						pt.setId(Integer.parseInt(id));
-						ProfileType p = (ProfileType) pt.getOne();
-						prof.setOrg_fk(p.getOrg_fk());
-						prof.setType("MEN");
-						prof.setType_fk(Integer.parseInt(x.toString()));
-						prof.setProf_type_fk(Integer.parseInt(id));
+						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+						prof.setOrganization(p.getOrganization());
+						prof.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
 					}
-					prof.insert();
+					prof = prof.insert();
 				}
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Operação realizada com sucesso");

@@ -1,54 +1,114 @@
 package nosi.webapps.igrp.dao;
-
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
+import java.io.Serializable;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import nosi.core.dao.RowDataGateway;
-import nosi.core.webapp.Igrp;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Parameter;
+import javax.persistence.Query;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.components.IGRPTable;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.TextField;
 import nosi.core.xml.XMLWritter;
 
-/**
- * @Author: Emanuel Pereira
- * 15 Jun 2017
- */
-public class RepSource implements RowDataGateway {
-
-	private int id;
+@Entity
+@Table(name="tbl_rep_source")
+public class RepSource extends BaseActiveRecord<RepSource> implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7036375790328828424L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	private String name;
+	@Column(nullable=false)
 	private String type;
-	private int type_fk;
+	private Integer type_fk;
 	private String type_name;
 	private String type_query;
-	private int env_fk;
 	private int status;
-	private int env_fk_source;
+	@Temporal(TemporalType.DATE)
 	private Date dt_created;
+	@Temporal(TemporalType.DATE)
 	private Date dt_updated;
-	private int user_created_fk;
-	private int user_updated_fk;
+
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="REP_SOURCE_ENV_FK"),nullable=false)
+	private Application application;
+
+	@ManyToOne
+	@JoinColumn(name="env_source_fk",foreignKey=@ForeignKey(name="REP_SOURCE_ENV_SOURCE_FK"))
+	private Application application_source;
 	
-	private Connection con;
+	@ManyToOne
+	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="REP_SOURCE_USER_CREATED_FK"),nullable=false)
+	private User user_created;
 	
-	public RepSource() {
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+	@ManyToOne
+	@JoinColumn(name="user_updated_fk",foreignKey=@ForeignKey(name="REP_SOURCE_USER_UPDATED_FK"),nullable=false)
+	private User user_updated;
+	@Transient
+	private XMLWritter xmlRows = new XMLWritter();
+	public RepSource(){}
+	
+	public RepSource(Integer id, String name, String type, Integer type_fk, String type_name, String type_query,
+			int status, Date dt_created, Date dt_updated, Application application, Application application_source,
+			User user_created, User user_updated) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.type_fk = type_fk;
+		this.type_name = type_name;
+		this.type_query = type_query;
+		this.status = status;
+		this.dt_created = dt_created;
+		this.dt_updated = dt_updated;
+		this.application = application;
+		this.application_source = application_source;
+		this.user_created = user_created;
+		this.user_updated = user_updated;
 	}
 
-	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -68,11 +128,11 @@ public class RepSource implements RowDataGateway {
 		this.type = type;
 	}
 
-	public int getType_fk() {
+	public Integer getType_fk() {
 		return type_fk;
 	}
 
-	public void setType_fk(int type_fk) {
+	public void setType_fk(Integer type_fk) {
 		this.type_fk = type_fk;
 	}
 
@@ -92,28 +152,12 @@ public class RepSource implements RowDataGateway {
 		this.type_query = type_query;
 	}
 
-	public int getEnv_fk() {
-		return env_fk;
-	}
-
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-
 	public int getStatus() {
 		return status;
 	}
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public int getEnv_fk_source() {
-		return env_fk_source;
-	}
-
-	public void setEnv_fk_source(int env_fk_source) {
-		this.env_fk_source = env_fk_source;
 	}
 
 	public Date getDt_created() {
@@ -132,231 +176,233 @@ public class RepSource implements RowDataGateway {
 		this.dt_updated = dt_updated;
 	}
 
-	public int getUser_created_fk() {
-		return user_created_fk;
+	public Application getApplication() {
+		return application;
 	}
 
-	public void setUser_created_fk(int user_created_fk) {
-		this.user_created_fk = user_created_fk;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
-	public int getUser_updated_fk() {
-		return user_updated_fk;
+	public Application getApplication_source() {
+		return application_source;
 	}
 
-	public void setUser_updated_fk(int user_updated_fk) {
-		this.user_updated_fk = user_updated_fk;
+	public void setApplication_source(Application application_source) {
+		this.application_source = application_source;
 	}
 
-	@Override
-	public boolean insert() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_rep_source"+
-			             "(name,type,type_fk,type_name,type_query,env_fk,status,env_fk_source,dt_created,dt_updated,user_created_fk,user_updated_fk)" +
-					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			
-			st.setString(1, this.name);
-			st.setString(2, this.type);
-			st.setInt(3, this.type_fk);
-			st.setString(4, this.type_name);
-			st.setString(5, this.type_query);
-			st.setInt(6, this.env_fk);
-			st.setInt(7, this.status);
-			st.setInt(8, this.env_fk_source);
-			st.setDate(9, (Date)this.dt_created);
-			st.setDate(10,(Date)this.dt_updated);
-			st.setInt(11, this.user_created_fk);
-			st.setInt(12,this.user_updated_fk);
-			st.executeUpdate();
-			st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+	public User getUser_created() {
+		return user_created;
 	}
 
-	@Override
-	public Object getOne() {
-		RepSource obj = new RepSource();
-		try{
-		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM glb_t_rep_source where (id = "+ this.id+")");
-		while(result.next()){
-			obj.setId(result.getInt("id"));
-			obj.setName(result.getString("name"));
-		    obj.setType(result.getString("type")); 
-			obj.setType_fk(result.getInt("type_fk") );
-			obj.setType_name(result.getString("type_name"));
-			obj.setType_query(result.getString("type_query")); 
-			obj.setEnv_fk(result.getInt("env_fk"));
-			obj.setEnv_fk_source(result.getInt("env_fk_source")); 
-			obj.setDt_created(result.getDate("dt_created"));
-			obj.setDt_updated(result.getDate("dt_updated")); 
-			obj.setUser_created_fk(result.getInt("user_created_fk"));
-			obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-			obj.setStatus(result.getInt("status"));			
-		}
-		st.close();
-		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+	public void setUser_created(User user_created) {
+		this.user_created = user_created;
 	}
 
-	@Override
-	public boolean update() {
-		// TODO Auto-generated method stub
-		return false;
+	public User getUser_updated() {
+		return user_updated;
 	}
 
-	@Override
-	public boolean delete() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setUser_updated(User user_updated) {
+		this.user_updated = user_updated;
 	}
 
-	@Override
-	public Object[] getAll() {
-		ArrayList<RepSource> lista = new ArrayList<>();		
-		try{
-			String sql = "SELECT * FROM glb_t_rep_source where 1=1 ";
-			sql += (this.getName()!=null && !this.getName().equals("")) ? " and lower (name) like lower ('%" + this.getName() + "%') ": " ";
-			sql += (this.getEnv_fk()!=0) ? " and env_fk="+this.getEnv_fk(): " ";
-			
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet result = st.executeQuery();
-			while(result.next()){
-				RepSource obj = new RepSource();
-				obj.setId(result.getInt("id"));
-				obj.setName(result.getString("name"));
-			    obj.setType(result.getString("type")); 
-				obj.setType_fk(result.getInt("type_fk") );
-				obj.setType_name(result.getString("type_name"));
-				obj.setType_query(result.getString("type_query")); 
-				obj.setEnv_fk(result.getInt("env_fk"));
-				obj.setEnv_fk_source(result.getInt("env_fk_source")); 
-				obj.setDt_created(result.getDate("dt_created"));
-				obj.setDt_updated(result.getDate("dt_updated")); 
-				obj.setUser_created_fk(result.getInt("user_created_fk"));
-				obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-				obj.setStatus(result.getInt("status"));				
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-	
-	public HashMap<Integer,String> getListSources(){
+	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
 		//lista.put(null, "--- Selecionar Aplicação ---");
-		for(Object obj:this.getAll()){
-			RepSource rep = (RepSource) obj;
+		for(RepSource rep:this.find().andWhere("application", "=",id).all()){
 			lista.put(rep.getId(), rep.getName());
 		}
 		return lista;
 	}
-
-
-	public boolean validateQuery(String query){
-		try {
-			Statement s = con.createStatement();
-			query =query.replaceAll(":\\w+", "null");
-			ResultSet rs =s.executeQuery(query);
-			if(rs.next()){
-				return true;
-			}
-		} catch (SQLException e) {
-			return false;
-		}
-		return false;
-	}
 	
-	public HashMap<String,Boolean> getSqlColumns(int template_id,String query) {
-		HashMap<String,Boolean> columns = new HashMap<>();
+	//Validate sql query
+	public boolean validateQuery(String query) {
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		boolean x = false;
+		try{
+			Query q = em.createNativeQuery(query);
+			for(Parameter<?> param:q.getParameters()){
+				q.setParameter(param.getName(), null);
+			}
+			q.getResultList();
+			x = true;
+			t.commit();
+		}catch(Exception e){
+			x = false;
+		}finally{
+			em.close();
+		}
+		return x;
+	}
+
+	/*Extract columns in Query Select and Check if the column is a parameter
+	 * 
+	 * Example: SELECT ID, NAME, EMAIL from tbl_user
+	 * 
+	 * The columns extracted is: id, name, email
+	 * 
+	 */
+	public Set<Properties> getColumns(int template_id,String query) {
+		Set<Properties> columns = new LinkedHashSet<>();
+		Connection con = nosi.core.config.Connection.getConnection(this.getConnectionName());
 		try {
 			Statement s = con.createStatement();
-			List<String> keys = getKeysQuery(template_id,query);
+			Set<String> keys = getParamsQuery(template_id,query);
 			query =query.replaceAll(":\\w+", "null");
 			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 			for(int i=1;i<=rsd.getColumnCount();i++){
-				columns.put(rsd.getColumnName(i),keys.contains(rsd.getColumnName(i).toLowerCase()));
+				Properties p = new Properties();
+				//Set propertie true if column is a parameter
+				p.put("key", keys.contains(rsd.getColumnName(i).toLowerCase())?"true":"false");
+				p.put("name","p_"+rsd.getColumnName(i).toLowerCase());
+				p.put("tag",rsd.getColumnName(i).toLowerCase());
+				columns.add(p);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				if(con!=null){con.close();}
+			} catch (SQLException e) {
+			}
 		}
 		return columns;
 	}
 	
-	private List<String> getKeysQuery(int template_id,String query){
-		List<String> keys = new ArrayList<String>();
+	
+	/*Extract parameters in query select
+	 * Example: SELECT * FROM tbl_user WHERE id=:p_id
+	 * 
+	 * The "p_id" is parameter
+	 */
+	public Set<String> getParamsQuery(int template_id,String query){
+		Set<String> params = new HashSet<String>();
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		try{
+			Query q = em.createNativeQuery(query);
+			for(Parameter<?> param:q.getParameters()){
+				params.add(param.getName().contains("p_")?param.getName().substring("p_".length()):param.getName());
+			}
+			t.commit();
+		}catch(Exception e){
+		}finally{
+			em.close();
+		}
 		if(template_id!=0){
-			Matcher m = Pattern.compile("\\w+=:").matcher(query);
-			while (m.find()) {
-			   keys.add(m.group().replaceAll("=:", "").toLowerCase());
-			}
 			RepTemplateParam rtp = new RepTemplateParam();
-			rtp.setId_template(template_id);
-			for(Object obj:rtp.getAll()){
-				RepTemplateParam r = (RepTemplateParam) obj;
-				keys.add(r.getParameter().toLowerCase());
+			for(RepTemplateParam r:rtp.findAll(rtp.getCriteria().where(rtp.getBuilder().equal(rtp.getRoot().get("reptemplate"),template_id)))){
+				params.add(r.getParameter().toLowerCase());
 			}
 		}
-		return keys;
+		return params;
 	}
 	
-	public HashMap<String,Object> executeQuery(String query){
-		HashMap<String,Object> data = new HashMap<>();
-		try {
-			Statement s = con.createStatement();
-			ResultSet r = s.executeQuery(query);
-			ResultSetMetaData rsd = r.getMetaData();
-		    while (r.next()) {
-		    	for (int i = 1; i <= rsd.getColumnCount(); i++) {
-					data.put(rsd.getColumnName(i),r.getString(rsd.getColumnName(i)));
-		        }
-		    }
-		    s.close();
-		    r.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+	/*Transform sql query to xml
+	 * 
+	 * Example: SELECT ID, NAME, EMAIL from tbl_user
+	 * The return value is:
+	 * 	<form>
+	 * 		<fields>
+        		<number_1 name="p_number_1" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+	                <label>Number</label>
+	                <value>606</value>
+	            </number_1>
+	            ...
+	        </fields>
+	 *  </form>
+	 *  <table>
+	        <value>
+	            <row>
+	                <number_1>527</number_1>
+	                <number_1_desc>527</number_1_desc>
+	                <text_1>Magna dolor labore ipsum totam</text_1>
+	                <text_1_desc>Magna dolor labore ipsum totam</text_1_desc>
+	            </row>
+	            ...
+	        </value>
+	 *  <table>
+	 */
+	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
+		
+		Set<Properties> columns = this.getColumns(rt.getId(), query);
+		if(value_array==null || value_array.length<=0){
+			query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
 		}
-		return data;
+		String xml = null;
+		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> /*name_array[i].contains("p_")?name_array[i].substring("p_".length()):*/name_array[i], i -> value_array[i])):null;
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		try{
+			Query q = em.createNativeQuery(query);
+			if(value_array!=null && value_array.length>0){
+				for(Parameter<?> param:q.getParameters()){
+					q.setParameter(param.getName(), paramsUrl.get(param.getName()));
+				}
+			}	
+			@SuppressWarnings("unchecked")
+			List<Object[]> list = q.getResultList();
+			xml = this.getSqlQueryToXml(columns, list);
+			t.commit();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			em.close();	
+		}
+		return xml;
 	}
 	
-	//Query data and convert to xml
-	public String queryToXmlRows(String query){
+	
+	private String getSqlQueryToXml(Set<Properties> columns,List<Object[]> data){
 		XMLWritter xml = new XMLWritter();
-		try {
-			Statement s = con.createStatement();
-			ResultSet r = s.executeQuery(query);
-			ResultSetMetaData rsd = r.getMetaData();
-		    while (r.next()) {
-		    	xml.startElement("row");
-		    	for (int i = 1; i <= rsd.getColumnCount(); i++) {
-		          xml.startElement(rsd.getColumnName(i));
-			          xml.writeAttribute("name", "p_"+rsd.getColumnName(i).toLowerCase());
-			          xml.text(r.getString(rsd.getColumnName(i)));
-		          xml.endElement();
-		        }
-		        xml.endElement();
-		    }
-		    s.close();
-		    r.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		IGRPForm form = new IGRPForm("form",(float)2.1);
+		IGRPTable table = new IGRPTable("table",(float)2.1);
+		Map<Properties,String> mappData = this.mappingColumnValue(columns, data);		
+		Set<Entry<Properties, String>> setData = mappData.entrySet();
+		for(Entry<Properties,String> entry:setData){
+				Field f = new TextField(null,entry.getKey().getProperty("tag"));
+				f.propertie().clear();
+				f.propertie().add("name",entry.getKey().getProperty("name"));
+				f.setValue(entry.getValue());
+				form.addField(f);
+				table.addField(f);
 		}
+		table.addRowsXMl(this.xmlRows.toString());
+		xml.addXml(form.toString());
+		xml.addXml(table.toString());
 		return xml.toString();
 	}
-			
+	
+	/*Mapping columns with value properties
+	 * 
+	 */
+	private Map<Properties,String> mappingColumnValue(Set<Properties> columns,List<Object[]> data){
+		Map<Properties,String> mapping = new HashMap<>();
+		for(Object[] obj:data){
+			if(obj instanceof Object[]){
+				xmlRows.startElement("row");
+				int i=0;
+				Iterator<Properties> listColumns = columns.iterator();
+				while(listColumns.hasNext()){
+					Properties p = listColumns.next();
+					mapping.put(p, obj[i]!=null?obj[i].toString():"");
+					xmlRows.startElement(p.getProperty("tag"));
+					xmlRows.writeAttribute("name",p.getProperty("name"));
+					xmlRows.text(obj[i]!=null?obj[i].toString():"");
+					xmlRows.endElement();
+					i++;
+				}
+				xmlRows.endElement();
+			}
+		}
+		return mapping;
+	}
 
+	
 }

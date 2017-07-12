@@ -1,45 +1,84 @@
-
 package nosi.webapps.igrp.dao;
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
-import nosi.core.dao.RowDataGateway;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.Permission;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Query;
+import javax.persistence.Table;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 
-public class ProfileType implements RowDataGateway {
+@Entity
+@Table(name="tbl_profile_type")
+public class ProfileType extends BaseActiveRecord<ProfileType> implements Serializable {
 	
-	private int id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 820520902648272514L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false)
 	private String descr;
+	@Column(nullable=false,unique=true)
 	private String code;
-	private int env_fk;
-	private int self_fk;
-	private int org_fk;
 	private int status;
-	private Organization organica;
-	private Application aplicacao;
-	private Connection con;
 	
-	public ProfileType() {
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_ORG_FK"))
+	private Organization organization;	
+
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_ENV_FK"),nullable=false)
+	private Application application;
+	
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_SELF_FK"))
+	private ProfileType profiletype;
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<Profile> profiles;
+	
+	public ProfileType(){}
+	
+	public ProfileType(String descr, String code, int status, Organization organization,
+			Application application, ProfileType profiletype) {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+		this.descr = descr;
+		this.code = code;
+		this.status = status;
+		this.organization = organization;
+		this.application = application;
+		this.profiletype = profiletype;
 	}
-	
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public String getDescr() {
 		return descr;
 	}
+
 	public void setDescr(String descr) {
 		this.descr = descr;
 	}
@@ -47,275 +86,78 @@ public class ProfileType implements RowDataGateway {
 	public String getCode() {
 		return code;
 	}
+
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public int getEnv_fk() {
-		return env_fk;
-	}
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-
-	public int getSelf_fk() {
-		return self_fk;
-	}
-	public void setSelf_fk(int self_fk) {
-		this.self_fk = self_fk;
-	}
-
-	public int getOrg_fk() {
-		return org_fk;
-	}
-	public void setOrg_fk(int org_fk) {
-		this.org_fk = org_fk;
-	}
-	
 	public int getStatus() {
 		return status;
 	}
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
 
-	public Organization getOrganica() {
-		return organica;
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setOrganica(Organization organica) {
-		this.organica = organica;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
-	public Application getAplicacao() {
-		return aplicacao;
+	public Application getApplication() {
+		return application;
 	}
 
-	public void setAplicacao(Application aplicacao) {
-		this.aplicacao = aplicacao;
+	public void setApplication(Application application) {
+		this.application = application;
 	}
 
-	@Override
-	public boolean insert() {
-		int result = 0;
-		try{
-			con.setAutoCommit(true);
-		PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile_type"
-				+ "(descr, code, env_fk, self_fk, org_fk, status) "
-				+ "VALUES (?, ?, ?, ?, ?, ?)");
-		st.setString(1, this.descr);
-		st.setString(2, this.code);
-		
-		if(this.env_fk == 0) // Default value
-			st.setNull(3, 0);
-		else
-		st.setInt(3, this.env_fk);
-		
-		if(this.self_fk == 0)
-			st.setNull(4,0);
-		else
-		st.setInt(4, this.self_fk);
-		
-		if(this.org_fk == 0)
-			st.setNull(5,0);
-		else
-		st.setInt(5, this.org_fk);
-		
-		st.setInt(6, this.status);
-		
-		result = st.executeUpdate();
-		st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return result > 0;
+	public ProfileType getProfiletype() {
+		return profiletype;
 	}
 
-	@Override
-	public Object getOne() {
-		ProfileType obj = new ProfileType();
-		try{
-			Statement st = con.createStatement();
-			ResultSet res = st.executeQuery("SELECT id, descr, code, env_fk, self_fk, org_fk, status "
-					+ "FROM glb_t_profile_type where id= " + this.id);
-			while(res.next()){
-				obj.setId(res.getInt("id"));
-				obj.setDescr(res.getString("descr"));
-				obj.setCode(res.getString("code"));
-				obj.setEnv_fk(res.getInt("env_fk"));
-				obj.setSelf_fk(res.getInt("self_fk"));
-				obj.setOrg_fk(res.getInt("org_fk"));
-				obj.setStatus(res.getInt("status"));
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+	public void setProfiletype(ProfileType profiletype) {
+		this.profiletype = profiletype;
 	}
 
-	@Override
-	public boolean update() {
-		int result = 0;
-		try {
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile_type SET "
-					+ "descr=?, code=?, env_fk=?, self_fk=?, org_fk=?, status = ? WHERE id = " + this.id);
-			
-			st.setString(1, this.descr);
-			st.setString(2, this.code);
-			
-			if(this.env_fk == 0)
-				st.setNull(3, this.env_fk);
-			else
-				st.setInt(3, this.env_fk);
-			
-			if(this.self_fk == 0)
-				st.setNull(4, this.self_fk);
-			else
-				st.setInt(4, this.self_fk);
-			
-			if(this.org_fk == 0)
-				st.setNull(5, 0);
-			else
-				st.setInt(5, this.org_fk);
-			
-			st.setInt(6, this.status);
-			result = st.executeUpdate();
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return result > 0;
+	public List<Profile> getProfiles() {
+		return profiles;
 	}
 
-	@Override
-	public boolean delete() {
-		try{
-			con.setAutoCommit(true);
-			Statement st = con.createStatement();
-			st.executeUpdate("DELETE FROM glb_t_profile_type WHERE id = " + this.id);
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
-	@Override
-	public Object[] getAll() {
-		ArrayList<ProfileType> lista = new ArrayList<>(); 
-		try{
-			Statement st = con.createStatement();
-			ResultSet res = st.executeQuery("SELECT p.*,o.name as organiza "
-					+ "FROM glb_t_profile_type p, glb_t_organization o where o.id=p.org_fk order by id");
-			while(res.next()){
-				ProfileType obj = new ProfileType();
-				obj.setId(res.getInt("id"));
-				obj.setDescr(res.getString("descr"));
-				obj.setCode(res.getString("code"));
-				obj.setEnv_fk(res.getInt("env_fk"));
-				obj.setSelf_fk(res.getInt("self_fk"));
-				obj.setOrg_fk(res.getInt("org_fk"));
-				obj.setStatus(res.getInt("status"));
-				Organization org = new Organization();
-				org.setName(res.getString("organiza"));
-				obj.setOrganica(org);
-				lista.add(obj);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
+	public ProfileType updateToZero() {
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		Query q = em.createNativeQuery("UPDATE tbl_profile_type SET id=0 WHERE id=1");
+		q.executeUpdate();
+		t.commit();
+		em.close();
+		return this.findOne(0);
 	}
-	
-	
-	
-	public Object[] getAllComFiltro() {
-		ArrayList<ProfileType> lista = new ArrayList<>(); 
-		try{
-			
-			String sql = "SELECT DISTINCT p.*, o.name as organiza "
-					+ " FROM glb_t_profile_type p, glb_t_organization o"
-					+ " WHERE "
-					+ " o.id = p.org_fk ";
-			
-			sql += this.getAplicacao().getId() != 0 ? " AND o.env_fk = " + this.getAplicacao().getId() : " ";
-			sql += this.getOrganica().getId() != 0 ? " AND p.org_fk = " + this.getOrganica().getId() : " ";
-			
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet res = st.executeQuery();
-			while(res.next()){
-				ProfileType obj = new ProfileType();
-				obj.setId(res.getInt("id"));
-				obj.setDescr(res.getString("descr"));
-				obj.setCode(res.getString("code"));
-				obj.setEnv_fk(res.getInt("env_fk"));
-				obj.setSelf_fk(res.getInt("self_fk"));
-				obj.setOrg_fk(res.getInt("org_fk"));
-				obj.setStatus(res.getInt("status"));
-				Organization org = new Organization();
-				org.setName(res.getString("organiza"));
-				obj.setOrganica(org);
-				lista.add(obj);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-	
-	
-	
-	public HashMap<String,String> getListProfiles(){
+
+	public HashMap<String, String> getListMyProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, "--- Selecionar Perfil ---");
-		for(Object obj:new ProfileType().getAll()){
-			ProfileType p = (ProfileType) obj;
-			lista.put(p.getId()+"", p.getDescr());
+		for(Profile p: new Profile().getMyPerfile()){
+			lista.put(p.getProfileType().getId()+"", p.getProfileType().getDescr());
 		}
 		return lista;
 	}
-	
-	
-	public HashMap<String,String> getListMyProfiles(){
+
+	public HashMap<String, String> getListProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put(null, "--- Selecionar Perfil ---");
-		for(Object obj:new ProfileType().getMyPerfil()){
-			ProfileType p = (ProfileType) obj;
+		for(ProfileType p: this.findAll()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
-	}
-	
-	private Object[] getMyPerfil() {
-		ArrayList<ProfileType> lista = new ArrayList<>(); 
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT pt.* "
-					+ "FROM glb_t_profile_type pt, glb_t_profile p where pt.id=p.type_fk and p.type=? AND p.user_fk=? AND pt.env_fk=? order by pt.descr");
-			st.setString(1, "PROF");
-			st.setInt(2,Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			Application app = new Application();
-			app.setDad(Permission.getCurrentEnv());
-			app = (Application) app.getOne();
-			st.setInt(3, app.getId());
-			ResultSet res = st.executeQuery();
-			while(res.next()){
-				ProfileType obj = new ProfileType();
-				obj.setId(res.getInt("id"));
-				obj.setDescr(res.getString("descr"));
-				lista.add(obj);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-
-	@Override
-	public String toString() {
-		return "Profile_type [id=" + id + ", descr=" + descr + ", code=" + code + ", env_fk=" + env_fk + ", self_fk="
-				+ self_fk + ", org_fk=" + org_fk + ", status=" + status +  "]";
 	}
 	
 }

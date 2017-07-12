@@ -1,17 +1,17 @@
 package nosi.core.webapp;
-
+/**
+ * @author Marcel Iekiny
+ * Apr 14, 2017
+ */
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXB;
 import java.io.File;
 import nosi.core.config.AppConfig;
-import nosi.core.dao.IgrpDb;
+import nosi.core.config.Config;
 import nosi.core.servlet.IgrpServlet;
-/**
- * @author Marcel Iekiny
- * Apr 14, 2017
- */
+
 public class Igrp {
 	
 	private static Igrp app;
@@ -34,11 +34,6 @@ public class Igrp {
 	
 	// Store all igrp app config. information
 	private AppConfig appConfig;
-	
-	// Others Web Application Components
-	// Db component
-	private IgrpDb igrpDb;
-	
 	//Flash Message
 	private FlashMessage flashMessage;
 	
@@ -55,7 +50,7 @@ public class Igrp {
 		}
 	return Igrp.app;
 	}
-	
+
 	// Inicialize the web app components
 	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
@@ -70,28 +65,23 @@ public class Igrp {
 			
 			// load app configuration
 			this.loadAppConfig();
-			
-			// Db pool
-			this.igrpDb = new IgrpDb();
-			this.igrpDb.init();
-			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
-			
 		return this;
 	}
 	
-	public void run() throws IOException{ // run the web app 
-		if(!this.die)
+	public void run() throws IOException{ // run the web app 	
+		Config.configurationApp();
+		if(!this.die){
 			this.runController();
+		}
 		this.exit();
 	}
 	
 	private void exit(){ // Destroy all app components init. before
-		this.igrpDb.destroy(); // destroy the Db pool
 		this.die = false;
 	}
 	
@@ -105,10 +95,6 @@ public class Igrp {
 
 	public void setServlet(IgrpServlet servlet) {
 		this.servlet = servlet;
-	}
-
-	public IgrpDb getDao(){
-		return this.igrpDb;
 	}
 	
 	public Controller getCurrentController(){
