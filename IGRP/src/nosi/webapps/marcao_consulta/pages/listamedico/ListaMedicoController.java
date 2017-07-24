@@ -8,12 +8,13 @@ import java.util.ArrayList;
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.marcao_consulta.dao.Medico;
 
 
 public class ListaMedicoController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaMedico model = new ListaMedico();
 		ListaMedicoView view = new ListaMedicoView(model);
 		ArrayList<ListaMedico.Table_1> data = new ArrayList<>();
@@ -33,17 +34,17 @@ public class ListaMedicoController extends Controller {
 		view.table_1.addData(data);
 		view.p_id.setParam(true);
 		view.btn_pesquisar.setLink("index");
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionNovo_medico() throws IOException{
-			this.redirect("marcao_consulta","RegistarMedico","index");
+	public Response actionNovo_medico() throws IOException{
+		return this.redirect("marcao_consulta","RegistarMedico","index");
 	}
 	
-	public void actionPesquisar() throws IOException{
+	public Response actionPesquisar() throws IOException{
 		ListaMedico model = new ListaMedico();
 		ListaMedicoView view = new ListaMedicoView(model);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 }

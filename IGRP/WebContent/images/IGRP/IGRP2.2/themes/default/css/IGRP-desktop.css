@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* CSS Document  NOSI 2014*/
+/* Content Columns */
+[class*='col-'], .col50, .col50100, .col15, .col25, .col75, .col85, .col10, .col90, .colLR, .colLCR, .colCenter, .colCenterLR{float:left;position:relative;}
+[class*='col-']:last-of-type{padding-right:0px;}
+.col-1-1{width:100%;}
+.col-2-3, .col-8-12{width:66.66%;}
+.colCenterLR{width:60%;}
+.col-1-2, .col-6-12, .col50, .col50100{width:50%;}
+.col-1-3, .col-4-12{width:33.33%;}
+.col-1-4, .col-3-12, .col25, .colLR{width:25%;}
+.col-1-5, .colLCR{width:20%;}
+.col15{width:15%;}
+.col-1-6, .col-2-12{width:16.667%;}
+.col-1-7{width:14.28%;}
+.col-1-8{width:12.5%;}
+.col-1-9{width:11.1%;}
+.col-1-10, .col10{width:10%;}
+.col-1-11{width:9.09%;}
+.col-1-12{width:8.33%}
+.col90{width:90%}
+.col85{width:85%;}
+/* Layout Columns */
+.col-11-12{width:91.66%}
+.col-10-12{width:83.333%;}
+.col-9-12, .col75, .colCenter{width:75%;}
+.col-5-12{width:41.66%;}
+.col-7-12{width:58.33%}
+.col, #IGRP_item_form{display:block;position:relative;}
+.col{clear:both;}
+.showResponsive, .showResponsiveTable, .showTablet, .showMobile, .showTabMobile{display:none;}
+.showDesktop{display:block;}
+/*--------------------------------IGRP Style--------------------------------*/
+#igrp-topPage{position:fixed;width:100%;top:0;z-index:3;}
+#igrp-topLogo{height:55px;position:relative;}
+#igrp-topLogo .topLeft{width:70%;height:100%;float:left;}
+#igrp-topLogo .topLeft .topLeftLogo{float:left;}
+#igrp-topLogo .topLeft .topLeftLogo img{border:none;margin:4px 0 0 1px;}
+#igrp-topLogo .topLeft .topLeftIgrp{padding:5px 6px 1px 5px;float:left;margin-top:12px;height:22px;border-right:1.5px solid;}
+#igrp-topLogo .topLeft .topLeftIgrp span{padding:2px 0 0 0 !important;}
+#igrp-topLogo .topLeft .topLeftTitle{padding:20px 0 1px 5px;float:left;position:relative;width:60%;text-align:left;}
+#igrp-topLogo .topRigth{float:right;height:37%;padding:28px 30px 0 0;}
+#igrp-topLogo .topRigth span{margin-right:5px;}
+#igrp-topMenu{width:100%; height:30px;}
+#igrp-topMenu .topMenuLeft{width:50%;height:100%;}
+#igrp-topMenu .topMenuRigth{width:50%;height:100%;}
+#igrp-topMenu .topMenuLeft{float:left;}
+#igrp-topMenu .topMenuLeft #iconMenu{width:35px;height:100%;float:left;cursor:pointer;}
+#igrp-topMenu .topMenuLeft .pageTitle{padding:10px;}
+#igrp-topMenu .topMenuRigth{float:right;text-align:right;}
+#igrp-topMenu .topMenuRigth ul{height:100%;float:right;margin-right:6px;}
+#igrp-topMenu .topMenuRigth ul li{float:left;list-style:none;border-right:1px solid;}
+#igrp-topMenu .topMenuRigth ul li a{display:block;padding:7px 15px;}
+#igrp-topMenu .topMenuRigth ul li:last-child{border:none;}
+#igrp-topMenu .topMenuRigth ul li:first-child{border-left:1px solid;}
+#igrp-bodyPage{width:100%;margin-top:0px;padding-bottom:20px;}
+#igrp-bodyPage.noTop{margin-top:35px !important;}
+.bodyPageLeft{-webkit-transition:all .5s ease-in-out;-moz-transition:all .5s ease-in-out;-o-transition:all .5s ease-in-out;transition:all .5s ease-in-out;position:fixed;padding:0;width:340px;left:-340px;top:85px;bottom:0;z-index:6;}
+#igrp-bodyPage.noTop .bodyPageLeft{top:30px;}
+#igrp-bodyPage.open .bodyPageLeft{left:0;}
+.bodyPageRigth{width:99%;float:none;margin:10px auto;}
+div#igrp-topPage+div#igrp-bodyPage{margin-top:85px;}
+div.bodyPageLeft+div.bodyPageRigth{position:relative;top:10px;}
+.bodyPageLeft .slideMenu{display:none;}
+#igrp-bodyPage.open .bodyPageLeft .slideMenu{display:block;}
+.box-content:nth-child(1){margin:0 0 10px 0;}
+.box-content{border:1px solid;margin:10px 0;padding:5px;clear:both;position:relative;}
+#igrp-footerPage{width:100%;bottom:0;position:fixed;z-index: 3;}

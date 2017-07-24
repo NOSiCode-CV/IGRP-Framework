@@ -10,6 +10,7 @@ public class PlainTextField extends AbstractField {
 
 	public PlainTextField(Object model,String name) {
 		super();
+		this.setName(name);
 		this.propertie.put("type","plaintext");
 		this.setTagName(name);
 		this.propertie.put("name","p_"+name);

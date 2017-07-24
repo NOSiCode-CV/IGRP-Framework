@@ -1,0 +1,49 @@
+<div class="box-content resetPadding" sep-name="#tag#">
+    <div class="box-collapser">
+        <div class="box-table table-responsive">
+            <div class="table-container">
+
+                <xsl:variable name="hasContextMenu" select="#path#/table/context-menu"/>
+                <xsl:if test="$hasContextMenu">
+                    <xsl:apply-templates mode="context-menu" select="#path#/table/context-menu">
+                        <xsl:with-param name="contextId" select="'data-#tag#'"/>
+                    </xsl:apply-templates>
+                </xsl:if>
+
+                <table class="IGRP_formlist" rel="T_#tag#" data-control="data-#tag#">
+                    <thead>
+                        <tr gen-id="drop-zone" gen-field-template="table.th">
+                            <xsl:if test="not(rows/content/form/table/formlist/value/row[position() = 1]/@noupdate) or not(rows/content/form/table/formlist/value/row[position() = 1]/@nodelete)" gen-preserve="last">
+                              <th class="fBtn">
+                                <xsl:if test="not(rows/content/form/table/formlist/value/row[position() = 1]/@noupdate)">
+                                  <img title="" src="{$path_tmpl}/img/icon/tools-bar/add.png" item-name="add-formlist" rel="#tag#" class="IGRP_addRowForm"/>
+                                </xsl:if>
+                              </th>
+                            </xsl:if>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
+                            <tr row="{position()}" gen-id="drop-zone" class="IGRP_contextMenu">
+                                <xsl:apply-templates mode="context-param" select="context-menu" /> 
+                                <input type="hidden" name="p_#tag#_id" value="{#tag#_id}"/>
+                                
+                                <xsl:if test="not(@nodelete) or not(@noupdate)" gen-preserve="last">
+                                    <td class="fBtn" data-row="{position()}" data-title="{$lngPath/separatorlist_dialog/delete}" >
+                                      <xsl:if test="not(@nodelete)">
+                                        <img title="{$lngPath/separatorlist_dialog/delete}" src="{$path_tmpl}/img/icon/tools-bar/delete.png" item-name="del-formlist" class="IGRP_delRowForm" rel="#tag#"/>
+                                      </xsl:if>
+                                    </td>
+                                </xsl:if>
+
+                            </tr>
+                        </xsl:for-each>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--END FORM LIST-->
+        <div class="_clear"/>
+    </div>
+    <div class="_clear"/>
+</div>

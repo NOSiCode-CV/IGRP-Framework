@@ -7,6 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 public class EditarTransacaoController extends Controller {		
 
-	public void actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
 		if(codigo!=null){
 			Transaction t = new Transaction();
 			t.setCode(codigo);
@@ -40,21 +41,20 @@ public class EditarTransacaoController extends Controller {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Transacao atualizada com sucesso.");
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a transacao.");
-				this.redirect("igrp", "EditarTransacao", "index", new String[]{"codigo"}, new String[]{t.getCode() + ""});
-				return;
+				return this.redirect("igrp", "EditarTransacao", "index", new String[]{"codigo"}, new String[]{t.getCode() + ""});
 			}
 			EditarTransacaoView view = new EditarTransacaoView(model);
 			view.aplicacao.setValue(new Application().getListApps());
 			view.btn_gravar.setLink("index&codigo="+model.getP_id());
 			view.id.setValue(t.getId());
-			this.renderView(view);
+			return this.renderView(view);
 		}
 		else
-			this.redirect("igrp", "error-page", "permission");
+			return this.redirect("igrp", "error-page", "permission");
 	}
 	
-	public void actionVoltar() throws IOException{
-			this.redirect("igrp","Transaccao","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("igrp","Transaccao","index");
 	}
 	
 }

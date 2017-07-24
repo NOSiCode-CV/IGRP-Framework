@@ -16,6 +16,8 @@ import java.io.PrintWriter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
+
+import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +26,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
@@ -32,7 +35,7 @@ import nosi.webapps.igrp.dao.Transaction;
 
 public class PageController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null){
@@ -64,10 +67,10 @@ public class PageController extends Controller {
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		
 		Action action = new Action();
@@ -90,8 +93,7 @@ public class PageController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Página atualizada com sucesso.");
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a página.");
-			this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
-			return;
+			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
 		}
 		
 		PageView view = new PageView(model);
@@ -101,10 +103,10 @@ public class PageController extends Controller {
 		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
 		view.btn_gravar.setLink("editar&id="+id);
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -150,10 +152,10 @@ public class PageController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 			}
 		}
-		this.redirect("igrp", "page", "index");
+		return this.redirect("igrp", "page", "index");
 	}
 	
-	public void actionEliminar() throws IOException{
+	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = new Action();
 		ac.setId(Integer.parseInt(id));
@@ -161,7 +163,7 @@ public class PageController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		this.redirect("igrp","lista-page","index");
+		return this.redirect("igrp","lista-page","index");
 	}
 	
 	//Save page generated
@@ -207,7 +209,7 @@ public class PageController extends Controller {
 						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
 					}
 					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl");
+					ac.setXsl_src(ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
@@ -295,7 +297,7 @@ public class PageController extends Controller {
 	}
 
 	//list all page of an application
-	public void actionListPage() throws IOException{
+	public PrintWriter actionListPage() throws IOException{
 		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
 		Object[] o = new Action().getAll(p_dad);
@@ -315,11 +317,11 @@ public class PageController extends Controller {
 		json = json.substring(0, json.length()-1);
 		json += "]";
 		Igrp.getInstance().getResponse().setContentType("application/json");
-		Igrp.getInstance().getResponse().getWriter().println(json);
+		return Igrp.getInstance().getResponse().getWriter().append(json);
 	}
 	
 	//get detail page
-	public void actionDetailPage() throws IOException{
+	public PrintWriter actionDetailPage() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));		
 		String json = "{";
@@ -334,10 +336,10 @@ public class PageController extends Controller {
 			}
 		json += "}";
 		Igrp.getInstance().getResponse().setContentType("application/json");
-		Igrp.getInstance().getResponse().getWriter().println(json);
+		return Igrp.getInstance().getResponse().getWriter().append(json);
 	}
 	
-	public void actionImageList() throws IOException{
+	public PrintWriter actionImageList() throws IOException{
 		String param = Igrp.getInstance().getRequest().getParameter("amp;name");
 		String menu = "";
 		if(param == "menu"){
@@ -346,7 +348,7 @@ public class PageController extends Controller {
 			menu = "[\"themes/default/img/icon/tools-bar/Book_phones.png\",\"themes/default/img/icon/tools-bar/Folha_C.png\",\"themes/default/img/icon/tools-bar/Folha_F.png\",\"themes/default/img/icon/tools-bar/Folha_M.png\",\"themes/default/img/icon/tools-bar/Folha_RC.png\",\"themes/default/img/icon/tools-bar/Folha_RF.png\",\"themes/default/img/icon/tools-bar/Folha_S.png\",\"themes/default/img/icon/tools-bar/PDF_C.png\",\"themes/default/img/icon/tools-bar/PDF_F.png\",\"themes/default/img/icon/tools-bar/PDF_M-.png\",\"themes/default/img/icon/tools-bar/PDF_M.png\",\"themes/default/img/icon/tools-bar/PDF_RC.png\",\"themes/default/img/icon/tools-bar/PDF_RF.png\",\"themes/default/img/icon/tools-bar/PDF_S.png\",\"themes/default/img/icon/tools-bar/activar.png\",\"themes/default/img/icon/tools-bar/add-temp.png\",\"themes/default/img/icon/tools-bar/add.png\",\"themes/default/img/icon/tools-bar/alterar-assinatura.png\",\"themes/default/img/icon/tools-bar/alterar-digital.png\",\"themes/default/img/icon/tools-bar/alterar-foto.png\",\"themes/default/img/icon/tools-bar/apply.png\",\"themes/default/img/icon/tools-bar/assumir_tarefas.png\",\"themes/default/img/icon/tools-bar/avaliar.png\",\"themes/default/img/icon/tools-bar/back.png\",\"themes/default/img/icon/tools-bar/balcoes.png\",\"themes/default/img/icon/tools-bar/calendario.png\",\"themes/default/img/icon/tools-bar/cancel.png\",\"themes/default/img/icon/tools-bar/circulo.png\",\"themes/default/img/icon/tools-bar/clientes_tb.png\",\"themes/default/img/icon/tools-bar/close.png\",\"themes/default/img/icon/tools-bar/contas.png\",\"themes/default/img/icon/tools-bar/contrato_tb.png\",\"themes/default/img/icon/tools-bar/ctx-acount.png\",\"themes/default/img/icon/tools-bar/ctx-attachment.png\",\"themes/default/img/icon/tools-bar/ctx-close.png\",\"themes/default/img/icon/tools-bar/ctx-delete.png\",\"themes/default/img/icon/tools-bar/ctx-demote.png\",\"themes/default/img/icon/tools-bar/ctx-details.png\",\"themes/default/img/icon/tools-bar/ctx-payment.png\",\"themes/default/img/icon/tools-bar/ctx_benefic.png\",\"themes/default/img/icon/tools-bar/ctx_disponive.png\",\"themes/default/img/icon/tools-bar/ctx_documents.png\",\"themes/default/img/icon/tools-bar/ctx_family.png\",\"themes/default/img/icon/tools-bar/ctx_group.png\",\"themes/default/img/icon/tools-bar/ctx_house.png\",\"themes/default/img/icon/tools-bar/ctx_info.png\",\"themes/default/img/icon/tools-bar/ctx_mudar_prop.png\",\"themes/default/img/icon/tools-bar/ctx_process.png\",\"themes/default/img/icon/tools-bar/ctx_selecionado.png\",\"themes/default/img/icon/tools-bar/ctx_text_list.png\",\"themes/default/img/icon/tools-bar/delete.png\",\"themes/default/img/icon/tools-bar/desativar.png\",\"themes/default/img/icon/tools-bar/disable.png\",\"themes/default/img/icon/tools-bar/distribuir.png\",\"themes/default/img/icon/tools-bar/document-excel.png\",\"themes/default/img/icon/tools-bar/document-pdf.png\",\"themes/default/img/icon/tools-bar/down.png\",\"themes/default/img/icon/tools-bar/edit.png\",\"themes/default/img/icon/tools-bar/emitir_factura.png\",\"themes/default/img/icon/tools-bar/enable.png\",\"themes/default/img/icon/tools-bar/entrar.png\",\"themes/default/img/icon/tools-bar/enviar_notificacoes.png\",\"themes/default/img/icon/tools-bar/enviar_roxo.png\",\"themes/default/img/icon/tools-bar/enviar_verde.png\",\"themes/default/img/icon/tools-bar/error.png\",\"themes/default/img/icon/tools-bar/et-add.png\",\"themes/default/img/icon/tools-bar/excel.png\",\"themes/default/img/icon/tools-bar/exportar.png\",\"themes/default/img/icon/tools-bar/familiares.png\",\"themes/default/img/icon/tools-bar/filtro.png\",\"themes/default/img/icon/tools-bar/fim.png\",\"themes/default/img/icon/tools-bar/gerencia.png\",\"themes/default/img/icon/tools-bar/grosso.png\",\"themes/default/img/icon/tools-bar/help.png\",\"themes/default/img/icon/tools-bar/imagem.png\",\"themes/default/img/icon/tools-bar/importar.png\",\"themes/default/img/icon/tools-bar/indutria.png\",\"themes/default/img/icon/tools-bar/iniciar_processo.png\",\"themes/default/img/icon/tools-bar/invoice.png\",\"themes/default/img/icon/tools-bar/keepass.png\",\"themes/default/img/icon/tools-bar/key__pencil.png\",\"themes/default/img/icon/tools-bar/key_arrow.png\",\"themes/default/img/icon/tools-bar/key_delete.png\",\"themes/default/img/icon/tools-bar/key_go.png\",\"themes/default/img/icon/tools-bar/key_plus.png\",\"themes/default/img/icon/tools-bar/keys.png\",\"themes/default/img/icon/tools-bar/liberar_tarefa.png\",\"themes/default/img/icon/tools-bar/lista.png\",\"themes/default/img/icon/tools-bar/mail.png\",\"themes/default/img/icon/tools-bar/mapa.png\",\"themes/default/img/icon/tools-bar/modulos.png\",\"themes/default/img/icon/tools-bar/mostrar.png\",\"themes/default/img/icon/tools-bar/new_modulo.png\",\"themes/default/img/icon/tools-bar/new_page.png\",\"themes/default/img/icon/tools-bar/next.png\",\"themes/default/img/icon/tools-bar/novo_cliente.png\",\"themes/default/img/icon/tools-bar/novo_contrato.png\",\"themes/default/img/icon/tools-bar/ocultar.png\",\"themes/default/img/icon/tools-bar/pagar.png\",\"themes/default/img/icon/tools-bar/pdf.png\",\"themes/default/img/icon/tools-bar/percentage.png\",\"themes/default/img/icon/tools-bar/perda_bonificacao.png\",\"themes/default/img/icon/tools-bar/preview.png\",\"themes/default/img/icon/tools-bar/print.png\",\"themes/default/img/icon/tools-bar/printer.png\",\"themes/default/img/icon/tools-bar/publish.png\",\"themes/default/img/icon/tools-bar/reenviar_notficacoes.png\",\"themes/default/img/icon/tools-bar/refresh.png\",\"themes/default/img/icon/tools-bar/regularizar.png\",\"themes/default/img/icon/tools-bar/retalho.png\",\"themes/default/img/icon/tools-bar/save.png\",\"themes/default/img/icon/tools-bar/search.png\",\"themes/default/img/icon/tools-bar/self-service.png\",\"themes/default/img/icon/tools-bar/send.png\",\"themes/default/img/icon/tools-bar/sitemap.png\",\"themes/default/img/icon/tools-bar/sms.png\",\"themes/default/img/icon/tools-bar/start.png\",\"themes/default/img/icon/tools-bar/switch.png\",\"themes/default/img/icon/tools-bar/tab.png\",\"themes/default/img/icon/tools-bar/tb_acercar.png\",\"themes/default/img/icon/tools-bar/tb_agregado-seriado.png\",\"themes/default/img/icon/tools-bar/tb_agregado-trocar.png\",\"themes/default/img/icon/tools-bar/tb_apartment.png\",\"themes/default/img/icon/tools-bar/tb_building.png\",\"themes/default/img/icon/tools-bar/tb_caderno.png\",\"themes/default/img/icon/tools-bar/tb_categoria.png\",\"themes/default/img/icon/tools-bar/tb_classification.png\",\"themes/default/img/icon/tools-bar/tb_close.png\",\"themes/default/img/icon/tools-bar/tb_community-equipment.png\",\"themes/default/img/icon/tools-bar/tb_distanciar.png\",\"themes/default/img/icon/tools-bar/tb_document.png\",\"themes/default/img/icon/tools-bar/tb_entrega_cartao.png\",\"themes/default/img/icon/tools-bar/tb_evaluation.png\",\"themes/default/img/icon/tools-bar/tb_habitacao.png\",\"themes/default/img/icon/tools-bar/tb_historico.png\",\"themes/default/img/icon/tools-bar/tb_housing-complex.png\",\"themes/default/img/icon/tools-bar/tb_imoveis.png\",\"themes/default/img/icon/tools-bar/tb_janela-dupla.png\",\"themes/default/img/icon/tools-bar/tb_licenca.png\",\"themes/default/img/icon/tools-bar/tb_link.png\",\"themes/default/img/icon/tools-bar/tb_lista.png\",\"themes/default/img/icon/tools-bar/tb_livrete.png\",\"themes/default/img/icon/tools-bar/tb_market.png\",\"themes/default/img/icon/tools-bar/tb_medir.png\",\"themes/default/img/icon/tools-bar/tb_medir_area.png\",\"themes/default/img/icon/tools-bar/tb_observacoes.png\",\"themes/default/img/icon/tools-bar/tb_print_actualizar.png\",\"themes/default/img/icon/tools-bar/tb_processos.png\",\"themes/default/img/icon/tools-bar/tb_refresh.png\",\"themes/default/img/icon/tools-bar/tb_search_land.png\",\"themes/default/img/icon/tools-bar/tb_statistically.png\",\"themes/default/img/icon/tools-bar/tb_vista-anterior.png\",\"themes/default/img/icon/tools-bar/tb_vista-inicial.png\",\"themes/default/img/icon/tools-bar/tb_zoom-janela.png\",\"themes/default/img/icon/tools-bar/transferir.png\",\"themes/default/img/icon/tools-bar/turismo.png\",\"themes/default/img/icon/tools-bar/view.png\"]";
 		}
 		Igrp.getInstance().getResponse().setContentType("application/json");
-		Igrp.getInstance().getResponse().getWriter().println(menu);
+		return Igrp.getInstance().getResponse().getWriter().append(menu);
 	}
 	
 	//Extracting reserve code inserted by programmer
@@ -378,6 +380,7 @@ public class PageController extends Controller {
 				}
 			}
 		}
+		your_code = StringEscapeUtils.escapeXml(your_code);
 		return Igrp.getInstance().getResponse().getWriter().append("<your_code>"+your_code+"</your_code>");
 	}
 	
@@ -386,7 +389,7 @@ public class PageController extends Controller {
 	}
 	
 	//View page with xml
-	public void actionVisualizar() throws IOException{
+	public PrintWriter actionVisualizar() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		String p_id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
@@ -404,9 +407,10 @@ public class PageController extends Controller {
 	            }
 	            reader.close();
 	            inputSReader.close();
-	            writer.flush();
+	           return writer;
 	        }
 		}
+		return null;
 	}
 
 }

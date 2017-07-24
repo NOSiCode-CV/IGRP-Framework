@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.pages.menuorganica;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 public class MenuOrganicaController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && type!=null){
@@ -60,11 +61,12 @@ public class MenuOrganicaController extends Controller {
 				data.add(table);
 			}			
 			view.table_1.addData(data);
-			this.renderView(view);
+			return this.renderView(view);
 		}
+		return null;
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
@@ -112,11 +114,11 @@ public class MenuOrganicaController extends Controller {
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Operação realizada com sucesso");
 		}
-		this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type);
+		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type);
 	}
 	
-	public void actionVoltar() throws IOException{
-		this.redirect("igrp","MenuOrganica","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("igrp","MenuOrganica","index");
 	}
 	
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import nosi.core.dao.RowDataGateway;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.Igrp;
 
 
@@ -39,7 +40,7 @@ public class Application implements RowDataGateway {
 	}
 
 	public void setDad(String dad) {
-		this.dad = dad;
+		this.dad = Page.getPageFolder(dad);
 	}
 
 	public String getName() {
@@ -154,7 +155,7 @@ public class Application implements RowDataGateway {
 			             "(name, dad, img_src, description, action_fk, link_menu, link_center, apache_dad, templates, host, flg_old, status, flg_external)" +
 					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, this.name);
-			st.setString(2, this.dad);
+			st.setString(2, this.dad.toLowerCase());
 			st.setString(3, this.img_src);
 			st.setString(4, this.description);
 			st.setInt(5, this.action_fk);
@@ -244,7 +245,7 @@ public class Application implements RowDataGateway {
 			Statement st = con.createStatement();
 	        st.executeUpdate("UPDATE glb_t_env SET "
 	        		+ "name= '" + this.name
-	        		+ "',dad= '" + this.dad
+	        		+ "',dad= '" + this.dad.toLowerCase()
 	        		+ "',img_src= '" + this.img_src
 	        		+ "',description= '" + this.description
 	        		+ "',action_fk= " + this.action_fk
@@ -325,7 +326,7 @@ public class Application implements RowDataGateway {
 
 	public HashMap<Integer,String> getListApps(){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Aplicação ---");
+		lista.put(null, "--- Selecionar Aplicacao ---");
 		for(Object obj:new Application().getAll()){
 			Application app = (Application) obj;
 			lista.put(app.getId(), app.getName());

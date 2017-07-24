@@ -58,7 +58,7 @@ public class IGRPTable extends IGRPComponent{
 	protected float version = (float) 2.3;
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
-	
+	protected String rows = "";
 	public IGRPTable(String tag_name) {
 		super(tag_name);
 		this.fields = new ArrayList<>();
@@ -124,20 +124,30 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getTagName()+"="+Helper.getValue(obj, field.getTagName()));
+							this.xml.setElement("param", field.getName()+"="+Helper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					this.xml.text(Helper.getValue(obj, field.getTagName()));
+					String val = Helper.getValue(obj, field.getName());
+					if(val==null || val.equals("")){
+						val = field.getValue().toString();
+					}
+					this.xml.text(val);
 					this.xml.endElement();
 				}
 				this.xml.endElement();
 			}
 		}
+		if(!this.rows.equals("")){
+			this.xml.addXml(this.rows);
+		}
 	}
 
+	public void addRowsXMl(String rows){
+		this.rows = rows;
+	}
 	
 }

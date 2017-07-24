@@ -53,7 +53,7 @@ public class IGRPForm extends IGRPComponent{
 	}
 
 	public void addButton(IGRPButton button){
-		button.propertie.put("type", "form");
+		button.propertie.put("type",button.getType());
 		this.buttons.add(button);
 	}
 			

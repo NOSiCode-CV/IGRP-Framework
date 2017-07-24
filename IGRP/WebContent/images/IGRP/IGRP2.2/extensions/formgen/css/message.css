@@ -1,0 +1,11 @@
+#gen-message-holder{
+	position:fixed;
+	width:60%;
+	background:#f0f0f0;
+	border: 1px solid #ccc;
+	top:55px;
+	left:20%;
+	padding: 
+
+	z-index: 10000;
+}

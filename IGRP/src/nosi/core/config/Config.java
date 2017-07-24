@@ -23,10 +23,11 @@ public class Config {
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
-	public static String RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER = "/*---- Import your packages here... ----*/";
-	public static String RESERVE_CODE_ACTIONS_CONTROLLER = "/*---- Insert your actions here... ----*/";
-	public static String RESERCE_CODE_ON_ACTIONS_CONTROLLER = "/*---- Insert your code here... ----*/";
-	public static String RESERVE_CODE_END = "/*---- End ----*/";
+	public static final String RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER = "/*---- Import your packages here... ----*/";
+	public static final String RESERVE_CODE_ACTIONS_CONTROLLER = "/*---- Insert your actions here... ----*/";
+	public static final String RESERCE_CODE_ON_ACTIONS_CONTROLLER = "/*---- Insert your code here... ----*/";
+	public static final String RESERVE_CODE_END = "/*---- End ----*/";
+	
 	public static String getHeader(){
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
@@ -121,8 +122,12 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	public static String getLinkImg(){
-		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString():"images/IGRP/IGRP2.3");
+		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
 	}
+	public static String getLinkImg2_2(){
+		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP2.2/");
+	}
+	
 	public static String getLink(){
 		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
 	}
@@ -153,7 +158,8 @@ public class Config {
 			ac.setAction(action);
 			ac.setPage(Page.resolvePageName(page));
 			ac.setEnv(env);
-			return ac.getVersion();		
+			ac = (Action) ac.getOne();
+			return ac.getVersion()!=null?ac.getVersion():"2.3";		
 		}
 		return "2.3";
 	}
@@ -182,12 +188,13 @@ public class Config {
 		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n"
 				 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
 				 + "import java.io.IOException;\n"
+				 + "import nosi.core.webapp.Response;\n"
 				 + "import nosi.core.webapp.Controller;\n"
 				 + "public class DefaultPageController extends Controller {	\n"
-						+ "public void actionIndex() throws IOException{\n"
+						+ "public Response actionIndex() throws IOException{\n"
 							+ "HomeAppView view = new HomeAppView();\n"
 							+ "view.title = \""+title+"\";\n"
-							+ "this.renderView(view,true);\n"
+							+ "return this.renderView(view,true);\n"
 						+ "}\n"
 				  + "}";
 	}

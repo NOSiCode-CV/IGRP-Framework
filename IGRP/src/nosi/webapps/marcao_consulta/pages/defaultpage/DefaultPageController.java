@@ -1,11 +1,12 @@
 package nosi.webapps.marcao_consulta.pages.defaultpage;
 import java.io.IOException;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Response;
 public class DefaultPageController extends Controller {	
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		/*HomeAppView view = new HomeAppView();
 		view.title = "Marcação de Consulta";
 		this.renderView(view,true);*/
-		this.redirect("marcao_consulta", "DashBoard", "index");
+		return this.redirect("marcao_consulta", "DashBoard", "index");
 	}
 }

@@ -203,8 +203,95 @@
 	  CONSTRAINT `GLB_T_SESSION_PROF_TYPE_FK` FOREIGN KEY (`PROF_TYPE_ID`) REFERENCES `glb_t_profile_type` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
 	  
 	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 	
+	
+	CREATE TABLE IF NOT EXISTS `glb_t_clob` (
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(256),
+	  `mime_type` varchar(128),
+	  `c_lob_content` clob NOT NULL,
+	  `dt_created` date NOT NULL,
+	   PRIMARY KEY (`ID`)
+	 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	 
+
+	CREATE TABLE IF NOT EXISTS `glb_t_rep_source`
+	(
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `name` varchar(100) NOT NULL,
+	  `type` varchar(20) NOT NULL,
+	  `type_fk` int(11) NOT NULL,
+	  `type_name` varchar(100) NOT NULL,
+	  `type_query` varchar(4000) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	  `status` tinyint(4) NOT NULL,
+	  `env_fk_source` int(11) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `dt_updated` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `user_updated_fk` int(11) NOT NULL,
+	  PRIMARY KEY (`ID`),
+	  CONSTRAINT `glb_t_rep_source_env_fk` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_source_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_source_user_updated_fk` FOREIGN KEY (`user_updated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	CREATE TABLE  IF NOT EXISTS `GLB_T_REP_TEMPLATE` 
+	(  
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `code` varchar(100) NOT NULL,
+	  `name` varchar(100) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	  `html_content_fk` int(11) NOT NULL,
+	  `xsl_content_fk` int(11) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `dt_updated` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `user_updated_fk` int(11) NOT NULL,
+	  `status` tinyint(4) NOT NULL,
+	  PRIMARY KEY (`ID`),
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_ENV_FK` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_user_updated_fk` FOREIGN KEY (`user_updated_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_html_content_fk` FOREIGN KEY (`html_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `GLB_T_REP_TEMPLATE_xsl_content_fk` FOREIGN KEY (`xsl_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE  IF NOT EXISTS `glb_t_rep_template_param` 
+	(
+	  `id_template` int(11) NOT NULL,
+	  `parameter` varchar(50) NOT NULL,
+	  CONSTRAINT `glb_t_rep_template_param_template_id` FOREIGN KEY (`id_template`) REFERENCES `GLB_T_REP_TEMPLATE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE  IF NOT EXISTS `glb_t_rep_template_source` 
+	(
+	  `data_source_id` int(11) NOT NULL,
+	  `template_id` int(11) NOT NULL,
+	  CONSTRAINT `glb_t_rep_template_source_data_source_id` FOREIGN KEY (`data_source_id`) REFERENCES `glb_t_rep_source` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	  CONSTRAINT `glb_t_rep_template_source_template_id` FOREIGN KEY (`template_id`) REFERENCES `GLB_T_REP_TEMPLATE` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+	
+	CREATE TABLE   IF NOT EXISTS `glb_t_rep_instance` (
+	  `ID` int(11) NOT NULL AUTO_INCREMENT,
+	  `id_template` int(11) NOT NULL,
+	  `contra_prova` varchar(100) NOT NULL,
+	  `dt_created` date NOT NULL,
+	  `user_created_fk` int(11) NOT NULL,
+	  `xml_content_fk` int(11) NOT NULL,
+	  `xsl_content_fk` int(11) NOT NULL,
+	  `reference` varchar(4000) NOT NULL,
+	  `ref_fk` int(11) NOT NULL,
+	  `env_fk` int(11) NOT NULL,
+	   PRIMARY KEY (`ID`),
+	   CONSTRAINT `glb_t_rep_instance_ENV_FK` FOREIGN KEY (`env_fk`) REFERENCES `glb_t_env` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `Gglb_t_rep_instance_user_created_fk` FOREIGN KEY (`user_created_fk`) REFERENCES `glb_t_user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `glb_t_rep_instance_id_template` FOREIGN KEY (`id_template`) REFERENCES `glb_t_rep_template` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE, 
+	   CONSTRAINT `glb_t_rep_instance_html_content_fk` FOREIGN KEY (`xml_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+	   CONSTRAINT `glb_t_rep_instance_xsl_content_fk` FOREIGN KEY (`xsl_content_fk`) REFERENCES `glb_t_clob` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+	 
 ----------------------------- CREATE VIEWS ------------------------------------
  CREATE OR REPLACE FORCE VIEW GLB_MV_ALL_MENUS (`ID`, `DESCR`, `DESCR_MENU`, `LINK`, `SELF_ID`, `ENV_FK`, `IMG_SRC`, `AREA`, `ACTION_FK`, `ORDERBY`) AS 
  	SELECT  a.ID,
@@ -439,31 +526,33 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 	INSERT INTO `glb_t_env` (`ID`, `NAME`, `DAD`, `IMG_SRC`, `DESCRIPTION`, `ACTION_FK`, `FLG_OLD`, `LINK_MENU`, `LINK_CENTER`, `APACHE_DAD`, `TEMPLATES`, `HOST`, `FLG_EXTERNAL`, `STATUS`) 
 	VALUES (1, 'igrp', 'igrp', 'app_casacidadao.png', 'IGRP Open Source', 1, 0, NULL, NULL, NULL, NULL, '', NULL, 1);
 	
-	INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`) 
+	INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`, `VERSION`) 
 	VALUES
-		(1,1, 'ListaPage', 'index', 'images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl'),
-		(2,1, 'Env', 'index', 'images/IGRP/IGRP2.3/app/igrp/env/Env.xsl'),
-		(3,1, 'ListaEnv', 'index', 'images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl'),
-		(4,1, 'Dominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl'),
-		(5,1, 'NovoDominio', 'index', 'images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl'),
-		(6,1, 'PesquisarOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl'),
-		(7,1, 'NovaOrganica', 'index', 'images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl'),
-		(8,1, 'NovoMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl'),
-		(9,1, 'PesquisarMenu', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl'),
-		(10,1, 'NovoPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl'),
-		(11,1, 'PesquisarPerfil', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl'),
-		(12,1, 'PesquisarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl'),
-		(13,1, 'NovoUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl'),
-		(14,1, 'Settings', 'index', 'images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl'),
-		(15,1, 'RegistarUtilizador', 'index', 'images/IGRP/IGRP2.3/app/igrp/registarutilizador/RegistarUtilizador.xsl'),
-		(16,1, 'Transaccao', 'index', 'images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl'),
-		(17,1, 'Page', 'index', 'images/IGRP/IGRP2.3/app/igrp/page/Page.xsl'),
-		(18,1, 'MenuOrganica','index','images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl'),
-		(19,1, 'ErrorPage','index','images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl'),
-		(20,1, 'TransacaoOrganica','index','images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl'),
-		(21,1, 'EditarTransacao','index','images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl'),
-		(22,1, 'Session','index','images/IGRP/IGRP2.3/app/igrp/session/Session.xsl'),
-		(23,1, 'WebReport', 'index','images/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl');
+		(1,1, 'ListaPage', 'index', 'igrp/listapage/ListaPage.xsl','2.3'),
+		(2,1, 'Env', 'index', 'igrp/env/Env.xsl','2.3'),
+		(3,1, 'ListaEnv', 'index', 'igrp/listaenv/ListaEnv.xsl','2.3'),
+		(4,1, 'Dominio', 'index', 'igrp/dominio/Dominio.xsl','2.3'),
+		(5,1, 'NovoDominio', 'index', 'igrp/novodominio/NovoDominio.xsl','2.3'),
+		(6,1, 'PesquisarOrganica', 'index', 'igrp/pesquisarorganica/PesquisarOrganica.xsl','2.3'),
+		(7,1, 'NovaOrganica', 'index', 'igrp/novaorganica/NovaOrganica.xsl','2.3'),
+		(8,1, 'NovoMenu', 'index', 'igrp/novomenu/NovoMenu.xsl','2.3'),
+		(9,1, 'PesquisarMenu', 'index', 'igrp/pesquisarmenu/PesquisarMenu.xsl','2.3'),
+		(10,1, 'NovoPerfil', 'index', 'igrp/novoperfil/NovoPerfil.xsl','2.3'),
+		(11,1, 'PesquisarPerfil', 'index', 'igrp/pesquisarperfil/PesquisarPerfil.xsl','2.3'),
+		(12,1, 'PesquisarUtilizador', 'index', 'igrp/pesquisarutilizador/PesquisarUtilizador.xsl','2.3'),
+		(13,1, 'NovoUtilizador', 'index', 'igrp/novoutilizador/NovoUtilizador.xsl','2.3'),
+		(14,1, 'Settings', 'index', 'igrp/settings/Settings.xsl','2.3'),
+		(15,1, 'RegistarUtilizador', 'index', 'igrp/registarutilizador/RegistarUtilizador.xsl','2.3'),
+		(16,1, 'Transaccao', 'index', 'igrp/transaccao/Transaccao.xsl','2.3'),
+		(17,1, 'Page', 'index', 'igrp/page/Page.xsl','2.3'),
+		(18,1, 'MenuOrganica','index','igrp/menuorganica/MenuOrganica.xsl','2.3'),
+		(19,1, 'ErrorPage','index','igrp/errorpage/ErrorPage.xsl','2.3'),
+		(20,1, 'TransacaoOrganica','index','igrp/transacaoorganica/TransacaoOrganica.xsl','2.3'),
+		(21,1, 'EditarTransacao','index','igrp/editartransacao/EditarTransacao.xsl','2.3'),
+		(22,1, 'Session','index','igrp/session/Session.xsl','2.3'),
+		(23,1, 'WebReport', 'index','igrp/webreport/WebReport.xsl','2.2'),
+		(24,1, 'DataSource', 'index','igrp/datasource/DataSource.xsl','2.3'),
+		(25,1, 'LookupListPage', 'index','igrp/lookuplistpage/LookupListPage.xsl','2.3');
 
 	INSERT INTO `glb_t_user` (`ID`, `NAME`, `EMAIL`, `PASS_HASH`, `USERPROFILE`, `VALID_UNTIL`, `REMARKS`, `ACTIVATION_KEY`, `USER_NAME`, `PHOTO_ID`, `SIGNATURE_ID`, `MOBILE`, `PHONE`, `PASSWORD_RESET_TOKEN`, `AUTH_KEY`, `STATUS`, `CREATED_AT`, `UPDATED_AT`) 
 	VALUES (0, 'IGRP', 'igrp@nosi.cv', 'admin', 'ADMIN', NULL, NULL, '123456789', 'admin', NULL, NULL, NULL, NULL, NULL, 'SRRKZ1a2n77nDcdLmXBJCt3HQWoRKozc', 1, 2017, 2017),
@@ -489,7 +578,7 @@ CREATE OR REPLACE FORCE VIEW view_consulta_dash(total_m,total_f,Ano)  AS  select
 	(10, 'Gestão de Transação', 16, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
 	(11, 'Auditoria', NULL, NULL,NULL, 1, NULL, NULL, NULL, 1, NULL, 1, '_self'),
 	(12, 'Gestão de Sessão', 22, 11,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self'),
-	(13, 'Web Report', 23, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
+	(13, 'Report Design', 23, 1,NULL, 1, NULL, NULL, NULL, 1, NULL, 0, '_self');
 	
 	INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES (1, 1, 'ENV', 1, 1),
@@ -530,26 +619,26 @@ INSERT INTO `glb_t_profile_type` (`ID`, `DESCR`, `CODE`, `ENV_FK`, `SELF_FK`, `O
 
 INSERT INTO `glb_t_action` (`ID`,`ENV_FK`, `PAGE`, `ACTION`,  `XSL_SRC`,`PAGE_DESCR`,`ACTION_DESCR`) 
 	VALUES
-	(24, 2, 'ListaMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
-	(25, 2, 'RegistarMedico', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
-	(26, 2, 'MarcarConsulta', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
-	(27, 2, 'RegistarUtente', 'index',  'images/IGRP/IGRP2.3/app/marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
-	(28, 2, 'ListarUtente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
-	(29, 2, 'ConsultaPendente', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
-	(30, 2, 'DashBoard', 'index', 'images/IGRP/IGRP2.3/app/marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
+	(26, 2, 'ListaMedico', 'index', 'marcao_consulta/listamedico/ListaMedico.xsl','Lista de Medicos', 'Lista de Medicos'),
+	(27, 2, 'RegistarMedico', 'index', 'marcao_consulta/registarmedico/RegistarMedico.xsl', 'Registar Medico', 'Registar Medico'),
+	(28, 2, 'MarcarConsulta', 'index', 'marcao_consulta/marcarconsulta/MarcarConsulta.xsl','Marcar Consulta', 'Marcar Consulta'),
+	(29, 2, 'RegistarUtente', 'index',  'marcao_consulta/registarutente/RegistarUtente.xsl','Registar Utente', 'Registar Utente'),
+	(30, 2, 'ListarUtente', 'index', 'marcao_consulta/listarutente/ListarUtente.xsl', 'Listar Utente', 'Listar Utente'),
+	(31, 2, 'ConsultaPendente', 'index', 'marcao_consulta/consultapendente/ConsultaPendente.xsl', 'Consultas Pendentes', 'Consultas Pendentes'),
+	(32, 2, 'DashBoard', 'index', 'marcao_consulta/dashboard/DashBoard.xsl', 'Dash Board', 'Dash Board');
 
 INSERT INTO `glb_t_menu` (`ID`, `DESCR`,`ACTION_FK`, `SELF_ID`, `LINK`, `ENV_FK`, `IMG_SRC`, `AREA`, `ORDERBY`, `STATUS`, `CODE`, `FLG_BASE`, `TARGET`) 
 	VALUES
 	(14, 'Gestao de Utente',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(15, 'Gestao de Medico',NULL,NULL,'',2, '','', 1, 1, '', 1, ''),
 	(16, 'Gestao de Consultas',NULL,NULL,'',2, '', '', 1, 1, '', 1, ''),
-	(17, 'Registar Utente', 27,14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(18, 'Listar Utentes', 28, 14, '', 2,'','', 0, 1, '', 0, '_self'),
-	(19, 'Registar Medico', 25,15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(20, 'Listar Medicos', 24, 15, '', 2,'','', 0, 1, '', 0, '_self'),
-	(21, 'Marcar Consultas',26,16, '', 2,'','', 0, 1, '', 0, '_self'),
-	(22, 'Consultas Pendentes',29,16, '', 2,'','', 0, 1, '', 0, '_self'),
-	(23, 'Dash Board',30,16, '', 2,'','', 0, 1, '', 0, '_self');
+	(17, 'Registar Utente', 29,14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(18, 'Listar Utentes', 30, 14, '', 2,'','', 0, 1, '', 0, '_self'),
+	(19, 'Registar Medico', 27,15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(20, 'Listar Medicos', 26, 15, '', 2,'','', 0, 1, '', 0, '_self'),
+	(21, 'Marcar Consultas',28,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(22, 'Consultas Pendentes',31,16, '', 2,'','', 0, 1, '', 0, '_self'),
+	(23, 'Dash Board',32,16, '', 2,'','', 0, 1, '', 0, '_self');
 
 INSERT INTO `glb_t_profile` (`PROF_TYPE_FK`, `USER_FK`, `TYPE`, `TYPE_FK`, `ORG_FK`) 
 	VALUES 

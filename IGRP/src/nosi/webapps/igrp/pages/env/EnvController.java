@@ -14,6 +14,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
@@ -25,14 +26,14 @@ import nosi.webapps.igrp.dao.ProfileType;
 
 public class EnvController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		Env model = new Env();
 		EnvView view = new EnvView(model);
 		view.action_fk.setValue(new Action().getListActions());
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			
@@ -54,7 +55,10 @@ public class EnvController extends Controller {
 			app.setStatus(model.getStatus());
 			app.setTemplates(model.getTemplates());
 			
-			if(app.insert() && FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages") && FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())) && CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java")){
+			if(app.insert()){
+				System.out.println(FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"));
+				System.out.println(FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())));
+				System.out.println(CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java"));
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
 				app = (Application) app.getOne();
 				
@@ -67,42 +71,32 @@ public class EnvController extends Controller {
 				org.setStatus(1);
 				
 				if(org.insert()){
-					Igrp.getInstance().getFlashMessage().addMessage("success", "Orgânica registada com sucesso!");
-					org = (Organization) org.getOne();
-					
+					org = (Organization) org.getOne();					
 					proty.setCode("Admin." + org.getName());
 					proty.setDescr("PefilAdmin.default " + org.getName());
 					proty.setEnv_fk(app.getId());
 					proty.setOrg_fk(org.getId());
-					proty.setStatus(1);
-					
-					if(proty.insert()){
-						Igrp.getInstance().getFlashMessage().addMessage("success", "Perfil registado com sucesso!");
-					}else{
+					proty.setStatus(1);					
+					if(!proty.insert()){
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
-					}
-					
+					}					
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
 				}
 				
-				
 				if(FileHelper.fileExists(Config.getProject_loc()) && FileHelper.createDiretory(Config.getProject_loc()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(Config.getProject_loc()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}
-				
-				
-				this.redirect("igrp", "lista-env","index");
-				return;
+				}				
+				return this.redirect("igrp", "lista-env","index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
 			}
 		}
-		this.redirect("igrp", "env", "index");
+		return this.redirect("igrp", "env", "index");
 	}
 	
-	public void actionVoltar() throws IOException{
-		this.redirect("igrp", "lista-env","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("igrp", "lista-env","index");
 	}
 	
 	//App list I have access to
@@ -155,7 +149,7 @@ public class EnvController extends Controller {
 	}
 	
 	
-	public void actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
+	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Env model = new Env();		
 		Application aplica_db = new Application();
 		aplica_db.setId(Integer.parseInt(idAplicacao));
@@ -191,7 +185,7 @@ public class EnvController extends Controller {
 			aplica_db.setFlg_external(model.getFlg_external());			
 			if(aplica_db.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
-				this.redirect("igrp", "lista-env", "index");
+				return this.redirect("igrp", "lista-env", "index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
 			}
@@ -200,14 +194,14 @@ public class EnvController extends Controller {
 		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(new Action().getListActions());
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 	
-	public void actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
+	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
 		String[] p = page.split("/");
-		this.redirect(app, p[1], p[2]);
+		return this.redirect(app, p[1], p[2]);
 	}
 }
 

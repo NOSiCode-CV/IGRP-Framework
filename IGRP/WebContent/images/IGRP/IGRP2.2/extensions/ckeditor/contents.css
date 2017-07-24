@@ -1,0 +1,126 @@
+/*
+Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.md or http://ckeditor.com/license
+*/
+.cke_editable p, .cke_editable table{margin:2px 0px;}
+.cke_editable #header:nth-child(1), .cke_editable div[size="A4"] #content{border: dotted 1px #ccc; margin: 5px 0; padding:10px;}
+.cke_editable #header{border: none;margin:0;}
+.cke_editable #footer{display: none;}
+.cke_editable p, .cke_editable table{margin:2px 0px;}
+.cke_editable{
+	font-family: Arial;
+	font-size: 14px;
+	margin:0 5px;
+	line-height:25px;
+}
+
+.cke_editable blockquote
+{
+	font-style: italic;
+	font-family: Georgia, Times, "Times New Roman", serif;
+	padding: 2px 0;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+}
+
+.cke_contents_ltr blockquote
+{
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+}
+
+.cke_contents_rtl blockquote
+{
+	padding-left: 8px;
+	padding-right: 20px;
+	border-right-width: 5px;
+}
+
+.cke_editable a
+{
+	color: #0782C1;
+}
+.cke_editable 
+.cke_editable ol,.cke_editable ul,.cke_editable dl
+{
+	/* IE7: reset rtl list margin. (#7334) */
+	*margin-right: 0px;
+	/* preserved spaces for list items with text direction other than the list. (#6249,#8049)*/
+	padding: 0 40px;
+}
+
+.cke_editable h1,.cke_editable h2,.cke_editable h3,.cke_editable h4,.cke_editable h5,.cke_editable h6
+{
+	font-weight: normal;
+	line-height: 1.2;
+}
+
+.cke_editable hr
+{
+	border: 0px;
+	border-top: 1px solid #ccc;
+}
+
+.cke_editable img.right
+{
+	border: 1px solid #ccc;
+	float: right;
+	margin-left: 15px;
+	padding: 5px;
+}
+
+.cke_editable img.left
+{
+	border: 1px solid #ccc;
+	float: left;
+	margin-right: 15px;
+	padding: 5px;
+}
+
+.cke_editable pre
+{
+	white-space: pre-wrap; /* CSS 2.1 */
+	word-wrap: break-word; /* IE7 */
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
+
+.cke_editable .marker
+{
+	background-color: Yellow;
+}
+
+.cke_editable span[lang]
+{
+	font-style: italic;
+}
+
+.cke_editable figure
+{
+	text-align: center;
+	border: solid 1px #ccc;
+	border-radius: 2px;
+	background: rgba(0,0,0,0.05);
+	padding: 10px;
+	margin: 10px 20px;
+	display: inline-block;
+}
+
+.cke_editable figure > figcaption
+{
+	text-align: center;
+	display: block; /* For IE8 */
+}
+
+.cke_editable a > img {
+	padding: 1px;
+	margin: 1px;
+	border: none;
+	outline: 1px solid #0782C1;
+}
+
+.cke_editable table{border:#cecece 1px solid !important;border-spacing:0;border-collapse:collapse;position: relative;width: 100%;}
+.cke_editable table thead tr th, table tbody tr td{border:#cecece 1px solid !important; padding:1px;line-height:25px;}
+.cke_editable table thead tr th{background: #d8d8d8;}

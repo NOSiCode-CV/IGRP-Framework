@@ -5,6 +5,7 @@
 package nosi.webapps.marcao_consulta.pages.consultapendente;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.marcao_consulta.dao.Consulta;
 import nosi.webapps.marcao_consulta.dao.Utente;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class ConsultaPendenteController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
 		ConsultaPendente model = new ConsultaPendente();
 		ConsultaPendenteView view = new ConsultaPendenteView(model);
 		ArrayList<ConsultaPendente.Table_1> data = new ArrayList<>();
@@ -45,20 +46,20 @@ public class ConsultaPendenteController extends Controller {
 		view.table_1.addData(data);
 		view.p_id.setParam(true);
 		view.btn_pesquisar.setLink("index");
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
-	public void actionNova_consulta() throws IOException{
-			this.redirect("marcao_consulta","MarcarConsulta","index");
+	public Response actionNova_consulta() throws IOException{
+		return this.redirect("marcao_consulta","MarcarConsulta","index");
 	}
 	
-	public void actionPesquisar() throws IOException{
+	public Response actionPesquisar() throws IOException{
 		ConsultaPendente model = new ConsultaPendente();
 		ConsultaPendenteView view = new ConsultaPendenteView(model);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionCancelar_consulta() throws IOException{
+	public Response actionCancelar_consulta() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null){
 			Consulta c = new Consulta();
@@ -69,10 +70,10 @@ public class ConsultaPendenteController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("erro", "Erro ao cancelar Consulta");
 			}
 		}
-		this.redirect("marcao_consulta","ConsultaPendente","index");
+		return this.redirect("marcao_consulta","ConsultaPendente","index");
 	}
 	
-	public void actionConfirmar_consulta() throws IOException{
+	public Response actionConfirmar_consulta() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null){
 			Consulta c = new Consulta();
@@ -83,7 +84,7 @@ public class ConsultaPendenteController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("erro", "Erro ao confirmar Consulta");
 			}
 		}
-		this.redirect("marcao_consulta","ConsultaPendente","index");
+		return this.redirect("marcao_consulta","ConsultaPendente","index");
 	}
 	
 }

@@ -7,6 +7,8 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.Response;
+
 import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
@@ -15,7 +17,7 @@ import nosi.webapps.igrp.dao.Organization;
 
 public class NovoPerfilController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		NovoPerfil model = new NovoPerfil();
 
 		NovoPerfilView view = new NovoPerfilView(model);
@@ -35,8 +37,7 @@ public class NovoPerfilController extends Controller {
 		
 			if(pt.insert()){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
-				this.redirect("igrp", "novo-perfil", "index");
-				return;
+				return this.redirect("igrp", "novo-perfil", "index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
 			}
@@ -45,10 +46,10 @@ public class NovoPerfilController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.perfil.setValue(new ProfileType().getListProfiles());
 		view.organica.setValue(new Organization().getListOrganizations());
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
-	public void actionEditar(@RParam(rParamName="p_id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionEditar(@RParam(rParamName="p_id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		NovoPerfil model = new NovoPerfil();
 		ProfileType p = new ProfileType();
@@ -74,8 +75,7 @@ public class NovoPerfilController extends Controller {
 			
 			if(p.update()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Perfil atualizado com sucesso.");
-				this.redirect("igrp", "novo-perfil", "editar", new String[]{"p_id"}, new String[]{p.getId() + ""});
-				return; // exit here
+				return this.redirect("igrp", "novo-perfil", "editar", new String[]{"p_id"}, new String[]{p.getId() + ""});
 			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar o perfil.");
@@ -91,7 +91,7 @@ public class NovoPerfilController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.perfil.setValue(new ProfileType().getListProfiles());
 		view.organica.setValue(new Organization().getListOrganizations());
-		this.renderView(view);
+		return this.renderView(view);
 	}
 	
 }

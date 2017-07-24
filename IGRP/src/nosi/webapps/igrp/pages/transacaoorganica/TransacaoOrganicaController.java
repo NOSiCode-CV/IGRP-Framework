@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.transacaoorganica;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class TransacaoOrganicaController extends Controller {		
 
-	public void actionIndex() throws IOException{
+	public Response actionIndex() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && type!=null){
@@ -58,11 +59,12 @@ public class TransacaoOrganicaController extends Controller {
 				data.add(table);
 			}
 			view.table_1.addData(data);
-			this.renderView(view);
+			return this.renderView(view);
 		}
+		return null;
 	}
 
-	public void actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
@@ -108,11 +110,11 @@ public class TransacaoOrganicaController extends Controller {
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Operação realizada com sucesso");
 		}
-		this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
+		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
 	}
 	
-	public void actionVoltar() throws IOException{
-			this.redirect("igrp","TransacaoOrganica","index");
+	public Response actionVoltar() throws IOException{
+		return this.redirect("igrp","TransacaoOrganica","index");
 	}
 	
 }

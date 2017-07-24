@@ -91,6 +91,9 @@ public class GenXMLField {
 			xml.startElement("label");
 				for(Field field:fields){
 					if(field.isVisible()){
+						if(field instanceof HiddenField){
+							field.setTagName(field.propertie().getProperty("tag"));
+						}
 						xml.startElement(field.getTagName());
 						writteAttributes(xml,field.propertie());
 						xml.text(field.getLabel());
@@ -100,10 +103,14 @@ public class GenXMLField {
 			xml.endElement();
 			xml.startElement("value");
 				for(Field field:fields){
-					if(field.isVisible()){
+					if(field.isVisible()){						
 						if(!(field instanceof ListField) && !(field instanceof RadioListField) && !(field instanceof CheckBoxListField)){
-							xml.startElement(field.getTagName());
-							writteAttributes(xml,field.propertie());
+							if(field instanceof HiddenField){
+								xml.startElement("hidden");
+							}else{
+								xml.startElement(field.getTagName());
+							}
+							writteAttributes(xml,field.propertie());							
 							xml.text(""+field.getValue());
 							if(field instanceof LookupField){
 								xml.setElement("lookup", field.getLookup());
@@ -130,8 +137,16 @@ public class GenXMLField {
 							HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
 							for(Entry<?, ?> obj : values.entrySet()){
 								xml.startElement("option");
+								if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+									xml.writeAttribute("selected", "true");
+								}else if((field instanceof CheckBoxListField || field instanceof RadioListField) && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){
+									xml.writeAttribute("checked", "true");
+								}
 								xml.setElement("text", obj.getValue().toString());
-								xml.setElement("value", obj.getKey().toString());
+								if(obj.getKey() == null || obj.getKey().toString()=="")
+									xml.emptyTag("value");
+								else
+									xml.setElement("value", obj.getKey().toString());
 								xml.endElement();
 							}
 						}

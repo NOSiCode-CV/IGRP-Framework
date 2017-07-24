@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.pesquisarorganica;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 
 public class PesquisarOrganicaController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarOrganica model = new PesquisarOrganica();
 		ArrayList<PesquisarOrganica.Table_1> lista = new ArrayList<>();
 		Organization organica_db = new Organization();
@@ -42,7 +43,7 @@ public class PesquisarOrganicaController extends Controller {
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.table_1.addData(lista);
 		view.p_id.setParam(true);
-		this.renderView(view);
+		return this.renderView(view);
 	}
 
 	
@@ -54,14 +55,14 @@ public class PesquisarOrganicaController extends Controller {
 		
 	}
 	
-	public void actionMenu() throws IOException{
+	public Response actionMenu() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=org");
+		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=org");
 	}
 	
-	public void actionTransacao() throws IOException{
+	public Response actionTransacao() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=org");
+		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=org");
 	}
 	
 	public void actionEtapa() throws IOException{

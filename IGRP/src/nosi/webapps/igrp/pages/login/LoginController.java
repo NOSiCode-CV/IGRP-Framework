@@ -3,22 +3,21 @@ package nosi.webapps.igrp.pages.login;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session_;
-import nosi.core.webapp.helpers.Route;
 import java.io.IOException;
 
 
 public class LoginController extends Controller {		
 
-	public void actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		// first
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
-			return;
+			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		Login model = new Login();
 		LoginView view = new LoginView(model);
@@ -41,7 +40,7 @@ public class LoginController extends Controller {
 			}
 		}
 		
-		this.renderView(view,true);
+		return this.renderView(view,true);
 	}
 	
 	// Use default connectionName "db1" and default igrp user table
@@ -80,13 +79,13 @@ public class LoginController extends Controller {
 		// Not set yet
 	}
 	
-	public void actionLogout() throws IOException{
+	public Response actionLogout() throws IOException{
 		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 		if(Igrp.getInstance().getUser().logout()){
 			if(!Session_.afterLogout(currentSessionId))
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um erro com registo session ...");
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro no logout.");
-		this.redirect("igrp", "login", "login");
+		return this.redirect("igrp", "login", "login");
 	}
 }

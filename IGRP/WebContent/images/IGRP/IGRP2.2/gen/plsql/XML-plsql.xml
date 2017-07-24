@@ -1,0 +1,564 @@
+<?xml-stylesheet href="XSL-plsql.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button		type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LAB</page>
+    <app>C_CIDADAO</app>
+    <plsql>
+        <action>PLSQL</action>
+        <package_instance>FINDEV</package_instance>
+        <package_db>C_CIDADAO_LAB2_PLSQL_DB</package_db>
+        <package_html>C_CIDADAO_LAB2_PLSQL_HTML</package_html> 
+        <table_name>C_CIDADAO.NADA</table_name> 
+        <with_replace>true</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>https://nosiappsdev.gov.cv/red_lab/RED.FORM_DESIGNER_DB.preserve_your_code</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste Gerador PLSQL</title>
+        <view_1 type="view">
+            <fields>
+                <nome1 type="text" name="p_nome1">
+                    <label>nome</label>
+                    <value>Laudantium labore mollit officia accusantium</value>
+                </nome1>
+                <morada1 type="text" name="p_morada1">
+                    <label>morada</label>
+                    <value>Omnis stract labore natus totam</value>
+                </morada1>
+                <view_foto type="text" name="p_view_foto">
+                    <label>Foto</label>
+                    <value>Natus mollit elit doloremque sit</value>
+                </view_foto>
+            </fields>
+        </view_1>
+        <gen_tab_menu type="tabmenu">
+            <group title="Menu 1" id="group-0" code="">
+                <item type="specific" rel="gen_tab_menu-ctx-0" code="">
+                    <title>Menu 1.1</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+                <item type="specific" rel="gen_tab_menu-ctx-1" code="">
+                    <title>Menu 1.2</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+                <item type="specific" rel="gen_tab_menu-ctx-2" code="">
+                    <title>Menu 1.3</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+            </group>
+            <group title="Menu 2" id="group-1" code="">
+                <item type="specific" rel="gen_tab_menu-ctx-3" code="">
+                    <title>Menu 2.1</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>specific</target>
+                    <img>default.png</img>
+                </item>
+            </group>
+        </gen_tab_menu>
+        <gen_form_toolsbar type="toolsbar">
+            <item type="specific" rel="gen_form_toolsbar-ctx-0" code="">
+                <title>Gravar</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>PLSQL</link>
+                <target>submit</target>
+                <img>save.png</img>
+            </item>
+            <item type="specific" rel="gen_form_toolsbar-ctx-1" code="">
+                <title>Fechar</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>PLSQL</link>
+                <target>_close</target>
+                <img>PDF_F.png</img>
+            </item>
+        </gen_form_toolsbar>
+        <gen_form_1 type="form">
+            <fields>
+                <nome4 type="text" name="p_nome4" required="false" maxlength="30">
+                    <label>nome</label>
+                    <value>Amet labore aperiam stract laudantium</value>
+                </nome4>
+                <numero type="number" name="p_numero" required="false" maxlength="30">
+                    <label>numero</label>
+                    <value>354</value>
+                </numero>
+                <data type="date" name="p_data" required="false" maxlength="30" format="IGRP_datePicker">
+                    <label>data</label>
+                    <value />
+                </data>
+                <email type="email" name="p_email" required="false" maxlength="30">
+                    <label>email</label>
+                    <value>cokmim@example.com</value>
+                </email>
+                <combobox type="select" multiple="false" name="p_combobox" required="false" maxlength="30">
+                    <label>combobox</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </combobox>
+                <checkbox type="checkbox" name="p_checkbox" required="false" maxlength="30">
+                    <label>checkbox</label>
+                    <value>1</value>
+                </checkbox>
+                <checkboxlista type="checkboxlist" name="p_checkboxlista" required="false" maxlength="30">
+                    <label>checkboxlista</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </checkboxlista>
+                <pesquisa type="lookup" name="p_pesquisa" required="false" maxlength="30">
+                    <label>Pesquisa</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa>
+                <pesquisa_bi type="lookup" name="p_pesquisa_bi" required="false" maxlength="30">
+                    <label>Pesquisa BI</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa_bi>
+                <pesquisa_geog type="lookup" name="p_pesquisa_geog" required="false" maxlength="30">
+                    <label>Pesquisa GEOG</label>
+                    <value />
+                    <lookup>?XXX</lookup>
+                </pesquisa_geog>
+            </fields>
+        </gen_form_1>
+        <separador_lista title="separador lista" type="separatorlist">
+            <fields>
+                <texto1 type="text" name="p_texto1" required="false" maxlength="40" table="true">
+                    <label>texto1</label>
+                    <value>Natus elit iste omnis ut</value>
+                </texto1>
+                <combox1 type="select" multiple="false" name="p_combox1" required="false" maxlength="40" table="true">
+                    <label>Combox1</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </combox1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <texto1>Labore iste laudantium aperiam laudantium</texto1>
+                        <texto1_desc>Magna iste officia aliqua dolor</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Lorem natus amet sed aperiam</texto1>
+                        <texto1_desc>Iste accusantium sed lorem aliqua</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Aliqua sed ut labore doloremque</texto1>
+                        <texto1_desc>Magna ut mollit laudantium consectetur</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                    <row>
+                        <texto1>Elit sed aliqua deserunt rem</texto1>
+                        <texto1_desc>Magna stract ipsum omnis sit</texto1_desc>
+                        <combox1 />
+                        <combox1_desc />
+                    </row>
+                </value>
+            </table>
+        </separador_lista>
+        <gen_table_toolsbar type="toolsbar">
+            <item type="specific" rel="gen_table_toolsbar-ctx-0" code="">
+                <title>Botao 1</title>
+                <app>C_CIDADAO</app>
+                <page>LAB</page>
+                <link>MULTILINGUA</link>
+                <target>_self</target>
+                <img>default.png</img>
+            </item>
+            <item type="specific" rel="gen_table_toolsbar-ctx-1" code="">
+                <title>Botao 2</title>
+                <app />
+                <page />
+                <link />
+                <target>_self</target>
+                <img>default.png</img>
+            </item>
+        </gen_table_toolsbar>
+        <gen_table type="table">
+            <fields>
+                <nome type="text" align="left" name="p_nome3">
+                    <label>nome</label>
+                </nome>
+                <morada type="text" align="left" name="p_morada">
+                    <label>morada</label>
+                </morada>
+                <checkall type="checkbox" align="left" name="p_checkall">
+                    <label>checkall</label>
+                </checkall>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <nome>Sit rem unde sit adipiscing</nome>
+                        <nome_desc>Mollit unde rem adipiscing mollit</nome_desc>
+                        <morada>Elit natus perspiciatis accusantium iste</morada>
+                        <morada_desc>Lorem magna ipsum sit anim</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>
+                    <row>
+                        <nome>Elit officia rem totam elit</nome>
+                        <nome_desc>Laudantium aperiam magna natus adipiscing</nome_desc>
+                        <morada>Unde doloremque consectetur elit rem</morada>
+                        <morada_desc>Laudantium officia dolor natus labore</morada_desc>
+                        <checkall>1</checkall>
+                        <checkall_desc>1</checkall_desc>
+                    </row>                    
+                </value>
+                <context-menu>
+                    <item type="specific" code="">
+                        <title>context 1</title>
+                        <app>C_CIDADAO</app>
+                        <page>LAB</page>
+                        <link>PLSQL</link>
+                        <target>_blank</target>
+                        <img>default.png</img>
+                    </item>
+                    <item type="specific" code="">
+                        <title>context 2</title>
+                        <app>C_CIDADAO</app>
+                        <page>LAB</page>
+                        <link>MULTILINGUA</link>
+                        <target>confirm</target>
+                        <img>default.png</img>
+                    </item>
+                </context-menu>
+                <filter type="filter_az" name="p_filter" />
+            </table>
+        </gen_table>
+        <filter_1 type="form">
+            <fields>
+                <nome2 type="text" name="p_nome2" required="false" maxlength="30">
+                    <label>Nome</label>
+                    <value>Accusantium stract magna ipsum sit</value>
+                </nome2>
+            </fields>
+            <tools-bar>
+                <item type="form" code="">
+                    <title>Pesquisar</title>
+                    <app />
+                    <page />
+                    <link />
+                    <target>_self</target>
+                    <img>search.png</img>
+                </item>
+            </tools-bar>
+        </filter_1>
+        <grafico_1 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>link da pagina</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </grafico_1>
+        <grafico_2 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>link da pagina</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </grafico_2>
+        <formlist_1 type="formlist">
+            <fields>
+                <text1 type="text" name="p_text1">
+                    <label>text</label>
+                </text1>
+                <select1 type="select" multiple="false" name="p_select1">
+                    <label>select</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </select1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text1>Totam magna voluptatem magna perspiciatis</text1>
+                        <text1_desc>Accusantium adipiscing lorem mollit omnis</text1_desc>
+                        <select1 />
+                        <select1_desc />
+                    </row>
+                    <row>
+                        <text1>Lorem rem voluptatem aperiam consectetur</text1>
+                        <text1_desc>Laudantium unde adipiscing dolor labore</text1_desc>
+                        <select1 />
+                        <select1_desc />
+                    </row>
+                    <row>
+                        <text1>Consectetur dolor natus mollit totam</text1>
+                        <text1_desc>Omnis ut totam labore mollit</text1_desc>
+                        <select1 />
+                        <select1_desc />
+                    </row>
+                    <row>
+                        <text1>Accusantium aperiam labore doloremque sit</text1>
+                        <text1_desc>Stract sit mollit aliqua dolor</text1_desc>
+                        <select1 />
+                        <select1_desc />
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
+        <separatordialog_1 type="separatordialog">
+            <fields>
+                <date1 type="date" name="p_date1" required="false" format="IGRP_datePicker" table="true" maxLength="40">
+                    <label>date</label>
+                    <value />
+                </date1>
+                <email1 type="email" name="p_email1" required="false" table="true" maxLength="40">
+                    <label>email</label>
+                    <value>be@example.com</value>
+                </email1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>mofce@example.com</email1>
+                        <email1_desc>necop@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>ajikovizi@example.com</email1>
+                        <email1_desc>ki@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>zivugtu@example.com</email1>
+                        <email1_desc>covhav@example.com</email1_desc>
+                    </row>
+                    <row>
+                        <date1 />
+                        <date1_desc />
+                        <email1>jag@example.com</email1>
+                        <email1_desc>wur@example.com</email1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatordialog_1>
+        <form_3 type="form">
+            <fields>
+                <texteditor type="texteditor" name="p_texteditor" required="false" maxlength="40">
+                    <label>texteditor</label>
+                    <value>Laudantium ipsum perspiciatis deserunt doloremque labore deserunt doloremque aliqua rem totam magna totam perspiciatis aperiam iste amet officia aliqua sit labore perspiciatis consectetur dolor laudantium sit natus totam sit sit</value>
+                </texteditor>
+            </fields>
+        </form_3>
+        <chart_3 type="chart">
+            <caption />
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>link da pagina</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#2f7ed8</col>
+                <col>#0d233a</col>
+                <col>#FF00FF</col>
+                <col>#FF0000</col>
+            </colors>
+        </chart_3>
+    </content>
+</rows>

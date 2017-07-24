@@ -6,6 +6,7 @@
 package nosi.webapps.igrp.pages.listapage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 public class ListaPageController extends Controller {		
 
-	public void actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		Action a = new Action();
@@ -45,7 +46,6 @@ public class ListaPageController extends Controller {
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		
-		this.renderView(view);
+		return this.renderView(view);
 	}
-
 }
