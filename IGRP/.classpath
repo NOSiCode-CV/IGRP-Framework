@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-42.0.0.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tools.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jd-cli.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/apache-commons-lang.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.servlet.jar"/>
@@ -22,5 +21,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saml/stax-api-1.0-2.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saml/stax2-api-3.1.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/saml/xmlsec-2.0.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v9.0"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
