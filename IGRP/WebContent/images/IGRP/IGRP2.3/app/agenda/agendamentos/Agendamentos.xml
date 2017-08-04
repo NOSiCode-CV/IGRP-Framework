@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/agendamentos/Agendamentos.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Agendamentos</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>Agendamentos</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista de Agendamentos</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Entidade</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </entidade>
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Balcão</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </balcao>
+                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Serviço</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </servico>
+                <date_de name="p_date_de" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Date de</label>
+                    <value/>
+                </date_de>
+                <data_ate name="p_data_ate" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data até</label>
+                    <value/>
+                </data_ate>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="agendar">
+                <title>Agendar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>success|fa-plus-square</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-plus-square|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Dia</label>
+                </dia>
+                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Hora</label>
+                </hora>
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Balcão</label>
+                </balcao>
+                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Serviço</label>
+                </servico>
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Estado</label>
+                </estado>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Doloremque officia totam natus stract</hora>
+                        <nome name="p_nome">Magna rem sit ipsum consectetur</nome>
+                        <balcao name="p_balcao">Lorem officia sed deserunt accusantium</balcao>
+                        <servico name="p_servico">Mollit totam adipiscing elit deserunt</servico>
+                        <estado name="p_estado">Mollit ipsum lorem doloremque voluptatem</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Mollit lorem aliqua iste perspiciatis</hora>
+                        <nome name="p_nome">Aliqua anim mollit aliqua mollit</nome>
+                        <balcao name="p_balcao">Perspiciatis laudantium deserunt ipsum voluptatem</balcao>
+                        <servico name="p_servico">Omnis sed consectetur iste mollit</servico>
+                        <estado name="p_estado">Aperiam amet doloremque elit dolor</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Adipiscing sit consectetur iste omnis</hora>
+                        <nome name="p_nome">Sit dolor adipiscing totam consectetur</nome>
+                        <balcao name="p_balcao">Totam rem doloremque deserunt laudantium</balcao>
+                        <servico name="p_servico">Ut dolor elit aperiam natus</servico>
+                        <estado name="p_estado">Labore sed doloremque anim stract</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Omnis doloremque laudantium doloremque dolor</hora>
+                        <nome name="p_nome">Sit voluptatem lorem dolor magna</nome>
+                        <balcao name="p_balcao">Mollit omnis adipiscing anim sed</balcao>
+                        <servico name="p_servico">Iste ipsum aperiam stract labore</servico>
+                        <estado name="p_estado">Voluptatem accusantium laudantium anim ut</estado>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="success" rel="confirmar">
+                        <title>Confirmar</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>modal</target>
+                        <img>success|fa-check-circle-o</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="cancelar">
+                        <title>Cancelar</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>alert_submit</target>
+                        <img>danger|fa-close</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

@@ -1,15 +1,12 @@
 package nosi.core.config;
 
-import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
-import nosi.core.igrp.mingrations.Migration0;
+import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
@@ -106,14 +103,26 @@ public class Config {
 	}
 	
 	public static String getProject_loc(){
-		try {
-			JAXBContext context = JAXBContext.newInstance(AppConfig.class);
-			Unmarshaller unmarshaller = (Unmarshaller) context.createUnmarshaller();
-			AppConfig lR = (AppConfig) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"app.xml"));
-			return lR.getProject_loc();
-		} catch (JAXBException e) {
-		} 		
-		return null;
+		return Igrp.getInstance().getAppConfig().getProject_loc();
+	}
+	
+	public static String getDbType(){
+		String name = "h2";
+		DbConfig dbC = Igrp.getInstance().getDbConfig();
+		List<DbInfo> dbinfo = dbC.getDbInfo();
+		if(!dbinfo.isEmpty()){
+			for(DbInfo db:dbinfo){
+				if(db.getDefault_db().equals("true")){
+					name = db.getConnectionName();
+					break;
+				}
+			}
+		}
+		return name;
+	}
+	
+	public static String getAutenticationType(){
+		return Igrp.getInstance().getAppConfig().getAuthenticationType();
 	}
 	
 	public static String getBasePathXsl(){
@@ -220,7 +229,7 @@ public class Config {
 	
 	public static void configurationApp(){	
 		if(!isInstall()){
-			Migration0.start();
+			MigrationIGRPInitConfig.start();
 			configSetInstall();
 		}
 	}

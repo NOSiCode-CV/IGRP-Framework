@@ -58,11 +58,10 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 
 	public Session(){}
 	
-	public Session(Integer id, String sessionId, Long startTime, Long endTime, String ipAddress, String userName,
+	public Session(String sessionId, Long startTime, Long endTime, String ipAddress, String userName,
 			String target, int https, String sessionOldId, String host, String hostName, String mediaType, User user,
 			Application application, ProfileType profileType, Organization organization) {
 		super();
-		this.id = id;
 		this.sessionId = sessionId;
 		this.startTime = startTime;
 		this.endTime = endTime;

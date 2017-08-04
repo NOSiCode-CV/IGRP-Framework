@@ -40,9 +40,8 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	
 	public CLob(){}
 	
-	public CLob(Integer id, String name, String mime_type, String c_lob_content, Date dt_created) {
+	public CLob(String name, String mime_type, String c_lob_content, Date dt_created) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.mime_type = mime_type;
 		this.c_lob_content = c_lob_content;

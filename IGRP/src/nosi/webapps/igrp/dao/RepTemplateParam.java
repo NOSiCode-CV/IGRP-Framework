@@ -40,9 +40,8 @@ public class RepTemplateParam extends BaseActiveRecord<RepTemplateParam> impleme
 	
 	public RepTemplateParam(){}
 	
-	public RepTemplateParam(Integer id, RepTemplate reptemplate, String parameter) {
+	public RepTemplateParam(RepTemplate reptemplate, String parameter) {
 		super();
-		this.id = id;
 		this.reptemplate = reptemplate;
 		this.parameter = parameter;
 	}

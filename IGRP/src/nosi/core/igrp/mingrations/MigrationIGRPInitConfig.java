@@ -8,7 +8,7 @@ import java.util.List;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
 
-public class Migration0 {
+public class MigrationIGRPInitConfig {
 
 	public static void start(){
 		Application app = new Application();
@@ -62,7 +62,9 @@ public class Migration0 {
 			actions.add(new Action("WebReport", "index", "nosi.core.webapp.pages.webreport", "igrp/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.2", 1, app));
 			actions.add(new Action("DataSource", "index", "nosi.core.webapp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, app));
 			actions.add(new Action("LookupListPage", "index", "nosi.core.webapp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, app));
+			actions.add(new Action("Migrate", "index", null, "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, app));
 
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -83,6 +85,7 @@ public class Migration0 {
 			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), app, menus.get(1)));
 			menus.add(new Menu("Settings", 1, 1, 0, "_self", actions.get(13), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
+			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			
 			for(Menu m:menus){
 				m.insert();
@@ -101,6 +104,7 @@ public class Migration0 {
 			profiles.add(new Profile(11, "MEN", prof0, user0, org));
 			profiles.add(new Profile(12, "MEN", prof0, user0, org));
 			profiles.add(new Profile(13, "MEN", prof0, user0, org));
+			profiles.add(new Profile(14, "MEN", prof0, user0, org));
 			profiles.add(new Profile(4, "MEN", prof1, user0, org));
 			profiles.add(new Profile(5, "MEN", prof1, user0, org));
 			profiles.add(new Profile(6, "MEN", prof1, user0, org));
@@ -111,6 +115,7 @@ public class Migration0 {
 			profiles.add(new Profile(11, "MEN", prof1, user0, org));
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
 			profiles.add(new Profile(13, "MEN", prof1, user0, org));
+			profiles.add(new Profile(14, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();

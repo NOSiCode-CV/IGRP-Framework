@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/lst_entidade/LST_ENTIDADE.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>LST_ENTIDADE</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>LST_ENTIDADE</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista de Entidades</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <entidade name="p_entidade" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Entidade</label>
+                    <value>Ipsum sed lorem iste omnis</value>
+                </entidade>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="nova_entidade">
+                <title>Nova Entidade</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>success|fa-plus-square</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-plus-square|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" title="Table" gen-type="container" gen-group="true">
+            <fields>
+                <entidade name="p_entidade" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Entidade</label>
+                </entidade>
+                <aplicacao name="p_aplicacao" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Aplicação</label>
+                </aplicacao>
+                <filter name="p_table_1_filter" type="filter_az">
+                    <value/>
+                </filter>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <entidade name="p_entidade">Ut sit totam ipsum consectetur</entidade>
+                        <aplicacao name="p_aplicacao">Voluptatem natus omnis elit consectetur</aplicacao>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <entidade name="p_entidade">Magna sit stract stract perspiciatis</entidade>
+                        <aplicacao name="p_aplicacao">Adipiscing sit aliqua elit ipsum</aplicacao>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <entidade name="p_entidade">Adipiscing sit amet ut sit</entidade>
+                        <aplicacao name="p_aplicacao">Accusantium omnis totam stract consectetur</aplicacao>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <entidade name="p_entidade">Perspiciatis dolor officia mollit sed</entidade>
+                        <aplicacao name="p_aplicacao">Unde laudantium amet stract ipsum</aplicacao>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="info" rel="servicos">
+                        <title>Servi�os</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>modal</target>
+                        <img>info|fa-server</img>
+                    </item>
+                    <item type="specific" code="" class="success" rel="balcoes">
+                        <title>Balc�es</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>modal</target>
+                        <img>success|fa-sitemap</img>
+                    </item>
+                    <item type="specific" code="" class="warning" rel="agenda">
+                        <title>Agenda</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter/>
+                        <target>modal</target>
+                        <img>warning|fa-calendar</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
+    </content>
+</rows>

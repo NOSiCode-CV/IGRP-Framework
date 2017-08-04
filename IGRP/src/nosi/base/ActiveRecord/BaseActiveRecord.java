@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import nosi.core.config.Config;
 
 public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
@@ -135,7 +136,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public String getConnectionName() {
-		return "h2";
+		return Config.getDbType();
 	}
 
 	/*Get table name of Entity class

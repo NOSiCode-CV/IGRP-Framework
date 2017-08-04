@@ -67,10 +67,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		
 	}
 	
-	public Application(Integer id, String dad, String name, String img_src, String description, int status,
+	public Application(String dad, String name, String img_src, String description, int status,
 			Action action) {
 		super();
-		this.id = id;
 		this.dad = dad;
 		this.name = name;
 		this.img_src = img_src;

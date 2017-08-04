@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/notificacao/NOTIFICACAO.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NOTIFICACAO</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>NOTIFICACAO</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Notificações</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="notificar">
+                <title>Notificar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>confirm</target>
+                <img>success|fa-envelope</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-envelope|www</params>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <assunto name="p_assunto" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Assunto</label>
+                    <value>Ut iste accusantium sed adipiscing</value>
+                </assunto>
+                <mensagem name="p_mensagem" type="textarea" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Mensagem</label>
+                    <value>Elit deserunt ut elit ipsum sit aperiam deserunt dolor ut rem consectetur lorem doloremque voluptatem</value>
+                </mensagem>
+            </fields>
+        </form_1>
+    </content>
+</rows>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/agenda/Agenda.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Agenda</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>Agenda</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Efetuar uma agenda</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Agenda]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-type="container" gen-group="true">
+            <fields>
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Balcão</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </balcao>
+                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Serviço</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </servico>
+                <numero_de_atendimentos name="p_numero_de_atendimentos" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Número de atendimentos</label>
+                    <value>573</value>
+                </numero_de_atendimentos>
+                <dias_de_semana name="p_dias_de_semana" type="select" multiple="true" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Dias de semana</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </dias_de_semana>
+                <hora_inicio name="p_hora_inicio" type="text" maxlength="6" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Hora Inicio</label>
+                    <value>Totam ipsum voluptatem aperiam deserunt</value>
+                </hora_inicio>
+                <hora_fim name="p_hora_fim" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Hora Fim</label>
+                    <value>Ut deserunt omnis aliqua anim</value>
+                </hora_fim>
+                <numero_de_atendedores name="p_numero_de_atendedores" type="number" maxlength="2" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Número de atendedores</label>
+                    <value>272</value>
+                </numero_de_atendedores>
+                <tempo_medio_de_atendimento_mn name="p_tempo_medio_de_atendimento_mn" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
+                    <label>Tempo médio de atendimento (mn)</label>
+                    <value>415</value>
+                </tempo_medio_de_atendimento_mn>
+                <antecedencia_alterarcancelar_hr name="p_antecedencia_alterarcancelar_hr" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Antecedência alterar/cancelar (hr)</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </antecedencia_alterarcancelar_hr>
+                <antecedencia_de_agendamento_hr name="p_antecedencia_de_agendamento_hr" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                    <label>Antecedência de agendamento (hr)</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </antecedencia_de_agendamento_hr>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <balcao name="p_balcao" desc="true"/>
+                        <balcao_desc name="p_balcao_desc"/>
+                        <servico name="p_servico" desc="true"/>
+                        <servico_desc name="p_servico_desc"/>
+                        <numero_de_atendimentos name="p_numero_de_atendimentos" desc="true">321</numero_de_atendimentos>
+                        <numero_de_atendimentos_desc name="p_numero_de_atendimentos_desc">321</numero_de_atendimentos_desc>
+                        <dias_de_semana name="p_dias_de_semana" desc="true"/>
+                        <dias_de_semana_desc name="p_dias_de_semana_desc"/>
+                        <hora_inicio name="p_hora_inicio" desc="true">Labore rem sit adipiscing mollit</hora_inicio>
+                        <hora_inicio_desc name="p_hora_inicio_desc">Labore rem sit adipiscing mollit</hora_inicio_desc>
+                        <hora_fim name="p_hora_fim" desc="true">Laudantium natus aperiam doloremque omnis</hora_fim>
+                        <hora_fim_desc name="p_hora_fim_desc">Laudantium natus aperiam doloremque omnis</hora_fim_desc>
+                        <numero_de_atendedores name="p_numero_de_atendedores" desc="true">460</numero_de_atendedores>
+                        <numero_de_atendedores_desc name="p_numero_de_atendedores_desc">460</numero_de_atendedores_desc>
+                        <tempo_medio_de_atendimento_mn name="p_tempo_medio_de_atendimento_mn" desc="true">593</tempo_medio_de_atendimento_mn>
+                        <tempo_medio_de_atendimento_mn_desc name="p_tempo_medio_de_atendimento_mn_desc">593</tempo_medio_de_atendimento_mn_desc>
+                        <antecedencia_alterarcancelar_hr name="p_antecedencia_alterarcancelar_hr" desc="true"/>
+                        <antecedencia_alterarcancelar_hr_desc name="p_antecedencia_alterarcancelar_hr_desc"/>
+                        <antecedencia_de_agendamento_hr name="p_antecedencia_de_agendamento_hr" desc="true"/>
+                        <antecedencia_de_agendamento_hr_desc name="p_antecedencia_de_agendamento_hr_desc"/>
+                    </row>
+                    <row>
+                        <balcao name="p_balcao" desc="true"/>
+                        <balcao_desc name="p_balcao_desc"/>
+                        <servico name="p_servico" desc="true"/>
+                        <servico_desc name="p_servico_desc"/>
+                        <numero_de_atendimentos name="p_numero_de_atendimentos" desc="true">214</numero_de_atendimentos>
+                        <numero_de_atendimentos_desc name="p_numero_de_atendimentos_desc">214</numero_de_atendimentos_desc>
+                        <dias_de_semana name="p_dias_de_semana" desc="true"/>
+                        <dias_de_semana_desc name="p_dias_de_semana_desc"/>
+                        <hora_inicio name="p_hora_inicio" desc="true">Dolor mollit sit voluptatem dolor</hora_inicio>
+                        <hora_inicio_desc name="p_hora_inicio_desc">Dolor mollit sit voluptatem dolor</hora_inicio_desc>
+                        <hora_fim name="p_hora_fim" desc="true">Rem amet aliqua adipiscing omnis</hora_fim>
+                        <hora_fim_desc name="p_hora_fim_desc">Rem amet aliqua adipiscing omnis</hora_fim_desc>
+                        <numero_de_atendedores name="p_numero_de_atendedores" desc="true">477</numero_de_atendedores>
+                        <numero_de_atendedores_desc name="p_numero_de_atendedores_desc">477</numero_de_atendedores_desc>
+                        <tempo_medio_de_atendimento_mn name="p_tempo_medio_de_atendimento_mn" desc="true">859</tempo_medio_de_atendimento_mn>
+                        <tempo_medio_de_atendimento_mn_desc name="p_tempo_medio_de_atendimento_mn_desc">859</tempo_medio_de_atendimento_mn_desc>
+                        <antecedencia_alterarcancelar_hr name="p_antecedencia_alterarcancelar_hr" desc="true"/>
+                        <antecedencia_alterarcancelar_hr_desc name="p_antecedencia_alterarcancelar_hr_desc"/>
+                        <antecedencia_de_agendamento_hr name="p_antecedencia_de_agendamento_hr" desc="true"/>
+                        <antecedencia_de_agendamento_hr_desc name="p_antecedencia_de_agendamento_hr_desc"/>
+                    </row>
+                    <row>
+                        <balcao name="p_balcao" desc="true"/>
+                        <balcao_desc name="p_balcao_desc"/>
+                        <servico name="p_servico" desc="true"/>
+                        <servico_desc name="p_servico_desc"/>
+                        <numero_de_atendimentos name="p_numero_de_atendimentos" desc="true">781</numero_de_atendimentos>
+                        <numero_de_atendimentos_desc name="p_numero_de_atendimentos_desc">781</numero_de_atendimentos_desc>
+                        <dias_de_semana name="p_dias_de_semana" desc="true"/>
+                        <dias_de_semana_desc name="p_dias_de_semana_desc"/>
+                        <hora_inicio name="p_hora_inicio" desc="true">Aperiam officia anim adipiscing perspiciatis</hora_inicio>
+                        <hora_inicio_desc name="p_hora_inicio_desc">Aperiam officia anim adipiscing perspiciatis</hora_inicio_desc>
+                        <hora_fim name="p_hora_fim" desc="true">Doloremque anim adipiscing elit officia</hora_fim>
+                        <hora_fim_desc name="p_hora_fim_desc">Doloremque anim adipiscing elit officia</hora_fim_desc>
+                        <numero_de_atendedores name="p_numero_de_atendedores" desc="true">748</numero_de_atendedores>
+                        <numero_de_atendedores_desc name="p_numero_de_atendedores_desc">748</numero_de_atendedores_desc>
+                        <tempo_medio_de_atendimento_mn name="p_tempo_medio_de_atendimento_mn" desc="true">654</tempo_medio_de_atendimento_mn>
+                        <tempo_medio_de_atendimento_mn_desc name="p_tempo_medio_de_atendimento_mn_desc">654</tempo_medio_de_atendimento_mn_desc>
+                        <antecedencia_alterarcancelar_hr name="p_antecedencia_alterarcancelar_hr" desc="true"/>
+                        <antecedencia_alterarcancelar_hr_desc name="p_antecedencia_alterarcancelar_hr_desc"/>
+                        <antecedencia_de_agendamento_hr name="p_antecedencia_de_agendamento_hr" desc="true"/>
+                        <antecedencia_de_agendamento_hr_desc name="p_antecedencia_de_agendamento_hr_desc"/>
+                    </row>
+                    <row>
+                        <balcao name="p_balcao" desc="true"/>
+                        <balcao_desc name="p_balcao_desc"/>
+                        <servico name="p_servico" desc="true"/>
+                        <servico_desc name="p_servico_desc"/>
+                        <numero_de_atendimentos name="p_numero_de_atendimentos" desc="true">735</numero_de_atendimentos>
+                        <numero_de_atendimentos_desc name="p_numero_de_atendimentos_desc">735</numero_de_atendimentos_desc>
+                        <dias_de_semana name="p_dias_de_semana" desc="true"/>
+                        <dias_de_semana_desc name="p_dias_de_semana_desc"/>
+                        <hora_inicio name="p_hora_inicio" desc="true">Accusantium stract omnis rem voluptatem</hora_inicio>
+                        <hora_inicio_desc name="p_hora_inicio_desc">Accusantium stract omnis rem voluptatem</hora_inicio_desc>
+                        <hora_fim name="p_hora_fim" desc="true">Totam unde accusantium rem natus</hora_fim>
+                        <hora_fim_desc name="p_hora_fim_desc">Totam unde accusantium rem natus</hora_fim_desc>
+                        <numero_de_atendedores name="p_numero_de_atendedores" desc="true">872</numero_de_atendedores>
+                        <numero_de_atendedores_desc name="p_numero_de_atendedores_desc">872</numero_de_atendedores_desc>
+                        <tempo_medio_de_atendimento_mn name="p_tempo_medio_de_atendimento_mn" desc="true">112</tempo_medio_de_atendimento_mn>
+                        <tempo_medio_de_atendimento_mn_desc name="p_tempo_medio_de_atendimento_mn_desc">112</tempo_medio_de_atendimento_mn_desc>
+                        <antecedencia_alterarcancelar_hr name="p_antecedencia_alterarcancelar_hr" desc="true"/>
+                        <antecedencia_alterarcancelar_hr_desc name="p_antecedencia_alterarcancelar_hr_desc"/>
+                        <antecedencia_de_agendamento_hr name="p_antecedencia_de_agendamento_hr" desc="true"/>
+                        <antecedencia_de_agendamento_hr_desc name="p_antecedencia_de_agendamento_hr_desc"/>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-save|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

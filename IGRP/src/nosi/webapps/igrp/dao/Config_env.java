@@ -48,10 +48,9 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	
 	public Config_env(){}
 	
-	public Config_env(Integer id, int port, String type_db, String host, String name_db, String username,
+	public Config_env(int port, String type_db, String host, String name_db, String username,
 			String password, String charset, String name, Application application) {
 		super();
-		this.id = id;
 		this.port = port;
 		this.type_db = type_db;
 		this.host = host;

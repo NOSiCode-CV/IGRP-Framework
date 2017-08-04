@@ -68,10 +68,9 @@ public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serial
 	
 	public RepTemplate(){}
 	
-	public RepTemplate(Integer id, String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
+	public RepTemplate(String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
 			CLob xml_content, CLob xsl_content) {
 		super();
-		this.id = id;
 		this.code = code;
 		this.name = name;
 		this.dt_created = dt_created;

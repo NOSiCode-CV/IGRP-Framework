@@ -85,11 +85,10 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	private XMLWritter xmlRows = new XMLWritter();
 	public RepSource(){}
 	
-	public RepSource(Integer id, String name, String type, Integer type_fk, String type_name, String type_query,
+	public RepSource(String name, String type, Integer type_fk, String type_name, String type_query,
 			int status, Date dt_created, Date dt_updated, Application application, Application application_source,
 			User user_created, User user_updated) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.type = type;
 		this.type_fk = type_fk;

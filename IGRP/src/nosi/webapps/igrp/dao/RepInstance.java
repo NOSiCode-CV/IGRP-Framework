@@ -57,10 +57,9 @@ public class RepInstance extends BaseActiveRecord<RepInstance> implements Serial
 
 	public RepInstance(){}
 	
-	public RepInstance(Integer id, RepTemplate template, String contra_prova, Date dt_created, String reference,
+	public RepInstance(RepTemplate template, String contra_prova, Date dt_created, String reference,
 			int ref_fk, Application application, CLob xml_content, CLob xsl_content, User user) {
 		super();
-		this.id = id;
 		this.template = template;
 		this.contra_prova = contra_prova;
 		this.dt_created = dt_created;

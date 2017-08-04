@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/config_balcao/CONFIG_BALCAO.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CONFIG_BALCAO</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>CONFIG_BALCAO</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Configuração de Balcao</title>
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Balcão]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Balcão</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </balcao>
+                <localizacao name="p_localizacao" type="text" maxlength="30" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Localização</label>
+                    <value>Adipiscing sed voluptatem accusantium doloremque</value>
+                </localizacao>
+                <fuso_horario name="p_fuso_horario" type="text" maxlength="30" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                    <label>Fuso horário</label>
+                    <value>Omnis voluptatem omnis doloremque lorem</value>
+                </fuso_horario>
+                <escolher_hora name="p_escolher_hora" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Escolher hora?</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </escolher_hora>
+                <nr_de_servicos_por_agendamento name="p_nr_de_servicos_por_agendamento" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Nr de serviços por agendamento</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </nr_de_servicos_por_agendamento>
+                <hora_inicio name="p_hora_inicio" type="text" maxlength="6" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Hora Inicio</label>
+                    <value>Iste aperiam totam rem perspiciatis</value>
+                </hora_inicio>
+                <hora_fim name="p_hora_fim" type="text" maxlength="6" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Hora Fim</label>
+                    <value>Totam labore lorem omnis stract</value>
+                </hora_fim>
+                <confirmacao_automatica name="p_confirmacao_automatica" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Confirmação automática?</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </confirmacao_automatica>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-save|www</params>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>
