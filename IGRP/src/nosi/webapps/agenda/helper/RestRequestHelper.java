@@ -18,7 +18,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
 import java.lang.reflect.Type;
 
-import tests.User;
+import nosi.webapps.agenda.dao.Fault;
 /**
  * Marcel Iekiny
  * Aug 4, 2017
@@ -50,6 +50,19 @@ public final class RestRequestHelper{
 	/*	List<T> list = RestRequestHelper.convertJsonToDaoColl(jsonResult, groupName, resourceName, daoClass);
 		return list != null ? list.get(0) : null;
 	}*/
+	
+	public static Fault convertToDefaultFault(String jsonResult) {
+		Fault fault = null;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonResult);
+			String result = jsonObject.getJSONObject("Fault").toString();
+			Gson gson = new Gson();
+			fault = gson.fromJson(result, Fault.class);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return fault;
+	}
 	
 	public static ClientConfig applySslSecurity(ClientConfig clientConfig) {
 		SSLContext sslContext = RestRequestHelper.createSslContext();

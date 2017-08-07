@@ -42,4 +42,9 @@ public class Fault {
 		this.detail = detail;
 	}
 
+	@Override
+	public String toString() {
+		return "Fault [faultcode=" + faultcode + ", faultstring=" + faultstring + ", detail=" + detail + "]";
+	}
+
 }

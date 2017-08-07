@@ -29,7 +29,7 @@ import org.json.*;
  */
 public final class App {
 	
-	private static final String url = "http://imf:8280/services/MyFirstDS/user/2";
+	private static final String url = "http://imf:8280/services/MyFirstDS/user_/2";
 	
 	private App() {}
 	
@@ -49,16 +49,17 @@ public final class App {
          WebResource resource = client.resource(url);
         
          ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-         
+
+    	 String jsonResult = response.getEntity(String.class);
+    	 
          if(response.getStatus() == 200) {
-        	 String jsonResult = response.getEntity(String.class);
         	// User user = RestRequestHelper.convertJsonToDao(jsonResult, "tbl_userCollection", "tbl_user", User.class);
-        	 List<User> user = RestRequestHelper.convertJsonToDaoColl(jsonResult, "tbl_userCollection", "tbl_user", User.class);
-        	 System.out.println(user.get(0).getUsername());
-        	 System.out.println();
+        	 System.out.println("Ok");
          }
-         else
+         else {
         	 System.out.println("Error");
+        	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+         }
          
         client.destroy();
 		
