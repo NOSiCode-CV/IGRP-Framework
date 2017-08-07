@@ -28,7 +28,7 @@ public final class App {
 	private App() {}
 	
 	public static void main(String []args) {
-		makeGetRequest();
+		makePostRequest();
 	}
 	
 	
@@ -42,9 +42,9 @@ public final class App {
         WebResource resource = client.resource(url);
        
         Entidade entidade = new Entidade();
-        entidade.setAplicacao("App2");
-        entidade.setEstado("10");
-        entidade.setNome_entidade("XPTOENTIF");
+        entidade.setAplicacao("App3");
+        entidade.setEstado("11");
+        entidade.setNome_entidade("ISAIAS");
         
         Gson gson = new Gson();
         String content = gson.toJson(entidade);
