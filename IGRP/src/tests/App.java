@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -13,6 +14,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import nosi.webapps.agenda.dao.Requisitos;
+import nosi.webapps.agenda.dao.Entidade;
 import nosi.webapps.agenda.helper.RestRequestHelper;
 /**
  * @author Marcel Iekiny
@@ -25,7 +28,43 @@ public final class App {
 	private App() {}
 	
 	public static void main(String []args) {
-		makePostRequest();
+		makeGetRequest();
+	}
+	
+	
+	public static void makePostRequest2() {
+		ClientConfig config = new DefaultClientConfig();
+		 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+        
+        String url = RestRequestHelper.baseUrl + "/entidade";
+        
+        WebResource resource = client.resource(url);
+       
+        Entidade entidade = new Entidade();
+        entidade.setAplicacao("App2");
+        entidade.setEstado("10");
+        entidade.setNome_entidade("XPTOENTIF");
+        
+        Gson gson = new Gson();
+        String content = gson.toJson(entidade);
+        
+        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+        		.post(ClientResponse.class, content);
+
+   	 	String jsonResult = response.getEntity(String.class);
+   	 	
+   	 	System.out.println(content);
+   	 
+        if(response.getStatus() == 200) {
+        	System.out.println("Ok");
+        }
+        else {
+       	 System.out.println("Error");
+       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+        }
+        
+       client.destroy();
 	}
 	
 	public static void makePostRequest() {
@@ -60,25 +99,28 @@ public final class App {
 	}
 	
 	public static void makeGetRequest() {
-		//ClientConfig config = new DefaultClientConfig();
+		
+		ClientConfig config = new DefaultClientConfig();
 		 
-        Client client = Client.create(/*RestRequestHelper.applySslSecurity(config)*/);
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
         
-        String url = RestRequestHelper.baseUrl + "";
+        String url = RestRequestHelper.baseUrl + "/entidade";
         
         WebResource resource = client.resource(url);
        
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 
-   	 String jsonResult = response.getEntity(String.class);
+   	 	String jsonResult = response.getEntity(String.class);
    	 
+   	 	System.out.println(jsonResult);
+   	 	
         if(response.getStatus() == 200) {
-       	User user = (User) RestRequestHelper.convertJsonToDao(jsonResult, "tbl_userCollection", "tbl_user", new TypeToken<List<User>>(){}.getType());
-       	System.out.println("Ok");
+	        Entidade entidade = (Entidade) RestRequestHelper.convertJsonToDao(jsonResult, "Entidades", "Entidade", new TypeToken<List<Entidade>>(){}.getType());
+	       	System.out.println(entidade);
         }
         else {
        	 System.out.println("Error");
-       	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
         }
         
        client.destroy();

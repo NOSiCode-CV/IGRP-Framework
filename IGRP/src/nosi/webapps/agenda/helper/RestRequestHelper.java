@@ -32,10 +32,14 @@ public final class RestRequestHelper{
 		List list = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
-			JSONArray jsonArray = jsonObject.getJSONObject(groupName).getJSONArray(resourceName);
-			String result = jsonArray.toString();
-			Gson gson = new Gson();
-			list = gson.fromJson(result, type);//new TypeToken<List>(){}.getType()
+			if(jsonObject.has(groupName)) {
+				JSONObject aux = jsonObject.getJSONObject(groupName);
+				if(aux.has(resourceName)) {
+					String result = aux.getJSONArray(resourceName).toString();
+					Gson gson = new Gson();
+					list = gson.fromJson(result, type);//new TypeToken<List>(){}.getType()
+				}
+			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
