@@ -6,7 +6,7 @@
         <dbName>db_igrp</dbName>
         <user>user.igrp</user>
         <password>password.igrp</password>
-        <hostName>./WEB-INF/config/db</hostName>
+        <hostName>~</hostName><!-- ./WEB-INF/config/db -->
         <port>0</port>
         <default>true</default>
     </db>
