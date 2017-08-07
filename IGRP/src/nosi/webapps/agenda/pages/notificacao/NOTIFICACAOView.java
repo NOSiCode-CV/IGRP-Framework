@@ -17,7 +17,7 @@ public class NOTIFICACAOView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_notificar;
 	public NOTIFICACAOView(NOTIFICACAO model){
-		this.setPageTitle("NotificaÃ§Ãµes");
+		this.setPageTitle("Notificações");
 			
 		form_1 = new IGRPForm("form_1");
 		assunto = new TextField(model,"assunto");

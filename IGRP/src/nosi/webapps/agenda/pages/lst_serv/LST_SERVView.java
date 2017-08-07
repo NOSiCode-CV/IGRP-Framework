@@ -22,7 +22,7 @@ public class LST_SERVView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_remover;
 	public LST_SERVView(LST_SERV model){
-		this.setPageTitle("Lista de ServiÃ§os");
+		this.setPageTitle("Lista de Serviços");
 			
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
@@ -30,7 +30,7 @@ public class LST_SERVView extends View {
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		servico = new TextField(model,"servico");
-		servico.setLabel("ServiÃ§o");
+		servico.setLabel("Serviço");
 		servico.propertie().add("name","p_servico").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		checkbox_1 = new CheckBoxField(model,"checkbox_1");
 		checkbox_1.setLabel("Checkbox");

@@ -26,29 +26,29 @@ public class CONFIG_BALCAOView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public CONFIG_BALCAOView(CONFIG_BALCAO model){
-		this.setPageTitle("Configura√ß√£o de Balcao");
+		this.setPageTitle("ConfiguraÁ„o de Balc„o");
 			
 		box_1 = new IGRPBox("box_1");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Balc√£o");
+		sectionheader_1_text.setValue("Balc„o");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		balcao = new ListField(model,"balcao");
-		balcao.setLabel("Balc√£o");
+		balcao.setLabel("Balc„o");
 		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		localizacao = new TextField(model,"localizacao");
-		localizacao.setLabel("Localiza√ß√£o");
+		localizacao.setLabel("LocalizaÁ„o");
 		localizacao.propertie().add("name","p_localizacao").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		fuso_horario = new TextField(model,"fuso_horario");
-		fuso_horario.setLabel("Fuso hor√°rio");
+		fuso_horario.setLabel("Fuso hor·rio");
 		fuso_horario.propertie().add("name","p_fuso_horario").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		escolher_hora = new ListField(model,"escolher_hora");
 		escolher_hora.setLabel("Escolher hora?");
 		escolher_hora.propertie().add("name","p_escolher_hora").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		nr_de_servicos_por_agendamento = new ListField(model,"nr_de_servicos_por_agendamento");
-		nr_de_servicos_por_agendamento.setLabel("Nr de servi√ßos por agendamento");
+		nr_de_servicos_por_agendamento.setLabel("Nr de serviÁos por agendamento");
 		nr_de_servicos_por_agendamento.propertie().add("name","p_nr_de_servicos_por_agendamento").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		hora_inicio = new TextField(model,"hora_inicio");
 		hora_inicio.setLabel("Hora Inicio");
@@ -57,7 +57,7 @@ public class CONFIG_BALCAOView extends View {
 		hora_fim.setLabel("Hora Fim");
 		hora_fim.propertie().add("name","p_hora_fim").add("type","text").add("maxlength","6").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		confirmacao_automatica = new ListField(model,"confirmacao_automatica");
-		confirmacao_automatica.setLabel("Confirma√ß√£o autom√°tica?");
+		confirmacao_automatica.setLabel("ConfirmaÁ„o autom·tica?");
 		confirmacao_automatica.propertie().add("name","p_confirmacao_automatica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

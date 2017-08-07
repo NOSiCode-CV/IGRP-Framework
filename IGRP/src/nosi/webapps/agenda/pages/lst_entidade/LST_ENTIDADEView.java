@@ -30,7 +30,7 @@ public class LST_ENTIDADEView extends View {
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("AplicaÃ§Ã£o");
+		aplicacao.setLabel("Aplicação");
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		filter = new TextField(model,"filter");
 		filter.setLabel("");
@@ -39,9 +39,9 @@ public class LST_ENTIDADEView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_nova_entidade = new IGRPButton("Nova Entidade","agenda","LST_ENTIDADE","nova_entidade","modal","success|fa-plus-square","","");
 		btn_nova_entidade.propertie.add("type","specific").add("code","").add("rel","nova_entidade");
-		btn_servicos = new IGRPButton("Serviï¿½os","agenda","LST_ENTIDADE","servicos","modal","info|fa-server","","");
+		btn_servicos = new IGRPButton("Serviços","agenda","LST_ENTIDADE","servicos","modal","info|fa-server","","");
 		btn_servicos.propertie.add("type","specific").add("code","").add("class","info").add("rel","servicos");
-		btn_balcoes = new IGRPButton("Balcï¿½es","agenda","LST_ENTIDADE","balcoes","modal","success|fa-sitemap","","");
+		btn_balcoes = new IGRPButton("Balcões","agenda","LST_ENTIDADE","balcoes","modal","success|fa-sitemap","","");
 		btn_balcoes.propertie.add("type","specific").add("code","").add("class","success").add("rel","balcoes");
 		btn_agenda = new IGRPButton("Agenda","agenda","LST_ENTIDADE","agenda","modal","warning|fa-calendar","","");
 		btn_agenda.propertie.add("type","specific").add("code","").add("class","warning").add("rel","agenda");
