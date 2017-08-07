@@ -13,11 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
 import java.lang.reflect.Type;
-
 import nosi.webapps.agenda.dao.Fault;
 /**
  * Marcel Iekiny
@@ -25,9 +23,30 @@ import nosi.webapps.agenda.dao.Fault;
  */
 public final class RestRequestHelper{
 	
-	public static final String restServiceBaseUrl = "https://localhost:9092/services/DSN_Agenda";
+	public static final String baseUrl = "https://localhost:9092/services/DSN_Agenda";
 	
 	private RestRequestHelper() {}
+	
+	// Convert the JSON result to a list of DAO objects
+	public static List convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Type type){
+		List list = null;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonResult);
+			JSONArray jsonArray = jsonObject.getJSONObject(groupName).getJSONArray(resourceName);
+			String result = jsonArray.toString();
+			Gson gson = new Gson();
+			list = gson.fromJson(result, type);//new TypeToken<List>(){}.getType()
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public static Object convertJsonToDao(String jsonResult, String groupName, String resourceName, Type type) {
+		List list = RestRequestHelper.convertJsonToDaoColl(jsonResult, groupName, resourceName, type);
+		return list != null ? list.get(0) : list; // :-)
+	}
 	
 	// Convert the JSON result to a list of DAO objects
 	//public static <T> List<T> convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Type daoClass /*param. not used*/){
@@ -46,11 +65,8 @@ public final class RestRequestHelper{
 		return list;
 	}
 	*/
-	//public static <T> T convertJsonToDao(String jsonResult, String groupName, String resourceName, Class<T> daoClass /*param. not used*/){
-	/*	List<T> list = RestRequestHelper.convertJsonToDaoColl(jsonResult, groupName, resourceName, daoClass);
-		return list != null ? list.get(0) : null;
-	}*/
 	
+	// Convert the json result to Fault object
 	public static Fault convertToDefaultFault(String jsonResult) {
 		Fault fault = null;
 		try {
@@ -111,5 +127,4 @@ public final class RestRequestHelper{
                 }
         };
 	}
-	
 }
