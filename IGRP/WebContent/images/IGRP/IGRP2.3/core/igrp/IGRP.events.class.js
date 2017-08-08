@@ -5,11 +5,18 @@ $.EVENTS = function(evArr){
 
 	events.execute = function(ev,params){
 		var eventList = get(ev);
+		var rtn       = true;
+		
 		if(eventList){
 			eventList.forEach(function(f){
-				try{f(params)}catch(err){console.log(err)}
+				try{
+					rtn = f(params);
+				}catch(err){
+					console.log(err)
+				}
 			});
 		}
+		return rtn;
 	}
 
 	events.declare = function(arr){

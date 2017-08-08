@@ -33,6 +33,7 @@
   padding: 6px 12px;
   user-select: none;
   -webkit-user-select: none;
+  min-height: 32px;
 }
 .select2-container .select2-selection--single .select2-selection__rendered {
   padding-left: 0;

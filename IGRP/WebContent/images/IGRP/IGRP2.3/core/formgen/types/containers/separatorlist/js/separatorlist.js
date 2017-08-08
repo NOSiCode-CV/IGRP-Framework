@@ -5,7 +5,10 @@ var GENSEPARATORLIST = function(name,params){
 	var container = this;
 
 	container.xml.table = true;
+
 	container.xml.genGroup = true;
+
+	container.xml.clean = true;
 
 	container.sortableOptions.placeholder = 'gen-form-placeholder';
 
@@ -41,7 +44,7 @@ var GENSEPARATORLIST = function(name,params){
 	}
 
 	container.onFieldSet = function(field){
-		console.log(field)
+		//console.log(field)
 		GEN.setFormFieldAttr(field);
 
 		field.setPropriety({

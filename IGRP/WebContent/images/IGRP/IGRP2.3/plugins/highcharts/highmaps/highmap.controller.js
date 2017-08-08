@@ -6,12 +6,17 @@
             height = o.height || 350,
             joinBy = o.joinBy || ['ID','id'];
 
-        map.events  = new $.EVENTS(['basemap-add'])
+        map.events  = new $.EVENTS(['basemap-add','map-set']);
 
+        map.id      = id;
         map.chart   = null; 
         map.basemap = null;
         map.config  = null;
         map.data    = null;
+
+        map.html    = $('#'+id);
+
+        map.defaults = o.defaults || {};
 
         map.setBasemap = function(basemapURL){
             
@@ -26,7 +31,6 @@
                     var basemap = setDrillDown( Highcharts.geojson( json ) );
 
                     map.chart.addSeries({
-                       
                         mapData : basemap,
                         joinBy  : joinBy,
                         dataLabels: {
@@ -40,7 +44,7 @@
                     map.events.execute('basemap-add', {} );
 
                 }
-            });            
+            });                        
         };
 
         map.setData = function(dataURL){
@@ -48,6 +52,8 @@
             map.dataURL = dataURL;
 
             map.html.addClass('is-home');
+
+            map.breadcrumb.addClass('is-home');
 
             $.IGRP.request(dataURL,{
                 
@@ -58,9 +64,16 @@
                     map.data = json;
 
                     var onBasemapAdd = function(){
+
                         map.chart.series[0].update({
                             data : json.series
                         },true);
+
+                        /*map.chart.series[0].name = json.name || 'Map Teste';
+                        map.chart.series[0].dataLabels = {
+                            enabled : true,
+                            format : '{point.name}'
+                        };*/
 
                         if(json.legend)
                             setLegend(json.legend);
@@ -101,7 +114,7 @@
         };
 
         var setBreadcrumb = function(o){
-            console.log(o)
+            console.log(o);
         };
 
         var failCallBack = function(mapKey){
@@ -117,13 +130,68 @@
 
                 }, 3000);
 
-            }, 1000);
-            
+            }, 1000);            
+        };
+
+        var setHtml = function(){
+
+            var pos           = o.defaults.legendPosition;
+
+            var size          = o.defaults.legendSize*1;
+
+            map.legendWrapper = $('<div class="mc-legend-wrapper clearfix"/>');
+
+            map.breadcrumb    = $('<div class="mc-breadcrumb"><span class="mc-bc-item" text-color="1"><i class="fa fa-arrow-left"></i></span></div>');
+           
+            if(o.defaults.legendPosition){
+                
+                switch( o.defaults.legendPosition ){
+
+                    case 'bottom':
+
+                        map.html.parent().append( map.legendWrapper );
+
+                    break;
+
+                    case 'top':
+
+                        map.html.parent().prepend( map.legendWrapper );
+
+                    break;
+
+                     case 'right':
+
+                        map.html.addClass('col-sm-'+(12-size));
+
+                        map.legendWrapper.addClass('col-sm-'+size+' block');
+
+                        map.html.parent().append( map.legendWrapper );
+                        
+                    break;
+
+                    case 'left':
+                        
+                        map.html.addClass('col-sm-'+(12-size));
+                        
+                        map.legendWrapper.addClass('col-sm-'+size+' block');
+                        
+                        map.html.parent().prepend( map.legendWrapper );
+                        
+                    break;
+
+                }
+
+            }else{
+
+                map.html.parent().append( map.legendWrapper );
+
+            }
+
+            map.html.parent().prepend(map.breadcrumb);
+
         };
 
         var setChart = function(){
-
-            map.html          = $('#'+id);
 
             map.chart         = Highcharts.mapChart(id, {
                 
@@ -159,7 +227,7 @@
                                                 params   : { p_id : mapKey },
                                                 dataType : 'json',
                                                 success:function(data){
-
+                                                    //console.log(e.point);
                                                     chart.addSeriesAsDrilldown(e.point, {
                                                         name       : e.point.name,
                                                         mapData    : mapData,
@@ -179,6 +247,8 @@
                                                     chart.hideLoading();
 
                                                     map.html.removeClass('is-home');
+
+                                                    map.breadcrumb.removeClass('is-home');
 
                                                 }
                                                 
@@ -202,26 +272,40 @@
 
                         },
                         drillup: function (e) {
+                            
                             if(e.seriesOptions._levelNumber == 0 && map.data && map.data.legend){
                                 map.html.addClass('is-home');
+                                map.breadcrumb.addClass('is-home');
                                 setLegend(map.data.legend);
                             }
                         }
+                    },
+
+                    style:{
+
+                        fontFamily :'Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif',
+
+                        fontWeight : '400'
+
                     }
 
-                },
+                },                
 
                 mapNavigation: {
                     enabled: false,
                     buttons:true
                 },
-                /*colorAxis: {
-                    min: 0
-                },*/
-                tooltip: false,
+  
+                tooltip: map.defaults.tooltip ? $.extend(true, {
+
+                    headerFormat:''
+
+                }, map.defaults.tooltip) : false, 
+
                 xAxis: {
                     minRange: -100 // <- prevent zooming in too much
                 },
+
                 plotOptions: {
                     series: {
                         animation: true,
@@ -232,6 +316,7 @@
                         }
                     }
                 },
+
                 exporting:false,
 
                 legend:{
@@ -257,13 +342,9 @@
                     
             });
 
-            map.legendWrapper = $('<div class="mc-legend-wrapper clearfix"/>');
+            setHtml();
 
-            map.breadcrumb    = $('<div class="mc-breadcrumb"><span class="mc-bc-item" text-color="1"><i class="fa fa-chevron-left"></i></span></div>');
-
-            map.html.append(map.legendWrapper);
-
-            map.html.prepend(map.breadcrumb);
+            map.chart.reflow();                       
         };
 
         var setDrillDown = function(json){
@@ -271,7 +352,7 @@
             $.each(json, function (i) {
                 this.drilldown = this.properties['ID'];
                 this.name      = this.name || this.properties['NOME'];
-                this.value     = i;
+                //this.value     = i;
             });
 
             return json;
@@ -300,14 +381,14 @@
 
             }); 
 
-            $('.mc-bc-item').on('click',function(){
+            map.breadcrumb.on('click','.mc-bc-item',function(){
                 map.chart.drillUp();
             });
-
-
         };   
 
         var init = function(){
+
+            map.events.execute('map-set', {} );
 
             setChart(); 
 
@@ -325,6 +406,8 @@
 
         init();
 
+        return map;
+
     };
 
     Highcharts.setOptions({
@@ -337,6 +420,8 @@
 
         maps : {},
 
+        events: new $.EVENTS(['init','map-init']),
+
         set:function(id,o){
 
             $.IGRP.components.highmap.maps[id] = new MapChart(id,o);
@@ -344,24 +429,49 @@
         },
 
         init:function(){
-            
+           
             $.each($('.igrp-highmaps'),function(i,m){
-               
+
                 if(!$(m).hasClass('map-set')){
-                    var id = $(m).attr('id'),
-                        bm = $(m).attr('basemap'),
-                        dt = $(m).attr('data'),
-                        cf = $(m).attr('config'),
-                        ht = $(m).attr('map-height');
-                
-                    $.IGRP.components.highmap.set(id,{
-                        basemap : bm,
-                        data    : dt,
-                        config  : cf,
-                        height  : ht
-                    });
+                    var id       = $(m).attr('id'),
+                        bm       = $(m).attr('basemap'),
+                        dt       = $(m).attr('data'),
+                        cf       = $(m).attr('config'),
+                        ht       = $(m).attr('map-height') || 400,
+                        lp       = $(m).attr('legend-position') || 'bottom',
+                        ls       = $(m).attr('legend-size') || 2,
+                        tt       = $(m).attr('tooltip') == 'true',
+                        ttf      = $('tooltip-format',m).html(), 
+
+                        tooltip  = tt ? {
+                        
+                            useHTML : true,
+
+                            pointFormat : '<div class="igrp-hm-tooltip">'+ttf+'</div>' || '{name}: {value}'
+                        
+                        } : false,
+                        
+                        defaults = {
+                            legendPosition : lp,
+                            legendSize     : ls,
+                            tooltip        : tooltip
+                        },
+
+                        options  =  {
+                            id      : id,
+                            basemap : bm,
+                            data    : dt,
+                            config  : cf,
+                            height  : ht,
+                            defaults : defaults
+                        }
+
+                    $.IGRP.components.highmap.events.execute('map-init',options);
+
+                    $.IGRP.components.highmap.set(id,options);
 
                     $(m).addClass('map-set');
+
 
                 };
 

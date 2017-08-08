@@ -38,13 +38,13 @@ public class AgendaView extends View {
 		page_title_text.setValue("Agenda");
 		page_title_text.propertie().add("type","text").add("name","p_page_title_text").add("persist","true").add("maxlength","4000");
 		balcao = new ListField(model,"balcao");
-		balcao.setLabel("BalcÃ£o");
+		balcao.setLabel("Balcão");
 		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 		servico = new ListField(model,"servico");
-		servico.setLabel("ServiÃ§o");
+		servico.setLabel("Serviço");
 		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 		numero_de_atendimentos = new NumberField(model,"numero_de_atendimentos");
-		numero_de_atendimentos.setLabel("NÃºmero de atendimentos");
+		numero_de_atendimentos.setLabel("Número de atendimentos");
 		numero_de_atendimentos.propertie().add("name","p_numero_de_atendimentos").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("desc","true");
 		dias_de_semana = new ListField(model,"dias_de_semana");
 		dias_de_semana.setLabel("Dias de semana");
@@ -56,16 +56,16 @@ public class AgendaView extends View {
 		hora_fim.setLabel("Hora Fim");
 		hora_fim.propertie().add("name","p_hora_fim").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("desc","true");
 		numero_de_atendedores = new NumberField(model,"numero_de_atendedores");
-		numero_de_atendedores.setLabel("NÃºmero de atendedores");
+		numero_de_atendedores.setLabel("Número de atendedores");
 		numero_de_atendedores.propertie().add("name","p_numero_de_atendedores").add("type","number").add("maxlength","2").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("desc","true");
 		tempo_medio_de_atendimento_mn = new NumberField(model,"tempo_medio_de_atendimento_mn");
-		tempo_medio_de_atendimento_mn.setLabel("Tempo mÃ©dio de atendimento (mn)");
+		tempo_medio_de_atendimento_mn.setLabel("Tempo médio de atendimento (mn)");
 		tempo_medio_de_atendimento_mn.propertie().add("name","p_tempo_medio_de_atendimento_mn").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("desc","true");
 		antecedencia_alterarcancelar_hr = new ListField(model,"antecedencia_alterarcancelar_hr");
-		antecedencia_alterarcancelar_hr.setLabel("AntecedÃªncia alterar/cancelar (hr)");
+		antecedencia_alterarcancelar_hr.setLabel("Antecedência alterar/cancelar (hr)");
 		antecedencia_alterarcancelar_hr.propertie().add("name","p_antecedencia_alterarcancelar_hr").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 		antecedencia_de_agendamento_hr = new ListField(model,"antecedencia_de_agendamento_hr");
-		antecedencia_de_agendamento_hr.setLabel("AntecedÃªncia de agendamento (hr)");
+		antecedencia_de_agendamento_hr.setLabel("Antecedência de agendamento (hr)");
 		antecedencia_de_agendamento_hr.propertie().add("name","p_antecedencia_de_agendamento_hr").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

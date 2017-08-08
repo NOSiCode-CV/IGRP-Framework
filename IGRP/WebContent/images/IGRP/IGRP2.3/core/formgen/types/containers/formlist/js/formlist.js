@@ -7,10 +7,12 @@
 	container.xml.genGroup = true;
 	/*CONFIG FIELD SORT*/
 	container.sortableOptions.axis = "x";
+
+	container.xml.clean = true;
 	
 	//import : { table:'import.all'
 	container.includes = {
-		xsl : [ 'form-utils'],
+		xsl : [ 'form-utils','table-utils'],
 		css : [ 
 			{ 
 				path:'/plugins/formlist/igrp.formlist.css' 
@@ -26,6 +28,9 @@
 			}
 		],
 		js  : [ 
+			{ 
+				path:'/core/igrp/table/igrp.table.js' 
+			},  
 			{ 
 				path:'/plugins/formlist/igrp.formlist.js' 
 			},  
@@ -47,6 +52,8 @@
 		
 		GEN.setFormFieldAttr(field);
 
+		field.unsetProprieties(['size'])
+
 		field.xml.desc = true;
 	
 	}
@@ -59,9 +66,66 @@
 		GEN.setBTNClass(field);
 	}
  	
+	container.onSelectFieldSet = function(f){
+		
+		f.setPropriety({
+			name:'delimiter',
+			value:';'
+		});
+
+	}
+
 	container.onDrawEnd = function(){
 		$('.IGRP_formlist',container.holder).IGRP_formlist();
 	}
+
+	container.setPropriety({
+		name:'filterTemplate',
+		value:false,
+		editable:false,
+		xslValue: function(){
+			var filterTag = container.GET.tag()+"_filter",
+				name	  = "'p_"+filterTag+"'",
+				filter    = "'"+container.GET.filter()+"'";
+
+			return '<xsl:call-template name="table-filter">'+
+                    '<xsl:with-param name="name" select="'+name+'"/>'+
+                    '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+filterTag+'/value"/>'+
+                    '<xsl:with-param name="type" select="'+filter+'"/>'+
+                  '</xsl:call-template>';
+		}
+	});
+
+	container.setPropriety({
+		name:'filter',
+		value:{
+			value: '',
+			options:[
+				{value : ''            ,label : ''},
+				{value : 'filter_az'   ,label : 'A-Z'},
+				{value : 'filter_num'  ,label : '0-9'},
+				{value : 'filter_aznum',label : 'A-Z-0-9'}
+			]
+		},
+		onChange:function(v){
+			var val = v && v != ''? true : false;
+			container.SET.filterTemplate(val);
+		}
+	});
+
+	container.setPropriety({
+		name:'noupdate',
+		label:'No Add',
+		xslValue:'noupdate',
+		value:false
+	});
+
+	container.setPropriety({
+		name:'nodelete',
+		label:'No Delete',
+		xslValue:'nodelete',
+		value:false
+	});
 }
 
 this[VARS.name].declareContainer({

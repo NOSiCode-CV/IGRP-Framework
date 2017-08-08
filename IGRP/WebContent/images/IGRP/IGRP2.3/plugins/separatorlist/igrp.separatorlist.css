@@ -2,6 +2,11 @@
 	padding: 10px 0 0 0;
 }
 
+
+.IGRP-separatorlist > .box-table-contents{
+	padding-top: 0
+}
+
 .IGRP-separatorlist .splist-form{
 	padding: 10px;
 }
@@ -26,10 +31,20 @@
 	width: 60px;
 	padding: 0px;
 }
-.IGRP-separatorlist .table-btn .btn{
-	padding: 2px 3px;
+
+.IGRP-separatorlist td.table-btn .btn{
+	padding: 0 4px;
 	font-size: 14px;
-	margin:3px;
+	margin:2px;
+}
+
+.IGRP-separatorlist .table-row-add{
+	margin: 10px auto;
+	width: 30px;
+}
+
+.IGRP-separatorlist .table-row-add i{
+	/*font-size: 20px;*/
 }
 
 /*  DIALOG CONFIG */
@@ -38,7 +53,7 @@
 }
 
 .IGRP-separatorlist[dialog="true"] .table-row-add i:before{
-	color:#31b0d5!important;
+	/*color:#31b0d5!important;*/
 	content:"\f00a";
 }
 

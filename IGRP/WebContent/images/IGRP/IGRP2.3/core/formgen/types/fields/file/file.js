@@ -1,6 +1,8 @@
 var FILEFIELD = function(type,params){
 	Field.call(this,type,params);
-	var field 		= this,
+
+	var GEN = VARS.getGen();
+		field 		= this,
 		proprieties = params.properties;
 
 	field.ready = function(){
@@ -8,11 +10,9 @@ var FILEFIELD = function(type,params){
 		field.setPropriety({
 			name:'accept',
 			value:{
-				value: 'file_extension',
-				multiple:true,
-				editable:false,
+				value: '',
 				options:[
-					{ value:'file_extension' , label: 'All file extension' },
+					{ value:'' , label: 'All file extension' },
 					{ value:'application/msword' , label: 'Word' },
 					{ value:'application/vnd.ms-excel', label: 'Excel' },
 					{ value:'application/vnd.ms-powerpoint', label: 'Power Point' },
@@ -22,7 +22,23 @@ var FILEFIELD = function(type,params){
 					{ value:'video/*', label: 'Videos' },
 					{ value:'audio/*', label: 'Audios' },
 					{ value:'text/html', label: 'HTML' }
-				]
+				],
+				multiple:true
+			}
+		});
+
+		field.setPropriety({
+			label 	 : 'Targt Rend',
+			name     : 'targetrend',
+			value    : {
+				value : '',
+				options : GEN.getSrcFields
+			},
+			onEditionStart : function(o){
+				if(field.GET.rendvalue && field.GET.rendvalue())
+					o.input.show();
+				else
+					o.input.hide();
 			}
 		});
 
@@ -31,6 +47,19 @@ var FILEFIELD = function(type,params){
 			label 	 : 'Multiple',
 			value 	 : false,
 			xslValue : 'multiple="multiple"' //XSL VALUE WHEN PROPRIETY IS TRUE
+		});
+
+		field.setPropriety({
+			name 	 :'rendvalue',
+			label 	 : 'Rend Value',
+			value 	 : false,
+			xslValue : 'file2base64', //XSL VALUE WHEN PROPRIETY IS TRUE
+			onEditionStart : function(v){
+				$('input',v.input).on('change',function(){
+					var action  = $(this).is(':checked') ? 'show' : 'hide'; 
+					$('.gen-properties-setts-holder div[rel="targetrend"]')[action]();
+				});
+			}
 		});
 	}
 }

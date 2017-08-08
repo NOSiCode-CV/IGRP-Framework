@@ -29,7 +29,7 @@ public class AGENDA_PRESENCAView extends View {
 	public IGRPButton btn_confirmar;
 	public IGRPButton btn_notificar;
 	public AGENDA_PRESENCAView(AGENDA_PRESENCA model){
-		this.setPageTitle("Marcar Presen√ßa de Uma Agenda feita");
+		this.setPageTitle("Marcar PresenÁa de Uma Agenda feita");
 			
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
@@ -37,16 +37,16 @@ public class AGENDA_PRESENCAView extends View {
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		balcao = new ListField(model,"balcao");
-		balcao.setLabel("Balc√£o");
+		balcao.setLabel("Balc„o");
 		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		serviao = new ListField(model,"serviao");
-		serviao.setLabel("Servi√£o");
+		serviao.setLabel("ServiÁo");
 		serviao.propertie().add("name","p_serviao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		date_de = new DateField(model,"date_de");
 		date_de.setLabel("Date de");
 		date_de.propertie().add("name","p_date_de").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
 		data_ate = new DateField(model,"data_ate");
-		data_ate.setLabel("Data at√©");
+		data_ate.setLabel("Data atÈ");
 		data_ate.propertie().add("name","p_data_ate").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
 		dia = new DateField(model,"dia");
 		dia.setLabel("Dia");
@@ -58,7 +58,7 @@ public class AGENDA_PRESENCAView extends View {
 		nome.setLabel("Nome");
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		servico = new TextField(model,"servico");
-		servico.setLabel("Servi√ßo");
+		servico.setLabel("ServiÁo");
 		servico.propertie().add("name","p_servico").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		estado = new TextField(model,"estado");
 		estado.setLabel("Estado");

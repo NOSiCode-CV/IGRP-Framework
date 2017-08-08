@@ -3,6 +3,8 @@ var Field = function(type,params){
 
 	var customTag = false;
 
+	var paramsProperties = jQuery.extend(true, {}, params.properties);
+
 	field.GEN = VARS.getGen();
 
 	field.hasLabel = true;
@@ -19,7 +21,11 @@ var Field = function(type,params){
 
 	field.xslValues = {};
 
-	field.includes = [];
+	field.includes = {
+		js : [],
+		css : [],
+		xsl:[]
+	};
 
 	field.genType = 'field';
 
@@ -37,10 +43,12 @@ var Field = function(type,params){
 	}; 
 
 	field.xslOptions      = {
-		useDefault:true
+		useDefault : params && params.xsl ? params.xsl.useDefault : true,
+		template   : params && params.xsl ? params.xsl.template   : null
 	};
 
 	field.export = function(){
+		
 		var prop = {
 			properties:{},
 			style:{
@@ -50,8 +58,12 @@ var Field = function(type,params){
 			options:{
 				autoTag : field.autoTag,
 				rules:field.rules
-			}
+			},
+			xsl : field.xslOptions
 		};
+
+
+
 		//console.log(field.proprieties);
 		for(var propriety in field.proprieties){
 			var name  = propriety;
@@ -62,6 +74,10 @@ var Field = function(type,params){
 			//prop[name]=value;
 		}
 		return prop;
+	}
+
+	field.getPropertyOptions = function(name){
+		return field.propertiesOptions[name];
 	}
 
 	field.GET = {
@@ -116,6 +132,7 @@ var Field = function(type,params){
 
 		},
 		tag :function(tag){
+			
 			field.proprieties.tag = replaceSpecialChars(tag);
 			
 			if(field.holder){
@@ -140,11 +157,31 @@ var Field = function(type,params){
 			field.SET.name('p_'+tag);
 		},
 		name :function(name){
+			
 			field.proprieties.name = name;
 
 			var nameHolder = field.holder ? field.holder.find('[name]') : [];
+			
 			if(nameHolder[0]) nameHolder.attr('name',name);
 		}
+	}
+
+	field.XSLToString = function(){
+		
+		if(field.xslOptions.useDefault){
+
+			var templates = field.templates;
+
+			var xslStr = templates ? templates[Object.keys(templates)[0]] : '<xsl:if test="'+field.GET.labelPath()+'"></xsl:if>';
+		
+			return xslStr;
+
+		}else{
+
+			return field.xslOptions.template;
+
+		}
+			
 	}
 
 	field.setIncludes = function(includes){
@@ -237,12 +274,17 @@ var Field = function(type,params){
 		var val = p.hasOwnProperty('value') ? p.value : p.propriety;
 		var isInt = typeof val == 'number';
 
+
+
 		if(params && params.properties && params.properties[p.name]){
 			if(val.hasOwnProperty('value')) 
 				val.value = params.properties[p.name];
 			else          
 				val       = params.properties[p.name];
 		}
+
+		/*if(val.move)
+			delete val.move;*/
 
 		field.proprieties[p.name] = val;
 
@@ -301,7 +343,19 @@ var Field = function(type,params){
 
 	field.setProperty = field.setPropriety;
 
-	var setFilesIncludes = function(){
+	var setFieldPropertiesValues = function(){
+		var properties = paramsProperties;
+		//console.log( JSON.stringify(properties))
+		if(properties){
+			for(var p in properties){
+
+				if(field.SET[p])
+					field.SET[p](properties[p],{transform:false});
+			}
+		}
+	}
+
+	field.setFilesIncludes = function(){
 
 		var __setFile = function(type){
 			
@@ -318,7 +372,7 @@ var Field = function(type,params){
 				});
 			});
 		}
-		
+
 		if(field.includes && field.includes.css && field.includes.css[0])
 			__setFile('css');
 		if(field.includes && field.includes.js && field.includes.js[0])
@@ -338,12 +392,15 @@ var Field = function(type,params){
 
 		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == '')
 			field.SET.tag(field.parent.incrementTag('field',type));
+		
 
 		field.onInit();
 
 		field.ready();
 
-		setFilesIncludes();
+		field.setFilesIncludes();
+
+		setFieldPropertiesValues();
 
 	}
 

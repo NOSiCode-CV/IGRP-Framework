@@ -33,7 +33,7 @@ public class ENTIDADEView extends View {
 		nome.setLabel("Nome");
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("AplicaÃ§Ã£o");
+		aplicacao.setLabel("Aplicação");
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

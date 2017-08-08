@@ -17,6 +17,8 @@ var GENCHART = function(name,params){
 			{ path : '/plugins/highcharts/highcharts-more.js' },
 			{ path : '/plugins/highcharts/exporting.js' },
 			{ path : '/plugins/highcharts/funnel.js' },
+			{ path : '/plugins/highcharts/heatmap.js' },
+			{ path : '/plugins/highcharts/treemap.js' },
 			{ path : '/plugins/highcharts/igrp.charts.js' },
 		]
 	}
@@ -35,74 +37,25 @@ var GENCHART = function(name,params){
 			label:'Chart Type',
 			value:{
 				value  : 'line',
-				options:[
-					{
-						value:'area',
-						label:'\u00c1rea'
-					},
-					{
-						value:'bar',
-						label:'Bar'
-					},
-					{
-						value:'column',
-						label:'Column'
-					},
-					{
-						value:'funnel',
-						label:'Funnel'
-					},
-					{
-						value:'line',
-						label:'Line'
-					},
-					{
-						value:'pie',
-						label:'Pie'
-					},
-					{
-						value:'pyramid',
-						label:'Pyramid'
-					},
-					{
-						value:'scatter',
-						label:'Scatter'
-					},
-					{
-						value:'spline',
-						label:'Spline'
-					},
-					{
-						value:'stackedarea',
-						label:'Stacked Area'
-					},
-					{
-						value:'stackedcolumn',
-						label:'Stacked Column'
-					},
-					{
-						value:'stackedgroupedcolumn',
-						label:'Stack Grouped Column'
-					},
-					{
-						value:'stackedpercentarea',
-						label:'Stacked Percent Area'
-					},
-					{
-						value:'stackedpercentcolumn',
-						label:'Stacked Percent Column'
-					},
-					{
-						value:'tablecharts',
-						label:'Table Chart'
-					}
-				]
+				options:$.IGRP.defaults.highcharts.types
 			}//,
 			//transform:true
 		});
+
+		container.setPropriety({
+			name 	 :'filter',
+			label 	 : 'Filter Type',
+			value 	 : false,
+			xslValue : '<xsl:with-param name="filter" select="\'true\'"/>' //XSL VALUE WHEN PROPRIETY IS TRUE
+		});
 	}
 
-	container.onDrawEnd = GEN.resizeView;
+	container.onDrawEnd = function(){
+		GEN.resizeView;
+		$.IGRP.components.charts.renderCharts({
+			chart : $('.IGRP-highcharts',$('#'+container.id))
+		});
+	}
 	
 }
 

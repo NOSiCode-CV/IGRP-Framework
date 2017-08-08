@@ -6,13 +6,14 @@
         <xsl:param name="toolbars" />
         <xsl:param name="type" />
         <xsl:param name="type_pkg" select="'html'"/>
+        <xsl:param name="gen-dynamic-menu" select="'false'"/>
         
         <xsl:variable name="procName" select="concat('TOOLBAR_',$type)" />
         
         <xsl:value-of select="$enter"/>
         <xsl:value-of select="$enter"/> 
         <xsl:value-of select="$entertab"/><xsl:value-of
-            select="concat('-----',$procName,': group of button for ')"/><xsl:value-of select="$type"/>     
+            select="concat('-----',$procName,': group of button for ')"/><xsl:value-of select="$type"/><xsl:if test="$with_dynamic='true' or @dynamic-menu='true'"> (Dynamic Menu)</xsl:if>     
         
 
         <xsl:call-template name="genProcedureCab">
@@ -26,27 +27,38 @@
         
         <xsl:value-of select="$entertab"/>
         <xsl:text>BEGIN</xsl:text>
-        
+        <xsl:if test="$gen-dynamic-menu = 'true'">
+            <xsl:value-of select="$enter"/>
+            <xsl:value-of select="$entertab"/>
+            /*
+            <xsl:value-of select="$enter"/>
+        </xsl:if>
         <xsl:choose>
             
-            <xsl:when test="$with_menucopy='true' and $type_pkg='html' and $type='menu'">
+            <xsl:when test="@copy='true' and $type_pkg='html' and ($type='menu' or @gen-type='menu')">
                 
                 <xsl:value-of select="$enter"/>
                 <xsl:value-of select="$enter2tab"/>
-                <xsl:value-of select="$packageCopyDBName"/>
+                <xsl:value-of select="$selfapp"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="@copy-package-db"/>
                 <xsl:text>.</xsl:text><xsl:value-of select="'DML_MENU'"/>
                 <xsl:value-of select="$endline"/>
                 
                 <xsl:value-of select="$enter"/>
                 <xsl:value-of select="$enter2tab"/>
-                <xsl:value-of select="$packageCopyHtmlName"/>
-                <xsl:text>.</xsl:text><xsl:value-of select="$procName"/>
+                <xsl:value-of select="$selfapp"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="@copy-package-html"/>
+                <xsl:text>.</xsl:text>
+                <xsl:value-of select="'TOOLBAR_'"/>
+                <xsl:value-of select="@copy-tag"/>
                 <xsl:value-of select="concat('(p','=>','t)')"/>
                 <xsl:value-of select="$endline"/>
                 
             </xsl:when>
             
-            <xsl:when test="$with_dynamic='true' and $type_pkg='html'  and $type='menu'">
+            <xsl:when test="@dynamic-menu='true' and $type_pkg='html' and ($type='menu' or @gen-type='menu') and $gen-dynamic-menu = 'false'">
                 <xsl:value-of select="$enter"/>
                 <xsl:value-of select="$enter2tab"/>
                 <xsl:value-of select="$packageDBName"/>
@@ -63,12 +75,18 @@
                     </xsl:call-template>
                 </xsl:for-each>
             </xsl:otherwise>
-        </xsl:choose>   
-        
+        </xsl:choose> 
+        <xsl:if test="$gen-dynamic-menu = 'true'">
+            <xsl:value-of select="$enter"/>
+            <xsl:value-of select="$entertab"/> 
+            */
+            <xsl:value-of select="$enter"/>
+            --- #START-MENU#
+            --- #END-MENU#
+        </xsl:if>
         <xsl:value-of select="$enter"/>
         <xsl:value-of select="$enter2tab"/>
         <xsl:text>p:=t</xsl:text><xsl:value-of select="$endline"/>
-        
         <xsl:call-template name="genProcedureEndCab">
             <xsl:with-param name="procedureName" select="$procName"/>
         </xsl:call-template>
@@ -80,7 +98,6 @@
     <xsl:template name="genToolbar">
         <xsl:param name="toolbar"/>
         <xsl:param name="type" /> 
-        
         
         <xsl:value-of select="$enter"/>
         <xsl:value-of select="$enter2tab"/><xsl:text>-----------------------------------------------------------------------</xsl:text>

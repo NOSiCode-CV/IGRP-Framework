@@ -1,6 +1,3 @@
-function tst(){
-	alert('')
-}
 $(function(){
 
 	$.IGRP.components.lookup = {

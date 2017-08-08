@@ -35,5 +35,7 @@ public class Entidade {
 		this.nome_entidade = nome_entidade;
 	}
 	
-	
+	public String toString(){
+		return "[id = "+id+", nome_entidade = "+nome_entidade+", aplicacao = "+aplicacao+", estado = "+estado+"]";
+	}
 }

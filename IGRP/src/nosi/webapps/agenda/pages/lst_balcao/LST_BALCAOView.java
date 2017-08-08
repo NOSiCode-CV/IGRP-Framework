@@ -22,7 +22,7 @@ public class LST_BALCAOView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_remover;
 	public LST_BALCAOView(LST_BALCAO model){
-		this.setPageTitle("Lista de Balcao");
+		this.setPageTitle("Lista de Balc„o");
 			
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
@@ -30,10 +30,10 @@ public class LST_BALCAOView extends View {
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		balcao = new TextField(model,"balcao");
-		balcao.setLabel("Balc√£o");
+		balcao.setLabel("Balc„o");
 		balcao.propertie().add("name","p_balcao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		organica = new TextField(model,"organica");
-		organica.setLabel("Org√¢nica");
+		organica.setLabel("Org‚nica");
 		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		checkbox_1 = new CheckBoxField(model,"checkbox_1");
 		checkbox_1.setLabel("Checkbox");
