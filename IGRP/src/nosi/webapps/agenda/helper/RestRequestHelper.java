@@ -23,7 +23,7 @@ import nosi.webapps.agenda.dao.Fault;
 public final class RestRequestHelper{
 	
 	public static final String baseUrl = "https://localhost:9092/services/DSN_Agenda";
-	
+
 	private RestRequestHelper() {}
 	
 	// Convert the JSON result to a list of DAO objects
