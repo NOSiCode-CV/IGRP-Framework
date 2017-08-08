@@ -9,7 +9,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
@@ -23,7 +22,7 @@ import nosi.webapps.agenda.dao.Fault;
  */
 public final class RestRequestHelper{
 	
-	public static final String baseUrl = "https://localhost:9092/services/DSN_Agenda";
+	public static final String baseUrl = "http://IMF:8280/services/MyFirstDS";
 	
 	private RestRequestHelper() {}
 	
@@ -53,7 +52,7 @@ public final class RestRequestHelper{
 	}
 	
 	// Convert the JSON result to a list of DAO objects
-	//public static <T> List<T> convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Type daoClass /*param. not used*/){
+	//public static <T> List<T> convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Class<T> daoClass /*param. not used*/){
 		/*List<T> list = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
@@ -130,5 +129,20 @@ public final class RestRequestHelper{
 
                 }
         };
+	}
+	
+	public static String createJsonPostData(String wrapper, Object dao) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(wrapper, new JSONObject(convertDaoToJson(dao)));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject.toString();
+	}
+	
+	public static String convertDaoToJson(Object dao) {
+		Gson gson = new Gson();
+		return gson.toJson(dao);
 	}
 }
