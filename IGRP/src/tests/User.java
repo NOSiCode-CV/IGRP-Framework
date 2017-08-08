@@ -7,20 +7,29 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
 	
-	private String updated_at;
+	private int updated_at;
 	private String password_hash;
-	private String created_at;
+	private int created_at;
 	private String password_reset_token;
-	private int id;
+	private String id;
 	private String auth_key;
 	private String email;
 	private String username;
 	private int status;
+	private int funcionario;
 	
-	public String getUpdated_at() {
+	
+	
+	public int getFuncionario() {
+		return funcionario;
+	}
+	public void setFuncionario(int funcionario) {
+		this.funcionario = funcionario;
+	}
+	public int getUpdated_at() {
 		return updated_at;
 	}
-	public void setUpdated_at(String updated_at) {
+	public void setUpdated_at(int updated_at) {
 		this.updated_at = updated_at;
 	}
 	public String getPassword_hash() {
@@ -29,10 +38,10 @@ public class User implements Serializable{
 	public void setPassword_hash(String password_hash) {
 		this.password_hash = password_hash;
 	}
-	public String getCreated_at() {
+	public int getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
+	public void setCreated_at(int created_at) {
 		this.created_at = created_at;
 	}
 	public String getPassword_reset_token() {
@@ -41,10 +50,10 @@ public class User implements Serializable{
 	public void setPassword_reset_token(String password_reset_token) {
 		this.password_reset_token = password_reset_token;
 	}
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getAuth_key() {
