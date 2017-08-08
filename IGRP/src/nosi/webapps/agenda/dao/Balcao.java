@@ -1,9 +1,13 @@
 package nosi.webapps.agenda.dao;
+
+import com.google.gson.annotations.Expose;
+
 /**
  * @author: Emanuel Pereira
  * 4 Aug 2017
  */
 public class Balcao {
+	@Expose(serialize = false, deserialize = true)
 	private int id;
 	private int id_entidade;
 	private String fusohorario;
