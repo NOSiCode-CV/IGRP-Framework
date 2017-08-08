@@ -18,17 +18,12 @@ public class PesquisarOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarOrganica model = new PesquisarOrganica();
 		ArrayList<PesquisarOrganica.Table_1> lista = new ArrayList<>();
-		Organization organica_db = new Organization();
 		
-		//condiccao para pesquisar com filtros
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-			organica_db.setEnv_fk(model.getAplicacao());
-		}
-		
+		}		
 		//Preenchendo a tabela
-		for(Object obj:organica_db.getAllComFiltro()){
-			Organization org = (Organization) obj;
+		for(Organization org:new Organization().find().andWhere("application", "=", model.getAplicacao()).all()){
 			PesquisarOrganica.Table_1 table1 = new PesquisarOrganica().new Table_1();
 			table1.setDescricao(org.getName());
 			table1.setEstado(org.getStatus()==1?"Ativo":"Inativo");

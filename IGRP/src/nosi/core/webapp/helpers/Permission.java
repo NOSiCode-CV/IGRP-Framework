@@ -54,8 +54,7 @@ public class Permission {
 	
 	public static void changeOrgAndProfile(String dad){
 		Application app = new Application();
-		app.setDad(dad);
-		app = (Application) app.getOne();
+		app = app.findOne(app.getCriteria().where(app.getBuilder().equal(app.getRoot().get("dad"), dad)));
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
 		if(app!=null && app.getId()!=0){
@@ -64,11 +63,11 @@ public class Permission {
 			if(app.getPermissionApp(dad)){
 				Profile prof = (Profile) new Profile().getByUserPerfil(id_user,id_app);
 				if(prof!=null){          
-					org.setId(prof.getOrg_fk());
-					profType.setId(prof.getProf_type_fk());
+					org.setId(prof.getOrganization().getId());
+					profType.setId(prof.getProfileType().getId());
 					String data_cache = getDataCache(dad);
 					if(data_cache==null || data_cache.equals("")){
-						String data = prof.getOrg_fk()+"-"+prof.getProf_type_fk();
+						String data = prof.getOrganization().getId()+"-"+prof.getProfileType().getId();
 						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
 					}
 				}

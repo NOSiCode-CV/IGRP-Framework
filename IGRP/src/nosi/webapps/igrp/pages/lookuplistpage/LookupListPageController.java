@@ -14,6 +14,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.core.config.Config;
 import java.util.ArrayList;
+import java.util.List;
 /*---- End ----*/
 
 public class LookupListPageController extends Controller {		
@@ -23,17 +24,16 @@ public class LookupListPageController extends Controller {
 		/*---- Insert your code here... ----*/
 		LookupListPage model = new LookupListPage();
 		ArrayList<LookupListPage.Table_1> lista = new ArrayList<>();
-		Action a = new Action();
-		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
-			a.setEnv_fk(model.getEnv_fk());
-			a.setPage(model.getPage());
-			a.setPage_descr(model.getPage_descr());
 		}
+		List<Action> listActions = new Action().find()
+											   .andWhere("application", "=", model.getEnv_fk())
+											   .andWhere("page", "like", model.getPage())
+											   .andWhere("page_descr", "like", model.getPage_descr())
+											   .all();
 		
-		for(Object obj : a.getAll_() ){
-			Action ac = (Action) obj;
+		for(Action ac : listActions){
 			LookupListPage.Table_1 table1 = new LookupListPage().new Table_1();
 			table1.setP_id(ac.getId());
 			table1.setNome_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());

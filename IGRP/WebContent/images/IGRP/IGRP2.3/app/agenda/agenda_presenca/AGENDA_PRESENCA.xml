@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/agenda_presenca/AGENDA_PRESENCA.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>AGENDA_PRESENCA</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>AGENDA_PRESENCA</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Marcar Presença de Uma Agenda feita</title>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Entidade</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </entidade>
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Balcão</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </balcao>
+                <serviao name="p_serviao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Servião</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </serviao>
+                <date_de name="p_date_de" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Date de</label>
+                    <value/>
+                </date_de>
+                <data_ate name="p_data_ate" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
+                    <label>Data até</label>
+                    <value/>
+                </data_ate>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="confirmar">
+                <title>Confirmar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>confirm</target>
+                <img>success|fa-check</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>success||fa-check|www</params>
+            </item>
+            <item type="specific" code="" rel="notificar">
+                <title>Notificar</title>
+                <app>agenda</app>
+                <page>AddServicos</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>warning|fa-commenting</img>
+                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
+                <params>warning||fa-commenting|www</params>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                    <label>Dia</label>
+                </dia>
+                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Hora</label>
+                </hora>
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Nome</label>
+                </nome>
+                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Balcão</label>
+                </balcao>
+                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Serviço</label>
+                </servico>
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                    <label>Estado</label>
+                </estado>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                    <label>Checkbox</label>
+                </checkbox_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Accusantium labore officia sit totam</hora>
+                        <nome name="p_nome">Sit stract ut totam natus</nome>
+                        <balcao name="p_balcao">Unde adipiscing unde labore lorem</balcao>
+                        <servico name="p_servico">Stract anim dolor adipiscing omnis</servico>
+                        <estado name="p_estado">Laudantium sit aliqua doloremque lorem</estado>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Natus voluptatem dolor iste officia</hora>
+                        <nome name="p_nome">Sit natus sit ipsum ut</nome>
+                        <balcao name="p_balcao">Lorem unde sit dolor adipiscing</balcao>
+                        <servico name="p_servico">Unde dolor ipsum officia aperiam</servico>
+                        <estado name="p_estado">Lorem stract laudantium officia natus</estado>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Mollit sit accusantium ipsum officia</hora>
+                        <nome name="p_nome">Omnis aperiam adipiscing unde accusantium</nome>
+                        <balcao name="p_balcao">Accusantium officia sit voluptatem aperiam</balcao>
+                        <servico name="p_servico">Magna amet laudantium perspiciatis mollit</servico>
+                        <estado name="p_estado">Magna omnis ipsum adipiscing perspiciatis</estado>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Ut aperiam iste perspiciatis unde</hora>
+                        <nome name="p_nome">Officia omnis deserunt labore amet</nome>
+                        <balcao name="p_balcao">Anim accusantium doloremque totam doloremque</balcao>
+                        <servico name="p_servico">Aliqua labore elit lorem labore</servico>
+                        <estado name="p_estado">Dolor unde labore sit elit</estado>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

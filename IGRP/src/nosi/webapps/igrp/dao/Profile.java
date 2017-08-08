@@ -1,391 +1,204 @@
 package nosi.webapps.igrp.dao;
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
-import nosi.core.dao.RowDataGateway;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Query;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.Permission;
 
-public class Profile implements RowDataGateway {
+
+@Entity
+@Table(name="tbl_profile",uniqueConstraints={
+	    @UniqueConstraint(name="PROFILE_UNIQUE_FK",columnNames = {"type", "type_fk","user_fk","org_fk","prof_type_fk"})
+	})
+public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	
-	private int prof_type_fk;
-	private int user_fk;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3033627274691354839L;
+	/**
+	 * 
+	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false)
+	private Integer type_fk;
+	@Column(nullable=false)
 	private String type;
-	private int type_fk;
-	private int org_fk;
-	private Connection con;	
+	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@JoinColumn(name="prof_type_fk",foreignKey=@ForeignKey(name="PROFILE_PROF_TYPE_FK"),nullable=false)
+	private ProfileType profileType;
+	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="PROFILE_USER_FK"),nullable=false)
+	private User user;
+	@ManyToOne(cascade=CascadeType.REMOVE,fetch = FetchType.EAGER)
+	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="PROFILE_ORGANIZATION_FK"),nullable=false)
+	private Organization organization;
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile that = (Profile) o;
+        return Objects.equals(this.user, that.getUser()) && Objects.equals(this.organization, that.getOrganization()) && Objects.equals(this.profileType, that.getProfileType()) && Objects.equals(this.type, that.getType()) && Objects.equals(this.type_fk, that.getType_fk());
+    }
 
-	public int getProf_type_fk() {
-		return prof_type_fk;
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.user,this.organization,this.profileType,this.type,this.type_fk);
+    }
+    
+	public Profile(){}
+	
+	public Profile(Integer type_fk, String type, ProfileType profileType, User user, Organization organization) {
+		super();
+		this.type_fk = type_fk;
+		this.type = type;
+		this.profileType = profileType;
+		this.user = user;
+		this.organization = organization;
 	}
-
-	public void setProf_type_fk(int prof_type_fk) {
-		this.prof_type_fk = prof_type_fk;
+	
+	public Integer getType_fk() {
+		return type_fk;
 	}
-
-	public int getUser_fk() {
-		return user_fk;
+	public void setType_fk(Integer type_fk) {
+		this.type_fk = type_fk;
 	}
-
-	public void setUser_fk(int user_fk) {
-		this.user_fk = user_fk;
-	}
-
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public int getType_fk() {
-		return type_fk;
+	public ProfileType getProfileType() {
+		return profileType;
+	}
+	public void setProfileType(ProfileType profileType) {
+		this.profileType = profileType;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setType_fk(int type_fk) {
-		this.type_fk = type_fk;
+	public Profile getByUserPerfil(int id_user, int id_app) {
+		return this.findOne(this.getCriteria().where(
+				this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
+				this.getBuilder().equal(this.getRoot().get("user"), id_user),
+				this.getBuilder().equal(this.getRoot().join("profileType").get("application"), id_app)
+		));
 	}
 
-	public int getOrg_fk() {
-		return org_fk;
+	public Profile getByUser(Integer id) {
+		return this.findOne(this.getCriteria().where(
+					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
+					this.getBuilder().equal(this.getRoot().get("user"),id)
+				));
+	}
+	
+	public List<Profile> getMyPerfile() {
+		List<Profile> list = this.findAll(this.getCriteria().where(
+					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
+					this.getBuilder().equal(this.getRoot().get("user"),Igrp.getInstance().getUser().getIdentity().getIdentityId()),
+					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),Permission.getCurrentEnv())
+				));
+		return list;
 	}
 
-	public void setOrg_fk(int org_fk) {
-		this.org_fk = org_fk;
+	public boolean isInsertedPerfMen() {
+		Profile p = new Profile();
+		p = p.findOne(p.getCriteria().where(
+					p.getBuilder().equal(p.getRoot().get("type"), "MEN"),
+					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
+					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization()!=null?this.getOrganization().getId():1),
+					p.getBuilder().equal(p.getRoot().get("profileType"),this.getProfileType().getId())
+				));
+		return p!=null && p.getProfileType()!=null;
 	}
 
-	
-	
-	public Profile() {
-		super();
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+	public boolean isInsertedOrgMen() {
+		Profile p = new Profile();
+		p = p.findOne(p.getCriteria().where(
+					p.getBuilder().equal(p.getRoot().get("type"), "MEN"),
+					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
+					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization().getId())
+				));
+		return p!=null && p.getOrganization()!=null;
 	}
 
-	@Override
-	public boolean insert() {
-		int result = 0;
-		try {
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_profile"
-					+ "(prof_type_fk, user_fk, type, type_fk, org_fk) "
-					+ "VALUES (?, ?, ?, ?, ?)");
-			st.setInt(1, this.prof_type_fk);
-			st.setInt(2, this.user_fk);
-			st.setString(3, this.type);
-			st.setInt(4, this.type_fk);
-			st.setInt(5, this.org_fk);
-			
-			result = st.executeUpdate();
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result > 0;
+	public void deleteAllProfile() {
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		Query q = em.createNativeQuery("DELETE FROM tbl_profile where "
+				+ "prof_type_fk = ? "
+				+ "and user_fk =? "
+				+ "and type =? "
+				+ "and org_fk =?");
+		q.setParameter(1, this.getProfileType().getId());
+		q.setParameter(2, this.getUser().getId());
+		q.setParameter(3, this.type  );
+		q.setParameter(4, this.getOrganization().getId());
+		q.executeUpdate();
+		t.commit();
+		em.close();
 	}
 
-	@Override
-	public Object getOne() {
-		Profile obj = new Profile();
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT * FROM glb_t_profile "
-					+ " WHERE prof_type_fk=? "
-					+ " AND user_fk=? "
-					+ " AND type_fk=? "
-					+ " AND type=? "
-					+ " AND org_fk=?");
-			st.setInt(1, this.prof_type_fk);
-			st.setInt(2, this.user_fk);
-			st.setInt(3, this.type_fk);
-			st.setString(4, this.type);
-			st.setInt(5, this.org_fk);
-			ResultSet res = st.executeQuery();
-			while(res.next()){
-				obj.setProf_type_fk(res.getInt("prof_type_fk"));
-				obj.setUser_fk(res.getInt("user_fk"));
-				obj.setType(res.getString("type"));
-				obj.setType_fk(res.getInt("type_fk"));
-				obj.setOrg_fk(res.getInt("org_fk"));
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
-	}
-
-	@Override
-	public boolean update() {
-		try {
-			user_fk = 2;
-			type = "MEN";
-			org_fk = 17;
-			type_fk = 18;
-			prof_type_fk = 18;
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("UPDATE glb_t_profile SET "
-					+ "prof_type_fk=?, "
-					+ "user_fk=?, "
-					+ "type=?, "
-					+ "type_fk=?, "
-					+ "org_fk=? "
-					+ " WHERE prof_type_fk = " + this.prof_type_fk + " and user_fk = " + 
-					this.user_fk + " and type_fk = " + this.type_fk + " and org_fk = " + this.org_fk);
-			
-			st.setInt(1, this.prof_type_fk);
-			st.setInt(2, this.user_fk);
-			st.setString(3, this.type);
-			st.setInt(4, this.type_fk);
-			st.setInt(5, this.org_fk);
-			
-			st.executeUpdate();
-			st.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean delete() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
-					+ "prof_type_fk = ? "
-					+ "and user_fk =? "
-					+ "and type =? "
-					+ "and type_fk =? "
-					+ "and org_fk =?");
-			st.setInt(1, this.prof_type_fk );
-			st.setInt(2, this.user_fk );
-			st.setString(3, this.type  );
-			st.setInt(4, this.type_fk  );
-			st.setInt(5, this.org_fk );
-			
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	
-	public boolean deleteAllOrgProfile() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
-					+ "prof_type_fk = ? "
-					+ "and user_fk =? "
-					+ "and type =? "
-					+ "and org_fk =?");
-			st.setInt(1, this.prof_type_fk );
-			st.setInt(2, this.user_fk );
-			st.setString(3, this.type  );
-			st.setInt(4, this.org_fk );
-			
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	
-	public boolean deleteAllPerfilProfile() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_profile where "
-					+ "prof_type_fk = ? "
-					+ "and user_fk =? "
-					+ "and type =? "
-					+ "and org_fk =?");
-			st.setInt(1, this.prof_type_fk );
-			st.setInt(2, this.user_fk );
-			st.setString(3, this.type  );
-			st.setInt(4, this.org_fk );
-			
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	@Override
-	public Object[] getAll() {
-		ArrayList<Profile> lista = new ArrayList<>();
-		try{
-			
-			Statement st = con.createStatement();
-			ResultSet res = st.executeQuery("SELECT prof_type_fk, user_fk, type, type_fk, org_fk "
-					+ "FROM glb_t_profile");
-			while(res.next()){
-				Profile obj = new Profile();
-				obj.setProf_type_fk(res.getInt("prof_type_fk"));
-				obj.setUser_fk(res.getInt("user_fk"));
-				obj.setType(res.getString("type"));
-				obj.setType_fk(res.getInt("type_fk"));
-				obj.setOrg_fk(res.getInt("org_fk"));
-				lista.add(obj);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-	
-	public Object getByUser(int userId) {
-		boolean flag = false;
-		try{
-			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ?");
-			st.setInt(1, userId);
-			ResultSet res = st.executeQuery();
-			while(res.next()){
-				this.setProf_type_fk(res.getInt("prof_type_fk"));
-				this.setUser_fk(res.getInt("user_fk"));
-				this.setType(res.getString("type"));
-				this.setType_fk(res.getInt("type_fk"));
-				this.setOrg_fk(res.getInt("org_fk"));
-				flag = true;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return flag ? this : null;
-	}
-	
-	public Object getByUserAndPerfil(int userId, int profileId) {
-		boolean flag = false;
-		try{
-			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ? and TYPE_FK = ?");
-			st.setInt(1, userId);
-			st.setInt(2, profileId);
-			ResultSet res = st.executeQuery();
-			while(res.next()){
-				this.setProf_type_fk(res.getInt("prof_type_fk"));
-				this.setUser_fk(res.getInt("user_fk"));
-				this.setType(res.getString("type"));
-				this.setType_fk(res.getInt("type_fk"));
-				this.setOrg_fk(res.getInt("org_fk"));
-				flag = true;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return flag ? this : null;
-	}
-	
-
-	public Object getByUserPerfil(int userId,int id_app) {
-		try{
-			PreparedStatement st = this.con.prepareStatement("SELECT p.* FROM glb_t_profile p, glb_t_profile_type pt WHERE p.prof_type_fk=pt.id AND p.TYPE = ? AND p.user_fk = ? AND pt.env_fk=?");
-			st.setString(1, "PROF");
-			st.setInt(2, userId);
-			st.setInt(3, id_app);
-			ResultSet res = st.executeQuery();
-			Profile p = new Profile();
-			while(res.next()){
-				p.setProf_type_fk(res.getInt("prof_type_fk"));
-				p.setUser_fk(res.getInt("user_fk"));
-				p.setType(res.getString("type"));
-				p.setType_fk(res.getInt("type_fk"));
-				p.setOrg_fk(res.getInt("org_fk"));
-				return p;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	public boolean isInsertedOrgTrans() {
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_ORG_TRANS WHERE org_fk=? AND id=?");
-			st.setInt(1, this.org_fk);
-			st.setInt(2, this.type_fk);
-			ResultSet res = st.executeQuery();
-			if(res.next()){
-				return res.getInt("org_fk") > 0;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+		Profile p = new Profile();
+		p = p.findOne(p.getCriteria().where(
+					p.getBuilder().equal(p.getRoot().get("type"), "TRANS"),
+					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
+					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization().getId())
+				));
+		return p!=null && p.getOrganization()!=null;
 	}
 
 	public boolean isInsertedPerfTrans() {
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_PROF_TRANS WHERE org_fk=? AND id=?");
-			st.setInt(1, this.org_fk);
-			st.setInt(2, this.type_fk);
-			ResultSet res = st.executeQuery();
-			if(res.next()){
-				return res.getInt("org_fk") > 0;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+		Profile p = new Profile();
+		p = p.findOne(p.getCriteria().where(
+					p.getBuilder().equal(p.getRoot().get("type"), "TRANS"),
+					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
+					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization()!=null?this.getOrganization().getId():1),
+					p.getBuilder().equal(p.getRoot().get("profileType"),this.getProfileType().getId())
+				));
+		return p!=null && p.getProfileType()!=null;
 	}
-	
-
-	public boolean isInsertedOrgMen() {
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT org_fk FROM GLB_V_ORG_MENU WHERE org_fk=? AND id=?");
-			st.setInt(1, this.org_fk);
-			st.setInt(2, this.type_fk);
-			ResultSet res = st.executeQuery();
-			if(res.next()){
-				return res.getInt("org_fk") > 0;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
-	public boolean isInsertedPerfMen() {
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT prof_type_fk FROM GLB_V_PROF_MENU WHERE org_fk=? AND prof_type_fk=? AND id=?");
-			st.setInt(1, this.org_fk);
-			st.setInt(2, this.prof_type_fk);
-			st.setInt(3, this.type_fk);
-			ResultSet res = st.executeQuery();
-			if(res.next()){
-				return res.getInt("prof_type_fk") > 0;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	public Object getByUserAndOrganization(int userId, int organizationId) {
-		boolean flag = false;
-		try{
-			PreparedStatement st = this.con.prepareStatement("SELECT prof_type_fk, user_fk, type, type_fk, org_fk FROM glb_t_profile where TYPE = 'PROF' and user_fk = ? and TYPE_FK = ?");
-			st.setInt(1, userId);
-			st.setInt(2, organizationId);
-			ResultSet res = st.executeQuery();
-			if(res.next()){
-				this.setProf_type_fk(res.getInt("prof_type_fk"));
-				this.setUser_fk(res.getInt("user_fk"));
-				this.setType(res.getString("type"));
-				this.setType_fk(res.getInt("type_fk"));
-				this.setOrg_fk(res.getInt("org_fk"));
-				flag = true;
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return flag ? this : null;
-	}
-	
 }

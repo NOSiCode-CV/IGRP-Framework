@@ -14,6 +14,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 @XmlAccessorType (XmlAccessType.FIELD)
 public class DbInfo implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@XmlElement(name = "connectionName")
 	private String connectionName;
 	
@@ -34,6 +39,9 @@ public class DbInfo implements Serializable{
 	
 	@XmlElement(name = "port")
 	private int port;
+	
+	@XmlElement(name = "default")
+	private String default_db;
 	
 	public String getConnectionName() {
 		return connectionName;
@@ -77,5 +85,10 @@ public class DbInfo implements Serializable{
 	public void setPort(int port) {
 		this.port = port;
 	}
-	
+	public String getDefault_db() {
+		return default_db;
+	}
+	public void setDefault_db(String default_db) {
+		this.default_db = default_db;
+	}	
 }

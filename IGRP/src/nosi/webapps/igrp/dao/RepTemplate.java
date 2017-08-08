@@ -1,45 +1,93 @@
 package nosi.webapps.igrp.dao;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import nosi.core.webapp.Igrp;
-
 /**
  * @author: Emanuel Pereira
- * 16 Jun 2017
+ * 29 Jun 2017
  */
-public class RepTemplate{
+import java.util.Date;
+import java.util.List;
 
-	private int id;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import nosi.base.ActiveRecord.BaseActiveRecord;
+import java.io.Serializable;
+
+@Entity
+@Table(name="tbl_rep_template")
+public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4986692344136748109L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	private String code;
+	@Column(nullable=false)
 	private String name;
-	private int env_fk;
-	private int html_content_fk;
-	private int xsl_content_fk;
+	@Temporal(TemporalType.DATE)
 	private Date dt_created;
+	@Temporal(TemporalType.DATE)
 	private Date dt_updated;
-	private int user_created_fk;
-	private int user_updated_fk;
 	private int status;
-	private int data_source_id;
-	private int template_id;
-	private Application env;
 	
+	@ManyToOne
+	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_USER_CREATED_FK"),nullable=false)
+	private User user_created;
 	
-	private Connection con;
-	public RepTemplate() {
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+	@ManyToOne
+	@JoinColumn(name="user_updated_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_USER_UPDATED_FK"),nullable=false)
+	private User user_updated;	
+	
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_ENV_FK"),nullable=false)
+	private Application application;
+	
+	@ManyToOne
+	@JoinColumn(name="xml_content_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_XML_CONTENT_FK"),nullable=false)
+	private CLob xml_content;
+	
+	@ManyToOne
+	@JoinColumn(name="xsl_content_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_XSL_CONTENT_FK"),nullable=false)
+	private CLob xsl_content;
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<RepTemplateParam> params;
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<RepTemplateSource> reptemplatesources;
+	
+	public RepTemplate(){}
+	
+	public RepTemplate(String code, String name, Date dt_created, Date dt_updated, int status,User user_created, User user_updated, Application application,
+			CLob xml_content, CLob xsl_content) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.dt_created = dt_created;
+		this.dt_updated = dt_updated;
+		this.status = status;
+		this.user_created = user_created;
+		this.user_updated = user_updated;
+		this.application = application;
+		this.xml_content = xml_content;
+		this.xsl_content = xsl_content;
 	}
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -59,30 +107,6 @@ public class RepTemplate{
 		this.name = name;
 	}
 
-	public int getEnv_fk() {
-		return env_fk;
-	}
-
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-
-	public int getHtml_content_fk() {
-		return html_content_fk;
-	}
-
-	public void setHtml_content_fk(int html_content_fk) {
-		this.html_content_fk = html_content_fk;
-	}
-
-	public int getXsl_content_fk() {
-		return xsl_content_fk;
-	}
-
-	public void setXsl_content_fk(int xsl_content_fk) {
-		this.xsl_content_fk = xsl_content_fk;
-	}
-
 	public Date getDt_created() {
 		return dt_created;
 	}
@@ -99,22 +123,6 @@ public class RepTemplate{
 		this.dt_updated = dt_updated;
 	}
 
-	public int getUser_created_fk() {
-		return user_created_fk;
-	}
-
-	public void setUser_created_fk(int user_created_fk) {
-		this.user_created_fk = user_created_fk;
-	}
-
-	public int getUser_updated_fk() {
-		return user_updated_fk;
-	}
-
-	public void setUser_updated_fk(int user_updated_fk) {
-		this.user_updated_fk = user_updated_fk;
-	}
-
 	public int getStatus() {
 		return status;
 	}
@@ -122,211 +130,60 @@ public class RepTemplate{
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	public Application getEnv() {
-		return env;
-	}
-	public void setEnv(Application env) {
-		this.env = env;
-	}
-	public int getData_source_id() {
-		return data_source_id;
-	}
-	public void setData_source_id(int data_source_id) {
-		this.data_source_id = data_source_id;
-	}
-	public int getTemplate_id() {
-		return template_id;
-	}
-	public void setTemplate_id(int template_id) {
-		this.template_id = template_id;
-	}
-	public RepTemplate insert() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_rep_template"+
-			             "(code,name,env_fk,html_content_fk,xsl_content_fk,dt_created,dt_updated,user_created_fk,user_updated_fk,status)" +
-					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?,?)",Statement.RETURN_GENERATED_KEYS);			
-			st.setString(1, this.code);
-			st.setString(2, this.name);
-			st.setInt(3, this.env_fk);
-			st.setInt(4, this.html_content_fk);
-			st.setInt(5, this.xsl_content_fk);
-			st.setDate(6, (Date)this.dt_created);
-			st.setDate(7,(Date)this.dt_updated);
-			st.setInt(8, this.user_created_fk);
-			st.setInt(9,this.user_updated_fk);
-			st.setInt(10,this.status);
-			st.executeUpdate();
-			try (ResultSet generatedKeys = st.getGeneratedKeys()) {
-	            if (generatedKeys.next()) {
-	                this.setId(generatedKeys.getInt(1));
-	            }
-	        }
-			st.close();
-			return getOne();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return this;
-	}
-	
-	public RepTemplate insertTemplateDataSource(int id_t,int id_dt) {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_rep_template_source"+
-			             "(data_source_id,template_id)" +
-					     "VALUES(?, ?)");			
-			st.setInt(1, id_dt);
-			st.setInt(2, id_t);
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return this;
-	}
-	
-	public RepTemplate getOne() {
-		RepTemplate obj = new RepTemplate();
-		try{
-		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT r.*,e.dad,e.img_src FROM glb_t_rep_template r, glb_t_env e where (r.env_fk=e.id) AND (r.id = "+ this.id+")");
-		while(result.next()){
-			obj.setId(result.getInt("id"));
-			obj.setName(result.getString("name"));
-		    obj.setCode(result.getString("code")); 
-			obj.setHtml_content_fk(result.getInt("html_content_fk"));
-			obj.setXsl_content_fk(result.getInt("xsl_content_fk"));
-			obj.setEnv_fk(result.getInt("env_fk"));
-			obj.setDt_created(result.getDate("dt_created"));
-			obj.setDt_updated(result.getDate("dt_updated")); 
-			obj.setUser_created_fk(result.getInt("user_created_fk"));
-			obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-			obj.setStatus(result.getInt("status"));		
-			Application a = new Application();
-			a.setDad(result.getString("dad"));
-			a.setImg_src(result.getString("img_src"));
-			obj.setEnv(a);
-		}
-		st.close();
-		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+
+	public User getUser_created() {
+		return user_created;
 	}
 
-//	@Override
-//	public boolean update() {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean delete() {
-//		// TODO Auto-generated method stub
-//		return false;
-//	}
-//
-//	@Override
-	public Object[] getAll() {
-		ArrayList<RepTemplate> lista = new ArrayList<>();		
-		try{
-			String sql = "SELECT * FROM glb_t_rep_template where 1=1 ";
-			sql += (this.getName()!=null && !this.getName().equals("")) ? " and lower (name) like lower ('%" + this.getName() + "%') ": " ";
-			sql += (this.getEnv_fk()!=0) ? " and env_fk="+this.getEnv_fk(): " ";
-			
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet result = st.executeQuery();
-			while(result.next()){
-				RepTemplate obj = new RepTemplate();
-				obj.setId(result.getInt("id"));
-				obj.setName(result.getString("name"));
-			    obj.setCode(result.getString("code")); 
-				obj.setHtml_content_fk(result.getInt("html_content_fk"));
-				obj.setXsl_content_fk(result.getInt("xsl_content_fk"));
-				obj.setEnv_fk(result.getInt("env_fk"));
-				obj.setDt_created(result.getDate("dt_created"));
-				obj.setDt_updated(result.getDate("dt_updated")); 
-				obj.setUser_created_fk(result.getInt("user_created_fk"));
-				obj.setUser_updated_fk(result.getInt("user_updated_fk"));
-				obj.setStatus(result.getInt("status"));					
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lista.toArray();
+	public void setUser_created(User user_created) {
+		this.user_created = user_created;
 	}
-	
-	public Object[] getAllDataSources() {
-		ArrayList<RepTemplate> lista = new ArrayList<>();		
-		try{
-			String sql = "SELECT * FROM GLB_T_REP_TEMPLATE_SOURCE where 1=1 ";
-			sql += (this.getId()!=0) ? " and template_id="+this.getId(): " ";	
-			sql += (this.getData_source_id()!=0) ? " and data_source_id="+this.getData_source_id(): " ";	
-			
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet result = st.executeQuery();
-			while(result.next()){	
-				RepTemplate obj = new RepTemplate();
-				obj.setData_source_id(result.getInt("data_source_id"));
-				obj.setTemplate_id(result.getInt("template_id"));
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-	
-	
-	public RepTemplate update() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("UPDATE glb_t_rep_template SET "+
-			             "code=?,name=?,env_fk=?,html_content_fk=?,xsl_content_fk=?,dt_created=?,dt_updated=?,user_created_fk=?,user_updated_fk=?,status=? WHERE id=?");			
-			st.setString(1, this.code);
-			st.setString(2, this.name);
-			st.setInt(3, this.env_fk);
-			st.setInt(4, this.html_content_fk);
-			st.setInt(5, this.xsl_content_fk);
-			st.setDate(6, (Date)this.dt_created);
-			st.setDate(7,(Date)this.dt_updated);
-			st.setInt(8, this.user_created_fk);
-			st.setInt(9,this.user_updated_fk);
-			st.setInt(10,this.status);
-			st.setInt(11,this.id);
-			st.executeUpdate();
-			st.close();
-			return getOne();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return this;
-	}
-	public boolean deleteTemplateDataSource(int id) {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("DELETE FROM GLB_T_REP_TEMPLATE_SOURCE WHERE template_id=?");	
-			st.setInt(1, this.id);
-			st.executeUpdate();
-			st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
 
+	public User getUser_updated() {
+		return user_updated;
+	}
+
+	public void setUser_updated(User user_updated) {
+		this.user_updated = user_updated;
+	}
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	public CLob getXml_content() {
+		return xml_content;
+	}
+
+	public void setXml_content(CLob xml_content) {
+		this.xml_content = xml_content;
+	}
+
+	public CLob getXsl_content() {
+		return xsl_content;
+	}
+
+	public void setXsl_content(CLob xsl_content) {
+		this.xsl_content = xsl_content;
+	}
+
+	public List<RepTemplateParam> getParams() {
+		return params;
+	}
+
+	public void setParams(List<RepTemplateParam> params) {
+		this.params = params;
+	}
+
+	public List<RepTemplateSource> getReptemplatesources() {
+		return reptemplatesources;
+	}
+
+	public void setReptemplatesources(List<RepTemplateSource> reptemplatesources) {
+		this.reptemplatesources = reptemplatesources;
+	}
 }

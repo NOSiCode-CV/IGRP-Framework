@@ -1,17 +1,23 @@
 package nosi.core.webapp;
-
+/**
+ * @author Marcel Iekiny
+ * Apr 14, 2017
+ */
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXB;
 import java.io.File;
 import nosi.core.config.AppConfig;
-import nosi.core.dao.IgrpDb;
+import nosi.core.config.Config;
+import nosi.core.config.DbConfig;
+import nosi.core.config.DbInfo;
 import nosi.core.servlet.IgrpServlet;
-/**
- * @author Marcel Iekiny
- * Apr 14, 2017
- */
+import nosi.webapps.igrp.pages.migrate.Migrate;
+
 public class Igrp {
 	
 	private static Igrp app;
@@ -34,11 +40,7 @@ public class Igrp {
 	
 	// Store all igrp app config. information
 	private AppConfig appConfig;
-	
-	// Others Web Application Components
-	// Db component
-	private IgrpDb igrpDb;
-	
+	private DbConfig dbConfig;
 	//Flash Message
 	private FlashMessage flashMessage;
 	
@@ -55,7 +57,7 @@ public class Igrp {
 		}
 	return Igrp.app;
 	}
-	
+
 	// Inicialize the web app components
 	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
@@ -70,28 +72,23 @@ public class Igrp {
 			
 			// load app configuration
 			this.loadAppConfig();
-			
-			// Db pool
-			this.igrpDb = new IgrpDb();
-			this.igrpDb.init();
-			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
-			
 		return this;
 	}
 	
-	public void run() throws IOException{ // run the web app 
-		if(!this.die)
+	public void run() throws IOException{ // run the web app 	
+		Config.configurationApp();
+		if(!this.die){
 			this.runController();
+		}
 		this.exit();
 	}
 	
 	private void exit(){ // Destroy all app components init. before
-		this.igrpDb.destroy(); // destroy the Db pool
 		this.die = false;
 	}
 	
@@ -105,10 +102,6 @@ public class Igrp {
 
 	public void setServlet(IgrpServlet servlet) {
 		this.servlet = servlet;
-	}
-
-	public IgrpDb getDao(){
-		return this.igrpDb;
 	}
 	
 	public Controller getCurrentController(){
@@ -176,14 +169,71 @@ public class Igrp {
 		this.die = true;
 	}
 	
-	private void loadAppConfig(){
+	public void loadAppConfig(){
 		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/app/app.xml");
 		File file = new File(path);
-		this.appConfig = JAXB.unmarshal(file, AppConfig.class);
+		this.appConfig = JAXB.unmarshal(file, AppConfig.class);		
+
+		String path_db = this.servlet.getServletContext().getRealPath("/WEB-INF/config/db/db.xml");
+		File file_db = new File(path_db);
+		this.dbConfig = JAXB.unmarshal(file_db, DbConfig.class);
 	}
 	
+	public DbConfig getDbConfig() {
+		return dbConfig;
+	}
+
+	public void setDbConfig(DbConfig dbConfig) {
+		this.dbConfig = dbConfig;
+	}
+
 	public AppConfig getAppConfig(){
 		return this.appConfig;
 	}
 	
+	public void saveAppConfig(AppConfig appconfig,Migrate model){
+		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/app/app.xml");
+		File file = new File(path);
+		JAXB.marshal(appconfig, file);
+		
+		path = appconfig.getProject_loc()+"/WebContent/WEB-INF/config/app/app.xml";
+		file = new File(path);
+		JAXB.marshal(appconfig, file);
+		
+		List<DbInfo> listDbI = new ArrayList<>();
+		DbInfo dbI = new DbInfo();
+		dbI.setDefault_db("true");
+		dbI.setConnectionName(model.getTipo_base_dados());
+		dbI.setDbmsName(model.getTipo_base_dados());
+		dbI.setDbName(model.getNome_de_bade_dados());
+		dbI.setHostName(model.getHostname());
+		dbI.setPassword(model.getPassword());
+		dbI.setUser(model.getUsername());
+		dbI.setPort(model.getPort());
+		if(!this.getDbConfig().getDbInfo().contains(dbI)){
+			listDbI.add(dbI);
+		}
+		for(DbInfo db:this.getDbConfig().getDbInfo()){
+			db.setDefault_db("false");
+			if(db.getDbmsName().equals(model.getTipo_base_dados())){
+				db.setDefault_db("true");
+				db.setConnectionName(model.getTipo_base_dados());
+				db.setDbmsName(model.getTipo_base_dados());
+				db.setDbName(model.getNome_de_bade_dados());
+				db.setHostName(model.getHostname());
+				db.setPassword(model.getPassword());
+				db.setUser(model.getUsername());
+				db.setPort(model.getPort());
+			}
+			listDbI.add(db);
+		}
+		this.dbConfig.setDbInfo(listDbI);
+		path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/db/db.xml");
+		file = new File(path);
+		JAXB.marshal(this.dbConfig, file);
+		
+		path = appconfig.getProject_loc()+"/WebContent/WEB-INF/config/db/db.xml";
+		file = new File(path);
+		JAXB.marshal(this.dbConfig, file);
+	}
 }

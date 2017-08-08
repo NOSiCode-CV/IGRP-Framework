@@ -1,168 +1,60 @@
-/**
- * 
- */
 package nosi.webapps.igrp.dao;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
-
 /**
- * @author Isaias.Nunes
- *
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
  */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import nosi.core.dao.RowDataGateway;
-import nosi.core.webapp.Igrp;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 
-public class Config implements RowDataGateway {
+import java.io.Serializable;
 
+@Entity
+@Table(name="tbl_config")
+public class Config extends BaseActiveRecord<Config> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3187302633317523568L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false,unique=true)
 	private String name;
+	@Column(nullable=false)
 	private String value;
-	private Connection con;
 	
-	public Config() {
+	public Config(){}
+	
+	public Config(String name, String value) {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+		this.name = name;
+		this.value = value;
 	}
-
-	
-	
 
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getValue() {
 		return value;
 	}
-
 	public void setValue(String value) {
 		this.value = value;
 	}
-
-	@Override
-	public boolean insert() {
-		name = "Nome teste";
-		value = "valor teste";
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_config (name, value) VALUES (?, ?)");
-			
-			st.setString(1, this.name);
-			st.setString(2, this.value);
-			
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+	public Integer getId() {
+		return id;
 	}
-
-	@Override
-	public Object getOne() {
-		
-		Config obj = new Config();
-		try{
-			//name = "Nome teste";
-			PreparedStatement st = con.prepareStatement("SELECT name, value FROM glb_t_config WHERE name = '" + this.name + "'");
-			ResultSet rs = st.executeQuery();
-			
-			while(rs.next()){
-				obj.setName(rs.getString("name"));
-				obj.setValue(rs.getString("value"));
-			}
-			
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-
-	@Override
-	public boolean update() {
-		try{
-			/*this.name = "Nome teste";
-			this.value = "valor update";*/
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("UPDATE glb_t_config SET name=?, value = ? "
-					+ "WHERE name = '" + this.name + "'");
-			st.setString(1, this.name);
-			st.setString(2, this.value);
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean delete() {
-		try{
-			name = "Nome teste";
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("DELETE FROM glb_t_config WHERE name = '" + this.name + "'");
-			st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public Object[] getAll() {
-		ArrayList<Config> lista = new ArrayList<>();
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT name, value FROM glb_t_config");
-			ResultSet rs = st.executeQuery();
-			
-			while(rs.next()){
-				Config obj = new Config();
-				obj.setName(rs.getString("name"));
-				obj.setValue(rs.getString("value"));
-				lista.add(obj);
-			}
-			st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-	
-	
-	public static void main(String[] args) {
-		new Config().insert();
-		//System.out.println(new Config().getOne());
-		//new Config().update();
-		//new Config().delete();
-		for(Object i: new Config().getAll()){
-			Config obj = (Config) i;
-			System.out.println(obj.getName());
-			System.out.println();
-			System.out.println(obj.getValue());
-		}
-	}
-
-
-
-
-	@Override
-	public String toString() {
-		return "Config [name=" + name + ", value=" + value + "]";
-	}
-	
-	
-	
 
 }

@@ -11,6 +11,7 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaPageController extends Controller {		
 
@@ -18,16 +19,19 @@ public class ListaPageController extends Controller {
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		Action a = new Action();
-		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
-			a.setEnv_fk(model.getEnv_fk());
+			Application app = new Application();
+			app.setId(model.getEnv_fk());
 			a.setPage(model.getPage());
 			a.setPage_descr(model.getPage_descr());
-		}
-		
-		for(Object obj : a.getAll_() ){
-			Action ac = (Action) obj;
+		}	
+		List<Action> actions = a.find()
+				  .andWhere("application", "=", model.getEnv_fk())
+				  .andWhere("page", "like", model.getPage())
+				  .andWhere("page_descr", "like", model.getPage_descr())
+				  .all();
+		for(Action ac:actions){
 			ListaPage.Table_1 table1 = new ListaPage().new Table_1();
 			table1.setId(ac.getId());
 			table1.setNome_page(ac.getPage());

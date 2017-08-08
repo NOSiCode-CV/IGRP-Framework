@@ -1,413 +1,182 @@
 package nosi.webapps.igrp.dao;
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 
-import nosi.core.dao.RowDataGateway;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.Permission;
-
-public class Organization implements RowDataGateway {
+@Entity
+@Table(name="tbl_organization")
+public class Organization extends BaseActiveRecord<Organization> implements Serializable{
 	
-	private int id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3697544500624399720L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false,unique=true)
 	private String code;
+	@Column(nullable=false)
 	private String name;
-	private int sigof_fk;
-	private int env_fk;
 	private int status;
-	private int user_create_fk;
-	private int self_fk; 
-	private Connection con;
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="ORGANIZATION_ENV_FK"),nullable=false)
+	private Application application;
+	@ManyToOne
+	@JoinColumn(name="user_created_fk",foreignKey=@ForeignKey(name="ORGANIZATION_USER_FK"),nullable=false)
+	private User user;
+	@ManyToOne(cascade=CascadeType.REMOVE)
+	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="ORGANIZATION_SELF_FK"),nullable=true)
+	private Organization organization;
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<ProfileType> profilesType;
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<Profile> profiles;
 	
-	@Override
-	public String toString() {
-		return "Organization [id=" + id + ", code=" + code + ", name=" + name + ", sigof_fk=" + sigof_fk + ", env_fk="
-				+ env_fk + ", status=" + status + ", user_create_fk=" + user_create_fk + ", self_fk=" + self_fk + "]";
-	}
+	public Organization(){}
 	
-	
-	public Organization() {
+	public Organization(String code, String name, int status, Application application, User user,
+			Organization organization) {
 		super();
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+		this.code = code;
+		this.name = name;
+		this.status = status;
+		this.application = application;
+		this.user = user;
+		this.organization = organization;
 	}
 
-	public int getId() {
+
+
+	public Integer getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	public String getCode() {
 		return code;
 	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public int getSigof_fk() {
-		return sigof_fk;
-	}
-
-	public void setSigof_fk(int sigof_fk) {
-		this.sigof_fk = sigof_fk;
-	}
-
-	public int getEnv_fk() {
-		return env_fk;
-	}
-
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
-	public int getUser_create_fk() {
-		return user_create_fk;
+	public Application getApplication() {
+		return application;
+	}
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
-	public void setUser_create_fk(int user_create_fk) {
-		this.user_create_fk = user_create_fk;
+	public List<ProfileType> getProfilesType() {
+		return profilesType;
 	}
 
-	public int getSelf_fk() {
-		return self_fk;
+	public void setProfilesType(List<ProfileType> profilesType) {
+		this.profilesType = profilesType;
 	}
 
-	public void setSelf_fk(int self_fk) {
-		this.self_fk = self_fk;
+	public List<Profile> getProfiles() {
+		return profiles;
 	}
 
-	@Override
-	public boolean insert() {
-		int result = 0;
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_organization"
-					+ "(code, name, sigof_fk, env_fk, status, user_create_fk, self_fk)"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?)");
-			
-			st.setString(1, this.code);
-			st.setString(2, this.name);
-			
-			if(this.sigof_fk == 0)
-				st.setNull(3, 0);
-			else
-			st.setInt(3, this.sigof_fk);
-			
-			if(this.env_fk == 0)
-				st.setNull(4, 0);
-			else
-			st.setInt(4, this.env_fk);
-			
-			st.setInt(5, this.status);
-			
-			if(this.user_create_fk == 0)
-				st.setNull(6, 0);
-			else
-			st.setInt(6, this.user_create_fk);
-			
-			if(this.self_fk == 0)
-				st.setNull(7, 0);
-			else
-			st.setInt(7, this.self_fk);
-			
-			result = st.executeUpdate();
-			st.close();
-		}catch(SQLException e){
-			System.out.println(e);
-			e.printStackTrace();
-		}
-		return result > 0;
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
-	@Override
-	public Object getOne() {
-		Organization obj = null;
-		try{
-			
-			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization where id = " + this.id + " or id = (select max(id) from glb_t_organization  )");
-			
-			if(result.next()){
-				
-				obj = new Organization();
-				obj.setId(result.getInt("id"));
-				obj.setCode(result.getString("code"));
-				obj.setName(result.getString("name"));
-				obj.setSigof_fk(result.getInt("sigof_fk"));
-				obj.setEnv_fk(result.getInt("env_fk"));
-				obj.setUser_create_fk(result.getInt("user_create_fk"));
-				obj.setStatus(result.getInt("status"));
-				obj.setSelf_fk(result.getInt("self_fk"));
-				
-				
-			}
-			
-			st.close();
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		return obj;
-	}
-
-	@Override
-	public boolean update() {
-		int result = 0;
-		try{
-			con.setAutoCommit(true);
-			String sql = "UPDATE glb_t_organization SET "
-					+ "name = ?, code = ?, sigof_fk = ?, env_fk = ?, status = ?, user_create_fk = ?, self_fk = ? "
-					+ "where id = " + this.id;
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, this.name);
-			ps.setString(2, this.code);
-			ps.setInt(3, this.sigof_fk);
-			ps.setInt(4, this.env_fk);
-			ps.setInt(5, this.status);
-			ps.setInt(6, this.user_create_fk);
-			
-			if(this.self_fk == 0)
-				ps.setNull(7, 0);
-			else
-			ps.setInt(7, this.self_fk);
-			
-	        result = ps.executeUpdate();
-	        ps.close();
-			
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return result > 0;
-	}
-	
-	@Override
-	public boolean delete() {
-		try{
-			//id = 120;
-			con.setAutoCommit(true);
-			Statement st = con.createStatement();
-	        st.executeUpdate("DELETE FROM glb_t_organization where id = " + this.id);
-	        st.close();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public Object[] getAll() {
-		ArrayList<Organization> lista = new ArrayList<Organization>();
-		
-		try{
-			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT * FROM glb_t_organization");
-			
-			while(result.next()){
-				
-				Organization obj = new Organization();
-				obj.setId(result.getInt("id"));
-				obj.setCode(result.getString("code"));
-				obj.setName(result.getString("name"));
-				obj.setSigof_fk(result.getInt("sigof_fk"));
-				obj.setEnv_fk(result.getInt("env_fk"));
-				obj.setUser_create_fk(result.getInt("user_create_fk"));
-				obj.setStatus(result.getInt("status"));
-				obj.setSelf_fk(result.getInt("self_fk"));
-				
-				lista.add(obj);
-			}
-			st.close();
-			
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		return lista.toArray();
-	}
-	
-	
-	
-	public Object[] getAllComFiltro() {
-		ArrayList<Organization> lista = new ArrayList<Organization>();
-		
-		try{
-			String sql = "SELECT * FROM glb_t_organization where 1=1 ";
-			sql += this.env_fk != 0 ? " and env_fk = " + this.env_fk : " ";
- 			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery(sql);
-			
-			while(result.next()){
-				
-				Organization obj = new Organization();
-				obj.setId(result.getInt("id"));
-				obj.setCode(result.getString("code"));
-				obj.setName(result.getString("name"));
-				obj.setSigof_fk(result.getInt("sigof_fk"));
-				obj.setEnv_fk(result.getInt("env_fk"));
-				obj.setUser_create_fk(result.getInt("user_create_fk"));
-				obj.setStatus(result.getInt("status"));
-				obj.setSelf_fk(result.getInt("self_fk"));
-				
-				lista.add(obj);
-			}
-			st.close();
-			
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		return lista.toArray();
-	}
-	
-	
-	
-	
-	public HashMap<String,String> getListOrganizations(){
+	public HashMap<String, String> getListMyOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Orgânica ---");
-		for(Object obj:new Organization().getAll()){
-			Organization org = (Organization) obj;
-			lista.put(org.getId()+"", org.getName());
+		lista.put(null, "--- Selecionar Organica ---");
+		for(Profile p: new Profile().getMyPerfile()){
+			lista.put(p.getOrganization().getId()+"", p.getOrganization().getName());
 		}
 		return lista;
 	}
-	
-	public HashMap<String,String> getListMyOrganizations(){
+
+	public HashMap<String, String> getListOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Orgânica ---");
-		for(Object obj:new Organization().getMyOrganization()){
-			Organization org = (Organization) obj;
-			lista.put(org.getId()+"", org.getName());
+		lista.put(null, "--- Selecionar Organica ---");
+		for(Organization o:this.findAll()){
+			lista.put(o.getId()+"", o.getName());
 		}
 		return lista;
 	}
-	
-	private Object[] getMyOrganization() {
-		ArrayList<Organization> lista = new ArrayList<Organization>();		
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT o.* FROM glb_t_organization o, glb_t_profile p where p.org_fk=o.id and p.type=? and p.user_fk=? and o.env_fk=? order by o.name");
-			st.setString(1, "PROF");
-			st.setInt(2, Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			Application app = new Application();
-			app.setDad(Permission.getCurrentEnv());
-			app = (Application) app.getOne();
-			st.setInt(3, app.getId());
-			ResultSet result = st.executeQuery();			
-			while(result.next()){				
-				Organization obj = new Organization();
-				obj.setId(result.getInt("id"));
-				obj.setCode(result.getString("code"));
-				obj.setName(result.getString("name"));
-				lista.add(obj);
-			}
-			st.close();			
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		return lista.toArray();
+
+	public List<Menu> getOrgMenu() {	
+		Menu m = new Menu();
+		return m.findAll(m.getCriteria().where(m.getBuilder().isNotNull(m.getRoot().get("action"))));
 	}
 
-
-	public Object[] getOrgMenu(){
-		ArrayList<Menu> lista = new ArrayList<Menu>();		
-		try{
-			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT * FROM glb_t_menu WHERE flg_base=0");			
-			while(r.next()){				
-				Menu m = new Menu();
-				m.setDescr(r.getString("descr"));		
-				m.setId(r.getInt("id"));
-				lista.add(m);
-			}
-			st.close();			
-		}catch(SQLException e){
-			e.printStackTrace();
+	public List<Menu> getPerfilMenu(Integer org) {
+		Profile pr = new Profile();
+		List<Profile> profiles = pr.findAll(pr.getCriteria().where(
+					pr.getBuilder().equal(pr.getRoot().get("type"), "MEN"),
+					pr.getBuilder().equal(pr.getRoot().get("organization"), org),
+					pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)
+				));
+		List<Menu> menus = new ArrayList<>();
+		for(Profile p:profiles){
+			menus.add(new Menu().findOne(p.getType_fk()));
 		}
-		return lista.toArray();
+		return menus;
 	}
 
+	public List<Transaction> getOrgTransaction() {
+		return new Transaction().findAll();
+	}
 
-	public Object[] getPerfilMenu(int org) {
-		ArrayList<Menu> lista = new ArrayList<Menu>();		
-		try{
-			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT * FROM GLB_V_ORG_MENU WHERE org_fk="+org);			
-			while(r.next()){				
-				Menu m = new Menu();
-				m.setDescr(r.getString("descr"));		
-				m.setId(r.getInt("id"));
-				lista.add(m);
-			}
-			st.close();			
-		}catch(SQLException e){
-			e.printStackTrace();
+	public List<Transaction> getPerfilTransaction(int org) {
+		Profile pr = new Profile();
+		List<Profile> profiles = pr.findAll(pr.getCriteria().where(
+					pr.getBuilder().equal(pr.getRoot().get("type"), "TRANS"),
+					pr.getBuilder().equal(pr.getRoot().get("organization"), org),
+					pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)
+				));
+		List<Transaction> trans = new ArrayList<>();
+		for(Profile p:profiles){
+			trans.add(new Transaction().findOne(p.getType_fk()));
 		}
-		return lista.toArray();
-	}
-
-
-	public Object[] getOrgTransaction() {
-		ArrayList<Transaction> lista = new ArrayList<Transaction>();		
-		try{
-			Statement st = con.createStatement();
-			ResultSet r = st.executeQuery("SELECT * FROM glb_t_transaction ");			
-			while(r.next()){				
-				Transaction t = new Transaction();
-				t.setDescr(r.getString("descr"));		
-				t.setId(r.getInt("id"));
-				lista.add(t);
-			}
-			st.close();			
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-
-
-	public Object[] getPerfilTransaction(int org) {
-		ArrayList<Transaction> lista = new ArrayList<Transaction>();		
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT * FROM GLB_V_ORG_TRANS WHERE org_fk=?");
-			st.setInt(1, org);			
-			ResultSet r = st.executeQuery();			
-			while(r.next()){				
-				Transaction t = new Transaction();
-				t.setDescr(r.getString("descr"));		
-				t.setId(r.getInt("id"));
-				lista.add(t);
-			}
-			st.close();			
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
-	}
-
-
-	public Object[] getUserMenu(int org_fk) {
-		// TODO Auto-generated method stub
-		return null;
+		return trans;
 	}
 }

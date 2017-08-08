@@ -44,18 +44,20 @@ public class Page {
 	}
 	
 	private void createTemplate(){
-		String path_xsl = "";
+		String path_xsl = "teste";
 		String app = Igrp.getInstance().getCurrentAppName();
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
+			Application appl = new Application();
+			appl = appl.findOne(appl.getCriteria().where(
+					appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
 			Action ac = new Action();
-			Application env = new Application();
-			env.setDad(app);
-			ac.setAction(action);
-			ac.setPage(resolvePageName(page));
-			ac.setEnv(env);
-			path_xsl = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getXslPath();
+			ac = ac.findOne(ac.getCriteria().where(
+					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
+//					ac.getBuilder().equal(ac.getRoot().get("action"), action),
+					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
+			path_xsl = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getXsl_src();
 		}
     
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");

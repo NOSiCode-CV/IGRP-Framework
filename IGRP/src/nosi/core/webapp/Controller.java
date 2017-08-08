@@ -1,14 +1,10 @@
 package nosi.core.webapp;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import nosi.core.exception.NotFoundHttpException;
+
+import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.page.Page;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Route;
 /**
  * @author Marcel Iekiny
@@ -120,15 +116,17 @@ public abstract class Controller {
 	private static void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
 		String r = app.getRequest().getParameter("r");// Catch always the first "r" parameter in query string
-		String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
-			if(r != null && r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
+		if(r!=null){
+			String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
+			if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 				String []aux = r.split("/");
 				app.setCurrentAppName(aux[0]);
 				app.setCurrentPageName(aux[1]);
 				app.setCurrentActionName(aux[2]);
-			}else{
-				throw new ServerErrorHttpException("The route format is invalid.");
+			}else{			
+				throw new ServerErrorHttpException("The route format is invalid");
 			}
+		}
 	}
 	
 	private static Object run(){ 
@@ -137,7 +135,6 @@ public abstract class Controller {
 		String auxPageName = "";
 		String  auxcontrollerPath="";
 		String auxActionName = "";
-		
 		for(String aux : app.getCurrentAppName().split("-"))
 			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 		for(String aux : app.getCurrentActionName().split("-"))
@@ -146,8 +143,7 @@ public abstract class Controller {
 			auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 		}
 		auxActionName = "action" + auxActionName;
-		auxcontrollerPath = "nosi.webapps." + auxAppName.toLowerCase() + ".pages." + auxPageName.toLowerCase() + "." + auxPageName + "Controller";
-		
+		auxcontrollerPath = Config.getPackage(auxAppName,auxPageName,auxActionName);
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
 	

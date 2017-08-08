@@ -21,10 +21,13 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepSource;
+import nosi.webapps.igrp.dao.User;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
 import java.util.Set;
 /*---- End ----*/
 
@@ -68,15 +71,19 @@ public class DataSourceController extends Controller {
 					return this.redirect("igrp","DataSource","index");
 				}
 			}
-			rep.setEnv_fk(Integer.parseInt(model.getAplicacao()));
+			Application app = new Application();
+			app = app.findOne(Integer.parseInt(model.getAplicacao()));
+			rep.setApplication(app);
 			rep.setStatus(1);
-			rep.setEnv_fk_source(Integer.parseInt(model.getAplicacao()));
+			rep.setApplication_source(app);
 			Date dt = new Date(System.currentTimeMillis());
 			rep.setDt_created(dt);
 			rep.setDt_updated(dt);
-			rep.setUser_created_fk(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			rep.setUser_updated_fk(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			if(rep.insert()){
+			User user = new User();
+			user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			rep.setUser_created(user);
+			rep.setUser_updated(user);
+			if(rep.insert()!=null){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
@@ -124,22 +131,20 @@ public class DataSourceController extends Controller {
 	//Load data source
 	private String loadDataSource(int id,int template_id) {
 		RepSource rep = new RepSource();
-		rep.setId(id);
-		rep = (RepSource) rep.getOne();
+		rep = rep.findOne(id);
 		if(rep!=null){
-			HashMap<String,Boolean> columns = new HashMap<>();
+			Set<Properties> columns = new HashSet<>();
 			String title = rep.getName();
 			if(rep.getType().equals("object") || rep.getType().equals("query")){
 				String query = rep.getType_query();
 				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
-				columns = rep.getSqlColumns(template_id,query);
+				columns = rep.getColumns(template_id,query);
 				return this.transformToXml(title,columns);
 			}else if(rep.getType().equals("page")){
 				Action ac = new Action();
-				ac.setId(rep.getType_fk());
-				ac = (Action) ac.getOne();
+				ac = ac.findOne(rep.getType_fk());
 				String fileName = ac.getPage()+".xml";
-				String basePath =Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion());
+				String basePath =Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());
 				String content = FileHelper.readFile(basePath, fileName);
 				int start = content.indexOf("<content");
 				int end = content.indexOf("</rows>");
@@ -151,21 +156,21 @@ public class DataSourceController extends Controller {
 	}
 
 	//Transform columns to xml
-	private String transformToXml(String title,HashMap<String, Boolean> columns) {
+	private String transformToXml(String title,Set<Properties> columns) {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 			xml.setElement("title", title);
 			IGRPForm form = new IGRPForm("form",(float)2.1);
-			Set<Entry<String,Boolean>> cols = columns.entrySet();
 			IGRPTable table = new IGRPTable("table",(float)2.1);
-			for(Entry<String,Boolean> c:cols){
-				Field f = new TextField(null,c.getKey());
-				f.propertie().add("name",c.getKey().toLowerCase());
-				if(c.getValue())
-					f.propertie().add("key", "true");
+			Iterator<Properties> listColumns = columns.iterator();
+			while(listColumns.hasNext()){
+				Properties p = listColumns.next();
+				Field f = new TextField(null,p.getProperty("tag"));
+				f.propertie().add("name",p.getProperty("tag"));
+				f.propertie().add("key",p.getProperty("key"));
 				form.addField(f);
 				table.addField(f);
-			}	
+			}
 			xml.addXml(form.toString());
 			xml.addXml(table.toString());
 		xml.endElement();

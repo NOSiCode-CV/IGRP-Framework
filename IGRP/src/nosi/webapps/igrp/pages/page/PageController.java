@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,28 +39,27 @@ public class PageController extends Controller {
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null){
-			Action ac = new Action();
-			ac.setId(Integer.parseInt(id));
-			Action a = (Action) ac.getOne();
+			Action a = new Action();
+			a = a.findOne(Integer.parseInt(id));
 			if(a!=null){
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk(a.getEnv_fk());
+				model.setEnv_fk(a.getApplication().getId());
 				model.setP_action(a.getAction());
 				model.setP_page_descr(a.getPage_descr());
 				model.setPage(a.getPage());
 				model.setP_id(a.getId());
 				model.setP_version(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
-				model.setP_db_connection(a.getDb_connection());
-				model.setP_flg_internet(a.getFlg_internet());
-				model.setP_flg_menu(a.getFlg_menu());
-				model.setP_flg_offline(a.getFlg_offline());
-				model.setP_flg_transaction(a.getFlg_transaction());
-				model.setP_img_src(a.getImg_src());
-				model.setP_page_type(a.getPage_type());
-				model.setP_proc_name(a.getProc_name());
-				model.setP_self_fw_id(a.getSelf_fw_id());
-				model.setP_self_id(a.getSelf_id());
+//				model.setP_db_connection(a.getDb_connection());
+//				model.setP_flg_internet(a.getFlg_internet());
+//				model.setP_flg_menu(a.getFlg_menu());
+//				model.setP_flg_offline(a.getFlg_offline());
+//				model.setP_flg_transaction(a.getFlg_transaction());
+//				model.setP_img_src(a.getImg_src());
+//				model.setP_page_type(a.getPage_type());
+//				model.setP_proc_name(a.getProc_name());
+//				model.setP_self_fw_id(a.getSelf_fw_id());
+//				model.setP_self_id(a.getSelf_id());
 				model.setP_status(a.getStatus());
 			}
 		}
@@ -74,22 +73,22 @@ public class PageController extends Controller {
 		Page model = new Page();
 		
 		Action action = new Action();
-		action.setId(Integer.parseInt(id));
-		action = (Action) action.getOne();
+		action = action.findOne(Integer.parseInt(id));
 		
-		model.setEnv_fk(action.getEnv_fk());
+		model.setEnv_fk(action.getApplication().getId());
 		model.setP_version(action.getVersion());
 		model.setPage(action.getPage());
 		model.setAction_descr(action.getPage_descr());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();
-			action.setEnv_fk(model.getEnv_fk());
+			Application app = new Application();
+			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setVersion(model.getP_version());
 			action.setPage(model.getPage());
 			action.setPage_descr(model.getAction_descr());
-			
-			if(action.update())
+			action = action.update();
+			if(action!=null)
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Página atualizada com sucesso.");
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a página.");
@@ -109,43 +108,40 @@ public class PageController extends Controller {
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();
-			
+			model.load();			
 			Application app = new Application();
-			app.setId(model.getEnv_fk());
 			Action action = new Action();
 			action.setAction("index");
+			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setAction_descr(model.getAction_descr());
-			action.setTable_name(model.getP_table_name());
-			action.setFlg_transaction(model.getP_flg_transaction());
-			action.setDb_connection(model.getP_db_connection());
+//			action.setTable_name(model.getP_table_name());
+//			action.setFlg_transaction(model.getP_flg_transaction());
+//			action.setDb_connection(model.getP_db_connection());
 			action.setPage_descr(model.getAction_descr());
-			action.setFlg_internet(model.getP_flg_transaction());
-			action.setFlg_menu(model.getP_flg_menu());
-			action.setFlg_offline(model.getP_flg_offline());
-			action.setEnv_fk(model.getEnv_fk());
-			action.setSelf_fw_id(model.getP_self_id());
-			action.setImg_src(model.getP_img_src());
-			action.setXsl_src(model.getP_xsl_src());
-			action.setSelf_fw_id(model.getP_self_fw_id());
+//			action.setFlg_internet(model.getP_flg_transaction());
+//			action.setFlg_menu(model.getP_flg_menu());
+//			action.setFlg_offline(model.getP_flg_offline());
+//			action.setEnv_fk(model.getEnv_fk());
+//			action.setSelf_fw_id(model.getP_self_id());
+//			action.setImg_src(model.getP_img_src());
+//			action.setXsl_src(model.getP_xsl_src());
+//			action.setSelf_fw_id(model.getP_self_fw_id());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-			action.setPage_type(model.getP_page_type());
-			action.setProc_name(model.getP_proc_name());
+//			action.setPage_type(model.getP_page_type());
+//			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
 			action.setVersion(model.getP_version());
-			boolean result = false;
 			if(model.getP_id()!=0){
-				result = action.update();
+				action = action.update();
 			}else{
-				result = action.insert();
+				action = action.insert();
 			}
-			if(result){
-				Application dad = ((Application)app.getOne());
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad.getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(dad.getDad(), action.getPage(), action.getVersion());		
+			if(action!=null){
+				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
 				FileHelper.save(path_xsl, action.getPage()+".json", json);
 				if(FileHelper.fileExists(Config.getProject_loc())){
-					FileHelper.save(Config.getProject_loc()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+dad.getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+					FileHelper.save(Config.getProject_loc()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
 				}
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
@@ -158,8 +154,7 @@ public class PageController extends Controller {
 	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = new Action();
-		ac.setId(Integer.parseInt(id));
-		if(ac.delete())
+		if(ac.delete(Integer.parseInt(id)))
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
@@ -170,17 +165,16 @@ public class PageController extends Controller {
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
-		Object obj = new Action().getOne(Integer.parseInt(p_id));
-		if(obj!=null){
-			Action ac = (Action) obj;			
+		Action ac = new Action().findOne(Integer.parseInt(p_id));
+		if(ac!=null){			
 			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
 			path_class = path_class.replace(".","/") + "/" +ac.getPage().toLowerCase();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getApplication().getDad()+"/"+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getProject_loc() +"/src/"+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
 			this.processJson(fileJson,ac);
@@ -209,7 +203,7 @@ public class PageController extends Controller {
 						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
 					}
 					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
+					ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
@@ -280,14 +274,11 @@ public class PageController extends Controller {
 	private void saveTransaction(String name, String label, String action, String tag,Action ac) {
 		if(ac!=null && name!=null && tag!=null){
 			Transaction t = new Transaction();
-			String code = ac.getEnv().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
-			t.setCode(code);
-			if(((Transaction)t.getOne()).getCode()==null){
-				t.setCode(code);
-				t.setDescr(label);
-				t.setEnv_fk(ac.getEnv_fk());
-				t.setStatus(1);
-				t.insert();
+			String code = ac.getApplication().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
+			t = t.find().andWhere("code", "=", code).one();
+			if(t==null){
+				t = new Transaction(code, label, 1, ac.getApplication());
+				t = t.insert();
 			}
 		}
 	}
@@ -300,17 +291,19 @@ public class PageController extends Controller {
 	public PrintWriter actionListPage() throws IOException{
 		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
-		Object[] o = new Action().getAll(p_dad);
-		if(o!=null){
-			for(Object obj:o){
-				Action ac = (Action) obj;
+		Action a = new Action();
+		List<Action> actions = a.findAll(a.getCriteria().where(
+					a.getBuilder().equal(a.getRoot().join("application").get("dad"), p_dad)
+				));
+		if(actions!=null){
+			for(Action ac:actions){
 				json += "{";
 				json += "\"action\":\""+ac.getAction() +"\",";
-				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"app\":\""+ac.getApplication().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+(ac.getPage_descr()!=null?ac.getPage_descr():ac.getPage()) +"\",";
-				json += "\"link\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
+				json += "\"link\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
 		}
@@ -323,15 +316,15 @@ public class PageController extends Controller {
 	//get detail page
 	public PrintWriter actionDetailPage() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
-		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));		
+		Action ac = new Action().findOne(Integer.parseInt(p_id));		
 		String json = "{";
 		if(ac!=null){
 				json += "\"action\":\""+ac.getAction() +"\",";
 				json += "\"action_descr\":\""+ac.getAction_descr() +"\",";
-				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"app\":\""+ac.getApplication().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
+				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
@@ -392,9 +385,9 @@ public class PageController extends Controller {
 	public PrintWriter actionVisualizar() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		String p_id = Igrp.getInstance().getRequest().getParameter("id");
-		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
+		Action ac = new Action().findOne(Integer.parseInt(p_id));	
 		if(ac!=null){			
-			String filename = Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
+			String filename = Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
 			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
 			InputStream inputStrem = context.getResourceAsStream(filename);
 	        if (inputStrem != null) {

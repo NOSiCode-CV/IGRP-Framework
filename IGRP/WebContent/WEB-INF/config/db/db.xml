@@ -1,13 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Config>
-	<db>
-		<connectionName>db1</connectionName>
-		<dbmsName>h2</dbmsName>
-		<hostName>localhost</hostName>
-		<port>0</port>
-		<dbName>db_igrp</dbName>
-		<user>user.igrp</user>
-		<password>password.igrp</password>
-	</db>
-	<!-- Place others DB connection info. here -->
-</Config>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config>
+    <db>
+        <connectionName>h2</connectionName>
+        <dbmsName>h2</dbmsName>
+        <dbName>db_igrp</dbName>
+        <user>user.igrp</user>
+        <password>password.igrp</password>
+        <hostName>~</hostName><!-- ./WEB-INF/config/db -->
+        <port>0</port>
+        <default>true</default>
+    </db>
+    <!--
+    db>
+        <connectionName>mysql</connectionName>
+        <dbmsName>mysql</dbmsName>
+        <dbName>igrp_db</dbName>
+        <user>root</user>
+        <password>root</password>
+        <hostName>localhost</hostName>
+        <port>3306</port>
+        <default>false</default>
+    </db>
+    <db>
+        <connectionName>postgresql</connectionName>
+        <dbmsName>postgresql</dbmsName>
+        <dbName>db_igrp</dbName>
+        <user>postgres</user>
+        <password>postgres</password>
+        <hostName>localhost</hostName>
+        <port>5432</port>
+        <default>false</default>
+    </db>
+    
+    <db>
+        <connectionName>oracle</connectionName>
+        <dbmsName>oracle</dbmsName>
+        <dbName>db_igrp</dbName>
+        <user>postgres</user>
+        <password>postgres</password>
+        <hostName>thin:@localhost</hostName>
+        <port>1521</port>
+        <default>false</default>
+    </db>
+    -->
+</config>
