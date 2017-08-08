@@ -8,6 +8,9 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+
+import nosi.webapps.agenda.dao.Entidade;
+import nosi.webapps.agenda.dao.Servicos;
 import nosi.webapps.agenda.helper.RestRequestHelper;
 /**
  * @author Marcel Iekiny
@@ -27,10 +30,10 @@ public final class App {
 		 
         Client client = Client.create(RestRequestHelper.applySslSecurity(config));
         
-        String url = RestRequestHelper.baseUrl + "/user";
+        String url = RestRequestHelper.baseUrl + "/servicos";
         
         WebResource resource = client.resource(url);
-       
+        /*
         User user = new User();
 		user.setUsername("IMF");
 		user.setPassword_hash("djfhjdhfjd");
@@ -41,12 +44,21 @@ public final class App {
 		user.setUpdated_at(12345);
 		user.setCreated_at(45344);
 		user.setFuncionario(1);
-		
-		String content = RestRequestHelper.createJsonPostData("_postuser", user);
-		
+		*/
+        
+        Servicos servicos = new Servicos();
+        
+        servicos.setId_entidade(37);
+        servicos.setNome_servico("Teste post");
+        servicos.setCodigo_servico("codi");
+        servicos.setEstado("1");
+        servicos.setAssunto("assuntos");
+        
+		String content = RestRequestHelper.createJsonPostData("_postservicos", servicos);
+		System.out.println(content);
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
         		.post(ClientResponse.class, content);
-
+		
    	 	String jsonResult = response.getEntity(String.class);
    	 	
         if(response.getStatus() == 200) {
@@ -54,7 +66,7 @@ public final class App {
         }
         else {
        	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult).getFaultstring());
-       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+       	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
         }
         
        client.destroy();
@@ -95,18 +107,22 @@ public final class App {
 		 
         Client client = Client.create(RestRequestHelper.applySslSecurity(config));
         
-        String url = RestRequestHelper.baseUrl + "/user";
+        String url = RestRequestHelper.baseUrl + "/entidade";
         
         WebResource resource = client.resource(url);
-       
+        
+        System.out.println("Recource " + resource);
+        
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-
+        
+        System.out.println("Response " + response);
+        
    	 	String jsonResult = response.getEntity(String.class);
-   	 
-   	 	//System.out.println(jsonResult);
+   	    
+   	 	System.out.println(jsonResult);
    	 	
         if(response.getStatus() == 200) {
-	        User entidade = (User) RestRequestHelper.convertJsonToDao(jsonResult, "tbl_userCollection", "tbl_user", new TypeToken<List<User>>(){}.getType());
+	        Entidade entidade = (Entidade) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Entidades", "Entidade", new TypeToken<List<Entidade>>(){}.getType());
 	       	System.out.println(entidade);
         }
         else {

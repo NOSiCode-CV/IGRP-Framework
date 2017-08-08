@@ -1,20 +1,23 @@
 package nosi.webapps.agenda.dao;
+
+import com.google.gson.annotations.Expose;
+
 /**
  * @author: Emanuel Pereira
  * 4 Aug 2017
  */
 public class Servicos {
-
-	private int id;
+	@Expose(serialize = false, deserialize = true)
+	private Integer id;
 	private int id_entidade;
 	private String nome_servico;
 	private String codigo_servico;
 	private String estado;
 	private String assunto;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public int getId_entidade() {
