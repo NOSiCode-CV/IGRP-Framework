@@ -1,15 +1,29 @@
 package nosi.webapps.agenda.dao;
 
-import com.google.gson.annotations.Expose;
+import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
+import nosi.webapps.agenda.helper.RestRequestHelper;
 /**
  * @author: Emanuel Pereira
  * 4 Aug 2017
  */
 public class Servicos {
+	
 	@Expose(serialize = false, deserialize = true)
 	private Integer id;
+	
 	private int id_entidade;
+	
 	private String nome_servico;
 	private String codigo_servico;
 	private String estado;
@@ -49,6 +63,38 @@ public class Servicos {
 	}
 	public void setAssunto(String assunto) {
 		this.assunto = assunto;
+	}
+	
+	public static List<Servicos> getAllServico() {
+			
+		List<Servicos> aux = null;
+		
+		try {
+			ClientConfig config = new DefaultClientConfig();
+			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        
+	        String url = RestRequestHelper.baseUrl + "/servicos";
+	        
+	        WebResource resource = client.resource(url);
+	        
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	        
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	
+	        if(response.getStatus() == 200) {
+		        aux = (List<Servicos>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Servicos", "Servico", new TypeToken<List<Servicos>>(){}.getType());
+	        }
+	        else {
+	       	 System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	        }
+	       client.destroy();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return aux;
 	}
 	
 }

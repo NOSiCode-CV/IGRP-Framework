@@ -1,6 +1,18 @@
 package nosi.webapps.agenda.dao;
 
+import java.util.List;
+
+import javax.ws.rs.core.MediaType;
+
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
+import nosi.webapps.agenda.helper.RestRequestHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -79,4 +91,34 @@ public class Balcao {
 	public void setId_organica(int id_organica) {
 		this.id_organica = id_organica;
 	}
+	
+	public static List<Balcao> getAllBalcao(){
+		List<Balcao> aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();
+			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        
+	        String url = RestRequestHelper.baseUrl + "/balcoes";
+	        
+	        WebResource resource = client.resource(url);
+	        
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	        
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	
+	        if(response.getStatus() == 200) {
+		        aux = (List<Balcao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Balcoes", "Balcao", new TypeToken<List<Balcao>>(){}.getType());
+	        }
+	        else {
+	       	 System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	        }
+	       client.destroy();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux;
+	}
+	
 }

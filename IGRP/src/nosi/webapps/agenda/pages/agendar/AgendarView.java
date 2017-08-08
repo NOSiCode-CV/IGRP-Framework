@@ -9,7 +9,6 @@ import nosi.core.gui.fields.*;
 
 public class AgendarView extends View {
 	
-	
 	public Field page_title_text;
 	public Field entidade;
 	public Field servico;
@@ -47,13 +46,13 @@ public class AgendarView extends View {
 		page_title_text.propertie().add("type","text").add("name","p_page_title_text").add("persist","true").add("maxlength","4000");
 		entidade = new ListField(model,"entidade");
 		entidade.setLabel("Entidade");
-		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true").add("null", "--- Escolher Balc„o ---");
 		servico = new ListField(model,"servico");
-		servico.setLabel("Servi√ßo");
-		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		servico.setLabel("ServiÁo");
+		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true").add("null", "--- Escolher Balc„o ---");
 		balcao = new ListField(model,"balcao");
-		balcao.setLabel("Balc√£o");
-		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		balcao.setLabel("Balc„o");
+		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true").add("null", "--- Escolher Balc„o ---");
 		data = new DateField(model,"data");
 		data.setLabel("Data");
 		data.propertie().add("name","p_data").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("class","primary").add("desc","true");
@@ -70,19 +69,19 @@ public class AgendarView extends View {
 		descritivo.setLabel("Descritivo");
 		descritivo.propertie().add("name","p_descritivo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		formulario = new LinkField(model,"formulario");
-		formulario.setLabel("Formul√°rio");
+		formulario.setLabel("Formul·rio");
 		formulario.propertie().add("name","p_formulario").add("type","link").add("target","_self").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("desc","true");
 		tipo_documento_de_identificacao = new ListField(model,"tipo_documento_de_identificacao");
-		tipo_documento_de_identificacao.setLabel("Tipo documento de identifica√ß√£o");
+		tipo_documento_de_identificacao.setLabel("Tipo documento de identificaÁ„o");
 		tipo_documento_de_identificacao.propertie().add("name","p_tipo_documento_de_identificacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		documento_de_identificacao = new NumberField(model,"documento_de_identificacao");
-		documento_de_identificacao.setLabel("Documento de Identifica√ß√£o");
+		documento_de_identificacao.setLabel("Documento de IdentificaÁ„o");
 		documento_de_identificacao.propertie().add("name","p_documento_de_identificacao").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		email = new EmailField(model,"email");
 		email.setLabel("Email");
 		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		telemovel = new NumberField(model,"telemovel");
-		telemovel.setLabel("Telem√≥vel");
+		telemovel.setLabel("TelemÛvel");
 		telemovel.propertie().add("name","p_telemovel").add("type","number").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		telefone = new NumberField(model,"telefone");
 		telefone.setLabel("Telefone");
