@@ -174,21 +174,168 @@
 
 });*/
 
+var getKey = function(p){
+  var key = 0,
+    c = p.category ? p.category.toLowerCase() : 'line';
+  switch(c){
+    case 'gateway':
+      if (p.gatewayType == 1)
+        key = 201;
+      else if(p.gatewayType == 2)
+        key = 301;
+      else if(p.gatewayType == 3)
+        key = 603;
+      else if(p.gatewayType == 4)
+        key = 204;
+      else if(p.gatewayType == 5)
+        key = 302;
+      else if(p.gatewayType == 6)
+        key = 606;
+      else if(p.gatewayType == 7)
+        key = 607;
+    break;
+    case 'lane' :
+      key = p.group;
+    break;
+    case 'activity':
+      if (p.taskType == 0) 
+        key = 103;
+      if (p.taskType == 1) 
+        key = 1;
+      else if(p.taskType == 2)
+        key = 4;
+      else if(p.taskType == 3)
+        key = 203;
+      else if(p.taskType == 4)
+        key = 204;
+      else if(p.taskType == 5)
+        key = 205;
+      else if(p.taskType == 6)
+        key = 206;
+      else if(p.taskType == 7)
+        key = 3;
+    break;
+    case 'event':
+      if (p.eventType == 1){
+        key = 101;
+        if (p.eventDimension == 8)
+          key = 104;
+        else if (p.eventDimension == 1 && p.group*1)
+          key = -802;
+        else if (p.eventDimension == 8 && p.group*1)
+          key = -803;
+      } 
+      else if(p.eventType == 2){
+        key = 102;
+        if (p.eventDimension == 8)
+          key = 107;
+        else if(p.eventDimension == 4)
+          key = 504;
+      }
+      else if(p.eventType == 3){
+        key = 103;
+        if (p.eventDimension == 4)
+          key = 507;
+      }
+      else if(p.eventType == 4){
+        key = 405;
+        if(p.eventDimension == 7)
+          key = 508;
+      }
+      else if(p.eventType == 5){
+        key = 401;
+        if(p.eventDimension == 4)
+          key = 506;
+      }
+      else if(p.eventType == 6){
+        key = 502;
+        if(p.eventDimension == 7)
+          key = 503;
+      }
+      else if(p.eventType == 7){
+        key = 404;
+      }
+      else if(p.eventType == 8)
+        key = 108;
+      else if(p.eventType == 9)
+        key = 109;
+      else if(p.eventType == 10){
+        key = 402;
+        if(p.eventDimension == 8)
+          key = 403;
+        else if(p.eventDimension == 4)
+          key = 509;
+        else if(p.eventDimension == 7)
+          key = 510;
+      }
+      else if(p.eventType == 11)
+        key = 111;
+      else if(p.eventType == 11)
+        key = 112;
+      else if(p.eventType == 13)
+        key = 108;
+    break;
+    case 'subprocess':
+      key = 103; 
+      if(isAdHoc)
+        key = 101;
+      else if(isTransaction)
+        key = 102;
+      else if(isParallel)
+        key = 104;
+      else if(isCall)
+        key = 105;
+    break;
+    case 'dataobject':
+      key = 301;
+    break;
+    case 'datastore':
+      key = 302;
+    break;
+    case 'privateprocess':
+      key = 401;
+    break;
+    case 'annotation':
+      key = 701;
+    break;
+    default:
+      key = 0;
+    break;
+  }
+  return key;
+};
+
 var calCtxMenu = function(p){
-  console.log('ok');
-    /*$.ajax({
-      url  : bpmn.url,
-      data : $(this).attr('name')+'='+bpmn.app
-    })
-    .fail(function(e){
-      $.IGRP.notify({
-        message : 'Not Found',
-        type    : 'danger'
+  var url = $("input[name='p_link_ctx_menu']").val() || $("input[name='p_env_frm_url']").val(),
+    xhttp = new XMLHttpRequest(),
+    obj   = p.ctx;
+
+  url = $.IGRP.utils.getUrl(url)+'p_key='+getKey(p.data);
+  $('li',obj).remove();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var data = $.parseXML(this.responseText),
+        li = '';
+      $('li:not(.activity)',obj).remove();
+      $.each($(data).find('rows row'),function(i,row){
+        var target = $('ctx_nome',row).text() ? $('ctx_nome',row).text() : '_blank';
+        li += '<li class="operationTable"><a href="'+$('ctx_link',row).text()+'" target="'+target+'">'
+            +$('ctx_nome',row).text()+'</a></li>';
       });
-    })
-    .done(function(data){
-      
-    });*/
+
+      $(obj).append(li);
+
+      if ($(obj).height() > 5) {
+        $(obj).css({
+          "left"    : p.point.x,
+          "top"     : p.point.y,
+          "display" : "block"
+        });
+      }
+    }
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
 };
 
 
@@ -327,7 +474,7 @@ var calCtxMenu = function(p){
         else
           addActivityNodeBoundaryEvent(url*1);
       }else{
-        param = bpmnData.key?"p_key="+bpmnData.key:"p_from="+bpmnData.from+"&p_to="+bpmnData.to;
+        param = bpmnData.key?"p_key="+getKey(bpmnData.key):"p_from="+bpmnData.from+"&p_to="+bpmnData.to;
         
         if(bpmn.id != '')
           param +="&p_id="+bpmn.id;

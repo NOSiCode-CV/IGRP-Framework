@@ -1,8 +1,10 @@
-var GENSTRUCTURES = function(){
+var GENSTRUCTURES = function(GEN){
 	var STRUC = this;
 
-	var testPATH = 'http://igrp.teste.gov.cv/images/IGRP';
+	//var GEN.UTILS.link_preview = 'http://igrp.teste.gov.cv/images/IGRP';
 	//var GEN = VARS.getGen();
+
+	console.log(GEN)
 
 	STRUC.GET = function(p){
 		var xml;
@@ -30,17 +32,33 @@ var GENSTRUCTURES = function(){
 			title      = container.GET.title ? container.GET.title() : '',
 			xmlType    = container.xml.structure ? container.xml.structure : type,
 			gType 	   = container.xml.genType ? container.xml.genType : 'container',
-			gGroup     = container.xml.genGroup ? 'true' : '';
+			gGroup     = container.xml.genGroup ? 'true' : '',
+			//clean 	   = container.xml.clean    ? 'clean="true"' : '',
 			//fields     = container.GET.fields(),
-			typeAttr   = type;
+			typeAttr   = type,
 			
 			attributes = ' type="'+type+'" xml-type="'+xmlType+'"';
-		
+
+			if(container.copyOptions){
+				var cpackageDB   = container.copyOptions.plsql ? container.copyOptions.plsql.package : '',
+					cpackageHTML = container.copyOptions.plsql ? container.copyOptions.plsql.html : '';
+				
+				attributes+= ' copy="true" copy-tag="'+container.copyOptions.container+'" copy-package-db="'+cpackageDB+'" copy-package-html="'+cpackageHTML+'"'
+			}
+			
 		if(tag){
 
 			if(container.GET.hasTitle && container.GET.hasTitle() && container.GET.title)
 				attributes+=' title="'+container.GET.title()+'"';
 
+			if(container.GET.dynamic && container.GET.dynamic())
+				attributes+=' dynamic-menu="'+container.GET.dynamic()+'"';
+
+			if(container.xml.genRemote)
+				attributes+=' gen-remote="'+container.xml.genRemote+'"';
+
+			if(container.xml.clean)
+				attributes+=' gen-clean="true" ';
 
 			for(var p in container.proprieties){
 				if(container.proprieties[p].xmlAttr)
@@ -81,6 +99,9 @@ var GENSTRUCTURES = function(){
 					if(container.xml.type == 'fingerprint')
 						rtn+=genFingerPrint(container);
 
+					if(container.GET.type() == 'treemenu')
+						rtn+=genTreeMenu(container);
+
 					if(container.xml.type == 'text'){
 						var value   = container.GET.text ? container.GET.text() : '';
 						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value><![CDATA['+value+']]></value></'+tag+'_text></fields>';
@@ -90,10 +111,7 @@ var GENSTRUCTURES = function(){
 						rtn+=genMap(container);
 				}
 
-				
-				
-					
-					//rtn+=genGraphic(container);
+				//rtn+=genGraphic(container);
 
 			rtn+='</'+tag+'>';
 
@@ -125,10 +143,16 @@ var GENSTRUCTURES = function(){
 				if(p.label && field.xml.label) 
 					rtn+='<label>'+field.GET.label()+'</label>';
 				
+
+
 				if(field.xml.options)
-					rtn+=getXMLOptions();
-				else
-					if(p.value && field.xml.value) rtn+='<value>'+DATA.get({type:type,field:p.field})+'</value>';
+					rtn+=getXMLOptions(field);
+				else{
+
+					var value = field.xml.dataValue || DATA.get({type:type,field:p.field});
+
+					if(p.value && field.xml.value) rtn+='<value>'+value+'</value>';
+				}
 				
 				if(field.xml.lookup || field.GET.type() == 'lookup')
 					rtn+='<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
@@ -136,7 +160,11 @@ var GENSTRUCTURES = function(){
 				if(field.GET.service && field.GET.service().code)
 					rtn+=getFieldServiceMap(field.GET.service());
 
+			rtn += checkRules(field,rtn);
+
 			rtn+='</'+tag+'>';
+
+			
 
 		}
 
@@ -190,8 +218,17 @@ var GENSTRUCTURES = function(){
 		}
 		
 		if(container.GET.filter && container.GET.filter()){
-			if($.trim(container.GET.filter()))
-				rtn+='<filter name="p_'+containerTag+'_filter" type="'+container.GET.filter()+'"><value></value></filter>';
+			var filter = $.trim(container.GET.filter());
+			if(filter){
+				rtn+='<'+containerTag+'_filter name="p_'+containerTag+'_filter" type="text" maxlength="100">'+
+						'<value></value>'+
+					 '</'+containerTag+'_filter>';
+
+				if(filter == 'filter_num')
+					rtn+='<'+containerTag+'_filter_pg name="p_'+containerTag+'_filter_pg" type="text" maxlength="100">'+
+						'<value>0|1|2|3|4|5|6|7|8</value>'+
+					 '</'+containerTag+'_filter_pg>';
+			}
 		}
 
 		if(container.onFieldsXMLGenerate && container.onFieldsXMLGenerate(rtn) )
@@ -218,33 +255,79 @@ var GENSTRUCTURES = function(){
 	var genTable = function(container){
 		var fields = container.GET.fields();
 		var atts = "";
+
+		var genTableFields = function(o){
+			
+			var rtn = '';
+			var total = o ? o.total : false;
+
+			fields.forEach(function(f){
+				
+				var tag     = f.xml.tag ? f.xml.tag : f.GET.tag();
+				var type    = f.GET.type();
+				/*var value   = f.xml.dataValue || DATA.get({type:type, field:f});
+				var descVal = value;*/
+				var value = '', 
+					descVal = '';
+
+				if(total){
+
+					if(f.GET.type() == 'number')
+						value = f.xml.dataValue || DATA.get({type:type, field:f});
+
+				}else{
+
+					value   = f.xml.dataValue || DATA.get({type:type, field:f});
+					descVal = value;
+
+				}
+
+
+				switch(type){
+					case 'link':
+						descVal = f.GET.label()
+					break;
+				}
+
+				var attributesStr = getAttrsArr(f,['name']);
+
+				rtn+='<'+tag+' '+attributesStr+'>'+value+'</'+tag+'>';
+				if(f.xml.desc)
+					rtn+='<'+tag+'_desc name="'+f.GET.name()+'_desc">'+descVal+'</'+tag+'_desc>';
+				
+			});
+
+			return rtn;
+		}
 		
 		var rtn ='<table>';
 				rtn+='<value>';
 				
 				if(container.GET.fields()[0]){
-					for(var i=0; i<4;i++){
+					for(var i=0; i<5;i++){
+						var aux = i+1;
+
 						rtn+='<row>';
 						
 						if(container.hasFieldType(container.contextMenu.type))
 							rtn+='<context-menu>'+
-					            '<param>p1=linha1</param>'+
-					            '<param>p2=linha1</param>'+
-					          '</context-menu>';
-					          
-							fields.forEach(function(f){
-								var tag   = f.xml.tag ? f.xml.tag : f.GET.tag();
-								var type  = f.GET.type();
-								var value =  DATA.get({type:type, field:f});
-								var attributesStr = getAttrsArr(f,['name']);
-
-								rtn+='<'+tag+' '+attributesStr+'>'+value+'</'+tag+'>';
-								if(f.xml.desc)
-									rtn+='<'+tag+'_desc name="'+f.GET.name()+'_desc">'+value+'</'+tag+'_desc>';
-								
-							});
+						            '<param>p1=linha1</param>'+
+						            '<param>p2=linha1</param>'+
+						          '</context-menu>';
+					         
+					        rtn+=genTableFields();
+							
 						rtn+='</row>';
 					}
+
+					if(container.GET.tableFooter && container.GET.tableFooter()){
+						rtn+='<row total="yes">';
+							rtn+=genTableFields({total:true});
+						rtn+='</row>'
+					}
+
+
+
 				}
 				rtn+='</value>';
 
@@ -274,13 +357,14 @@ var GENSTRUCTURES = function(){
 			var rtn      = '<'+tag+'>';
 			
 			ctx.forEach(function(item){
-				
+
 				var app    = item.action && item.action.app    ? item.action.app    : '',
 					page   = item.action && item.action.page   ? item.action.page   : '',
 					link   = item.action && item.action.action ? item.action.action : '',
 					tran   = item.GET.transaction &&  item.GET.transaction() ? 'flg_transaction="true"'  : '',
 					map    = item.GET.service && item.GET.service().code ? getFieldServiceMap(item.GET.service()) : '',
-					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default';
+					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default',
+					target = item.GET.target_fields && item.GET.target_fields() != '' ? item.GET.target()+'|'+item.GET.target_fields() : item.GET.target();
 
 
 				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'">'+
@@ -288,8 +372,8 @@ var GENSTRUCTURES = function(){
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
 	                    '<link>'+link+'</link>'+
-	                    '<parameter></parameter>'+
-	                    '<target>'+item.GET.target()+'</target>'+
+	                    '<parameter>'+item.action.link+'?</parameter>'+
+	                    '<target>'+target+'</target>'+
 	                    '<img>'+_class+'|'+item.GET.img()+'</img>'+
 	                     map+
 	                 '</item>';
@@ -316,24 +400,22 @@ var GENSTRUCTURES = function(){
 				tran   = f.GET.transaction &&  f.GET.transaction() ? 'flg_transaction="true"'  : '',
 				map    = f.GET.service && f.GET.service().code ? getFieldServiceMap(f.GET.service()) : '',
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
-				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'';
-				params = _class+'|'+img+'|'+'www';
-				try{
+				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
+				params = '',
+				actionLINK = f.action ? f.action.link : '',
+				targetFields = f.GET.target_fields && f.GET.target_fields() != '' ? '|'+f.GET.target_fields() : '';
+
 				//console.log(params);
 			rtn+='<item type="specific" code="" rel="'+tag+'" '+tran+' '+parent+'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+
 		            '<link>'+link+'</link>'+
-		            '<target>'+target+'</target>'+
+		            '<target>'+target+targetFields+'</target>'+
 		            '<img>'+_class+img+'</img>'+
-		            '<parameter>'+testPATH+'/'+f.action.link+'</parameter>'+
+		            '<parameter>'+actionLINK+'</parameter>'+
 		            map+
-		            '<params>'+params+'</params>'+
 		        '</item>';
-				}catch(e){
-					null;
-				}
 		});
 
 		return rtn;
@@ -369,40 +451,90 @@ var GENSTRUCTURES = function(){
 	};
 
 	var genFingerPrint = function(container){
-		var rtn = '<fields>';
-		rtn += '<fp_link><label>link</label><value></value></fp_link>';
-		rtn += '<fp_photo><label>Photo</label><value></value></fp_photo>';
-		rtn += '<fp_fingerright><label>Finger Right</label><value></value></fp_fingerright>';
-		rtn += '<fp_fingerleft><label>Finger Left</label><value></value></fp_fingerleft>';
-		rtn += '<fp_signature><label>Signature</label><value></value></fp_signature>';
-		rtn += '<fp_self><label>Self Service</label><value></value></fp_self>';
-		rtn += '<fp_start><label>Process Start</label><value></value></fp_start>';
-		rtn += '<fp_process name="p_number_process"><label>Number Process</label><value></value></fp_process>';
+		var rtn = '<fields>',
+			tag = container.GET.tag();
+		rtn += '<'+tag+'_link name="p_'+tag+'_link" type="link" maxlength="4000"><label>link</label><value></value></'+tag+'_link>';
+		rtn += '<'+tag+'_photo name="p_'+tag+'_photo" type="link" maxlength="4000"><label>Photo</label><value></value></'+tag+'_photo>';
+		rtn += '<'+tag+'_fingerright name="p_'+tag+'_fingerright" type="link" maxlength="4000"><label>Finger Right</label><value></value></'+tag+'_fingerright>';
+		rtn += '<'+tag+'_fingerleft name="p_'+tag+'_fingerleft"  type="link" maxlength="4000"><label>Finger Left</label><value></value></'+tag+'_fingerleft>';
+		rtn += '<'+tag+'_signature name="p_'+tag+'_signature"  type="link" maxlength="4000"><label>Signature</label><value></value></'+tag+'_signature>';
+		rtn += '<'+tag+'_self name="p_'+tag+'_self"  type="link" maxlength="4000"><label>Self Service</label><value></value></'+tag+'_self>';
+		rtn += '<'+tag+'_start name="p_'+tag+'_start"  type="link" maxlength="4000"><label>Process Start</label><value></value></'+tag+'_start>';
+		rtn += '<'+tag+'_process type="number" maxlength="30" name="p_number_process"><label>Number Process</label><value></value></'+tag+'_process>';
 		rtn += '</fields>';
 
 		return rtn;
 	};
 
+	var genTreeMenu = function(container){
+		var rtn = '<fields>',
+			row = '',
+			tag = container.GET.tag();
+		rtn += '<'+tag+'_link type="link" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
+		rtn += '<'+tag+'_tmid type="number"><label>ID</label></'+tag+'_tmid>';
+		rtn += '<'+tag+'_parent type="number"><label>Parent ID</label></'+tag+'_parent>';
+		rtn += '<'+tag+'_icon type="text"><label>Icon</label></'+tag+'_icon>';
+		rtn += '<'+tag+'_child><label>Has child value(0/X)</label></'+tag+'_child>';
+		rtn += '<'+tag+'_active><label>Is Active value(true/false)</label></'+tag+'_active>';
+		rtn += '</fields><table><value>';
+		for (var i = 0; i < 8; i++) {
+			var aux = i+1,
+			parent  = aux % 2 == 0 ? aux - 1 : aux % 3 == 0 ? aux - 2 : '';  
+
+			row += '<row>';
+			row += '<'+tag+'_link>#</'+tag+'_link>';
+			row += '<'+tag+'_link_desc> Menu '+aux+'</'+tag+'_link_desc>';
+			row += '<'+tag+'_tmid>'+aux+'</'+tag+'_tmid>';
+			row += '<'+tag+'_parent>'+parent+'</'+tag+'_parent>';
+			row += '<'+tag+'_icon></'+tag+'_icon>';
+			row += '<'+tag+'_child></'+tag+'_child>';
+			row += '<'+tag+'_active></'+tag+'_active>';
+			row += '</row>';
+		}
+		rtn +=row+'</value></table>';
+
+		return rtn;
+	};
+
+	var getFieldsService = function(service,point){
+		var rtn 	= '';
+		service.forEach(function(c){
+			if(c[0]){
+				var type = c[0].type ? 'type="'+c[0].type+'"' : '';
+				rtn+='<item '+type+' structure="list" rel="'+c[0].to+'">';
+					c.forEach(function(e,i){
+						if (i > 0) {
+							if(e.from)
+								rtn+='<row '+point+'="'+e.from+'">'+e.to+'</row>';
+							else
+								rtn+='<row>'+e.to+'</row>';
+						}
+					});
+				rtn+='</item>';
+			}else{
+				if(c.from)
+					rtn+='<item '+point+'="'+c.from+'">'+c.to+'</item>';
+				else
+					rtn+='<item>'+c.to+'</item>';
+			}
+		});
+		return rtn;
+	};
+
 	var getFieldServiceMap = function(service){
 		var GEN = VARS.getGen();
-		var rtn = '<service-map code="'+service.code+'">';
-		
-		//GEN.getAllFields();
+		var rtn = '<service code="'+service.code+'">';
+			rtn+='<request>';
+			var serviceReq = service.fieldsReq[0] ? service.fieldsReq : service.fieldsRes;
+				rtn+=getFieldsService(serviceReq,'from');
+			rtn+='</request>';
 
-		service.connections.forEach(function(c){
-			var cTag  = c.from.split('.')[0];
-			var fTag  = c.from.split('.')[1];
-			var container = GEN.getContainerByTag(cTag);
-			var field = GEN.getFieldByAttr('tag',fTag);
+			rtn+='<response>';
+			var serviceRes = service.fieldsRes[0] ? service.fieldsRes : service.fieldsReq;
+				rtn+=getFieldsService(serviceRes,'to');
+			rtn+='</response>';
 
-			var _from = container && container.hasTableRows ? c.from : fTag;
-			
-			if(field)
-				rtn+='<map><from>'+_from+'</from><to>'+c.to+'</to></map>';
-			
-			
-		});
-		rtn+='</service-map>';
+		rtn+='</service>';
 
 		return rtn;
 	}
@@ -410,28 +542,47 @@ var GENSTRUCTURES = function(){
 	var returnAttr = function(field,name){
 		var arr = '';
 		if(field.GET[name]){
+			
 			var value = field.GET[name]();
+			
 			if(field.xml.attrs[name])
 				arr+=' '+field.xml.attrs[name]()
 			else
 				arr+=' '+name+'="'+value+'"';
-			
+
 		}
 
 		return arr;
 	}
-
+	var validAttrArr = function(name){
+		
+		var rtn = false;
+		
+		if( name != 'label' && name !='tag' && name !='size' && name !='domain_value' )
+			rtn = true;
+		
+		return rtn;
+	}
 	var getAttrsArr = function(field,which){
 		var arr = "";
 		if(which && which[0])
 			which.forEach(function(name){
-				if(name != 'label' && name !='tag' && name !='size')
+				if(validAttrArr(name)){
+					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
+						arr+='persist="true"';
+
 					arr+=returnAttr(field,name);
+				}
 			});
 		else
 			for(var name in field.proprieties){
-				if(name != 'label' && name !='tag' && name !='size')
+				if(validAttrArr(name)){
+					
+					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
+						arr+=' persist="true" ';
+					
 					arr+=returnAttr(field,name);
+				}
 			}
 
 		if(field.type=='hidden')
@@ -446,13 +597,77 @@ var GENSTRUCTURES = function(){
 		return arr;
 	}
 
-	var getXMLOptions = function(){
+	var getXMLOptions = function(f){
+
 		var rtn = '<list>';
-		for(var i = 1; i <= 4 ; i++){
-			var text = 'Option '+i;
-			rtn+='<option><text>'+text+'</text><value>'+i+'</value></option>';
+		
+		if(f.type == 'select')
+			rtn+='<option></option>';
+
+		if(f.GET.domain && f.GET.domain() && f.proprieties.domain_value && f.proprieties.domain_value[0]){
+
+			f.proprieties.domain_value.forEach(function(d){
+				var value = $.IGRP.utils.htmlEncode(d.value),
+					text  = $.IGRP.utils.htmlEncode(d.text);
+				rtn+='<option><text>'+text+'</text><value>'+value+'</value></option>';
+			});
+		}else{
+			for(var i = 1; i <= 4 ; i++){
+				var text = 'Option '+i;
+				rtn+='<option><text>'+text+'</text><value>'+i+'</value></option>';
+			}
 		}
+
 		rtn+= '</list>';
 		return rtn;
 	}
+
+	var checkRules = function(f,sxml){
+		
+		var rtn   = '',
+
+			rules = f.rules;
+
+		if(rules && rules[0]){
+			
+			rtn +=	'<rules>';
+			
+			rules.forEach(function(r){
+				
+				var actions = JSON.parse(r.actions.replace(/'/g,'"'));
+				
+				actions.forEach(function(a){
+
+					var action = a.gen_rule_action;
+
+					switch(action){
+						
+						case 'remote_combobox':
+						case 'remote':
+						
+							var proc = a.gen_rule_procedure;
+
+							rtn+='<rule>';
+
+								rtn+= '<proc>'+proc+'</proc>';
+
+							rtn+='</rule>';
+								 	
+						break;
+					}
+
+				});
+
+				rtn+= '</rules>';
+				
+
+			})
+
+			
+
+		}
+
+		return rtn;
+	}	
+
 }

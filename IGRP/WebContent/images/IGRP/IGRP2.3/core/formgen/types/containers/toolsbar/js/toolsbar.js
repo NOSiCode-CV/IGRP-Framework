@@ -1,6 +1,6 @@
 var GENTOOLSBAR = function(name,params){
 	CONTAINER.call(this,name,params);
-	
+
 	var container = this;
 
 	container.xml.type = 'items';
@@ -11,12 +11,11 @@ var GENTOOLSBAR = function(name,params){
 		css:[{path:'/core/igrp/toolsbar/toolsbar.css'}]
 	}
 
+	container.autoTag = false;
+
 	container.ready = function(){
 
-		container.setPropriety({
-			name:'vertical',
-			value:true
-		});
+		container.unsetProprieties(['title']);
 
 		container.setPropriety({
 			name:'align',
@@ -52,12 +51,32 @@ var GENTOOLSBAR = function(name,params){
 				value:'default',
 				options:[
 					{value:'boxed',label:'Boxed'},
-					{value:'default',label:'Default'}
-					//{value:'btn-group-xs',label:'Small'}
+					{value:'default',label:'Default'},
+					{value:'clean',label:'Clean'}
 					
 				]
 			}
 		});
+
+		container.setPropriety({
+			name:'vertical',
+			label:'Icon Inline',
+			value:true
+		});
+
+		container.setPropriety({
+			name:'dynamic',
+			label:'Dynamic Menu',
+			value:false
+		});
+
+		
+		container.setPropriety({
+			name     :'outline',
+			value    : false
+			//xslValue : 'btn-outline'
+		});
+		
 	}
 			
 }

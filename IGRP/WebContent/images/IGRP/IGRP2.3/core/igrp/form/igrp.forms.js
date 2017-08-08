@@ -15,7 +15,9 @@ $(function(){
   				var form 		= window.opener?window.opener.document.forms[formName]:window.parent.document.forms[formName];
 				var vFwlNoclose = 0;
 				var vFwlAdd     = 0; 
-				var forminput   = null; 
+				var forminput   = null,
+					isChange 	= false,
+					oChange 	= null; 
 
 				if(form){
 					for(var i = 1; i < paramsCount; i++){
@@ -44,18 +46,27 @@ $(function(){
 											forminput[0].lookupCallback(forminput);
 									}
 								}
+
+								if(forminput.prop('tagName').toLowerCase() == 'select')
+					 				forminput.trigger('change');
+
+					 			if (forminput.hasClass('IGRP_change')){
+									isChange = true;
+									oChange  = forminput;
+								}
 							}
-							
 						}catch(e){
 							console.log(e);
 						}
 					}
 				}
   				
+  				if (isChange)
+  					oChange.on('change',$.IGRP.components.form.change);
 
 				if(!vFwlNoclose){
 					if(window.parent)
-						window.parent.$.IGRP.components.iframeNav.hide()
+						window.parent.$.IGRP.components.iframeNav.hide();
 
 					if (window.opener)
 						window.close();
@@ -81,21 +92,19 @@ $(function(){
   			},
   			change:function(o){
   				var target   = o.target,
-  					url      = $("input[name='p_env_frm_url']").val() || window.location.href,
   					scrollTo = '#id'+$(target).attr('name');
-  					
-  				if(target.value){
-	  				$.IGRP.components.form.novalidate();
+  					//value 	 = target.value ? target.value : target.val();
 
-					$.IGRP.targets.submit({
-						url 	 : url,
-						validate : false,
-						scrollTo : scrollTo
-					});
-				}
+  				$.IGRP.components.form.novalidate();
+
+				$.IGRP.targets.submit({
+					url 	 : $.IGRP.utils.getPageUrl(),
+					validate : false,
+					scrollTo : scrollTo
+				});
+				
 				return true;
   			},
-
   			init:function(){
   				/*FILE INPUT*/
 				$(document).on('change', '.file-btn-holder :file', function() {
@@ -107,24 +116,32 @@ $(function(){
 				  	
 				  	if( txtInput.length ) 
 				  		txtInput.val(log);
+
+				  	if (input.hasClass('file2base64')) {
+				  		$.IGRP.utils.file2base64({
+				  			target: $('[item-name="'+input.attr('target-rend')+'"]'),
+				  			field : input
+				  		});
+				  	}
 				});
-				//IGRP_CHECK ALL
-				$(document).on('change', '.IGRP_checkall', function() {
+
+				//IGRP_CHECK ALL - passed to table
+				/*$(document).on('change', '.IGRP_checkall', function() {
 					var table    = $(this).parents('.table').first(),
 						checkrel = $(this).attr('check-rel'),
 						checkers = $('[check-rel="'+checkrel+'"]:not(.IGRP_checkall)',table),
 						checkAll = $(this).is(':checked');
 
 					checkers.prop('checked',checkAll).attr('checked',checkAll);
-				});
+				});*/
+				
 				/*LOOKUP PARSER*/
 				$(document).on('click','.lookup-parser',function(){
 					$.IGRP.components.form.lookupParser( this );
 				});
 
 				/* SELECT CHANGE */
-				$(document).on('change','.IGRP_change',$.IGRP.components.form.change);
-
+				$(document).on('change','.IGRP_change,[change="true"]',$.IGRP.components.form.change);
 				$.IGRP.components.form.texteditor();
   			}
   		}

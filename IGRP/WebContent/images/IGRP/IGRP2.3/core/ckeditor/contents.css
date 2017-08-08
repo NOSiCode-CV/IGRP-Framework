@@ -3,21 +3,25 @@ Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or http://ckeditor.com/license
 */
 
-body{
+body
+{
+	/* Font */
+	font-family: sans-serif, Arial, Verdana, "Trebuchet MS";
+	font-size: 12px;
 
+	/* Text color */
+	color: #333;
 
 	/* Remove the background color to make it transparent */
 	background-color: #fff;
 
-	margin: 10px;
+	margin: 5px;
 }
 
 .cke_editable
 {
-	font-family: Arial;
-    font-size: 12px;
-    margin: 0 5px;
-    line-height: 25px;
+	font-size: 13px;
+	line-height: 1.6;
 
 	/* Fix for missing scrollbars with RTL texts. (#10488) */
 	word-wrap: break-word;
@@ -203,26 +207,17 @@ a > img {
 	margin:0 auto;
 }
 
-.cke_editable p, .cke_editable table {
-    margin: 2px 0px;
-}
 
-table.table-striped{
+.cke_show_borders  table.cke_show_border{
 	width: 100%;
+	border-collapse: collapse;
+} 
+.cke_editable table thead tr th, table tbody tr td,
+.cke_show_borders  table.cke_show_border{
+	border: 1px solid #d3d3d3  !important;
 }
 
-table.table-striped, table.table-striped tr td, table.table-striped tr th{
-	border: #ddd 1px solid !important;
-    border-spacing: 0;
-    border-collapse: collapse;
-    position: relative;
-}
-
-.cke_editable #header:nth-child(1), .cke_editable div[size="A4"] #content {
-    border: dotted 1px #ccc;
-    margin: 5px 0;
-    padding: 10px;
-}
-.cke_editable #footer {
-    display: none;
+.cke_editable table thead tr th, table tbody tr td{
+	padding: 1px 3px;
+	line-height: 25px;
 }

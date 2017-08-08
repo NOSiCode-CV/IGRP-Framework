@@ -28,6 +28,7 @@ var GENFORM = function(name,params){
 			value:false,
 			xslValue:'btn btn-primary'
 		});*/
+		
 	}
 
 	container.onFileFieldSet = function(field){

@@ -29,6 +29,10 @@ String.prototype.convertToDate = function(){
 	return s.join(' ');
 };
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 $.fn.getXMLDocument = function(s) {
 	var rtn;
 	try{
@@ -41,10 +45,6 @@ $.fn.getXMLDocument = function(s) {
 	}
     return rtn;
 };
-
-String.prototype.capitalizeFirstLetter = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
 
 $.fn.alterClass = function ( removals, additions ) {
 	
@@ -72,4 +72,28 @@ $.fn.alterClass = function ( removals, additions ) {
 	});
 
 	return !additions ? self : self.addClass( additions );
+};
+
+$.fn.insertAt = function(index, element) {
+  var lastIndex = this.children().size();
+  if (index < 0) {
+    index = Math.max(0, lastIndex + 1 + index);
+  }
+  this.append(element);
+  if (index < lastIndex) {
+    this.children().eq(index).before(this.children().last());
+  }
+  return this;
+};
+
+$.fn.writeAlert = function(alert,insertAt,index){
+
+	if(insertAt){
+
+		var i = index || 0;
+
+		this.insertAt(0,alert);
+
+	}else
+		this.append(alert);
 };

@@ -141,6 +141,8 @@ $.fn.XMLTransform = function(params) {
  				var href   = $(this).attr('href');
 
  				href = base ? base+'/'+href : href;
+
+ 				console.log(href)
  				
  				var isGlobal = href.indexOf(tmplSplitter) != -1 ? true : false;
 

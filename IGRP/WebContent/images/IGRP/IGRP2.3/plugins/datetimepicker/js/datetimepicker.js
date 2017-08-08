@@ -65,15 +65,15 @@
 			},
 			tr:{ // Turkish
 				months:[
-					"Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+					"Ocak", "Subat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
 				],
 				dayOfWeek:[
-					"Paz", "Pts", "Sal", "Çar", "Per", "Cum", "Cts"
+					"Paz", "Pts", "Sal", "&Ccedil;ar", "Per", "Cum", "Cts"
 				]
 			},
 			fr:{ //French
 				months:[
-			    "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+			    "Janvier", "F&eacute;vrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Ao&ucirc;t", "Septembre", "Octobre", "Novembre", "D&eacute;cembre"
 				],
 				dayOfWeek:[
 					"Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"
@@ -105,7 +105,7 @@
 			},
 			pt:{ // Portuguese
 				months: [
-					"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+					"Janeiro", "Fevereiro", "Mar\u00e7o", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 				],
 				dayOfWeek: [
 					"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"

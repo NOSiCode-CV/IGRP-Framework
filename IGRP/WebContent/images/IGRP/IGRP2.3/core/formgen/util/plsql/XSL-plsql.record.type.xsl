@@ -4,6 +4,7 @@
     <!--Generate Record Type-->
     <xsl:template name="genRecordType">
         <!-- SQL variables -->
+
         <xsl:if test="$all_fields_sql">
             <xsl:call-template name="genComment">
                 <xsl:with-param name="comment" select="'SQL variables'"/>
@@ -51,7 +52,7 @@
             </xsl:call-template>
 
             <xsl:for-each select="$all_fields_group">
- 
+
                 <xsl:call-template name="genArray">
                     <xsl:with-param name="tag" select="concat(name(),'_id')"/>
                     <xsl:with-param name="duplicate" select="'false'"/>
@@ -288,17 +289,31 @@
             <xsl:value-of select="$enter" /><xsl:value-of select="$entertab" /><xsl:text>TYPE</xsl:text><xsl:value-of select="$space" /><xsl:value-of select="concat('T_',$v_name)" /><xsl:value-of select="$space" /><xsl:text>IS</xsl:text><xsl:value-of select="$space" /><xsl:text>TABLE</xsl:text><xsl:value-of select="$space" /><xsl:text>OF</xsl:text><xsl:value-of select="$space" /><xsl:value-of select="concat('R_',$v_name)" /><xsl:value-of select="concat($space,'INDEX BY PLS_INTEGER')" /><xsl:value-of select="$endline" /><xsl:value-of select="$enter" /><xsl:value-of select="$entertab" /><xsl:value-of select="concat('TBL_',$v_name)" /><xsl:value-of select="$space" /><xsl:value-of select="concat('T_',$v_name)" /><xsl:value-of select="$endline" /><xsl:value-of select="$enter" />
         </xsl:if>
     </xsl:template>
+    
     <xsl:template name="genSQLVariables">
+        
         <xsl:param name="fields" />
         <xsl:param name="prefix" select="'SQL_'"/>
+        
         <xsl:for-each select="$fields">
             <xsl:value-of select="$enter" />
             <xsl:value-of select="$entertab" />
             <xsl:value-of select="concat($prefix,name(),$tab, 'VARCHAR2(4000):=')" />
-            <xsl:value-of select="$sql_options" />
+            <xsl:choose>
+                <xsl:when test="@domain and @domain != ''">
+                    <xsl:text>'SELECT name AS NOME, id AS ID FROM ('||REDGLOBAL.GLB_CORE.GET_SQL_DOMAIN('</xsl:text><xsl:value-of select="@domain"/><xsl:text>')||') WHERE ROWNUM&lt;51 ORDER BY 1'</xsl:text>
+
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$sql_options" />
+                </xsl:otherwise>
+            </xsl:choose>
+        
             <xsl:value-of select="$endline" />
         </xsl:for-each>
+
     </xsl:template>
+
     <xsl:template name="genChartVariables">
         <xsl:param name="fields" />
         <xsl:for-each select="$fields">
@@ -353,6 +368,7 @@
             <xsl:value-of select="$endline" />
         </xsl:for-each>
     </xsl:template>
+
     <xsl:template name="genArray">
         <xsl:param name="tag" />
         <xsl:param name="duplicate" select="'true'"/>
@@ -375,6 +391,66 @@
         </xsl:if>
 
     </xsl:template>
+
+    <xsl:template name="genArrayDelete">
+        <xsl:param name="tag" />
+        <xsl:param name="duplicate" select="'true'"/>
+        
+        <xsl:value-of select="$enter" />
+        <xsl:value-of select="$entertab" />
+        <xsl:value-of select="$tab" />
+        
+        <xsl:value-of select="concat('v_',$tag,'.delete')" />
+        <xsl:value-of select="$endline" />
+        
+        <xsl:if test="$duplicate='true'">
+            <xsl:value-of select="$enter" />
+            <xsl:value-of select="$entertab" />
+            <xsl:value-of select="$tab" />
+            <xsl:value-of select="concat('v_',$tag,'_desc','.delete')" />
+            <xsl:value-of select="$endline" />
+        </xsl:if>
+
+        <xsl:if test="@check = 'true'">
+            <xsl:value-of select="$enter" />
+            <xsl:value-of select="$entertab" />
+            <xsl:value-of select="$tab" />
+            <xsl:value-of select="concat('v_',$tag,'_check','.delete')" />
+            <xsl:value-of select="$endline" />
+        </xsl:if>
+
+    </xsl:template>
+
+    <xsl:template name="genCoreDelete">
+        <xsl:param name="tag" />
+        <xsl:param name="desc" select="'true'"/>
+        
+        <xsl:value-of select="$enter" />
+        <xsl:value-of select="$enter2tab" />
+        <xsl:value-of select="$tab" />
+
+        <xsl:value-of select="concat( 'REDGLOBAL.GLB_CORE.del(' ,$quotes,'p_',$tag,'_fk',$quotes,')')" />
+        <xsl:value-of select="$endline" />
+        
+        <xsl:if test="$desc='true'">
+            <xsl:value-of select="$enter" />
+            <xsl:value-of select="$enter2tab" />
+            <xsl:value-of select="$tab" />
+            <xsl:value-of select="concat( 'REDGLOBAL.GLB_CORE.del(' ,$quotes,'p_',$tag,'_fk_desc',$quotes,')')" />
+            <xsl:value-of select="$endline" />
+        </xsl:if>
+
+        <!-- <xsl:if test="@check = 'true'">
+            <xsl:value-of select="$enter" />
+            <xsl:value-of select="$enter2tab" />
+            <xsl:value-of select="$tab" />
+            <xsl:value-of select="concat( 'REDGLOBAL.GLB_CORE.del(' ,$quotes,'p_',$tag,'_fk_desc',$quotes,')')" />
+            <xsl:value-of select="$endline" />
+        </xsl:if> -->
+
+    </xsl:template>
+
+
     <xsl:template name="genArrayVariables">
         <xsl:param name="fields" />
         <xsl:for-each select="$fields">

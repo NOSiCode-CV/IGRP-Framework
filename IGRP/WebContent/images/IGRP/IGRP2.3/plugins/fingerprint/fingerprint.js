@@ -1,7 +1,8 @@
 $(function () {
+	var namefp   = '',
+		holderfp = '';
 	if ($.IGRP && !$.IGRP.components.fp) {
 		$.IGRP.components.fp = {
-			url : $('div.fp').attr('href') || window.location.href,
 			set : {
 				img : function(o,v){
 					$.IGRP.utils.loading.hide(o);
@@ -21,7 +22,7 @@ $(function () {
 		                o.append('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
 		            }).fadeIn("slow");
 				},
-				field : function(p){
+				field : function(o){
 					if($('input[name="'+o.name+'"]')[0])
 						$('input[name="'+o.name+'"]').val(o.value);
 					else
@@ -29,11 +30,11 @@ $(function () {
 				},
 				types : {
 					FINGER : function(xml){
-						var fl = xml.find('fp_fingerleft value'),
-							fr = xml.find('fp_fingerright value');
+						var fl = xml.find(namefp+'_fingerleft value'),
+							fr = xml.find(namefp+'_fingerright value');
 
-						$.IGRP.components.fp.set.img($('.fp-left .fp-box'),fl.text().toString());
-						$.IGRP.components.fp.set.img($('.fp-right .fp-box'),fr.text().toString());
+						$.IGRP.components.fp.set.img($('.fp-left .fp-box',holderfp),fl.text().toString());
+						$.IGRP.components.fp.set.img($('.fp-right .fp-box',holderfp),fr.text().toString());
 
 						$.IGRP.components.fp.set.field([{
 								name  : 'p_fingerleft_id',
@@ -51,8 +52,8 @@ $(function () {
 						]);
 					},
 					FACE : function(xml){
-						var fp = xml.find('fp_photo value');
-						$.IGRP.components.fp.set.img($('.fp-photo .fp-box'),fp.text().toString());
+						var fp = xml.find(namefp+'_photo value');
+						$.IGRP.components.fp.set.img($('.fp-photo .fp-box',holderfp),fp.text().toString());
 
 						$.IGRP.components.fp.set.field([{
 								name  : 'p_photo_id',
@@ -65,8 +66,8 @@ $(function () {
 						]);
 					},
 					SIG : function(xml){
-						var fs = xml.find('fp_signature value');
-						$.IGRP.components.fp.set.img($('.fp-signature .fp-box'),fs.text().toString());
+						var fs = xml.find(namefp+'_signature value');
+						$.IGRP.components.fp.set.img($('.fp-signature .fp-box',holderfp),fs.text().toString());
 
 						$.IGRP.components.fp.set.field([{
 								name  : 'p_signature_id',
@@ -83,29 +84,35 @@ $(function () {
 			},
 			getData  : function(o){
 				var type = o.attr('type') && o.attr('type') != undefined ? o.attr('type').toUpperCase() : '';
+				
+				holderfp = o.parents('.fp');
+				namefp 	 = holderfp.attr('item-name');
+
+				var url = holderfp.attr('href') || window.location.href;
+					
 				if(type != ''){
 					var param = 'p_type='+type,
 						types = type == 'SELF' || type == 'START' ? 'ALL' : type,
 						rel   = type.toLowerCase(),
-						obj   = $('div[rel="'+rel+'"]')[0] ? $('div[rel="'+rel+'"] .fp-box') : $('.fingerprint .fp-box');
+						obj   = $('div[rel="'+rel+'"]',holderfp)[0] ? $('div[rel="'+rel+'"] .fp-box',holderfp) : $('.fingerprint .fp-box',holderfp);
 					
 					$.IGRP.utils.loading.show(obj); 
 					$.IGRP.components.fp.set.img(obj,'');
 
-					if(type == 'SELF') param +='&p_number_process='+$('input.fp_process').val();
+					if(type == 'SELF') param +='&p_number_process='+$('input.fp_process',holderfp).val();
 					
 					$.ajax({
-						url : $.IGRP.utils.getUrl($.IGRP.components.fp.url)+param,
+						url : $.IGRP.utils.getUrl(url)+param,
 						dataType : "xml",
 						success : function(data){
 							if(data){
 								
 								try{
-									var xml = $(data).find('*[type="fingerprint"] fields');
-									var np  = $.IGRP.utils.isNotNaN($(this).find('fp_process value').text());
+									var xml = $(data).find(namefp+'[type="fingerprint"] fields');
+									var np  = $.IGRP.utils.isNotNaN($(this).find(namefp+'_process value').text());
 									np      = np > 0 ? np : '';
 
-									$("input.fp_process").val(np);
+									$("input.fp_process",holderfp).val(np);
 									
 									xml.find('hidden').each(function() {
 										$.IGRP.components.fp.set.field([{
@@ -152,24 +159,26 @@ $(function () {
 				}
 			},
 			fieldNp : {//NP NUMERO PROCESSO
-				get : function(t){
-					var rt = true;
-					if (t == 'self') {
-						var np = $.IGRP.utils.isNotNaN($('.fp_process').val());
+				get : function(f){
+					var rt 	   = true,
+						type   = f.attr('type') ? f.attr('type').toLowerCase() : '',
+						field  = $('.fp_process',f.parents('.fp'));
+					if (type == 'self') {
+						var np = $.IGRP.utils.isNotNaN(field.val());
 
-						$.IGRP.utils.loading.hide($('.fp-box'));
+						$.IGRP.utils.loading.hide($('.fp-box',field));
 
 						if (!np) {
-							$('.fp_process').addClass('error');
+							field.addClass('error');
 							$.IGRP.notify({
 								message : jQuery.validator.messages.required,
 								type	: 'danger'
 							});
 							rt = false;
 						}else
-							$('.fp_process').removeClass('error');
+							field.removeClass('error');
 					}else
-						$('.fp_process').removeClass('error');
+						field.removeClass('error');
 
 					return rt;
 				},
@@ -183,7 +192,7 @@ $(function () {
 				$('body').on('click','.fp-click',function(){
 					if($('div[data-notify="container"]')[0]) $('div[data-notify="container"]').remove();
 					
-					if($.IGRP.components.fp.fieldNp.get($(this).attr('type')))
+					if($.IGRP.components.fp.fieldNp.get($(this)))
 						$.IGRP.components.fp.getData($(this));
 				});
 			},

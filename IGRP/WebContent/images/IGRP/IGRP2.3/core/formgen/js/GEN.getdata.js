@@ -1,9 +1,11 @@
 var DATASTR = ['lorem','ipsum','dolor','sit', 'amet', 'consectetur','adipiscing','elit','labore','magna','aliqua','sed','ut','perspiciatis','unde','omnis','iste','natus','stract','sit','voluptatem','accusantium','doloremque','laudantium','totam','rem','aperiam','officia','deserunt','mollit','anim']
 
 
-function genStr(chars){
-    var text = "";
+function genStr(chars,m){
+    var text    = "";
     var lastPos = -1;
+    var max     = m || 30; 
+
     for( var i=0; i < chars; i++ ){
     	var random = Math.floor(Math.random() * DATASTR.length);
     	var pos    = random == lastPos ?  Math.floor(Math.random() * DATASTR.length) : random;
@@ -11,7 +13,8 @@ function genStr(chars){
         
         text += DATASTR[pos]+' ';
     }
-    return $.trim(capitalizeFirstLetter(text));
+
+    return $.trim( capitalizeFirstLetter(text).substring(0,max) );
 }
 
 function genNum(limit){
@@ -20,9 +23,9 @@ function genNum(limit){
 var DATA = {
 	get:function(p){
 		
-	//	console.log(p);
+		var rtn     = "",
+			mlength = p && p.field && p.field.GET.maxlength ? p.field.GET.maxlength() : 30;
 
-		var rtn = "";
 		switch(p.type){
 			case 'date':
 				/*var date = '0'+(genNum(8)+1)+'-0'+(genNum(8)+1)+'-201'+genNum(5);
@@ -39,7 +42,7 @@ var DATA = {
 			break;
 
 			case 'number':
-				rtn = genNum(1000);
+				rtn = genNum(mlength);
 				//rtn = '123456789';
 			break;
 
@@ -58,7 +61,7 @@ var DATA = {
 			break;
 			
 			case 'textarea':
-				rtn = genStr(15);
+				rtn = genStr(15,mlength);
 				//rtn = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 			break;
 
@@ -98,11 +101,16 @@ var DATA = {
 			break;
 
 			case 'texteditor':
-				rtn = genStr(20);
+				rtn = genStr(20,mlength);
 			break;
 
 			case 'text':
-				rtn = genStr(5);
+				rtn = genStr(5,mlength);
+			break;
+
+			case 'select':
+				var delimiter = p.field.GET.delimiter ? p.field.GET.delimiter() : '';
+				rtn = p.field.GET.multiple() ? '1'+delimiter+'2' : '2';
 			break;
 
 			case 'plaintext':
@@ -115,7 +123,11 @@ var DATA = {
 						break;
 					}
 				}
-				rtn = genStr(chars);
+				rtn = genStr(chars,mlength);
+			break;
+
+			case 'img':
+				rtn = '';
 			break;
 
 			case 'hidden':

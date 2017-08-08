@@ -17,11 +17,13 @@ var CONTAINER = function(name,params){
 
 	container.copyOptions = params.copy ? params.copy : false;
 
-	container.autoTag = params.options && params.options.hasOwnProperty('autoTag') ? params.options.autoTag : true;
+	container.autoTag = params.options && params.options.hasOwnProperty('autoTag') ? params.options.autoTag : false;
 
 	container.includes = [];
 
 	container.genXML           = true;
+
+	container.xslValidation    = true;
 
 	container.canRecieveFields= true; //SET FALSE IF CONTAINER DOES NOT RECIEVE FIELDS
 
@@ -50,8 +52,11 @@ var CONTAINER = function(name,params){
 	container.contextMenu 	  = false;
 
 	container.xslOptions      = {
-		useDefault:true
+		useDefault : params && params.xsl ? params.xsl.useDefault : true,
+		template   : params && params.xsl ? params.xsl.template   : false
 	};
+
+
 
 	container.xml = {
 		type        :'fields',
@@ -71,7 +76,7 @@ var CONTAINER = function(name,params){
 		//autoTag     : true,
 		tag         : '',
 		hasTitle    : false,
-		collapsible : true,
+		collapsible : false,
 		type        : name,
 	}
 
@@ -276,6 +281,10 @@ var CONTAINER = function(name,params){
 			__setFile('css');
 		if(container.includes && container.includes.js && container.includes.js[0])
 			__setFile('js');
+
+		container.GET.fields().forEach(function(f){
+			f.setFilesIncludes();
+		})
 		
 	}
 
@@ -474,37 +483,50 @@ var CONTAINER = function(name,params){
 
 		container.holder.show();
 
-		if      (container.dropZone[0])       setUpDropZone(contents);	
-		else if (container.fieldsSelector[0]) setUpFieldsHolder(contents);
-		//container has groups
-		if(container.groups) setUpGroupFields();
-		//form hidden config elements
-		if(container.contextMenu) setUpContextMenuFields();
-		//form hidden config elements
-		
-		if(container.fields){
-			setDropable();
-			configSortable();
-		} 
-
-		configHiddenFields();
-
-		if(contents.find('.gen-rows-holder')){
-			__GEN.layout.setViewSortable(contents.find('.gen-rows-holder'));
-			__GEN.layout.addRow({parent:contents.find('.gen-rows-holder')});
-		}
-
 		$('>.gen-settings-holder>.c-type',container.holder).text( container.GET.tag() );
 
-		fieldsDrawEnd();
+		if(container.xslOptions.useDefault){
+
+			container.holder.removeClass('custom-xsl-set');
+
+			if      (container.dropZone[0])       setUpDropZone(contents);	
+			else if (container.fieldsSelector[0]) setUpFieldsHolder(contents);
+			//container has groups
+			if(container.groups) setUpGroupFields();
+			//form hidden config elements
+			if(container.contextMenu) setUpContextMenuFields();
+			//form hidden config elements
+			
+			if(container.fields){
+				setDropable();
+				configSortable();
+			} 
+
+			configHiddenFields();
+
+			if(contents.find('.gen-rows-holder')){
+				__GEN.layout.setViewSortable(contents.find('.gen-rows-holder'));
+				__GEN.layout.addRow({parent:contents.find('.gen-rows-holder')});
+			}
+
+
+			fieldsDrawEnd();
+			
+			container.onDrawEnd();
+
+			setCopyClass();
+
+			var column = $(container.holder.parents('.gen-column')[0]);
+
+			GEN.checkColumnComponents( column );
+		}else{
+
+			container.holder.addClass('custom-xsl-set');
+
+			container.onDrawEnd();
+
+		}
 		
-		container.onDrawEnd();
-
-		setCopyClass();
-
-		var column = $(container.holder.parents('.gen-column')[0]);
-
-		GEN.checkColumnComponents( column );
 
 		_EVENTS.execute('draw-end');
 		
@@ -555,7 +577,8 @@ var CONTAINER = function(name,params){
 			},
 			stop:function(e,ui){
 				var endPos = ui.item.index();
-				container.contextMenu.items.move(startPos,endPos);
+				ArrayMove(container.contextMenu.items,startPos,endPos);
+				//container.contextMenu.items.move(startPos,endPos);
 				startPos = null;
 				container.Transform();
 			}
@@ -967,7 +990,7 @@ var CONTAINER = function(name,params){
 									});
 								});
 							}else{
-								var ctrl     = 0;
+								var ctrl     		   = 0;
 								var notHiddenFieldsArr = [];
 								var hiddenFieldsArr    = [];
 
@@ -996,7 +1019,8 @@ var CONTAINER = function(name,params){
 								console.log(cArr);
 							}
 						}else{
-							console.log('wtf?')
+							//console.log('fields Holder: '+fieldsHolderLength);
+							//console.log('container Fields: '+FIELDS.length );
 						}
 						//console.log(FIELDS)
 						container.Transform();
@@ -1061,16 +1085,18 @@ var CONTAINER = function(name,params){
 			var tXSL, tXML;
 			//try{
 			tXSL    = container.XSLT(container.getXSL());
+			
 			tXML    = $.parseXML(GEN.getXML({
 				containersIDs:[container.GET.id()]
 			}));
+
 			/*}catch(err){
 				console.log(err);
 			}*/
 
 			if(tXML && tXSL){
 				container.tranforming = true;
-				//include css and js after container transform
+				//include css and js before container transform
 				setFilesIncludes();
 
 				/*var hasTransformer = container.holder.find('[gen-transformer="true"]')[0];
@@ -1086,8 +1112,10 @@ var CONTAINER = function(name,params){
 					//preserve     : '[gen-preserve-content="true"]',
 					//contentSelector : contentSelector,
 					complete	 : function(content){
+
 						container.tranforming = false;						
 						afterTransform(content);
+
 						if(p && p.callback) p.callback();
 
 					},
@@ -1102,10 +1130,12 @@ var CONTAINER = function(name,params){
 	}
 	//get indices of expression
 
-	container.replaceFieldsGenVars = function(field,context){
+	container.replaceFieldsGenVars = function(field,context,tmpl){
 		
-		var template    = $.trim(context ? field.templates[context] : field.template);//container.fieldDefaultTemplate;
-	
+		var stemp 		= tmpl ? tmpl : context ? field.templates[context] : field.template;
+
+		var template    = $.trim( stemp );//container.fieldDefaultTemplate;
+
 		var tag    		= field.GET.tag();
 		var type    	= field.GET.type() ? field.GET.type()  : '';
 		var label  		= field.GET.label()? field.GET.label() : '';
@@ -1224,163 +1254,248 @@ var CONTAINER = function(name,params){
 
 	container.getXSL = function(option){
 
-		var xTemp = $($.parseXML(setXmlnsAttr(container.replaceContainersGenVars(container.template))));
-		var fields = container.GET.fields();
+		if(container.xslOptions.useDefault){
 
-		if(container.dropZone[0]){		//set field for each dropZone
-			
-			container.dropZone.forEach(function(dz,didx){
+			var xTemp = $($.parseXML(setXmlnsAttr(container.replaceContainersGenVars(container.template))));
+
+			var fields = container.GET.fields();
+
+			if(container.dropZone[0]){		//set field for each dropZone
 				
-				var dropZone = xTemp.find('[gen-id="drop-zone"]')[didx];
+				container.dropZone.forEach(function(dz,didx){
+					
+					var dropZone = xTemp.find('[gen-id="drop-zone"]')[didx];
 
-				var exclude = dropZone.getAttribute('gen-exclude-type') ? dropZone.getAttribute('gen-exclude-type') : false;
+					var exclude = dropZone.getAttribute('gen-exclude-type') ? dropZone.getAttribute('gen-exclude-type') : false;
 
-				var only    = dropZone.getAttribute('gen-only-type') ? dropZone.getAttribute('gen-only-type') : false;
-				
-				var fieldHolderIdx = only ? didx : container.dropZone.fieldsHolderIndex;
+					var only    = dropZone.getAttribute('gen-only-type') ? dropZone.getAttribute('gen-only-type') : false;
+					
+					var fieldHolderIdx = only ? didx : container.dropZone.fieldsHolderIndex;
 
-
-				fields.forEach(function(f,idx){
-					//var isExcluded = exclude && f.type != exclude ? true : false;
-					//var isOnly     = only    && f.type == only    ? true : false;
-
-					var isExcluded = !exclude ? true : f.type != exclude?true : false;
-					var isOnly     = !only    ? true : f.type == only   ?true : false;
-
-					if(isExcluded && isOnly){
+					fields.forEach(function(f,idx){
 						
-						if(isDrawable(f.type)){
-							var ftemplateContext = dz.template ? dz.template : 'field';
-							var iftester 		 = !dz.isTable ? container.GET.path()+'/fields/'+f.GET.tag() : f.GET.tag();
+						//var isExcluded = exclude && f.type != exclude ? true : false;
+						
+						//var isOnly     = only    && f.type == only    ? true : false;
+
+						var isExcluded = !exclude ? true : f.type != exclude?true : false;
+
+						var isOnly     = !only    ? true : f.type == only   ?true : false;
+
+						if(isExcluded && isOnly){
 							
-							if(container.xml.type =='items')
-								iftester = container.GET.path()+"/item[@rel='"+f.GET.tag()+"']";
-								//iftester = container.GET.path()+'/item[rel="'+f.GET.tag()+'"]';
-
-							var method = dz.position == 'bottom' ? 'append' : 'prepend';
-
-							if(f.templates[ftemplateContext]){
-
-								var fieldTemplateStr = setXmlnsAttr(container.replaceFieldsGenVars(f,ftemplateContext));
+							if(isDrawable(f.type)){
+								var ftemplateContext = dz.template ? dz.template : 'field';
+								var iftester 		 = !dz.isTable ? container.GET.path()+'/fields/'+f.GET.tag() : f.GET.tag();
 								
-								var fieldTemplateXML;
+								if(container.xml.type =='items')
+									iftester = container.GET.path()+"/item[@rel='"+f.GET.tag()+"']";
+									//iftester = container.GET.path()+'/item[rel="'+f.GET.tag()+'"]';
 
-								try{
-									fieldTemplateXML = $.parseXML(fieldTemplateStr);
+								var method = dz.position == 'bottom' ? 'append' : 'prepend';
 
-									var fHTMLHolder = getFirstHtmlChild(fieldTemplateXML.documentElement);
-						
-									//if(didx == container.dropZone.fieldsHolderIndex)
-									if(didx == fieldHolderIdx){
-										addHolderClass(fieldTemplateXML.documentElement,dz);
-										//console.log(fieldTemplateXML.documentElement)
-									}
-									if(!fieldTemplateXML.documentElement.getAttribute('gen-item-id')){
-										addHolderAttr(fieldTemplateXML.documentElement,'gen-item-id',f.GET.id());
-										//fieldTemplateXML.documentElement.setAttribute('gen-item-id',f.GET.id());
-									}
-									else
-										console.log(fieldTemplateXML.documentElement.getAttribute('gen-item-id'))
-										//addHolderClass(fHTMLHolder,dz);
-									/*addHolderClass(fieldTemplateXML.documentElement,dz);*/
-									//addHolderClass(fHTMLHolder,dz);
+								if(f.xslOptions.useDefault){
 
-									var fieldHolder = $.parseXML('<xsl:if test="'+iftester+'" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:if>');
+									if(f.templates[ftemplateContext]){
 
-									//console.log($(fHTMLHolder).html())
+										var fieldTemplateStr = setXmlnsAttr(container.replaceFieldsGenVars(f,ftemplateContext));
+										
+										var fieldTemplateXML;
 
-									if(fHTMLHolder){
-										//field inline style
-										if(f.customStyle.inline){
-											var style     = fHTMLHolder.getAttribute('style');
-											var styleAttr = style ? style+' '+f.customStyle.inline : f.customStyle.inline;
-											fHTMLHolder.setAttribute('style',styleAttr)
+										try{
+											fieldTemplateXML = $.parseXML(fieldTemplateStr);
+
+											var fHTMLHolder = getFirstHtmlChild(fieldTemplateXML.documentElement);
+								
+											//if(didx == container.dropZone.fieldsHolderIndex)
+											if(didx == fieldHolderIdx)
+												addHolderClass(fieldTemplateXML.documentElement,dz);
+
+											if(!fieldTemplateXML.documentElement.getAttribute('gen-item-id'))
+												addHolderAttr(fieldTemplateXML.documentElement,'gen-item-id',f.GET.id());
+											else
+												console.log(fieldTemplateXML.documentElement.getAttribute('gen-item-id'))
+												//addHolderClass(fHTMLHolder,dz);
+											/*addHolderClass(fieldTemplateXML.documentElement,dz);*/
+											//addHolderClass(fHTMLHolder,dz);
+
+											var fieldHolder = $.parseXML('<xsl:if test="'+iftester+'" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:if>');
+
+											//console.log($(fHTMLHolder).html())
+
+											if(fHTMLHolder){
+												//field inline style
+												if(f.customStyle.inline){
+													var style     = fHTMLHolder.getAttribute('style');
+													var styleAttr = style ? style+' '+f.customStyle.inline : f.customStyle.inline;
+													fHTMLHolder.setAttribute('style',styleAttr)
+												}
+												//field class
+												if(f.customStyle.class){
+													var _class     = fHTMLHolder.getAttribute('class');
+													var classAttr  = _class ? _class+' '+f.customStyle.class : f.customStyle.class;
+													fHTMLHolder.setAttribute('class',classAttr);
+												}
+												//field ID
+												if(f.customStyle.id)
+													fHTMLHolder.setAttribute('id',f.customStyle.id);
+											}
+											
+											fieldHolder.documentElement.appendChild(fieldTemplateXML.documentElement);
+
+											$(dropZone)[method](fieldHolder.documentElement)
+											
+										}catch(e){
+											console.log(e);
+											console.log(fieldTemplateStr);
+											fieldTemplateXML = null;
 										}
-										//field class
-										if(f.customStyle.class){
-											var _class     = fHTMLHolder.getAttribute('class');
-											var classAttr  = _class ? _class+' '+f.customStyle.class : f.customStyle.class;
-											fHTMLHolder.setAttribute('class',classAttr);
-										}
-										//field ID
-										if(f.customStyle.id)
-											fHTMLHolder.setAttribute('id',f.customStyle.id);
+									}
+
+								}else{
+									var fieldTemplateStr = setXmlnsAttr(container.replaceFieldsGenVars(f,null,f.xslOptions.template));
+									
+									var fieldTemplateXML;
+
+									try{
+										
+										var fieldHolder = $.parseXML('<xsl:if test="'+iftester+'" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:if>');
+										
+										fieldTemplateXML = $.parseXML(fieldTemplateStr);
+
+										
+										if(didx == fieldHolderIdx)
+											
+											addHolderClass(fieldTemplateXML.documentElement,dz);
+
+										if(!fieldTemplateXML.documentElement.getAttribute('gen-item-id'))
+
+											addHolderAttr(fieldTemplateXML.documentElement,'gen-item-id',f.GET.id());
+									
+										else
+											console.log(fieldTemplateXML.documentElement.getAttribute('gen-item-id'))
+
+										
+										fieldHolder.documentElement.appendChild(fieldTemplateXML.documentElement);
+										
+
+										$(dropZone)[method](fieldHolder.documentElement)
+
+									}catch(err){
+
+										console.log(err)
+									
 									}
 									
-									fieldHolder.documentElement.appendChild(fieldTemplateXML.documentElement);
-
-									$(dropZone)[method](fieldHolder.documentElement)
-									
-								}catch(e){
-									console.log(e);
-									console.log(fieldTemplateStr);
-									fieldTemplateXML = null;
 								}
+
 							}
 						}
-					}
-					
+						
 
+					});
 				});
-			});
-		}
-		
-		//PRESERVE POSITIONS
-		$.each(xTemp.find('[gen-preserve="last"]'),function(i,element){
-			var preservePosition = $(element).attr('gen-preserve');
-			var initalPos        = $(element).index();
-			var childs           = $(element).parent().children();
-			var total            = childs.length;
-
-			swapElements(childs,initalPos,total-1);
-		});
-
-		xTemp.find('[gen-preserve="last"]').removeAttr('gen-preserve');
-
-		//SET CONTAINER CLASS GEN-CONTAINER-ITEM
-		
-		var mainNode = $(xTemp[0].documentElement);
-		//container ID
-		if(container.customStyle.id)
-			mainNode.attr('id',container.customStyle.id);
-
-		//container class
-		var classes  = mainNode.attr('class');
-		var classSet = classes ? classes+' gen-container-item' : 'gen-container-item'
-		
-		mainNode.attr('gen-class',container.customStyle.class);
-
-		mainNode.attr('class',classSet+' '+container.customStyle.class);
-
-		mainNode.attr('item-name',container.GET.tag());
-
-		mainNode.attr('gen-item-id',container.GET.id());
-
-		//container inline style
-		if(container.customStyle.inline){
-			var style    = mainNode.attr('style');
-			var styleSet = style ? style+' '+container.customStyle.inline : container.customStyle.inline;
+			}
 			
-			mainNode.attr('style',styleSet);
-		}
+			//PRESERVE POSITIONS
+			$.each(xTemp.find('[gen-preserve="last"]'),function(i,element){
+				var preservePosition = $(element).attr('gen-preserve');
+				var initalPos        = $(element).index();
+				var childs           = $(element).parent().children();
+				var total            = childs.length;
 
-		if( xTemp.find('gen-template')[0] )
-			GENTemplateRenderer.render({
-				templates:xTemp.find('gen-template'),
-				container:container
+				swapElements(childs,initalPos,total-1);
 			});
 
+			xTemp.find('[gen-preserve="last"]').removeAttr('gen-preserve');
 
-		return xTemp[0].documentElement;
+			//SET CONTAINER CLASS GEN-CONTAINER-ITEM
+			
+			var mainNode = $(xTemp[0].documentElement);
+			//container ID
+			if(container.customStyle.id)
+				mainNode.attr('id',container.customStyle.id);
+
+			//container class
+			var classes  = mainNode.attr('class');
+			var classSet = classes ? classes+' gen-container-item' : 'gen-container-item'
+			
+			mainNode.attr('gen-class',container.customStyle.class);
+
+			mainNode.attr('class',classSet+' '+container.customStyle.class);
+
+			mainNode.attr('item-name',container.GET.tag());
+
+			mainNode.attr('gen-item-id',container.GET.id());
+
+			//container inline style
+			if(container.customStyle.inline){
+				var style    = mainNode.attr('style');
+				var styleSet = style ? style+' '+container.customStyle.inline : container.customStyle.inline;
+				
+				mainNode.attr('style',styleSet);
+			}
+
+			if( xTemp.find('gen-template')[0] )
+				GENTemplateRenderer.render({
+					templates:xTemp.find('gen-template'),
+					container:container
+				});
+			
+			var holder ;
+			
+
+			if(container.xslValidation){
+				
+				holder = $.parseXML('<xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="'+container.GET.path()+'"/>');
+				
+				$(holder.documentElement).append(xTemp[0].documentElement);
+
+			}else{
+
+				holder = xTemp[0].documentElement;
+			
+			}
+
+			return holder;
+		
+		}else{
+				
+			var rXsl = null;
+
+			try{
+
+				rXsl = $( $.parseXML(setXmlnsAttr(container.replaceContainersGenVars(container.xslOptions.template))) )[0].documentElement;
+			
+			}catch(e){
+
+				rXsl = $('<div class="gen-custom-template-error">Error Loading custom template!</div>')[0];
+				
+			}
+
+			return rXsl;
+		
+		}
+		
 	}
 
 	container.XSLToString = function(){
+		
 		var cContent = '';
+
 		var isXML = container.genXML;
+
 		try{	
-			if(isXML) cContent += '<xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="'+container.GET.path()+'">';
-					  cContent += (new XMLSerializer()).serializeToString(container.getXSL());
-			if(isXML) cContent += '</xsl:if>';
+
+			//if(isXML) cContent += '<xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="'+container.GET.path()+'">';
+			
+			
+			cContent += 	(new XMLSerializer()).serializeToString(container.getXSL());
+			
+			//console.log(cContent)
+			//if(isXML) cContent += '</xsl:if>';
+			
+
 
 		}catch(e){
 			console.log(e);
@@ -1389,12 +1504,14 @@ var CONTAINER = function(name,params){
 		return cContent ? cContent : '';
 	}
 
-	container.getXML = function(){
+	container.getXML = function(callback){
 		var xml;
 		//try{
 			xml = $.parseXML(GEN.STRUCTURE.GET({
-				object:container
+				object:container,
+				callback:callback
 			}));
+
 		/*}catch(err){
 			console.log(err);
 		}*/
@@ -1445,7 +1562,17 @@ var CONTAINER = function(name,params){
 
 		}
 		
+		if(container.xslOptions){
+			
+			var useDefault = container.xslOptions.useDefault;
+			
+			c.xsl = {
+				useDefault : useDefault
+			}
 
+			if(!useDefault)
+				c.xsl.template = container.xslOptions.template;
+		}
 
 		if(returnId) c.id = container.GET.id();
 
@@ -1600,6 +1727,7 @@ var CONTAINER = function(name,params){
 				}else{
 					//hidden fields or 
 					if(field.hidden || !isDrawable(field.GET.type())){
+						
 						container.onFieldSet(field);
 
 						if(container['on'+capitalizeFirstLetter(field.GET.type())+'FieldSet'])
@@ -1654,10 +1782,12 @@ var CONTAINER = function(name,params){
 				//console.log(fields)
 				if(fields && fields[0]){
 					if(idx < fields.length){
+
 						container.SET.field(fields[idx],function(){
 							container.SET.fields(fields,idx+1,callback);
 						});
 					}else{
+
 						container.Transform();
 						if(callback) callback();
 					}
@@ -1669,14 +1799,14 @@ var CONTAINER = function(name,params){
 		}
 	}
 
-	container.copy = function(o){
-
+	container.copy = function(o){	
+		
 		container.copyOptions = o;
 		//container.holder.removeClass('gen-container-copy');
 		if(container.copyOptions && container.copyOptions.settings){
 			var s = container.copyOptions.settings;
 			//set properties!
-			setProprietiesValues( container.copyOptions.settings.proprieties);
+			setProprietiesValues( container.copyOptions.settings.proprieties );
 			//setFields && ctx fields
 			var settedFields = [];
 			var ctxFields = container.contextMenu && s.contextMenu ? container.contextMenu.getGenFields(s.contextMenu) : [];
@@ -1767,8 +1897,6 @@ var CONTAINER = function(name,params){
 
 			var dz      = container.dropZone[index];
 			var context = dz.template ? dz.template : 'field';
-
-			//console.log(container)
 
 			TEMPLATES.GET.field({
 				field   : p.field.GET.type(),
@@ -1903,7 +2031,9 @@ var CONTAINER = function(name,params){
 	/*init*/
 	container.init = function(callback){
 		try{
+			
 			setVars();
+
 			setEvents();
 			//if(container.fields) setDropable();
 			if(params.copy)
@@ -1930,9 +2060,8 @@ var CONTAINER = function(name,params){
 
 			}
 
-			
-			
 			var templateCallback = function(contents){
+				
 				if(contents.template){
 					
 					var contextMenuFields = container.contextMenu ? container.contextMenu.getGenFields() : [];
@@ -1955,26 +2084,33 @@ var CONTAINER = function(name,params){
 					//container.ready();
 
 					if(container.accept.length == 1 && container.accept[0] != ''){
+						
 						addButtonConfig(container.accept[0]);
 						
 						var autoSet = container.autoSetField == false ? false : true;
+						
+						var foundCopy = container.copyOptions && container.copyOptions.found == false ? false : true;
 
-						if(!settedFields[0] && autoSet)
+						if(!settedFields[0] && autoSet && foundCopy)
 							$('.gen-adder-btn',container.holder).click();
 					}
 
 					if(settedFields[0]) {
+						//console.log(settedFields)
 						container.SET.fields(settedFields,null,function(){
 							callback();
 							container.complete();
 						});
+
 					}else{
+						
 						container.Transform({
 							callback:function(){
 								callback();
 								container.complete();
 							}
 						});
+
 					}	
 
 
@@ -1996,6 +2132,7 @@ var CONTAINER = function(name,params){
 				callback:templateCallback,
 				error:templateError
 			});
+
 
 		}catch(e){ 
 			console.log(e); 
@@ -2123,6 +2260,7 @@ var CONTAINER = function(name,params){
 		var f = GEN.getDeclaredField(name);
 		
 		adder.on('click',function(){
+
 			var field = new f.field(name,{
 				properties:null
 			});
@@ -2151,8 +2289,6 @@ var CONTAINER = function(name,params){
 
 		container.holder = getContainerHolder(container);
 
-		
-
 		container.SET.tag(container.incrementTag('container',name));
 
 		//set drawable options
@@ -2165,8 +2301,9 @@ var CONTAINER = function(name,params){
 		container.genType = 'container';
 	}
 	var setProprietiesValues = function(o){
+		
 		var properties = o ? o : params && params.proprieties ? params.proprieties : {} ;
-
+		
 		if(properties){
 			for(var p in properties){
 				if(container.SET[p])
@@ -2324,6 +2461,7 @@ var CONTAINER = function(name,params){
 
 				adder.on('click',function(){
 					container.groups.set(['Group '+(container.groups.items.length+1)]);
+					
 					container.Transform();
 				});
 

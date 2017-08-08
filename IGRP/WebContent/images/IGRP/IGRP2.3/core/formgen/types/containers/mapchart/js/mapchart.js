@@ -25,13 +25,12 @@ var GENMAPCHART = function(name,tparams){
 		],
 		xsl:[]
 	};
-	
 
 	container.ready = function(){
 		
 		container.setProperty({
 			name    :'height',
-			value   : 350
+			value   : 420
 		});
 
 		container.setProperty({
@@ -55,6 +54,70 @@ var GENMAPCHART = function(name,tparams){
 			isField : true
 		});
 
+		container.setProperty({
+			label   : 'Legend Position',
+			name    : 'legendPosition',
+			value   :  {
+				value : 'bottom',
+				options : [
+					{ value : 'top'   ,label : 'Top'},
+					{ value : 'bottom',label : 'Bottom'},
+					{ value : 'left'  ,label : 'Left'},
+					{ value : 'right' ,label : 'Right'}
+				]
+			},
+			onEditionStart:function(o){
+				$('select',o.input).on('change',checkLegend);
+			}
+		});
+
+		container.setProperty({
+			label          : 'Legend Size',
+			name           : 'legendSize',
+			value          : {
+				value   : 2,
+			  	options : GEN.getFieldSize(6)
+			},
+			onEditionStart : checkLegend
+		});
+
+
+		container.setProperty({
+			name : 'tooltipFormat',
+			label: 'Tooltip Format',
+			value: '{point.name}: {point.value}',
+			size : 12,
+			inputType : 'textarea',
+			onEditionStart:function(o){
+				var action = container.GET.tooltip && container.GET.tooltip() ? 'show' : 'hide';
+				o.input[action]();
+			}
+		})
+
+		container.setProperty({
+			name    : 'tooltip',
+			value   :  true,
+
+			onEditionStart:function(o){
+				var f = o.input,
+					i = f.find('input');
+
+				i.on('change',function(){
+					var checked = $(this).is(':checked'),
+						tformat = $('.gen-properties-setts-holder div[rel="tooltipFormat"]'),
+						action  = checked ? 'show' : 'hide';
+					
+					tformat[action]();
+
+				});
+
+			},
+			onChange:function(v){
+				if(!v)
+					container.SET.tooltipFormat('{point.name}: {point.value}');
+			}
+		});
+
 	};
 
 	container.onDrawEnd = function(){
@@ -64,6 +127,21 @@ var GENMAPCHART = function(name,tparams){
 		$.IGRP.components.highmap.init();
 
 	};
+
+	var checkLegend = function(){
+
+		var pos   = $('.gen-properties-setts-holder>[rel="legendPosition"] select').val(),
+
+			lsize =  $('.gen-properties-setts-holder>[rel="legendSize"]');
+
+		if(pos == 'bottom' || pos == 'top')
+
+			lsize.hide()
+
+		else
+
+			lsize.show();
+	}
 
 
 }

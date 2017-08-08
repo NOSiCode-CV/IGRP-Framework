@@ -1,4 +1,5 @@
 <div class="statbox_container">
+    <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
     <div class="statbox {#path#/fields/#tag#_bg/value}">
         <div class="boxchart">
             <canvas ></canvas>

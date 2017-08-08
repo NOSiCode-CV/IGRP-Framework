@@ -150,6 +150,15 @@ var _getDate = function(){
 	//return (year+''+month+''+day);
 }
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() ;
+}
+
 function capitalizeFirstLetter(string) {
     return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
 }
@@ -377,6 +386,7 @@ var preserve_code = function(array,p){
 	var endExp   = ')/#';
 
 	if(idx < array.length){
+		
 		var item = array[idx];
 
 		var endItem            =  p.end[idx]+endExp.length;
@@ -384,7 +394,7 @@ var preserve_code = function(array,p){
 		var expression        = p.content.substring(item,endItem);
 
 		var expressionContent = expression.substring(beginExp.length,expression.length-endExp.length).split(',');
-		
+		//console.log(expressionContent)
 		var url = expressionContent[1];
 
 		$.ajax({
@@ -398,12 +408,20 @@ var preserve_code = function(array,p){
 				text:text
 			});
 		})
+		.fail(function(){
+			alert('error: '+expressionContent[1]);
+			preserve_code.returnObject.push({
+				expression:expression,
+				text:''
+			});
+		})
 		.always(function(){
 			p.idx = idx+1;
 			preserve_code(array,p)
 		});
 
 	}else{
+		console.log(preserve_code.returnObject)
 		if(p.callback){
 			p.callback(preserve_code.returnObject);
 		}
@@ -422,11 +440,13 @@ function init(){
 
 	_onResize();
 }
-
-
-Array.prototype.move = function (from, to) {
-  this.splice(to, 0, this.splice(from, 1)[0]);
+var ArrayMove = function (arr,from, to) {
+  arr.splice(to, 0, arr.splice(from, 1)[0]);
 };
+
+/*Array.prototype.move = function (from, to) {
+  this.splice(to, 0, this.splice(from, 1)[0]);
+};*/
 
 String.prototype.insert = function (index, string) {
   if (index > 0)
@@ -530,8 +550,6 @@ var swapElements = function(siblings, subjectIndex, objectIndex) {
 /*$(function() {
     swapElements($('li'), 0, 3);
 });*/
-
-
 
 
 $(function(){

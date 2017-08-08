@@ -1,4 +1,5 @@
 (function($){
+	
 	if($ && $.IGRP){
 		/* BOX COLLAPSE */
 		var boxCollapser = function(){
@@ -18,11 +19,13 @@
 
 				box.attr('collapsed',!collapsed);
 			});
-		}
+		};
 
 		var toolTip = function(){
-			$('[data-toggle="tooltip"]').tooltip(); 
-		}
+			$('body').tooltip({
+			    selector: '[data-toggle="tooltip"]'
+			});
+		};
 
 		/* DEBUG */
 		var debugController = function(){
@@ -53,29 +56,82 @@
 			    url: "URL inv&aacute;lido.",
 			    date: "Data inv&aacute;lida.",
 			    dateISO: "Data (ISO) inv&aacute;lida.",
-			    number: "Número inv&aacute;lido.",
+			    number: "N&uacute;mero inv&aacute;lido.",
 			    digits: "Introduza apenas d&iacute;gitos.",
 			    creditcard: "Cart&atilde;o de cr&eacute;dito inv&aacute;lido.",
 			    equalTo: "Introduza o mesmo valor novamente.",
 			    accept: "Please enter a value with a valid extension.",
-			    maxlength: jQuery.validator.format("Introduza não mais do que {0} caracteres."),
-			    minlength: jQuery.validator.format("Introduza não menos do que {0} caracteres."),
-			    rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
-			    range: jQuery.validator.format("Please enter a value between {0} and {1}."),
-			    max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
-			    min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+			    maxlength: jQuery.validator.format("Introduza n&atilde;o mais do que {0} caracteres."),
+			    minlength: jQuery.validator.format("Introduza n&atilde;o menos do que {0} caracteres."),
+			    rangelength: jQuery.validator.format("Introduza um valor entre {0} e {1} caracteres longos."),
+			    range: jQuery.validator.format("Introduza um valor entre {0} e {1}."),
+			    max: jQuery.validator.format("Introduza um valor menor ou igual a {0}."),
+			    min: jQuery.validator.format("Introduza um valor maior ou igual a {0}.")
+			});
+		};
+
+		var toolsbarCrl = function(){
+			
+			var pageInfo = $.IGRP.getPageInfo()+'.tb.';
+
+			$('.toolsbar-holder>.btns-holder>a[target="_self"]').on('click',function(){
+				
+				var name  = $($(this).parents('.toolsbar-holder')[0]).attr('item-name'),
+
+					title = $('>span',this).text(),
+
+					href  = $(this).attr('href'),
+
+					index = $(this).index();
+
+				$.IGRP.store.set({
+
+					name  : pageInfo+name,
+
+					value : JSON.stringify({ title:title,href:href,index:index }) 
+
+				});
+				
 			});
 
-		}
+			$.each($('.toolsbar-holder'),function(i,t){
+				
+				var name       = $(t).attr('item-name'),
+
+					currentStr = $.IGRP.store.get(pageInfo+name);
+
+				if(currentStr){
+
+					var current = JSON.parse(currentStr),
+
+						iBtn    = $('.btns-holder>a:eq('+current.index+')',t),
+
+						title   = $('span',iBtn).text(),
+
+						href    = iBtn.attr('href');
+
+					if(title == current.title && href == current.href)
+
+						iBtn.addClass('active')
+
+				}
+
+				//$.IGRP.store.unset(pageInfo+name);
+
+			});
+		};
 
 		$.IGRP.on('init',function(){
 
 			boxCollapser();
+			
 			toolTip();
+
 			debugController();
+			
 			setUpValidationMessages();
 
-			
+			toolsbarCrl();
 			
 		});
 

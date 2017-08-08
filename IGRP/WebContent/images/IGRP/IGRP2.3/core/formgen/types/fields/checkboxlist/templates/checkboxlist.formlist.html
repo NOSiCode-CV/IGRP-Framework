@@ -1,5 +1,5 @@
 <xsl:if test="not(#tag#/@visible)">
-  <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+  <td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
     <input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
     <div class="form-group" item-name="#tag#" item-type="#type#">
         <select class="form-control select2 #[change]#" id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[multiple]# >
