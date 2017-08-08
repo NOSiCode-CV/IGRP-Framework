@@ -22,7 +22,7 @@ import nosi.webapps.agenda.dao.Fault;
  */
 public final class RestRequestHelper{
 	
-	public static final String baseUrl = "http://localhost:9092/services/DSN_Agenda";
+	public static final String baseUrl = "https://localhost:9092/services/DSN_Agenda";
 
 	private RestRequestHelper() {}
 	
@@ -144,5 +144,16 @@ public final class RestRequestHelper{
 	public static String convertDaoToJson(Object dao) {
 		Gson gson = new Gson();
 		return gson.toJson(dao);
+	}
+	
+	public static int extractGeneratedKeyEntryId(String jsonResult) {
+		int daoId = 0;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonResult);
+			daoId = jsonObject.getJSONObject("GeneratedKeys").getJSONArray("Entry").getJSONObject(0).getInt("ID");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return daoId;
 	}
 }
