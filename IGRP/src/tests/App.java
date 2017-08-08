@@ -58,7 +58,7 @@ public final class App {
     }
 	
 	public static void makeGetRequest() {
-		ClientConfig config = new DefaultClientConfig();
+		//ClientConfig config = new DefaultClientConfig();
 		 
         Client client = Client.create(/*RestRequestHelper.applySslSecurity(config)*/);
         
