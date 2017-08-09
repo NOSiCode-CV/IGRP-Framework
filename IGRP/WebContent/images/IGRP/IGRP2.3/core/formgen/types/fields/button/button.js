@@ -5,18 +5,17 @@ var BTNFIELD = function(type,params){
 	var field = this;
 	var proprieties = params && params.properties;
 
+
 	field.ready = function(){
 
 		GEN.setTargetAttr(field,{
-			value: (proprieties && proprieties.target) ? proprieties.target : '_blank'
+			value: proprieties && proprieties.target ? proprieties.target : '_blank'
 		});
-		try{
-			GEN.setBtnActionAttr(field,{
-				value: proprieties && proprieties.action ? proprieties.action : ''
-			});
-		}catch(e){
-			null;
-		}
+
+		
+		GEN.setBtnActionAttr(field,{
+			value: proprieties && proprieties.action ? proprieties.action : ''
+		});
 
 		GEN.service.set(field);
 
@@ -24,12 +23,12 @@ var BTNFIELD = function(type,params){
 			name  :'transaction',
 			value : false
 		});
-
+/*
 		field.setPropriety({
 			name     :'outline',
-			value    : false,
-			xslValue : 'btn-outline'
-		});
+			value    : false
+			//xslValue : 'btn-outline'
+		});*/
 
 		GEN.setBTNClass(field);
 
@@ -37,7 +36,6 @@ var BTNFIELD = function(type,params){
 			value:'fa-angle-right',
 			paramName:field.parent.imagePath ? field.parent.imagePath : 'tools-bar'
 		});
-		
 	}
 }
 

@@ -1,10 +1,20 @@
 
 *[role="form"] .box-head.subtitle{
-  padding: 5px 10px;
+  padding: 0px 10px;
+
+}
+
+*[role="form"] .box-head.subtitle span{
+	display: inline-block;
+	padding: 5px 0;
+	position: relative;
+	top: 1px;
+	border-bottom: 1px solid
 }
 
 label {
-	margin-bottom: 0px;
+	margin-bottom: 8px;
+	font-weight: 600
 }
 .form-group > label,
 .form-link {
@@ -104,6 +114,15 @@ form [item-type="plaintext"]{
 	
 }
 
+/*height hack*/
+form .form-group[item-type="lookup"],
+form .form-group[item-type="select"],
+form .form-group[item-type="date"]{
+	height: 62px;
+}
+
+
+
 /* FORM VALIDATION */
 .form-validator-label {
 	position: absolute;
@@ -131,10 +150,12 @@ form [item-type="plaintext"]{
 }
 
 /*REQUIRED - 27.01.17 - William Lima*/
-
 [role="form"] .form-group[required="required"]>label:not(.form-validator-label):before,
-[role="form"] :not([item-type="checkboxlist"]) [required="required"] .checkbox label:not(.form-validator-label):after,
-[role="form"] :not([item-type="checkboxlist"]) [required="required"] .radio label:not(.form-validator-label):after{
+[role="form"] .form-group[required="required"]>.checkbox > label:not(.form-validator-label):after,
+[role="form"] .form-group[required="required"]>.radio > label:not(.form-validator-label):after/*,
+[role="form"] :not([item-type="checkboxlist"]) [required="required"] .checkbox>label:not(.form-validator-label):after,
+[role="form"] :not([item-type="checkboxlist"]) [required="required"] .radio>label:not(.form-validator-label):after,
+[role="form"] :not([item-type="radiolist"]) [required="required"] .radio>label:not(.form-validator-label):after*/{
 	content:"*";
 	position: relative;
 	top: 1px;
@@ -143,8 +164,26 @@ form [item-type="plaintext"]{
 	font-weight: bold;
 }
 
+[role="form"] [item-type="checkboxlist"] label:not(.form-validator-label):after,
+[role="form"] [item-type="radiolist"] label:not(.form-validator-label):after{
+	display: none
+}
+
 [role="form"] :not([item-type="checkboxlist"]) [required="required"] .checkbox label:not(.form-validator-label):after,
 [role="form"] :not([item-type="radiolist"]) [required="required"] .radio label:not(.form-validator-label):after{
 	margin-right: 0;
 	margin-left: 2px;
+}
+
+.checkboxlist .checkbox, .radiolist .radio{
+	margin-top: 0;
+	padding: 0;
+}
+
+.checkboxlist .checkbox+.checkbox, .radiolist .radio+.radio{
+	margin-top: 0;
+}
+
+.checkboxlist > label, .radiolist > label{
+	margin-bottom: 10px;
 }

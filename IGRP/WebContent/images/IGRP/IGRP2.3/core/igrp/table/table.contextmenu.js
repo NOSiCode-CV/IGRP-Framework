@@ -14,7 +14,9 @@
 
 
 		$.IGRP.components.contextMenu = {
+			
 			set: function(h,p){
+				
 				var params = p ? p : {};
 				var holder = h ? h : $(".box-table-contents");
 				
@@ -31,6 +33,8 @@
 							
 							e.preventDefault();
 
+							$('table tbody tr').removeClass('ctx-open');
+
 							var row 		= $(e.currentTarget),
 								vCtxMenu	= holder.find(settings.menu),
 								menus   	= $('>li',vCtxMenu);
@@ -43,11 +47,16 @@
 							if(menus.not('.ctx_hidden')[0]){
 								
 								setTimeout(function(){
+									
 									$.IGRP.components.contextMenu.show(vCtxMenu);	
+									
 									setPosition(e,{
 										ctxMenu : vCtxMenu
 									});
-								},150)
+
+									row.addClass('ctx-open');
+
+								},150);
 								
 							}
 						},
@@ -61,10 +70,12 @@
 
 				}
 			},
+
 			show:function(vCtxMenu){
 				_open = true;
 				vCtxMenu.addClass('open');
 			},
+
 			hide:function(vCtxMenu){
 
 				var menu = vCtxMenu ? vCtxMenu : $('.table-context-menu');
@@ -74,8 +85,11 @@
 				else
 					$('.table-context-menu').removeClass('open');
 
+				$('table tbody tr').removeClass('ctx-open');
+
 				_open = false;
 			},
+
 			setPosition:function(e,p){
 				var row 	   = $(e.currentTarget);
 					vTable		= $(row.parents("table")[0]),
@@ -87,13 +101,16 @@
 					vBoxHeight  = 0,
 					vTabOffsetL = vTable.offset().left;  
 				 	vTop 		= e.currentTarget.offsetTop + parseInt(e.currentTarget.offsetHeight/2),
-				 	vLeft       = e.pageX-vTabOffsetL;
+				 	vLeft       = e.pageX - vTabOffsetL;
 
-				vBoxWidth	= $('.ctx-holder',vCtxMenu).width();
-				vBoxHeight	= $('.ctx-holder',vCtxMenu).height();
+				vBoxWidth	= $(vCtxMenu).width();
+				vBoxHeight	= $(vCtxMenu).height();
 
-			 	if(vLeft+vBoxWidth > vTableWidth)
-			 		vLeft = vLeft-vBoxWidth
+			 	if(vLeft + vBoxWidth > vTableWidth)
+			 		vLeft -= vBoxWidth;
+
+			 	if(vTop + vBoxHeight >= e.pageY)
+			 		vTop -= vBoxHeight;
 
 				if(!vTable.attr("data-view") || (vTable.attr("data-view") && vTable.attr("data-view") == "list")){
 					vCtxMenu
@@ -102,6 +119,7 @@
 						.css({left:vLeft,top:vTop})
 				}
 			},
+
 			setRowMenu:function(p){
 
 				var vTparam = 1*p.row.attr("CTX_PARAM_COUNT")+1,
@@ -155,6 +173,7 @@
 				 	params :vParam
 				 });
 			},
+
 			setIGRPClick:function(p){
 				p.ctxMenu.find('li').unbind('click').on('click',function(e){
 					

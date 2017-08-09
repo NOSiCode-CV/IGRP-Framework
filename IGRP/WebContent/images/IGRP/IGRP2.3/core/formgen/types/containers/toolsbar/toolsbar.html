@@ -2,6 +2,7 @@
 	<div class="btns-holder #[btnSize]# #[align]#" role="group">
 		<xsl:apply-templates select="#path#" mode="gen-buttons">
 			<xsl:with-param name="vertical" select="'#[vertical]#'"/>
+			<xsl:with-param name="outline" select="'#[outline]#'"/>
 		</xsl:apply-templates>
     </div>
 </div>

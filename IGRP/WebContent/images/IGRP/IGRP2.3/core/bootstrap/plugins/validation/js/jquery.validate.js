@@ -225,7 +225,7 @@ $.extend($.validator, {
 		errorContainer: $( [] ),
 		errorLabelContainer: $( [] ),
 		onsubmit: false,
-		ignore: ":hidden",
+		//ignore: ":hidden",
 		ignoreTitle: false,
 		onfocusin: function(element, event) {
 			this.lastActive = element;
@@ -1190,7 +1190,7 @@ $.format = $.validator.format;
 			function handler(e) {
 				e = $.event.fix(e);
 				e.type = fix;
-				return $.event.handle.call(this, e);
+				return $.event.dispatch(this, e);
 			}
 		});
 	};

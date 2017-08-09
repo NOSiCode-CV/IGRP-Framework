@@ -19,7 +19,7 @@ var GEN_LAYOUT = function(viewer){
 
 	layout.getContainersOnRows = function(view,parm){
 		var rows = [];
-		var p = parm ? parm : {};
+		var p    = parm ? parm : {};
 
 		$.each(view.find('>'+VARS.layout.rows),function(i,_row){
 			
@@ -60,7 +60,9 @@ var GEN_LAYOUT = function(viewer){
 
 		if(view[0]){
 
-			var row = $(VARS.layout.rowsHtml).attr('id','row-'+getTime());
+			var id = 'row-'+guid();
+
+			var row = $(VARS.layout.rowsHtml).attr('id',id);
 
 			setColumnOptions(row);
 			
@@ -70,8 +72,11 @@ var GEN_LAYOUT = function(viewer){
 			}
 
 			if(p && p.columns){
+			
 				var columnArr = [];
+				
 				p.columns.forEach(function(c){
+				
 					var column = layout.addColumn(row,c.size);
 					
 					rtn.columns.push({
@@ -80,6 +85,7 @@ var GEN_LAYOUT = function(viewer){
 					});
 
 				});
+
 			}else{
 				layout.addColumn(row);
 			}
@@ -111,7 +117,8 @@ var GEN_LAYOUT = function(viewer){
 	layout.addColumn = function(row,size){
 		//console.log(row);
 		if(row[0]){
-			if(row.find('>'+VARS.layout.columns).length < 4){
+			
+			//if(row.find('>'+VARS.layout.columns).length < 4){
 				
 				var newColumn = $(VARS.layout.columnsHtml);
 				
@@ -135,19 +142,20 @@ var GEN_LAYOUT = function(viewer){
 						removeSize($(this))
 						//$(this).removeClass(sizes);
 
-						$(this).addClass('col-md-'+12/length);
+						$(this).addClass('col-sm-'+12/length);
 					});
 				
 
 				GEN.resizeView();
+
 				setZindex();
 
 				GEN.checkColumnComponents(newColumn);
 
 				return newColumn;
-			}else{
+			/*}else{
 				console.log('max 4 columns!');
-			}
+			}*/
 
 		}
 	}
@@ -164,12 +172,12 @@ var GEN_LAYOUT = function(viewer){
 					
 					removeSize(column);
 					
-					column.addClass('col-md-'+s);
+					column.addClass('col-sm-'+s);
 
 					GEN.checkColumnComponents(column);
 
 				}else{
-					layout.addColumn(row,'col-md-'+s);
+					layout.addColumn(row,'col-sm-'+s);
 				}
 			});
 
@@ -178,7 +186,7 @@ var GEN_LAYOUT = function(viewer){
 				if(strucs[i]){
 					removeSize($(col))
 					//.removeClass(sizes);
-					$(col).addClass('col-md-'+strucs[i]);
+					$(col).addClass('col-sm-'+strucs[i]);
 				}else{
 					var clone = $(col).find('> .gen-column-inner > .gen-container-placeholder > '+VARS.html.declaredContainers);
 					
@@ -231,7 +239,7 @@ var GEN_LAYOUT = function(viewer){
 			cols.forEach(function(col){
 				var div    = col.split('-')[1];
 				var size   = 12/div;
-				var column = $('<span class="'+VARS.layout.columnOptionClass+' col-md-'+size+'"/>')
+				var column = $('<span class="'+VARS.layout.columnOptionClass+' col-sm-'+size+'"/>')
 				//var column = $('<span class="'+VARS.layout.columnOptionClass+' col-'+col+'"/>');
 				//$(li).append(column);
 			});
@@ -287,14 +295,54 @@ var GEN_LAYOUT = function(viewer){
 			
 			var layoutStr = $(this).attr('data-layout');
 
-			var strucs = layoutStr == 'custom' ? prompt("Custom", "A soma deve ser 12. Ex: 4,4,2,2,2").split(',') : layoutStr.split(',');
+			var strucs   = [],
+				grid   	 = 0;
 
-			layout.setRowColumns({
-				row      :row,
-				structure:strucs
-			});
+			if(layoutStr == 'custom'){
+				var customCol = '',
+					idx 	  = 0;
+
+				$.each(row.find('>'+VARS.layout.columns),function(i,col){
+					var customClass = $(col).attr('class');
+					if (customClass){
+						customClass = customClass.split(' ');
+						if (i > 0) 
+							customCol +=',';
+
+						customCol += customClass[1].split('col-sm-')[1];
+						idx +=1;
+					}
+				});
+
+				customCol = customCol != '' && idx > 1 ? customCol : "4,4,2,2";
+
+				var cStrucs = prompt("Custom", "A soma deve ser 12. Ex: "+customCol);
+
+				if (cStrucs){
+					if (cStrucs.indexOf('Ex:') != -1){
+						cStrucs = cStrucs.split('Ex:')[1];
+					} 
+
+					strucs = $.trim(cStrucs).split(',');
+				}
+			}else
+				strucs = layoutStr.split(',');
+
+			if (strucs.length > 0) {
+				/*strucs.forEach(function(c,i){
+					grid +=c*1;
+				});*/
+
+				//if(grid == 12){
+					layout.setRowColumns({
+						row      :row,
+						structure:strucs
+					});
+				/*}else
+					alert("A soma deve ser 12. Ex: 4,4,2,2");*/
+			}
 			/*if(layoutStr == 'custom'){
-				var strucs = prompt("Custom", "A soma deve ser 12. Ex: 4,4,2,2,2");
+				var strucs = prompt("Custom", "A soma deve ser 12. Ex: 4,4,2,2");
 				console.log(strucs)
 			}else{
 				var strucs = layoutStr.split(',');

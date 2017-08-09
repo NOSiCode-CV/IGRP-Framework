@@ -67,6 +67,8 @@
     <xsl:variable name="pkg_type_form" select="'REDGLOBAL.GLB_TYPE.TP_PAGE.TBL_FORM'" />
     <xsl:variable name="pkg_type_table" select="'REDGLOBAL.GLB_TYPE.TP_PAGE.TBL_TABLE'" />
     <xsl:variable name="pkg_type_chart" select="'REDGLOBAL.GLB_TYPE.TP_PAGE.TBL_CHART'" />
+    <xsl:variable name="serv_convert" select="'DBMS_XMLGEN.CONVERT'" />
+    <xsl:variable name="serv_decode" select="'DBMS_XMLGEN.entity_decode'" />
     
     <xsl:variable name="packageDBName" select="rows/plsql/package_db"/>
     <xsl:variable name="packageHtmlName" select="rows/plsql/package_html"/>
@@ -100,11 +102,15 @@
 
     <xsl:variable name="all_containers" select="rows/content/*[@gen-type='container']"/>
 
+    <xsl:variable name="all_callListForm" select="rows/content/*[@type = 'form']|rows/content/*[@xml-type = 'form']|rows/content/*[@type = 'view']|rows/content/*[@xml-type = 'fingerprint']|rows/content/*[@xml-type = 'iframe']"/>
+
     <xsl:variable name="all_menu_items" select="rows/content/*[@gen-type='menu']"/>
 
     <xsl:variable name="all_fields" select="$all_containers/fields/*[not(local-name(.)=local-name(preceding::*))]"/>
     
     <xsl:variable name="all_fields_sql" select="$all_containers/fields/*[not(local-name(.)=local-name(preceding::*)) and (@type='select' or @type='selectchange' or @type='selectlist' or @type='radiolist' or @type='checkboxlist')]"/>
+
+    <xsl:variable name="all_fields_with_procs" select="$all_fields[rules/rule]"/>
     
     <xsl:variable name="all_fields_chart" select="rows/content/*[@type = 'chart' and not(local-name(.)=local-name(preceding::*))]"/>
     
@@ -114,9 +120,11 @@
     
     <xsl:variable name="all_fields_array" select="rows/content/*[@gen-group='true']/fields/*[not(local-name(.)=local-name(preceding::*))]" />
 
-    <xsl:variable name="all_fields_table" select="rows/content/*[(@type = 'table') and not(local-name(.)=local-name(preceding::*))]" />
+    <xsl:variable name="all_fields_table" select="rows/content/*[(@type = 'table' or @xml-type = 'table') and not(local-name(.)=local-name(preceding::*))]" />
 
     <xsl:variable name="all_toolsbars" select="$all_menu_items/*|rows/content/*[@type = 'form']/tools-bar/*|rows/content/*[@type = 'table']/table/context-menu/*|rows/content/*[@type = 'tabmenu']/group/*"/>
+
+    <xsl:variable name="all_form_submit_links" select="rows/content/*[@type = 'form']/fields/*[contains(@target,'submit')]"/>
     
     <xsl:variable name="all_toolsbars_plsql" select="rows/content/*[@gen-group='true']/table/context-menu/*|$all_menu_items/*|rows/content/*[@type = 'form']/tools-bar/*" />
     
@@ -127,8 +135,13 @@
     <xsl:variable name="all_tabmenu" select="rows/content/*[@type = 'tabmenu']"/>
     
     <xsl:variable name="all_toolsbars_html" select="rows/content/*[@gen-type = 'menu']|rows/content/*[@type = 'form']/tools-bar" />
+    
+    <xsl:variable name="toolsbars_dynamic" select="$all_toolsbars_html[@dynamic-menu = 'true']" />
+    <xsl:variable name="toolsbars_copy" select="$all_toolsbars_html[@copy = 'true']" />
 
     <xsl:variable name="all_values_persist" select="rows/content/*/fields/*[@persist='true']"/>
+
+    <xsl:variable name="remote_treemenu" select="rows/content/*[@gen-remote='true' and @type='treemenu']"/>
    
 
     <!-- <xsl:variable name="all_fields" select="rows/content/*[@type = 'view' or @type = 'form' or @type = 'table' or @type = 'separatorlist' or @type = 'separatordialog' or @type = 'list' or @type = 'formlist']/fields/*[not(local-name(.)=local-name(preceding::*))]"/>

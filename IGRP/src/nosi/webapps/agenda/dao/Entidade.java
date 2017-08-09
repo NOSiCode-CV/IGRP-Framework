@@ -53,6 +53,7 @@ public class Entidade {
 	public void setNome_entidade(String nome_entidade) {
 		this.nome_entidade = nome_entidade;
 	}
+	
 	@Override
 	public String toString() {
 		return "Entidade [id=" + id + ", aplicacao=" + aplicacao + ", estado=" + estado + ", nome_entidade="

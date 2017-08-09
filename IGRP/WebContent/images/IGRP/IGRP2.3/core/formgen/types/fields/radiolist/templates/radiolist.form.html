@@ -1,8 +1,8 @@
-<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
-  <div class="form-group">
+<div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <div class="form-group radiolist clear" #[required]#>
      <label>#label.val#</label>
         <xsl:for-each select="#list.path#/option">
-            <div class="radio">
+            <div class="radio col-md-#[child_size]#">
                 <label>
                     <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
                         <xsl:if test="@selected='true'">

@@ -7,7 +7,8 @@
 
 // Setup all of the Diagrams and what they need.
 // This is called after the page is loaded.
-var vBpmnObj = null;
+var vBpmnObj = null,
+  jQ = $;
 function init() {
   if (typeof (Storage) === "undefined") {
     var currentFile = document.getElementById("currentFile");
@@ -1182,11 +1183,19 @@ $(go.Shape, "NotAllowed",
     var diagram = this.diagram;
     // EDSON console.log(arr);
     try{
+      var key = obj.part.data.key ? obj.part.data.key : 0;
         vBpmnObj = obj;
         cxElement = obj.part.data.key?cxElementEvent:cxElementLine;
         vActivity = obj.part.data.category;
-        console.log(vActivity);
-        console.log(vBpmnObj);
+        calCtxMenu({
+          ctx   : cxElement,
+          key   : key,
+          point : diagram.lastInput.viewPoint,
+          data  : obj.part.data
+        });
+         
+        //console.log(obj.part.data);
+        //console.log(obj.part.data);
     }catch(e){null;}
     
     if (diagram === null) return;
@@ -1203,13 +1212,13 @@ $(go.Shape, "NotAllowed",
         }
       }
         
-        cxElement.style.display = "block";
+       /* cxElement.style.display = "block";
         var mousePt = diagram.lastInput.viewPoint;
         cxElement.style.left = (mousePt.x) + "px";
-        cxElement.style.top = mousePt.y + "px";
+        cxElement.style.top = mousePt.y + "px";*/
         this.currentContextMenu = contextmenu;
-        if(cxElement.clientHeight < 5)
-          cxElement.style.display = "none";
+        /*if(cxElement.clientHeight < 5)
+          cxElement.style.display = "none";*/
     //}catch(e){return true;}
     if(!obj)
         cxElement.style.display = "none";

@@ -14,7 +14,11 @@
 }
 
 table thead {
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+table thead th{
+  font-weight: 600
 }
 
 table th[align="center"]{
@@ -25,11 +29,17 @@ table th[align="right"]{
   text-align: right;
 }
 
+table tfoot{
+  background: #ececec;
+  font-weight: bold;
+}
+
 /*ctx menu*/
 .table-context-menu {
   position: absolute;
   display:none;
-  width: 140px;
+  min-width: 140px;
+  max-width: 300px;
   box-shadow: 0px 4px 10px 0px #ddd
 }
 
@@ -45,7 +55,7 @@ table th[align="right"]{
     top: 0;
     width: 30px;
     text-align: center;
-    padding: 8px 5px;
+    padding: 5px 5px;
 }
 .table-context-menu>li>a.list-group-item:last-child{
   margin-bottom: -1px;
@@ -53,6 +63,7 @@ table th[align="right"]{
 
 .table-context-menu>li>a .icon-item-holder+span{
   margin-left: 20px;
+  display: block;
 }
 
 .table-context-menu.open{
@@ -62,6 +73,49 @@ table th[align="right"]{
 .table-context-menu > li.ctx_hidden {
   display: none!important
 }
+
+.table-img{
+  max-height: 80px;
+}
+
+table td.img{
+  width: 70px;
+}
+
+
+/* IGRP TABLE FILTER */
+.igrp-table-filter{
+  margin-top: 10px;
+  padding: 10px 0;
+  margin-bottom: 0px;
+  border-bottom: 1px solid whitesmoke;
+  border-top: 1px solid whitesmoke;
+}
+
+.box-header+.table-box .igrp-table-filter{
+  margin-top: 10px;
+}
+
+.igrp-table-filter ul.pagination {
+  margin:0;
+  display: block;
+}
+
+.igrp-table-filter ul.pagination:after{
+  content:"";
+  display: block;
+  clear: both
+}
+
+.igrp-table-filter ul.pagination li a{
+  border-radius: 0!important;
+  padding: 4px 0;
+  /*margin: 1px;*/
+  width: 25px;
+  text-align: center;
+}
+/**/
+
 
 /*.table-context-menu > .ctx-holder {
 	display:block;
@@ -130,9 +184,14 @@ table .lookup-parser:hover {
 table tbody tr:hover{
   background-color: rgba(49, 176, 213, 0.05)!important
 }
+
+table tbody tr.ctx-open{
+  background-color: rgba(49, 176, 213, 0.1)!important
+}
+
+
 table tbody tr.row-active{
   background-color: rgba(213, 255, 92, 0.3)!important
-  
 }
 
 table td.checkbox, 
@@ -163,7 +222,7 @@ table td.bs-checkbox {
 
 /* inline ctx menu*/
 .igrp-table-ctx-th{
-  width: 125px;
+  min-width: 125px;
 }
 .igrp-table-ctx-td>ul{
   margin:0;
@@ -174,13 +233,17 @@ table td.bs-checkbox {
 .igrp-table-ctx-td>ul>.operationTable{
   float: left;
   text-align: center;
-  margin-right: 5px;
+  margin-right: 4px;
+  min-width: 28px;
+  min-height: 28px;
 }
 .igrp-table-ctx-td>ul>.operationTable > .btn{
-    width: 25px;
-    padding: 5px;
-    margin: 4px 0;
-    height: 24px;
+    width: 28px;
+    padding: 4px 6px;
+    margin: 2px 0;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
 }
 .igrp-table-ctx-td>ul>.operationTable > .btn .ctx-title{
   display: none;

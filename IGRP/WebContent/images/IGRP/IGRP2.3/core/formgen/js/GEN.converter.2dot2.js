@@ -3,7 +3,8 @@ $.fn.to2DOT2 = function(params) {
 
 	var pageTitle    = xml.find('rows content > title'),
 		viewXML      = xml.find('rows content > view'),
-		menuXML      = xml.find('rows content > menu'),
+		tabmenuXML   = xml.find('rows content > menu[type="tabmenu"]'),
+		menuXML      = xml.find('rows content > menu:not([type="tabmenu"])'),
 		formXML      = xml.find('rows content > form'),
 		filterXML    = xml.find('rows content > filter'),
 		tableXML     = xml.find('rows content > table'),
@@ -34,7 +35,19 @@ $.fn.to2DOT2 = function(params) {
 
 
 	var rtnJson  = {
-		rows :[{ columns: columnsJson }],
+		rows :[ 
+			{ 
+				columns:[ 
+					{
+						size       : 'col-md-12',
+						containers : [] 
+					} 
+				] 
+			}, 
+			{ 
+				columns: columnsJson 
+			}
+		],
 		plsql:{
 			table   : '',
 			package : xml.find('rows plsql package_db').text(), 
@@ -45,23 +58,25 @@ $.fn.to2DOT2 = function(params) {
 		}
 	}
 
-	var leftColumnObj  = hasLeft[0] ? rtnJson.rows[0].columns[0] : false;
+	var leftColumnObj  = hasLeft[0] ? rtnJson.rows[1].columns[0] : false;
 	
-	var mainColumnsObj = columnsCount == 1 || columnsCount == 2 && hasRight[0] ? rtnJson.rows[0].columns[0] : rtnJson.rows[0].columns[1] ;
+	var mainColumnsObj = columnsCount == 1 || columnsCount == 2 && hasRight[0] ? rtnJson.rows[1].columns[0] : rtnJson.rows[1].columns[1] ;
 	
-	var rightColumnObj = hasRight[0] ? rtnJson.rows[0].columns[rtnJson.rows[0].columns.length-1] : false;
+	var rightColumnObj = hasRight[0] ? rtnJson.rows[1].columns[rtnJson.rows[1].columns.length-1] : false;
 
 	//view
 	var set = function(){
 		//VIEW
-		
+		console.log('SET HERE')
 		if(pageTitle[0]){
-			
-			setContainer(Container({
+
+			rtnJson.rows[0].columns[0].containers.push( Container({
 				tag     : 'page_title',
 				type    : 'sectionheader',
 				text    : pageTitle.text()
-			}));
+			}) );
+			
+			/*setContainer();*/
 		}
 
 		if(viewXML[0]){
@@ -74,48 +89,81 @@ $.fn.to2DOT2 = function(params) {
 				}
 			}))
 		}
-		//MENU (SIMPLE / TAB)
-		if(menuXML[0]){
-			if(menuXML.attr('type') == 'tabmenu'){
-				var tabMenuTag = 'tbm';
-				var groups   = [];
-				var fields   = [];
-				var position = menuXML.find('group').attr('align');
-				//groups
-				$.each($('group',menuXML),function(i,g){
-					var group = {
-						name : $(g).attr('title'),
-						id   : "group-"+i
-					}
-					groups.push(group)
-				});
-				//fields
-				fields = contextMenu($('group item',menuXML),{
-					group     : true,
-					parentTag : tabMenuTag
-				});
 
-				setContainer(Container({
-					tag    : tabMenuTag,
-					type   : 'tabmenu',
-					groups : groups,
+		//TABMENU
+		if(tabmenuXML[0]){
+			var tabmenuContent = Container({
+				tag    : 'tbm',
+				type   : 'panels',
+				fields :{},
+				proprieties:{
+					template : 'igrp-accordion-group'
+				}
+			});
+
+			var position = tabmenuXML.find('group').attr('align');
+
+			tabmenuContent.contents = [];
+
+			$.each($('group',tabmenuXML),function(i,g){
+				var tag     = 'tbm'+i,
+					
+				tbTag 	    = tag+'-tb',
+
+				tabToolsbar = Container({
+					tag    : tbTag,
+					type   : 'verticalmenu',
 					fields : {
-						json : fields
-					}
-				}),position);
-
-			}else{
-				var menuTag = 'mn';
-				setContainer(Container({
-					tag    :menuTag,
-					type   :'toolsbar',
-					fields :{
-						json : contextMenu($('menu > *',xml),{
-							parentTag:menuTag
+						json : contextMenu($('item',g),{
+							parentTag : tbTag
 						})
 					}
-				}));
-			}	
+				}),
+
+				group = {
+					options: {
+	                    autoTag: false
+	                },
+					properties: {
+						label: $(g).attr('title'),
+						tag: tag,
+	                    type: "button",
+	                    img : 'fa-chevron-down'
+	                    //use_fa:false
+	                },
+	                rows: [
+                		{
+                    		columns: [
+                        		{
+                        			size:'col-md-12',
+                        			containers:[tabToolsbar]
+                        		}
+                    		]
+                    	}
+                    ]
+				};
+
+				tabmenuContent.contents.push(group);
+			});
+			
+			setContainer(tabmenuContent,position)
+
+		}
+
+		//MENU (SIMPLE / TAB)
+		if(menuXML[0]){
+		
+			var menuTag = 'mn';
+			setContainer(Container({
+				tag    :menuTag,
+				type   :'toolsbar',
+				fields :{
+					json : contextMenu($('menu > *',xml),{
+						parentTag:menuTag
+					})
+				}
+			}));
+			
 		}
 		//FORM ELEMENTS && OTHER FORM CONTAINERS (container="true")
 		if(formXML[0]){
@@ -285,7 +333,7 @@ $.fn.to2DOT2 = function(params) {
 
 	var contextMenu = function(fields,p){
 		var rtn = [];
-		var tag = p && p.parentTag ? p.parentTag+'-ctx-' : 'btn-ctx-';
+		var tag = p && p.parentTag ? p.parentTag+'-' : 'btn-ctx-';
 		
 		$.each(fields,function(i,f){
 			
@@ -532,6 +580,10 @@ $.fn.to2DOT2 = function(params) {
 			tag  : p.tag,
 			type : p.type,
 		}
+
+		if(p.proprieties)
+			for(var att in p.proprieties)
+				cProps[att] = p.proprieties[att]
 		
 		if(p.title){
 			cProps.title = p.title;
@@ -565,8 +617,6 @@ $.fn.to2DOT2 = function(params) {
 		//var index = idx ? idx : 
 		var col = position && position == 'left'  ? leftColumnObj :
 				  position && position == 'right' ? rightColumnObj : mainColumnsObj;
-
-		console.log(container)
 
 		col.containers.push(container);
 	}

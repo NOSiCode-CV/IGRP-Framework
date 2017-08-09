@@ -14,14 +14,22 @@
     <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootrap) or $themeConfigData/css/@bootrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
+      <!-- BS COLUMNS -->
+      <link rel="stylesheet" href="{$path}/themes/bs.columns.css"/>
+      <!-- BS COLUMNS -->
+      <!-- BS CLASS -->
+      <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
+      <!-- BS CLASS -->
     </xsl:if>
     <!-- BS CSS -->
 
     <!-- DEFAULT CSS -->
-    <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default!='false'">
+    <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
     </xsl:if>
     <!--/DEFAULT CSS -->
+
+    
 
     <!-- THEME CSS -->
     
@@ -70,6 +78,8 @@
     <script src="{$path}/core/igrp/IGRP.jsutils.js"></script>
     <!-- IGRP class -->
     <script src="{$path}/core/igrp/IGRP.class.js"></script>
+    <!-- IGRP config -->
+    <script src="{$path}/core/igrp/IGRP.defaults.js"></script>
     <!-- IGRP core functions -->
     <script src="{$path}/core/igrp/IGRP.core.js"></script>
     <!-- IGRP globalModal -->
@@ -85,17 +95,19 @@
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js"></script>
     <!-- IGRP color palettes -->
     <script src="{$path}/core/colorpalettes/palettes.js"></script>
+    <!-- IGRP XML XSL Transform -->
+    <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js"></script>
+    
+
     <!-- IGRP handler -->
     <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js"></script>
 
     <script>
-      
       var path = '<xsl:value-of select="$path"/>';
       
       $(document).ready(function(){
         $.IGRP.init();
       });
-
     </script>
 
   </xsl:template>
@@ -103,6 +115,8 @@
   <xsl:template name="IGRP-topmenu">
     <xsl:attribute name="template"><xsl:value-of select="rows/template"/></xsl:attribute>
     <xsl:attribute name="has-menu"><xsl:value-of select="$hasMenu"/></xsl:attribute>
+    <xsl:attribute name="page"><xsl:value-of select="rows/page"/></xsl:attribute>
+    <xsl:attribute name="app"><xsl:value-of select="rows/app"/></xsl:attribute>
     <xsl:if test="$hasMenu = 'true'">
       
       <xsl:variable name="logo">
@@ -310,8 +324,7 @@
                 <span aria-hidden="true"><i class="fa fa-times"></i></span>
               </a>
             </xsl:if>
-
-            <xsl:value-of select="."/>
+            <xsl:value-of select="." disable-output-escaping="yes"/>
           </div>
 
         </xsl:for-each>
@@ -335,6 +348,10 @@
 
   <xsl:template name="theme-colors" mode="theme-colors" match="*">
     <style>
+
+      .box .box-title{
+        color:<xsl:value-of select="color[1]"/>;
+      }
       *[bg-color="template"]{
         background-color: <xsl:value-of select="color[1]"/>;
       }
@@ -402,14 +419,32 @@
           background-color: <xsl:value-of select="."/>;
         }
 
+        *[active-bg-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-bg-color="<xsl:value-of select="@name"/>"]{
+          background-color: <xsl:value-of select="."/>!important;
+        }
+
         *[text-color="<xsl:value-of select="@name"/>"],
         *[txt-color="<xsl:value-of select="@name"/>"]{
           color: <xsl:value-of select="."/>;
         }
 
+        *[active-text-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-text-color="<xsl:value-of select="@name"/>"]{
+          color: <xsl:value-of select="."/>!important;
+        }
+
         *[border-color="<xsl:value-of select="@name"/>"]{
           border-color: <xsl:value-of select="."/>;
         }
+
+        *[active-border-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-border-color="<xsl:value-of select="@name"/>"]{
+          border-color: <xsl:value-of select="."/>!important;
+        }
+
+        /* style listeners - fica à escuta de uma alteração do elemento*/
+
       </xsl:for-each>
     </style>
   </xsl:template>

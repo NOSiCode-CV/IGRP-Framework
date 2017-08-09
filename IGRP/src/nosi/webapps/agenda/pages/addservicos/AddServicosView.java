@@ -25,7 +25,7 @@ public class AddServicosView extends View {
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_filtrar;
 	public AddServicosView(AddServicos model){
-		this.setPageTitle("Adicionar Servi√ßos");
+		this.setPageTitle("Adicionar ServiÁos");
 			
 		box_1 = new IGRPBox("box_1");
 		page_title = new IGRPSectionHeader("page_title");
@@ -33,16 +33,16 @@ public class AddServicosView extends View {
 		table_1 = new IGRPTable("table_1");
 		page_title_text = new TextField(model,"page_title_text");
 		page_title_text.setLabel("");
-		page_title_text.setValue("Associar/Desassociar Servi√ßos");
+		page_title_text.setValue("Associar/Desassociar ServiÁos");
 		page_title_text.propertie().add("type","text").add("name","p_page_title_text").add("persist","true").add("maxlength","4000");
 		entidade = new ListField(model,"entidade");
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		balcao = new ListField(model,"balcao");
-		balcao.setLabel("Balc√£o");
+		balcao.setLabel("Balc„o");
 		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		servicos = new TextField(model,"servicos");
-		servicos.setLabel("Servi√ßos");
+		servicos.setLabel("ServiÁos");
 		servicos.propertie().add("name","p_servicos").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		checkbox_1 = new CheckBoxField(model,"checkbox_1");
 		checkbox_1.setLabel("Checkbox");

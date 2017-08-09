@@ -5,11 +5,10 @@
 
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
-	//config.language = 'fr';
+	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	config.allowedContent = true;
 	config.removePlugins = 'save,newpage,format,pagebreak';
+	config.allowedContent = true;
 	config.jqueryOverrideVal = true;
 	config.resize_minHeight = 400;
-	config.extraPlugins = 'newpage2';
 };

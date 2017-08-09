@@ -1,4 +1,4 @@
-<div class="col-md-#[size]# form-group #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+<div class="col-sm-#[size]# form-group #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
     <label for="{#path#/@name}"><xsl:value-of select="#path#/label"/></label>
     <select class="form-control select2 #[change]#" #[disabled]# id="#parent.tag#_#tag#" name="{#path#/@name}" #[required]# #[multiple]# >
       <xsl:for-each select="#list.path#/option">

@@ -23,7 +23,7 @@ public class REQ_SERVICOSView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public REQ_SERVICOSView(REQ_SERVICOS model){
-		this.setPageTitle("RequisiÃ§Ãµes de ServiÃ§os");
+		this.setPageTitle("Requisições de Serviços");
 			
 		box_1 = new IGRPBox("box_1");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -34,7 +34,7 @@ public class REQ_SERVICOSView extends View {
 		sectionheader_1_text.setValue("Requisitos");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		servico = new ListField(model,"servico");
-		servico.setLabel("ServiÃ§o");
+		servico.setLabel("Serviço");
 		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		tipo_requisito = new ListField(model,"tipo_requisito");
 		tipo_requisito.setLabel("Tipo Requisito");

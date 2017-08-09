@@ -51,9 +51,11 @@ public class AgendarView extends View {
 		servico = new ListField(model,"servico");
 		servico.setLabel("Serviço");
 		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 		balcao = new ListField(model,"balcao");
 		balcao.setLabel("Balcão");
 		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 		data = new DateField(model,"data");
 		data.setLabel("Data");
 		data.propertie().add("name","p_data").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("class","primary").add("desc","true");

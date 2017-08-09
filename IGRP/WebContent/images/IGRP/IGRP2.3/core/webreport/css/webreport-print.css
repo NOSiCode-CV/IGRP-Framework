@@ -1,0 +1,116 @@
+body {
+  -webkit-print-color-adjust:exact;
+  background-color: rgb(204,204,204);
+  text-align: justify;
+}
+
+*{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+div[size="A4"]{
+  width: 210mm; 
+  min-height: 297mm;
+}
+
+div[size="A3"]{
+  width: 297mm;
+  min-height: 420mm;
+}
+
+div[size="A5"]{
+  width: 148mm;
+  min-height: 210mm; 
+}
+
+div[size="A6"]{
+  width: 105mm;
+  min-height: 148mm; 
+}
+
+div[size="A7"]{
+  width: 74mm;
+  min-height: 105mm; 
+}
+
+.page{
+  background: white;
+  display: block;
+  margin: 5mm auto;
+  box-shadow: 0 .5mm 2mm rgba(0,0,0,0.5);
+  position: relative;
+  font-size: 12pt;
+  font-family:"Times New Roman";
+}
+
+.wrap{
+  padding: 1cm;
+  min-height: 257mm;
+  position: relative;
+}
+
+/*.fixed{
+  position: absolute;
+  left: 1cm;
+  right: 1cm;
+  border: 1px solid #ddd;
+  min-height: 80px;
+}
+
+.content{
+  margin:3cm 0;
+}
+
+.head{
+  top: 1cm;
+}
+
+.footer{
+  bottom: 1cm;
+}*/
+
+p{
+  line-height: 18px;
+  margin: 3px 0;
+}
+
+@media print {
+  html, body {
+    -webkit-print-color-adjust:exact;
+    margin: 0;
+    padding: 0; 
+    font: 14pt "Times New Roman";       
+  }
+
+ /* .fixed{
+    position: fixed;
+  }*/
+
+  .page{
+    margin: 0;
+    border: initial;
+    border-radius: initial;
+    width: initial;
+    min-height: initial;
+    box-shadow: initial;
+    background: initial;
+    page-break-after: always;
+    page-break-before: always;
+  }
+
+  .wrap{
+    min-height: initial;
+  }
+
+  p a {
+    word-wrap: break-word;
+  }
+  a:link:after, a:visited:after { 
+    content: "(" attr(href) ") ";
+  }
+  a:after, a[href^="javascript:"]:after, a[href^="#"]:after { 
+    content: ""; 
+  }
+}
+

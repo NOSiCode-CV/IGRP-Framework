@@ -1,7 +1,20 @@
 var CHECKBOXLIST = function(type,params){
 	Field.call(this,type,params);
 
-	this.xml.options = true;
+	var GEN         = VARS.getGen(),
+		field       = this,
+		proprieties = params && params.properties;
+
+	field.xml.options = true;
+
+	field.ready = function(){
+		GEN.setDomainAttr(field,{
+			value: proprieties && proprieties.domain ? proprieties.domain : ''
+		});
+	};
+	
+
+	
 	
 }
 this[VARS.name].declareField({

@@ -1,10 +1,10 @@
-<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#">
-  <div class="form-group" #[required]#>
+<div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#">
+  <div class="form-group checkboxlist clear" #[required]#>
      <label><xsl:value-of select="#path#/label"/></label>
         <xsl:for-each select="#list.path#/option">
-            <div class="checkbox">
+            <div class="checkbox col-md-#[child_size]#">
                 <label>
-                    <input #[required]# type="checkbox" name="{../../@name}" value="{value}" class="checkboxlist #[change]#" label="{text}">
+                    <input #[required]# type="checkbox" name="{../../@name}" value="{value}" class="checkboxlist #[change]#" label="{text}" #[disabled]#>
                         <xsl:if test="@selected='true'">
                             <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>
