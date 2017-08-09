@@ -19,6 +19,10 @@ public class Agendar extends Model{
 	private String hora;
 	@RParam(rParamName = "p_nome")
 	private String nome;
+	
+	@RParam(rParamName = "p_nome2")
+	private String nome2;
+	
 	@RParam(rParamName = "p_tipo_documento_de_identificacao")
 	private String tipo_documento_de_identificacao;
 	@RParam(rParamName = "p_documento_de_identificacao")
@@ -29,6 +33,36 @@ public class Agendar extends Model{
 	private float telemovel;
 	@RParam(rParamName = "p_telefone")
 	private float telefone;
+	
+	@RParam(rParamName = "p_entidade_fk_desc")
+	private String []p_entidade_fk_desc;
+	@RParam(rParamName = "p_entidade_fk")
+	private int []p_entidade_fk;
+	
+	@RParam(rParamName = "p_servico_fk_desc")
+	private String []p_servico_fk_desc;
+	@RParam(rParamName = "p_servico_fk")
+	private int []p_servico_fk;
+	
+	@RParam(rParamName = "p_balcao_fk_desc")
+	private String []p_balcao_fk_desc;
+	@RParam(rParamName = "p_balcao_fk")
+	private int []p_balcao_fk;
+	
+	@RParam(rParamName = "p_data_fk_desc")
+	private String []p_data_fk_desc;
+	@RParam(rParamName = "p_data_fk")
+	private String []p_data_fk;
+	
+	@RParam(rParamName = "p_hora_fk_desc")
+	private String []p_hora_fk_desc;
+	@RParam(rParamName = "p_hora_fk")
+	private String []p_hora_fk;
+	
+	@RParam(rParamName = "p_nome_fk_desc")
+	private String []p_nome_fk_desc;
+	@RParam(rParamName = "p_nome_fk")
+	private String []p_nome_fk;
 
 	private ArrayList<Separatorlist_2> separatorlist_2 = new ArrayList<>();
 	public void setSeparatorlist_2(ArrayList<Separatorlist_2> separatorlist_2){
@@ -130,6 +164,91 @@ public class Agendar extends Model{
 		return this.telefone;
 	}
 
+	public String[] getP_entidade_fk_desc() {
+		return p_entidade_fk_desc;
+	}
+	public void setP_entidade_fk_desc(String[] p_entidade_fk_desc) {
+		this.p_entidade_fk_desc = p_entidade_fk_desc;
+	}
+	public int[] getP_entidade_fk() {
+		return p_entidade_fk;
+	}
+	public void setP_entidade_fk(int[] p_entidade_fk) {
+		this.p_entidade_fk = p_entidade_fk;
+	}
+	public String[] getP_servico_fk_desc() {
+		return p_servico_fk_desc;
+	}
+	public void setP_servico_fk_desc(String[] p_servico_fk_desc) {
+		this.p_servico_fk_desc = p_servico_fk_desc;
+	}
+	public int[] getP_servico_fk() {
+		return p_servico_fk;
+	}
+	public void setP_servico_fk(int[] p_servico_fk) {
+		this.p_servico_fk = p_servico_fk;
+	}
+	public String[] getP_balcao_fk_desc() {
+		return p_balcao_fk_desc;
+	}
+	public void setP_balcao_fk_desc(String[] p_balcao_fk_desc) {
+		this.p_balcao_fk_desc = p_balcao_fk_desc;
+	}
+	public int[] getP_balcao_fk() {
+		return p_balcao_fk;
+	}
+	public void setP_balcao_fk(int[] p_balcao_fk) {
+		this.p_balcao_fk = p_balcao_fk;
+	}
+	public String[] getP_data_fk_desc() {
+		return p_data_fk_desc;
+	}
+	public void setP_data_fk_desc(String[] p_data_fk_desc) {
+		this.p_data_fk_desc = p_data_fk_desc;
+	}
+	public String[] getP_data_fk() {
+		return p_data_fk;
+	}
+	public void setP_data_fk(String[] p_data_fk) {
+		this.p_data_fk = p_data_fk;
+	}
+	public String[] getP_hora_fk_desc() {
+		return p_hora_fk_desc;
+	}
+	public void setP_hora_fk_desc(String[] p_hora_fk_desc) {
+		this.p_hora_fk_desc = p_hora_fk_desc;
+	}
+	public String[] getP_hora_fk() {
+		return p_hora_fk;
+	}
+	public void setP_hora_fk(String[] p_hora_fk) {
+		this.p_hora_fk = p_hora_fk;
+	}
+	public String[] getP_nome_fk_desc() {
+		return p_nome_fk_desc;
+	}
+	public void setP_nome_fk_desc(String[] p_nome_fk_desc) {
+		this.p_nome_fk_desc = p_nome_fk_desc;
+	}
+	public String[] getP_nome_fk() {
+		return p_nome_fk;
+	}
+	public void setP_nome_fk(String[] p_nome_fk) {
+		this.p_nome_fk = p_nome_fk;
+	}
+	public ArrayList<Separatorlist_2> getSeparatorlist_2() {
+		return separatorlist_2;
+	}
+	public ArrayList<Table_1> getTable_1() {
+		return table_1;
+	}
+
+	public String getNome2() {
+		return nome2;
+	}
+	public void setNome2(String nome2) {
+		this.nome2 = nome2;
+	}
 
 	public class Table_1{
 		private String tipo_requisito;
@@ -157,13 +276,15 @@ public class Agendar extends Model{
 		}
 
 	}
-	public class Separatorlist_2{
+	public static class Separatorlist_2{
+		
 		private String entidade;
 		private String servico;
 		private String balcao;
 		private String data;
 		private String hora;
 		private String nome;
+		
 		public void setEntidade(String entidade){
 			this.entidade = entidade;
 		}

@@ -1,5 +1,6 @@
 package nosi.webapps.agenda.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -87,7 +88,7 @@ public class Entidade {
 			e.printStackTrace();
 		}
 		
-		return aux;
+		return aux != null ? aux : new ArrayList<Entidade>();
 	}
 	
 }

@@ -62,7 +62,7 @@ public abstract class Model { // IGRP super model
 							m.set(this, (float[])Helper.convertToArray(aux, "float"));
 							break;
 						default:
-							m.set(this, typeName == "java.lang.String" ? aux : null); // The field could be a Object
+							m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
 					}
 				}
 				else{

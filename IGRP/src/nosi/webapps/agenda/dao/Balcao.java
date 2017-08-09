@@ -1,5 +1,6 @@
 package nosi.webapps.agenda.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -118,7 +119,7 @@ public class Balcao {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return aux;
+		return aux != null ? aux : new ArrayList<Balcao>();
 	}
 	
 }

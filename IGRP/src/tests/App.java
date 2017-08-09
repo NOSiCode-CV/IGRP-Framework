@@ -9,6 +9,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import nosi.webapps.agenda.dao.Balcao;
 import nosi.webapps.agenda.dao.Entidade;
 import nosi.webapps.agenda.dao.Servicos;
 import nosi.webapps.agenda.helper.RestRequestHelper;
@@ -21,7 +22,7 @@ public final class App {
 	private App() {}
 	
 	public static void main(String []args) {
-		makePostRequest2();
+		makeGetRequest();
 	}
 	
 	
@@ -107,7 +108,7 @@ public final class App {
 		 
         Client client = Client.create(RestRequestHelper.applySslSecurity(config));
         
-        String url = RestRequestHelper.baseUrl + "/entidade";
+        String url = RestRequestHelper.baseUrl + "/balcoes";
         
         WebResource resource = client.resource(url);
         
@@ -115,15 +116,18 @@ public final class App {
         
         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
-        System.out.println("Response " + response);
+       // System.out.println("Response " + response);
         
    	 	String jsonResult = response.getEntity(String.class);
    	    
-   	 	System.out.println(jsonResult);
+   	 	//System.out.println(jsonResult);
    	 	
         if(response.getStatus() == 200) {
-	        Entidade entidade = (Entidade) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Entidades", "Entidade", new TypeToken<List<Entidade>>(){}.getType());
-	       	System.out.println(entidade);
+	        List<Balcao> entidade = (List<Balcao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Balcoes", "Balcao", new TypeToken<List<Balcao>>(){}.getType());
+	       	for(Balcao balcao : entidade) {
+	       		System.out.println(balcao);
+	       	}
+	        System.out.println(entidade);
         }
         else {
        	 System.out.println("Error");
