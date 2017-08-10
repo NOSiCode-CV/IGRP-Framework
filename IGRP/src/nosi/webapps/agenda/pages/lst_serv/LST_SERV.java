@@ -29,6 +29,7 @@ public class LST_SERV extends Model{
 		private int checkbox_1;
 		private int checkbox_1_check;
 		private String filter;
+		private int p_id;
 		public void setServico(String servico){
 			this.servico = servico;
 		}
@@ -55,7 +56,13 @@ public class LST_SERV extends Model{
 		public String getFilter(){
 			return this.filter;
 		}
-
+		public int getP_id() {
+			return p_id;
+		}
+		public void setP_id(int p_id) {
+			this.p_id = p_id;
+		}
+		
 	}
 }
 /*-------------------------*/

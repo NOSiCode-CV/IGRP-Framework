@@ -66,6 +66,30 @@ public class Servicos {
 		this.assunto = assunto;
 	}
 	
+	public static int insert(Servicos s){
+		 ClientConfig config = new DefaultClientConfig();			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+	        String url = RestRequestHelper.baseUrl + "/";	        
+	        WebResource resource = client.resource(url);	        
+			String content = RestRequestHelper.createJsonPostData("_postbalcoes", s);
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+	        		.post(ClientResponse.class, content);			
+	       client.destroy();
+	       return response.getStatus();
+	}	
+
+	public static int update(Servicos s){
+	    ClientConfig config = new DefaultClientConfig();			 
+       Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+       String url = RestRequestHelper.baseUrl + "/";	        
+       WebResource resource = client.resource(url);	        
+		String content = RestRequestHelper.createJsonPostData("_putbalcao_id", s);
+		ClientResponse response = resource.path(String.valueOf(s.getId())).accept(MediaType.APPLICATION_JSON).type("application/json")
+       		.put(ClientResponse.class, content);			
+	    client.destroy();
+	    return response.getStatus();
+	}
+	
 	public static List<Servicos> getAllServico() {
 			
 		List<Servicos> aux = null;
