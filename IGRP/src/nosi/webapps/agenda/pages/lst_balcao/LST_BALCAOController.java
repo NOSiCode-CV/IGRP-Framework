@@ -26,7 +26,6 @@ public class LST_BALCAOController extends Controller {
 			LST_BALCAO.Table_1 t = new LST_BALCAO().new Table_1();
 			t.setP_id(b.getId());
 			t.setBalcao(b.getLocalizacao());
-			t.setOrganica(""+b.getId_organica());
 			if(b.getEstado().toUpperCase().equals("ATIVO")){
 				t.setCheckbox_1_check(b.getId());
 			}

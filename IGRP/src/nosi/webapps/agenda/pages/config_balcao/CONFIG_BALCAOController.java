@@ -78,7 +78,6 @@ public class CONFIG_BALCAOController extends Controller {
 			model.setHr_inicio(b.getHr_inicio());
 			model.setLocalizacao(b.getLocalizacao());
 			model.setNr_servicos(b.getNr_servicos());
-			model.setOrganica(b.getId_organica());
 			model.setP_estado(b.getEstado());
 			model.setP_id(id);
 		}
@@ -109,7 +108,6 @@ public class CONFIG_BALCAOController extends Controller {
 		    b.setHr_fim(model.getHr_fim());
 		    b.setHr_inicio(model.getHr_inicio());
 		    b.setId_entidade(model.getEntidade());
-		    b.setId_organica(model.getOrganica());
 		    b.setLocalizacao(model.getLocalizacao());
 		    b.setNr_servicos(model.getNr_servicos());	
 		    b.setId(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("p_id")));
