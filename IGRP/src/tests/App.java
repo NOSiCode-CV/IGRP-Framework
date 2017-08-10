@@ -1,5 +1,8 @@
 package tests;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
@@ -22,10 +25,15 @@ public final class App {
 	
 	private App() {}
 	
-	public static void main(String []args) {
-		//makeGetRequest();
-		System.out.println(Requisitos.getAllRequisitosByServico(1).size());
-		//System.out.println(Requisitos.getAllRequisitosByServico(1).size());
+	public static void main(String []args) throws ParseException {
+		
+		SimpleDateFormat newDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		Date myDate =  newDateFormat.parse("09-08-2017");
+		newDateFormat.applyPattern("yyyy-MM-dd");
+		String myDateString = newDateFormat.format(myDate);
+		
+		
+		System.out.println(myDateString);
 	}
 	
 	
@@ -37,18 +45,6 @@ public final class App {
         String url = RestRequestHelper.baseUrl + "/servicos";
         
         WebResource resource = client.resource(url);
-        /*
-        User user = new User();
-		user.setUsername("IMF");
-		user.setPassword_hash("djfhjdhfjd");
-		user.setAuth_key("deeuriwui");
-		user.setStatus(10);
-		user.setPassword_reset_token("NULL");
-		user.setEmail("iekinyfernandes3@gmail.com");
-		user.setUpdated_at(12345);
-		user.setCreated_at(45344);
-		user.setFuncionario(1);
-		*/
         
         Servicos servicos = new Servicos();
         

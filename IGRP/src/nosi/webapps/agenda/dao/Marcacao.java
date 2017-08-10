@@ -1,6 +1,8 @@
 package nosi.webapps.agenda.dao;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.annotations.Expose;
 
@@ -10,12 +12,12 @@ import com.google.gson.annotations.Expose;
  */
 public class Marcacao {
 	@Expose(serialize = false, deserialize = true)
-	private int id;
+	private Integer id;
 	private int id_entidade;
 	private int id_servico;
 	private int id_balcao;
 	private String nome;
-	private Date data_marcacao;
+	private String data_marcacao;
 	private String hr_marcacao;
 	private String requerente;
 	private String tipo_documento;
@@ -25,10 +27,11 @@ public class Marcacao {
 	private String email;
 	private String notificacao;
 	private String estado;
-	public int getId() {
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public int getId_entidade() {
@@ -55,10 +58,10 @@ public class Marcacao {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public Date getData_marcacao() {
+	public String getData_marcacao() {
 		return data_marcacao;
 	}
-	public void setData_marcacao(Date data_marcacao) {
+	public void setData_marcacao(String data_marcacao) {
 		this.data_marcacao = data_marcacao;
 	}
 	public String getHr_marcacao() {
@@ -116,4 +119,17 @@ public class Marcacao {
 		this.estado = estado;
 	}
 	
+	public static String convertDate(String date, String formatIn, String formatOut) {
+		String myDateString = null;
+		try {
+			SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
+			Date myDate = newDateFormat.parse(date);
+			newDateFormat.applyPattern(formatOut);
+			myDateString = newDateFormat.format(myDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myDateString;
+	}
 }

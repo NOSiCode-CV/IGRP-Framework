@@ -31,7 +31,6 @@ public class Balcao {
 	private int nr_servicos;
 	private int confirmacao;
 	private String estado;
-	private int id_organica;
 	
 	public Integer getId() {
 		return id;
@@ -86,12 +85,6 @@ public class Balcao {
 	}
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-	public int getId_organica() {
-		return id_organica;
-	}
-	public void setId_organica(int id_organica) {
-		this.id_organica = id_organica;
 	}
 	
 	public String toString(){

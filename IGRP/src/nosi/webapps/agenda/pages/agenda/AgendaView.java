@@ -69,7 +69,7 @@ public class AgendaView extends View {
 		antecedencia_de_agendamento_hr.propertie().add("name","p_antecedencia_de_agendamento_hr").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","agenda","Agenda","gravar","submit","success|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","agenda","Agenda","index","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		
 	
@@ -77,10 +77,8 @@ public class AgendaView extends View {
 		
 	@Override
 	public void render(){
-		
 
 		page_title.addField(page_title_text);
-
 		separatorlist_1.addField(balcao);
 		separatorlist_1.addField(servico);
 		separatorlist_1.addField(numero_de_atendimentos);
@@ -91,8 +89,6 @@ public class AgendaView extends View {
 		separatorlist_1.addField(tempo_medio_de_atendimento_mn);
 		separatorlist_1.addField(antecedencia_alterarcancelar_hr);
 		separatorlist_1.addField(antecedencia_de_agendamento_hr);
-
-
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(box_1);
 		this.addToPage(page_title);
