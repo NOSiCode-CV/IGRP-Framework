@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -40,16 +40,17 @@
             <fields>
                 <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Associar/Desassociar Serviços]]>
+                        <![CDATA[Adicionar Serviços]]>
                     </value>
                 </page_title_text>
             </fields>
         </page_title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false">
+                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Entidade</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -68,9 +69,18 @@
                         </option>
                     </list>
                 </entidade>
-                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Balcão</label>
+                <nome_do_servico name="p_nome_do_servico" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome do Serviço</label>
+                    <value>Totam perspiciatis ut deserunt</value>
+                </nome_do_servico>
+                <codigo_do_servico name="p_codigo_do_servico" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código do Serviço</label>
+                    <value>Doloremque aliqua adipiscing u</value>
+                </codigo_do_servico>
+                <estado name="p_estado" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
+                    <label>Estado</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -88,54 +98,13 @@
                             <value>4</value>
                         </option>
                     </list>
-                </balcao>
+                </estado>
+                <assunto name="p_assunto" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Assunto</label>
+                    <value>Unde adipiscing mollit ipsum l</value>
+                </assunto>
             </fields>
-            <tools-bar>
-                <item type="form" code="" class="info" rel="filtrar">
-                    <title>Filtrar</title>
-                    <app>agenda</app>
-                    <page>AddServicos</page>
-                    <link>index</link>
-                    <parameter/>
-                    <target>_self</target>
-                    <img>info|fa-filter</img>
-                </item>
-            </tools-bar>
         </form_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <servicos name="p_servicos" type="text" maxlength="30" align="left" lookup_parser="false">
-                    <label>Serviços</label>
-                </servicos>
-                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
-                    <label>Checkbox</label>
-                </checkbox_1>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <servicos name="p_servicos">Accusantium unde rem adipiscing officia</servicos>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
-                    </row>
-                    <row>
-                        <servicos name="p_servicos">Aperiam amet adipiscing sit deserunt</servicos>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
-                    </row>
-                    <row>
-                        <servicos name="p_servicos">Natus perspiciatis dolor lorem sit</servicos>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
-                    </row>
-                    <row>
-                        <servicos name="p_servicos">Omnis labore aperiam laudantium natus</servicos>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
-                    </row>
-                </value>
-            </table>
-        </table_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
@@ -144,8 +113,7 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>success|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-save|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
             </item>
         </toolsbar_1>
     </content>

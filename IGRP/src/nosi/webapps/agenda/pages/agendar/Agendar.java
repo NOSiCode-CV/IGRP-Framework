@@ -4,20 +4,21 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
-public class Agendar extends Model{		
+public class Agendar extends Model{
+	
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
-	@RParam(rParamName = "p_entidade")
+	//@RParam(rParamName = "p_entidade")
 	private String entidade;
-	@RParam(rParamName = "p_servico")
+	//@RParam(rParamName = "p_servico")
 	private String servico;
-	@RParam(rParamName = "p_balcao")
+	//@RParam(rParamName = "p_balcao")
 	private String balcao;
-	@RParam(rParamName = "p_data")
+	//@RParam(rParamName = "p_data")
 	private String data;
-	@RParam(rParamName = "p_hora")
+	//@RParam(rParamName = "p_hora")
 	private String hora;
-	@RParam(rParamName = "p_nome")
+	//@RParam(rParamName = "p_nome")
 	private String nome;
 	
 	@RParam(rParamName = "p_nome2")
@@ -37,17 +38,17 @@ public class Agendar extends Model{
 	@RParam(rParamName = "p_entidade_fk_desc")
 	private String []p_entidade_fk_desc;
 	@RParam(rParamName = "p_entidade_fk")
-	private int []p_entidade_fk;
+	private String []p_entidade_fk;
 	
 	@RParam(rParamName = "p_servico_fk_desc")
 	private String []p_servico_fk_desc;
 	@RParam(rParamName = "p_servico_fk")
-	private int []p_servico_fk;
+	private String []p_servico_fk;
 	
 	@RParam(rParamName = "p_balcao_fk_desc")
 	private String []p_balcao_fk_desc;
 	@RParam(rParamName = "p_balcao_fk")
-	private int []p_balcao_fk;
+	private String []p_balcao_fk;
 	
 	@RParam(rParamName = "p_data_fk_desc")
 	private String []p_data_fk_desc;
@@ -170,10 +171,10 @@ public class Agendar extends Model{
 	public void setP_entidade_fk_desc(String[] p_entidade_fk_desc) {
 		this.p_entidade_fk_desc = p_entidade_fk_desc;
 	}
-	public int[] getP_entidade_fk() {
+	public String[] getP_entidade_fk() {
 		return p_entidade_fk;
 	}
-	public void setP_entidade_fk(int[] p_entidade_fk) {
+	public void setP_entidade_fk(String[] p_entidade_fk) {
 		this.p_entidade_fk = p_entidade_fk;
 	}
 	public String[] getP_servico_fk_desc() {
@@ -182,10 +183,10 @@ public class Agendar extends Model{
 	public void setP_servico_fk_desc(String[] p_servico_fk_desc) {
 		this.p_servico_fk_desc = p_servico_fk_desc;
 	}
-	public int[] getP_servico_fk() {
+	public String[] getP_servico_fk() {
 		return p_servico_fk;
 	}
-	public void setP_servico_fk(int[] p_servico_fk) {
+	public void setP_servico_fk(String[] p_servico_fk) {
 		this.p_servico_fk = p_servico_fk;
 	}
 	public String[] getP_balcao_fk_desc() {
@@ -194,10 +195,10 @@ public class Agendar extends Model{
 	public void setP_balcao_fk_desc(String[] p_balcao_fk_desc) {
 		this.p_balcao_fk_desc = p_balcao_fk_desc;
 	}
-	public int[] getP_balcao_fk() {
+	public String[] getP_balcao_fk() {
 		return p_balcao_fk;
 	}
-	public void setP_balcao_fk(int[] p_balcao_fk) {
+	public void setP_balcao_fk(String[] p_balcao_fk) {
 		this.p_balcao_fk = p_balcao_fk;
 	}
 	public String[] getP_data_fk_desc() {
@@ -250,7 +251,7 @@ public class Agendar extends Model{
 		this.nome2 = nome2;
 	}
 
-	public class Table_1{
+	public static class Table_1{
 		private String tipo_requisito;
 		private String descritivo;
 		private String formulario;
@@ -278,55 +279,93 @@ public class Agendar extends Model{
 	}
 	public static class Separatorlist_2{
 		
-		private String entidade;
-		private String servico;
-		private String balcao;
-		private String data;
-		private String hora;
-		private String nome;
+		private Pair entidade;
+		private Pair servico;
+		private Pair balcao;
+		private Pair data;
+		private Pair hora;
+		private Pair nome;
 		
-		public void setEntidade(String entidade){
+		public static class Pair{
+			
+			private String key;
+			private String value;
+			
+			public Pair() {}
+			
+			public Pair(String key, String value) {
+				this.key = key;
+				this.value = value;
+			}
+			
+			public String getKey() {
+				return key;
+			}
+			public void setKey(String key) {
+				this.key = key;
+			}
+			public String getValue() {
+				return value;
+			}
+			public void setValue(String value) {
+				this.value = value;
+			}
+
+			@Override
+			public String toString() {
+				return this.key + "_" + this.value;
+			}
+			
+		}
+
+		public Pair getEntidade() {
+			return entidade;
+		}
+
+		public void setEntidade(Pair entidade) {
 			this.entidade = entidade;
 		}
-		public String getEntidade(){
-			return this.entidade;
+
+		public Pair getServico() {
+			return servico;
 		}
 
-		public void setServico(String servico){
+		public void setServico(Pair servico) {
 			this.servico = servico;
 		}
-		public String getServico(){
-			return this.servico;
+
+		public Pair getBalcao() {
+			return balcao;
 		}
 
-		public void setBalcao(String balcao){
+		public void setBalcao(Pair balcao) {
 			this.balcao = balcao;
 		}
-		public String getBalcao(){
-			return this.balcao;
+
+		public Pair getData() {
+			return data;
 		}
 
-		public void setData(String data){
+		public void setData(Pair data) {
 			this.data = data;
 		}
-		public String getData(){
-			return this.data;
+
+		public Pair getHora() {
+			return hora;
 		}
 
-		public void setHora(String hora){
+		public void setHora(Pair hora) {
 			this.hora = hora;
 		}
-		public String getHora(){
-			return this.hora;
+
+		public Pair getNome() {
+			return nome;
 		}
 
-		public void setNome(String nome){
+		public void setNome(Pair nome) {
 			this.nome = nome;
 		}
-		public String getNome(){
-			return this.nome;
-		}
-
+		
 	}
 }
 /*-------------------------*/

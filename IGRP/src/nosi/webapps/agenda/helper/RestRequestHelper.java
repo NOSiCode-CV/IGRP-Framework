@@ -145,4 +145,15 @@ public final class RestRequestHelper{
 		Gson gson = new Gson();
 		return gson.toJson(dao);
 	}
+	
+	public static int extractGeneratedKeyEntryId(String jsonResult) {
+		int daoId = 0;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonResult);
+			daoId = jsonObject.getJSONObject("GeneratedKeys").getJSONArray("Entry").getJSONObject(0).getInt("ID");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return daoId;
+	}
 }
