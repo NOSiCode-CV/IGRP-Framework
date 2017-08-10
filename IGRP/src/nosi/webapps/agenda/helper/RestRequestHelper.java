@@ -9,7 +9,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
@@ -23,8 +22,8 @@ import nosi.webapps.agenda.dao.Fault;
  */
 public final class RestRequestHelper{
 	
-	public static final String baseUrl = "https://localhost:9092/services/DSN_Agenda";
-	
+	public static final String baseUrl = "http://localhost:9092/services/DSN_Agenda";
+
 	private RestRequestHelper() {}
 	
 	// Convert the JSON result to a list of DAO objects
@@ -32,10 +31,14 @@ public final class RestRequestHelper{
 		List list = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
-			JSONArray jsonArray = jsonObject.getJSONObject(groupName).getJSONArray(resourceName);
-			String result = jsonArray.toString();
-			Gson gson = new Gson();
-			list = gson.fromJson(result, type);//new TypeToken<List>(){}.getType()
+			if(jsonObject.has(groupName)) {
+				JSONObject aux = jsonObject.getJSONObject(groupName);
+				if(aux.has(resourceName)) {
+					String result = aux.getJSONArray(resourceName).toString();
+					Gson gson = new Gson();
+					list = gson.fromJson(result, type);//new TypeToken<List>(){}.getType()
+				}
+			}
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -49,7 +52,7 @@ public final class RestRequestHelper{
 	}
 	
 	// Convert the JSON result to a list of DAO objects
-	//public static <T> List<T> convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Type daoClass /*param. not used*/){
+	//public static <T> List<T> convertJsonToDaoColl(String jsonResult, String groupName, String resourceName, Class<T> daoClass /*param. not used*/){
 		/*List<T> list = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
@@ -126,5 +129,31 @@ public final class RestRequestHelper{
 
                 }
         };
+	}
+	
+	public static String createJsonPostData(String wrapper, Object dao) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put(wrapper, new JSONObject(convertDaoToJson(dao)));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject.toString();
+	}
+	
+	public static String convertDaoToJson(Object dao) {
+		Gson gson = new Gson();
+		return gson.toJson(dao);
+	}
+	
+	public static int extractGeneratedKeyEntryId(String jsonResult) {
+		int daoId = 0;
+		try {
+			JSONObject jsonObject = new JSONObject(jsonResult);
+			daoId = jsonObject.getJSONObject("GeneratedKeys").getJSONArray("Entry").getJSONObject(0).getInt("ID");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return daoId;
 	}
 }
