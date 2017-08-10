@@ -1,68 +1,141 @@
 package tests;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
+
 import java.util.List;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.core.MediaType;
-
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
 
+import nosi.webapps.agenda.dao.Balcao;
+import nosi.webapps.agenda.dao.Entidade;
+import nosi.webapps.agenda.dao.Requisitos;
+import nosi.webapps.agenda.dao.Servicos;
 import nosi.webapps.agenda.helper.RestRequestHelper;
-
-import org.json.*;
 /**
  * @author Marcel Iekiny
  * Aug 3, 2017
  */
 public final class App {
 	
-	private static final String url = "http://imf:8280/services/MyFirstDS/user_/2";
-	
 	private App() {}
 	
-	public static void main(String []args) throws NoSuchAlgorithmException, KeyManagementException, ClassNotFoundException {
-		/*List<User> obj = null;
-		Gson gson = new Gson();
-		String aux = "[{\"updated_at\":1458171615,\"password_hash\":\"$2y$13$85kYuq/UcbvsodmjgORQx.8UUYe9rzozZsEmD7EdbHljHlAAI2zu2\",\"created_at\":1458171615,\"password_reset_token\":null,\"id\":2,\"auth_key\":\"8XC3IWv8gusgmsE6Ec4_ut-MR359NbMJ\",\"funcionario\":null,\"email\":\"iekinyfernandes@gmail.com\",\"username\":\"demo\",\"status\":1}]";
-		 obj = gson.fromJson(aux,  new TypeToken<List<User>>(){}.getType());
-		System.out.println(obj.get(0).getUsername());
-		
-		System.exit(1);
-		*/
+	public static void main(String []args) {
+		//makeGetRequest();
+		//System.out.println(Requisitos.getAllRequisitosByServico(1).size());
+	}
+	
+	
+	public static void makePostRequest2() {
 		ClientConfig config = new DefaultClientConfig();
 		 
-         Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-         
-         WebResource resource = client.resource(url);
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
         
-         ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-
-    	 String jsonResult = response.getEntity(String.class);
-    	 
-         if(response.getStatus() == 200) {
-        	// User user = RestRequestHelper.convertJsonToDao(jsonResult, "tbl_userCollection", "tbl_user", User.class);
-        	 System.out.println("Ok");
-         }
-         else {
-        	 System.out.println("Error");
-        	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
-         }
-         
-        client.destroy();
+        String url = RestRequestHelper.baseUrl + "/servicos";
+        
+        WebResource resource = client.resource(url);
+        /*
+        User user = new User();
+		user.setUsername("IMF");
+		user.setPassword_hash("djfhjdhfjd");
+		user.setAuth_key("deeuriwui");
+		user.setStatus(10);
+		user.setPassword_reset_token("NULL");
+		user.setEmail("iekinyfernandes3@gmail.com");
+		user.setUpdated_at(12345);
+		user.setCreated_at(45344);
+		user.setFuncionario(1);
+		*/
+        
+        Servicos servicos = new Servicos();
+        
+        servicos.setId_entidade(37);
+        servicos.setNome_servico("Teste post");
+        servicos.setCodigo_servico("codi");
+        servicos.setEstado("1");
+        servicos.setAssunto("assuntos");
+        
+		String content = RestRequestHelper.createJsonPostData("_postservicos", servicos);
+		System.out.println(content);
+        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+        		.post(ClientResponse.class, content);
 		
-		System.out.println();
+   	 	String jsonResult = response.getEntity(String.class);
+   	 	
+        if(response.getStatus() == 200) {
+        	System.out.println("Ok");
+        }
+        else {
+       	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult).getFaultstring());
+       	 System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+        }
+        
+       client.destroy();
 	}
+	
+	public static void makePostRequest() {
+		ClientConfig config = new DefaultClientConfig();
+		 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+        
+        String url = RestRequestHelper.baseUrl + "/entidade/18";
+        
+        WebResource resource = client.resource(url);
+       
+        String json = "";
+        
+        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
+        		.put(ClientResponse.class, json);
+
+   	 	String jsonResult = response.getEntity(String.class);
+   	 	
+   	 	System.out.println(jsonResult);
+   	 
+        if(response.getStatus() == 200) {
+        	System.out.println("Ok");
+        }
+        else {
+       	 System.out.println("Error");
+       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+        }
+        
+       client.destroy();
+	}
+	
+	public static void makeGetRequest() {
+		
+		ClientConfig config = new DefaultClientConfig();
+		 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+        
+        String url = RestRequestHelper.baseUrl + "/balcoes";
+        
+        WebResource resource = client.resource(url);
+        
+        System.out.println("Recource " + resource);
+        
+        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        
+       // System.out.println("Response " + response);
+        
+   	 	String jsonResult = response.getEntity(String.class);
+   	    
+   	 	//System.out.println(jsonResult);
+   	 	
+        if(response.getStatus() == 200) {
+	        List<Balcao> entidade = (List<Balcao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Balcoes", "Balcao", new TypeToken<List<Balcao>>(){}.getType());
+	       	for(Balcao balcao : entidade) {
+	       		System.out.println(balcao);
+	       	}
+	        System.out.println(entidade);
+        }
+        else {
+       	 System.out.println("Error");
+       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+        }
+       client.destroy();
+	}
+	
 }

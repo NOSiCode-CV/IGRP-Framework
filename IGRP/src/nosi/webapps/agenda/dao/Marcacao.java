@@ -2,12 +2,14 @@ package nosi.webapps.agenda.dao;
 
 import java.sql.Date;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * @author: Emanuel Pereira
  * 4 Aug 2017
  */
 public class Marcacao {
-
+	@Expose(serialize = false, deserialize = true)
 	private int id;
 	private int id_entidade;
 	private int id_servico;
