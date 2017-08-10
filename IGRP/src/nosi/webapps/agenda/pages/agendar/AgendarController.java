@@ -16,9 +16,11 @@ import java.util.Map;
 import nosi.core.webapp.Response;
 /*---- Import your packages here... ----*/
 import nosi.webapps.agenda.dao.Entidade;
+import nosi.webapps.agenda.dao.Requisitos;
 import nosi.webapps.agenda.dao.Balcao;
 import nosi.webapps.agenda.dao.Servicos;
 import nosi.webapps.agenda.pages.agendar.Agendar.Separatorlist_2;
+import nosi.webapps.agenda.pages.agendar.Agendar.Table_1;
 /*---- End ----*/
 
 public class AgendarController extends Controller {		
@@ -33,63 +35,36 @@ public class AgendarController extends Controller {
 		List<HiddenField> hiddenFields = new ArrayList<HiddenField>();
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
+			
 			model.load();
 			
-			if(model.getP_entidade_fk_desc() != null)
+			if(model.getP_entidade_fk_desc() != null) {
 				for(int i = 0; i < model.getP_entidade_fk_desc().length; i++) {
+					
 					Agendar.Separatorlist_2 aux = new Separatorlist_2();
-					aux.setEntidade("" + model.getP_entidade_fk()[i]);
-					aux.setData(model.getP_data_fk_desc()[i]);
-					aux.setServico("" + model.getP_servico_fk()[i]);
-					aux.setBalcao("" + model.getP_balcao_fk()[i]);
-					aux.setHora(model.getP_hora_fk_desc()[i]);
-					aux.setNome(model.getP_nome_fk_desc()[i]);
+					
+					aux.setEntidade(new Separatorlist_2.Pair("" + model.getP_entidade_fk()[i],"" + model.getP_entidade_fk_desc()[i]));
+					aux.setData(new Separatorlist_2.Pair("" + model.getP_data_fk()[i],"" + model.getP_data_fk_desc()[i]));
+					aux.setServico(new Separatorlist_2.Pair("" + model.getP_servico_fk()[i],"" + model.getP_servico_fk_desc()[i]));
+					aux.setBalcao(new Separatorlist_2.Pair("" + model.getP_balcao_fk()[i],"" + model.getP_balcao_fk_desc()[i]));
+					aux.setHora(new Separatorlist_2.Pair("" + model.getP_hora_fk()[i],"" + model.getP_hora_fk_desc()[i]));
+					aux.setNome(new Separatorlist_2.Pair("" + model.getP_nome_fk()[i],"" + model.getP_nome_fk_desc()[i]));
+					
 					lista.add(aux);
 					
-					HiddenField hiddenFieldEntidade1 = new HiddenField(null, "chave");
-					hiddenFieldEntidade1.setValue("valor");
-					HiddenField hiddenFieldEntidade2 = new HiddenField(null, "chave");
-					hiddenFieldEntidade2.setValue("valor");
-					
-					HiddenField hiddenFieldServico1 = new HiddenField(null, "chave");
-					hiddenFieldServico1.setValue("valor");
-					HiddenField hiddenFieldServico2 = new HiddenField(null, "chave");
-					hiddenFieldServico2.setValue("valor");
-					
-					HiddenField hiddenFieldBalcao1 = new HiddenField(null, "chave");
-					hiddenFieldBalcao1.setValue("valor");
-					HiddenField hiddenFieldBalcao2 = new HiddenField(null, "chave");
-					hiddenFieldBalcao2.setValue("valor");
-					hiddenFields.add(hiddenFieldBalcao1);
-					hiddenFields.add(hiddenFieldBalcao1);
-					
-					HiddenField hiddenFieldData1 = new HiddenField(null, "chave");
-					hiddenFieldData1.setValue("valor");
-					HiddenField hiddenFieldData2 = new HiddenField(null, "chave");
-					hiddenFieldData2.setValue("valor");
-					hiddenFields.add(hiddenFieldData1);
-					hiddenFields.add(hiddenFieldData1);
-					
-					HiddenField hiddenFieldHora1 = new HiddenField(null, "chave");
-					hiddenFieldHora1.setValue("valor");
-					HiddenField hiddenFieldHora2 = new HiddenField(null, "chave");
-					hiddenFieldHora2.setValue("valor");
-					hiddenFields.add(hiddenFieldHora1);
-					hiddenFields.add(hiddenFieldHora2);
-					
-					HiddenField hiddenFieldNome1 = new HiddenField(null, "chave");
-					hiddenFieldNome1.setValue("valor");
-					HiddenField hiddenFieldNome2 = new HiddenField(null, "chave");
-					hiddenFieldNome2.setValue("valor");
-					hiddenFields.add(hiddenFieldNome1);
-					hiddenFields.add(hiddenFieldNome2);
 				}
+			}
 		}
 		
 		AgendarView view = new AgendarView(model);
 		
 		view.separatorlist_2.addData(lista);
 		
+		//view.table_1.addData(tableRows);
+		
+		/*for(HiddenField obj : hiddenFields)
+			view.form_1.addField(obj);
+		*/
 		Map<String, String> comboBox = new HashMap<String,String>();
 		comboBox.put(null, "--- Escolher Entidade ---");
 		for(Entidade entidade : Entidade.getAllEntidade()) {

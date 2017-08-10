@@ -11,6 +11,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 import nosi.webapps.agenda.dao.Balcao;
 import nosi.webapps.agenda.dao.Entidade;
+import nosi.webapps.agenda.dao.Requisitos;
 import nosi.webapps.agenda.dao.Servicos;
 import nosi.webapps.agenda.helper.RestRequestHelper;
 /**
@@ -22,7 +23,8 @@ public final class App {
 	private App() {}
 	
 	public static void main(String []args) {
-		makeGetRequest();
+		//makeGetRequest();
+		System.out.println(Requisitos.getAllRequisitosByServico(1).size());
 	}
 	
 	
