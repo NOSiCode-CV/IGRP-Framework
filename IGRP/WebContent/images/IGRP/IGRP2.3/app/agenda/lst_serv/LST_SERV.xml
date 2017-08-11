@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/lst_serv/LST_SERV.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/agenda/lst_serv/LST_SERV.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -35,9 +35,27 @@
         <title>Lista de Serviços</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <entidade name="p_entidade" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="false" placeholder="" right="false">
+                <entidade name="p_entidade" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
                     <label>Entidade</label>
-                    <value>Sit perspiciatis officia perspiciatis deserunt</value>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
                 </entidade>
             </fields>
             <tools-bar>
@@ -46,65 +64,107 @@
                     <app>agenda</app>
                     <page>AddServicos</page>
                     <link>index</link>
-                    <parameter/>
-                    <target>modal</target>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl?</parameter>
+                    <target>submit</target>
                     <img>success|fa-plus-square</img>
                 </item>
-                <item type="form" code="" class="warning" rel="editar">
-                    <title>Editar</title>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
                     <app>agenda</app>
-                    <page>AddServicos</page>
+                    <page>LST_SERV</page>
                     <link>index</link>
-                    <parameter/>
-                    <target>modal</target>
-                    <img>warning|fa-edit</img>
-                </item>
-                <item type="form" code="" class="danger" rel="remover">
-                    <title>Remover</title>
-                    <app>agenda</app>
-                    <page>AddServicos</page>
-                    <link>index</link>
-                    <parameter/>
-                    <target>alert_submit</target>
-                    <img>danger|fa-close</img>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/lst_serv/LST_SERV.xsl?</parameter>
+                    <target>submit</target>
+                    <img>default|fa-search</img>
                 </item>
             </tools-bar>
         </form_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false">
+                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Serviço</label>
                 </servico>
-                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
                     <label>Checkbox</label>
                 </checkbox_1>
-                <filter name="p_table_1_filter" type="filter_az">
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <table_1_filter name="p_table_1_filter" type="text" maxlength="100">
                     <value/>
-                </filter>
+                </table_1_filter>
             </fields>
             <table>
                 <value>
                     <row>
-                        <servico name="p_servico">Perspiciatis aliqua aperiam dolor adipiscing</servico>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <servico name="p_servico">Rem magna mollit anim doloremq</servico>
                         <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
                         <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <servico name="p_servico">Stract deserunt aperiam elit laudantium</servico>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <servico name="p_servico">Laudantium anim unde elit ut</servico>
                         <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
                         <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <servico name="p_servico">Stract doloremque rem accusantium iste</servico>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <servico name="p_servico">Consectetur doloremque magna i</servico>
                         <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
                         <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <servico name="p_servico">Magna iste voluptatem mollit voluptatem</servico>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <servico name="p_servico">Omnis amet lorem mollit accusa</servico>
                         <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
                         <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <servico name="p_servico">Adipiscing iste sit sed iste</servico>
+                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="success" rel="editar">
+                        <title>Editar</title>
+                        <app>agenda</app>
+                        <page>LST_SERV</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/lst_serv/LST_SERV.xsl?</parameter>
+                        <target>_blank</target>
+                        <img>success|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="delete">
+                        <title>Delete</title>
+                        <app>agenda</app>
+                        <page>LST_SERV</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/lst_serv/LST_SERV.xsl?</parameter>
+                        <target>alert_submit</target>
+                        <img>danger|fa-remove</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>

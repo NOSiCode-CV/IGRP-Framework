@@ -69,9 +69,9 @@ public class Servicos {
 	public static int insert(Servicos s){
 		 ClientConfig config = new DefaultClientConfig();			 
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
-	        String url = RestRequestHelper.baseUrl + "/";	        
+	        String url = RestRequestHelper.baseUrl + "/servicos";	        
 	        WebResource resource = client.resource(url);	        
-			String content = RestRequestHelper.createJsonPostData("_postbalcoes", s);
+			String content = RestRequestHelper.createJsonPostData("_postservicos", s);
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
 	        		.post(ClientResponse.class, content);			
 	       client.destroy();
@@ -81,9 +81,9 @@ public class Servicos {
 	public static int update(Servicos s){
 	    ClientConfig config = new DefaultClientConfig();			 
        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
-       String url = RestRequestHelper.baseUrl + "/";	        
+       String url = RestRequestHelper.baseUrl + "/servicos";	        
        WebResource resource = client.resource(url);	        
-		String content = RestRequestHelper.createJsonPostData("_putbalcao_id", s);
+		String content = RestRequestHelper.createJsonPostData("_putservicos_id", s);
 		ClientResponse response = resource.path(String.valueOf(s.getId())).accept(MediaType.APPLICATION_JSON).type("application/json")
        		.put(ClientResponse.class, content);			
 	    client.destroy();
