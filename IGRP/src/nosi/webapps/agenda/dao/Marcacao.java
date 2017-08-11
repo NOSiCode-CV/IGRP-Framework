@@ -28,6 +28,9 @@ public class Marcacao {
 	private String notificacao;
 	private String estado;
 	
+	private String localizacao;
+	private String nome_servico;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -119,6 +122,18 @@ public class Marcacao {
 		this.estado = estado;
 	}
 	
+	public String getLocalizacao() {
+		return localizacao;
+	}
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+	public String getNome_servico() {
+		return nome_servico;
+	}
+	public void setNome_servico(String nome_servico) {
+		this.nome_servico = nome_servico;
+	}
 	public static String convertDate(String date, String formatIn, String formatOut) {
 		String myDateString = null;
 		try {

@@ -83,6 +83,9 @@ public class AgendarController extends Controller {
 					listMarcacao.add(marcacao);
 				}
 			
+			boolean success = true;
+			String errorMessage = "Ooops !!! Ocorreu um erro ...";
+			
 			for(Marcacao obj : listMarcacao) {
 				
 				ClientConfig config = new DefaultClientConfig();
@@ -106,7 +109,6 @@ public class AgendarController extends Controller {
 		        	Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Atendimento agendado com sucesso.");
 		        }
 		        else {
-		        	String errorMessage = "Ooops !!! ";
 		        	try {
 		        		Fault fault = RestRequestHelper.convertToDefaultFault(jsonResult);
 		        		errorMessage = fault.getFaultstring();
