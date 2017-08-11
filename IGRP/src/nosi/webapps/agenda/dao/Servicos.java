@@ -66,6 +66,35 @@ public class Servicos {
 		this.assunto = assunto;
 	}
 	
+	@Override
+	public String toString() {
+		return "Servicos [id=" + id + ", id_entidade=" + id_entidade + ", nome_servico=" + nome_servico
+				+ ", codigo_servico=" + codigo_servico + ", estado=" + estado + ", assunto=" + assunto + "]";
+	}
+	public static int insert(Servicos s){
+		 ClientConfig config = new DefaultClientConfig();			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+	        String url = RestRequestHelper.baseUrl + "/servicos";	        
+	        WebResource resource = client.resource(url);	        
+			String content = RestRequestHelper.createJsonPostData("_postservicos", s);
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+	        		.post(ClientResponse.class, content);			
+	       client.destroy();
+	       return response.getStatus();
+	}	
+
+	public static int update(Servicos s){
+	    ClientConfig config = new DefaultClientConfig();			 
+       Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+       String url = RestRequestHelper.baseUrl + "/servicos";	        
+       WebResource resource = client.resource(url);	        
+		String content = RestRequestHelper.createJsonPostData("_putservicos_id", s);
+		ClientResponse response = resource.path(String.valueOf(s.getId())).accept(MediaType.APPLICATION_JSON).type("application/json")
+       		.put(ClientResponse.class, content);			
+	    client.destroy();
+	    return response.getStatus();
+	}
+	
 	public static List<Servicos> getAllServico() {
 			
 		List<Servicos> aux = null;
@@ -97,5 +126,27 @@ public class Servicos {
 		
 		return aux != null ? aux : new ArrayList<Servicos>();
 	}
+	
+	public static Servicos getServicoById(int id) {
+		Servicos aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        String url = RestRequestHelper.baseUrl + "/servicos";
+	        WebResource resource = client.resource(url);
+	        ClientResponse response = resource.path(String.valueOf(id)).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	if(response.getStatus() == 200) {
+	   	 		aux = (Servicos) RestRequestHelper.convertJsonToDao(jsonResult, "Servicos", "Servico", new TypeToken<List<Servicos>>(){}.getType());
+	   	 	}else {
+	   	 	System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	   	 	}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux != null ? aux : new  Servicos();
+	}
+	
 	
 }
