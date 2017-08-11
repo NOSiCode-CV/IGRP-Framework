@@ -45,16 +45,23 @@ public class LST_SERVController extends Controller {
 	}
 	
 
-	public Response actionEditar() throws IOException{
+	public Response actionPesquisar() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("agenda","AddServicos","index");
+		return this.redirect("agenda","LST_SERV","index");
 		/*---- End ----*/
 	}
 	
 
-	public Response actionRemover() throws IOException{
+	public Response actionEditar() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("agenda","AddServicos","index");
+		return this.redirect("agenda","LST_SERV","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionDelete() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("agenda","LST_SERV","index");
 		/*---- End ----*/
 	}
 	
