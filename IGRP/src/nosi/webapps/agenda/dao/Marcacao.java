@@ -2,9 +2,23 @@ package nosi.webapps.agenda.dao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.ws.rs.core.MediaType;
+
+import org.json.JSONObject;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
+import nosi.webapps.agenda.helper.RestRequestHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -146,5 +160,73 @@ public class Marcacao {
 			e.printStackTrace();
 		}
 		return myDateString;
+	}
+	
+	public static List<Marcacao> getAllMarcacao(String filter){
+		List<Marcacao> aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+	        String url = RestRequestHelper.baseUrl + "/marcacoes_filter";	        
+	        WebResource resource = client.resource(url);
+	        JSONObject jsonObject = new JSONObject();
+	        jsonObject.put("_postmarcacoes_filter",new JSONObject().put("filterQuery", filter));
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+	        		.post(ClientResponse.class, jsonObject.toString());	
+	        String jsonResult = response.getEntity(String.class);
+	        if(response.getStatus() == 200) {
+		        aux = (List<Marcacao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Marcacoes", "Marcacao", new TypeToken<List<Marcacao>>(){}.getType());
+	        }
+	        else {
+	       	 System.err.println("Error:"+RestRequestHelper.convertToDefaultFault(jsonResult));
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	        }
+	       client.destroy();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux != null ? aux : new ArrayList<Marcacao>();
+	}
+	
+
+	public static int update(Marcacao m){
+	    ClientConfig config = new DefaultClientConfig();			 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+        String url = RestRequestHelper.baseUrl + "/marcacao";	        
+        WebResource resource = client.resource(url);	        
+		String content = RestRequestHelper.createJsonPostData("_putmarcacao_id", m);
+		ClientResponse response = resource.path(String.valueOf(m.getId())).accept(MediaType.APPLICATION_JSON).type("application/json")
+        		.put(ClientResponse.class, content);			
+ 	    client.destroy();
+	    return response.getStatus();
+	}
+	
+	public static Marcacao getMarcacao(int id){
+		Marcacao aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();
+			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        
+	        String url = RestRequestHelper.baseUrl + "/marcacao";
+	        
+	        WebResource resource = client.resource(url);
+	        
+	        ClientResponse response = resource.path(String.valueOf(id)).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	        
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	
+	        if(response.getStatus() == 200) {
+		        aux = (Marcacao) RestRequestHelper.convertJsonToDao(jsonResult, "Marcacoes", "Marcacao", new TypeToken<List<Marcacao>>(){}.getType());
+	        }
+	        else {
+	       	 System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	        }
+	       client.destroy();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux != null ? aux : new Marcacao();
 	}
 }
