@@ -24,10 +24,33 @@ public final class App {
 	
 	public static void main(String []args) {
 		//makeGetRequest();
-		System.out.println(Requisitos.getAllRequisitosByServico(1).size());
+		System.out.println(App.getServicoById(6));
 		//System.out.println(Requisitos.getAllRequisitosByServico(1).size());
+		
 	}
-	
+	public static Servicos getServicoById(int id) {
+		Servicos aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        String url = RestRequestHelper.baseUrl + "/servicos";
+	       
+	        WebResource resource = client.resource(url);
+	        ClientResponse response = resource.path(String.valueOf(id)).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 System.out.println(response.getStatus());
+	   	 	if(response.getStatus() == 200) {
+	   	 		aux = (Servicos) RestRequestHelper.convertJsonToDao(jsonResult, "Servicos", "Servico", new TypeToken<List<Servicos>>(){}.getType());
+	   	 	}else {
+	   	 	System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	   	 	}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println(aux.getAssunto());
+		return aux!= null ? aux : new  Servicos();
+	}
 	
 	public static void makePostRequest2() {
 		ClientConfig config = new DefaultClientConfig();
