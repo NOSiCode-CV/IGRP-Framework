@@ -2,12 +2,31 @@ package nosi.core.webapp.helpers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
  */
-public class Helper {
+public class IgrpHelper {
+	
+	public static Map toMap(List<?> values, String keyField, String valueField) {
+		return IgrpHelper.toMap(values, keyField, valueField, null);
+	}
+	
+	public static Map toMap(List<?> values, String keyField, String valueField, String prompt) {
+		Map map = new HashMap<>();
+		if(prompt != null)
+			map.put(null, prompt);
+		for(Object obj : values) {
+			String key = IgrpHelper.getValue(obj, keyField);
+			String value = IgrpHelper.getValue(obj, valueField);
+			map.put(key, value);
+		}
+		return map;
+	}
 	
 	// Help to convert String[] parameters to any Java primitive type
 	public static Object convertToArray(String []array, String primitiveType){

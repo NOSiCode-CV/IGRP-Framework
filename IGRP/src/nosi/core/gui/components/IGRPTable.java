@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
 
  
@@ -124,14 +124,14 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getName()+"="+Helper.getValue(obj, field.getName()));
+							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = Helper.getValue(obj, field.getName());
+					String val = IgrpHelper.getValue(obj, field.getName());
 					if(val==null || val.equals("")){
 						val = field.getValue().toString();
 					}

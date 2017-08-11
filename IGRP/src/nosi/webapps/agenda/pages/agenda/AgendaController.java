@@ -4,6 +4,7 @@
 
 package nosi.webapps.agenda.pages.agenda;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 
 import java.io.IOException;
@@ -13,9 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.MediaType;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
 import nosi.core.webapp.Response;
 import nosi.webapps.agenda.dao.Balcao;
+import nosi.webapps.agenda.dao.Fault;
 import nosi.webapps.agenda.dao.Servicos;
+import nosi.webapps.agenda.helper.RestRequestHelper;
 import nosi.webapps.agenda.pages.agenda.Agenda.Separatorlist_1;
 
 /*---- Import your packages here... ----*//*---- End ----*/
@@ -31,7 +42,7 @@ public class AgendaController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")) {
 			model.load();
-			System.out.println(Arrays.toString(model.getP_balcao_fk_desc()));
+			List<nosi.webapps.agenda.dao.Agenda> listAgenda = new ArrayList<nosi.webapps.agenda.dao.Agenda>();
 			if(model.getP_balcao_fk() != null) 
 				for(int i = 0; i < model.getP_balcao_fk().length; i++) {
 					Separatorlist_1 aux = new Separatorlist_1();
@@ -46,7 +57,61 @@ public class AgendaController extends Controller {
 					aux.setServico(new Separatorlist_1.Pair(model.getP_servico_fk()[i],model.getP_servico_fk_desc()[i]));
 					aux.setTempo_medio_de_atendimento_mn(new Separatorlist_1.Pair(model.getP_tempo_medio_de_atendimento_mn_fk()[i],model.getP_tempo_medio_de_atendimento_mn_fk_desc()[i]));
 					lista.add(aux);
+					
+					nosi.webapps.agenda.dao.Agenda obj = new nosi.webapps.agenda.dao.Agenda();
+					obj.setAntecede_edit(Integer.parseInt(model.getP_antecedencia_alterarcancelar_hr_fk()[i]));
+					obj.setAnteced_agenda(Integer.parseInt(model.getP_antecedencia_de_agendamento_hr_fk()[i]));
+					obj.setId_balcao(Integer.parseInt(model.getP_balcao_fk()[i]));
+					obj.setDias_atendiemnto(model.getP_dias_de_semana_fk()[i]);
+					obj.setTempo_medio(Float.parseFloat(model.getP_tempo_medio_de_atendimento_mn_fk()[i]));
+					obj.setNr_atendedores(Integer.parseInt(model.getP_numero_de_atendedores_fk()[i]));
+					obj.setNr_atendimentos(Integer.parseInt(model.getP_numero_de_atendimentos_fk()[i]));
+					obj.setEstado("ATIVO");
+					obj.setId_servico(Integer.parseInt(model.getP_servico_fk()[i]));
+					
+					listAgenda.add(obj);
 				}
+			
+				String errorMessage = "Ooops !!! Ocorreu um Erro ... ";
+				boolean success = false;
+			
+				for(nosi.webapps.agenda.dao.Agenda agenda : listAgenda) {
+					ClientConfig config = new DefaultClientConfig();
+					 
+			        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+			        
+			        String url = RestRequestHelper.baseUrl + "/agenda";
+			        
+			        WebResource resource = client.resource(url);
+			        
+					String content = RestRequestHelper.createJsonPostData("_postagenda", agenda);
+					//System.out.println(content);
+			        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+			        		.post(ClientResponse.class, content);
+					
+			   	 	String jsonResult = response.getEntity(String.class);
+			   	 	
+			   	 //	System.out.println(jsonResult);
+			   	 	
+			        if(response.getStatus() == 200) {
+			        	success = true;
+			        }
+			        else {
+			        	success = false;
+			        	try {
+			        		Fault fault = RestRequestHelper.convertToDefaultFault(jsonResult);
+			        		errorMessage = fault.getFaultstring();
+			        	}catch(Exception e){
+			        		e.printStackTrace();
+			        	}
+			        }
+			        
+			       client.destroy();
+				}
+				if(success)
+		        	Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Agenda registado com sucesso.");
+				else
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, errorMessage);
 		}
 		
 		AgendaView view = new AgendaView(model);

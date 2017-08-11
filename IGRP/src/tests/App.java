@@ -2,6 +2,7 @@ package tests;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
@@ -12,6 +13,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.agenda.dao.Balcao;
 import nosi.webapps.agenda.dao.Entidade;
 import nosi.webapps.agenda.dao.Requisitos;
@@ -27,13 +29,7 @@ public final class App {
 	
 	public static void main(String []args) throws ParseException {
 		
-		SimpleDateFormat newDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		Date myDate =  newDateFormat.parse("09-08-2017");
-		newDateFormat.applyPattern("yyyy-MM-dd");
-		String myDateString = newDateFormat.format(myDate);
-		
-		
-		System.out.println(myDateString);
+		System.out.println();
 	}
 	
 	
