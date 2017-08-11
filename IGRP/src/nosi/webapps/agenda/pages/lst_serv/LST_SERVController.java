@@ -73,13 +73,28 @@ public class LST_SERVController extends Controller {
 	public Response actionEditar() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("agenda","AddServicos","index$p_id="+id);
+		return this.redirect("agenda","AddServicos","index&p_id="+id);
 		/*---- End ----*/
 	}
 	
 
-	public Response actionDelete() throws IOException{
+	public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
+		LST_SERV model = new LST_SERV();
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			model.load();
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+			Servicos ser = Servicos.getServicoById(Integer.parseInt(id));
+			ser.setEstado("INATIVO");
+			int status = Servicos.update(ser);
+			if(status == 200 || status ==202) {
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
+			}else {
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
+			}
+		}
+		
+		
 		return this.redirect("agenda","LST_SERV","index");
 		/*---- End ----*/
 	}
