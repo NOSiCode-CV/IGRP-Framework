@@ -9,8 +9,6 @@ public class AGENDA_PRESENCA extends Model{
 	private String entidade;
 	@RParam(rParamName = "p_balcao")
 	private String balcao;
-	@RParam(rParamName = "p_serviao")
-	private String serviao;
 	@RParam(rParamName = "p_date_de")
 	private String date_de;
 	@RParam(rParamName = "p_data_ate")
@@ -38,13 +36,6 @@ public class AGENDA_PRESENCA extends Model{
 		return this.balcao;
 	}
 	
-	public void setServiao(String serviao){
-		this.serviao = serviao;
-	}
-	public String getServiao(){
-		return this.serviao;
-	}
-	
 	public void setDate_de(String date_de){
 		this.date_de = date_de;
 	}
@@ -60,15 +51,15 @@ public class AGENDA_PRESENCA extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String dia;
 		private String hora;
 		private String nome;
 		private String balcao;
 		private String servico;
 		private String estado;
-		private int checkbox_1;
-		private int checkbox_1_check;
+		private int id;
+		private int id_check;
 		public void setDia(String dia){
 			this.dia = dia;
 		}
@@ -111,17 +102,17 @@ public class AGENDA_PRESENCA extends Model{
 			return this.estado;
 		}
 
-		public void setCheckbox_1(int checkbox_1){
-			this.checkbox_1 = checkbox_1;
+		public void setId(int id){
+			this.id = id;
 		}
-		public int getCheckbox_1(){
-			return this.checkbox_1;
+		public int getId(){
+			return this.id;
 		}
-		public void setCheckbox_1_check(int checkbox_1_check){
-			this.checkbox_1_check = checkbox_1_check;
+		public void setId_check(int id_check){
+			this.id_check = id_check;
 		}
-		public int getCheckbox_1_check(){
-			return this.checkbox_1_check;
+		public int getId_check(){
+			return this.id_check;
 		}
 
 	}
