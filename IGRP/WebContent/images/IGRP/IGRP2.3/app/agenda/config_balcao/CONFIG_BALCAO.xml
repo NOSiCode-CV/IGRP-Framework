@@ -18,7 +18,7 @@
     <app>agenda</app>
     <plsql>
         <action>index</action>
-        <package_instance>null</package_instance>
+        <package_instance></package_instance>
         <package_db>nosi.webapps.agenda.pages</package_db>
         <package_html>CONFIG_BALCAO</package_html>
         <table_name></table_name>
@@ -58,28 +58,6 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <organica name="p_organica" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Organica</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </organica>
                 <entidade name="p_entidade" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
                     <label>Entidade</label>
                     <list>
@@ -104,11 +82,11 @@
                 </entidade>
                 <localizacao name="p_localizacao" type="text" maxlength="300" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
                     <label>Localização</label>
-                    <value>Adipiscing aliqua voluptatem adipiscing labore</value>
+                    <value>Ut iste ut amet consectetur</value>
                 </localizacao>
                 <fuso_horario name="p_fuso_horario" type="text" maxlength="300" required="true" change="false" readonly="true" disabled="false" placeholder="" right="false">
                     <label>Fuso Horário</label>
-                    <value>Iste voluptatem perspiciatis ut iste</value>
+                    <value>Stract ut ipsum sed rem</value>
                 </fuso_horario>
                 <nr_servicos name="p_nr_servicos" type="select" multiple="false" domain="" maxlength="2" required="true" change="false" disabled="false" right="false">
                     <label>Número de Serviços</label>
@@ -137,12 +115,20 @@
                     <list>
                         <option/>
                         <option>
-                            <text>Sim</text>
-                            <value>Y</value>
+                            <text>Option 1</text>
+                            <value>1</value>
                         </option>
                         <option>
-                            <text>Nao</text>
-                            <value>N</value>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
                         </option>
                     </list>
                 </confirmacao>

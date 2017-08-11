@@ -11,7 +11,6 @@ public class CONFIG_BALCAOView extends View {
 	
 	
 	public Field page_title_text;
-	public Field organica;
 	public Field entidade;
 	public Field localizacao;
 	public Field fuso_horario;
@@ -29,7 +28,7 @@ public class CONFIG_BALCAOView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public CONFIG_BALCAOView(CONFIG_BALCAO model){
-		this.setPageTitle("Configuração de Balcao");
+		this.setPageTitle("Configuração de Balcão");
 			
 		box_1 = new IGRPBox("box_1");
 		page_title = new IGRPSectionHeader("page_title");
@@ -38,9 +37,6 @@ public class CONFIG_BALCAOView extends View {
 		page_title_text.setLabel("");
 		page_title_text.setValue("Configurar Ponto de Atendimento");
 		page_title_text.propertie().add("type","text").add("name","p_page_title_text").add("persist","true").add("maxlength","4000");
-		organica = new ListField(model,"organica");
-		organica.setLabel("Organica");
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		entidade = new ListField(model,"entidade");
 		entidade.setLabel("Entidade");
 		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
@@ -57,7 +53,7 @@ public class CONFIG_BALCAOView extends View {
 		confirmacao.setLabel("Confirmacao");
 		confirmacao.propertie().add("name","p_confirmacao").add("type","select").add("multiple","false").add("domain","ALIENACAO_FOGO").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		horario_de_atendimento = new SeparatorField(model,"horario_de_atendimento");
-		horario_de_atendimento.setLabel("Horário de Atendimento");
+		horario_de_atendimento.setLabel("HorÃ¡rio de Atendimento");
 		horario_de_atendimento.propertie().add("name","p_horario_de_atendimento").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		hr_inicio = new ListField(model,"hr_inicio");
 		hr_inicio.setLabel("Inicio");
@@ -73,7 +69,7 @@ public class CONFIG_BALCAOView extends View {
 		p_estado.propertie().add("name","p_estado").add("type","hidden").add("maxlength","30").add("tag","estado");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","agenda","CONFIG_BALCAO","gravar","submit","success|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","agenda","CONFIG_BALCAO","gravar","submit_form","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		
 	
@@ -86,7 +82,6 @@ public class CONFIG_BALCAOView extends View {
 		page_title.addField(page_title_text);
 
 
-		form_1.addField(organica);
 		form_1.addField(entidade);
 		form_1.addField(localizacao);
 		form_1.addField(fuso_horario);

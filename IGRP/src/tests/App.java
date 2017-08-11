@@ -23,7 +23,9 @@ public final class App {
 	private App() {}
 	
 	public static void main(String []args) {
+		//makeGetRequest();
 		System.out.println(Requisitos.getAllRequisitosByServico(1).size());
+		//System.out.println(Requisitos.getAllRequisitosByServico(1).size());
 	}
 	
 	

@@ -13,25 +13,32 @@ public class AGENDA_PRESENCAController extends Controller {
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*---- Insert your code here... ----*/				
 		AGENDA_PRESENCA model = new AGENDA_PRESENCA();
 		AGENDA_PRESENCAView view = new AGENDA_PRESENCAView(model);
 		return this.renderView(view);
-			/*---- End ----*/
+				/*---- End ----*/
 	}
 
 
-	public Response actionConfirmar() throws IOException{
+	public Response actionPesquisar() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("agenda","AddServicos","index");
+		return this.redirect("agenda","AGENDA_PRESENCA","index");
 		/*---- End ----*/
 	}
 	
 
-	public Response actionNotificar() throws IOException{
-		/*---- Insert your code here... ----*/
+	public Response actionConfirmar() throws IOException{
+		/*---- Insert your code here... ----*/		
 		return this.redirect("agenda","AddServicos","index");
-		/*---- End ----*/
+			/*---- End ----*/
+	}
+	
+
+	public Response actionNotificar() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("agenda","AddServicos","index");
+			/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/

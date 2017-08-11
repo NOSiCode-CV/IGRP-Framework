@@ -60,11 +60,6 @@ public class AgendarController extends Controller {
 		
 		view.separatorlist_2.addData(lista);
 		
-		//view.table_1.addData(tableRows);
-		
-		/*for(HiddenField obj : hiddenFields)
-			view.form_1.addField(obj);
-		*/
 		Map<String, String> comboBox = new HashMap<String,String>();
 		comboBox.put(null, "--- Escolher Entidade ---");
 		for(Entidade entidade : Entidade.getAllEntidade()) {
@@ -107,6 +102,5 @@ public class AgendarController extends Controller {
 		return this.redirect("agenda","AddServicos","index");
 		/*---- End ----*/
 	}
-	
 	/*---- Insert your actions here... ----*//*---- End ----*/
 }
