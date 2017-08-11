@@ -19,7 +19,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row" id="row-6ed6c3af">
+                                    <div class="row" id="row-520e0717">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
@@ -28,14 +28,14 @@
                                                         <div class="box-body">
                                                             <div role="form">
                                                                 <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
-                                                                <xsl:if test="rows/content/form_1/fields/balcao">
-                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="balcao" item-type="text">
-                                                                        <label for="{rows/content/form_1/fields/balcao/@name}">
+                                                                <xsl:if test="rows/content/form_1/fields/entidade">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="entidade" item-type="text">
+                                                                        <label for="{rows/content/form_1/fields/entidade/@name}">
                                                                             <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/balcao/label"/>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/entidade/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/balcao/value}" class="form-control " id="{rows/content/form_1/fields/balcao/@name}" name="{rows/content/form_1/fields/balcao/@name}" maxlength="30" placeholder=""></input>
+                                                                        <input type="text" value="{rows/content/form_1/fields/entidade/value}" class="form-control " id="{rows/content/form_1/fields/entidade/@name}" name="{rows/content/form_1/fields/entidade/@name}" maxlength="30" placeholder=""></input>
                                                                     </div>
                                                                 </xsl:if>
                                                             </div>
@@ -57,10 +57,10 @@
                                                                                 </span>
                                                                             </th>
                                                                         </xsl:if>
-                                                                        <xsl:if test="rows/content/table_1/fields/organica">
+                                                                        <xsl:if test="rows/content/table_1/fields/entidade">
                                                                             <th align="left" class=" gen-fields-holder">
                                                                                 <span>
-                                                                                    <xsl:value-of select="rows/content/table_1/fields/organica/label"/>
+                                                                                    <xsl:value-of select="rows/content/table_1/fields/entidade/label"/>
                                                                                 </span>
                                                                             </th>
                                                                         </xsl:if>
@@ -84,10 +84,10 @@
                                                                                     </span>
                                                                                 </td>
                                                                             </xsl:if>
-                                                                            <xsl:if test="organica">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/organica/label}" class="text" item-name="organica">
+                                                                            <xsl:if test="entidade">
+                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/entidade/label}" class="text" item-name="entidade">
                                                                                     <span class="">
-                                                                                        <xsl:value-of select="organica"/>
+                                                                                        <xsl:value-of select="entidade"/>
                                                                                     </span>
                                                                                 </td>
                                                                             </xsl:if>
@@ -125,10 +125,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1502296073615"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1502296073615"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1502296073615"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1502296073615"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1502296073615"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1502296073616"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1502389826139"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1502389826139"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1502389826139"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1502389826139"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1502389826140"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1502389826140"/>
 </xsl:stylesheet>

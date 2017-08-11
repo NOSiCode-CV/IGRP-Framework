@@ -23,7 +23,7 @@ public class LST_BALCAOController extends Controller {
 		List<Balcao> balcoes = Balcao.getAllBalcao();
 		List<LST_BALCAO.Table_1> data = new ArrayList<>();
 		for(Balcao b:balcoes){
-			LST_BALCAO.Table_1 t = new LST_BALCAO().new Table_1();
+			LST_BALCAO.Table_1 t = new LST_BALCAO.Table_1();
 			t.setP_id(b.getId());
 			t.setBalcao(b.getLocalizacao());
 			if(b.getEstado().toUpperCase().equals("ATIVO")){
@@ -33,14 +33,35 @@ public class LST_BALCAOController extends Controller {
 			data.add(t);
 		}
 		LST_BALCAOView view = new LST_BALCAOView(model);
+		view.balcao.setLabel("Balcão");
 		view.table_1.addData(data);
 		return this.renderView(view);
 			/*---- End ----*/
 	}
 
-	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/		
-		return this.redirect("agenda","LST_BALCAO","index");
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*---- Insert your code here... ----*/	
+		LST_BALCAO model = new LST_BALCAO();
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();
+			List<Balcao> balcoes = Balcao.getAllBalcao(model.getEntidade());
+			List<LST_BALCAO.Table_1> data = new ArrayList<>();
+			for(Balcao b:balcoes){
+				LST_BALCAO.Table_1 t = new LST_BALCAO.Table_1();
+				t.setP_id(b.getId());
+				t.setBalcao(b.getLocalizacao());
+				if(b.getEstado().toUpperCase().equals("ATIVO")){
+					t.setCheckbox_1_check(b.getId());
+				}
+				t.setCheckbox_1(b.getId());
+				data.add(t);
+			}
+			LST_BALCAOView view = new LST_BALCAOView(model);
+			view.table_1.addData(data);
+			return this.renderView(view);
+		}else{
+			return this.redirect("agenda","LST_BALCAO","index");
+		}
 			/*---- End ----*/
 	}
 	

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/lst_entidade/LST_ENTIDADE.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/agenda/lst_entidade/LST_ENTIDADE.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -37,11 +37,12 @@
             <fields>
                 <entidade name="p_entidade" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Entidade</label>
-                    <value>Ipsum sed lorem iste omnis</value>
+                    <value>Magna ut totam aliqua stract</value>
                 </entidade>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Aplicação</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -70,21 +71,21 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>success|fa-plus-square</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-plus-square|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Table" gen-type="container" gen-group="true">
             <fields>
-                <entidade name="p_entidade" type="text" maxlength="30" align="left" lookup_parser="false">
+                <entidade name="p_entidade" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Entidade</label>
                 </entidade>
-                <aplicacao name="p_aplicacao" type="text" maxlength="30" align="left" lookup_parser="false">
+                <aplicacao name="p_aplicacao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Aplicação</label>
                 </aplicacao>
-                <filter name="p_table_1_filter" type="filter_az">
+                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <table_1_filter name="p_table_1_filter" type="text" maxlength="100">
                     <value/>
-                </filter>
+                </table_1_filter>
             </fields>
             <table>
                 <value>
@@ -93,32 +94,45 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <entidade name="p_entidade">Ut sit totam ipsum consectetur</entidade>
-                        <aplicacao name="p_aplicacao">Voluptatem natus omnis elit consectetur</aplicacao>
+                        <entidade name="p_entidade">Anim natus aliqua omnis elit</entidade>
+                        <aplicacao name="p_aplicacao">Officia ut totam accusantium m</aplicacao>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <entidade name="p_entidade">Magna sit stract stract perspiciatis</entidade>
-                        <aplicacao name="p_aplicacao">Adipiscing sit aliqua elit ipsum</aplicacao>
+                        <entidade name="p_entidade">Anim laudantium magna mollit n</entidade>
+                        <aplicacao name="p_aplicacao">Rem ipsum iste stract sed</aplicacao>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <entidade name="p_entidade">Adipiscing sit amet ut sit</entidade>
-                        <aplicacao name="p_aplicacao">Accusantium omnis totam stract consectetur</aplicacao>
+                        <entidade name="p_entidade">Elit sed unde consectetur accu</entidade>
+                        <aplicacao name="p_aplicacao">Accusantium sed voluptatem ape</aplicacao>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <entidade name="p_entidade">Perspiciatis dolor officia mollit sed</entidade>
-                        <aplicacao name="p_aplicacao">Unde laudantium amet stract ipsum</aplicacao>
+                        <entidade name="p_entidade">Mollit dolor totam ut doloremq</entidade>
+                        <aplicacao name="p_aplicacao">Labore aliqua amet adipiscing</aplicacao>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <entidade name="p_entidade">Labore totam accusantium sit i</entidade>
+                        <aplicacao name="p_aplicacao">Amet accusantium laudantium an</aplicacao>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
                 <context-menu>
@@ -127,7 +141,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>modal</target>
                         <img>info|fa-server</img>
                     </item>
@@ -136,7 +150,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>modal</target>
                         <img>success|fa-sitemap</img>
                     </item>
@@ -145,7 +159,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>modal</target>
                         <img>warning|fa-calendar</img>
                     </item>

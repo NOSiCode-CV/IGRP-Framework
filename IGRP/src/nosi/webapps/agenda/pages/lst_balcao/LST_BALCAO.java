@@ -5,8 +5,8 @@ import nosi.core.webapp.RParam;
 import java.util.ArrayList;
 
 public class LST_BALCAO extends Model{		
-	@RParam(rParamName = "p_balcao")
-	private String balcao;
+	@RParam(rParamName = "p_entidade")
+	private String entidade;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -16,17 +16,17 @@ public class LST_BALCAO extends Model{
 		return this.table_1;
 	}
 	
-	public void setBalcao(String balcao){
-		this.balcao = balcao;
+	public void setEntidade(String entidade){
+		this.entidade = entidade;
 	}
-	public String getBalcao(){
-		return this.balcao;
+	public String getEntidade(){
+		return this.entidade;
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String balcao;
-		private String organica;
+		private String entidade;
 		private int checkbox_1;
 		private int checkbox_1_check;
 		private int p_id;
@@ -37,11 +37,11 @@ public class LST_BALCAO extends Model{
 			return this.balcao;
 		}
 
-		public void setOrganica(String organica){
-			this.organica = organica;
+		public void setEntidade(String entidade){
+			this.entidade = entidade;
 		}
-		public String getOrganica(){
-			return this.organica;
+		public String getEntidade(){
+			return this.entidade;
 		}
 
 		public void setCheckbox_1(int checkbox_1){

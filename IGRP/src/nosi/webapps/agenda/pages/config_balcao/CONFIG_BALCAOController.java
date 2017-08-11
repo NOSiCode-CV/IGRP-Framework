@@ -30,19 +30,20 @@ public class CONFIG_BALCAOController extends Controller {
 		}
 		confirm.put(1, "Automatico");
 		confirm.put(2, "Manual");
-		organica.put(1, "Organica 1");
-		organica.put(2, "Organica 2");
 		nr_servicos.put(4, 4);
 		nr_servicos.put(8, 8);
 		nr_servicos.put(10, 10);
 		
 		CONFIG_BALCAO model = new CONFIG_BALCAO();
+		String id_ent = Igrp.getInstance().getRequest().getParameter("p_id");
+		if(id_ent!=null && !id_ent.equals("")){
+			model.setEntidade(Integer.parseInt(id_ent));
+		}
 		CONFIG_BALCAOView view = new CONFIG_BALCAOView(model);
 		view.hr_inicio.setValue(horas);
 		view.hr_fim.setValue(horas);
 		view.confirmacao.setValue(confirm);
 		view.entidade.setValue(entidade);
-		view.organica.setValue(organica);
 		view.nr_servicos.setValue(nr_servicos);
 		view.fuso_horario.setValue("CV");
 		view.localizacao.setValue("190;180");
@@ -61,8 +62,6 @@ public class CONFIG_BALCAOController extends Controller {
 		}
 		confirm.put(1, "Automatico");
 		confirm.put(2, "Manual");
-		organica.put(1, "Organica 1");
-		organica.put(2, "Organica 2");
 		nr_servicos.put(4, 4);
 		nr_servicos.put(8, 8);
 		nr_servicos.put(10, 10);
@@ -86,7 +85,6 @@ public class CONFIG_BALCAOController extends Controller {
 		view.hr_fim.setValue(horas);
 		view.confirmacao.setValue(confirm);
 		view.entidade.setValue(entidade);
-		view.organica.setValue(organica);
 		view.nr_servicos.setValue(nr_servicos);
 		view.fuso_horario.setValue("CV");
 		view.localizacao.setValue("190;180");
@@ -110,14 +108,12 @@ public class CONFIG_BALCAOController extends Controller {
 		    b.setId_entidade(model.getEntidade());
 		    b.setLocalizacao(model.getLocalizacao());
 		    b.setNr_servicos(model.getNr_servicos());	
-		    b.setId(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("p_id")));
-		    int status = 0;
-		    if(b.getId()!=0){
+		    String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		    if(id!=null && !id.equals("")){
+		    	b.setId(Integer.parseInt(id));
 		    	b.setEstado(Igrp.getInstance().getRequest().getParameter("estado"));
-		    	status = Balcao.update(b);
 		    }
-		    else if(b.getId()==0)
-		    	status = Balcao.insert(b);
+		    int status = b.getId()!=null?Balcao.update(b):Balcao.insert(b);
 		    if(status == 200 || status == 202) {
 	        	Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
 	        }
@@ -133,7 +129,6 @@ public class CONFIG_BALCAOController extends Controller {
 		Map<String, String> horas = new HashMap<String,String>();
 		Map<Integer,String> confirm = new HashMap<Integer,String>();
 		Map<Integer,String> entidade = new HashMap<Integer,String>();
-		Map<Integer,String> organica = new HashMap<Integer,String>();
 		Map<Integer,Integer> nr_servicos = new HashMap<Integer,Integer>();
 	/*---- End ----*/
 }
