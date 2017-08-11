@@ -23,23 +23,26 @@ public class Entidade {
 	@Expose(serialize = false, deserialize = true)
 	private Integer id;
 	
-	private String aplicacao;
+	private int id_aplicacao;
 	
 	private String estado;
 	
 	private String nome_entidade;
+	
+	private String nome;//nome aplicacao
 	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}	
+	
+	public int getId_aplicacao() {
+		return id_aplicacao;
 	}
-	public String getAplicacao() {
-		return aplicacao;
-	}
-	public void setAplicacao(String aplicacao) {
-		this.aplicacao = aplicacao;
+	public void setId_aplicacao(int id_aplicacao) {
+		this.id_aplicacao = id_aplicacao;
 	}
 	public String getEstado() {
 		return estado;
@@ -53,11 +56,40 @@ public class Entidade {
 	public void setNome_entidade(String nome_entidade) {
 		this.nome_entidade = nome_entidade;
 	}
-	
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 	@Override
 	public String toString() {
-		return "Entidade [id=" + id + ", aplicacao=" + aplicacao + ", estado=" + estado + ", nome_entidade="
+		return "Entidade [id=" + id + ", id_aplicacao=" + id_aplicacao + ", estado=" + estado + ", nome_entidade="
 				+ nome_entidade + "]";
+	}
+	
+	public static int insert(Entidade e){
+		ClientConfig config = new DefaultClientConfig();			 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+        String url = RestRequestHelper.baseUrl + "/entidade";	        
+        WebResource resource = client.resource(url);	        
+		String content = RestRequestHelper.createJsonPostData("_postentidade", e);
+        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).type("application/json")
+        		.post(ClientResponse.class, content);			
+       client.destroy();
+       return response.getStatus();
+	}	
+
+	public static int update(Entidade e){
+	    ClientConfig config = new DefaultClientConfig();			 
+        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+        String url = RestRequestHelper.baseUrl + "/balcao";	        
+        WebResource resource = client.resource(url);	        
+		String content = RestRequestHelper.createJsonPostData("_putentidade_id", e);
+		ClientResponse response = resource.path(String.valueOf(e.getId())).accept(MediaType.APPLICATION_JSON).type("application/json")
+        		.put(ClientResponse.class, content);			
+ 	    client.destroy();
+	    return response.getStatus();
 	}
 	
 	public static List<Entidade> getAllEntidade() {

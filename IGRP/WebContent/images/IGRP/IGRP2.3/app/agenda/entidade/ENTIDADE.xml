@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/entidade/ENTIDADE.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/agenda/entidade/ENTIDADE.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -49,11 +49,12 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Dolor mollit sed perspiciatis anim</value>
+                    <value>Lorem natus laudantium iste stract</value>
                 </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Aplicação</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -82,8 +83,7 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>success|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-save|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
             </item>
         </toolsbar_1>
     </content>
