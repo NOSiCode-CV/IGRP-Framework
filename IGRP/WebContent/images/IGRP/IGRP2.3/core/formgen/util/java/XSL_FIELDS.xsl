@@ -303,6 +303,29 @@
 	    			<xsl:value-of select="$tab_"/>
 	    			<xsl:value-of select="'}'"/>
 	    		</xsl:when>
+	    		
+	    		<xsl:when test="$type='Pair'">
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="concat('public void set',$name_,'(Pair ',$name,'){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2_"/>
+	    			<xsl:value-of select="concat('this.',$name,' = ',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="'}'"/>
+
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="concat('public Pair get',$name_,'(){')" />
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab2_"/>
+	    			<xsl:value-of select="concat('return this.',$name,';')"/>
+	    			<xsl:value-of select="$newline"/>
+	    			<xsl:value-of select="$tab_"/>
+	    			<xsl:value-of select="'}'"/>
+	    		</xsl:when>
+	    		
 	    		<xsl:otherwise>
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>

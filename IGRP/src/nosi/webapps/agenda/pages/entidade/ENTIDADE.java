@@ -9,7 +9,7 @@ public class ENTIDADE extends Model{
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	private int aplicacao;
 	
 	public void setPage_title_text(String page_title_text){
 		this.page_title_text = page_title_text;
@@ -25,10 +25,10 @@ public class ENTIDADE extends Model{
 		return this.nome;
 	}
 	
-	public void setAplicacao(String aplicacao){
+	public void setAplicacao(int aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public String getAplicacao(){
+	public int getAplicacao(){
 		return this.aplicacao;
 	}
 

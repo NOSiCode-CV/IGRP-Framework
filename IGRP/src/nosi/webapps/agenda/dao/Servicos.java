@@ -66,6 +66,11 @@ public class Servicos {
 		this.assunto = assunto;
 	}
 	
+	@Override
+	public String toString() {
+		return "Servicos [id=" + id + ", id_entidade=" + id_entidade + ", nome_servico=" + nome_servico
+				+ ", codigo_servico=" + codigo_servico + ", estado=" + estado + ", assunto=" + assunto + "]";
+	}
 	public static int insert(Servicos s){
 		 ClientConfig config = new DefaultClientConfig();			 
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
@@ -121,5 +126,27 @@ public class Servicos {
 		
 		return aux != null ? aux : new ArrayList<Servicos>();
 	}
+	
+	public static Servicos getServicoById(int id) {
+		Servicos aux = null;
+		try {
+			ClientConfig config = new DefaultClientConfig();
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        String url = RestRequestHelper.baseUrl + "/servicos";
+	        WebResource resource = client.resource(url);
+	        ClientResponse response = resource.path(String.valueOf(id)).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	if(response.getStatus() == 200) {
+	   	 		aux = (Servicos) RestRequestHelper.convertJsonToDao(jsonResult, "Servicos", "Servico", new TypeToken<List<Servicos>>(){}.getType());
+	   	 	}else {
+	   	 	System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	   	 	}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux != null ? aux : new  Servicos();
+	}
+	
 	
 }

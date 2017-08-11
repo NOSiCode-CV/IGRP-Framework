@@ -33,10 +33,11 @@ public class LST_ENTIDADE extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String entidade;
 		private String aplicacao;
-		private String filter;
+		private String p_id;
+		private String table_1_filter;
 		public void setEntidade(String entidade){
 			this.entidade = entidade;
 		}
@@ -51,11 +52,18 @@ public class LST_ENTIDADE extends Model{
 			return this.aplicacao;
 		}
 
-		public void setFilter(String filter){
-			this.filter = filter;
+		public void setP_id(String p_id){
+			this.p_id = p_id;
 		}
-		public String getFilter(){
-			return this.filter;
+		public String getP_id(){
+			return this.p_id;
+		}
+
+		public void setTable_1_filter(String table_1_filter){
+			this.table_1_filter = table_1_filter;
+		}
+		public String getTable_1_filter(){
+			return this.table_1_filter;
 		}
 
 	}

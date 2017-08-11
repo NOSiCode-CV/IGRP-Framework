@@ -3,6 +3,7 @@
 	<name>IGRP</name>
 	<comment></comment>
 	<projects>
+		<project>ClienteRestTest</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -121,7 +121,7 @@
  		<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
- 		<xsl:value-of select="concat('public class ',$tableName,'{')"/>
+ 		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
  		<xsl:for-each select="fields/*">
  			<xsl:variable name="tag_name">
 				<xsl:choose>
@@ -172,6 +172,88 @@
 		<xsl:value-of select="'}'"/> 	
  	</xsl:template>
  	
+ 	
+ 	<!-- Gen attributes for subclass for separatorList-->
+ 	<xsl:template name="gen-ttributes-subclass-separatorList">
+ 		<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab"/>
+			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
+ 		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
+ 		<xsl:for-each select="fields/*">
+ 			<xsl:variable name="tag_name">
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="@name"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="name()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+		 	</xsl:variable>
+ 			<xsl:value-of select="$newline"/>
+ 			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('private Pair ',$tag_name,';')"/>
+			<xsl:if test="@type = 'checkbox' or @type='radio'">				
+	 			<xsl:value-of select="$newline"/>
+	 			<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('private Pair ',$tag_name,'_check;')"/>
+			</xsl:if>
+ 		</xsl:for-each>
+ 		
+ 		<xsl:text>
+		public static class Pair{
+		
+			private String key;
+			private String value;
+			
+			public Pair() {}
+			
+			public Pair(String key, String value) {
+				this.key = key;
+				this.value = value;
+			}
+			
+			public String getKey() {
+				return key;
+			}
+			public void setKey(String key) {
+				this.key = key;
+			}
+			public String getValue() {
+				return value;
+			}
+			public void setValue(String value) {
+				this.value = value;
+			}
+		}
+ 		</xsl:text>
+ 		
+ 		<xsl:for-each select="fields/*">
+ 			<xsl:variable name="tag_name">
+				<xsl:choose>
+					<xsl:when test="@type='hidden'">
+						<xsl:value-of select="@name"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="name()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+		 	</xsl:variable>
+			<xsl:call-template name="getSetField">
+	    		<xsl:with-param name="type_content" select="'Pair'" />
+	    		<xsl:with-param name="type" select="'Pair'" />
+	    		<xsl:with-param name="name" select="$tag_name" />
+	    		<xsl:with-param name="tab_" select="$tab2" />
+	    		<xsl:with-param name="tab2_" select="concat($tab,$tab2)" />
+	    	</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+		</xsl:for-each>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'}'"/> 	
+ 	</xsl:template>
+ 	
+ 	
  	<!-- Gen attributes for chart -->
  	<xsl:template name="gen-ttributes-subclass-chart">
  		<xsl:value-of select="$newline"/>
@@ -209,7 +291,7 @@
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 		
  		<xsl:for-each select="/rows/content/*[@type='separatorlist']">
- 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 			<xsl:call-template name="gen-ttributes-subclass-separatorList"></xsl:call-template>
  		</xsl:for-each> 		
  		<xsl:for-each select="/rows/content/*[@type='formlist']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>

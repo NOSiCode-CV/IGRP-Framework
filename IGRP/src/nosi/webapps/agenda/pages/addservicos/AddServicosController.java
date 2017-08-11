@@ -5,6 +5,7 @@
 package nosi.webapps.agenda.pages.addservicos;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,6 +24,18 @@ public class AddServicosController extends Controller {
 	public Response actionIndex() throws IOException{
 		/*---- Insert your code here... ----*/						
 		AddServicos model = new AddServicos();
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		if(id != null) {
+			Servicos ser = Servicos.getServicoById(Integer.parseInt(id));
+			if(ser != null) {
+				model.setEntidade(ser.getId_entidade());
+				model.setNome_do_servico(ser.getNome_servico());
+				model.setCodigo_do_servico(ser.getCodigo_servico());
+				model.setEstado(ser.getEstado());
+				model.setAssunto(ser.getAssunto());
+			}
+		}
+		
 		//preencher Combobox
 		List<Entidade> listaEntidade = Entidade.getAllEntidade();
 		Map<Integer, String > entidadeMap = new HashMap<Integer, String>();
@@ -37,7 +50,11 @@ public class AddServicosController extends Controller {
 		AddServicosView view = new AddServicosView(model);
 		view.entidade.setValue(entidadeMap);
 		view.estado.setValue(estadoMap);
+		if(id != null) {
+			view.btn_gravar.setLink("gravar&p_id="+id);
+		}
 		return this.renderView(view);
+		
 					/*---- End ----*/
 	}
 
@@ -53,13 +70,11 @@ public class AddServicosController extends Controller {
 			ser_bd.setCodigo_servico(model.getCodigo_do_servico());
 			ser_bd.setEstado(model.getEstado());
 			ser_bd.setAssunto(model.getAssunto());
-			ser_bd.setId(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("p_id")));
-			int status = 0;
-			if(ser_bd.getId()!=0) {
-				status = Servicos.update(ser_bd);
-			}else if(ser_bd.getId() == 0) {
-				status = Servicos.insert(ser_bd);
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+			if(id != null && !id.equals("")) {
+				ser_bd.setId(Integer.parseInt(id));
 			}
+			int status = ser_bd.getId()!=null ?  Servicos.update(ser_bd) : Servicos.insert(ser_bd);
 			if(status == 200 || status == 202) {
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
 			}else {

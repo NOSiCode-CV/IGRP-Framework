@@ -6,8 +6,6 @@ import nosi.core.webapp.RParam;
 public class CONFIG_BALCAO extends Model{		
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
-	@RParam(rParamName = "p_organica")
-	private int organica;
 	@RParam(rParamName = "p_entidade")
 	private int entidade;
 	@RParam(rParamName = "p_localizacao")
@@ -36,6 +34,12 @@ public class CONFIG_BALCAO extends Model{
 		return this.page_title_text;
 	}
 	
+	public void setEntidade(int entidade){
+		this.entidade = entidade;
+	}
+	public int getEntidade(){
+		return this.entidade;
+	}
 	
 	public void setLocalizacao(String localizacao){
 		this.localizacao = localizacao;
@@ -49,6 +53,20 @@ public class CONFIG_BALCAO extends Model{
 	}
 	public String getFuso_horario(){
 		return this.fuso_horario;
+	}
+	
+	public void setNr_servicos(int nr_servicos){
+		this.nr_servicos = nr_servicos;
+	}
+	public int getNr_servicos(){
+		return this.nr_servicos;
+	}
+	
+	public void setConfirmacao(int confirmacao){
+		this.confirmacao = confirmacao;
+	}
+	public int getConfirmacao(){
+		return this.confirmacao;
 	}
 	
 	public void setHorario_de_atendimento(String horario_de_atendimento){
@@ -70,42 +88,22 @@ public class CONFIG_BALCAO extends Model{
 	}
 	public String getHr_fim(){
 		return this.hr_fim;
-	}	
+	}
+	
+	public void setP_id(int p_id){
+		this.p_id = p_id;
+	}
+	public int getP_id(){
+		return this.p_id;
+	}
+	
 	public void setP_estado(String p_estado){
 		this.p_estado = p_estado;
 	}
 	public String getP_estado(){
 		return this.p_estado;
 	}
-	public int getOrganica() {
-		return organica;
-	}
-	public void setOrganica(int organica) {
-		this.organica = organica;
-	}
-	public int getEntidade() {
-		return entidade;
-	}
-	public void setEntidade(int entidade) {
-		this.entidade = entidade;
-	}
-	public int getNr_servicos() {
-		return nr_servicos;
-	}
-	public void setNr_servicos(int nr_servicos) {
-		this.nr_servicos = nr_servicos;
-	}
-	public int getConfirmacao() {
-		return confirmacao;
-	}
-	public void setConfirmacao(int confirmacao) {
-		this.confirmacao = confirmacao;
-	}
-	public int getP_id() {
-		return p_id;
-	}
-	public void setP_id(int p_id) {
-		this.p_id = p_id;
-	}
+
+
 }
 /*-------------------------*/
