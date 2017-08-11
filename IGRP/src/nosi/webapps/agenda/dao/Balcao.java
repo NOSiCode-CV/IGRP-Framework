@@ -125,17 +125,12 @@ public class Balcao {
 		}
 		List<Balcao> aux = null;
 		try {
-			ClientConfig config = new DefaultClientConfig();
-			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-	        
-	        String url = RestRequestHelper.baseUrl + "/balcoes_ent";
-	        
-	        WebResource resource = client.resource(url);
-	        
+			ClientConfig config = new DefaultClientConfig();			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+	        String url = RestRequestHelper.baseUrl + "/balcoes_ent";	        
+	        WebResource resource = client.resource(url);	        
 	        ClientResponse response = resource.path(nome_entidade.trim()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-	        System.out.println("nome:"+nome_entidade.trim());
-	   	 	String jsonResult = response.getEntity(String.class);
+	        String jsonResult = response.getEntity(String.class);
 	        if(response.getStatus() == 200) {
 		        aux = (List<Balcao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Balcoes", "Balcao", new TypeToken<List<Balcao>>(){}.getType());
 	        }
@@ -154,18 +149,12 @@ public class Balcao {
 	public static List<Balcao> getAllBalcao(){
 		List<Balcao> aux = null;
 		try {
-			ClientConfig config = new DefaultClientConfig();
-			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-	        
-	        String url = RestRequestHelper.baseUrl + "/balcoes";
-	        
-	        WebResource resource = client.resource(url);
-	        
-	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-	        
-	   	 	String jsonResult = response.getEntity(String.class);
-	   	 	
+			ClientConfig config = new DefaultClientConfig();			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	        
+	        String url = RestRequestHelper.baseUrl + "/balcoes";	        
+	        WebResource resource = client.resource(url);	        
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	        
+	   	 	String jsonResult = response.getEntity(String.class);	   	 	
 	        if(response.getStatus() == 200) {
 		        aux = (List<Balcao>) RestRequestHelper.convertJsonToDaoColl(jsonResult, "Balcoes", "Balcao", new TypeToken<List<Balcao>>(){}.getType());
 	        }
