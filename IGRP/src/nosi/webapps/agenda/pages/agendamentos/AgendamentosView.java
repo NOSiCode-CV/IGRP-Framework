@@ -24,6 +24,7 @@ public class AgendamentosView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_agendar;
+	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_confirmar;
 	public IGRPButton btn_cancelar;
 	public AgendamentosView(Agendamentos model){
@@ -33,13 +34,13 @@ public class AgendamentosView extends View {
 		table_1 = new IGRPTable("table_1");
 		entidade = new ListField(model,"entidade");
 		entidade.setLabel("Entidade");
-		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		balcao = new ListField(model,"balcao");
 		balcao.setLabel("Balcão");
-		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		servico = new ListField(model,"servico");
 		servico.setLabel("Serviço");
-		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		date_de = new DateField(model,"date_de");
 		date_de.setLabel("Date de");
 		date_de.propertie().add("name","p_date_de").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
@@ -48,20 +49,22 @@ public class AgendamentosView extends View {
 		data_ate.propertie().add("name","p_data_ate").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
 		dia = new DateField(model,"dia");
 		dia.setLabel("Dia");
-		dia.propertie().add("name","p_dia").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		dia.propertie().add("name","p_dia").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		hora = new TextField(model,"hora");
 		hora.setLabel("Hora");
-		hora.propertie().add("name","p_hora").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		hora.propertie().add("name","p_hora").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nome = new TextField(model,"nome");
 		nome.setLabel("Nome");
-		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		estado = new TextField(model,"estado");
 		estado.setLabel("Estado");
-		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
+		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_agendar = new IGRPButton("Agendar","agenda","Agendamentos","agendar","modal","success|fa-plus-square","","");
 		btn_agendar.propertie.add("type","specific").add("code","").add("rel","agendar");
+		btn_pesquisar = new IGRPButton("Pesquisar","agenda","Agendamentos","index","submit","default|fa-search","","");
+		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_confirmar = new IGRPButton("Confirmar","agenda","Agendamentos","confirmar","modal","success|fa-check-circle-o","","");
 		btn_confirmar.propertie.add("type","specific").add("code","").add("class","success").add("rel","confirmar");
 		btn_cancelar = new IGRPButton("Cancelar","agenda","Agendamentos","cancelar","alert_submit","danger|fa-close","","");
@@ -87,7 +90,8 @@ public class AgendamentosView extends View {
 		table_1.addField(servico);
 		table_1.addField(estado);
 
-		toolsbar_1.addButton(btn_agendar);
+		//toolsbar_1.addButton(btn_agendar);
+		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_confirmar);
 		table_1.addButton(btn_cancelar);
 		this.addToPage(form_1);
@@ -95,4 +99,5 @@ public class AgendamentosView extends View {
 		this.addToPage(toolsbar_1);
 	}
 }
+
 /*-------------------------*/

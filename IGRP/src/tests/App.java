@@ -1,5 +1,9 @@
 package tests;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
@@ -9,6 +13,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.agenda.dao.Balcao;
 import nosi.webapps.agenda.dao.Entidade;
 import nosi.webapps.agenda.dao.Requisitos;
@@ -60,18 +65,6 @@ public final class App {
         String url = RestRequestHelper.baseUrl + "/servicos";
         
         WebResource resource = client.resource(url);
-        /*
-        User user = new User();
-		user.setUsername("IMF");
-		user.setPassword_hash("djfhjdhfjd");
-		user.setAuth_key("deeuriwui");
-		user.setStatus(10);
-		user.setPassword_reset_token("NULL");
-		user.setEmail("iekinyfernandes3@gmail.com");
-		user.setUpdated_at(12345);
-		user.setCreated_at(45344);
-		user.setFuncionario(1);
-		*/
         
         Servicos servicos = new Servicos();
         

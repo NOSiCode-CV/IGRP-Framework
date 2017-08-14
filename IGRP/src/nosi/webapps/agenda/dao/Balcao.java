@@ -85,12 +85,7 @@ public class Balcao {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public String getNome_entidade() {
-		return nome_entidade;
-	}
-	public void setNome_entidade(String nome_entidade) {
-		this.nome_entidade = nome_entidade;
-	}
+	
 	public String toString(){
 		return "[id="+id+", localizacao="+localizacao+",nr_servico="+nr_servicos+",confirmacao="+confirmacao+",estado="+estado+",hr_inicio="+hr_inicio+",hr_fim="+hr_fim+"]";
 	}

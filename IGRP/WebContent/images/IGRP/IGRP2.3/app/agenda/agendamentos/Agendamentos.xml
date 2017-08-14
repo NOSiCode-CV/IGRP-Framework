@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/agendamentos/Agendamentos.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/agenda/agendamentos/Agendamentos.xsl" type="text/xsl"?>
 <rows>
     <site>
         <welcome_note>Ola</welcome_note>
@@ -35,9 +35,10 @@
         <title>Lista de Agendamentos</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Entidade</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -56,9 +57,10 @@
                         </option>
                     </list>
                 </entidade>
-                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Balcão</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -77,9 +79,10 @@
                         </option>
                     </list>
                 </balcao>
-                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Serviço</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -107,6 +110,17 @@
                     <value/>
                 </data_ate>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>agenda</app>
+                    <page>Agendamentos</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/agendamentos/Agendamentos.xsl?</parameter>
+                    <target>submit</target>
+                    <img>default|fa-search</img>
+                </item>
+            </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="agendar">
@@ -116,28 +130,27 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>success|fa-plus-square</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-plus-square|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Dia</label>
                 </dia>
-                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false">
+                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Hora</label>
                 </hora>
-                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false">
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </nome>
-                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false">
+                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Balcão</label>
                 </balcao>
-                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false">
+                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Serviço</label>
                 </servico>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Estado</label>
                 </estado>
             </fields>
@@ -149,11 +162,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Doloremque officia totam natus stract</hora>
-                        <nome name="p_nome">Magna rem sit ipsum consectetur</nome>
-                        <balcao name="p_balcao">Lorem officia sed deserunt accusantium</balcao>
-                        <servico name="p_servico">Mollit totam adipiscing elit deserunt</servico>
-                        <estado name="p_estado">Mollit ipsum lorem doloremque voluptatem</estado>
+                        <hora name="p_hora">Amet mollit aliqua sed natus</hora>
+                        <nome name="p_nome">Anim amet elit anim aliqua</nome>
+                        <balcao name="p_balcao">Iste omnis laudantium mollit u</balcao>
+                        <servico name="p_servico">Magna iste mollit totam mollit</servico>
+                        <estado name="p_estado">Ut sit accusantium laudantium</estado>
                     </row>
                     <row>
                         <context-menu>
@@ -161,11 +174,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Mollit lorem aliqua iste perspiciatis</hora>
-                        <nome name="p_nome">Aliqua anim mollit aliqua mollit</nome>
-                        <balcao name="p_balcao">Perspiciatis laudantium deserunt ipsum voluptatem</balcao>
-                        <servico name="p_servico">Omnis sed consectetur iste mollit</servico>
-                        <estado name="p_estado">Aperiam amet doloremque elit dolor</estado>
+                        <hora name="p_hora">Elit labore rem aperiam consec</hora>
+                        <nome name="p_nome">Doloremque natus adipiscing pe</nome>
+                        <balcao name="p_balcao">Labore lorem aliqua elit deser</balcao>
+                        <servico name="p_servico">Natus iste amet magna sed</servico>
+                        <estado name="p_estado">Deserunt perspiciatis iste ips</estado>
                     </row>
                     <row>
                         <context-menu>
@@ -173,11 +186,11 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Adipiscing sit consectetur iste omnis</hora>
-                        <nome name="p_nome">Sit dolor adipiscing totam consectetur</nome>
-                        <balcao name="p_balcao">Totam rem doloremque deserunt laudantium</balcao>
-                        <servico name="p_servico">Ut dolor elit aperiam natus</servico>
-                        <estado name="p_estado">Labore sed doloremque anim stract</estado>
+                        <hora name="p_hora">Iste doloremque officia anim n</hora>
+                        <nome name="p_nome">Officia sit magna accusantium</nome>
+                        <balcao name="p_balcao">Officia sit omnis dolor aliqua</balcao>
+                        <servico name="p_servico">Voluptatem adipiscing sit offi</servico>
+                        <estado name="p_estado">Omnis stract lorem officia eli</estado>
                     </row>
                     <row>
                         <context-menu>
@@ -185,11 +198,23 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Omnis doloremque laudantium doloremque dolor</hora>
-                        <nome name="p_nome">Sit voluptatem lorem dolor magna</nome>
-                        <balcao name="p_balcao">Mollit omnis adipiscing anim sed</balcao>
-                        <servico name="p_servico">Iste ipsum aperiam stract labore</servico>
-                        <estado name="p_estado">Voluptatem accusantium laudantium anim ut</estado>
+                        <hora name="p_hora">Sit doloremque elit perspiciat</hora>
+                        <nome name="p_nome">Rem anim ipsum adipiscing tota</nome>
+                        <balcao name="p_balcao">Anim voluptatem rem ut omnis</balcao>
+                        <servico name="p_servico">Lorem voluptatem natus totam u</servico>
+                        <estado name="p_estado">Sit stract unde omnis mollit</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Sed magna ut rem ut</hora>
+                        <nome name="p_nome">Labore laudantium accusantium</nome>
+                        <balcao name="p_balcao">Dolor voluptatem doloremque om</balcao>
+                        <servico name="p_servico">Magna iste adipiscing amet nat</servico>
+                        <estado name="p_estado">Ipsum amet perspiciatis natus</estado>
                     </row>
                 </value>
                 <context-menu>
@@ -198,7 +223,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>modal</target>
                         <img>success|fa-check-circle-o</img>
                     </item>
@@ -207,7 +232,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>alert_submit</target>
                         <img>danger|fa-close</img>
                     </item>

@@ -13,7 +13,7 @@ import java.lang.annotation.Annotation;
 import java.lang.Long;
 
 import nosi.core.validator.Validator;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -44,22 +44,22 @@ public abstract class Model { // IGRP super model
 					switch(typeName){
 						case "[I": // Array of int
 							//m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
-							m.set(this, (int[])Helper.convertToArray(aux, "int"));
+							m.set(this, (int[])IgrpHelper.convertToArray(aux, "int"));
 							break;
 						case "[J":// Array de long
 							//m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
-							m.set(this, (long[])Helper.convertToArray(aux, "long"));
+							m.set(this, (long[])IgrpHelper.convertToArray(aux, "long"));
 							break;
 						case "[D":
 							//m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
-							m.set(this, (double[])Helper.convertToArray(aux, "double"));
+							m.set(this, (double[])IgrpHelper.convertToArray(aux, "double"));
 							break;
 						case "[S":// Array de short
-							m.set(this, (short[])Helper.convertToArray(aux, "short"));
+							m.set(this, (short[])IgrpHelper.convertToArray(aux, "short"));
 							break;
 						case "[F":
 							//m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
-							m.set(this, (float[])Helper.convertToArray(aux, "float"));
+							m.set(this, (float[])IgrpHelper.convertToArray(aux, "float"));
 							break;
 						default:
 							m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object

@@ -40,7 +40,7 @@ package nosi.core.gui.components;
 */
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.fields.Field;
@@ -157,7 +157,7 @@ public class IGRPChart extends IGRPComponent{
 				this.xml.startElement("row");
 				for(Field field:this.fields){
 					this.xml.startElement("col");
-					this.xml.text(Helper.getValue(obj, field.getTagName()));
+					this.xml.text(IgrpHelper.getValue(obj, field.getTagName()));
 					this.xml.endElement();
 				}
 				this.xml.endElement();

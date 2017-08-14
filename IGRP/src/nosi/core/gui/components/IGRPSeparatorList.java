@@ -1,7 +1,7 @@
 package nosi.core.gui.components;
 
 import nosi.core.gui.fields.Field;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -48,14 +48,14 @@ public class IGRPSeparatorList extends IGRPFormList {
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getName()+"="+Helper.getValue(obj, field.getName()));
+							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = Helper.getValue(obj, field.getName());
+					String val = IgrpHelper.getValue(obj, field.getName());
 					if(val==null || val.equals("")){
 						val = field.getValue().toString();
 					}

@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
  */
 public class Agenda {
 	@Expose(serialize = false, deserialize = true)
-	private int id;
+	private Integer id;
 	private int id_servico;
 	private int id_balcao;
 	private int nr_atendimentos;
@@ -17,7 +17,7 @@ public class Agenda {
 	private float tempo_medio;
 	private int antecede_edit;
 	private int anteced_agenda;
-	private String dias_atendiemnto;
+	private String dias_atendimento;
 	private String estado;
 	public int getId() {
 		return id;
@@ -74,10 +74,10 @@ public class Agenda {
 		this.anteced_agenda = anteced_agenda;
 	}
 	public String getDias_atendiemnto() {
-		return dias_atendiemnto;
+		return dias_atendimento;
 	}
-	public void setDias_atendiemnto(String dias_atendiemnto) {
-		this.dias_atendiemnto = dias_atendiemnto;
+	public void setDias_atendiemnto(String dias_atendimento) {
+		this.dias_atendimento = dias_atendimento;
 	}
 	public String getEstado() {
 		return estado;
@@ -85,6 +85,4 @@ public class Agenda {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
-	
 }
