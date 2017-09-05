@@ -1,13 +1,12 @@
 <div class="box">
 	<div class="box-body">
-		
 		<xsl:apply-templates mode="IGRP-calendar" select="#path#">
-			
 			<xsl:with-param name="id" select="'#tag#'"/>
 			<xsl:with-param name="lang" select="'pt'"/>
-			<xsl:with-param name="dataUrl" select="#path#/dataUrl"/>
-
+			#[editevents]#
+			<xsl:with-param name="addevents" select="#path#/fields/#tag#_add/value"/>
+			<xsl:with-param name="defaultview" select="#path#/fields/#tag#_view/value"/>
+			<xsl:with-param name="defaultdate" select="#path#/fields/#tag#_date/value"/>
 		</xsl:apply-templates> 
-		
 	</div>
 </div>

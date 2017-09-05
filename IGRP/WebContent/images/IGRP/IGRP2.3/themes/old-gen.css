@@ -24,7 +24,6 @@
   margin: 0
 }
 
-
 .old-v .gen-item-boxed {
   margin: 20px -10px;
   clear: both;
@@ -60,23 +59,52 @@
 
 .old-v .gen-item-boxed:before{
     content: "";
-    position: absolute;
-    height: 11px;
-    top: -12px;
+    position: relative;
+    height: 20px;
+    top: 0;
     width: 101%;
     background: whitesmoke;
     left: -1px;
+    z-index: 10;
+    display: block;
 }
 
 .old-v .gen-item-boxed:after{
-    content: "";
-    position: absolute;
-    height: 20px;
-    bottom: -21px;
+        content: "";
+    position: relative;
+    height: 10px;
+    bottom: -11px;
     width: 101%;
     background: whitesmoke;
     left: -1px;
+    display: block;
+    /* padding-bottom: 10px; */
+    box-sizing: content-box;
+    padding-bottom: 15px;
 }
+
+/*.old-v .gen-item-boxed+.gen-item-boxed:before{
+    position: absolute;
+    top: auto;
+    bottom: -1px;
+}
+.old-v  [role="form"] [item-name]:not(.gen-container-item)+.gen-item-boxed+.gen-item-boxed:after{
+    position: absolute;
+    content: "aff"; 
+    top: auto;
+    bottom: -1px;
+}*/
+
+
+.form-group a.form-link{
+  margin-top: 35px
+}
+
+.old-v .gen-item-boxed>.box-header{
+  border-top:1px solid #eee
+}
+
+
 
 .old-v [class*="col-md-"]+.gen-item-boxed:before{
     padding-top: 20px;
@@ -88,24 +116,38 @@
     top: 0;
 }
 
-
-.old-v *[first-type-container="true"] > .gen-item-boxed:nth-child(1) {
-  margin-top:-11px;
+.old-v [first-type-container="true"]>[role="form"] {
+  margin-top: -52px;
 }
-.old-v *[first-type-container="true"] > .gen-item-boxed:last-child {
+/*.old-v [first-type-container="true"] [role="form"] > .gen-container-item:nth-child(0) {
+  margin-top:-32px;
+  background: red!important
+}*/
+
+.old-v *[first-type-container="true"] [role="form"] > .gen-item-boxed:last-child {
   margin-bottom:-11px;
+}
+
+.tab-content .gen-tab-content .gen-item-boxed:last-child{
+  margin-bottom: -20px;
 }
 
 
 .old-v .gen-item-boxed+.gen-item-boxed{
+  margin-top: -35px;
   /*margin-top:-10px!important;
   border-top:0!important;*/
+  
+}
+
+.old-v .gen-item-boxed+[item-name]:not(.gen-item-boxed){
+  margin-bottom: 
 }
 
 
 .old-v .box-header{
     display: block;
-    padding: 10px;
+    /*padding: 10px;*/
     position: relative;
     margin-right: -1px;
     margin-left: -1px;
@@ -114,20 +156,31 @@
 }
 
 .old-v .box-header .box-title{
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 
 .old-v *[role="form"] .box-head.subtitle  {
     font-size: 18px;
     text-transform: uppercase;
-   
     margin-right: -11px;
     margin-left: -11px;
-    padding: 10px;
+    /*padding: 10px;*/
     line-height: 1;
-    font-weight: bold;
+    /*font-weight: bold;*/
     /*margin-top: 10px;*/
  
+}
+
+[last-type-container="true"] .gen-container-item:last-child{
+ margin-bottom: -1px;
+}
+
+[last-type-container="true"] .gen-container-item:last-child:after{
+  display: none
+}
+
+.old-v .gen-item-boxed+.box-head.subtitle  {
+  margin-top: -10px!important;
 }
 
 .old-v *[role="form"][first-type-container!='true'] .box-head.subtitle  {

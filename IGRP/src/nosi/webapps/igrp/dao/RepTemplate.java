@@ -61,9 +61,9 @@ public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serial
 	@ManyToOne
 	@JoinColumn(name="xsl_content_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_XSL_CONTENT_FK"),nullable=false)
 	private CLob xsl_content;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="reptemplate")
 	private List<RepTemplateParam> params;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repSource")
 	private List<RepTemplateSource> reptemplatesources;
 	
 	public RepTemplate(){}

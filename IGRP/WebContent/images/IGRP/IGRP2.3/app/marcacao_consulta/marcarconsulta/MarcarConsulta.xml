@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/marcacao_consulta/marcarconsulta/MarcarConsulta.xsl" type="text/xsl"?>
+<rows>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>MarcarConsulta</page>
+    <app>marcacao_consulta</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.marcacao_consulta.pages</package_db>
+        <package_html>MarcarConsulta</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Marcar Consulta</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>marcacao_consulta</app>
+                <page>MarcarConsulta</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/marcacao_consulta/marcarconsulta/MarcarConsulta.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="listar_medico">
+                <title>Listar Medico</title>
+                <app>marcacao_consulta</app>
+                <page>ConsultaPendente</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-list</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/marcacao_consulta/consultapendente/ConsultaPendente.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <utente name="p_utente" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
+                    <label>Utente</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </utente>
+                <medico name="p_medico" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
+                    <label>Medico</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </medico>
+                <especialidade name="p_especialidade" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Especialidade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </especialidade>
+                <data_consulta name="p_data_consulta" type="date" format="IGRP_dateTimePicker" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Consulta</label>
+                    <value/>
+                </data_consulta>
+            </fields>
+        </form_1>
+    </content>
+</rows>

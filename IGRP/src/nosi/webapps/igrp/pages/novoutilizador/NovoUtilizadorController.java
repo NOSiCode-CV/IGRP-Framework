@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoutilizador;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -13,7 +15,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 
-
+/*---- End ----*/
 public class NovoUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException{

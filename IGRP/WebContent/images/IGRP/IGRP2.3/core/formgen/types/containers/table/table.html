@@ -2,15 +2,16 @@
   <div class="box-body table-box">
     <xsl:apply-templates mode="form-hidden-fields" select="#path#/fields"/>
     #[exportTmpl]#
+    #[filterTemplate]#
     #[hasColorTmpl]#
-    <table id="#tag#" class="table table-striped gen-data-table #[ctxMenuClass]#" exports="#[export]#">
+    <table id="#tag#" class="table table-striped gen-data-table #[ctxMenuClass]# #[ctxStyle]#" exports="#[export]#">
       <thead>
         <tr gen-id="drop-zone" gen-field-template="th">
           #[ctxInlineHeadTmpl]#
         </tr>
       </thead>
       <tbody>
-        <xsl:for-each select="#path#/table/value/row">
+        <xsl:for-each select="#path#/table/value/row[not(@total='yes')]">
           <tr gen-id="drop-zone">
             <xsl:apply-templates mode="context-param" select="context-menu" />
             <gen-template name="table-rows-hiddens"/>
@@ -18,6 +19,7 @@
           </tr>
         </xsl:for-each>
       </tbody>
+     #[tableFooter]#
     </table>
   </div>
   #[ctxMenuTemplate]#

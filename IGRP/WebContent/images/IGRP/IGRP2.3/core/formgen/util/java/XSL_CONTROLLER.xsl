@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xdb="http://xmlns.oracle.com/xdb" >
-
-    <xsl:output method="text" encoding="UTF-8" indent="no" />
-    <xsl:preserve-space elements="*"/>
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
     <!-- Join all templates to create controller -->
     <xsl:template name="create-controller">
@@ -23,15 +19,8 @@
 
      <!-- import all class to using in controller -->
  	<xsl:template name="import-packages-controller">
- 		<xsl:value-of select="concat('package ',$package_name)"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_controller"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_exception"/>
-		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_response"/>
-		<xsl:value-of select="$newline"/>
-		<!--         Imports created by programmer -->
+ 		<xsl:value-of select="concat('package ',$package_name)"/>		
+		<!-- Imports class -->
 		<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_import','&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>
@@ -39,12 +28,19 @@
 			<xsl:value-of select="document($url)/your_code"/>
 		</xsl:variable>	
 		<xsl:value-of select="$newline"/>
-     	<xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of>
+     	<xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of>		
 		<xsl:choose>
-     		<xsl:when test="$url !=''">
-				<xsl:value-of select="$your_code"/>	
+     		<xsl:when test="$your_code !=''">
+				<xsl:value-of select="$your_code"/>		
      		</xsl:when>
      		<xsl:otherwise>
+     			<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$import_controller"/>
+				<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$import_exception"/>
+				<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$import_response"/>
+				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$newline"/>
      		</xsl:otherwise>
      	</xsl:choose>
@@ -55,7 +51,7 @@
  	
 	<!-- create actions based in button -->
 	<xsl:template name="createActions">
-         <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
+         <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
             <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
           	<xsl:call-template name="actions">
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
@@ -158,10 +154,18 @@
 	    		</xsl:with-param>
 	    	</xsl:call-template>
 		</xsl:variable>
+		
+		<xsl:variable name="url_">
+     		<xsl:value-of select="concat($preserve_url,'&amp;type=exception_after_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
+     	</xsl:variable>	
+     	<xsl:variable name="your_code_exception">
+			<xsl:value-of select="document($url_)/your_code"/>
+		</xsl:variable>	
+		
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
-     	<xsl:value-of select="concat('public Response action',$action,'() throws IOException{')"/>
+     	<xsl:value-of select="concat('public Response action',$action,'() throws IOException',$your_code_exception,'{')"/>
 		<xsl:value-of select="$newline"/>	
      	<xsl:value-of select="$tab2"/>     	
      	<!--         Actions modified by programmer -->     	
@@ -177,39 +181,30 @@
 			<xsl:value-of select="$tab2"/>	
 			<xsl:value-of select="$your_code"/>	
 		</xsl:if>
-		<xsl:choose>
-			<xsl:when test="$page_ != '' and $your_code=''">
-				<xsl:choose>
-					<xsl:when test="$type_render_='render'">
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="'return this.renderView(view);'"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab"/>  
-					</xsl:when>
-					<xsl:when test="$type_render_='redirect'">
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
-						<xsl:value-of select="$newline"/>  
-						<xsl:value-of select="$tab"/>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:when>   
-			<xsl:when  test="$your_code=''">
-				<xsl:value-of select="$newline"/>
-				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
-				<xsl:value-of select="$newline"/>  
-				<xsl:value-of select="$tab"/>
-			</xsl:when>
-		</xsl:choose>	
+		<xsl:if test="$page_ != '' and $your_code=''">
+			<xsl:choose>
+				<xsl:when test="$type_render_='render'">
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="'return this.renderView(view);'"/>
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab"/>  
+				</xsl:when>
+				<xsl:when test="$type_render_='redirect'">
+					<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+					<xsl:value-of select="$newline"/>  
+					<xsl:value-of select="$tab"/>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:if>   	
 		<xsl:value-of select="$tab"/>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
 		<xsl:value-of select="$newline"/>

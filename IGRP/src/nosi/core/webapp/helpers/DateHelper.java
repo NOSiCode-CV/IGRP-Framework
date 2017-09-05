@@ -1,0 +1,41 @@
+package nosi.core.webapp.helpers;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * @author: Emanuel Pereira
+ * 14 Aug 2017
+ */
+public class DateHelper {
+
+	public static String convertDate(String date, String formatIn, String formatOut) {
+		String myDateString = null;
+		try {
+			SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
+			Date myDate = newDateFormat.parse(date);
+			newDateFormat.applyPattern(formatOut);
+			myDateString = newDateFormat.format(myDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myDateString;
+	}
+	
+	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
+		DateFormat formatter = new SimpleDateFormat(inputFormat); 
+		Date date;
+		try {
+			date = (Date)formatter.parse(data);
+			SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
+			String finalDate = newFormat.format(date);
+			return java.sql.Date.valueOf(finalDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

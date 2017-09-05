@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/entidade/ENTIDADE.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -49,11 +50,12 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Dolor mollit sed perspiciatis anim</value>
+                    <value>Ipsum stract voluptatem dolor aliqua</value>
                 </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Aplicação</label>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
+                    <label>Orgânica</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -71,19 +73,19 @@
                             <value>4</value>
                         </option>
                     </list>
-                </aplicacao>
+                </organica>
+                <hidden name="p_estado" type="hidden" maxlength="30" tag="estado"/>
             </fields>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>agenda</app>
-                <page>AddServicos</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>success|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-save|www</params>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_1>
     </content>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/session/Session.xsl" type="text/xsl"?>
 <rows>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>

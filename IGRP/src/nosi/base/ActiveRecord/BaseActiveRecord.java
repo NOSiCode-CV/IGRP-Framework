@@ -1,26 +1,29 @@
 package nosi.base.ActiveRecord;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import nosi.core.config.Config;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import nosi.core.config.Config;
+
 
 public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
-	protected EntityManagerFactory entityManagerFactory;
+	protected SessionFactory entityManagerFactory;
 	private T className;
 	private CriteriaBuilder builder = null;
 	private CriteriaQuery<T> criteria = null;
@@ -29,7 +32,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
-		this.entityManagerFactory = PersistenceUtils.ENTITY_MANAGER_FACTORY.get(this.getConnectionName());
+		this.opeConnection();
 	}
 	
 	/*Inserted data into database
@@ -39,23 +42,24 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
 	@Override
 	public T insert() {		
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		this.opeConnection();
+		Session session = null;
+		Transaction transaction = null;
 		try{
-			manager = this.entityManagerFactory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.persist(this.className);
+			session = this.entityManagerFactory.openSession();
+			transaction = session.beginTransaction();
+			session.persist(this.className);
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 	      if (transaction != null) {
 	          transaction.rollback();
 	      }
 		} finally {
-		   manager.close();
+		   session.close();
 		}
-		this.resetCriteria();
-		return this.findOne(this.getValuePrimaryKey());
+		Object key = this.getValuePrimaryKey();
+		return this.findOne(key);
 	}
 	
 	/*Update data into database
@@ -63,14 +67,14 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 * @see com.hib.base.ActiveRecordIterface#update()
 	 */
 	@Override
-	public T update() {		
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
+	public T update() {	
+		this.opeConnection();
+		Session session = null;
+		Transaction transaction = null;
 		try{
-			manager = this.entityManagerFactory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.merge(this.className);
+			session = this.entityManagerFactory.openSession();
+			transaction = session.beginTransaction();
+			session.merge(this.className);
 			transaction.commit();
 		} catch (Exception e) {
 	      if (transaction != null) {
@@ -78,10 +82,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   manager.close();
+		   session.close();
 		}
-		this.resetCriteria();
-		return this.findOne(this.getValuePrimaryKey());
+		Object key = this.getValuePrimaryKey();
+		return this.findOne(key);
 	}
 	
 	/*Deleted data with id parameter
@@ -93,16 +97,15 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean delete(Object id) {
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		this.opeConnection();
+		Session session = null;
+		Transaction transaction = null;
 		boolean deleted = false;
-		
 		try{
-			manager = this.entityManagerFactory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
-			this.className = (T) manager.find(this.className.getClass(),id);
-			manager.remove(this.className);
+			session = this.entityManagerFactory.openSession();
+			transaction = session.beginTransaction();
+			this.className = (T) session.find(this.className.getClass(),id);
+			session.remove(this.className);
 			transaction.commit();
 			deleted = true;
 		} catch (Exception e) {
@@ -112,9 +115,9 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   manager.close();
+			session.close();
 		}
-		this.resetCriteria();
+		this.closeConnection();
 		return deleted;
 	}
 
@@ -127,7 +130,8 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public boolean delete() {
-		return this.delete(this.getValuePrimaryKey());
+		Object key = this.getValuePrimaryKey();
+		return this.delete(key);
 	}
 
 	/* Connection name for Database, default value is h2
@@ -187,7 +191,6 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	public T findOne(CriteriaQuery<T> criteria) {
 		this.criteria = criteria;
 		this.className = this.one();
-		this.resetCriteria();
 		return (T) this.className;
 	}
 
@@ -195,7 +198,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	public List<T> findAll(CriteriaQuery<T> criteria) {
 		this.criteria = criteria;
 		List<T> list = this.all();
-		this.resetCriteria();
+		this.closeConnection();
 		return list;
 	}
 
@@ -209,10 +212,12 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
 	@SuppressWarnings("unchecked")
 	private void startCriteria() {		
-		this.builder = this.entityManagerFactory.getCriteriaBuilder();
-		this.criteria = (CriteriaQuery<T>) builder.createQuery(this.className.getClass());
-		criteria.select(root);
-		this.root = (Root<T>) this.criteria.from(this.className.getClass());
+		if(this.entityManagerFactory.isOpen()){
+			this.builder = this.entityManagerFactory.getCriteriaBuilder();
+			this.criteria = (CriteriaQuery<T>) builder.createQuery(this.className.getClass());
+			criteria.select(root);
+			this.root = (Root<T>) this.criteria.from(this.className.getClass());
+		}
 	}
 
 	@Override
@@ -221,7 +226,6 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		this.builder.equal(this.root.get(this.getNamePrimaryKey()),value);
 		this.criteria.where(this.builder.equal(this.root.get(this.getNamePrimaryKey()),value));
 		this.className = this.one();
-		this.resetCriteria();
 		return this.className;
 	}
 
@@ -229,16 +233,22 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	public List<T> findAll() {
 		this.startCriteria();
 		List<T> list = this.all();
-		this.resetCriteria();
+		this.closeConnection();
 		return list;
 	}
 	
-	private void resetCriteria(){
+	private void closeConnection(){
 		this.builder = null;
 		this.criteria = null;
 		this.root = null;
+		this.entityManagerFactory = null;
+
 	}
 
+	private void opeConnection(){
+		if(this.entityManagerFactory==null)
+			this.entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(this.getConnectionName());
+	}
 	/**
 	 * @return the builder
 	 */
@@ -261,7 +271,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 
 	@Override
 	public T andWhere(String columnName, String operator, Object value) {
-		if(value!=null && !value.toString().equals("") && !value.toString().equals("0")){
+		if(value!=null && !value.toString().equals("") && this.entityManagerFactory.isOpen()){
 			Predicate e = null;
 			switch (operator.toLowerCase()) {
 			case "=":
@@ -273,11 +283,14 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 				}
 				break;
 			case "like":
+				String val = !value.toString().contains("%")?value.toString().toLowerCase().trim()+"%":value.toString().toLowerCase().trim();
 				if(columnName.contains(".")){
 					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().like(this.getBuilder().lower(this.getRoot().join(aux[0]).get(aux[1])), "%"+ value.toString() +"%");
+					Expression<String> x = this.getRoot().join(aux[0]).get(aux[1]);
+					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
 				}else{
-					e = this.getBuilder().like(this.getBuilder().lower(this.getRoot().get(columnName)), "%"+ value.toString() +"%");
+					Expression<String> x = this.getRoot().get(columnName);
+					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
 				}
 				break;
 			case "isnull":
@@ -307,19 +320,19 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 
 	@Override
 	public T one() {
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		this.opeConnection();
+		Session session = null;
+		Transaction transaction = null;
 		try{
-			manager = this.entityManagerFactory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
+			session = this.entityManagerFactory.openSession();
+			transaction = session.beginTransaction();
 			try{
 				if(this.predicates.size() > 0){
 					this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
 					this.predicates = null;
 				}
-				if( manager.createQuery(this.criteria).setMaxResults(1).getResultList().size() > 0)
-					this.className = manager.createQuery(this.criteria).setMaxResults(1).getSingleResult();
+				if( session.createQuery(this.criteria).setMaxResults(1).getResultList().size() > 0)
+					this.className = session.createQuery(this.criteria).setMaxResults(1).getSingleResult();
 				else
 					this.className = null;
 			}catch (javax.persistence.NoResultException e) {}
@@ -330,26 +343,26 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   manager.close();
+		   session.close();
 		}
-		this.resetCriteria();
+		this.closeConnection();
 		return this.className;
 	}
 
 	@Override
 	public List<T> all() {
+		this.opeConnection();
 		List<T> list = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		Session session = null;
+		Transaction transaction = null;
 		try{
-			manager = this.entityManagerFactory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
+			session = this.entityManagerFactory.openSession();
+			transaction = session.beginTransaction();
 			if(this.predicates.size() > 0){
 				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
 				this.predicates = null;
 			}
-			list = (List<T>) manager.createQuery(this.criteria).getResultList();
+			list = (List<T>) session.createQuery(this.criteria).getResultList();
 			transaction.commit();
 		} catch (Exception e) {
 	      if (transaction != null) {
@@ -357,9 +370,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	      }
 	      e.printStackTrace();
 		} finally {
-		   manager.close();
+		   session.close();
 		}
-		this.resetCriteria();
+		this.closeConnection();
 		return list;
 	}
+	
 }

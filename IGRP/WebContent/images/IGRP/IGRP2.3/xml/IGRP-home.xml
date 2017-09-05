@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet href="../xsl/IGRP-home.xsl?v=30" type="text/xsl"?>
 <rows>
-	<template>material</template>
+	<template></template>
 	<title>NOSI Teste Page 1</title>
 	<link>IGRP-home.xml</link>
 	<site>	

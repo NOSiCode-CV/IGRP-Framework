@@ -1,9 +1,13 @@
-<div class="form-group col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+<div class="form-group col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
   <label for="{#path#/@name}">
     #label.val#
   </label>
   <div class="input-group">
-      <input type="text" value="{#path#/value}" class="form-control gen-date #[change]#" id="#parent.tag#-#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#"/>
+      <input type="text" value="{#path#/value}" class="form-control gen-date #[change]#" id="#parent.tag#-#tag#" name="{#path#/@name}" #[required]# format="#[format]#" maxlength="#[maxlength]#" #[readonly]# #[disabled]#>
+      	<xsl:call-template name="setAttributes">
+            <xsl:with-param name="field" select="#path#"/>
+        </xsl:call-template>
+      </input>
       <span class="input-group-btn gen-date-icon">
         <span class="btn btn-#[class]#"><i class="fa fa-calendar"></i></span>
       </span>

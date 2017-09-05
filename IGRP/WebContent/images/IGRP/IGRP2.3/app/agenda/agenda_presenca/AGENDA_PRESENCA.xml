@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/agenda_presenca/AGENDA_PRESENCA.xsl" type="text/xsl"?>
 <rows>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -35,9 +36,10 @@
         <title>Marcar Presença de Uma Agenda feita</title>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <entidade name="p_entidade" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Entidade</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -56,9 +58,10 @@
                         </option>
                     </list>
                 </entidade>
-                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <balcao name="p_balcao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Balcão</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -77,27 +80,6 @@
                         </option>
                     </list>
                 </balcao>
-                <serviao name="p_serviao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Servião</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </serviao>
                 <date_de name="p_date_de" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="primary">
                     <label>Date de</label>
                     <value/>
@@ -109,92 +91,109 @@
             </fields>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="pesquisar">
+                <title>Pesquisar</title>
+                <app>agenda</app>
+                <page>AGENDA_PRESENCA</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>default|fa-search</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/agenda_presenca/AGENDA_PRESENCA.xsl</parameter>
+            </item>
             <item type="specific" code="" rel="confirmar">
                 <title>Confirmar</title>
                 <app>agenda</app>
-                <page>AddServicos</page>
+                <page>AGENDA_PRESENCA</page>
                 <link>index</link>
                 <target>confirm</target>
                 <img>success|fa-check</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-check|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/agenda_presenca/AGENDA_PRESENCA.xsl</parameter>
             </item>
             <item type="specific" code="" rel="notificar">
                 <title>Notificar</title>
                 <app>agenda</app>
-                <page>AddServicos</page>
+                <page>AGENDA_PRESENCA</page>
                 <link>index</link>
                 <target>modal</target>
                 <img>warning|fa-commenting</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>warning||fa-commenting|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/agenda_presenca/AGENDA_PRESENCA.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false">
+                <dia name="p_dia" type="date" format="IGRP_datePicker" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Dia</label>
                 </dia>
-                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false">
+                <hora name="p_hora" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Hora</label>
                 </hora>
-                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false">
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </nome>
-                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false">
+                <balcao name="p_balcao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Balcão</label>
                 </balcao>
-                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false">
+                <servico name="p_servico" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Serviço</label>
                 </servico>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Estado</label>
                 </estado>
-                <checkbox_1 name="p_checkbox_1" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
-                    <label>Checkbox</label>
-                </checkbox_1>
+                <id name="p_id" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
+                    <label>Id</label>
+                </id>
             </fields>
             <table>
                 <value>
                     <row>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Accusantium labore officia sit totam</hora>
-                        <nome name="p_nome">Sit stract ut totam natus</nome>
-                        <balcao name="p_balcao">Unde adipiscing unde labore lorem</balcao>
-                        <servico name="p_servico">Stract anim dolor adipiscing omnis</servico>
-                        <estado name="p_estado">Laudantium sit aliqua doloremque lorem</estado>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <hora name="p_hora">Labore officia magna anim stra</hora>
+                        <nome name="p_nome">Mollit amet unde officia deser</nome>
+                        <balcao name="p_balcao">Adipiscing labore totam amet a</balcao>
+                        <servico name="p_servico">Consectetur iste anim dolor mo</servico>
+                        <estado name="p_estado">Ut ipsum ut accusantium totam</estado>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
                     </row>
                     <row>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Natus voluptatem dolor iste officia</hora>
-                        <nome name="p_nome">Sit natus sit ipsum ut</nome>
-                        <balcao name="p_balcao">Lorem unde sit dolor adipiscing</balcao>
-                        <servico name="p_servico">Unde dolor ipsum officia aperiam</servico>
-                        <estado name="p_estado">Lorem stract laudantium officia natus</estado>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <hora name="p_hora">Sit aliqua iste voluptatem sit</hora>
+                        <nome name="p_nome">Doloremque iste sed sit laudan</nome>
+                        <balcao name="p_balcao">Aliqua dolor consectetur dolor</balcao>
+                        <servico name="p_servico">Lorem aliqua sit aperiam aliqu</servico>
+                        <estado name="p_estado">Elit iste amet dolor labore</estado>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
                     </row>
                     <row>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Mollit sit accusantium ipsum officia</hora>
-                        <nome name="p_nome">Omnis aperiam adipiscing unde accusantium</nome>
-                        <balcao name="p_balcao">Accusantium officia sit voluptatem aperiam</balcao>
-                        <servico name="p_servico">Magna amet laudantium perspiciatis mollit</servico>
-                        <estado name="p_estado">Magna omnis ipsum adipiscing perspiciatis</estado>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <hora name="p_hora">Natus sed aliqua doloremque si</hora>
+                        <nome name="p_nome">Aperiam laudantium perspiciati</nome>
+                        <balcao name="p_balcao">Rem lorem anim deserunt accusa</balcao>
+                        <servico name="p_servico">Voluptatem ut aperiam perspici</servico>
+                        <estado name="p_estado">Magna natus omnis adipiscing d</estado>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
                     </row>
                     <row>
                         <dia name="p_dia"/>
-                        <hora name="p_hora">Ut aperiam iste perspiciatis unde</hora>
-                        <nome name="p_nome">Officia omnis deserunt labore amet</nome>
-                        <balcao name="p_balcao">Anim accusantium doloremque totam doloremque</balcao>
-                        <servico name="p_servico">Aliqua labore elit lorem labore</servico>
-                        <estado name="p_estado">Dolor unde labore sit elit</estado>
-                        <checkbox_1 name="p_checkbox_1" check="true" desc="true">1</checkbox_1>
-                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                        <hora name="p_hora">Lorem magna laudantium sit per</hora>
+                        <nome name="p_nome">Amet adipiscing aperiam aliqua</nome>
+                        <balcao name="p_balcao">Ipsum accusantium sed sed rem</balcao>
+                        <servico name="p_servico">Accusantium sed amet mollit to</servico>
+                        <estado name="p_estado">Ipsum perspiciatis aliqua pers</estado>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
+                    </row>
+                    <row>
+                        <dia name="p_dia"/>
+                        <hora name="p_hora">Rem doloremque adipiscing dolo</hora>
+                        <nome name="p_nome">Doloremque consectetur rem ut</nome>
+                        <balcao name="p_balcao">Lorem amet laudantium amet omn</balcao>
+                        <servico name="p_servico">Mollit rem dolor rem omnis</servico>
+                        <estado name="p_estado">Mollit officia totam magna omn</estado>
+                        <id name="p_id" check="true" desc="true">1</id>
+                        <id_desc name="p_id_desc">1</id_desc>
                     </row>
                 </value>
             </table>

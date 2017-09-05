@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.pesquisarperfil;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -12,7 +14,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
+/*---- End ----*/
 
 public class PesquisarPerfilController extends Controller {		
 
@@ -24,7 +26,7 @@ public class PesquisarPerfilController extends Controller {
 			model.load();
 		}		
 		//Preenchendo a tabela
-		for(ProfileType p:profile_db.find().andWhere("application", "=", model.getAplicacao()).andWhere("organization", "=", model.getOrgania()).all()){
+		for(ProfileType p:profile_db.find().andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null).andWhere("organization", "=",model.getOrgania()!=0? model.getOrgania():null).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil().new Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());

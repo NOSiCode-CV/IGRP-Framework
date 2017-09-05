@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="XSL-generator.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <separatorlist_1 type="separatorlist" structure="fields">
+            <fields>
+                <text_1 name="p_text_1" type="text" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true" placeholder="">
+                    <label>Text</label>
+                    <value>Sed anim aliqua ipsum officia</value>
+                </text_1>
+                <email_1 name="p_email_1" type="email" required="false" change="false" readonly="false" disabled="false" maxlength="30" right="false" table="true" placeholder="">
+                    <label>Email</label>
+                    <value>et@example.com</value>
+                </email_1>
+                <checkbox_1 name="p_checkbox_1" type="checkbox" required="false" change="false" readonly="false" disabled="false" right="false" table="true">
+                    <label>Checkbox</label>
+                    <value>1</value>
+                </checkbox_1>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <text_1 name="p_text_1">Dolor elit stract perspiciatis elit</text_1>
+                        <text_1_desc name="p_text_1_desc">Dolor elit stract perspiciatis elit</text_1_desc>
+                        <email_1 name="p_email_1">unuepium@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">unuepium@example.com</email_1_desc>
+                        <checkbox_1 name="p_checkbox_1">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Omnis aliqua voluptatem rem stract</text_1>
+                        <text_1_desc name="p_text_1_desc">Omnis aliqua voluptatem rem stract</text_1_desc>
+                        <email_1 name="p_email_1">tisoz@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">tisoz@example.com</email_1_desc>
+                        <checkbox_1 name="p_checkbox_1">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Consectetur sit perspiciatis deserunt iste</text_1>
+                        <text_1_desc name="p_text_1_desc">Consectetur sit perspiciatis deserunt iste</text_1_desc>
+                        <email_1 name="p_email_1">bur@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">bur@example.com</email_1_desc>
+                        <checkbox_1 name="p_checkbox_1">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                    <row>
+                        <text_1 name="p_text_1">Mollit ipsum elit natus officia</text_1>
+                        <text_1_desc name="p_text_1_desc">Mollit ipsum elit natus officia</text_1_desc>
+                        <email_1 name="p_email_1">ji@example.com</email_1>
+                        <email_1_desc name="p_email_1_desc">ji@example.com</email_1_desc>
+                        <checkbox_1 name="p_checkbox_1">1</checkbox_1>
+                        <checkbox_1_desc name="p_checkbox_1_desc">1</checkbox_1_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+        <sectionheader_1 type="form" structure="text">
+            <fields>
+                <sectionheader_1 maxlength="100">
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </sectionheader_1>
+            </fields>
+        </sectionheader_1>
+        <chart_1 type="chart" structure="graphic" title="Chart">
+            <caption/>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#f2d9fa</col>
+                <col>#20b32d</col>
+                <col>#bf8b1b</col>
+                <col>#5c33a6</col>
+            </colors>
+        </chart_1>
+        <tabcontent_1 type="toolsbar" structure="tabs">
+            <item name="tab_item_1">
+                <title>Tab Item 1</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+            <item name="tab_item_2">
+                <title>Tab Item 2</title>
+                <img>fa-dot-circle-o</img>
+            </item>
+        </tabcontent_1>
+        <carousel_1 type="carousel" structure="items">
+            <item type="specific" code="" rel="img_1" class="default">
+                <title>Img</title>
+                <app/>
+                <page/>
+                <link/>
+                <target/>
+                <img>http://www.slidesjs.com/examples/callbacks/img/example-slide-1.jpg</img>
+                <params>default|http://www.slidesjs.com/examples/callbacks/img/example-slide-1.jpg|www</params>
+            </item>
+        </carousel_1>
+        <paragraph_1 type="form" structure="text">
+            <fields>
+                <paragraph_1 maxlength="100">
+                    <value>
+                        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodtempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]]>
+                    </value>
+                </paragraph_1>
+            </fields>
+        </paragraph_1>
+    </content>
+</rows>

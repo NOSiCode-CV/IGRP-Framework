@@ -7,28 +7,36 @@ import java.util.ArrayList;
 public class Agendar extends Model{		
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
-	@RParam(rParamName = "p_entidade")
-	private String entidade;
-	@RParam(rParamName = "p_servico")
-	private String servico;
-	@RParam(rParamName = "p_balcao")
-	private String balcao;
-	@RParam(rParamName = "p_data")
-	private String data;
-	@RParam(rParamName = "p_hora")
-	private String hora;
-	@RParam(rParamName = "p_nome")
-	private String nome;
+	@RParam(rParamName = "p_requerente")
+	private String requerente;
 	@RParam(rParamName = "p_tipo_documento_de_identificacao")
 	private String tipo_documento_de_identificacao;
 	@RParam(rParamName = "p_documento_de_identificacao")
-	private float documento_de_identificacao;
+	private String documento_de_identificacao;
 	@RParam(rParamName = "p_email")
 	private String email;
 	@RParam(rParamName = "p_telemovel")
-	private float telemovel;
+	private String telemovel;
 	@RParam(rParamName = "p_telefone")
-	private float telefone;
+	private String telefone;
+	@RParam(rParamName = "p_notificacao")
+	private int notificacao;
+	@RParam(rParamName = "p_agenda_fk")
+	private String[] p_agenda_fk;
+	@RParam(rParamName = "p_agenda_fk_desc")
+	private String[] p_agenda_fk_desc;
+	@RParam(rParamName = "p_data_fk")
+	private String[] p_data_fk;
+	@RParam(rParamName = "p_data_fk_desc")
+	private String[] p_data_fk_desc;
+	@RParam(rParamName = "p_hora_fk")
+	private String[] p_hora_fk;
+	@RParam(rParamName = "p_hora_fk_desc")
+	private String[] p_hora_fk_desc;
+	@RParam(rParamName = "p_nome_fk")
+	private String[] p_nome_fk;
+	@RParam(rParamName = "p_nome_fk_desc")
+	private String[] p_nome_fk_desc;
 
 	private ArrayList<Separatorlist_2> separatorlist_2 = new ArrayList<>();
 	public void setSeparatorlist_2(ArrayList<Separatorlist_2> separatorlist_2){
@@ -36,14 +44,6 @@ public class Agendar extends Model{
 	}
 	public ArrayList<Separatorlist_2> getseparatorlist_2(){
 		return this.separatorlist_2;
-	}
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
-		this.table_1 = table_1;
-	}
-	public ArrayList<Table_1> gettable_1(){
-		return this.table_1;
 	}
 	
 	public void setPage_title_text(String page_title_text){
@@ -53,46 +53,11 @@ public class Agendar extends Model{
 		return this.page_title_text;
 	}
 	
-	public void setEntidade(String entidade){
-		this.entidade = entidade;
+	public void setRequerente(String requerente){
+		this.requerente = requerente;
 	}
-	public String getEntidade(){
-		return this.entidade;
-	}
-	
-	public void setServico(String servico){
-		this.servico = servico;
-	}
-	public String getServico(){
-		return this.servico;
-	}
-	
-	public void setBalcao(String balcao){
-		this.balcao = balcao;
-	}
-	public String getBalcao(){
-		return this.balcao;
-	}
-	
-	public void setData(String data){
-		this.data = data;
-	}
-	public String getData(){
-		return this.data;
-	}
-	
-	public void setHora(String hora){
-		this.hora = hora;
-	}
-	public String getHora(){
-		return this.hora;
-	}
-	
-	public void setNome(String nome){
-		this.nome = nome;
-	}
-	public String getNome(){
-		return this.nome;
+	public String getRequerente(){
+		return this.requerente;
 	}
 	
 	public void setTipo_documento_de_identificacao(String tipo_documento_de_identificacao){
@@ -102,10 +67,10 @@ public class Agendar extends Model{
 		return this.tipo_documento_de_identificacao;
 	}
 	
-	public void setDocumento_de_identificacao(float documento_de_identificacao){
+	public void setDocumento_de_identificacao(String documento_de_identificacao){
 		this.documento_de_identificacao = documento_de_identificacao;
 	}
-	public float getDocumento_de_identificacao(){
+	public String getDocumento_de_identificacao(){
 		return this.documento_de_identificacao;
 	}
 	
@@ -116,93 +81,145 @@ public class Agendar extends Model{
 		return this.email;
 	}
 	
-	public void setTelemovel(float telemovel){
+	public void setTelemovel(String telemovel){
 		this.telemovel = telemovel;
 	}
-	public float getTelemovel(){
+	public String getTelemovel(){
 		return this.telemovel;
 	}
 	
-	public void setTelefone(float telefone){
+	public void setTelefone(String telefone){
 		this.telefone = telefone;
 	}
-	public float getTelefone(){
+	public String getTelefone(){
 		return this.telefone;
 	}
-
-
-	public class Table_1{
-		private String tipo_requisito;
-		private String descritivo;
-		private String formulario;
-		public void setTipo_requisito(String tipo_requisito){
-			this.tipo_requisito = tipo_requisito;
-		}
-		public String getTipo_requisito(){
-			return this.tipo_requisito;
-		}
-
-		public void setDescritivo(String descritivo){
-			this.descritivo = descritivo;
-		}
-		public String getDescritivo(){
-			return this.descritivo;
-		}
-
-		public void setFormulario(String formulario){
-			this.formulario = formulario;
-		}
-		public String getFormulario(){
-			return this.formulario;
-		}
-
+	
+	public void setNotificacao(int notificacao){
+		this.notificacao = notificacao;
 	}
-	public class Separatorlist_2{
-		private String entidade;
-		private String servico;
-		private String balcao;
-		private String data;
-		private String hora;
-		private String nome;
-		public void setEntidade(String entidade){
-			this.entidade = entidade;
+	public int getNotificacao(){
+		return this.notificacao;
+	}
+	
+	public void setP_agenda_fk(String[] p_agenda_fk){
+		this.p_agenda_fk = p_agenda_fk;
+	}
+	public String[] getP_agenda_fk(){
+		return this.p_agenda_fk;
+	}
+	
+	public void setP_agenda_fk_desc(String[] p_agenda_fk_desc){
+		this.p_agenda_fk_desc = p_agenda_fk_desc;
+	}
+	public String[] getP_agenda_fk_desc(){
+		return this.p_agenda_fk_desc;
+	}
+	
+	public void setP_data_fk(String[] p_data_fk){
+		this.p_data_fk = p_data_fk;
+	}
+	public String[] getP_data_fk(){
+		return this.p_data_fk;
+	}
+	
+	public void setP_data_fk_desc(String[] p_data_fk_desc){
+		this.p_data_fk_desc = p_data_fk_desc;
+	}
+	public String[] getP_data_fk_desc(){
+		return this.p_data_fk_desc;
+	}
+	
+	public void setP_hora_fk(String[] p_hora_fk){
+		this.p_hora_fk = p_hora_fk;
+	}
+	public String[] getP_hora_fk(){
+		return this.p_hora_fk;
+	}
+	
+	public void setP_hora_fk_desc(String[] p_hora_fk_desc){
+		this.p_hora_fk_desc = p_hora_fk_desc;
+	}
+	public String[] getP_hora_fk_desc(){
+		return this.p_hora_fk_desc;
+	}
+	
+	public void setP_nome_fk(String[] p_nome_fk){
+		this.p_nome_fk = p_nome_fk;
+	}
+	public String[] getP_nome_fk(){
+		return this.p_nome_fk;
+	}
+	
+	public void setP_nome_fk_desc(String[] p_nome_fk_desc){
+		this.p_nome_fk_desc = p_nome_fk_desc;
+	}
+	public String[] getP_nome_fk_desc(){
+		return this.p_nome_fk_desc;
+	}
+
+
+	public static class Separatorlist_2{
+		private Pair agenda;
+		private Pair data;
+		private Pair hora;
+		private Pair nome;
+		public static class Pair{
+		
+			private String key;
+			private String value;
+			
+			public Pair() {}
+			
+			public Pair(String key, String value) {
+				this.key = key;
+				this.value = value;
+			}
+			
+			public String getKey() {
+				return key;
+			}
+			public void setKey(String key) {
+				this.key = key;
+			}
+			public String getValue() {
+				return value;
+			}
+			public void setValue(String value) {
+				this.value = value;
+			}
+			
+			@Override
+			public String toString() {
+				return this.key + "_" + this.value;
+			}
 		}
-		public String getEntidade(){
-			return this.entidade;
+ 		
+		public void setAgenda(Pair agenda){
+			this.agenda = agenda;
+		}
+		public Pair getAgenda(){
+			return this.agenda;
 		}
 
-		public void setServico(String servico){
-			this.servico = servico;
-		}
-		public String getServico(){
-			return this.servico;
-		}
-
-		public void setBalcao(String balcao){
-			this.balcao = balcao;
-		}
-		public String getBalcao(){
-			return this.balcao;
-		}
-
-		public void setData(String data){
+		public void setData(Pair data){
 			this.data = data;
 		}
-		public String getData(){
+		public Pair getData(){
 			return this.data;
 		}
 
-		public void setHora(String hora){
+		public void setHora(Pair hora){
 			this.hora = hora;
 		}
-		public String getHora(){
+		public Pair getHora(){
 			return this.hora;
 		}
 
-		public void setNome(String nome){
+		public void setNome(Pair nome){
 			this.nome = nome;
 		}
-		public String getNome(){
+		public Pair getNome(){
 			return this.nome;
 		}
 

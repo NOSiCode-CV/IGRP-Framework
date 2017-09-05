@@ -1,14 +1,14 @@
 <div class="box clearfix view-block" has-img="#[img]#">
 	<div class="box-body">
 		
-		<xsl:if test="#path#/fields/view_img">
-            <img src="{#path#/fields/view_img}"/>
+		<xsl:if test="#path#/fields/#tag#_img">
+            <img src="{#path#/fields/#tag#_img/value}"/>
         </xsl:if>
-
+        
         <div class="view-body clearfix " gen-id="drop-zone" >
         
         </div>
-   
+
 
 	</div>
 </div>

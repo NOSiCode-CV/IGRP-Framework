@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/req_servicos/REQ_SERVICOS.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -47,9 +48,10 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <servico name="p_servico" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Serviço</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -70,11 +72,12 @@
                 </servico>
             </fields>
         </form_1>
-        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-type="container" gen-group="true">
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-clean="true" gen-type="container" gen-group="true">
             <fields>
-                <tipo_requisito name="p_tipo_requisito" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" desc="true">
+                <tipo_requisito name="p_tipo_requisito" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" visible="true" domain="" desc="true">
                     <label>Tipo Requisito</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -93,48 +96,56 @@
                         </option>
                     </list>
                 </tipo_requisito>
-                <upload name="p_upload" type="file" accept="file_extension" multiple="false" maxlength="30" required="false" disabled="false" right="false" visible="true" class="primary" desc="true">
+                <upload name="p_upload" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="false" disabled="false" right="false" visible="true" class="default" desc="true">
                     <label>Upload</label>
                     <value/>
                 </upload>
                 <descritivo name="p_descritivo" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" visible="true" desc="true">
                     <label>Descritivo</label>
-                    <value>Voluptatem ipsum elit voluptatem consectetur accusantium elit amet iste accusantium natus omnis doloremque aliqua ipsum</value>
+                    <value>Mollit adipiscing aliqua rem s</value>
                 </descritivo>
             </fields>
             <table>
                 <value>
                     <row>
-                        <tipo_requisito name="p_tipo_requisito" desc="true"/>
-                        <tipo_requisito_desc name="p_tipo_requisito_desc"/>
+                        <tipo_requisito name="p_tipo_requisito" desc="true">2</tipo_requisito>
+                        <tipo_requisito_desc name="p_tipo_requisito_desc">2</tipo_requisito_desc>
                         <upload name="p_upload" desc="true"/>
                         <upload_desc name="p_upload_desc"/>
-                        <descritivo name="p_descritivo" desc="true">Amet omnis aliqua adipiscing perspiciatis iste natus labore voluptatem stract sit laudantium ipsum accusantium perspiciatis</descritivo>
-                        <descritivo_desc name="p_descritivo_desc">Amet omnis aliqua adipiscing perspiciatis iste natus labore voluptatem stract sit laudantium ipsum accusantium perspiciatis</descritivo_desc>
+                        <descritivo name="p_descritivo" desc="true">Laudantium aliqua omnis anim s</descritivo>
+                        <descritivo_desc name="p_descritivo_desc">Laudantium aliqua omnis anim s</descritivo_desc>
                     </row>
                     <row>
-                        <tipo_requisito name="p_tipo_requisito" desc="true"/>
-                        <tipo_requisito_desc name="p_tipo_requisito_desc"/>
+                        <tipo_requisito name="p_tipo_requisito" desc="true">2</tipo_requisito>
+                        <tipo_requisito_desc name="p_tipo_requisito_desc">2</tipo_requisito_desc>
                         <upload name="p_upload" desc="true"/>
                         <upload_desc name="p_upload_desc"/>
-                        <descritivo name="p_descritivo" desc="true">Omnis unde perspiciatis anim stract sit dolor sed labore magna aperiam unde iste voluptatem sed</descritivo>
-                        <descritivo_desc name="p_descritivo_desc">Omnis unde perspiciatis anim stract sit dolor sed labore magna aperiam unde iste voluptatem sed</descritivo_desc>
+                        <descritivo name="p_descritivo" desc="true">Ut labore perspiciatis ut tota</descritivo>
+                        <descritivo_desc name="p_descritivo_desc">Ut labore perspiciatis ut tota</descritivo_desc>
                     </row>
                     <row>
-                        <tipo_requisito name="p_tipo_requisito" desc="true"/>
-                        <tipo_requisito_desc name="p_tipo_requisito_desc"/>
+                        <tipo_requisito name="p_tipo_requisito" desc="true">2</tipo_requisito>
+                        <tipo_requisito_desc name="p_tipo_requisito_desc">2</tipo_requisito_desc>
                         <upload name="p_upload" desc="true"/>
                         <upload_desc name="p_upload_desc"/>
-                        <descritivo name="p_descritivo" desc="true">Stract omnis perspiciatis rem accusantium sit deserunt dolor stract rem adipiscing stract rem mollit anim</descritivo>
-                        <descritivo_desc name="p_descritivo_desc">Stract omnis perspiciatis rem accusantium sit deserunt dolor stract rem adipiscing stract rem mollit anim</descritivo_desc>
+                        <descritivo name="p_descritivo" desc="true">Lorem magna omnis deserunt dol</descritivo>
+                        <descritivo_desc name="p_descritivo_desc">Lorem magna omnis deserunt dol</descritivo_desc>
                     </row>
                     <row>
-                        <tipo_requisito name="p_tipo_requisito" desc="true"/>
-                        <tipo_requisito_desc name="p_tipo_requisito_desc"/>
+                        <tipo_requisito name="p_tipo_requisito" desc="true">2</tipo_requisito>
+                        <tipo_requisito_desc name="p_tipo_requisito_desc">2</tipo_requisito_desc>
                         <upload name="p_upload" desc="true"/>
                         <upload_desc name="p_upload_desc"/>
-                        <descritivo name="p_descritivo" desc="true">Labore omnis magna natus mollit laudantium anim elit iste natus ut natus iste rem unde</descritivo>
-                        <descritivo_desc name="p_descritivo_desc">Labore omnis magna natus mollit laudantium anim elit iste natus ut natus iste rem unde</descritivo_desc>
+                        <descritivo name="p_descritivo" desc="true">Labore voluptatem sed labore a</descritivo>
+                        <descritivo_desc name="p_descritivo_desc">Labore voluptatem sed labore a</descritivo_desc>
+                    </row>
+                    <row>
+                        <tipo_requisito name="p_tipo_requisito" desc="true">2</tipo_requisito>
+                        <tipo_requisito_desc name="p_tipo_requisito_desc">2</tipo_requisito_desc>
+                        <upload name="p_upload" desc="true"/>
+                        <upload_desc name="p_upload_desc"/>
+                        <descritivo name="p_descritivo" desc="true">Unde consectetur natus elit se</descritivo>
+                        <descritivo_desc name="p_descritivo_desc">Unde consectetur natus elit se</descritivo_desc>
                     </row>
                 </value>
             </table>
@@ -142,13 +153,21 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>agenda</app>
-                <page>AddServicos</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>success|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/agenda/addservicos/AddServicos.xsl</parameter>
-                <params>success||fa-save|www</params>
+                <parameter>undefined</parameter>
+            </item>
+            <item type="specific" code="" rel="listar_requisitos">
+                <title>Listar Requisitos</title>
+                <app>agenda</app>
+                <page>LST_ENTIDADE</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>default|fa-list</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/lst_entidade/LST_ENTIDADE.xsl</parameter>
             </item>
         </toolsbar_1>
     </content>

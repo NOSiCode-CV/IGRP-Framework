@@ -42,11 +42,11 @@ public class AGDashboardView extends View {
 		form_1 = new IGRPForm("form_1");
 		box_1 = new IGRPBox("box_1");
 		agendamentos_do_dia = new IGRPStartBox("agendamentos_do_dia");
-		chart_1 = new IGRPChart("chart_1","Agendamentos por balc√£o");
+		chart_1 = new IGRPChart("chart_1","Agendamentos por balc„o");
 		agendamentos_atendidos = new IGRPCircleStatBox("agendamentos_atendidos");
 		box_2 = new IGRPBox("box_2");
 		chart_2 = new IGRPChart("chart_2","Agendamentos por assunto");
-		chart_5 = new IGRPChart("chart_5","Agendamento por Servi√ßo");
+		chart_5 = new IGRPChart("chart_5","Agendamento por ServiÁo");
 		chart_3 = new IGRPChart("chart_3","Agendamentos por estado");
 		entidade = new LookupField(model,"entidade");
 		entidade.setLabel("Entidade");
@@ -55,7 +55,7 @@ public class AGDashboardView extends View {
 		data_de_.setLabel("Data de ");
 		data_de_.propertie().add("name","p_data_de_").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
 		data_ate = new DateField(model,"data_ate");
-		data_ate.setLabel("Data at√©");
+		data_ate.setLabel("Data atÈ");
 		data_ate.propertie().add("name","p_data_ate").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","primary");
 		agendamentos_do_dia_tit = new TextField(model,"agendamentos_do_dia_tit");
 		agendamentos_do_dia_tit.setLabel("Box Title");

@@ -3,6 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.session;
+/*---- Import your packages here... ----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/*---- End ----*/
 public class SessionController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "dad") String dad) throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
@@ -27,7 +29,7 @@ public class SessionController extends Controller {
 			model.load();
 		}		
 		ArrayList<Session.Table_1> data = new ArrayList<>();
-		List<nosi.webapps.igrp.dao.Session> sessions = session.find().andWhere("application", "=", model.getAplicacao())
+		List<nosi.webapps.igrp.dao.Session> sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 																	 .andWhere("user.user_name", "=", model.getUtilizador())
 																	 .andWhere("user.status", "=", model.getEstado())
 																	 .andWhere("startTime", "=", model.getData_inicio() != null && !model.getData_inicio().equals("") ? auxFormat.parse(model.getData_inicio()).getTime() : 0)

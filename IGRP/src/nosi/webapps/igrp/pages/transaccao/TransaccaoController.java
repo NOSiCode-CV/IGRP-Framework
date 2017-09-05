@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp.pages.transaccao;
+/*---- Import your packages here... ----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*---- End ----*/
 public class TransaccaoController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

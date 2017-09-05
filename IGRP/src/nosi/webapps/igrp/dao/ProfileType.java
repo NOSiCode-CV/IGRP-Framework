@@ -51,7 +51,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="PROFILE_TYPE_SELF_FK"))
 	private ProfileType profiletype;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="profileType")
 	private List<Profile> profiles;
 	
 	public ProfileType(){}

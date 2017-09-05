@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/*---- End ----*/
 
 public class PesquisarUtilizadorController extends Controller {		
 
@@ -28,9 +31,9 @@ public class PesquisarUtilizadorController extends Controller {
 		Profile prof = new Profile();
 		List<Profile> profiles = prof.find().andWhere("type","=", "PROF")
 											.andWhere("user.user_name", "=", model.getUsername())
-											.andWhere("organization", "=", model.getOrganica())
-											.andWhere("profileType", "=", model.getPerfil())
-											.andWhere("profileType.application", "=", model.getAplicacao())
+											.andWhere("organization", "=",model.getOrganica()!=0? model.getOrganica():null)
+											.andWhere("profileType", "=",model.getPerfil()!=0? model.getPerfil():null)
+											.andWhere("profileType.application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 											.andWhere("user.email", "=", model.getEmail())
 											.all();
 		//Preenchendo a tabela

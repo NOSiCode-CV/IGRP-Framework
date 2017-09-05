@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/marcacao_consulta/dashboard/DashBoard.xsl" type="text/xsl"?>
+<rows>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DashBoard</page>
+    <app>marcacao_consulta</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.marcacao_consulta.pages</package_db>
+        <package_html>DashBoard</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Dashboard</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="nova_consulta">
+                <title>Nova Consulta</title>
+                <app>marcacao_consulta</app>
+                <page>MarcarConsulta</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-plus-circle</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/marcacao_consulta/marcarconsulta/MarcarConsulta.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <chart_1 type="chart" xml-type="chart" title="Consulta por Sexo" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>pie</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#fa4620</col>
+                <col>#fff9c6</col>
+                <col>#14ab6f</col>
+                <col>#ca2491</col>
+            </colors>
+        </chart_1>
+        <chart_2 type="chart" xml-type="chart" title="Consulta por Sexo ao Longo do Ano" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#18dc24</col>
+                <col>#109670</col>
+                <col>#89abcc</col>
+                <col>#ed7fca</col>
+            </colors>
+        </chart_2>
+    </content>
+</rows>

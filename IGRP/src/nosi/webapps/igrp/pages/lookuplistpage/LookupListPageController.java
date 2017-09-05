@@ -3,11 +3,11 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.lookuplistpage;
+
+/*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 
-
-/*---- Import your packages here... ----*/
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
@@ -28,7 +28,7 @@ public class LookupListPageController extends Controller {
 			model.load();		
 		}
 		List<Action> listActions = new Action().find()
-											   .andWhere("application", "=", model.getEnv_fk())
+											   .andWhere("application", "=",model.getEnv_fk()!=0? model.getEnv_fk():null)
 											   .andWhere("page", "like", model.getPage())
 											   .andWhere("page_descr", "like", model.getPage_descr())
 											   .all();

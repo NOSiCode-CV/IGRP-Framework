@@ -58,7 +58,7 @@ public class FileHelper {
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 			try {
-				File file = new File(path+"/"+file_name);
+				File file = new File(path+File.separator+file_name);
 				// if file doesnt exists, then create it
 				if (!file.exists()) {
 					file.createNewFile();
@@ -109,7 +109,7 @@ public class FileHelper {
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
-		fileName = basePath+"/"+fileName;
+		fileName = basePath+File.separator+fileName;
 		if(fileExists(fileName)){
 			try {
 				InputStream is = new FileInputStream(new File(fileName));				
@@ -127,8 +127,6 @@ public class FileHelper {
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}
-		}else{
-			System.err.println("File not found");
 		}
 		return code.toString();
 	}

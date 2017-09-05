@@ -46,9 +46,9 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	@JoinColumn(name="self_fk",foreignKey=@ForeignKey(name="ORGANIZATION_SELF_FK"),nullable=true)
 	private Organization organization;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
 	private List<ProfileType> profilesType;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
 	private List<Profile> profiles;
 	
 	public Organization(){}

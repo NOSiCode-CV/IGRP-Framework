@@ -10,6 +10,11 @@
     min-height: 57px;
 }
 
+.small-box .huge+div {
+    min-height: 40px;
+    margin-top: 10px;
+}
+
 .small-box .sb-icon{
 	position: absolute;
 	left: 20px;

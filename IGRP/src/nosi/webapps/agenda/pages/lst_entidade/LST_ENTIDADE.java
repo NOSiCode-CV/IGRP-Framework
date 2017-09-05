@@ -7,8 +7,6 @@ import java.util.ArrayList;
 public class LST_ENTIDADE extends Model{		
 	@RParam(rParamName = "p_entidade")
 	private String entidade;
-	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -24,19 +22,12 @@ public class LST_ENTIDADE extends Model{
 	public String getEntidade(){
 		return this.entidade;
 	}
-	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
-	}
-	public String getAplicacao(){
-		return this.aplicacao;
-	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String entidade;
-		private String aplicacao;
-		private String filter;
+		private String estado;
+		private String p_id;
 		public void setEntidade(String entidade){
 			this.entidade = entidade;
 		}
@@ -44,18 +35,18 @@ public class LST_ENTIDADE extends Model{
 			return this.entidade;
 		}
 
-		public void setAplicacao(String aplicacao){
-			this.aplicacao = aplicacao;
+		public void setEstado(String estado){
+			this.estado = estado;
 		}
-		public String getAplicacao(){
-			return this.aplicacao;
+		public String getEstado(){
+			return this.estado;
 		}
 
-		public void setFilter(String filter){
-			this.filter = filter;
+		public void setP_id(String p_id){
+			this.p_id = p_id;
 		}
-		public String getFilter(){
-			return this.filter;
+		public String getP_id(){
+			return this.p_id;
 		}
 
 	}

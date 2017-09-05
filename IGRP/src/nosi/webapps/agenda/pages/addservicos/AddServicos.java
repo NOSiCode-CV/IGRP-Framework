@@ -2,23 +2,20 @@
 package nosi.webapps.agenda.pages.addservicos;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import java.util.ArrayList;
 
 public class AddServicos extends Model{		
 	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
 	@RParam(rParamName = "p_entidade")
-	private String entidade;
-	@RParam(rParamName = "p_balcao")
-	private String balcao;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
-		this.table_1 = table_1;
-	}
-	public ArrayList<Table_1> gettable_1(){
-		return this.table_1;
-	}
+	private int entidade;
+	@RParam(rParamName = "p_nome_do_servico")
+	private String nome_do_servico;
+	@RParam(rParamName = "p_codigo_do_servico")
+	private String codigo_do_servico;
+	@RParam(rParamName = "p_estado")
+	private String estado;
+	@RParam(rParamName = "p_assunto")
+	private String assunto;
 	
 	public void setPage_title_text(String page_title_text){
 		this.page_title_text = page_title_text;
@@ -27,45 +24,41 @@ public class AddServicos extends Model{
 		return this.page_title_text;
 	}
 	
-	public void setEntidade(String entidade){
+	public void setEntidade(int entidade){
 		this.entidade = entidade;
 	}
-	public String getEntidade(){
+	public int getEntidade(){
 		return this.entidade;
 	}
 	
-	public void setBalcao(String balcao){
-		this.balcao = balcao;
+	public void setNome_do_servico(String nome_do_servico){
+		this.nome_do_servico = nome_do_servico;
 	}
-	public String getBalcao(){
-		return this.balcao;
+	public String getNome_do_servico(){
+		return this.nome_do_servico;
+	}
+	
+	public void setCodigo_do_servico(String codigo_do_servico){
+		this.codigo_do_servico = codigo_do_servico;
+	}
+	public String getCodigo_do_servico(){
+		return this.codigo_do_servico;
+	}
+	
+	public void setEstado(String estado){
+		this.estado = estado;
+	}
+	public String getEstado(){
+		return this.estado;
+	}
+	
+	public void setAssunto(String assunto){
+		this.assunto = assunto;
+	}
+	public String getAssunto(){
+		return this.assunto;
 	}
 
 
-	public class Table_1{
-		private String servicos;
-		private int checkbox_1;
-		private int checkbox_1_check;
-		public void setServicos(String servicos){
-			this.servicos = servicos;
-		}
-		public String getServicos(){
-			return this.servicos;
-		}
-
-		public void setCheckbox_1(int checkbox_1){
-			this.checkbox_1 = checkbox_1;
-		}
-		public int getCheckbox_1(){
-			return this.checkbox_1;
-		}
-		public void setCheckbox_1_check(int checkbox_1_check){
-			this.checkbox_1_check = checkbox_1_check;
-		}
-		public int getCheckbox_1_check(){
-			return this.checkbox_1_check;
-		}
-
-	}
 }
 /*-------------------------*/

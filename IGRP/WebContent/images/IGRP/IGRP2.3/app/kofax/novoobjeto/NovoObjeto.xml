@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/kofax/novoobjeto/NovoObjeto.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>NovoObjeto</page>
+    <app>kofax</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.kofax.pages</package_db>
+        <package_html>NovoObjeto</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Registar Novo Objeto</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <parameter>undefined</parameter>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <organica name="p_organica" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Organica</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <objeto name="p_objeto" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Objeto</label>
+                    <value>Deserunt sed elit amet unde</value>
+                </objeto>
+                <default_page name="p_default_page" type="radiolist" domain="" maxlength="30" required="true" change="false" readonly="false" disabled="false" child_size="12" right="false">
+                    <label>Default Page</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </default_page>
+                <preencher_automatico name="p_preencher_automatico" type="radiolist" domain="" maxlength="30" required="true" change="false" readonly="false" disabled="false" child_size="12" right="false">
+                    <label>Preencher automático</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </preencher_automatico>
+                <pagina name="p_pagina" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Pagina</label>
+                    <value>23</value>
+                </pagina>
+                <formato_output name="p_formato_output" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Formato output</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </formato_output>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <hidden name="p_estado" type="hidden" maxlength="30" tag="estado"/>
+            </fields>
+        </form_1>
+        <separatorlist_1 type="separatorlist" xml-type="separatorlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <campo name="p_campo" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Campo</label>
+                    <value>Anim natus sit ut anim</value>
+                </campo>
+                <estado name="p_estado" type="hidden" maxlength="30" tag="estado" desc="true"/>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <campo name="p_campo" desc="true">Ipsum iste amet sit stract</campo>
+                        <campo_desc name="p_campo_desc">Ipsum iste amet sit stract</campo_desc>
+                        <estado name="p_estado" tag="estado" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                    </row>
+                    <row>
+                        <campo name="p_campo" desc="true">Unde adipiscing sit doloremque dolor</campo>
+                        <campo_desc name="p_campo_desc">Unde adipiscing sit doloremque dolor</campo_desc>
+                        <estado name="p_estado" tag="estado" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                    </row>
+                    <row>
+                        <campo name="p_campo" desc="true">Sit magna officia rem iste</campo>
+                        <campo_desc name="p_campo_desc">Sit magna officia rem iste</campo_desc>
+                        <estado name="p_estado" tag="estado" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                    </row>
+                    <row>
+                        <campo name="p_campo" desc="true">Voluptatem magna aliqua deserunt labore</campo>
+                        <campo_desc name="p_campo_desc">Voluptatem magna aliqua deserunt labore</campo_desc>
+                        <estado name="p_estado" tag="estado" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                    </row>
+                    <row>
+                        <campo name="p_campo" desc="true">Deserunt natus aliqua unde elit</campo>
+                        <campo_desc name="p_campo_desc">Deserunt natus aliqua unde elit</campo_desc>
+                        <estado name="p_estado" tag="estado" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                    </row>
+                </value>
+            </table>
+        </separatorlist_1>
+    </content>
+</rows>

@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.registarutilizador;
+/*---- Import your packages here... ----*/
+
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import nosi.core.webapp.Controller;
@@ -12,7 +14,7 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 
-
+/*---- End ----*/
 public class RegistarUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{

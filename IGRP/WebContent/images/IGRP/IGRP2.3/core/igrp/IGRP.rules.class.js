@@ -2,99 +2,139 @@
 if($ && $.IGRP && !$.IGRP.rules){
 
 	$.IGRP.rules = {
+		
 		satisfy:function(p){
-			var rtn = false;
-			var fieldValue = $(p.field).val();
-			
-			p.fieldValue = $(p.field).val();
-			
+			var rtn 		= false,
+				field 		= $(p.field),
+				type  		= field.attr('type'),
+				fieldValue 	= field.val(),
+				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
+
+			if (type == 'radio') {
+				fieldValue =  $('input[name="'+field.attr('name')+'"]:checked').val();
+			}
+
+			p.fieldValue = fieldValue;
+
 			try{
-				rtn = p.condition ? p.condition.satisfy(p)/*p.condition.satisfy(fieldValue,p.testValue)*/ : false;
+				rtn = condition ? condition.satisfy(p)/*p.condition.satisfy(fieldValue,p.testValue)*/ : true;
 			}catch(err){
 				console.log(err);
 			}
 
 			return rtn;
 		},
+
 		executeAction:function(p){
 			//var rule = p;
 			try{
-
-				actionsList[p.action].do(p);
+				if(actionsList[p.action])
+					actionsList[p.action].do(p);
 				//actionsList[p.action].do(target,p);
 			}catch(err){
 				console.log(err);
-			}
-			
+			}			
 		},
-		set:function(data){
 
-			for(var fname in data){
-				var rules = data[fname];
-				
-				rules.forEach(function(r){
+		set:function(data,t){
+			var type = t || false;
+			if(!type)
+				for(var fname in data){
+		
+					var rules = data[fname];
+					//console.log(fname)
+					rules.forEach(function(r){
+						//console.log(r.name)
+						var targetNames = r.targets ? r.targets.split(',') : [];
+						var condition   = conditionsList[r.condition];
+						var hasOpposite = r.opposite == "1" ? true : false;
+						var source   	= r.isTable ? fname+'_fk' : fname;
+						var events      = r.event.split(',').join(' ');
+						
+						r.sourceName = source;
 
-					var targetNames = r.targets ? r.targets.split(',') : [];
-					var condition   = conditionsList[r.condition];
-					var hasOpposite = r.opposite == "1" ? true : false;
-					var source   	= r.isTable ? fname+'_fk' : fname;
-					
-					r.sourceName = source;
-					
-					if(condition){
+						//console.log(r)
 
-						switch(r.event){
-							case 'load':
-								
-								var field       = $('[name="'+fname+'"]')[0];
-								var satisfyRule = $.IGRP.rules.satisfy({
-									condition : condition,
-									field     : field,
+						if( events.indexOf('load') !== -1){
+							
+							var field       = $('[name="'+fname+'"]')[0];
+							
+							var satisfyRule = $.IGRP.rules.satisfy({
+								condition : condition,
+								field     : field,
+								rule      : r
+							});
+
+
+							if(satisfyRule) 
+								$.IGRP.rules.execute(r,field);
+						}
+							
+						$('body').on(events,'*[name="'+source+'"]',function(e){
+							
+							//console.log(e);
+
+							var satisfyRule = $.IGRP.rules.satisfy({
+								condition : condition,
+								field     : this,
+								rule      : r
+							});
+
+
+							if(satisfyRule) 
+								$.IGRP.rules.execute(r,this);
+
+							//opposite - contra regra
+							
+							if(hasOpposite && condition.opposite){
+
+								var oppositeRule = $.IGRP.rules.satisfy({
+									condition : conditionsList[condition.opposite],
+									field     : this,
 									rule      : r
 								});
 
-								if(satisfyRule) 
-									execute(r,field);
-							break;
-							default:
+								if(oppositeRule && actionsList[r.action].opposite ){
+									var oppositeParams = $.extend({},r);
+									oppositeParams.action = actionsList[r.action].opposite;
 
-								$('body').on(r.event,'*[name="'+source+'"]',function(e){
-									
-									var satisfyRule = $.IGRP.rules.satisfy({
-										condition : condition,
-										field     : this,
-										rule      : r
-									});
+									$.IGRP.rules.execute(oppositeParams, this);
+								}
+							}
+						});
 
+					});
+				}
+			else
+				$.IGRP.rules.set2(data);
+		},
 
-									if(satisfyRule) 
-										execute(r,this);
-									
-									//opposite - contra regra
-									if(hasOpposite && condition.opposite){
-
-										var oppositeRule = $.IGRP.rules.satisfy({
-											condition : conditionsList[condition.opposite],
-											field     : this,
-											rule      : r
-										});
-
-										if(oppositeRule && actionsList[r.action].opposite ){
-											var oppositeParams = $.extend({},r);
-											oppositeParams.action = actionsList[r.action].opposite;
-
-											execute(oppositeParams, this);
-										}
-									}
-								});
-						}
-					}
+		set2:function(data){
+			console.log(data)
+			for(var fname in data){
+				
+				var rules  = data[fname];
+				
+				rules.forEach(function(rule){
 					
-					//$('[name="'+source+'"]').trigger(r.event);
+					var events = rule.events.split(',');
 
-				});
+					var a      = rule.conditions.actions;
+
+					if( rule.events.indexOf('load') !== -1)
+
+						validateAndExecute($('[name="'+fname+'"]'),rule);
+
+					$(document).on(events.join(' '), '[name="'+fname+'"]',function(){
+						
+						validateAndExecute($(this),rule);
+						
+					});
+
+				})
 			}
 		},
+
 		setCondition:function(p){
 			if(!conditionsList[p.name]){
 				conditionsList[p.name] = {
@@ -104,6 +144,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 					conditionsList[p.name].opposite = p.opposite
 			}
 		},
+
 		setAction:function(){
 			if(!actionsList[p.name]){
 				actionsList[p.name] = {
@@ -112,22 +153,68 @@ if($ && $.IGRP && !$.IGRP.rules){
 				if(p.opposite)
 					actionsList[p.name].opposite = p.opposite;
 			}
-		}
-	}
+		},
 
-	var execute = function(r,field){
+		getTargets: function(targets,p){
+
+			var rtn = [];
+
+			var row = p.isTable ? $(p.sourceField).parents('tr')[0] : document.body;
+
+			if(targets){
+				
+				var targetNames = typeof targets == 'string' ? targets.split(',') : targets;
+
+				targetNames.forEach(function(t){
+
+					var target = $('*[item-name="'+t+'"]',row).not('th,td');
+
+					if(target[0]){
+						$.each(target,function(i,tr){
+							rtn.push( tr );
+						})
+						
+					}
+				});
+			}
+
+			return $(rtn);
+		}
+	};
+
+	$.IGRP.rules.execute2 = function(o){
+
+		o.targetFields = $.IGRP.rules.getTargets(o.targets,o);
+
+		o.sourceName  = o.sourceField.attr('name');
+		
+		$.IGRP.rules.executeAction(o);
+
+	};
+
+	$.IGRP.rules.execute = function(r,field){
 		
 		var ruleObj 	= $.extend(true, r, {});
 		
-		var targetNames = r.targets ? r.targets.split(',') : [];
+		var targetNames = typeof r.targets == 'string' ? r.targets.split(',') : r.targets;
 		
+		//$(field).data('r-executing', true);
+
+		//console.log(r);
+
+		//console.log(targetNames)
+
 		r.sourceField   = field;
 
-		r.targetFields 	=  getTargets(r.targets,r);
+		r.targetFields 	=  $.IGRP.rules.getTargets(r.targets,r);
+
+		//console.log(r);
 
 		$.IGRP.rules.executeAction(r);
 
-	}
+		//$(field).data('r-executing', false);
+
+	};
 
 	var conditionsList = {
 		equal:{
@@ -154,6 +241,21 @@ if($ && $.IGRP && !$.IGRP.rules){
 			},
 			opposite:'greater'
 		},
+		
+		checked:{
+			satisfy:function(r){
+				return $(r.field).is(':checked');
+			},
+			opposite:'unchecked'
+		},
+
+		unchecked:{
+			satisfy:function(r){
+				return !$(r.field).is(':checked');
+			},
+			opposite:'checked'
+		},
+
 		notnull:{
 			satisfy:function(r){
 				return r.fieldValue != null && r.fieldValue != '' && r.fieldValue != undefined;
@@ -216,6 +318,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		regexp:{
 			satisfy:function(r){
+				
 				return matchRegexp(r);
 			},
 			opposite:'notregexp'
@@ -227,12 +330,18 @@ if($ && $.IGRP && !$.IGRP.rules){
 			opposite:'regexp'
 		}
 
-	}
+	};
 
 	var actionsList = {
 		show:{
 			do:function(p){
 				
+				$.each(p.targetFields,function(i,t){
+
+					$('[required]',t).removeClass('no-required-validation');
+
+				});
+
 				p.targetFields.show();
 			
 			},
@@ -241,6 +350,13 @@ if($ && $.IGRP && !$.IGRP.rules){
 		hide:{
 			do:function(p){
 				
+				$.each(p.targetFields,function(i,t){
+					//console.log(t);
+					//console.log($('[required]',t));
+					$('[required]',t).addClass('no-required-validation');
+
+				});
+
 				p.targetFields.hide();
 
 			},
@@ -291,6 +407,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				var sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
 					var name = $(t).attr('item-name');
+					$(t).attr('required',true);
 					$('[name="p_'+name+sfx+'"]',t).attr('required',true);
 				});
 			},
@@ -301,6 +418,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 				var sfx = p.isTable ? '_fk' : '';
 				$.each(p.targetFields,function(i,t){
 					var name = $(t).attr('item-name');
+					$(t).removeAttr('required');
 					$('[name="p_'+name+sfx+'"]',t).removeAttr('required');
 				});
 			},
@@ -346,6 +464,8 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_combobox:{
 			do:function(p){
+				
+				console.log(p);
 
 				var param = p.sourceName+'='+$(p.sourceField).val();
 
@@ -387,8 +507,48 @@ if($ && $.IGRP && !$.IGRP.rules){
 				});
 
 			}
+		},
+		remote_list:{
+			do : function(p){
+				var actionURL	 = $("input[name='p_env_frm_url']").val() || window.location.href,
+					form		 = $.IGRP.utils.getForm();
+				
+				$.each( p.targetFields ,function(i,f){
+					var tableName = $(f).attr('item-name');
+					$.IGRP.utils.transformXMLNodes({
+					
+						nodes : [tableName],
+
+						url   : $.IGRP.utils.getSubmitParams(actionURL,form,false),
+
+						data  : form.serialize(),
+
+						success:function(c){
+
+							if($.IGRP.components.contextMenu)
+								$.IGRP.components.contextMenu.set( $('.gen-container-item[item-name="'+tableName+'"]') );
+
+						},
+
+						error:function(){
+							console.log('dsa')
+						}
+
+					});
+				});
+			}
+		},
+		cleanValue:{
+			do:function(p){
+				
+				$.each(p.targetFields,function(i,t){
+					$('input,select,textarea',t).val('');
+				});
+
+			}
 		}
-	}
+	
+	};
 
 	var regexList = {
 		email:{
@@ -399,37 +559,23 @@ if($ && $.IGRP && !$.IGRP.rules){
 			exp    :/^(\d{1,2})-(\d{1,2})-(\d{4})$/,
 			example:'01-01-2010'
 		}
-	}
+	
+	};
 
 	var matchRegexp = function(r){
-		var roption = r.rule.patern;
+		var roption = r.rule.patern || r.rule.pattern;
 		var rtn = false;
 
 		if(roption=='custom'){
-			console.log( new RegExp(r.rule.patern_custom).test(r.fieldValue))
+			rtn =  new RegExp(r.rule.patern_custom).test(r.fieldValue);
 		}else{
 			var re = regexList[roption];
 			rtn = re && re.exp ? re.exp.test(r.fieldValue) : false;
 		}
+		//console.log(rtn);
 		return rtn;
-	}
-
-	var getTargets = function(targets,p){
-		var rtn = [];
-
-		var row = p.isTable ? $(p.sourceField).parents('tr')[0] : false;
-
-		if(targets){
-			var targetNames = targets.split(',');
-			targetNames.forEach(function(t){
-				var target = $('*[item-name="'+t+'"]',row);
-				if(target[0])
-					rtn.push(target[0]);
-			});
-		}
-
-		return $(rtn);
-	}
+	
+	};
 
 	var isBetween = function(r){
 		var isBetween = false;
@@ -450,7 +596,133 @@ if($ && $.IGRP && !$.IGRP.rules){
 			isBetween = (value*1).between(r.rule.value,r.rule.value2);
 
 		return isBetween;
-	}
+	
+	};
+
+	var vRuleArr = [];
+
+	var validateAndExecute = function(field,o){
+
+		var idx = o.index || 0;
+
+		var response = false;
+
+		var rules = o.conditions.rules;
+
+		if(idx < rules.length){
+
+			var r = rules[idx];
+
+			var satisfy = $.IGRP.rules.satisfy({
+					
+				condition : r.condition,
+				
+				field     : field[0],
+				
+				rule      : r
+
+			});
+
+			vRuleArr.push(satisfy);
+
+			o.index = idx+1;			
+
+			validateAndExecute(field,o);
+
+		}else{
+			
+			vRuleArr.forEach(function(v){
+				response = v;
+			});
+
+			if(response){
+
+				var a = o.conditions.actions;
+				
+				if(a && a[0])
+					
+					a.forEach(function(act){	
+
+						act.sourceField = field;
+
+						act.isTable = o.isTable;
+
+						$.IGRP.rules.execute2(act);
+
+					});
+			}
+
+			if(rules[0].opposite == "1" ){
+
+				var oppObject = jQuery.extend(true,{}, o);;
+
+				var orule = conditionsList[rules[0].condition].opposite;
+
+				var oactions = oppObject.conditions.actions.slice();
+
+				oactions.forEach(function(a){
+					a.action = actionsList[a.action].opposite;
+				});
+				
+				oppObject.conditions.rules[0].condition = orule;
+
+				oppObject.conditions.rules[0].opposite = false;
+
+				oppObject.index = 0;
+
+				validateAndExecute(field,oppObject);
+
+			}
+
+			vRuleArr = [];
+
+			o.index = 0;
+			
+		}
+
+	};
+
+	var validate = function(o){
+
+		var idx = o.index || 0;
+
+		var response = false;
+
+		if(idx < o.rules.length){
+
+			var r = o.rules[idx];
+
+			var satisfy = $.IGRP.rules.satisfy({
+					
+				condition : r.condition,
+				
+				field     : o.field[0],
+				
+				rule      : {
+					value : r.value
+				}
+
+			});
+
+			vRuleArr.push(satisfy);
+
+			o.index = idx+1;			
+
+			validate(o);
+
+		}else{
+			
+			vRuleArr.forEach(function(v){
+				response = v;
+			});
+			
+			vRuleArr = [];
+
+			if(response && o.valid)
+				o.valid(response)
+			
+		}
+	};
 
 }else{
 	console.log('jQuery or IGRP.js missing!')

@@ -23,14 +23,17 @@
   </xsl:template>
   <!--TEMPLATE FOR TABLE EXPORT OPTIONS-->
   <xsl:template name="table-export-options" >
+    
     <xsl:param name="pdf" select="false()"/>
     <xsl:param name="excel" select="false()"/>
     
     <div class="table-export-options clearfix">
       <div class="btn-group pull-right">
+        
         <xsl:if test="$pdf">
           <a class="btn btn-danger btn-xs" href="#" rel="pdf"><i class="fa fa-file-pdf-o"></i><span>PDF</span></a>
         </xsl:if>
+        
         <xsl:if test="$excel">
           <a class="btn btn-success btn-xs" href="#" rel="excel"><i class="fa fa-file-excel-o"></i><span>Excel</span></a>
         </xsl:if>
@@ -51,7 +54,6 @@
         </ul>  -->
       </div>
     </div>
-
   </xsl:template>
   <!--TEMPLATE FOR TABLE LEGEND-->
   <xsl:template mode="table-legend" name="table-legend" match="legend_color">
@@ -148,6 +150,18 @@
     <xsl:param name="ctx-params" select="''"/>
 
     <a class="{$class}" target="{target}">
+      <xsl:choose>
+        <xsl:when test="contains(target, '|')">
+          <xsl:call-template name="get-target-params">
+            <xsl:with-param name="list" select="target"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="target">
+            <xsl:value-of select="target"/>
+          </xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       
       <xsl:call-template name="page-nav">
         <xsl:with-param name="action" select="link"/>
@@ -236,6 +250,120 @@
             <xsl:otherwise><xsl:value-of select="$vText"/></xsl:otherwise>
         </xsl:choose>
     </xsl:if>
+  </xsl:template>
+
+  <!-- TABLE FILTER -->
+  <xsl:template name="table-filter">
+    <xsl:param name="name"/>
+    <xsl:param name="value"/>
+    <xsl:param name="type"/>
+    <xsl:param name="filter_pagination"/>
+    
+    <xsl:if test="$type">
+      <xsl:variable name="filter-items">
+        <xsl:choose>
+          <xsl:when test="$type = 'filter_num'">
+            <xsl:choose>
+              <xsl:when test="$filter_pagination">
+                <xsl:value-of select="$filter_pagination"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:text>0|1|2|3|4|5|6|7|8|9</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:when>
+          <xsl:when test="$type = 'filter_aznum'">
+            <xsl:text>A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|0|1|2|3|4|5|6|7|8|9</xsl:text>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+
+      <div class="igrp-table-filter">
+        <ul class="pagination">
+          <xsl:call-template name="table-filter-loop">
+            <xsl:with-param name="name" select="$name" />
+            <xsl:with-param name="value" select="$value" />
+            <xsl:with-param name="type" select="$type"/>
+            <xsl:with-param name="filter-items" select="$filter-items"/>
+          </xsl:call-template>
+        </ul>
+      </div>
+    </xsl:if>
+
+  </xsl:template>
+
+  <xsl:template name="table-filter-loop">
+    <xsl:param name="name" select="''" /> 
+    <xsl:param name="value" select="''" />  
+    <xsl:param name="type" select="''"/>
+    <xsl:param name="delimiter" select="'|'"/>
+    <xsl:param name="filter-items" select="''"/>
+
+    <xsl:variable name="containsDelimiter" select="contains($filter-items, $delimiter)"/>
+
+    <xsl:variable name="filter-item">
+      <xsl:choose>
+        <xsl:when test="$containsDelimiter">      
+          <xsl:value-of select="substring-before($filter-items,$delimiter)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$filter-items"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <li filter-item="{$filter-item}">
+      <a href="{$name}={$filter-item}" class="IGRP_filter" target="filter">
+        <xsl:value-of select="$filter-item"/>
+      </a>
+    </li>
+
+    <xsl:if test="$containsDelimiter">
+      <xsl:call-template name="table-filter-loop">
+        <xsl:with-param name="name" select="$name" />
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="type" select="$type"/>
+        <xsl:with-param name="delimiter" select="'|'"/>
+        <xsl:with-param name="filter-items" select="substring-after($filter-items,$delimiter)"/>
+      </xsl:call-template> 
+    </xsl:if>
+
+  </xsl:template>
+  
+  <xsl:template name="table-filter-loop1">
+    <xsl:param name="name" select="''" /> 
+    <xsl:param name="value" select="''" />  
+    <xsl:param name="type" select="''"/>
+    <xsl:param name="filter-items" select="''"/>
+
+    <xsl:param name="i" select="1" />
+
+    <xsl:if test="$i &lt;= string-length($filter-items)">
+
+      <xsl:variable name="filter-item" select="substring($filter-items,$i,1)" />
+
+      <li>
+        <a href="{$name}={$filter-item}" class="IGRP_filter" target="filter">
+          <!-- <xsl:if test="$filter-item=$value">
+            <xsl:attribute name="class">active</xsl:attribute>
+          </xsl:if> -->
+          <xsl:value-of select="$filter-item"/>
+        </a>
+      </li>
+
+      <xsl:call-template name="table-filter-loop">
+        <xsl:with-param name="name" select="$name" />
+        <xsl:with-param name="value" select="$value" />
+        <xsl:with-param name="type" select="$type"/>
+        <xsl:with-param name="filter-items" select="$filter-items"/>
+        <xsl:with-param name="i" select="$i+1"/>
+      </xsl:call-template>
+
+    </xsl:if>
+
   </xsl:template>
 
 </xsl:stylesheet>

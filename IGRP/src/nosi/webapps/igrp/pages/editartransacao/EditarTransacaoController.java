@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.editartransacao;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -12,7 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
 
-
+/*---- End ----*/
 public class EditarTransacaoController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{

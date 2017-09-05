@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/agenda/detalhesmarcacao/DetalhesMarcacao.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>DetalhesMarcacao</page>
+    <app>agenda</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.agenda.pages</package_db>
+        <package_html>DetalhesMarcacao</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhes Agenda Marcado</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="confirmar_presenca">
+                <title>Confirmar Presenca</title>
+                <app>agenda</app>
+                <page>DetalhesMarcacao</page>
+                <link>index</link>
+                <target>alert_submit</target>
+                <img>warning|fa-hand-pointer-o</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/detalhesmarcacao/DetalhesMarcacao.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="cancelar_agenda">
+                <title>Cancelar Agenda</title>
+                <app>agenda</app>
+                <page>DetalhesMarcacao</page>
+                <link>index</link>
+                <target>alert_submit</target>
+                <img>danger|fa-remove</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/detalhesmarcacao/DetalhesMarcacao.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="confirmar_agenda">
+                <title>Confirmar Agenda</title>
+                <app>agenda</app>
+                <page>DetalhesMarcacao</page>
+                <link>index</link>
+                <target>alert_submit</target>
+                <img>success|fa-check</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/agenda/detalhesmarcacao/DetalhesMarcacao.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="30">
+                    <label>Nome</label>
+                    <value>Magna unde consectetur officia</value>
+                </nome>
+                <requerente name="p_requerente" type="text" maxlength="30">
+                    <label>Requerente</label>
+                    <value>Consectetur officia laudantium</value>
+                </requerente>
+                <contato name="p_contato" type="separator" maxlength="30">
+                    <label>Contato</label>
+                </contato>
+                <email name="p_email" type="text" maxlength="30">
+                    <label>Email</label>
+                    <value>Laudantium officia omnis lauda</value>
+                </email>
+                <telemovel name="p_telemovel" type="text" maxlength="30">
+                    <label>Telemovel</label>
+                    <value>Sit officia consectetur natus</value>
+                </telemovel>
+                <telefone name="p_telefone" type="text" maxlength="30">
+                    <label>Telefone</label>
+                    <value>Ipsum lorem deserunt sit elit</value>
+                </telefone>
+                <detalhes_agenda name="p_detalhes_agenda" type="separator" maxlength="30">
+                    <label>Detalhes Agenda</label>
+                </detalhes_agenda>
+                <servico name="p_servico" type="text" maxlength="30">
+                    <label>Serviço</label>
+                    <value>Totam dolor sed sit lorem</value>
+                </servico>
+                <balcao name="p_balcao" type="text" maxlength="30">
+                    <label>Balcao</label>
+                    <value>Magna deserunt voluptatem stra</value>
+                </balcao>
+                <data name="p_data" type="text" maxlength="30">
+                    <label>Data</label>
+                    <value>Sit adipiscing rem aperiam per</value>
+                </data>
+                <hora name="p_hora" type="text" maxlength="30">
+                    <label>Hora</label>
+                    <value>Officia perspiciatis ut deseru</value>
+                </hora>
+                <tipo_documento name="p_tipo_documento" type="text" maxlength="30">
+                    <label>Tipo Documento</label>
+                    <value>Aperiam mollit stract rem cons</value>
+                </tipo_documento>
+                <n_documento name="p_n_documento" type="text" maxlength="30">
+                    <label>Nº Documento</label>
+                    <value>Adipiscing mollit magna deseru</value>
+                </n_documento>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                </view_1_img>
+            </fields>
+        </view_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+            </fields>
+        </form_1>
+    </content>
+</rows>

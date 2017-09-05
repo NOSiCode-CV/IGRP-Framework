@@ -60,7 +60,7 @@ public class Agendamentos extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String dia;
 		private String hora;
 		private String nome;

@@ -1,5 +1,3 @@
-/*-------------------------*/
-
 /*Create View*/
 
 package nosi.webapps.agenda.pages.addservicos;
@@ -12,49 +10,53 @@ public class AddServicosView extends View {
 	
 	public Field page_title_text;
 	public Field entidade;
-	public Field balcao;
-	public Field servicos;
-	public Field checkbox_1;
-	public Field checkbox_1_check;
+	public Field nome_do_servico;
+	public Field codigo_do_servico;
+	public Field estado;
+	public Field assunto;
 	public IGRPBox box_1;
 	public IGRPSectionHeader page_title;
 	public IGRPForm form_1;
-	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
-	public IGRPButton btn_filtrar;
+	public IGRPButton btn_list;
+	public IGRPButton btn_req;
 	public AddServicosView(AddServicos model){
-		this.setPageTitle("Adicionar ServiÃ§os");
+		this.setPageTitle("Adicionar Serviços");
 			
 		box_1 = new IGRPBox("box_1");
 		page_title = new IGRPSectionHeader("page_title");
 		form_1 = new IGRPForm("form_1");
-		table_1 = new IGRPTable("table_1");
 		page_title_text = new TextField(model,"page_title_text");
 		page_title_text.setLabel("");
-		page_title_text.setValue("Associar/Desassociar ServiÃ§os");
+		page_title_text.setValue("Adicionar Serviços");
 		page_title_text.propertie().add("type","text").add("name","p_page_title_text").add("persist","true").add("maxlength","4000");
 		entidade = new ListField(model,"entidade");
 		entidade.setLabel("Entidade");
-		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false");
-		balcao = new ListField(model,"balcao");
-		balcao.setLabel("BalcÃ£o");
-		balcao.propertie().add("name","p_balcao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
-		servicos = new TextField(model,"servicos");
-		servicos.setLabel("ServiÃ§os");
-		servicos.propertie().add("name","p_servicos").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
-		checkbox_1 = new CheckBoxField(model,"checkbox_1");
-		checkbox_1.setLabel("Checkbox");
-		checkbox_1.propertie().add("name","p_checkbox_1").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
-		checkbox_1_check = new CheckBoxField(model,"checkbox_1_check");
-		checkbox_1_check.propertie().add("name","p_checkbox_1").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
+		entidade.propertie().add("name","p_entidade").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
+		nome_do_servico = new TextField(model,"nome_do_servico");
+		nome_do_servico.setLabel("Nome do Serviço");
+		nome_do_servico.propertie().add("name","p_nome_do_servico").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		codigo_do_servico = new TextField(model,"codigo_do_servico");
+		codigo_do_servico.setLabel("Código do Serviço");
+		codigo_do_servico.propertie().add("name","p_codigo_do_servico").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		estado = new ListField(model,"estado");
+		estado.setLabel("Estado");
+		estado.propertie().add("name","p_estado").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
+		assunto = new TextAreaField(model,"assunto");
+		assunto.setLabel("Assunto");
+		assunto.propertie().add("name","p_assunto").add("type","textarea").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","agenda","AddServicos","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_filtrar = new IGRPButton("Filtrar","agenda","AddServicos","filtrar","_self","info|fa-filter","","");
-		btn_filtrar.propertie.add("type","form").add("code","").add("class","info").add("rel","filtrar");
+		
+		btn_list = new IGRPButton("Lista de Serviços","agenda","LST_SERV","index","_self","default|fa-list","","");
+		btn_list.propertie.add("type","specific").add("code","").add("rel","list");
+
+		btn_req = new IGRPButton("Adicionar Requisitos","agenda","REQ_SERVICOS","index","_blank","success|fa-plus-square","","");
+		btn_req.propertie.add("type","specific").add("code","").add("rel","req");
 		
 	
 	}
@@ -66,20 +68,19 @@ public class AddServicosView extends View {
 		page_title.addField(page_title_text);
 
 		form_1.addField(entidade);
-		form_1.addField(balcao);
-
-		table_1.addField(servicos);
-		table_1.addField(checkbox_1);
-		table_1.addField(checkbox_1_check);
+		form_1.addField(nome_do_servico);
+		form_1.addField(codigo_do_servico);
+		form_1.addField(estado);
+		form_1.addField(assunto);
 
 
 		toolsbar_1.addButton(btn_gravar);
-		form_1.addButton(btn_filtrar);
+		toolsbar_1.addButton(btn_req);
+		toolsbar_1.addButton(btn_list);
 		this.addToPage(box_1);
 		this.addToPage(page_title);
 		this.addToPage(form_1);
-		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
 }
-/*-------------------------*/
+/*------------------------- END -------------------------*/

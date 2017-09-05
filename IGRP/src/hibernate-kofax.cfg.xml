@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration">
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="nosi.webapps.kofax.dao.Campos"/>
+		<mapping class="nosi.webapps.kofax.dao.Dados"/>
+		<mapping class="nosi.webapps.kofax.dao.Objeto"/>
+	</session-factory>
+</hibernate-configuration>

@@ -3,7 +3,10 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.env;
+/*---- Import your packages here... ----*/
+
 import java.io.IOException;
+
 /*import nosi.webapps.red.teste.Teste;
 import nosi.webapps.red.teste.Teste;
 */
@@ -26,6 +29,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
+/*---- End ----*/
 public class EnvController extends Controller {		
 
 	public Response actionIndex() throws IOException{

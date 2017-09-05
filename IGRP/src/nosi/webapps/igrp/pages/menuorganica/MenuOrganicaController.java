@@ -1,4 +1,6 @@
 package nosi.webapps.igrp.pages.menuorganica;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -11,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*---- End ----*/
 public class MenuOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException{

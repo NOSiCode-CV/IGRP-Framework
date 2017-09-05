@@ -3,11 +3,13 @@
 /*Create Controller*/
 
 package nosi.webapps.agenda.pages.agdashboard;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 
-/*---- Import your packages here... ----*//*---- End ----*/
+/*---- End ----*/
 
 public class AGDashboardController extends Controller {		
 

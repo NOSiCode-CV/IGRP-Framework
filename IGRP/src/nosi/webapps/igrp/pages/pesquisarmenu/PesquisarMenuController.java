@@ -2,6 +2,8 @@
 
 /*Create Controller*/
 package nosi.webapps.igrp.pages.pesquisarmenu;
+/*---- Import your packages here... ----*/
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 
+/*---- End ----*/
 public class PesquisarMenuController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
@@ -30,8 +33,8 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus= null;
 		if(model.getOrganica()==0){
 			menus = menu.find()
-					   .andWhere("application", "=", model.getAplicacao())
-					   .andWhere("menu", "=", model.getMenu_principal())
+					   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null)
+					   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
 					   .all();
 		}else{
 			menus = menu.searchMen();

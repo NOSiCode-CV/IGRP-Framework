@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
- 
+  <!-- HEAD -->
   <xsl:template name="IGRP-head">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -14,14 +14,22 @@
     <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootrap) or $themeConfigData/css/@bootrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
+      <!-- BS COLUMNS -->
+      <link rel="stylesheet" href="{$path}/themes/bs.columns.css"/>
+      <!-- BS COLUMNS -->
+      <!-- BS CLASS -->
+      <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
+      <!-- BS CLASS -->
     </xsl:if>
     <!-- BS CSS -->
 
     <!-- DEFAULT CSS -->
-    <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default!='false'">
+    <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
     </xsl:if>
     <!--/DEFAULT CSS -->
+
+    
 
     <!-- THEME CSS -->
     
@@ -65,44 +73,49 @@
     <!-- /THEME JS -->
 
     <!-- EVENTS class -->
-    <script src="{$path}/core/igrp/IGRP.events.class.js"></script>
+    <script src="{$path}/core/igrp/IGRP.events.class.js?v={$version}"></script>
     <!-- UTILS class -->
-    <script src="{$path}/core/igrp/IGRP.jsutils.js"></script>
+    <script src="{$path}/core/igrp/IGRP.jsutils.js?v={$version}"></script>
     <!-- IGRP class -->
-    <script src="{$path}/core/igrp/IGRP.class.js"></script>
+    <script src="{$path}/core/igrp/IGRP.class.js?v={$version}"></script>
+    <!-- IGRP config -->
+    <script src="{$path}/core/igrp/IGRP.defaults.js?v={$version}"></script>
     <!-- IGRP core functions -->
-    <script src="{$path}/core/igrp/IGRP.core.js"></script>
+    <script src="{$path}/core/igrp/IGRP.core.js?v={$version}"></script>
     <!-- IGRP globalModal -->
-    <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js"></script>
+    <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
     <!-- IGRP iframeNavigation -->
-    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js"></script>
+    <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}"></script>
     
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/targets/IGRP.targets.js"></script>
+    <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/tree/IGRP.tree.js"></script>
+    <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
     <!-- IGRP targets controller -->
-    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js"></script>
+    <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
     <!-- IGRP color palettes -->
-    <script src="{$path}/core/colorpalettes/palettes.js"></script>
+    <script src="{$path}/core/colorpalettes/palettes.js?v={$version}"></script>
+    <!-- IGRP XML XSL Transform -->
+    <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}"></script>
+    
+
     <!-- IGRP handler -->
-    <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js"></script>
+    <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
 
     <script>
-      
       var path = '<xsl:value-of select="$path"/>';
       
       $(document).ready(function(){
         $.IGRP.init();
       });
-
     </script>
-
   </xsl:template>
-
+  <!-- TOPMENU -->
   <xsl:template name="IGRP-topmenu">
     <xsl:attribute name="template"><xsl:value-of select="rows/template"/></xsl:attribute>
     <xsl:attribute name="has-menu"><xsl:value-of select="$hasMenu"/></xsl:attribute>
+    <xsl:attribute name="page"><xsl:value-of select="rows/page"/></xsl:attribute>
+    <xsl:attribute name="app"><xsl:value-of select="rows/app"/></xsl:attribute>
     <xsl:if test="$hasMenu = 'true'">
       
       <xsl:variable name="logo">
@@ -177,7 +190,7 @@
       </nav>
     </xsl:if>
   </xsl:template>
-
+  <!-- SIDERBAR -->
   <xsl:template name="IGRP-sidebar">
     <xsl:if test="$hasMenu = 'true'">
       <xsl:variable name="APP" select="rows/app"/>
@@ -214,7 +227,7 @@
       </div>
     </xsl:if>
   </xsl:template>
-
+  <!-- BOTTOM -->
   <xsl:template name="IGRP-bottom">
     
     <!-- GLOBAL MODAL -->
@@ -239,6 +252,10 @@
     </div>
     <!--/GLOBAL MODAL -->
 
+    <igrp-variables class="hidden invisible">
+      <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
+    </igrp-variables>
+
     <!-- IFRAME NAVIGATION MODAL -->
     <xsl:call-template name="iframe-nav"/>
     <!--/IFRAME NAVIGATION MODAL -->
@@ -246,9 +263,8 @@
     <!-- DEBUG -->
     <xsl:call-template name="IGRP-debug"/>
     <!--/DEBUG -->
-
   </xsl:template>
-
+  <!-- DEBUG -->
   <xsl:template name="IGRP-debug">
     <xsl:if test="rows/content/messages/message[@type='debug'] != ''">
       <xsl:variable name="contDebug" select="count(rows/content/messages/message[@type='debug'])"/>
@@ -282,7 +298,6 @@
       </div>
     </xsl:if>
   </xsl:template>
-
   <!-- MESSAGES -->
   <xsl:template name="igrp-messages" match="messages" mode="igrp-messages">
     <xsl:param name="dismiss" select="'true'"/>
@@ -310,15 +325,14 @@
                 <span aria-hidden="true"><i class="fa fa-times"></i></span>
               </a>
             </xsl:if>
-
-            <xsl:value-of select="."/>
+            <xsl:value-of select="." disable-output-escaping="yes"/>
           </div>
 
         </xsl:for-each>
       </div>
     </xsl:if>
   </xsl:template>
-
+  <!-- IFRAME NAV -->
   <xsl:template name="iframe-nav">
     <div class="modal fade" data-backdrop="static" tabindex="-1" id="igrp-iframe-nav" role="dialog" >
       
@@ -332,9 +346,13 @@
 
     </div>
   </xsl:template>
-
+  <!-- COLORS -->
   <xsl:template name="theme-colors" mode="theme-colors" match="*">
     <style>
+
+      .box .box-title{
+        color:<xsl:value-of select="color[1]"/>;
+      }
       *[bg-color="template"]{
         background-color: <xsl:value-of select="color[1]"/>;
       }
@@ -379,6 +397,7 @@
             <xsl:value-of select="$color"/>
              
           }
+
           <xsl:if test="@hover">
           .btn-<xsl:value-of select="name()"/>:hover, 
           .btn-<xsl:value-of select="name()"/>:focus, 
@@ -397,9 +416,19 @@
         </xsl:for-each>
       </xsl:if>
 
+      .btn-secondary:hover,
+      .btn-secondary.active{
+        color:#fff;
+      }
+
       <xsl:for-each select="color">
         *[bg-color="<xsl:value-of select="@name"/>"]{
           background-color: <xsl:value-of select="."/>;
+        }
+
+        *[active-bg-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-bg-color="<xsl:value-of select="@name"/>"]{
+          background-color: <xsl:value-of select="."/>!important;
         }
 
         *[text-color="<xsl:value-of select="@name"/>"],
@@ -407,13 +436,26 @@
           color: <xsl:value-of select="."/>;
         }
 
+        *[active-text-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-text-color="<xsl:value-of select="@name"/>"]{
+          color: <xsl:value-of select="."/>!important;
+        }
+
         *[border-color="<xsl:value-of select="@name"/>"]{
           border-color: <xsl:value-of select="."/>;
         }
+
+        *[active-border-color="<xsl:value-of select="@name"/>"].active,
+        [style-listener="true"].active *[active-border-color="<xsl:value-of select="@name"/>"]{
+          border-color: <xsl:value-of select="."/>!important;
+        }
+
+        /* style listeners - fica à escuta de uma alteração do elemento*/
+
       </xsl:for-each>
     </style>
   </xsl:template>
-
+  <!-- COLORS2 -->
   <xsl:template name="theme-colors2" mode="theme-colors2" match="*">
     <style>
       *[bg-color="template"]{
@@ -466,7 +508,6 @@
       </xsl:for-each>
     </style>
   </xsl:template>
-  
 
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>

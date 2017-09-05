@@ -13,7 +13,7 @@ import nosi.base.ActiveRecord.PersistenceUtils;
 public class Connection {
 
 	public static java.sql.Connection getConnection(String connectionName){
-		EntityManagerFactory entityManagerFactory = PersistenceUtils.ENTITY_MANAGER_FACTORY.get(connectionName);
+		EntityManagerFactory entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(connectionName);
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
 		Session hibernateSession = (Session) em.unwrap(Session.class);

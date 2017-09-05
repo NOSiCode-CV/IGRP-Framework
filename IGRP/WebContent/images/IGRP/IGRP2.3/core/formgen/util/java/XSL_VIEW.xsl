@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xdb="http://xmlns.oracle.com/xdb" >
-
-    <xsl:output method="text" encoding="UTF-8" indent="no" />
-     <xsl:preserve-space elements="*"/>
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
     <!-- Join all templates to create view -->
     <xsl:template name="create-view">
@@ -52,9 +48,11 @@
 		<xsl:call-template name="config-chart"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
+		<!-- 
 		<xsl:call-template name="config-calendar"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
+		-->
 		<xsl:value-of select="'}'"></xsl:value-of>
 	</xsl:template>
 	
@@ -264,7 +262,7 @@
 			<xsl:value-of select="$newline"/>
  		</xsl:for-each>
 	</xsl:template>
-	
+	<!-- 
 	<xsl:template name="config-calendar">
 		<xsl:for-each select="//content/*[@type='calendar']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
@@ -278,4 +276,5 @@
 			<xsl:value-of select="$tab2"/>
  		</xsl:for-each>
 	</xsl:template>
+	-->
 </xsl:stylesheet>

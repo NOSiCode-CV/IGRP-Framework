@@ -22,8 +22,9 @@ public class REQ_SERVICOSView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_listar_requisitos;
 	public REQ_SERVICOSView(REQ_SERVICOS model){
-		this.setPageTitle("RequisiÃ§Ãµes de ServiÃ§os");
+		this.setPageTitle("Requisições de Serviços");
 			
 		box_1 = new IGRPBox("box_1");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -34,14 +35,14 @@ public class REQ_SERVICOSView extends View {
 		sectionheader_1_text.setValue("Requisitos");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		servico = new ListField(model,"servico");
-		servico.setLabel("ServiÃ§o");
-		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		servico.setLabel("Serviço");
+		servico.propertie().add("name","p_servico").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		tipo_requisito = new ListField(model,"tipo_requisito");
 		tipo_requisito.setLabel("Tipo Requisito");
-		tipo_requisito.propertie().add("name","p_tipo_requisito").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("desc","true");
+		tipo_requisito.propertie().add("name","p_tipo_requisito").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("visible","true").add("domain","").add("desc","true");
 		upload = new FileField(model,"upload");
 		upload.setLabel("Upload");
-		upload.propertie().add("name","p_upload").add("type","file").add("accept","file_extension").add("multiple","false").add("maxlength","30").add("required","false").add("disabled","false").add("right","false").add("visible","true").add("class","primary").add("desc","true");
+		upload.propertie().add("name","p_upload").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","30").add("required","false").add("disabled","false").add("right","false").add("visible","true").add("class","default").add("desc","true");
 		descritivo = new TextAreaField(model,"descritivo");
 		descritivo.setLabel("Descritivo");
 		descritivo.propertie().add("name","p_descritivo").add("type","textarea").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("visible","true").add("desc","true");
@@ -49,6 +50,8 @@ public class REQ_SERVICOSView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","agenda","REQ_SERVICOS","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
+		btn_listar_requisitos = new IGRPButton("Listar Requisitos","agenda","REQ_SERVICOS","listar_requisitos","_self","default|fa-list","","");
+		btn_listar_requisitos.propertie.add("type","specific").add("code","").add("rel","listar_requisitos");
 		
 	
 	}
@@ -67,6 +70,7 @@ public class REQ_SERVICOSView extends View {
 
 
 		toolsbar_1.addButton(btn_gravar);
+		toolsbar_1.addButton(btn_listar_requisitos);
 		this.addToPage(box_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);

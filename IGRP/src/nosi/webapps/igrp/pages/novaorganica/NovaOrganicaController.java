@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novaorganica;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -15,7 +17,7 @@ import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.HashMap;
 
-
+/*---- End ----*/
 public class NovaOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

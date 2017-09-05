@@ -114,7 +114,9 @@ var TEMPLATES = {
 			var field = TEMPLATES.field[p.field];
 
 			if(field && field[p.container] && field[p.container][p.context]){
+
 				if(p.callback) p.callback(field[p.container][p.context],field.useDefault)
+
 			}else{
 				//get from path
 				var ctx = p.context.split('.'),
@@ -134,8 +136,8 @@ var TEMPLATES = {
 	
 				var fieldCopyTempl = TEMPLATES.path+'/types/fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
 				//url = path+'/components/core/formgen/types/fields/'+p.field+'/templates/'+p.field+'.'+container+fieldTemplate+'.html';
-				
-				//console.log(url);
+	
+				//console.log(fieldContainerTmpl);
 
 				$.ajax({
 					url:fieldContainerTmpl,
@@ -146,7 +148,7 @@ var TEMPLATES = {
 						
 						TEMPLATES.SET.field({
 							name     : p.field,
-							container: container,
+							container: p.container,
 							context  : temp,
 							template : fTemp,
 							useDefault:useDefault
@@ -158,16 +160,19 @@ var TEMPLATES = {
 							
 					},
 					error:function(e){
+						
 						if(fieldCopyTempl != fieldContainerTmpl){
+							
 							$.ajax({
 								url:fieldCopyTempl,
 								
 								success:function(result){
 									var fTemp = result;
 									var useDefault = false;
+								
 									TEMPLATES.SET.field({
 										name     : p.field,
-										container: container,
+										container: p.container,
 										context  : temp,
 										template : fTemp,
 										useDefault:useDefault
@@ -191,7 +196,7 @@ var TEMPLATES = {
 
 											TEMPLATES.SET.field({
 												name     : p.field,
-												container: container,
+												container: p.container,
 												context  : temp,
 												template : fTempl,
 												useDefault:useDefault
@@ -208,6 +213,9 @@ var TEMPLATES = {
 							});
 						}else{
 							//use default
+
+							//console.log(temp)
+					
 							TEMPLATES.GET.container({
 								name:container,
 								fieldStyle:temp,
@@ -224,9 +232,10 @@ var TEMPLATES = {
 										useDefault:useDefault
 									});
 
-									if(p.callback) p.callback(fTempl,{
-										useDefault:useDefault
-									});
+									if(p.callback) 
+										p.callback(fTempl,{
+											useDefault:useDefault
+										});
 								}
 							});
 						}

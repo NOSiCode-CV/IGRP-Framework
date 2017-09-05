@@ -2,8 +2,10 @@ package nosi.core.webapp;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.lang.Integer;
 import java.lang.Float;
@@ -12,8 +14,9 @@ import java.lang.Short;
 import java.lang.annotation.Annotation;
 import java.lang.Long;
 
+import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -34,35 +37,40 @@ public abstract class Model { // IGRP super model
 	// this mehtod allow auto-inicialization for all sub-models
 	public void load() throws IllegalArgumentException, IllegalAccessException{
 		Class<? extends Model> c = this.getClass();
+		List<Field> fields = new ArrayList<Field>(); // For particular case purpose ...
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if(m.getType().isArray()){
-				String []aux = Igrp.getInstance().getRequest().getParameterValues(m.getName());
+				String []aux = Igrp.getInstance().getRequest().getParameterValues(
+						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
+								m.getAnnotation(RParam.class).rParamName()
+								: m.getName() // default case use the name of field
+						);
 				if(aux != null){
 					// Awesome !!! We need make casts for all [] primitive type ... pff
 					switch(typeName){
 						case "[I": // Array of int
 							//m.set(this, Arrays.stream(aux).mapToInt(Integer::parseInt).toArray());
-							m.set(this, (int[])Helper.convertToArray(aux, "int"));
+							m.set(this, (int[])IgrpHelper.convertToArray(aux, "int"));
 							break;
 						case "[J":// Array de long
 							//m.set(this, Arrays.stream(aux).mapToLong(Long::parseLong).toArray());
-							m.set(this, (long[])Helper.convertToArray(aux, "long"));
+							m.set(this, (long[])IgrpHelper.convertToArray(aux, "long"));
 							break;
 						case "[D":
 							//m.set(this, Arrays.stream(aux).mapToDouble(Double::parseDouble).toArray());
-							m.set(this, (double[])Helper.convertToArray(aux, "double"));
+							m.set(this, (double[])IgrpHelper.convertToArray(aux, "double"));
 							break;
 						case "[S":// Array de short
-							m.set(this, (short[])Helper.convertToArray(aux, "short"));
+							m.set(this, (short[])IgrpHelper.convertToArray(aux, "short"));
 							break;
 						case "[F":
 							//m.set(this, Arrays.stream(aux).mapToDouble(Float::parseFloat).toArray());
-							m.set(this, (float[])Helper.convertToArray(aux, "float"));
+							m.set(this, (float[])IgrpHelper.convertToArray(aux, "float"));
 							break;
 						default:
-							m.set(this, typeName == "java.lang.String" ? aux : null); // The field could be a Object
+							m.set(this, typeName.equals("[Ljava.lang.String;") ? aux : null); // The field could be a Object
 					}
 				}
 				else{
@@ -97,8 +105,68 @@ public abstract class Model { // IGRP super model
 						m.set(this, typeName == "java.lang.String" ? defaultResult : null); // The field could be a Object
 				}
 			}
+			/* Begin */
+			if(m.isAnnotationPresent(SeparatorList.class)) {
+				fields.add(m);				
+			}
+			/* End*/
 		}
+		
+		for(Field obj : fields) {
+			Map<String, List<String>> mapFk = new HashMap<String, List<String>>();
+			Map<String, List<String>> mapFkDesc = new HashMap<String, List<String>>();
+			
+			Class c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
+			
+			List<String> aux = new ArrayList<String>();
+			 for(Field m : c_.getDeclaredFields()){
+					m.setAccessible(true);
+					aux.add(m.getName());
+					
+					String []values1 = Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
+					String []values2 = Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
+					
+					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
+					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());
+					
+					m.setAccessible(false);
+			 }
+			 
+			 ArrayList auxResults = new ArrayList<>();
+			 
+			 obj.setAccessible(true);
+			 obj.set(this, auxResults);
+			 obj.setAccessible(false);
+			 
+			 try {
+				
+				for(int i = 0; i < 1000 /* This will never happen ...*/; i++) {
+					Object obj2 = Class.forName(c_.getName()).newInstance();
+					for(Field m : obj2.getClass().getDeclaredFields()){
+						m.setAccessible(true);
+						try {
+							m.set(obj2, new IGRPSeparatorList.Pair(mapFk.get(m.getName()).get(i), mapFkDesc.get(m.getName()).get(i)));
+						}catch (IndexOutOfBoundsException e) {
+							 throw e; // Throw it again ... and catch it later ...
+						}
+						finally {
+							m.setAccessible(false);
+						}
+					}
+					auxResults.add(obj2);
+				}
+				
+			} catch (ClassNotFoundException | InstantiationException e) {
+				e.printStackTrace();
+			}
+			 catch (IndexOutOfBoundsException e) {
+				 continue; // go to next Separator list
+			}
+			 //...
+		}
+		
 	}
+	
 	/*
 	 * Load/auto-populate (end)
 	 * */

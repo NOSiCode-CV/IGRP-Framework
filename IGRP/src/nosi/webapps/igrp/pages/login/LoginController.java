@@ -1,4 +1,5 @@
 package nosi.webapps.igrp.pages.login;
+/*---- Import your packages here... ----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -11,7 +12,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import java.io.IOException;
 
-
+/*---- End ----*/
 public class LoginController extends Controller {		
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{

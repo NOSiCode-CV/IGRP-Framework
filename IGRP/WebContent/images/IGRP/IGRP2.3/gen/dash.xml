@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="XSL-generator.xsl" type="text/xsl"?>
+<rows>
+	<title>IGRP</title>
+	<version>4181811E74E7646AE050040A08027BCC</version>
+	<link>/images/IGRP//IGRP2.3xml/IGRP-home.xml</link>
+	<site>
+		<welcome_note>Ola</welcome_note>
+		<footer_note>2011 - Copyright NOSI</footer_note>
+		<user_name>red-igrp</user_name>
+		<button code="" type="specific">
+			<title>Sair</title>
+			<app>SA</app>
+			<page/>
+			<link>#</link>
+			<target>_self</target>
+			<img>exit.png</img>
+		</button>
+	</site>
+	<app>REDGLOBAL</app>
+	<page>TESTE</page>
+	<plsql>
+		<action>DASH_ELEMENTS</action>
+		<package_db>REDGLOBAL_TESTE_DASH_ELEM_DB</package_db>
+		<package_html>REDGLOBAL_TESTE_DASH_ELEM_HTML</package_html>
+		<package_instance/>
+		<table_name>REDGLOBAL_TESTE_DASH_ELEMENTS</table_name>
+		<with_replace>false</with_replace>
+		<with_label>false</with_label>
+		<with_biztalk>false</with_biztalk>
+		<dynamic_menu>false</dynamic_menu>
+		<copy_menu>false</copy_menu>
+		<package_copy_db/>
+		<package_copy_html/>
+	</plsql>
+	<navigation file="navigation.xml?v={41818B0A-3D4D-B7AB-E050-040A08027BCE}" prm_action="p_prm_action" prm_app="p_prm_app" prm_page="p_prm_page"/>
+	<top_menu file="/images/IGRP//IGRP2.3xml/IGRP-top_menu.xml"/>
+	<slide-menu file="slide-menu.xml?v="/>
+	<content type="dash">
+		<messages>
+          <message type="info">XML de Teste para todas as páginas</message>
+          <message type="error">XML de Teste para todas as páginas</message>
+          <message type="confirm">Isto sim é que falar?</message>
+          <message type="warning">Isto sim é que falar?</message>
+          <message type="success">Isto sim é que falar?</message>
+          <message type="debug">Tipo isto mas nao é 1</message>
+          <message type="debug">Tipo isto mas nao é dos 2</message>
+          <message type="debug">Tipo isto mas nao é dos 3</message>
+          <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+          <message type="debug">Tipo isto mas nao é 5</message>
+          <message type="debug">Tipo isto mas nao é 1</message>
+          <message type="debug">Tipo isto mas nao é dos 2</message>
+          <message type="debug">Tipo isto mas nao é dos 3</message>
+          <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+          <message type="debug">Tipo isto mas nao é 5</message>
+          <message type="debug">Tipo isto mas nao é 1</message>
+          <message type="debug">Tipo isto mas nao é dos 2</message>
+          <message type="debug">Tipo isto mas nao é dos 3</message>
+          <message type="debug">Tipo isto mas nao é dos 4 mas é</message>
+          <message type="debug">Tipo isto mas nao é 5</message>
+        </messages>
+		<title>DASHBOARD ELEMENTS</title>
+		<menu type="tabmenu">
+			<group align="center" code="TABMN_MENU" title="Menu">
+				<item code="MENU_MENU" type="">
+					<title>Menu</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>CVM_agente.png</img>
+				</item>
+				<item code="MENU_MENU_2" type="">
+					<title>Menu 2</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>CVM_spots.png</img>
+				</item>
+			</group>
+			<group align="center" code="TABMN_MENU_2" title="Menu 2">
+				<item code="MENU_MENU_3" type="">
+					<title>Menu 3</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>tipo_cor.png</img>
+				</item>
+				<item code="MENU_ITEM_2" type="">
+					<title>Item 2</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>m_licenca.png</img>
+				</item>
+			</group>
+			<group align="center" code="TABMN_MENU_3" title="Menu 3">
+				<item code="MENU_ITEM_3" type="">
+					<title>Item 3</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>prestacoes.png</img>
+				</item>
+				<item code="MENU_MENU_4" type="">
+					<title>Menu 4</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>m_licenca.png</img>
+				</item>
+				<item code="MENU_MENU_5" type="">
+					<title>Menu 5</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>specific</target>
+					<img>m_classificacao.png</img>
+				</item>
+			</group>
+		</menu>
+		<filter tab="">
+			<label>
+				<separador code="SEPARADOR" type="separator">Separador</separador>
+				<checkbox code="CHECKBOX" maxlength="30" name="p_checkbox" type="checkbox">CheckBox</checkbox>
+				<combobox code="COMBOBOX" maxlength="30" name="p_combobox" type="select">Combobox</combobox>
+				<data code="DATA" maxlength="30" name="p_data" type="date">Data</data>
+				<email code="EMAIL" maxlength="30" name="p_email" type="email">Email</email>
+				<hora code="HORA" maxlength="30" name="p_hora" type="time">Hora</hora>
+				<radiolist code="RADIOLIST" maxlength="30" name="p_radiolist" type="radiolist">RadioList</radiolist>
+				<number code="NUMBER" maxlength="30" name="p_number" type="number">Number</number>
+				<hidden_filter code="HIDDEN_FILTER" maxlength="30" name="p_hidden_filter" type="hidden">hidden_filter</hidden_filter>
+				<lookup code="LOOKUP" maxlength="30" name="p_lookup" type="LOOKUP">Lookup</lookup>
+				<text code="TEXT" maxlength="30" name="p_text" type="text">Text</text>
+				<id code="ID" maxlength="30" name="p_id" type="hidden">id</id>
+			</label>
+			<value>
+				<checkbox name="p_checkbox"/>
+				<data name="p_data">02-06-2016</data>
+				<email name="p_email">yfkhavfegimnfnq@jytvi.wr</email>
+				<hora name="p_hora">14:53</hora>
+				<number name="p_number">6114944</number>
+				<lookup name="p_lookup">Gfeaqnnpmobbnmamzcjjkeg</lookup>
+				<text name="p_text">Hjynlatgbkfwvadrbrllgvuv</text>
+				<hidden name="p_hidden_filter">8114208</hidden>
+				<hidden name="p_id">3913107</hidden>
+			</value>
+			<lookup>
+				<lookup>?XXX</lookup>
+			</lookup>
+			<list>
+				<combobox name="p_combobox">
+					<option>
+						<text>-- Combobox --</text>
+						<value/>
+					</option>
+					<option>
+						<text>Opcao 1</text>
+						<value>1</value>
+					</option>
+					<option selected="true">
+						<text>Opcao 2</text>
+						<value>2</value>
+					</option>
+					<option>
+						<text>Opcao 3</text>
+						<value>3</value>
+					</option>
+				</combobox>
+				<radiolist name="p_radiolist">
+					<option selected="true">
+						<text>Opcao 1</text>
+						<value>1</value>
+					</option>
+					<option>
+						<text>Opcao 2</text>
+						<value>2</value>
+					</option>
+					<option>
+						<text>Opcao 3</text>
+						<value>3</value>
+					</option>
+				</radiolist>
+			</list>
+			<tools-bar>
+				<item code="SEARCH" type="specific">
+					<title>Pesquisar</title>
+					<app>REDGLOBAL</app>
+					<page>TESTE</page>
+					<link>DASH_ELEMENTS</link>
+					<target>_self</target>
+					<img>search.png</img>
+				</item>
+			</tools-bar>
+		</filter>
+		<form tab="">
+			<label>
+				<group code="GROUP" type="separator">Group</group>
+				<color code="COLOR" maxlength="30" name="p_color" type="color">Color</color>
+				<form_list code="FORM_LIST" container="true" type="formlist">Form List</form_list>
+				<hid2 code="HID2" maxlength="30" name="p_hid2" rel="form_list" type="hidden">Hid2</hid2>
+				<nome code="NOME" maxlength="30" name="p_nome" rel="form_list" type="text">Nome</nome>
+				<link code="LINK" maxlength="30" name="p_link" rel="form_list" type="link">Link</link>
+				<psq code="PSQ" maxlength="30" name="p_psq" rel="form_list" type="LOOKUP">Psq</psq>
+				<text code="TEXT" maxlength="30" name="p_text" rel="form_list" target="_self" type="link">Text</text>
+				<sep_list code="SEP_LIST" container="true" type="separatorlist">Sep List</sep_list>
+				<t_area code="T_AREA" maxlength="30" name="p_t_area" rel="sep_list" type="textarea">T area</t_area>
+				<nif code="NIF" maxlength="30" name="p_nif" rel="sep_list" type="LOOKUP_NIF">NIF</nif>
+				<hidden_s_list code="HIDDEN_S_LIST" maxlength="30" name="p_hidden_s_list" rel="sep_list" type="hidden">Hidden_s_list</hidden_s_list>
+				<hidden_ayan code="HIDDEN_AYAN" maxlength="30" name="p_hidden_ayan" rel="sep_list" type="hidden">hidden_ayan</hidden_ayan>
+			</label>
+			<value>
+				<color name="p_color">Hwqfxigbgczhgyrmb</color>
+				<nome name="p_nome">Tjaxzdfywpelrtobddxbjqpt</nome>
+				<link name="p_link">http://www.yxxouumbxn.ygz</link>
+				<psq name="p_psq">Duylnxvnjkcpnlj</psq>
+				<text name="p_text">http://www.egrhxmuxrz.udc</text>
+				<t_area name="p_t_area">Orvcplzfdzdbmlzeyttelkbxn</t_area>
+				<nif name="p_nif">Ocogpkffnsamqndkstj</nif>
+				<hidden name="p_hid2" rel="form_list">2887808</hidden>
+				<hidden name="p_hidden_s_list" rel="sep_list">2271137</hidden>
+				<hidden name="p_hidden_ayan" rel="sep_list">4799595</hidden>
+			</value>
+			<lookup>
+				<psq>?XXX</psq>
+				<nif>?XXX</nif>
+			</lookup>
+			<table>
+				<form_list container="true" type="formlist">
+					<label>
+						<hid2 align="" name="p_hid2" type="hidden">Hid2</hid2>
+						<hid2_desc align="" name="p_hid2_desc" type="hidden">Hid2</hid2_desc>
+						<nome align="" name="p_nome" type="text">Nome</nome>
+						<nome_desc align="" name="p_nome_desc" type="text">Nome</nome_desc>
+						<link align="" name="p_link" type="link">Link</link>
+						<link_desc align="" name="p_link_desc" type="link">Link</link_desc>
+						<psq align="" name="p_psq" type="lookup">Psq</psq>
+						<psq_desc align="" name="p_psq_desc" type="lookup">Psq</psq_desc>
+						<text align="" name="p_text" type="link">Text</text>
+						<text_desc align="" name="p_text_desc" type="link">Text</text_desc>
+						<form_list_id align="" name="p_form_list_id" type="hidden">Text</form_list_id>
+					</label>
+					<value>
+						<row>
+							<hid2 name="p_hid2" type="hidden">1923480</hid2>
+							<hid2_desc name="p_hid2_desc" type="hidden">1923480</hid2_desc>
+							<nome name="p_nome" type="text">Qgtvyryvwawmt</nome>
+							<nome_desc name="p_nome_desc" type="text">Qgtvyryvwawmt</nome_desc>
+							<link name="p_link" type="link">http://www.zgsljbvpmp.goh</link>
+							<link_desc name="p_link_desc" type="link">Link</link_desc>
+							<psq name="p_psq" type="lookup">Qfuktevnwesinhqbldfqnobum</psq>
+							<psq_desc name="p_psq_desc" type="lookup">Qfuktevnwesinhqbldfqnobum</psq_desc>
+							<text name="p_text" type="link">http://www.ezyeojlemi.obw</text>
+							<text_desc name="p_text_desc" type="link">Text</text_desc>
+						</row>
+						<row>
+							<hid2 name="p_hid2" type="hidden">6920802</hid2>
+							<hid2_desc name="p_hid2_desc" type="hidden">6920802</hid2_desc>
+							<nome name="p_nome" type="text">Yspfszchtrfudjkcktixs</nome>
+							<nome_desc name="p_nome_desc" type="text">Yspfszchtrfudjkcktixs</nome_desc>
+							<link name="p_link" type="link">http://www.fzarbwodak.kwu</link>
+							<link_desc name="p_link_desc" type="link">Link</link_desc>
+							<psq name="p_psq" type="lookup">Goebgvesixtoogr</psq>
+							<psq_desc name="p_psq_desc" type="lookup">Goebgvesixtoogr</psq_desc>
+							<text name="p_text" type="link">http://www.mtbjjpumuv.anr</text>
+							<text_desc name="p_text_desc" type="link">Text</text_desc>
+						</row>
+					</value>
+				</form_list>
+				<sep_list container="true" type="separatorlist">
+					<label>
+						<t_area align="" name="p_t_area" type="textarea">T area</t_area>
+						<t_area_desc align="" name="p_t_area_desc" type="textarea">T area</t_area_desc>
+						<nif align="" name="p_nif" type="lookup_nif">NIF</nif>
+						<nif_desc align="" name="p_nif_desc" type="lookup_nif">NIF</nif_desc>
+						<hidden_s_list align="" name="p_hidden_s_list" type="hidden">Hidden_s_list</hidden_s_list>
+						<hidden_s_list_desc align="" name="p_hidden_s_list_desc" type="hidden">Hidden_s_list</hidden_s_list_desc>
+						<hidden_ayan align="" name="p_hidden_ayan" type="hidden">hidden_ayan</hidden_ayan>
+						<hidden_ayan_desc align="" name="p_hidden_ayan_desc" type="hidden">hidden_ayan</hidden_ayan_desc>
+						<sep_list_id align="" name="p_sep_list_id" type="hidden">hidden_ayan</sep_list_id>
+					</label>
+					<value>
+						<row>
+							<t_area name="p_t_area" type="textarea">Lbbrnlifxbgp</t_area>
+							<t_area_desc name="p_t_area_desc" type="textarea">Lbbrnlifxbgp</t_area_desc>
+							<nif name="p_nif" type="lookup_nif">Npxsjhejuzqgqcor</nif>
+							<nif_desc name="p_nif_desc" type="lookup_nif">Npxsjhejuzqgqcor</nif_desc>
+							<hidden_s_list name="p_hidden_s_list" type="hidden">8656364</hidden_s_list>
+							<hidden_s_list_desc name="p_hidden_s_list_desc" type="hidden">8656364</hidden_s_list_desc>
+							<hidden_ayan name="p_hidden_ayan" type="hidden">4212151</hidden_ayan>
+							<hidden_ayan_desc name="p_hidden_ayan_desc" type="hidden">4212151</hidden_ayan_desc>
+						</row>
+						<row>
+							<t_area name="p_t_area" type="textarea">Ftalfxue</t_area>
+							<t_area_desc name="p_t_area_desc" type="textarea">Ftalfxue</t_area_desc>
+							<nif name="p_nif" type="lookup_nif">Sjzwymmvbajhq</nif>
+							<nif_desc name="p_nif_desc" type="lookup_nif">Sjzwymmvbajhq</nif_desc>
+							<hidden_s_list name="p_hidden_s_list" type="hidden">6252690</hidden_s_list>
+							<hidden_s_list_desc name="p_hidden_s_list_desc" type="hidden">6252690</hidden_s_list_desc>
+							<hidden_ayan name="p_hidden_ayan" type="hidden">3470555</hidden_ayan>
+							<hidden_ayan_desc name="p_hidden_ayan_desc" type="hidden">3470555</hidden_ayan_desc>
+						</row>
+					</value>
+				</sep_list>
+			</table>
+			<tools-bar>
+				<item code="FORM_VOLTAR" type="specific">
+					<title>Voltar</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_back</target>
+					<img>back.png</img>
+				</item>
+				<item code="FORM_FECHAR" type="specific">
+					<title>Fechar</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_close</target>
+					<img>tb_close.png</img>
+				</item>
+				<item code="FORM_LINK" type="specific">
+					<title>Link</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_link</target>
+					<img>circulo.png</img>
+				</item>
+				<item code="FORM_CONFIRMAR" type="specific">
+					<title>Confirmar</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>confirm</target>
+					<img>apply.png</img>
+				</item>
+				<item code="FORM_ALERT_SUBMIT" type="specific">
+					<title>Alert Submit</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>alert_submit</target>
+					<img>keys.png</img>
+				</item>
+				<item code="FORM_SELF" type="specific">
+					<title>Self</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_self</target>
+				</item>
+				<item code="FORM_MODAL_POPUP" type="specific">
+					<title>Modal Popup</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>modalpopup</target>
+				</item>
+				<item code="FORM_MODAL_POPUP_SBMT" type="specific">
+					<title>Modal Popup Sbmt</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>mpsubmit</target>
+				</item>
+				<item code="FORM_NEW_TAB" type="specific">
+					<title>New Tab</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_newtab</target>
+				</item>
+				<item code="FORM_NEW_TAB_SBMT" type="specific">
+					<title>New Tab Sbmt</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_newtabsubmit</target>
+				</item>
+				<item code="FORM_POPUP" type="specific">
+					<title>PopUp</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_blank</target>
+				</item>
+				<item code="FORM_SUBMIT" type="specific">
+					<title>Submit</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>submit</target>
+				</item>
+				<item code="FORM_SUBMIT_POPUP" type="specific">
+					<title>Submit Popup</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>submit_popup</target>
+				</item>
+			</tools-bar>
+		</form>
+		<view>
+			<label>
+				<nome code="NOME" maxlength="30" name="p_nome" required="true" type="link">Nome</nome>
+				<view_foto code="" maxlength="2000" name="p_view_foto" type="text">Foto</view_foto>
+			</label>
+			<value>
+				<nome name="p_nome">http://www.wkszpnuobv.kee</nome>
+				<view_foto name="p_view_foto">/images/IGRP/img/Dashboard_1024.jpg</view_foto>
+			</value>
+		</view>
+		<table operation="menu">
+			<label>
+				<cor align="" name="p_cor" type="color_td">Cor</cor>
+				<checkbox align="" name="p_checkbox" type="checkbox">Checkbox</checkbox>
+				<checkbox_check align="" name="p_checkbox_check" type="field_copy">Checkbox</checkbox_check>
+				<checkbox_desc align="" name="p_checkbox_desc" type="field_copy">Checkbox</checkbox_desc>
+				<data align="" name="p_data" type="date">Data</data>
+				<email align="" name="p_email" type="email">Email</email>
+				<link align="" name="p_link" type="link">Link</link>
+				<link_desc align="" name="p_link_desc" type="field_copy">Link</link_desc>
+				<number align="" name="p_number" type="number">Number</number>
+				<passa align="" name="p_passa" type="js_passa_valor">Passa</passa>
+				<radio align="" name="p_radio" type="radio">Radio</radio>
+				<radio_check align="" name="p_radio_check" type="field_copy">Radio</radio_check>
+				<radio_desc align="" name="p_radio_desc" type="field_copy">Radio</radio_desc>
+				<txt align="" name="p_txt" type="text">Txt</txt>
+				<hidden_table align="" name="p_hidden_table" type="hidden">hidden_table</hidden_table>
+			</label>
+			<value>
+				<row>
+					<cor align="" name="p_hidden_table" type="hidden">3</cor>
+					<checkbox align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_check align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_desc align="" name="p_hidden_table" type="hidden"/>
+					<data align="" name="p_hidden_table" type="hidden">08-06-2014</data>
+					<email align="" name="p_hidden_table" type="hidden">jeqtnxqrbelyvva@txwnr.ba</email>
+					<link align="" name="p_hidden_table" type="hidden">http://www.emaqrwsahw.ibm</link>
+					<link_desc align="" name="p_hidden_table" type="hidden"/>
+					<number align="" name="p_hidden_table" type="hidden">1376598</number>
+					<passa align="" name="p_hidden_table" type="hidden">Cqyoexki</passa>
+					<radio align="" name="p_hidden_table" type="hidden">Izrywgtsdjuiqf</radio>
+					<radio_check align="" name="p_hidden_table" type="hidden"/>
+					<radio_desc align="" name="p_hidden_table" type="hidden"/>
+					<txt align="" name="p_hidden_table" type="hidden">Xokfyfcyqsmalbkvmmroodltkgckc</txt>
+					<hidden_table align="" name="p_hidden_table" type="hidden">2470887</hidden_table>
+				</row>
+				<row>
+					<cor align="" name="p_hidden_table" type="hidden">1</cor>
+					<checkbox align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_check align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_desc align="" name="p_hidden_table" type="hidden"/>
+					<data align="" name="p_hidden_table" type="hidden">05-06-2016</data>
+					<email align="" name="p_hidden_table" type="hidden">iuddmhlamsjyrof@pbjxt.rr</email>
+					<link align="" name="p_hidden_table" type="hidden">http://www.iunqasiyva.gep</link>
+					<link_desc align="" name="p_hidden_table" type="hidden"/>
+					<number align="" name="p_hidden_table" type="hidden">2822556</number>
+					<passa align="" name="p_hidden_table" type="hidden">Hnykymuayzimh</passa>
+					<radio align="" name="p_hidden_table" type="hidden">Exizvkdwufhbswznjvsnmhjnrqhc</radio>
+					<radio_check align="" name="p_hidden_table" type="hidden"/>
+					<radio_desc align="" name="p_hidden_table" type="hidden"/>
+					<txt align="" name="p_hidden_table" type="hidden">Ywwghuvrhmjxoorgxzdvqnutrjvoq</txt>
+					<hidden_table align="" name="p_hidden_table" type="hidden">5375270</hidden_table>
+				</row>
+				<row>
+					<cor align="" name="p_hidden_table" type="hidden">8</cor>
+					<checkbox align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_check align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_desc align="" name="p_hidden_table" type="hidden"/>
+					<data align="" name="p_hidden_table" type="hidden">11-11-2016</data>
+					<email align="" name="p_hidden_table" type="hidden">tbnbwkelwhjhese@jrnhv.xs</email>
+					<link align="" name="p_hidden_table" type="hidden">http://www.pgsuywpaif.klp</link>
+					<link_desc align="" name="p_hidden_table" type="hidden"/>
+					<number align="" name="p_hidden_table" type="hidden">2191572</number>
+					<passa align="" name="p_hidden_table" type="hidden">Kiwkfyrmxabivlzmyh</passa>
+					<radio align="" name="p_hidden_table" type="hidden">Vlymkmrhszsgdnfcsfmjqpi</radio>
+					<radio_check align="" name="p_hidden_table" type="hidden"/>
+					<radio_desc align="" name="p_hidden_table" type="hidden"/>
+					<txt align="" name="p_hidden_table" type="hidden">Pjvcyprgwoxmxzdde</txt>
+					<hidden_table align="" name="p_hidden_table" type="hidden">8238331</hidden_table>
+				</row>
+				<row>
+					<cor align="" name="p_hidden_table" type="hidden">4</cor>
+					<checkbox align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_check align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_desc align="" name="p_hidden_table" type="hidden"/>
+					<data align="" name="p_hidden_table" type="hidden">18-02-2011</data>
+					<email align="" name="p_hidden_table" type="hidden">gebayicnpmlvupj@biopn.qs</email>
+					<link align="" name="p_hidden_table" type="hidden">http://www.anjfxwkzbv.mcq</link>
+					<link_desc align="" name="p_hidden_table" type="hidden"/>
+					<number align="" name="p_hidden_table" type="hidden">1626845</number>
+					<passa align="" name="p_hidden_table" type="hidden">Fmeerri</passa>
+					<radio align="" name="p_hidden_table" type="hidden">Wzirsshqqyp</radio>
+					<radio_check align="" name="p_hidden_table" type="hidden"/>
+					<radio_desc align="" name="p_hidden_table" type="hidden"/>
+					<txt align="" name="p_hidden_table" type="hidden">Ywjiejbobdyuwgnghwdozw</txt>
+					<hidden_table align="" name="p_hidden_table" type="hidden">268242</hidden_table>
+				</row>
+				<row>
+					<cor align="" name="p_hidden_table" type="hidden">8</cor>
+					<checkbox align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_check align="" name="p_hidden_table" type="hidden"/>
+					<checkbox_desc align="" name="p_hidden_table" type="hidden"/>
+					<data align="" name="p_hidden_table" type="hidden">11-04-2012</data>
+					<email align="" name="p_hidden_table" type="hidden">bpzlwamsnjwgttv@gisfw.yz</email>
+					<link align="" name="p_hidden_table" type="hidden">http://www.olfpuqiozl.ydv</link>
+					<link_desc align="" name="p_hidden_table" type="hidden"/>
+					<number align="" name="p_hidden_table" type="hidden">9569446</number>
+					<passa align="" name="p_hidden_table" type="hidden">Nvlesngzccmhfszyephfucepm</passa>
+					<radio align="" name="p_hidden_table" type="hidden">Lnrejh</radio>
+					<radio_check align="" name="p_hidden_table" type="hidden"/>
+					<radio_desc align="" name="p_hidden_table" type="hidden"/>
+					<txt align="" name="p_hidden_table" type="hidden">Smktdxcrxmumqgtosdyxcfayx</txt>
+					<hidden_table align="" name="p_hidden_table" type="hidden">3578776</hidden_table>
+				</row>
+			</value>
+			<tools-bar>
+				<item code="LIST_TB_1" type="specific">
+					<title>Tb 1</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_self</target>
+					<img>add.png</img>
+				</item>
+				<item code="LIST_TB_2" type="specific">
+					<title>Tb 2</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_self</target>
+					<img>avaliar.png</img>
+				</item>
+			</tools-bar>
+			<context-menu>
+				<item code="CTX_ITEM_1" type="specific">
+					<title>Item 1</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_self</target>
+					<img>ocultar.png</img>
+				</item>
+				<item code="CTX_ITEM_2" type="specific">
+					<title>Item 2</title>
+					<app>REDGLOBAL</app>
+					<page/>
+					<link/>
+					<target>_self</target>
+					<img>tb_zoom-janela.png</img>
+				</item>
+			</context-menu>
+			<legend_color>
+				<title>Legenda</title>
+				<item>
+					<label>Cor 1</label>
+					<value>1</value>
+				</item>
+				<item>
+					<label>Cor 2</label>
+					<value>2</value>
+				</item>
+				<item>
+					<label>Cor 3</label>
+					<value>3</value>
+				</item>
+				<item>
+					<label>Cor 4</label>
+					<value>4</value>
+				</item>
+				<item>
+					<label>Cor 5</label>
+					<value>5</value>
+				</item>
+				<item>
+					<label>Cor 6</label>
+					<value>6</value>
+				</item>
+				<item>
+					<label>Cor 7</label>
+					<value>7</value>
+				</item>
+				<item>
+					<label>Cor 8</label>
+					<value>8</value>
+				</item>
+				<item>
+					<label>Cor 9</label>
+					<value>9</value>
+				</item>
+			</legend_color>
+		</table>
+	</content>
+</rows>

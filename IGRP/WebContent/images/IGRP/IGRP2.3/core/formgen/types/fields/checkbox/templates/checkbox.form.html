@@ -1,11 +1,15 @@
-<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
-  <div class="form-group" >
+<div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" >
+  <div class="form-group" #[required]#>
       <div class="checkbox form-check-offset">
         <label>
             <input type="checkbox" name="#name.attr#" value="1" class="checkbox #[change]#" #[required]# label="#label.attr#">
-                <xsl:if test="#value.path# = '1'">
-                    <xsl:attribute name="checked">checked</xsl:attribute>
-                </xsl:if>
+              <xsl:call-template name="setAttributes">
+                <xsl:with-param name="field" select="#path#"/>
+              </xsl:call-template>
+
+              <xsl:if test="#value.path# = '1'">
+                <xsl:attribute name="checked">checked</xsl:attribute>
+              </xsl:if>
             </input>
             #label.val#
         </label>

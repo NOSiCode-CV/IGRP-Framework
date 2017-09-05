@@ -44,23 +44,23 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	@ManyToOne()
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Action> actions;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Config_env> configs;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Menu> menus;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<ProfileType> profilesType;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Organization> organizations;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<RepSource> repsources;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<RepTemplate> repTemplates;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Transaction> transactions;
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<RepInstance> repinstances;
 	
 	public Application(){

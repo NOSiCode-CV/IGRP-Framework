@@ -3,6 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.settings;
+/*---- Import your packages here... ----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -17,6 +18,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
+/*---- End ----*/
 public class SettingsController extends Controller {		
 
 public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -54,9 +56,9 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", "--- Selecionar Idioma ---");
-		idioma.put("PT", "PortuguÃªs");
-		idioma.put("EN", "InglÃªs");
-		idioma.put("FR", "FrancÃªs");
+		idioma.put("PT", "Português");
+		idioma.put("EN", "Inglês");
+		idioma.put("FR", "Francês");
 		idioma.put("ES", "Espanhol");
 		view.idioma.setValue(idioma);
 		

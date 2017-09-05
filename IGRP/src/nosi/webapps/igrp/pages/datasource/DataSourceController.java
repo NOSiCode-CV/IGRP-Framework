@@ -5,10 +5,9 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.datasource;
-
+/*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-/*---- Import your packages here... ----*/
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;

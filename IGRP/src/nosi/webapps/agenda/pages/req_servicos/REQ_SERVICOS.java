@@ -8,13 +8,19 @@ public class REQ_SERVICOS extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_servico")
-	private String servico;
-	@RParam(rParamName = "p_tipo_requisito")
-	private String tipo_requisito;
-	@RParam(rParamName = "p_upload")
-	private String upload;
-	@RParam(rParamName = "p_descritivo")
-	private String descritivo;
+	private int servico;
+	@RParam(rParamName = "p_tipo_requisito_fk")
+	private String[] p_tipo_requisito_fk;
+	@RParam(rParamName = "p_tipo_requisito_fk_desc")
+	private String[] p_tipo_requisito_fk_desc;
+	@RParam(rParamName = "p_upload_fk")
+	private String[] p_upload_fk;
+	@RParam(rParamName = "p_upload_fk_desc")
+	private String[] p_upload_fk_desc;
+	@RParam(rParamName = "p_descritivo_fk")
+	private String[] p_descritivo_fk;
+	@RParam(rParamName = "p_descritivo_fk_desc")
+	private String[] p_descritivo_fk_desc;
 
 	private ArrayList<Separatorlist_1> separatorlist_1 = new ArrayList<>();
 	public void setSeparatorlist_1(ArrayList<Separatorlist_1> separatorlist_1){
@@ -31,57 +37,109 @@ public class REQ_SERVICOS extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setServico(String servico){
+	public void setServico(int servico){
 		this.servico = servico;
 	}
-	public String getServico(){
+	public int getServico(){
 		return this.servico;
 	}
 	
-	public void setTipo_requisito(String tipo_requisito){
-		this.tipo_requisito = tipo_requisito;
+	public void setP_tipo_requisito_fk(String[] p_tipo_requisito_fk){
+		this.p_tipo_requisito_fk = p_tipo_requisito_fk;
 	}
-	public String getTipo_requisito(){
-		return this.tipo_requisito;
-	}
-	
-	public void setUpload(String upload){
-		this.upload = upload;
-	}
-	public String getUpload(){
-		return this.upload;
+	public String[] getP_tipo_requisito_fk(){
+		return this.p_tipo_requisito_fk;
 	}
 	
-	public void setDescritivo(String descritivo){
-		this.descritivo = descritivo;
+	public void setP_tipo_requisito_fk_desc(String[] p_tipo_requisito_fk_desc){
+		this.p_tipo_requisito_fk_desc = p_tipo_requisito_fk_desc;
 	}
-	public String getDescritivo(){
-		return this.descritivo;
+	public String[] getP_tipo_requisito_fk_desc(){
+		return this.p_tipo_requisito_fk_desc;
+	}
+	
+	public void setP_upload_fk(String[] p_upload_fk){
+		this.p_upload_fk = p_upload_fk;
+	}
+	public String[] getP_upload_fk(){
+		return this.p_upload_fk;
+	}
+	
+	public void setP_upload_fk_desc(String[] p_upload_fk_desc){
+		this.p_upload_fk_desc = p_upload_fk_desc;
+	}
+	public String[] getP_upload_fk_desc(){
+		return this.p_upload_fk_desc;
+	}
+	
+	public void setP_descritivo_fk(String[] p_descritivo_fk){
+		this.p_descritivo_fk = p_descritivo_fk;
+	}
+	public String[] getP_descritivo_fk(){
+		return this.p_descritivo_fk;
+	}
+	
+	public void setP_descritivo_fk_desc(String[] p_descritivo_fk_desc){
+		this.p_descritivo_fk_desc = p_descritivo_fk_desc;
+	}
+	public String[] getP_descritivo_fk_desc(){
+		return this.p_descritivo_fk_desc;
 	}
 
 
-	public class Separatorlist_1{
-		private String tipo_requisito;
-		private String upload;
-		private String descritivo;
-		public void setTipo_requisito(String tipo_requisito){
+	public static class Separatorlist_1{
+		private Pair tipo_requisito;
+		private Pair upload;
+		private Pair descritivo;
+		public static class Pair{
+		
+			private String key;
+			private String value;
+			
+			public Pair() {}
+			
+			public Pair(String key, String value) {
+				this.key = key;
+				this.value = value;
+			}
+			
+			public String getKey() {
+				return key;
+			}
+			public void setKey(String key) {
+				this.key = key;
+			}
+			public String getValue() {
+				return value;
+			}
+			public void setValue(String value) {
+				this.value = value;
+			}
+			
+			@Override
+			public String toString() {
+				return this.key + "_" + this.value;
+			}
+		}
+ 		
+		public void setTipo_requisito(Pair tipo_requisito){
 			this.tipo_requisito = tipo_requisito;
 		}
-		public String getTipo_requisito(){
+		public Pair getTipo_requisito(){
 			return this.tipo_requisito;
 		}
 
-		public void setUpload(String upload){
+		public void setUpload(Pair upload){
 			this.upload = upload;
 		}
-		public String getUpload(){
+		public Pair getUpload(){
 			return this.upload;
 		}
 
-		public void setDescritivo(String descritivo){
+		public void setDescritivo(Pair descritivo){
 			this.descritivo = descritivo;
 		}
-		public String getDescritivo(){
+		public Pair getDescritivo(){
 			return this.descritivo;
 		}
 

@@ -4,10 +4,9 @@ package nosi.core.webapp.helpers;
  * May 29, 2017
  */
 
-import javax.servlet.http.Cookie;
-
 import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.CurrentConfig;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -16,6 +15,8 @@ import nosi.webapps.igrp.dao.Transaction;
 import nosi.webapps.igrp.dao.User;
 
 public class Permission {
+
+	private static CurrentConfig cc;
 
 	public static boolean isPermition(String app,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
@@ -52,76 +53,123 @@ public class Permission {
 		return new Transaction().getPermission(transaction);
 	}
 	
+//	public static void changeOrgAndProfile(String dad){
+//		Application app = new Application();
+//		app = app.findOne(app.getCriteria().where(app.getBuilder().equal(app.getRoot().get("dad"), dad)));
+//		ProfileType profType = new ProfileType();
+//		Organization org = new Organization();
+//		if(app!=null && app.getId()!=0){
+//			int id_user = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+//			int id_app = app.getId();
+//			if(app.getPermissionApp(dad)){
+//				Profile prof = (Profile) new Profile().getByUserPerfil(id_user,id_app);
+//				if(prof!=null){          
+//					org.setId(prof.getOrganization().getId());
+//					profType.setId(prof.getProfileType().getId());
+//					String data_cache = getDataCache(dad);
+//					if(data_cache==null || data_cache.equals("")){
+//						String data = prof.getOrganization().getId()+"-"+prof.getProfileType().getId();
+//						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
+//					}
+//				}
+//			}else{
+//				Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
+//			}
+//		}else{
+//			Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
+//		}
+//		Igrp.getInstance().getResponse().addCookie(new Cookie("_env", dad));
+//		
+//		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
+//		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
+//		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
+//	}
+	
+//	public static void changeOrgAndProfile(String dad){
+//		Application app = new Application().find().andWhere("dad", "=", dad).one();
+//		ProfileType profType = new ProfileType();
+//		Organization org = new Organization();
+//		Profile prof = new Profile();
+//		if(app!=null){
+//			int id_user = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+//			if(app.getPermissionApp(dad)){
+//				prof = (Profile) prof.getByUserPerfil(id_user,app.getId());
+//				if(prof!=null){
+//					 org.setId(prof.getOrganization().getId());
+//					 profType.setId(prof.getProfileType().getId());
+//					 Igrp.getInstance().getRequest().getSession().setAttribute("org", prof.getOrganization().getId());
+//					 Igrp.getInstance().getRequest().getSession().setAttribute("prof",prof.getProfileType().getId());
+//					 Igrp.getInstance().getRequest().getSession().setAttribute("env", app.getDad());
+//				}
+//			}
+//		}		
+//		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
+//		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
+//		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
+//	}
+	
 	public static void changeOrgAndProfile(String dad){
-		Application app = new Application();
-		app = app.findOne(app.getCriteria().where(app.getBuilder().equal(app.getRoot().get("dad"), dad)));
+		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
-		if(app!=null && app.getId()!=0){
+		Profile prof = new Profile();
+		if(app!=null){
 			int id_user = Igrp.getInstance().getUser().getIdentity().getIdentityId();
-			int id_app = app.getId();
 			if(app.getPermissionApp(dad)){
-				Profile prof = (Profile) new Profile().getByUserPerfil(id_user,id_app);
-				if(prof!=null){          
-					org.setId(prof.getOrganization().getId());
-					profType.setId(prof.getProfileType().getId());
-					String data_cache = getDataCache(dad);
-					if(data_cache==null || data_cache.equals("")){
-						String data = prof.getOrganization().getId()+"-"+prof.getProfileType().getId();
-						Igrp.getInstance().getResponse().addCookie(new Cookie(dad,data));
-					}
+				prof = (Profile) prof.getByUserPerfil(id_user,app.getId());
+				if(prof!=null){
+					 org.setId(prof.getOrganization().getId());
+					 profType.setId(prof.getProfileType().getId());
+					 Igrp.getInstance().getRequest().getSession().setAttribute("org", prof.getOrganization().getId());
+					 Igrp.getInstance().getRequest().getSession().setAttribute("prof",prof.getProfileType().getId());
+					 Igrp.getInstance().getRequest().getSession().setAttribute("env", app.getDad());
+					 cc = new CurrentConfig().findOne(1);
+					 if(cc==null){
+						 cc = new CurrentConfig();
+						 cc.setApplication(app.getDad());
+						 cc.setOrganization(prof.getOrganization().getId());
+						 cc.setPerfil(prof.getProfileType().getId());
+						 cc = cc.insert();
+					 }else{
+						 cc.setApplication(app.getDad());
+						 cc.setOrganization(prof.getOrganization().getId());
+						 cc.setPerfil(prof.getProfileType().getId());
+						 cc = cc.update();
+					 }
 				}
-			}else{
-				Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
 			}
-		}else{
-			Igrp.getInstance().getResponse().addCookie(new Cookie(dad, ""));
-		}
-		Igrp.getInstance().getResponse().addCookie(new Cookie("_env", dad));
-		
+		}		
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
 	}
 	
 	public static String getCurrentEnv() {
-		Cookie[] cookies = Igrp.getInstance().getRequest().getCookies();
-		if(cookies!=null && cookies.length>0){
-			for(Cookie c : cookies)
-				if(c.getName().equals("_env"))
-					return c.getValue();	
-		}
-		return "igrp";
-	}
-	
-	private static String getDataCache(String dad){
-		Cookie[] cookies = Igrp.getInstance().getRequest().getCookies();
-		if(cookies!=null && cookies.length>0){
-			for(Cookie c : cookies)
-			if(c.getName().equals(dad)){
-				return c.getValue();
-			}
-		}
-		return null;
+		CurrentConfig env = new CurrentConfig().findOne(1);
+		return env!=null && !env.equals("")?env.getApplication():"igrp";
 	}
 	
 	public static int getCurrentPerfilId() {
-		String dad = getCurrentEnv();
-		String data_cache = getDataCache(dad);
-		if(data_cache!=null && !data_cache.equals("")){
-			String[] parts = data_cache.split("-");
-			return Integer.parseInt(parts[1]);
-		}
-		return -1;
+		CurrentConfig prof = new CurrentConfig().findOne(1);
+		return prof!=null && !prof.equals("")?prof.getPerfil():-1;
 	}
 
 	public static int getCurrentOrganization() {
-		String dad = getCurrentEnv();
-		String data_cache = getDataCache(dad);
-		if(data_cache!=null && !data_cache.equals("")){
-			String[] parts = data_cache.split("-");
-			return Integer.parseInt(parts[0]);
-		}
-		return -1;
+		CurrentConfig org = new CurrentConfig().findOne(1);
+		return org!=null && !org.equals("")?org.getOrganization():-1;
 	}
+//	public static String getCurrentEnv() {
+//		String env = (String) Igrp.getInstance().getRequest().getSession().getAttribute("env");
+//		return env!=null && !env.equals("")?env:"igrp";
+//	}
+//	
+//	public static int getCurrentPerfilId() {
+//		Integer prof = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("prof");
+//		return prof!=null && !prof.equals("")?prof:-1;
+//	}
+//
+//	public static int getCurrentOrganization() {
+//		Integer org = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("org");
+//		return org!=null && !org.equals("")?org:-1;
+//	}
 }

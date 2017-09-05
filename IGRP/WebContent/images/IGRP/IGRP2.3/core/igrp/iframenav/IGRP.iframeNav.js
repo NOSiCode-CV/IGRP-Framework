@@ -14,6 +14,9 @@
 				if(p.url){
 
 					modal.addClass('loadingmodal');
+					
+					if (p.clicked && p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+						modal.attr('close','refresh');
 	
 					var n_iframe = iframe.clone();
 
@@ -56,6 +59,9 @@
 				
 				modal.modal('hide');
 				iframe.attr('src','');
+
+				if (modal.attr('close') && modal.attr('close') == 'refresh')
+					$.IGRP.targets.closerefresh.action();
 
 			},
 			events:function(){

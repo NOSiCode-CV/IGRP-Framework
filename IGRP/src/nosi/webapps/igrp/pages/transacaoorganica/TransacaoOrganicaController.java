@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.transacaoorganica;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/*---- End ----*/
 public class TransacaoOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException{

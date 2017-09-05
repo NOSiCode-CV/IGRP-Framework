@@ -71,18 +71,26 @@ $(function ( $ ) {
 			var removeble = [];
 
 			options.connections.forEach(function(con){
-				var fromSplit = con.from.split('.');
-				var toSplit   = con.to.split('.');
-
-				var source = fromSplit.length > 1 ? $('[name="'+fromSplit[0]+'"] ul [name="'+fromSplit[1]+'"] .row-name') : $('[name="'+fromSplit[0]+'"] .row-name' );
-				var target = toSplit.length   > 1 ? $('[name="'+toSplit[0]+'"] ul [name="'+toSplit[1]+'"] .row-name')     : $('[name="'+toSplit[0]+'"] .row-name');
 				
-				if(source[0] && target[0])
+				var fromSplit = con.from.split('.') || con.from;
+				var toSplit   = con.to.split('.') || con.to;
+
+				var source = fromSplit.length > 1 ? $('[name="'+fromSplit[0]+'"] ul [name="'+fromSplit[1]+'"] .row-name',$('#source')) : $('[name="'+fromSplit[0]+'"] .row-name',$('#source'));
+				var target = toSplit.length   > 1 ? $('[name="'+toSplit[0]+'"] ul [name="'+toSplit[1]+'"] .row-name',$('#target'))     : $('[name="'+toSplit[0]+'"] .row-name',$('#target'));
+				
+				if(source[0] && target[0]){
 					connect(source.attr('id'),target.attr('id'));
+					var to 	 = toSplit[1] || con.to,
+						from = fromSplit[1] || con.from;
+
+					source.parent('li:first').attr('connected',to);
+    				target.parent('li:first').attr('connected',from);
+				}
 				else{
 					var index = options.connections.indexOf(con);
-					
-					
+
+    				source.parent('li:first').removeAttr('connected');
+    				target.parent('li:first').removeAttr('connected');
 					
 					if (index > -1) 
 						removeble.push(index);
@@ -136,22 +144,38 @@ $(function ( $ ) {
     		//$('#gen-service-mapper').on("hidden.bs.modal hidden", GEN.edit.hide);
 
     		$(options.confirmBtn,holder).unbind('click').on('click',function(){
-    			var connections = jsPlumb.getAllConnections();
-    			var obj         = [];
+
+    			var connections	= jsPlumb.getAllConnections(),
+    			 	obj   		= [];
 
     			connections.forEach(function(c){
-    				var source     = $(c.source);
-    				var target     = $(c.target);
-    				var sourceName = source.parent().attr('name');
-    				var targetName = target.parent().attr('name');
+    				var source      = $(c.source),
+    				 	target      = $(c.target),
 
-    				var sourcePath = source.parents('ul[parent]')[0] ? $(source.parents('ul[parent]')[0]).attr('parent')+'.'+sourceName : sourceName;
-    				var targetPath = target.parents('ul[parent]')[0] ? $(target.parents('ul[parent]')[0]).attr('parent')+'.'+targetName : targetName;
+    				 	sourceName   = source.parent().attr('name'),
+    				 	targetName 	 = target.parent().attr('name'),
 
-    				obj.push({
-    					from:sourcePath,
-    					to  :targetPath
-    				});
+    					parentSource = source.parents('ul[parent]')[0],
+    					parentTaget  = target.parents('ul[parent]')[0],
+
+    				 	sourcePath 	 = parentSource ? $(parentSource).attr('parent')+'.'+sourceName : sourceName,
+    				 	targetPath   = parentTaget ? $(parentTaget).attr('parent')+'.'+targetName : targetName;
+    				
+    				if((parentSource && parentTaget) || (!parentSource && !parentTaget)){
+	    				
+    					source.parent('li:first').attr('connected',targetName);
+	    				target.parent('li:first').attr('connected',sourceName);
+	    				
+	    				obj.push({
+	    					from:sourcePath,
+	    					to  :targetPath
+	    				});
+    				}
+    				
+    			});
+
+    			$('.gen-service-panel.confConnected .row-name:not(._jsPlumb_endpoint_anchor_)').each(function(i,e){
+    				$(e).parents('li:first').removeAttr('connected');
     			});
 
     			options.onConfirm(obj,connections);

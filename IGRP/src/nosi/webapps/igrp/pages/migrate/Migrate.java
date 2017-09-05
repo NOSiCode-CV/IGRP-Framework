@@ -1,9 +1,14 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.migrate;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Migrate extends Model{		
+	@RParam(rParamName = "p_aplicacao")
+	private String aplicacao;
 	@RParam(rParamName = "p_tipo_base_dados")
 	private String tipo_base_dados;
 	@RParam(rParamName = "p_hostname")
@@ -16,6 +21,13 @@ public class Migrate extends Model{
 	private String username;
 	@RParam(rParamName = "p_password")
 	private String password;
+	
+	public void setAplicacao(String aplicacao){
+		this.aplicacao = aplicacao;
+	}
+	public String getAplicacao(){
+		return this.aplicacao;
+	}
 	
 	public void setTipo_base_dados(String tipo_base_dados){
 		this.tipo_base_dados = tipo_base_dados;

@@ -8,8 +8,10 @@ public class ENTIDADE extends Model{
 	private String page_title_text;
 	@RParam(rParamName = "p_nome")
 	private String nome;
-	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
+	@RParam(rParamName = "p_organica")
+	private String organica;
+	@RParam(rParamName = "p_estado")
+	private String p_estado;
 	
 	public void setPage_title_text(String page_title_text){
 		this.page_title_text = page_title_text;
@@ -25,11 +27,18 @@ public class ENTIDADE extends Model{
 		return this.nome;
 	}
 	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
+	public void setOrganica(String organica){
+		this.organica = organica;
 	}
-	public String getAplicacao(){
-		return this.aplicacao;
+	public String getOrganica(){
+		return this.organica;
+	}
+	
+	public void setP_estado(String p_estado){
+		this.p_estado = p_estado;
+	}
+	public String getP_estado(){
+		return this.p_estado;
 	}
 
 

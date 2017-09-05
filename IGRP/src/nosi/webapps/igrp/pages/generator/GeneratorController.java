@@ -1,7 +1,7 @@
 package nosi.webapps.igrp.pages.generator;
+/*---- Import your packages here... ----*/
 
 import java.io.IOException;
-
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -9,6 +9,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 
+/*---- End ----*/
 public class GeneratorController extends Controller{
 	
 	public Response actionIndex() throws IOException{		

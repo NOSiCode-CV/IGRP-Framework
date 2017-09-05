@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoperfil;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -13,7 +15,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 
-
+/*---- End ----*/
 public class NovoPerfilController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{

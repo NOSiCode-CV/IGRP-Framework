@@ -1,39 +1,80 @@
 package nosi.webapps.agenda.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.core.MediaType;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.reflect.TypeToken;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
+import nosi.webapps.agenda.helper.RestRequestHelper;
+
 /**
  * @author: Emanuel Pereira
  * 4 Aug 2017
  */
 public class Agenda {
-
-	private int id;
-	private int id_servico;
-	private int id_balcao;
+	@Expose(serialize = false, deserialize = true)
+	private Integer id;
+	private int id_serv_balcao;
 	private int nr_atendimentos;
 	private int nr_atend_disponiveis;
 	private int nr_atendedores;
 	private float tempo_medio;
 	private int antecede_edit;
 	private int anteced_agenda;
-	private String dias_atendiemnto;
+	private String dias_atendimento;
 	private String estado;
+	private String periodo;
+	private String hora_inicio;
+	private String hora_fim;
+	
+	public int getId_serv_balcao() {
+		return id_serv_balcao;
+	}
+	public void setId_serv_balcao(int id_serv_balcao) {
+		this.id_serv_balcao = id_serv_balcao;
+	}
+	public String getDias_atendimento() {
+		return dias_atendimento;
+	}
+	public void setDias_atendimento(String dias_atendimento) {
+		this.dias_atendimento = dias_atendimento;
+	}
+	public String getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	public String getHora_inicio() {
+		return hora_inicio;
+	}
+	public void setHora_inicio(String hora_inicio) {
+		this.hora_inicio = hora_inicio;
+	}
+	public String getHora_fim() {
+		return hora_fim;
+	}
+	public void setHora_fim(String hora_fim) {
+		this.hora_fim = hora_fim;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getId_servico() {
-		return id_servico;
-	}
-	public void setId_servico(int id_servico) {
-		this.id_servico = id_servico;
-	}
-	public int getId_balcao() {
-		return id_balcao;
-	}
-	public void setId_balcao(int id_balcao) {
-		this.id_balcao = id_balcao;
-	}
+	
 	public int getNr_atendimentos() {
 		return nr_atendimentos;
 	}
@@ -71,10 +112,10 @@ public class Agenda {
 		this.anteced_agenda = anteced_agenda;
 	}
 	public String getDias_atendiemnto() {
-		return dias_atendiemnto;
+		return dias_atendimento;
 	}
-	public void setDias_atendiemnto(String dias_atendiemnto) {
-		this.dias_atendiemnto = dias_atendiemnto;
+	public void setDias_atendiemnto(String dias_atendimento) {
+		this.dias_atendimento = dias_atendimento;
 	}
 	public String getEstado() {
 		return estado;
@@ -83,5 +124,35 @@ public class Agenda {
 		this.estado = estado;
 	}
 	
+	public static List<Agenda> getAllAgenda() {
+		
+		List<Agenda> aux = null;
+		
+		try {
+			ClientConfig config = new DefaultClientConfig();
+			 
+	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
+	        
+	        String url = RestRequestHelper.baseUrl + "/ag_t_agenda";
+	        
+	        WebResource resource = client.resource(url);
+	        
+	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+	        
+	   	 	String jsonResult = response.getEntity(String.class);
+	   	 	
+	        if(response.getStatus() == 200) {
+		        aux = RestRequestHelper.convertJsonToListDao(jsonResult, new TypeToken<List<Agenda>>(){}.getType());
+	        }
+	        else {
+	       	 System.out.println("Error");
+	       	 //System.out.println(RestRequestHelper.convertToDefaultFault(jsonResult));
+	        }
+	       client.destroy();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return aux != null ? aux : new ArrayList<Agenda>();
+	}
 	
 }
