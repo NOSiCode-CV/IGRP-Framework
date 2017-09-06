@@ -3,7 +3,7 @@
     <db>
         <connectionName>hibernate-igrp-core</connectionName>
         <dbmsName>h2</dbmsName>
-        <dbName>db_igrp</dbName>
+        <dbName>db_igrp_core</dbName>
         <user>user.igrp</user>
         <password>password.igrp</password>
         <hostName>~</hostName>
