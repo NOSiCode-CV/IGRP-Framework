@@ -27,6 +27,9 @@ public class PersistenceUtils {
 				String url = getUrl(dbI.getDbmsName(),dbI.getHostName(),dbI.getPort(), dbI.getDbName());
 				setConnection(dbI.getDbmsName(), dbI.getConnectionName(), url, dbI.getUser(), dbI.getPassword());
 		}
+	}
+	
+	public static void confiOtherConnections(){
 		List<Config_env> configs = new Config_env().findAll();
 		if(configs!=null){
 			for(Config_env c:configs){
@@ -35,7 +38,6 @@ public class PersistenceUtils {
 			}
 		}
 	}
-	
 	private static void setConnection(String dbmsName,String connectioName,String url,String user,String password){
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+connectioName+".cfg.xml");

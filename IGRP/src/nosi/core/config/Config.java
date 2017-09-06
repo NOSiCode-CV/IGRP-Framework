@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -256,6 +257,7 @@ public class Config {
 	private static void  configSetInstall(){
 		nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config("install", "ok");
 		if(config.insert()!=null){
+			PersistenceUtils.confiOtherConnections();
 			System.out.println("IGRP foi instalado com sucesso!");
 		}else{
 			System.err.println("Nao foi possivel concluir a instacao do IGRP!");
