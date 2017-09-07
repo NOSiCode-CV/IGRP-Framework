@@ -207,13 +207,15 @@
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
+				<xsl:if test="$your_code=''">
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>  
 					<xsl:value-of select="$tab"/>
+				</xsl:if>
 			</xsl:otherwise>
-		</xsl:choose>    	
+		</xsl:choose>   	
 		<xsl:value-of select="$tab"/>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
 		<xsl:value-of select="$newline"/>

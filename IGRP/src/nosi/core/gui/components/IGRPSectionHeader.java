@@ -26,13 +26,17 @@ public class IGRPSectionHeader extends IGRPComponent{
 	
 	protected ArrayList<Field> fields;
 	
-	public IGRPSectionHeader(String tag_name) {
-		super(tag_name);
+	public IGRPSectionHeader(String tag_name,String title) {
+		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.properties.put("type", "sectionheader");
 		this.properties.put("xml-type", "form");
 		this.properties.put("gen-type", "container");
 		this.properties.put("gen-group", "");
+	}
+	
+	public IGRPSectionHeader(String tag_name){
+		this(tag_name,"");
 	}
 	
 	public void addField(Field field){

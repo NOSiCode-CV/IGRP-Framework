@@ -58,6 +58,9 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($tag_name,'.setLabel(',$double_quotes,./label,$double_quotes,');')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($tag_name,'.setValue(',$double_quotes,./value,$double_quotes,');')"/>
 						<xsl:variable name="container_type">
 					 		<xsl:value-of select="../../@type"/>
 					 	</xsl:variable>

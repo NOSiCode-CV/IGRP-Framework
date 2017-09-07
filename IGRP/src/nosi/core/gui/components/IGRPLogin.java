@@ -15,8 +15,8 @@ import nosi.core.gui.fields.HiddenField;
 
 public class IGRPLogin extends IGRPForm{
 
-	public IGRPLogin(String tag_name) {
-		super(tag_name);
+	public IGRPLogin(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties = null;//No properties
 		this.xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl", "");
 		this.xml.setElement("link_img", Config.getLinkImg());
@@ -24,6 +24,9 @@ public class IGRPLogin extends IGRPForm{
 		this.xml.text(":_message_reseved");
 	}
 
+	public IGRPLogin(String tag_name){
+		this(tag_name,"");
+	}
 	public String toString(){
 		this.xml.setElement("link_img", Config.getLinkImg());
 		this.xml.setElement("title", "Login");

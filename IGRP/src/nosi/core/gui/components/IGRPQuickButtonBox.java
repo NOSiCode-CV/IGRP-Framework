@@ -19,8 +19,12 @@ package nosi.core.gui.components;
  */
 public class IGRPQuickButtonBox extends IGRPForm {
 
-	public IGRPQuickButtonBox(String tag_name) {
-		super(tag_name);
+	public IGRPQuickButtonBox(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "quickbuttonbox");
+	}
+
+	public IGRPQuickButtonBox(String tag_name) {
+		this(tag_name,"");
 	}
 }

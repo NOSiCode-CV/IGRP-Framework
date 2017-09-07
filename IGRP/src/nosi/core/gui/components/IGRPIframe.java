@@ -21,12 +21,14 @@ import nosi.core.gui.fields.Field;
 
 public class IGRPIframe extends IGRPForm {
 
-	public IGRPIframe(String tag_name) {
-		super(tag_name);
+	public IGRPIframe(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "iframe");
 		this.properties.put("xml-type", "iframe");
 	}
-	
+	public IGRPIframe(String tag_name) {
+		this(tag_name,"");
+	}
 	@Override
 	public void addField(Field field){
 		field.setValue("<![CDATA["+field.getValue()+"]]>");

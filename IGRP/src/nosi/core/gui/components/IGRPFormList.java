@@ -34,11 +34,14 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public class IGRPFormList extends IGRPSeparatorList {
 
-	public IGRPFormList(String tag_name) {
-		super(tag_name);
+	public IGRPFormList(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "formlist");
 	}
 	
+	public IGRPFormList(String tag_name) {
+		this(tag_name,"");
+	}
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){

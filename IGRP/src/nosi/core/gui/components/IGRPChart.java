@@ -56,12 +56,14 @@ public class IGRPChart extends IGRPComponent{
 	private ArrayList<String> colors;
 	
 	public IGRPChart(String tag_name,String title) {
-		super(tag_name);
+		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.colors = new ArrayList<>();
 		this.properties.put("type", "chart");
 		this.properties.put("structure", "graphic");
-		this.properties.put("title",title);
+	}
+	public IGRPChart(String tag_name) {
+		this(tag_name,"");
 	}
 	
 	
