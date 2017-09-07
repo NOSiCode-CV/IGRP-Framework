@@ -181,30 +181,39 @@
 			<xsl:value-of select="$tab2"/>	
 			<xsl:value-of select="$your_code"/>	
 		</xsl:if>
-		<xsl:if test="$page_ != '' and $your_code=''">
-			<xsl:choose>
-				<xsl:when test="$type_render_='render'">
+		<xsl:choose>
+			<xsl:when  test="$page_ != '' and $your_code=''">
+				<xsl:choose>
+					<xsl:when test="$type_render_='render'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="'return this.renderView(view);'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab"/>  
+					</xsl:when>
+					<xsl:when test="$type_render_='redirect'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+						<xsl:value-of select="$newline"/>  
+						<xsl:value-of select="$tab"/>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="'return this.renderView(view);'"/>
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab"/>  
-				</xsl:when>
-				<xsl:when test="$type_render_='redirect'">
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+					<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app,$double_quotes,',',$double_quotes,$page,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>  
 					<xsl:value-of select="$tab"/>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:if>   	
+			</xsl:otherwise>
+		</xsl:choose>    	
 		<xsl:value-of select="$tab"/>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
 		<xsl:value-of select="$newline"/>
