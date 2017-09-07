@@ -309,7 +309,7 @@
  		<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab"/>
 			<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
- 		<xsl:value-of select="concat('public class ',$tableName,'{')"/>
+ 		<xsl:value-of select="concat('public static class ',$tableName,'{')"/>
  		<xsl:for-each select="label/*">
 			<xsl:variable name="type_field">
 				<xsl:call-template name="typeField">
