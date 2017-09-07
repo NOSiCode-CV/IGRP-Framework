@@ -13,6 +13,7 @@ import nosi.webapps.red.teste.Teste;
 import java.io.PrintWriter;
 import java.util.List;
 
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -205,6 +206,7 @@ public class EnvController extends Controller {
 	
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
+		PersistenceUtils.confiOtherConnections(app);
 		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
 		String[] p = page.split("/");
 		return this.redirect(app, p[1], p[2]);
