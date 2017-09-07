@@ -212,11 +212,13 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
 	@SuppressWarnings("unchecked")
 	private void startCriteria() {		
-		if(this.entityManagerFactory.isOpen()){
-			this.builder = this.entityManagerFactory.getCriteriaBuilder();
-			this.criteria = (CriteriaQuery<T>) builder.createQuery(this.className.getClass());
-			criteria.select(root);
-			this.root = (Root<T>) this.criteria.from(this.className.getClass());
+		if(this.entityManagerFactory!=null){
+			if(this.entityManagerFactory.isOpen()){
+				this.builder = this.entityManagerFactory.getCriteriaBuilder();
+				this.criteria = (CriteriaQuery<T>) builder.createQuery(this.className.getClass());
+				criteria.select(root);
+				this.root = (Root<T>) this.criteria.from(this.className.getClass());
+			}
 		}
 	}
 
@@ -241,13 +243,16 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		this.builder = null;
 		this.criteria = null;
 		this.root = null;
-		this.entityManagerFactory = null;
+//		if(this.entityManagerFactory!=null)
+//			this.entityManagerFactory.close();
+//		this.entityManagerFactory = null;
 
 	}
 
 	private void opeConnection(){
-		if(this.entityManagerFactory==null)
+		if(this.entityManagerFactory==null){
 			this.entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(this.getConnectionName());
+		}
 	}
 	/**
 	 * @return the builder
@@ -271,49 +276,51 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 
 	@Override
 	public T andWhere(String columnName, String operator, Object value) {
-		if(value!=null && !value.toString().equals("") && this.entityManagerFactory.isOpen()){
-			Predicate e = null;
-			switch (operator.toLowerCase()) {
-			case "=":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().equal(this.getRoot().join(aux[0]).get(aux[1]), value);
-				}else{
-					e = this.getBuilder().equal(this.getRoot().get(columnName), value);
+		if(value!=null && !value.toString().equals("") && this.entityManagerFactory!=null){
+			if(this.entityManagerFactory.isOpen()){
+				Predicate e = null;
+				switch (operator.toLowerCase()) {
+				case "=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						e = this.getBuilder().equal(this.getRoot().join(aux[0]).get(aux[1]), value);
+					}else{
+						e = this.getBuilder().equal(this.getRoot().get(columnName), value);
+					}
+					break;
+				case "like":
+					String val = !value.toString().contains("%")?value.toString().toLowerCase().trim()+"%":value.toString().toLowerCase().trim();
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<String> x = this.getRoot().join(aux[0]).get(aux[1]);
+						e = this.getBuilder().like(this.getBuilder().lower(x ), val);
+					}else{
+						Expression<String> x = this.getRoot().get(columnName);
+						e = this.getBuilder().like(this.getBuilder().lower(x ), val);
+					}
+					break;
+				case "isnull":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						e = this.getBuilder().isNull(this.getRoot().join(aux[0]).get(aux[1]));
+					}else{
+						e = this.getBuilder().isNull(this.getRoot().get(columnName));
+					}
+					break;
+				case "notnull":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						e = this.getBuilder().isNotNull(this.getRoot().join(aux[0]).get(aux[1]));
+					}else{
+						e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
+					}
+					break;
+	//			case ">":
+	//				e = this.getBuilder().gt(this.getRoot().get(columnName), value);
+	//				break;
 				}
-				break;
-			case "like":
-				String val = !value.toString().contains("%")?value.toString().toLowerCase().trim()+"%":value.toString().toLowerCase().trim();
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					Expression<String> x = this.getRoot().join(aux[0]).get(aux[1]);
-					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
-				}else{
-					Expression<String> x = this.getRoot().get(columnName);
-					e = this.getBuilder().like(this.getBuilder().lower(x ), val);
-				}
-				break;
-			case "isnull":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().isNull(this.getRoot().join(aux[0]).get(aux[1]));
-				}else{
-					e = this.getBuilder().isNull(this.getRoot().get(columnName));
-				}
-				break;
-			case "notnull":
-				if(columnName.contains(".")){
-					String[] aux = columnName.split("\\.");
-					e = this.getBuilder().isNotNull(this.getRoot().join(aux[0]).get(aux[1]));
-				}else{
-					e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
-				}
-				break;
-//			case ">":
-//				e = this.getBuilder().gt(this.getRoot().get(columnName), value);
-//				break;
+				this.predicates.add(e);
 			}
-			this.predicates.add(e);
 		}
 		return this.className;
 	}
