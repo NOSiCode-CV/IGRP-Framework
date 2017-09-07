@@ -308,7 +308,7 @@
 	    			<xsl:if test="$type_content='table'">
 	    				<xsl:value-of select="$newline"/>
 		    			<xsl:value-of select="$tab_"/>
-		    			<xsl:value-of select="concat('public void set',$name_,'_desc(String ',$name,'_check){')" />
+		    			<xsl:value-of select="concat('public void set',$name_,'_desc(String ',$name,'_desc){')" />
 		    			<xsl:value-of select="$newline"/>
 		    			<xsl:value-of select="$tab2_"/>
 		    			<xsl:value-of select="concat('this.',$name,'_desc = ',$name,'_desc;')"/>
