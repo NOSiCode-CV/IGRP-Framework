@@ -38,6 +38,16 @@ public class PersistenceUtils {
 			}
 		}
 	}
+
+	public static void confiOtherConnections(String app) {
+		List<Config_env> configs = new Config_env().find().andWhere("application.dad", "=", app).all();
+		if(configs!=null){
+			for(Config_env c:configs){
+				String url = getUrl(c.getType_db(),c.getHost(),c.getPort(), c.getName_db());
+				setConnection(c.getType_db(), c.getName(), url, c.getUsername(), c.getPassword());
+			}
+		}
+	}
 	private static void setConnection(String dbmsName,String connectioName,String url,String user,String password){
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+connectioName+".cfg.xml");
