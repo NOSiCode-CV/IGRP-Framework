@@ -35,13 +35,18 @@ import nosi.core.webapp.helpers.IgrpHelper;
  */
 public class IGRPSeparatorList extends IGRPTable {
 
-	public IGRPSeparatorList(String tag_name) {
-		super(tag_name);
+	public IGRPSeparatorList(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "separatorlist");
 	}
 	
+	public IGRPSeparatorList(String tag_name) {
+		this(tag_name,"");
+	}
+	
+	
 	public IGRPSeparatorList(String tag_name, Object model, String name) {
-		this(tag_name);
+		this(tag_name,"");
 		//
 	}
 	

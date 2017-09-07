@@ -29,8 +29,8 @@ public class IGRPForm extends IGRPComponent{
 	protected IGRPToolsBar toolsbar;
 	protected float version = (float) 2.3;
 	
-	public IGRPForm(String tag_name) {
-		super(tag_name);
+	public IGRPForm(String tag_name,String title) {
+		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "form");
@@ -41,6 +41,9 @@ public class IGRPForm extends IGRPComponent{
 		this.toolsbar.setClassName(this);
 	}	
 
+	public IGRPForm(String tag_name) {
+		this(tag_name,"");
+	}	
 	public IGRPForm(String tag_name,float version){
 		this(tag_name);
 		this.version = version;

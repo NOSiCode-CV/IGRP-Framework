@@ -23,10 +23,14 @@ import nosi.core.gui.fields.GenXMLField;
  */
 public class IGRPView extends IGRPForm {
 
-	public IGRPView(String tag_name) {
-		super(tag_name);
+	public IGRPView(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "view");
 		//<view_img>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
 		GenXMLField.view_img = "http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg";
+	}
+	
+	public IGRPView(String tag_name){
+		this(tag_name,"");
 	}
 }

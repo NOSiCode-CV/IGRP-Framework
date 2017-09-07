@@ -161,14 +161,7 @@
 	 	<xsl:choose>
 	 		<xsl:when test="$type='instance'">
 				<xsl:value-of select="$tab"/>
-	 			<xsl:choose>
-	 				<xsl:when test="$type_content='chart'">
-	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,',',$double_quotes,$title_,$double_quotes,');')"/>
-	 				</xsl:when>
-	 				<xsl:otherwise>	
-	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
-	 				</xsl:otherwise>
-	 			</xsl:choose>
+	 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,',',$double_quotes,$title_,$double_quotes,');')"/>
 	 		</xsl:when>
 	 		<xsl:when test="$type='declare'">
 	 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
@@ -194,6 +187,7 @@
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 				<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
  		<xsl:call-template name="gen-toolsbar">

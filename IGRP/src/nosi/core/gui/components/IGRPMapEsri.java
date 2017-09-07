@@ -18,9 +18,12 @@ package nosi.core.gui.components;
 */
 public class IGRPMapEsri extends IGRPMapChart {
 
-	public IGRPMapEsri(String tag_name) {
-		super(tag_name);
+	public IGRPMapEsri(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "map");
 	}
 
+	public IGRPMapEsri(String tag_name) {
+		this(tag_name,"");
+	}
 }

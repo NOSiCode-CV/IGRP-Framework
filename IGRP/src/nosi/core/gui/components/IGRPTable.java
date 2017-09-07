@@ -59,8 +59,9 @@ public class IGRPTable extends IGRPComponent{
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
 	protected String rows = "";
-	public IGRPTable(String tag_name) {
-		super(tag_name);
+	
+	public IGRPTable(String tag_name,String title) {
+		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "table");
@@ -68,6 +69,10 @@ public class IGRPTable extends IGRPComponent{
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
 	}	
+	
+	public IGRPTable(String tag_name){
+		this(tag_name,"");
+	}
 	
 	public IGRPTable(String tag_name,float version){
 		this(tag_name);

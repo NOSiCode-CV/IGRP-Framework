@@ -25,17 +25,20 @@ import nosi.core.gui.fields.GenXMLField;
 public class IGRPCalendar extends IGRPComponent{
 	protected ArrayList<Field> fields;
 	private List<Calendar> calendar;
-	public IGRPCalendar(String tag_name){
-		super(tag_name);
+	public IGRPCalendar(String tag_name,String title){
+		super(tag_name,title);
 		this.properties.put("type", "calendar");
 		this.properties.put("xml-type", "calendar");
 		this.properties.put("gen-type", "container");
 		this.properties.put("gen-group", "");
 		this.fields = new ArrayList<>();
 	}
+	public IGRPCalendar(String tag_name){
+		this(tag_name,"");
+	}
 
 	public IGRPCalendar(){
-		super(null);
+		this(null);
 		this.calendar = new ArrayList<>();
 	}
 	public void addField(Field field){

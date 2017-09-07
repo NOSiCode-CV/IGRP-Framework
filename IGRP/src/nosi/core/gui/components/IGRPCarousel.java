@@ -24,12 +24,16 @@ import nosi.core.gui.fields.GenXMLField;
 
 public class IGRPCarousel  extends IGRPComponent{
 	
-	public IGRPCarousel(String tag_name){
-		super(tag_name);
+	public IGRPCarousel(String tag_name,String title){
+		super(tag_name,title);
 		this.properties.put("type", "carousel");
 		this.properties.put("xml-type", "carousel");
 		this.properties.put("gen-type", "menu");
 		this.properties.put("gen-group", "");
+	}
+	
+	public IGRPCarousel(String tag_name){
+		this(tag_name,"");
 	}
 	public String toString(){
 		this.xml.startElement(this.tag_name);
