@@ -207,13 +207,13 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		this.organization = organization;
 	}
 
-	public static boolean afterLogin() {
+	public static boolean afterLogin(Profile profile) {
 		Session currentSession = new Session();
 		currentSession.setUser(new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()));
 		User user = ((User)Igrp.getInstance().getUser().getIdentity());
 		currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
-		currentSession.setOrganization(new Organization().findOne(user.getOrganica().getId()));
-		currentSession.setProfileType(new ProfileType().findOne(user.getProfile().getId()));
+		currentSession.setOrganization(profile.getOrganization());
+		currentSession.setProfileType(profile.getProfileType());
 		currentSession.setIpAddress(Igrp.getInstance().getRequest().getRemoteAddr());
 		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setUserName(user.getUser_name());
