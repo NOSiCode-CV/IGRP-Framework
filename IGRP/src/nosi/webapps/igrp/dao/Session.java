@@ -53,7 +53,7 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 	private ProfileType profileType;
 	
 	@ManyToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="SESSION_ORGANIZATION_FK"),nullable=false)
+	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="SESSION_ORGANIZATION_FK"),nullable=true)
 	private Organization organization;
 
 	public Session(){}
