@@ -11,12 +11,12 @@ import java.util.Date;
  */
 public class DateHelper {
 
-	public static String convertDate(String date, String formatIn, String formatOut) {
+	public static String convertDate(String date, String formatIn, String outputFormat) {
 		String myDateString = null;
 		try {
 			SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
 			Date myDate = newDateFormat.parse(date);
-			newDateFormat.applyPattern(formatOut);
+			newDateFormat.applyPattern(outputFormat);
 			myDateString = newDateFormat.format(myDate);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -37,5 +37,13 @@ public class DateHelper {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String getCurrentDate(){
+		return new java.sql.Date(System.currentTimeMillis()).toString();
+	}
+	
+	public static String getCurrentDate(String outputFormat){
+		return convertDate(getCurrentDate(), "yyyy-MM-dd", outputFormat);
 	}
 }
