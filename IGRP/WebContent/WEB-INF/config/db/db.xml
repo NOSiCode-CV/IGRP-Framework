@@ -10,14 +10,4 @@
         <port>0</port>
         <default>true</default>
     </db>
-    <db>
-        <connectionName>hibernate-igrp-config</connectionName>
-        <dbmsName>h2</dbmsName>
-        <dbName>db_igrp_config</dbName>
-        <user>user.igrp.config</user>
-        <password>password.igrp.config</password>
-        <hostName>~</hostName>
-        <port>0</port>
-        <default>false</default>
-    </db>
 </config>
