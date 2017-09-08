@@ -50,16 +50,8 @@ public class LoginController extends Controller {
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
 			if(user.getStatus() == 1){				
 				Profile profile = new Profile().getByUser(user.getId());
-				Organization organization = new Organization();
-				ProfileType profileType = new ProfileType();
-				
-				profileType.setId(profile.getProfileType().getId());
-				organization.setId(profile.getOrganization().getId());
-				
-				user.setOrganica(organization);
-				user.setProfile(profileType);
 					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
-						if(!Session.afterLogin())
+						if(!Session.afterLogin(profile))
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
 						this.redirect("igrp", "home", "index"); // always go to home index url

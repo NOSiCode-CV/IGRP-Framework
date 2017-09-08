@@ -93,7 +93,7 @@ public class MigrationIGRPInitConfig {
 			
 			List<Profile> profiles = new ArrayList<>();
 			profiles.add(new Profile(1, "ENV", prof1, user1, org));
-			profiles.add(new Profile(1, "PROF", prof1, user1, org));
+			profiles.add(new Profile(2, "PROF", prof1, user1, org));
 			profiles.add(new Profile(4, "MEN", prof0, user0, org));
 			profiles.add(new Profile(5, "MEN", prof0, user0, org));
 			profiles.add(new Profile(6, "MEN", prof0, user0, org));
