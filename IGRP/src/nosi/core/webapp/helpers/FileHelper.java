@@ -13,10 +13,13 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -85,6 +88,34 @@ public class FileHelper {
 	
 	public static boolean save(String path,String filename,Part file) throws IOException{
 		return save(path,filename,convertToString(file));
+	}
+	
+	public static boolean saveFile(String path,String filename,Part file) throws IOException{
+		createDiretory(path);
+		OutputStream out = null;
+		InputStream filecontent = file.getInputStream();
+		boolean isSaved = false;
+		try {
+	        out = new FileOutputStream(new File(path + File.separator+ filename));
+	        filecontent = file.getInputStream();
+	        int read = 0;
+	        final byte[] bytes = new byte[1024];
+	        while ((read = filecontent.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+	        isSaved = true;
+	    } catch (FileNotFoundException e) {
+	    	isSaved = false;
+	    	System.err.println(e.getMessage());
+	    } finally {
+	        if (out != null) {
+	            out.close();
+	        }
+	        if (filecontent != null) {
+	            filecontent.close();
+	        }
+	    }
+		return isSaved;
 	}
 	
 	//Create directories
