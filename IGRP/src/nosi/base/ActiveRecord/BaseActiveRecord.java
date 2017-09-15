@@ -31,6 +31,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	private CriteriaQuery<T> criteria = null;
 	private Root<T> root = null;
 	private List<Predicate> predicates = new ArrayList<Predicate>();
+	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
 		this.className = (T) this;
