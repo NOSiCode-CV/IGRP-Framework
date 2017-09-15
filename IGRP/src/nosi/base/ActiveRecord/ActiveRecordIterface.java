@@ -18,10 +18,13 @@ public interface ActiveRecordIterface<T> {
 	public T one();
 	public List<T> all();
 	public T andWhere(String columnName,String operator,Object value);
+	public T andWhere(String columnName,String operator,java.sql.Date value);
+	public T andWhere(String columnName,String operator,Number value);
 	public List<T> findAll();
 	public List<T> findAll(CriteriaQuery<T> criteria);
 	public CriteriaQuery<T> getCriteria();
 	public String getConnectionName();
 	public Object getValuePrimaryKey();
 	public String getNamePrimaryKey();
+	public Long getCount();
 }

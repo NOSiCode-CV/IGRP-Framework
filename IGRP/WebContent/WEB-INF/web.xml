@@ -2,38 +2,47 @@
 <web-app id="WebApp_ID" version="3.1"
  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
- <display-name>IGRP</display-name>
- <!--  <filter>
-  <description>Authentication IGRP ...</description>
-  <display-name>Authentication</display-name>
-  <filter-name>AuthenticationFilter</filter-name>
-  <filter-class>nosi.core.filter.AuthenticationFilter</filter-class>
- </filter>
- <filter-mapping>
- 	<filter-name>AuthenticationFilter</filter-name>
- 	<url-pattern>/*</url-pattern>
- </filter-mapping>
- -->
- <servlet>
-  <servlet-name>igrp</servlet-name>
-  <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
- </servlet>
- <servlet-mapping>
-  <servlet-name>igrp</servlet-name>
-  <url-pattern>/</url-pattern>
- </servlet-mapping>
- <servlet-mapping>
-  <servlet-name>default</servlet-name>
-  <url-pattern>/images/*</url-pattern>
- </servlet-mapping>
- <welcome-file-list>
-  <welcome-file>/webapps?r=igrp/home/index</welcome-file>
- </welcome-file-list>
-  <error-page>
- 	<exception-type>java.lang.Exception</exception-type>
- 	<location>/webapps?r=igrp/error-page/exception</location>
- </error-page>
- <session-config>
- 	<session-timeout>-1</session-timeout>
- </session-config>
+ 	 <display-name>IGRP</display-name>
+	 <!--  
+	 <filter>
+		  <description>Authentication IGRP ...</description>
+		  <display-name>Authentication</display-name>
+		  <filter-name>AuthenticationFilter</filter-name>
+		  <filter-class>nosi.core.filter.AuthenticationFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+		  <filter-name>AuthenticationFilter</filter-name>
+		  <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+	 -->
+	 <servlet>
+		  <servlet-name>igrp</servlet-name>
+		  <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
+		  <init-param>
+		  	<param-name>workspace</param-name>
+		  	<param-value>C:\Users\Yma\git\IGRP-Framework\IGRP</param-value>
+		  </init-param>
+		  <init-param>
+		  	<param-name>autentication_type</param-name>
+		  	<param-value>db</param-value>
+		  </init-param>
+	 </servlet>
+	 <servlet-mapping>
+		  <servlet-name>igrp</servlet-name>
+		  <url-pattern>/</url-pattern>
+	 </servlet-mapping>
+	 <servlet-mapping>
+		  <servlet-name>default</servlet-name>
+		  <url-pattern>/images/*</url-pattern>
+	 </servlet-mapping>
+	 <welcome-file-list>
+	  	<welcome-file>/webapps?r=igrp/home/index</welcome-file>
+	 </welcome-file-list>
+		  <error-page>
+		 	<exception-type>java.lang.Exception</exception-type>
+		 	<location>/webapps?r=igrp/error-page/exception</location>
+		 </error-page>
+	 <session-config>
+	 	 <session-timeout>-1</session-timeout>
+	 </session-config>
 </web-app>

@@ -1,7 +1,9 @@
 package nosi.base.ActiveRecord;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Date;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import nosi.core.config.Config;
+
 
 /**
  * @author: Emanuel Pereira
@@ -140,7 +142,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public String getConnectionName() {
-		return Config.getDbType();
+		return "hibernate-igrp-core";
 	}
 
 	/*Get table name of Entity class
@@ -243,10 +245,6 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		this.builder = null;
 		this.criteria = null;
 		this.root = null;
-//		if(this.entityManagerFactory!=null)
-//			this.entityManagerFactory.close();
-//		this.entityManagerFactory = null;
-
 	}
 
 	private void opeConnection(){
@@ -315,9 +313,6 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 						e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
 					}
 					break;
-	//			case ">":
-	//				e = this.getBuilder().gt(this.getRoot().get(columnName), value);
-	//				break;
 				}
 				this.predicates.add(e);
 			}
@@ -326,24 +321,171 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	}
 
 	@Override
+	public T andWhere(String columnName, String operator, Date value) {
+		if(value!=null && !value.toString().equals("") && this.entityManagerFactory!=null){
+			if(this.entityManagerFactory.isOpen()){
+				Predicate e = null;
+				switch (operator.toLowerCase()) {
+				case "=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().equal(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().equal(this.getRoot().<Date>get(columnName),value);
+					}
+					break;
+					
+				case ">":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().greaterThan(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().greaterThan(this.getRoot().<Date>get(columnName),value);
+					}
+					break;
+
+				case ">=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().greaterThanOrEqualTo(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().greaterThanOrEqualTo(this.getRoot().<Date>get(columnName),value);
+					}
+					break;
+
+				case "<":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lessThan(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lessThan(this.getRoot().get(columnName),value);
+					}
+					break;
+
+				case "<=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lessThanOrEqualTo(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lessThanOrEqualTo(this.getRoot().get(columnName),value);
+					}
+					break;
+				}
+				this.predicates.add(e);
+			}
+		}
+		return this.className;
+	}
+	
+	
+	@Override
+	public T andWhere(String columnName, String operator, Number value) {
+		if(value!=null && !value.toString().equals("") && this.entityManagerFactory!=null){
+			if(this.entityManagerFactory.isOpen()){
+				Predicate e = null;
+				switch (operator.toLowerCase()) {
+				case "=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().equal(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().equal(this.getRoot().get(columnName),value);
+					}
+					break;
+					
+				case ">":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().gt(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().gt(this.getRoot().get(columnName),value);
+					}
+					break;
+
+				case ">=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().ge(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().ge(this.getRoot().get(columnName),value);
+					}
+					break;
+
+				case "<":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lt(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().lt(this.getRoot().get(columnName),value);
+					}
+					break;
+
+				case "<=":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().le(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().le(this.getRoot().get(columnName),value);
+					}
+					break;
+				}
+				this.predicates.add(e);
+			}
+		}
+		return this.className;
+	}
+	
+	@Override
 	public T one() {
 		this.opeConnection();
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			session = this.entityManagerFactory.openSession();
-			transaction = session.beginTransaction();
 			try{
-				if(this.predicates.size() > 0){
-					this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
-					this.predicates = null;
-				}
-				if( session.createQuery(this.criteria).setMaxResults(1).getResultList().size() > 0)
-					this.className = session.createQuery(this.criteria).setMaxResults(1).getSingleResult();
-				else
-					this.className = null;
-			}catch (javax.persistence.NoResultException e) {}
-			transaction.commit();
+				session = this.entityManagerFactory.openSession();
+				transaction = session.beginTransaction();
+				try{
+					if(this.predicates.size() > 0){
+						this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));
+						this.predicates = null;
+					}
+					if( session.createQuery(this.criteria).setMaxResults(1).getResultList().size() > 0)
+						this.className = session.createQuery(this.criteria).setMaxResults(1).getSingleResult();
+					else
+						this.className = null;
+				}catch (javax.persistence.NoResultException e) {}
+				transaction.commit();
+			}catch(NullPointerException e){}
 		} catch (Exception e) {
 	      if (transaction != null) {
 	          transaction.rollback();
@@ -383,4 +525,9 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		return list;
 	}
 	
+	@Override
+	public Long getCount(){
+		List<T> list = this.all();
+		return list!=null?(long)list.size():0;
+	}
 }

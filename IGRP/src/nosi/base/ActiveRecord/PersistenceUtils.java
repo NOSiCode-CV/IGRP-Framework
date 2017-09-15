@@ -4,10 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import nosi.core.config.DbInfo;
-import nosi.core.webapp.Igrp;
+import nosi.core.config.Config;
 import nosi.webapps.igrp.dao.Config_env;
-
 import java.util.List;
 //import nosi.core.config.Config;
 
@@ -23,9 +21,15 @@ public class PersistenceUtils {
 	}
 	
 	public static void init(){
-		for(DbInfo dbI:Igrp.getInstance().getDbConfig().getDbInfo()){
-				String url = getUrl(dbI.getDbmsName(),dbI.getHostName(),dbI.getPort(), dbI.getDbName());
-				setConnection(dbI.getDbmsName(), dbI.getConnectionName(), url, dbI.getUser(), dbI.getPassword());
+		if(Config.isInstall()){
+			Config_env config = new Config_env().findOne(1);
+			if(config!=null){
+				String url = getUrl(config.getType_db(),config.getHost(),config.getPort(), config.getName_db());
+				setConnection(config.getType_db(), config.getConnectionName(), url, config.getUsername(), config.getPassword());
+			}
+		}else{
+			String url = getUrl("h2","~",0,"db_igrp_core");
+			setConnection("h2", "hibernate-igrp-core", url, "user.igrp.core","password.igrp.core");
 		}
 	}
 	

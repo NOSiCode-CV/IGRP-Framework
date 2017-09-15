@@ -1,10 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.migrate;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 
 public class Migrate extends Model{		
 	@RParam(rParamName = "p_aplicacao")

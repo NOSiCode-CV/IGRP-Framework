@@ -1,11 +1,8 @@
 package nosi.core.config;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
-
 import javax.servlet.http.HttpServletRequest;
-
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
@@ -15,7 +12,6 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
 public class Config {
@@ -106,27 +102,12 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 	
-	public static String getProject_loc(){
-		return Igrp.getInstance().getAppConfig().getProject_loc();
-	}
-	
-	public static String getDbType(){
-		String name = "h2";
-		DbConfig dbC = Igrp.getInstance().getDbConfig();
-		List<DbInfo> dbinfo = dbC.getDbInfo();
-		if(!dbinfo.isEmpty()){
-			for(DbInfo db:dbinfo){
-				if(db.getDefault_db().equals("true")){
-					name = db.getConnectionName();
-					break;
-				}
-			}
-		}
-		return name;
+	public static String getWorkspace(){
+		return Igrp.getInstance().getServlet().getInitParameter("workspace");
 	}
 	
 	public static String getAutenticationType(){
-		return Igrp.getInstance().getAppConfig().getAuthenticationType();
+		return Igrp.getInstance().getServlet().getInitParameter("autentication_type");
 	}
 	
 	public static String getBasePathXsl(){
@@ -163,14 +144,7 @@ public class Config {
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			Application appl = new Application();
-			appl = appl.findOne(appl.getCriteria().where(
-					appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
-			Action ac = new Action();
-			ac = ac.findOne(ac.getCriteria().where(
-					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
-//					ac.getBuilder().equal(ac.getRoot().get("action"), action),
-					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
+			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 			return ac!=null?ac.getVersion():"2.3";		
 		}
 		return "2.3";
@@ -223,14 +197,7 @@ public class Config {
 	public static String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			Application appl = new Application();
-			appl = appl.findOne(appl.getCriteria().where(
-					appl.getBuilder().equal(appl.getRoot().get("dad"), app)));
-			Action ac = new Action();
-			ac = ac.findOne(ac.getCriteria().where(
-					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
-					ac.getBuilder().equal(ac.getRoot().get("action"), action),
-					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
+			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
 			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase():basePackage;		
 		}
 		return basePackage;
@@ -243,7 +210,7 @@ public class Config {
 		}
 	}
 	
-	private static boolean isInstall() {
+	public static boolean isInstall() {
 		nosi.webapps.igrp.dao.Config config = null;
 		try{
 			config = new nosi.webapps.igrp.dao.Config();
