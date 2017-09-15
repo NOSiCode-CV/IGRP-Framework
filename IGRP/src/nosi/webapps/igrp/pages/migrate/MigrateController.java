@@ -9,8 +9,6 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.config.AppConfig;
-import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,10 +39,7 @@ public class MigrateController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			if(model.getAplicacao().equals("1")){
-				AppConfig appC = new AppConfig();
-				appC.setAuthenticationType(Config.getAutenticationType());
-				appC.setProject_loc(Config.getProject_loc());
-				MigrationIGRP.start(appC,model);
+				MigrationIGRP.start(model);
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Migração Efetuada com sucesso");
 		}

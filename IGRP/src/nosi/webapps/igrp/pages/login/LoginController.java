@@ -1,14 +1,13 @@
 package nosi.webapps.igrp.pages.login;
 /*---- Import your packages here... ----*/
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ public class LoginController extends Controller {
 			
 			model.load();
 			
-			switch(Igrp.getInstance().getAppConfig().getAuthenticationType()){
+			switch(Config.getAutenticationType()){
 			
 				case "db": this.loginWithDb(model.getUser(), model.getPassword()); break;
 				

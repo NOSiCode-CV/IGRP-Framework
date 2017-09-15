@@ -155,8 +155,8 @@ public class PageController extends Controller {
 				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
 				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
 				FileHelper.save(path_xsl, action.getPage()+".json", json);
-				if(FileHelper.fileExists(Config.getProject_loc())){
-					FileHelper.save(Config.getProject_loc()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				if(FileHelper.fileExists(Config.getWorkspace())){
+					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
 				}
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
@@ -190,8 +190,8 @@ public class PageController extends Controller {
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
 			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			String path_xsl_work_space = Config.getProject_loc()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
-			String path_class_work_space = Config.getProject_loc() + File.separator+"src"+File.separator+ path_class;
+			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
+			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
 			this.processJson(fileJson,ac);
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
@@ -207,7 +207,7 @@ public class PageController extends Controller {
 						CompilerHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
 						CompilerHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
-					if(FileHelper.fileExists(Config.getProject_loc())){
+					if(FileHelper.fileExists(Config.getWorkspace())){
 						if(!FileHelper.fileExists(path_class_work_space)){//check directory
 							FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 						}
@@ -369,7 +369,7 @@ public class PageController extends Controller {
 		String ac = Igrp.getInstance().getRequest().getParameter("ac");
 		String your_code = "";
 		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
-			String basePath = Config.getProject_loc()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
+			String basePath = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
 			String controller = FileHelper.readFile(basePath, page+"Controller.java");
 			if(controller!=null && !controller.equals("")){
 				if(type.equals("c_import")){
