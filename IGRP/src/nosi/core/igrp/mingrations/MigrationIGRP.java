@@ -2,6 +2,7 @@ package nosi.core.igrp.mingrations;
 
 import java.util.List;
 import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.core.config.ConfigDBIGRP;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
 import nosi.webapps.igrp.pages.migrate.Migrate;
@@ -33,14 +34,14 @@ public class MigrationIGRP {
 	public static void start(Migrate model){
 		getData();
 		if(model!=null){
-			Config_env config = new Config_env().findOne(1);
+			ConfigDBIGRP config = new ConfigDBIGRP();
 			config.setHost(model.getHostname());
 			config.setName_db(model.getNome_de_bade_dados());
 			config.setType_db(model.getTipo_base_dados());
 			config.setPort(model.getPort());
 			config.setUsername(model.getUsername());
 			config.setPassword(model.getPassword());
-			config.update();
+			config.save();
 		}
 		PersistenceUtils.init();
 		saveData();
