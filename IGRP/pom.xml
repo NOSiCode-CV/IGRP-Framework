@@ -16,7 +16,6 @@
       <version>3.0.0.v201112011016</version>
       <classifier>sources</classifier>
     </dependency>
-    
     <dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
@@ -38,7 +37,6 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>42.1.1</version>
 	</dependency>
-
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
