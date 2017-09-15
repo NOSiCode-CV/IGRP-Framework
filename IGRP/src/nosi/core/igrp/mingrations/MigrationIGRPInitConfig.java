@@ -20,8 +20,6 @@ public class MigrationIGRPInitConfig {
 		app = app.insert();
 		
 		if(app!=null){
-			Config_env config = new Config_env(0, "h2", "~", "db_igrp_core", "user.igrp.core", "password.igrp.core", "utf-8", "hibernate-igrp-core", app);
-			config.insert();
 			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,null, 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
