@@ -27,10 +27,10 @@
 		  	<param-value>db</param-value>
 		  </init-param>
 	 </servlet>
-	 
+	  
 	 <servlet-mapping>
 		  <servlet-name>igrp</servlet-name>
-		  <url-pattern>/</url-pattern>
+		  <url-pattern>/webapps</url-pattern>
 	 </servlet-mapping>
 	 
 	 <servlet-mapping>
