@@ -1100,6 +1100,9 @@ var CONTAINER = function(name,params){
 				containersIDs:[container.GET.id()]
 			}));
 
+
+			console.log(tXSL);
+			console.log(tXML)
 			/*}catch(err){
 				console.log(err);
 			}*/
@@ -1112,7 +1115,7 @@ var CONTAINER = function(name,params){
 				/*var hasTransformer = container.holder.find('[gen-transformer="true"]')[0];
 				var transformer = hasTransformer ? container.holder.find('[gen-transformer="true"]') : container.holder.find('.container-contents');
 				var contentSelector = hasTransformer ? '[gen-transformer="true"]':false;
-*/
+*/				
 				container.holder.find('.container-contents').XMLTransform({
 					xml     	 : tXML,
 					xsl     	 : tXSL,
@@ -1123,7 +1126,8 @@ var CONTAINER = function(name,params){
 					//contentSelector : contentSelector,
 					complete	 : function(content){
 
-						container.tranforming = false;						
+						container.tranforming = false;		
+
 						afterTransform(content);
 
 						if(p && p.callback) p.callback();
@@ -2107,20 +2111,25 @@ var CONTAINER = function(name,params){
 						var foundCopy = container.copyOptions && container.copyOptions.found == false ? false : true;
 
 						if(!settedFields[0] && autoSet && foundCopy)
-							$('.gen-adder-btn',container.holder).click();
+							addUniqueField(container.accept[0],callback);
+						
+
 					}
 
+					console.log(settedFields)
 					if(settedFields[0]) {
 						//console.log(settedFields)
 						container.SET.fields(settedFields,null,function(){
+							console.log('OKK')
 							callback();
 							container.complete();
 						});
 
 					}else{
-						
+						console.log('TRANS')
 						container.Transform({
 							callback:function(){
+								console.log('exe')
 								callback();
 								container.complete();
 							}
@@ -2270,17 +2279,31 @@ var CONTAINER = function(name,params){
 		return valid;
 	}
 
-	var addButtonConfig = function(name){
-		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:green" class="fa fa-plus"></i></button>');
-		var f = GEN.getDeclaredField(name);
+	var addUniqueField = function(name,cb){
+	
+		var name = name || container.accept[0];
+		var f    = GEN.getDeclaredField(name);
 		
-		adder.on('click',function(){
+		if(f){
 
 			var field = new f.field(name,{
 				properties:null
 			});
-			
-			if(f) container.SET.fields([field]);
+		
+		 	container.SET.fields([field],null,cb);
+		}
+		
+
+		return false;
+	};
+
+	var addButtonConfig = function(name){
+		var adder = $('<button class="btn btn-box-tool gen-adder-btn"><i style="color:green" class="fa fa-plus"></i></button>');
+		
+		
+		adder.on('click',function(){
+
+			addUniqueField();
 
 			return false;
 		});

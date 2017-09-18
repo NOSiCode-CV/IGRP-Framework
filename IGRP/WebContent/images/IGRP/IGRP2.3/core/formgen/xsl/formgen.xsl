@@ -16,7 +16,7 @@
 
             </head>
 
-            <body class="fixed-nav startin" view="gen-design">
+            <body class="fixed-nav startin" view="gen-design" template="{rows/template}">
                 
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
                     <a class="navbar-brand col-sm-3 col-md-2" href="#" >
@@ -289,11 +289,11 @@
                                 <div class="modal-body" role="form">
                                     <div id="gen-page-settings" rel="settings">
                                         <xsl:if test="rows/content/form/label/instancia">
-                                            <div class="col-md-6 form-group" item-name="instancia" required="required">
+                                            <div class="col-md-6 form-group" item-name="instancia">
                                                 <label>
                                                     <xsl:value-of select="rows/content/form/label/instancia" disable-output-escaping="yes"/>
                                                 </label>
-                                                <select name="{rows/content/form/list/instancia/@name}" id="{rows/content/form/list/instancia/@name}" data-placeholder="{rows/content/form/list/instancia/option[position() = 1]/text}" class="select gen-page-setter form-control" rel="instance" required="required">
+                                                <select name="{rows/content/form/list/instancia/@name}" id="{rows/content/form/list/instancia/@name}" data-placeholder="{rows/content/form/list/instancia/option[position() = 1]/text}" class="select gen-page-setter form-control" rel="instance">
                                                     
                                                     <xsl:for-each select="rows/content/form/list/instancia/option[position() != 1]">
                                                         <option value="{value}">
@@ -331,7 +331,11 @@
                                             <label>Subversion Path</label>
                                             <input rel="subversionpath" type="text" name="plsql_subv" value="" class="text gen-page-setter form-control"/>
                                         </div>
-                                        <div class="col-md-3 col-md-offset-1 checkbox" style="margin-top:15px">
+                                        <div class="col-md-6 form-group" item-name="page_service">
+                                            <label>Service</label>
+                                            <div class="settings-service"></div>
+                                        </div>
+                                        <div class="col-md-5 col-md-offset-1 checkbox" style="margin-top:15px">
                                             <div  item-name="replace">
                                                 <input rel="replace" type="checkbox" name="plsql_replace" value="" class="checkbox gen-page-setter "/>
                                                 <span>Replace</span>
@@ -774,6 +778,17 @@
                     </input>
                   </div>
 
+                  <div class="form-group col-sm-6   gen-fields-holder" item-name="gen_rule_request_fields" item-type="text">
+                    <label for="p_gen_rule_request_fields">
+                      <span>
+                        Request Fields
+                      </span>
+                    </label>
+
+                    <select class="form-control rule-setter select2 " multiple="multiple" id="gen_rule_request_fields" name="p_gen_rule_request_fields" ></select>
+
+                  </div>
+
                   <div class="col-sm-6 form-group  gen-fields-holder" item-name="gen_rule_msg_type" item-type="select" >
                     <label for="p_gen_rule_msg_type">
                       Message Type
@@ -1039,6 +1054,8 @@
         <link href="{$path}/core/formgen/css/message.css" rel="stylesheet"></link>
         <link media="all and (max-width:1023px)" type="text/css" href="{$path}/core/formgen/css/tablet.css" rel="stylesheet"/>
         
+        <link href="{$path}/core/formgen/css/modern.css" rel="stylesheet"></link>
+
         <style id="custom-css"></style>
 
     </xsl:template>

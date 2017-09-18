@@ -50,7 +50,7 @@ $(function(){
 								if(forminput.prop('tagName').toLowerCase() == 'select')
 					 				forminput.trigger('change');
 
-					 			if (forminput.hasClass('IGRP_change')){
+					 			if (forminput.hasClass('IGRP_change') || forminput.attr('change') == 'true'){
 									isChange = true;
 									oChange  = forminput;
 								}
@@ -66,15 +66,45 @@ $(function(){
 					value: 'lookup_value'
 				});
   				
-  				if (isChange)
-  					oChange.on('change',$.IGRP.components.form.change);
+  				if (isChange){
+  					
+  					try{
+
+  						if(window.opener){
+
+  							var url = $("input[name='p_env_frm_url']",form).val();
+
+							url=url?url:window.opener.location.href;
+
+							window.opener.IGRP_submit(url,null,"#id"+oChange.attr("name"));
+  					
+  						}else{
+
+  							window.parent.$.IGRP.components.form.change({
+  								target : oChange[0],
+  							});
+  							
+  						}
+  						
+  					}catch(err){
+  						
+  						console.log(err);
+
+  					}
+  
+  				}
 
 				if(!vFwlNoclose){
+					
+
 					if(window.parent)
 						window.parent.$.IGRP.components.iframeNav.hide();
 
 					if (window.opener)
 						window.close();
+
+
+					
 				}
 
 				
@@ -94,10 +124,12 @@ $(function(){
 
   				} );
   			},
+
   			novalidate:function(){
   				$.IGRP.utils.getForm().unbind('submit');
   			},
   			change:function(o){
+  				
   				var target   = o.target,
   					scrollTo = '#id'+$(target).attr('name');
   					//value 	 = target.value ? target.value : target.val();
@@ -148,7 +180,7 @@ $(function(){
 				});
 
 				/* SELECT CHANGE */
-				$(document).on('change','.IGRP_change,[change="true"]',$.IGRP.components.form.change);
+				$(document).on('change','.IGRP_change, [change="true"]',$.IGRP.components.form.change);
 				$.IGRP.components.form.texteditor();
   			}
   		}

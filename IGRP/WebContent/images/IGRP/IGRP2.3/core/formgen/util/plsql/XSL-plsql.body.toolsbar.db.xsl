@@ -70,11 +70,18 @@
         <xsl:value-of select="concat('p_action',':=',$quotes,$action,$quotes)"/>        
         <xsl:value-of select="$endline"/>
 
+        <xsl:if test="service">
+            <xsl:call-template name="genPreserveYourCode">
+                <xsl:with-param name="procName" select="$code_action" />
+            </xsl:call-template>
+        </xsl:if>
+
         <xsl:call-template name="genDmlService"/>
-        
-        <xsl:call-template name="genPreserveYourCode">
-            <xsl:with-param name="procName" select="$code_action" />
-        </xsl:call-template>
+        <xsl:if test="service">        
+            <xsl:call-template name="genPreserveYourCode">
+                <xsl:with-param name="procName" select="concat('RESP',$code_action)"/>
+            </xsl:call-template>
+        </xsl:if>
                 
         <xsl:call-template name="genProcedureEndCab">
             <xsl:with-param name="procedureName" select="$procName"/>

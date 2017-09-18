@@ -26,26 +26,38 @@
             <xsl:apply-templates mode="complexType" select="xs:complexType"/>
           </xsl:when>
           <xsl:otherwise>
-            <li name="{./@name}" class="{$Pclass}"><span class="row-symbol"></span><span class="row-name"><xsl:value-of select="./@name"/></span>
-              <xsl:choose>
-                <xsl:when test="./@name = 'rows'">
-                  <ul class="row {$Cclass}">
-                    <xsl:apply-templates mode="complexType" select="xs:complexType"/>
-                  </ul>
-                </xsl:when>
-                <xsl:otherwise>
-                  <ul class="row {$Cclass}"  parent="{./@name}">
-                    <xsl:apply-templates mode="complexType" select="xs:complexType"/>
-                  </ul>
-                </xsl:otherwise>
-              </xsl:choose>
-            </li>
+            <xsl:variable name="name" select="./@name"/>
+            <xsl:if test="$name != 'status' and $name != 'status_text' and $name != 'mimetype'">
+              <li name="{$name}" class="{$Pclass}">
+                <span class="row-symbol"></span>
+                <span class="row-name"><xsl:value-of select="$name"/></span>
+                <xsl:choose>
+                  <xsl:when test="$name = 'rows'">
+                    <ul class="row {$Cclass}">
+                      <xsl:apply-templates mode="complexType" select="xs:complexType"/>
+                    </ul>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <ul class="row {$Cclass}"  parent="{$name}">
+                      <xsl:apply-templates mode="complexType" select="xs:complexType"/>
+                    </ul>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </li> 
+            </xsl:if>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <li name="{./@name}"><span class="row-name"><span class="row-symbol"></span><xsl:value-of select="./@name"/></span>
-        </li>
+        <xsl:variable name="name" select="./@name"/>
+        <xsl:if test="$name != 'status' and $name != 'status_text' and $name != 'mimetype'">
+          <li name="{$name}">
+            <span class="row-name">
+              <span class="row-symbol"></span>
+              <xsl:value-of select="$name"/>
+            </span>
+          </li>
+        </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>

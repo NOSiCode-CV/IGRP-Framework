@@ -14,7 +14,6 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /*---- End ----*/
@@ -48,8 +47,7 @@ public class PesquisarUtilizadorController extends Controller {
 		}		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
+		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations());
 		view.perfil.setValue(new ProfileType().getListProfiles());		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view

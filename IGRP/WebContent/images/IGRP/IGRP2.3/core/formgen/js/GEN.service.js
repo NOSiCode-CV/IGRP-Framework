@@ -4,8 +4,9 @@ var GENSERVICE = function(GEN){
 		otherFieldsServ = [],
 		action 			= 0;
 
-	var checkService = function(field){
-		action = field.proprieties.action.value;
+	service.checkService = function(field){
+		action = field.DETAILS ? field.DETAILS.id : field.proprieties.action.value;
+		
 		if(field.GET.service().code)
 			$('.gen-btn-service a.gen-serv-links').addClass('active');
 		else
@@ -60,7 +61,7 @@ var GENSERVICE = function(GEN){
 					id 		 : id,
 					contents : arr,
 					title 	 : getTitlePage(arr),
-					package  : data.plsql.package
+					package  : data.plsql && data.plsql.package ? data.plsql.package : 'XXXX'
 				});
 			},
 			error:function(){
@@ -84,23 +85,20 @@ var GENSERVICE = function(GEN){
 				
 				var sourceTitle  = 'SERVICE - '+o.code,
 					targetTitle  = 'SERVICE - '+o.code,
-					id 			 = 'source';
+					id 			 = o.type == 'RESP' ? 'target' : 'source',
+					pagId 		 = GEN.DETAILS.id;
 
 				$('.gen-service-panel#source h3').text(sourceTitle);
 				$('.gen-service-panel#target h3').text(targetTitle);
 
-				if(o.type == 'RESP'){
-					sourceTitle  = 'SERVICE - '+o.code+' (RESPONSE)';
-					targetTitle  = 'RESPONSE';
-					id 			 = 'target';
-					_getPageJSON(id);
+				setSourceFields({
+					id 		 : id,
+					contents : GEN.getAllContents(),
+					title 	 : getTitlePage(GEN.getAllContents())
+				});
 
-				}else{
-					setSourceFields({
-						id 		 : id,
-						contents : GEN.getAllContents(),
-						title 	 : getTitlePage(GEN.getAllContents())
-					});
+				if(o.type == 'RESP' && pagId != action){
+					_getPageJSON(id);
 				}
 
 				//setSourceFields(contents,id);
@@ -114,12 +112,12 @@ var GENSERVICE = function(GEN){
 						desc 			: $('#service_desc').val() ? $('#service_desc').val() : o.code,
 						proc 			: $('#service_proc').val() ? $('#service_proc').val() : o.proc,
 						connectionsReq 	: [],
-						fieldsReq 		: getFieldsServices('target'),
+						fieldsReq 		: getFieldsServices('target','REQ'),
 						connectionsRes 	: [],
-						fieldsRes 		: getFieldsServices('source'),
+						fieldsRes 		: getFieldsServices('target','RESP'),
 						package  		: $('.gen-service-panel#target').attr('package') 
 					});
-					checkService(o.field);
+					service.checkService(o.field);
 				}
 				
 				setTimeout(function(){
@@ -151,13 +149,15 @@ var GENSERVICE = function(GEN){
 					connectionsRes: [],
 					fieldsRes 	  : []
 				},
-				setter:function(){
-
-					var holder = $('<div class="gen-btn-service"></div>');
+				setter : function(){
+					var desc   = field.GET.service().desc || '',
+						proc   = field.GET.service().proc || '',
+						code   = field.GET.service().code || '',
+						holder = $('<div class="gen-btn-service"></div>');
 					var lookup = $('<div class="input-group">'+
-						'<input type="hidden" value="'+field.GET.service().code+'" id="service_code" name="p_toolbar_tformservico"/>'+
-						'<input type="hidden" value="'+field.GET.service().proc+'" id="service_proc" name="p_toolbar_tformservproc"/>'+
-						'<input type="text" value="'+field.GET.service().desc+'"  class="form-control gen-lookup" id="service_desc" name="p_toolbar_tformservdesc"/>'+
+						'<input type="hidden" value="'+code+'" id="service_code" name="p_toolbar_tformservico"/>'+
+						'<input type="hidden" value="'+proc+'" id="service_proc" name="p_toolbar_tformservproc"/>'+
+						'<input type="text" value="'+desc+'"  class="form-control gen-lookup" rel="page_service" id="service_desc" name="p_toolbar_tformservdesc"/>'+
 					    '<span href="'+GEN.UTILS.link_service_list+'" input-rel="service_desc" class="input-group-btn IGRP_lookupPopup" ctx_param="p_lookup_1">'+
 					        '<span class="btn btn-default">'+
 					            '<i class="fa fa-search"></i>'+
@@ -184,7 +184,7 @@ var GENSERVICE = function(GEN){
 								package  		: ''	
 							});
 						}
-						checkService(field);
+						service.checkService(field);
 					});
 
 					$('#service_code',lookup)[0].lookupCallback = function(obj){
@@ -215,7 +215,7 @@ var GENSERVICE = function(GEN){
 									desc 			: field.GET.service().desc,
 									proc 			: field.GET.service().proc,
 									connectionsReq 	: c,
-									fieldsReq 		: getFieldsServices('target'),
+									fieldsReq 		: getFieldsServices('target','REQ'),
 									connectionsRes 	: field.GET.service().connectionsRes,
 									fieldsRes 		: field.GET.service().fieldsRes,
 									package  		: $('.gen-service-panel#target').attr('package')
@@ -243,7 +243,7 @@ var GENSERVICE = function(GEN){
 									connectionsReq 	: field.GET.service().connectionsReq,
 									fieldsReq 		: field.GET.service().fieldsReq,
 									connectionsRes 	: c,
-									fieldsRes 		: getFieldsServices('target'),
+									fieldsRes 		: getFieldsServices('target','RESP'),
 									package  		: $('.gen-service-panel#target').attr('package')
 								});
 							}
@@ -254,8 +254,8 @@ var GENSERVICE = function(GEN){
 					holder.append([lookup,req,res]);
 					
 					setTimeout(function(){
-						checkService(field);
-					},50)
+						service.checkService(field);
+					},50);
 					
 					return holder;
 				}
@@ -318,7 +318,7 @@ var GENSERVICE = function(GEN){
 						if(fType != 'button' && fType != 'separator'){
 							var tagF 	= f.GET ? f.GET.tag() : f.properties.tag,
 								fGenId 	= f.GET ? f.GET.id() : tagF,
-								liF  	= $('<li name="'+tagF+'" gen-id="'+fGenId+'"><span class="row-symbol"/><span class="row-name">'+tagF+'</span></li>');
+								liF  	= $('<li type="'+fType+'" name="'+tagF+'" gen-id="'+fGenId+'"><span class="row-symbol"/><span class="row-name">'+tagF+'</span></li>');
 							
 							ulChild.append(liF);
 							fCount++;
@@ -349,41 +349,63 @@ var GENSERVICE = function(GEN){
 		    return el.to === p.name;
 		});
 		if (!found){
-			p.arr.push({to:p.name,from:p.connected});
+			p.arr.push({to:p.name,from:p.connected,type:p.type});
 		}
 	};
 
-	var getFieldsServices = function(id){
+	var getFieldsServices = function(id,type){
 		var fieldsServices 	= [],
 			auxParent 		= '',
-			length 			= 0;
+			length 			= 0,
+			auxId 			= type == 'REQ' ? 'source' : 'target';//id == 'target' ? 'source' : 'target';
 
 		$('#'+id+' .global ul.row li:not([name="mimetype"])').not('.has-child').each(function(i,e){
 			var name   		= $(e).attr('name'),
 				parent 		= $(e).parents('ul:first').attr('parent'),
-				connected 	= $(e).attr('connected') || '';
+				connected 	= $(e).attr('connected') ? $(e).attr('connected') : '',
+				type 		= $(e).attr('type') ? $(e).attr('type') : '';
+
+			if (connected != '' && type == ''){
+				var connectedObj = $('#'+auxId+'  .global li[name="'+connected+'"]');
+				type = connectedObj.attr('type') ? connectedObj.attr('type') : type;
+			}
 			
 			if (parent) {
+				//type:$(e).parents('li.has-child:first').attr('type')
+
 				if(auxParent != parent){
-					length 			= fieldsServices.length;
+					/*var obj 	= $('#'+id+' .global li[name="'+parent+'"]'),
+					auxConnected 	= obj.attr('connected') ? obj.attr('connected') : '',
+					auxType 		= '';
+				
+					if (auxConnected != ''){
+						var auxObj 	= $('#'+auxId+' .global li[name="'+auxConnected+'"]');
+						auxType 	= auxObj.attr('type') ? auxObj.attr('type') : auxType;
+					}*/
+
+					length 					= fieldsServices.length;
 					fieldsServices[length] 	= [];
-					auxParent  		= parent;
-					fieldsServices[length].push({to : parent,from : '',type :$(e).parents('li.has-child:first').attr('type') });
+					auxParent  				= parent;
+					fieldsServices[length].push({to : parent,from : '',type : $(e).parents('li.has-child:first').attr('type')});
 				}
 
 				setFieldsServices({
 					arr 		: fieldsServices[length],
 					name 		: name,
-					connected 	: connected
+					connected 	: connected,
+					type 		: type
 				});
 			}else{
 				setFieldsServices({
 					arr 		: fieldsServices,
 					name 		: name,
-					connected 	: connected
+					connected 	: connected,
+					type 		: type
 				});
 			}
 		});
+
+		//console.log(fieldsServices);
 
 		return fieldsServices;
 	}

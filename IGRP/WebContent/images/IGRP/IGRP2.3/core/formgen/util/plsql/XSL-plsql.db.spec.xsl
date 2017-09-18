@@ -89,7 +89,7 @@
             </xsl:call-template>
         </xsl:if>
 
-        <xsl:if test="$all_toolsbars_plsql/service">
+        <xsl:if test="$all_toolsbars_plsql/service or rows/service">
             <xsl:value-of select="concat($entertab,'K_LOCAL_USERDATA  varchar2(255)',$endline)"/>
         </xsl:if>
     </xsl:template>
@@ -205,12 +205,16 @@
             <xsl:variable name="fname" select="name()"/>
 
             <xsl:for-each select="rules/rule">
+
+                <xsl:variable name="reqParams" select="requestFields"/>
                 
                 <xsl:call-template name="genProcedureSpec">
 
                     <xsl:with-param name="procedureName" select="proc"/>
 
-                    <xsl:with-param name="params" select="concat('p_',$fname,' VARCHAR2')"/>
+                    <xsl:with-param name="params" select="$reqParams"/>
+
+                    <!-- <xsl:with-param name="params" select="concat('p_',$fname,' VARCHAR2')"/> -->
 
                 </xsl:call-template>
 

@@ -17,10 +17,16 @@
         <xsl:call-template name="genPreserveYourCode">
             <xsl:with-param name="procName" select="'BIZTALK'" />
         </xsl:call-template>
+
+        <!-- STAR SERVICE PAGE-->
+        <xsl:for-each select="rows">
+            <xsl:call-template name="genDbService" />
+        </xsl:for-each>
        
         <xsl:call-template name="generateDbBodySelectAll">
             <xsl:with-param name="procName" select="'dml_select'" />
         </xsl:call-template>
+
 
         <xsl:call-template name="generateDbBodySelectAll"/>
 
@@ -176,9 +182,16 @@
                 <xsl:with-param name="procName" select="$procName" />
             </xsl:call-template>
 
-            <xsl:if test="@type='treemenu'">
-                <xsl:value-of select="concat($enter2tab,'---',$pkg_core,'.remote_treemenu(CLABEL=&gt;',$quotes,'----',$quotes,$comma,'CTAG =&gt;',$quotes,$vname,$quotes,$comma,'CVALUE =&gt;',$quotes,$quotes,$comma,'CSQL =&gt;',$quotes,'select',$quotes,$quotes,'remote',$quotes,$quotes,'||rownum name, rownum id from dual connect by rownum&lt;=3',$quotes,')',$endline)"/>
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="@type='treemenu'">
+                    <xsl:value-of select="concat($enter2tab,'---',$pkg_core,'.remote_treemenu(CLABEL=&gt;',$quotes,'----',$quotes,$comma,'CTAG =&gt;',$quotes,$vname,$quotes,$comma,'CVALUE =&gt;',$quotes,$quotes,$comma,'CSQL =&gt;',$quotes,'select',$quotes,$quotes,'remote',$quotes,$quotes,'||rownum name, rownum id from dual connect by rownum&lt;=3',$quotes,')',$endline)"/>
+                </xsl:when>
+                <xsl:when test="@type='calendar'">
+                    <xsl:value-of select="concat($enter2tab,'/*',$enter2tab,$tab,'Ex. output em JSON',$enter2tab,$tab)"/>
+                    <xsl:text>htp.p('{"type":"error/info/success/warning","messege":"Gravado com Success"}');</xsl:text>
+                    <xsl:value-of select="concat($enter2tab,$tab,'Ex. output em XML',$enter2tab,$tab)"/>htp.p('<xsl:value-of select="concat('&lt;?xml version=',$quotes,$quotes,'1.0',$quotes,$quotes,' encoding=',$quotes,$quotes,'ISO-8859-1',$quotes,$quotes,'?&gt;')"/><xsl:value-of select="'&lt;messeges&gt;'"/><xsl:value-of select="concat('&lt;messege type=',$quotes,$quotes,'success',$quotes,$quotes,'&gt;')"/>Gravado com Success<xsl:value-of select="concat('&lt;/messege&gt;','&lt;/messeges&gt;')"/>');<xsl:value-of select="concat($enter2tab,'*/')"/>
+                </xsl:when>
+            </xsl:choose>
 
             <xsl:value-of select="concat($entertab,$entertab,'END',$space,$procName,$endline)"/>
         </xsl:for-each>
@@ -193,10 +206,12 @@
             <xsl:for-each select="rules/rule">
      
                 <xsl:variable name="procName" select="proc" />
+
+                <xsl:variable name="reqParams" select="requestFields"/>
                 
                 <xsl:call-template name="genProcedureCab">
                     <xsl:with-param name="procedureName" select="$procName"/>
-                    <xsl:with-param name="params" select="concat('p_',$fname,' VARCHAR2')"/>
+                    <xsl:with-param name="params" select="$reqParams"/>
                 </xsl:call-template>
 
                 <xsl:value-of select="$entertab"/>

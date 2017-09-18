@@ -6,11 +6,7 @@
   <packaging>war</packaging>
   
   <dependencies>
-    <dependency>
-      <groupId>org.eclipse.jdt.core.compiler</groupId>
-      <artifactId>ecj</artifactId>
-      <version>4.6.1</version>
-    </dependency>
+  
     <dependency>
       <groupId>org.eclipse.jetty.orbit</groupId>
       <artifactId>javax.servlet</artifactId>
@@ -38,7 +34,7 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>42.1.1</version>
 	</dependency>
-	
+
 	<!-- https://search.maven.org/#search%7Cga%7C1%7Corg.apache.oltu -->
 	<dependency>
 		<groupId>org.apache.oltu.oauth2</groupId>
@@ -56,6 +52,13 @@
 		<version>1.0.2</version>
     </dependency>
     
+	<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+	<dependency>
+	    <groupId>com.h2database</groupId>
+	    <artifactId>h2</artifactId>
+	    <version>1.4.194</version>
+	</dependency>
+	
   </dependencies>
   
   <build>

@@ -29,27 +29,28 @@ public class DataSourceView extends View {
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_fechar;
 	public DataSourceView(DataSource model){
-		this.setPageTitle("null");
+		this.setPageTitle("Registar Data Source");
 			
-		form_1 = new IGRPForm("form_1");
+		form_1 = new IGRPForm("form_1","");
 		tipo = new ListField(model,"tipo");
 		tipo.setLabel("Tipo");
-		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		tipo.setValue("");
+		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		nome = new TextField(model,"nome");
 		nome.setLabel("Nome");
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","80").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicacao");
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		area = new ListField(model,"area");
 		area.setLabel("Area");
-		area.propertie().add("name","p_area").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		area.propertie().add("name","p_area").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		processo = new ListField(model,"processo");
 		processo.setLabel("Processo");
-		processo.propertie().add("name","p_processo").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		processo.propertie().add("name","p_processo").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		etapa = new ListField(model,"etapa");
 		etapa.setLabel("Etapa");
-		etapa.propertie().add("name","p_etapa").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		etapa.propertie().add("name","p_etapa").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		objecto = new TextField(model,"objecto");
 		objecto.setLabel("Objecto");
 		objecto.propertie().add("name","p_objecto").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
@@ -58,6 +59,7 @@ public class DataSourceView extends View {
 		pagina.propertie().add("name","p_pagina").add("type","lookup").add("action","index").add("page","DataSource").add("app","igrp").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		query = new TextAreaField(model,"query");
 		query.setLabel("Query");
+		query.setValue("Select * FROM nome_tabela");
 		query.propertie().add("name","p_query").add("type","textarea").add("maxlength","4000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		servico = new LookupField(model,"servico");
 		servico.setLabel("Servico");
@@ -73,12 +75,11 @@ public class DataSourceView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","default|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_fechar = new IGRPButton("Fechar","igrp","DataSource","fechar","_close","default|fa-close","","");
+		btn_fechar = new IGRPButton("Fechar","igrp","DataSource","fechar","_close","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("code","").add("rel","fechar");
 		
-	
 	}
 		
 	@Override

@@ -9,7 +9,6 @@
 	padding: 5px 0;
 	position: relative;
 	top: 1px;
-	color:#333;
 	font-weight: 600
 	/*border-bottom: 1px solid*/
 }
@@ -89,9 +88,9 @@ select.form-control.select2+span.select2-container{
 	margin-left:4px;
 }
 /*button file*/
-.input-group .input-group-btn .btn .fa{
+/*.input-group .input-group-btn .btn .fa{
 	line-height: 20px;	
-}
+}*/
 .file-btn-holder {
   position: relative;
   overflow: hidden;

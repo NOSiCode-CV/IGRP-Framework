@@ -86,6 +86,7 @@
 				]
 
 			},
+			
 			buttons : {
 
 				targets : function(){

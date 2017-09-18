@@ -13,6 +13,7 @@
 .igrp-calendar .fc-toolbar h2{
 	display: inline;	
 	float: left;
+	outline: none;
 }
 
 .igrp-calendar .fc-toolbar .fc-prev-button,

@@ -1,0 +1,52 @@
+#igrp-sidebar.sidebar{
+    background: #3f4a59
+}
+
+#igrp-sidebar .nav-sidebar > li > a{
+    color: whitesmoke;
+    padding: 15px 20px 15px 15px;
+    border:0;
+    opacity: .8
+}
+
+.nav-bar-active{
+    display: none;
+}
+#igrp-sidebar  .nav-sidebar > li.active > a,
+#igrp-sidebar .nav-sidebar > li > a:hover{
+    box-shadow: none;
+    opacity: 1;
+    background-color: rgba(0,0,0,0.1)
+}
+
+#igrp-sidebar .treeview-menu{
+    background: #455160
+}
+
+#igrp-sidebar .treeview-menu>li>a{
+    padding: 10px 25px;
+    color: white;
+    opacity: .8;
+    border:0;
+}
+
+#igrp-sidebar .treeview-menu>li>a:hover, 
+#igrp-sidebar .treeview-menu>li>a.active{
+    background: #455160;
+    text-decoration:  none;
+    opacity: 1;
+
+}
+
+#igrp-sidebar::-webkit-scrollbar{
+    width: 0
+}
+#igrp-sidebar::-webkit-scrollbar-thumb {
+    background-color: #303844;
+}
+
+@media (min-width: 768px) {
+  #igrp-sidebar.sidebar {
+    top: 53px;
+  }
+}

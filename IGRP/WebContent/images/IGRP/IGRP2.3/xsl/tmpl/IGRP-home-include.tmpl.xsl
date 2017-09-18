@@ -3,23 +3,22 @@
   <xsl:template name="IGRP-head">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
+    
     <title><xsl:value-of select="rows/title"/></title>
-
+    <!-- Normalize -->
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css"/>
-
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css"/>
-
+    
     <!-- BS CSS -->
-    <xsl:if test="not($themeConfigData/css/@bootrap) or $themeConfigData/css/@bootrap!='false'">
+    <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
-      <!-- BS COLUMNS -->
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css"/>
-      <!-- BS COLUMNS -->
-      <!-- BS CLASS -->
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
-      <!-- BS CLASS -->
     </xsl:if>
     <!-- BS CSS -->
 
@@ -28,13 +27,17 @@
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
     </xsl:if>
     <!--/DEFAULT CSS -->
-
     
-
     <!-- THEME CSS -->
-    
     <xsl:for-each select="$themeConfigData/css/file">
-      <link href="{$themePath}/{.}" rel="stylesheet"/>
+      <xsl:choose>
+        <xsl:when test="@external = 'true'">
+          <link href="{.}" rel="stylesheet"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <link href="{$themePath}/{.}" rel="stylesheet"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
 
     <xsl:if test="$themeConfigData/colors/color">
@@ -43,21 +46,8 @@
     <!-- /THEME CSS -->
 
     <!-- COLOR PALETTES -->
-    <style>
-      <xsl:variable name="palettesXML" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
-      <xsl:for-each select="document($palettesXML)/palettes/color">
-        .cp-<xsl:value-of select="@name"/> {
-          background: <xsl:value-of select="."/>!important;
-          border-color: <xsl:value-of select="."/>!important;
-          color: <xsl:value-of select="@bg-text-color"/>!important;
-        }
-        .cp-<xsl:value-of select="@name"/>-text {
-          color: <xsl:value-of select="."/>!important;
-        }
-      </xsl:for-each>
-    </style>
+    <xsl:call-template name="colorpalettes-css"/>
     <!-- /COLOR PALETTES -->
-
     <!-- FORM -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
 
@@ -98,17 +88,14 @@
     <!-- IGRP XML XSL Transform -->
     <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}"></script>
     
-
     <!-- IGRP handler -->
     <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
 
     <script>
       var path = '<xsl:value-of select="$path"/>';
-      
-      $(document).ready(function(){
-        $.IGRP.init();
-      });
+      $(document).ready( $.IGRP.init );
     </script>
+
   </xsl:template>
   <!-- TOPMENU -->
   <xsl:template name="IGRP-topmenu">
@@ -304,7 +291,7 @@
     <xsl:variable name="dismissClass">
       <xsl:if test="$dismiss = 'true' "><xsl:value-of select="alert-dismissible"/></xsl:if>
     </xsl:variable>
-    <xsl:if test="message">
+    <!--<xsl:if test="message">-->
       <div class="igrp-msg-wrapper">
         <xsl:for-each select="message[ not(@type='debug') and not(@type='confirm')]">
           
@@ -330,7 +317,7 @@
 
         </xsl:for-each>
       </div>
-    </xsl:if>
+    <!--</xsl:if>-->
   </xsl:template>
   <!-- IFRAME NAV -->
   <xsl:template name="iframe-nav">
@@ -346,10 +333,26 @@
 
     </div>
   </xsl:template>
+  
+  <!-- COLOR PALLETES -->
+  <xsl:template name="colorpalettes-css">
+    <style>
+      <xsl:variable name="palettesXML" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
+      <xsl:for-each select="document($palettesXML)/palettes/color">
+        .cp-<xsl:value-of select="@name"/> {
+          background: <xsl:value-of select="."/>!important;
+          border-color: <xsl:value-of select="."/>!important;
+          color: <xsl:value-of select="@bg-text-color"/>!important;
+        }
+        .cp-<xsl:value-of select="@name"/>-text {
+          color: <xsl:value-of select="."/>!important;
+        }
+      </xsl:for-each>
+    </style>
+  </xsl:template>
   <!-- COLORS -->
   <xsl:template name="theme-colors" mode="theme-colors" match="*">
     <style>
-
       .box .box-title{
         color:<xsl:value-of select="color[1]"/>;
       }
@@ -508,6 +511,7 @@
       </xsl:for-each>
     </style>
   </xsl:template>
+
 
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>

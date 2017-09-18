@@ -4,8 +4,8 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +22,7 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity
 @Table(name="tbl_env")
@@ -195,13 +196,8 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		this.repinstances = repinstances;
 	}
 
-	public HashMap<Integer,String> getListApps(){
-		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Aplicacao ---");
-		for(Application app:this.findAll()){
-			lista.put(app.getId(), app.getName());
-		}
-		return lista;
+	public Map<Object, Object> getListApps(){
+		return IgrpHelper.toMap(this.findAll(), "id", "name", "--- Selecionar Aplicacao ---");
 	}
 	
 	public boolean getPermissionApp(String dad) {

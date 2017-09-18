@@ -112,7 +112,7 @@
 
 			var actionslist   = $('[rel="rules"] .IGRP-separatorlist[tag="actions_list"]',modal)[0];
 
-			var targetsFields = $('#actions_list_gen_rule_targets');
+			var targetsFields = $('#actions_list_gen_rule_targets,#gen_rule_request_fields');
 
 			targetsFields.html('');
 
@@ -381,7 +381,7 @@
           {
             "event": "load",
             "action": "hide",
-            "targets": "gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
+            "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
             "name": "Action Rule 1",
             "opposite": ""
           },
@@ -389,7 +389,7 @@
             "event": "change",
             "condition": "notnull",
             "action": "hide",
-            "targets": "gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
+            "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
             "name": "Action Rule 2",
             "opposite": ""
           },
@@ -435,7 +435,7 @@
             "condition": "contains",
             "value": "remote",
             "action": "show",
-            "targets": "gen_rule_procedure",
+            "targets": "gen_rule_request_fields,gen_rule_procedure",
             "name": "Action Rule 6",
             "opposite": ""
           },
@@ -445,7 +445,7 @@
             "condition": "equal",
             "value": "remote_combobox",
             "action": "show",
-            "targets": "gen_rule_procedure",
+            "targets": "gen_rule_request_fields,gen_rule_procedure",
             "name": "Action Rule 6.1",
             "opposite": "1"
           },
@@ -482,7 +482,7 @@
             "condition": "contains",
             "value": "remote",
             "action": "show",
-            "targets": "gen_rule_procedure",
+            "targets": "gen_rule_request_fields,gen_rule_procedure",
             "name": "Action Rule 10",
             "opposite": ""
           }

@@ -31,6 +31,14 @@
                 class:'submittable'
             });
         },
+        nextOrPrevButtom : function(holder){
+           holder.on('click','.fc-prev-button, .fc-next-button',function(){
+                $.IGRP.targets.submit.action({
+                    url      : $.IGRP.utils.getPageUrl(),
+                    validate : false
+                });
+            });
+        },
         resizeORdropEvent : function(p){
             var param = 'p_event_id='+p.event.id;
 
@@ -44,13 +52,37 @@
                 data  : param,
                 type  :"POST",
                 method:"POST"
-            }).done(function(e){
+            }).done(function(d,s,r){
+                var contentType = r.getResponseHeader('Content-Type'),
+                    resType     = contentType.split(';')[0],
+                    type        = 'info',
+                    message     = '';
+
+                if (resType.indexOf('xml') != -1) {
+                    var msg = $(d).find('messages message');
+
+                    type    = msg.attr('type');
+                    message = msg.text();
+                }else{
+                    d       = JSON.parse(d) || $.parseJSON(d);
+
+                    type    = d.type;
+                    message = d.message
+                }
+
+                type = type == 'error' ? 'danger' : type;
+
+                $.IGRP.notify({
+                    message : $.IGRP.utils.htmlDecode(message),
+                    type    : type
+                });
+
                 console.log(e);
-                /*$.IGRP.notify({
-                    message : $.IGRP.utils.htmlDecode(e.msg),
-                    type    : e.type
-                });*/
             }).fail(function(d){
+                $.IGRP.notify({
+                    message : $.IGRP.utils.htmlDecode(d.responseText),
+                    type    : 'danger'
+                });
                 p.revert();
             });
         },
@@ -185,26 +217,26 @@
 
                     $.IGRP.components.calendar.getViewParam(id);
                 },
-                dayClick: function(date, allDay ,jsEvent, view) {
+                dayClick : function(date, allDay ,jsEvent, view) {
                     var param = 'p_date='+date.format().igrpDateFormat();
                     
                     //param +='&p_type='+$('#p_type').val();
 
                     if (p.addevents) {
                         $.IGRP.components.iframeNav.set({
-                            url    :$.IGRP.utils.getUrl(p.addevents)+param
-                            //clicked:$('<a close="refresh"/>')
+                            url     : $.IGRP.utils.getUrl(p.addevents)+param,
+                            clicked : $('<a close="refresh"/>')
                         });
                     }
                 },
-                eventClick: function(event, jsEvent, view) {
+                eventClick : function(event, jsEvent, view) {
                     if (p.addevents) {
                         $.IGRP.components.iframeNav.set({
-                            url    :$.IGRP.utils.getUrl(p.addevents)+'p_event_id='+event.id,
+                            url : $.IGRP.utils.getUrl(p.addevents)+'p_event_id='+event.id,
                         });
                     }
                 },
-                eventDrop: function(event, delta, revertFunc, jsEvent) {
+                eventDrop : function(event, delta, revertFunc, jsEvent) {
                     $.IGRP.components.calendar.resizeORdropEvent({
                         event   : event,
                         delta   : delta,
@@ -214,18 +246,20 @@
                         url     : p.editevents
                     });
                 },
-                eventResize: function(event, delta, revertFunc) {
+                eventResize : function(event, delta, revertFunc) {
                     $.IGRP.components.calendar.resizeORdropEvent({
-                        event   : event,
-                        delta   : delta,
-                        revert  : revertFunc,
-                        id      : id,
-                        url     : p.editevents
+                        event  : event,
+                        delta  : delta,
+                        revert : revertFunc,
+                        id     : id,
+                        url    : p.editevents
                     });
                 }
             });
 
             calendars[id] = calendar;
+
+            //$.IGRP.components.calendar.nextOrPrevButtom(holder);
         }
     });
 })($.IGRP);

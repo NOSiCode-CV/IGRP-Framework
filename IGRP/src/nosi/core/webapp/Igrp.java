@@ -74,6 +74,7 @@ public class Igrp {
 		this.exit();
 	}
 	
+	// Send the response ...
 	private void exit(){ // Destroy all app components init. before
 		this.die = false;
 	}

@@ -25,6 +25,8 @@ import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
 
+import nosi.core.webapp.Igrp;
+
 @WebServlet
 public class OAuth2 extends HttpServlet {
 	
@@ -35,13 +37,44 @@ public class OAuth2 extends HttpServlet {
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		OAuth2.browserBasedApps(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
+	private static void browserBasedApps(HttpServletRequest request,HttpServletResponse response) {
+		String response_type = request.getParameter("response_type");
+		String client_id = request.getParameter("client_id");
+		String redirect_uri = request.getParameter("redirect_uri");
+		String scope = request.getParameter("scope");
+		
+		String loginUrl = "http://localhost:8080/IGRP/webapps?r=igrp/login/login&oauth=1";
+		loginUrl += response_type != null && !response_type.isEmpty() ? "&response_type=" + response_type : "";
+		loginUrl += client_id != null && !client_id.isEmpty() ? "&client_id=" + client_id : "";
+		loginUrl += redirect_uri != null && !redirect_uri.isEmpty() ? "&redirect_uri=" + redirect_uri : "";
+		loginUrl += scope != null && !scope.isEmpty() ? "&scope=" + scope : "";
+		//
+		try {
+			response.sendRedirect(loginUrl);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static String getAuthorizationCode(String response_type, String client_id, String redirect_uri, String scope) {
+		
+		return "";
+	}
+	
+	public static boolean validateUri(String response_type, String client_id, String redirect_uri, String scope) {
+		boolean flag = true && response_type != null && !response_type.isEmpty() && client_id != null && !client_id.isEmpty() && redirect_uri != null && 
+				!redirect_uri.isEmpty() && scope != null && !scope.isEmpty();
+		return flag;
+	}
+	
 	public static void func1(HttpServletRequest request, HttpServletResponse response) {
 		 try {
              // Make the OAuth Request out of this request and validate it
@@ -51,6 +84,7 @@ public class OAuth2 extends HttpServlet {
  
              // Get the access token
             String accessToken = oauthRequest.getAccessToken();
+            
  
            //... validate access token
  
@@ -68,7 +102,7 @@ public class OAuth2 extends HttpServlet {
 				e.printStackTrace();
 			}
            
-    		}
+    	}
 	}
 	
 }

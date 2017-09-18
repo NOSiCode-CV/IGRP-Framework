@@ -18,18 +18,15 @@ var GENTABLE = function(name,params){
 
 	var hideBody = function(){
 		$('tbody,tfoot',container.holder).hide();
-
 	}
 
-	//container.sortableOptions.onSort = hideBody;
+	var showBody = function(){
+		$('tbody,tfoot',container.holder).show();
+	}
 		
 	container.sortableOptions.onOver = hideBody;
 
-	container.sortableOptions.onOut = function(e,ui){
-
-		$('tbody,tfoot',container.holder).removeClass('invisible');
-
-	}
+	container.sortableOptions.onOut = showBody;
 
 	container.contextMenu = {
 		type   : 'button',
@@ -307,12 +304,6 @@ var GENTABLE = function(name,params){
 				xslValue: 'lookup-parser'
 			});
 
-			field.setPropriety({
-				name    : 'iskey',
-				label   : 'Is Key',
-				value   : false
-			});
-
 			switch (field.GET.type()){
 				case 'checkbox':
 				case 'link':
@@ -322,7 +313,13 @@ var GENTABLE = function(name,params){
 			}
 		}
 
-		if(field.GET.type() == 'number')
+		field.setPropriety({
+			name    : 'iskey',
+			label   : 'Is Key',
+			value   : false
+		});
+
+		if(field.GET.type() == 'number'){
 			field.setPropriety({
 				name:'total_footer',
 				label:'Total Row',
@@ -330,7 +327,8 @@ var GENTABLE = function(name,params){
 				onChange:function(v){
 					container.SET.tableFooter(v)
 				}
-			})	
+			});
+		}
 	}
 
 	container.onLinkFieldSet = function(f){
