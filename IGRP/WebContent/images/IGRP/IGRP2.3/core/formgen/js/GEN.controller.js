@@ -21,23 +21,87 @@ var GENERATOR = function(genparams){
 
 	var xslTmplPath = path+'/xsl/tmpl/';
 	
-	GEN.svApplet           = null;
+	GEN.svApplet      	 = null;
 
-	GEN.XML                = $($.parseXML(VARS.xml.init));
+	GEN.XML              = $($.parseXML(VARS.xml.init));
 
-	GEN.XSL                = null;
+	GEN.XSL              = null;
 
-	GEN.importing          = false;
+	GEN.importing        = false;
 	
-	GEN.STRUCTURE          = new GENSTRUCTURES( GEN );
+	GEN.STRUCTURE        = new GENSTRUCTURES( GEN );
 
-	GEN.path               = path+VARS.genPath;
+	GEN.path             = path+VARS.genPath;
 
-	GEN.defaultIncludes    = ['functions','variables','home-include','utils'];
+	GEN.defaultIncludes  = ['functions','variables','home-include','utils'];
 
-	GEN.icons 			   = {};
+	GEN.icons 			 = {};
 
-	GEN.domains 		   = {};
+	GEN.proprieties 	 = {};
+
+	GEN.SET  			 = {};
+
+	GEN.GET 			 = {};
+
+	GEN.propertiesLabels = {};
+
+	GEN.domains 		 = {};
+
+	GEN.tags = {
+
+		list : {
+			
+			containers: {
+
+			},
+
+			fields : {
+
+			}
+
+		},
+
+		cycle : function(tag,arr,object){
+			
+			var r  = true,
+				id = object.GET && object.GET.id ?  object.GET.id() : -1;
+
+			for(var i = 0; i < arr.length; i++){
+					
+				var c = arr[i];
+
+				if(c.GET.id() != id){
+
+					var t = c.GET.tag();
+
+					if(t == tag){
+						
+						r = false;
+
+						break;
+
+					}
+					
+				}
+				
+			}
+
+			return r;
+		},
+
+		valid : function(tag,object){
+			console.log(object)
+			var r = true,
+
+				t = object.genType,
+
+				a = t == 'container' ? GEN.getContainers() : GEN.getAllFields();
+			
+			return GEN.tags.cycle(tag, a, object);
+
+		}
+		
+	};
 	
 	GEN.init = function(){
 		setVars();
@@ -127,7 +191,7 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.initContainer_ROW = function(p){
-
+		//console.log(p);
 		//try{	
 			var genType     = p.genType;
 
@@ -139,7 +203,7 @@ var GENERATOR = function(genparams){
 			
 			var fromSortable= placeHolder.find('>'+VARS.html.declaredContainers+':eq('+p.index+')')[0];
 
-			var holder = p.holder && p.holder[0] ? p.holder : getItemBeforeDrop(type);
+			var holder = p.holder && p.holder[0] ? p.holder : GEN.getItemBeforeDrop(type);
 
 			p.object.order = p.index;
 
@@ -152,11 +216,11 @@ var GENERATOR = function(genparams){
 
 			GEN.checkColumnComponents( p.column );
 
-			if(!fromSortable)
-				p.column.find('> .gen-column-inner >'+VARS.html.containersPlaceHolder).insertAt(holder,p.object.order);
-				//p.column.find('> .gen-column-inner >'+VARS.html.containersPlaceHolder).append(holder);
-			
+			if(!fromSortable || p.clone)
 
+				p.column.find('> .gen-column-inner >'+VARS.html.containersPlaceHolder).insertAt(holder,p.object.order);
+			
+			
 			counter++;
 
 		/*}catch(e){
@@ -197,7 +261,7 @@ var GENERATOR = function(genparams){
 		    app      = GEN.DETAILS ? GEN.DETAILS.app          : '',
 		    actionD  = GEN.DETAILS ? GEN.DETAILS.action_descr : '';
 
-		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="'+filename+'" type="text/xsl"?>';
+		rtn+='<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet href="../'+filename+'" type="text/xsl"?>';
 		
 		rtn+='<rows>';
 			rtn+=VARS.xml.site;
@@ -224,10 +288,16 @@ var GENERATOR = function(genparams){
 						if(c.getXML) {
 
 							rtn+= $(c.getXML()).getXMLStr();
+
+							if(c.onXMLGenerate)
+								rtn+=c.onXMLGenerate(rtn);
 						}
 					});
 				}
+
 			rtn+='</content>';
+			if(GEN.GET.service && GEN.GET.service().code)
+				rtn+=GEN.getFieldServiceMap(GEN.GET.service());
 		rtn+='</rows>';
 		return rtn;
 		//return $.parseXML(rtn);
@@ -325,6 +395,8 @@ var GENERATOR = function(genparams){
 		return _c;
 	}
 
+	
+
 	GEN.removeContainer = function(id){
 		
 		for(var x = 0; x < CONTAINERS.length; x++){
@@ -386,6 +458,7 @@ var GENERATOR = function(genparams){
 	//var getGenFieldObject = function
 
 	GEN.dropContainers_ROW = function(containers,params){
+
 		hasChanged = true;
 
 		var indx = params && params.index >= 0 ? params.index : 0;
@@ -393,7 +466,8 @@ var GENERATOR = function(genparams){
 		if(indx < containers.length){
 			
 			var dropped    = containers[indx];
-			
+		
+
 			var objectType = dropped.params.genType ? dropped.params.genType : 'container'; 
 
 			var declared   = GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'] ? GEN['getDeclared'+capitalizeFirstLetter(objectType)+'s'](dropped.name) : null;
@@ -405,44 +479,32 @@ var GENERATOR = function(genparams){
 					var fields = [];
 
 					var _dcb = function(found){
-						
-
-						//if(found){	
-							var object = new declared[objectType](dropped.name,dropped.params);
-
-							var objectParams = {
-								genType    : objectType,
-								object     : object,
-								index      : dropped.index,
-								holder     : dropped.holder,
-								row        : dropped.row,
-								column     : dropped.column,
-								placeholder: params.placeholder ? params.placeholder : null,
-								callback   : function(){
-									
-									GEN.dropContainers_ROW(containers,{
-										index:indx+1,
-										callback: params ? params.callback : null
-									});
-
-								}
-							};
-							//objectParams
-							GEN.initObject_ROW(objectParams);
-							//dropped.params.copy = false;
-						/*}else{
-
-							GEN.dropContainers_ROW(containers,{
-										index:indx+1,
-										callback: params ? params.callback : null
-									});
-
-						}*/
+				
+						var object = new declared[objectType](dropped.name,dropped.params);
 
 						
 
-						
-						
+						var objectParams = {
+							genType    : objectType,
+							object     : object,
+							index      : dropped.index,
+							holder     : dropped.holder,
+							row        : dropped.row,
+							column     : dropped.column,
+							clone      : dropped.clone,
+							placeholder: params.placeholder ? params.placeholder : null,
+							callback   : function(){
+								
+								GEN.dropContainers_ROW(containers,{
+									index:indx+1,
+									callback: params ? params.callback : null
+								});
+
+							}
+						};
+						//objectParams
+						GEN.initObject_ROW(objectParams);
+	
 					}
 					
 					if(dropped.params.copy){
@@ -468,6 +530,14 @@ var GENERATOR = function(genparams){
 
 								dropped.params.fields = fields;
 
+								dropped.params.style = container.style;
+
+								dropped.params.options = container.options;
+							
+								dropped.params.xsl = container.xsl;
+
+								console.log(dropped)
+
 							}else{
 
 								rtn = false;
@@ -479,7 +549,10 @@ var GENERATOR = function(genparams){
 							_dcb(rtn);
 						});
 
-					}else{			
+					}else{		
+
+						
+
 						//setFields object to Fields()
 						if(dropped.params && dropped.params.fields && dropped.params.fields[0]){
 							
@@ -605,6 +678,10 @@ var GENERATOR = function(genparams){
 			var val = $(this).is(':checked')
 			object.autoTag = val;
 			$('.propriety-setter',input).attr('disabled',val);
+
+			if(val)
+				$('.propriety-setter[rel="label"]').trigger('keyup');
+
 		});
 
 		checkH.append(autotag);
@@ -892,12 +969,19 @@ var GENERATOR = function(genparams){
 				if(input) {
 					
 					if(p == 'tag') {
+						
+						input.attr('required','true');
 
+						$('.propriety-setter',input).attr('required','true')
+						
 						configAutoTagSetter(input,object);
+
 					}
 					
 					if(inputType == 'checkbox'){
+
 						checkers.push(input);
+
 					}else{
 		
 						if(objectProperties && objectProperties.order>=0)
@@ -1112,10 +1196,15 @@ var GENERATOR = function(genparams){
 
 		var first = modal.find('.'+VARS.edition.class.propSetter+':not([type="checkbox"]):not(select)')[0];
 		
-		if(first)
+		if(first){
+			
+			//$('.propriety-setter[rel="label"]').trigger('keyup');
+
 			setTimeout(function(){
 				first.select();
 			},500);
+		}
+			
 	}
 
 	GEN.edit.hide = function(){
@@ -1406,6 +1495,8 @@ var GENERATOR = function(genparams){
 			}
 		}
 
+		console.log(json);
+
 		if(json){
 
 			GEN.files = json.files || {
@@ -1431,6 +1522,9 @@ var GENERATOR = function(genparams){
 				//js value
 				//set here
 				var arr = GEN.addContainersPerRow(json.rows);
+
+
+				console.log(arr);
 
 				GEN.dropContainers_ROW(arr,{
 					
@@ -1466,7 +1560,7 @@ var GENERATOR = function(genparams){
 						row    : row,
 						column : row.find('>.gen-column'),
 						index  : 0,
-						holder : getItemBeforeDrop('sectionheader'),
+						holder : GEN.getItemBeforeDrop('sectionheader'),
 						params : {
 							genType   : 'container',
 							proprieties:{
@@ -1576,8 +1670,6 @@ var GENERATOR = function(genparams){
 	GEN.includeTemplates = function(names){
 		var idx  = GEN.baseXSL.bottom.indexOf('</xsl:stylesheet>');
 		var iPath = path;
-		
-		
 
 		names.forEach(function(name){
 			var tmpl = '<xsl:include href="'+iPath+'/xsl/tmpl/IGRP-'+name+'.tmpl.xsl?v='+_getDate()+'"/>';
@@ -1592,7 +1684,7 @@ var GENERATOR = function(genparams){
 	GEN.getIncludedTemplatesStr = function(relative){
 		var rtn = "";
 		var iPath = path;
-		
+
 		var xslTmplPath = GEN.SETTINGS.gentype == 'java' ? '../../..' : '../..';
 
 		var includStr = relative ? xslTmplPath : iPath;
@@ -1624,10 +1716,11 @@ var GENERATOR = function(genparams){
 
 		var link       = relative ? '{$path}'+p.path : p.path;
 
-		var media      = p.media ? 'media="'+p.media+'"' : ''; 
+		var media      = p.media ? 'media="'+p.media+'"' : '',
+			charset    = p.charset ? 'charset="'+p.charset+'"' : ''; 
 
 		var xslInclude = p.type == 'css' ? '<link '+media+' rel="stylesheet" type="text/css" href="'+link+'"/>' :
-					     p.type == 'js'  ? '<script type="text/javascript" src="'+link+'"></script>' : null;
+					     p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+link+'"></script>' : null;
 		
 		var viewLink    = p.path;
 
@@ -1636,7 +1729,7 @@ var GENERATOR = function(genparams){
 
 
 		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+_getDate()+'"/>' :
-					      p.type == 'js'  ? '<script type="text/javascript" src="'+viewLink+'?v='+_getDate()+'"></script>' : null;
+					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+_getDate()+'"></script>' : null;
 
 
 		//include css to the GEN VIEW
@@ -1906,7 +1999,7 @@ var GENERATOR = function(genparams){
 		/*drag containers*/
 		$(VARS.html.containers+','+VARS.html.htmls).draggable({
 			helper:function(e){
-				return getItemBeforeDrop($(e.currentTarget).attr('name'));
+				return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'));
 			},
 			start:function(e,ui){
 				$(e.currentTarget).addClass('draggin')
@@ -1922,7 +2015,7 @@ var GENERATOR = function(genparams){
 
 		$(VARS.html.fields).draggable({
 			helper:function(e){
-				return getItemBeforeDrop($(e.currentTarget).attr('name'),'field').attr('style','min-height:12px;visibility:hidden')
+				return GEN.getItemBeforeDrop($(e.currentTarget).attr('name'),'field').attr('style','min-height:12px;visibility:hidden')
 			},
 			cursor: 'move',
 			zIndex: 1000,
@@ -1987,99 +2080,110 @@ var GENERATOR = function(genparams){
 		$('#gen-edit-confirm').on('click',function(){
 
 			var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter);
+			var __tag        = setters.filter('[rel="tag"]');
 			
-			//console.log(setters);
-
-			//if(setters.filter('[rel="tag"]').valid()){
-
-				var styleSetters = $(VARS.edition.modal+' [rel="style"] .style-setter');
+			$('.gen-tag-exist-err').remove();
 			
-				$.each(setters,function(i,setter){
-					var type  = $(setter).attr('type');
-					var rel   = $(setter).attr('rel');
-					var value = null;
-					
-					if(type == 'checkbox')
-						value = $(setter).is(':checked');
-					else
-						value = $(setter).val();
+			if(__tag.valid()){
 
-					if(GEN.edit.object && GEN.edit.object.SET[rel])
-						GEN.edit.object.SET[rel](value);
-				});
+				if( GEN.tags.valid( __tag.val() , GEN.edit.object )  ){
+	
+					var styleSetters = $(VARS.edition.modal+' [rel="style"] .style-setter');
+				
+					$.each(setters,function(i,setter){
+						var type  = $(setter).attr('type');
+						var rel   = $(setter).attr('rel');
+						var value = null;
+						
+						if(type == 'checkbox')
+							value = $(setter).is(':checked');
+						else
+							value = $(setter).val();
 
-				//XSL CHANGES
-				GEN.edit.checkXSLChanges();
-
-				//STYLE TAB SETTER
-				$.each(styleSetters,function(i,style){
-
-				 	if(GEN.edit.object.customStyle){
-				 		var rel   = $(style).attr('rel');
-				 		var value = $(style).val();
-
-				 		GEN.edit.object.customStyle[rel] = value;
-				 	}
-
-				});
-
-				//RULES
-				if(GEN.edit.object.formField){
-					
-					var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
-					// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
-					var isTable = GEN.edit.object.parent.type == 'formlist' ? true : false;
-					
-
-					var rule = slist.toJSON({
-						excludeNamePrefix:'gen_rule_',
-						params : {
-							isTable : isTable
-						}
+						if(GEN.edit.object && GEN.edit.object.SET[rel])
+							GEN.edit.object.SET[rel](value);
 					});
 
-					GEN.edit.object.setRules( rule );
-					//var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
-					//GEN.edit.object.setRules(rulesDataArr);
-				}
+					//XSL CHANGES
+					GEN.edit.checkXSLChanges();
 
-				//copy options
-				if(GEN.edit.object.genType == 'container'){
-					var pageSelect = $(VARS.html.pageCopySelecter);
-					var checked    = $('[name="gen-c-copy"]:checked');
+					//STYLE TAB SETTER
+					$.each(styleSetters,function(i,style){
 
-					var copyOptions = pageSelect.val() && checked[0] ? {
-										id         : pageSelect.val(),
-										container  : checked.val(),
-										description: $('option[value="'+pageSelect.val()+'"]',pageSelect).text(),
-										settings   : GEN.edit.copyProperties,
-										plsql      : GEN.edit.copyData
-									} : false;
+					 	if(GEN.edit.object.customStyle){
+					 		var rel   = $(style).attr('rel');
+					 		var value = $(style).val();
 
-									
-					GEN.edit.object.copy(copyOptions);
+					 		GEN.edit.object.customStyle[rel] = value;
+					 	}
 
-				}
+					});
 
-				//tabs and boxes - have containers inside
-				if(GEN.edit.object.contents)
-					setHtmlStyle(GEN.edit.object);
+					//RULES
+					if(GEN.edit.object.formField){
+						
+						var slist = $('.IGRP-separatorlist',$(VARS.edition.dialog))[0];
+						// EDSON 08-03-17 var isTable = GEN.edit.object.parent.type == 'formlist' || GEN.edit.object.parent.type == 'separatorlist' ? true : false;
+						var isTable = GEN.edit.object.parent.type == 'formlist' ? true : false;
+						
 
-				if(GEN.edit.object.onEditionConfirm) 
-					GEN.edit.object.onEditionConfirm(GEN.edit.object);
+						var rule = slist.toJSON({
+							excludeNamePrefix:'gen_rule_',
+							params : {
+								isTable : isTable
+							}
+						});
 
-				if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
-					GEN.edit.object.Transform();
-				else
-					GEN.edit.object.parent.Transform();
+						GEN.edit.object.setRules( rule );
+						//var rulesDataArr = $('.gen-properties-setts-holder[rel="rules"] #gen-rules-table input:not(.sl-row-id)').serializeArray();
+						//GEN.edit.object.setRules(rulesDataArr);
+					}
+
+					//copy options
+					if(GEN.edit.object.genType == 'container'){
+						var pageSelect = $(VARS.html.pageCopySelecter);
+						var checked    = $('[name="gen-c-copy"]:checked');
+
+						var copyOptions = pageSelect.val() && checked[0] ? {
+											id         : pageSelect.val(),
+											container  : checked.val(),
+											description: $('option[value="'+pageSelect.val()+'"]',pageSelect).text(),
+											settings   : GEN.edit.copyProperties,
+											plsql      : GEN.edit.copyData
+										} : false;
+
+										
+						GEN.edit.object.copy(copyOptions);
+
+					}
+
+					//tabs and boxes - have containers inside
+					if(GEN.edit.object.contents)
+						setHtmlStyle(GEN.edit.object);
+
+					if(GEN.edit.object.onEditionConfirm) 
+						GEN.edit.object.onEditionConfirm(GEN.edit.object);
+
+					if(GEN.edit.object && ( GEN.edit.object.genType == 'container' || GEN.edit.object.genType == 'html') )
+						GEN.edit.object.Transform();
+					else
+						GEN.edit.object.parent.Transform();
+					
+
+					$(VARS.edition.modal).modal('hide');
 				
+				}else{
+					__tag.parent().prepend('<label for="edit-tag" generated="true" class="error form-validator-label gen-tag-exist-err">Tag existente!</label>')
+					
+					$('#gen-edition-modal').scrollTop(0);
+				}
+			}else{
 
-				$(VARS.edition.modal).modal('hide');	
+				$('#gen-edition-modal').scrollTop(0);
+			}
 
-			//}
-
-			
 			return false;
+
 		});
 
 		$(VARS.edition.dialog).on('click','[rel="gen-edt-cancel"]',function(){
@@ -2150,6 +2254,8 @@ var GENERATOR = function(genparams){
 
 					modal[0].confirmCallback();
 
+				$('.gen-btn-service',modal).remove();
+
 				modal.modal('hide');
 			}
 
@@ -2158,6 +2264,7 @@ var GENERATOR = function(genparams){
 		$('#gen-settings-modal').on('hidden.bs.modal',function(){
 		
 			this.confirmCallback = null;
+			$('.gen-btn-service',this).remove();
 		
 		});
 
@@ -2195,14 +2302,82 @@ var GENERATOR = function(genparams){
 					removeGenAttrs:true
 				}));
 
+				/*var vParam  =  [
+					{ name:'p_data'    , value: GEN.export() },//json
+					{ name:'p_page_xml', value: pageXML },//xml
+					{ name:'p_page_xsl', value: pageXSL },//xsl
+					{ name:'p_page_java',value:javaStr},//java
+					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+				];
 
+				console.log(vParam)
+				
+				console.log(  GEN.export() );
+
+				var vItemId = getPageId();
+				
+				$('body').attr('has-message','false');
+				$('#gen-noif-holder').html('');
+				
+				try{
+					console.log(GEN.SETTINGS.package)
+					$.IGRP.utils.submitStringAsFile({
+						//pUrl        : 'test.save.xml',
+						pUrl        : vUrl,
+						pMessage    : false,
+						pLoading    : true,
+			         	pParam      : {
+			          		pArrayFiles : vParam,
+				           	pArrayItem  : [
+				           		{name:'p_id_objeto', value:vItemId},
+				           		{name:'p_table_name', value:GEN.SETTINGS.table},
+				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+				           	]
+				        },
+						pComplete   :function(xml,text,status){
+							//:not(')
+							var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
+
+							$.each(msgs,function(i,msg){
+								var type = $(msg).attr('type');
+								var text = $(msg).text();
+
+								$.notify({
+									icon: 'fa fa-times',
+									message: text,
+
+								},{
+									type:'success',
+									delay: 8000,
+								});
+
+							});
+						},
+						pError:function(request){
+							
+							$.notify({
+								icon: 'fa fa-times',
+								message: request.statusText,
+
+							},{
+								type:'warning',
+								delay: 8000,
+							});
+						}
+			        });
+				}catch(err){
+					console.log(err);
+				}*/
+				
 				GEN.getJava(function(javaStr){
+
 					var vParam  =  [
 						{ name:'p_data'    , value: GEN.export() },//json
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-						{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2227,6 +2402,7 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
@@ -2264,8 +2440,7 @@ var GENERATOR = function(genparams){
 						console.log(err);
 					}
 
-
-				})
+				});
 
 				
 			}else{
@@ -2412,7 +2587,7 @@ var GENERATOR = function(genparams){
 		//GEN.configSortable($(VARS.html.containersPlaceHolder));
 	}
 
-	var getItemBeforeDrop = function(type,genType){
+	GEN.getItemBeforeDrop = function(type,genType){
 		var gType = genType ? genType : 'container';
 
 		return HTML({
@@ -2573,9 +2748,6 @@ var GENERATOR = function(genparams){
 						});
 
 						//GET PAGE LINKS LIST
-						
-
-
 					}
 				});
 			}else{
@@ -2671,7 +2843,7 @@ var GENERATOR = function(genparams){
 			table          : '',
 			package        : '',
 			html           : '',
-			gentype        : 'java',
+			gentype        : '',
 			replace        : false,
 			label          : false,
 			biztalk        : false,
@@ -2840,6 +3012,45 @@ var GENERATOR = function(genparams){
 			e[0].textContent = e[0].textContent.replaceAll(' ','$SPACE$')
 	}
 
+
+	GEN.setPropriety = function(p){
+		if(p.name != 'type' && p.name != 'tag'){
+
+			GEN.proprieties[p.name] = p.hasOwnProperty('value') ? p.value : p.propriety;
+			
+			if(p.label) GEN.propertiesLabels[p.name] = p.label;
+
+			/* setter */
+			var isInt = typeof p.value == 'number';
+
+			GEN.SET[p.name] = function(value,_params){
+				var _value = isInt ? parseInt(value) : value;
+
+				//console.log(p.value)
+
+				if(typeof p.value == 'object')
+					GEN.proprieties[p.name].value = _value;
+				else
+					GEN.proprieties[p.name] = _value;
+			}
+			/* getter */
+
+			GEN.GET[p.name] = function(){
+				var rtn;
+				if(typeof p.value == 'object'){
+					var hasValueAttr = 'value' in GEN.proprieties[p.name];
+					var val = hasValueAttr ? GEN.proprieties[p.name].value : GEN.proprieties[p.name];
+					rtn = val;
+				}else{
+					rtn = GEN.proprieties[p.name];
+				}
+
+				return rtn;
+			}
+		}
+	};
+
+
 	var openPLSQLSettings = function(t){
 
 		var modal    = $('#gen-settings-modal'),
@@ -2848,18 +3059,43 @@ var GENERATOR = function(genparams){
 
 			trnsf    = t && typeof t === 'string' ? t : getActiveEditorName(),
 
-			callback = typeof t === 'function' ? t : false;
+			callback = typeof t === 'function' ? t : false,
+
+			objServ  = $('div[item-name="page_service"]',modal),
+
+			service  = GEN.proprieties.service ? GEN.proprieties.service : {};
+
+		GEN.service.set(GEN);
+		objServ.append(GEN.proprieties.service.setter()[0]);
 		
+		if(service.code){
+
+			$('#service_desc',objServ).val(service.desc);
+			$('#service_code',objServ).val(service.code);
+			$('#service_proc',objServ).val(service.proc);
+
+			GEN.SET.service({
+				desc 			: service.desc,
+				code 			: service.code,
+				proc 			: service.proc,
+				connectionsReq	: service.connectionsReq,
+				connectionsRes 	: service.connectionsRes,
+				fieldsReq 	   	: service.fieldsReq,
+				fieldsRes 	   	: service.fieldsRes
+			});
+
+			GEN.service.checkService(GEN,service.code);
+		}
+
 		$.each($('.gen-page-setter'),function(i,s){
 			
-			var setter = $(s);
+			var setter = $(s),
+				rel    = setter.attr('rel');
 
-			var rel    = setter.attr('rel');
-			
 			if(setter.attr('type') == 'checkbox')
 				setter.prop('checked',GEN.SETTINGS[rel]);
 			else
-				setter.val(GEN.SETTINGS[rel])
+				setter.val(GEN.SETTINGS[rel]);
 		
 		});
 
@@ -3162,39 +3398,41 @@ var GENERATOR = function(genparams){
 		var options = [];
 		var value   = p.value;
 
-		GEN.DETAILS.linkPageList.forEach(function(page){
-			options.push({
-				value      : page.id.toString(),
-				label      : page.description,
-				attributes : [
-					{ name:'app',value:page.app },
-					{ name:'page',value:page.page },
-					{ name:'action',value:page.action },
-					{ name:'link',value: GEN.UTILS.link_preview+page.link }
-				]
+		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
+			GEN.DETAILS.linkPageList.forEach(function(page){
+				options.push({
+					value      : page.id.toString(),
+					label      : page.description,
+					attributes : [
+						{ name:'app',value:page.app },
+						{ name:'page',value:page.page },
+						{ name:'action',value:page.action },
+						{ name:'link',value: GEN.UTILS.link_preview+page.link }
+					]
+				});
 			});
-		});
 
 		var setBTNAction = function(id,object){
-			for(var i = 0; i < options.length; i++){
-				var o = options[i];
-				field.action = {};
+			if(options[0])
+				for(var i = 0; i < options.length; i++){
+					var o = options[i];
+					field.action = {};
 
-				if(o.value && (id == o.value) ){
-					o.attributes.forEach(function(att){
-						field.action[att.name] = att.value
-					});
-
-					if(p.onChange)
-						p.onChange({
-							value : id,
-							params : field.action
+					if(o.value && (id == o.value) ){
+						o.attributes.forEach(function(att){
+							field.action[att.name] = att.value
 						});
 
-					break;
-				}
+						if(p.onChange)
+							p.onChange({
+								value : id,
+								params : field.action
+							});
 
-			}
+						break;
+					}
+
+				}
 
 		}
 
@@ -3254,8 +3492,6 @@ var GENERATOR = function(genparams){
 		return options;
 	}
 
-	var targetRulesSet = false;
-
 	GEN.getDomainValues = function(type,callback){
 		//
 		if(type){
@@ -3294,7 +3530,6 @@ var GENERATOR = function(genparams){
 			
 
 		}
-
 		
 	};
 
@@ -3345,12 +3580,12 @@ var GENERATOR = function(genparams){
 			}
 		});
 
+	};
 
-
-
-	}
+	var targetRulesSet = false;
 
 	GEN.setTargetAttr = function(field,p){
+		
 		field.setPropriety({
 			name: 'target',
 			value:{
@@ -3368,7 +3603,7 @@ var GENERATOR = function(genparams){
 			},
 			onEditionStart : function(o){
 
-				if(field.GET.target && field.GET.target() == "changesrc")
+				if( field.GET.target && field.GET.target() == "exportall" || field.GET.target && field.GET.target() == "changesrc")
 					o.input.show();
 				else
 					o.input.hide();
@@ -3376,8 +3611,24 @@ var GENERATOR = function(genparams){
 			}
 		});
 
+		field.setPropriety({
+			name    :'closerefresh',
+			label   :'Refresh Parent',
+			value   :false,
+			xslValue:'close="refresh"',
+			onEditionStart : function(o){
+				if(field.GET.target && field.GET.target() == 'modal')
+					o.input.show();
+				else
+					o.input.hide();
+			}
+		});
+
 		if(!targetRulesSet){
-			$.IGRP.rules.set({"edit-target":[{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false}]});
+			$.IGRP.rules.set({"edit-target":[
+				{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},
+				{"name":"","event":"change","condition":"equal","value":"modal","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false}
+			]});
 			targetRulesSet = true;
 		}
 
@@ -3886,7 +4137,7 @@ var GENERATOR = function(genparams){
 		 				var media    = css.media ? 'media="'+css.media+'"' : '';
 
 		 				if(rtn.indexOf(path) == -1)
-		 					rtn+='<link '+media+' rel="stylesheet" type="text/css" href="'+path+'"/>';
+		 					rtn+='<link '+media+' rel="stylesheet" type="text/css" href="'+path+'?v={$version}"/>';
 
 		 			}else if(css.import){
 						for(var c in css.import){
@@ -3897,7 +4148,7 @@ var GENERATOR = function(genparams){
 									css.import[c].forEach(function(f){
 										path = '{$path}'+ VARS.genPath+'/types/containers/'+c+'/includes/'+f;
 										if(rtn.indexOf(path) == -1)
-											rtn+='<link rel="stylesheet" type="text/css" href="'+path+'"/>';
+											rtn+='<link rel="stylesheet" type="text/css" href="'+path+'?v={$version}"/>';
 									});
 								}
 							}
@@ -3920,9 +4171,10 @@ var GENERATOR = function(genparams){
 					if(js.path){
 						var isExternal = /^https?:\/\//i.test(js.path);
 						var relative = js.relative == false || isExternal ? false : true;
-						var path     = relative ? '{$path}'+js.path : js.path;
+						var path     = relative ? '{$path}'+js.path : js.path,
+							charset  = js.charset ? 'charset="'+js.charset+'"' : '';;
 						if(rtn.indexOf(path) == -1)
-							rtn+='<script type="text/javascript" src="'+path+'"></script>'
+							rtn+='<script '+charset+' type="text/javascript" src="'+path+'?v={$version}"></script>'
 					}else if(js.import){
 						for(var c in js.import){
 							if(js.import[c] == 'import.all'){
@@ -3932,7 +4184,7 @@ var GENERATOR = function(genparams){
 									js.import[c].forEach(function(f){
 										path = '{$path}'+ VARS.genPath+'/types/containers/'+c+'/includes/'+f;
 										if(rtn.indexOf(path) == -1)
-											rtn+='<script type="text/javascript" src="'+path+'"></script>';
+											rtn+='<script '+charset+' type="text/javascript" src="'+path+'?v={$version}"></script>';
 									});
 								}
 							}
@@ -3945,6 +4197,7 @@ var GENERATOR = function(genparams){
 	}
 
 	var getXSLTop = function(){
+
 		var content = GEN.baseXSL.top;
 		
 		var includes = "";
@@ -3960,7 +4213,7 @@ var GENERATOR = function(genparams){
 				
 				var path = GEN.getIncludeURL(css.file);
 
-		 		includes+='<link rel="stylesheet" href="'+path+'"/>';
+		 		includes+='<link rel="stylesheet" href="'+path+'?v={$version}"/>';
 
 			});
 			
@@ -3981,7 +4234,6 @@ var GENERATOR = function(genparams){
 		var includes    = [];
 		var split       = GEN.baseXSL.bottom.split('<!--INCLUDES-->');
 		var xslTmplPath = GEN.SETTINGS.gentype == 'java' ? '../../..' : '../..';
-		
 
 		var includeTmpl = function(name){
 

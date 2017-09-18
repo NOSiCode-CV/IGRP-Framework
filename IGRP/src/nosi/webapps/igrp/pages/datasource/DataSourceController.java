@@ -1,7 +1,5 @@
-/**
- * @author: Emanuel Pereira
- * 15 Jun 2017
- */
+/*-------------------------*/
+
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.datasource;
@@ -32,54 +30,92 @@ import java.util.Set;
 
 public class DataSourceController extends Controller {		
 
-	public Response actionIndex() throws IOException{		
-		/*---- Insert your code here... ----*/		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*---- Insert your code here... ----*/	
+		HashMap<String,String> tipo = new HashMap<>();
+		tipo.put(null, "--- Selecionar Tipo Data Source ---");
+		//tipo.put("acti", "Etapa");
+		tipo.put("Object", "Objecto");
+		tipo.put("Page", "Paginas");
+		//tipo.put("proc", "Processo");
+		tipo.put("Query", "Query");
+		//tipo.put("serv", "Serviços");
 		DataSource model = new DataSource();
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();
+		}
 		DataSourceView view = new DataSourceView(model);
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
 		//view.pagina.setValue(new Action().getListActions());
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
+		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
+		if(ichange!=null && !ichange.equals("")){
+			if(model.getTipo().equalsIgnoreCase("object")){
+				view.processo.setVisible(false);
+				view.query.setVisible(false);
+				view.servico.setVisible(false);
+				view.area.setVisible(false);
+				view.etapa.setVisible(false);
+				view.pagina.setVisible(false);
+				view.objecto.setVisible(true);
+			}else if(model.getTipo().equalsIgnoreCase("page")){
+				view.processo.setVisible(false);
+				view.query.setVisible(false);
+				view.servico.setVisible(false);
+				view.area.setVisible(false);
+				view.etapa.setVisible(false);
+				view.pagina.setVisible(true);
+				view.objecto.setVisible(false);	
+			}else if(model.getTipo().equalsIgnoreCase("query")){
+				view.processo.setVisible(false);
+				view.query.setVisible(true);
+				view.servico.setVisible(false);
+				view.area.setVisible(false);
+				view.etapa.setVisible(false);
+				view.pagina.setVisible(false);
+				view.objecto.setVisible(false);
+			}
+		}
 		Config.target = "_blank";
 		return this.renderView(view);
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		DataSource model = new DataSource();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			RepSource rep = new RepSource();
 			rep.setName(model.getNome());
 			rep.setType(model.getTipo());
-			rep.setType_name(tipo.get(model.getTipo()));
+			rep.setType_name(model.getTipo());
 			rep.setType_query(model.getQuery());
-			if(model.getTipo().equals("object")){
+			if(model.getTipo().equalsIgnoreCase("object")){
 				rep.setType_query(model.getObjecto());
 			}
-			if(model.getTipo().equals("page")){				
+			if(model.getTipo().equalsIgnoreCase("page")){				
 				rep.setType_fk(/*Integer.parseInt(model.getPagina())*/2);
 			}
-			if(model.getTipo().equals("object") || model.getTipo().equals("query")){
+			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
-				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
+				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
 				if(!rep.validateQuery(query)){
 					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
 					return this.redirect("igrp","DataSource","index");
 				}
 			}
-			Application app = new Application();
-			app = app.findOne(Integer.parseInt(model.getAplicacao()));
+			Application app = new Application().findOne(Integer.parseInt(model.getAplicacao()));
 			rep.setApplication(app);
 			rep.setStatus(1);
 			rep.setApplication_source(app);
 			Date dt = new Date(System.currentTimeMillis());
 			rep.setDt_created(dt);
 			rep.setDt_updated(dt);
-			User user = new User();
-			user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 			rep.setUser_created(user);
 			rep.setUser_updated(user);
 			if(rep.insert()!=null){
@@ -89,32 +125,24 @@ public class DataSourceController extends Controller {
 			}
 		}
 		return this.redirect("igrp","DataSource","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionFechar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","DataSource","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*/
-	private static HashMap<String,String> tipo = new HashMap<>();
-	static {
-		//tipo.put("acti", "Etapa");
-		tipo.put("object", "Objecto");
-		tipo.put("page", "Paginas");
-		//tipo.put("proc", "Processo");
-		tipo.put("query", "Query");
-		//tipo.put("serv", "Serviços");
-	}
 	
 	//Print data source in xml format
 	public PrintWriter actionGetDataSource() throws IOException{
 		String [] p_id = Igrp.getInstance().getRequest().getParameterValues("p_id");
 		String p_template_id = Igrp.getInstance().getRequest().getParameter("p_template_id");
-		
+		System.out.println("id: "+p_template_id);
+		System.out.println("ids: "+p_id);
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		String list ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 			   list += "<rows>\n";		

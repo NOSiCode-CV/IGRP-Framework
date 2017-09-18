@@ -186,7 +186,7 @@ public class PageController extends Controller {
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
-			String path_class = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_package")).trim();
+			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
 			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			

@@ -465,14 +465,28 @@ if($ && $.IGRP && !$.IGRP.rules){
 		remote_combobox:{
 			do:function(p){
 				
-				console.log(p);
+				//var param = p.sourceName+'='+$(p.sourceField).val();
 
-				var param = p.sourceName+'='+$(p.sourceField).val();
+				var params = function(){
+					
+					var res = {};
+
+					if(p.request_fields){
+						var names = p.request_fields.split(',');
+						
+						names.forEach(function(n){
+							res['p_'+n] = $('[name="p_'+n+'"]').val();
+						});
+					}
+
+					return res;
+				}();	
 
 				$.ajax({
 					url: p.procedure,
+					method:'post',
 					dataType: 'xml',
-					data: param
+					data: params
 				})
 				.done(function(list) {
 					
@@ -485,8 +499,9 @@ if($ && $.IGRP && !$.IGRP.rules){
 							var selected = $(o).attr('selected') ? true : false;
 							
 							options.push({
-								text  : $('text',o).text(),
-								value : $('value',o).text()
+								text     : $('text',o).text(),
+								value    : $('value',o).text(),
+								selected : selected
 							});
 
 						});

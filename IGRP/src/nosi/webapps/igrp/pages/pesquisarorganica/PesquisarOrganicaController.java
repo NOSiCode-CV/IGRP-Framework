@@ -12,7 +12,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /*---- End ----*/
 public class PesquisarOrganicaController extends Controller {		
@@ -34,8 +33,7 @@ public class PesquisarOrganicaController extends Controller {
 		}
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarOrganicaView view = new PesquisarOrganicaView(model);
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
+		view.aplicacao.setValue(new Application().getListApps());
 		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.table_1.addData(lista);

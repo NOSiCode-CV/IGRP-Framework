@@ -1,7 +1,13 @@
+/*-------------------------*/
+
 /*Create Controller*/
 package nosi.webapps.igrp.pages.webreport;
-/*---- Import your packages here... ----*/
 
+/*---- Import your packages here... ----*/
+import nosi.core.config.Config;
+import nosi.core.gui.page.Page;
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -9,10 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import nosi.core.config.Config;
-import nosi.core.gui.page.Page;
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLWritter;
@@ -24,17 +26,15 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.User;
-
 /*---- End ----*/
+
 public class WebReportController extends Controller {		
 
 
 	public Response actionIndex() throws IOException{
 		/*---- Insert your code here... ----*/
 		WebReport model = new WebReport();
-		model.setPage_title_text("<![CDATA[Report Design]]>");
-		WebReportViewV2_2 view = new WebReportViewV2_2(model);
-//		WebReportView view = new WebReportView(model);
+		WebReportView view = new WebReportView(model);
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
@@ -45,23 +45,23 @@ public class WebReportController extends Controller {
 				int env_fk = Integer.parseInt(p_env_fk);
 				view.datasorce_app.setValue(ds.getListSources(env_fk));
 				RepTemplate  rep = new RepTemplate();
-				List<WebReport.Table_1> data = new ArrayList<>(); 
+				List<WebReport.Gen_table> data = new ArrayList<>(); 
 				for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
-					WebReport.Table_1 t1 = new WebReport().new Table_1();
+					WebReport.Gen_table t1 = new WebReport.Gen_table();
 					RepTemplateParam rtp = new RepTemplateParam();
 					String params = "";
 					//Get parameters
-					for(RepTemplateParam p:rtp.find().andWhere("repTemplate", "=", t1.getId()).all()){
+					for(RepTemplateParam p:rtp.find().andWhere("reptemplate", "=", t1.getId()).all()){
 						params += "&amp;"+p.getParameter().toLowerCase()+"=?";
 					}
 					t1.setDescricao("r=igrp/web-report/get-link-report"+params);
-					t1.setLink("webapps?r=igrp/web-report/load-template&amp;id="+r.getId()+"&amp;dad=igrp");
+					t1.setLink("igrp", "web-report", "load-template&amp;id="+r.getId());
+					t1.setLink_desc(r.getCode());
 					t1.setId(r.getId());
 					t1.setTitle(r.getName());
-					t1.setLink_desc(r.getCode());
 					data.add(t1);
 				}
-				view.table.addData(data);
+				view.gen_table.addData(data);
 			}
 			
 			if(id_!=null && !id_.equals("")){
@@ -75,44 +75,15 @@ public class WebReportController extends Controller {
 		}
 		view.env_fk.setValue(new Application().getListApps());
 		view.link_add_source.setValue("webapps?r=igrp/data-source/index&amp;dad=igrp");
-		view.link_source.setValue("webapps?r=igrp/data-source/get-data-source&amp;dad=igrp");
-		view.edit_name_report.setValue("webapps?r=igrp/web-report/save-edit-template&amp;dad=igrp");
-		view.prm_target.setValue("_blank");
+		view.p_link_source.setValue("webapps?r=igrp/data-source/get-data-source&amp;dad=igrp");
+		view.p_edit_name_report.setValue("webapps?r=igrp/web-report/save-edit-template&amp;dad=igrp");
+		
 		return this.renderView(view);
 		/*---- End ----*/
 	}
 
-	/*---- Insert your actions here... ----*/
-	public void actionSaveEditTemplate() throws IOException{		
-		System.out.println("Editing...");
-	}
-	
-	//Load report, load all configuration of report
-	public PrintWriter actionLoadTemplate() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		String json = "";
-		if(id!=null && !id.equals("")){
-			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Integer.parseInt(id));
-			CLob clob = new CLob();
-			clob = clob.findOne(rt.getXml_content().getId());
-			Igrp.getInstance().getResponse().setContentType("application/json");
-			String data_sources = "";
-			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(Integer.parseInt(id))){
-				data_sources+=""+r.getRepSource().getId()+",";
-			}
-			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";
-			json = "{\"textreport\":\""+clob.getC_lob_content()+"\",\"datasorce_app\":\""+data_sources+"\"}";
-		}
-		return Igrp.getInstance().getResponse().getWriter().append(json);
-	}
-	
-	public void actionGetLinkReport(){
-		
-	}
-	
-	//Save report
-	public PrintWriter actionSaveGenWebReport() throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
+
+	public PrintWriter actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
 		if(Igrp.getInstance().getRequest().getMethod().toLowerCase().equals("post")){
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
 			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
@@ -188,8 +159,9 @@ public class WebReportController extends Controller {
 		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operacao falhada</message></messages>");
 	}
 	
-	//Preview the report
+
 	public PrintWriter actionPreview() throws IOException{
+		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String xml = "";
 		if(id!=null && !id.equals("")){
@@ -208,7 +180,28 @@ public class WebReportController extends Controller {
 			xml = this.genXml(xml,rt);
 		}
 		return Igrp.getInstance().getResponse().getWriter().append(xml);
-	}	
+		/*---- End ----*/
+	}
+	
+	/*---- Insert your actions here... ----*/
+	//Load report, load all configuration of report
+	public PrintWriter actionLoadTemplate() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		String json = "";
+		if(id!=null && !id.equals("")){
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne(Integer.parseInt(id));
+			CLob clob = new CLob().findOne(rt.getXml_content().getId());
+			Igrp.getInstance().getResponse().setContentType("application/json");
+			String data_sources = "";
+			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(Integer.parseInt(id))){
+				data_sources+=""+r.getRepSource().getId()+",";
+			}
+			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";
+			json = "{\"textreport\":\""+clob.getC_lob_content()+"\",\"datasorce_app\":\""+data_sources+"\"}";
+		}
+		return Igrp.getInstance().getResponse().getWriter().append(json);
+	}
 	
 	/*Process preview in different type
 	 * 
@@ -238,7 +231,7 @@ public class WebReportController extends Controller {
 		}
 		return "";
 	}
-
+	
 	/*Gen final XML for Web Report
 	 * 
 	 */
@@ -288,5 +281,3 @@ public class WebReportController extends Controller {
 	}
 	/*---- End ----*/
 }
-
-

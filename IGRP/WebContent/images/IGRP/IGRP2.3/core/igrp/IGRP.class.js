@@ -92,7 +92,7 @@
 		},
 		
 		component:function(name,o,autoinit){
-			
+			//console.log(name)
 			var options = $.extend(true,{
 				init:function(){}
 			}, o);
@@ -110,6 +110,7 @@
 
 				if(!com.events)
 					com.events = new $.EVENTS(['init']);
+
 
 				if(autoinit){
 

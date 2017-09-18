@@ -1,43 +1,167 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
     <xsl:template match="/">
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
-                <!-- TOOLSBAR CSS INCLUDES -->
+                <!--TOOLSBAR CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css"/>
-                <!-- TABCONTENT CSS INCLUDES -->
+                <!--TABCONTENT CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css"/>
-                <!-- FORM CSS INCLUDES -->
+                <!--FORM CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
-                <!-- TABLE CSS INCLUDES -->
+                <!--TABLE CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css"/>
-                <!-- SELECT CSS INCLUDES -->
+                <!--SELECT CSS INCLUDES-->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
                 <style/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/webreport/css/webreport.css"/>
             </head>
-            <body class="{$bodyClass} sidebar-off">
-                <xsl:call-template name="IGRP-topmenu"/>
-                <form method="POST" class="IGRP-form" name="formular_default" enctype="multipart/form-data">
+            <body class="{$bodyClass}">
+                <!--<xsl:call-template name="IGRP-topmenu"/>-->
+                <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
+                    <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
+                        <img src="{$path}/themes/default/img/logo.png"/>
+                        <span class=""><b>IGRP</b></span>
+                    </a>
+                    <div id="side-bar-ctrl">
+                        <i class="fa fa-navicon"></i>
+                    </div>
+                    <div id="igrp-app-title" class="">
+                        <xsl:value-of select="rows/content/page_title/fields/page_title_text/value"/>
+                    </div>
+                </nav>
+                <form method="POST" class="IGRP-form" name="formular_default">
+                    <div class="hidden">
+                        <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                    </div>
                     <div class="container-fluid">
                         <div class="row">
-                            <xsl:call-template name="IGRP-sidebar"/>
-                            <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
+                            <!--<xsl:call-template name="IGRP-sidebar"/>-->
+                            <div class="col-md-3 col-sm-4 sidebar tree-list" id="igrp-sidebar">
+                                <xsl:if test="rows/content/form_1/fields/env_fk">
+                                    <div class="row">
+                                        <br/>
+                                        <div class="col-md-12 form-group  gen-fields-holder" item-name="env_fk" item-type="select">
+                                            <label for="{rows/content/form_1/fields/env_fk/@name}">
+                                                <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
+                                            </label>
+                                            <select class="form-control select2 " id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}">
+                                                <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
+                                                    <option value="{value}" label="{text}">
+                                                        <xsl:if test="@selected='true'">
+                                                            <xsl:attribute name="selected">selected</xsl:attribute>
+                                                        </xsl:if>
+                                                        <span>
+                                                            <xsl:value-of select="text"/>
+                                                        </span>
+                                                    </option>
+                                                </xsl:for-each>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </xsl:if>
+                                <div class="gen-tab-holder nav-tabs-custom gen-container-item " tab-template="default" gen-class="" item-name="tabcontent_1">
+                                    <ul class="nav nav-tabs">
+                                        <xsl:if test="rows/content/tabcontent_1/fields/reports">
+                                            <li item-name="reports" class="active gen-fields-holder" rel="tab-tabcontent_1-reports">
+                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-reports">
+                                                    <i class="fa fa-file-text-o"/>
+                                                    <span>
+                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/reports/label"/>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </xsl:if>
+                                        <xsl:if test="rows/content/tabcontent_1/fields/data_source">
+                                            <li item-name="data_source" class=" gen-fields-holder" rel="tab-tabcontent_1-data_source">
+                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-data_source">
+                                                    <i class="fa fa-database"/>
+                                                    <span>
+                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/data_source/label"/>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </xsl:if>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <xsl:if test="rows/content/tabcontent_1/fields/reports">
+                                            <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-reports" rel="tab-tabcontent_1-reports">
+                                                <div class="row">
+                                                    <a class="wr-newdocument pull-right" title="Novo Documento">
+                                                        <i class="fa fa-plus-circle"/>
+                                                    </a>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="gen-column col-md-12" id="wr-list-document">
+                                                        <xsl:call-template name="reports"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </xsl:if>
+                                        <xsl:if test="rows/content/tabcontent_1/fields/data_source">
+                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-data_source" rel="tab-tabcontent_1-data_source">
+                                                <div class="row">
+                                                    <div class="gen-column col-md-12">
+                                                        
+                                                        <xsl:if test="rows/content/form_1/fields/datasorce_app">
+                                                            <div class="row">    
+                                                                <div class="col-md-12 form-group wr-datasource gen-fields-holder" item-name="datasorce_app" item-type="select">
+                                                                    <label for="{rows/content/form_1/fields/datasorce_app/@name}">
+                                                                        <xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>
+                                                                    </label>
+                                                                    <div class="col-md-10">
+                                                                        <div class="row">
+                                                                            <select class="form-control select2 " id="form_1_datasorce_app" name="{rows/content/form_1/fields/datasorce_app/@name}" multiple="multiple">
+                                                                                <xsl:for-each select="rows/content/form_1/fields/datasorce_app/list/option">
+                                                                                    <option value="{value}" label="{text}">
+                                                                                        <xsl:if test="@selected='true'">
+                                                                                            <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                                        </xsl:if>
+                                                                                        <span>
+                                                                                            <xsl:value-of select="text"/>
+                                                                                        </span>
+                                                                                    </option>
+                                                                                </xsl:for-each>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <div class="row wr-op-datasource">
+                                                                            <a class="btn wr-newdatasource" target="modal" title="Novo Data Source">
+                                                                                <i class="fa fa-plus-circle"></i>
+                                                                            </a>
+                                                                            <a class="btn wr-editdatasource" title="Edit Data Source">
+                                                                                <i class="fa fa-pencil-square-o"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </xsl:if>
+                                                        <div class="row">
+                                                            <div class="col-md-12" id="wr-list-datasource">
+                                                                <xsl:if test="count(rows/content/form_1/fields/datasorce_app/list/option[position() != 1]) > 0">
+                                                                  <xsl:call-template name="datasorce"/>
+                                                                </xsl:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </xsl:if>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8 col-md-9 col-md-offset-3 col-sm-offset-4 main" id="igrp-contents">
                                 <div class="content">
+                                    <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
                                     <div class="row">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
-                                                <xsl:if test="rows/content/page_title">
-                                                    <section class="content-header gen-container-item " gen-class="" item-name="page_title">
-                                                        <h2>
-                                                            <xsl:value-of select="rows/content/page_title/fields/page_title_text/value"/>
-                                                        </h2>
-                                                    </section>
-                                                </xsl:if>
-                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
                                                 <xsl:if test="rows/content/fmn">
                                                     <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder a.btn" gen-class="" item-name="fmn">
                                                         <div class="btns-holder   pull-right" role="group">
@@ -47,233 +171,56 @@
                                                         </div>
                                                     </div>
                                                 </xsl:if>
-                                                <div class="gen-tab-holder nav-tabs-custom gen-container-item " tab-template="default" gen-class="" item-name="tabcontent_1">
-                                                    <ul class="nav nav-tabs">
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/reports">
-                                                            <li item-name="reports" class="active gen-fields-holder" rel="tab-tabcontent_1-reports">
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-reports">
-                                                                    <i class="fa fa-file-text-o"/>
-                                                                    <span>
-                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/reports/label"/>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                        </xsl:if>
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/data_source">
-                                                            <li item-name="data_source" class=" gen-fields-holder" rel="tab-tabcontent_1-data_source">
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-data_source">
-                                                                    <i class="fa fa-database"/>
-                                                                    <span>
-                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/data_source/label"/>
-                                                                    </span>
-                                                                </a>
-                                                            </li>
-                                                        </xsl:if>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/reports">
-                                                            <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-reports" rel="tab-tabcontent_1-reports">
-                                                                <div class="row">
-                                                                    <div class="gen-column col-md-12">
-                                                                        <div class="gen-inner"/></div>
-                                                                </div>
-                                                            </div>
-                                                        </xsl:if>
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/data_source">
-                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-data_source" rel="tab-tabcontent_1-data_source">
-                                                                <div class="row">
-                                                                    <div class="gen-column col-md-12">
-                                                                        <div class="gen-inner"/></div>
-                                                                </div>
-                                                            </div>
-                                                        </xsl:if>
-                                                    </div>
-                                                </div>
                                                 <xsl:if test="rows/content/form_1">
-                                                    <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
+                                                    <div class="box  box-wr igrp-forms gen-container-item">
+                                                        <xsl:call-template name="box-header">
+                                                            <xsl:with-param name="title" select="'Head'"/>
+                                                            <xsl:with-param name="collapsible" select="'true'"/>
+                                                        </xsl:call-template>
                                                         <div class="box-body">
                                                             <div role="form">
-                                                                <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
-                                                                <xsl:if test="rows/content/form_1/fields/env_fk">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="env_fk" item-type="select">
-                                                                        <label for="{rows/content/form_1/fields/env_fk/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 " id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}">
-                                                                            <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12  gen-fields-holder" item-name="head-wr" item-type="texteditor">
+                                                                        <div id="head-wr" name="head" contenteditable="true" class="texteditor editor">
+                                                                        </div>
                                                                     </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/datasorce_app">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="datasorce_app" item-type="select">
-                                                                        <label for="{rows/content/form_1/fields/datasorce_app/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 " id="form_1_datasorce_app" name="{rows/content/form_1/fields/datasorce_app/@name}" multiple="multiple">
-                                                                            <xsl:for-each select="rows/content/form_1/fields/datasorce_app/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
-                                                                    </div>
-                                                                </xsl:if>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="box igrp-forms gen-container-item">
+                                                        <xsl:call-template name="box-header">
+                                                            <xsl:with-param name="title" select="'Body'"/>
+                                                            <xsl:with-param name="collapsible" select="'true'"/>
+                                                        </xsl:call-template>
+                                                        <div class="box-body">
+                                                            <div role="form">
                                                                 <xsl:if test="rows/content/form_1/fields/report_editor">
-                                                                    <div class="form-group col-md-12  gen-fields-holder" item-name="report_editor" item-type="texteditor">
-                                                                        <label>
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/report_editor/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <textarea id="form_1_report_editor" name="{rows/content/form_1/fields/report_editor/@name}" class="gen-texteditor">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/report_editor/value" disable-output-escaping="yes"/>
-                                                                        </textarea>
-                                                                        <script type="text/javascript"></script>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/link_add_source">
-                                                                    <div class="form-group col-md-3  gen-fields-holder" item-name="link_add_source" item-type="link">
-                                                                        <a href="{rows/content/form_1/fields/link_add_source/value}" class="link btn btn-link form-link" target="_self">
-                                                                            <i class="fa fa-link"/>
-                                                                            <span>
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/form_1/fields/link_add_source/label"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </a>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/dialog_titulo_report">
-                                                                    <div class="col-md-3  form-group  gen-fields-holder" item-name="dialog_titulo_report" item-type="plaintext">
-                                                                        <xsl:value-of select="rows/content/form_1/fields/dialog_titulo_report/value"/>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/dialog_keys_report">
-                                                                    <div class="col-md-3  form-group  gen-fields-holder" item-name="dialog_keys_report" item-type="plaintext">
-                                                                        <xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/value"/>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/codigo_report">
-                                                                    <div class="form-group col-md-3   gen-fields-holder" item-name="codigo_report" item-type="text">
-                                                                        <label for="{rows/content/form_1/fields/codigo_report/@name}">
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/codigo_report/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/codigo_report/value}" class="form-control" id="{rows/content/form_1/fields/codigo_report/@name}" name="{rows/content/form_1/fields/codigo_report/@name}" maxlength="30"></input>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/title_report">
-                                                                    <div class="form-group col-md-3   gen-fields-holder" item-name="title_report" item-type="text">
-                                                                        <label for="{rows/content/form_1/fields/title_report/@name}">
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/title_report/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/title_report/value}" class="form-control" id="{rows/content/form_1/fields/title_report/@name}" name="{rows/content/form_1/fields/title_report/@name}" maxlength="30"></input>
+                                                                    <div class="row">
+                                                                        <div class="form-group col-md-12  gen-fields-holder" item-name="body-wr" item-type="texteditor">
+                                                                            <div id="body-wr" name="body" class="gen-texteditor editor">
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </xsl:if>
                                                             </div>
                                                         </div>
-                                                        <xsl:apply-templates select="rows/content/form_1/tools-bar" mode="form-buttons"/>
                                                     </div>
-                                                </xsl:if>
-                                                <xsl:if test="rows/content/gen_table">
-                                                    <div class="box box-table-contents gen-container-item " gen-class="" item-name="gen_table">
-                                                        <div class="box-body table-box">
-                                                            <xsl:apply-templates mode="form-hidden-fields" select="rows/content/gen_table/fields"/>
-                                                            <table id="gen_table" class="table table-striped gen-data-table ">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <xsl:if test="rows/content/gen_table/fields/title">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/gen_table/fields/title/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/gen_table/fields/link">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/gen_table/fields/link/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/gen_table/fields/descricao">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/gen_table/fields/descricao/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/gen_table/fields/id">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/gen_table/fields/id/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <xsl:for-each select="rows/content/gen_table/table/value/row">
-                                                                        <tr>
-                                                                            <xsl:apply-templates mode="context-param" select="context-menu"/>
-                                                                            <xsl:if test="title">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/title/label}" class="text">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="title"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="link">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../label/link}" class="link">
-                                                                                    <xsl:choose>
-                                                                                        <xsl:when test="link != ''">
-                                                                                            <a href="{link}" class="link bClick" target="_self" name="link">
-                                                                                                <xsl:value-of select="link_desc" disable-output-escaping="yes"/>
-                                                                                            </a>
-                                                                                        </xsl:when>
-                                                                                        <xsl:otherwise>
-                                                                                            <span>
-                                                                                                <xsl:value-of select="link_desc" disable-output-escaping="yes"/>
-                                                                                            </span>
-                                                                                        </xsl:otherwise>
-                                                                                    </xsl:choose>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="descricao">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/descricao/label}" class="text">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="descricao"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="id">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/id/label}" class="number">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="id"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                        </tr>
-                                                                    </xsl:for-each>
-                                                                </tbody>
-                                                            </table>
+
+                                                    <div class="box box-wr igrp-forms gen-container-item hidden">
+                                                        <xsl:call-template name="box-header">
+                                                            <xsl:with-param name="title" select="'Footer'"/>
+                                                            <xsl:with-param name="collapsible" select="'true'"/>
+                                                        </xsl:call-template>
+                                                        <div class="box-body">
+                                                            <div role="form">
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12  gen-fields-holder" item-name="footer-wr" item-type="texteditor">
+                                                                        <div id="footer-wr" contenteditable="true" name="footer" class="texteditor editor">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </xsl:if>
@@ -284,27 +231,62 @@
                             </div>
                         </div>
                     </div>
+                    <div id="transfome">
+                        <div class="charts"></div>
+                    </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
-                <!-- TABCONTENT JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
-                <!-- FORM JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
-                <!-- TABLE JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/igrp/table/jquery.dataTables.min.js"/>
-                <script type="text/javascript" src="{$path}/core/igrp/table/dataTables.bootstrap.min.js"/>
-                <!-- SELECT JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
-                <!-- TEXTEDITOR JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
+                <script type="text/javascript">
+                    var wr_dataSource       = '<xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>',
+                        wr_app              = '<xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>',
+                        wr_newDocumentTitle = '<xsl:value-of select="rows/content/form_1/fields/dialog_titulo_report/label"/>',
+                        wr_labelTitle       = '<xsl:value-of select="rows/content/form_1/fields/title_report/label"/>',
+                        wr_nameInputTitle   = '<xsl:value-of select="rows/content/form_1/fields/title_report/@name"/>',
+                        wr_labelCode        = '<xsl:value-of select="rows/content/form_1/fields/codigo_report/label"/>',
+                        wr_nameInputCode    = '<xsl:value-of select="'p_code'"/>',
+                        wr_dialogKeysTitle  = '<xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/label"/>',
+                        wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
+                </script>
+                <!--TABCONTENT JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js?v={$version}"/>
+                <!--FORM JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
+                <!--TABLE JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/core/igrp/table/jquery.dataTables.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/table/dataTables.bootstrap.min.js?v={$version}"/>
+                <!--SELECT JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
+                <!--XML XSL TRANSFORM-->
+                <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js?v={$version}"/>
+                <!--TEXTEDITOR JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js?v={$version}"/>
+                <script type="text/javascript">
+                    CKEDITOR.on( 'instanceCreated', function( event ) {
+                        var editor = event.editor,
+                            element = editor.element;
+                    });
+                </script>
+                <!-- CHART JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/plugins/highcharts/highcharts.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/highcharts-more.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/exporting.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/funnel.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/heatmap.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/treemap.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/highcharts/igrp.charts.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1486380295324"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1486380295324"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1486380295324"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1486380295324"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1486380295324"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1486380295324"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../core/webreport/xsl/reports.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../core/webreport/xsl/datasorce.tmpl.xsl?v=1484140276658"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-charts.tmpl.xsl?v=1484140276658"/>
 </xsl:stylesheet>

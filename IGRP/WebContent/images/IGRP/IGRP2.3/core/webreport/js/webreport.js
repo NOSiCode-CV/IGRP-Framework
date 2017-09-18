@@ -23,8 +23,9 @@
 				$.WR.objDataSource.on('change',function(){
 					$.WR.dataSource = $(this).val();
 					var param = '', 
-						url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-					
+						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
+							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+						console.log(url);
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;

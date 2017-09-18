@@ -171,7 +171,7 @@ var GENSTRUCTURES = function(GEN){
 					rtn+='<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
 
 				if(field.GET.service && field.GET.service().code)
-					rtn+=getFieldServiceMap(field.GET.service());
+					rtn+=GEN.getFieldServiceMap(field.GET.service());
 
 			rtn += checkRules(field,rtn);
 
@@ -396,7 +396,7 @@ var GENSTRUCTURES = function(GEN){
 					page   = item.action && item.action.page   ? item.action.page   : '',
 					link   = item.action && item.action.action ? item.action.action : '',
 					tran   = item.GET.transaction &&  item.GET.transaction() ? 'flg_transaction="true"'  : '',
-					map    = item.GET.service && item.GET.service().code ? getFieldServiceMap(item.GET.service()) : '',
+					map    = item.GET.service && item.GET.service().code ? GEN.getFieldServiceMap(item.GET.service()) : '',
 					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default',
 					target = item.GET.target();
 
@@ -438,7 +438,7 @@ var GENSTRUCTURES = function(GEN){
 				page   = f.action && f.action.page   ? f.action.page   : '',
 				link   = f.action && f.action.action ? f.action.action : '',
 				tran   = f.GET.transaction &&  f.GET.transaction() ? 'flg_transaction="true"'  : '',
-				map    = f.GET.service && f.GET.service().code ? getFieldServiceMap(f.GET.service()) : '',
+				map    = f.GET.service && f.GET.service().code ? GEN.getFieldServiceMap(f.GET.service()) : '',
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
 				params = '',
@@ -544,29 +544,31 @@ var GENSTRUCTURES = function(GEN){
 	var getFieldsService = function(service,point){
 		var rtn 	= '';
 		service.forEach(function(c){
+			var type = c.type ? 'type="'+c.type+'"' : '';
 			if(c[0]){
-				var type = c[0].type ? 'type="'+c[0].type+'"' : '';
+				type = c[0].type ? 'type="'+c[0].type+'"' : '';
 				rtn+='<item '+type+' structure="list" rel="'+c[0].to+'">';
 					c.forEach(function(e,i){
+						type = e.type ? 'type="'+e.type+'"' : '';
 						if (i > 0) {
 							if(e.from)
-								rtn+='<row '+point+'="'+e.from+'">'+e.to+'</row>';
+								rtn+='<row '+type+' '+point+'="'+e.from+'">'+e.to+'</row>';
 							else
-								rtn+='<row>'+e.to+'</row>';
+								rtn+='<row '+type+'>'+e.to+'</row>';
 						}
 					});
 				rtn+='</item>';
 			}else{
 				if(c.from)
-					rtn+='<item '+point+'="'+c.from+'">'+c.to+'</item>';
+					rtn+='<item '+type+' '+point+'="'+c.from+'">'+c.to+'</item>';
 				else
-					rtn+='<item>'+c.to+'</item>';
+					rtn+='<item '+type+'>'+c.to+'</item>';
 			}
 		});
 		return rtn;
 	};
 
-	var getFieldServiceMap = function(service){
+	GEN.getFieldServiceMap = function(service){
 		var GEN 	= VARS.getGen(),
 			package = service.package ? 'package="'+service.package+'"':'';
 		var rtn = '<service code="'+service.code+'" proc="'+service.proc+'">';
@@ -709,11 +711,33 @@ var GENSTRUCTURES = function(GEN){
 						case 'remote_combobox':
 						case 'remote':
 						
-							var proc = a.gen_rule_procedure;
+							var proc          = a.gen_rule_procedure,
+
+								requestFields = a.gen_rule_request_fields,
+
+								reqFields = function(){
+									
+									var r = '';
+									
+									if(requestFields){
+										var farr = requestFields.split(',');
+
+										farr.forEach(function(f,i){
+											r+='p_'+f+' VARCHAR2 DEFAULT NULL';
+											if(i < farr.length-1)
+												r+=',';
+										});
+
+									}
+
+									return r;
+								}();
 
 							rtn+='<rule>';
 
 								rtn+= '<proc>'+proc+'</proc>';
+
+								rtn+='<requestFields>'+reqFields+'</requestFields>'
 
 							rtn+='</rule>';
 								 	

@@ -62,8 +62,7 @@ public class PesquisarMenuController extends Controller {
 		}		
 		PesquisarMenuView view = new PesquisarMenuView(model);		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);
+		view.aplicacao.setValue(new Application().getListApps());
 		HashMap<String,String> organizations =  new Organization().getListOrganizations();
 		view.organica.setValue(organizations);
 		HashMap<Integer, String> menu_principal = new Menu().getListPrincipalMenus();

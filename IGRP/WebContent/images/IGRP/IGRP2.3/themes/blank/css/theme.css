@@ -1,0 +1,30 @@
+/* colors */
+
+a,.clickable{
+	color:#337ab7;
+}
+a:hover,.clickable:hover{
+	color: #245681
+}
+
+
+*[bg-color="1"],
+*[bg-color="template"]{
+	background-color: #337ab7;
+}
+
+*[txt-color="1"],
+*[txt-color="template"],
+*[text-color="template"],
+*[text-color="1"]{
+	color: #337ab7;
+}
+
+*[bg-color="2"]{
+	background-color: #245681;
+}
+
+*[txt-color="2"]{
+	color: #245681
+}
+

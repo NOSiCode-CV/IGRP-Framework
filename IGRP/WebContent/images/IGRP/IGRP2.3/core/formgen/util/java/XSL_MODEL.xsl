@@ -9,7 +9,7 @@
     	...
 	-->
     <xsl:template name="gen-get-set-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'table'  and @type != 'separatorlist'  and @type != 'formlist']">
+    	<xsl:for-each select="/rows/content/*[@type != 'treemenu'  and @type != 'table'  and @type != 'separatorlist'  and @type != 'formlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
@@ -71,7 +71,7 @@
     	...
 	-->
     <xsl:template name="declare-variables-model">
-    	<xsl:for-each select="/rows/content/*[@type != 'table' and @type != 'separatorlist' and @type != 'formlist']">
+    	<xsl:for-each select="/rows/content/*[@type != 'treemenu' and @type != 'table' and @type != 'separatorlist' and @type != 'formlist']">
     		<xsl:for-each select="fields/*">
     			<xsl:variable name="tag_name">
 					<xsl:choose>
@@ -133,13 +133,15 @@
 			</xsl:for-each>
     	</xsl:for-each> 
     	-->
-    	<xsl:for-each select="/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']">
+    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']">
     		<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
 	 		<xsl:value-of select="$newline"/>			
 			<xsl:value-of select="$tab"/>
-			<xsl:value-of select="concat('@SeparatorList(name = ',$tableName,'.class)')"/>
-			<xsl:value-of select="$newline"/>			
-			<xsl:value-of select="$tab"/>
+			<xsl:if test="@type = 'formlist' or @type = 'separatorlist'">
+				<xsl:value-of select="concat('@SeparatorList(name = ',$tableName,'.class)')"/>
+				<xsl:value-of select="$newline"/>			
+				<xsl:value-of select="$tab"/>
+			</xsl:if>
 			<xsl:value-of select="concat('private List&lt;',$tableName,'&gt; ',name(),' = new ArrayList&lt;&gt;();')"/>
 			<xsl:call-template name="getSetField">
 	    		<xsl:with-param name="type_content" select="../../@type" />
@@ -164,7 +166,7 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list_annotation"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:if test="count(/rows/content/*[@type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']) > 0">
+		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$import_list"/>
@@ -338,6 +340,9 @@
  	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
  		<xsl:for-each select="/rows/content/*[@type='table']">
+ 			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
+ 		</xsl:for-each> 
+ 		<xsl:for-each select="/rows/content/*[@type='treemenu']">
  			<xsl:call-template name="gen-ttributes-subclass"></xsl:call-template>
  		</xsl:for-each> 		
  		<xsl:for-each select="/rows/content/*[@type='separatorlist']">

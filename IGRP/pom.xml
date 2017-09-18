@@ -5,11 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <dependencies>
-    <dependency>
-      <groupId>org.eclipse.jdt.core.compiler</groupId>
-      <artifactId>ecj</artifactId>
-      <version>4.6.1</version>
-    </dependency>
+  
     <dependency>
       <groupId>org.eclipse.jetty.orbit</groupId>
       <artifactId>javax.servlet</artifactId>
@@ -39,6 +35,13 @@
 	    <version>42.1.1</version>
 	</dependency>
 
+	<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+	<dependency>
+	    <groupId>com.h2database</groupId>
+	    <artifactId>h2</artifactId>
+	    <version>1.4.194</version>
+	</dependency>
+	
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>

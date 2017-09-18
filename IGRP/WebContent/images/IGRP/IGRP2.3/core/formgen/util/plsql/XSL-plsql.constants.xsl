@@ -69,6 +69,7 @@
     <xsl:variable name="pkg_type_chart" select="'REDGLOBAL.GLB_TYPE.TP_PAGE.TBL_CHART'" />
     <xsl:variable name="serv_convert" select="'DBMS_XMLGEN.CONVERT'" />
     <xsl:variable name="serv_decode" select="'DBMS_XMLGEN.entity_decode'" />
+    <xsl:variable name="xml_api" select="'RED.NOSI_XML_API'" />
     
     <xsl:variable name="packageDBName" select="rows/plsql/package_db"/>
     <xsl:variable name="packageHtmlName" select="rows/plsql/package_html"/>

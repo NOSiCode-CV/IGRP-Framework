@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
 <rows>
-	<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -33,34 +32,33 @@
         <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Registar Data Source</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>DataSource</page>
+                <link>index</link>
                 <target>submit</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-save|www</params>
+                <img>success|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl</parameter>
             </item>
             <item type="specific" code="" rel="fechar">
                 <title>Fechar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
                 <target>_close</target>
-                <img>default|fa-close</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-close|www</params>
+                <img>danger|fa-close</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false">
+                <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
                     <label>Tipo</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -78,14 +76,16 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </tipo>
                 <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Officia amet totam amet lorem</value>
+                    <value>Iste lorem sit accusantium stract</value>
                 </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Aplicacao</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -104,9 +104,10 @@
                         </option>
                     </list>
                 </aplicacao>
-                <area name="p_area" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <area name="p_area" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Area</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -125,9 +126,10 @@
                         </option>
                     </list>
                 </area>
-                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <processo name="p_processo" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Processo</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -146,9 +148,10 @@
                         </option>
                     </list>
                 </processo>
-                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <etapa name="p_etapa" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Etapa</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -169,7 +172,7 @@
                 </etapa>
                 <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Mollit deserunt aperiam consectetur natus</value>
+                    <value>Officia rem magna perspiciatis sed</value>
                 </objecto>
                 <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
@@ -178,7 +181,7 @@
                 </pagina>
                 <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Sit lorem mollit omnis consectetur totam amet omnis sit elit consectetur sit stract elit lorem</value>
+                    <value>Sit aliqua voluptatem adipiscing mollit consectetur labore dolor rem dolor magna sed omnis elit ipsum</value>
                 </query>
                 <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
