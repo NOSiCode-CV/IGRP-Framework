@@ -12,7 +12,6 @@
       <version>3.0.0.v201112011016</version>
       <classifier>sources</classifier>
     </dependency>
-    
     <dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
@@ -34,14 +33,13 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>42.1.1</version>
 	</dependency>
-
+	
 	<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 	<dependency>
 	    <groupId>com.h2database</groupId>
 	    <artifactId>h2</artifactId>
 	    <version>1.4.194</version>
 	</dependency>
-	
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
