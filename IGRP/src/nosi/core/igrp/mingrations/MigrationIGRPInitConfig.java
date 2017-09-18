@@ -20,8 +20,6 @@ public class MigrationIGRPInitConfig {
 		app = app.insert();
 		
 		if(app!=null){
-			Config_env config = new Config_env(0, "h2", "~", "db_igrp_core", "user.igrp.core", "password.igrp.core", "utf-8", "hibernate-igrp-core", app);
-			config.insert();
 			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,null, 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
@@ -61,7 +59,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("TransacaoOrganica", "index", "nosi.core.webapp.pages.transacaoorganica", "igrp/transacaoorganica/TransacaoOrganica.xsl", "Associar Transacao a Organica", "Associar Transacao a Organica", "2.3", 1, app));
 			actions.add(new Action("EditarTransacao", "index", "nosi.core.webapp.pages.editartransacao", "igrp/editartransacao/EditarTransacao.xsl", "Editar Transacao", "Editar Transacao", "2.3", 1, app));
 			actions.add(new Action("Session", "index", "nosi.core.webapp.pages.session", "igrp/session/Session.xsl", "Gestao de Sessao", "Gestao de Sessao", "2.3", 1, app));
-			actions.add(new Action("WebReport", "index", "nosi.core.webapp.pages.webreport", "igrp/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.2", 1, app));
+			actions.add(new Action("WebReport", "index", "nosi.core.webapp.pages.webreport", "igrp/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.3", 1, app));
 			actions.add(new Action("DataSource", "index", "nosi.core.webapp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, app));
 			actions.add(new Action("LookupListPage", "index", "nosi.core.webapp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, app));
 			actions.add(new Action("Migrate", "index", null, "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, app));

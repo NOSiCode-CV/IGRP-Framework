@@ -27,7 +27,7 @@ body {
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
   /*background-color:#f2f4f8 */
-  background-color: #f5f5f5;
+  background-color: #f8f8f8;
   opacity: 0;
   transition : opacity .6s;
 }
@@ -98,6 +98,7 @@ p{
 .content-header>*{
   font-size: 24px;
    margin-top: 0;
+   font-weight: 600;
 }
 
 .sub-header {
@@ -706,8 +707,8 @@ body.sidebar-off #igrp-contents, body[has-menu="false"] #igrp-contents{
     border-bottom: 1px solid #EAEAEA;
     font-weight: bold;
     position: relative;
+    background:#eee;
 }
-
 
 .box .box-header .box-tools{
   position: absolute;
@@ -724,18 +725,20 @@ body.sidebar-off #igrp-contents, body[has-menu="false"] #igrp-contents{
     padding: 0 5px;
     font-size: 12px;
     background: transparent;
+    color:#333;
 }
 
 
 .box .box-header .box-title {
+    color:#333;
     display: inline-block;
     font-size: 18px;
     margin: 0;
     line-height: 1;
     padding: 10px 0;
     position: relative;
-    top: 1px;
-    border-bottom: 1px solid;
+    /*top: 1px;
+    border-bottom: 1px solid;*/
     font-weight: 600
 }
 

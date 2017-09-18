@@ -57,8 +57,7 @@ public class SessionController extends Controller {
 		
 		SessionView view = new SessionView(model);
 		view.table_1.addData(data);		
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);		
+		view.aplicacao.setValue(new Application().getListApps());		
 		HashMap<String, String> status = new HashMap<String,String>();
 		status.put("", "--- Escolher estado ---");
 		status.put("1", "Ativo");

@@ -106,6 +106,15 @@
                         </xsl:call-template>
                     </xsl:if>
 
+                    <xsl:if test="$procName = 'dml_select' or $procName = 'dml_select_all'">
+                        <xsl:for-each select="rows">
+                            <xsl:call-template name="genDmlService" />
+                        </xsl:for-each>
+                        <xsl:call-template name="genPreserveYourCode">
+                            <xsl:with-param name="procName" select="concat('RESP',$procName)" />
+                        </xsl:call-template>
+                    </xsl:if>
+
                     <xsl:value-of select="concat($enter,$entertab,'END',$space,$procName,$endline,$enter)"/>                   
                 </xsl:template>
                 <!--Comentario PLSQL-->

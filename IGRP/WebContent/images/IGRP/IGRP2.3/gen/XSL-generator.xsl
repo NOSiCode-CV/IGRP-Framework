@@ -4,7 +4,8 @@
 	
 	<gen:variable name="pathAttr" select="'{$path}'"/>
 	<gen:variable name="bodyClass" select="'{$bodyClass}'"/>
-
+	<gen:variable name="version" select="'{$version}'"/>
+	
 	<gen:variable name="hasLeft" select="(rows/content/menu/group/@align = 'left') or (rows/content/*[@type = 'chart']/@align = 'left')"/>
 
 	<gen:variable name="hasRigth" select="(rows/content/menu/group/@align = 'right') or (rows/content/*[@type = 'chart']/@align = 'right')"/>
@@ -205,10 +206,9 @@
 			<gen:if test="context-menu">IGRP_contextmenu</gen:if>
 		</gen:variable>
 
-
 		<gen:if test="tools-bar">
 			<xsl:if test="rows/content/table/tools-bar/item">
-				<div class="toolsbar-holder boxed gen-container-item clearfix">
+				<div class="toolsbar-holder boxed gen-container-item clearfix" item-name="tools-bar">
 					<div class="btns-holder pull-right clearfix" role="group">
 						<xsl:apply-templates select="rows/content/table/tools-bar" mode="gen-buttons">
 							<xsl:with-param name="use-fa" select="'false'"/>
@@ -281,25 +281,27 @@
 								<xsl:apply-templates mode="context-param" select="context-menu" />
 								<gen:for-each select="$fields[not(@type='hidden')]">
 									<xsl:if test="{name()}">
+
+										<gen:variable name="fname">
+										    <gen:choose>
+										        <gen:when test="$form-item = 'true'">
+										            <gen:value-of select="concat(name(),'_fk')"/>
+										        </gen:when>
+										        <gen:otherwise>
+										            <gen:value-of select="name()"/>
+										        </gen:otherwise>
+										    </gen:choose>
+										</gen:variable>
+
 										<xsl:if test="not({name()}/@visible)">
 											<td item-name="{name()}" item-type="{@type}" data-row="{'{position()}'}" data-title="{concat('{../../label/',name(),'}')}">
+												<gen:variable name="fvalue" select="concat('{',name(),'}')"/>
 												<gen:choose>
 													<!-- checkbox.table td-->
 													<gen:when test="@type = 'checkbox'">
 														<gen:attribute name="align">center</gen:attribute>
 														<xsl:if test="{name()} != '-0'">
-															<input type="checkbox" name="p_{name()}" value="{'{name()}'}" check-rel="{name()}">
-																<xsl:if test="{name()}_check={name()}">
-																	<xsl:attribute name="checked">checked</xsl:attribute>
-																</xsl:if>
-															</input>
-														</xsl:if>
-													</gen:when>
-													<!-- checkbox.table td-->
-													<gen:when test="@type = 'checkbox'">
-														<gen:attribute name="align">center</gen:attribute>
-														<xsl:if test="{name()} != '-0'">
-															<input type="checkbox" name="p_{name()}" value="{'{name()}'}" check-rel="{name()}">
+															<input type="checkbox" name="p_{$fname}" value="{$fvalue}" check-rel="{name()}">
 																<xsl:if test="{name()}_check={name()}">
 																	<xsl:attribute name="checked">checked</xsl:attribute>
 																</xsl:if>
@@ -310,7 +312,7 @@
 													<gen:when test="@type = 'radio'">
 														<gen:attribute name="align">center</gen:attribute>
 														<xsl:if test="{name()} != '-0'">
-															<input type="radio" name="p_{name()}" value="{'{name()}'}" check-rel="{name()}">
+															<input type="radio" name="p_{$fname}" value="{$fvalue}" check-rel="{name()}">
 																<xsl:if test="{name()}_check={name()}">
 																	<xsl:attribute name="checked">checked</xsl:attribute>
 																</xsl:if>
@@ -321,7 +323,7 @@
 													<gen:when test="@type = 'link'">
 														<xsl:choose>
 															<xsl:when test="{name()} != ''">
-																<a href="{concat('{',name(),'}')}" class="link bClick" name="{name()}">
+																<a href="{$fvalue}" class="link bClick" name="{name()}">
 																	<gen:call-template name="gen_target_attr"/>
 																	<xsl:value-of select="{name()}_desc" disable-output-escaping="yes"/>
 																</a>
@@ -349,6 +351,9 @@
 														</span>
 													</gen:otherwise>
 												</gen:choose>
+												<gen:if test="$form-item = 'true' and @type != 'radio' and @type != 'checkbox'">
+													<input type="hidden" name="p_{$fname}" value="{$fvalue}" />
+												</gen:if>
 											</td>
 										</xsl:if>
 										<xsl:if test="{name()}/@visible = 'false'">
@@ -368,10 +373,23 @@
 									<input type="hidden" name="p_{$tag}_id" value="{concat('{',$tag,'_id}')}"/>
 								</gen:if>
 								<gen:for-each select="$fields[@type = 'hidden']">
+									<gen:variable name="fhname">
+									    <gen:choose>
+									        <gen:when test="$form-item = 'true'">
+									            <gen:value-of select="concat(@name,'_fk')"/>
+									        </gen:when>
+									        <gen:otherwise>
+									            <gen:value-of select="@name"/>
+									        </gen:otherwise>
+									    </gen:choose>
+									</gen:variable>
+
 									<gen:variable name="tagVal" select="concat('{',name(),'}')"/>
 									<gen:variable name="tagValDesc" select="concat('{',name(),'_desc}')"/>
-									<input type="hidden" name="{@name}_fk" value="{$tagVal}" />
-									<input type="hidden" name="{@name}_fk_desc" value="{$tagValDesc}" />
+									<input type="hidden" name="{$fhname}" value="{$tagVal}" />
+									<gen:if test="$form-item = 'true'">
+										<input type="hidden" name="{$fhname}_desc" value="{$tagValDesc}" />
+									</gen:if>
 								</gen:for-each>
 								<!-- <input type="hidden" name="p_{$tag}_id" value="{concat( '{',$tag,'_id}' )}"/>
 								<gen:for-each select="$fields[@type = 'hidden']">
@@ -724,7 +742,7 @@
 		
 		<gen:if test="$tag = 'form' and rows/content/form/tools-bar">
 			<xsl:if test="rows/content/form/tools-bar/item">
-				<div class="toolsbar-holder boxed gen-container-item clearfix">
+				<div class="toolsbar-holder boxed gen-container-item clearfix" item-name="tools-bar">
 					<div class="btns-holder clearfix pull-right" role="group">
 						<xsl:apply-templates select="rows/content/form/tools-bar" mode="gen-buttons">
 							<xsl:with-param name="use-fa" select="'false'"/>
@@ -1217,15 +1235,25 @@
 									<div class="table-btn-list self-boxed-item">
 										<div class="self-boxed-inner" list-style="{@style}">
 											<gen:choose>
+												
 												<gen:when test="@style='buttonlist'">
 													<gen:call-template name="gen_table_buttonlist">
 														<gen:with-param name="tag" select="$tag"/>
 													</gen:call-template>
 												</gen:when>
+
+												<gen:when test="@style='small_box'">
+													<gen:call-template name="gen_table_smallbox">
+														<gen:with-param name="tag" select="$tag"/>
+													</gen:call-template>
+												</gen:when>
+
 											</gen:choose>
 										</div>
 									</div>
 								</gen:when>
+
+
 								<gen:otherwise>
 									<gen:apply-templates select="." mode="gen_table">
 										<gen:with-param name="fields" select="//rows/content/form/label/*[@rel = $tag]"/>
@@ -1262,7 +1290,7 @@
 	<gen:template name="gen_toolsbar">
 		<gen:param name="menuPath"/>
 		<xsl:if test="{$menuPath}/item">
-			<div class="toolsbar-holder">
+			<div class="toolsbar-holder" item-name="toolsbar">
 				<div class="btns-holder pull-right" role="group">
 					<xsl:apply-templates select="{$menuPath}" mode="gen-buttons"/>
 				</div>
@@ -1293,7 +1321,7 @@
 			<gen:otherwise>
 				<xsl:if test="rows/content/menu/item">
 					<div class="gen-menu-wrapper">
-						<div class="toolsbar-holder boxed gen-container-item clearfix">
+						<div class="toolsbar-holder boxed gen-container-item clearfix" item-name="tools-bar">
 							<div class="btns-holder clearfix" role="group">
 								<xsl:apply-templates select="rows/content/menu" mode="gen-buttons">
 									<xsl:with-param name="use-fa" select="'false'"/>
@@ -1435,7 +1463,7 @@
 			</gen:choose>
 		</gen:attribute>
 	</gen:template>
-	<!-- TABLE TEMPLATES VARIATIONS -->
+	<!-- TABLE TEMPLATES VARIATIONS BUTTONLIST -->
 	<gen:template name="gen_table_buttonlist">
 		<gen:param    name="tag"/>
 		<gen:variable name="fields" select="//rows/content/form/label/*[@rel=$tag]"/>
@@ -1444,7 +1472,7 @@
 		<gen:variable name="iconTag"    select="name($fields[@type='icon'])"/>
 		<gen:variable name="bgColorTag" select="name($fields[@type='color'])"/>
 		<gen:variable name="sizeTag"    select="name($fields[@type='size'])"/>
-		<gen:choose>
+		<!-- <gen:choose>
 			<gen:when test="$linkTag">
 				<xsl:for-each select="{$tablePath}/value/row">
 					<div class="btn-list-item col-sm-6 col-sm-3">
@@ -1470,35 +1498,106 @@
 				</xsl:for-each>
 			</gen:when>
 			<gen:otherwise>[link] is required for buttonList component!</gen:otherwise>
+		</gen:choose> -->
+	</gen:template>
+	<!-- TABLE TEMPLATES VARIATIONS SMALLBOX-->
+	<gen:template name="gen_table_smallbox">
+		<gen:param    name="tag"/>
+		<gen:variable name="fields" select="//rows/content/form/label/*[@rel=$tag]"/>
+		<gen:variable name="tablePath" select="concat('rows/content/form/table/',$tag)"/>
+		<gen:variable name="linkTag"    select="name($fields[@type='link'])"/>
+
+		<gen:variable name="linkTarget" select="$fields[name() = $linkTag]/@target"/>
+
+		<gen:variable name="numTag"    select="name($fields[@type='number'])"/>
+		<gen:variable name="textTag"    select="name($fields[@type='text'])"/>
+		<gen:variable name="iconTag"    select="name($fields[@type='icon'])"/>
+		<gen:variable name="bgColorTag" select="name($fields[@type='color'])"/>
+		<gen:variable name="sizeTag"    select="name($fields[@type='size'])"/>
+		
+		<gen:choose>
+
+			<gen:when test="$linkTag">
+
+				<xsl:for-each select="{$tablePath}/value/row">
+					
+					<div class="statbox_container col-sm-{concat('{',$sizeTag,'}')}" gen-class="" item-name="{$tag}">
+
+            <div class="statbox {concat('{',$bgColorTag,'}')}">
+              <div class="boxchart">
+                <canvas/>
+              </div>
+              <div class="number">
+                <xsl:value-of select="{$numTag}"/>
+                <i class="fa fa-{concat('{',$iconTag,'}')}" aria-hidden="true"/>
+              </div>
+              <div class="title">
+                <xsl:value-of select="{$textTag}"/>
+              </div>
+              <div class="footer">
+
+                <a href="{concat('{',$linkTag,'}')}" target="{$linkTarget}">
+                  <xsl:value-of select="{$linkTag}_desc"/>
+                </a>
+
+              </div>
+            </div> 
+
+          </div>
+					<!-- <div class="btn-list-item col-sm-6 col-sm-3">
+						<div class="card">
+							<a href="{concat('{',$linkTag,'}')}" class="card-container">
+								<gen:call-template name="gen_target_attr"/>
+								<gen:attribute name="style">
+									<gen:if test="$bgColorTag">
+										<gen:value-of select="concat('background: {',$bgColorTag,'};')"/>
+									</gen:if>
+								</gen:attribute>
+								<gen:if test="$iconTag">
+									<div class="card-icon">
+										<i class="fa fa-{concat('{',$iconTag,'}')}"></i>
+									</div>
+								</gen:if>
+								<span class="card-text txt-ellipsis">
+									<xsl:value-of select="{$linkTag}_desc"/>
+								</span>
+							</a>
+						</div>
+					</div> -->
+				</xsl:for-each>
+
+
+			</gen:when>
+			<gen:otherwise>[link] is required for buttonList component!</gen:otherwise>
 		</gen:choose>
 	</gen:template>
 	<!-- INCLUDES TEMPLATES -->
 	<!--css-->
 	<gen:template name="gen_css_includes">
-		<link rel="stylesheet" type="text/css" href="{$pathAttr}/themes/old-gen.css"/>
+		<link rel="stylesheet" type="text/css" href="{$pathAttr}/themes/old-gen.css?v={$version}"/>
 		<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/table/dataTables.bootstrap.css"/>
-		<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/table/igrp.tables.css"/>
-		<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/toolsbar/toolsbar.css"/>
+		<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/table/igrp.tables.css?v={$version}"/>
+		<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
 
 		<gen:if test="rows/content/form/@tab='true'">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/workflow/igrp.wkf.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/core/igrp/workflow/igrp.wkf.css?v={$version}"/>
 		</gen:if>
 
 		<gen:if test="rows/content/view">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/view/igrp.view.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/view/igrp.view.css?v={$version}"/>
 		</gen:if>
 
 		<gen:if test="rows/content/form/label/*/@style = 'buttonlist'">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/tablefx/buttonlist/btnlist.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/tablefx/buttonlist/btnlist.css?v={$version}"/>
 		</gen:if>
 		<gen:if test="rows/content/*/label/*[@type='separatorlist'] or rows/content/*/label/*[@type='separatordialog']">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/separatorlist/igrp.separatorlist.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/separatorlist/igrp.separatorlist.css?v={$version}"/>
 		</gen:if>
 		<gen:if test="rows/content/*/label/*[@type='formlist']">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/formlist/igrp.formlist.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/formlist/igrp.formlist.css?v={$version}"/>
 		</gen:if>
 		<gen:if test="rows/content/*/label/*[@type='date']">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/datetimepicker/css/datetimepicker.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/datetimepicker/css/datetimepicker.css?v={$version}"/>
 		</gen:if>
 		<gen:if test="rows/content/*/label/*[contains(@type,'select')]">
 			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/select2/select2.min.css"/>
@@ -1509,57 +1608,61 @@
 			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/colorpicker/css/bootstrap-colorpicker.min.css"/>
 		</gen:if>
 		<gen:if test="rows/content/*/label/*[contains(@type,'vkb')]">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/virtualkeyboard/vkb.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/virtualkeyboard/vkb.css?v={$version}"/>
 		</gen:if>
 		<gen:if test="rows/content/menu/group">
-			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/panels/igrp.panels.css"/>
+			<link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/panels/igrp.panels.css?v={$version}"/>
 		</gen:if>
+
+		<gen:if test="rows/content/form/label/*/@style = 'small_box'">
+    	 <link rel="stylesheet" type="text/css" href="{$pathAttr}/plugins/statbox/statbox.css?v={$version}"/>
+    </gen:if>
 
 
 
 	</gen:template>
 	<!--js-->
 	<gen:template name="gen_js_includes">
-		<!-- <script type="text/javascript" src="{$pathAttr}/core/igrp/form/igrp.forms.js"></script> -->
-		<script type="text/javascript" src="{$pathAttr}/core/igrp/table/igrp.table.js"></script>
+		<script type="text/javascript" src="{$pathAttr}/core/igrp/form/igrp.forms.js?v={$version}"></script>
+		<script type="text/javascript" src="{$pathAttr}/core/igrp/table/igrp.table.js?v={$version}"></script>
 		<!-- <script type="text/javascript" src="{$pathAttr}/containers/table/dataTables.bootstrap.min.js"></script> -->
 		<gen:if test="rows/content/form/@tab='true'">
-			<script type="text/javascript" src="{$pathAttr}/core/igrp/separatorTab/igrp.separatortab.js"/>
+			<script type="text/javascript" src="{$pathAttr}/core/igrp/separatorTab/igrp.separatortab.js?v={$version}"/>
 		</gen:if>
 		<!-- TABLE JS INCLUDES -->
 		<gen:if test="rows/content/table/context-menu">
 			<script type="text/javascript" src="{$pathAttr}/core/igrp/table/bootstrap-contextmenu.js"></script>
-			<script type="text/javascript" src="{$pathAttr}/core/igrp/table/table.contextmenu.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/core/igrp/table/table.contextmenu.js?v={$version}"></script>
 		</gen:if>
 		<!-- PANELS -->
 		<gen:if test="rows/content/menu/group">
-			<script type="text/javascript" src="{$pathAttr}/plugins/panels/igrp.panels.js"/>
+			<script type="text/javascript" src="{$pathAttr}/plugins/panels/igrp.panels.js?v={$version}"/>
 		</gen:if>
 		<!-- /PANELS-->
 
 		<!--SEPARATOR LIST JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[@type='separatorlist'] or rows/content/*/label/*[@type='separatordialog']">
-			<script type="text/javascript" src="{$pathAttr}/plugins/separatorlist/igrp.separatorlist.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/separatorlist/igrp.separatorlist.js?v={$version}"></script>
 		</gen:if>
 		<!--FORMLIST JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[@type='formlist']">
-			<script type="text/javascript" src="{$pathAttr}/plugins/formlist/igrp.formlist.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/formlist/igrp.formlist.js?v={$version}"></script>
 		</gen:if>
 		<!--DATE JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[@type='date']">
 			<script type="text/javascript" src="{$pathAttr}/plugins/datetimepicker/js/datetimepicker.js"></script>
-			<script type="text/javascript" src="{$pathAttr}/plugins/datetimepicker/js/dtp.init.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/datetimepicker/js/dtp.init.js?v={$version}"></script>
 		</gen:if>
 		<!--SELECT JS INCLUDES-->
 		
 		<gen:if test="rows/content/*/label/*[contains(@type,'select')]">
 			<script type="text/javascript" src="{$pathAttr}/plugins/select2/select2.full.min.js"></script>
-			<script type="text/javascript" src="{$pathAttr}/plugins/select2/select2.init.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/select2/select2.init.js?v={$version}"></script>
 		</gen:if>
 		<!--COLOR JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[@type='color']">
 			<script type="text/javascript" src="{$pathAttr}/plugins/colorpicker/js/bootstrap-colorpicker.js"></script>
-			<script type="text/javascript" src="{$pathAttr}/plugins/colorpicker/colorpicker.init.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/colorpicker/colorpicker.init.js?v={$version}"></script>
 		</gen:if>
 		<!--TEXTEDITOR JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[@type='texteditor']">
@@ -1567,11 +1670,11 @@
 		</gen:if>
 		<!--LOOKUP JS INCLUDES-->
 		<gen:if test="rows/content/*/label/*[contains(@type,'LOOKUP')]">
-			<script type="text/javascript" src="{$pathAttr}/plugins/lookup/igrp.lookup.js"></script>
+			<script type="text/javascript" src="{$pathAttr}/plugins/lookup/igrp.lookup.js?v={$version}"></script>
 		</gen:if>
 
 		<gen:if test="rows/content/*/label/*[contains(@type,'vkb')]">
-			<script type="text/javascript" src="{$pathAttr}/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js"/>
+			<script type="text/javascript" src="{$pathAttr}/plugins/virtualkeyboard/IGRP.virtualkeyBoard.init.js?v={$version}"/>
 		</gen:if>
 
 		<!--CHART JS INCLUDES-->
@@ -1579,7 +1682,7 @@
 			<script type="text/javascript" src="{$pathAttr}/plugins/highcharts/highcharts.js"/>
 	        <script type="text/javascript" src="{$pathAttr}/plugins/highcharts/highcharts-more.js"/>
 	        <script type="text/javascript" src="{$pathAttr}/plugins/highcharts/exporting.js"/>
-	        <script type="text/javascript" src="{$pathAttr}/plugins/highcharts/igrp.charts.js"/>
+	        <script type="text/javascript" src="{$pathAttr}/plugins/highcharts/igrp.charts.js?v={$version}"/>
 		</gen:if>
 
 	</gen:template>

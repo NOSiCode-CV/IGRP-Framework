@@ -30,9 +30,9 @@
     <div class="table-export-options clearfix">
       <div class="btn-group pull-right">
         
-        <xsl:if test="$pdf">
+        <!-- <xsl:if test="$pdf">
           <a class="btn btn-danger btn-xs" href="#" rel="pdf"><i class="fa fa-file-pdf-o"></i><span>PDF</span></a>
-        </xsl:if>
+        </xsl:if> -->
         
         <xsl:if test="$excel">
           <a class="btn btn-success btn-xs" href="#" rel="excel"><i class="fa fa-file-excel-o"></i><span>Excel</span></a>

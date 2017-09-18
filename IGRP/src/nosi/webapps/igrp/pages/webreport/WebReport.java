@@ -1,236 +1,241 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.webreport;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
+import nosi.core.webapp.RParam;
+import nosi.core.webapp.SeparatorList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WebReport extends Model{		
-
+	@RParam(rParamName = "p_page_title_text")
 	private String page_title_text;
-	private int env_fk;
-	private int datasorce_app;
-	private String report_editor;
-	private String link_add_source;
-	private String dialog_titulo_report;
-	private String dialog_keys_report;
-	private String codigo_report;
-	private String title_report;
-	private String link_source;
-	private String edit_name_report;
-	private String title;
-	private String link;
-	private String descricao;
-	private int id;
-	private String link_desc;
+	@RParam(rParamName = "p_reports")
 	private String reports;
+	@RParam(rParamName = "p_data_source")
 	private String data_source;
-	private String link_config;
-	private String p_env_frm_url;
-	private String p_env_dml;
-	private String p_prm_target;
-	private String p_fwl_tab_page;
-	private String p_fwl_workflow;
-	private String p_fwl_dialogbox;
-	private String p_fwl_relbox;
-	private String p_fwl_tab_menu;
+	@RParam(rParamName = "p_env_fk")
+	private String env_fk;
+	@RParam(rParamName = "p_datasorce_app")
+	private String datasorce_app;
+	@RParam(rParamName = "p_report_editor")
+	private String report_editor;
+	@RParam(rParamName = "p_link_add_source")
+	private String link_add_source;
+	@RParam(rParamName = "p_dialog_titulo_report")
+	private String dialog_titulo_report;
+	@RParam(rParamName = "p_dialog_keys_report")
+	private String dialog_keys_report;
+	@RParam(rParamName = "p_codigo_report")
+	private String codigo_report;
+	@RParam(rParamName = "p_title_report")
+	private String title_report;
+	@RParam(rParamName = "p_link_source")
+	private String p_link_source;
+	@RParam(rParamName = "p_edit_name_report")
+	private String p_edit_name_report;
+	@RParam(rParamName = "p_link_config")
+	private String p_link_config;
+
+	@SeparatorList(name = Gen_table.class)
+	private List<Gen_table> gen_table = new ArrayList<>();
+	public void setGen_table(List<Gen_table> gen_table){
+		this.gen_table = gen_table;
+	}
+	public List<Gen_table> getgen_table(){
+		return this.gen_table;
+	}
+
+	@SeparatorList(name = Chart_1.class)
+	private List<Chart_1> chart_1 = new ArrayList<>();
+	public void setChart_1(List<Chart_1> chart_1){
+		this.chart_1 = chart_1;
+	}
+	public List<Chart_1> getchart_1(){
+		return this.chart_1;
+	}
 	
-	public String getP_env_frm_url() {
-		return p_env_frm_url;
-	}
-	public void setP_env_frm_url(String p_env_frm_url) {
-		this.p_env_frm_url = p_env_frm_url;
-	}
-	public String getP_env_dml() {
-		return p_env_dml;
-	}
-	public void setP_env_dml(String p_env_dml) {
-		this.p_env_dml = p_env_dml;
-	}
-	public String getP_prm_target() {
-		return p_prm_target;
-	}
-	public void setP_prm_target(String p_prm_target) {
-		this.p_prm_target = p_prm_target;
-	}
-	public String getP_fwl_tab_page() {
-		return p_fwl_tab_page;
-	}
-	public void setP_fwl_tab_page(String p_fwl_tab_page) {
-		this.p_fwl_tab_page = p_fwl_tab_page;
-	}
-	public String getP_fwl_workflow() {
-		return p_fwl_workflow;
-	}
-	public void setP_fwl_workflow(String p_fwl_workflow) {
-		this.p_fwl_workflow = p_fwl_workflow;
-	}
-	public String getP_fwl_dialogbox() {
-		return p_fwl_dialogbox;
-	}
-	public void setP_fwl_dialogbox(String p_fwl_dialogbox) {
-		this.p_fwl_dialogbox = p_fwl_dialogbox;
-	}
-	public String getP_fwl_relbox() {
-		return p_fwl_relbox;
-	}
-	public void setP_fwl_relbox(String p_fwl_relbox) {
-		this.p_fwl_relbox = p_fwl_relbox;
-	}
-	public String getP_fwl_tab_menu() {
-		return p_fwl_tab_menu;
-	}
-	public void setP_fwl_tab_menu(String p_fwl_tab_menu) {
-		this.p_fwl_tab_menu = p_fwl_tab_menu;
-	}
-	public String getLink_config() {
-		return link_config;
-	}
-	public void setLink_config(String link_config) {
-		this.link_config = link_config;
-	}
-	public String getReports() {
-		return reports;
-	}
-	public void setReports(String reports) {
-		this.reports = reports;
-	}
-	public String getData_source() {
-		return data_source;
-	}
-	public void setData_source(String data_source) {
-		this.data_source = data_source;
-	}
-	public String getPage_title_text() {
-		return page_title_text;
-	}
-	public void setPage_title_text(String page_title_text) {
+	public void setPage_title_text(String page_title_text){
 		this.page_title_text = page_title_text;
 	}
-	public int getEnv_fk() {
-		return env_fk;
-	}
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
-	}
-	public int getDatasorce_app() {
-		return datasorce_app;
-	}
-	public void setDatasorce_app(int datasorce_app) {
-		this.datasorce_app = datasorce_app;
-	}
-	public String getReport_editor() {
-		return report_editor;
-	}
-	public void setReport_editor(String report_editor) {
-		this.report_editor = report_editor;
-	}
-	public String getLink_add_source() {
-		return link_add_source;
-	}
-	public void setLink_add_source(String link_add_source) {
-		this.link_add_source = link_add_source;
-	}
-	public String getDialog_titulo_report() {
-		return dialog_titulo_report;
-	}
-	public void setDialog_titulo_report(String dialog_titulo_report) {
-		this.dialog_titulo_report = dialog_titulo_report;
-	}
-	public String getDialog_keys_report() {
-		return dialog_keys_report;
-	}
-	public void setDialog_keys_report(String dialog_keys_report) {
-		this.dialog_keys_report = dialog_keys_report;
-	}
-	public String getCodigo_report() {
-		return codigo_report;
-	}
-	public void setCodigo_report(String codigo_report) {
-		this.codigo_report = codigo_report;
-	}
-	public String getTitle_report() {
-		return title_report;
-	}
-	public void setTitle_report(String title_report) {
-		this.title_report = title_report;
-	}
-	public String getLink_source() {
-		return link_source;
-	}
-	public void setLink_source(String link_source) {
-		this.link_source = link_source;
-	}
-	public String getEdit_name_report() {
-		return edit_name_report;
-	}
-	public void setEdit_name_report(String edit_name_report) {
-		this.edit_name_report = edit_name_report;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
-	}
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getLink_desc() {
-		return link_desc;
-	}
-	public void setLink_desc(String link_desc) {
-		this.link_desc = link_desc;
+	public String getPage_title_text(){
+		return this.page_title_text;
 	}
 	
-	public class Table_1{
+	public void setReports(String reports){
+		this.reports = reports;
+	}
+	public String getReports(){
+		return this.reports;
+	}
+	
+	public void setData_source(String data_source){
+		this.data_source = data_source;
+	}
+	public String getData_source(){
+		return this.data_source;
+	}
+	
+	public void setEnv_fk(String env_fk){
+		this.env_fk = env_fk;
+	}
+	public String getEnv_fk(){
+		return this.env_fk;
+	}
+	
+	public void setDatasorce_app(String datasorce_app){
+		this.datasorce_app = datasorce_app;
+	}
+	public String getDatasorce_app(){
+		return this.datasorce_app;
+	}
+	
+	public void setReport_editor(String report_editor){
+		this.report_editor = report_editor;
+	}
+	public String getReport_editor(){
+		return this.report_editor;
+	}
+	
+	public void setLink_add_source(String app,String page,String action){
+		this.link_add_source = Config.getResolveUrl(app, page, action);
+	}
+	public String getLink_add_source(){
+		return this.link_add_source;
+	}
+	
+	public void setDialog_titulo_report(String dialog_titulo_report){
+		this.dialog_titulo_report = dialog_titulo_report;
+	}
+	public String getDialog_titulo_report(){
+		return this.dialog_titulo_report;
+	}
+	
+	public void setDialog_keys_report(String dialog_keys_report){
+		this.dialog_keys_report = dialog_keys_report;
+	}
+	public String getDialog_keys_report(){
+		return this.dialog_keys_report;
+	}
+	
+	public void setCodigo_report(String codigo_report){
+		this.codigo_report = codigo_report;
+	}
+	public String getCodigo_report(){
+		return this.codigo_report;
+	}
+	
+	public void setTitle_report(String title_report){
+		this.title_report = title_report;
+	}
+	public String getTitle_report(){
+		return this.title_report;
+	}
+	
+	public void setP_link_source(String p_link_source){
+		this.p_link_source = p_link_source;
+	}
+	public String getP_link_source(){
+		return this.p_link_source;
+	}
+	
+	public void setP_edit_name_report(String p_edit_name_report){
+		this.p_edit_name_report = p_edit_name_report;
+	}
+	public String getP_edit_name_report(){
+		return this.p_edit_name_report;
+	}
+	
+	public void setP_link_config(String p_link_config){
+		this.p_link_config = p_link_config;
+	}
+	public String getP_link_config(){
+		return this.p_link_config;
+	}
+
+
+	public static class Gen_table{
 		private String title;
 		private String link;
 		private String link_desc;
 		private String descricao;
-		private int id;
-		public String getTitle() {
-			return title;
-		}
-		public void setTitle(String title) {
+		private float id;
+		public void setTitle(String title){
 			this.title = title;
 		}
-		public String getLink() {
-			return link;
+		public String getTitle(){
+			return this.title;
 		}
-		public void setLink(String link) {
-			this.link = link;
+
+		public void setLink(String app,String page,String action){
+			this.link = Config.getResolveUrl(app, page, action);
 		}
-		public String getLink_desc() {
-			return link_desc;
+		public String getLink(){
+			return this.link;
 		}
-		public void setLink_desc(String link_desc) {
+		public void setLink_desc(String link_desc){
 			this.link_desc = link_desc;
 		}
-		public String getDescricao() {
-			return descricao;
+		public String getLink_desc(){
+			return this.link_desc;
 		}
-		public void setDescricao(String descricao) {
+
+		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
-		public int getId() {
-			return id;
+		public String getDescricao(){
+			return this.descricao;
 		}
-		public void setId(int id) {
+
+		public void setId(float id){
 			this.id = id;
-		}	
+		}
+		public float getId(){
+			return this.id;
+		}
+
+	}
+	public static class Chart_1{
+		private String Ano;
+		private String X1;
+		private String X2;
+		private String X3;
+		private String X4;
+		public void setAno(String Ano){
+			this.Ano = Ano;
+		}
+		public String getAno(){
+			return this.Ano;
+		}
+
+		public void setX1(String X1){
+			this.X1 = X1;
+		}
+		public String getX1(){
+			return this.X1;
+		}
+
+		public void setX2(String X2){
+			this.X2 = X2;
+		}
+		public String getX2(){
+			return this.X2;
+		}
+
+		public void setX3(String X3){
+			this.X3 = X3;
+		}
+		public String getX3(){
+			return this.X3;
+		}
+
+		public void setX4(String X4){
+			this.X4 = X4;
+		}
+		public String getX4(){
+			return this.X4;
+		}
+
 	}
 }
 /*-------------------------*/

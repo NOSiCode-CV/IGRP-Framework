@@ -37,9 +37,9 @@ public class LookupListPageController extends Controller {
 			LookupListPage.Table_1 table1 = new LookupListPage().new Table_1();
 			table1.setP_id(ac.getId());
 			table1.setNome_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());
-			table1.setDescricao_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());
-			table1.setDescricao_page(ac.getPage_descr());
 			table1.setNome_page_desc(ac.getPage());
+			table1.setDescricao_page(ac.getPage_descr());
+			table1.setDescricao_page_desc(ac.getPage_descr());
 			lista.add(table1);
 		}
 		LookupListPageView view = new LookupListPageView(model);
@@ -48,6 +48,7 @@ public class LookupListPageController extends Controller {
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		Config.target = "_blank";
+		view.btn_pesquisar.setLink("index");
 		return this.renderView(view);
 		/*---- End ----*/
 	}

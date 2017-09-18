@@ -6,9 +6,9 @@
             <head>
                 <xsl:call-template name="IGRP-head"/>
                 <!-- CALENDAR CSS INCLUDES -->
-                <link media="print" rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/fullcalendar.print.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/fullcalendar.min.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/igrp.calendar.css"/>
+                <link media="print" rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/fullcalendar.print.css?v={$version}"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/fullcalendar.min.css?v={$version}"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/calendar/3.0.1/css/igrp.calendar.css?v={$version}"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -19,7 +19,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row" id="row-36b9c1a7">
+                                    <div class="row" id="row-215aa74f">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
@@ -47,17 +47,17 @@
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
                 <!-- CALENDAR JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/moment/moment.min.js"/>
-                <script type="text/javascript" src="{$path}/core/calendar/3.0.1/js/fullcalendar.min.js"/>
-                <script type="text/javascript" src="{$path}/core/calendar/3.0.1/js/locale-all.js"/>
-                <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js"/>
-                <script type="text/javascript" src="{$path}/core/calendar/3.0.1/js/igrp.calendar.js"/>
+                <script type="text/javascript" src="{$path}/core/moment/moment.min.js?v={$version}"/>
+                <script charset="UTF-8" type="text/javascript" src="{$path}/core/calendar/3.0.1/js/fullcalendar.min.js?v={$version}"/>
+                <script charset="UTF-8" type="text/javascript" src="{$path}/core/calendar/3.0.1/js/locale-all.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/calendar/3.0.1/js/igrp.calendar.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1505489999015"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1505489999015"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1505489999015"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1505489999015"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-calendar.tmpl.xsl?v=1505489999015"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1505752712923"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1505752712923"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1505752712923"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1505752712923"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-calendar.tmpl.xsl?v=1505752712923"/>
 </xsl:stylesheet>

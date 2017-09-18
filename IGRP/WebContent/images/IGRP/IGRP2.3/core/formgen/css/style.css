@@ -460,6 +460,14 @@ a, button {
     width: 68px;
 }
 
+.igrp-table-ctx-td>ul>.operationTable:hover{
+	overflow:visible;
+}
+
+.igrp-table-ctx-td>ul>.operationTable{
+	overflow:hidden;
+}
+
 th.bs-checkbox {
 	width:55px!important;
 }

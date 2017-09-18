@@ -13,9 +13,7 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
-
 import java.io.IOException;
-import java.util.HashMap;
 
 /*---- End ----*/
 public class NovaOrganicaController extends Controller {		
@@ -41,9 +39,8 @@ public class NovaOrganicaController extends Controller {
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro.");			
 		}
-		
-		HashMap<Integer,String> applications =  new Application().getListApps();		
-		view.aplicacao.setValue(applications);		
+			
+		view.aplicacao.setValue(new Application().getListApps());		
 		view.organica_pai.setValue(organization.getListOrganizations());		
 		return this.renderView(view);
 	}
@@ -76,8 +73,7 @@ public class NovaOrganicaController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar.");
 		}		
 		NovaOrganicaView view = new NovaOrganicaView(model);		
-		HashMap<Integer,String> applications =  new Application().getListApps();
-		view.aplicacao.setValue(applications);		
+		view.aplicacao.setValue(new Application().getListApps());		
 		view.organica_pai.setValue(organization.getListOrganizations());		
 		view.sectionheader_1_text.setValue("Gestão de Orgânica - Atualizar");		
 		view.btn_gravar.setLink("editar&p_id=" + idOrganica);	

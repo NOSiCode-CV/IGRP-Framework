@@ -161,31 +161,44 @@
 
 						$.IGRP.utils.loading.hide();
 
-						var xml = resp.responseXML || $($.parseXML(resp.response)),
+						try{
+
+							var xml = resp.responseXML || $($.parseXML(resp.response)),
 							
 							alert = '',
 
 							debug = '';
 
-						$.each($(xml).find('messages message'),function(i,row){
+							$.each($(xml).find('messages message'),function(i,row){
 
-							var type = $(row).attr('type');
+								var type = $(row).attr('type');
 
-							if (type != 'debug' && type != 'confirm') {
+								if (type != 'debug' && type != 'confirm') {
 
-								type = type == 'error' ? 'danger' : type;
+									type = type == 'error' ? 'danger' : type;
 
-								alert += $.IGRP.utils.message.alert({
-									type : type,
-									text : $(row).text()
-								});
+									alert += $.IGRP.utils.message.alert({
+										type : type,
+										text : $(row).text()
+									});
 
-							}else if(type == 'debug'){
-								debug += '<li value="'+$(row).text()+'">'+
-								$.IGRP.utils.htmlDecode($(row).text())+
-								'</li>';
+								}else if(type == 'debug'){
+									debug += '<li value="'+$(row).text()+'">'+
+									$.IGRP.utils.htmlDecode($(row).text())+
+									'</li>';
+								}
+							});
+
+						}catch(e){
+							var str = resp.response;
+							if(str.indexOf('<html') != -1){
+								str = str.substring(str.indexOf('<html'),str.length);
 							}
-						});
+							alert = $.IGRP.utils.message.alert({
+								type : 'danger',
+								text : $.IGRP.utils.htmlDecode(str)
+							});
+						}
 
 						$('.igrp-msg-wrapper').html(alert);
 
@@ -210,21 +223,21 @@
 
 			var table  	     = $(p.clicked.parents('.gen-container-item')[0]);
 
-			var tableName	 = table.attr('item-name')
+			var tableName	 = table.attr('item-name');
 
-			if( $('input[name="'+filterLetter[0]+'"]')[0] )
+			/*if($('input[name="'+filterLetter[0]+'"]')[0])
 				$('input[name="'+filterLetter[0]+'"]').remove();
 
 			$.IGRP.utils.createHidden({
 				name  : filterLetter[0],
 				value : filterLetter[1]
-			});
+			});*/
 
 			$.IGRP.utils.transformXMLNodes({
 				
 				nodes : [tableName],
 
-				url   : action,
+				url   : $.IGRP.utils.getUrl(action)+filterLetter[0]+'='+filterLetter[1],
 
 				data  : form.serialize(),
 
@@ -303,6 +316,16 @@
 			});
 			return false;
 		};
+
+		var mpsubmit  = function(p){
+			$.IGRP.components.iframeNav.set({
+				url    :$.IGRP.utils.getUrl(p.url)+form.serialize(),
+				clicked:p.clicked
+			});
+			return false;
+		};
+
+		var modalpopup = modal;
 
 		var setConfirmModal = function(onClick){
 			$.IGRP.components.globalModal.set({
@@ -521,13 +544,21 @@
 
 			},
 
-			/*modalpopup   : {
+			modalpopup   : {
 
 				label : 'Modal Popup',
 
 				action : modal
 
-			},*/
+			},
+
+			mpsubmit   : {
+
+				label : 'Submit Modal',
+
+				action : mpsubmit
+
+			},
 
 			changesrc    : {
 

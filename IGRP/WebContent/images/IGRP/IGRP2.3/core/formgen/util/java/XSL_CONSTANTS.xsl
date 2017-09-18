@@ -162,6 +162,12 @@
     		<xsl:when test="$type='carousel'">
     			<xsl:value-of select="'IGRPCarousel'" />
     		</xsl:when>
+    		<xsl:when test="$type='panels'">
+    			<xsl:value-of select="'IGRPPanel'" />
+    		</xsl:when>
+    		<xsl:when test="$type='treemenu'">
+    			<xsl:value-of select="'IGRPTreeMenu'" />
+    		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
     </xsl:template>

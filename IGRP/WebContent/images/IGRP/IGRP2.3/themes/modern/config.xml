@@ -1,0 +1,22 @@
+<style>
+	
+	<!-- <colors>
+		<color name="1">#3f4a59</color>
+		<color name="2">#2e3744</color> 
+		<link hover="#267199">#3f4a59</link>
+		<button>
+			<primary hover="#2e3744">#3f4a59</primary>
+			<secondary hover="#267199">#267199</secondary>
+		</button>
+	</colors> -->
+
+	<css>
+		<file external="true">https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i</file>
+		<file>css/globals.css</file>
+		<file>css/header.css</file>
+		<file>css/sidebar.css</file>
+	</css>
+
+	<logo>img/logo.png</logo>
+
+</style>

@@ -534,10 +534,12 @@
 				$.each( d.find('html body *'),function(){
 					if(this.nodeName == name){
 						var node = this;
-						if(attrs)
-							for(var a in attrs)
+						if(attrs){
+							for(var a in attrs){
 								if(node.getAttribute(a) == attrs[a])
 									arr.push(node);
+							}
+						}
 					}
 				});
 

@@ -13,9 +13,18 @@
                 </xsl:call-template>
             </xsl:variable>
 
+            <xsl:variable name="relName">
+                <xsl:choose>
+                    <xsl:when test="@rel">
+                        <xsl:value-of select="@rel"/>
+                    </xsl:when>
+                    <xsl:otherwise>page</xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
             <xsl:variable name="namePorce">
                 <xsl:call-template name="UpperCase">
-                    <xsl:with-param name="text" select="@rel" />
+                    <xsl:with-param name="text" select="$relName" />
                 </xsl:call-template>
             </xsl:variable>
 
@@ -74,7 +83,14 @@
                         <xsl:value-of select="concat($quotes,'&lt;',text(),'&gt;',$quotes)"/>
                         <xsl:choose>
                             <xsl:when test="@from and @from != ''">
-                                <xsl:value-of select="concat($concat,$serv_convert,'(tp_record.',@from,')',$concat)"/>
+                                <xsl:choose>
+                                    <xsl:when test="@type = 'date'">
+                                        <xsl:value-of select="concat($concat,'TO_CHAR(tp_record.',@from,$comma,$quotes,$date_format,$quotes,')',$concat)"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="concat($concat,$serv_convert,'(tp_record.',@from,')',$concat)"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:value-of select="concat($concat,$serv_convert,'(',$pkg_core,'.get(',$quotes,'p_',text(),$quotes,'))',$concat)"/>
@@ -159,11 +175,11 @@
             <xsl:value-of select="$entertab"/>
             <xsl:text>IS</xsl:text>
             <xsl:value-of select="$enter2tab"/>
-            <xsl:value-of select="concat('myxml',$space,'RED.NOSI_XML_API',$endline)"/>
+            <xsl:value-of select="concat('myxml',$space,$xml_api,$endline)"/>
             <xsl:value-of select="concat($entertab,$entertab)"/>
             <xsl:text>BEGIN</xsl:text>
             <xsl:value-of select="$enter2tab"/>
-            <xsl:value-of select="concat('myxml := NEW',$space,'RED.NOSI_XML_API(p_xml_response')"/>
+            <xsl:value-of select="concat('myxml := NEW',$space,$xml_api,'(p_xml_response')"/>
             <xsl:value-of select="concat('/*',$serv_convert,'(p_xml_response',$comma,$space,$serv_decode,')*/)',$endline)"/>
 
             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
@@ -190,18 +206,21 @@
             <xsl:for-each select="service/response/item">
                 <xsl:choose>
                     <xsl:when test="not(@structure) or @structure != 'list'">
-                        <xsl:variable name="vname">
-                            <xsl:choose>
-                                <xsl:when test="@to != ''"><xsl:value-of select="@to"/></xsl:when>
-                                <xsl:otherwise><xsl:value-of select="text()"/></xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:variable>
-                        <xsl:value-of select="concat($pkg_core,'.add(',$quotes,'p_',$vname,$quotes,$comma,$serv_convert,'(myxml.getitempath (',$quotes,'/rows/row/',text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
-                        <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
+                        <xsl:if test="@to != ''">
+                            <xsl:variable name="vname">
+                                <xsl:choose>
+                                    <xsl:when test="@to != ''"><xsl:value-of select="@to"/></xsl:when>
+                                    <xsl:otherwise><xsl:value-of select="text()"/></xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+
+                            <xsl:value-of select="concat($pkg_core,'.add(',$quotes,'p_',text(),$quotes,$comma,$serv_convert,'(myxml.getitempath (',$quotes,'/rows/row/',$vname,$quotes,')',$comma,$serv_decode,'))',$endline)"/>
+                            <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
+                        </xsl:if>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:if test="count(row) &gt; 0">
-                            <xsl:value-of select="concat('myxml.loadgrupo(',$quotes,'row/',@rel,'/row',$quotes,')',$endline)"/>
+                            <xsl:value-of select="concat('myxml.loadgrupo(',$quotes,'row/table/row',$quotes,')',$endline)"/>
                             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
                             
                             <xsl:choose>
@@ -222,8 +241,15 @@
                                             </xsl:choose>
                                         </xsl:variable>
 
-                                        <xsl:value-of select="concat($tab,$packageName,'tbl_',$parentTag,'(i).',text(),' := ',$serv_convert)"/>
-                                        <xsl:value-of select="concat('(myxml.getitem(',$quotes,$itemTag,$quotes,')',$comma,$serv_decode,')',$endline)"/> 
+                                        <xsl:value-of select="concat($tab,$packageName,'tbl_',$parentTag,'(i).',text(),' := ')"/>
+                                        <xsl:choose>
+                                            <xsl:when test="@type = 'date'">
+                                                <xsl:value-of select="concat('TO_DATE(myxml.getitem(',$quotes,$itemTag,$quotes,')',$comma,$quotes,$date_format,$quotes,')',$endline)"/> 
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="concat($serv_convert,'(myxml.getitem(',$quotes,$itemTag,$quotes,')',$comma,$serv_decode,')',$endline)"/> 
+                                            </xsl:otherwise>
+                                        </xsl:choose>
                                         <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
                                     </xsl:for-each>
                                 </xsl:when>
@@ -276,10 +302,29 @@
 
     <xsl:template name="genDmlService">
         <xsl:if test="service">
+
+            <xsl:variable name="relName">
+                <xsl:choose>
+                    <xsl:when test="@rel">
+                        <xsl:value-of select="@rel"/>
+                    </xsl:when>
+                    <xsl:otherwise>page</xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
             <xsl:variable name="namePorce">
                 <xsl:call-template name="UpperCase">
-                    <xsl:with-param name="text" select="@rel" />
+                    <xsl:with-param name="text" select="$relName" />
                 </xsl:call-template>
+            </xsl:variable>
+
+            <xsl:variable name="localUserData">
+                <xsl:choose>
+                    <xsl:when test="@rel">
+                        <xsl:value-of select="app"/>
+                    </xsl:when>
+                    <xsl:otherwise><xsl:value-of select="//rows/app"/></xsl:otherwise>
+                </xsl:choose>
             </xsl:variable>
 
             <xsl:variable name="servCode" select="service/@code"/>
@@ -295,7 +340,7 @@
             <xsl:value-of select="concat($tab,'p_code_contract=&gt;',$pkg_core,'.get_biztalk_contract(',$quotes,$servCode,$quotes,')',$comma)"/>
             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
 
-            <xsl:value-of select="concat($tab,'p_user_data=&gt;NVL(K_LOCAL_USERDATA',$comma,$quotes,app,$quotes,')',$comma)"/>
+            <xsl:value-of select="concat($tab,'p_user_data=&gt;NVL(K_LOCAL_USERDATA',$comma,$quotes,$localUserData,$quotes,')',$comma)"/>
             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
 
             <xsl:value-of select="concat($tab,'p_code_service=&gt;',$quotes,$servCode,$quotes,$comma)"/>
