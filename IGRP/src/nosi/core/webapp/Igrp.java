@@ -62,6 +62,7 @@ public class Igrp {
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
+			
 		return this;
 	}
 	

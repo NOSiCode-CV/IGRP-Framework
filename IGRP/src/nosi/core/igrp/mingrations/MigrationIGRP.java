@@ -30,6 +30,13 @@ public class MigrationIGRP {
 	private static List<Transaction> transactions;
 	private static List<User> users;
 	
+	// For OAuth 2.0
+	private static List<OAuthClient> authClients;
+	private static List<OAuthAccessToken> accessTokens;
+	private static List<OAuthorizationCode> authorizationCodes;
+	private static List<OAuthRefreshToken> refreshTokens;
+	private static List<OAuthScope> authScopes;
+	
 	public static void start(Migrate model){
 		getData();
 		if(model!=null){
@@ -65,6 +72,13 @@ public class MigrationIGRP {
 		sessions = new Session().findAll();
 		transactions = new Transaction().findAll();
 		users = new User().findAll();
+		
+		// For OAuth 2.0
+		authScopes = new OAuthScope().findAll();
+		authClients = new OAuthClient().findAll();
+		authorizationCodes = new OAuthorizationCode().findAll();
+		accessTokens = new OAuthAccessToken().findAll();
+		refreshTokens = new OAuthRefreshToken().findAll();
 	}
 	
 	private static void saveData() {
@@ -179,6 +193,39 @@ public class MigrationIGRP {
 			for(Session s:sessions){
 				Session ss = new Session(s.getSessionId(), s.getStartTime(), s.getEndTime(), s.getIpAddress(), s.getUserName(), s.getTarget(), s.getHttps(), s.getSessionOldId(), s.getHost(), s.getHostName(), s.getMediaType(), s.getUser(), s.getApplication(), s.getProfileType(), s.getOrganization());
 				ss.insert();
+			}
+		}
+		
+		// For OAuth 2.0
+		/**/
+		if(authClients.size() > 0 ) {
+			for(OAuthClient obj : authClients) {
+				OAuthClient aux = new OAuthClient(obj.getClient_id(), obj.getClient_secret(), obj.getRedirect_uri(), obj.getGrant_types(), obj.getScope(), obj.getUser());
+				aux.insert();
+			}
+		}
+		if(authScopes.size() > 0) {
+			for(OAuthScope obj : authScopes) {
+				OAuthScope aux = new OAuthScope(obj.getScope(), obj.getIs_default());
+				aux.insert();
+			}
+		}
+		if(authorizationCodes.size() > 0) {
+			for(OAuthorizationCode obj : authorizationCodes) {
+				OAuthorizationCode aux = new OAuthorizationCode(obj.getAuthorization_code(), obj.getAuthClient(), obj.getUser(), obj.getRedirect_uri(), obj.getExpires(), obj.getScope(), obj.getId_token());
+				aux.insert();
+			}
+		}
+		if(accessTokens.size() > 0) {
+			for(OAuthAccessToken obj : accessTokens) {
+				OAuthAccessToken aux = new OAuthAccessToken(obj.getAccess_token(), obj.getAuthClient(), obj.getUser(), obj.getExpires(), obj.getScope());
+				aux.insert();
+			}
+		}
+		if(refreshTokens.size() > 0) {
+			for(OAuthRefreshToken obj : refreshTokens) {
+				OAuthRefreshToken aux = new OAuthRefreshToken(obj.getRefresh_token(), obj.getAuthClient(), obj.getUser(), obj.getExpires(), obj.getScope());
+				aux.insert();
 			}
 		}
 	}
