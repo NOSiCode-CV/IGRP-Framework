@@ -25,8 +25,8 @@ public class ConfigDBIGRP {
 		this.type_db = "h2";
 		this.host = "~";
 		this.name_db = "db_igrp_core";
-		this.username = "user.igrp.core";
-		this.password = "password.igrp.core";
+		this.username = "root";
+		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp.config";
 		this.path = Config.getRootPaht()+"igrp/config/db";
