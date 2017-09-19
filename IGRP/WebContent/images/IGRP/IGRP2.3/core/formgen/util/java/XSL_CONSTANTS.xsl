@@ -73,6 +73,7 @@
       <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />
       <xsl:value-of select="translate(substring($text,2,string-length($text)-1),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')" />
     </xsl:template>
+ 
     <xsl:template name="upperCase">
         <xsl:param name="text"/>
         <xsl:value-of select="translate($text, $smallcase, $uppercase)"/>
