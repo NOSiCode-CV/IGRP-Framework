@@ -19,5 +19,12 @@
 		<mapping class="nosi.webapps.igrp.dao.Session"/>
 		<mapping class="nosi.webapps.igrp.dao.Transaction"/>
 		<mapping class="nosi.webapps.igrp.dao.User"/>
+		
+		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken"/>
+		<mapping class="nosi.webapps.igrp.dao.OAuthClient"/>
+		<mapping class="nosi.webapps.igrp.dao.OAuthorizationCode"/>
+		<mapping class="nosi.webapps.igrp.dao.OAuthScope"/>
+		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken"/>
+		
 	</session-factory>
 </hibernate-configuration>

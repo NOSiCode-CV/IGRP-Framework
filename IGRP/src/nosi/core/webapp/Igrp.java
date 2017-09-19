@@ -62,6 +62,7 @@ public class Igrp {
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
+			
 		return this;
 	}
 	
@@ -73,6 +74,7 @@ public class Igrp {
 		this.exit();
 	}
 	
+	// Send the response ...
 	private void exit(){ // Destroy all app components init. before
 		this.die = false;
 	}
