@@ -19,7 +19,7 @@ public class LoginController extends Controller {
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		
-		// first
+		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			if(oauth2 != null && oauth2 == "1") {
 				
