@@ -28,10 +28,7 @@ public abstract class Controller {
 			view.setContext(this); // associa controller ao view
 			this.view.render();
 			String result = this.view.getPage().renderContent(!isRenderPartial);
-//			Igrp app = Igrp.getInstance();
-//			app.getResponse().setContentType("text/xml;charset=UTF-8");
-//			app.getResponse().getWriter().append(result);
-			resp.setFormat(this.format);
+			resp.setContentType(this.format);
 			resp.setType(1);
 			resp.setContent(result);
 		}
@@ -45,7 +42,7 @@ public abstract class Controller {
 	private final Response redirect_(String url){
 		Response resp = new Response();
 		resp.setType(2);
-		resp.setFormat(this.format);
+		resp.setContentType(this.format);
 		this.isRedirect = true;
 		try {
 			Igrp.getInstance().getResponse().sendRedirect("webapps" + url);
@@ -79,7 +76,7 @@ public abstract class Controller {
 	protected final Response redirectToUrl(String url){
 		Response resp = new Response();
 		resp.setType(2);
-		resp.setFormat(this.format);
+		resp.setContentType(this.format);
 		this.isRedirect = true;
 		try {
 			Igrp.getInstance().getResponse().sendRedirect(url);
@@ -107,7 +104,7 @@ public abstract class Controller {
 			 Response resp = (Response) obj;
 			 if(resp!=null && resp.getType()==1){
 					Igrp app = Igrp.getInstance();
-					app.getResponse().setContentType(resp.getFormat());
+					app.setResponse(resp);
 					app.getResponse().getWriter().append(resp.getContent());
 			 }
 		 }

@@ -103,6 +103,10 @@ public class Igrp {
 		return this.response;
 	}
 	
+	public void setResponse(HttpServletResponse response){
+		this.response = response;
+	}
+	
 	public HttpServletRequest getRequest(){
 		return this.request;
 	}

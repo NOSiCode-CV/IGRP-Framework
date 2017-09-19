@@ -11,6 +11,7 @@
 	 		<xsl:value-of select="$tab2"/>
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"></xsl:call-template>
+	 		<xsl:call-template name="actionEditCalendar"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
 	 		 <xsl:call-template name="createActions"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
@@ -133,11 +134,18 @@
 		</xsl:variable>
 			
 		<xsl:variable name="action">
-			<xsl:call-template name="CamelCaseWord">
-	    		<xsl:with-param name="text">
+			<xsl:choose>
+				<xsl:when test="$type_render_!='render_message'">
+					<xsl:call-template name="CamelCaseWord">
+			    		<xsl:with-param name="text">
+			    			<xsl:value-of select="$action_name_"></xsl:value-of>
+			    		</xsl:with-param>
+			    	</xsl:call-template>
+		    	</xsl:when>
+		    	<xsl:otherwise>
 	    			<xsl:value-of select="$action_name_"></xsl:value-of>
-	    		</xsl:with-param>
-	    	</xsl:call-template>
+		    	</xsl:otherwise>
+	    	</xsl:choose>
 		</xsl:variable>			
 		<xsl:variable name="app__">
 			<xsl:call-template name="lowerCase">
@@ -204,6 +212,28 @@
 						<xsl:value-of select="$newline"/>  
 						<xsl:value-of select="$tab"/>
 					</xsl:when>
+					<xsl:when test="$type_render_='render_message'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="'//programming your save edit calendar'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="'Response response = new Response();'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="'response.setContentType(Response.FORMAT_XML);'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('response.setContent(',$double_quotes,'your message',$double_quotes,');')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>  
+						<xsl:value-of select="'return response;'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab"/>  
+					</xsl:when>
 				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
@@ -232,4 +262,19 @@
 		</xsl:call-template>
  	</xsl:template>
 
+	<!-- add action edit calendar -->
+	<xsl:template name="actionEditCalendar">
+		<xsl:for-each select="/rows/content/*[@type ='calendar']">
+		<xsl:variable name="actionName">
+			<xsl:call-template name="CamelCaseWord">
+				<xsl:with-param name="text"><xsl:value-of select="name()"/></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:call-template name="gen-action">
+			<xsl:with-param name="action_name_"><xsl:value-of select="concat('EditEvents',$actionName)"/></xsl:with-param>
+			<xsl:with-param name="page_"><xsl:value-of select="$class_name"/></xsl:with-param>
+			<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
+		</xsl:call-template>
+		</xsl:for-each>
+ 	</xsl:template>
 </xsl:stylesheet>
