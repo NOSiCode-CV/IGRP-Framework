@@ -42,6 +42,19 @@ public class DataSourceController extends Controller {
 		tipo.put("Query", "Query");
 		//tipo.put("serv", "Serviços");
 		DataSource model = new DataSource();
+		model.setQuery("Select * FROM nome_tabela");
+
+		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
+		String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
+		if(id!=null && !id.equals("")){
+			RepSource rep = new RepSource().findOne(Integer.parseInt(id));
+			model.setAplicacao(""+rep.getApplication().getId());
+			model.setNome(rep.getName());
+			model.setObjecto(rep.getType_name().equalsIgnoreCase("object")?rep.getType_query():"");
+			model.setQuery(rep.getType_name().equalsIgnoreCase("query")?rep.getType_query():"");
+			model.setTipo(rep.getType_name());
+			ichange = rep.getType_name();
+		}
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 		}
@@ -50,7 +63,6 @@ public class DataSourceController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		//view.pagina.setValue(new Action().getListActions());
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
-		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 		if(ichange!=null && !ichange.equals("")){
 			if(model.getTipo().equalsIgnoreCase("object")){
 				view.processo.setVisible(false);
@@ -79,6 +91,10 @@ public class DataSourceController extends Controller {
 			}
 		}
 		Config.target = "_blank";
+
+		if(id!=null && !id.equals("")){
+			view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
+		}
 		return this.renderView(view);
 			/*---- End ----*/
 	}
@@ -118,7 +134,14 @@ public class DataSourceController extends Controller {
 			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 			rep.setUser_created(user);
 			rep.setUser_updated(user);
-			if(rep.insert()!=null){
+			String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
+			if(id!=null && !id.equals("")){
+				rep.setId(Integer.parseInt(id));
+				rep = rep.update();
+			}else{
+				rep = rep.insert();
+			}
+			if(rep!=null){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
