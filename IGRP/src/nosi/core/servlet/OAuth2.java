@@ -41,7 +41,40 @@ public class OAuth2 extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String grant_type = request.getParameter("grant_type");
+		String client_id = request.getParameter("client_id");
+		String client_secret = request.getParameter("client_secret");
+
+		String result = "{\"error\":\"Invalid Request ...\"}";
+		
+		switch(grant_type) {
+			case "authorization_code":
+				String redirect_uri = request.getParameter("redirect_uri");
+				String code = request.getParameter("code");
+				result = generateTokenByAuthCode(code, client_id, client_secret, redirect_uri);
+				//
+			break;
+			case "password":
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+				result = generateTokenByPassword(username, password, client_id, client_secret);
+				//
+			break;
+			default: break;
+		}
+		
+		response.setContentType("application/json;charset=UTF-8");
+		response.getWriter().append(result);
+	}
+	
+	private static String generateTokenByPassword(String username, String password, String client_id, String client_secret) {
+		String json = "";
+		return json;
+	}
+	
+	private static String generateTokenByAuthCode(String code, String client_id, String client_secret, String redirect_uri) {
+		String json = "";
+		return json;
 	}
 	
 	private static void browserBasedApps(HttpServletRequest request,HttpServletResponse response) {
@@ -66,6 +99,10 @@ public class OAuth2 extends HttpServlet {
 	
 	public static String getAuthorizationCode(String response_type, String client_id, String redirect_uri, String scope) {
 		
+		return "";
+	}
+	
+	public static String getToken(String response_type, String client_id, String redirect_uri, String scope) {
 		return "";
 	}
 	
