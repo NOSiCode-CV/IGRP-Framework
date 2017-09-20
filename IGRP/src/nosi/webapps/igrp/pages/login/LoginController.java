@@ -19,10 +19,26 @@ public class LoginController extends Controller {
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		
+		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
+		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
+		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
+		String scope = Igrp.getInstance().getRequest().getParameter("scope");
+		
 		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			if(oauth2 != null && oauth2 == "1") {
-				
+				switch(response_type) {
+				case "code":
+					String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
+					Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+				break;
+				case "token": 
+					String token = "";
+					Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "#token=" + token);
+					break;
+				default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
+				}
+			return new Response(); // Bug here ...
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
@@ -32,6 +48,7 @@ public class LoginController extends Controller {
 		//Set user and password for demo
 		view.user.setValue("demo");
 		view.password.setValue("demo");
+		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			
 			model.load();
@@ -39,8 +56,9 @@ public class LoginController extends Controller {
 			switch(Config.getAutenticationType()){
 			
 				case "db": 
-					if(oauth2 != null && oauth2 == "1")
-						this.loginWithDbForAuth2(model.getUser(), model.getPassword());
+					if(oauth2 != null && oauth2 == "1") {
+						this.loginWithDbForAuth2(model.getUser(), model.getPassword(), response_type, client_id, redirect_uri, scope);
+					}
 					else
 						this.loginWithDb(model.getUser(), model.getPassword());
 				break;
@@ -75,12 +93,7 @@ public class LoginController extends Controller {
 	
 	}
 	
-	private void  loginWithDbForAuth2(String username, String password) throws IOException {
-		
-		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
-		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
-		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
-		String scope = Igrp.getInstance().getRequest().getParameter("scope");
+	private void  loginWithDbForAuth2(String username, String password, String response_type, String client_id, String redirect_uri, String scope) throws IOException {
 		
 		User user = (User) new User().findIdentityByUsername(username);
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
@@ -90,8 +103,19 @@ public class LoginController extends Controller {
 						if(!Session.afterLogin(profile))
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
-						String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
-						Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+						
+						switch(response_type) {
+							case "code":
+								String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
+								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+							break;
+							case "token": 
+								String token = "";
+								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?token=" + token);
+								break;
+							default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
+						}
+						
 					}
 					else
 						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");

@@ -7,7 +7,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
-public class LoginView extends View {		
+public class LoginView extends View {
 	
 	public Field user;
 	public Field password;
