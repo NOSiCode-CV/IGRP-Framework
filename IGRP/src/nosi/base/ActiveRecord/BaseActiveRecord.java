@@ -15,14 +15,10 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
-
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
-
-
 public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
 	protected SessionFactory entityManagerFactory;

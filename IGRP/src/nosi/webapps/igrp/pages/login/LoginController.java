@@ -13,7 +13,7 @@ import nosi.webapps.igrp.dao.Session;
 import java.io.IOException;
 
 /*---- End ----*/
-public class LoginController extends Controller {		
+public class LoginController extends Controller {
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
@@ -26,7 +26,7 @@ public class LoginController extends Controller {
 		
 		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			if(oauth2 != null && oauth2 == "1") {
+			/*if(oauth2 != null && oauth2 == "1") {
 				switch(response_type) {
 				case "code":
 					String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
@@ -39,7 +39,7 @@ public class LoginController extends Controller {
 				default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
 				}
 			return new Response(); // Bug here ...
-			}
+			}*/
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		
@@ -97,16 +97,15 @@ public class LoginController extends Controller {
 		
 		User user = (User) new User().findIdentityByUsername(username);
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
-			if(user.getStatus() == 1){				
+			if(user.getStatus() == 1){
 				Profile profile = new Profile().getByUser(user.getId());
 					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
 						if(!Session.afterLogin(profile))
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
-						
 						switch(response_type) {
 							case "code":
-								String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
+								String authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
 								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
 							break;
 							case "token": 
