@@ -1,10 +1,13 @@
-<div class="col-md-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
-  <div class="form-group">
+<div class="col-sm-#[size]# #[right]#" item-name="#tag#" item-type="#type#" #[required]#>
+  <div class="form-group radiolist clear" #[required]#>
      <label>#label.val#</label>
         <xsl:for-each select="#list.path#/option">
-            <div class="radio">
+            <div class="radio col-md-#[child_size]#">
                 <label>
                     <input #[required]# type="radio" name="{../../@name}" value="{value}" class="radiolist #[change]#" label="{text}">
+                        <xsl:call-template name="setAttributes">
+                            <xsl:with-param name="field" select="//#path#"/>
+                        </xsl:call-template>
                         <xsl:if test="@selected='true'">
                             <xsl:attribute name="checked">checked</xsl:attribute>
                         </xsl:if>

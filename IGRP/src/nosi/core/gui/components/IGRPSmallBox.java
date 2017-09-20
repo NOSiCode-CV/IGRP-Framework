@@ -18,9 +18,12 @@ package nosi.core.gui.components;
  */
 public class IGRPSmallBox extends IGRPForm {
 
-	public IGRPSmallBox(String tag_name) {
-		super(tag_name);
+	public IGRPSmallBox(String tag_name,String title) {
+		super(tag_name,title);
 		this.properties.put("type", "smallbox");
 	}
 
+	public IGRPSmallBox(String tag_name) {
+		this(tag_name,"");
+	}
 }

@@ -35,7 +35,7 @@ var VARS = {
 		addRow     		   : '.row-options ul li[rel="add-row"]',
 		deleteRow    	   : '.row-options ul li[rel="delete-row"]',
 		rowsHtml   		   : '<div class="row"><div class="row-options"><ul><li rel="columns"><a class="btn-small add-columns" href="#"><i class="fa fa-columns"></i><span>Columns</span></a></li><li rel="add-row"><a class="btn-small" href="#"><i class="fa fa-plus"></i><span>Add Row</span></a></li><li rel="delete-row"><a class="btn-small" href="#"><i class="fa fa-remove"></i><span>Remove</span></a></li></ul></div></div>',
-		columnsHtml 	   : '<div class="gen-column"><div class="col-options clearfix"><ul class="pull-right"><li class="move-col" title="Move Column"><a class="btn-small" href="#"><i class="fa fa-arrows"></i></a></li></ul></div><div class="gen-column-inner"><div place="c" class="gen-container-placeholder"></div></div></div>',	
+		columnsHtml 	   : '<div class="gen-column"><div class="col-options clearfix"><ul class="pull-right"><li class="move-col" title="Move Column"><a class="btn-small" href="#"><i class="fa fa-arrows"></i></a></li></ul></div><div class="gen-column-inner gen-inner"><div place="c" class="gen-container-placeholder"></div></div></div>',	
 		columnOptionsHtml  : '<ul class="column-list"><li><a href="#" class="column-layout hasTooltip column-layout-12" data-layout="12"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-66 active" data-layout="6,6"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-444" data-layout="4,4,4"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-3333" data-layout="3,3,3,3"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-48" data-layout="4,8"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-39" data-layout="3,9"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-363" data-layout="3,6,3"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-264" data-layout="2,6,4"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-210" data-layout="2,10"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-57" data-layout="5,7"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-237" data-layout="2,3,7"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-255" data-layout="2,5,5"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-282" data-layout="2,8,2"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-2442" data-layout="2,4,4,2"></a></li><li><a href="#" class="column-layout hasTooltip column-layout-custom" data-layout="custom"></a></li></ul>',
 		/*columnOptionsHtml  :'<div class="columns-structure">'+
 								'<span type="1-1"></span>'+
@@ -184,6 +184,10 @@ var VARS = {
 				            '<i class="fa fa-arrows"></i>'+
 				        '</div>'+
 
+				        '<a class="btn btn-box-tool container-clone gen-clone-btn" title="Clone">'+
+				            '<i class="fa fa-clone"></i>'+
+				        '</a>'+
+
 				        '<a class="btn btn-box-tool container-edit gen-edition-btn" title=""	>'+
 				            '<i class="fa fa-gear"></i>'+
 				        '</a>'+
@@ -198,14 +202,20 @@ var VARS = {
 				'</div>';
 	},
 	getFieldsSettsHtml:function(f){
+		var hasContents = f.parent && f.parent.contents ? true : false,
+
+			cloneHtml   = !hasContents ? '<a class="btn btn-box-tool field-clone gen-clone-btn" title="">'+
+				            	'<i class="fa fa-clone"></i>'+
+				          '</a>' : '';
+
 		return '<div class="box-tools gen-field-edt-options gen-settings-holder">'+
 
-			        /*'<div class="btn btn-box-tool field-mover">'+
-			            '<i class="fa fa-arrows"></i>'+
-			        '</div>'+*/
+			        cloneHtml+
+
 			        '<a class="btn btn-box-tool field-edit gen-edition-btn" title="">'+
 			            '<i class="fa fa-gear"></i>'+
 			        '</a>'+
+
 			        '<a class="btn btn-box-tool field-remove">'+
 			            '<i class="fa fa-times"></i>'+
 			        '</a>'+

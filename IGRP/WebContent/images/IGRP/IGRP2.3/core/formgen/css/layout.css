@@ -117,7 +117,7 @@
 .row .row-options > ul  li > .column-list li {
 	display: block;
 	float: left;
-	padding: 8px 6px;
+	
 	margin: 2px
 }
 
@@ -128,7 +128,7 @@
 .row .row-options > ul  li > .column-list a{
 	text-align: left;
     display: block;
-    padding: 0;
+    padding: 8px 6px;
     margin: 0 2px;
     color: #fff;
     background-color: transparent;
@@ -140,6 +140,7 @@
     background-position: 50%;
     -webkit-transition: background-color 400ms;
     transition: background-color 400ms;
+    box-sizing: content-box;
 }
 
 .row .row-options > ul  li > .column-list a.column-layout-12{

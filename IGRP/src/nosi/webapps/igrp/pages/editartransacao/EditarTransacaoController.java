@@ -3,6 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.editartransacao;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -10,21 +12,18 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-
 import java.io.IOException;
 
-
+/*---- End ----*/
 public class EditarTransacaoController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
 		if(codigo!=null){
-			Transaction t = new Transaction();
-			t.setCode(codigo);
-			t = (Transaction)t.getOne();
+			Transaction t = new Transaction().find().andWhere("code", "=", codigo).one();
 			EditarTransacao model = new EditarTransacao();
-			if(t.getCode()!=null){
+			if(t!=null){
 				model.setCodigo(codigo);
-				model.setAplicacao(t.getEnv_fk());
+				model.setAplicacao(t.getApplication().getId());
 				model.setDescricao(t.getDescr());
 				model.setStatus(t.getStatus());
 				model.setP_id(t.getId());
@@ -34,10 +33,11 @@ public class EditarTransacaoController extends Controller {
 				t = new Transaction();
 				t.setCode(model.getCodigo());
 				t.setDescr(model.getDescricao());
-				t.setEnv_fk(model.getAplicacao());
+				t.setApplication(new Application().findOne(model.getAplicacao()));
 				t.setStatus(model.getStatus());
 				t.setId(Integer.parseInt(codigo));
-				if(t.update())
+				t = t.update();
+				if(t!=null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Transacao atualizada com sucesso.");
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a transacao.");

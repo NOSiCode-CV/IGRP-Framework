@@ -1,9 +1,7 @@
-function tst(){
-	alert('')
-}
 $(function(){
 
 	$.IGRP.components.lookup = {
+		
 		setEvents:function(){
 			//lookup popup open
 			$('body').on('click','.IGRP_lookupPopup',function(e){
@@ -23,9 +21,10 @@ $(function(){
 				});
 
 				$.IGRP.components.iframeNav.set({
-					url:iframeUrl,
+					url       :iframeUrl,
+					clicked   :$(this),
 					beforeLoad:function(c){},
-					complete:function(){}
+					complete  :function(){}
 				});
 
 				return false;

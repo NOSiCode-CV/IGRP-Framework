@@ -17,6 +17,8 @@ var GENTABCONTENT = function(name,tparams){
 
 	container.xml.structure = 'form';
 
+	container.xslValidation = false;
+
 	//container.xml.genType = 'menu';
 
 	container.canRecieveFields = false;//container does not recieve any field
@@ -53,9 +55,13 @@ var GENTABCONTENT = function(name,tparams){
 						label:'Clean'
 					},
 					{
+						value:'boxed',
+						label:'Boxed'
+					}
+					/*{
 						value:'buttons',
 						label:'Buttons'
-					}
+					}*/
 				]
 			},
 			transform:false,
@@ -63,39 +69,50 @@ var GENTABCONTENT = function(name,tparams){
 				$(container.holder.find('.gen-tab-holder')[0]).attr('tab-template',val);
 			}
 		});
+
+		container.setProperty({
+			name     : 'justified',
+			label    : 'Justified',
+			value    : false,
+			xslValue : 'nav-justified',
+			onChange : function(v){
+				var operation = v ? 'addClass' : 'removeClass';
+				container.holder.find('.nav-tabs')[operation]('nav-justified');
+			} 
+		});
+
+		container.setProperty({
+			name     : 'autoctrl',
+			label    : 'Control Active',
+			value    : false,
+			xslValue : 'auto-control'
+		});
+
 	}
 
 	container.XSLToString = function(ee){
+		
 		updateContents();
 
 		var rtn = "";
 
 		try{
+
 			var xsl = $(container.getXSL());
+
 			container.contents.forEach(function(content,cidx){
 				var titleXSL     = container.GET.path()+'/fields/'+content.GET.tag();
 				var contentRows  = GEN.designRows(content.rows);
 				var activeClass  = cidx == 0 ? 'active' : '';
 				var rel          = container.GET.tag()+'-'+content.GET.tag();//(new Date()).getTime();
-				var contentTitle = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getMenuItem('<xsl:value-of select="'+titleXSL+'/label"/>',rel,activeClass,content)+'</xsl:if>'));
-				var contentXML   = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getContentItem(rel,activeClass,contentRows)+'</xsl:if>'));
+				var contentTitle = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getMenuItem('<xsl:value-of select="'+titleXSL+'/label"/>',rel,activeClass,content,true)+'</xsl:if>'));
+				var contentXML   = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getContentItem(rel,activeClass,contentRows,content,true)+'</xsl:if>'));
 
-				xsl.find('>.'+classes.ul).append(contentTitle.documentElement);					
+				xsl.find('>.'+classes.ul).append(contentTitle.documentElement);			
+
 				xsl.find('>.'+classes.contentsHolder).append(contentXML.documentElement);
 
 			});
-			/*container.contents.forEach(function(content,cidx){
-				var titleXSL     = container.GET.path()+"/item[@name='"+content.GET.tag()+"']";
-				var contentRows  = GEN.designRows(content.rows);
-				var activeClass  = cidx == 0 ? 'active' : '';
-				var rel          = container.GET.tag()+'-'+content.GET.tag();//(new Date()).getTime();
-				var contentTitle = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getMenuItem('<xsl:value-of select="'+titleXSL+'/title"/>',rel,activeClass,content)+'</xsl:if>'));
-				var contentXML   = $.parseXML(setXmlnsAttr('<xsl:if test="'+titleXSL+'">'+getContentItem(rel,activeClass,contentRows)+'</xsl:if>'));
-
-				xsl.find('>.'+classes.ul).append(contentTitle.documentElement);					
-				xsl.find('>.'+classes.contentsHolder).append(contentXML.documentElement);
-
-			});*/
 
 			rtn = (new XMLSerializer()).serializeToString(xsl[0]);
 			rtn = rtn.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
@@ -238,7 +255,7 @@ var GENTABCONTENT = function(name,tparams){
 
 			var li = $(getMenuItem(title,rel,activeClass,btn)); //$('<li class="'+activeClass+'" rel="tab-'+(i+1)+'">'+c.title+'</li>');
 
-			var contentItem = $(getContentItem(rel,activeClass)); //$('<div class="gen-tab-c-item '+activeClass+'" rel="tab-'+(i+1)+'"></div>')
+			var contentItem = $(getContentItem(rel,activeClass,null,btn)); //$('<div class="gen-tab-c-item '+activeClass+'" rel="tab-'+(i+1)+'"></div>')
 
 			$(container.holder.find('> .container-contents > .gen-tab-holder > .'+classes.ul)[0]).append(li);
 
@@ -415,15 +432,31 @@ var GENTABCONTENT = function(name,tparams){
 		btn.holder.find('>a>i.fa').removeAttr('class').addClass('fa '+btn.GET.img());
 	}
 
-	var getMenuItem = function(title,idx,_class,btn){
-		//console.log(btn)
+	var getMenuItem = function(title,idx,_class,btn,xsl){
+
+		var activetabTmpl = xsl ? '<xsl:call-template name="get-active-tab">'+
+			                    	'<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+btn.GET.tag()+'/value"/>'+
+			                  	  '</xsl:call-template>' : '';
+
+		var genID         = !xsl ? 'gen-field-id="'+btn.GET.id()+'"' : '';
+
+
 		var icon = btn.GET.img() ? btn.GET.img() :'fa-dot-circle-o';
 		var iconHtml = '<i class="fa '+icon+'"></i>';
-		return '<li item-name="'+btn.GET.tag()+'" class="'+_class+' gen-fields-holder" rel="tab-'+idx+'"><a data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+iconHtml+'<span gen-lbl-setter="true">'+title+'</span></a></li>';
+		return '<li item-name="'+btn.GET.tag()+'" '+genID+' class="'+_class+' gen-fields-holder" rel="tab-'+idx+'">'+
+					activetabTmpl+
+					'<a data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
+						iconHtml+'<span gen-lbl-setter="true">'+title+'</span>'+
+					'</a>'+
+				'</li>';
 	}
 
-	var getContentItem = function(idx,_class,contents){
-		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" id="tab-'+idx+'" rel="tab-'+idx+'">';
+	var getContentItem = function(idx,_class,contents,content,xsl){
+		var activetabTmpl = xsl ? '<xsl:call-template name="get-active-tab">'+
+				                    '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+content.GET.tag()+'/value"/>'+
+				                  	'<xsl:with-param name="class" select="\'tab-pane\'"/>'+
+				                  '</xsl:call-template>' : '';
+		var rtn = '<div class="'+classes.contentItem+' gen-rows-holder '+_class+'" id="tab-'+idx+'" rel="tab-'+idx+'">'+activetabTmpl;
 					if(contents) rtn+=contents;
 			rtn+='</div>';
 

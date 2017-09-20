@@ -89,7 +89,7 @@ a, button {
 /**/
 .gen-rows-holder{
 	min-height: 55px;
-	padding-top: 20px;
+	padding-top: 4px;
 }
 /* CONTIANERS SETTS */
 
@@ -98,6 +98,13 @@ a, button {
     position: relative;
     min-height: 5px;
     display: none;
+}
+
+.gen-container-holder.custom-xsl-set>.gen-settings-holder>.c-type:before{
+	content:"*";
+	font-size: 16px;
+	margin-right: 4px;
+	font-weight: bold
 }
 
 
@@ -412,6 +419,7 @@ a, button {
 	left: 0;
 	display: block;
 	position: relative;
+	clear: both;
 }
 
 .gen-hidden-holder:after {
@@ -444,11 +452,20 @@ a, button {
 
 .gen-field-edt-options{
 	position: absolute;
-	top: 5px;
-	right: 10px;
-	z-index: 5;
-	opacity: 0;
-	transition:opacity .5s;
+    top: 5px;
+    right: -1px;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity .5s;
+    width: 68px;
+}
+
+.igrp-table-ctx-td>ul>.operationTable:hover{
+	overflow:visible;
+}
+
+.igrp-table-ctx-td>ul>.operationTable{
+	overflow:hidden;
 }
 
 th.bs-checkbox {
@@ -552,6 +569,11 @@ a.gen-declared-containers:not(.active), a.gen-declared-fields:not(.active){
 .gen-declared-containers.gen-undeclared{ display: none!important; }
 
 /*PLACEHOLDERS*/
+
+.gen-container-placeholder>.ui-sortable-helper {
+	max-height: 70px!important;
+}
+
 .gen-container-placeholder > .gen-declared-containers:first-child{
 	margin-top: 5px
 }
@@ -574,7 +596,7 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 
 /*SPECIFICS*/
 .box-head.subtitle .gen-field-edt-options{
-	top:16px;
+	/*top:16px;*/
 }
 
 /* BTN FontAwesome */
@@ -607,17 +629,24 @@ thead tr.no-fields .gen-container-sortable-placeholder{
     margin: 0 2px;
 }
 .rules-target.gen-container{
-	
+	font-weight: bold;
 }
 
 .rules-target.gen-field{
-	padding-left:15px;
+	/*padding-left:15px;*/
+}
+
+.gen-targets-field{
+	position: relative;
+	left: 20px;
 }
 
 #gen-edition-modal{
 	z-index: 1051;
 	padding: 0!important;
 }
+
+
 
 #gen-edition-modal .select2-container{
 	width: 100%!important;
@@ -637,9 +666,16 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 
 #gen-edition-modal .modal-header{
 	padding: 0;
+	position: relative;
 	background: whitesmoke;
 }
 
+#gen-edition-modal .modal-header button.close {
+	position: absolute;
+	top: 50%;
+	margin-top: -10px;
+	right:10px;
+}
 
 #gen-edition-modal[gen-type="container"] [gen-type="container"],
 #gen-edition-modal[gen-type="field"] [gen-type="field"]{
@@ -660,6 +696,14 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 #gen-edition-modal .modal-header ul {
 	padding: 0;
 	margin: 0;
+}
+
+#gen-edition-modal .modal-footer{
+	text-align: left
+}
+
+#gen-edition-modal .modal-buttons{
+	margin-top: 4px;
 }
 
 #gen-edition-modal .modal-footer .info{
@@ -685,7 +729,7 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 }
 
 #gen-edition-modal[view="xsl"] .modal-dialog{
-	width: 900px
+	width: 90%;
 }
 
 #gen-edition-modal[view="rules"] .modal-dialog{
@@ -822,11 +866,26 @@ textarea.form-control.propriety-setter{
 }
 
 .gen-properties-setts-holder[rel="xsl"]{
-	min-height: 205px;
+	min-height: 400px;
 }
 
 #gen-edit-xsl{
 	position: relative;
+}
+
+#gen-edit-xsl .CodeMirror {
+	height: 350px;
+}
+
+#gen-edit-xsl[use-default="true"]:after{
+	content:"";
+	position: absolute;
+	top: 30px;
+	left: 0;
+	width: 100%;
+	height:100%;
+	background: rgba(255,255,255,.3);
+	z-index: 100
 }
 
 .gen-list-searcher{
@@ -916,10 +975,12 @@ textarea.form-control.propriety-setter{
 	background-repeat: no-repeat;
     background-size: 160px;
     background-position: center;
+    
 }
 
-.gen-column.ui-sortable-placeholder{
 
+.gen-column[empty="true"].distance-bottom>.gen-column-inner>.gen-container-placeholder{
+	padding-bottom: 80px;
 }
 /*VIEW PLACEOLDER*/
 .view-body .ui-sortable-placeholder{
@@ -1019,5 +1080,17 @@ STYLE
 new rows / columns style
 */
 
+/* verticalmenu */
+.panel-group[template="igrp-accordion-group"] .panel-body>.gen-rows-holder>.row>.gen-column>.gen-inner .igrp-vertical-menu{
+	margin:0!important;
+}
 
 
+/*tooltip hack - hide*/
+.ui-helper-hidden-accessible[role="log"]{
+	display: none!important;
+}
+
+.ui-widget-content[role="tooltip"]{
+	display: none!important;;
+}

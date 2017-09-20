@@ -77,3 +77,34 @@
 	text-align: center;
 }
 /*/centralized*/
+
+/*clean*/
+.toolsbar-holder.clean{
+	border-bottom: 1px solid #eaeaea;
+    background: transparent;
+    position: relative;
+    top: 1px;
+}
+
+.toolsbar-holder.clean .btns-holder:not(.btn-group)>.btn{
+	margin: 0 5px;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn{
+	border-color: transparent;
+	background: transparent;
+	color: #333;
+}
+
+.toolsbar-holder.clean .btns-holder>.btn:hover,
+.toolsbar-holder.clean .btns-holder>.btn.active,
+.toolsbar-holder.clean .btns-holder>.btn.active:hover, 
+.toolsbar-holder.clean .btns-holder>.btn:focus,
+.toolsbar-holder.clean .btns-holder>.btn.active:focus{
+	background: transparent;
+	color: #4496C1;
+    border-bottom-color: #4496C1;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+/*clean*/

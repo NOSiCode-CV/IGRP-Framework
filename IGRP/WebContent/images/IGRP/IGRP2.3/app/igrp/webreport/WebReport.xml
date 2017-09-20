@@ -18,7 +18,7 @@
     <app>igrp</app>
     <plsql>
         <action>index</action>
-        <package_instance></package_instance>
+        <package_instance>null</package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>WebReport</package_html>
         <table_name></table_name>
@@ -32,6 +32,220 @@
         <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Web Report</title>
+        <title>Report Builder</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Web Report]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>WebReport</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="preview">
+                <title>Preview</title>
+                <app>igrp</app>
+                <page>WebReport</page>
+                <link>index</link>
+                <target>alert_submit</target>
+                <img>default|fa-file-video-o</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</parameter>
+            </item>
+        </fmn>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <reports name="p_reports" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-file-text-o" maxlength="50">
+                    <label>Reports</label>
+                    <value/>
+                </reports>
+                <data_source name="p_data_source" type="button" target_fields="" iconColor="#333" iconClass="" img="fa-database" maxlength="50">
+                    <label>Data Source</label>
+                    <value/>
+                </data_source>
+            </fields>
+        </tabcontent_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
+                <datasorce_app name="p_datasorce_app" type="select" multiple="true" domain="" maxlength="100" required="false" change="false" disabled="false" right="false">
+                    <label>Datasorce App</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </datasorce_app>
+                <report_editor name="p_report_editor" type="texteditor" maxlength="300000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Report Editor</label>
+                    <value>Magna omnis consectetur aliqua laudantium aliqua doloremque perspiciatis officia voluptatem amet natus unde aperiam lorem sed mollit perspiciatis adipiscing iste</value>
+                </report_editor>
+                <link_add_source name="p_link_add_source" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="2000" placeholder="" right="false">
+                    <label>Link add source</label>
+                    <value>undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</value>
+                </link_add_source>
+                <dialog_titulo_report name="p_dialog_titulo_report" type="plaintext" clear="false" maxlength="3000" right="false">
+                    <label>Dialog_titulo_report</label>
+                    <value>Sit omnis doloremque unde elit deserunt totam lorem labore deserunt omnis magna voluptatem lorem labore</value>
+                </dialog_titulo_report>
+                <dialog_keys_report name="p_dialog_keys_report" type="plaintext" clear="false" maxlength="3000" right="false">
+                    <label>Dialog_keys_report</label>
+                    <value>Perspiciatis aliqua lorem doloremque ut aperiam accusantium adipiscing stract consectetur iste laudantium consectetur omnis perspiciatis</value>
+                </dialog_keys_report>
+                <codigo_report name="p_codigo_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo Report</label>
+                    <value>Anim ipsum totam iste aliqua</value>
+                </codigo_report>
+                <title_report name="p_title_report" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Title Report</label>
+                    <value>Perspiciatis stract accusantiu</value>
+                </title_report>
+                <hidden name="p_link_source" type="hidden" maxlength="30" tag="link_source"/>
+                <hidden name="p_edit_name_report" type="hidden" maxlength="30" tag="edit_name_report"/>
+                <hidden name="p_link_config" type="hidden" maxlength="30" tag="link_config"/>
+            </fields>
+        </form_1>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <title name="p_title" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Title</label>
+                </title>
+                <link name="p_link" type="link" target="_self" target_fields="" action="index" page="WebReport" app="igrp" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Link</label>
+                </link>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Descricao</label>
+                </descricao>
+                <id name="p_id" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Id</label>
+                </id>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <title name="p_title">Lorem iste amet accusantium si</title>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <descricao name="p_descricao">Adipiscing magna doloremque ut</descricao>
+                        <id name="p_id">20</id>
+                    </row>
+                    <row>
+                        <title name="p_title">Sit laudantium sit aperiam adi</title>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <descricao name="p_descricao">Rem totam sed natus magna</descricao>
+                        <id name="p_id">2</id>
+                    </row>
+                    <row>
+                        <title name="p_title">Ut natus adipiscing accusantiu</title>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <descricao name="p_descricao">Labore anim lorem officia dolo</descricao>
+                        <id name="p_id">4</id>
+                    </row>
+                    <row>
+                        <title name="p_title">Omnis aliqua natus ut lorem</title>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <descricao name="p_descricao">Officia stract iste perspiciat</descricao>
+                        <id name="p_id">0</id>
+                    </row>
+                    <row>
+                        <title name="p_title">Anim lorem amet omnis rem</title>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/webreport/WebReport.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <descricao name="p_descricao">Laudantium magna aperiam elit</descricao>
+                        <id name="p_id">10</id>
+                    </row>
+                </value>
+            </table>
+        </gen_table>
+        <chart_1 type="chart" xml-type="chart" title="Chart" gen-type="container" gen-group="">
+            <caption/>
+            <chart_type>line</chart_type>
+            <xaxys>Eixo de X</xaxys>
+            <yaxys>Eixo de Y</yaxys>
+            <url>#</url>
+            <label>
+                <col>Ano</col>
+                <col>X1</col>
+                <col>X2</col>
+                <col>X3</col>
+                <col>X4</col>
+            </label>
+            <value>
+                <row>
+                    <col>2010</col>
+                    <col>265</col>
+                    <col>658</col>
+                    <col>498</col>
+                    <col>698</col>
+                </row>
+                <row>
+                    <col>2009</col>
+                    <col>784</col>
+                    <col>258</col>
+                    <col>594</col>
+                    <col>498</col>
+                </row>
+                <row>
+                    <col>2015</col>
+                    <col>1010</col>
+                    <col>698</col>
+                    <col>366</col>
+                    <col>498</col>
+                </row>
+            </value>
+            <colors>
+                <col>#ab0204</col>
+                <col>#1334d6</col>
+                <col>#d6640b</col>
+                <col>#8448b7</col>
+            </colors>
+        </chart_1>
     </content>
 </rows>

@@ -1,21 +1,17 @@
 package nosi.core.config;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Properties;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
+import javax.servlet.http.HttpServletRequest;
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
+import nosi.core.igrp.mingrations.MigrationIGRPInitConfig;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 
 public class Config {
@@ -88,9 +84,8 @@ public class Config {
 
 	public static Properties getConfig(){
 		Properties configs = new Properties();
-		for(Object c: new nosi.webapps.igrp.dao.Config().getAll()){
-			nosi.webapps.igrp.dao.Config obj = (nosi.webapps.igrp.dao.Config) c;
-			configs.put(obj.getName(),obj.getValue());
+		for(nosi.webapps.igrp.dao.Config c: new nosi.webapps.igrp.dao.Config().findAll()){
+			configs.put(c.getName(),c.getValue());
 		}
 		return configs;
 	}
@@ -107,15 +102,12 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 	
-	public static String getProject_loc(){
-		try {
-			JAXBContext context = JAXBContext.newInstance(AppConfig.class);
-			Unmarshaller unmarshaller = (Unmarshaller) context.createUnmarshaller();
-			AppConfig lR = (AppConfig) unmarshaller.unmarshal(new File(getBasePathConfig()+"app"+"/"+"app.xml"));
-			return lR.getProject_loc();
-		} catch (JAXBException e) {
-		} 		
-		return null;
+	public static String getWorkspace(){
+		return Igrp.getInstance().getServlet().getInitParameter("workspace");
+	}
+	
+	public static String getAutenticationType(){
+		return Igrp.getInstance().getServlet().getInitParameter("autentication_type");
 	}
 	
 	public static String getBasePathXsl(){
@@ -152,18 +144,17 @@ public class Config {
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
 		if(!app.equals("") && !page.equals("") && !action.equals("")){
-			Action ac = new Action();
-			Application env = new Application();
-			env.setDad(app);
-			ac.setAction(action);
-			ac.setPage(Page.resolvePageName(page));
-			ac.setEnv(env);
-			ac = (Action) ac.getOne();
-			return ac.getVersion()!=null?ac.getVersion():"2.3";		
+			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
+			return ac!=null?ac.getVersion():"2.3";		
 		}
 		return "2.3";
 	}
 	
+	public static String getResolveUrl(String app,String page,String action){
+		HttpServletRequest req = Igrp.getInstance().getRequest();
+		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/IGRP/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+		return url;
+	}
 	public static String getRootPaht(){
 		return Igrp.getInstance().getBasePath()+"/";
 	}
@@ -197,5 +188,46 @@ public class Config {
 							+ "return this.renderView(view,true);\n"
 						+ "}\n"
 				  + "}";
+	}
+	
+	public static void main(String[]args){
+		new nosi.webapps.igrp.dao.Config().findAll();
+	}
+
+	public static String getPackage(String app, String page,String action) {
+		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
+		if(!app.equals("") && !page.equals("") && !action.equals("")){
+			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
+			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase():basePackage;		
+		}
+		return basePackage;
+	}
+	
+	public static void configurationApp(){	
+		if(!isInstall()){
+			MigrationIGRPInitConfig.start();
+			configSetInstall();
+		}
+	}
+	
+	public static boolean isInstall() {
+		nosi.webapps.igrp.dao.Config config = null;
+		try{
+			config = new nosi.webapps.igrp.dao.Config();
+			config = config.find().andWhere("name", "=", "install").one();
+			return config!=null;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	private static void  configSetInstall(){
+		nosi.webapps.igrp.dao.Config config = new nosi.webapps.igrp.dao.Config("install", "ok");
+		if(config.insert()!=null){
+			PersistenceUtils.confiOtherConnections();
+			System.out.println("IGRP foi instalado com sucesso!");
+		}else{
+			System.err.println("Nao foi possivel concluir a instacao do IGRP!");
+		}
 	}
 }

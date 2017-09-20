@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
 
  
@@ -59,8 +59,9 @@ public class IGRPTable extends IGRPComponent{
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
 	protected String rows = "";
-	public IGRPTable(String tag_name) {
-		super(tag_name);
+	
+	public IGRPTable(String tag_name,String title) {
+		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "table");
@@ -68,6 +69,10 @@ public class IGRPTable extends IGRPComponent{
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
 	}	
+	
+	public IGRPTable(String tag_name){
+		this(tag_name,"");
+	}
 	
 	public IGRPTable(String tag_name,float version){
 		this(tag_name);
@@ -124,18 +129,26 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement("context-menu");
 					for(Field field:this.fields){
 						if(field.isParam())
-							this.xml.setElement("param", field.getName()+"="+Helper.getValue(obj, field.getName()));
+							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
 					}
 					this.xml.endElement();
 				}
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
-					String val = Helper.getValue(obj, field.getName());
+					String val = IgrpHelper.getValue(obj, field.getName());
 					if(val==null || val.equals("")){
 						val = field.getValue().toString();
 					}
 					this.xml.text(val);
+					this.xml.endElement();
+					this.xml.startElement(field.getTagName()+"_desc");
+					this.xml.writeAttribute("name", field.propertie().getProperty("name")+"_desc");
+					String val1 = IgrpHelper.getValue(obj, field.getName()+"_desc");
+					if(val1==null || val1.equals("")){
+						val1 = field.getValue().toString();
+					}
+					this.xml.text(val1);
 					this.xml.endElement();
 				}
 				this.xml.endElement();

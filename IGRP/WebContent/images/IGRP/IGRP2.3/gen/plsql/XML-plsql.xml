@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="XSL-plsql.xsl?v=15" type="text/xsl"?>
+<rows>
+    <title>IGRP - TRAINING</title>
+    <version>1972D397163E8237E050040A84062277</version>
+    <link>/images/IGRP2.2/xml/IGRP-home.xml</link>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific" code="">
+            <title>Sair</title>
+            <app>RED</app>
+            <page/>
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <app>C_CIDADAO</app>
+    <page>LAB</page>
+    <plsql>
+        <action>PLSQL</action>
+        <package_db>C_CIDADAO_LAB_PLSQL_DB</package_db>
+        <package_html>C_CIDADAO_LAB_PLSQL_HTML</package_html>
+        <with_replace>false</with_replace>
+        <with_label>true</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+    </plsql>
+    <navigation file="navigation.xml?v={1972D2E7-E42E-F6B6-E050-040A84062271}" prm_app="p_prm_app"
+        prm_page="p_prm_page" prm_action="p_prm_action"/>
+    <top_menu file="/images/IGRP2.2/xml/IGRP-top_menu.xml"/>
+    <slide-menu file="slide-menu.xml?v="/>
+    <content type="dash">
+        <title>Teste Gerador PLSQL</title>
+        <menu>
+            <item type="specific" code="MENU_MENU_1" flg_transaction="true">
+                <title>Menu 1</title>
+                <app>C_CIDADAO</app>
+                <page/>
+                <link/>
+                <target>_self</target>
+            </item>
+            <item type="specific" code="MENU_MENU_2">
+                <title>Menu 2</title>
+                <app>C_CIDADAO</app>
+                <page/>
+                <link/>
+                <target>_self</target>
+            </item>
+            <item type="specific" code="MENU_MENU_3" flg_transaction="true">
+                <title>Menu 3</title>
+                <app>C_CIDADAO</app>
+                <page/>
+                <link/>
+                <target>_self</target>
+            </item>
+        </menu>
+        <filter tab="">
+            <label>
+                <nome name="p_nome" type="text" maxlength="30" readonly="readonly" code="NOME"
+                    >Nome</nome>
+                <fitlrp name="p_fitlrp" type="filter_aznum" maxlength="30" code="FITLRP"
+                    >Fitlrp</fitlrp>
+            </label>
+            <value>
+                <nome name="p_nome">Bbxzmcvoxlcmwrai</nome>
+                <fitlrp name="p_fitlrp">Miaalvlemagpgsqwjhykxh</fitlrp>
+            </value>
+            <tools-bar>
+                <item type="specific" code="SEARCH">
+                    <title>Pesquisar</title>
+                    <app>C_CIDADAO</app>
+                    <page>LAB</page>
+                    <link>PLSQL</link>
+                    <target>_self</target>
+                    <img>search.png</img>
+                </item>
+            </tools-bar>
+        </filter>
+        <form tab="">
+            <label>
+                <nome name="p_nome" type="text" maxlength="30" code="NOME">nome</nome>
+                <numero name="p_numero" type="number" maxlength="30" code="NUMERO">numero</numero>
+                <data name="p_data" type="date" maxlength="30" code="DATA">data</data>
+                <email name="p_email" type="email" maxlength="30" code="EMAIL">email</email>
+                <combobox name="p_combobox" type="select" maxlength="30" code="COMBOBOX"
+                    >combobox</combobox>
+                <checkbox name="p_checkbox" type="checkbox" maxlength="30" code="CHECKBOX"
+                    >checkbox</checkbox>
+                <checkboxlista name="p_checkboxlista" type="checkboxlist" maxlength="30"
+                    code="CHECKBOXLISTA">checkboxlista</checkboxlista>
+                <pesquisa name="p_pesquisa" type="LOOKUP" maxlength="30" code="PESQUISA"
+                    >Pesquisa</pesquisa>
+                <pesquisa_bi name="p_pesquisa_bi" type="LOOKUP_BI" maxlength="30" code="PESQUISA_BI"
+                    >Pesquisa BI</pesquisa_bi>
+                <pesquisa_geog name="p_pesquisa_geog" type="LOOKUP_GEOG" maxlength="30"
+                    code="PESQUISA_GEOG">Pesquisa GEOG</pesquisa_geog>
+                <separador_lista type="separatorlist" container="true" code="SEPARADOR_LISTA"
+                    >separador lista</separador_lista>
+                <texto1 name="p_texto1" type="text" rel="separador_lista" maxlength="30"
+                    code="TEXTO1">texto1</texto1>
+                <combox1 name="p_combox1" type="select" rel="separador_lista" maxlength="30"
+                    code="COMBOX1">Combox1</combox1>
+            </label>
+            <value>
+                <nome name="p_nome">Rloumxlcjnxbvhhegfvxjdp</nome>
+                <numero name="p_numero">5130605</numero>
+                <data name="p_data">02-06-2015</data>
+                <email name="p_email">xlaatxkemshavfo@pynpc.fc</email>
+                <checkbox name="p_checkbox"/>
+                <pesquisa name="p_pesquisa">Jxbmxolgmxfzuskucicjuvt</pesquisa>
+                <pesquisa_bi name="p_pesquisa_bi">Zgvdwgiuxb</pesquisa_bi>
+                <pesquisa_geog name="p_pesquisa_geog">Uzqtffgvzgztpyfpxlww</pesquisa_geog>
+                <texto1 name="p_texto1">Wptvuakzlutidahpxjb</texto1>
+            </value>
+            <lookup>
+                <pesquisa>?XXX</pesquisa>
+                <pesquisa_bi>?XXX</pesquisa_bi>
+                <pesquisa_geog>?XXX</pesquisa_geog>
+            </lookup>
+            <list>
+                <combobox name="p_combobox">
+                    <option>
+                        <text>-- combobox --</text>
+                        <value/>
+                    </option>
+                    <option selected="true">
+                        <text>Opcao 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opcao 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opcao 3</text>
+                        <value>3</value>
+                    </option>
+                </combobox>
+                <checkboxlista name="p_checkboxlista">
+                    <option>
+                        <text>Opcao 1</text>
+                        <value>1</value>
+                    </option>
+                    <option selected="true">
+                        <text>Opcao 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opcao 3</text>
+                        <value>3</value>
+                    </option>
+                </checkboxlista>
+                <combox1 name="p_combox1">
+                    <option>
+                        <text>-- Combox1 --</text>
+                        <value/>
+                    </option>
+                    <option selected="true">
+                        <text>Opcao 1</text>
+                        <value>1</value>
+                    </option>
+                    <option>
+                        <text>Opcao 2</text>
+                        <value>2</value>
+                    </option>
+                    <option>
+                        <text>Opcao 3</text>
+                        <value>3</value>
+                    </option>
+                </combox1>
+            </list>
+            <table>
+                <separador_lista type="separatorlist" container="true">
+                    <label>
+                        <texto1 name="p_texto1" type="text" align="">texto1</texto1>
+                        <texto1_desc name="p_texto1_desc" type="text" align="">texto1</texto1_desc>
+                        <combox1 name="p_combox1" type="select" align="">Combox1</combox1>
+                        <combox1_desc name="p_combox1_desc" type="select" align=""
+                            >Combox1</combox1_desc>
+                        <separador_lista_id name="p_separador_lista_id" type="hidden" align=""
+                            >Combox1</separador_lista_id>
+                    </label>
+                    <value>
+                        <row>
+                            <texto1 name="p_texto1" type="text">Ugusktclevz</texto1>
+                            <texto1_desc name="p_texto1_desc" type="text">Ugusktclevz</texto1_desc>
+                            <combox1 name="p_combox1" type="select">2</combox1>
+                            <combox1_desc name="p_combox1_desc" type="select">2</combox1_desc>
+                        </row>
+                        <row>
+                            <texto1 name="p_texto1" type="text">Lfnknet</texto1>
+                            <texto1_desc name="p_texto1_desc" type="text">Lfnknet</texto1_desc>
+                            <combox1 name="p_combox1" type="select">2</combox1>
+                            <combox1_desc name="p_combox1_desc" type="select">2</combox1_desc>
+                        </row>
+                    </value>
+                </separador_lista>
+            </table>
+            <tools-bar>
+                <item type="specific" code="FORM_GRAVAR">
+                    <title>Gravar</title>
+                    <app>C_CIDADAO</app>
+                    <page>LAB</page>
+                    <link>PLSQL</link>
+                    <target>submit</target>
+                    <img>save.png</img>
+                </item>
+                <item type="specific" code="FORM_FECHAR">
+                    <title>Fechar</title>
+                    <app>C_CIDADAO</app>
+                    <page>LAB</page>
+                    <link>PLSQL</link>
+                    <target>_close</target>
+                    <img>PDF_F.png</img>
+                </item>
+            </tools-bar>
+        </form>
+        <view>
+            <label>
+                <nome name="p_nome" type="text" required="true" maxlength="30" code="NOME"
+                    >nome</nome>
+                <morada name="p_morada" type="text" required="true" maxlength="30" code="MORADA"
+                    >morada</morada>
+                <view_foto name="p_view_foto" type="text" maxlength="2000" code="">Foto</view_foto>
+            </label>
+            <value>
+                <nome name="p_nome">Aymlbhdfdbxwnuktqesptpd</nome>
+                <morada name="p_morada">Xodzzgjxgphrby</morada>
+                <view_foto name="p_view_foto">/images/IGRP/img/Dashboard_1024.jpg</view_foto>
+            </value>
+        </view>
+        <table operation="menu">
+            <label>
+                <nome name="p_nome" type="text" align="">nome</nome>
+                <morada name="p_morada" type="text" align="">morada</morada>
+                <checkall name="p_checkall" type="checkbox" align="">checkall</checkall>
+                <checkall_check name="p_checkall_check" type="field_copy" align=""
+                    >checkall</checkall_check>
+                <checkall_desc name="p_checkall_desc" type="field_copy" align=""
+                    >checkall</checkall_desc>
+            </label>
+            <value>
+                <row>
+                    <nome name="p_checkall_desc" type="field_copy" align=""
+                        >Elwhhotxqmhndqyhympkaondkrfno</nome>
+                    <morada name="p_checkall_desc" type="field_copy" align=""
+                        >Jybbaxiiakjvqd</morada>
+                    <checkall name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_check name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_desc name="p_checkall_desc" type="field_copy" align=""/>
+                </row>
+                <row>
+                    <nome name="p_checkall_desc" type="field_copy" align="">Ervtfsspmcoc</nome>
+                    <morada name="p_checkall_desc" type="field_copy" align=""
+                        >Vwicvsnhklzyshignr</morada>
+                    <checkall name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_check name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_desc name="p_checkall_desc" type="field_copy" align=""/>
+                </row>
+                <row>
+                    <nome name="p_checkall_desc" type="field_copy" align="">Eydwxfefmnddvt</nome>
+                    <morada name="p_checkall_desc" type="field_copy" align="">Lvdwdbopdjdb</morada>
+                    <checkall name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_check name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_desc name="p_checkall_desc" type="field_copy" align=""/>
+                </row>
+                <row>
+                    <nome name="p_checkall_desc" type="field_copy" align=""
+                        >Fjjqbszzbbnpiwrdeckuvem</nome>
+                    <morada name="p_checkall_desc" type="field_copy" align=""
+                        >Cgwncficpovogddxvdaez</morada>
+                    <checkall name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_check name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_desc name="p_checkall_desc" type="field_copy" align=""/>
+                </row>
+                <row>
+                    <nome name="p_checkall_desc" type="field_copy" align="">Hfrzxehntip</nome>
+                    <morada name="p_checkall_desc" type="field_copy" align=""
+                        >Eeyhcqpjdpzuazglyust</morada>
+                    <checkall name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_check name="p_checkall_desc" type="field_copy" align=""/>
+                    <checkall_desc name="p_checkall_desc" type="field_copy" align=""/>
+                </row>
+            </value>
+            <tools-bar>
+                <item type="specific" code="LIST_BOTAO_1">
+                    <title>Botao 1</title>
+                    <app>C_CIDADAO</app>
+                    <page/>
+                    <link/>
+                    <target>_self</target>
+                </item>
+                <item type="specific" code="LIST_BOTAO_2">
+                    <title>Botao 2</title>
+                    <app>C_CIDADAO</app>
+                    <page/>
+                    <link/>
+                    <target>_self</target>
+                </item>
+            </tools-bar>
+            <context-menu>
+                <item type="specific" code="CTX_CONTEXT_1">
+                    <title>context 1</title>
+                    <app>C_CIDADAO</app>
+                    <page/>
+                    <link/>
+                    <target>_blank</target>
+                </item>
+                <item type="specific" code="CTX_CONTEXT_2">
+                    <title>context 2</title>
+                    <app>C_CIDADAO</app>
+                    <page/>
+                    <link/>
+                    <target>confirm</target>
+                </item>
+            </context-menu>
+        </table>
+        <grafico_1 type="chart" align="center" code="GRAFICO_1">
+            <caption>Grafico 1</caption>
+            <chart_type>columnchart</chart_type>
+            <xaxys>x</xaxys>
+            <yaxys>y</yaxys>
+            <width>273</width>
+            <height>150</height>
+            <label>
+                <col/>
+                <col>01 Jan</col>
+                <col>02 Fev</col>
+                <col>03 Mar</col>
+                <col>04 Abr</col>
+                <col>05 Mai</col>
+                <col>06 Jun</col>
+                <col>07 Jul</col>
+                <col>08 Ago</col>
+                <col>09 Set</col>
+                <col>10 Out</col>
+                <col>11 Nov</col>
+                <col>12 Dez</col>
+            </label>
+            <value>
+                <row>
+                    <col>2012</col>
+                    <col>2703</col>
+                    <col>8159</col>
+                    <col>7644</col>
+                    <col>6028</col>
+                    <col>8762</col>
+                    <col>11227</col>
+                    <col>6411</col>
+                    <col>1067</col>
+                    <col>2569</col>
+                    <col>8164</col>
+                    <col>1505</col>
+                    <col>11111</col>
+                </row>
+                <row>
+                    <col>2013</col>
+                    <col>2703</col>
+                    <col>8159</col>
+                    <col>7644</col>
+                    <col>6028</col>
+                    <col>8762</col>
+                    <col>11227</col>
+                    <col>6411</col>
+                    <col>1067</col>
+                    <col>2569</col>
+                    <col>8164</col>
+                    <col>1505</col>
+                    <col>11111</col>
+                </row>
+                <row>
+                    <col>2014</col>
+                    <col>2703</col>
+                    <col>8159</col>
+                    <col>7644</col>
+                    <col>6028</col>
+                    <col>8762</col>
+                    <col>11227</col>
+                    <col>6411</col>
+                    <col>1067</col>
+                    <col>2569</col>
+                    <col>8164</col>
+                    <col>1505</col>
+                    <col>11111</col>
+                </row>
+            </value>
+        </grafico_1>
+        <grafico_2 type="chart" align="center" code="GRAFICO_2">
+            <caption>Grafico 2</caption>
+            <chart_type>columnchart</chart_type>
+            <xaxys>x</xaxys>
+            <yaxys>y</yaxys>
+            <width>273</width>
+            <height>150</height>
+            <label>
+                <col/>
+                <col>01 Jan</col>
+                <col>02 Fev</col>
+                <col>03 Mar</col>
+                <col>04 Abr</col>
+                <col>05 Mai</col>
+                <col>06 Jun</col>
+                <col>07 Jul</col>
+                <col>08 Ago</col>
+                <col>09 Set</col>
+                <col>10 Out</col>
+                <col>11 Nov</col>
+                <col>12 Dez</col>
+            </label>
+            <value>
+                <row>
+                    <col>2012</col>
+                    <col>1205</col>
+                    <col>5761</col>
+                    <col>4053</col>
+                    <col>10227</col>
+                    <col>8734</col>
+                    <col>9401</col>
+                    <col>11060</col>
+                    <col>8751</col>
+                    <col>2952</col>
+                    <col>5559</col>
+                    <col>5133</col>
+                    <col>8725</col>
+                </row>
+                <row>
+                    <col>2013</col>
+                    <col>1205</col>
+                    <col>5761</col>
+                    <col>4053</col>
+                    <col>10227</col>
+                    <col>8734</col>
+                    <col>9401</col>
+                    <col>11060</col>
+                    <col>8751</col>
+                    <col>2952</col>
+                    <col>5559</col>
+                    <col>5133</col>
+                    <col>8725</col>
+                </row>
+                <row>
+                    <col>2014</col>
+                    <col>1205</col>
+                    <col>5761</col>
+                    <col>4053</col>
+                    <col>10227</col>
+                    <col>8734</col>
+                    <col>9401</col>
+                    <col>11060</col>
+                    <col>8751</col>
+                    <col>2952</col>
+                    <col>5559</col>
+                    <col>5133</col>
+                    <col>8725</col>
+                </row>
+            </value>
+        </grafico_2>
+    </content>
+</rows>

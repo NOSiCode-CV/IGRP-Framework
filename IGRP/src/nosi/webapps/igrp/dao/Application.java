@@ -1,470 +1,254 @@
 package nosi.webapps.igrp.dao;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import nosi.core.dao.RowDataGateway;
-import nosi.core.gui.page.Page;
+/**
+ * @author: Emanuel Pereira
+ * 29 Jun 2017
+ */
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Query;
+import javax.persistence.Table;
+import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.IgrpHelper;
 
+@Entity
+@Table(name="tbl_env")
+public class Application extends BaseActiveRecord<Application> implements Serializable{
 
-public class Application implements RowDataGateway {
-	
+	/*
+	 * 
+	 */
+	private static final long serialVersionUID = 1261352599073552072L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	@Column(nullable=false,unique=true)
 	private String dad;
+	@Column(nullable=false)
 	private String name;
-	private int id;
 	private String img_src;
 	private String description;
-	private int action_fk;
 	private int status;
-	private int flg_old;
-	private String link_menu; 
-	private String link_center;
-	private String apache_dad;
-	private String templates;
-	private String host;
-	private int flg_external;
+	@ManyToOne()
+	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
+	private Action action;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<Action> actions;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<Config_env> configs;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<Menu> menus;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<ProfileType> profilesType;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<Organization> organizations;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<RepSource> repsources;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<RepTemplate> repTemplates;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<Transaction> transactions;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	private List<RepInstance> repinstances;
 	
-	private Connection con;	
+	public Application(){
+		
+	}
 	
-	public Application() {
-		this.con = Igrp.getInstance().getDao().unwrap("db1");
+	public Application(String dad, String name, String img_src, String description, int status,
+			Action action) {
+		super();
+		this.dad = dad;
+		this.name = name;
+		this.img_src = img_src;
+		this.description = description;
+		this.status = status;
+		this.action = action;
 	}
 
+
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getDad() {
 		return dad;
 	}
-
 	public void setDad(String dad) {
-		this.dad = Page.getPageFolder(dad);
+		this.dad = dad;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getImg_src() {
 		return img_src;
 	}
-
 	public void setImg_src(String img_src) {
 		this.img_src = img_src;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public int getAction_fk() {
-		return action_fk;
-	}
-
-	public void setAction_fk(int action_fk) {
-		this.action_fk = action_fk;
-	}
-
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
-	public int getFlg_old() {
-		return flg_old;
+	public Action getAction() {
+		return action;
 	}
-
-	public void setFlg_old(int flg_old) {
-		this.flg_old = flg_old;
-	}
-
-	public String getLink_menu() {
-		return link_menu;
-	}
-
-	public void setLink_menu(String link_menu) {
-		this.link_menu = link_menu;
-	}
-
-	public String getLink_center() {
-		return link_center;
-	}
-
-	public void setLink_center(String link_center) {
-		this.link_center = link_center;
-	}
-
-	public String getApache_dad() {
-		return apache_dad;
-	}
-
-	public void setApache_dad(String apache_dad) {
-		this.apache_dad = apache_dad;
-	}
-
-	public String getTemplates() {
-		return templates;
-	}
-
-	public void setTemplates(String templates) {
-		this.templates = templates;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public int getFlg_external() {
-		return flg_external;
-	}
-
-	public void setFlg_external(int flg_external) {
-		this.flg_external = flg_external;
-	}
-
-	@Override
-	public boolean insert() {
-		try{
-			con.setAutoCommit(true);
-			PreparedStatement st = con.prepareStatement("INSERT INTO glb_t_env"+
-			             "(name, dad, img_src, description, action_fk, link_menu, link_center, apache_dad, templates, host, flg_old, status, flg_external)" +
-					     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			st.setString(1, this.name);
-			st.setString(2, this.dad.toLowerCase());
-			st.setString(3, this.img_src);
-			st.setString(4, this.description);
-			st.setInt(5, this.action_fk);
-			st.setString(6, this.link_menu);
-			st.setString(7, this.link_center);
-			st.setString(8, this.apache_dad);
-			st.setString(9, this.templates);
-			st.setString(10,this.host);
-			st.setInt(11, this.flg_old);
-			st.setInt(12,this.status);
-			st.setInt(13,this.flg_external);	
-			st.executeUpdate();
-			st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public Object getOne() {
-		Application obj = new Application();
-		try{
-		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM glb_t_env where (id = "+ this.id+") or (dad='"+this.dad+"')");
-
-		while(result.next()){
-			obj.setId(result.getInt("id"));
-			obj.setName(result.getString("name"));
-			obj.setDad(result.getString("dad"));
-			obj.setImg_src(result.getString("img_src"));
-			obj.setDescription(result.getString("description"));
-			obj.setAction_fk(result.getInt("action_fk"));
-			obj.setLink_menu(result.getString("link_menu"));
-			obj.setLink_center(result.getString("link_center"));
-			obj.setApache_dad(result.getString("apache_dad"));
-			obj.setTemplates(result.getString("templates"));
-			obj.setHost(result.getString("host"));
-			obj.setFlg_old(result.getInt("flg_old"));
-			obj.setStatus(result.getInt("status"));
-			obj.setFlg_external(result.getInt("flg_external"));
-		}
-		st.close();
-		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+	public void setAction(Action action) {
+		this.action = action;
 	}
 	
-	public Object getByDadName() {
-		Application obj = new Application();
-		try{
-		Statement st = con.createStatement();
-		ResultSet result = st.executeQuery("SELECT * FROM glb_t_env where dad='" + this.dad + "'");
-
-		while(result.next()){
-			obj.setId(result.getInt("id"));
-			obj.setName(result.getString("name"));
-			obj.setDad(result.getString("dad"));
-			obj.setImg_src(result.getString("img_src"));
-			obj.setDescription(result.getString("description"));
-			obj.setAction_fk(result.getInt("action_fk"));
-			obj.setLink_menu(result.getString("link_menu"));
-			obj.setLink_center(result.getString("link_center"));
-			obj.setApache_dad(result.getString("apache_dad"));
-			obj.setTemplates(result.getString("templates"));
-			obj.setHost(result.getString("host"));
-			obj.setFlg_old(result.getInt("flg_old"));
-			obj.setStatus(result.getInt("status"));
-			obj.setFlg_external(result.getInt("flg_external"));
-		}
-		st.close();
-		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return obj;
+	public List<Action> getActions() {
+		return actions;
 	}
 
-	@Override
-	public boolean update() {
-		
-		try{
-			con.setAutoCommit(true);
-			Statement st = con.createStatement();
-	        st.executeUpdate("UPDATE glb_t_env SET "
-	        		+ "name= '" + this.name
-	        		+ "',dad= '" + this.dad.toLowerCase()
-	        		+ "',img_src= '" + this.img_src
-	        		+ "',description= '" + this.description
-	        		+ "',action_fk= " + this.action_fk
-	        		+ ",flg_old= " + this.flg_old
-	        		+ ",link_menu= '" + this.link_menu
-	        		+ "',link_center= '" + this.link_center
-	        		+ "',apache_dad= '" + this.apache_dad
-	        		+ "',templates= '" + this.templates
-	        		+ "',host= '" + this.host
-	        		+ "',flg_external= " + this.flg_external
-	        		+ ",status = " + this.status
-	        		+ " WHERE id = "+ this.id);
-	        st.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 
-	@Override
-	public boolean delete() {
-		try{
-			con.setAutoCommit(true);
-			Statement st = con.createStatement();
-	        st.executeUpdate("DELETE FROM glb_t_env where id = " + this.id);
-	        st.close();
-			con.close();
-			return true;
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return false;
+	public List<Config_env> getConfigs() {
+		return configs;
 	}
 
-	@Override
-	public Object []getAll() {
-		
-		ArrayList<Application> lista = new ArrayList<>();
-		
-		try{
-			String sql = "SELECT * FROM glb_t_env where 1=1 ";
-			sql += (this.getDad()!=null && !this.getDad().equals("")) ? " and lower (dad) like lower ('%" + this.getDad() + "%') ": " ";
-			sql += (this.getName()!=null && !this.getName().equals("")) ? " and lower (name) like lower ('%" + this.getName() + "%') ": " ";
-			
-			PreparedStatement st = con.prepareStatement(sql);
-			ResultSet result = st.executeQuery();
-			while(result.next()){
-				Application obj = new Application();
-				obj.setId(result.getInt("id"));
-				obj.setName(result.getString("name"));
-			    obj.setDad(result.getString("dad")); 
-				obj.setImg_src(result.getString("img_src") );
-				obj.setDescription(result.getString("description"));
-				obj.setAction_fk(result.getInt("action_fk")); 
-				obj.setFlg_old(result.getInt("flg_old"));
-				obj.setLink_menu(result.getString("link_menu")); 
-				obj.setLink_center(result.getString("link_center"));
-				obj.setApache_dad(result.getString("apache_dad")); 
-				obj.setTemplates(result.getString("templates"));
-				obj.setHost(result.getString("host"));
-				obj.setFlg_external(result.getInt("flg_external"));
-				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));		
-				
-				lista.add(obj);
-		}
-		st.close();
-		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return lista.toArray();
+	public void setConfigs(List<Config_env> configs) {
+		this.configs = configs;
 	}
 
-	public HashMap<Integer,String> getListApps(){
-		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Aplicacao ---");
-		for(Object obj:new Application().getAll()){
-			Application app = (Application) obj;
-			lista.put(app.getId(), app.getName());
-		}
-		return lista;
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
 	}
 	
-	public HashMap<Integer,String> getListAppsOne(int id){
-		HashMap<Integer,String> lista = new HashMap<>();
-		
-		try{
-			Statement st = con.createStatement();
-			ResultSet result = st.executeQuery("SELECT app.id, app.name FROM glb_t_env app, glb_t_profile pro, glb_t_organization org "
-					+ "where pro.type = 'MEN' "
-					+ "and org.id = env_fk "
-					+ "and pro.org_fk = org.id "
-					+ " and pro.type_fk = " + id);
-
-			while(result.next()){
-				
-				lista.put(result.getInt(1), result.getString(2));
-			}
-			st.close();
-			
-			}catch(SQLException e){
-				e.printStackTrace();
-			}
-		
-		
-		return lista;
+	public List<ProfileType> getProfilesType() {
+		return profilesType;
 	}
 
-	public Object[] getMyApp() {		
-		ArrayList<Application> lista = new ArrayList<>();		
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT E.* FROM glb_t_env E,glb_t_profile P "
-					+ "	WHERE "
-					+ " E.id = P.type_fk "
-					+ "	AND P.type=?"
-					+ " AND P.user_fk=?"
-					+ " AND E.id <> ? "
-					+ "	ORDER BY id");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setString(1, "ENV");
-			st.setInt(2, u.getId());
-			st.setInt(3,1);
-			ResultSet result = st.executeQuery();			
-			while(result.next()){
-				Application obj = new Application();
-				obj.setId(result.getInt("id"));
-				obj.setName(result.getString("name"));
-			    obj.setDad(result.getString("dad")); 
-				obj.setImg_src(result.getString("img_src") );
-				obj.setDescription(result.getString("description"));
-				obj.setAction_fk(result.getInt("action_fk")); 
-				obj.setFlg_old(result.getInt("flg_old"));
-				obj.setLink_menu(result.getString("link_menu")); 
-				obj.setLink_center(result.getString("link_center"));
-				obj.setApache_dad(result.getString("apache_dad")); 
-				obj.setTemplates(result.getString("templates"));
-				obj.setHost(result.getString("host"));
-				obj.setFlg_external(result.getInt("flg_external"));
-				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));		
-				
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
+	public void setProfilesType(List<ProfileType> profilesType) {
+		this.profilesType = profilesType;
+	}
+
+	public List<Organization> getOrganizations() {
+		return organizations;
+	}
+
+	public void setOrganizations(List<Organization> organizations) {
+		this.organizations = organizations;
+	}
+
+	public List<RepSource> getRepsources() {
+		return repsources;
+	}
+
+	public void setRepsources(List<RepSource> repsources) {
+		this.repsources = repsources;
+	}
+
+	public List<RepTemplate> getRepTemplates() {
+		return repTemplates;
+	}
+
+	public void setRepTemplates(List<RepTemplate> repTemplates) {
+		this.repTemplates = repTemplates;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public List<RepInstance> getRepinstances() {
+		return repinstances;
+	}
+
+	public void setRepinstances(List<RepInstance> repinstances) {
+		this.repinstances = repinstances;
+	}
+
+	public Map<Object, Object> getListApps(){
+		return IgrpHelper.toMap(this.findAll(), "id", "name", "--- Selecionar Aplicacao ---");
 	}
 	
-	public boolean getPermissionApp(String app) {		
-		ArrayList<Application> lista = new ArrayList<>();		
-		try{
-			PreparedStatement st = con.prepareStatement("SELECT E.* FROM "
-					+ " glb_t_env E,"
-					+ " glb_t_profile P "
-					+ "	WHERE "
-					+ " E.id = P.type_fk "
-					+ "	AND P.type=?"
-					+ " AND P.user_fk=?"
-					+ " AND E.dad =?"
-					+ "	ORDER BY id");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setString(1, "ENV");
-			st.setInt(2, u.getId());
-			st.setString(3, app);
-			ResultSet result = st.executeQuery();			
-			while(result.next()){
-				Application obj = new Application();
-				obj.setId(result.getInt("id"));
-				lista.add(obj);
-			}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.size() > 0;
+	public boolean getPermissionApp(String dad) {
+		 User u = (User) Igrp.getInstance().getUser().getIdentity();
+		 Profile p = new Profile();
+		 p = p.findOne(p.getCriteria().where(
+				 p.getBuilder().equal(p.getRoot().get("user"), u.getId()),
+				 p.getBuilder().equal(p.getRoot().get("type"), "ENV"),
+				 p.getBuilder().equal(p.getRoot().join("profileType").join("application").get("dad"), dad)
+				));
+		return p!=null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getMyApp() {	
+		User u = (User) Igrp.getInstance().getUser().getIdentity();
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		String query = "SELECT E.* FROM tbl_env E,tbl_profile P "
+				+ "	WHERE "
+				+ " E.id = P.type_fk "
+				+ "	AND P.type=?"
+				+ " AND P.user_fk=?"
+				+ " AND E.id <> ? "
+				+ "	ORDER BY id";
+		Query q = em.createNativeQuery(query);
+		q.setParameter(1, "ENV");
+		q.setParameter(2, u.getId());
+		q.setParameter(3,1);
+		List<Object[]> list = q.getResultList();
+		t.commit();
+		em.close();
+		return list;
 	}
 	
-	public Object[] getOtherApp() {		
-		ArrayList<Application> lista = new ArrayList<>();		
-		try{
-			PreparedStatement st = con.prepareStatement(""
-					+ " SELECT E.* FROM glb_t_env E"
-					+ " WHERE E.id NOT IN (SELECT P.type_fk FROM glb_t_profile P WHERE P.type=? AND P.user_fk=?)  AND E.id<>?");
-			User u = (User) Igrp.getInstance().getUser().getIdentity();
-			st.setString(1,"ENV");
-			st.setInt(2, u.getId());
-			st.setInt(3, 1);
-			ResultSet result = st.executeQuery();			
-			while(result.next()){
-				Application obj = new Application();
-				obj.setId(result.getInt("id"));
-				obj.setName(result.getString("name"));
-			    obj.setDad(result.getString("dad")); 
-				obj.setImg_src(result.getString("img_src") );
-				obj.setDescription(result.getString("description"));
-				obj.setAction_fk(result.getInt("action_fk")); 
-				obj.setFlg_old(result.getInt("flg_old"));
-				obj.setLink_menu(result.getString("link_menu")); 
-				obj.setLink_center(result.getString("link_center"));
-				obj.setApache_dad(result.getString("apache_dad")); 
-				obj.setTemplates(result.getString("templates"));
-				obj.setHost(result.getString("host"));
-				obj.setFlg_external(result.getInt("flg_external"));
-				obj.setStatus(result.getInt("status"));
-				obj.setId(result.getInt("id"));					
-				lista.add(obj);
-		}
-		st.close();		
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
-		return lista.toArray();
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getOtherApp() {
+		User u = (User) Igrp.getInstance().getUser().getIdentity();
+		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		String query ="SELECT E.* FROM tbl_env E"
+				+ " WHERE E.id NOT IN (SELECT P.type_fk FROM tbl_profile P WHERE P.type=? AND P.user_fk=?)  AND E.id<>?";
+		Query q = em.createNativeQuery(query);
+		q.setParameter(1, "ENV");
+		q.setParameter(2, u.getId());
+		q.setParameter(3,1);
+		List<Object[]> list = q.getResultList();
+		t.commit();
+		em.close();
+		return list;
 	}
-	
 }

@@ -1,0 +1,139 @@
+.box-tm{
+	position: relative;
+	overflow: hidden;
+}
+
+.box-tm.box-body{
+	padding: 0;
+}
+
+.box-tm.box-body.loading{
+	min-height: 100px;
+}
+
+.box-tm .nav-list .tree-toggler{
+	padding: 10px 15px;
+	position: relative;
+	cursor: pointer;
+	border-bottom: 1px solid #eaeaea;
+}
+
+.box-tm .nav-list .tree-toggler > span{
+	display: block;
+	padding-left: 25px;
+}
+
+.box-tm .nav-list .tree-toggler a{
+	display: block;
+	margin-left: 25px;
+}
+
+.box-tm .nav-list .tree-toggler a > span{
+	padding-left: 0;
+}
+
+.box-tm .nav-list .icon{
+	position: absolute;
+    left: 15px;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.box-tm .nav-list .tree-toggler .icon{
+	background: #88a84b;
+    color: #fff;
+    font-size: 10px;
+    padding: 0.5px 3px;
+    margin-top: -7px;
+}
+
+.box-tm .nav-list .tree-toggler.load i:before{
+	content: '\f110';
+}
+
+.box-tm .nav-list .tree-toggler.load i{
+	webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
+.box-tm .nav-list .holder{
+	margin-left: 10px;
+}
+
+.box-tm .nav-list .holder .icon {
+	left: 5px;
+}
+
+.box-tm .nav-list li .tree-toggler[type='active'] .icon{
+	background: #b34343;
+}
+
+.box-tm .nav-list li .nav-list{
+	padding-left: 15px;
+}
+
+.box-tm .nav-list li .tree-toggler[type='active']{
+	border-bottom: none;
+}
+
+.box-tm .nav-list li .tree-toggler[type='active'] i:before{
+	content: "\f068";
+}
+
+.activeicon{
+	display: none;
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	margin-top: -5px;
+	font-size: 11px;
+    color: #5cb85c;
+}
+
+/*.box-tm .tree li.active .activeicon{
+	display: block;
+}*/
+
+.box-tm > ul > li.active>.nav-header>a{
+	font-weight: bold;
+	color:#333;
+}
+
+.box-tm .tree li.active>a, .box-tm .tree li.active>.nav-header>a{
+	font-weight: bold;
+	color: #333;
+}
+
+.box-tm .tree[type='active']:before, .box-tm .tree-toggler:before, 
+.box-tm .nav-list[type='active'] .holder:before,
+.box-tm .nav-list .holder:before{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 1px;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.box-tm .tree-toggler[type='active']:before, 
+.box-tm .nav-list[type='active'] .holder:before,
+.box-tm .nav-list .holder, .box-tm .tree-toggler:before,
+.box-tm .nav-list .holder:before{
+	border-bottom: 1px solid #eaeaea;
+}
+
+.box-tm .list-holder .tree{
+	display: none;
+	position: relative;
+	border-top: 1px solid #eaeaea;
+}
+
+/*.box-tm>.nav-list>li:last-child .tree-toggler,
+.box-tm>.nav-list>li:last-child .holder:before{
+	border-bottom: none;
+}*/
+
+.box-tm .list-holder .tree[type='active']{
+	display: block;
+}

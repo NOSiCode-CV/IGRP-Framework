@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xdb="http://xmlns.oracle.com/xdb" >
-
-    <xsl:output method="text" encoding="UTF-8" indent="no" />
-    <xsl:preserve-space elements="*"/>
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" encoding="UTF-8" indent="no"/>
 	<xsl:template name="gen-button">
 		<xsl:param name="type_"/>		
 	 	<xsl:variable name="className">
@@ -14,7 +10,7 @@
 	 			</xsl:with-param>
 	 		</xsl:call-template>
 	 	</xsl:variable>
-		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
           	<xsl:call-template name="gen-item">
 				<xsl:with-param name="name_"><xsl:value-of select="concat('btn_',@rel)"/></xsl:with-param>

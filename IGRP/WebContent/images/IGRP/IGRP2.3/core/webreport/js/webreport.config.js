@@ -1,12 +1,29 @@
 var WR = {
   editor   : 'form_1_report_editor',
   listType : [{type:'table',icon:'fa-table'},{type:'ul',icon:'fa-list-ul'},{type:'ol',icon:'fa-list-ol'}],
+  listGroup: [{label:'Linha', value:'row'},{label:'Coluna',value:'col'},{label:'Normal',value:''}],
   document : {
-  	new    : '<hr class="page"><div size="A4">'+
-		'<div id="header"><p>-- Cabe&ccedil;alho --&nbsp;</p></div><p class="page">&nbsp;</p>'+
-		'<div id="content"><p>-- Corpo --&nbsp;</p></div>'+
-		'<div id="footer"></div>'+
-		'</div><hr class="page" /><p class="page">&nbsp;</p>',	
+  	config: {
+  		printsize : {
+  			label   : 'Print Size',
+  			name 	: 'wr_printsize',
+  			options : [{text : 'A3', value : 'A3'},{text : 'A4', value : 'A4', selected:'selected="selected"'},{text : 'A5', value : 'A5'}]
+  		},
+  		customfooter : {
+  			label : 'Custom Footer',
+  			name  : 'wr_customfooter',
+  			value : '<div class="lfooter"></div>'+
+		        '<div id="containerQrcode"></div>'+
+		        '<div class="rfooter">'+
+		        	'<div class="contraProva">'+
+		            	'<div class="clabel"><span footer="footer" no="print_report" tag="name_contraprova">Titulo Contra Prova</span></div>'+
+		            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
+		          	'</div>'+
+		          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
+		          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
+		        '</div>'
+  		}
+  	},	
   	xsl    : {
   		init : '<!DOCTYPE xsl:stylesheet  ['+
 	      '<!ENTITY nbsp   "&#160;" >'+
@@ -266,21 +283,32 @@ var WR = {
 	      '<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>'+
 	      '<xsl:template match="/"><html><head><meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1" />'+
 	      '<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />',
-	    body : '</head><body>',
+	    body : '<style type="text/css">@page {size:=:WRPZ:=;margin: 0;}</style></head><body>',
 	    endbody : '</body></html></xsl:template>',
 	    end : '</xsl:stylesheet>'
   	},
   	includ : {
-  		css : {
-  			all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreportprint.css"/>',
-  			chart : '',
+  		head : '<xsl:call-template name="IGRP-head"/>',
+  		css  : {
+  			all   : '<link media="all" rel="stylesheet" href="{rows/print_report/link_img}core/webreport/css/webreport-print.css"/>',
+  			chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"/>',
   		},
-  		js : {
+  		js   : {
   			all   : '',
-  			chart : ''
+  			chart : '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts-more.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/exporting.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/funnel.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/heatmap.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/treemap.js"/>'+
+			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/igrp.charts.js"/>'
   		},
   		tmpl : {
-
+  			defoult : '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-functions.tmpl.xsl"/>'+
+					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-variables.tmpl.xsl"/>'+
+					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-home-include.tmpl.xsl"/>'+
+					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-utils.tmpl.xsl"/>',
+  			chart 	: '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-charts.tmpl.xsl"/>'
   		}
   	}
   }

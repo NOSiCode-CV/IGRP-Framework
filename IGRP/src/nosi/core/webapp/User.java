@@ -31,8 +31,15 @@ public class User implements Component{
 	private boolean checkSessionContext(){
 		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
 		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");
-		this.identity = (Identity) new nosi.webapps.igrp.dao.User().findIdentityById(identityId);
-		return this.identity != null;
+		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+		user = user.findIdentityById(identityId);
+		try{
+			if(user!=null && user.getId()!=0){
+				this.identity = (Identity) user;
+				return true;
+			}
+		}catch(NullPointerException e){}
+		return false;
 	}
 	
 	public boolean isAuthenticated(){
@@ -56,16 +63,16 @@ public class User implements Component{
 		if(aux != null){ 
 			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
 		}
-			if(!this.checkSessionContext() && !isLoginPage){
-				try {
-					//Route.remember(); // remember the url that was requested by the client ...
-					Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
-					Igrp.getInstance().die();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		if(!this.checkSessionContext() && !isLoginPage){
+			try {
+				//Route.remember(); // remember the url that was requested by the client ...
+				Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
+				Igrp.getInstance().die();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
 	}
 
 	@Override

@@ -21,8 +21,10 @@ package nosi.core.gui.components;
 public class IGRPFingerPrint extends IGRPForm {
 
 	public IGRPFingerPrint(String tag_name,String title) {
-		super(tag_name);
+		super(tag_name,title);
 		this.properties.put("type", "fingerprint");
-		this.properties.put("title", title);
+	}
+	public IGRPFingerPrint(String tag_name) {
+		this(tag_name,"");
 	}
 }

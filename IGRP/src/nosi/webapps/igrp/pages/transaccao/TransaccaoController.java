@@ -1,17 +1,18 @@
 
 package nosi.webapps.igrp.pages.transaccao;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Transaction;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-
+/*---- End ----*/
 public class TransaccaoController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -20,14 +21,12 @@ public class TransaccaoController extends Controller {
 		Transaction trans = new Transaction();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
-			if(model.getAplicacao()!=null && !model.getAplicacao().equals(""))
-				trans.setEnv_fk(Integer.parseInt(model.getAplicacao()));
-			if(model.getOrganica()!=null && !model.getOrganica().equals(""))
-				trans.setOrg_fk(Integer.parseInt(model.getOrganica()));
-			trans.setCode(model.getCodigo());
 		}
-		for(Object obj:trans.getAll()){
-			Transaction t = (Transaction) obj;
+		List<Transaction> list =trans.find()
+				.andWhere("application", "=", model.getAplicacao()!=null?Integer.parseInt(model.getAplicacao()):null)
+				.andWhere("code", "=", model.getCodigo())
+				.all();
+		for(Transaction t:list){
 			Transaccao.Table_1 table = new Transaccao().new Table_1();
 			table.setCodigo(t.getCode());
 			table.setDescricao(t.getDescr());
@@ -38,7 +37,7 @@ public class TransaccaoController extends Controller {
 		TransaccaoView view = new TransaccaoView(model);
 		view.title = "Gestao de Transação";
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organica.setValue(new Organization().getListOrganizations());
+//		view.organica.setValue(new Organization().getListMyOrganizations());
 		view.table_1.addData(table_1);
 		view.codigo.setParam(true);
 		return this.renderView(view);
@@ -54,9 +53,8 @@ public class TransaccaoController extends Controller {
 	public Response actionEliminar() throws IOException{
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
-		t.setCode(code);
-		t = (Transaction) t.getOne();
-		if(t.delete())
+		t = t.find().andWhere("code", "=", code).one();
+		if(t.delete(t.getId()))
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
@@ -68,14 +66,15 @@ public class TransaccaoController extends Controller {
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
 		t.setCode(code);
-		if(((Transaction) t.getOne()).getCode()!=null){
-			t = (Transaction) t.getOne();
+		t = t.find().andWhere("code", "=", code).one();
+		if(t!=null){
 			if(t.getStatus()==0){
 				t.setStatus(1);
 			}else if(t.getStatus()==1){
 				t.setStatus(0);
 			}
-			if(t.update())	
+			t = t.update();
+			if(t!=null)	
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			else
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");

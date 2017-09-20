@@ -2,21 +2,52 @@ var LINKFIELD = function(type,params){
 	Field.call(this,type,params);
 
 	var GEN = VARS.getGen();
-	
+	var field = this;
 	var proprieties = params && params.properties;
 
-	this.xml.description = true;
+	field.xml.description = true;
+
+	field.xml.attrs.action = function(){
+		return ' action="'+field.action.action+'" page="'+field.action.page+'" app="'+field.action.app+'" ';
+	}
+
+	field.ready = function(){
+
+		GEN.setTargetAttr(field,{
+			value: (proprieties && proprieties.target) ? proprieties.target : '_self'
+		});
+
+		GEN.setBtnActionAttr(field,{
+			value: proprieties && proprieties.action ? proprieties.action : '',
+			onChange:function(v){
+				field.proprieties.action.params = v.params;
+				field.xml.dataValue = v.params.link
+			}
+		});
+
+		GEN.setBTNClass(field,'link');
+
+		field.setPropriety({
+			name:'btnSize',
+			label:'Buttons Size',
+			value:{
+				value:'',
+				options:[
+					{value:'',label:'Normal'},
+					{value:'btn-lg',label:'Large'},
+					{value:'btn-xs',label:'Small'}
+					
+				]
+			}
+		});
 
 
-	GEN.setTargetAttr(this,{
-		value: (proprieties && proprieties.target) ? proprieties.target : '_self'
-	});
+		GEN.setImgAttr(field,{
+			value: 'fa-link'
+		});
 
-	GEN.setBTNClass(this,'link');
-
-	GEN.setImgAttr(this,{
-		value: 'fa-link'
-	});
+		//field.xml.
+	}
 
 	/*GEN.setTargetAttr(this,{
 		value: (proprieties && proprieties.target) ? proprieties.target : '_self'

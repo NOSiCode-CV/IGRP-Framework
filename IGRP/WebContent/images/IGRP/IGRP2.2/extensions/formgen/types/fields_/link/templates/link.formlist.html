@@ -1,9 +1,0 @@
-<xsl:if test="not(#tag#/@visible)">
-	<td data-row="{position()}" data-title="{../../fields/#tag#/label}" class="link">
-	  <input type="hidden" name="p_#tag#_fk_desc" value="{#tag#_desc}"/>
-	  <input type="hidden" name="p_#tag#_fk" value="{#tag#}"/>
-	  <a href="{#tag#}" class="link bClick" target="#[target]#" name="p_#tag#">
-	    <xsl:value-of select="#tag#_desc" disable-output-escaping="yes"/>
-	  </a>
-	</td>
-</xsl:if>

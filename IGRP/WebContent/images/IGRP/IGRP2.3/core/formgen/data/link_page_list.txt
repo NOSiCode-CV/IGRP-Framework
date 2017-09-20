@@ -1,0 +1,330 @@
+[
+    {
+        "action": "BULK",
+        "app": "RED",
+        "description": "IGRP Java Doc - Lista",
+        "id": "35983",
+        "link": "app/RED/xml/RED_GLB_T_IGRPDOC_BULK_dash.xml",
+        "page": "GLB_T_IGRPDOC"
+    },
+    {
+        "action": "FORM",
+        "app": "RED",
+        "description": "IGRP Java Doc - Form",
+        "id": "35984",
+        "link": "app/RED/xml/RED_GLB_T_IGRPDOC_FORM_form.xml",
+        "page": "GLB_T_IGRPDOC"
+    },
+    {
+        "action": "BULK",
+        "app": "RED",
+        "description": "IGRP Java Doc - Itens - Lista",
+        "id": "35991",
+        "link": "app/RED/xml/RED_GLB_T_IGRPJAVADOC_BULK_dash.xml",
+        "page": "GLB_T_IGRPJAVADOC"
+    },
+    {
+        "action": "FORM",
+        "app": "RED",
+        "description": "IGRP Java Doc - Itens - Form",
+        "id": "35992",
+        "link": "app/RED/xml/RED_GLB_T_IGRPJAVADOC_FORM_form.xml",
+        "page": "GLB_T_IGRPJAVADOC"
+    },
+    {
+        "action": "BULK",
+        "app": "RED",
+        "description": "HISTORICO - Lista",
+        "id": "49114",
+        "link": "app/RED/xml/RED_VER_HISTORICO_BULK_table.xml",
+        "page": "VER_HISTORICO"
+    },
+    {
+        "action": "7.4",
+        "app": "PORTONDINOSILHA",
+        "description": "IVA MOD 106 - Porton - Entrega Electronica",
+        "id": "51115",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_7_74_dash.xml",
+        "page": "7"
+    },
+    {
+        "action": "BIB-LISTA",
+        "app": "RED",
+        "description": "Biblioteca - Lista  Ecrã",
+        "id": "51471",
+        "link": "app/RED/xml/RED_BIBLIO_BIB-LISTA_dash.xml",
+        "page": "BIBLIO"
+    },
+    {
+        "action": "BIB-DET",
+        "app": "RED",
+        "description": "Biblioteca - Detalhe Lista",
+        "id": "51694",
+        "link": "app/RED/xml/RED_BIBLIO_BIB-DET_dash.xml",
+        "page": "BIBLIO"
+    },
+    {
+        "action": "JS-FORM",
+        "app": "RED",
+        "description": "Validação Javascript - Regras",
+        "id": "52111",
+        "link": "app/RED/xml/RED_JS_VALIDATION_JS-FORM_form.xml",
+        "page": "JS_VALIDATION"
+    },
+    {
+        "action": "BULK",
+        "app": "RED",
+        "description": "Gestão Dominio - Lista",
+        "id": "52520",
+        "link": "app/RED/xml/RED_GLOBAL_T_DOMAIN_BULK_dash.xml",
+        "page": "GLOBAL_T_DOMAIN"
+    },
+    {
+        "action": "FORM",
+        "app": "RED",
+        "description": "Gestão Dominio - Form",
+        "id": "52521",
+        "link": "app/RED/xml/RED_GLOBAL_T_DOMAIN_FORM_form.xml",
+        "page": "GLOBAL_T_DOMAIN"
+    },
+    {
+        "action": "BIZ_MAP_XSD",
+        "app": "RED",
+        "description": "Maping - XS Maping",
+        "id": "54527",
+        "link": "app/RED/xml/RED_BIZ_MAP_BIZ_MAP_XSD_form.xml",
+        "page": "BIZ_MAP"
+    },
+    {
+        "action": "FIELDS",
+        "app": "RED",
+        "description": "Maping - Maping Fields",
+        "id": "54528",
+        "link": "app/RED/xml/RED_BIZ_MAP_FIELDS_form.xml",
+        "page": "BIZ_MAP"
+    },
+    {
+        "action": "FORM",
+        "app": "RED",
+        "description": "Criar Schema - SCHEMA",
+        "id": "54618",
+        "link": "app/RED/xml/RED_SCHEMA_FORM_form.xml",
+        "page": "SCHEMA"
+    },
+    {
+        "action": "DESG",
+        "app": "RED",
+        "description": "BPMN Designer - BPMN Designer",
+        "id": "54631",
+        "link": "IGRP2.3/app/RED/xml/RED_BPMN_DESG_dash.xml",
+        "page": "BPMN"
+    },
+    {
+        "action": "TESTE",
+        "app": "RED",
+        "description": "BPMN Designer - teste popup",
+        "id": "54647",
+        "link": "IGRP2.2/app/RED/xml/RED_BPMN_TESTE_form.xml",
+        "page": "BPMN"
+    },
+    {
+        "action": "2",
+        "app": "RED",
+        "description": "BPMN Designer - BPMN Designer",
+        "id": "54769",
+        "link": "app/RED/xml/RED_BPMN_2_form.xml",
+        "page": "BPMN"
+    },
+    {
+        "action": "SEARCH",
+        "app": "RED",
+        "description": "Biztalk - Pesquisa",
+        "id": "54990",
+        "link": "app/RED/xml/RED_BIZ_SERVICE_SEARCH_table.xml",
+        "page": "BIZ_SERVICE"
+    },
+    {
+        "action": "3",
+        "app": "RED",
+        "description": "BPMN Designer - BPMN Designer 3",
+        "id": "55212",
+        "link": "app/RED/xml/RED_BPMN_3_form.xml",
+        "page": "BPMN"
+    },
+    {
+        "action": "CONSULTAR",
+        "app": "PORTONDINOSILHA",
+        "description": "CONSULTAR_SALARIOS -  SALARIOS",
+        "id": "56887",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_CONSULTAR_SALARIOS_CONSULTAR_dash.xml",
+        "page": "CONSULTAR_SALARIOS"
+    },
+    {
+        "action": "CC01",
+        "app": "PORTONDINOSILHA",
+        "description": "Conta Corrente - Listagem",
+        "id": "56947",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_CC_CC01_dash.xml",
+        "page": "CC"
+    },
+    {
+        "action": "CC02",
+        "app": "PORTONDINOSILHA",
+        "description": "Conta Corrente - Pagamento",
+        "id": "56948",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_CC_CC02_dash.xml",
+        "page": "CC"
+    },
+    {
+        "action": "1",
+        "app": "PORTONDINOSILHA",
+        "description": "Estado Fiscal - Estado Fiscal",
+        "id": "57234",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_ESTADO FISCAL_1_dash.xml",
+        "page": "ESTADO FISCAL"
+    },
+    {
+        "action": "1",
+        "app": "PORTONDINOSILHA",
+        "description": "GL-liquidacao - Gerar Liquidação",
+        "id": "57260",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_GL-LIQUIDACAO_1_dash.xml",
+        "page": "GL-LIQUIDACAO"
+    },
+    {
+        "action": "1",
+        "app": "PORTONDINOSILHA",
+        "description": "Serviços Porton - Entregar Declaração",
+        "id": "58531",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_SER_PORTON_1_dash.xml",
+        "page": "SER_PORTON"
+    },
+    {
+        "action": "2",
+        "app": "PORTONDINOSILHA",
+        "description": "Serviços Porton - Consultar Declaração",
+        "id": "58596",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_SER_PORTON_2_dash.xml",
+        "page": "SER_PORTON"
+    },
+    {
+        "action": "2",
+        "app": "PORTONDINOSILHA",
+        "description": "Estado Fiscal - Estado Fiscal Web",
+        "id": "59760",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_ESTADO_FISCAL_2_dash.xml",
+        "page": "ESTADO_FISCAL"
+    },
+    {
+        "action": "MON",
+        "app": "PORTONDINOSILHA",
+        "description": "AD - RH - Monitor Avaliação",
+        "id": "59971",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_RH_AD_MON_dash.xml",
+        "page": "RH_AD"
+    },
+    {
+        "action": "1",
+        "app": "PORTONDINOSILHA",
+        "description": "Mobile - Historico Processo",
+        "id": "60228",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_11_1_table.xml",
+        "page": "11"
+    },
+    {
+        "action": "2",
+        "app": "PORTONDINOSILHA",
+        "description": "Situação Fiscal - Detalhes",
+        "id": "61636",
+        "link": "app/PORTONDINOSILHA/xml/PORTONDINOSILHA_SF_2_dash.xml",
+        "page": "SF"
+    },
+    {
+        "action": "LST_CLASSE",
+        "app": "LMITS",
+        "description": "Parametrizações Plano - Lista Classe",
+        "id": "62993",
+        "link": "app/LMITS/xml/LMITS_PARA_PLANP_LST_CLASSE_table.xml",
+        "page": "PARA_PLANP"
+    },
+    {
+        "action": "LST_COND",
+        "app": "LMITS",
+        "description": "Parametrizações Plano - Lista Condicionante",
+        "id": "69483",
+        "link": "app/LMITS/xml/LMITS_PARA_PLANP_LST_COND_table.xml",
+        "page": "PARA_PLANP"
+    },
+    {
+        "action": "LST-DEPEN-SERV",
+        "app": "RED",
+        "description": "Biztalk - Lista Dependência de Serviços",
+        "id": "69671",
+        "link": "app/RED/xml/RED_BIZ_SERVICE_LST-DEPEN-SERV_dash.xml",
+        "page": "BIZ_SERVICE"
+    },
+    {
+        "action": "LST_USO",
+        "app": "LMITS",
+        "description": "Parametrizações Plano - Lista Uso Planos",
+        "id": "69843",
+        "link": "app/LMITS/xml/LMITS_PARA_PLANP_LST_USO_table.xml",
+        "page": "PARA_PLANP"
+    },
+    {
+        "action": "SOURCE",
+        "app": "RED",
+        "description": "Report Designer - Fonte",
+        "id": "75960",
+        "link": "IGRP2.2/app/RED/xml/RED_REPORT_SOURCE_dash.xml",
+        "page": "REPORT"
+    },
+    {
+        "action": "REP",
+        "app": "RED",
+        "description": "Report Designer - Web Report",
+        "id": "75961",
+        "link": "IGRP2.2/app/RED/xml/RED_REPORT_REP_dash.xml",
+        "page": "REPORT"
+    },
+    {
+        "action": "1",
+        "app": "RED",
+        "description": "FORM Design - Form Design",
+        "id": "76196",
+        "link": "IGRP2.3/app/RED/xml/RED_FORM_1_dash.xml",
+        "page": "FORM"
+    },
+    {
+        "action": "BULK",
+        "app": "RED",
+        "description": "Gestão de Fonte - Lista",
+        "id": "87054",
+        "link": "app/RED/xml/RED_GLOBAL_T_FONTE_BULK_table.xml",
+        "page": "GLOBAL_T_FONTE"
+    },
+    {
+        "action": "FORM",
+        "app": "RED",
+        "description": "Gestão de Fonte - Form",
+        "id": "87055",
+        "link": "app/RED/xml/RED_GLOBAL_T_FONTE_FORM_form.xml",
+        "page": "GLOBAL_T_FONTE"
+    },
+    {
+        "action": "LIST",
+        "app": "RED",
+        "description": "Gestão de Wrap - Lista Wrapped",
+        "id": "87769",
+        "link": "app/RED/xml/RED_WRAP_LIST_table.xml",
+        "page": "WRAP"
+    },
+    {
+        "action": "SEND",
+        "app": "RED",
+        "description": "Gestão de Wrap - Wrap Schema",
+        "id": "87793",
+        "link": "app/RED/xml/RED_WRAP_SEND_form.xml",
+        "page": "WRAP"
+    }
+]

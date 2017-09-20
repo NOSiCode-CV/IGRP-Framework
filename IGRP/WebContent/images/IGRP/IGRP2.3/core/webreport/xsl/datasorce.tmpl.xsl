@@ -25,7 +25,10 @@
                   <xsl:otherwise><xsl:value-of select="name()"/></xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
-              <li class="treeview" rel="{name()}" type="node" tag="{$tag}" parentType="{$noType}" parentPos="{$pos}" label="{label}">
+              <li class="treeview" rel="{name()}" type="node" tag="{$tag}" parentType="{$noType}" parentPos="{$pos}">
+                <xsl:if test="$noType != 'chart'">
+                  <xsl:attribute name="label"><xsl:value-of select="label"/></xsl:attribute>
+                </xsl:if>
                 <xsl:if test="$noType = 'chart'">
                   <xsl:attribute name="charttype"><xsl:value-of select="chart_type"/></xsl:attribute>
                 </xsl:if>

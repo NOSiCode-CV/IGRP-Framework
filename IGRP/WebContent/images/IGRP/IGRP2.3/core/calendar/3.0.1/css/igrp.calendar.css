@@ -13,6 +13,7 @@
 .igrp-calendar .fc-toolbar h2{
 	display: inline;	
 	float: left;
+	outline: none;
 }
 
 .igrp-calendar .fc-toolbar .fc-prev-button,
@@ -32,4 +33,21 @@
 .igrp-calendar .fc-head .fc-widget-header span{
 	display: block;
 	padding:5px 0;
+}
+
+.table-context-menu .dropdown-menu{
+    position: absolute;
+    min-width: 140px;
+    box-shadow: 0px 4px 10px 0px #ddd;
+    -webkit-box-shadow:0px 4px 10px 0px #ddd;
+    border-radius:0;
+    border: none;
+}
+
+.table-context-menu .dropdown-menu li a.btn{
+	text-align: left;
+	border: none;
+	border: 1px solid #ddd;
+	margin-bottom: -1px;
+	border-radius:0;
 }

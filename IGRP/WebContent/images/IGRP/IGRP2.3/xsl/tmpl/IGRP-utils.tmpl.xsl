@@ -17,13 +17,15 @@
       </xsl:if>
     </div>
   </xsl:template>
-
   <!-- TOOLSBAR BUTTONS -->
   <xsl:template name="gen-item-btn" mode="gen-item-btn" match="item">
     <xsl:param name="type"/>
     <xsl:param name="use-fa" select="'true'"/>
     <xsl:param name="fixed-target"/>
     <xsl:param name="vertical"/>
+    <xsl:param name="outline"/>
+    <xsl:param name="position"/>
+    <xsl:param name="fixed-btn-class" select="'btn-default'"/>
 
    <xsl:variable name="btn-class">
       <xsl:choose>
@@ -46,16 +48,30 @@
       </xsl:choose>
     </xsl:variable>
 
-    <xsl:variable name="item-class" select="concat('btn btn-',$btn-class)"/>
-
-     <a target="{$target}" use-fa="{$use-fa}">
+    <a target="{$target}" use-fa="{$use-fa}" position="{$position}">
       
+      <xsl:variable name="outlineClss">
+        <xsl:if test="$outline = 'true'"><xsl:value-of select="' btn-outline'"/></xsl:if>
+      </xsl:variable>
+
       <xsl:if test="img!=''"> 
         <xsl:attribute name="has-img">true</xsl:attribute>
       </xsl:if>
 
       <xsl:if test="$use-fa = 'false'"> 
-        <xsl:attribute name="class">btn btn-default</xsl:attribute>
+        <xsl:attribute name="class">btn 
+          <xsl:choose>
+            <xsl:when test="$target = 'submit'">btn-success</xsl:when>
+            <xsl:when test="$target = 'alert_submit'">btn-primary</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$fixed-btn-class"/></xsl:otherwise>
+          </xsl:choose>
+        </xsl:attribute>
+      </xsl:if>
+
+      <xsl:if test="contains($target, '|')">
+        <xsl:call-template name="get-target-params">
+          <xsl:with-param name="list" select="$target"/>
+        </xsl:call-template>
       </xsl:if>
 
       <xsl:call-template name="page-nav">
@@ -72,30 +88,32 @@
               <xsl:with-param name="list" select="img"/>
               <xsl:with-param name="use-fa" select="$use-fa"/>
               <xsl:with-param name="img-folder" select="$img-folder"/>
+              <xsl:with-param name="classes" select="$outlineClss"/>
             </xsl:call-template>
           </xsl:when>
           <xsl:otherwise>
             <img src="{$path}/assets/img/v1/icon/{$img-folder}/{img}"/>
           </xsl:otherwise>
         </xsl:choose>
-      </xsl:if>
-      
 
-      <xsl:if test="$vertical='false'">
-        <br/>
+        <xsl:if test="$vertical='false'">
+          <br/>
+        </xsl:if>
+
       </xsl:if>
 
       <span><xsl:value-of select="title"/></span> 
 
     </a>
-
   </xsl:template>
 
   <xsl:template name="gen-buttons" match="*" mode="gen-buttons">
     <xsl:param name="vertical" select="'true'"/>
+    <xsl:param name="outline" select="'false'"/>
     <xsl:param name="type"/>
     <xsl:param name="use-fa" select="'true'"/>
     <xsl:param name="fixed-target"/>
+    <xsl:param name="fixed-btn-class" select="'btn-default'"/>
 
     <!-- <xsl:attribute name="use-fa"><xsl:value-of select="$use-fa"/></xsl:attribute>
 
@@ -116,13 +134,13 @@
         <xsl:with-param name="use-fa" select="$use-fa"/>
         <xsl:with-param name="fixed-target" select="$fixed-target"/>
         <xsl:with-param name="vertical" select="$vertical"/>
-
+        <xsl:with-param name="outline" select="$outline"/>
+        <xsl:with-param name="position" select="position()"/>
+        <xsl:with-param name="fixed-btn-class" select="$fixed-btn-class"/>
       </xsl:apply-templates>
 
     </xsl:for-each>
-
   </xsl:template>
-
   <!-- VERTICAL MENU-->
   <xsl:template name="gen-vmenu" match="*" mode="gen-vmenu">
     
@@ -179,12 +197,10 @@
       </xsl:for-each>
     </ul>
   </xsl:template>
-
   <!-- OLD FILTER BUTTON -->
-  <xsl:template name="gen-filter-submit" match="*" mode="gen-filter-submit">
-    
+  <xsl:template name="gen-filter-submit" match="*" mode="gen-filter-submit">   
   </xsl:template>
-
+  <!-- BUTTONS INLINE -->
   <xsl:template name="gen-buttons-group" match="*" mode="gen-buttons-group">
     <xsl:param name="id" select="'btn-group'"/>
 
@@ -212,6 +228,7 @@
               <xsl:apply-templates select="." mode="gen-buttons">
                 <xsl:with-param name="use-fa" select="'false'"/>
                 <xsl:with-param name="vertical" select="'false'"/>
+
               </xsl:apply-templates>
             </div>
           </div>
@@ -221,7 +238,52 @@
 
       <div class="tab-pane" id="{$id}-2">.2.</div>
     </div>
+  </xsl:template>
+  <!-- ACORDION BUTTONS -->
+  <xsl:template name="gen-accordion-group" match="*" mode="gen-accordion-group">
+    <xsl:param name="id" select="'gen-accordion-group'"/>
+    
+    <div class="panel-group" id="{$id}" template="igrp-accordion-group">
+     
+      <xsl:for-each select="group">
+        
+        <xsl:variable name="groupID" select="concat($id,'-item-',position())"/>
+        
+        <xsl:variable name="activeClss">
+          <xsl:if test="position()=1">in</xsl:if>
+        </xsl:variable>
 
+        <xsl:variable name="collapsedClss">
+          <xsl:if test="position()!=1">collapsed</xsl:if>
+        </xsl:variable>
+
+        <div class="panel panel-default no-shadow">
+          <div class="panel-heading">
+              <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#{$id}" href="#{$groupID}" class="collapse-icon-ctrl {$collapsedClss}">
+                    <span><xsl:value-of select="@title"/></span>
+                    <i class="fa fa-chevron-down" text-color="1"></i>
+                  </a>
+              </h4>
+          </div>
+          <div id="{$groupID}" class="panel-collapse collapse {$activeClss}">
+              <div class="panel-body no-padding">
+
+                <xsl:apply-templates select="." mode="gen-buttons">
+                  <xsl:with-param name="use-fa" select="'false'"/>
+                  <xsl:with-param name="fixed-btn-class" select="''"/>
+                </xsl:apply-templates>
+
+              </div>
+          </div>
+        </div>
+
+      </xsl:for-each>
+
+      
+
+
+    </div>  
   </xsl:template>
 
   <xsl:template name="igrp-msg-transform">
@@ -240,11 +302,8 @@
       <xsl:otherwise>bullseye</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-
-
   <!-- HIDDEN FIELDS -->
   <xsl:template mode="form-hidden-fields" match="*">
-    
     <xsl:for-each select="hidden">
       <input type="hidden" name="{@name}" id="{@name}" value="{.}">
           <xsl:if test="@rel">
@@ -255,7 +314,6 @@
       </input>
     </xsl:for-each> 
   </xsl:template>
-
   <!-- OLD IGRP HIDDEN FIELDS -->
   <xsl:template mode="form-hidden" match="value">
     <xsl:param name="rel"/>
@@ -273,12 +331,39 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="form-tab-menu-v1">
+
+    <div class="gen-container-item igrp-gen-workflow">
+      <div role="tabpanel">
+        <div class="board">
+          <div class="board-inner">
+            <ul class="nav nav-tabs nav-justified" role="tablist" show-tooltip="false">
+              <xsl:for-each select="rows/content/form/label/*[@type='separator']">
+                <xsl:variable name="aClss">
+                  <xsl:if test="position() = 1">active</xsl:if>
+                </xsl:variable>
+                <li role="presentation" class="{$aClss}" style-listener="true">
+                  <a href="#gen-tab-{name()}" role="tab" data-toggle="tab" class="btn">
+                    <span class="round-tabs one" data-toggle="tooltip" title="{.}" active-bg-color="1" active-border-color="1">
+                      <xsl:value-of select="position()"/>
+                      <!-- <i class="fa fa-home"/> -->
+                    </span>
+                  </a>
+                  <!-- <h3><xsl:value-of select="."/></h3> -->
+                  <span class="igrp-wf-item-title" active-text-color="1" ><xsl:value-of select="."/></span>
+                </li>
+              </xsl:for-each>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </xsl:template>
 
   <!-- GET VALUE FROM XML -->
   <xsl:template mode="getValue" name="getValue" match="*">
-    
     <xsl:param name="default"/>
-    
     <xsl:choose>
         <xsl:when test=". and . != '' ">
           <xsl:value-of select="."/>
@@ -287,9 +372,7 @@
           <xsl:value-of select="$default"/>
         </xsl:otherwise>
     </xsl:choose>
-
   </xsl:template>
-
   <!-- 2.1 TO 2.3 ICONS -->
   <xsl:template name="topMenuIconsMap">
     
@@ -302,7 +385,6 @@
       <xsl:when test="img='info.png'">fa-info</xsl:when>
       <xsl:otherwise>fa-gear</xsl:otherwise>
     </xsl:choose>
-
   </xsl:template>
   
 </xsl:stylesheet>

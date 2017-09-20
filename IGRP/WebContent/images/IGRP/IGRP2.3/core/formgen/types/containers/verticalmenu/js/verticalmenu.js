@@ -8,6 +8,12 @@ var GENVERTICALMENU = function(name,params){
 	
 	container.unsetProprieties(['collapsible']);
 
+	container.setPropriety({
+		name:'dynamic',
+		label:'Dynamic Menu',
+		value:false
+	});
+
 	container.onFieldSet = function(field){
 		
 		field.setProperty({

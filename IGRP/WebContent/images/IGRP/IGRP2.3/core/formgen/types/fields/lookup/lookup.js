@@ -45,6 +45,10 @@ var LOOKUPFIELD = function(type,params){
 						value:'LOOKUP_CAE'
 					},
 					{
+						label:'NIC',
+						value:'LOOKUP_NIC'
+					},
+					{
 						label:'Geografia',
 						value:'LOOKUP_GEOG'
 					},

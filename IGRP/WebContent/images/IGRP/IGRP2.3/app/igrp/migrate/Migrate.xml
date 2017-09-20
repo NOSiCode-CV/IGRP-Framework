@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/migrate/Migrate.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Migrate</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Migrate</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Migrate IGRP</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="migrar">
+                <title>Migrar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>info|fa-exchange</img>
+                <parameter>undefined</parameter>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <tipo_base_dados name="p_tipo_base_dados" type="select" multiple="false" maxlength="20" required="true" change="false" disabled="false" right="false" domain="">
+                    <label>Tipo Base Dados</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo_base_dados>
+                <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Hostname</label>
+                    <value>Omnis unde ipsum amet anim</value>
+                </hostname>
+                <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="">
+                    <label>Porta</label>
+                    <value>2</value>
+                </port>
+                <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome de Bade Dados</label>
+                    <value>Magna ut dolor omnis unde</value>
+                </nome_de_bade_dados>
+                <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username</label>
+                    <value>Voluptatem aliqua totam ut doloremque</value>
+                </username>
+                <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Password</label>
+                    <value>******</value>
+                </password>
+            </fields>
+        </form_1>
+    </content>
+</rows>

@@ -1,12 +1,33 @@
+.box-wr .form-group{
+	margin: 0;
+}
+.box-wr .cke_editable_inline{
+	padding: 10px;
+}
+
+.cke_reset_all.cke_float{
+	right: 33px;
+}
+
+.box-wr .texteditor{
+	min-height: 150px;
+	background: #fff;
+	border: 1px solid #ddd;
+}
+.hiddenItem{
+	display: none;
+}
+
 .main{
 	padding: 20px 7px; 
 }
+
 .toolsbar-holder{
 	position: fixed;
     right: 20px;
-    left: 0;
-    top: 58px;
-    z-index: 2;
+    left: 50%;
+    top: 4px;
+    z-index: 1049;
 }
 .box.igrp-forms{
 	margin-top: 30px;
@@ -39,11 +60,12 @@
 }
 
 .treeview-menu li a[type="line"] {
-    padding-left: 45px;
+    padding-left: 35px;
 }
 
 .treeview-menu li > a[type="line"] > i{
-	left: 35px;
+	left: 23px;
+	right: inherit;
 }
 
 .nav-sidebar li.treeview > a:hover{
@@ -90,14 +112,18 @@
     transform: rotate(90deg);
 }
 
-.wr-listtype .radio{
+.wr-listtype .radio, #html-group .radio{
 	display: inline-block;
 	margin-right: 10px;
 	cursor: pointer;
 }
 
-.wr-listtype span{
+.wr-listtype span, #html-group label span{
 	font-size: 18px;
+}
+#html-group label span{
+	margin-top: 2px;
+	display: block;
 }
 
 .wr-newdocument{
@@ -139,6 +165,30 @@
 	vertical-align: text-bottom;
 }
 
+div[data-notify="container"].alert{
+	z-index: 9999 !important;
+}
+
 .error{
 	border-color: #d9534f;
 }
+
+.box-head.subtitle span {
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    top: 1px;
+    border-bottom: 1px solid;
+}
+
+.box-head.subtitle {
+	margin-top: 10px;
+    padding: 0px 10px;
+}
+
+#transfome{
+	position: absolute;
+    left: -10000px;
+    top: -10000px;
+}
+

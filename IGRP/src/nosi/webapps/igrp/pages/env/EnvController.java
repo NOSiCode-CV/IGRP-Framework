@@ -3,12 +3,17 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.env;
+/*---- Import your packages here... ----*/
+
 import java.io.IOException;
+
 /*import nosi.webapps.red.teste.Teste;
 import nosi.webapps.red.teste.Teste;
 */
 import java.io.PrintWriter;
+import java.util.List;
 
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -23,7 +28,9 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 
+/*---- End ----*/
 public class EnvController extends Controller {		
 
 	public Response actionIndex() throws IOException{
@@ -38,54 +45,54 @@ public class EnvController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			
 			model.load();
-			Application app = new Application();
-			
-			
-			app.setAction_fk(model.getAction_fk());
-			app.setApache_dad(model.getApache_dad());
+			Application app = new Application();		
+			Action ac = new Action();
+			ac.setId(model.getAction_fk());
+//			app.setAction_fk(model.getAction_fk());
+//			app.setApache_dad(model.getApache_dad());
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());
-			app.setFlg_external(model.getFlg_external());
-			app.setFlg_old(model.getFlg_old());
-			app.setHost(model.getHost());
+//			app.setFlg_external(model.getFlg_external());
+//			app.setFlg_old(model.getFlg_old());
+//			app.setHost(model.getHost());
 			app.setImg_src(model.getImg_src());
-			app.setLink_center(model.getLink_center());
-			app.setLink_menu(model.getLink_menu());
+//			app.setLink_center(model.getLink_center());
+//			app.setLink_menu(model.getLink_menu());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-			app.setTemplates(model.getTemplates());
-			
-			if(app.insert()){
-				System.out.println(FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"));
-				System.out.println(FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName())));
-				System.out.println(CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java"));
+//			app.setTemplates(model.getTemplates());
+			app = app.insert();
+			if(app!=null){
+				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
 				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
-				app = (Application) app.getOne();
-				
-				Organization org = new Organization();
-				ProfileType proty = new ProfileType();
-				
+				User user = new User();
+				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+				Organization org = new Organization();				
 				org.setCode("org." + model.getDad());
 				org.setName("org." + model.getName());
-				org.setEnv_fk(app.getId());
+				org.setUser(user);
+				org.setApplication(app);
 				org.setStatus(1);
-				
-				if(org.insert()){
-					org = (Organization) org.getOne();					
+				org = org.insert();
+				if(org!=null){	
+					ProfileType proty = new ProfileType();			
 					proty.setCode("Admin." + org.getName());
 					proty.setDescr("PefilAdmin.default " + org.getName());
-					proty.setEnv_fk(app.getId());
-					proty.setOrg_fk(org.getId());
-					proty.setStatus(1);					
-					if(!proty.insert()){
+					proty.setOrganization(org);
+					proty.setApplication(app);
+					proty.setStatus(1);		
+					proty = proty.insert();
+					if(proty==null){
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
 					}					
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
 				}
 				
-				if(FileHelper.fileExists(Config.getProject_loc()) && FileHelper.createDiretory(Config.getProject_loc()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-					FileHelper.save(Config.getProject_loc()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
@@ -98,49 +105,46 @@ public class EnvController extends Controller {
 	public Response actionVoltar() throws IOException{
 		return this.redirect("igrp", "lista-env","index");
 	}
-	
-	//App list I have access to
+//	
+//	//App list I have access to
 	public PrintWriter actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		Object[] myApp = new Application().getMyApp();
-		Object[] otherApp = new Application().getOtherApp();
+		List<Object[]> myApp = new Application().getMyApp();
+		List<Object[]> otherApp = new Application().getOtherApp();
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
-		if(myApp.length>0){
+		if(myApp.size()>0){
 			xml_menu.setElement("title", "Minhas Aplicações");
 		}
-		if(otherApp.length>0){
+		if(otherApp.size()>0){
 			xml_menu.setElement("subtitle", "Outras Aplicações");
 		}
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;
-		for(Object obj:myApp){
-			Application app = (Application) obj;
+		for(Object[] obj:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = "/default-page/index&amp;title="+app.getName();
-			if(app.getAction_fk()!=0){
+			String page = "/default-page/index&amp;title="+obj[3].toString();
+			if(obj[6]!=null){
 				Action ac = new Action();
-				ac.setId(app.getAction_fk());
-				ac = (Action) ac.getOne();
+				ac = ac.findOne(Integer.parseInt(obj[6].toString()));
 				page = (ac!=null && ac.getPage()!=null)?ac.getPage()+"/"+ac.getAction():page;
 				page = "/"+page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+app.getDad().toLowerCase()+"&amp;page="+page);
-			xml_menu.setElement("img", app.getImg_src());
-			xml_menu.setElement("title", app.getName());
+			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+obj[1].toString().toLowerCase()+"&amp;page="+page);
+			xml_menu.setElement("img", obj[3].toString());
+			xml_menu.setElement("title", obj[4].toString());
 			xml_menu.setElement("num_alert", ""+i);
 			xml_menu.endElement();
 			i++;
 		}
-		for(Object obj:otherApp){
-			Application app = (Application) obj;
+		for(Object[] obj:otherApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
 			xml_menu.setElement("link", "");
-			xml_menu.setElement("img", app.getImg_src());
-			xml_menu.setElement("title", app.getName());
+			xml_menu.setElement("img", obj[3].toString());
+			xml_menu.setElement("title",obj[4].toString() );
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
@@ -152,21 +156,22 @@ public class EnvController extends Controller {
 	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Env model = new Env();		
 		Application aplica_db = new Application();
-		aplica_db.setId(Integer.parseInt(idAplicacao));
-		aplica_db = (Application) aplica_db.getOne();		
+		aplica_db = aplica_db.findOne(Integer.parseInt(idAplicacao));
 		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
-		model.setAction_fk(aplica_db.getAction_fk());
-		model.setApache_dad(aplica_db.getApache_dad());
-		model.setFlg_external(aplica_db.getFlg_external());
+		if(aplica_db.getAction()!=null){
+			model.setAction_fk(aplica_db.getAction().getId());
+		}
+//		model.setApache_dad(aplica_db.getApache_dad());
+//		model.setFlg_external(aplica_db.getFlg_external());
 		model.setImg_src(aplica_db.getImg_src());
 		model.setStatus(aplica_db.getStatus());
-		model.setFlg_old(aplica_db.getFlg_old());
-		model.setLink_center(aplica_db.getLink_center());
-		model.setLink_menu(aplica_db.getLink_menu());
-		model.setTemplates(aplica_db.getTemplates());
-		model.setHost(aplica_db.getHost());
+//		model.setFlg_old(aplica_db.getFlg_old());
+//		model.setLink_center(aplica_db.getLink_center());
+//		model.setLink_menu(aplica_db.getLink_menu());
+//		model.setTemplates(aplica_db.getTemplates());
+//		model.setHost(aplica_db.getHost());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			
@@ -174,16 +179,18 @@ public class EnvController extends Controller {
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());
 			aplica_db.setDescription(model.getDescription());
-			aplica_db.setAction_fk(model.getAction_fk());
+			Action ac = new Action().findOne(model.getAction_fk());
+			aplica_db.setAction(ac);
 			aplica_db.setStatus(model.getStatus());
-			aplica_db.setFlg_old(model.getFlg_old());
-			aplica_db.setLink_menu(model.getLink_menu());
-			aplica_db.setLink_center(model.getLink_center());
-			aplica_db.setApache_dad(model.getApache_dad());
-			aplica_db.setTemplates(model.getTemplates());
-			aplica_db.setHost(model.getHost());
-			aplica_db.setFlg_external(model.getFlg_external());			
-			if(aplica_db.update()){
+//			aplica_db.setFlg_old(model.getFlg_old());
+//			aplica_db.setLink_menu(model.getLink_menu());
+//			aplica_db.setLink_center(model.getLink_center());
+//			aplica_db.setApache_dad(model.getApache_dad());
+//			aplica_db.setTemplates(model.getTemplates());
+//			aplica_db.setHost(model.getHost());
+//			aplica_db.setFlg_external(model.getFlg_external());			
+			aplica_db = aplica_db.update();
+			if(aplica_db!=null){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
@@ -199,6 +206,7 @@ public class EnvController extends Controller {
 	
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
+		PersistenceUtils.confiOtherConnections(app);
 		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
 		String[] p = page.split("/");
 		return this.redirect(app, p[1], p[2]);

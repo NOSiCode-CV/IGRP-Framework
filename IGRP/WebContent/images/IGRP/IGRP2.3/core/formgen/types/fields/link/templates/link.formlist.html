@@ -1,13 +1,14 @@
 <xsl:if test="not(#tag#/@visible)">
-	<td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#">
+	<td align="#[align]#" data-row="{position()}" data-title="{../../fields/#tag#/label}" class="#type#" item-name="#[tag]#">
 		
 		<input type="hidden" name="{../../../fields/#tag#/@name}_fk_desc" value="{#tag#_desc}"/>
 	  	
 	  	<input type="hidden" name="{../../../fields/#tag#/@name}_fk" value="{#tag#}" rel="F_#parent.tag#"/>
 	  	<xsl:choose>
           <xsl:when test="#tag# != ''">
-            <a href="{#tag#}" name="p_#tag#" class="#type# #[button]# form-link" target="#[target]#">
-	  			<xsl:value-of select="#tag#_desc"/>
+            <a href="{#tag#}" name="p_#tag#" class="#type# #[button]# btn btn-#[class]# form-link" target-fields="#[target_fields]#" #[closerefresh]# target="#[target]#">
+            	<i class="fa #[img]#"></i>
+	  			<span><xsl:value-of select="#tag#_desc"/></span>
 	  		</a>
           </xsl:when>
           <xsl:otherwise>

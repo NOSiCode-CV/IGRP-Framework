@@ -8,15 +8,18 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.page;
+/*---- Import your packages here... ----*/
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,34 +36,45 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 
+/*---- End ----*/
 public class PageController extends Controller {		
 
+	public PrintWriter actionListDomains() throws IOException{
+		Igrp.getInstance().getResponse().setContentType("application/json");
+		String json = "{\"list\":[\"7M_CATEGORIAS\",\"ACL_ELEMENT\",\"ACOMP_ENT\",\"ACOMP_EST_PROD\",\"ALIENACAO_FOGO\",\"ALINHAMENTO\",\"ALTERAR NOTA\",\"ALT_MTR_CM\",\"ALT_PRD_CM\",\"ALT_VEL_INV\",\"AMBEINTE\",\"AMBIENTE\",\"AM_FAMILY_ASSET\",\"AM_MANDATORY\",\"AM_PORT_TYPE\",\"AM_RACK_SPEC\",\"AM_STATUS\",\"AM_TIPO_SPEC\",\"ANEXO_EXPEDIENTE\",\"ANO\",\"AREA_DETALHE\",\"ARFA_SETOR\",\"ARFA_TP_DIPLOMA\",\"ARM_FINANCIADOR\",\"ARM_PRIORIDADE\",\"ARM_USO\",\"ASSOCIAR\",\"ASSOC_NEGOCIOS\",\"AVALIA CONVITE\",\"AVALIAÇÃO ATRIBUÍDA\",\"AVAL_OBRA\",\"AVD_ACEITAR\",\"AVD_COMPETENCIA\",\"AVD_DIMENSAO\",\"AVD_GRAFICO\",\"AVD_HORA\",\"AVD_METRICAS\",\"AVD_TIP_AVA\",\"BANCO\",\"BUSS_AREA\",\"BUS_AR\",\"CAB_DEC\",\"CAD_ALTIMETRIA\",\"CAD_DESPACHO\",\"CAD_ESTADO\",\"CAD_PARECER\",\"CAD_PONTOS\",\"CAD_TIPO_CLAIM\",\"CAD_TP_STATUS\",\"CAPITALIZAÇÃO\",\"CARLOS_CATEGORIA\",\"CARLOS_LOCALIDADE\",\"CARLOS_STATUS\",\"CATEGORY_TYPE\",\"CAT_AREA_NEG\",\"CAT_CATEG_PRODUTO\",\"CAT_ESTADO\",\"CAT_EST_PROJ\",\"CAT_FUNCAO\",\"CAT_NIVEL_ACESSO\",\"CAT_NIVEL_ESCOLAR\",\"CAT_OBJECTO\",\"CAT_ORIG_CLI\",\"CAT_ORIG_REC\",\"CAT_TP_CLIENTE\",\"CAT_TP_DOC\",\"CAT_TP_INTERVENCAO\",\"CAT_TP_OBS\",\"CHART_TYPE\",\"CLONE_OPTION\",\"CLONE_OPTION_ACT\",\"CODE_PEDIDO\",\"CODE_PERFIL\",\"CONDITION\",\"CONTINENTE\",\"CONTR_TP_DEBITO\",\"CON_EXT_ESTADO\",\"COR\",\"CUSTA_BENEFICIARIO\",\"CUSTA_TP_NATUREZA\",\"DATA_SOURCE\",\"DECISAO\",\"DECLARACAO_FISCAL\",\"DEMO\",\"DEMO_DEMO_IGRP\",\"DESTINO_OBRA\",\"DGESC - GRAU EQUIVALÊNCIA\",\"DM_MEIO_PAG\",\"DM_N_INSCRITO\",\"DM_PARECER\",\"DM_TP_FILTRO\",\"DM_TP_HIST_LAB\",\"DM_TP_MUDANCA\",\"DOC_MNEC\",\"DOC_STATUS\",\"D_ABONO\",\"D_ARM_ARMAZEM\",\"D_ARM_ESTADO_INVENTARIO\",\"D_ARM_ESTADO_REG\",\"D_ARM_FINANCIADOR\",\"D_ARM_MARCA\",\"D_ARM_MOEDA\",\"D_ARM_SIM_NAO\",\"D_ARM_TP_MOVIMENTO\",\"D_ARM_TP_PRODUTO\",\"D_CATEGORY_TYPE\",\"D_CLASS_TYPE\",\"D_COMPTBLDD\",\"D_CONTRIBUINTE\",\"D_DESPACHO\",\"D_MEIO_PAGAMENTO\",\"D_MOMENTO_COBRANCA\",\"D_PARECER\",\"D_PRIORIDADE\",\"D_REGIME_BENS\",\"D_RNI_ESTADO_CIVIL\",\"D_RNI_ORGAO\",\"D_RNI_TP_DOC\",\"D_SNC_ENTIDADE\",\"D_TIPO_PASSAPORTE\",\"D_TIPO_URGENCIA_PASS\",\"D_USO\",\"ECRAN_DETAILS\",\"ECRAN_DET_INFO\",\"ECRAN_DET_REGRA\",\"ECRAN_DET_VALID\",\"EDUGLOBAL - MENU\",\"EFECTIVO\",\"EFEITO_FORM\",\"ENT_APROVACAO\",\"ENV_DETAILS\",\"EQUIV_DOC\",\"ESTADO\",\"ESTADO ASSOC\",\"ESTADO_AGENDA\",\"ESTADO_APROVACAO_FATURA\",\"ESTADO_CABIMENTO_FATURA\",\"ESTADO_CLAIM\",\"ESTADO_CONFLITO\",\"ESTADO_FATURA\",\"ESTADO_FATURA_APROVA\",\"ESTADO_INVENTARIO\",\"ESTADO_MOBILIDADE\",\"ESTADO_PARTY\",\"ESTADO_PGTO\",\"ESTADO_REGISTO\",\"EST_PROJ\",\"EVEN_ESTADO\",\"EVEN_T_AREA\",\"EVEN_T_CATEGORY\",\"EVEN_T_MUNICIP\",\"EVEN_T_RECURSO\",\"EXTENSAO\",\"FASE_PROC_TOPO\",\"FATURA_ACOMPANHAMENTO\",\"FINANCIADOR\",\"FISC_CM_RESULT\",\"FLUENCIA_LEC_ESC\",\"GE:_ESTADO_CIVIL\",\"GENERATOR\",\"GE_ESTADO_FISICO_REGISTRO\",\"GE_LADO\",\"GE_MANU_AUTOM\",\"GE_NATURALEZA\",\"GE_OFICINA\",\"GE_ORIGEM_REGISTRO\",\"GE_REG_SEXO\",\"GE_REG_T_MATRIMONIO\",\"GE_SEXO\",\"GE_STATUS\",\"GE_TIPO_CONTRATO\",\"GE_TIPO_DOCUMENTO\",\"GE_TIPO_OBJETO\",\"GE_TIPO_REGISTRO\",\"GRAFICO_MOVEL\",\"GRAM_GEN\",\"GRAM_NUM\",\"GRAU_ACADEMICO\",\"GRE_TP_DEC\",\"GRUPO_PROFISSIONAL\",\"IGRP_APLICACOES\",\"IGRP_DIMENSOES\",\"IGRP_LIC_TIPO_MUDANCA\",\"IGRP_LIC_TP_DOC_PESQ\",\"IGRP_METRICAS\",\"IGRP_THEMES\",\"IIH_ESTADO_CONSER\",\"IIH_EXI_MANUT\",\"IIH_EXTRACAO_AGUA\",\"IIH_FORMA_BASE\",\"IIH_GESTAO\",\"IIH_IMPLANTACAO\",\"IIH_INEX_MUITO\",\"IIH_LOCAL_FISICA\",\"IIH_PROV_AGUA\",\"IIH_PROX_CASA\",\"IIH_TIPO_AQUIFERO\",\"IIH_TIPO_BOMBA\",\"IIH_TIPO_BOMBA_SB\",\"IIH_TIPO_CONSTRUCAO\",\"IIH_TIPO_DADOS\",\"IIH_TIPO_ENERGIA\",\"IIH_TIPO_OBJECTO\",\"IIH_USO_AGUA\",\"INFO_DOC_TYPE\",\"INSTANCE_FLOW\",\"INTEGRATION\",\"INVESTIMENTO\",\"IN_OUT\",\"ITALICO\",\"JUROS\",\"LAB\",\"LAB_REDLAB\",\"LANG_CODE\",\"LIMITES_DIREITOS\",\"LMITS_ESTADO\",\"LMITS_ESTADO_ENTREGA\",\"LMITS_ESTADO_PEDIDO\",\"LOOKUP_DB\",\"LOOP_FLOW\",\"L_SIGE_ANO\",\"L_SIGE_ANO_LETIVO\",\"L_SIGE_AREA\",\"L_SIGE_NIVEL_ENSINO\",\"L_SIGE_PERIODO\",\"MARAVILHA\",\"MARITAL\",\"MC_ACTIVIDADE\",\"METRICAS_ASSOC\",\"MIREX_TP_DOMINIO\",\"MIREX_TP_NATUREZA\",\"MNOVU - CONCURSO\",\"MNOVU - CONTEMPLADO\",\"MNOVU - EQUIPAMENTO\",\"MNOVU - FACTOR\",\"MNOVU - FORMULA\",\"MNOVU - TP- FICHA\",\"MNOVU_CONFIRMADO\",\"MNOVU_CONTEMPLADO\",\"MNOVU_GRUPO_ITEM\",\"MNOVU_GRUPO_TP_FICHA\",\"MNOVU_NR_PRESTACAO\",\"MNOVU_VALIDADO\",\"MOEDA\",\"MONTH\",\"MOTIVO_PERDA\",\"NATIVENESS\",\"NATUREZA_OBRA\",\"NAT_JURIDICA\",\"NEGRITO\",\"NIF_GE_COMBO_DIMENSIONES\",\"NIF_GE_COMBO_METRICAS\",\"NIF_GE_ESTADO\",\"NIF_GE_ESTADO_NIF\",\"NIF_GE_FORMA_JURIDICA\",\"NIF_GE_TP_AUTORIZACION\",\"NIF_GE_TP_CONTRIBUYENTE\",\"NIF_GE_TP_DOCUMENTO\",\"NIVEL DE ALCANCE DA META\",\"NIVEL DE ALCANCE DO COMPORTAMENTO\",\"NIVEL_INSTRUCAO\",\"NOTIFICA_ENTIDADE\",\"NOTIF_EST_ENVIO\",\"NOTIF_PERIODIC\",\"NOT_DIMENSAO\",\"NOT_MODALIDADE\",\"NUMERACAO\",\"N_TENDO\",\"OBJ_FISCALIZACAO_CM\",\"OPERADORA_CHIP\",\"ORD_T_ESPECIALIDADE\",\"ORD_T_ESTADO\",\"ORD_T_INSCRICAO\",\"ORD_T_TIPO\",\"ORD_T_TIPO_EXERCICIO\",\"ORD_T_TIPO_ORD\",\"ORG_CLONE_OPTION\",\"PAGE_TYPE\",\"PAG_OP\",\"PARAMETRIZA_ASSOC\",\"PARECER_AMBIENTAL\",\"PARECER_AUG\",\"PARECER_AUGI\",\"PARECER_CONFLITO\",\"PARECER_SOCIAL_GENERO\",\"PARTY_TYPE\",\"PART_ORAGNICA_DEFAULT\",\"PART_TP_PART_PAI_FILHO\",\"PART_T_ENTIDADE\",\"PED_MNEC\",\"PERF_CLONE_OPTION\",\"PLAN_DOC_TYPE\",\"POR_ATOS\",\"PPOJ_FINAL\",\"PRAZO\",\"PRECAD_AGENDA_VISITA\",\"PRECAD_CONC_ADMIN\",\"PRECAD_DECL\",\"PRECAD_DOMINIO_LINGUA\",\"PRECAD_ESTADO_RECOMENDACAO\",\"PRECAD_FASE_CLAIM\",\"PRECAD_FINALIDADE\",\"PRECAD_FORMA_AQUISICAO\",\"PRECAD_GRAU_ESCOLAR\",\"PRECAD_LINGUA\",\"PRECAD_MEDIDA_DURACAO\",\"PRECAD_MSG_ERRO\",\"PRECAD_NACIONALIDADE\",\"PRECAD_NATUREZA\",\"PRECAD_OPINIAO_EAT\",\"PRECAD_OPINIAO_EAT_MA\",\"PRECAD_PH_FRACAO\",\"PRECAD_REL_AGREGADO\",\"PRECAD_SITUACAO_LAB\",\"PRECAD_TIPOLOGIA_TITULAR\",\"PRECAD_TIPO_DADOS\",\"PRECAD_TIPO_OCUPANTE\",\"PRECAD_TIPO_VISITA\",\"PRECAD_TP_NECES_ESPECIAL\",\"PRIORITY\",\"PROC_ACT\",\"PROD\",\"PROD_EXA_SNIACPROD\",\"PROD_INPSEXA\",\"PROD_NOSIPROD1\",\"PROD_RNIEXA\",\"PROD_SAUDEEXA\",\"PROFILE_TYPE\",\"PROJECT_TYPE\",\"PROJ_ARQ_TP\",\"PROJ_PROF\",\"PUBLICO_ALVO\",\"REASON_ACTION\",\"RECLAMAÇÃO\",\"RECLAMAÇÃO OU RECURSO\",\"RECURSO\",\"REG\",\"REQ_TYPE\",\"REQ_T_DOCUMENT\",\"RESUL_FISC_CM\",\"RES_APROVACAO\",\"RES_FASE_PLANO\",\"REUSL_TOPO\",\"RH_DIMENSAO\",\"RH_ESTADO\",\"RH_METRICA\",\"RH_METRICAS\",\"RH_QUADRO_PENSAO\",\"RNI_TIPO_SERVICO\",\"RRR_OBJ_TYPE\",\"SEARCH_TYPE\",\"SECTOR\",\"SEMANA\",\"SEND_MANNER\",\"SEND_STATUS\",\"SEND_TYPE\",\"SEXO\",\"SIGE -  PERIODO\",\"SIGE -  TIPO MENU\",\"SIGE - AGENDA REPETICAO\",\"SIGE - ANO CURRICULAR\",\"SIGE - ANO LECTIVO\",\"SIGE - APROVEITAMENTO\",\"SIGE - AREA\",\"SIGE - CICLO\",\"SIGE - COMPORTAMENTO\",\"SIGE - ESCALAO\",\"SIGE - ESCOLA\",\"SIGE - ESPECIALIDADE\",\"SIGE - ESTADO\",\"SIGE - ESTADO DISC ALUNO\",\"SIGE - ESTADO FALTA\",\"SIGE - ESTADO PEDIDO\",\"SIGE - MENU ITEM PAI\",\"SIGE - MOTIVO ANULACAO\",\"SIGE - MOTIVO REDUCAO PROP\",\"SIGE - NR IRMAO ENSINO\",\"SIGE - ORIGEM PEDIDO\",\"SIGE - PAUTA_REG_OBS\",\"SIGE - PERIODO PROPINA\",\"SIGE - TIPO DE NOTA\",\"SIGE - TIPO FALTA\",\"SIGE - TITULAR DECLARAÇÃO\",\"SIGE - VIA\",\"SIGE- TRIMESTRE\",\"SIGE_EFEITO_DECLARAÇÃO\",\"SIGE_MOTIVO_JUSTIFICACAO\",\"SIGE_NR_MATRICULA\",\"SIGE_PARENTESCO\",\"SIGE_S_N\",\"SIGE_TP_ASSUNTO\",\"SIGE_TP_DECLARACAO\",\"SIGE_VIA_MARCACAO_SUMARIO\",\"SIGPG_STOCK\",\"SIGPG_TIPO_BEM\",\"SIG_MUNICIPIOS_CV\",\"SIMNAO\",\"SIM_ASC_TP_PREDIO\",\"SIM_NAO\",\"SIN_OUTORG_ORDEM\",\"SIS_PAGAMENTO\",\"SNC_CARGO\",\"SNC_ESTADO_ASSOC\",\"SNC_TIPO_ASSOCIACAO\",\"SNC_TIPO_DOCUMENTO\",\"SNIAC_CONSULTA\",\"SNIAC_MOTIVO_2VIA\",\"SNITE_FUNCTIONAL_ROAD_CLASS\",\"SNITE_OBJ_TP_DOC\",\"SOCIAL_ESTADO\",\"SOCIAL_SIM_NAO\",\"STAGE\",\"STAGE_STAGIN\",\"START_MODE\",\"STATUS\",\"STATUS_DIVIDA\",\"STATUS_NAME\",\"STATUS_PART\",\"STATUS_VERSAO\",\"ST_ METRICA\",\"ST_ METRICA_PGTO\",\"ST_ METRICA_PRST\",\"ST_ASSOC\",\"ST_A_PNS_SUB\",\"ST_DIMENSAO\",\"ST_DIMENSAO_ PGTO\",\"ST_DIMENSAO_ PRST\",\"ST_ESTADO\",\"ST_ESTADO_CNTB\",\"ST_ESTADO_ENTIDADE\",\"ST_ESTADO_PROCESSO\",\"ST_EST_MULT\",\"ST_EST_VALD\",\"ST_FOS_ENTRADA\",\"ST_FOS_ENTREGA\",\"ST_F_PAGAMENTO\",\"ST_MTV\",\"ST_NOTIFICA\",\"ST_PROC\",\"ST_PRST\",\"ST_QUALIFICA\",\"ST_TP_ACAO\",\"ST_TP_CONTRIBUINTE\",\"ST_TP_DOC\",\"ST_TP_DOC_PROC\",\"ST_TP_FNCRO\",\"ST_TP_FOS\",\"ST_TP_PEDIDO\",\"ST_TP_PESQ\",\"ST_TP_REG\",\"ST_TP_UTENTE\",\"ST_VALIDA\",\"SUBLINHADO\",\"TARGET\",\"TEMPO\",\"TESTE\",\"TESTE_DEPLOY\",\"TES_CX_STATUS\",\"TES_STATUS\",\"TES_T_POSTO\",\"TES_T_TESOURARIA\",\"TF\",\"TIMESTOPSUNITS\",\"TIME_UNITY\",\"TIPO\",\"TIPO_ANEXO\",\"TIPO_CUSTA\",\"TIPO_DOC_MOV\",\"TIPO_ESCALA\",\"TIPO_FILME\",\"TIPO_PD\",\"TIPO_PROTECAO\",\"TIPO_RECLAMAÇÃO\",\"TIPO_SALDO\",\"TIPO_UTENTE\",\"TIP_CONST\",\"TOPO_OBJ_COMP\",\"TOPO_PAR\",\"TP_ANO\",\"TP_APROVEITAMENTO\",\"TP_COMISSAO\",\"TP_COMPROMISS\",\"TP_CONTACTO\",\"TP_DIMENSAO_IND\",\"TP_DIVIDA\",\"TP_DOC\",\"TP_DOCUMENTO\",\"TP_DOC_CONS_EXT\",\"TP_DOC_INPS\",\"TP_DOC_NEGOCIOS\",\"TP_ENCAMINHAMENTO_CM\",\"TP_ENTIDADE\",\"TP_ENTITY\",\"TP_ESTADO\",\"TP_ESTADO_IRRE\",\"TP_ESTADO_IRREGULARIDADE\",\"TP_EXECUCAO\",\"TP_FERIA\",\"TP_FICHA\",\"TP_FONTE_DADO\",\"TP_FONTE_DADOS\",\"TP_FUNCIONARIO\",\"TP_FUNC_RH\",\"TP_GRAFICO\",\"TP_HORA\",\"TP_INSTITUICAO\",\"TP_INTERVENIENTE \",\"TP_INTERVINIENTE\",\"TP_LEIS\",\"TP_LOTE\",\"TP_LOTEAMENTO\",\"TP_MOVEL\",\"TP_NATUREZA\",\"TP_NUMERACAO\",\"TP_OCUPACAO\",\"TP_OPERACAO\",\"TP_ORIGEM\",\"TP_PARTILHA\",\"TP_PARTY\",\"TP_PERMISAO\",\"TP_PRESTADOR\",\"TP_Pessoa\",\"TP_RECLAMACAO\",\"TP_REP_GEOG\",\"TP_REQUERENTE\",\"TP_SOCIEDADE\",\"TP_TERMINAL\",\"TRIMESTRE\",\"TYPE_MULTI\",\"TYPE_PONDERAÇÃO\",\"T_REC\",\"Tipologia\",\"USERPROFILE\",\"USERSTATUS\",\"VAL_EXEC_OBRA\",\"VAL_FISC_OBRA\",\"VIA_LEVANTAMENTO\",\"VISTO_MNEC\",\"WF_COND\",\"WF_DOCTP_AUX\",\"WF_RUN_TYPE\",\"WF_STATUS\",\"WF_TIME_SCALE\",\"XXX\",\"YES_NO\",\"custa_t_tp_iten\",\"d_cad_tipologia\",\"mes_ref\",\"tp_recurso\",\"tp_stake\"]}";;
+		return Igrp.getInstance().getResponse().getWriter().append(json);
+	}
+	
+	public PrintWriter actionDomainsValues() throws IOException{
+		Igrp.getInstance().getResponse().setContentType("application/json");
+		 String json = "[{\"value\": \"Y\",\"text\": \"Sim\"},{\"value\": \"N\",\"text\": \"Nao\"}]";
+		 return Igrp.getInstance().getResponse().getWriter().append(json);
+	}
 	public Response actionIndex() throws IOException{
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null){
-			Action ac = new Action();
-			ac.setId(Integer.parseInt(id));
-			Action a = (Action) ac.getOne();
+			Action a = new Action();
+			a = a.findOne(Integer.parseInt(id));
 			if(a!=null){
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk(a.getEnv_fk());
+				model.setEnv_fk(a.getApplication().getId());
 				model.setP_action(a.getAction());
 				model.setP_page_descr(a.getPage_descr());
 				model.setPage(a.getPage());
 				model.setP_id(a.getId());
 				model.setP_version(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
-				model.setP_db_connection(a.getDb_connection());
-				model.setP_flg_internet(a.getFlg_internet());
-				model.setP_flg_menu(a.getFlg_menu());
-				model.setP_flg_offline(a.getFlg_offline());
-				model.setP_flg_transaction(a.getFlg_transaction());
-				model.setP_img_src(a.getImg_src());
-				model.setP_page_type(a.getPage_type());
-				model.setP_proc_name(a.getProc_name());
-				model.setP_self_fw_id(a.getSelf_fw_id());
-				model.setP_self_id(a.getSelf_id());
+//				model.setP_db_connection(a.getDb_connection());
+//				model.setP_flg_internet(a.getFlg_internet());
+//				model.setP_flg_menu(a.getFlg_menu());
+//				model.setP_flg_offline(a.getFlg_offline());
+//				model.setP_flg_transaction(a.getFlg_transaction());
+//				model.setP_img_src(a.getImg_src());
+//				model.setP_page_type(a.getPage_type());
+//				model.setP_proc_name(a.getProc_name());
+//				model.setP_self_fw_id(a.getSelf_fw_id());
+//				model.setP_self_id(a.getSelf_id());
 				model.setP_status(a.getStatus());
 			}
 		}
@@ -74,22 +88,22 @@ public class PageController extends Controller {
 		Page model = new Page();
 		
 		Action action = new Action();
-		action.setId(Integer.parseInt(id));
-		action = (Action) action.getOne();
+		action = action.findOne(Integer.parseInt(id));
 		
-		model.setEnv_fk(action.getEnv_fk());
+		model.setEnv_fk(action.getApplication().getId());
 		model.setP_version(action.getVersion());
 		model.setPage(action.getPage());
 		model.setAction_descr(action.getPage_descr());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();
-			action.setEnv_fk(model.getEnv_fk());
+			Application app = new Application();
+			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setVersion(model.getP_version());
 			action.setPage(model.getPage());
 			action.setPage_descr(model.getAction_descr());
-			
-			if(action.update())
+			action = action.update();
+			if(action!=null)
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Página atualizada com sucesso.");
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a página.");
@@ -109,43 +123,40 @@ public class PageController extends Controller {
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();
-			
+			model.load();			
 			Application app = new Application();
-			app.setId(model.getEnv_fk());
 			Action action = new Action();
 			action.setAction("index");
+			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setAction_descr(model.getAction_descr());
-			action.setTable_name(model.getP_table_name());
-			action.setFlg_transaction(model.getP_flg_transaction());
-			action.setDb_connection(model.getP_db_connection());
+//			action.setTable_name(model.getP_table_name());
+//			action.setFlg_transaction(model.getP_flg_transaction());
+//			action.setDb_connection(model.getP_db_connection());
 			action.setPage_descr(model.getAction_descr());
-			action.setFlg_internet(model.getP_flg_transaction());
-			action.setFlg_menu(model.getP_flg_menu());
-			action.setFlg_offline(model.getP_flg_offline());
-			action.setEnv_fk(model.getEnv_fk());
-			action.setSelf_fw_id(model.getP_self_id());
-			action.setImg_src(model.getP_img_src());
-			action.setXsl_src(model.getP_xsl_src());
-			action.setSelf_fw_id(model.getP_self_fw_id());
+//			action.setFlg_internet(model.getP_flg_transaction());
+//			action.setFlg_menu(model.getP_flg_menu());
+//			action.setFlg_offline(model.getP_flg_offline());
+//			action.setEnv_fk(model.getEnv_fk());
+//			action.setSelf_fw_id(model.getP_self_id());
+//			action.setImg_src(model.getP_img_src());
+//			action.setXsl_src(model.getP_xsl_src());
+//			action.setSelf_fw_id(model.getP_self_fw_id());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-			action.setPage_type(model.getP_page_type());
-			action.setProc_name(model.getP_proc_name());
+//			action.setPage_type(model.getP_page_type());
+//			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
 			action.setVersion(model.getP_version());
-			boolean result = false;
 			if(model.getP_id()!=0){
-				result = action.update();
+				action = action.update();
 			}else{
-				result = action.insert();
+				action = action.insert();
 			}
-			if(result){
-				Application dad = ((Application)app.getOne());
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+dad.getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(dad.getDad(), action.getPage(), action.getVersion());		
+			if(action!=null){
+				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
 				FileHelper.save(path_xsl, action.getPage()+".json", json);
-				if(FileHelper.fileExists(Config.getProject_loc())){
-					FileHelper.save(Config.getProject_loc()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+dad.getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				if(FileHelper.fileExists(Config.getWorkspace())){
+					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
 				}
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
@@ -158,8 +169,7 @@ public class PageController extends Controller {
 	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = new Action();
-		ac.setId(Integer.parseInt(id));
-		if(ac.delete())
+		if(ac.delete(Integer.parseInt(id)))
 			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
@@ -170,18 +180,18 @@ public class PageController extends Controller {
 	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
-		Object obj = new Action().getOne(Integer.parseInt(p_id));
-		if(obj!=null){
-			Action ac = (Action) obj;			
+		Action ac = new Action().findOne(Integer.parseInt(p_id));
+		if(ac!=null){			
 			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
-			String path_class = Igrp.getInstance().getRequest().getParameter("p_package");
-			path_class = path_class.replace(".","/") + "/" +ac.getPage().toLowerCase();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			String path_xsl_work_space = Config.getProject_loc()+"/WebContent/"+"images"+"/"+"IGRP"+"/"+"IGRP"+ac.getVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
-			String path_class_work_space = Config.getProject_loc() +"/src/"+ path_class;
+			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
+			path_class = path_class.replaceAll("(\r\n|\n)", "");
+			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
+			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
 			this.processJson(fileJson,ac);
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
@@ -197,7 +207,7 @@ public class PageController extends Controller {
 						CompilerHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
 						CompilerHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
 				){
-					if(FileHelper.fileExists(Config.getProject_loc())){
+					if(FileHelper.fileExists(Config.getWorkspace())){
 						if(!FileHelper.fileExists(path_class_work_space)){//check directory
 							FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 						}
@@ -209,7 +219,7 @@ public class PageController extends Controller {
 						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
 					}
 					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getEnv().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
+					ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 					ac.update();
 					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
@@ -280,14 +290,11 @@ public class PageController extends Controller {
 	private void saveTransaction(String name, String label, String action, String tag,Action ac) {
 		if(ac!=null && name!=null && tag!=null){
 			Transaction t = new Transaction();
-			String code = ac.getEnv().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
-			t.setCode(code);
-			if(((Transaction)t.getOne()).getCode()==null){
-				t.setCode(code);
-				t.setDescr(label);
-				t.setEnv_fk(ac.getEnv_fk());
-				t.setStatus(1);
-				t.insert();
+			String code = ac.getApplication().getDad().toLowerCase()+"_"+ac.getPage()+"_"+tag;
+			t = t.find().andWhere("code", "=", code).one();
+			if(t==null){
+				t = new Transaction(code, label, 1, ac.getApplication());
+				t = t.insert();
 			}
 		}
 	}
@@ -300,17 +307,19 @@ public class PageController extends Controller {
 	public PrintWriter actionListPage() throws IOException{
 		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
-		Object[] o = new Action().getAll(p_dad);
-		if(o!=null){
-			for(Object obj:o){
-				Action ac = (Action) obj;
+		Action a = new Action();
+		List<Action> actions = a.findAll(a.getCriteria().where(
+					a.getBuilder().equal(a.getRoot().join("application").get("dad"), p_dad)
+				));
+		if(actions!=null){
+			for(Action ac:actions){
 				json += "{";
 				json += "\"action\":\""+ac.getAction() +"\",";
-				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"app\":\""+ac.getApplication().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+(ac.getPage_descr()!=null?ac.getPage_descr():ac.getPage()) +"\",";
-				json += "\"link\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
+				json += "\"link\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
 		}
@@ -323,15 +332,15 @@ public class PageController extends Controller {
 	//get detail page
 	public PrintWriter actionDetailPage() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
-		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));		
+		Action ac = new Action().findOne(Integer.parseInt(p_id));		
 		String json = "{";
 		if(ac!=null){
 				json += "\"action\":\""+ac.getAction() +"\",";
 				json += "\"action_descr\":\""+ac.getAction_descr() +"\",";
-				json += "\"app\":\""+ac.getEnv().getDad() +"\",";
+				json += "\"app\":\""+ac.getApplication().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
+				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
@@ -353,14 +362,14 @@ public class PageController extends Controller {
 	
 	//Extracting reserve code inserted by programmer
 	public PrintWriter actionPreserveUrl() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");
+		Igrp.getInstance().getResponse().setContentType("application/xml");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String page = Igrp.getInstance().getRequest().getParameter("page");
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 		String ac = Igrp.getInstance().getRequest().getParameter("ac");
 		String your_code = "";
 		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
-			String basePath = Config.getProject_loc()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
+			String basePath = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
 			String controller = FileHelper.readFile(basePath, page+"Controller.java");
 			if(controller!=null && !controller.equals("")){
 				if(type.equals("c_import")){
@@ -377,6 +386,12 @@ public class PageController extends Controller {
 					int start = start_!=-1?controller.indexOf(Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER,start_):-1;
 					int end = start!=-1?controller.indexOf(Config.RESERVE_CODE_END,start):-1;
 					your_code = (start!=-1 && start_!=-1 && end!=-1)?controller.substring(start+Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER.length(), end):"";
+				}else if(ac!=null && !ac.equals("") && type.equals("exception_after_action")){
+					String actionName = "action"+ac;
+					int start_ = controller.indexOf(actionName);
+					int start = controller.indexOf("IOException",start_);
+					int end = start!=-1?controller.indexOf("{",start):-1;
+					your_code = (start_!=-1 && start!=-1 && end!=-1)?controller.substring(start+"IOException".length(), end):"";
 				}
 			}
 		}
@@ -390,11 +405,11 @@ public class PageController extends Controller {
 	
 	//View page with xml
 	public PrintWriter actionVisualizar() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");
+		Igrp.getInstance().getResponse().setContentType("application/xml");
 		String p_id = Igrp.getInstance().getRequest().getParameter("id");
-		Action ac = (Action) new Action().getOne(Integer.parseInt(p_id));	
+		Action ac = new Action().findOne(Integer.parseInt(p_id));	
 		if(ac!=null){			
-			String filename = Config.getResolvePathXsl(ac.getEnv().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
+			String filename = Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
 			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
 			InputStream inputStrem = context.getResourceAsStream(filename);
 	        if (inputStrem != null) {

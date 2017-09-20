@@ -14,7 +14,7 @@ var GENVIEW = function(name,params){
 		});
 	}
 	container.onFieldsXMLGenerate = function(str){
-		return container.GET.img() ? '<view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>' : "";
+		return container.GET.img() ? '<'+container.GET.tag()+'_img type="text" name="p_'+container.GET.tag()+'_img" maxlength="300"><value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value></'+container.GET.tag()+'_img>' : "";
 	}
 
 	container.onFieldSet = function(f){

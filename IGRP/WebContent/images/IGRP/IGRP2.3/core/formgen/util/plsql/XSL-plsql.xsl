@@ -8,7 +8,11 @@
     <xsl:include href="XSL-plsql.constants.xsl"/>
     
     <xsl:template match="/">
-
+        <xsl:text>-- SET DEFINE OFF;</xsl:text>
+        <xsl:value-of select="$enter"/>
+        <xsl:text>-- /</xsl:text>
+        <xsl:value-of select="$enter"/>
+        <xsl:value-of select="$enter"/>
         <xsl:call-template name="generateDBSpec">
             <xsl:with-param name="packageName" select="$packageDBName"/>
         </xsl:call-template> 

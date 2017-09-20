@@ -3,13 +3,14 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.errorpage;
+/*---- Import your packages here... ----*/
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-
 import java.io.IOException;
 
-
+/*---- End ----*/
 public class ErrorPageController extends Controller {		
 
 	/*public Response actionNotFound() throws IOException{

@@ -13,10 +13,13 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,7 +61,7 @@ public class FileHelper {
 			BufferedWriter bw = null;
 			FileWriter fw = null;
 			try {
-				File file = new File(path+"/"+file_name);
+				File file = new File(path+File.separator+file_name);
 				// if file doesnt exists, then create it
 				if (!file.exists()) {
 					file.createNewFile();
@@ -87,6 +90,34 @@ public class FileHelper {
 		return save(path,filename,convertToString(file));
 	}
 	
+	public static boolean saveFile(String path,String filename,Part file) throws IOException{
+		createDiretory(path);
+		OutputStream out = null;
+		InputStream filecontent = file.getInputStream();
+		boolean isSaved = false;
+		try {
+	        out = new FileOutputStream(new File(path + File.separator+ filename));
+	        filecontent = file.getInputStream();
+	        int read = 0;
+	        final byte[] bytes = new byte[1024];
+	        while ((read = filecontent.read(bytes)) != -1) {
+	            out.write(bytes, 0, read);
+	        }
+	        isSaved = true;
+	    } catch (FileNotFoundException e) {
+	    	isSaved = false;
+	    	System.err.println(e.getMessage());
+	    } finally {
+	        if (out != null) {
+	            out.close();
+	        }
+	        if (filecontent != null) {
+	            filecontent.close();
+	        }
+	    }
+		return isSaved;
+	}
+	
 	//Create directories
 	public static boolean createDiretory(String path){
 		Path dir = Paths.get(path);
@@ -109,7 +140,7 @@ public class FileHelper {
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
-		fileName = basePath+"/"+fileName;
+		fileName = basePath+File.separator+fileName;
 		if(fileExists(fileName)){
 			try {
 				InputStream is = new FileInputStream(new File(fileName));				
@@ -127,8 +158,6 @@ public class FileHelper {
 			} catch (IOException e) {
 				System.err.println(e.getMessage());
 			}
-		}else{
-			System.err.println("File not found");
 		}
 		return code.toString();
 	}

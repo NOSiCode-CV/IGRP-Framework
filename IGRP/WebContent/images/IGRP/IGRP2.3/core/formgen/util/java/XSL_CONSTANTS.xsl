@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xdb="http://xmlns.oracle.com/xdb" >
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
      <xsl:variable name="tab">
         <xsl:text>&#x9;</xsl:text>
@@ -19,11 +18,15 @@
         <xsl:text>&#x0A;</xsl:text>
     </xsl:variable>
     <xsl:variable name="double_quotes">"</xsl:variable>
+    <xsl:variable name="import_config">import nosi.core.config.Config;</xsl:variable>
     <xsl:variable name="import_components">import nosi.core.gui.components.*;</xsl:variable>
     <xsl:variable name="import_fields">import nosi.core.gui.fields.*;</xsl:variable>
     <xsl:variable name="import_view">import nosi.core.webapp.View;</xsl:variable>
     <xsl:variable name="import_model">import nosi.core.webapp.Model;</xsl:variable>
     <xsl:variable name="import_array_list">import java.util.ArrayList;</xsl:variable>
+    <xsl:variable name="import_list">import java.util.List;</xsl:variable>
+    <xsl:variable name="import_separator_list">import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:variable>
+    <xsl:variable name="import_separator_list_annotation">import nosi.core.webapp.SeparatorList;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
     <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
     <xsl:variable name="import_response">import nosi.core.webapp.Response;</xsl:variable>
@@ -70,6 +73,7 @@
       <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />
       <xsl:value-of select="translate(substring($text,2,string-length($text)-1),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')" />
     </xsl:template>
+ 
     <xsl:template name="upperCase">
         <xsl:param name="text"/>
         <xsl:value-of select="translate($text, $smallcase, $uppercase)"/>
@@ -158,6 +162,12 @@
     		</xsl:when>
     		<xsl:when test="$type='carousel'">
     			<xsl:value-of select="'IGRPCarousel'" />
+    		</xsl:when>
+    		<xsl:when test="$type='panels'">
+    			<xsl:value-of select="'IGRPPanel'" />
+    		</xsl:when>
+    		<xsl:when test="$type='treemenu'">
+    			<xsl:value-of select="'IGRPTreeMenu'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>

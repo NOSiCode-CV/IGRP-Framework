@@ -3,26 +3,42 @@
     position: relative;
 }
 
+.igrp-highmaps text{
+    font-size: 12px !important;
+}
+.highcharts-text-outline {
+    font-size: 12px !important;
+}
 .igrp-highmaps.is-home .mc-breadcrumb{
     visibility: hidden;
 }
 
-.igrp-highmaps .mc-legend-wrapper{
+.mc-breadcrumb{
+    padding: 5px 10px
+}
+
+.mc-breadcrumb.is-home{
+     visibility: hidden;
+}
+
+.mc-legend-wrapper{
 	text-align: center;
-    padding: 5px 0;
+    padding: 10px ;
+    margin-top: 15px;
 }
 
-.igrp-highmaps .mc-legend-wrapper:before{
-    position: 
-}
-
-.igrp-highmaps .mc-legend-item{
+.mc-legend-item{
 	display: inline-block;
 	margin-right: 5px;
     cursor: pointer;
 }
 
-.igrp-highmaps .mc-legend-color{
+.mc-legend-wrapper.block .mc-legend-item{
+    display: block;
+    text-align: left;
+}
+
+.mc-legend-color{
 	width: 12px;
     height: 12px;
     display: inline-block;
@@ -30,13 +46,14 @@
     top: 2px;
     margin-right: 4px;
     border-radius: 100%;
+    border:1px solid rgba(0,0,0,.2);
 }
 
-.igrp-highmaps .mc-legend-item[visible="false"] {
+.mc-legend-item[visible="false"] {
     opacity: .4
 }
 
-.igrp-highmaps .mc-breadcrumb .mc-bc-item{
+.mc-breadcrumb .mc-bc-item{
     font-size: 22px;
     cursor: pointer;
 }
@@ -51,4 +68,9 @@
 
 .highcharts-drillup-button{
     display: none;
+}
+
+.igrp-hm-tooltip ul {
+    margin:0;
+    padding: 0
 }

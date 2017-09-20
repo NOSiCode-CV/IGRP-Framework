@@ -4,3 +4,4 @@ target
 .settings/
 .project
 WebContent/WEB-INF/config/app/
+/src/

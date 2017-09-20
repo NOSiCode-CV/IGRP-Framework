@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/teste/Teste.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Teste</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Teste</title>
+        <calendar_1 type="calendar" xml-type="form" gen-remote="true" gen-type="container" gen-group="">
+            <fields>
+                <calendar_1_lang name="p_calendar_1_lang" type="text" maxlength="30">
+                    <label>Linguagem</label>
+                    <value>pt</value>
+                </calendar_1_lang>
+                <calendar_1_add name="p_calendar_1_add" type="link" maxlength="4000">
+                    <label>add Eventos</label>
+                    <value/>
+                </calendar_1_add>
+                <calendar_1_view name="p_calendar_1_view" type="text" maxlength="30">
+                    <label>Default View</label>
+                    <value/>
+                </calendar_1_view>
+                <calendar_1_date name="p_calendar_1_date" type="date" maxlength="30">
+                    <label>Default View</label>
+                    <value/>
+                </calendar_1_date>
+            </fields>
+        </calendar_1>
+        <calendar_1_events type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <calendar_1_title name="p_calendar_1_title" type="text" maxlength="200">
+                    <label>Titulo do Evento</label>
+                </calendar_1_title>
+                <calendar_1_description name="p_calendar_1_description" type="text" maxlength="400">
+                    <label>Descricao do evento</label>
+                </calendar_1_description>
+                <calendar_1_id name="p_calendar_1_id" type="text" maxlength="30">
+                    <label>ID do Evento</label>
+                </calendar_1_id>
+                <calendar_1_start name="p_calendar_1_start" type="date" maxlength="30">
+                    <label>Data Inicio do Evento</label>
+                </calendar_1_start>
+                <calendar_1_end name="p_calendar_1_end" type="date" maxlength="30">
+                    <label>Data Fim do Evento</label>
+                </calendar_1_end>
+                <calendar_1_bgcolor name="p_calendar_1_bgcolor" type="text" maxlength="30">
+                    <label>Cor de Fundo do Evento simboliza prioridade</label>
+                </calendar_1_bgcolor>
+                <calendar_1_allday name="p_calendar_1_allday" type="text" maxlength="30">
+                    <label>Evento Dia Todo (value Boolean)</label>
+                </calendar_1_allday>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <calendar_1_title>Event</calendar_1_title>
+                        <calendar_1_start>18-09-2017T10:00:00</calendar_1_start>
+                        <calendar_1_id>1</calendar_1_id>
+                        <calendar_1_end>18-09-2017T12:00:00</calendar_1_end>
+                        <calendar_1_allday>true</calendar_1_allday>
+                        <calendar_1_description>Event Event Event</calendar_1_description>
+                    </row>
+                </value>
+            </table>
+        </calendar_1_events>
+    </content>
+</rows>

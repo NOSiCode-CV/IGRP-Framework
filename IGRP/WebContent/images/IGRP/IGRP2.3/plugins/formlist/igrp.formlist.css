@@ -75,6 +75,13 @@ table td .input-group-btn{
 	vertical-align: middle;
 }
 
+.table.IGRP_formlist.noupdate .table-btn.add a,
+.table.IGRP_formlist.nodelete .table-btn.delete span,
+.table.IGRP_formlist.noupdate.nodelete .table-btn.add,
+.table.IGRP_formlist.noupdate.nodelete .table-btn.delete{
+	display: none;
+}
+
 .fl-box{
 	margin-bottom: 20px;
 	position: relative;

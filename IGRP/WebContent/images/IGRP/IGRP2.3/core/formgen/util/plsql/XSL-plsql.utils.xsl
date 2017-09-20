@@ -81,7 +81,8 @@
                             <xsl:with-param name="tag" select="$selfaction" />
                         </xsl:call-template>
                     </xsl:variable>
-                    <xsl:value-of select="concat( substring(translate($v1,'_',''),1,3),  substring(translate($v1,'_',''),-3) )"/>                                
+                    <!--<xsl:value-of select="concat( substring(translate($v1,'_',''),1,3),  substring(translate($v1,'_',''),-3) )"/>-->
+					<xsl:value-of select="concat(substring(translate($v1,'_',''),1,3),substring(translate($v1,'_',''),string-length(translate($v1,'_',''))-3+1))"/>					
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable> 

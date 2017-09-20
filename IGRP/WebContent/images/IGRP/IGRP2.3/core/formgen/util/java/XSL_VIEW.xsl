@@ -1,10 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xdb="http://xmlns.oracle.com/xdb" >
-
-    <xsl:output method="text" encoding="UTF-8" indent="no" />
-     <xsl:preserve-space elements="*"/>
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="text" encoding="UTF-8" indent="no"/>
 
     <!-- Join all templates to create view -->
     <xsl:template name="create-view">
@@ -52,9 +48,11 @@
 		<xsl:call-template name="config-chart"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
+		<!-- 
 		<xsl:call-template name="config-calendar"></xsl:call-template>
 		<xsl:value-of select="$newline"></xsl:value-of>
 		<xsl:value-of select="$tab"></xsl:value-of>
+		-->
 		<xsl:value-of select="'}'"></xsl:value-of>
 	</xsl:template>
 	
@@ -163,14 +161,7 @@
 	 	<xsl:choose>
 	 		<xsl:when test="$type='instance'">
 				<xsl:value-of select="$tab"/>
-	 			<xsl:choose>
-	 				<xsl:when test="$type_content='chart'">
-	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,',',$double_quotes,$title_,$double_quotes,');')"/>
-	 				</xsl:when>
-	 				<xsl:otherwise>	
-	 					<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,');')"/>
-	 				</xsl:otherwise>
-	 			</xsl:choose>
+	 			<xsl:value-of select="concat($instance_name,' = new ',$className,'(',$double_quotes,$instance_name,$double_quotes,',',$double_quotes,$title_,$double_quotes,');')"/>
 	 		</xsl:when>
 	 		<xsl:when test="$type='declare'">
 	 			<xsl:value-of select="concat('public ',$className,' ',$instance_name,';')"/>
@@ -196,6 +187,7 @@
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
 				<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
 			</xsl:call-template>
  		</xsl:for-each>
  		<xsl:call-template name="gen-toolsbar">
@@ -264,7 +256,7 @@
 			<xsl:value-of select="$newline"/>
  		</xsl:for-each>
 	</xsl:template>
-	
+	<!-- 
 	<xsl:template name="config-calendar">
 		<xsl:for-each select="//content/*[@type='calendar']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
@@ -278,4 +270,5 @@
 			<xsl:value-of select="$tab2"/>
  		</xsl:for-each>
 	</xsl:template>
+	-->
 </xsl:stylesheet>

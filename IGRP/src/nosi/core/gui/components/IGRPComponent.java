@@ -14,10 +14,15 @@ public abstract class IGRPComponent {
 	protected String tag_name;
 	protected FieldProperties properties;
 	
-	public IGRPComponent(String tag_name) {
+	public IGRPComponent(String tag_name,String title) {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.properties = new FieldProperties();
+		this.properties.put("title", title);
+	}
+	public IGRPComponent(String tag_name) {
+		this(tag_name,"");
 	}
 	public abstract String toString();
+
 }

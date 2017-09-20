@@ -1,0 +1,11 @@
+[role="form"] [item-type="range"] .slider{
+	margin-top: 12px;
+}
+
+[role="form"] [item-type="range"] .slider.slider-horizontal{
+	width: 100%;
+}
+
+[role="form"] [item-type="range"] .slider-selection{
+	background:#d2d2d2;
+}

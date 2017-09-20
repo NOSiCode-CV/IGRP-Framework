@@ -18,7 +18,7 @@ var GENFORM = function(name,params){
 
 	container.includes = {
 		xsl : [ 'form-utils'],
-		css : [ { path :'/core/igrp/form/igrp.forms.css' } ],
+		//css : [ { path :'/core/igrp/form/igrp.forms.css' } ],
 		js  : [ { path :'/core/igrp/form/igrp.forms.js'} ]
 	}
 
@@ -28,6 +28,7 @@ var GENFORM = function(name,params){
 			value:false,
 			xslValue:'btn btn-primary'
 		});*/
+		
 	}
 
 	container.onFileFieldSet = function(field){

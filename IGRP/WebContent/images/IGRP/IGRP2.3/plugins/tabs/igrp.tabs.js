@@ -1,33 +1,74 @@
 //switch tab
-$(function(){
-	if($.IGRP && !$.IGRP.components.tabcontent){
-		$.IGRP.components.tabcontent = {
-			events:{
-				list:['tabActive'],
-				tabActive:[]
-			},
-			on:function(event,callback){
-				for(var i = 0; i < $.IGRP.components.tabcontent.events.list.length; i++){
-					var declaredEvent = $.IGRP.components.tabcontent.events.list[i];
-					if(event == declaredEvent)
-						$.IGRP.components.tabcontent.events[event].push(callback);
+(function(){
+	
+	var com ;
+
+	$.IGRP.component('tabcontent',{
+
+		init:function(){
+
+			com = this;
+
+			com.events.declare(['tabActive']);
+
+			com.on = com.events.on;
+
+			$('body').on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
+
+				var target     = $( e.target ).attr("href"),
+
+			 		item       = $( e.target ).parent(),
+
+			 		name       = item.attr('item-name'),
+
+			 		tabcontent = item.parents('.gen-tab-holder').first(),
+
+			 		tabname    = tabcontent.attr('item-name'),
+
+			 		autoctrl   = tabcontent.hasClass('auto-control');
+
+			 	if(!autoctrl){	
+
+			 		$.IGRP.store.set({
+
+			 			name  : $.IGRP.getPageInfo()+':'+tabname+':active',
+
+			 			value : name
+
+			 		});
+
+			 	}
+
+			 	com.events.execute( 'tabActive',target );
+
+			});
+
+			$.each($('.gen-tab-holder >.nav-tabs'),function(i,tab){
+				
+				var parent   = $(tab).parent(),
+
+					autoctrl = parent.hasClass('auto-control');
+
+				if(!autoctrl){
+					
+					var parentName = parent.attr('item-name'),
+
+						activeName = $.IGRP.store.get($.IGRP.getPageInfo()+':'+parentName+':active'),
+
+						activeTab  = activeName ? $('[item-name="'+activeName+'"]>a',tab) : $('li:first-child>a',tab);
+
+						activeTab.click();
+				}else{
+
+					if( !$('li.active',tab)[0] )
+						$('li:first-child>a',tab).click();
+
 				}
-			},
-			execute:function(ev,params){
-				$.IGRP.components.tabcontent.events[ev].forEach(function(func){
-					try{
-						func(params);
-					}catch(e){
-						console.log(e);
-					}
-				});
-			}
+
+			});
+
 		}
-	}
 
-	$('body').on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
-	  var target = $(e.target).attr("href") // activated tab
-	  $.IGRP.components.tabcontent.execute('tabActive',target);
-	});
+	},true);
 
-});
+})();

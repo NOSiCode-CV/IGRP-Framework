@@ -1,17 +1,14 @@
 package nosi.core.webapp;
-
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXB;
-import java.io.File;
-import nosi.core.config.AppConfig;
-import nosi.core.dao.IgrpDb;
-import nosi.core.servlet.IgrpServlet;
 /**
  * @author Marcel Iekiny
  * Apr 14, 2017
  */
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import nosi.core.config.Config;
+import nosi.core.servlet.IgrpServlet;
+
 public class Igrp {
 	
 	private static Igrp app;
@@ -32,13 +29,6 @@ public class Igrp {
 	
 	private boolean die;
 	
-	// Store all igrp app config. information
-	private AppConfig appConfig;
-	
-	// Others Web Application Components
-	// Db component
-	private IgrpDb igrpDb;
-	
 	//Flash Message
 	private FlashMessage flashMessage;
 	
@@ -55,7 +45,7 @@ public class Igrp {
 		}
 	return Igrp.app;
 	}
-	
+
 	// Inicialize the web app components
 	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
@@ -67,14 +57,6 @@ public class Igrp {
 			this.homeUrl = "igrp/home/index";
 			
 			// init of others configuration
-			
-			// load app configuration
-			this.loadAppConfig();
-			
-			// Db pool
-			this.igrpDb = new IgrpDb();
-			this.igrpDb.init();
-			
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// User component (Identity)
@@ -84,14 +66,16 @@ public class Igrp {
 		return this;
 	}
 	
-	public void run() throws IOException{ // run the web app 
-		if(!this.die)
+	public void run() throws IOException{ // run the web app 	
+		Config.configurationApp();
+		if(!this.die){
 			this.runController();
+		}
 		this.exit();
 	}
 	
+	// Send the response ...
 	private void exit(){ // Destroy all app components init. before
-		this.igrpDb.destroy(); // destroy the Db pool
 		this.die = false;
 	}
 	
@@ -106,10 +90,6 @@ public class Igrp {
 	public void setServlet(IgrpServlet servlet) {
 		this.servlet = servlet;
 	}
-
-	public IgrpDb getDao(){
-		return this.igrpDb;
-	}
 	
 	public Controller getCurrentController(){
 		return this.controller;
@@ -121,6 +101,10 @@ public class Igrp {
 	
 	public HttpServletResponse getResponse(){
 		return this.response;
+	}
+	
+	public void setResponse(HttpServletResponse response){
+		this.response = response;
 	}
 	
 	public HttpServletRequest getRequest(){
@@ -175,15 +159,5 @@ public class Igrp {
 	public void die(){
 		this.die = true;
 	}
-	
-	private void loadAppConfig(){
-		String path = this.servlet.getServletContext().getRealPath("/WEB-INF/config/app/app.xml");
-		File file = new File(path);
-		this.appConfig = JAXB.unmarshal(file, AppConfig.class);
-	}
-	
-	public AppConfig getAppConfig(){
-		return this.appConfig;
-	}
-	
+
 }
