@@ -32,7 +32,7 @@ public class ConfigDBIGRP {
 		this.username = "root";
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
-		this.fileName = "db_igrp_core.properties";
+		this.fileName = "db_igrp_config.xml";
 		this.path = Config.getBasePathClass()+"igrp/config/db";
 	}
 	
@@ -40,7 +40,7 @@ public class ConfigDBIGRP {
 		try {
 			File file = new File(this.path+File.separator+this.fileName);
 			FileOutputStream out = new FileOutputStream(file);
-			this.generateConfig().store(out, "store config igrp database");//FileHelper.save(path, this.fileName, generateConfig());
+			this.generateConfig().storeToXML(out, "store config igrp database");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,11 +53,13 @@ public class ConfigDBIGRP {
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
-			fis = null;
-			e.printStackTrace();
+			fis = null;	
+			save();
+			this.load();
+			return;
 		}
 		try {
-			props.load(fis);
+			props.loadFromXML(fis);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{
