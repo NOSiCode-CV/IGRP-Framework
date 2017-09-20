@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import nosi.core.webapp.helpers.FileHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -33,11 +34,12 @@ public class ConfigDBIGRP {
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
-		this.path = Config.getBasePathClass()+"igrp/config/db";
+		this.path = Config.getBasePathClass()+"db";
 	}
 	
 	public void save(){
 		try {
+			FileHelper.createDiretory(this.path);
 			File file = new File(this.path+File.separator+this.fileName);
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
