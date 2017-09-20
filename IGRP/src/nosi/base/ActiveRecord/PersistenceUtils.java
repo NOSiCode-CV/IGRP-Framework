@@ -15,6 +15,7 @@ import java.util.List;
 public class PersistenceUtils {
 
 	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();	
+	
 	static{
 			init();
 	}
@@ -45,6 +46,7 @@ public class PersistenceUtils {
 			}
 		}
 	}
+	
 	private static void setConnection(String dbmsName,String connectioName,String url,String user,String password){
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+connectioName+".cfg.xml");
@@ -56,6 +58,7 @@ public class PersistenceUtils {
     	cfg.getProperties().setProperty("current_session_context_class","thread");
     	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
 		SessionFactory sf = cfg.buildSessionFactory();
+		
 		SESSION_FACTORY.put(connectioName, sf);
 	}
 	

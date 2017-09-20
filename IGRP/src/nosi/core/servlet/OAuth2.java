@@ -5,6 +5,9 @@ package nosi.core.servlet;
  */
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
@@ -83,6 +87,21 @@ public class OAuth2 extends HttpServlet {
 		String redirect_uri = request.getParameter("redirect_uri");
 		String scope = request.getParameter("scope");
 		
+		System.out.println(response_type);
+		System.out.println(client_id);
+		System.out.println(redirect_uri);
+		System.out.println(scope);
+		
+		String authorizationCode = RandomStringUtils.random(40);
+		System.out.println("Authorization Code: " + authorizationCode);
+		
+		/*try {
+			System.out.println(URLEncoder.encode("https://www.google.cv/?gws_rd=cr&dcr=0&ei=6VDCWYD_C8aqU-LCpugC", "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		
 		String loginUrl = "http://localhost:8080/IGRP/webapps?r=igrp/login/login&oauth=1";
 		loginUrl += response_type != null && !response_type.isEmpty() ? "&response_type=" + response_type : "";
 		loginUrl += client_id != null && !client_id.isEmpty() ? "&client_id=" + client_id : "";
@@ -90,16 +109,20 @@ public class OAuth2 extends HttpServlet {
 		loginUrl += scope != null && !scope.isEmpty() ? "&scope=" + scope : "";
 		//
 		try {
-			response.sendRedirect(loginUrl);
+			if(validateUri(response_type, client_id, redirect_uri, scope))
+				response.sendRedirect(loginUrl);
+			else
+				response.sendError(500, "Ocorreu um erro. O servidor oauth2 não pode continuar ...");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static String getAuthorizationCode(String response_type, String client_id, String redirect_uri, String scope) {
+	public static String getAuthorizationCode(String userCode, String response_type, String client_id, String redirect_uri, String scope) {
+		String result = null;
 		
-		return "";
+		return result;
 	}
 	
 	public static String getToken(String response_type, String client_id, String redirect_uri, String scope) {
@@ -138,8 +161,12 @@ public class OAuth2 extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-           
     	}
+	}
+	
+	public static void main(String []args) {
+		String authorizationCode = RandomStringUtils.randomAlphanumeric(40);
+		System.out.println("Authorization Code: " + authorizationCode);
 	}
 	
 }

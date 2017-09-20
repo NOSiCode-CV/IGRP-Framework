@@ -3,6 +3,8 @@ package nosi.webapps.igrp.dao;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,6 +18,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthScope extends BaseActiveRecord<OAuthScope> implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String scope;
 	private int is_default;
 	
