@@ -44,7 +44,7 @@ public class OAuth2 extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
     
-	public OAuth2() {
+	public OAuth2() { 
         super();
     }
 	
