@@ -63,7 +63,8 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("DataSource", "index", "nosi.core.webapp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, app));
 			actions.add(new Action("LookupListPage", "index", "nosi.core.webapp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, app));
 			actions.add(new Action("Migrate", "index", null, "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, app));
-
+			actions.add(new Action("OAuthClient", "index", "nosi.core.webapp.pages.oauthclient", "igrp/oauthclient/OAuthClient.xsl", "Inserir Dados dos clientes", "Inserir Dados dos clientes", "2.3", 1, app));
+			actions.add(new Action("OAuthClientList", "index", "nosi.core.webapp.pages.oauthclientlist", "igrp/oauthclientlist/OAuthClientList.xsl", "pesquisar Dados dos clientes", "pesquisar Dados dos clientes", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -87,6 +88,8 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
 			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			
+			menus.add(new Menu("OAuth Client", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
+			menus.add(new Menu("Listar Client Id", 1, 1, 0, "_self", actions.get(27), app, menus.get(0)));
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -105,6 +108,9 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(12, "MEN", prof0, user0, org));
 			profiles.add(new Profile(13, "MEN", prof0, user0, org));
 			profiles.add(new Profile(14, "MEN", prof0, user0, org));
+			profiles.add(new Profile(15, "MEN", prof0, user0, org));
+			profiles.add(new Profile(16, "MEN", prof0, user0, org));
+			
 			profiles.add(new Profile(4, "MEN", prof1, user0, org));
 			profiles.add(new Profile(5, "MEN", prof1, user0, org));
 			profiles.add(new Profile(6, "MEN", prof1, user0, org));
@@ -116,6 +122,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
 			profiles.add(new Profile(13, "MEN", prof1, user0, org));
 			profiles.add(new Profile(14, "MEN", prof1, user0, org));
+			profiles.add(new Profile(15, "MEN", prof1, user0, org));
+			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();

@@ -79,7 +79,7 @@ public class PersistenceUtils {
 	public static String getUrl(String type,String host,int port,String db_name){
 		switch (type) {
 			case "h2":			
-				return "jdbc:h2:"+host+"/"+db_name;
+				return host.equalsIgnoreCase("mem")?("jdbc:h2:"+host+":"+db_name):("jdbc:h2:"+host+"/"+db_name);
 			case "mysql":			
 				return "jdbc:mysql://"+host+":"+port+"/"+db_name;
 			case "postgresql":			
@@ -87,6 +87,6 @@ public class PersistenceUtils {
 			case "oracle":
 				return "jdbc:oracle:"+host+":"+port+":"+db_name;
 		}
-		return "jdbc:h2:./WebContent/WEB-INF/config/db/"+db_name;
+		return "";
 	}
 }

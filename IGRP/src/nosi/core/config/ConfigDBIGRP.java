@@ -1,6 +1,11 @@
 package nosi.core.config;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 import nosi.core.webapp.helpers.FileHelper;
 
 /**
@@ -28,36 +33,65 @@ public class ConfigDBIGRP {
 		this.username = "root";
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
-		this.fileName = "db_igrp.config";
-		this.path = Config.getRootPaht()+"igrp/config/db";
+		this.fileName = "db_igrp_config.xml";
+		this.path = Config.getBasePathClass()+"db";
 	}
 	
-	public boolean save(){
+	public void save(){
 		try {
-			return FileHelper.save(path, this.fileName, generateConfig());
+			FileHelper.createDiretory(this.path);
+			File file = new File(this.path+File.separator+this.fileName);
+			FileOutputStream out = new FileOutputStream(file);
+			this.generateConfig().storeToXML(out, "store config igrp database");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return false;
 	}
 	
 	public void load(){
-		String data = FileHelper.readFile(path, this.fileName);
-		if(data!=null && !data.equals("")){
-			String[] data_part = data.split(";");
-			this.port = Integer.parseInt(data_part[0]);
-			this.type_db = data_part[1];
-			this.host = data_part[2];
-			this.name_db = data_part[3];
-			this.username = data_part[4];
-			this.password = data_part[5];
-			this.name = data_part[6];
+		File file = new File(this.path+File.separator+this.fileName);
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+			save();
+			this.load();
+			return;
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if(props!=null){
+			this.port = Integer.parseInt(props.getProperty("port"));
+			this.type_db = props.getProperty("type_db");
+			this.host = props.getProperty("hostname");
+			this.name_db = props.getProperty("dbname");
+			this.username = props.getProperty("username");
+			this.password = props.getProperty("password");
+			this.name = props.getProperty("connectionName");
 		}
 	}
 	
-	private String generateConfig(){
-		return this.port+";"+this.type_db+";"+this.host+";"+this.name_db+";"+this.username+";"+this.password+";"+this.name+";";
+	private Properties generateConfig(){
+		Properties props = new Properties();
+		props.setProperty("port", ""+this.port);
+		props.setProperty("type_db", this.type_db);
+		props.setProperty("hostname", this.host);
+		props.setProperty("dbname", this.name_db);
+		props.setProperty("username", this.username);
+		props.setProperty("password", this.password);
+		props.setProperty("connectionName", this.name);
+		return props;
 	}
 
 	public int getPort() {

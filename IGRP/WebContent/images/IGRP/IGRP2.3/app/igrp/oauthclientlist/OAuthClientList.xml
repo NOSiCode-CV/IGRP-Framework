@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>OAuthClientList</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>OAuthClientList</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Lista dos dados do cliente</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Dados dos Clientes]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>URIs </label>
+                    <value>Elit aperiam officia stract la</value>
+                </uris_>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>OAuthClientList</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                    <target>submit</target>
+                    <img>default|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <client_id name="p_client_id" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Client ID</label>
+                </client_id>
+                <client_secret name="p_client_secret" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Client Secret</label>
+                </client_secret>
+                <uris name="p_uris" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>URIs</label>
+                </uris>
+                <scope name="p_scope" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Scope</label>
+                </scope>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <client_id name="p_client_id">Sed mollit unde ut elit</client_id>
+                        <client_secret name="p_client_secret">Accusantium stract sit perspic</client_secret>
+                        <uris name="p_uris">Accusantium adipiscing iste el</uris>
+                        <scope name="p_scope">Totam elit magna laudantium do</scope>
+                    </row>
+                    <row>
+                        <client_id name="p_client_id">Natus dolor aliqua mollit adip</client_id>
+                        <client_secret name="p_client_secret">Officia ut deserunt dolor adip</client_secret>
+                        <uris name="p_uris">Deserunt unde laudantium persp</uris>
+                        <scope name="p_scope">Natus deserunt unde amet rem</scope>
+                    </row>
+                    <row>
+                        <client_id name="p_client_id">Ut sed aperiam officia ut</client_id>
+                        <client_secret name="p_client_secret">Unde sed natus voluptatem sit</client_secret>
+                        <uris name="p_uris">Unde elit aperiam accusantium</uris>
+                        <scope name="p_scope">Omnis rem totam natus iste</scope>
+                    </row>
+                    <row>
+                        <client_id name="p_client_id">Iste doloremque mollit lorem d</client_id>
+                        <client_secret name="p_client_secret">Doloremque magna doloremque is</client_secret>
+                        <uris name="p_uris">Labore doloremque lorem totam</uris>
+                        <scope name="p_scope">Accusantium sed deserunt sit s</scope>
+                    </row>
+                    <row>
+                        <client_id name="p_client_id">Natus consectetur aperiam magn</client_id>
+                        <client_secret name="p_client_secret">Ipsum labore ut natus accusant</client_secret>
+                        <uris name="p_uris">Sed labore ipsum sit ut</uris>
+                        <scope name="p_scope">Consectetur elit rem consectet</scope>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

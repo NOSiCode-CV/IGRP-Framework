@@ -59,7 +59,6 @@ public class DataSourceView extends View {
 		pagina.propertie().add("name","p_pagina").add("type","lookup").add("action","index").add("page","DataSource").add("app","igrp").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		query = new TextAreaField(model,"query");
 		query.setLabel("Query");
-		query.setValue("Select * FROM nome_tabela");
 		query.propertie().add("name","p_query").add("type","textarea").add("maxlength","4000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		servico = new LookupField(model,"servico");
 		servico.setLabel("Servico");
@@ -77,7 +76,7 @@ public class DataSourceView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_fechar = new IGRPButton("Fechar","igrp","DataSource","fechar","_close","danger|fa-close","","");
+		btn_fechar = new IGRPButton("Fechar","","","","_close","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("code","").add("rel","fechar");
 		
 	}
