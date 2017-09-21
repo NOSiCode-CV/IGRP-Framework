@@ -527,4 +527,9 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		List<T> list = this.all();
 		return list!=null?(long)list.size():0;
 	}
+
+	public SessionFactory getEntityManagerFactory() {
+		return entityManagerFactory;
+	}
+	
 }

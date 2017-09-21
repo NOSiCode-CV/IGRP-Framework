@@ -18,7 +18,6 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthScope extends BaseActiveRecord<OAuthScope> implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String scope;
 	private int is_default;
 	

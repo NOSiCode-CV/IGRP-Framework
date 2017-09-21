@@ -23,7 +23,6 @@ import nosi.base.ActiveRecord.BaseActiveRecord;;
 public class OAuthClient extends BaseActiveRecord<OAuthClient> implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String client_id;
 	
 	private String client_secret;
@@ -97,4 +96,11 @@ public class OAuthClient extends BaseActiveRecord<OAuthClient> implements Serial
 	public void setOauthorizationCode(List<OAuthorizationCode> oauthorizationCode) {
 		this.oauthorizationCode = oauthorizationCode;
 	}
+
+	@Override
+	public String toString() {
+		return "OAuthClient [client_id=" + client_id + ", client_secret=" + client_secret + ", redirect_uri="
+				+ redirect_uri + ", grant_types=" + grant_types + ", scope=" + scope + "]";
+	}
+	
 }
