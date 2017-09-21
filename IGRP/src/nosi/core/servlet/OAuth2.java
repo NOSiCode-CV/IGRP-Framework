@@ -8,7 +8,9 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
 
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,19 +30,26 @@ import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.apache.oltu.oauth2.rs.response.OAuthRSResponse;
+import org.hibernate.Session;
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
+import nosi.webapps.igrp.dao.OAuthAccessToken;
+import nosi.webapps.igrp.dao.OAuthClient;
+import nosi.webapps.igrp.dao.OAuthorizationCode;
+import nosi.webapps.igrp.dao.User;
 
 @WebServlet
 public class OAuth2 extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
     
-	public OAuth2() {
+	public OAuth2() { 
         super();
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Config.configurationApp();
 		OAuth2.browserBasedApps(request, response);
 	}
 
@@ -55,7 +64,7 @@ public class OAuth2 extends HttpServlet {
 			case "authorization_code":
 				String redirect_uri = request.getParameter("redirect_uri");
 				String code = request.getParameter("code");
-				result = generateTokenByAuthCode(code, client_id, client_secret, redirect_uri);
+				result = generateTokenByAuthCode("2", code, client_id, client_secret, redirect_uri);
 				//
 			break;
 			case "password":
@@ -76,8 +85,69 @@ public class OAuth2 extends HttpServlet {
 		return json;
 	}
 	
-	private static String generateTokenByAuthCode(String code, String client_id, String client_secret, String redirect_uri) {
+	private static String generateTokenByAuthCode(String userCode, String code, String client_id, String client_secret, String redirect_uri) {
 		String json = "";
+		
+		OAuthClient authClient = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
+		OAuthorizationCode authorizationCode = new OAuthorizationCode().find().andWhere("authorization_code", "=", code).one();
+		
+		if(authClient == null)
+			throw new RuntimeException("ClientId Inválido.");
+		
+		if(!authClient.getClient_secret().equalsIgnoreCase(client_secret))
+			throw new RuntimeException("ClientSecret Inválido.");
+		
+		if(!authorizationCode.getAuthClient().getClient_id().equalsIgnoreCase(authClient.getClient_id()))
+			throw new RuntimeException("ClientId Inválido para o Code.");
+		
+		if(!(authorizationCode.getExpires().compareTo(System.currentTimeMillis() + "") > 0))
+			throw new RuntimeException("Code has been expired.");
+		
+		OAuthAccessToken accessToken = new OAuthAccessToken();
+		
+		Session session = authorizationCode.getEntityManagerFactory().openSession();
+		Query query = session.createQuery("select t from OAuthAccessToken t where t.client_id = :_c and t.user_id =  :_u ORDER BY t.expires DESC");
+		query.setParameter("_c", authClient.getClient_id());
+		query.setParameter("_u", userCode);
+		
+		List list = query.getResultList();
+		
+		OAuthAccessToken aux = new OAuthAccessToken();
+		aux.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
+		aux.setExpires("" + (System.currentTimeMillis() + 1000*60*2));
+		User user = new User();
+		user.setId(Integer.parseInt(userCode));
+		aux.setUser(user);
+		aux.setScope(authClient.getScope());
+		aux.setAuthClient(authClient);
+		
+		if(list != null && list.size() > 0) {
+			accessToken = (OAuthAccessToken) list.get(0);
+			if(accessToken.getExpires().compareTo(System.currentTimeMillis() + "") > 0) {
+				//
+			}else {
+				session.beginTransaction();
+				session.persist(aux);
+				session.getTransaction().commit();
+				System.out.println("Objecto registado com sucesso. Token1");
+				
+				json += "{" + "\"access_token\":" + aux.getAccess_token() + ", " +
+							"\"token_type\":\"bearer\" , " + 
+							"\"expires\":" + aux.getExpires() + ", " + 
+						 "}";
+				
+			}
+		}else {
+			session.beginTransaction();
+			session.persist(aux);
+			session.getTransaction().commit();
+			System.out.println("Objecto registado com sucesso. Token2");
+			json += "{" + "\"access_token\":" + aux.getAccess_token() + ", " +
+					"\"token_type\":\"bearer\" , " + 
+					"\"expires\":" + aux.getExpires() + ", " + 
+				 "}";
+		}
+		
 		return json;
 	}
 	
@@ -86,15 +156,7 @@ public class OAuth2 extends HttpServlet {
 		String client_id = request.getParameter("client_id");
 		String redirect_uri = request.getParameter("redirect_uri");
 		String scope = request.getParameter("scope");
-		
-		System.out.println(response_type);
-		System.out.println(client_id);
-		System.out.println(redirect_uri);
-		System.out.println(scope);
-		
-		String authorizationCode = RandomStringUtils.random(40);
-		System.out.println("Authorization Code: " + authorizationCode);
-		
+	
 		/*try {
 			System.out.println(URLEncoder.encode("https://www.google.cv/?gws_rd=cr&dcr=0&ei=6VDCWYD_C8aqU-LCpugC", "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
@@ -109,18 +171,91 @@ public class OAuth2 extends HttpServlet {
 		loginUrl += scope != null && !scope.isEmpty() ? "&scope=" + scope : "";
 		//
 		try {
-			if(validateUri(response_type, client_id, redirect_uri, scope))
-				response.sendRedirect(loginUrl);
+			if(validateUri(response_type, client_id, redirect_uri, scope)) {
+				//response.sendRedirect(loginUrl); 
+				try {	
+						String code = getAuthorizationCode("2", response_type, client_id, redirect_uri, scope);
+						System.out.println("Code: " + code);
+					}
+				catch(Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
 			else
 				response.sendError(500, "Ocorreu um erro. O servidor oauth2 não pode continuar ...");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
 	}
 	
 	public static String getAuthorizationCode(String userCode, String response_type, String client_id, String redirect_uri, String scope) {
-		String result = null;
+			String result = null;
+		
+			OAuthClient authClient = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
+			
+			System.out.println(authClient);
+			
+			if(authClient != null) {
+				
+				if(!authClient.getScope().equalsIgnoreCase(scope))
+					throw new RuntimeException("Scope Inválido.");
+				
+				if(!authClient.getRedirect_uri().equalsIgnoreCase(redirect_uri))
+					throw new RuntimeException("RedirectUri Inválido.");
+				
+				if(!(authClient.getUser().getId() + "").equalsIgnoreCase(userCode))
+					throw new RuntimeException("ClientId Inválido para o utilizador.");
+				
+				if(!authClient.getGrant_types().equalsIgnoreCase(response_type.equalsIgnoreCase("code") ? "authorization_code" : ""))
+					throw new RuntimeException("ResponseType inválido.");
+				
+				OAuthorizationCode authorizationCode = new OAuthorizationCode();
+				
+				Session session = authorizationCode.getEntityManagerFactory().openSession();
+				
+				Query query = session.createQuery("select t from OAuthorizationCode t where client_id = :_c and user_id = :_u and scope = :_s "
+						+ "and redirect_uri = :_uri ORDER BY t.expires DESC");
+				query.setParameter("_c", authClient.getClient_id() + "")
+				.setParameter("_u", authClient.getUser().getId() + "")
+				.setParameter("_s", authClient.getScope())
+				.setParameter("_uri", authClient.getRedirect_uri());
+				
+				List list = query.getResultList();
+				
+				OAuthorizationCode aux  = new OAuthorizationCode();
+				aux.setAuthClient(authClient);
+				aux.setExpires("" + (System.currentTimeMillis() + 1000*60*2)); // Expires -> 2 min.
+				aux.setScope(authClient.getScope());
+				aux.setRedirect_uri(authClient.getRedirect_uri());
+				aux.setAuthorization_code(RandomStringUtils.randomAlphanumeric(40));
+				User user = new User();
+				user.setId(Integer.parseInt(userCode));
+				aux.setUser(user);
+				
+				if(list != null && list.size() > 0) {
+					authorizationCode = (OAuthorizationCode) list.get(0);
+					System.out.println(authorizationCode.getExpires());
+					String time = System.currentTimeMillis() + "";
+					if(authorizationCode.getExpires().compareTo(time + "") > 0) {
+						result = authorizationCode.getAuthorization_code();
+					}else {
+						session.beginTransaction();
+						session.persist(aux);
+						session.getTransaction().commit();
+						result = aux.getAuthorization_code();
+						System.out.println("Objecto registado com sucesso.");
+					}
+				}else { 
+					session.beginTransaction();
+					session.persist(aux);
+					session.getTransaction().commit();
+					result = aux.getAuthorization_code();
+					System.out.println("Objecto registado com sucesso.");
+				}
+				
+			}else
+				throw new RuntimeException("ClientId Inválido.");
 		
 		return result;
 	}

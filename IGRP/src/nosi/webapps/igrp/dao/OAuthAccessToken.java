@@ -21,7 +21,6 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String access_token;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
