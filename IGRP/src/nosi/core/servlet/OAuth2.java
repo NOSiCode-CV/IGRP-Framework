@@ -156,7 +156,7 @@ public class OAuth2 extends HttpServlet {
 		String client_id = request.getParameter("client_id");
 		String redirect_uri = request.getParameter("redirect_uri");
 		String scope = request.getParameter("scope");
-	
+		
 		/*try {
 			System.out.println(URLEncoder.encode("https://www.google.cv/?gws_rd=cr&dcr=0&ei=6VDCWYD_C8aqU-LCpugC", "UTF-8"));
 		} catch (UnsupportedEncodingException e1) {
@@ -194,7 +194,7 @@ public class OAuth2 extends HttpServlet {
 		
 			OAuthClient authClient = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
 			
-			System.out.println(authClient);
+			//System.out.println(authClient);
 			
 			if(authClient != null) {
 				
@@ -297,11 +297,6 @@ public class OAuth2 extends HttpServlet {
 				e.printStackTrace();
 			}
     	}
-	}
-	
-	public static void main(String []args) {
-		String authorizationCode = RandomStringUtils.randomAlphanumeric(40);
-		System.out.println("Authorization Code: " + authorizationCode);
 	}
 	
 }
