@@ -32,7 +32,7 @@
         <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Lista dos dados do cliente</title>
+        <title>pesquisar Dados dos clientes</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -46,16 +46,16 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Elit aperiam officia stract la</value>
+                    <value>Mollit voluptatem stract aperi</value>
                 </uris_>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="default" rel="pesquisar">
                     <title>Pesquisar</title>
-                    <app>igrp</app>
-                    <page>OAuthClientList</page>
-                    <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                    <app/>
+                    <page/>
+                    <link/>
+                    <parameter>undefined?</parameter>
                     <target>submit</target>
                     <img>default|fa-search</img>
                 </item>
@@ -75,40 +75,86 @@
                 <scope name="p_scope" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Scope</label>
                 </scope>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <client_id name="p_client_id">Sed mollit unde ut elit</client_id>
-                        <client_secret name="p_client_secret">Accusantium stract sit perspic</client_secret>
-                        <uris name="p_uris">Accusantium adipiscing iste el</uris>
-                        <scope name="p_scope">Totam elit magna laudantium do</scope>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <client_id name="p_client_id">Aliqua mollit laudantium accus</client_id>
+                        <client_secret name="p_client_secret">Consectetur stract elit sed la</client_secret>
+                        <uris name="p_uris">Mollit perspiciatis dolor accu</uris>
+                        <scope name="p_scope">Aperiam perspiciatis natus ani</scope>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <client_id name="p_client_id">Natus dolor aliqua mollit adip</client_id>
-                        <client_secret name="p_client_secret">Officia ut deserunt dolor adip</client_secret>
-                        <uris name="p_uris">Deserunt unde laudantium persp</uris>
-                        <scope name="p_scope">Natus deserunt unde amet rem</scope>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <client_id name="p_client_id">Amet adipiscing omnis ipsum ut</client_id>
+                        <client_secret name="p_client_secret">Natus iste ipsum ut natus</client_secret>
+                        <uris name="p_uris">Deserunt consectetur voluptate</uris>
+                        <scope name="p_scope">Voluptatem laudantium totam is</scope>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <client_id name="p_client_id">Ut sed aperiam officia ut</client_id>
-                        <client_secret name="p_client_secret">Unde sed natus voluptatem sit</client_secret>
-                        <uris name="p_uris">Unde elit aperiam accusantium</uris>
-                        <scope name="p_scope">Omnis rem totam natus iste</scope>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <client_id name="p_client_id">Perspiciatis lorem iste labore</client_id>
+                        <client_secret name="p_client_secret">Laudantium ipsum sed officia i</client_secret>
+                        <uris name="p_uris">Dolor sit totam anim ut</uris>
+                        <scope name="p_scope">Omnis sed magna dolor elit</scope>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <client_id name="p_client_id">Iste doloremque mollit lorem d</client_id>
-                        <client_secret name="p_client_secret">Doloremque magna doloremque is</client_secret>
-                        <uris name="p_uris">Labore doloremque lorem totam</uris>
-                        <scope name="p_scope">Accusantium sed deserunt sit s</scope>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <client_id name="p_client_id">Doloremque consectetur dolorem</client_id>
+                        <client_secret name="p_client_secret">Mollit voluptatem totam magna</client_secret>
+                        <uris name="p_uris">Natus sit aliqua deserunt aper</uris>
+                        <scope name="p_scope">Sit amet ut sit aliqua</scope>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <client_id name="p_client_id">Natus consectetur aperiam magn</client_id>
-                        <client_secret name="p_client_secret">Ipsum labore ut natus accusant</client_secret>
-                        <uris name="p_uris">Sed labore ipsum sit ut</uris>
-                        <scope name="p_scope">Consectetur elit rem consectet</scope>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <client_id name="p_client_id">Unde natus laudantium amet adi</client_id>
+                        <client_secret name="p_client_secret">Officia omnis ipsum omnis aliq</client_secret>
+                        <uris name="p_uris">Amet anim stract adipiscing de</uris>
+                        <scope name="p_scope">Deserunt rem amet doloremque a</scope>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="button_1">
+                        <title>Button</title>
+                        <app>igrp</app>
+                        <page>OAuthClientList</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                        <target>submit</target>
+                        <img>warning|fa-edit</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="apagar">
+                        <title>Apagar</title>
+                        <app>igrp</app>
+                        <page>OAuthClientList</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                        <target>alert_submit</target>
+                        <img>danger|fa-remove</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>
