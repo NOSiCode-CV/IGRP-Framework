@@ -42,6 +42,7 @@ public class OAuthClientList extends Model{
 		private String client_secret;
 		private String uris;
 		private String scope;
+		private String p_id;
 		public void setClient_id(String client_id){
 			this.client_id = client_id;
 		}
@@ -68,6 +69,13 @@ public class OAuthClientList extends Model{
 		}
 		public String getScope(){
 			return this.scope;
+		}
+
+		public void setP_id(String p_id){
+			this.p_id = p_id;
+		}
+		public String getP_id(){
+			return this.p_id;
 		}
 
 	}
