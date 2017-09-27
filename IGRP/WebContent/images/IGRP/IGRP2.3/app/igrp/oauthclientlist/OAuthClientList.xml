@@ -46,7 +46,7 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Mollit voluptatem stract aperi</value>
+                    <value>Doloremque rem accusantium ist</value>
                 </uris_>
             </fields>
             <tools-bar>
@@ -84,10 +84,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Aliqua mollit laudantium accus</client_id>
-                        <client_secret name="p_client_secret">Consectetur stract elit sed la</client_secret>
-                        <uris name="p_uris">Mollit perspiciatis dolor accu</uris>
-                        <scope name="p_scope">Aperiam perspiciatis natus ani</scope>
+                        <client_id name="p_client_id">Consectetur rem officia stract</client_id>
+                        <client_secret name="p_client_secret">Officia aperiam laudantium ut</client_secret>
+                        <uris name="p_uris">Perspiciatis sed mollit amet o</uris>
+                        <scope name="p_scope">Iste accusantium adipiscing of</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -95,10 +95,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Amet adipiscing omnis ipsum ut</client_id>
-                        <client_secret name="p_client_secret">Natus iste ipsum ut natus</client_secret>
-                        <uris name="p_uris">Deserunt consectetur voluptate</uris>
-                        <scope name="p_scope">Voluptatem laudantium totam is</scope>
+                        <client_id name="p_client_id">Rem sit ut laudantium anim</client_id>
+                        <client_secret name="p_client_secret">Natus rem consectetur adipisci</client_secret>
+                        <uris name="p_uris">Labore natus aperiam mollit mo</uris>
+                        <scope name="p_scope">Magna unde omnis amet laudanti</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -106,10 +106,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Perspiciatis lorem iste labore</client_id>
-                        <client_secret name="p_client_secret">Laudantium ipsum sed officia i</client_secret>
-                        <uris name="p_uris">Dolor sit totam anim ut</uris>
-                        <scope name="p_scope">Omnis sed magna dolor elit</scope>
+                        <client_id name="p_client_id">Accusantium aperiam anim molli</client_id>
+                        <client_secret name="p_client_secret">Officia lorem aliqua sed molli</client_secret>
+                        <uris name="p_uris">Adipiscing labore unde labore</uris>
+                        <scope name="p_scope">Ipsum omnis aperiam natus ut</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -117,10 +117,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Doloremque consectetur dolorem</client_id>
-                        <client_secret name="p_client_secret">Mollit voluptatem totam magna</client_secret>
-                        <uris name="p_uris">Natus sit aliqua deserunt aper</uris>
-                        <scope name="p_scope">Sit amet ut sit aliqua</scope>
+                        <client_id name="p_client_id">Elit labore sed stract omnis</client_id>
+                        <client_secret name="p_client_secret">Sed lorem ut consectetur offic</client_secret>
+                        <uris name="p_uris">Amet omnis consectetur mollit</uris>
+                        <scope name="p_scope">Labore anim sit ipsum sed</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -128,10 +128,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Unde natus laudantium amet adi</client_id>
-                        <client_secret name="p_client_secret">Officia omnis ipsum omnis aliq</client_secret>
-                        <uris name="p_uris">Amet anim stract adipiscing de</uris>
-                        <scope name="p_scope">Deserunt rem amet doloremque a</scope>
+                        <client_id name="p_client_id">Voluptatem sit aperiam adipisc</client_id>
+                        <client_secret name="p_client_secret">Rem unde ipsum magna stract</client_secret>
+                        <uris name="p_uris">Elit rem sit iste amet</uris>
+                        <scope name="p_scope">Stract labore ipsum rem elit</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -153,6 +153,15 @@
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
                         <target>alert_submit</target>
                         <img>danger|fa-remove</img>
+                    </item>
+                    <item type="specific" code="" class="primary" rel="refresh">
+                        <title>Refresh</title>
+                        <app>igrp</app>
+                        <page>OAuthClientList</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                        <target>alert_submit</target>
+                        <img>primary|fa-refresh</img>
                     </item>
                 </context-menu>
             </table>
