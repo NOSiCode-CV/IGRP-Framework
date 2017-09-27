@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import nosi.core.webapp.helpers.Permission;
+import nosi.webapps.igrp.pages.login.LoginController;
 /**
  * @author Marcel Iekiny
  * Apr 18, 2017
@@ -66,10 +67,13 @@ public class User implements Component{
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 				//Route.remember(); // remember the url that was requested by the client ...
-				Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
+				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
+				LoginController controller = new LoginController();
+				Response response = controller.actionGoToLogin();
+				controller.setResponseWrapper(response);
+				Igrp.getInstance().setCurrentController(controller);
 				Igrp.getInstance().die();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

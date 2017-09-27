@@ -6,6 +6,7 @@ package nosi.core.webapp;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.servlet.IgrpServlet;
 
@@ -56,8 +57,11 @@ public class Igrp {
 			this.baseRoute = this.request.getServletPath();
 			this.homeUrl = "igrp/home/index";
 			
-			// init of others configuration
+			// init. of others configuration
 			this.flashMessage = new FlashMessage(); // Flash Message instance
+			
+			// Config. of RDBMS or others DS ...
+			PersistenceUtils.init();
 			
 			// User component (Identity)
 			this.user = new User();
@@ -74,8 +78,9 @@ public class Igrp {
 		this.exit();
 	}
 	
-	// Send the response ...
-	private void exit(){ // Destroy all app components init. before
+	// Exit and Send the response ...
+	private void exit(){
+		Controller.sendResponse();
 		this.die = false;
 	}
 	
@@ -159,5 +164,4 @@ public class Igrp {
 	public void die(){
 		this.die = true;
 	}
-
 }

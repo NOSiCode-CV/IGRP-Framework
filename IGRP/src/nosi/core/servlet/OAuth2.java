@@ -49,7 +49,7 @@ public class OAuth2 extends HttpServlet {
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Config.configurationApp();
+		//Config.configurationApp();
 		OAuth2.browserBasedApps(request, response);
 	}
 
@@ -57,14 +57,18 @@ public class OAuth2 extends HttpServlet {
 		String grant_type = request.getParameter("grant_type");
 		String client_id = request.getParameter("client_id");
 		String client_secret = request.getParameter("client_secret");
-
+		
+		System.out.println(request.getContentType());
+		
+		System.out.println("Grant-Type: " + grant_type);
+		
 		String result = "{\"error\":\"Invalid Request ...\"}";
 		
 		switch(grant_type) {
 			case "authorization_code":
 				String redirect_uri = request.getParameter("redirect_uri");
 				String code = request.getParameter("code");
-				result = generateTokenByAuthCode("2", code, client_id, client_secret, redirect_uri);
+				result = generateTokenByAuthCode(code, client_id, client_secret, redirect_uri);
 				//
 			break;
 			case "password":
@@ -85,7 +89,7 @@ public class OAuth2 extends HttpServlet {
 		return json;
 	}
 	
-	private static String generateTokenByAuthCode(String userCode, String code, String client_id, String client_secret, String redirect_uri) {
+	private static String generateTokenByAuthCode(String code, String client_id, String client_secret, String redirect_uri) {
 		String json = "";
 		
 		OAuthClient authClient = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
@@ -108,7 +112,7 @@ public class OAuth2 extends HttpServlet {
 		Session session = authorizationCode.getEntityManagerFactory().openSession();
 		Query query = session.createQuery("select t from OAuthAccessToken t where t.client_id = :_c and t.user_id =  :_u ORDER BY t.expires DESC");
 		query.setParameter("_c", authClient.getClient_id());
-		query.setParameter("_u", userCode);
+		query.setParameter("_u", authorizationCode.getUser().getId());
 		
 		List list = query.getResultList();
 		
@@ -116,7 +120,7 @@ public class OAuth2 extends HttpServlet {
 		aux.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
 		aux.setExpires("" + (System.currentTimeMillis() + 1000*60*2));
 		User user = new User();
-		user.setId(Integer.parseInt(userCode));
+		user.setId(authorizationCode.getUser().getId());
 		aux.setUser(user);
 		aux.setScope(authClient.getScope());
 		aux.setAuthClient(authClient);
@@ -171,20 +175,16 @@ public class OAuth2 extends HttpServlet {
 		loginUrl += scope != null && !scope.isEmpty() ? "&scope=" + scope : "";
 		//
 		try {
-			if(validateUri(response_type, client_id, redirect_uri, scope)) {
-				//response.sendRedirect(loginUrl); 
-				try {	
-						String code = getAuthorizationCode("2", response_type, client_id, redirect_uri, scope);
-						System.out.println("Code: " + code);
+			if(validateUri(response_type, client_id, redirect_uri, scope)) { 
+				try {
+						response.sendRedirect(loginUrl);
 					}
 				catch(Exception e) {
 					System.out.println(e.getMessage());
 				}
-			}
-			else
+			}else
 				response.sendError(500, "Ocorreu um erro. O servidor oauth2 não pode continuar ...");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
 	}
@@ -228,7 +228,7 @@ public class OAuth2 extends HttpServlet {
 				aux.setExpires("" + (System.currentTimeMillis() + 1000*60*2)); // Expires -> 2 min.
 				aux.setScope(authClient.getScope());
 				aux.setRedirect_uri(authClient.getRedirect_uri());
-				aux.setAuthorization_code(RandomStringUtils.randomAlphanumeric(40));
+				aux.setAuthorization_code(java.util.UUID.randomUUID().toString().replaceAll("-", "")); // RandomStringUtils.randomAlphanumeric(40) is not unique but random
 				User user = new User();
 				user.setId(Integer.parseInt(userCode));
 				aux.setUser(user);
