@@ -1,6 +1,9 @@
 package nosi.core.webapp;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+
+import javax.servlet.ServletException;
 
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
@@ -16,6 +19,16 @@ public abstract class Controller {
 	protected String format = Response.FORMAT_XML;
 	private boolean isRedirect; // To specify when to redirect or render the content ... (Detected by the bug with flash message)
 	
+	private Response responseWrapper;
+	
+	public Response getResponseWrapper() {
+		return responseWrapper;
+	}
+
+	public void setResponseWrapper(Response responseWrapper) {
+		this.responseWrapper = responseWrapper;
+	}
+
 	public Controller(){
 		this.view = null;
 		this.isRedirect = false; // Default value ...
@@ -28,8 +41,10 @@ public abstract class Controller {
 			view.setContext(this); // associa controller ao view
 			this.view.render();
 			String result = this.view.getPage().renderContent(!isRenderPartial);
-			resp.setContentType(this.format);
 			resp.setType(1);
+			resp.setCharacterEncoding(Response.CHARSET_UTF_8);
+			resp.setContentType(Response.FORMAT_XML);
+			resp.setHttpStatus(HttpStatus.STATUS_200);
 			resp.setContent(result);
 		}
 		return resp;
@@ -43,13 +58,9 @@ public abstract class Controller {
 		Response resp = new Response();
 		resp.setType(2);
 		resp.setContentType(this.format);
+		resp.setUrl(url);
+		resp.setHttpStatus(HttpStatus.STATUS_200);
 		this.isRedirect = true;
-		try {
-			Igrp.getInstance().getResponse().sendRedirect("webapps" + url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return resp;
 	}
 	
@@ -76,14 +87,16 @@ public abstract class Controller {
 	protected final Response redirectToUrl(String url){
 		Response resp = new Response();
 		resp.setType(2);
-		resp.setContentType(this.format);
+		resp.setUrl(url);
+		resp.setHttpStatus(HttpStatus.STATUS_200);
 		this.isRedirect = true;
-		try {
-			Igrp.getInstance().getResponse().sendRedirect(url);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return resp;
+	}
+	
+	protected final Response forward(String app, String page, String action) {
+		Response resp = new Response();
+		resp.setType(3);
+		resp.setUrl(Route.toUrl(app, page, action));
 		return resp;
 	}
 	
@@ -95,18 +108,15 @@ public abstract class Controller {
 	
 	public static void initControllerNRunAction() throws IOException{
 		resolveRoute(); // (1)
-		render(); // (3)
+		prepareResponse(); // (2)
 	}
 	
-	private static void render() throws IOException{
+	private static void prepareResponse() throws IOException{
 		 Object obj = run();
-		 if(obj instanceof Response){
+		 if(obj != null && obj instanceof Response){
 			 Response resp = (Response) obj;
-			 if(resp!=null && resp.getType()==1){
-					Igrp app = Igrp.getInstance();
-					app.setResponse(resp);
-					app.getResponse().getWriter().append(resp.getContent());
-			 }
+			 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
+				//Igrp.getInstance().setResponse(resp);
 		 }
 	}
 	
@@ -142,6 +152,46 @@ public abstract class Controller {
 		auxActionName = "action" + auxActionName;
 		auxcontrollerPath = Config.getPackage(auxAppName,auxPageName,auxActionName);
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
+	}
+	
+	public static void sendResponse() {
+		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
+		try {
+			switch(responseWrapper.getType()) {
+			case 1:
+					try {
+						Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 2:
+					boolean isAbsolute = false;
+					try {
+						String url = responseWrapper.getUrl();
+						try {
+							java.net.URI uri = java.net.URI.create(url);
+							isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
+						} catch (MalformedURLException e) { // Ensure the url format is perfect ...
+							isAbsolute = false;
+						}
+						Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 3:
+					try {
+						Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+					} catch (ServletException | IOException e) {
+						e.printStackTrace();
+					} 
+					break;
+				default:;
+			}
+		}catch(java.lang.NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//... Others methods ...

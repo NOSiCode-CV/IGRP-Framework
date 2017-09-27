@@ -107,7 +107,7 @@ public class EnvController extends Controller {
 	}
 //	
 //	//App list I have access to
-	public PrintWriter actionMyApps() throws IOException{
+	public Response actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 		List<Object[]> myApp = new Application().getMyApp();
@@ -149,9 +149,15 @@ public class EnvController extends Controller {
 			xml_menu.endElement();
 		}
 		xml_menu.endElement();
-		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
+		
+		Response response = new Response();
+		response.setCharacterEncoding(Response.CHARSET_UTF_8);
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent(xml_menu + "");
+		response.setType(1);
+		
+		return response;
 	}
-	
 	
 	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
 		Env model = new Env();		
@@ -212,10 +218,3 @@ public class EnvController extends Controller {
 		return this.redirect(app, p[1], p[2]);
 	}
 }
-
-
-
-
-
-
-

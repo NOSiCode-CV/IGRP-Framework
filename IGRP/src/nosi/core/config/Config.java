@@ -203,7 +203,7 @@ public class Config {
 		return basePackage;
 	}
 	
-	public static void configurationApp(){	
+	public static void configurationApp(){
 		if(!isInstall()){
 			MigrationIGRPInitConfig.start();
 			configSetInstall();

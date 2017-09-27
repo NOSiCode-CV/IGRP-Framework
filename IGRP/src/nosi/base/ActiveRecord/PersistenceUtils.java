@@ -16,15 +16,16 @@ public class PersistenceUtils {
 
 	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();	
 	
-	static{
-			init();
-	}
+	private static boolean isSuccessful = false; // For now this field is private
 	
 	public static void init(){
-		ConfigDBIGRP config = new ConfigDBIGRP();
-		config.load();
-		String url = getUrl(config.getType_db(),config.getHost(),config.getPort(), config.getName_db());
-		setConnection(config.getType_db(), config.getName(), url, config.getUsername(), config.getPassword());
+		if(!PersistenceUtils.isSuccessful) {
+			ConfigDBIGRP config = new ConfigDBIGRP();
+			config.load();
+			String url = getUrl(config.getType_db(),config.getHost(),config.getPort(), config.getName_db());
+			setConnection(config.getType_db(), config.getName(), url, config.getUsername(), config.getPassword());
+			PersistenceUtils.isSuccessful = true;
+		}
 	}
 	
 	public static void confiOtherConnections(){
