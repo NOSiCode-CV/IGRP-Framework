@@ -24,6 +24,7 @@ public class OAuthClientListView extends View {
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_button_1;
 	public IGRPButton btn_apagar;
+	public IGRPButton btn_refresh;
 	public OAuthClientListView(OAuthClientList model){
 		this.setPageTitle("pesquisar Dados dos clientes");
 			
@@ -62,10 +63,12 @@ public class OAuthClientListView extends View {
 
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","OAuthClientList","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		btn_button_1 = new IGRPButton("Button","igrp","OAuthClientList","editar","submit","warning|fa-edit","","");
+		btn_button_1 = new IGRPButton("Button","igrp","OAuthClientList","button_1","submit","warning|fa-edit","","");
 		btn_button_1.propertie.add("type","specific").add("code","").add("class","warning").add("rel","button_1");
 		btn_apagar = new IGRPButton("Apagar","igrp","OAuthClientList","apagar","alert_submit","danger|fa-remove","","");
 		btn_apagar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","apagar");
+		btn_refresh = new IGRPButton("Refresh","igrp","OAuthClientList","refresh","alert_submit","primary|fa-refresh","","");
+		btn_refresh.propertie.add("type","specific").add("code","").add("class","primary").add("rel","refresh");
 		
 	}
 		
@@ -85,6 +88,7 @@ public class OAuthClientListView extends View {
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_button_1);
 		table_1.addButton(btn_apagar);
+		table_1.addButton(btn_refresh);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);

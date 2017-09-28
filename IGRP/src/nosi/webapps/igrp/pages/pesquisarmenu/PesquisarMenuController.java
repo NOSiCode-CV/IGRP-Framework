@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -77,7 +78,7 @@ public class PesquisarMenuController extends Controller {
 	
 	
 	//Menu list I have access to
-	public PrintWriter actionMyMenu() throws IOException{
+	public Response actionMyMenu() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 		XMLWritter xml_menu = new XMLWritter();
@@ -107,7 +108,14 @@ public class PesquisarMenuController extends Controller {
 			}
 		}
 		xml_menu.endElement();
-		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
+		
+		Response response = new Response();
+		response.setCharacterEncoding(Response.CHARSET_UTF_8);
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent(xml_menu + "");
+		response.setType(1);
+		
+		return response;
 	}
 	
 	public Response actionMenu_base() throws IOException{

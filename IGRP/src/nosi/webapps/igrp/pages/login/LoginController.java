@@ -26,20 +26,6 @@ public class LoginController extends Controller {
 		
 		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			/*if(oauth2 != null && oauth2 == "1") {
-				switch(response_type) {
-				case "code":
-					String authorizationCode = OAuth2.getAuthorizationCode(response_type, client_id, redirect_uri, scope);
-					Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
-				break;
-				case "token": 
-					String token = "";
-					Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "#token=" + token);
-					break;
-				default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
-				}
-			return new Response(); // Bug here ...
-			}*/
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		
@@ -56,11 +42,8 @@ public class LoginController extends Controller {
 			switch(Config.getAutenticationType()){
 			
 				case "db": 
-					if(oauth2 != null && oauth2 == "1") {
-						this.loginWithDbForAuth2(model.getUser(), model.getPassword(), response_type, client_id, redirect_uri, scope);
-					}
-					else
-						this.loginWithDb(model.getUser(), model.getPassword());
+					if(this.loginWithDb(model.getUser(), model.getPassword()))
+						return this.redirect("igrp", "home", "index"); // always go to home index url
 				break;
 				
 				case "ldap": this.loginWithLdap(); break;
@@ -68,11 +51,13 @@ public class LoginController extends Controller {
 				default:;
 			}
 		}
+		
 		return this.renderView(view,true);
 	}
 	
 	// Use default connectionName "db1" and default igrp user table
-	private void loginWithDb(String username, String password) throws IOException{
+	private boolean loginWithDb(String username, String password) throws IOException{
+		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
 			if(user.getStatus() == 1){				
@@ -81,7 +66,7 @@ public class LoginController extends Controller {
 						if(!Session.afterLogin(profile))
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
-						this.redirect("igrp", "home", "index"); // always go to home index url
+						success = true;
 					}
 					else
 						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
@@ -90,7 +75,7 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
-	
+		return success;
 	}
 	
 	private void  loginWithDbForAuth2(String username, String password, String response_type, String client_id, String redirect_uri, String scope) throws IOException {
@@ -104,15 +89,31 @@ public class LoginController extends Controller {
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
 						switch(response_type) {
+						
 							case "code":
-								String authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
-								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+								String authorizationCode = null;
+								try {
+									authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
+									if(authorizationCode != null)
+										Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+									else {
+										Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
+										Igrp.getInstance().getUser().logout();
+									}
+								}catch(Exception e) {
+									Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=" + e.getMessage());
+									Igrp.getInstance().getUser().logout();
+									return;
+								}
 							break;
+							
 							case "token": 
 								String token = "";
 								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?token=" + token);
 								break;
+								
 							default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
+						
 						}
 						
 					}
@@ -129,6 +130,10 @@ public class LoginController extends Controller {
 	// Use ldap protocol to make login
 	private void loginWithLdap(){
 		// Not set yet
+	}
+	
+	public Response actionGoToLogin() throws IOException {
+		return this.redirect("igrp", "login", "login");
 	}
 	
 	public Response actionLogout() throws IOException{

@@ -22,6 +22,7 @@ public class PesquisarUtilizadorController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		PesquisarUtilizador model = new PesquisarUtilizador();
+		
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();			
 		//condiccao para pesquisar com filtros
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
