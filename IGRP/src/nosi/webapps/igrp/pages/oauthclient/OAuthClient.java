@@ -1,10 +1,8 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.oauthclient;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
 
 public class OAuthClient extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -13,6 +11,10 @@ public class OAuthClient extends Model{
 	private String uris_de_redirecionamento;
 	@RParam(rParamName = "p_scope")
 	private String scope;
+	@RParam(rParamName = "p_clientID")
+	private String clientID;
+	@RParam(rParamName = "p_clientSecret")
+	private String clientSecret;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -33,6 +35,18 @@ public class OAuthClient extends Model{
 	}
 	public String getScope(){
 		return this.scope;
+	}
+	public String getClientID() {
+		return clientID;
+	}
+	public void setClientID(String clientID) {
+		this.clientID = clientID;
+	}
+	public String getClientSecret() {
+		return clientSecret;
+	}
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
 	}
 
 

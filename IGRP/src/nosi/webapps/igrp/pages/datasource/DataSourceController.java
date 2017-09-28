@@ -62,6 +62,7 @@ public class DataSourceController extends Controller {
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
 		//view.pagina.setValue(new Action().getListActions());
+		//view.pagina.setValue("&amp;p_prm_target=_blank&amp;p_cx_id=p_id_pagina&amp;p_cx_nome=p_pagina&amp;p_cx_nivel_saida=6");
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
 		if(ichange!=null && !ichange.equals("")){
 			if(model.getTipo().equalsIgnoreCase("object")){

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthClient;
 
@@ -20,7 +22,7 @@ public class OAuthClientListController extends Controller {
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		OAuthClientList model = new OAuthClientList();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -37,7 +39,7 @@ public class OAuthClientListController extends Controller {
 			tabela.setClient_secret(cliente.getClient_secret());
 			tabela.setUris(cliente.getRedirect_uri());
 			tabela.setScope(cliente.getScope());
-			tabela.setP_id(cliente.getClient_id());
+			tabela.setP_id(""+cliente.getId());
 			data.add(tabela);
 		}
 		
@@ -46,27 +48,27 @@ public class OAuthClientListController extends Controller {
 		view.btn_pesquisar.setLink("index");
 		view.p_id.setParam(true);
 		return this.renderView(view);
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","oauthclientlist","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
-	//botao editar
-	public Response actionEditar() throws IOException{
+
+	public Response actionButton_1() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("igrp","OAuthClient","index&id="+id);
+		return this.redirect("igrp","OAuthClient","index&p_id="+id);
 		/*---- End ----*/
 	}
 	
 
 	public Response actionApagar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id != null && !id.equals("")) {
 			OAuthClient cliente = new OAuthClient();
@@ -77,6 +79,26 @@ public class OAuthClientListController extends Controller {
 			else 
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
 		}
+		return this.redirect("igrp","OAuthClientList","index");
+			/*---- End ----*/
+	}
+	
+
+	public Response actionRefresh() throws IOException{
+		/*---- Insert your code here... ----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		OAuthClient cliente = new OAuthClient();
+		
+		cliente = cliente.findOne(id);
+		cliente.setClient_id(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
+		cliente.setClient_secret(RandomStringUtils.randomAlphabetic(40));
+		cliente = cliente.update();
+		
+		if(cliente != null) 
+			Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
+		else 
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
+		
 		return this.redirect("igrp","OAuthClientList","index");
 		/*---- End ----*/
 	}
