@@ -23,6 +23,18 @@ public class TesteController extends Controller {
 		return this.renderView(view);
 		/*---- End ----*/
 	}
+
+	public Response actionEditEventsCalendar_1() throws IOException{
+		/*---- Insert your code here... ----*/
+		Teste model = new Teste();
+		//programming your save edit calendar
+		Response response = new Response();
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent("your message");
+		return response;
+		/*---- End ----*/
+	}
+
 	
 	public Response actionTest() throws IOException{
 		return this.forward("igrp", "home", "index");

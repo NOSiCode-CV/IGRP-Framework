@@ -18,7 +18,7 @@
     <app>igrp</app>
     <plsql>
         <action>index</action>
-        <package_instance>null</package_instance>
+        <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>Teste</package_html>
         <table_name></table_name>
@@ -81,9 +81,9 @@
                 <value>
                     <row>
                         <calendar_1_title>Event</calendar_1_title>
-                        <calendar_1_start>18-09-2017T10:00:00</calendar_1_start>
+                        <calendar_1_start>19-09-2017T10:00:00</calendar_1_start>
                         <calendar_1_id>1</calendar_1_id>
-                        <calendar_1_end>18-09-2017T12:00:00</calendar_1_end>
+                        <calendar_1_end>19-09-2017T12:00:00</calendar_1_end>
                         <calendar_1_allday>true</calendar_1_allday>
                         <calendar_1_description>Event Event Event</calendar_1_description>
                     </row>
