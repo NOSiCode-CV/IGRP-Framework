@@ -21,7 +21,8 @@ public class OAuthClientController extends Controller {
 	public Response actionIndex() throws IOException{
 		/*---- Insert your code here... ----*/
 		OAuthClient model = new OAuthClient();
-		String id = Igrp.getInstance().getRequest().getParameter("id");
+		
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id != null && !id.equals("")) {
 			nosi.webapps.igrp.dao.OAuthClient cliente = new nosi.webapps.igrp.dao.OAuthClient();
 			cliente = cliente.findOne(id);
@@ -31,6 +32,9 @@ public class OAuthClientController extends Controller {
 			}
 		}
 		OAuthClientView view = new OAuthClientView(model);
+		
+		if(id != null && !id.equals("")) 
+			view.btn_salvar.setLink("salvar&p_id="+id);
 		return this.renderView(view);
 		/*---- End ----*/
 	}
@@ -41,18 +45,23 @@ public class OAuthClientController extends Controller {
 		OAuthClient model = new OAuthClient();
 		nosi.webapps.igrp.dao.OAuthClient cliente = new nosi.webapps.igrp.dao.OAuthClient();
 		model.load();
-		//String id = Igrp.getInstance().getRequest().getParameter("id");
-		cliente.setRedirect_uri(model.getUris_de_redirecionamento());
-		cliente.setScope(model.getScope());
-		
-		//if(id != null && !id.equals("")) {
-			//cliente.setClient_id(id);
-			//cliente = cliente.update();
-		//}else {
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+				
+		if(id != null && !id.equals("")) {
+			cliente.setId(Integer.parseInt(id));
+			cliente = cliente.findOne(id);
+			cliente.setClient_id(cliente.getClient_id());
+			cliente.setRedirect_uri(model.getUris_de_redirecionamento());
+			cliente.setScope(model.getScope());
+			cliente.setClient_secret(cliente.getClient_secret());
+			cliente = cliente.update();
+		}else {
 			cliente.setClient_id(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 			cliente.setClient_secret(RandomStringUtils.randomAlphabetic(40));
+			cliente.setRedirect_uri(model.getUris_de_redirecionamento());
+			cliente.setScope(model.getScope());
 			cliente = cliente.insert();
-		//}
+		}
 		
 		if(cliente != null) {
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
