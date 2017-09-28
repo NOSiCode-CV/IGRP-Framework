@@ -21,5 +21,16 @@ public class TesteController extends Controller {
 		/*---- End ----*/
 	}
 
+	public Response actionEditEventsCalendar_1() throws IOException{
+		/*---- Insert your code here... ----*/
+		Teste model = new Teste();
+		//programming your save edit calendar
+		Response response = new Response();
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent("your message");
+		return response;
+		/*---- End ----*/
+	}
+
 	/*---- Insert your actions here... ----*//*---- End ----*/
 }
