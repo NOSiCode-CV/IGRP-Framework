@@ -155,7 +155,7 @@ public class Page extends Model{
 	public void setP_version(String p_version){
 		this.version = p_version;
 	}
-	public String getP_version(){
+	public String getVersion(){
 		return this.version;
 	}
 	

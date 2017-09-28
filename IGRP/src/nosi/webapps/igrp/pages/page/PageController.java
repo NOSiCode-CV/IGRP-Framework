@@ -102,7 +102,7 @@ public class PageController extends Controller {
 			model.load();
 			Application app = new Application();
 			action.setApplication(app.findOne(model.getEnv_fk()));
-			action.setVersion(model.getP_version());
+			action.setVersion(model.getVersion());
 			action.setPage(model.getPage());
 			action.setPage_descr(model.getAction_descr());
 			action = action.update();
@@ -132,23 +132,10 @@ public class PageController extends Controller {
 			action.setAction("index");
 			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setAction_descr(model.getAction_descr());
-//			action.setTable_name(model.getP_table_name());
-//			action.setFlg_transaction(model.getP_flg_transaction());
-//			action.setDb_connection(model.getP_db_connection());
 			action.setPage_descr(model.getAction_descr());
-//			action.setFlg_internet(model.getP_flg_transaction());
-//			action.setFlg_menu(model.getP_flg_menu());
-//			action.setFlg_offline(model.getP_flg_offline());
-//			action.setEnv_fk(model.getEnv_fk());
-//			action.setSelf_fw_id(model.getP_self_id());
-//			action.setImg_src(model.getP_img_src());
-//			action.setXsl_src(model.getP_xsl_src());
-//			action.setSelf_fw_id(model.getP_self_fw_id());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-//			action.setPage_type(model.getP_page_type());
-//			action.setProc_name(model.getP_proc_name());
 			action.setStatus(model.getP_status());
-			action.setVersion(model.getP_version());
+			action.setVersion(model.getVersion());
 			if(model.getP_id()!=0){
 				action = action.update();
 			}else{
