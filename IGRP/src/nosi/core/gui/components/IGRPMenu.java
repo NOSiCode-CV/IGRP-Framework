@@ -118,7 +118,7 @@ public class IGRPMenu extends IGRPComponent{
 			this.submenus = submenus;
 		}
 		
-		public void addSubMenu(String title,String link,String id, String status,String target){
+		public void addSubMenu(String title,String link,String id, boolean status,String target){
 			this.submenus.add(new SubMenu(title, link, id, status, target));
 		}
 		
@@ -130,10 +130,10 @@ public class IGRPMenu extends IGRPComponent{
 		private String title;
 		private String link;
 		private String id;
-		private String status;
+		private boolean status;
 		private String target;
 		
-		public SubMenu(String title, String link, String id, String status, String target) {
+		public SubMenu(String title, String link, String id, boolean status, String target) {
 			super();
 			this.title = title;
 			this.link = link;
@@ -160,10 +160,10 @@ public class IGRPMenu extends IGRPComponent{
 		public void setId(String id) {
 			this.id = id;
 		}
-		public String getStatus() {
+		public boolean getStatus() {
 			return status;
 		}
-		public void setStatus(String status) {
+		public void setStatus(boolean status) {
 			this.status = status;
 		}
 		public String getTarget() {
@@ -188,7 +188,7 @@ public class IGRPMenu extends IGRPComponent{
 								xml.setElement("title", submenu.getTitle());
 								xml.setElement("link", submenu.getLink());
 								xml.setElement("id", submenu.getId());
-								xml.setElement("status", submenu.getStatus());
+								xml.setElement("status", ""+submenu.getStatus());
 								xml.setElement("target", submenu.getTarget());
 							xml.endElement();
 						}
