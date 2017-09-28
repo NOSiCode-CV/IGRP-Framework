@@ -23,14 +23,14 @@ public class MapaProcessoController extends Controller {
 		MapaProcesso model = new MapaProcesso();
 		MapaProcessoView view = new MapaProcessoView(model);
 		List<IGRPMenu> listMenus = new ArrayList<>();
+		IGRPMenu menus = new IGRPMenu("Lista de Processos","webapps?r=");
+		IGRPMenu.Menu menu = new IGRPMenu.Menu("Processos Ativos");
 		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos()){
-			IGRPMenu menus = new IGRPMenu("Activiti REST","");
-			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "/igrp/MapaProcesso/openProcess&amp;p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
-			IGRPMenu.Menu menu = new IGRPMenu.Menu("Deployed");
+			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&amp;p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
-			menus.addMenu(menu);
-			listMenus.add(menus);
 		}
+		menus.addMenu(menu);
+		listMenus.add(menus);
 		view.menu.setListMenu(listMenus);
 		return this.renderView(view);
 		/*---- End ----*/

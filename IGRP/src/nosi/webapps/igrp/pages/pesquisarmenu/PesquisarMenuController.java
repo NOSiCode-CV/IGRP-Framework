@@ -5,12 +5,12 @@ package nosi.webapps.igrp.pages.pesquisarmenu;
 /*---- Import your packages here... ----*/
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -79,8 +79,6 @@ public class PesquisarMenuController extends Controller {
 	
 	//Menu list I have access to
 	public Response actionMyMenu() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");
-		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("menus");
 		if(Igrp.getInstance().getUser().isAuthenticated()){
@@ -145,5 +143,21 @@ public class PesquisarMenuController extends Controller {
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		return this.redirect("igrp","pesquisar-menu","index");
+	}
+	
+	//Get Top Menu
+	public Response actionTopMenu() throws IOException{	
+		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
+		topMenu.addItem("Home", "webapps?r=igrp", "home", "index", "_self", "home.png");
+		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
+		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
+		topMenu.addItem("Tarefas", "webapps?r=igrp", "Tasks", "index", "_self", "tasks.png");
+		Response response = new Response();
+		response.setCharacterEncoding(Response.CHARSET_UTF_8);
+		response.setContentType(Response.FORMAT_XML);
+		response.setContent(topMenu.toString());
+		response.setType(1);
+		
+		return response;
 	}
 }

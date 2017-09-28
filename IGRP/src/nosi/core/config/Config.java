@@ -66,6 +66,9 @@ public class Config {
 		xml.startElement("slide-menu");
 		xml.writeAttribute("file",getLinkSileMenu());
 		xml.endElement();
+		xml.startElement("top_menu");
+		xml.writeAttribute("file",getLinkTopMenu());
+		xml.endElement();
 		if(type_header.equals("home")){
 			xml.startElement("applications");
 			xml.writeAttribute("file","webapps?r=igrp/env/myApps");
@@ -130,7 +133,7 @@ public class Config {
 		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Permission.getCurrentEnv();
 	}
 	public static String getLinkTopMenu(){
-		return getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
+		return "webapps?r=igrp/pesquisar-menu/topMenu";//getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
 	}
 	public static String getFooterName(){
 		return getConfig().get("footer_name")!=null? getConfig().get("footer_name").toString():"2017 - Copyright NOSI";
