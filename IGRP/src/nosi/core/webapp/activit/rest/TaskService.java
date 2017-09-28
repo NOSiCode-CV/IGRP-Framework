@@ -3,10 +3,8 @@ package nosi.core.webapp.activit.rest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.helpers.ResponseError;

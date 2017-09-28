@@ -2,11 +2,9 @@ package nosi.core.webapp.activit.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
-
 import nosi.core.webapp.helpers.ResponseError;
 import nosi.core.webapp.helpers.RestRequestHelper;
 
