@@ -11,6 +11,9 @@ import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 
 /*---- End ----*/
 public class LoginController extends Controller {
@@ -26,12 +29,56 @@ public class LoginController extends Controller {
 		
 		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
+			
+			if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+				
+				String url_ = "";
+				
+				User user = (User) Igrp.getInstance().getUser().getIdentity();
+				
+				switch(response_type) {
+				
+					case "code":
+						String authorizationCode = null;
+						try {
+							authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
+							
+							if(authorizationCode != null)
+								url_ = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
+							else
+								url_ = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied ...");
+					
+						}catch(Exception e) {
+							url_ = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
+						}
+					break;
+					
+					case "token": 
+						
+						String token = null;
+						try {
+							token = OAuth2.getAccessToken(user.getId() + "", response_type, client_id, redirect_uri, scope);
+							if(token != null)
+								url_ = OAuth2.buildUrl(redirect_uri, 2, token);
+							else
+								url_ = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied ...");
+					
+						}catch(Exception e) {
+							url_ = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
+						}
+						
+					break;
+					
+					default: url_ = redirect_uri + "?error=Ocorreu um erro ! Access Denied ...";
+				}
+			return this.redirectToUrl(url_); // Bug here ...
+			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
-		//Set user and password for demo
+		//Set user and password for demo 
 		view.user.setValue("demo");
 		view.password.setValue("demo");
 		
@@ -42,8 +89,20 @@ public class LoginController extends Controller {
 			switch(Config.getAutenticationType()){
 			
 				case "db": 
-					if(this.loginWithDb(model.getUser(), model.getPassword()))
-						return this.redirect("igrp", "home", "index"); // always go to home index url
+	
+					//System.out.println("Executado .... OAuth = " + oauth2);
+					
+					if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+						String result = this.loginWithDbForAuth2(model.getUser(), model.getPassword(), response_type, client_id, redirect_uri, scope);
+						if(result != null) {
+							if(result.contains("?error=") || result.contains("#error="))
+								Igrp.getInstance().getUser().logout();
+							return this.redirectToUrl(result);
+						}
+					}
+					else
+						if(this.loginWithDb(model.getUser(), model.getPassword()))
+							return this.redirect("igrp", "home", "index"); // always go to home index url
 				break;
 				
 				case "ldap": this.loginWithLdap(); break;
@@ -78,9 +137,9 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	private void  loginWithDbForAuth2(String username, String password, String response_type, String client_id, String redirect_uri, String scope) throws IOException {
-		
+	private String  loginWithDbForAuth2(String username, String password, String response_type, String client_id, String redirect_uri, String scope) throws IOException {		
 		User user = (User) new User().findIdentityByUsername(username);
+		String result = null;
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
 			if(user.getStatus() == 1){
 				Profile profile = new Profile().getByUser(user.getId());
@@ -94,25 +153,35 @@ public class LoginController extends Controller {
 								String authorizationCode = null;
 								try {
 									authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
-									if(authorizationCode != null)
-										Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?code=" + authorizationCode);
+									if(authorizationCode != null){
+										result = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
+									}
 									else {
-										Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
-										Igrp.getInstance().getUser().logout();
+										result = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied ...");
 									}
 								}catch(Exception e) {
-									Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=" + e.getMessage());
-									Igrp.getInstance().getUser().logout();
-									return;
+									result = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
 								}
 							break;
 							
 							case "token": 
-								String token = "";
-								Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?token=" + token);
+								String token = null;
+								try {
+									token =  OAuth2.getAccessToken(user.getId() + "", response_type, client_id, redirect_uri, scope);
+									
+									if(token != null){
+										result = OAuth2.buildUrl(redirect_uri, 2, token);
+									}
+									else {
+										result = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied ...");
+									}
+								}catch(Exception e) {
+									result = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
+									e.printStackTrace();
+								}
 								break;
 								
-							default: Igrp.getInstance().getResponse().sendRedirect(redirect_uri + "?error=Ocorreu um erro ! Access Denied ...");
+							default: result = redirect_uri + "?error=Ocorreu um erro ! Access Denied ...";
 						
 						}
 						
@@ -124,7 +193,8 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
-	
+		
+		return result;
 	}
 	
 	// Use ldap protocol to make login
@@ -145,4 +215,12 @@ public class LoginController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro no logout.");
 		return this.redirect("igrp", "login", "login");
 	}
+	
+	
+	public static void main(String []args) throws MalformedURLException {
+		String str = "https://www.google.cv/?gws_rd=cr&x=hfdjf1212";
+		String result =  URI.create(str).getQuery();
+		System.out.println(result);
+	}
+	
 }
