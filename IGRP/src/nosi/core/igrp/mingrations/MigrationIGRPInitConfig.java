@@ -66,6 +66,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("OAuthClient", "index", "nosi.core.webapp.pages.oauthclient", "igrp/oauthclient/OAuthClient.xsl", "Inserir Dados dos clientes", "Inserir Dados dos clientes", "2.3", 1, app));
 			actions.add(new Action("OAuthClientList", "index", "nosi.core.webapp.pages.oauthclientlist", "igrp/oauthclientlist/OAuthClientList.xsl", "pesquisar Dados dos clientes", "pesquisar Dados dos clientes", "2.3", 1, app));
 			actions.add(new Action("MapaProcesso", "index", "nosi.core.webapp.pages.mapaprocesso", "igrp/mapaprocesso/MapaProcesso.xsl", "Mapa Processo", "Mapa Processo", "2.3", 1, app));
+			actions.add(new Action("ExecucaoTarefas", "index", "nosi.core.webapp.pages.execucaotarefas", "igrp/execucaotarefas/ExecucaoTarefas.xsl", "Execucao Tarefas", "Execucao Tarefas", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
