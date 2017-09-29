@@ -17,7 +17,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row" id="row-1b89a906">
+                                    <div class="row" id="row-d2ae5d74">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -43,6 +43,20 @@
                                                                         <input type="text" value="{rows/content/form_1/fields/uris_/value}" class="form-control " id="{rows/content/form_1/fields/uris_/@name}" name="{rows/content/form_1/fields/uris_/@name}" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/uris_"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/clientid_pesquisa">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="clientid_pesquisa" item-type="text">
+                                                                        <label for="{rows/content/form_1/fields/clientid_pesquisa/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/clientid_pesquisa/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" value="{rows/content/form_1/fields/clientid_pesquisa/value}" class="form-control " id="{rows/content/form_1/fields/clientid_pesquisa/@name}" name="{rows/content/form_1/fields/clientid_pesquisa/@name}" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/clientid_pesquisa"/>
                                                                             </xsl:call-template>
                                                                         </input>
                                                                     </div>
@@ -154,10 +168,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506535785434"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506535785434"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506535785434"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506535785434"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506535785435"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1506535785435"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506688163682"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506688163682"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506688163682"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506688163682"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506688163683"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1506688163686"/>
 </xsl:stylesheet>
