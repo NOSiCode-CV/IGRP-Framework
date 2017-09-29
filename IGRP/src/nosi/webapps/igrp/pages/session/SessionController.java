@@ -35,9 +35,12 @@ public class SessionController extends Controller {
 		List<nosi.webapps.igrp.dao.Session> sessions = session.find().andWhere("application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 																	 .andWhere("user.user_name", "=", model.getUtilizador())
 																	 .andWhere("user.status", "=", model.getEstado())
-																	 .andWhere("startTime", "=", model.getData_inicio() != null && !model.getData_inicio().equals("") ? auxFormat.parse(model.getData_inicio()).getTime() : 0)
-																	 .andWhere("endTime", "=", model.getData_fim() != null && !model.getData_fim().equals("") ? auxFormat.parse(model.getData_fim()).getTime() : 0)
+																	 .andWhere("startTime", "=", model.getData_inicio())
+																	 .andWhere("endTime", "=", model.getData_fim())
 																	 .all();
+		
+		 //.andWhere("startTime", "=", model.getData_inicio() != null && !model.getData_inicio().equals("") ? auxFormat.parse(model.getData_inicio()).getTime() : 0)
+		 //.andWhere("endTime", "=", model.getData	_fim() != null && !model.getData_fim().equals("") ? auxFormat.parse(model.getData_fim()).getTime() : 0)
 		
 		System.out.println("all Sessions - " + sessions.size());
 		
@@ -71,6 +74,8 @@ public class SessionController extends Controller {
 		view.estado.setValue(status);		
 		view.btn_pesquisar.setLink("index&dad=" + dad);
 		
+		// chamada de apresentação de gráfcos
+		
 		return this.renderView(view);
 	}
 
@@ -78,8 +83,12 @@ public class SessionController extends Controller {
 		return this.redirect("igrp","Dominio","index");
 	}
 	
-	public Response actionVer_logs() throws IOException{
-		return this.redirect("igrp","Session","index");
+	public void actionVer_logs() throws IOException{
+		
+		
+		
+		
+		
 	}
 	
 }
