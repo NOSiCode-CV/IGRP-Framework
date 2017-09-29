@@ -39,17 +39,21 @@ public class LookupListPageView extends View {
 		
 		nome_page = new LinkField(model,"nome_page");
 		nome_page.setLabel("Nome Pagina");
-		nome_page.propertie().add("name","p_nome_page").add("type","link").add("target","lookup").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
+		nome_page.propertie().add("name","p_nome_page").add("type","link").add("target","closerefresh").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("target_fields","").add("closerefresh","false").add("action","index").add("page","LookupListPage").add("app","igrp").add("btnSize","").add("iskey","false").add("desc","true");
+//		nome_page.propertie().add("name","p_nome_page").add("type","link").add("target","closerefresh").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
 		descricao_page = new LinkField(model,"descricao_page");
 		descricao_page.setLabel("Descrição");
-		descricao_page.propertie().add("name","p_descricao_page").add("type","link").add("target","lookup").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
+		//descricao_page.propertie().add("name","p_descricao_page").add("type","link").add("target","lookup").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("desc","true");
+		descricao_page.propertie().add("name","p_descricao_page").add("type","link").add("target","closerefresh").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("target_fields","").add("closerefresh","false").add("action","index").add("page","LookupListPage").add("app","igrp").add("btnSize","").add("iskey","false").add("desc","true");
 		
 		nome_page_desc = new TextField(model,"nome_page_desc");
 		nome_page_desc.setLabel("Nome Pagina");
-		nome_page_desc.propertie().add("name","p_nome_page_desc").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		nome_page_desc.propertie().add("name","p_nome_page_desc").add("type","link").add("target","closerefresh").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("target_fields","").add("closerefresh","false").add("action","index").add("page","LookupListPage").add("app","igrp").add("btnSize","").add("iskey","false").add("desc","true");
+//		nome_page_desc.propertie().add("name","p_nome_page_desc").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		descricao_page_desc = new TextField(model,"descricao_page_desc");
 		descricao_page_desc.setLabel("Descrição");
-		descricao_page_desc.propertie().add("name","p_descricao_page_desc").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		//descricao_page_desc.propertie().add("name","p_descricao_page_desc").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		descricao_page_desc.propertie().add("name","p_descricao_page_desc").add("type","link").add("target","closerefresh").add("class","link").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","true").add("target_fields","").add("closerefresh","false").add("action","index").add("page","LookupListPage").add("app","igrp").add("btnSize","").add("iskey","false").add("desc","true");
 		
 		
 		p_id = new HiddenField(model,"p_id");

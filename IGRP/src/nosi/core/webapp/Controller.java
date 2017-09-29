@@ -17,6 +17,7 @@ public abstract class Controller {
 	
 	private View view;
 	protected String format = Response.FORMAT_XML;
+	protected String encoding = Response.CHARSET_UTF_8;
 	private boolean isRedirect; // To specify when to redirect or render the content ... (Detected by the bug with flash message)
 	
 	private Response responseWrapper;
@@ -52,6 +53,15 @@ public abstract class Controller {
 	
 	protected final Response renderView(View view) throws IOException{ // Overload ...
 		return this.renderView(view, false);
+	}
+	
+	protected final Response renderView(String content){
+		Response resp = new Response();
+		resp.setType(1);
+		resp.setCharacterEncoding(this.encoding);
+		resp.setContentType(this.format);
+		resp.setContent(content);
+		return resp;
 	}
 	
 	private final Response redirect_(String url){

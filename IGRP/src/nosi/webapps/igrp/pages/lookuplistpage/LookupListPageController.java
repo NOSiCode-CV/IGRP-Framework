@@ -38,7 +38,7 @@ public class LookupListPageController extends Controller {
 			table1.setP_id(ac.getId());
 			table1.setNome_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());
 			table1.setNome_page_desc(ac.getPage());
-			table1.setDescricao_page(ac.getPage_descr());
+			table1.setDescricao_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());
 			table1.setDescricao_page_desc(ac.getPage_descr());
 			lista.add(table1);
 		}

@@ -76,7 +76,7 @@ public class DataSourceView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_fechar = new IGRPButton("Fechar","","","","_close","danger|fa-close","","");
+		btn_fechar = new IGRPButton("Fechar","","","","closerefresh","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("code","").add("rel","fechar");
 		
 	}
