@@ -24,112 +24,112 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionPesquisar_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_colaborador() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionPesquisar_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_minhas_tarefas() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_disponiveis() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionPesquisar_estatistica() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionTransferir_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionDetalhes_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionDetalhes_processo() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionAlterar_prioridade_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionVer_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionVer_detalhes() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionEnviar_msg() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionExecutar_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionDetalhes_processos_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionLeberar_tarefa_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
 
 	public Response actionAssumir_button_tabela() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","ExecucaoTarefas","index");
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionVer_estatistica() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionVer_detalhes() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionEnviar_msg() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionExecutar_button_minha_tarefas() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionDetalhes_processos_button_minha_tarefas() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionLeberar_tarefa_button_minha_tarefas() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","execucaotarefas","index");
 		/*---- End ----*/
 	}
 	
