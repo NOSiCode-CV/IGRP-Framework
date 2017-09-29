@@ -17,7 +17,7 @@ public class DataSourceView extends View {
 	public Field processo;
 	public Field etapa;
 	public Field objecto;
-	public Field pagina;
+	public LookupField pagina;
 	public Field query;
 	public Field servico;
 	public Field p_id_pagina;

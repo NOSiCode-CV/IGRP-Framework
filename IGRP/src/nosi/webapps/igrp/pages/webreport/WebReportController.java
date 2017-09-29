@@ -35,7 +35,7 @@ public class WebReportController extends Controller {
 		/*---- Insert your code here... ----*/
 		WebReport model = new WebReport();
 		WebReportView view = new WebReportView(model);
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")){
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
 			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");			
@@ -83,7 +83,7 @@ public class WebReportController extends Controller {
 	}
 
 
-	public PrintWriter actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
+	public Response actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
 		if(Igrp.getInstance().getRequest().getMethod().toLowerCase().equals("post")){
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
 			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
@@ -93,7 +93,6 @@ public class WebReportController extends Controller {
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
 			String [] data_sources = Igrp.getInstance().getRequest().getParameterValues("p_datasorce_app");
 			String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			
 			if(fileTxt!=null && fileXsl!=null && env_fk!=null){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
@@ -153,14 +152,14 @@ public class WebReportController extends Controller {
 						rts.insert();
 					}
 				}	
-				return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>");
+				return this.renderView("<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>");
 			}
 		}	
-		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operacao falhada</message></messages>");
+		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
 	}
 	
 
-	public PrintWriter actionPreview() throws IOException{
+	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String xml = "";
@@ -179,28 +178,28 @@ public class WebReportController extends Controller {
 			}
 			xml = this.genXml(xml,rt);
 		}
-		return Igrp.getInstance().getResponse().getWriter().append(xml);
+		return this.renderView(xml);
 		/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*/
 	//Load report, load all configuration of report
-	public PrintWriter actionLoadTemplate() throws IOException{
+	public Response actionLoadTemplate() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String json = "";
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne(Integer.parseInt(id));
 			CLob clob = new CLob().findOne(rt.getXml_content().getId());
-			Igrp.getInstance().getResponse().setContentType("application/json");
 			String data_sources = "";
 			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(Integer.parseInt(id))){
 				data_sources+=""+r.getRepSource().getId()+",";
 			}
 			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";
-			json = "{\"textreport\":\""+clob.getC_lob_content()+"\",\"datasorce_app\":\""+data_sources+"\"}";
+			json = "{\"textreport\":"+clob.getC_lob_content()+",\"datasorce_app\":\""+data_sources+"\"}";
 		}
-		return Igrp.getInstance().getResponse().getWriter().append(json);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(json);
 	}
 	
 	/*Process preview in different type

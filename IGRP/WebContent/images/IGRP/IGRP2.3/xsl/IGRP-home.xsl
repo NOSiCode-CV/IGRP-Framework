@@ -17,8 +17,12 @@
               <xsl:call-template name="IGRP-sidebar"/>
               <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                 <div class="content">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <xsl:apply-templates mode="igrp-apps" select="document(rows/applications/@file)"/>
+                    </div>
+                  </div>
                   
-                  <xsl:apply-templates mode="igrp-apps" select="document(rows/applications/@file)"/>
 
                 </div>
               </div>

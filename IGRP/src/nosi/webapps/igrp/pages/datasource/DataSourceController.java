@@ -19,7 +19,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,9 +60,12 @@ public class DataSourceController extends Controller {
 		DataSourceView view = new DataSourceView(model);
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
-		//view.pagina.setValue(new Action().getListActions());
-		//view.pagina.setValue("&amp;p_prm_target=_blank&amp;p_cx_id=p_id_pagina&amp;p_cx_nome=p_pagina&amp;p_cx_nivel_saida=6");
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
+		view.pagina.addParam("p_prm_target","_blank");
+		view.pagina.addParam("p_id_pagina", "p_id");
+		view.pagina.addParam("p_pagina", "descricao");
+		view.pagina.addParam("p_aplicacao", "p_id_aplicacao");
+		
 		if(ichange!=null && !ichange.equals("")){
 			if(model.getTipo().equalsIgnoreCase("object")){
 				view.processo.setVisible(false);
@@ -162,21 +164,19 @@ public class DataSourceController extends Controller {
 	/*---- Insert your actions here... ----*/
 	
 	//Print data source in xml format
-	public PrintWriter actionGetDataSource() throws IOException{
+	public Response actionGetDataSource() throws IOException{
 		String [] p_id = Igrp.getInstance().getRequest().getParameterValues("p_id");
 		String p_template_id = Igrp.getInstance().getRequest().getParameter("p_template_id");
-		System.out.println("id: "+p_template_id);
-		System.out.println("ids: "+p_id);
-		Igrp.getInstance().getResponse().setContentType("text/xml");
-		String list ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-			   list += "<rows>\n";		
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("rows");
 		if(p_id!=null && p_id.length > 0){
 			for(String id:p_id){
-				list += this.loadDataSource(Integer.parseInt(id),(p_template_id!=null && !p_template_id.equals(""))?Integer.parseInt(p_template_id):0);
+				xml.addXml(this.loadDataSource((int)Float.parseFloat(id),(p_template_id!=null && !p_template_id.equals(""))?(int)Float.parseFloat(p_template_id):0));
 			}
 		}
-		list +="</rows>";
-		return Igrp.getInstance().getResponse().getWriter().append(list);
+		xml.endElement();
+		System.out.println(xml.toString());
+		return this.renderView(xml.toString());
 	}
 
 	//Load data source

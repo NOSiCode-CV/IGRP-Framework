@@ -437,8 +437,9 @@
 						$(this).addClass('active');
 
 						$('#igrp-app-title').html($.WR.reportTitle);
+						console.log(data.responseText);
 
-						data = $.parseJSON(data.responseText.replace(/\s+/g," "));
+						//data = $.parseJSON(data.responseText);//.replace(/\s+/g," ")
 
 						$.WR.document.convert2Do(data.textreport);
 
@@ -479,6 +480,8 @@
 					if (e.name == 'p_textreport') {
 						e.value.config.customfooter = $.WR.document.customfooter.getChecked();
 						e.value.config.printsize 	= size;
+
+						e.value = JSON.stringify(e.value);
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
@@ -1319,7 +1322,7 @@
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," "));
-
+					
 					return structure;
 				},
 				html : function(){
@@ -1349,8 +1352,9 @@
 						$.WR.texteditor = CKEDITOR.instances[fc.editor.name];
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
+						console.log(CKEDITOR.document.getById('datasorce'));
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
