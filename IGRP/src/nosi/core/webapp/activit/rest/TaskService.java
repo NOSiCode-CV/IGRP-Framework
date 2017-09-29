@@ -70,9 +70,15 @@ public class TaskService extends Activit{
 		return d;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<TaskService> getMyTasks(String assignee){
-		ClientResponse response = RestRequestHelper.get("runtime/tasks?assignee="+assignee);
+
+	public List<TaskService> getMyTasks(String user){
+		this.setFilter("involvedUser="+user);
+		return this.getTasks();
+	}
+	
+	@SuppressWarnings("unchecked")	
+	private List<TaskService> getTasks(){
+		ClientResponse response = RestRequestHelper.get("runtime/tasks?"+this.getFilter());
 		String contentResp = response.getEntity(String.class);
 		List<TaskService> d = new ArrayList<>();
 		if(response.getStatus()==200){
@@ -87,6 +93,11 @@ public class TaskService extends Activit{
 			this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
 		}
 		return d;
+	}
+
+	public List<TaskService> getTasksDisponiveis(String user){
+		this.setFilter("assignee="+user);
+		return this.getTasks();
 	}
 	
 	public TaskService create(TaskService task){
