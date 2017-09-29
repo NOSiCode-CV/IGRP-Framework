@@ -12,6 +12,7 @@ import java.io.IOException;
 import org.apache.commons.lang.RandomStringUtils;
 
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.OAuthScope;
 
 /*---- End ----*/
 
@@ -32,7 +33,7 @@ public class OAuthClientController extends Controller {
 			}
 		}
 		OAuthClientView view = new OAuthClientView(model);
-		
+		view.scope.setValue(new OAuthScope().getListScope());
 		if(id != null && !id.equals("")) 
 			view.btn_salvar.setLink("salvar&p_id="+id);
 		return this.renderView(view);

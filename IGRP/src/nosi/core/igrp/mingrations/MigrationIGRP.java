@@ -211,8 +211,6 @@ public class MigrationIGRP {
 				aux.insert();
 			}
 		}
-		OAuthScope objScope = new OAuthScope("Login", 0);
-		objScope.insert();
 		
 		if(authorizationCodes.size() > 0) {
 			for(OAuthorizationCode obj : authorizationCodes) {
