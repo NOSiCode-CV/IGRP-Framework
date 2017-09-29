@@ -106,14 +106,7 @@ public class PesquisarMenuController extends Controller {
 			}
 		}
 		xml_menu.endElement();
-		
-		Response response = new Response();
-		response.setCharacterEncoding(Response.CHARSET_UTF_8);
-		response.setContentType(Response.FORMAT_XML);
-		response.setContent(xml_menu + "");
-		response.setType(1);
-		
-		return response;
+		return this.renderView(xml_menu + "");
 	}
 	
 	public Response actionMenu_base() throws IOException{
@@ -152,12 +145,6 @@ public class PesquisarMenuController extends Controller {
 		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
 		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
 		topMenu.addItem("Tarefas", "webapps?r=igrp", "Tasks", "index", "_self", "tasks.png");
-		Response response = new Response();
-		response.setCharacterEncoding(Response.CHARSET_UTF_8);
-		response.setContentType(Response.FORMAT_XML);
-		response.setContent(topMenu.toString());
-		response.setType(1);
-		
-		return response;
+		return this.renderView(topMenu.toString());
 	}
 }
