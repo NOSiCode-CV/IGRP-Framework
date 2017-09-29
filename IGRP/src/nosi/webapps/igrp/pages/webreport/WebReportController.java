@@ -165,7 +165,7 @@ public class WebReportController extends Controller {
 		String xml = "";
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Integer.parseInt(id));
+			rt = rt.findOne((int)Float.parseFloat(id));
 			//Iterate data source per template
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
 				String query = rep.getRepSource().getType_query();

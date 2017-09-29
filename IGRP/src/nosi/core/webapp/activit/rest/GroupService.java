@@ -2,6 +2,8 @@ package nosi.core.webapp.activit.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.helpers.ResponseError;
@@ -74,10 +76,34 @@ public class GroupService extends Activit{
 		return d;
 	}
 	
+	public int addUser(String idGroup,String user){
+		JSONObject jobj = new JSONObject();
+		try {
+			jobj.put("userId" ,user);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		ClientResponse response = RestRequestHelper.post("identity/groups/"+idGroup+"/members",jobj.toString());
+		return response.getStatus();
+	}
+	
+	public int addUser(String user){
+		JSONObject jobj = new JSONObject();
+		try {
+			jobj.put("userId" ,user);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		ClientResponse response = RestRequestHelper.post("identity/groups/"+this.getId()+"/members",jobj.toString());
+		return response.getStatus();
+	}
+	
 	public boolean delete(String id){
 		ClientResponse response = RestRequestHelper.delete("identity/groups",id);
 		return response.getStatus()==204;
 	}
+	
+	
 	public String getType() {
 		return type;
 	}

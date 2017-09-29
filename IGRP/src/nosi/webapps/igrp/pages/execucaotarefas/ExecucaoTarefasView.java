@@ -114,6 +114,7 @@ public class ExecucaoTarefasView extends View {
 	public IGRPButton btn_executar_button_minha_tarefas;
 	public IGRPButton btn_detalhes_processos_button_minha_tarefas;
 	public IGRPButton btn_leberar_tarefa_button_minha_tarefas;
+	public Field p_id;
 	public ExecucaoTarefasView(ExecucaoTarefas model){
 		this.setPageTitle("Execucao Tarefas");
 			
@@ -133,7 +134,7 @@ public class ExecucaoTarefasView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("DistribuiÃ§Ã£o de Tarefas");
+		sectionheader_1_text.setValue("Distribuição de Tarefas");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		gerir_tarefas = new TextField(model,"gerir_tarefas");
 		gerir_tarefas.setLabel("Gerir Tarefas");
@@ -144,7 +145,7 @@ public class ExecucaoTarefasView extends View {
 		
 		colaboradores.propertie().add("name","p_colaboradores").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-users").add("maxlength","50");
 		estatistica = new TextField(model,"estatistica");
-		estatistica.setLabel("EstatÃ­stica");
+		estatistica.setLabel("Estatística");
 		
 		estatistica.propertie().add("name","p_estatistica").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-line-chart").add("maxlength","50");
 		minhas_tarefas = new TextField(model,"minhas_tarefas");
@@ -152,15 +153,15 @@ public class ExecucaoTarefasView extends View {
 		
 		minhas_tarefas.propertie().add("name","p_minhas_tarefas").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-address-book-o").add("maxlength","50");
 		disponiveis = new TextField(model,"disponiveis");
-		disponiveis.setLabel("DisponÃ­veis");
+		disponiveis.setLabel("Disponíveis");
 		
 		disponiveis.propertie().add("name","p_disponiveis").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-calendar-check-o").add("maxlength","50");
 		organica_gerir_tarefa = new ListField(model,"organica_gerir_tarefa");
-		organica_gerir_tarefa.setLabel("OrgÃ¢nica");
+		organica_gerir_tarefa.setLabel("Orgânica");
 		
 		organica_gerir_tarefa.propertie().add("name","p_organica_gerir_tarefa").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_gerir_tarefa = new TextField(model,"numero_processo_gerir_tarefa");
-		numero_processo_gerir_tarefa.setLabel("NÃºmero Processo");
+		numero_processo_gerir_tarefa.setLabel("Número Processo");
 		
 		numero_processo_gerir_tarefa.propertie().add("name","p_numero_processo_gerir_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_gerir_tarefa = new ListField(model,"tipo_processo_gerir_tarefa");
@@ -184,11 +185,11 @@ public class ExecucaoTarefasView extends View {
 		
 		pesquisa_gerir_tarefa.propertie().add("name","p_pesquisa_gerir_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		organica_colaborador = new ListField(model,"organica_colaborador");
-		organica_colaborador.setLabel("OrgÃ¢nica");
+		organica_colaborador.setLabel("Orgânica");
 		
 		organica_colaborador.propertie().add("name","p_organica_colaborador").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_colaborador = new TextField(model,"numero_processo_colaborador");
-		numero_processo_colaborador.setLabel("NÃºmero Processo");
+		numero_processo_colaborador.setLabel("Número Processo");
 		
 		numero_processo_colaborador.propertie().add("name","p_numero_processo_colaborador").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_colaborador = new ListField(model,"tipo_processo_colaborador");
@@ -228,7 +229,7 @@ public class ExecucaoTarefasView extends View {
 		
 		media_tempo_view_estatistica.propertie().add("name","p_media_tempo_view_estatistica").add("type","text").add("maxlength","30");
 		posicao_ranking_view_estatistica = new TextField(model,"posicao_ranking_view_estatistica");
-		posicao_ranking_view_estatistica.setLabel("PosiÃ§Ã£o Ranking");
+		posicao_ranking_view_estatistica.setLabel("Posição Ranking");
 		
 		posicao_ranking_view_estatistica.propertie().add("name","p_posicao_ranking_view_estatistica").add("type","text").add("maxlength","30");
 		view_estatistica_img = new TextField(model,"view_estatistica_img");
@@ -236,11 +237,11 @@ public class ExecucaoTarefasView extends View {
 		
 		view_estatistica_img.propertie().add("type","text").add("name","p_view_estatistica_img").add("maxlength","300");
 		organica_minhas_tarefas = new ListField(model,"organica_minhas_tarefas");
-		organica_minhas_tarefas.setLabel("OrgÃ¢nica");
+		organica_minhas_tarefas.setLabel("Orgânica");
 		
 		organica_minhas_tarefas.propertie().add("name","p_organica_minhas_tarefas").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_minhas_tarefas = new TextField(model,"numero_processo_minhas_tarefas");
-		numero_processo_minhas_tarefas.setLabel("NÃºmero Processo");
+		numero_processo_minhas_tarefas.setLabel("Número Processo");
 		
 		numero_processo_minhas_tarefas.propertie().add("name","p_numero_processo_minhas_tarefas").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_minhas_tarefas = new ListField(model,"tipo_processo_minhas_tarefas");
@@ -264,11 +265,11 @@ public class ExecucaoTarefasView extends View {
 		
 		pesquisa_minhas_tarefas.propertie().add("name","p_pesquisa_minhas_tarefas").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		organica_form_disponiveis = new ListField(model,"organica_form_disponiveis");
-		organica_form_disponiveis.setLabel("OrgÃ¢nica");
+		organica_form_disponiveis.setLabel("Orgânica");
 		
 		organica_form_disponiveis.propertie().add("name","p_organica_form_disponiveis").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_form_disponiveis = new TextField(model,"numero_processo_form_disponiveis");
-		numero_processo_form_disponiveis.setLabel("NÃºmero Processo");
+		numero_processo_form_disponiveis.setLabel("Número Processo");
 		
 		numero_processo_form_disponiveis.propertie().add("name","p_numero_processo_form_disponiveis").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_form_disponiveis = new ListField(model,"tipo_processo_form_disponiveis");
@@ -300,7 +301,7 @@ public class ExecucaoTarefasView extends View {
 		
 		data_fim_estatistica.propertie().add("name","p_data_fim_estatistica").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		numero_processo_estatistica = new TextField(model,"numero_processo_estatistica");
-		numero_processo_estatistica.setLabel("NÃºmero Processo");
+		numero_processo_estatistica.setLabel("Número Processo");
 		
 		numero_processo_estatistica.propertie().add("name","p_numero_processo_estatistica").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		prioridade_estatistica = new ListField(model,"prioridade_estatistica");
@@ -336,7 +337,7 @@ public class ExecucaoTarefasView extends View {
 		
 		data_conclusao_estat_tabela.propertie().add("name","p_data_conclusao_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		numero_processo_tabela = new TextField(model,"numero_processo_tabela");
-		numero_processo_tabela.setLabel("NÃºmero Processo");
+		numero_processo_tabela.setLabel("Número Processo");
 		
 		numero_processo_tabela.propertie().add("name","p_numero_processo_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		tipo = new TextField(model,"tipo");
@@ -461,6 +462,10 @@ public class ExecucaoTarefasView extends View {
 		btn_leberar_tarefa_button_minha_tarefas = new IGRPButton("Leberar Tarefa","igrp","ExecucaoTarefas","leberar_tarefa_button_minha_tarefas","alert_submit","default|fa-angle-right","","");
 		btn_leberar_tarefa_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","leberar_tarefa_button_minha_tarefas");
 		
+		p_id = new HiddenField(model,"p_id");
+		p_id.setLabel("");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
+
 	}
 		
 	@Override
@@ -525,6 +530,7 @@ public class ExecucaoTarefasView extends View {
 		table_estatistica.addField(desc_tarefa_estat_tabela);
 		table_estatistica.addField(data_entrada_estat_tabela);
 		table_estatistica.addField(data_conclusao_estat_tabela);
+		table_estatistica.addField(p_id);
 
 		table_gerir_tarefas.addField(numero_processo_tabela);
 		table_gerir_tarefas.addField(tipo);
@@ -532,10 +538,12 @@ public class ExecucaoTarefasView extends View {
 		table_gerir_tarefas.addField(atribuido_por);
 		table_gerir_tarefas.addField(atribuido_a);
 		table_gerir_tarefas.addField(data_entrada);
+		table_gerir_tarefas.addField(p_id);
 
 		table_disponiveis.addField(tarefas_tabela_disponiveis);
 		table_disponiveis.addField(categorias_processo_tabela_disponiveis);
 		table_disponiveis.addField(data_entrada_tabela_disponiveis);
+		table_disponiveis.addField(p_id);
 
 		table__colaboradores.addField(nome_colab_tabela);
 		table__colaboradores.addField(contacto_colab_tabela);
@@ -546,12 +554,14 @@ public class ExecucaoTarefasView extends View {
 		table__colaboradores.addField(percentagem_colab_tabela);
 		table__colaboradores.addField(foto_colab_tabela);
 		table__colaboradores.addField(param_colab_tabela);
+		table__colaboradores.addField(p_id);
 
 		table_minhas_tarefas.addField(tipo_tabela_minhas_tarefas);
 		table_minhas_tarefas.addField(desc_tarefa_tabela_minhas_tarefas);
 		table_minhas_tarefas.addField(atribuido_por_tabela_minhas_tarefas);
 		table_minhas_tarefas.addField(data_entrada_tabela_minhas_tarefas);
 		table_minhas_tarefas.addField(espera_tabela_minhas_tarefas);
+		table_minhas_tarefas.addField(p_id);
 
 		form_gerir_tarefa.addButton(btn_pesquisar_tarefa);
 		form_colaboradores.addButton(btn_pesquisar_colaborador);
