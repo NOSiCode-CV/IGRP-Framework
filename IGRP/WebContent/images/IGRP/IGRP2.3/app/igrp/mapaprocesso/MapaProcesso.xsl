@@ -126,7 +126,7 @@
                             </button>
                           </span>
                           <span class="input-group-btn">
-                            <button type="button" class="btn btn-default">
+                            <button type="button" class="btn btn-default searcher-clean">
                               <i class="fa fa-times"></i>
                             </button>
                           </span>
@@ -136,13 +136,10 @@
                     </nav>
                   </div>
                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                       <section class="content-header gen-container-item ">
                         <h2><xsl:value-of select="rows/content/title"/></h2>
                       </section>         
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                      
                     </div>
                   </div>
                   <br/>
@@ -176,7 +173,10 @@
           </div>
           <xsl:call-template name="IGRP-bottom"/>
         </form>
+
         <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+
+        <script type="text/javascript" src="{$path}/plugins/panels/igrp.panels.js"/>
 
         <script>
 
@@ -184,7 +184,20 @@
 
                 lists    = $('.panel-body .nav li'),
 
-                procs    = $('a',lists);
+                procs    = $('a',lists),
+
+                clean    = $('.searcher-clean');
+
+            
+            var cleanResults = function(){
+                
+                $('.panel').show();
+
+                $('.panel-body ul li').show();
+                
+                $('.panel-collapse').removeClass('in');
+
+            };
 
             searcher.on('keyup',function(){
 
@@ -194,13 +207,13 @@
 
                 var results = procs.filter(":contains('"+text+"')");
 
-                if(results[0]){
-
-                  $('.panel').hide();
+                $('.panel').hide();
 
                   $('.panel-body ul li').hide();
 
-                  $('.panel-collapse').removeClass('in');
+                  //$('.panel-collapse').removeClass('in');
+
+                if(results[0]){
 
                   $.each(results,function(i,r){
 
@@ -208,20 +221,24 @@
 
                     $(r).parent().show();
 
-                    $(r).parents('.panel-collapse').addClass('in');
+                    $(r).parents('.panel-collapse').addClass('in').removeAttr('style').attr('aria-expanded','true').height('auto');
 
                   });
 
                 }
 
-              }else{
+              }else
                 
-                $('.panel').show();
+                cleanResults();
 
-                $('.panel-body ul li').show();
-                
-                $('.panel-collapse').removeClass('in');
-              }
+
+            });
+
+            clean.on('click',function(){
+              
+              cleanResults();
+
+              searcher.val('');
 
             });
 

@@ -1,0 +1,226 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
+/*
+ * Base structure
+ */
+
+/* scroll bar */
+::-webkit-scrollbar-thumb {
+    background-color: #bebebe;
+}
+::-webkit-scrollbar {
+    background-color: #f0f0f0
+}
+
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background-color: #f5f5f5;
+}
+/*
+ * Global add-ons
+ */
+.sub-header {
+  border-bottom: 1px solid #eee;
+}
+
+/* Hide for mobile, show later */
+.sidebar {
+  background: #fff;
+  box-shadow: 0 5px 5px 0 #eee;
+}
+
+.clickable{
+  color: #4a934a
+}
+
+.clickable:hover{
+  color: #23527c;
+}
+
+/*tree view*/
+
+.treeview-menu>li>a {
+    border-bottom: 1px solid rgb(242, 242, 242);
+}
+
+
+.treeview-menu>li.active>a,
+.treeview-menu>li>a:hover {
+    color: #5cb85c;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    background-color: #fff;
+    border-right: 1px solid #eee;
+  }
+}
+
+.nav-sidebar > li > a {
+  background: #fff;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.24);
+}
+
+
+.nav-sidebar > .active > a:after{
+  background-color: #4a934a
+}
+
+
+/*  IFRAM NAVIGATION */
+#igrp-iframe-nav .modal-dialog{
+  -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+
+#igrp-iframe-nav .iframe-nav-close:hover{
+  color: #fff;
+}
+
+#igrp-iframe-nav .iframe-nav-close{
+  color: #F5F5F5;
+}
+
+/* IGRP STYLE */
+/*GLOBAL*/
+a { 
+  color:#5cb85c;
+}
+
+
+/*LOGIN/ACTIVATION*/
+
+/*TOPNAV*/
+
+#igrp-top-nav.navbar {
+ background: #5cb85c;
+}
+
+.navbar-brand{
+  color:white;
+}
+.navbar-brand:hover{
+  color:white;
+}
+
+.navbar-brand>span{
+  color: white;
+}
+
+#side-bar-ctrl {
+  color: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#igrp-top-menu>li>a{
+  color:white;
+}
+
+
+#igrp-top-menu>li>a:hover,
+#igrp-top-menu>li>a:focus{
+  background: #4a934a
+}
+/*  */
+.box-head.subtitle{
+  border-bottom: 1px solid #EAEAEA;
+}
+
+
+/*BUTTONS*/
+a:focus, a:hover{
+  color:#4a934a;
+}
+.btn-default,
+.btn-default:hover{
+  border-color: #D8D8D8;
+}
+
+/*TABS*/
+.nav-tabs{
+  border-bottom:1px solid #F2F2F2;
+}
+
+.nav-tabs>li.active>a, 
+.nav-tabs>li.active>a:focus, 
+.nav-tabs>li.active>a:hover{
+  border:1px solid #eaeaea;
+  border-bottom-color:white
+}
+
+/*IGRP APPS*/
+.igrp-apps-holder .igrp-app-block{
+  background: #fff;
+  border:1px solid rgba(204, 204, 204, 0.6);
+}
+
+.igrp-apps-holder .igrp-app-block:hover{
+  background: #ECECEC;
+  box-shadow: 0 0 5px 0 rgba(204, 204, 204, 0.6);
+}
+
+
+body[template="c_cidadao"] .btn-list-item .card .card-container{
+  background: #5cb85c
+}
+
+/*THEMES*/
+*[bg-color="template"] {
+  background-color: #4a934a;
+}
+*[bg-hover-color="template"]:hover{
+   background-color: #4a934a;
+}
+*[txt-color="template"],
+*[text-color="template"]
+ {
+  color: #4a934a;
+}
+
+/*COLORS PALLETE*/
+
+/*BUTTONS*/
+.btn-primary{
+  background-color: #5cb85c;
+  border-color: rgb(55, 135, 177);
+}
+
+.btn-primary:hover{
+  background-color: rgb(55, 135, 177);
+  border-color: #4a934a;
+}
+
+/*OUTLINE BUTTONS*/
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+    color: #fff;
+}

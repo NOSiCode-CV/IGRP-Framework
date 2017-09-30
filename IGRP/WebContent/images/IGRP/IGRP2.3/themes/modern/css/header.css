@@ -1,18 +1,16 @@
 #igrp-top-nav{
-	max-height: 53px;
 	-webkit-box-shadow: 4px 0 5px rgba(0,0,0,0.08);
-    box-shadow: 4px 0 5px rgba(0,0,0,0.08);
-    background: white
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: white;
+    overflow: visible;
 }
 #igrp-top-nav .navbar-brand{
-	padding:10px 10px; 
 	background:#2e3744;
 }
 #igrp-top-nav .navbar-brand b{
 	font-weight: 400
 }
 #igrp-top-nav #side-bar-ctrl{
-	height: 53px;
 	color:inherit;
 	font-size: 14px;
 }
@@ -34,7 +32,7 @@
 
 #igrp-top-nav ul li a{
 	color: inherit;
-	line-height: 51px;
+	line-height: 55px;
 	padding: 0 15px;
 	border-bottom: 2px solid transparent
 }

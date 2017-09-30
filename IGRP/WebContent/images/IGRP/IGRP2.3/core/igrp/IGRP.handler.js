@@ -18,7 +18,7 @@
 					});
 				else
 					$('>.box-body,>.box-footer',box).slideDown(function(){
-						icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');7
+						icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
 						
 						$(window).resize();
 					});

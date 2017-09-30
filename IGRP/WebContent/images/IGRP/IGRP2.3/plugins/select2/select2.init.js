@@ -96,9 +96,35 @@ $(function(){
 
             }
         },
+
+        setClear : function(select){
+
+          $.each(select,function(i,s){
+
+            var holder   = $(s).parent(),
+
+                clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click',function(){
+                  
+                  $(s).select2('val', '');
+
+                });
+
+            holder.addClass('select2-holder');
+
+            holder.append(clearBtn);
+
+          })
+
+        },
+
+
         init:function(parent){
+          
           var select   = $('.select2',parent);
-          $('.select2',parent).select2();
+
+          select.select2();
+
+          //$.IGRP.components.select2.setClear(select);
 
           $.IGRP.components.select2.formListConfig(parent);
 

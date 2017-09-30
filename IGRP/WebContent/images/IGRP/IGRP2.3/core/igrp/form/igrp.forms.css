@@ -1,6 +1,6 @@
 
 *[role="form"] .box-head.subtitle{
-  padding: 0px 10px;
+  padding: 0px 15px;
 
 }
 
@@ -9,7 +9,7 @@
 	padding: 5px 0;
 	position: relative;
 	top: 1px;
-	font-weight: 600
+	font-weight: 400
 	/*border-bottom: 1px solid*/
 }
 
@@ -19,7 +19,7 @@
 
 label {
 	margin-bottom: 8px;
-	font-weight: 600
+	font-weight: 500;
 }
 .form-group > label,
 .form-link {
@@ -28,6 +28,12 @@ label {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+.form-group label input+span{
+	font-weight: normal;
+}
+
+
 /*fields*/
 textarea.form-control {
 	min-height: 108px;

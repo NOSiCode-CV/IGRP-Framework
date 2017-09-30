@@ -36,7 +36,7 @@
 	transition: none;
 }
 
-.row .row-options:before{
+/*.row .row-options:before{
     content: "row";
     position: absolute;
     left: 0;
@@ -48,7 +48,7 @@
     text-transform: uppercase;
     border-right: 1px solid #ececec;
     border-bottom: 1px solid #ececec;
-}
+}*/
 
 .row .row-options:after{
 	clear: both;
@@ -58,7 +58,18 @@
 .row .row-options > ul {
 	margin:0;
 	float: right;
+	padding-left: 0px;
+}
 
+.row .row-options .row-class-setter{
+	float: left;
+	border:0;
+	line-height: 16px;
+	font-size: 10px;
+    padding-left: 4px;
+    outline: 0;
+    background: rgba(255,255,255,.4);
+    color: #a7a7a7
 }
 
 .row .row-options > ul > li[rel="columns"]:hover{
