@@ -2431,25 +2431,25 @@ var GENERATOR = function(genparams){
 			return false;
 		});
 		/*SAVE PAGE*/
-		$('.form-gen-save').on('click',function(e){
+$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
 
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-				/*
+				
 				var vUrl    = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href') ;
 				var pageXML = vkbeautify.xml(GEN.getXML());
 				var pageXSL = vkbeautify.xml(GEN.getXSL({
 					removeGenAttrs:true
 				}));
 
-				var vParam  =  [
+				/*var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
 					{ name:'p_page_xsl', value: pageXSL },//xsl
-					//{ name:'p_page_java',value:javaStr},//java
+					{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
@@ -2463,7 +2463,7 @@ var GENERATOR = function(genparams){
 				$('#gen-noif-holder').html('');
 				
 				try{
-					
+					console.log(GEN.SETTINGS.package)
 					$.IGRP.utils.submitStringAsFile({
 						//pUrl        : 'test.save.xml',
 						pUrl        : vUrl,
@@ -2475,6 +2475,7 @@ var GENERATOR = function(genparams){
 				           		{name:'p_id_objeto', value:vItemId},
 				           		{name:'p_table_name', value:GEN.SETTINGS.table},
 				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				           	]
 				        },
 						pComplete   :function(xml,text,status){
@@ -2510,8 +2511,8 @@ var GENERATOR = function(genparams){
 			        });
 				}catch(err){
 					console.log(err);
-				}
-*/
+				}*/
+				
 				GEN.getJava(function(javaStr){
 
 					var vParam  =  [
@@ -2519,7 +2520,7 @@ var GENERATOR = function(genparams){
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-						{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2544,6 +2545,7 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
