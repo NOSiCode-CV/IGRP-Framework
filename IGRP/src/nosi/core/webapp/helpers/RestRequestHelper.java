@@ -48,8 +48,7 @@ public class RestRequestHelper{
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
 	        client.destroy();
 	   	 	return response;
-		}catch(Exception e){
-			e.printStackTrace();
+		}catch(Exception e){ 
 		}
 		return null;
 	}
@@ -65,7 +64,6 @@ public class RestRequestHelper{
 		    client.destroy();
 	   	 	return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -82,7 +80,6 @@ public class RestRequestHelper{
 	        client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -99,7 +96,6 @@ public class RestRequestHelper{
 	        client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -115,7 +111,6 @@ public class RestRequestHelper{
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -132,7 +127,6 @@ public class RestRequestHelper{
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -148,7 +142,6 @@ public class RestRequestHelper{
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -213,7 +206,6 @@ public class RestRequestHelper{
 			sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, RestRequestHelper.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
 		} catch (NoSuchAlgorithmException | KeyManagementException e) {
-			e.printStackTrace();
 		}
 		return sslContext;
 	}

@@ -35,9 +35,9 @@ public class ExecucaoTarefasController extends Controller {
 			taskManage.add(t);
 		}
 
-		User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+		
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
-		for(TaskService task:new TaskService().getMyTasks(user.getUser_name())){
+		for(TaskService task:new TaskService().getMyTasks(this.getUser().getUser_name())){
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
 			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
@@ -47,7 +47,7 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		
 		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		for(TaskService task:new TaskService().getTasksDisponiveis(user.getUser_name())){
+		for(TaskService task:new TaskService().getTasksDisponiveis(this.getUser().getUser_name())){
 			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 			t.setCategorias_processo_tabela_disponiveis(task.getCategory());
 			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
@@ -59,6 +59,7 @@ public class ExecucaoTarefasController extends Controller {
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
+		view.p_id.setParam(true);
 		return this.renderView(view);
 		/*---- End ----*/
 	}
@@ -129,7 +130,16 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionAssumir_button_tabela() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+			TaskService task = new TaskService();
+			if(task.claimTask(id, this.getUser().getUser_name())){
+				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa assumido com sucesso");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+			}
+		}
+		return this.redirect("igrp","ExecucaoTarefas","index");
 		/*---- End ----*/
 	}
 	
@@ -175,5 +185,9 @@ public class ExecucaoTarefasController extends Controller {
 		/*---- End ----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*---- Insert your actions here... ----*/
+	private User getUser(){
+		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+	}
+	/*---- End ----*/
 }
