@@ -313,7 +313,7 @@ var GENERATOR = function(genparams){
 		xsl.find('[gen-field-template]').removeAttr('gen-field-template');
 
 		xsl.find('[gen-lbl-setter]').removeAttr('gen-lbl-setter');
-
+		
 		return xsl.getXMLStr();
 	}
 
@@ -329,9 +329,13 @@ var GENERATOR = function(genparams){
 
 		var layoutRows = GEN.layout.getRows(true);
 
-		_c+= GEN.designRows(layoutRows);
+		_c+= GEN.designRows(layoutRows,{
+			main : true
+		});
 
 		_c+=getXSLBottom();
+
+		_c = GEN.setIGRPMessageTmpl(_c);
 
 		if(o.removeGenAttrs)
 			_c = removeGenAttrs(_c);
@@ -339,12 +343,34 @@ var GENERATOR = function(genparams){
 		return _c;
 	}
 
-	GEN.designRows = function(layoutRows,p){
+	GEN.designRows_old = function(layoutRows,p){
 		var dParams = p ? p : {};
 
 		var _c = '';
 		
 		var messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>';
+
+		var isFirstFluid = layoutRows[0].propreties && layoutRows[0].propreties.class == 'row-fluid' ? true : false;
+		
+		var hasMoreThanOneRow = layoutRows.length > 1 ? true : false;
+
+		/*//one row - not fluid
+		if(!hasMoreThanOneRow && !isFirstFluid){
+			c+='<MESSAGE>MESSAGE</MESSAGE>'
+		}
+
+		layoutRows.forEach(function(row,i){
+			
+			//console.log(row);
+			console.log('<row/>');
+			
+			if(isFirstFluid && !hasMoreThanOneRow){
+				c+='<MESSAGE>MESSAGE</MESSAGE>'
+			}
+
+		});*/
+
+
 
 		layoutRows.forEach(function(row,i){
 
@@ -390,6 +416,107 @@ var GENERATOR = function(genparams){
 		});
 
 		_c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
+		_c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
+		
+		return _c;
+	}
+
+	GEN.setIGRPMessageTmpl = function(_c,rows){
+
+		var messageTMPL = '<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>',
+
+			rowMsg      = '<div class="row row-msg">'
+							 	+'<div class="gen-column col-md-12"><div class="gen-inner">'
+							 		+messageTMPL
+							 	+'</div></div>'
+						+'</div>';
+	
+		var tmpl = (' ' + _c).slice(1);
+
+		try{
+
+			var doc      	  = $($.parseXML(tmpl)),
+
+				contents 	  = doc.find('#igrp-contents .content'),
+
+				rows 	 	  = contents.find('>.row'),
+
+				firstRow 	  = rows.first(),
+
+				isFirstFluid  = firstRow.hasClass('row-fluid'),
+
+				firstCol 	  = firstRow.find('.gen-column').first(),
+
+				firstIsNavbar = firstCol.find('>.gen-inner>[tab-template="navbar"]'),
+
+				isFirstHeader = firstCol.find('>.gen-inner>xsl\\:if>section.content-header');
+
+				isFull 	      = firstCol.hasClass('col-sm-12') && isFirstHeader[0] ? true : false;
+
+				if(isFull || (isFirstFluid && firstIsNavbar.index() == 0) ){
+					
+					if(isFirstHeader[0] && isFirstHeader.parent().index() == 0)
+
+						$(messageTMPL).insertAfter(isFirstHeader.parent());
+
+					else if(firstIsNavbar.index() == 0)
+
+						$(messageTMPL).insertAfter(firstIsNavbar);
+
+					else
+						contents.prepend($(rowMsg));
+					
+				}else{
+
+					contents.prepend($(rowMsg))
+
+				}
+
+			    _c = (new XMLSerializer()).serializeToString(doc[0]).replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
+			  	
+
+		}catch(err){
+			console.log(err);
+			console.log('ERROR SETTING IGRP MESSAGES')
+		}
+
+		return _c;
+	};
+
+	GEN.designRows = function(layoutRows,p){
+
+		var dParams = p ? p : {};
+
+		var _c = '';
+
+		layoutRows.forEach(function(row,i){
+
+			var rowClss = row.propreties ? row.propreties.class : '';
+
+			_c += '<div class="row '+rowClss+'" id="row-'+guid()+'">';
+			
+			row.columns.forEach(function(column,cidx){
+				_c+='<div class="gen-column '+column.size+'"><div class="gen-inner">';
+				
+				column.containers.forEach(function(_container,index){
+
+					var container = GEN.getContainer(_container.id);
+					
+					if(container)
+						_c+= container.XSLToString();
+
+				});
+
+				_c+='</div></div>';
+
+			});
+
+			_c += '</div>';
+		});
+
+
+		_c = _c.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
+
 		_c = _c.replaceAll('xmlns="http://www.w3.org/1999/xhtml"','');
 		
 		return _c;
@@ -510,7 +637,9 @@ var GENERATOR = function(genparams){
 					if(dropped.params.copy){
 						//copy fields from given page
 						GEN.getPageJSON(dropped.params.copy.id,function(containers,data){
+							
 							var rtn = true;
+							
 							var arr = $.grep(containers,function(c){
 
 								return c.proprieties.tag == dropped.params.copy.container
@@ -519,7 +648,9 @@ var GENERATOR = function(genparams){
 							if(arr[0]){
 
 								var container = arr[0];
-								
+
+								dropped.params.copy.plsql = data.plsql;
+
 								container.fields.forEach(function(_field){
 									var f = GEN.getDeclaredField(_field.properties.type);
 									if(f) fields.push(new f.field(_field.properties.type,_field));
@@ -536,7 +667,9 @@ var GENERATOR = function(genparams){
 							
 								dropped.params.xsl = container.xsl;
 
-								console.log(dropped)
+								dropped.params.proprieties = container.proprieties;
+
+								
 
 							}else{
 
@@ -1487,15 +1620,12 @@ var GENERATOR = function(genparams){
 
 		var json = typeof data == 'string' ? strToJson(data) : data;
 
-
 		if(!json.rows){
 			var rows = json;
 			json = {
 				rows:rows
 			}
 		}
-
-		console.log(json);
 
 		if(json){
 
@@ -1521,10 +1651,9 @@ var GENERATOR = function(genparams){
 				}
 				//js value
 				//set here
+				//console.log(json.rows);
+
 				var arr = GEN.addContainersPerRow(json.rows);
-
-
-				console.log(arr);
 
 				GEN.dropContainers_ROW(arr,{
 					
@@ -1590,8 +1719,17 @@ var GENERATOR = function(genparams){
 					GEN.SETTINGS.SET(p,json.plsql[p]);
 				}
 
-
-			
+			if (json.service) {
+				GEN.proprieties.service = {
+					desc 			: json.service.desc,
+					code 			: json.service.code,
+					proc 			: json.service.proc,
+					connectionsReq	: json.service.connectionsReq,
+					connectionsRes 	: json.service.connectionsRes,
+					fieldsReq 	   	: json.service.fieldsReq,
+					fieldsRes 	   	: json.service.fieldsRes
+				}
+			}
 		}
 	}
 
@@ -1599,11 +1737,12 @@ var GENERATOR = function(genparams){
 		var arr = [];
 		
 		rows.forEach(function(_row,index){
-	
+				
 			GEN.layout.addRow({
 				index:index,
 				columns:_row.columns,
 				parent: parent ? parent : false,
+				class : _row.propreties && _row.propreties.class ? _row.propreties.class : '',
 				callback:function(p){
 				
 					p.columns.forEach(function(c){
@@ -1635,8 +1774,12 @@ var GENERATOR = function(genparams){
 			plsql   : GEN.SETTINGS.toJson(),
 			css     : GEN.cssEditor.getValue(),
 			js 	    : GEN.jsEditor.getValue(),
-			files   : GEN.files
+			files   : GEN.files,
+			service : GEN.proprieties.service
 		}
+
+		console.log(page)
+
 		//console.log(page);		
 		//console.log(JSON.stringify(page));
 		return JSON.stringify(page);
@@ -2295,18 +2438,18 @@ var GENERATOR = function(genparams){
 			var clicked = $(this);
 
 			if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-				
+				/*
 				var vUrl    = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href') ;
 				var pageXML = vkbeautify.xml(GEN.getXML());
 				var pageXSL = vkbeautify.xml(GEN.getXSL({
 					removeGenAttrs:true
 				}));
 
-				/*var vParam  =  [
+				var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
 					{ name:'p_page_xsl', value: pageXSL },//xsl
-					{ name:'p_page_java',value:javaStr},//java
+					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
@@ -2320,7 +2463,7 @@ var GENERATOR = function(genparams){
 				$('#gen-noif-holder').html('');
 				
 				try{
-					console.log(GEN.SETTINGS.package)
+					
 					$.IGRP.utils.submitStringAsFile({
 						//pUrl        : 'test.save.xml',
 						pUrl        : vUrl,
@@ -2332,7 +2475,6 @@ var GENERATOR = function(genparams){
 				           		{name:'p_id_objeto', value:vItemId},
 				           		{name:'p_table_name', value:GEN.SETTINGS.table},
 				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				           	]
 				        },
 						pComplete   :function(xml,text,status){
@@ -2368,8 +2510,8 @@ var GENERATOR = function(genparams){
 			        });
 				}catch(err){
 					console.log(err);
-				}*/
-				
+				}
+*/
 				GEN.getJava(function(javaStr){
 
 					var vParam  =  [
@@ -2377,7 +2519,7 @@ var GENERATOR = function(genparams){
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+						{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2402,7 +2544,6 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
@@ -3064,6 +3205,8 @@ var GENERATOR = function(genparams){
 			objServ  = $('div[item-name="page_service"]',modal),
 
 			service  = GEN.proprieties.service ? GEN.proprieties.service : {};
+
+		
 
 		GEN.service.set(GEN);
 		objServ.append(GEN.proprieties.service.setter()[0]);

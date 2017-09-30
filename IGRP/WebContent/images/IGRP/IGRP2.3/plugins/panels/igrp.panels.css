@@ -22,8 +22,7 @@
 }
 
 .panel-group[template="igrp-accordion-group"] .panel-body{
-
-  background: #f1f1f1;
+  background: #fff;
 }
 .panel-group[template="igrp-accordion-group"] .panel{
   border-radius: 0;

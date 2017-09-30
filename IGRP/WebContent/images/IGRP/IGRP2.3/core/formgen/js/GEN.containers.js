@@ -1100,9 +1100,6 @@ var CONTAINER = function(name,params){
 				containersIDs:[container.GET.id()]
 			}));
 
-
-			console.log(tXSL);
-			console.log(tXML)
 			/*}catch(err){
 				console.log(err);
 			}*/
@@ -2082,6 +2079,8 @@ var CONTAINER = function(name,params){
 
 			}
 
+
+
 			var templateCallback = function(contents){
 				
 				if(contents.template){
@@ -2097,6 +2096,14 @@ var CONTAINER = function(name,params){
 					container.ready();
 
 					_EVENTS.execute('ready',container);
+
+					if(container.proprieties.hasOwnProperty('collapsible')){
+						container.setPropriety({
+							name  : 'collapsed',
+							value : false
+
+						});
+					}
 					
 					setUpTemplate();
 
@@ -2116,31 +2123,22 @@ var CONTAINER = function(name,params){
 
 					}
 
-					console.log(settedFields)
-					if(settedFields[0]) {
-						//console.log(settedFields)
+					if(settedFields[0]) 
 						container.SET.fields(settedFields,null,function(){
-							console.log('OKK')
 							callback();
 							container.complete();
 						});
-
-					}else{
-						console.log('TRANS')
+					else
 						container.Transform({
 							callback:function(){
-								console.log('exe')
 								callback();
 								container.complete();
 							}
 						});
 
-					}	
 
-
-				}else{
+				}else
 					console.log('template not found: '+container.type)
-				}
 			};
 
 			var templateError = function(e){

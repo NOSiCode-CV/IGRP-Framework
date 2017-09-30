@@ -74,7 +74,7 @@ $.fn.separatorList = function(o){
 						var tdcontent = '<span class="separator-list-td-val">'+text+'</span>';
 
 						if(customfieldtmpl){
-							console.log(customfieldtmpl)
+							
 							try{
 								tdcontent = customfieldtmpl({
 									name   : name,
@@ -86,7 +86,7 @@ $.fn.separatorList = function(o){
 
 								if(object.type == 'file'){
 									if (value) {
-										//row.prepend(tdcontent)
+										//row.prepend(tdcontent);
 										tdcontent = '<a href="'+value+'" class="link bClick" target="_blank">'+text+'</a>';
 									} else
 										tdcontent = '<input type="hidden" name="'+name+'_fk" value=""/>';
@@ -107,14 +107,6 @@ $.fn.separatorList = function(o){
 				$('td:first',row).append(inputRowId);
 				
 				row.append(getRowOptions());
-
-				console.log('at index: '+rowIndex)
-
-				console.log(table);
-
-				console.log(row);
-
-				console.log(edition);
 
 				if(edition)
 					$('tbody tr',table).eq(rowIndex).replaceWith(row);
@@ -195,7 +187,9 @@ $.fn.separatorList = function(o){
 		}
 
 		var rowEdit = {
+
 			set : function(p){
+
 				var slEstorage = {};
 				$(p.sl).attr('row-action','edit');
 				$(p.sl).attr('row-index',p.indexRow);
@@ -204,6 +198,8 @@ $.fn.separatorList = function(o){
 				slEstorage.action 	= 'edit';
 				slEstorage.indexRow = p.indexRow;
 				slEstorage.rowId 	= p.rowId;
+
+				//rowEdit.params.row = p.row;
 
 				localStorage.setItem(p.name, JSON.stringify(slEstorage));
 			},
@@ -237,12 +233,13 @@ $.fn.separatorList = function(o){
 				fChange  = null;  
 
 			resetForm(fields,sl);
-
+			
 			rowEdit.set({
 				sl 		 : $(sl),
 				rowId 	 : $('.sl-row-id',row).val(),
-				indexRow : $(row).index(),
-				name 	 : sl.name
+				indexRow : $(row)[0].rowIndex -1,
+				name 	 : sl.name,
+				row      : row
 			});
 
 			$.each(fields,function(i,f){
@@ -321,6 +318,7 @@ $.fn.separatorList = function(o){
 			$.IGRP.components.globalModal.set({
 				title     :'',
 				content   :content,
+				size 	  :'lg',
 				rel       :'gen-rules-setter',
 				operation :'appendTo',
 				beforeHide:function(){	
@@ -439,6 +437,7 @@ $.fn.separatorList = function(o){
 							if (sle.action == 'edit'){
 								var row = $('table tbody tr:eq('+sle.rowIndex+')',sl);
 								$('input[name="'+fname+'_fk"]',row).remove();
+								row.prev('input[name="'+fname+'_fk"]:first').remove();
 								field.insertBefore(row);
 							} 
 							else
@@ -546,7 +545,7 @@ $.fn.separatorList = function(o){
 			//FILE FIELD
 			sl.events.declare(["file-field-add"]);
 			sl.events.on("file-field-add",function(o){
-				/*return $('input[name="'+o.name+'"]').clone(!0)
+				/*return $('input[name="'+o.name+'"]').clone(true)
 					.removeAttr('class id multiple required accept').attr('name',o.name+'_fk')
 					.attr('value',o.value).hide();*/
 				return '';

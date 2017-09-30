@@ -9,9 +9,9 @@ var TREEMENU = function(name,params){
 	
 	container.fields = false;
 
-	container.xml.structure = 'table';
+	//container.xml.structure = 'table';
 
-	container.xml.genGroup = true;
+	//container.xml.genGroup = true;
 
 	container.xml.genRemote = false;
 
