@@ -67,6 +67,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("OAuthClientList", "index", "nosi.core.webapp.pages.oauthclientlist", "igrp/oauthclientlist/OAuthClientList.xsl", "pesquisar Dados dos clientes", "pesquisar Dados dos clientes", "2.3", 1, app));
 			actions.add(new Action("MapaProcesso", "index", "nosi.core.webapp.pages.mapaprocesso", "igrp/mapaprocesso/MapaProcesso.xsl", "Mapa Processo", "Mapa Processo", "2.3", 1, app));
 			actions.add(new Action("ExecucaoTarefas", "index", "nosi.core.webapp.pages.execucaotarefas", "igrp/execucaotarefas/ExecucaoTarefas.xsl", "Execucao Tarefas", "Execucao Tarefas", "2.3", 1, app));
+			actions.add(new Action("Detalhes_tarefas", "index", "nosi.core.webapp.pages.detalhes_tarefas", "igrp/detalhes_tarefas/Detalhes_tarefas.xsl", "Detalhes Tarefas", "Detalhes Tarefas", "2.3", 1, app));
+			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.core.webapp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, app));
+			actions.add(new Action("Transferir_tarefas", "index", "nosi.core.webapp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
