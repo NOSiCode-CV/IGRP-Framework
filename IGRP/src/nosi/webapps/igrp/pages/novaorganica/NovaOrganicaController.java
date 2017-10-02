@@ -34,9 +34,9 @@ public class NovaOrganicaController extends Controller {
 			organization.setStatus(model.getAtivo());
 			organization.setName(model.getNome());
 			organization = organization.insert();
-			if(organization!=null)
+			if(organization!=null){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica registada com sucesso");
-			else
+			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro.");			
 		}
 			

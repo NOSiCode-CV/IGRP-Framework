@@ -20,11 +20,12 @@ body.sidebar-off .navbar-brand{
 .box,
 .toolsbar-holder.boxed {
 	border:0;
+	box-shadow: 0 0px 10px rgba(0,0,0,0.1)
 }
 .box .box-header{
 	border-bottom: 0;
 	background: transparent;
-	padding: 8px 20px;
+	padding: 6px 15px;
 }
 
 .content-header>*,

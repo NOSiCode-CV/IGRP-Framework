@@ -5,6 +5,9 @@ package nosi.core.igrp.mingrations;
  */
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.webapp.activit.rest.GroupService;
+import nosi.core.webapp.activit.rest.UserService;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
 
@@ -26,8 +29,12 @@ public class MigrationIGRPInitConfig {
 			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "demo",null, null, null, null, null,null, 2017, 2017);
 			user1 = user1.insert();
 			
+			
+			
 			Organization org = new Organization("01.03", "NOSI", 1, app, user0, null);
 			org = org.insert();
+			
+			
 			
 			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, app, null);
 			prof0 = prof0.insert();
@@ -35,6 +42,32 @@ public class MigrationIGRPInitConfig {
 			
 			ProfileType prof1 = new ProfileType("Administrador", "ADMIN", 1, org, app, null);
 			prof1 = prof1.insert();
+			
+			//Cria grupo e utilizadores no Activiti
+			GroupService group = new GroupService();
+			group.setId(org.getCode()+"."+prof1.getCode());
+			group.setName(org.getName()+" - "+prof1.getDescr());
+			group.setType("assignment");
+			group.create(group);
+			
+			UserService userActiviti0 = new UserService();
+			userActiviti0.setId(user0.getUser_name());
+			userActiviti0.setPassword("password.igrp");
+			userActiviti0.setFirstName(user0.getName());
+			userActiviti0.setLastName("");
+			userActiviti0.setEmail(user0.getEmail());
+			userActiviti0.create(userActiviti0);	
+			
+			UserService userActiviti1 = new UserService();
+			userActiviti1.setId(user1.getUser_name());
+			userActiviti1.setPassword("password.igrp");
+			userActiviti1.setFirstName(user1.getName());
+			userActiviti1.setLastName("");
+			userActiviti1.setEmail(user1.getEmail());
+			userActiviti1.create(userActiviti1);	
+			
+			group.addUser(userActiviti0.getId());
+			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
 			actions.add(new Action("ListaPage", "index", "nosi.core.webapp.pages.listapage", "igrp/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, app));
@@ -135,6 +168,9 @@ public class MigrationIGRPInitConfig {
 			actions = null;
 			new CreateViews();
 		}
+		//inserindo dados by default na tabela Scope
+		OAuthScope objScope = new OAuthScope("Login", 0);
+		objScope.insert();
 	}
 }
 

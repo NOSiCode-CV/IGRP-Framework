@@ -46,8 +46,12 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Doloremque rem accusantium ist</value>
+                    <value>Sit consectetur mollit perspic</value>
                 </uris_>
+                <clientid_pesquisa name="p_clientid_pesquisa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>ClientID</label>
+                    <value>Adipiscing labore aliqua totam</value>
+                </clientid_pesquisa>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="default" rel="pesquisar">
@@ -84,10 +88,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Consectetur rem officia stract</client_id>
-                        <client_secret name="p_client_secret">Officia aperiam laudantium ut</client_secret>
-                        <uris name="p_uris">Perspiciatis sed mollit amet o</uris>
-                        <scope name="p_scope">Iste accusantium adipiscing of</scope>
+                        <client_id name="p_client_id">Dolor perspiciatis accusantium</client_id>
+                        <client_secret name="p_client_secret">Omnis elit dolor perspiciatis</client_secret>
+                        <uris name="p_uris">Labore voluptatem accusantium</uris>
+                        <scope name="p_scope">Deserunt lorem rem aperiam sit</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -95,10 +99,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Rem sit ut laudantium anim</client_id>
-                        <client_secret name="p_client_secret">Natus rem consectetur adipisci</client_secret>
-                        <uris name="p_uris">Labore natus aperiam mollit mo</uris>
-                        <scope name="p_scope">Magna unde omnis amet laudanti</scope>
+                        <client_id name="p_client_id">Mollit magna amet perspiciatis</client_id>
+                        <client_secret name="p_client_secret">Rem dolor mollit consectetur s</client_secret>
+                        <uris name="p_uris">Sit voluptatem stract adipisci</uris>
+                        <scope name="p_scope">Anim deserunt stract aliqua pe</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -106,10 +110,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Accusantium aperiam anim molli</client_id>
-                        <client_secret name="p_client_secret">Officia lorem aliqua sed molli</client_secret>
-                        <uris name="p_uris">Adipiscing labore unde labore</uris>
-                        <scope name="p_scope">Ipsum omnis aperiam natus ut</scope>
+                        <client_id name="p_client_id">Aperiam anim laudantium sit ma</client_id>
+                        <client_secret name="p_client_secret">Perspiciatis sit officia conse</client_secret>
+                        <uris name="p_uris">Magna perspiciatis accusantium</uris>
+                        <scope name="p_scope">Omnis totam adipiscing mollit</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -117,10 +121,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Elit labore sed stract omnis</client_id>
-                        <client_secret name="p_client_secret">Sed lorem ut consectetur offic</client_secret>
-                        <uris name="p_uris">Amet omnis consectetur mollit</uris>
-                        <scope name="p_scope">Labore anim sit ipsum sed</scope>
+                        <client_id name="p_client_id">Accusantium amet totam elit pe</client_id>
+                        <client_secret name="p_client_secret">Sed consectetur anim aperiam c</client_secret>
+                        <uris name="p_uris">Mollit sit elit omnis ipsum</uris>
+                        <scope name="p_scope">Doloremque anim adipiscing per</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -128,10 +132,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Voluptatem sit aperiam adipisc</client_id>
-                        <client_secret name="p_client_secret">Rem unde ipsum magna stract</client_secret>
-                        <uris name="p_uris">Elit rem sit iste amet</uris>
-                        <scope name="p_scope">Stract labore ipsum rem elit</scope>
+                        <client_id name="p_client_id">Natus sit voluptatem sit elit</client_id>
+                        <client_secret name="p_client_secret">Lorem ipsum unde consectetur s</client_secret>
+                        <uris name="p_uris">Officia mollit lorem perspicia</uris>
+                        <scope name="p_scope">Consectetur stract consectetur</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

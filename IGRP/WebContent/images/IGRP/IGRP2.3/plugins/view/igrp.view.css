@@ -18,7 +18,7 @@
 
 .view-block .view-item{
 	padding: 8px 0;
-	border-bottom:1px solid #EAEAEA;
+	border-bottom:1px solid rgba(51, 122, 183, 0.1)!important
 }
 
 .view-block .view-item:last-child{
@@ -32,7 +32,7 @@
 }
 
 .view-block .view-label { 
-	font-weight: bold; 
+	font-weight: 500; 
 }
 
 .view-block .view-value { 

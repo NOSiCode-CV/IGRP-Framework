@@ -2,7 +2,6 @@ package nosi.core.webapp.activit.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.helpers.ResponseError;
@@ -12,27 +11,13 @@ import nosi.core.webapp.helpers.RestRequestHelper;
  * @author: Emanuel Pereira
  * 27 Sep 2017
  */
-public class UserService {
+public class UserService extends Activit{
 
-	private String id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	@Expose(serialize=false,deserialize=false)
-	private ResponseError error;
-	@Expose(serialize=false)
-	private Integer total;
-	@Expose(serialize=false)
-	private Integer start;
-	@Expose(serialize=false)
-	private String sort;
-	@Expose(serialize=false)
-	private String order;
-	@Expose(serialize=false)
-	private Integer size;
-	@Expose(serialize=false,deserialize=false)
-	private String filter= "";
+
 	
 	public UserService() {
 	}
@@ -98,13 +83,6 @@ public class UserService {
 		ClientResponse response = RestRequestHelper.delete("identity/users",id);
 		return response.getStatus()==204;
 	}
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -138,60 +116,4 @@ public class UserService {
 		this.password = password;
 	}
 
-	public ResponseError getError() {
-		return error;
-	}
-
-	public void setError(ResponseError error) {
-		this.error = error;
-	}
-
-	public Integer getTotal() {
-		return total;
-	}
-
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
-
-	public Integer getStart() {
-		return start;
-	}
-
-	public void setStart(Integer start) {
-		this.start = start;
-	}
-
-	public String getSort() {
-		return sort;
-	}
-
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
-	public Integer getSize() {
-		return size;
-	}
-
-	public void setSize(Integer size) {
-		this.size = size;
-	}
-
-	public String getFilter() {
-		return filter;
-	}
-
-	public void setFilter(String filter) {
-		this.filter = filter;
-	}
-	
 }

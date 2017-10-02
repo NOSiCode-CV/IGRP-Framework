@@ -95,12 +95,12 @@
 }*/
 
 .box-tm > ul > li.active>.nav-header>a{
-	font-weight: bold;
+	font-weight: 400;
 	color:#333;
 }
 
 .box-tm .tree li.active>a, .box-tm .tree li.active>.nav-header>a{
-	font-weight: bold;
+	font-weight: 400;
 	color: #333;
 }
 

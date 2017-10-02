@@ -242,7 +242,9 @@
 		init:function(){
 
 			$.IGRP._init = true;
+			
 			$.IGRP.config();
+			
 			$.IGRP.events.execute('init', $.IGRP);
 
 		}

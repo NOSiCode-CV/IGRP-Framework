@@ -3,13 +3,13 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.mapaprocesso;
-import nosi.core.gui.components.IGRPMenu;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Igrp;
+import nosi.core.gui.components.IGRPMenu;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 
@@ -38,6 +38,8 @@ public class MapaProcessoController extends Controller {
 
 	/*---- Insert your actions here... ----*/
 	public Response actionOpenProcess(){
+		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
+		System.out.println(p_processId);
 		Response resp = new Response();
 		return resp;
 	}

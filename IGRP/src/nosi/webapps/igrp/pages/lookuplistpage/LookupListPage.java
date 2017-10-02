@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.lookuplistpage;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LookupListPage extends Model{		
 	@RParam(rParamName = "p_env_fk")
@@ -12,11 +13,11 @@ public class LookupListPage extends Model{
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
 
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	private List<Table_1> table_1 = new ArrayList<>();
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> gettable_1(){
 		return this.table_1;
 	}
 	
@@ -42,43 +43,37 @@ public class LookupListPage extends Model{
 	}
 
 
-	public class Table_1{
-		private String nome_page;
-		private String descricao_page;
-		private String nome_page_desc;
-		private String descricao_page_desc;
-		private int p_id;
-		public void setNome_page(String nome_page){
-			this.nome_page = nome_page;
+	public static class Table_1{
+		private String nome_pagina;
+		private String descricao;
+		private String p_id;
+		private Integer p_id_aplicacao;
+		
+		public void setNome_pagina(String nome_pagina){
+			this.nome_pagina = nome_pagina;
 		}
-		public String getNome_page(){
-			return this.nome_page;
-		}
-
-		public void setDescricao_page(String descricao_page){
-			this.descricao_page = descricao_page;
-		}
-		public String getDescricao_page(){
-			return this.descricao_page;
+		public String getNome_pagina(){
+			return this.nome_pagina;
 		}
 
-		public void setP_id(int p_id){
+		public void setDescricao(String descricao){
+			this.descricao = descricao;
+		}
+		public String getDescricao(){
+			return this.descricao;
+		}
+
+		public void setP_id(String p_id){
 			this.p_id = p_id;
 		}
-		public int getP_id(){
+		public String getP_id(){
 			return this.p_id;
 		}
-		public String getNome_page_desc() {
-			return nome_page_desc;
+		public Integer getP_id_aplicacao() {
+			return p_id_aplicacao;
 		}
-		public void setNome_page_desc(String nome_page_desc) {
-			this.nome_page_desc = nome_page_desc;
-		}
-		public String getDescricao_page_desc() {
-			return descricao_page_desc;
-		}
-		public void setDescricao_page_desc(String descricao_page_desc) {
-			this.descricao_page_desc = descricao_page_desc;
+		public void setP_id_aplicacao(Integer p_id_aplicacao) {
+			this.p_id_aplicacao = p_id_aplicacao;
 		}
 
 	}

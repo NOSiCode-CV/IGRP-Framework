@@ -626,6 +626,14 @@
 			//console.log(options)			
 		};
 
+		var containsFunc = function(a, i, m) {
+        	return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        jQuery.expr[':'].Contains = containsFunc;
+
+        jQuery.expr[':'].contains = containsFunc;
+
 	}else{
 		console.log('jQuery or IGRP.js missing!')
 	}

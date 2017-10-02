@@ -2,6 +2,7 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import nosi.base.ActiveRecord.BaseActiveRecord;;
+import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.helpers.IgrpHelper;;
 /**
  * Marcel Iekiny
  * Sep 16, 2017
@@ -106,7 +109,7 @@ public class OAuthClient extends BaseActiveRecord<OAuthClient> implements Serial
 	public void setOauthorizationCode(List<OAuthorizationCode> oauthorizationCode) {
 		this.oauthorizationCode = oauthorizationCode;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "OAuthClient [client_id=" + client_id + ", client_secret=" + client_secret + ", redirect_uri="

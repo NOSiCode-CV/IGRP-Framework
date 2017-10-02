@@ -1,10 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.execucaotarefas;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -514,6 +511,8 @@ public class ExecucaoTarefas extends Model{
 		private String atribuido_por;
 		private String atribuido_a;
 		private String data_entrada;
+		private String p_id;
+		
 		public void setNumero_processo_tabela(String numero_processo_tabela){
 			this.numero_processo_tabela = numero_processo_tabela;
 		}
@@ -555,12 +554,19 @@ public class ExecucaoTarefas extends Model{
 		public String getData_entrada(){
 			return this.data_entrada;
 		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
+		}
 
 	}
 	public static class Table_disponiveis{
 		private String tarefas_tabela_disponiveis;
 		private String categorias_processo_tabela_disponiveis;
 		private String data_entrada_tabela_disponiveis;
+		private String p_id;
 		public void setTarefas_tabela_disponiveis(String tarefas_tabela_disponiveis){
 			this.tarefas_tabela_disponiveis = tarefas_tabela_disponiveis;
 		}
@@ -581,6 +587,12 @@ public class ExecucaoTarefas extends Model{
 		public String getData_entrada_tabela_disponiveis(){
 			return this.data_entrada_tabela_disponiveis;
 		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
+		}
 
 	}
 	public static class Table__colaboradores{
@@ -593,6 +605,7 @@ public class ExecucaoTarefas extends Model{
 		private String percentagem_colab_tabela;
 		private String foto_colab_tabela;
 		private String param_colab_tabela;
+		private String p_id;
 		public void setNome_colab_tabela(String nome_colab_tabela){
 			this.nome_colab_tabela = nome_colab_tabela;
 		}
@@ -655,6 +668,12 @@ public class ExecucaoTarefas extends Model{
 		public String getParam_colab_tabela(){
 			return this.param_colab_tabela;
 		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
+		}
 
 	}
 	public static class Table_minhas_tarefas{
@@ -663,6 +682,7 @@ public class ExecucaoTarefas extends Model{
 		private String atribuido_por_tabela_minhas_tarefas;
 		private String data_entrada_tabela_minhas_tarefas;
 		private String espera_tabela_minhas_tarefas;
+		private String p_id;
 		public void setTipo_tabela_minhas_tarefas(String tipo_tabela_minhas_tarefas){
 			this.tipo_tabela_minhas_tarefas = tipo_tabela_minhas_tarefas;
 		}
@@ -696,6 +716,12 @@ public class ExecucaoTarefas extends Model{
 		}
 		public String getEspera_tabela_minhas_tarefas(){
 			return this.espera_tabela_minhas_tarefas;
+		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
 		}
 
 	}
