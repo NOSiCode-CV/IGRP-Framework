@@ -24,7 +24,7 @@ public class Detalhes_tarefasController extends Controller {
 
 	public Response actionFechar() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","Detalhes_tarefas","index");
+		return this.redirect("igrp","ListaPage","index");
 		/*---- End ----*/
 	}
 	

@@ -49,6 +49,9 @@ public class Igrp {
 	return Igrp.app;
 	}
 
+	public static String getMethod(){
+		return Igrp.getInstance().getRequest().getMethod();
+	}
 	// Inicialize the web app components
 	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;

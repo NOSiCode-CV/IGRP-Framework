@@ -10,9 +10,9 @@ public class Transferir_tarefas extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_numero_processo")
-	private float numero_processo;
+	private String numero_processo;
 	@RParam(rParamName = "p_codigo_processo")
-	private float codigo_processo;
+	private String codigo_processo;
 	@RParam(rParamName = "p_tipo_processo")
 	private String tipo_processo;
 	@RParam(rParamName = "p_data_criacao")
@@ -29,6 +29,10 @@ public class Transferir_tarefas extends Model{
 	private String utilizador_actual;
 	@RParam(rParamName = "p_novo_utilizador")
 	private String novo_utilizador;
+	@RParam(rParamName = "p_id_utilizador")
+	private String p_id_utilizador;
+	@RParam(rParamName = "p_id")
+	private String p_id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -37,17 +41,17 @@ public class Transferir_tarefas extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setNumero_processo(float numero_processo){
+	public void setNumero_processo(String numero_processo){
 		this.numero_processo = numero_processo;
 	}
-	public float getNumero_processo(){
+	public String getNumero_processo(){
 		return this.numero_processo;
 	}
 	
-	public void setCodigo_processo(float codigo_processo){
+	public void setCodigo_processo(String codigo_processo){
 		this.codigo_processo = codigo_processo;
 	}
-	public float getCodigo_processo(){
+	public String getCodigo_processo(){
 		return this.codigo_processo;
 	}
 	
@@ -105,6 +109,20 @@ public class Transferir_tarefas extends Model{
 	}
 	public String getNovo_utilizador(){
 		return this.novo_utilizador;
+	}
+	
+	public void setP_id_utilizador(String p_id_utilizador){
+		this.p_id_utilizador = p_id_utilizador;
+	}
+	public String getP_id_utilizador(){
+		return this.p_id_utilizador;
+	}
+	
+	public void setP_id(String p_id){
+		this.p_id = p_id;
+	}
+	public String getP_id(){
+		return this.p_id;
 	}
 
 

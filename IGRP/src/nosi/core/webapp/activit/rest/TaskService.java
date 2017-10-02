@@ -84,12 +84,6 @@ public class TaskService extends Activit{
 		return d;
 	}
 
-	public List<TaskService> getTasksDisponiveis(String user){
-		this.setFilter("involvedUser="+user);
-		List<TaskService> list = this.getTasks();
-		list.addAll(this.getUnassigedTasks());
-		return list;
-	}
 	
 	public TaskService create(TaskService task){
 		TaskService d = new TaskService();
@@ -133,10 +127,16 @@ public class TaskService extends Activit{
 	public boolean delegateTask(String id,String assignee){
 		return this.taskAction(id, "delegate", assignee);
 	}
-	//
+	//Devolve a tarefa de volta para o proprietario, se houver 
 	public boolean resolveTask(String id,String assignee){
 		return this.taskAction(id, "resolve", assignee);
 	}
+
+	//Libera a tarefa
+	public boolean freeTask(String id){
+		return this.taskAction(id, "claim",null);
+	}
+	
 	//Completar Tarefa
 	public boolean completeTask(String id,List<TaskVariables> variables){
 		JSONObject jobj = new JSONObject();
@@ -160,7 +160,7 @@ public class TaskService extends Activit{
 		try {
 			jobj.put("action" ,action);
 			if(!action.equalsIgnoreCase("resolve"))
-				jobj.put( "assignee" , assignee);
+				jobj.put("assignee" , assignee);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

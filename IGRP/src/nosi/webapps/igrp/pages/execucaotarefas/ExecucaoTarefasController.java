@@ -62,11 +62,12 @@ public class ExecucaoTarefasController extends Controller {
 			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
 			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setTipo_tabela_minhas_tarefas(task.getCategory());
+			t.setP_id(task.getId());
 			myTasks.add(t);
 		}
 		
 		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		for(TaskService task:objTask.getTasksDisponiveis(this.getUser().getUser_name())){
+		for(TaskService task:objTask.getUnassigedTasks()){
 			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 			t.setCategorias_processo_tabela_disponiveis(task.getCategory());
 			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
@@ -94,12 +95,19 @@ public class ExecucaoTarefasController extends Controller {
 		view.tipo_processo_estatistica.setValue(listProc);
 		view.tipo_processo_gerir_tarefa.setValue(listProc);
 		view.tipo_processo_minhas_tarefas.setValue(listProc);
+		
 		view.btn_pesquisar_button_disponiveis.setLink("index");
 		view.btn_pesquisar_button_minhas_tarefas.setLink("index");
 		view.btn_pesquisar_colaborador.setLink("index");
 		view.btn_pesquisar_estatistica.setLink("index");
 		view.btn_pesquisar_tarefa.setLink("index");
 		
+		view.btn_alterar_prioridade_tarefa.setLink("index");
+		view.btn_alterar_prioridade_tarefa.setPage("Alter_prioridade_tarefa");
+		view.btn_detalhes_tarefa.setLink("index&type=view");
+		view.btn_detalhes_tarefa.setPage("Alter_prioridade_tarefa");
+		view.btn_transferir_tarefa.setLink("index");
+		view.btn_transferir_tarefa.setPage("Transferir_tarefas");
 		return this.renderView(view);
 		/*---- End ----*/
 	}
@@ -221,7 +229,16 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionLeberar_tarefa_button_minha_tarefas() throws IOException{
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+			TaskService task = new TaskService();
+			if(task.freeTask(id)){
+				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa liberada com sucesso");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+			}
+		}
+		return this.redirect("igrp","ExecucaoTarefas","index");
 		/*---- End ----*/
 	}
 	
