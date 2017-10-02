@@ -30,7 +30,7 @@ public class Detalhes_tarefasView extends View {
 	public IGRPToolsBar fechar;
 	public IGRPButton btn_fechar;
 	public Detalhes_tarefasView(Detalhes_tarefas model){
-		this.setPageTitle("Ver os detalhes da tarefa");
+		this.setPageTitle("Detalhes Tarefas");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -44,11 +44,11 @@ public class Detalhes_tarefasView extends View {
 		
 		tipo_da_tarefa.propertie().add("name","p_tipo_da_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		data_criacao_da_tarefa = new DateField(model,"data_criacao_da_tarefa");
-		data_criacao_da_tarefa.setLabel("Data Criação da Tarefa");
+		data_criacao_da_tarefa.setLabel("Data CriaÃ§Ã£o da Tarefa");
 		
 		data_criacao_da_tarefa.propertie().add("name","p_data_criacao_da_tarefa").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_inicio_da_tarefa = new DateField(model,"data_inicio_da_tarefa");
-		data_inicio_da_tarefa.setLabel("Data Início da Tarefa");
+		data_inicio_da_tarefa.setLabel("Data InÃ­cio da Tarefa");
 		
 		data_inicio_da_tarefa.propertie().add("name","p_data_inicio_da_tarefa").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_fim_da_tarefa = new DateField(model,"data_fim_da_tarefa");
@@ -58,17 +58,17 @@ public class Detalhes_tarefasView extends View {
 		prioridade_da_tarefa = new NumberField(model,"prioridade_da_tarefa");
 		prioridade_da_tarefa.setLabel("Prioridade da Tarefa");
 		
-		prioridade_da_tarefa.propertie().add("name","p_prioridade_da_tarefa").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		prioridade_da_tarefa.propertie().add("name","p_prioridade_da_tarefa").add("type","number").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tarefa_atribuida_por = new TextField(model,"tarefa_atribuida_por");
-		tarefa_atribuida_por.setLabel("Tarefa Atribuída Por");
+		tarefa_atribuida_por.setLabel("Tarefa AtribuÃ­da Por");
 		
 		tarefa_atribuida_por.propertie().add("name","p_tarefa_atribuida_por").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tarefa_atribuida_a = new TextField(model,"tarefa_atribuida_a");
-		tarefa_atribuida_a.setLabel("Tarefa Atribuída A");
+		tarefa_atribuida_a.setLabel("Tarefa AtribuÃ­da A");
 		
 		tarefa_atribuida_a.propertie().add("name","p_tarefa_atribuida_a").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		numero_de_processo = new NumberField(model,"numero_de_processo");
-		numero_de_processo.setLabel("Número De Processo");
+		numero_de_processo.setLabel("NÃºmero De Processo");
 		
 		numero_de_processo.propertie().add("name","p_numero_de_processo").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_de_processo = new TextField(model,"tipo_de_processo");
@@ -76,11 +76,11 @@ public class Detalhes_tarefasView extends View {
 		
 		tipo_de_processo.propertie().add("name","p_tipo_de_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		data_criacao_de_processo = new DateField(model,"data_criacao_de_processo");
-		data_criacao_de_processo.setLabel("Data Criação de Processo");
+		data_criacao_de_processo.setLabel("Data CriaÃ§Ã£o de Processo");
 		
 		data_criacao_de_processo.propertie().add("name","p_data_criacao_de_processo").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_inicio_de_processo = new DateField(model,"data_inicio_de_processo");
-		data_inicio_de_processo.setLabel("Data Início de Processo");
+		data_inicio_de_processo.setLabel("Data InÃ­cio de Processo");
 		
 		data_inicio_de_processo.propertie().add("name","p_data_inicio_de_processo").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_fim_processo = new DateField(model,"data_fim_processo");
@@ -88,12 +88,12 @@ public class Detalhes_tarefasView extends View {
 		
 		data_fim_processo.propertie().add("name","p_data_fim_processo").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		descricao_da_tarefa = new TextAreaField(model,"descricao_da_tarefa");
-		descricao_da_tarefa.setLabel("Descrição da Tarefa");
+		descricao_da_tarefa.setLabel("DescriÃ§Ã£o da Tarefa");
 		
 		descricao_da_tarefa.propertie().add("name","p_descricao_da_tarefa").add("type","textarea").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 
 		fechar = new IGRPToolsBar("fechar");
-		btn_fechar = new IGRPButton("Fechar","igrp","Detalhes_tarefas","fechar","submit","danger|fa-close","","");
+		btn_fechar = new IGRPButton("Fechar","igrp","Detalhes_tarefas","fechar","_close","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("code","").add("rel","fechar");
 		
 	}
@@ -102,6 +102,7 @@ public class Detalhes_tarefasView extends View {
 	public void render(){
 		
 		sectionheader_1.addField(sectionheader_1_text);
+
 
 		form_1.addField(tipo_da_tarefa);
 		form_1.addField(data_criacao_da_tarefa);
@@ -116,7 +117,6 @@ public class Detalhes_tarefasView extends View {
 		form_1.addField(data_inicio_de_processo);
 		form_1.addField(data_fim_processo);
 		form_1.addField(descricao_da_tarefa);
-
 
 		fechar.addButton(btn_fechar);
 		this.addToPage(sectionheader_1);

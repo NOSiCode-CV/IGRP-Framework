@@ -29,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Ver os detalhes da tarefa</title>
+        <title>Detalhes Tarefas</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -42,11 +42,22 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <fechar type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="fechar">
+                <title>Fechar</title>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>_close</target>
+                <img>danger|fa-close</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+            </item>
+        </fechar>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Tipo da Tarefa</label>
-                    <value>Labore sed labore consectetur</value>
+                    <value>Aperiam dolor laudantium lorem</value>
                 </tipo_da_tarefa>
                 <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
                     <label>Data Criação da Tarefa</label>
@@ -60,25 +71,25 @@
                     <label>Data Fim da Tarefa</label>
                     <value/>
                 </data_fim_da_tarefa>
-                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Prioridade da Tarefa</label>
-                    <value>11</value>
+                    <value>13</value>
                 </prioridade_da_tarefa>
                 <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Tarefa Atribuída Por</label>
-                    <value>Officia ut aliqua voluptatem e</value>
+                    <value>Accusantium adipiscing unde ma</value>
                 </tarefa_atribuida_por>
                 <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Tarefa Atribuída A</label>
-                    <value>Ipsum sed anim adipiscing amet</value>
+                    <value>Deserunt stract aliqua unde pe</value>
                 </tarefa_atribuida_a>
                 <numero_de_processo name="p_numero_de_processo" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Número De Processo</label>
-                    <value>29</value>
+                    <value>28</value>
                 </numero_de_processo>
                 <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Tipo de Processo</label>
-                    <value>Adipiscing officia voluptatem</value>
+                    <value>Adipiscing ipsum omnis rem mol</value>
                 </tipo_de_processo>
                 <data_criacao_de_processo name="p_data_criacao_de_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
                     <label>Data Criação de Processo</label>
@@ -94,20 +105,9 @@
                 </data_fim_processo>
                 <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descrição da Tarefa</label>
-                    <value>Sit deserunt consectetur labor</value>
+                    <value>Ipsum lorem deserunt consectet</value>
                 </descricao_da_tarefa>
             </fields>
         </form_1>
-        <fechar type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="fechar">
-                <title>Fechar</title>
-                <app>igrp</app>
-                <page>Detalhes_tarefas</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>danger|fa-close</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/detalhes_tarefas/Detalhes_tarefas.xsl</parameter>
-            </item>
-        </fechar>
     </content>
 </rows>

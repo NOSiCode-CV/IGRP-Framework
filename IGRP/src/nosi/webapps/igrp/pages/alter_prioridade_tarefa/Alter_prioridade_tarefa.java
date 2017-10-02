@@ -18,15 +18,15 @@ public class Alter_prioridade_tarefa extends Model{
 	@RParam(rParamName = "p_data_fim_da_tarefa")
 	private String data_fim_da_tarefa;
 	@RParam(rParamName = "p_prioridade_da_tarefa")
-	private float prioridade_da_tarefa;
+	private String prioridade_da_tarefa;
 	@RParam(rParamName = "p_tarefa_atribuida_por")
 	private String tarefa_atribuida_por;
 	@RParam(rParamName = "p_tarefa_atribuida_a")
 	private String tarefa_atribuida_a;
-	@RParam(rParamName = "p_numero_de_processo")
-	private float numero_de_processo;
 	@RParam(rParamName = "p_tipo_de_processo")
 	private String tipo_de_processo;
+	@RParam(rParamName = "p_numero_de_processo")
+	private String numero_de_processo;
 	@RParam(rParamName = "p_data_criacao_do_processo")
 	private String data_criacao_do_processo;
 	@RParam(rParamName = "p_data_inicio_do_processo")
@@ -37,6 +37,8 @@ public class Alter_prioridade_tarefa extends Model{
 	private String nova_prioridade;
 	@RParam(rParamName = "p_descricao_da_tarefa")
 	private String descricao_da_tarefa;
+	@RParam(rParamName = "p_id")
+	private String p_id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -73,10 +75,10 @@ public class Alter_prioridade_tarefa extends Model{
 		return this.data_fim_da_tarefa;
 	}
 	
-	public void setPrioridade_da_tarefa(float prioridade_da_tarefa){
+	public void setPrioridade_da_tarefa(String prioridade_da_tarefa){
 		this.prioridade_da_tarefa = prioridade_da_tarefa;
 	}
-	public float getPrioridade_da_tarefa(){
+	public String getPrioridade_da_tarefa(){
 		return this.prioridade_da_tarefa;
 	}
 	
@@ -94,18 +96,18 @@ public class Alter_prioridade_tarefa extends Model{
 		return this.tarefa_atribuida_a;
 	}
 	
-	public void setNumero_de_processo(float numero_de_processo){
-		this.numero_de_processo = numero_de_processo;
-	}
-	public float getNumero_de_processo(){
-		return this.numero_de_processo;
-	}
-	
 	public void setTipo_de_processo(String tipo_de_processo){
 		this.tipo_de_processo = tipo_de_processo;
 	}
 	public String getTipo_de_processo(){
 		return this.tipo_de_processo;
+	}
+	
+	public void setNumero_de_processo(String numero_de_processo){
+		this.numero_de_processo = numero_de_processo;
+	}
+	public String getNumero_de_processo(){
+		return this.numero_de_processo;
 	}
 	
 	public void setData_criacao_do_processo(String data_criacao_do_processo){
@@ -141,6 +143,13 @@ public class Alter_prioridade_tarefa extends Model{
 	}
 	public String getDescricao_da_tarefa(){
 		return this.descricao_da_tarefa;
+	}
+	
+	public void setP_id(String p_id){
+		this.p_id = p_id;
+	}
+	public String getP_id(){
+		return this.p_id;
 	}
 
 
