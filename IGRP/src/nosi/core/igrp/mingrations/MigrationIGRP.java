@@ -211,6 +211,7 @@ public class MigrationIGRP {
 				aux.insert();
 			}
 		}
+		
 		if(authorizationCodes.size() > 0) {
 			for(OAuthorizationCode obj : authorizationCodes) {
 				OAuthorizationCode aux = new OAuthorizationCode(obj.getAuthorization_code(), obj.getAuthClient(), obj.getUser(), obj.getRedirect_uri(), obj.getExpires(), obj.getScope(), obj.getId_token());

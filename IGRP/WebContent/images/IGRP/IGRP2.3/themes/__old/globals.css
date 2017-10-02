@@ -1,0 +1,58 @@
+*{
+  border-radius: 0
+}
+.clear {
+  clear:both!important;
+  display: block;
+  float: none!important;
+}
+
+.clear:after{
+  content: '';
+  clear: both;
+  display: block;
+}
+
+.txt-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.alert{
+  padding:10px;
+}
+
+.alert i{
+  margin-right: 5px;
+}
+
+.no-padding{
+  padding: 0!important
+}
+
+.no-shadow{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.transparent {
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=50);
+  -moz-opacity:0;
+  -khtml-opacity: 0;
+  opacity: 0;
+}
+
+.row:after,
+.box-content:after{
+  clear: both;
+  display: block;
+  content:"";
+}
+
+
+
+ul, li{
+  list-style: none;
+}

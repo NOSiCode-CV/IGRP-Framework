@@ -41,14 +41,12 @@ public class GenXMLField {
 							getXmlValue(xml,field);
 						}
 						if(field instanceof LookupField){
-							xml.setElement("lookup", field.getLookup());
-							/*
-							 * <lookup_1 name="p_lookup_1" type="lookup" action="" page="" app="" class="default" required="false" change="false" readonly="false" disabled="false" maxlength="30" placeholder="" right="false">
-				                    <label>Lookup</label>
-				                    <value/>
-				                    <lookup>http://xpto/file.xml</lookup>
-				                </lookup_1>
-							 */
+							String link = field.getLookup()+"&amp;forLookup=true";
+							
+							for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
+								link+= "&amp;"+param.getKey()+"="+param.getValue();
+							}
+							xml.setElement("lookup", link);
 						}
 						xml.endElement();
 					}

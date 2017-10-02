@@ -161,7 +161,7 @@ $(function ( $ ) {
     				 	sourcePath 	 = parentSource ? $(parentSource).attr('parent')+'.'+sourceName : sourceName,
     				 	targetPath   = parentTaget ? $(parentTaget).attr('parent')+'.'+targetName : targetName;
     				
-    				if((parentSource && parentTaget) || (!parentSource && !parentTaget)){
+    				//if((parentSource && parentTaget) || (!parentSource && !parentTaget)){
 	    				
     					source.parent('li:first').attr('connected',targetName);
 	    				target.parent('li:first').attr('connected',sourceName);
@@ -170,7 +170,7 @@ $(function ( $ ) {
 	    					from:sourcePath,
 	    					to  :targetPath
 	    				});
-    				}
+    				//}
     				
     			});
 

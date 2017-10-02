@@ -128,6 +128,7 @@ public class PesquisarMenuController extends Controller {
 		}
 		return this.redirect("igrp","pesquisar-menu","index");
 	}
+	
 	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
@@ -144,7 +145,7 @@ public class PesquisarMenuController extends Controller {
 		topMenu.addItem("Home", "webapps?r=igrp", "home", "index", "_self", "home.png");
 		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
 		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
-		topMenu.addItem("Tarefas", "webapps?r=igrp", "Tasks", "index", "_self", "tasks.png");
+		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
 		return this.renderView(topMenu.toString());
 	}
 }

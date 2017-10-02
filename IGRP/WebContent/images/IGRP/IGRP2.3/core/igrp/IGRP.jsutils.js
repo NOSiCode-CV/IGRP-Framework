@@ -54,8 +54,6 @@ String.prototype.iSoDateFormat = function(){
 	return new Date(this).toISOString();
 };
 
-
-
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
@@ -124,3 +122,11 @@ $.fn.writeAlert = function(alert,insertAt,index){
 	}else
 		this.append(alert);
 };
+
+var containsFunc = function(a, i, m) {
+	return $(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+};
+
+$.expr[':'].Contains = containsFunc;
+
+$.expr[':'].contains = containsFunc;

@@ -4,7 +4,7 @@ var GENSTRUCTURES = function(GEN){
 	//var GEN.UTILS.link_preview = 'http://igrp.teste.gov.cv/images/IGRP';
 	//var GEN = VARS.getGen();
 
-	console.log(GEN)
+	//console.log(GEN)
 
 	STRUC.GET = function(p){
 		var xml;
@@ -39,7 +39,8 @@ var GENSTRUCTURES = function(GEN){
 			
 			attributes = ' type="'+type+'" xml-type="'+xmlType+'"';
 
-			if(container.copyOptions){
+			if(container.copyOptions){	
+				//console.log(container.copyOptions)
 				var cpackageDB   = container.copyOptions.plsql ? container.copyOptions.plsql.package : '',
 					cpackageHTML = container.copyOptions.plsql ? container.copyOptions.plsql.html : '';
 				
@@ -86,8 +87,9 @@ var GENSTRUCTURES = function(GEN){
 					if(container.xml.type == 'fields'){
 						rtn+=genFields(container);
 
-						if(container.xml.table)
+						if(container.xml.table){
 							rtn+=genTable(container);	
+						}
 						
 						else if (container.contextMenu)
 							rtn+=GEN.genContextMenu(container);
@@ -111,8 +113,9 @@ var GENSTRUCTURES = function(GEN){
 					if(container.xml.type == 'fingerprint')
 						rtn+=genFingerPrint(container);
 
-					if(container.GET.type() == 'treemenu')
+					if(container.GET.type() == 'treemenu'){
 						rtn+=genTreeMenu(container);
+					}
 
 					if(container.xml.type == 'text'){
 						var value   = container.GET.text ? container.GET.text() : '';
@@ -498,6 +501,7 @@ var GENSTRUCTURES = function(GEN){
 	var genFingerPrint = function(container){
 		var rtn = '<fields>',
 			tag = container.GET.tag();
+
 		rtn += '<'+tag+'_link name="p_'+tag+'_link" type="link" maxlength="4000"><label>link</label><value></value></'+tag+'_link>';
 		rtn += '<'+tag+'_photo name="p_'+tag+'_photo" type="link" maxlength="4000"><label>Photo</label><value></value></'+tag+'_photo>';
 		rtn += '<'+tag+'_fingerright name="p_'+tag+'_fingerright" type="link" maxlength="4000"><label>Finger Right</label><value></value></'+tag+'_fingerright>';
@@ -512,16 +516,18 @@ var GENSTRUCTURES = function(GEN){
 	};
 
 	var genTreeMenu = function(container){
-		var rtn = '<fields>',
+		var rtn = '',
 			row = '',
 			tag = container.GET.tag();
-		rtn += '<'+tag+'_link type="link" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
+
+		rtn += '<fields><'+tag+'_link type="link" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
 		rtn += '<'+tag+'_tmid type="number"><label>ID</label></'+tag+'_tmid>';
 		rtn += '<'+tag+'_parent type="number"><label>Parent ID</label></'+tag+'_parent>';
 		rtn += '<'+tag+'_icon type="text"><label>Icon</label></'+tag+'_icon>';
 		rtn += '<'+tag+'_child><label>Has child value(0/X)</label></'+tag+'_child>';
 		rtn += '<'+tag+'_active><label>Is Active value(true/false)</label></'+tag+'_active>';
 		rtn += '</fields><table><value>';
+
 		for (var i = 0; i < 8; i++) {
 			var aux = i+1,
 			parent  = aux % 2 == 0 ? aux - 1 : aux % 3 == 0 ? aux - 2 : '';  
@@ -536,9 +542,10 @@ var GENSTRUCTURES = function(GEN){
 			row += '<'+tag+'_active></'+tag+'_active>';
 			row += '</row>';
 		}
+
 		rtn +=row+'</value></table>';
 
-		return rtn;
+		//return rtn;
 	};
 
 	var getFieldsService = function(service,point){
@@ -546,8 +553,12 @@ var GENSTRUCTURES = function(GEN){
 		service.forEach(function(c){
 			var type = c.type ? 'type="'+c.type+'"' : '';
 			if(c[0]){
-				type = c[0].type ? 'type="'+c[0].type+'"' : '';
-				rtn+='<item '+type+' structure="list" rel="'+c[0].to+'">';
+				var node 		= c[0],
+					connected 	= node.from ? point+'="'+node.from+'"' : '';
+
+				type = node.type ? 'type="'+node.type+'"' : '';
+
+				rtn+='<item '+type+' '+connected+' structure="list" rel="'+node.to+'">';
 					c.forEach(function(e,i){
 						type = e.type ? 'type="'+e.type+'"' : '';
 						if (i > 0) {

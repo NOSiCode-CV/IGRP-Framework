@@ -7,10 +7,10 @@
                 <xsl:call-template name="IGRP-head"/>
                 <!-- TABCONTENT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/tabs/igrp.tabs.css?v={$version}"/>
-                <!-- TABLE CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
                 <!-- VIEW CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/view/igrp.view.css?v={$version}"/>
+                <!-- TABLE CSS INCLUDES -->
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
@@ -26,7 +26,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row" id="row-1af99187">
+                                    <div class="row" id="row-bb2f2f6f">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -45,7 +45,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gerir_tarefas/value"/>
                                                                 </xsl:call-template>
                                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-gerir_tarefas">
-                                                                    <i class="fa fa-angle-right"/>
+                                                                    <i class="fa fa-tasks"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/gerir_tarefas/label"/>
                                                                     </span>
@@ -58,7 +58,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/colaboradores/value"/>
                                                                 </xsl:call-template>
                                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-colaboradores">
-                                                                    <i class="fa fa-angle-right"/>
+                                                                    <i class="fa fa-users"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/colaboradores/label"/>
                                                                     </span>
@@ -71,7 +71,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/estatistica/value"/>
                                                                 </xsl:call-template>
                                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-estatistica">
-                                                                    <i class="fa fa-angle-right"/>
+                                                                    <i class="fa fa-line-chart"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/estatistica/label"/>
                                                                     </span>
@@ -84,7 +84,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/minhas_tarefas/value"/>
                                                                 </xsl:call-template>
                                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-minhas_tarefas">
-                                                                    <i class="fa fa-angle-right"/>
+                                                                    <i class="fa fa-address-book-o"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/minhas_tarefas/label"/>
                                                                     </span>
@@ -97,7 +97,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/disponiveis/value"/>
                                                                 </xsl:call-template>
                                                                 <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-disponiveis">
-                                                                    <i class="fa fa-angle-right"/>
+                                                                    <i class="fa fa-calendar-check-o"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/disponiveis/label"/>
                                                                     </span>
@@ -112,7 +112,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gerir_tarefas/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-9f279e06">
+                                                                <div class="row" id="row-d2728b6e">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_gerir_tarefa">
@@ -377,7 +377,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/colaboradores/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-edd8c434">
+                                                                <div class="row" id="row-ba23fd89">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_colaboradores">
@@ -692,7 +692,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/estatistica/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-2784a272">
+                                                                <div class="row" id="row-31a79c6b">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/view_estatistica">
@@ -989,7 +989,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/minhas_tarefas/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-845db369">
+                                                                <div class="row" id="row-26cffbd7">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_minhas_tarefas">
@@ -1240,7 +1240,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/disponiveis/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-2fcf665a">
+                                                                <div class="row" id="row-0bbc5523">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_disponiveis">
@@ -1490,10 +1490,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506622545165"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506622545165"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506622545165"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506622545165"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506622545165"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1506622545165"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506683324327"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506683324327"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506683324327"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506683324327"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506683324328"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1506683324332"/>
 </xsl:stylesheet>

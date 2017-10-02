@@ -360,8 +360,8 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	
 	private String getSqlQueryToXml(Set<Properties> columns,List<Object[]> data){
 		XMLWritter xml = new XMLWritter();
-		IGRPForm form = new IGRPForm("form",(float)2.1);
-		IGRPTable table = new IGRPTable("table",(float)2.1);
+		IGRPForm form = new IGRPForm("form");
+		IGRPTable table = new IGRPTable("table");
 		Map<Properties,String> mappData = this.mappingColumnValue(columns, data);		
 		Set<Entry<Properties, String>> setData = mappData.entrySet();
 		for(Entry<Properties,String> entry:setData){
@@ -401,6 +401,14 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		return mapping;
+	}
+
+	@Override
+	public String toString() {
+		return "RepSource [id=" + id + ", name=" + name + ", type=" + type + ", type_fk=" + type_fk + ", type_name="
+				+ type_name + ", type_query=" + type_query + ", status=" + status + ", dt_created=" + dt_created
+				+ ", dt_updated=" + dt_updated + ", application=" + application + ", application_source="
+				+ application_source + ", user_created=" + user_created + ", user_updated=" + user_updated + "]";
 	}
 
 	

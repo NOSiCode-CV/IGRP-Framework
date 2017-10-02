@@ -4,10 +4,11 @@
   <xsl:template name="box-header">
     <xsl:param name="title"/>
     <xsl:param name="collapsible" select="'false'"/>
+    <xsl:param name="collapsed" select="'false'"/>
     <xsl:variable name="collapsibleClass">
       <xsl:if test="$collapsible = 'true'">box-collapser</xsl:if>
     </xsl:variable>
-    <xsl:attribute name="collapsed">false</xsl:attribute>
+    <xsl:attribute name="collapsed"><xsl:value-of select="$collapsed"/></xsl:attribute>
     <div class="box-header {$collapsibleClass}">
       <h3 class="box-title"><xsl:value-of select="$title"/></h3>
       <xsl:if test="$collapsible = 'true'">

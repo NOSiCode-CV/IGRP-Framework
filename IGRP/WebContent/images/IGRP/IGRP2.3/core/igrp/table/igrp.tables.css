@@ -18,7 +18,7 @@ table thead {
 }
 
 table thead th{
-  font-weight: 600
+  font-weight: 500
 }
 
 table th[align="center"]{
@@ -32,6 +32,10 @@ table th[align="right"]{
 table tfoot{
   background: #ececec;
   font-weight: bold;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+   background-color: #fbfcfc;
 }
 
 /*ctx menu*/

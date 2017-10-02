@@ -19,7 +19,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.User;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,9 +60,12 @@ public class DataSourceController extends Controller {
 		DataSourceView view = new DataSourceView(model);
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
-		//view.pagina.setValue(new Action().getListActions());
-		//view.pagina.setValue("&amp;p_prm_target=_blank&amp;p_cx_id=p_id_pagina&amp;p_cx_nome=p_pagina&amp;p_cx_nivel_saida=6");
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
+		view.pagina.addParam("p_prm_target","_blank");
+		view.pagina.addParam("p_id_pagina", "p_id");
+		view.pagina.addParam("p_pagina", "descricao");
+		view.pagina.addParam("p_aplicacao", "p_id_aplicacao");
+		
 		if(ichange!=null && !ichange.equals("")){
 			if(model.getTipo().equalsIgnoreCase("object")){
 				view.processo.setVisible(false);
@@ -115,7 +117,7 @@ public class DataSourceController extends Controller {
 				rep.setType_query(model.getObjecto());
 			}
 			if(model.getTipo().equalsIgnoreCase("page")){				
-				rep.setType_fk(/*Integer.parseInt(model.getPagina())*/2);
+				rep.setType_fk(Integer.parseInt(model.getP_id_pagina()));
 			}
 			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
@@ -125,22 +127,26 @@ public class DataSourceController extends Controller {
 					return this.redirect("igrp","DataSource","index");
 				}
 			}
-			Application app = new Application().findOne(Integer.parseInt(model.getAplicacao()));
-			rep.setApplication(app);
-			rep.setStatus(1);
-			rep.setApplication_source(app);
-			Date dt = new Date(System.currentTimeMillis());
-			rep.setDt_created(dt);
-			rep.setDt_updated(dt);
-			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-			rep.setUser_created(user);
-			rep.setUser_updated(user);
-			String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
-			if(id!=null && !id.equals("")){
-				rep.setId(Integer.parseInt(id));
-				rep = rep.update();
+			if(model.getAplicacao()!=null && !model.getAplicacao().equals("")){
+				Application app = new Application().findOne(Integer.parseInt(model.getAplicacao()));
+				rep.setApplication(app);
+				rep.setStatus(1);
+				rep.setApplication_source(app);
+				Date dt = new Date(System.currentTimeMillis());
+				rep.setDt_created(dt);
+				rep.setDt_updated(dt);
+				User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+				rep.setUser_created(user);
+				rep.setUser_updated(user);
+				String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
+				if(id!=null && !id.equals("")){
+					rep.setId(Integer.parseInt(id));
+					rep = rep.update();
+				}else{
+					rep = rep.insert();
+				}
 			}else{
-				rep = rep.insert();
+				Igrp.getInstance().getFlashMessage().addMessage("error","Operação falhada");
 			}
 			if(rep!=null){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
@@ -162,36 +168,32 @@ public class DataSourceController extends Controller {
 	/*---- Insert your actions here... ----*/
 	
 	//Print data source in xml format
-	public PrintWriter actionGetDataSource() throws IOException{
+	public Response actionGetDataSource() throws IOException{
 		String [] p_id = Igrp.getInstance().getRequest().getParameterValues("p_id");
 		String p_template_id = Igrp.getInstance().getRequest().getParameter("p_template_id");
-		System.out.println("id: "+p_template_id);
-		System.out.println("ids: "+p_id);
-		Igrp.getInstance().getResponse().setContentType("text/xml");
-		String list ="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-			   list += "<rows>\n";		
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("rows");
 		if(p_id!=null && p_id.length > 0){
 			for(String id:p_id){
-				list += this.loadDataSource(Integer.parseInt(id),(p_template_id!=null && !p_template_id.equals(""))?Integer.parseInt(p_template_id):0);
+				xml.addXml(this.loadDataSource((int)Float.parseFloat(id),(p_template_id!=null && !p_template_id.equals(""))?(int)Float.parseFloat(p_template_id):0));
 			}
 		}
-		list +="</rows>";
-		return Igrp.getInstance().getResponse().getWriter().append(list);
+		xml.endElement();
+		return this.renderView(xml.toString());
 	}
 
 	//Load data source
 	private String loadDataSource(int id,int template_id) {
-		RepSource rep = new RepSource();
-		rep = rep.findOne(id);
+		RepSource rep = new RepSource().findOne(id);
 		if(rep!=null){
 			Set<Properties> columns = new HashSet<>();
 			String title = rep.getName();
-			if(rep.getType().equals("object") || rep.getType().equals("query")){
+			if(rep.getType().equalsIgnoreCase("object") || rep.getType().equalsIgnoreCase("query")){
 				String query = rep.getType_query();
-				query = rep.getType().equals("object")?"SELECT * FROM "+query:query;
+				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
 				columns = rep.getColumns(template_id,query);
 				return this.transformToXml(title,columns);
-			}else if(rep.getType().equals("page")){
+			}else if(rep.getType().equalsIgnoreCase("page")){
 				Action ac = new Action();
 				ac = ac.findOne(rep.getType_fk());
 				String fileName = ac.getPage()+".xml";
@@ -211,8 +213,8 @@ public class DataSourceController extends Controller {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("content");
 			xml.setElement("title", title);
-			IGRPForm form = new IGRPForm("form",(float)2.1);
-			IGRPTable table = new IGRPTable("table",(float)2.1);
+			IGRPForm form = new IGRPForm("form");
+			IGRPTable table = new IGRPTable("table");
 			Iterator<Properties> listColumns = columns.iterator();
 			while(listColumns.hasNext()){
 				Properties p = listColumns.next();

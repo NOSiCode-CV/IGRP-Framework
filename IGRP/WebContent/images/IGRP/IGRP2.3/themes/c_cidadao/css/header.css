@@ -1,0 +1,43 @@
+#igrp-top-nav{
+	-webkit-box-shadow: 4px 0 5px rgba(0,0,0,0.08);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: #337ab7;
+    overflow: visible;
+}
+#igrp-top-nav .navbar-brand{
+	background:#296598;
+}
+#igrp-top-nav .navbar-brand b{
+	font-weight: 400
+}
+#igrp-top-nav #side-bar-ctrl{
+	font-size: 14px;
+}
+#igrp-top-nav #side-bar-ctrl:hover{
+	background:rgba(0,0,0,.1); 
+}
+
+#igrp-top-nav  #igrp-app-title{
+	line-height: 53px;
+	
+	font-size: 16px;
+	font-weight: 500
+}
+
+#igrp-top-menu>li{
+	border:0;
+}
+
+#igrp-top-nav ul li a{
+	line-height: 55px;
+	padding: 0 15px;
+	border-bottom: 2px solid transparent
+}
+
+#igrp-top-menu>li>a:hover, 
+#igrp-top-menu>li>a:focus{
+	background:none;
+	border-bottom-color: #fff;
+	
+}
+

@@ -1,14 +1,17 @@
 <style>
+
+	<nav>
+
+		<background>#408140</background>
+
+	</nav>
+
 	<colors>
-		<color name="1">#5cb85c</color>
-		<color name="2">#418141</color>
-		<button>
-			<primary hover="#418141">#5cb85c</primary>
-		</button>
+		
+		<color name="primary" bg-hover="#326532" text-color="white" link="true">#408140</color>
+
 	</colors>
-	<css>
-		<file>css/default.css</file>
-		<!-- <file>css/default.buttons.css</file> -->
-	</css>
+
 	<logo>img/logo.png</logo>
+
 </style>

@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.IgrpHelper;
 /**
  * Marcel Iekiny
  * Sep 16, 2017
@@ -39,5 +41,8 @@ public class OAuthScope extends BaseActiveRecord<OAuthScope> implements Serializ
 	}
 	public void setIs_default(int is_default) {
 		this.is_default = is_default;
+	}
+	public Map<Object, Object> getListScope(){
+		return IgrpHelper.toMap(this.findAll(), "scope", "scope", "");
 	}
 }

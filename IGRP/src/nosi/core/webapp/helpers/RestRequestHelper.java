@@ -44,7 +44,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
 	        url = RestRequestHelper.BASE_URL + url;
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
 	        client.destroy();
 	   	 	return response;
@@ -60,7 +60,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
 	        url = RestRequestHelper.BASE_URL + url;
-	        WebResource resource = client.resource(url);
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 	        ClientResponse response = resource.accept(FORMAT).get(ClientResponse.class);
 		    client.destroy();
 	   	 	return response;
@@ -77,7 +77,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
 	        url = RestRequestHelper.BASE_URL + url;	        
-	        WebResource resource = client.resource(url);	        
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	        
 	        ClientResponse response = resource.accept(FORMAT).type(FORMAT)/*.type(MediaType.MULTIPART_FORM_DATA)*/.post(ClientResponse.class, content);			
 	        client.destroy();
 	        return response;
@@ -94,7 +94,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
 	        url = RestRequestHelper.BASE_URL + url;	        
-	        WebResource resource = client.resource(url).path(String.valueOf(id));	        
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));	        
 	        ClientResponse response = resource.accept(FORMAT).type(FORMAT)/*.type(MediaType.MULTIPART_FORM_DATA)*/.post(ClientResponse.class, content);			
 	        client.destroy();
 	        return response;
@@ -110,7 +110,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));            
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url);
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 			ClientResponse response = resource.accept(FORMAT).type(FORMAT).put(ClientResponse.class, content);			
 	 	    client.destroy();
 	        return response;
@@ -127,7 +127,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));	            
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(FORMAT).type(FORMAT).put(ClientResponse.class, content);			
 	 	    client.destroy();
 	        return response;
@@ -143,7 +143,7 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	     
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));       
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(FORMAT).delete(ClientResponse.class);			
 	 	    client.destroy();
 	        return response;
