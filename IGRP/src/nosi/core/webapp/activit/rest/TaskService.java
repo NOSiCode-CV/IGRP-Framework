@@ -38,7 +38,7 @@ public class TaskService extends Activit{
 	public TaskService() {
 	}
 	
-	public TaskService getProcessDefinition(String id){
+	public TaskService getTask(String id){
 		TaskService d = new TaskService();
 		ClientResponse response = RestRequestHelper.get("runtime/tasks",id);
 		if(response!=null){
@@ -52,36 +52,19 @@ public class TaskService extends Activit{
 		return d;
 	}
 	
-
-	@SuppressWarnings("unchecked")
-	public List<TaskService> getAllTasks(){
-		ClientResponse response = RestRequestHelper.get("runtime/tasks");
-		List<TaskService> d = new ArrayList<>();
-		if(response!=null){
-			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==200){
-				TaskService dep = (TaskService) RestRequestHelper.convertJsonToDao(contentResp, this.getClass());
-				this.setTotal(dep.getTotal());
-				this.setSize(dep.getSize());
-				this.setSort(dep.getSort());
-				this.setOrder(dep.getOrder());
-				this.setStart(dep.getStart());
-				d = (List<TaskService>) RestRequestHelper.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskService>>(){}.getType());
-			}else{
-				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
-			}
-		}
-		return d;
-	}
-
-
 	public List<TaskService> getMyTasks(String user){
-		this.setFilter("involvedUser="+user);
+		this.setFilter("assignee="+user);
+		return this.getTasks();
+	}
+	
+
+	public List<TaskService> getUnassigedTasks(){
+		this.setFilter("unassigned=true");
 		return this.getTasks();
 	}
 	
 	@SuppressWarnings("unchecked")	
-	private List<TaskService> getTasks(){
+	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
 		ClientResponse response = RestRequestHelper.get("runtime/tasks?"+this.getFilter());
 		if(response!=null){
@@ -102,8 +85,10 @@ public class TaskService extends Activit{
 	}
 
 	public List<TaskService> getTasksDisponiveis(String user){
-		this.setFilter("assignee="+user);
-		return this.getTasks();
+		this.setFilter("involvedUser="+user);
+		List<TaskService> list = this.getTasks();
+		list.addAll(this.getUnassigedTasks());
+		return list;
 	}
 	
 	public TaskService create(TaskService task){

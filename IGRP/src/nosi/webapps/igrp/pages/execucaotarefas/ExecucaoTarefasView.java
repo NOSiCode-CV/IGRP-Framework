@@ -459,7 +459,7 @@ public class ExecucaoTarefasView extends View {
 		btn_executar_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","executar_button_minha_tarefas");
 		btn_detalhes_processos_button_minha_tarefas = new IGRPButton("Detalhes Processos","igrp","ExecucaoTarefas","detalhes_processos_button_minha_tarefas","submit","default|fa-angle-right","","");
 		btn_detalhes_processos_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","detalhes_processos_button_minha_tarefas");
-		btn_leberar_tarefa_button_minha_tarefas = new IGRPButton("Leberar Tarefa","igrp","ExecucaoTarefas","leberar_tarefa_button_minha_tarefas","alert_submit","default|fa-angle-right","","");
+		btn_leberar_tarefa_button_minha_tarefas = new IGRPButton("Liberar Tarefa","igrp","ExecucaoTarefas","leberar_tarefa_button_minha_tarefas","alert_submit","default|fa-angle-right","","");
 		btn_leberar_tarefa_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","leberar_tarefa_button_minha_tarefas");
 		
 		p_id = new HiddenField(model,"p_id");

@@ -6,29 +6,48 @@ package nosi.webapps.igrp.pages.execucaotarefas;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 /*---- End ----*/
+import java.util.HashMap;
 
 public class ExecucaoTarefasController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
+		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(), "id", "name", "--- Selecionar Processo ---");
+		Map<String,String> listPrioridade = new HashMap<String,String>();
+		listPrioridade.put(null, "--- Escolher Prioridade ---");
+		listPrioridade.put("100", "Urgente");
+		listPrioridade.put("50", "Médio");
+		listPrioridade.put("0", "Normal");
+		
 		ExecucaoTarefas model = new ExecucaoTarefas();
+		TaskService objTask = new TaskService();
+		
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			model.load();
+//			model
+			objTask.setFilter(model.getPrioridade_colaborador());
+		}
+		
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
-		for(TaskService task:new TaskService().getAllTasks()){
+		
+		for(TaskService task:objTask.getTasks()){
 			ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
 			t.setAtribuido_a(task.getAssignee());
 			t.setAtribuido_por(task.getOwner());
 			t.setData_entrada(task.getCreateTime().toString());
-			t.setDesc_tarefa(task.getDescription());
+			t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setNumero_processo_tabela(task.getProcessDefinitionId());
 			t.setP_id(task.getId());
 			t.setTipo(task.getCategory());
@@ -37,29 +56,50 @@ public class ExecucaoTarefasController extends Controller {
 
 		
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
-		for(TaskService task:new TaskService().getMyTasks(this.getUser().getUser_name())){
+		for(TaskService task:objTask.getMyTasks(this.getUser().getUser_name())){
 			ExecucaoTarefas.Table_minhas_tarefas t = new ExecucaoTarefas.Table_minhas_tarefas();
 			t.setAtribuido_por_tabela_minhas_tarefas(task.getOwner());
 			t.setData_entrada_tabela_minhas_tarefas(task.getCreateTime().toString());
-			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription());
+			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setTipo_tabela_minhas_tarefas(task.getCategory());
 			myTasks.add(t);
 		}
 		
 		List<ExecucaoTarefas.Table_disponiveis> tasksDisponiveis = new ArrayList<>();
-		for(TaskService task:new TaskService().getTasksDisponiveis(this.getUser().getUser_name())){
+		for(TaskService task:objTask.getTasksDisponiveis(this.getUser().getUser_name())){
 			ExecucaoTarefas.Table_disponiveis t = new ExecucaoTarefas.Table_disponiveis();
 			t.setCategorias_processo_tabela_disponiveis(task.getCategory());
 			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
 			t.setP_id(task.getId());
-			t.setTarefas_tabela_disponiveis(task.getDescription());
+			t.setTarefas_tabela_disponiveis(task.getDescription()!=null?task.getDescription():task.getName());
 			tasksDisponiveis.add(t);
 		}
+		
 		ExecucaoTarefasView view = new ExecucaoTarefasView(model);
 		view.table_gerir_tarefas.addData(taskManage);
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
 		view.p_id.setParam(true);
+		view.organica_minhas_tarefas.setValue(new ProfileType().getListMyProfiles());
+		view.organica_gerir_tarefa.setValue(new ProfileType().getListMyProfiles());
+		view.organica_colaborador.setValue(new ProfileType().getListMyProfiles());
+		view.organica_form_disponiveis.setValue(new ProfileType().getListMyProfiles());
+		view.prioridade_colaborador.setValue(listPrioridade);
+		view.prioridade_estatistica.setValue(listPrioridade);
+		view.prioridade_minhas_tarefas.setValue(listPrioridade);
+		view.prioridade_form_disponiveis.setValue(listPrioridade);
+		view.prioridade_gerir_tarefa.setValue(listPrioridade);
+		view.tipo_processo_colaborador.setValue(listProc);
+		view.tipo_processo_form_disponiveis.setValue(listProc);
+		view.tipo_processo_estatistica.setValue(listProc);
+		view.tipo_processo_gerir_tarefa.setValue(listProc);
+		view.tipo_processo_minhas_tarefas.setValue(listProc);
+		view.btn_pesquisar_button_disponiveis.setLink("index");
+		view.btn_pesquisar_button_minhas_tarefas.setLink("index");
+		view.btn_pesquisar_colaborador.setLink("index");
+		view.btn_pesquisar_estatistica.setLink("index");
+		view.btn_pesquisar_tarefa.setLink("index");
+		
 		return this.renderView(view);
 		/*---- End ----*/
 	}
