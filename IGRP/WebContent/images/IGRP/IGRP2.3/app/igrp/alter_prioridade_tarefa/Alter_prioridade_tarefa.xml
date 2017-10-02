@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Alter_prioridade_tarefa</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Alter_prioridade_tarefa</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title></title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Alterar prioridade da Tarefa]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tipo da Tarefa</label>
+                    <value>Elit mollit magna stract amet</value>
+                </tipo_da_tarefa>
+                <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Criação da Tarefa</label>
+                    <value/>
+                </data_criacao_da_tarefa>
+                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Início da Tarefa</label>
+                    <value/>
+                </data_inicio_da_tarefa>
+                <data_fim_da_tarefa name="p_data_fim_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim da Tarefa</label>
+                    <value/>
+                </data_fim_da_tarefa>
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Prioridade da Tarefa</label>
+                    <value>6</value>
+                </prioridade_da_tarefa>
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tarefa Atribuida Por</label>
+                    <value>Omnis natus stract accusantium</value>
+                </tarefa_atribuida_por>
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tarefa Atribuida A</label>
+                    <value>Amet stract doloremque ipsum a</value>
+                </tarefa_atribuida_a>
+                <numero_de_processo name="p_numero_de_processo" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Número de Processo</label>
+                    <value>2</value>
+                </numero_de_processo>
+                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Tipo de Processo</label>
+                    <value>Perspiciatis elit anim magna s</value>
+                </tipo_de_processo>
+                <data_criacao_do_processo name="p_data_criacao_do_processo" type="date" format="IGRP_datePicker" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Criação do Processo</label>
+                    <value/>
+                </data_criacao_do_processo>
+                <data_inicio_do_processo name="p_data_inicio_do_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Início do Processo</label>
+                    <value/>
+                </data_inicio_do_processo>
+                <data_fim_do_processo name="p_data_fim_do_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim do Processo</label>
+                    <value/>
+                </data_fim_do_processo>
+                <nova_prioridade name="p_nova_prioridade" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Nova Prioridade</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </nova_prioridade>
+                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descrição da Tarefa</label>
+                    <value>Aliqua adipiscing labore persp</value>
+                </descricao_da_tarefa>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="salvar">
+                    <title>Salvar</title>
+                    <app>igrp</app>
+                    <page>Alter_prioridade_tarefa</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-save</img>
+                </item>
+            </tools-bar>
+        </form_1>
+    </content>
+</rows>
