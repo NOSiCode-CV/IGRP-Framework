@@ -37,6 +37,7 @@ public class EnvController extends Controller {
 		Env model = new Env();
 		EnvView view = new EnvView(model);
 		view.action_fk.setValue(new Action().getListActions());
+		view.img_src.setValue("default.png");
 		return this.renderView(view);
 	}
 
