@@ -22,6 +22,9 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthorizationCode extends BaseActiveRecord<OAuthorizationCode> implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String authorization_code;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -101,4 +104,13 @@ public class OAuthorizationCode extends BaseActiveRecord<OAuthorizationCode> imp
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 }

@@ -22,6 +22,9 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthRefreshToken extends BaseActiveRecord<OAuthRefreshToken> implements Serializable{
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String refresh_token;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -81,4 +84,19 @@ public class OAuthRefreshToken extends BaseActiveRecord<OAuthRefreshToken> imple
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "OAuthRefreshToken [id=" + id + ", refresh_token=" + refresh_token + ", authClient=" + authClient
+				+ ", expires=" + expires + ", scope=" + scope + "]";
+	}
+	
 }
