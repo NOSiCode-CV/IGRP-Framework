@@ -21,6 +21,9 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String access_token;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -80,6 +83,14 @@ public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implem
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }

@@ -11,6 +11,7 @@ import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -46,7 +47,7 @@ public class LoginController extends Controller {
 							if(authorizationCode != null)
 								url_ = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
 							else
-								url_ = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied ...");
+								url_ = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied");
 					
 						}catch(Exception e) {
 							url_ = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
@@ -61,7 +62,7 @@ public class LoginController extends Controller {
 							if(token != null)
 								url_ = OAuth2.buildUrl(redirect_uri, 2, token);
 							else
-								url_ = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied ...");
+								url_ = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied");
 					
 						}catch(Exception e) {
 							url_ = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
@@ -69,7 +70,7 @@ public class LoginController extends Controller {
 						
 					break;
 					
-					default: url_ = redirect_uri + "?error=Ocorreu um erro ! Access Denied ...";
+					default: url_ = redirect_uri + "?error=Ocorreu um erro ! Access Denied";
 				}
 			return this.redirectToUrl(url_); // Bug here ...
 			}
@@ -95,7 +96,7 @@ public class LoginController extends Controller {
 					if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 						String result = this.loginWithDbForAuth2(model.getUser(), model.getPassword(), response_type, client_id, redirect_uri, scope);
 						if(result != null) {
-							if(result.contains("?error=") || result.contains("#error="))
+							if(result.contains("error="))
 								Igrp.getInstance().getUser().logout();
 							return this.redirectToUrl(result);
 						}
@@ -157,7 +158,7 @@ public class LoginController extends Controller {
 										result = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
 									}
 									else {
-										result = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied ...");
+										result = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro Access Denied");
 									}
 								}catch(Exception e) {
 									result = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
@@ -173,15 +174,15 @@ public class LoginController extends Controller {
 										result = OAuth2.buildUrl(redirect_uri, 2, token);
 									}
 									else {
-										result = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied ...");
+										result = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro Access Denied");
 									}
 								}catch(Exception e) {
 									result = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
-									e.printStackTrace();
+									//e.printStackTrace();
 								}
 								break;
 								
-							default: result = redirect_uri + "?error=Ocorreu um erro ! Access Denied ...";
+							default: result = redirect_uri + "?error=Ocorreu um erro Access Denied";
 						
 						}
 						
@@ -217,9 +218,10 @@ public class LoginController extends Controller {
 	}
 	
 	
-	public static void main(String []args) throws MalformedURLException {
-		String str = "https://www.google.cv/?gws_rd=cr&x=hfdjf1212";
+	public static void main(String []args) throws MalformedURLException, UnsupportedEncodingException {
+		String str = "https://www.google.cv/?gws_rd=cr&error=ClientId";
 		String result =  URI.create(str).getQuery();
+		//String result = java.net.URLEncoder.encode(str, "utf-8");
 		System.out.println(result);
 	}
 	
