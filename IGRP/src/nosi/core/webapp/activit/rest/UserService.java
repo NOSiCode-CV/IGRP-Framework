@@ -23,13 +23,15 @@ public class UserService extends Activit{
 	}
 
 	public UserService getUser(String id){
-		ClientResponse response = RestRequestHelper.get("identity/users",id);
-		String contentResp = response.getEntity(String.class);
 		UserService d = new UserService();
-		if(response.getStatus()==200){
-			d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
-		}else{
-			d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.get("identity/users",id);
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
@@ -37,51 +39,57 @@ public class UserService extends Activit{
 
 	@SuppressWarnings("unchecked")
 	public List<UserService> getUsers(){
-		ClientResponse response = RestRequestHelper.get("identity/users");
-		String contentResp = response.getEntity(String.class);
 		List<UserService> d = new ArrayList<>();
-		if(response.getStatus()==200){
-			UserService dep = (UserService) RestRequestHelper.convertJsonToDao(contentResp, this.getClass());
-			this.setTotal(dep.getTotal());
-			this.setSize(dep.getSize());
-			this.setSort(dep.getSort());
-			this.setOrder(dep.getOrder());
-			this.setStart(dep.getStart());
-			d = (List<UserService>) RestRequestHelper.convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
-		}else{
-			this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.get("identity/users");
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				UserService dep = (UserService) RestRequestHelper.convertJsonToDao(contentResp, this.getClass());
+				this.setTotal(dep.getTotal());
+				this.setSize(dep.getSize());
+				this.setSort(dep.getSort());
+				this.setOrder(dep.getOrder());
+				this.setStart(dep.getStart());
+				d = (List<UserService>) RestRequestHelper.convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
+			}else{
+				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
 	
 	public UserService create(UserService user){
-		ClientResponse response = RestRequestHelper.post("identity/users",RestRequestHelper.convertDaoToJson(user));
-		String contentResp = response.getEntity(String.class);
 		UserService d = new UserService();
-		if(response.getStatus()==201){
-			d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
-		}else{
-			d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.post("identity/users",RestRequestHelper.convertDaoToJson(user));
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==201){
+				d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
 	
 
 	public UserService update(UserService user){
-		ClientResponse response = RestRequestHelper.put("identity/users",RestRequestHelper.convertDaoToJson(user),user.getId());
-		String contentResp = response.getEntity(String.class);
 		UserService d = new UserService();
-		if(response.getStatus()==200){
-			d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
-		}else{
-			d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.put("identity/users",RestRequestHelper.convertDaoToJson(user),user.getId());
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				d = (UserService) RestRequestHelper.convertJsonToDao(contentResp, UserService.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
 	
 	public boolean delete(String id){
 		ClientResponse response = RestRequestHelper.delete("identity/users",id);
-		return response.getStatus()==204;
+		return response!=null && response.getStatus()==204;
 	}
 
 	public String getFirstName() {
