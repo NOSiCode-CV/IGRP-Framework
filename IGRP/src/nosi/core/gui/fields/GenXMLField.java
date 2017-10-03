@@ -191,7 +191,7 @@ public class GenXMLField {
 		}else if(field instanceof HiddenField){
 			xml.text((String)field.getValue());
 		}else{
-			xml.setElement("value", field.getValue().toString());
+			xml.setElement("value",field.getValue()!=null?field.getValue().toString():"");
 		}
 	}
 
