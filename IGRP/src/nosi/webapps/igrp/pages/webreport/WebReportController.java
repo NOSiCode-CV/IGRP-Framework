@@ -304,7 +304,7 @@ public class WebReportController extends Controller {
 			c = c.findOne(Integer.parseInt(id));
 			xsl = c.getC_lob_content();
 		}
-		this.format = Response.FORMAT_TEXT;
+		this.format = Response.FORMAT_XSL;
 		return this.renderView(xsl);
 	}
 	

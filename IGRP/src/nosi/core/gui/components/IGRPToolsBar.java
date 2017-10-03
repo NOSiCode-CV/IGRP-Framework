@@ -49,7 +49,7 @@ public class IGRPToolsBar {
         </item>
 	 */
 	public String toXmlTools(){
-		if(this.buttons.size() > 0){
+		if(this.buttons!=null && this.buttons.size() > 0){
 			xml.startElement(this.tag_name);
 			if(this.getClassName().compareTo("IGRPToolsBar") == 0){
 				xml.writeAttribute("type",this.type);

@@ -366,7 +366,6 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		Set<Entry<Properties, String>> setData = mappData.entrySet();
 		for(Entry<Properties,String> entry:setData){
 				Field f = new TextField(null,entry.getKey().getProperty("tag"));
-				f.propertie().clear();
 				f.propertie().add("name",entry.getKey().getProperty("name"));
 				f.setValue(entry.getValue());
 				form.addField(f);
