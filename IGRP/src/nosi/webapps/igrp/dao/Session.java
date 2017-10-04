@@ -1,9 +1,18 @@
 package nosi.webapps.igrp.dao;
+
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
  */
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -14,23 +23,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.config.Connection;
 import nosi.core.webapp.Igrp;
-
+import nosi.webapps.igrp.pages.session.Session.Chart_t_sessao;
 
 @Entity
-@Table(name="tbl_session")
-public class Session extends BaseActiveRecord<Session> implements Serializable{
-	  
+@Table(name = "tbl_session")
+public class Session extends BaseActiveRecord<Session> implements Serializable {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5383008060171825399L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String sessionId;
-	private Long startTime;
-	private Long endTime;
+	// ==============Antes==============
+	// private Long startTime;
+	// private Long endTime;
+	// ==============Agora==============
+	private Timestamp startTime;
+	private Timestamp endTime;
+	// =================================
 	private String ipAddress;
 	private String userName;
 	private String target;
@@ -39,26 +54,27 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 	private String host;
 	private String hostName;
 	private String mediaType;
-	
+
 	@ManyToOne
-	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="SESSION_USER_FK"))
+	@JoinColumn(name = "user_fk", foreignKey = @ForeignKey(name = "SESSION_USER_FK"))
 	private User user;
-	
-	@ManyToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="SESSION_ENV_FK"),nullable=false)
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "env_fk", foreignKey = @ForeignKey(name = "SESSION_ENV_FK"), nullable = false)
 	private Application application;
-	
-	@ManyToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="prof_type_fk",foreignKey=@ForeignKey(name="SESSION_PROF_TYPE_FK"),nullable=false)
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "prof_type_fk", foreignKey = @ForeignKey(name = "SESSION_PROF_TYPE_FK"), nullable = false)
 	private ProfileType profileType;
-	
-	@ManyToOne(cascade=CascadeType.REMOVE)
-	@JoinColumn(name="org_fk",foreignKey=@ForeignKey(name="SESSION_ORGANIZATION_FK"),nullable=true)
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "org_fk", foreignKey = @ForeignKey(name = "SESSION_ORGANIZATION_FK"), nullable = true)
 	private Organization organization;
 
-	public Session(){}
-	
-	public Session(String sessionId, Long startTime, Long endTime, String ipAddress, String userName,
+	public Session() {
+	}
+
+	public Session(String sessionId, Timestamp startTime, Timestamp endTime, String ipAddress, String userName,
 			String target, int https, String sessionOldId, String host, String hostName, String mediaType, User user,
 			Application application, ProfileType profileType, Organization organization) {
 		super();
@@ -95,19 +111,19 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		this.sessionId = sessionId;
 	}
 
-	public Long getStartTime() {
+	public Timestamp getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Long startTime) {
+	public void setStartTime(Timestamp startTime) {
 		this.startTime = startTime;
 	}
 
-	public Long getEndTime() {
+	public Timestamp getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Long endTime) {
+	public void setEndTime(Timestamp endTime) {
 		this.endTime = endTime;
 	}
 
@@ -210,35 +226,63 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 	public static boolean afterLogin(Profile profile) {
 		Session currentSession = new Session();
 		currentSession.setUser(new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()));
-		User user = ((User)Igrp.getInstance().getUser().getIdentity());
+		User user = ((User) Igrp.getInstance().getUser().getIdentity());
 		currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
 		currentSession.setOrganization(profile.getOrganization());
 		currentSession.setProfileType(profile.getProfileType());
 		currentSession.setIpAddress(Igrp.getInstance().getRequest().getRemoteAddr());
 		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setUserName(user.getUser_name());
-		currentSession.setHttps( Igrp.getInstance().getRequest().isSecure() ? 1 : 0);
+		currentSession.setHttps(Igrp.getInstance().getRequest().isSecure() ? 1 : 0);
 		currentSession.setHost(Igrp.getInstance().getRequest().getRemoteHost());
 		currentSession.setHostName(Igrp.getInstance().getRequest().getRemoteHost());
 		currentSession.setSessionOldId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setMediaType("WEB");
 		currentSession.setTarget("_blank");
-		long time = System.currentTimeMillis();
+		Timestamp time = new Timestamp(System.currentTimeMillis());// System.currentTimeMillis();
 		currentSession.setStartTime(time);
-		currentSession.setEndTime(time + 30*60); // add 30 min.
+
+		// Esta parte vai ter de estar definido
+		currentSession.setEndTime(time); // add 30 min.
 		currentSession = currentSession.insert();
-		return currentSession!=null;
+		return currentSession != null;
 	}
 
 	public static boolean afterLogout(String currentSessionId) {
 		Session session = new Session().find().andWhere("sessionId", "=", currentSessionId).one();
-		if(session!=null){session.setEndTime(System.currentTimeMillis());}
-		return session!=null && session.getApplication()!=null && session.update()!=null;
+		if (session != null) {
+			session.setEndTime(new Timestamp(System.currentTimeMillis()));
+		}
+		return session != null && session.getApplication() != null && session.update() != null;
 	}
-//	String sql = "SELECT * FROM GLB_T_SESSION where 1=1 ";
-//	sql += this.envId != 0 ? " and env_id = " + this.envId : ""; 
-//	sql += this.userName != null && !this.userName.equals("") ? " and user_name = '" + this.userName + "' " : "";
-//	//sql += this.startTime != 0 ? " and (start_time - " + this.startTime + " < 24*60)" : "";
-//	//sql += this.endTime != 0 ? " and (end_time - " + this.endTime + " < 24*60)" : "";
-//	String sql = "select a.start_time data, count(*) total from glb_t_session a where a.start_time between ? and ? group by a.start_time order by 1;";
+
+	public ResultSet fetchDataPerSql() throws SQLException {
+
+		// ======================================Query=============================================
+		String sql = "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_SESSION s"
+				+ " GROUP BY datainicio";
+		// ========================================================================================
+
+		PreparedStatement statement = Connection.getConnection().prepareStatement(sql); // Execução de query
+		ResultSet res = statement.executeQuery();
+		return res;
+	}
+
+	// public ResultSet fetchDataPerSql(String sql) throws SQLException {
+	// PreparedStatement statement =
+	// Connection.getConnection().prepareStatement(sql); // Execução de query
+	// ResultSet res = statement.executeQuery();
+	// return res;
+	// }
+
+	// String sql = "SELECT * FROM GLB_T_SESSION where 1=1 ";
+	// sql += this.envId != 0 ? " and env_id = " + this.envId : "";
+	// sql += this.userName != null && !this.userName.equals("") ? " and user_name =
+	// '" + this.userName + "' " : "";
+	// //sql += this.startTime != 0 ? " and (start_time - " + this.startTime + " <
+	// 24*60)" : "";
+	// //sql += this.endTime != 0 ? " and (end_time - " + this.endTime + " < 24*60)"
+	// : "";
+	// String sql = "select a.start_time data, count(*) total from glb_t_session a
+	// where a.start_time between ? and ? group by a.start_time order by 1;";
 }

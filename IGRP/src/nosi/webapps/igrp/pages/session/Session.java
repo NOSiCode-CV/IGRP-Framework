@@ -2,6 +2,8 @@
 package nosi.webapps.igrp.pages.session;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Session extends Model{	
@@ -13,10 +15,10 @@ public class Session extends Model{
 	private String utilizador;
 	
 	@RParam(rParamName = "p_data_inicio")
-	private String data_inicio;
+	private Timestamp data_inicio;
 	
 	@RParam(rParamName = "p_data_fim")
-	private String data_fim;
+	private Timestamp data_fim;
 	
 	@RParam(rParamName = "p_estado")
 	private String estado;
@@ -59,17 +61,17 @@ public class Session extends Model{
 		return this.utilizador;
 	}
 	
-	public void setData_inicio(String data_inicio){
+	public void setData_inicio(Timestamp data_inicio){
 		this.data_inicio = data_inicio;
 	}
-	public String getData_inicio(){
+	public Timestamp getData_inicio(){
 		return this.data_inicio;
 	}
 	
-	public void setData_fim(String data_fim){
+	public void setData_fim(Timestamp data_fim){
 		this.data_fim = data_fim;
 	}
-	public String getData_fim(){
+	public Timestamp getData_fim(){
 		return this.data_fim;
 	}
 	
@@ -132,46 +134,22 @@ public class Session extends Model{
 
 	}
 	public class Chart_t_sessao{
-		private String Ano;
-		private String X1;
-		private String X2;
-		private String X3;
-		private String X4;
-		public void setAno(String Ano){
-			this.Ano = Ano;
+		private String data;
+		private int total;
+		public String getData() {
+			return data;
 		}
-		public String getAno(){
-			return this.Ano;
+		public void setData(String data) {
+			this.data = data;
 		}
-
-		public void setX1(String X1){
-			this.X1 = X1;
+		public int getTotal() {
+			return total;
 		}
-		public String getX1(){
-			return this.X1;
+		public void setTotal(int total) {
+			this.total = total;
 		}
-
-		public void setX2(String X2){
-			this.X2 = X2;
-		}
-		public String getX2(){
-			return this.X2;
-		}
-
-		public void setX3(String X3){
-			this.X3 = X3;
-		}
-		public String getX3(){
-			return this.X3;
-		}
-
-		public void setX4(String X4){
-			this.X4 = X4;
-		}
-		public String getX4(){
-			return this.X4;
-		}
-
+		
+		
 	}
 	public class Chart_t_session_app{
 		private String Ano;
