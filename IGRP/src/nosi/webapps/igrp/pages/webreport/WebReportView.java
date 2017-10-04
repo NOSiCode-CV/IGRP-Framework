@@ -120,9 +120,12 @@ public class WebReportView extends View {
 		id.propertie().add("name","p_id").add("type","number").add("min","").add("max","").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("total_footer","false");
 
 		fmn = new IGRPToolsBar("fmn");
+		fmn.getProperties().add("gen-type", "menu");
+		fmn.getProperties().add("gen-group", "");
+		
 		btn_gravar = new IGRPButton("Gravar","igrp","WebReport","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_preview = new IGRPButton("Preview","igrp","WebReport","preview","alert_submit","default|fa-file-video-o","","");
+		btn_preview = new IGRPButton("Preview","igrp","WebReport","preview","alert_submit","warning|fa-file-video-o","","");
 		btn_preview.propertie.add("type","specific").add("code","").add("rel","preview");
 		
 		chart_1.setCaption("");

@@ -206,7 +206,7 @@ public class WebReportController extends Controller {
 
 	private String getDataForPage(RepTemplateSource rep) {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 
@@ -292,7 +292,6 @@ public class WebReportController extends Controller {
 			xmlW.setElement("template", "por adicionar");
 		xmlW.endElement();
 		xmlW.addXml(contentXml);
-		xmlW.endElement();
 		return xmlW.toString();
 	}
 	

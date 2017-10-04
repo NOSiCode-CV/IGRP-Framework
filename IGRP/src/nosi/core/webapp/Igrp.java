@@ -4,6 +4,8 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
+
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nosi.base.ActiveRecord.PersistenceUtils;
@@ -14,7 +16,7 @@ public class Igrp {
 	
 	private static Igrp app;
 	
-	private IgrpServlet servlet; // Refer to HttpServlet
+	private HttpServlet servlet; // Refer to HttpServlet
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
@@ -47,8 +49,11 @@ public class Igrp {
 	return Igrp.app;
 	}
 
+	public static String getMethod(){
+		return Igrp.getInstance().getRequest().getMethod();
+	}
 	// Inicialize the web app components
-	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
+	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
 			this.request = request;
 			this.response = response;
@@ -88,7 +93,7 @@ public class Igrp {
 		Controller.initControllerNRunAction();
 	}
 	
-	public IgrpServlet getServlet() {
+	public HttpServlet getServlet() {
 		return servlet;
 	}
 

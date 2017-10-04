@@ -28,40 +28,45 @@ public class ResourceService {
 	
 
 	public ResourceService getResource(String id_deployment,String id_resource){
-		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resources",id_resource);
-		String contentResp = response.getEntity(String.class);
 		ResourceService d = new ResourceService();
-		if(response.getStatus()==200){
-			d = (ResourceService) RestRequestHelper.convertJsonToDao(contentResp, ResourceService.class);
-		}else{
-			d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resources",id_resource);
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				d = (ResourceService) RestRequestHelper.convertJsonToDao(contentResp, ResourceService.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
 	
 
 	public ResourceService getResourceData(String id_deployment,String id_resource){
-		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
-		String contentResp = response.getEntity(String.class);
-		System.out.println(contentResp);
 		ResourceService d = new ResourceService();
-		if(response.getStatus()==200){
-			d = (ResourceService) RestRequestHelper.convertJsonToDao(contentResp, ResourceService.class);
-		}else{
-			d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				d = (ResourceService) RestRequestHelper.convertJsonToDao(contentResp, ResourceService.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment){
-		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resources");
-		String contentResp = response.getEntity(String.class);
 		List<ResourceService> d = new ArrayList<>();
-		if(response.getStatus()==200){
-			d = (List<ResourceService>) RestRequestHelper.convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
-		}else{
-			this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+		ClientResponse response = RestRequestHelper.get("repository/deployments/"+id_deployment+"/resources");
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				d = (List<ResourceService>) RestRequestHelper.convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
+			}else{
+				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
 		}
 		return d;
 	}

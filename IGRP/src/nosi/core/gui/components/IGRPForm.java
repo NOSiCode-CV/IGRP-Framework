@@ -69,7 +69,9 @@ public class IGRPForm extends IGRPComponent{
 			GenXMLField.toXmlV21(this.xml,this.fields);
 		}
 		this.toolsbar.setButtons(this.buttons);
-		this.xml.addXml(this.toolsbar.toXmlTools());
+		if(this.toolsbar!=null){
+			this.xml.addXml(this.toolsbar.toXmlTools());
+		}
 		this.xml.endElement();
 		return this.xml.toString();
 	}
