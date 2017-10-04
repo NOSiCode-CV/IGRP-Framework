@@ -48,6 +48,19 @@ public class FormData {
 		return d;
 	}
 
+	public FormData submitForm(FormData formdata){
+		FormData d = new FormData();
+		ClientResponse response = RestRequestHelper.post("form/form-data",RestRequestHelper.convertDaoToJson(formdata));
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==201){
+				d = (FormData) RestRequestHelper.convertJsonToDao(contentResp, FormData.class);
+			}else{
+				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return d;
+	}
 	public ResponseError getError() {
 		return error;
 	}
