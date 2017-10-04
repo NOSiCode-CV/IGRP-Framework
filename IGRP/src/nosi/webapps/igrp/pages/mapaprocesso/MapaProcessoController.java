@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.FormData;
-import nosi.core.webapp.activit.rest.FormData.FormProperties;
+import nosi.core.webapp.activit.rest.FormDataService;
+import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -52,12 +52,12 @@ public class MapaProcessoController extends Controller {
 	public Response actionOpenProcess(){
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		FormData formData = null;
+		FormDataService formData = null;
 		if(p_processId!=null){
-			formData = new FormData().getFormDataByProcessDefinitionId(p_processId);
+			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 		}
 		if(taskId!=null){
-			formData = new FormData().getFormDataByTaskId(taskId);
+			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
 		String content = formData!=null?this.transformToXml(formData.getFormProperties()):"";
 		return this.renderView(content);
