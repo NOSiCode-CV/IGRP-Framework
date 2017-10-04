@@ -10,9 +10,8 @@ import java.io.IOException;
 /*import nosi.webapps.red.teste.Teste;
 import nosi.webapps.red.teste.Teste;
 */
-import java.io.PrintWriter;
-import java.util.List;
 
+import java.util.List;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
