@@ -60,7 +60,7 @@ public class PesquisarOrganicaView extends View {
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarOrganica","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
-		btn_novo = new IGRPButton("Novo","igrp","NovaOrganica","index","_self","default|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp","NovaOrganica","index","_self","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		

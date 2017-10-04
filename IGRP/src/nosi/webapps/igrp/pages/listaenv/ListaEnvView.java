@@ -49,7 +49,7 @@ public class ListaEnvView extends View {
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		id = new HiddenField(model, "id");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","env","index","_self","default|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp","env","index","_self","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","index","submit","default|fa-search","","");

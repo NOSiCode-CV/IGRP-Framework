@@ -32,7 +32,7 @@
         <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>OAuth para clientes</title>
+        <title>Inserir Dados dos clientes</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -46,7 +46,7 @@
             <fields>
                 <uris_de_redirecionamento name="p_uris_de_redirecionamento" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs de redirecionamento</label>
-                    <value>Officia aperiam sit amet sed</value>
+                    <value>Voluptatem totam elit doloremq</value>
                 </uris_de_redirecionamento>
                 <scope name="p_scope" type="select" multiple="true" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
                     <label>Scope</label>
@@ -71,17 +71,26 @@
                     </list>
                 </scope>
             </fields>
-            <tools-bar>
-                <item type="form" code="" class="success" rel="salvar">
-                    <title>Salvar</title>
-                    <app>igrp</app>
-                    <page>OAuthClient</page>
-                    <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xsl?</parameter>
-                    <target>submit</target>
-                    <img>success|fa-save</img>
-                </item>
-            </tools-bar>
         </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="listar_oauth_client">
+                <title>Listar OAuth Client</title>
+                <app>igrp</app>
+                <page>OAuthClient</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>default|fa-list</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="salvar">
+                <title>Salvar</title>
+                <app>igrp</app>
+                <page>OAuthClient</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>info|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xsl</parameter>
+            </item>
+        </toolsbar_1>
     </content>
 </rows>
