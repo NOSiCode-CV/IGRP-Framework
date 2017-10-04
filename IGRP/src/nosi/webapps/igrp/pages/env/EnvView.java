@@ -80,9 +80,9 @@ public class EnvView extends View {
 		id = new HiddenField(model, "id");
 		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","env","gravar","submit","default|fa-floppy-o","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","env","gravar","submit","info|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","env","voltar","_self","default|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","env","voltar","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
