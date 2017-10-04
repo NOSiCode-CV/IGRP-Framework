@@ -1,10 +1,8 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.migrate;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
+
 
 public class Migrate extends Model{		
 	@RParam(rParamName = "p_aplicacao")
@@ -14,7 +12,7 @@ public class Migrate extends Model{
 	@RParam(rParamName = "p_hostname")
 	private String hostname;
 	@RParam(rParamName = "p_port")
-	private float port;
+	private int port;
 	@RParam(rParamName = "p_nome_de_bade_dados")
 	private String nome_de_bade_dados;
 	@RParam(rParamName = "p_username")
@@ -45,10 +43,10 @@ public class Migrate extends Model{
 		return this.hostname;
 	}
 	
-	public void setPort(float port){
+	public void setPort(int port){
 		this.port = port;
 	}
-	public float getPort(){
+	public int getPort(){
 		return this.port;
 	}
 	
