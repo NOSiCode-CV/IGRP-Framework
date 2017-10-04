@@ -209,7 +209,8 @@ public class OAuth2 extends HttpServlet {
 			if(user == null)
 				throw new RuntimeException("Utilizador inválido");
 			
-			if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(password, "MD5")))
+			if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(password, "MD5")) || 
+					!user.getPass_hash().equals(password))
 				throw new RuntimeException("Username ou password inválido");
 			
 			Query query2 = session.createQuery("select t from OAuthClient t where t.client_id = :_c");
