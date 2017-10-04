@@ -214,8 +214,9 @@ public class ExecucaoTarefasController extends Controller {
 	
 
 	public Response actionExecutar_button_minha_tarefas() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
 		/*---- End ----*/
 	}
 	

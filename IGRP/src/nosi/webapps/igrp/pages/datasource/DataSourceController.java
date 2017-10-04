@@ -58,6 +58,14 @@ public class DataSourceController extends Controller {
 			model.load();
 		}
 		DataSourceView view = new DataSourceView(model);
+		view.processo.setVisible(false);
+		view.query.setVisible(false);
+		view.servico.setVisible(false);
+		view.area.setVisible(false);
+		view.etapa.setVisible(false);
+		view.pagina.setVisible(false);
+		view.objecto.setVisible(false);
+		
 		view.tipo.setValue(tipo);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
@@ -68,29 +76,11 @@ public class DataSourceController extends Controller {
 		
 		if(ichange!=null && !ichange.equals("")){
 			if(model.getTipo().equalsIgnoreCase("object")){
-				view.processo.setVisible(false);
-				view.query.setVisible(false);
-				view.servico.setVisible(false);
-				view.area.setVisible(false);
-				view.etapa.setVisible(false);
-				view.pagina.setVisible(false);
 				view.objecto.setVisible(true);
 			}else if(model.getTipo().equalsIgnoreCase("page")){
-				view.processo.setVisible(false);
-				view.query.setVisible(false);
-				view.servico.setVisible(false);
-				view.area.setVisible(false);
-				view.etapa.setVisible(false);
 				view.pagina.setVisible(true);
-				view.objecto.setVisible(false);	
 			}else if(model.getTipo().equalsIgnoreCase("query")){
-				view.processo.setVisible(false);
 				view.query.setVisible(true);
-				view.servico.setVisible(false);
-				view.area.setVisible(false);
-				view.etapa.setVisible(false);
-				view.pagina.setVisible(false);
-				view.objecto.setVisible(false);
 			}
 		}
 		Config.target = "_blank";
