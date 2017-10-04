@@ -71,7 +71,7 @@ public class OAuth2 extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String result = "{\"error\":\"Invalid Request ...\"}";
+		String result = "{\"error\":\"Invalid Request\"}";
 		
 			switch(grant_type) {
 				case "authorization_code":
@@ -91,6 +91,7 @@ public class OAuth2 extends HttpServlet {
 							result = generateTokenByAuthCode(code, client_id, client_secret, redirect_uri);
 						}catch(Exception e) {
 							result = "{\"error\":\"" + e.getMessage() + "\"}";
+							e.printStackTrace(); 
 						}
 						//
 					}
@@ -170,7 +171,7 @@ public class OAuth2 extends HttpServlet {
 		}*/
 		
 		OAuthAccessToken aux1 = new OAuthAccessToken();
-		aux1.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
+		aux1.setAccess_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 		aux1.setExpires("" + (System.currentTimeMillis() + 1000*3600)); // 1h
 		aux1.setUser(refreshToken.getUser());
 		aux1.setScope(refreshToken.getScope()); 
@@ -182,7 +183,7 @@ public class OAuth2 extends HttpServlet {
 		
 		json = "{" + "\"access_token\":\"" + aux1.getAccess_token() + "\", " +
 				"\"token_type\":\"bearer\" , " + 
-				"\"expires_in\":" + (Long.parseLong(aux1.getExpires()) - System.currentTimeMillis()) + ", " + 
+				"\"expires_in\":" + ((Long.parseLong(aux1.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 				"\"refresh_token\":\"" + refreshToken.getRefresh_token() + "\"" +
 			 "}";
 		
@@ -199,7 +200,11 @@ public class OAuth2 extends HttpServlet {
 			Query query = session.createQuery("select u from User u where u.user_name = :_u");
 			query.setParameter("_u", username);
 			
-			user = (User) query.getSingleResult();
+			try {
+				user = (User) query.getSingleResult();
+			}catch(Exception e) {
+				throw new RuntimeException("Utilizador inválido");
+			}
 			
 			if(user == null)
 				throw new RuntimeException("Utilizador inválido");
@@ -209,16 +214,19 @@ public class OAuth2 extends HttpServlet {
 			
 			Query query2 = session.createQuery("select t from OAuthClient t where t.client_id = :_c");
 			query2.setParameter("_c", client_id);
-			OAuthClient authClient = (OAuthClient) query2.getSingleResult();
+			OAuthClient authClient = null;
+			
+			try {
+				authClient = (OAuthClient) query2.getSingleResult();
+			}catch(Exception e) {
+				throw new RuntimeException("ClientId inválido.");
+			}
 			
 			if(authClient == null)
 				throw new RuntimeException("ClientId inválido.");
 				
 			if(!authClient.getClient_secret().equals(client_secret))
 				throw new RuntimeException("Client Secret inválido.");
-			
-			if(authClient.getUser().getId() != user.getId())
-				throw new RuntimeException("ClientId inválido e o utilizador inconsistentes.");
 			
 			Query query3 = session.createQuery("select t from OAuthAccessToken t where t.authClient.client_id = :_c and t.user.id =  :_u and t.scope = :_s ORDER BY t.id DESC");
 			query3.setParameter("_c", authClient.getClient_id());
@@ -233,14 +241,14 @@ public class OAuth2 extends HttpServlet {
 			List list2 = query4.getResultList();
 			
 			OAuthAccessToken aux1 = new OAuthAccessToken();
-			aux1.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
+			aux1.setAccess_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 			aux1.setExpires("" + (System.currentTimeMillis() + 1000*3600)); // 1h
 			aux1.setUser(user);
 			aux1.setScope(authClient.getScope()); 
 			aux1.setAuthClient(authClient);
 			
 			OAuthRefreshToken aux2 = new OAuthRefreshToken();
-			aux2.setRefresh_token(RandomStringUtils.randomAlphanumeric(40));
+			aux2.setRefresh_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 			aux2.setExpires("" + (System.currentTimeMillis() + 1000*3600*24*7)); // a week ...
 			aux2.setUser(user);
 			aux2.setScope(authClient.getScope()); 
@@ -254,7 +262,7 @@ public class OAuth2 extends HttpServlet {
 					if(refreshToken.getExpires().compareTo(System.currentTimeMillis() + "") > 0) {
 						json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 								"\"token_type\":\"bearer\" , " + 
-								"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+								"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 								"\"refresh_token\":\"" + refreshToken.getRefresh_token() + "\"" +
 							 "}";
 					}else {
@@ -263,7 +271,7 @@ public class OAuth2 extends HttpServlet {
 						session.getTransaction().commit();
 						json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 								"\"token_type\":\"bearer\" , " + 
-								"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+								"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 								"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 							 "}";
 					}
@@ -273,7 +281,7 @@ public class OAuth2 extends HttpServlet {
 					session.getTransaction().commit();
 					json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 							"\"token_type\":\"bearer\" , " + 
-							"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+							"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 							"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 						 "}";
 				}
@@ -284,7 +292,7 @@ public class OAuth2 extends HttpServlet {
 				session.getTransaction().commit();
 				json = "{" + "\"access_token\":\"" + aux1.getAccess_token() + "\", " +
 						"\"token_type\":\"bearer\" , " + 
-						"\"expires_in\":" + (Long.parseLong(aux1.getExpires()) - System.currentTimeMillis()) + ", " + 
+						"\"expires_in\":" + ((Long.parseLong(aux1.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 						"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 					 "}";
 			}
@@ -328,19 +336,20 @@ public class OAuth2 extends HttpServlet {
 		//OAuthAccessToken accessToken = new OAuthAccessToken();
 		
 		Session session = authorizationCode.getEntityManagerFactory().openSession();
-		Query query = session.createQuery("select t from OAuthAccessToken t where t.authClient.client_id = :_c and t.user.id =  :_u ORDER BY t.id DESC");
+		Query query = session.createQuery("select t from OAuthAccessToken t where t.authClient.client_id = :_c and t.user.id =  :_u and t.scope = :_s ORDER BY t.id DESC");
 		query.setParameter("_c", authClient.getClient_id());
 		query.setParameter("_u", authorizationCode.getUser().getId());
+		query.setParameter("_s", authClient.getScope());
 		List list = query.getResultList();
 		
 		Query query4 = session.createQuery("select t from OAuthRefreshToken t where t.authClient.client_id = :_c and t.user.id =  :_u and t.scope = :_s ORDER BY t.id DESC");
 		query4.setParameter("_c", authClient.getClient_id());
-		query4.setParameter("_u", authClient.getClient_id());
+		query4.setParameter("_u", authorizationCode.getUser().getId());
 		query4.setParameter("_s", authClient.getScope());
 		List list2 = query4.getResultList();
 		
 		OAuthAccessToken aux = new OAuthAccessToken();
-		aux.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
+		aux.setAccess_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 		aux.setExpires("" + (System.currentTimeMillis() + 1000*3600)); // 1h
 		User user = new User();
 		user.setId(authorizationCode.getUser().getId());
@@ -349,7 +358,7 @@ public class OAuth2 extends HttpServlet {
 		aux.setAuthClient(authClient);
 		
 		OAuthRefreshToken aux2 = new OAuthRefreshToken();
-		aux2.setRefresh_token(RandomStringUtils.randomAlphanumeric(40));
+		aux2.setRefresh_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 		aux2.setExpires("" + (System.currentTimeMillis() + 1000*3600*24*7)); // a week ...
 		aux2.setUser(user);
 		aux2.setScope(authClient.getScope()); 
@@ -363,7 +372,7 @@ public class OAuth2 extends HttpServlet {
 				if(refreshToken.getExpires().compareTo(System.currentTimeMillis() + "") > 0) {
 					json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 							"\"token_type\":\"bearer\" , " + 
-							"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+							"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 							"\"refresh_token\":\"" + refreshToken.getRefresh_token() + "\"" +
 						 "}";
 				}else {
@@ -372,7 +381,7 @@ public class OAuth2 extends HttpServlet {
 					session.getTransaction().commit();
 					json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 							"\"token_type\":\"bearer\" , " + 
-							"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+							"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 							"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 						 "}";
 				}
@@ -382,7 +391,7 @@ public class OAuth2 extends HttpServlet {
 				session.getTransaction().commit();
 				json = "{" + "\"access_token\":\"" + accessToken.getAccess_token() + "\", " +
 						"\"token_type\":\"bearer\" , " + 
-						"\"expires_in\":" + (Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis()) + ", " + 
+						"\"expires_in\":" + ((Long.parseLong(accessToken.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 						"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 					 "}";
 			}
@@ -393,7 +402,7 @@ public class OAuth2 extends HttpServlet {
 			session.getTransaction().commit();
 			json = "{" + "\"access_token\":\"" + aux.getAccess_token() + "\", " +
 					"\"token_type\":\"bearer\" , " + 
-					"\"expires_in\":" + (Long.parseLong(aux.getExpires()) - System.currentTimeMillis()) + ", " + 
+					"\"expires_in\":" + ((Long.parseLong(aux.getExpires()) - System.currentTimeMillis())/1000) + ", " + 
 					"\"refresh_token\":\"" + aux2.getRefresh_token() + "\"" +
 				 "}";
 		}
@@ -412,8 +421,7 @@ public class OAuth2 extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}*/
-		
-		String loginUrl = "webapps?r=igrp/login/login&oauth=1";
+		String loginUrl = "http://localhost:8080/IGRP/webapps?r=igrp/login/login&oauth=1";
 		loginUrl += response_type != null && !response_type.isEmpty() ? "&response_type=" + response_type : "";
 		loginUrl += client_id != null && !client_id.isEmpty() ? "&client_id=" + client_id : "";
 		loginUrl += redirect_uri != null && !redirect_uri.isEmpty() ? "&redirect_uri=" + redirect_uri : "";
@@ -460,9 +468,9 @@ public class OAuth2 extends HttpServlet {
 				Session session = authorizationCode.getEntityManagerFactory().openSession();
 				
 				Query query = session.createQuery("select t from OAuthorizationCode t where client_id = :_c and user_id = :_u and scope = :_s "
-						+ "and redirect_uri = :_uri ORDER BY t.expires DESC");
+						+ "and redirect_uri = :_uri ORDER BY t.id DESC");
 				query.setParameter("_c", authClient.getClient_id() + "")
-				.setParameter("_u", authClient.getUser().getId() + "")
+				.setParameter("_u", Integer.parseInt(userCode))
 				.setParameter("_s", authClient.getScope())
 				.setParameter("_uri", authClient.getRedirect_uri());
 				
@@ -470,7 +478,7 @@ public class OAuth2 extends HttpServlet {
 				
 				OAuthorizationCode aux  = new OAuthorizationCode();
 				aux.setAuthClient(authClient);
-				aux.setExpires("" + (System.currentTimeMillis() + 1000*60*2)); // Expires -> 2 min.
+				aux.setExpires("" + (System.currentTimeMillis() + 1000*3600)); // 1h
 				aux.setScope(authClient.getScope());
 				aux.setRedirect_uri(authClient.getRedirect_uri());
 				aux.setAuthorization_code(java.util.UUID.randomUUID().toString().replaceAll("-", "")); // RandomStringUtils.randomAlphanumeric(40) is not unique but random
@@ -515,13 +523,10 @@ public class OAuth2 extends HttpServlet {
 			if(!authClient.getRedirect_uri().equalsIgnoreCase(redirect_uri))
 				throw new RuntimeException("RedirectUri Inválido para client_id");
 			
-			if(!(authClient.getUser().getId() + "").equalsIgnoreCase(userCode))
-				throw new RuntimeException("ClientId Inválido para o utilizador");
-			
 			OAuthAccessToken accessToken = new OAuthAccessToken();
 			
 			Session session = accessToken.getEntityManagerFactory().openSession();
-			Query query = session.createQuery("select t from OAuthAccessToken t where t.authClient.client_id = :_c and t.user.id =  :_u and t.scope = :_s ORDER BY t.expires DESC");
+			Query query = session.createQuery("select t from OAuthAccessToken t where t.authClient.client_id = :_c and t.user.id =  :_u and t.scope = :_s ORDER BY t.id DESC");
 			query.setParameter("_c", authClient.getClient_id());
 			query.setParameter("_u", Integer.parseInt(userCode));
 			query.setParameter("_s", scope);
@@ -529,10 +534,10 @@ public class OAuth2 extends HttpServlet {
 			List list = query.getResultList();
 			
 			OAuthAccessToken aux = new OAuthAccessToken();
-			aux.setAccess_token(RandomStringUtils.randomAlphanumeric(40));
+			aux.setAccess_token(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 			aux.setExpires("" + (System.currentTimeMillis() + 1000*3600)); // 1h
 			User user = new User();
-			user.setId(authClient.getUser().getId());
+			user.setId(Integer.parseInt(userCode));
 			aux.setUser(user);
 			aux.setScope(authClient.getScope());
 			aux.setAuthClient(authClient);
@@ -572,8 +577,7 @@ public class OAuth2 extends HttpServlet {
 		boolean flag = false;
 		switch(grant_type) {
 			case "authorization_code":
-				flag = (code != null && !code.isEmpty()) && (client_id != null && !client_id.isEmpty()) && (client_secret != null && !client_secret.isEmpty()) && 
-						(redirect_uri != null && !redirect_uri.isEmpty());
+				flag = (code != null && !code.isEmpty()) && (client_id != null && !client_id.isEmpty()) && (client_secret != null && !client_secret.isEmpty());
 			break;
 			default:break;
 		}
