@@ -1,6 +1,11 @@
 package nosi.core.webapp.activit.rest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
 import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.helpers.ResponseError;
@@ -10,7 +15,7 @@ import nosi.core.webapp.helpers.RestRequestHelper;
  * @author: Emanuel Pereira
  * 2 Oct 2017
  */
-public class FormData {
+public class FormDataService {
 	private String formKey;
 	private String deploymentId;
 	private String processDefinitionId;
@@ -19,28 +24,32 @@ public class FormData {
 	private String taskUrl;
 	private List<FormProperties> formProperties;
 	@Expose(serialize=false,deserialize=false)
+	private List<Properties> propertyFormSubmit;
+	@Expose(serialize=false,deserialize=false)
+	private String businessKey;
+	@Expose(serialize=false,deserialize=false)
 	private ResponseError error;
 	
-	public FormData() {
-		// TODO Auto-generated constructor stub
+	public FormDataService() {
+		this.propertyFormSubmit = new ArrayList<>();
 	}
 
-	public FormData getFormDataByProcessDefinitionId(String processDefinitionId){
+	public FormDataService getFormDataByProcessDefinitionId(String processDefinitionId){
 		return this.getFormData(processDefinitionId,"processId");
 	}
 	
 
-	public FormData getFormDataByTaskId(String taskId){
+	public FormDataService getFormDataByTaskId(String taskId){
 		return this.getFormData(taskId,"taskId");
 	}
 	
-	private FormData getFormData(String id, String type) {
-		FormData d = new FormData();
+	private FormDataService getFormData(String id, String type) {
+		FormDataService d = new FormDataService();
 		ClientResponse response = RestRequestHelper.get(type.equalsIgnoreCase("taskId")?"form/form-data?taskId="+id:"form/form-data?processDefinitionId="+id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (FormData) RestRequestHelper.convertJsonToDao(contentResp,FormData.class);
+				d = (FormDataService) RestRequestHelper.convertJsonToDao(contentResp,FormDataService.class);
 			}else{
 				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
 			}
@@ -48,19 +57,47 @@ public class FormData {
 		return d;
 	}
 
-	public FormData submitForm(FormData formdata){
-		FormData d = new FormData();
-		ClientResponse response = RestRequestHelper.post("form/form-data",RestRequestHelper.convertDaoToJson(formdata));
+	public void addVariable(String name,Object value){
+		Properties p = new Properties();
+		p.put("id",name);
+		p.put("value",value);
+		this.propertyFormSubmit.add(p );
+	}
+	
+	public boolean submitFormByTask(){
+		return this.submitForm("task");
+	}
+
+	public boolean submitFormByProcessDenifition(){
+		return this.submitForm("process");
+	}
+	
+	private boolean submitForm(String type){
+		JSONObject json = new JSONObject();
+		try {
+			if(type.equalsIgnoreCase("task")){
+				json.put("taskId", this.getTaskId());
+			}
+			else if(type.equalsIgnoreCase("process")){
+				json.put("processDefinitionId", this.getProcessDefinitionId());
+				json.put("businessKey", this.getBusinessKey());
+			}
+			json.put("properties", this.propertyFormSubmit);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		ClientResponse response = RestRequestHelper.post("form/form-data", json.toString());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==201){
-				d = (FormData) RestRequestHelper.convertJsonToDao(contentResp, FormData.class);
+			if(response.getStatus()==200){
+				return true;
 			}else{
-				d.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return false;
 	}
+	
 	public ResponseError getError() {
 		return error;
 	}
@@ -138,6 +175,13 @@ public class FormData {
 		this.formProperties = formProperties;
 	}
 
+	public String getBusinessKey() {
+		return businessKey;
+	}
+
+	public void setBusinessKey(String businessKey) {
+		this.businessKey = businessKey;
+	}
 
 	@Override
 	public String toString() {
@@ -259,4 +303,5 @@ public class FormData {
 			
 		}
 	}
+
 }

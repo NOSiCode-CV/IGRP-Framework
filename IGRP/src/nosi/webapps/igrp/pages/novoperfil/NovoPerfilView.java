@@ -49,9 +49,9 @@ public class NovoPerfilView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","novo-perfil","index","submit","default|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","novo-perfil","index","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-perfil","index","_self","default|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-perfil","index","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
