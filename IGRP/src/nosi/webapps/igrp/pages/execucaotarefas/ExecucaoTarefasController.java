@@ -8,6 +8,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -246,6 +247,37 @@ public class ExecucaoTarefasController extends Controller {
 	/*---- Insert your actions here... ----*/
 	private User getUser(){
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+	}
+	
+	public void processTask(){
+		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+		if(taskId!=null && !taskId.equals("")){
+			TaskService task = new TaskService();
+			task.addVariable("n_filhos", "long",1);
+			if(task.completeTask(taskId)){
+				System.out.println("ok");
+			}else{
+				System.err.println("task:"+task.getError());
+			}
+		}
+		
+	}
+	
+	public void processStartEvent(){
+		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
+		if(p_processId!=null && !p_processId.equals("")){
+			FormDataService formData = new FormDataService();
+			formData.setTaskId(p_processId);
+			formData.addVariable("customerName", "Ymac");
+			formData.addVariable("potentialProfit", 100);
+			formData.addVariable("details", "Cumi Bebi");
+			if(formData.submitFormByTask()){
+				System.out.println("Sumited success");
+			}else{
+				System.err.println("formData:"+formData.getError());
+			}
+		}
+		
 	}
 	/*---- End ----*/
 }

@@ -48,12 +48,7 @@ var GENSERVICE = function(GEN){
 				if(type.indexOf('xml') != -1)
 					data = $(d).to2DOT2();
 
-				console.log($(d));
-				console.log(data.rows);
-
 				contents = GEN.layout.getAllContainers(data.rows);
-
-				console.log(contents);
 
 				contents.forEach(function(c){
 					arr.push({
@@ -121,7 +116,7 @@ var GENSERVICE = function(GEN){
 						connectionsReq 	: [],
 						fieldsReq 		: getFieldsServices('target','REQ'),
 						connectionsRes 	: [],
-						fieldsRes 		: getFieldsServices('target','RESP'),
+						fieldsRes 		: getFieldsServices('source','RESP'),
 						package  		: $('.gen-service-panel#target').attr('package') 
 					});
 					service.checkService(o.field);
@@ -250,7 +245,7 @@ var GENSERVICE = function(GEN){
 									connectionsReq 	: field.GET.service().connectionsReq,
 									fieldsReq 		: field.GET.service().fieldsReq,
 									connectionsRes 	: c,
-									fieldsRes 		: getFieldsServices('target','RESP'),
+									fieldsRes 		: getFieldsServices('source','RESP'),
 									package  		: $('.gen-service-panel#target').attr('package')
 								});
 							}
@@ -304,6 +299,7 @@ var GENSERVICE = function(GEN){
 			}
 		});*/
 		if (p.contents) {
+			
 			p.contents.forEach(function(c){
 
 				var hasChild = c.fields[0] ? true : false,

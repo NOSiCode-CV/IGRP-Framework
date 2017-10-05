@@ -1,0 +1,121 @@
+
+#IGRP-process .process {
+	overflow: hidden;
+	border-radius: 5px;
+	counter-reset: flag; 
+	
+}
+
+#IGRP-process .process a {
+	text-decoration: none;
+	outline: none;
+	font-size: 12px;
+	line-height: 36px;
+	color: white;
+	padding: 0 10px 0 60px;
+	background: #666;
+	background: linear-gradient(#666, #333);
+	position: relative;
+	margin: 5px 0 ;
+	text-align: center;
+	border: 0;
+}
+
+#IGRP-process .process a:first-child {
+	padding-left: 46px;
+	border-radius: 5px 0 0 5px; 
+}
+#IGRP-process .process a:first-child:before {
+	left: 14px;
+}
+#IGRP-process .process a:last-child {
+	border-radius: 0 5px 5px 0; 
+	padding-right: 20px;
+}
+
+#IGRP-process .process a.active, 
+#IGRP-process .process a:hover{
+	background: #333;
+	background: linear-gradient(#333, #000);
+}
+
+#IGRP-process .process a.active:after, 
+#IGRP-process .process a:hover:after {
+	background: #333;
+	background: linear-gradient(135deg, #333, #000);
+}
+
+#IGRP-process .process a:after {
+	content: '';
+    position: absolute;
+    top: -1px;
+    right: -18px;
+    width: 38px;
+    height: 38px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    background: #faae42;
+    /* background: linear-gradient(135deg, #666, #333); */
+    box-shadow: 2px -2px 0 1px #f3f5f7, 3px -3px 0 2px #f3f5f7;
+    border-radius: 0 5px 0 50px;
+}
+
+#IGRP-process .flat a span{
+	font-weight: 300;
+	font-size: 14px;
+	display: block
+}
+
+#IGRP-process .process a:last-child:after {
+	content: none;
+}
+
+#IGRP-process .process a:before {
+	content: counter(flag);
+	counter-increment: flag;
+	/*some styles now*/
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	margin: 8px 0;
+	position: absolute;
+	top: 0;
+	left: 30px;
+	background: #444;
+	background: linear-gradient(#444, #222);
+	font-weight: 500;
+}
+
+
+#IGRP-process .flat a, 
+#IGRP-process .flat a:after {
+	background: #fff;
+	color: inherit;
+	transition: all 0.5s;
+}
+#IGRP-process .flat a:before {
+	background: white;
+	box-shadow: 0 0 0 1px #ccc;
+}
+#IGRP-process .flat a:hover, 
+#IGRP-process .flat a.active, 
+#IGRP-process .flat a:hover:after, 
+#IGRP-process .flat a.active:after{
+	background: #faae42;
+}
+
+
+#IGRP-process .flat a:not(.curent):hover,
+#IGRP-process .flat a:not(.curent):hover:after{
+	background: white;
+}
+
+#IGRP-process .flat a.curent,
+#IGRP-process .flat a.curent:after{
+	background: #faae42;
+}
+
+#IGRP-process .flat a.curent span{
+	color:white;
+}

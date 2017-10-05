@@ -24,8 +24,8 @@
 					$.WR.dataSource = $(this).val();
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-						console.log(url);
+						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+					
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
@@ -437,9 +437,8 @@
 						$(this).addClass('active');
 
 						$('#igrp-app-title').html($.WR.reportTitle);
-						console.log(data.responseText);
 
-						//data = $.parseJSON(data.responseText);//.replace(/\s+/g," ")
+						data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
 						$.WR.document.convert2Do(data.textreport);
 
@@ -480,8 +479,6 @@
 					if (e.name == 'p_textreport') {
 						e.value.config.customfooter = $.WR.document.customfooter.getChecked();
 						e.value.config.printsize 	= size;
-
-						e.value = JSON.stringify(e.value);
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
@@ -1322,7 +1319,7 @@
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," "));
-					
+
 					return structure;
 				},
 				html : function(){
@@ -1352,9 +1349,8 @@
 						$.WR.texteditor = CKEDITOR.instances[fc.editor.name];
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
-						console.log(CKEDITOR.document.getById('datasorce'));
 
-						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							

@@ -103,6 +103,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("LookupListUser", "index", "nosi.core.webapp.pages.lookuplistuser", "igrp/lookuplistuser/LookupListUser.xsl", "Lookup Lista Utilizador", "Lookup Lista Utilizador", "2.3", 1, app));
 			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.core.webapp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, app));
 			actions.add(new Action("Transferir_tarefas", "index", "nosi.core.webapp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, app));
+			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp.pages.bpmndesigner", "igrp/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -127,6 +128,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			
 			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
+			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(0)));
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -146,6 +148,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(13, "MEN", prof0, user0, org));
 			profiles.add(new Profile(14, "MEN", prof0, user0, org));
 			profiles.add(new Profile(15, "MEN", prof0, user0, org));
+			profiles.add(new Profile(16, "MEN", prof0, user0, org));
 			
 			profiles.add(new Profile(4, "MEN", prof1, user0, org));
 			profiles.add(new Profile(5, "MEN", prof1, user0, org));
@@ -159,6 +162,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(13, "MEN", prof1, user0, org));
 			profiles.add(new Profile(14, "MEN", prof1, user0, org));
 			profiles.add(new Profile(15, "MEN", prof1, user0, org));
+			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();

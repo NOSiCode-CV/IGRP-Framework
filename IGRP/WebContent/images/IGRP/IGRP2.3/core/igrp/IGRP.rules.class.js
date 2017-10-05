@@ -462,6 +462,36 @@ if($ && $.IGRP && !$.IGRP.rules){
 				})
 			}
 		},
+
+		remote:{
+			
+			do : function(p){
+
+				$.IGRP.request( p.procedure ,{
+
+					success : function(data){
+
+						var contents = $(data).find('>*');
+
+						$.each($('*>',contents),function(i,item){
+
+							var tag 	    = item.tagName,
+
+								val         = $(item).text();
+
+							$.IGRP.utils.setFieldValue( tag , val );
+
+						});
+
+					}
+
+				});
+
+			}
+
+		},
+
+
 		remote_combobox:{
 			do:function(p){
 				
