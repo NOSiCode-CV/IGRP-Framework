@@ -26,9 +26,9 @@ public class MenuOrganicaView extends View {
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","default|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","MenuOrganica","voltar","_back","default|fa-angle-right","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","MenuOrganica","voltar","_back","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
