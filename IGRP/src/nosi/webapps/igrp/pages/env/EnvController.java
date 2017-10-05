@@ -130,8 +130,7 @@ public class EnvController extends Controller {
 			if(obj[6]!=null){
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(obj[6].toString()));
-				page = (ac!=null && ac.getPage()!=null)?ac.getPage()+"/"+ac.getAction():page;
-				page = "/"+page;
+				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
 			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+obj[1].toString().toLowerCase()+"&amp;page="+page);
 			xml_menu.setElement("img", obj[3].toString());
