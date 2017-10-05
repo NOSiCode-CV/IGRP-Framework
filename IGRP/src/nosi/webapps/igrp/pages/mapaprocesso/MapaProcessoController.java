@@ -7,6 +7,7 @@ package nosi.webapps.igrp.pages.mapaprocesso;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.gui.fields.CheckBoxField;
@@ -59,34 +60,41 @@ public class MapaProcessoController extends Controller {
 		if(taskId!=null){
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
-		String content = formData!=null?this.transformToXml(formData.getFormProperties()):"";
+		String content = this.transformToXml(formData);
 		return this.renderView(content);
 	}
 	/*---- End ----*/
 
-	private String transformToXml(List<FormProperties> formProperties) {
-		if(formProperties!=null && formProperties.size() > 0){
-			String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
-			XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
+	private String transformToXml(FormDataService formData) {
+		String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
+		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
+		xml.addXml(Config.getHeader());
+		xml.startElement("content");
+		xml.writeAttribute("type", "");
+		xml.setElement("title", "Process Task");
+		IGRPForm form = new IGRPForm("form");
+		IGRPButton btn_next = new IGRPButton("Seguinte", "igrp", "ExecucaoTarefa", "process-task", "submit", "primary|fa-arrow-circle-right", "", "");
 
-			xml.addXml(Config.getHeader());
-			xml.startElement("content");
-			xml.writeAttribute("type", "");
-			xml.setElement("title", "");
-			IGRPForm form = new IGRPForm("form");
-			for(FormProperties prop:formProperties){
+		if(formData!=null && formData.getFormProperties()!=null){
+			for(FormProperties prop:formData.getFormProperties()){
 				Field field = getField(prop.getId().toLowerCase(), prop.getType());
 				field.setValue(prop.getValue());
 				field.setLabel(prop.getName());
+				if(prop.getRequired())
+					field.propertie().add("required","true");
+				if(prop.getReadable())
+					field.propertie().add("readonly", "true");
+				if(prop.getWritable())
+					field.propertie().add("disabled", "true");
 				if(prop.getType().endsWith("enum")){
 					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
 				}
 				form.addField(field);
 			}
-			xml.addXml(form.toString());
-			return xml.toString();
 		}
-		return "";
+		form.addButton(btn_next);
+		xml.addXml(form.toString());
+		return xml.toString();
 	}
 	
 	private Field getField(String name,String type){

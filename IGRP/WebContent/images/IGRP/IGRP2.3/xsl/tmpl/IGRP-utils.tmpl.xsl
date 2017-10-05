@@ -62,8 +62,8 @@
       <xsl:if test="$use-fa = 'false'"> 
         <xsl:attribute name="class">btn 
           <xsl:choose>
-            <xsl:when test="$target = 'submit'">btn-success</xsl:when>
-            <xsl:when test="$target = 'alert_submit'">btn-primary</xsl:when>
+            <xsl:when test="$target = 'submit'">btn-default</xsl:when>
+            <xsl:when test="$target = 'alert_submit'">btn-default</xsl:when>
             <xsl:otherwise><xsl:value-of select="$fixed-btn-class"/></xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>

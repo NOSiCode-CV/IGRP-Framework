@@ -7,11 +7,13 @@ var TREEMENU = function(name,params){
 
 	var proprieties = params && params.properties;
 	
-	container.fields = false;
+	container.fields 		= true;
 
-	//container.xml.structure = 'table';
+	container.xml.type 		= 'treemenu';
 
-	//container.xml.genGroup = true;
+	container.xml.structure = 'table';
+
+	container.xml.genGroup 	= true;
 
 	container.xml.genRemote = false;
 

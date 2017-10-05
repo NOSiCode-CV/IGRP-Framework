@@ -129,11 +129,20 @@
                                         <xsl:otherwise><xsl:value-of select="text()"/></xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:variable>
+
+                                <xsl:variable name="vfname">
+                                    <xsl:choose>
+                                        <xsl:when test="not(substring($vname,(string-length($vname)-7),8) =  '_fk_desc')">
+                                            <xsl:value-of select="concat($vname,'_fk')"/>
+                                        </xsl:when>
+                                        <xsl:otherwise><xsl:value-of select="$vname"/></xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:variable>
                                 <xsl:value-of select="$tab"/>
                                 <xsl:text>v_xml:=v_xml||</xsl:text>
                                 <xsl:value-of select="concat($quotes,'&lt;',text(),'&gt;',$quotes,'||',$serv_convert)"/>
-                                <xsl:value-of select="concat('((CASE WHEN',$space,$pkg_core,'.get_array(',$quotes,'p_',$vname,'_fk',$quotes,')')"/>
-                                <xsl:value-of select="concat('.COUNT &gt;= I THEN',$space,$pkg_core,'.get_array(',$quotes,'p_',$vname,'_fk',$quotes,')')"/>
+                                <xsl:value-of select="concat('((CASE WHEN',$space,$pkg_core,'.get_array(',$quotes,'p_',$vfname,$quotes,')')"/>
+                                <xsl:value-of select="concat('.COUNT &gt;= I THEN',$space,$pkg_core,'.get_array(',$quotes,'p_',$vfname,$quotes,')')"/>
                                 <xsl:value-of select="concat('(i) ELSE',$space,$pkg_core,'.get(',$quotes,'p_',$vname,$quotes,')',$space,'END))||')"/>
                                 <xsl:value-of select="concat($quotes,'&lt;',$end,text(),'&gt;',$quotes,$endline)"/>
                                 <xsl:value-of select="concat($enter2tab,$enter2tab,$tab,$tab)"/>
@@ -206,7 +215,7 @@
             <xsl:for-each select="service/response/item">
                 <xsl:choose>
                     <xsl:when test="not(@structure) or @structure != 'list'">
-                        <xsl:if test="@to != ''">
+                        <!--<xsl:if test="@to != ''">-->
                             <xsl:variable name="vname">
                                 <xsl:choose>
                                     <xsl:when test="@to != ''"><xsl:value-of select="@to"/></xsl:when>
@@ -214,9 +223,9 @@
                                 </xsl:choose>
                             </xsl:variable>
 
-                            <xsl:value-of select="concat($pkg_core,'.add(',$quotes,'p_',text(),$quotes,$comma,$serv_convert,'(myxml.getitempath (',$quotes,'/rows/row/',$vname,$quotes,')',$comma,$serv_decode,'))',$endline)"/>
+                            <xsl:value-of select="concat($pkg_core,'.add(',$quotes,'p_',$vname,$quotes,$comma,$serv_convert,'(myxml.getitempath (',$quotes,'/rows/row/',text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
                             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
-                        </xsl:if>
+                        <!--</xsl:if>-->
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:if test="count(row) &gt; 0">
@@ -226,7 +235,7 @@
                                     <xsl:otherwise>table</xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
-                            <xsl:value-of select="concat('myxml.loadgrupo(',$quotes,'rows/',$tagList,'/row',$quotes,')',$endline)"/>
+                            <xsl:value-of select="concat('myxml.loadgrupo(',$quotes,'row/',$tagList,'/row',$quotes,')',$endline)"/>
                             <xsl:value-of select="concat($enter2tab,$enter2tab)"/>
                             
                             <xsl:choose>
@@ -268,24 +277,27 @@
                                     <xsl:for-each select="row">
                                         <xsl:choose>
                                             <xsl:when test="@to != ''">
-                                                <xsl:value-of select="concat($tab,$packageName,'v_',@to,'(v_',@to,'.count+1):=',$serv_convert)"/>
-                                                <xsl:value-of select="concat('(myxml.getitem(',$quotes,text(),$quotes,')',$comma,$serv_decode,')',$endline)"/>
+                                                <xsl:value-of select="concat($tab,$packageName,'v_',text(),'(',$packageName,'v_',text(),'.count+1):=',$serv_convert)"/>
+                                                <xsl:value-of select="concat('(myxml.getitem(',$quotes,@to,$quotes,')',$comma,$serv_decode,')',$endline)"/>
                                                 <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
                                                 
+                                                <!--<xsl:if test="not(substring(text(),(string-length(text())-7),8) =  '_fk_desc')">
+                                                    <xsl:value-of select="concat($tab,$packageName,'v_',@to,'_desc','(v_',@to,'_desc','.count+1):=',$serv_convert)"/>
+                                                    <xsl:value-of select="concat('(myxml.getitem(',$quotes,text(),$quotes,')',$comma,$serv_decode,')',$endline)"/>
+                                                    <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
+                                                </xsl:if>-->
                                                 
-                                                <xsl:value-of select="concat($tab,$packageName,'v_',@to,'_desc','(v_',@to,'_desc','.count+1):=',$serv_convert)"/>
-                                                <xsl:value-of select="concat('(myxml.getitem(',$quotes,text(),$quotes,')',$comma,$serv_decode,')',$endline)"/>
-                                                <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
-                                                
-
                                             </xsl:when>
                                             <xsl:otherwise>
 
-                                                <xsl:value-of select="concat($tab,$pkg_core,'.wf_add(',$quotes,'p_',text(),'_fk',$quotes,$comma,$serv_convert,'(myxml.getitem (',$quotes,text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
-                                                <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
+                                                <xsl:if test="not(substring(text(),(string-length(text())-7),8) =  '_fk_desc')">
+                                                    <xsl:value-of select="concat($tab,$pkg_core,'.wf_add(',$quotes,'p_',text(),'_fk',$quotes,$comma,$serv_convert,'(myxml.getitem (',$quotes,text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
+                                                    <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
 
-                                                <xsl:value-of select="concat($tab,$pkg_core,'.wf_add(',$quotes,'p_',text(),'_fk_desc',$quotes,$comma,$serv_convert,'(myxml.getitem (',$quotes,text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
-                                                <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/>
+                                                    <xsl:value-of select="concat($tab,$pkg_core,'.wf_add(',$quotes,'p_',text(),'_fk_desc',$quotes,$comma,$serv_convert,'(myxml.getitem (',$quotes,text(),$quotes,')',$comma,$serv_decode,'))',$endline)"/>
+                                                    <xsl:value-of select="concat($tab,$enter2tab,$enter2tab)"/> 
+                                                </xsl:if>
+
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:for-each>

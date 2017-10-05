@@ -109,7 +109,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		return dad;
 	}
 	public void setDad(String dad) {
-		this.dad = dad;
+		this.dad = dad.replaceAll("\\s+","_").toLowerCase();
 	}
 	public String getName() {
 		return name;

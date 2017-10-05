@@ -8,14 +8,16 @@
       <head>
        
         <xsl:call-template name="IGRP-head"/>
-      
+      	
+        <link rel="stylesheet" href="{$path}/core/igrp/process/process.css"/>
+
+        <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
+
       </head>
       
       <body class="{$bodyClass} old-v fluid sidebar-off">
        
         <xsl:call-template name="IGRP-topmenu"/>
-       
-        <form>
 
           <div class="container-fluid">
 
@@ -25,7 +27,7 @@
 
               <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                
-               <div class="content">
+               <div class="content" id="IGRP-process">
 
                   <div class="row">
 
@@ -51,6 +53,32 @@
 
 	                  		<xsl:apply-templates mode="process-flow" select="rows/content/table" />
 
+	                  		<xsl:if test="rows/content/form/tools-bar">
+
+	                          <div class="toolsbar-holder gen-container-item " gen-structure="toolsbar" gen-class="">
+	                            
+	                            <div class="btns-holder pull-right" role="group">
+	                              
+	                              <xsl:apply-templates select="rows/content/form/tools-bar" mode="gen-buttons">
+	                                
+	                                <xsl:with-param name="outline" select="'true'"/>
+	                                
+	                                <xsl:with-param name="use-fa" select="'false'"/>
+	                                
+	                                <xsl:with-param name="type" select="'tools-bar'"/>
+	                              
+	                              </xsl:apply-templates>
+	                           
+	                            </div>
+	                          
+	                          </div>
+
+	                        </xsl:if>
+
+	                        <form action="#" method="POST" id="formular_default" name="formular_default" class="default_form" enctype="multipart/form-data">
+								<xsl:call-template name="GEN-FORM"/>
+						    </form>
+
 	                  	</div>
 
 	                  </div>
@@ -67,8 +95,6 @@
 
           <xsl:call-template name="IGRP-bottom"/>
 
-        </form>
-
       </body>
 
     </html>
@@ -76,9 +102,11 @@
   </xsl:template>
 
 
-  <xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
-  <xsl:include href="../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
-  <xsl:include href="../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
-  <xsl:include href="../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
-  <xsl:include href="../xsl/tmpl/IGRP-process-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
+  <xsl:include href="tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
+  <xsl:include href="tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
+  <xsl:include href="tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="tmpl/IGRP-process-utils.tmpl.xsl?v=1463090556312"/>
+  <xsl:include href="tmpl/IGRP-formgen-tmpl.xsl?v=1463090556312"/>
+
 </xsl:stylesheet>

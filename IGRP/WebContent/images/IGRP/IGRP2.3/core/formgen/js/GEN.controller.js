@@ -1720,7 +1720,10 @@ var GENERATOR = function(genparams){
 				}
 
 			if (json.service) {
-				GEN.proprieties.service = {
+
+				GEN.service.set(GEN);
+
+				GEN.SET.service({
 					desc 			: json.service.desc,
 					code 			: json.service.code,
 					proc 			: json.service.proc,
@@ -1728,7 +1731,9 @@ var GENERATOR = function(genparams){
 					connectionsRes 	: json.service.connectionsRes,
 					fieldsReq 	   	: json.service.fieldsReq,
 					fieldsRes 	   	: json.service.fieldsRes
-				}
+				});
+
+				
 			}
 		}
 	}
@@ -2431,7 +2436,7 @@ var GENERATOR = function(genparams){
 			return false;
 		});
 		/*SAVE PAGE*/
-$('.form-gen-save').on('click',function(e){
+		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
 
@@ -2444,12 +2449,12 @@ $('.form-gen-save').on('click',function(e){
 				var pageXSL = vkbeautify.xml(GEN.getXSL({
 					removeGenAttrs:true
 				}));
-
-				/*var vParam  =  [
+				/*
+				var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
 					{ name:'p_page_xsl', value: pageXSL },//xsl
-					{ name:'p_page_java',value:javaStr},//java
+					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
@@ -2463,7 +2468,7 @@ $('.form-gen-save').on('click',function(e){
 				$('#gen-noif-holder').html('');
 				
 				try{
-					console.log(GEN.SETTINGS.package)
+					
 					$.IGRP.utils.submitStringAsFile({
 						//pUrl        : 'test.save.xml',
 						pUrl        : vUrl,
@@ -2475,7 +2480,6 @@ $('.form-gen-save').on('click',function(e){
 				           		{name:'p_id_objeto', value:vItemId},
 				           		{name:'p_table_name', value:GEN.SETTINGS.table},
 				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				           	]
 				        },
 						pComplete   :function(xml,text,status){
@@ -2512,7 +2516,7 @@ $('.form-gen-save').on('click',function(e){
 				}catch(err){
 					console.log(err);
 				}*/
-				
+
 				GEN.getJava(function(javaStr){
 
 					var vParam  =  [
@@ -2520,7 +2524,7 @@ $('.form-gen-save').on('click',function(e){
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+//						{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)

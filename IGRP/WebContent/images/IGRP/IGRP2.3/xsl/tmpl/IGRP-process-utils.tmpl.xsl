@@ -1,16 +1,48 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  
   <xsl:template name="process-flow" mode="process-flow" match="table">
     
+    <xsl:variable name="justifyClss">
 
-    <div class="process flat">
-      <a href="#" class="active">Set Dates/Locations/Forms</a>
-      <a href="#">Verify Roster</a>
-      <a href="#">Match Students / Faculty</a>
-      <a href="#">Review</a>
+      <xsl:if test="count(value/row) &gt; 3">btn-group-justified</xsl:if>
+
+    </xsl:variable>
+
+    <div class="process flat {$justifyClss} gen-container-item">
+      
+      <xsl:for-each select="value/row">
+
+        <xsl:variable name="itemClss" select="type"/>
+
+        <a href="{link}" class="btn {$itemClss}" >
+
+          <span class="txt-ellipsis">
+
+            <xsl:value-of select="title"/>
+
+          </span>
+
+        </a>
+
+      </xsl:for-each>
+
+      <!-- <a href="#" class="btn active" >
+              <span class="txt-ellipsis">Set Dates/Locations/Forms</span>
+            </a>
+            <a href="#" class="btn">
+              <span class="txt-ellipsis">Verify Roster</span>
+            </a>
+            <a href="#" class="btn">
+              <span class="txt-ellipsis">Match Students / Faculty</span>
+            </a>
+            <a href="#" class="btn">
+              <span class="txt-ellipsis">Verify Roster</span>
+            </a>
+            <a href="#" class="btn">
+              <span class="txt-ellipsis">Match Students / Faculty</span>
+            </a> -->
     </div>
-
-
-    <xsl:if test="value/row">
+    <!-- <xsl:if test="value/row">
       <xsl:variable name="cont" select="count(value/row)"/>
       <div class="box-content">
         <div class="process">
@@ -101,7 +133,6 @@
                             </span>
                             <span class="stp_bar proc"></span>
                           </span>
-                          <!--<span class="label"><xsl:value-of select="substring(title,1,15)"/><xsl:text>(...)</xsl:text></span>-->
                         </a>
                         <em>
                           <xsl:value-of select="title"/>
@@ -117,7 +148,6 @@
                               <xsl:value-of select="title"/>
                             </span>
                           </span>
-                          <!--<span class="label"><xsl:value-of select="title"/></span>-->
                         </a>
                       </xsl:otherwise>
                     </xsl:choose>
@@ -160,12 +190,10 @@
                   </li>
                 </xsl:otherwise>
               </xsl:choose>
-              <!--</xsl:otherwise>
-                    </xsl:choose>-->
             </xsl:for-each>
           </ul>
         </div>
       </div>
-    </xsl:if>
+    </xsl:if> -->
   </xsl:template>
 </xsl:stylesheet>
