@@ -112,12 +112,13 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Parâmetros Gerais", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app, null));
+			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app, null));
 			
-			menus.add(new Menu("Detalhes de Aplicação", 1, 1, 0, "_self", actions.get(2), app, menus.get(0)));
+			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));
-			menus.add(new Menu("Report Design", 1, 1, 0, "_self", actions.get(22), app, menus.get(0)));
+			menus.add(new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), app, menus.get(3)));
 			
 			menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
@@ -126,16 +127,21 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
 			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			
+			
 			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
-			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(0)));
+			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
 			for(Menu m:menus){
 				m.insert();
 			}
 			
 			List<Profile> profiles = new ArrayList<>();
+			//permisao de acesso a aplicacao
 			profiles.add(new Profile(1, "ENV", prof1, user1, org));
+			
+			//permisao de acesso do utilizador a perfil
 			profiles.add(new Profile(2, "PROF", prof1, user1, org));
-			profiles.add(new Profile(4, "MEN", prof0, user0, org));
+			
+			//permisao de acesso ao menu
 			profiles.add(new Profile(5, "MEN", prof0, user0, org));
 			profiles.add(new Profile(6, "MEN", prof0, user0, org));
 			profiles.add(new Profile(7, "MEN", prof0, user0, org));
@@ -148,8 +154,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(14, "MEN", prof0, user0, org));
 			profiles.add(new Profile(15, "MEN", prof0, user0, org));
 			profiles.add(new Profile(16, "MEN", prof0, user0, org));
+			profiles.add(new Profile(17, "MEN", prof0, user0, org));
 			
-			profiles.add(new Profile(4, "MEN", prof1, user0, org));
 			profiles.add(new Profile(5, "MEN", prof1, user0, org));
 			profiles.add(new Profile(6, "MEN", prof1, user0, org));
 			profiles.add(new Profile(7, "MEN", prof1, user0, org));
@@ -162,6 +168,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(14, "MEN", prof1, user0, org));
 			profiles.add(new Profile(15, "MEN", prof1, user0, org));
 			profiles.add(new Profile(16, "MEN", prof1, user0, org));
+			profiles.add(new Profile(17, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();
