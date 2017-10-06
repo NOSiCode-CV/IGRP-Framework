@@ -202,7 +202,7 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso !!");
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
