@@ -205,7 +205,25 @@ public class WebReportController extends Controller {
 
 
 	private String getDataForPage(RepTemplateSource rep) {
-		// TODO Auto-generated method stub
+		Action ac = new Action().findOne(rep.getRepSource().getType_fk());
+		if(ac!=null){
+			String actionName = "";
+			for(String aux : ac.getAction().split("-"))
+				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			actionName = "action" + actionName;
+			String controllerPath = Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());
+			Object ob = Page.loadPage(controllerPath,actionName);
+			if(ob!=null){
+				Response resp = (Response) ob;
+				if(resp!=null){
+					String content = resp.getContent();
+					int start = content.indexOf("<content");
+					int end = content.indexOf("</rows>");
+					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+					return content;
+				}
+			}
+		}
 		return "";
 	}
 
@@ -217,7 +235,7 @@ public class WebReportController extends Controller {
 		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
 		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 		String rowsXml = rep.getRepSource().getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
-		return this.processPreview(rowsXml,rep.getRepTemplate(),rep.getRepSource());
+		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
 
 
@@ -244,28 +262,11 @@ public class WebReportController extends Controller {
 	/*Process preview in different type
 	 * 
 	 */
-	private String processPreview(String rowsXml, RepTemplate rt, RepSource rs) {
+	private String processPreview(String rowsXml, RepTemplateSource rts, RepSource rs) {
 		if(rs.getType().equalsIgnoreCase("object") || rs.getType().equalsIgnoreCase("query")){
-			return this.getContentXml(rt.getName(),rowsXml);
+			return this.getContentXml(rts.getRepSource().getName(),rowsXml);
 		}else if(rs.getType().equalsIgnoreCase("page")){
-			Action ac = new Action();
-			ac = ac.findOne(rs.getType_fk());
-			String actionName = "";
-			for(String aux : ac.getAction().split("-"))
-				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			actionName = "action" + actionName;
-			String controllerPath = Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());
-			Object ob = Page.loadPage(controllerPath,actionName);
-			if(ob!=null){
-				Response resp = (Response) ob;
-				if(resp!=null){
-					String content = resp.getContent();
-					int start = content.indexOf("<content");
-					int end = content.indexOf("</rows>");
-					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
-					return content;
-				}
-			}
+			return this.getDataForPage(rts);
 		}
 		return "";
 	}
