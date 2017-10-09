@@ -8,7 +8,7 @@
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>D:\git\IGRP-Framework</param-value>
+      <param-value>C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
       <param-name>autentication_type</param-name>

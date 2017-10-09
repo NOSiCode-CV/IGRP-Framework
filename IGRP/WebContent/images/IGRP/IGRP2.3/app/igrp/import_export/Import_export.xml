@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Import_export</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Import_export</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Importar e exportar uma aplicacao</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Import/Export de uma Aplicação]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <data_de name="p_data_de" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data De</label>
+                    <value/>
+                </data_de>
+                <data_ate name="p_data_ate" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data até</label>
+                    <value/>
+                </data_ate>
+                <tipo name="p_tipo" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Tipo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </tipo>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Import_export</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl?</parameter>
+                    <target>submit</target>
+                    <img>default|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="export">
+                <title>Export</title>
+                <app>igrp</app>
+                <page>Import_export</page>
+                <link>index</link>
+                <target>_blank</target>
+                <img>danger|fa-chevron-up</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="import">
+                <title>Import</title>
+                <app>igrp</app>
+                <page>Import_export</page>
+                <link>index</link>
+                <target>_blank</target>
+                <img>success|fa-chevron-down</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <aplicacao_tabela name="p_aplicacao_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Aplicação</label>
+                </aplicacao_tabela>
+                <utilizador name="p_utilizador" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Utilizador</label>
+                </utilizador>
+                <data name="p_data" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Data</label>
+                </data>
+                <tipo_tabela name="p_tipo_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo</label>
+                </tipo_tabela>
+                <download name="p_download" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Download</label>
+                </download>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Labore laudantium aperiam rem</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Mollit omnis mollit unde dolor</utilizador>
+                        <data name="p_data">Consectetur iste perspiciatis</data>
+                        <tipo_tabela name="p_tipo_tabela">Consectetur natus magna adipis</tipo_tabela>
+                        <download name="p_download">Voluptatem natus consectetur i</download>
+                    </row>
+                    <row>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Perspiciatis aliqua doloremque</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Unde amet ipsum omnis anim</utilizador>
+                        <data name="p_data">Omnis elit sed deserunt consec</data>
+                        <tipo_tabela name="p_tipo_tabela">Magna adipiscing laudantium na</tipo_tabela>
+                        <download name="p_download">Sit officia ipsum sed ipsum</download>
+                    </row>
+                    <row>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Doloremque sed natus adipiscin</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Ut perspiciatis anim consectet</utilizador>
+                        <data name="p_data">Elit sit natus iste dolor</data>
+                        <tipo_tabela name="p_tipo_tabela">Elit elit officia sit mollit</tipo_tabela>
+                        <download name="p_download">Magna iste ut voluptatem molli</download>
+                    </row>
+                    <row>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Laudantium lorem ipsum labore</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Sit omnis aliqua mollit perspi</utilizador>
+                        <data name="p_data">Lorem mollit officia mollit se</data>
+                        <tipo_tabela name="p_tipo_tabela">Consectetur iste aperiam accus</tipo_tabela>
+                        <download name="p_download">Laudantium stract laudantium m</download>
+                    </row>
+                    <row>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Omnis accusantium ipsum ut vol</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Officia iste adipiscing dolor</utilizador>
+                        <data name="p_data">Omnis magna mollit magna sit</data>
+                        <tipo_tabela name="p_tipo_tabela">Mollit stract elit doloremque</tipo_tabela>
+                        <download name="p_download">Sit mollit lorem omnis deserun</download>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>
