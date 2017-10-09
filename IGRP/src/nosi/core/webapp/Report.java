@@ -43,7 +43,7 @@ public class Report extends Controller{
 	}
 	
 	public static void main(String[] args){
-		Report.getLinkReport("rep_007", new Report().addParam("id", 1).addParam("name", "ymac"));
+		Report.getLinkReport("002", new Report().addParam("id", 1));
 		
 	}
 }

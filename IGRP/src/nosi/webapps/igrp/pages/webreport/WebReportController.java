@@ -173,13 +173,19 @@ public class WebReportController extends Controller {
 	}
 	
 
-	public Response actionGetLinkReport(){
-		String content = "";
+	public Response actionGetLinkReport() throws IOException{
 		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
+		RepTemplate rep = new RepTemplate().find().andWhere("code", "=", p_code).one();
 		String p_params = Igrp.getInstance().getRequest().getParameter("p_params");
-		System.out.println(p_code);
-		System.out.println(p_params);
-		return this.renderView(content);
+		String[] params = p_params.split(";");
+		String name_array = "";
+		String value_array = "";
+		for(String p:params){
+			String[] part = p.split("=");
+			name_array += "&name_array="+part[0];
+			value_array += "&value_array="+part[1];
+		}
+		return this.redirect("igrp", "web-report", "preview&p_id="+rep.getId()+name_array+value_array);
 	}
 	
 	public Response actionPreview() throws IOException{
@@ -189,9 +195,11 @@ public class WebReportController extends Controller {
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne((int)Float.parseFloat(id));
+			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 			//Iterate data source per template
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
-				xml += this.getData(rep);
+				xml += this.getData(rep,name_array,value_array);
 			}
 			xml = this.genXml(xml,rt);
 		}
@@ -199,13 +207,12 @@ public class WebReportController extends Controller {
 		return this.renderView(xml);
 		/*---- End ----*/
 	}
-	
-	private String getData(RepTemplateSource rep) {
+	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {
 			case "object":
 			case "query":
-				return this.getDataForQueryOrObject(rep);
+				return this.getDataForQueryOrObject(rep,name_array,value_array);
 			case "page":
 				return this.getDataForPage(rep);
 		}
@@ -237,12 +244,10 @@ public class WebReportController extends Controller {
 	}
 
 
-	private String getDataForQueryOrObject(RepTemplateSource rep) {
+	private String getDataForQueryOrObject(RepTemplateSource rep,String []name_array,String []value_array) {
 		String query = rep.getRepSource().getType_query();
 		query = rep.getRepSource().getType().equalsIgnoreCase("object")?("SELECT * FROM "+query):query;
 		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
-		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 		String rowsXml = rep.getRepSource().getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
 		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}

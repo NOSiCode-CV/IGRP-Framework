@@ -12,6 +12,7 @@ import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -249,18 +250,25 @@ public class ExecucaoTarefasController extends Controller {
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
 	
-	public void processTask(){
-		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+	public Response actionProcessTask(){
+		String taskId = Igrp.getInstance().getRequest().getParameter("p_task_id");		
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("messages");
+		xml.startElement("message");
 		if(taskId!=null && !taskId.equals("")){
 			TaskService task = new TaskService();
 			task.addVariable("n_filhos", "long",1);
 			if(task.completeTask(taskId)){
-				System.out.println("ok");
+				xml.writeAttribute("type", "success");
+				xml.text("Operação efetuada com sucesso");
 			}else{
-				System.err.println("task:"+task.getError());
+				xml.writeAttribute("type", "error");
+				xml.text("Falha ao executar a tarefa: "+task.getId());
 			}
 		}
-		
+		xml.endElement();
+		xml.endElement();
+		return this.renderView(xml.toString());
 	}
 	
 	public void processStartEvent(){

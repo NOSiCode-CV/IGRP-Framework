@@ -13,6 +13,7 @@ import nosi.core.gui.components.IGRPMenu;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.DateField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
@@ -72,20 +73,24 @@ public class MapaProcessoController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "Process Task");
-		IGRPForm form = new IGRPForm("form");
-		IGRPButton btn_next = new IGRPButton("Seguinte", "igrp", "ExecucaoTarefa", "process-task", "submit", "primary|fa-arrow-circle-right", "", "");
+		IGRPForm form = new IGRPForm("form",(float)2.1);
+		IGRPButton btn_next = new IGRPButton("Seguinte", "igrp", "ExecucaoTarefas", "process-task", "submit", "primary|fa-arrow-circle-right", "", "");
 
 		if(formData!=null && formData.getFormProperties()!=null){
+			Field id = getField("task_id", "hidden");
+			id.setValue(formData.getTaskId());
+			form.addField(id);
 			for(FormProperties prop:formData.getFormProperties()){
 				Field field = getField(prop.getId().toLowerCase(), prop.getType());
-				field.setValue(prop.getValue());
 				field.setLabel(prop.getName());
+				if(prop.getValue()!=null && !prop.getValue().equals("null"))
+					field.setValue(prop.getValue());
 				if(prop.getRequired())
 					field.propertie().add("required","true");
-				if(prop.getReadable())
-					field.propertie().add("readonly", "true");
-				if(prop.getWritable())
-					field.propertie().add("disabled", "true");
+//				if(prop.getReadable())
+//					field.propertie().add("readonly", "true");
+//				if(prop.getWritable())
+//					field.propertie().add("disabled", "true");
 				if(prop.getType().endsWith("enum")){
 					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
 				}
@@ -107,6 +112,8 @@ public class MapaProcessoController extends Controller {
 			return new CheckBoxField(null, name);
 		case "enum":
 			return new ListField(null, name);
+		case "hidden":
+			return new HiddenField(null, name);
 		}
 		return new TextField(null, name);
 	}
