@@ -622,5 +622,4 @@ public class OAuth2 extends HttpServlet {
 		return redirectUrl;
 	}
 	
-	
 }
