@@ -10,7 +10,7 @@
     </xsl:variable>
     <xsl:attribute name="collapsed"><xsl:value-of select="$collapsed"/></xsl:attribute>
     <div class="box-header {$collapsibleClass}">
-      <h3 class="box-title"><xsl:value-of select="$title"/></h3>
+      <h3 class="box-title" text-color="primary"><xsl:value-of select="$title"/></h3>
       <xsl:if test="$collapsible = 'true'">
         <div class="box-tools pull-right">
         <a class="btn-box-tool"><i class="fa fa-chevron-up"></i></a>

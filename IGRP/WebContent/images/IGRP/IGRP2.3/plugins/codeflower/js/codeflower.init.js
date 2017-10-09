@@ -125,8 +125,18 @@
       convertToJSON : function(data, origin) {
         return (origin == 'cloc') ? com.convertFromClocToJSON(data) : com.convertFromWcToJSON(data);
       },
+      type : {
+         training : function(p){
+            return new Training("#"+p.id, p.width, p.height).update(p.json);
+         },
+         codeflower : function(p){
+            $("#"+p.id).css({'margin-left':- parseInt(p.width/2)});
+            return new CodeFlower("#"+p.id, p.width, p.height).update(p.json);
+         }
+      },
       createCodeFlower : function(t){
          var id = t.attr('id');
+
          d3.json(t.attr('href'), function(error,json){
              if (error) throw error;
 
@@ -139,9 +149,12 @@
                height   = parseInt(Math.sqrt(total) * 30, 10);
 
             // create a new CodeFlower
-            //$("#"+id).css({'margin-left':- parseInt(width/2)});
-
-            var codeflower = new Training("#"+id, width, height).update(json);
+            var codeflower = com.type[t.attr('rel')]({
+               id       : id,
+               json     : json,
+               width    : width,
+               height   : height
+            });
             
             currentCodeFlower[id] = codeflower;
          });
@@ -149,7 +162,7 @@
       init:function(){
          com = this;
 
-         $('.training').each(function(){
+         $('.codeflower').each(function(){
             com.createCodeFlower($(this));
          });         
       }

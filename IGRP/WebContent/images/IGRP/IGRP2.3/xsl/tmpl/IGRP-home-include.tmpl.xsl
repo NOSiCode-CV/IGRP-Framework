@@ -524,6 +524,10 @@
               </xsl:if>
             }
 
+            [style-listener="true"].active [active-bg-color="<xsl:value-of select="@name"/>"]{
+              background-color : <xsl:value-of select="."/>!important;
+            }
+
             <xsl:if test="@bg-hover">
               [bg-hover="<xsl:value-of select="@name"/>"]:hover{
                 background-color:<xsl:value-of select="@bg-hover"/>;
