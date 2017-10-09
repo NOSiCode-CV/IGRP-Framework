@@ -28,6 +28,7 @@
     
     <form>
       <label>
+
         <p_wf_proc_tp_fk name="p_wf_proc_tp_fk" type="hidden" maxlength="30">p_wf_proc_tp_fk</p_wf_proc_tp_fk>
         <p_wf_acti_tp_fk name="p_wf_acti_tp_fk" type="hidden" maxlength="30">p_wf_acti_tp_fk</p_wf_acti_tp_fk>
         <p_wf_proc_id name="p_wf_proc_id" type="hidden" maxlength="30">p_wf_proc_id</p_wf_proc_id>
@@ -36,17 +37,22 @@
         <p_wf_only name="p_wf_only" type="hidden" maxlength="30">p_wf_only</p_wf_only>
         <p_wf_view name="p_wf_view" type="hidden" maxlength="30">p_wf_view</p_wf_view>
         <p_wf_activity_code name="p_wf_activity_code" type="hidden" maxlength="30">p_wf_activity_code</p_wf_activity_code>
+
+
+        <biometric name="p_biometric" type="biometric" maxlength="30">Biometric</biometric>
+
         <wf_docs_to_print type="list" container="true">Documentos Imprimir/Enviar</wf_docs_to_print>
-        <wf_type_to_print name="p_wf_type_to_print" type="text" rel="wf_docs_to_print" maxlength="250">Tipo Documento</wf_type_to_print>
+        <wf_type_to_print name="p_wf_type_to_print" type="text" rel="wf_docs_to_print" maxlength="250">Documento</wf_type_to_print>
         <wf_link_to_print name="p_wf_link_to_print" type="link" rel="wf_docs_to_print" maxlength="30">Imprimir</wf_link_to_print>
         <separatorsin_custas1 type="separator" start="SIN_CUSTAS">CUSTAS E TARIFARIOS</separatorsin_custas1>
         <tarifario name="p_tarifario" type="selectchange" change="true" maxlength="30">Serviço Urgente</tarifario>
+        <sep_tst name="p_sep_tst" type="separator"  maxlength="30">Separador Tst</sep_tst>
         <servico name="p_servico" type="selectchange" change="true" maxlength="30">Serviço</servico>
         <horario name="p_horario" type="selectchange" change="true" maxlength="30">Horário de Atendimento</horario>
         <gerar_custa name="p_gerar_custa" type="checkbox" required="true" change="true" maxlength="30">Gerar/Atualizar Custa</gerar_custa>
         <custa type="formlist" container="true">Detalhes de Custas</custa>
         <s_cobranca name="p_s_cobranca" type="hidden" rel="custa" maxlength="150">Serviço de Cobrança</s_cobranca>
-        <tp_acto_certidao name="p_tp_acto_certidao" type="plaintext" rel="custa" maxlength="50">Ato / Certidão</tp_acto_certidao>
+        <tp_acto_certidao name="p_tp_acto_certidao" type="email" rel="custa" maxlength="50">Ato / Certidão</tp_acto_certidao>
         <benificiario name="p_benificiario" type="plaintext" rel="custa" maxlength="50">Beneficiário</benificiario>
         <benificiario_hidd name="p_benificiario_hidd" type="hidden" rel="custa" maxlength="30">Beneficiário</benificiario_hidd>
         <custas name="p_custas" type="plaintext" rel="custa" maxlength="150">Custas / Impostos</custas>
@@ -75,6 +81,9 @@
         <process_id name="p_process_id" type="hidden" rel="custa" maxlength="30" end="true">process_id</process_id>
         <acto type="list" container="true">ATO (S)</acto>
         <tipo_acto name="p_tipo_acto" type="text" required="true" change="true" rel="acto" maxlength="150">Tipo de Ato</tipo_acto>
+
+
+
         <tp_acto_id name="p_tp_acto_id" type="hidden" rel="acto" maxlength="30">tp_acto_id</tp_acto_id>
         <tp_acto_codigo name="p_tp_acto_codigo" type="hidden" rel="acto" maxlength="30">tp_acto_codigo</tp_acto_codigo>
         <deniminacao_id name="p_deniminacao_id" type="hidden" rel="acto" maxlength="30">deniminacao_id</deniminacao_id>
@@ -223,7 +232,7 @@
         <ref_acto name="p_ref_acto" />
         <descricao_predio name="p_descricao_predio" />
         <nip  name="p_nip" />
-        <n_registo_predial  name="p_n_registo_predial" />
+        <n_registo_predial  name="p_n_registo_predial" >Lorem Ipsum</n_registo_predial>
         <registo  name="p_registo" />
         <letra_fraccao  name="p_letra_fraccao" />
         <matriz name="p_matriz" />
@@ -351,7 +360,6 @@
         <hidden name="p_wf_only" />
         <hidden name="p_custa_noedt">true</hidden>
         <hidden name="p_custa_nodel">true</hidden>
-        <hidden name="p_env_frm_url">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9</hidden>
         <hidden name="p_env_dml">Executar</hidden>
         <hidden name="custa_nodel">true</hidden>
         <hidden name="p_fwl_tab_page" />
@@ -391,6 +399,10 @@
             <text>-- Variações Tarifario --</text>
             <value />
           </option>
+          <option>
+            <text>Option 1</text>
+            <value >1</value>
+          </option>
         </custa_tarifario>
         <objecto name="p_objecto">
           <option selected="true">
@@ -410,6 +422,10 @@
           <option>
             <text>-- Tipo de Ato --</text>
             <value />
+          </option>
+          <option selected="true">
+            <text>Tipo Lorem Ipsum</text>
+            <value >1</value>
           </option>
         </tp_acto_escolha>
         <efectuar_r_predial name="p_efectuar_r_predial">
@@ -1018,10 +1034,10 @@
             <custa_id name="p_custa_id" type="hidden" align="">process_id</custa_id>
           </label>
           <value>
-            <row nodelete="true" noupdate="true">
+            <row >
               <s_cobranca name="p_s_cobranca" type="hidden" />
               <s_cobranca_desc  name="p_s_cobranca_desc"  type="hidden" />
-              <tp_acto_certidao name="p_tp_acto_certidao" type="plaintext" />
+              <tp_acto_certidao name="p_tp_acto_certidao" type="email" required="true" />
               <tp_acto_certidao_desc  name="p_tp_acto_certidao_desc"  type="plaintext" />
               <benificiario name="p_benificiario" type="plaintext" />
               <benificiario_desc  name="p_benificiario_desc"  type="plaintext" />
@@ -1117,7 +1133,7 @@
               <ref_acto_desc  name="p_ref_acto_desc"  type="text" />
               <objecto_acto name="p_objecto_acto" type="hidden" />
               <objecto_acto_desc  name="p_objecto_acto_desc"  type="hidden" />
-              <acto_id  name="p_acto_id"  type="hidden" />
+              <acto_id  name="p_acto_id"  type="hidden" >1</acto_id>
             </row>
           </value>
         </acto>
@@ -1323,7 +1339,7 @@
               <tipo_prd_desc  name="p_tipo_prd_desc"  type="hidden" />
               <predio_prd name="p_predio_prd" type="hidden" />
               <predio_prd_desc  name="p_predio_prd_desc"  type="hidden" />
-              <sep_bem_imovel_id  name="p_sep_bem_imovel_id"  type="hidden" />
+              <sep_bem_imovel_id  name="p_sep_bem_imovel_id"  type="hidden" >123</sep_bem_imovel_id>
             </row>
           </value>
         </sep_bem_imovel>
@@ -1408,6 +1424,82 @@
           <value></value>
         </info_par_not>
       </table>
+      <fingerprint>
+            <label>
+                <link name="p_link" type="text" rel="xxx_no" maxlength="2000" code="">link</link>
+                <photo_link name="p_photo_link" type="text" rel="xxx_no" maxlength="2000" code="">Foto</photo_link>
+                <fingerright_link name="p_fingerright_link" type="text" rel="xxx_no" maxlength="2000" code="">Dedo Direito</fingerright_link>
+                <fingerleft_link name="p_fingerleft_link" type="text" rel="xxx_no" maxlength="2000" code="">Dedo Esquerdo</fingerleft_link>
+                <signature_link name="p_signature_link" type="text" rel="xxx_no" maxlength="2000" code="">Assinatura</signature_link>
+                <self_service name="p_self_service" type="text" rel="xxx_no" maxlength="100" code="">Self Service</self_service>
+                <process_start name="p_process_start" type="text" rel="xxx_no" maxlength="100" code="">Iniciar Processo</process_start>
+                <number_process name="p_number_process" type="number" rel="xxx_no" maxlength="30" code="">N  Processo</number_process>
+                <photo_id name="p_photo_id" type="hidden" rel="xxx_no" maxlength="30" code="">photo_id</photo_id>
+                <photo_jp2000_id name="p_photo_jp2000_id" type="hidden" rel="xxx_no" maxlength="30" code="">photo_jp2000_id</photo_jp2000_id>
+                <fingerleft_id name="p_fingerleft_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerleft_id</fingerleft_id>
+                <fingerleft_wsq_id name="p_fingerleft_wsq_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerleft_wsq_id</fingerleft_wsq_id>
+                <fingerright_id name="p_fingerright_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerright_id</fingerright_id>
+                <fingerright_wsq_id name="p_fingerright_wsq_id" type="hidden" rel="xxx_no" maxlength="30" code="">fingerright_wsq_id</fingerright_wsq_id>
+                <signature_id name="p_signature_id" type="hidden" rel="xxx_no" maxlength="30" code="">signature_id</signature_id>
+                <kiosk_session_key name="p_kiosk_session_key" type="hidden" rel="xxx_no" maxlength="30" code="">kiosk_session_key</kiosk_session_key>
+                <greyscale_id name="p_greyscale_id" type="hidden" rel="xxx_no" maxlength="30" code="">greyscale_id</greyscale_id>
+                <greyscale_link name="p_greyscale_link" type="text" rel="xxx_no" maxlength="2000" code="">Greyscale</greyscale_link>
+                <face_icaoheader_id name="p_face_icaoheader_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_icaoheader_id</face_icaoheader_id>
+                <finger_headerleft_id name="p_finger_headerleft_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_headerleft_id</finger_headerleft_id>
+                <finger_headerright_id name="p_finger_headerright_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_headerright_id</finger_headerright_id>
+                <face_jp2_icaoheader_id name="p_face_jp2_icaoheader_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_jp2_icaoheader_id</face_jp2_icaoheader_id>
+                <face_raw_id name="p_face_raw_id" type="hidden" rel="xxx_no" maxlength="40" code="">face_raw_id</face_raw_id>
+                <height_measure_id name="p_height_measure_id" type="hidden" rel="xxx_no" maxlength="40" code="">height_measure_id</height_measure_id>
+                <finger_wsq_left_cbeff_id name="p_finger_wsq_left_cbeff_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_wsq_left_cbeff_id</finger_wsq_left_cbeff_id>
+                <finger_wsq_right_cbeff_id name="p_finger_wsq_right_cbeff_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_wsq_right_cbeff_id</finger_wsq_right_cbeff_id>
+                <finger_position_left_id name="p_finger_position_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_position_left_id</finger_position_left_id>
+                <finger_position_right_id name="p_finger_position_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_position_right_id</finger_position_right_id>
+                <finger_metadata_left_id name="p_finger_metadata_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_metadata_left_id</finger_metadata_left_id>
+                <finger_metadata_right_id name="p_finger_metadata_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_metadata_right_id</finger_metadata_right_id>
+                <finger_witheader_left_id name="p_finger_witheader_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_witheader_left_id</finger_witheader_left_id>
+                <finger_witheader_right_id name="p_finger_witheader_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_witheader_right_id</finger_witheader_right_id>
+                <finger_mopc_left_id name="p_finger_mopc_left_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_mopc_left_id</finger_mopc_left_id>
+                <finger_mopc_right_id name="p_finger_mopc_right_id" type="hidden" rel="xxx_no" maxlength="40" code="">finger_mopc_right_id</finger_mopc_right_id>
+                <signature_bmp_id name="p_signature_bmp_id" type="hidden" rel="xxx_no" maxlength="30" code="">signature_bmp_id</signature_bmp_id>
+            </label>
+            <value>
+                <link name="p_link">/images/IGRP/xml/teste-bio.xml?v=1</link>
+                <photo_link name="p_photo_link">/images/IGRP/templates/default/img/funcionario.png</photo_link>
+                <fingerright_link name="p_fingerright_link">/images/IGRP/templates/default/img/bio2.png</fingerright_link>
+                <fingerleft_link name="p_fingerleft_link">/images/IGRP/templates/default/img/bio2.png</fingerleft_link>
+                <signature_link name="p_signature_link">/images/IGRP/templates/default/img/assinatura.png</signature_link>
+                <self_service   name="p_self_service" />
+                <process_start  name="p_process_start" />
+                <number_process name="p_number_process" />
+                <greyscale_link name="p_greyscale_link">/images/IGRP/templates/default/img/funcionario.png</greyscale_link>
+                <hidden name="p_photo_id"   rel="xxx_no" />
+                <hidden name="p_photo_jp2000_id"    rel="xxx_no" />
+                <hidden name="p_fingerleft_id"  rel="xxx_no" />
+                <hidden name="p_fingerleft_wsq_id"  rel="xxx_no" />
+                <hidden name="p_fingerright_id" rel="xxx_no" />
+                <hidden name="p_fingerright_wsq_id" rel="xxx_no" />
+                <hidden name="p_signature_id"   rel="xxx_no" />
+                <hidden name="p_kiosk_session_key"  rel="xxx_no" />
+                <hidden name="p_greyscale_id"   rel="xxx_no" />
+                <hidden name="p_face_icaoheader_id" rel="xxx_no" />
+                <hidden name="p_finger_headerleft_id"   rel="xxx_no" />
+                <hidden name="p_finger_headerright_id"  rel="xxx_no" />
+                <hidden name="p_face_jp2_icaoheader_id" rel="xxx_no" />
+                <hidden name="p_face_raw_id"    rel="xxx_no" />
+                <hidden name="p_height_measure_id"  rel="xxx_no" />
+                <hidden name="p_finger_wsq_left_cbeff_id"   rel="xxx_no" />
+                <hidden name="p_finger_wsq_right_cbeff_id"  rel="xxx_no" />
+                <hidden name="p_finger_position_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_position_right_id"   rel="xxx_no" />
+                <hidden name="p_finger_metadata_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_metadata_right_id"   rel="xxx_no" />
+                <hidden name="p_finger_witheader_left_id"   rel="xxx_no" />
+                <hidden name="p_finger_witheader_right_id"  rel="xxx_no" />
+                <hidden name="p_finger_mopc_left_id"    rel="xxx_no" />
+                <hidden name="p_finger_mopc_right_id"   rel="xxx_no" />
+                <hidden name="p_signature_bmp_id"   rel="xxx_no" />
+            </value>
+        </fingerprint>
       <tools-bar>
         <item type="specific">
           <title>Notificar</title>
@@ -1447,15 +1539,78 @@
       <value>
         <row>
           <title name="link" type="text" align="">1 - Pedido</title>
-          <type name="link" type="text" align="">curent</type>
+          <type name="link" type="text" align="">stage</type>
           <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
         </row>
         <row>
           <title name="link" type="text" align="">2 - Objeto do Ato</title>
-          <type name="link" type="text" align="">stage</type>
+          <type name="link" type="text" align="">curent</type>
           <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
         </row>
         <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        <row>
+          <title name="link" type="text" align="">1 - Pedido</title>
+          <type name="link" type="text" align="">stage</type>
+          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331935&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=17196&amp;p_wf_view=&amp;p_wf_only=</link>
+        </row>
+        
+
+
+        <!-- <row>
           <title name="link" type="text" align="">2 - Objeto do Ato</title>
           <type name="link" type="text" align="">stage</type>
           <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
@@ -1464,25 +1619,12 @@
           <title name="link" type="text" align="">2 - Objeto do Ato</title>
           <type name="link" type="text" align="">stage</type>
           <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
-        </row>
-        <row>
-          <title name="link" type="text" align="">2 - Objeto do Ato</title>
-          <type name="link" type="text" align="">stage</type>
-          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
-        </row>
-        <row>
-          <title name="link" type="text" align="">2 - Objeto do Ato</title>
-          <type name="link" type="text" align="">stage</type>
-          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
-        </row>
-        <row>
-          <title name="link" type="text" align="">2 - Objeto do Ato</title>
-          <type name="link" type="text" align="">stage</type>
-          <link name="link" type="text" align="">https://nosiappsdev.gov.cv/redglobal_dev/!REDGLOBAL.GLB_DISPATCHER.main?igrpabbffbbfed=5544465805340204088&amp;p_env_dad=//cccfccc8&amp;p_env_menu=//CBCECCC9&amp;p_wf_activity_code=2&amp;p_wf_acti_id=12331937&amp;p_wf_proc_tp_fk=4732&amp;p_wf_acti_tp_fk=21584&amp;p_wf_view=&amp;p_wf_only=</link>
-        </row>
+        </row> -->
       </value>
     </table>
+
     <js_validation>
+       
       <row>
         <event>change</event>
         <field>p_tipo_movel</field>
@@ -1491,6 +1633,7 @@
         <action>hide</action>
         <target>p_matricula_movel,p_n_chassi,p_n_cilindros,p_cilindarada,p_caixa</target>
       </row>
+
       <row>
         <event>change</event>
         <field>p_tipo_movel</field>

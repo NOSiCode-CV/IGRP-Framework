@@ -1,199 +1,94 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   
+  <xsl:variable name="wiz-max-item" select="6"/>
+  
   <xsl:template name="process-flow" mode="process-flow" match="table">
     
-    <xsl:variable name="justifyClss">
+    <xsl:call-template name="process-flow-loop"/>
+
+    <!-- <xsl:variable name="justifyClss">
 
       <xsl:if test="count(value/row) &gt; 3">btn-group-justified</xsl:if>
 
     </xsl:variable>
 
     <div class="process flat {$justifyClss} gen-container-item">
-      
+    
       <xsl:for-each select="value/row">
 
-        <xsl:variable name="itemClss" select="type"/>
+        <xsl:variable name="itemClss">
+          <xsl:choose>
+            <xsl:when test="type = 'curent'">active</xsl:when>
+            <xsl:otherwise><xsl:value-of select="type"/></xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
 
-        <a href="{link}" class="btn {$itemClss}" >
+        <a href="{link}" class="btn {$itemClss}" active-bg-color="primary" style-listener="true">
 
-          <span class="txt-ellipsis">
+          <span class="process-w-counter"><xsl:value-of select="position()"/></span>
 
-            <xsl:value-of select="title"/>
+          <span class="process-w-title txt-ellipsis"><xsl:value-of select="title"/></span>
 
-          </span>
+          <span class="process-w-arrow" active-bg-color="primary"></span>
 
         </a>
 
       </xsl:for-each>
 
-      <!-- <a href="#" class="btn active" >
-              <span class="txt-ellipsis">Set Dates/Locations/Forms</span>
-            </a>
-            <a href="#" class="btn">
-              <span class="txt-ellipsis">Verify Roster</span>
-            </a>
-            <a href="#" class="btn">
-              <span class="txt-ellipsis">Match Students / Faculty</span>
-            </a>
-            <a href="#" class="btn">
-              <span class="txt-ellipsis">Verify Roster</span>
-            </a>
-            <a href="#" class="btn">
-              <span class="txt-ellipsis">Match Students / Faculty</span>
-            </a> -->
-    </div>
-    <!-- <xsl:if test="value/row">
-      <xsl:variable name="cont" select="count(value/row)"/>
-      <div class="box-content">
-        <div class="process">
-          <ul class="fluxo_process" id="dashboard-buttons">
-            <xsl:for-each select="value/row">
-              <xsl:choose>
-                <xsl:when test="type='stage'">
-                  <li>
-                    <xsl:choose>
-                      <xsl:when test="string-length(title) &gt; 15">
-                        <a href="{link}" class="done tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="substring(title,1,15)"/>
-                            <xsl:text>(...)</xsl:text>
-                          </span>
-                        </a>
-                        <em>
-                          <xsl:value-of select="title"/>
-                        </em>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <a href="{link}" class="done tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="title"/>
-                          </span>
-                        </a>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </li>
-                </xsl:when>
-                <xsl:when test="type='curent'">
-                  <li>
-                    <xsl:choose>
-                      <xsl:when test="string-length(title) &gt; 15">
-                        <a href="{link}" class="ative tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="substring(title,1,15)"/>
-                            <xsl:text>(...)</xsl:text>
-                          </span>
-                        </a>
-                        <em>
-                          <xsl:value-of select="title"/>
-                        </em>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <a href="{link}" class="ative tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="title"/>
-                          </span>
-                        </a>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </li>
-                </xsl:when>
-                <xsl:when test="type = 'proc_start' or type = 'proc_end'">
-                  <li>
-                    <xsl:choose>
-                      <xsl:when test="string-length(title) &gt; 9">
-                        <a href="{link}" class="done tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num proc_start">
-                              <xsl:value-of select="substring(title,1,9)"/>
-                              <xsl:text>(...)</xsl:text>
-                            </span>
-                            <span class="stp_bar proc"></span>
-                          </span>
-                        </a>
-                        <em>
-                          <xsl:value-of select="title"/>
-                        </em>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <a href="{link}" class="done tooltip-addhoc">
-                          <span class="dot">
-                            <span class="stp_num proc_start">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar proc">
-                              <xsl:value-of select="title"/>
-                            </span>
-                          </span>
-                        </a>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </li>
-                </xsl:when>
-                <xsl:otherwise>
-                  <li>
-                    <xsl:choose>
-                      <xsl:when test="string-length(title) &gt; 15">
-                        <a href="{link}" class="tooltip-addhoc" >
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="substring(title,1,15)"/>
-                            <xsl:text>(...)</xsl:text>
-                          </span>
-                        </a>
-                        <em>
-                          <xsl:value-of select="title"/>
-                        </em>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <a href="{link}" class="tooltip-addhoc" >
-                          <span class="dot">
-                            <span class="stp_num">
-                              <xsl:value-of select="position()"/>
-                            </span>
-                            <span class="stp_bar"></span>
-                          </span>
-                          <span class="label">
-                            <xsl:value-of select="title"/>
-                          </span>
-                        </a>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </li>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:for-each>
-          </ul>
-        </div>
-      </div>
-    </xsl:if> -->
+    </div> -->
+
   </xsl:template>
+
+  <xsl:template name="process-flow-loop">
+   
+    <xsl:param name="start" select="1"/>
+
+    <xsl:param name="end" select="$wiz-max-item"/>
+
+    <xsl:if test="value/row[position() = $start]">
+      
+      <xsl:variable name="rows" select="value/row[position() &gt;= $start and position() &lt;= $end]"/>
+      
+      <xsl:variable name="justifyClss">
+        <xsl:if test="count($rows) &gt;= 4">col-sm-2 col-xs-12</xsl:if>
+      </xsl:variable>
+
+      <div class="process flat  gen-container-item">
+    
+        <xsl:for-each select="$rows">
+
+          <xsl:variable name="itemClss">
+            <xsl:choose>
+              <xsl:when test="type = 'curent'">active</xsl:when>
+              <xsl:otherwise><xsl:value-of select="type"/></xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+
+          <a href="{link}" class="btn {$itemClss} col-sm-2 col-xs-12" active-bg-color="primary" style-listener="true">
+
+            <span class="process-w-counter"><xsl:value-of select="position() - 1 + $start"/></span>
+
+            <span class="process-w-title txt-ellipsis"><xsl:value-of select="title"/></span>
+
+            <span class="process-w-arrow" active-bg-color="primary"></span>
+
+          </a>
+
+        </xsl:for-each>
+
+      </div>
+
+      <xsl:call-template name="process-flow-loop">
+        <xsl:with-param name="start" select="$start + $wiz-max-item"/>
+        <xsl:with-param name="end" select="$end + $wiz-max-item"/>
+      </xsl:call-template>
+
+    </xsl:if>
+
+    
+
+
+
+  </xsl:template>
+  
 </xsl:stylesheet>

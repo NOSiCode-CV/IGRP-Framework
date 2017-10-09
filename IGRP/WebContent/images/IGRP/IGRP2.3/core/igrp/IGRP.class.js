@@ -9,7 +9,9 @@
 
 			page : null,
 
-			app  : null
+			app  : null,
+
+			params : null
 
 		},
 
@@ -204,6 +206,7 @@
 				req = $.ajax({
 					url      : url,
 					data     : options.params,
+					method	 : options.method,
 					dataType : options.dataType
 				})
 				.done(options.success)
@@ -229,6 +232,8 @@
 			$.IGRP.info.app = app || null;
 
 			$.IGRP.info.page = page ? page.replaceAll(' ','_') : null;
+
+			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
 			$(window).resize(function(){
 				

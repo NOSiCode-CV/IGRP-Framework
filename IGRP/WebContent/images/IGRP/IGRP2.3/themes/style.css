@@ -1189,6 +1189,7 @@ div[data-notify="container"].alert{
   position: absolute;
   height: 100%;
   width: 100%;
+  border-radius:50%; 
   left: 0;
   top: 0;
   background: rgba(255,255,255,.85);
@@ -1296,6 +1297,9 @@ body.iframe-nav-holder #igrp-sidebar{
     color: #fff;
 }
 
+.reset-padding{
+  padding: 0 !important;
+}
 
 
 

@@ -173,6 +173,15 @@ public class WebReportController extends Controller {
 	}
 	
 
+	public Response actionGetLinkReport(){
+		String content = "";
+		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
+		String p_params = Igrp.getInstance().getRequest().getParameter("p_params");
+		System.out.println(p_code);
+		System.out.println(p_params);
+		return this.renderView(content);
+	}
+	
 	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");

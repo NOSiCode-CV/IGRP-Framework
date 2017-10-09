@@ -116,7 +116,7 @@ var GENSERVICE = function(GEN){
 						connectionsReq 	: [],
 						fieldsReq 		: getFieldsServices('target','REQ'),
 						connectionsRes 	: [],
-						fieldsRes 		: getFieldsServices('source','RESP'),
+						fieldsRes 		: getFieldsServices('target','RESP'),
 						package  		: $('.gen-service-panel#target').attr('package') 
 					});
 					service.checkService(o.field);
@@ -245,7 +245,7 @@ var GENSERVICE = function(GEN){
 									connectionsReq 	: field.GET.service().connectionsReq,
 									fieldsReq 		: field.GET.service().fieldsReq,
 									connectionsRes 	: c,
-									fieldsRes 		: getFieldsServices('source','RESP'),
+									fieldsRes 		: getFieldsServices('target','RESP'),
 									package  		: $('.gen-service-panel#target').attr('package')
 								});
 							}
@@ -421,6 +421,11 @@ var GENSERVICE = function(GEN){
 		});
 
 		//console.log(fieldsServices);
+
+		if (type == 'RESP') {
+			if(!$('#source .global ul.row li:not([name="mimetype"])')[0])
+				fieldsServices = [];
+		}
 
 		return fieldsServices;
 	}

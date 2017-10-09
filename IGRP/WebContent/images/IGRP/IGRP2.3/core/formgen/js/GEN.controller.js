@@ -2515,8 +2515,8 @@ var GENERATOR = function(genparams){
 			        });
 				}catch(err){
 					console.log(err);
-				}*/
-
+				}
+				*/
 				GEN.getJava(function(javaStr){
 
 					var vParam  =  [
@@ -2524,7 +2524,7 @@ var GENERATOR = function(genparams){
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-//						{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2549,7 +2549,6 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
@@ -3614,24 +3613,29 @@ var GENERATOR = function(genparams){
 		setBTNAction(field.GET.action());
 	}
 
-	GEN.getSrcFields = function(){
 
-		var options = [];
+	GEN.getSrcFields = function(arr){
+
+		var array 	= arr && $.isArray(arr) ? arr : ['img','iframe'];
+			options = [];
+
 		options.push({value:'', label:'-- Fields --'});
 
 		GEN.getContainers().forEach(function(c){
-			if(c.GET.type() == 'img' || c.GET.type() == 'iframe')
+			if($.inArray(c.GET.type(),array) != -1)
 				options.push({value:c.GET.tag(), label:c.GET.tag()});
 
-			c.GET.fields().forEach(function(f){
-				if(f.GET.type() == 'img' || f.GET.type() == 'iframe')
-					options.push({value:f.GET.tag(), label:f.GET.tag()});
-			});
+			if(c.GET.type() != 'table'){
+				c.GET.fields().forEach(function(f){
+					if($.inArray(c.GET.type(),array) != -1)
+						options.push({value:f.GET.tag(), label:f.GET.tag()});
+				});
+			}
 
 			if(c.contents){
 				c.contents.forEach(function(i){
 					if(i.genType == 'field'){
-						if(i.GET.type() == 'img' || i.GET.type() == 'iframe')
+						if($.inArray(c.GET.type(),array) != -1)
 							options.push({value:f.GET.tag(), label:f.GET.tag()});
 					}
 				})
@@ -3752,7 +3756,7 @@ var GENERATOR = function(genparams){
 			},
 			onEditionStart : function(o){
 
-				if( field.GET.target && field.GET.target() == "exportall" || field.GET.target && field.GET.target() == "changesrc")
+				if( field.GET.target && (field.GET.target() == "exportall" || field.GET.target() == "changesrc"))
 					o.input.show();
 				else
 					o.input.hide();

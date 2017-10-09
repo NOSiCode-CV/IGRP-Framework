@@ -15,6 +15,10 @@ body[view="gen-design"] .gen-viewers-toolbar{
 	padding-top: 0
 }
 
+#igrp-sidebar.sidebar{
+	padding-top: 39px;
+}
+
 .gen-viewers-toolbar{
 	z-index: 100;
     position: absolute;
