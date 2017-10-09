@@ -99,7 +99,6 @@ public class OAuth2 extends HttpServlet {
 				case "password":
 					
 					Igrp.getInstance().init(this, request, response);
-					
 					try {
 						client_id =  jsonObject.getString("client_id");
 						client_secret =  jsonObject.getString("client_secret");
@@ -189,6 +188,7 @@ public class OAuth2 extends HttpServlet {
 		
 		return json;
 	}
+	
 	
 	private static String generateTokenByPassword(String username, String password, String client_id, String client_secret) {
 		String json = "";
@@ -313,6 +313,7 @@ public class OAuth2 extends HttpServlet {
 		return json;
 	}
 	
+	
 	private static String generateTokenByAuthCode(String code, String client_id, String client_secret, String redirect_uri) {
 		String json = "";
 		
@@ -410,6 +411,7 @@ public class OAuth2 extends HttpServlet {
 		return json;
 	}
 	
+	
 	private static void browserBasedApps(HttpServletRequest request,HttpServletResponse response) {
 		String response_type = request.getParameter("response_type");
 		String client_id = request.getParameter("client_id");
@@ -442,6 +444,7 @@ public class OAuth2 extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public static String getAuthorizationCode(String userCode, String response_type, String client_id, String redirect_uri, String scope) {
 			String result = null;
@@ -511,6 +514,7 @@ public class OAuth2 extends HttpServlet {
 		return result;
 	}
 	
+	
 	public static String getAccessToken(String userCode, String response_type, String client_id, String redirect_uri, String scope) {
 		String result = null;
 		
@@ -568,11 +572,13 @@ public class OAuth2 extends HttpServlet {
 		return result;
 	}
 	
+	
 	public static boolean validateUri(String response_type, String client_id, String redirect_uri, String scope) {
 		boolean flag = true && response_type != null && !response_type.isEmpty() && client_id != null && !client_id.isEmpty() && redirect_uri != null && 
 				!redirect_uri.isEmpty() && scope != null && !scope.isEmpty();
 		return flag;
 	}
+	
 	
 	public static boolean validatePostData(String grant_type, String code, String client_id, String client_secret, String redirect_uri) {
 		boolean flag = false;
@@ -584,6 +590,7 @@ public class OAuth2 extends HttpServlet {
 		}
 		return flag;
 	}
+	
 	
 	public static String buildUrl(String redirectUrl, int type, String value) {
 		boolean isQueryPresent = java.net.URI.create(redirectUrl).getQuery() != null;
@@ -614,5 +621,6 @@ public class OAuth2 extends HttpServlet {
 		}
 		return redirectUrl;
 	}
+	
 	
 }
