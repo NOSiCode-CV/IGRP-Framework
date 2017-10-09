@@ -103,6 +103,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.webapps.igrp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, app));
 			actions.add(new Action("Transferir_tarefas", "index", "nosi.webapps.igrp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, app));
 			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp.pages.bpmndesigner", "igrp/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, app));
+			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -126,10 +127,10 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Settings", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
 			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
-			
-			
 			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
 			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
+			menus.add(new Menu("Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(0)));
+			
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -155,6 +156,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(15, "MEN", prof0, user0, org));
 			profiles.add(new Profile(16, "MEN", prof0, user0, org));
 			profiles.add(new Profile(17, "MEN", prof0, user0, org));
+			profiles.add(new Profile(18, "MEN", prof0, user0, org));
 			
 			profiles.add(new Profile(5, "MEN", prof1, user0, org));
 			profiles.add(new Profile(6, "MEN", prof1, user0, org));
@@ -169,6 +171,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(15, "MEN", prof1, user0, org));
 			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 			profiles.add(new Profile(17, "MEN", prof1, user0, org));
+			profiles.add(new Profile(18, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();
