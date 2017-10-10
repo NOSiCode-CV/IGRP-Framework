@@ -126,7 +126,7 @@ public class BPMNDesignerView extends View {
 		bpmn.propertie().add("name","p_bpmn").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cogs").add("maxlength","50");
 
 		fmn = new IGRPToolsBar("fmn");
-		btn_gravar = new IGRPButton("Gravar","igrp","BPMNDesigner","gravar","submit","success|fa-floppy-o","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","BPMNDesigner","gravar","submit","info|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		btn_publicar = new IGRPButton("Publicar","igrp","BPMNDesigner","publicar","alert_submit","primary|fa-check-square-o","","");
 		btn_publicar.propertie.add("type","specific").add("code","").add("rel","publicar");
