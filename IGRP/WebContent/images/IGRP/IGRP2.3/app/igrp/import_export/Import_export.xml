@@ -32,7 +32,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Importar e exportar uma aplicacao</title>
+        <title>Import export</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -110,22 +110,13 @@
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="export">
-                <title>Export</title>
-                <app>igrp</app>
-                <page>Import_export</page>
-                <link>index</link>
-                <target>_blank</target>
-                <img>danger|fa-chevron-up</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</parameter>
-            </item>
             <item type="specific" code="" rel="import">
                 <title>Import</title>
                 <app>igrp</app>
                 <page>Import_export</page>
                 <link>index</link>
                 <target>_blank</target>
-                <img>success|fa-chevron-down</img>
+                <img>success|fa-download</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</parameter>
             </item>
         </toolsbar_1>
@@ -150,39 +141,39 @@
             <table>
                 <value>
                     <row>
-                        <aplicacao_tabela name="p_aplicacao_tabela">Labore laudantium aperiam rem</aplicacao_tabela>
-                        <utilizador name="p_utilizador">Mollit omnis mollit unde dolor</utilizador>
-                        <data name="p_data">Consectetur iste perspiciatis</data>
-                        <tipo_tabela name="p_tipo_tabela">Consectetur natus magna adipis</tipo_tabela>
-                        <download name="p_download">Voluptatem natus consectetur i</download>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Consectetur aliqua stract tota</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Sit unde iste officia anim</utilizador>
+                        <data name="p_data">Omnis elit amet totam elit</data>
+                        <tipo_tabela name="p_tipo_tabela">Natus elit consectetur labore</tipo_tabela>
+                        <download name="p_download">Sit totam voluptatem totam sed</download>
                     </row>
                     <row>
-                        <aplicacao_tabela name="p_aplicacao_tabela">Perspiciatis aliqua doloremque</aplicacao_tabela>
-                        <utilizador name="p_utilizador">Unde amet ipsum omnis anim</utilizador>
-                        <data name="p_data">Omnis elit sed deserunt consec</data>
-                        <tipo_tabela name="p_tipo_tabela">Magna adipiscing laudantium na</tipo_tabela>
-                        <download name="p_download">Sit officia ipsum sed ipsum</download>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Elit unde laudantium elit sed</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Ipsum ut aliqua omnis perspici</utilizador>
+                        <data name="p_data">Rem totam iste ipsum lorem</data>
+                        <tipo_tabela name="p_tipo_tabela">Laudantium iste doloremque ut</tipo_tabela>
+                        <download name="p_download">Amet sit rem lorem sit</download>
                     </row>
                     <row>
-                        <aplicacao_tabela name="p_aplicacao_tabela">Doloremque sed natus adipiscin</aplicacao_tabela>
-                        <utilizador name="p_utilizador">Ut perspiciatis anim consectet</utilizador>
-                        <data name="p_data">Elit sit natus iste dolor</data>
-                        <tipo_tabela name="p_tipo_tabela">Elit elit officia sit mollit</tipo_tabela>
-                        <download name="p_download">Magna iste ut voluptatem molli</download>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Omnis accusantium ipsum rem ac</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Sit labore accusantium totam d</utilizador>
+                        <data name="p_data">Consectetur omnis lorem ut str</data>
+                        <tipo_tabela name="p_tipo_tabela">Ipsum rem adipiscing aliqua do</tipo_tabela>
+                        <download name="p_download">Sit amet labore laudantium mol</download>
                     </row>
                     <row>
-                        <aplicacao_tabela name="p_aplicacao_tabela">Laudantium lorem ipsum labore</aplicacao_tabela>
-                        <utilizador name="p_utilizador">Sit omnis aliqua mollit perspi</utilizador>
-                        <data name="p_data">Lorem mollit officia mollit se</data>
-                        <tipo_tabela name="p_tipo_tabela">Consectetur iste aperiam accus</tipo_tabela>
-                        <download name="p_download">Laudantium stract laudantium m</download>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Ut aperiam stract sed voluptat</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Dolor sit deserunt sed magna</utilizador>
+                        <data name="p_data">Rem aperiam aliqua deserunt do</data>
+                        <tipo_tabela name="p_tipo_tabela">Amet iste laudantium iste ut</tipo_tabela>
+                        <download name="p_download">Sed ut deserunt sed totam</download>
                     </row>
                     <row>
-                        <aplicacao_tabela name="p_aplicacao_tabela">Omnis accusantium ipsum ut vol</aplicacao_tabela>
-                        <utilizador name="p_utilizador">Officia iste adipiscing dolor</utilizador>
-                        <data name="p_data">Omnis magna mollit magna sit</data>
-                        <tipo_tabela name="p_tipo_tabela">Mollit stract elit doloremque</tipo_tabela>
-                        <download name="p_download">Sit mollit lorem omnis deserun</download>
+                        <aplicacao_tabela name="p_aplicacao_tabela">Consectetur voluptatem aliqua</aplicacao_tabela>
+                        <utilizador name="p_utilizador">Magna dolor unde aliqua mollit</utilizador>
+                        <data name="p_data">Elit mollit aperiam lorem dolo</data>
+                        <tipo_tabela name="p_tipo_tabela">Natus mollit ipsum accusantium</tipo_tabela>
+                        <download name="p_download">Laudantium officia perspiciati</download>
                     </row>
                 </value>
             </table>

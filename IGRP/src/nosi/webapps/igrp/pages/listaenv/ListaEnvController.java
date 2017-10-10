@@ -14,7 +14,9 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 
 /*---- End ----*/
+
 public class ListaEnvController extends Controller {		
+
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaEnv model = new ListaEnv();
@@ -23,7 +25,7 @@ public class ListaEnvController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
 			app.setDad(model.getDad());
-			app.setName(model.getName());
+			app.setName(model.getNome());
 		}
 		List<Application> apps = app.find()
 								.andWhere("dad", "like", app.getDad())
@@ -47,7 +49,29 @@ public class ListaEnvController extends Controller {
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
+
+
+	public Response actionNovo() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","ListaPage","index");
+		/*---- End ----*/
+	}
 	
+
+	public Response actionPesquisar() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","listaenv","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionEditar() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","ListaPage","index");
+		/*---- End ----*/
+	}
+	
+
 	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
@@ -57,4 +81,13 @@ public class ListaEnvController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		return this.redirect("igrp","lista-env","index");
 	}
+	
+
+	public Response actionExport() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","ListaEnv","index");
+		/*---- End ----*/
+	}
+	
+	/*---- Insert your actions here... ----*//*---- End ----*/
 }

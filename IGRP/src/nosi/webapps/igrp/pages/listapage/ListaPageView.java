@@ -31,6 +31,7 @@ public class ListaPageView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_visualizar;
 	public IGRPButton btn_gerar;
+	public IGRPButton btn_export;
 	
 	public ListaPageView(ListaPage model){			
 		form_1 = new IGRPForm("form_1");
@@ -80,6 +81,8 @@ public class ListaPageView extends View {
 		btn_gerar = new IGRPButton("Gerar Pagina","igrp","generator","index","_target","link|fa-gears","","");
 		btn_gerar.propertie.add("type","specific").add("code","").add("rel","gerar");
 		
+		btn_export = new IGRPButton("Export","igrp","ListaEnv","export","_blank","grey|fa-upload","","");
+		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
 		
 	@Override
@@ -105,6 +108,7 @@ public class ListaPageView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_visualizar);
 		table_1.addButton(btn_gerar);
+		table_1.addButton(btn_export);
 		
 		this.addToPage(form_1);
 		this.addToPage(table_1);

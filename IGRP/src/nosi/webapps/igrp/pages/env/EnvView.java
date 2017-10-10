@@ -97,9 +97,9 @@ public class EnvView extends View {
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","Env","gravar","submit","default|fa-floppy-o","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","Env","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","Env","voltar","_self","default|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","Env","voltar","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

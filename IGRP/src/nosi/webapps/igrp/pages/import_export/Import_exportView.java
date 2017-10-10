@@ -25,11 +25,10 @@ public class Import_exportView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_export;
 	public IGRPButton btn_import;
 	public IGRPButton btn_pesquisar;
 	public Import_exportView(Import_export model){
-		this.setPageTitle("Importar e exportar uma aplicacao");
+		this.setPageTitle("Import export");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -77,9 +76,7 @@ public class Import_exportView extends View {
 		download.propertie().add("name","p_download").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_export = new IGRPButton("Export","igrp","Import_export","export","_blank","danger|fa-chevron-up","","");
-		btn_export.propertie.add("type","specific").add("code","").add("rel","export");
-		btn_import = new IGRPButton("Import","igrp","Import_export","import","_blank","success|fa-chevron-down","","");
+		btn_import = new IGRPButton("Import","igrp","Import_export","import","_blank","success|fa-download","","");
 		btn_import.propertie.add("type","specific").add("code","").add("rel","import");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Import_export","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
@@ -103,7 +100,6 @@ public class Import_exportView extends View {
 		table_1.addField(tipo_tabela);
 		table_1.addField(download);
 
-		toolsbar_1.addButton(btn_export);
 		toolsbar_1.addButton(btn_import);
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
