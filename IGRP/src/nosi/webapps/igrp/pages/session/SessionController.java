@@ -11,14 +11,18 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Session.FetchForChart;
+
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,26 +43,33 @@ public class SessionController extends Controller {
 			model.load();
 		}
 
-		// Fecth datas
+		String dateIn = null;
+		String dateOut = null;
+		if (model.getData_inicio() != null) {
+			dateIn = session.convertDate(model.getData_inicio(), "dd-MM-yyyy", "yyyy-MM-dd");
+			dateOut = session.convertDate(model.getData_inicio(), "dd-MM-yyyy", "yyyy-MM-dd");
+			System.out.println("Aqui estamos a imprimir a data convertida:  " + dateIn);
+		}
+
 		ArrayList<Session.Table_1> data = new ArrayList<>();
 		List<nosi.webapps.igrp.dao.Session> sessions = session.find()
 				.andWhere("application", "=", model.getAplicacao() != 0 ? model.getAplicacao() : null)
 				.andWhere("user.user_name", "=", model.getUtilizador()).andWhere("user.status", "=", model.getEstado())
-				.andWhere("startTime", "=", model.getData_inicio() != null ? model.getData_inicio() : null)
-				.andWhere("endTime", "=", model.getData_fim() != null ? model.getData_inicio() : null).all();
+				./*
+					 * andWhere("startTime", "like", dateIn).andWhere("endTime", "like", finalDateF)
+					 */all();
 
 		for (nosi.webapps.igrp.dao.Session s : sessions) {
 			Session.Table_1 table = new Session().new Table_1();
+
 			Date auxEndTime = s.getEndTime();
 			Date auxStartTime = s.getStartTime();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy"); /* HH:mm:ss */
-			if ((model.getData_inicio() != null && !model.getData_inicio().equals("")
-					&& model.getData_inicio().compareTo(auxStartTime) < 0)
-					|| (model.getData_fim() != null && !model.getData_fim().equals("")
-							&& model.getData_fim().compareTo(auxEndTime) > 1))
-				continue;
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
 			table.setData_fim("" + dateFormat.format(auxEndTime));
 			table.setData_inicio("" + dateFormat.format(auxStartTime));
+
 			table.setAplicacao("" + s.getApplication().getId());
 			table.setIp(s.getIpAddress());
 			table.setUtilizador(s.getUserName());
@@ -75,23 +86,46 @@ public class SessionController extends Controller {
 		view.estado.setValue(status);
 		view.btn_pesquisar.setLink("index&dad=" + dad);
 
-		// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Graficos%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+		// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Graficos%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 		// ======================================================================================
-		ArrayList<Session.Chart_t_sessao> listSession = new ArrayList<>();
-		ResultSet res = session.fetchDataPerSql();
-		while (res.next()) {
+		//Total por utilizador
+		ArrayList<Session.Chart_t_sessao> listSessionTotal = new ArrayList<Session.Chart_t_sessao>();
+		List<nosi.webapps.igrp.dao.Session.FetchForChart> result = session.fechTotalSession();
+
+		for (nosi.webapps.igrp.dao.Session.FetchForChart rs : result) {
+			// =========================================
 			Session.Chart_t_sessao chart = new Session().new Chart_t_sessao();
 			// =========================================
-			int total = res.getInt("total");
-			String start = res.getString("datainicio");
+			int total = rs.getTotal();
+			String start = rs.getStart();
 			// =========================================
 			chart.setData(start);
 			chart.setTotal(total);
-			listSession.add(chart);
+			listSessionTotal.add(chart);
 			// =========================================
 		}
-		view.chart_t_sessao.addData(listSession);
+		view.chart_t_sessao.addData(listSessionTotal);
+		
 		// ======================================================================================
+		//Total por aplicação
+		/*ArrayList<Session.Chart_t_session_app> listSessionTotalPerApp = new ArrayList<Session.Chart_t_session_app>();
+		List<nosi.webapps.igrp.dao.Session.FetchForChart> result2 = session.fechTotalSessionPerApp();
+
+		for (nosi.webapps.igrp.dao.Session.FetchForChart rs : result2) {
+			// =========================================
+			Session.Chart_t_session_app chart = new Session().new Chart_t_session_app();
+			// =========================================
+			//int total = rs.getTotal();
+			//String start = rs.getStart();
+			// =========================================
+			//chart.setData(start);
+			//chart.setTotal(total);
+			listSessionTotalPerApp.add(chart);
+			// =========================================
+		}
+		view.chart_t_sessao.addData(listSessionTotalPerApp);*/
+		// ======================================================================================
+
 		// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 		return this.renderView(view);
@@ -101,56 +135,7 @@ public class SessionController extends Controller {
 		return this.redirect("igrp", "Dominio", "index");
 	}
 
-	public void actionVer_logs()
-			throws IOException, IllegalArgumentException, IllegalAccessException, ParseException, SQLException {
-		// =======================================================================================
-		Session model = new Session();
-		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
-		// =======================================================================================
-
-		// =======================================================================================
-		model.load();
-		// =======================================================================================
-
-		// Algumas condiçoes de teste
-		// =====================================================================================
-		// Date data;
-		// if (model.getData_inicio() == null) {
-		// data = new Date();
-		// } else
-		// data = model.getData_inicio();
-		// =======================================================================================
-
-		/*
-		 * String sql =
-		 * "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " +
-		 * "FROM TBL_SESSION s" + " WHERE s.username = " + "'" + model.getUtilizador() +
-		 * "'" + " GROUP BY datainicio ORDER BY 1"; //
-		 * 
-		 * // Este metodo que vamos utilizar para obter o resultado da seleção com a
-		 * base // de dados ResultSet res = session.fetchDataPerSql(sql); while
-		 * (res.next()) { int total = res.getInt("total"); Date start =
-		 * res.getDate("datainicio"); }
-		 */
-
-		/*
-		 * try { PreparedStatement statement =
-		 * Connection.getConnection().prepareStatement(sql); // Execução de query
-		 * ResultSet res = statement.executeQuery();
-		 * 
-		 * 
-		 * while (res.next()) {
-		 * 
-		 * int total = res.getInt("total"); Date start = res.getDate("datainicio");
-		 * 
-		 * System.out.println(" start -- " + start); System.out.println(" Total -- " +
-		 * total);
-		 * 
-		 * } } catch (SQLException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
-
-		// =============================================================================================
+	public void actionVer_logs() {
 
 	}
 

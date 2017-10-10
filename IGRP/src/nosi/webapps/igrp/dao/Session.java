@@ -9,9 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +29,6 @@ import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.Connection;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.pages.session.Session.Chart_t_sessao;
 
 @Entity
 @Table(name = "tbl_session")
@@ -256,17 +259,165 @@ public class Session extends BaseActiveRecord<Session> implements Serializable {
 		return session != null && session.getApplication() != null && session.update() != null;
 	}
 
-	public ResultSet fetchDataPerSql() throws SQLException {
+	public class FetchForChart {
+		// =================================
+		private String start;
+		private int total;
+		private String appName;
+		private String startPerApp;
+		private int totalPerApp;
 
+		public String getStart() {
+			return start;
+		}
+
+		public void setStart(String start) {
+			this.start = start;
+		}
+
+		public int getTotal() {
+			return total;
+		}
+
+		public void setTotal(int total) {
+			this.total = total;
+		}
+		
+		public String getAppName() {
+			return appName;
+		}
+
+		public void setAppName(String appName) {
+			this.appName = appName;
+		}
+
+		public String getStartPerApp() {
+			return startPerApp;
+		}
+
+		public void setStartPerApp(String startPerApp) {
+			this.startPerApp = startPerApp;
+		}
+
+		public int getTotalPerApp() {
+			return totalPerApp;
+		}
+
+		public void setTotalPerApp(int totalPerApp) {
+			this.totalPerApp = totalPerApp;
+		}
+
+		public String totalSessionSql() throws IllegalArgumentException, IllegalAccessException {
+			nosi.webapps.igrp.pages.session.Session sessionModel = new nosi.webapps.igrp.pages.session.Session();
+			Session session = new Session();
+			// =================================================================
+			// Esta parte vamos prcizar para pegar o utilizadr que esta atualmente
+			// autenticado;
+			// User user_id = Igrp.getInstance().getUser();
+
+			sessionModel.load();
+			String dataInicio = sessionModel.getData_inicio();
+			String dataFim = sessionModel.getData_fim();
+			String username = sessionModel.getUtilizador() != null ? sessionModel.getUtilizador() : "demo";
+			String status = "1";
+			int app = sessionModel.getAplicacao() == 0 ? sessionModel.getAplicacao() : 1;
+
+			// Armazenar a data atual
+			// =================================================================
+			SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date dataAtualAux = new Date();
+			String dataActual = formatDate.format(dataAtualAux);
+			// =================================================================
+
+			String sqlTotal = null;
+			if (dataInicio != null && dataFim != null) {
+				dataInicio = session.convertDate(dataInicio, "dd-MM-yyyy", "yyyy-MM-dd");
+				dataFim = session.convertDate(dataFim, "dd-MM-yyyy", "yyyy-MM-dd");
+
+				sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, s.username, COUNT(*) as total "
+						+ "FROM TBL_SESSION s " + "WHERE s.starttime BETWEEN '" + dataInicio + "' AND '" + dataFim
+						+ "' AND" + " s.username = '" + username + "' GROUP BY datainicio ORDER BY datainicio DESC";
+
+			} else {
+				sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_SESSION s"
+						+ " WHERE STARTTIME LIKE '%" + dataActual + "%' GROUP BY datainicio";
+
+			}
+			return sqlTotal;
+		}
+
+		// Esta parte é uma teste depois vamos criar um metodo para fzer o tarbalho
+		public String totalSessionPerAppSql() throws IllegalArgumentException, IllegalAccessException {
+
+			String sqlTopalPerApp = "SELECT CONCAT( a.dad, ' - ', a.name ) as appname, "
+					+ "CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_ENV a, TBL_SESSION s "
+					+ "WHERE a.id = s.env_fk AND CONVERT(s.starttime, DATE) " + "BETWEEN '2017-10-02' AND '2017-10-09' "
+					+ "GROUP BY CONCAT( a.dad, ' - ', a.name ), CONVERT(s.starttime, DATE) "
+					+ "ORDER BY CONVERT(s.starttime, DATE) DESC, a.dad DESC";
+			return sqlTopalPerApp;
+		}
+		// =====================================================================
+	}
+
+	// String sqlTopalPerApp = "SELECT ap.dad, CONVERT(s.starttime, DATE) as
+	// datainicio, COUNT(*) as total "
+	// +"FROM TBL_ENV ap, TBL_SESSION s "
+	// +"WHERE ap.id = s.env_id AND a.starttime BETWEEN yyyy-MM-dd AND yyyy-MM-dd "
+	// +"GROUP BY ap.dad, datainicio "
+	// +"ORDER BY 1, 2";
+
+	public List fechTotalSession() throws SQLException, IllegalArgumentException, IllegalAccessException {
+		List result = new ArrayList<>();
 		// ======================================Query=============================================
-		String sql = "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_SESSION s"
-				+ " GROUP BY datainicio";
+		Session.FetchForChart session = new Session.FetchForChart();
 		// ========================================================================================
 
-		PreparedStatement statement = Connection.getConnection().prepareStatement(sql); // Execução de query
+		PreparedStatement statement = Connection.getConnection().prepareStatement(session.totalSessionSql());
 		ResultSet res = statement.executeQuery();
-		return res;
+		while (res.next()) {
+			Session.FetchForChart s = new Session.FetchForChart();
+			s.setStart(res.getString("datainicio"));
+			System.out.println("Esta e o retorno dos dados ********" + res.getString("datainicio"));
+			s.setTotal(res.getInt("total"));
+			result.add(s);
+		}
+		return result;
 	}
+
+	public List fechTotalSessionPerApp() throws SQLException, IllegalArgumentException, IllegalAccessException {
+		List result = new ArrayList<>();
+		// ======================================Query=============================================
+		Session.FetchForChart session = new Session.FetchForChart();
+		// ========================================================================================
+
+		PreparedStatement statement = Connection.getConnection().prepareStatement(session.totalSessionPerAppSql());
+		ResultSet res = statement.executeQuery();
+		while (res.next()) {
+			Session.FetchForChart s = new Session.FetchForChart();
+			s.setStartPerApp(res.getString("datainicio"));
+			s.setAppName(res.getString("appname"));
+			s.setTotalPerApp(res.getInt("total"));
+			result.add(s);
+		}
+		return result;
+	}
+
+	// ===================================================
+	public static String convertDate(String date, String formatIn, String formatOut) {
+		String myDateString = null;
+		try {
+			SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
+			Date myDate = newDateFormat.parse(date);
+			newDateFormat.applyPattern(formatOut);
+			myDateString = newDateFormat.format(myDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return myDateString;
+	}
+
+	// ===================================================
 
 	// public ResultSet fetchDataPerSql(String sql) throws SQLException {
 	// PreparedStatement statement =

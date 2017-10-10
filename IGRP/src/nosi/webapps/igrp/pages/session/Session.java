@@ -15,10 +15,10 @@ public class Session extends Model{
 	private String utilizador;
 	
 	@RParam(rParamName = "p_data_inicio")
-	private Timestamp data_inicio;
+	private String data_inicio;
 	
 	@RParam(rParamName = "p_data_fim")
-	private Timestamp data_fim;
+	private String data_fim;
 	
 	@RParam(rParamName = "p_estado")
 	private String estado;
@@ -61,17 +61,17 @@ public class Session extends Model{
 		return this.utilizador;
 	}
 	
-	public void setData_inicio(Timestamp data_inicio){
+	public void setData_inicio(String data_inicio){
 		this.data_inicio = data_inicio;
 	}
-	public Timestamp getData_inicio(){
+	public String getData_inicio(){
 		return this.data_inicio;
 	}
 	
-	public void setData_fim(Timestamp data_fim){
+	public void setData_fim(String data_fim){
 		this.data_fim = data_fim;
 	}
-	public Timestamp getData_fim(){
+	public String getData_fim(){
 		return this.data_fim;
 	}
 	
