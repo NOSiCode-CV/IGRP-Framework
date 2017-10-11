@@ -21,7 +21,7 @@ public class Session extends Model{
 	private String data_fim;
 	
 	@RParam(rParamName = "p_estado")
-	private String estado;
+	private int estado;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -75,10 +75,10 @@ public class Session extends Model{
 		return this.data_fim;
 	}
 	
-	public void setEstado(String estado){
+	public void setEstado(int estado){
 		this.estado = estado;
 	}
-	public String getEstado(){
+	public int getEstado(){
 		return this.estado;
 	}
 
@@ -148,50 +148,33 @@ public class Session extends Model{
 		public void setTotal(int total) {
 			this.total = total;
 		}
-		
-		
 	}
+	
+	
 	public class Chart_t_session_app{
-		private String Ano;
-		private String X1;
-		private String X2;
-		private String X3;
-		private String X4;
-		public void setAno(String Ano){
-			this.Ano = Ano;
+		private String dataInicio;
+//		private String appname;
+		private int total;
+		
+		public String getDataInicio() {
+			return dataInicio;
 		}
-		public String getAno(){
-			return this.Ano;
+		public void setDataInicio(String dataInicio) {
+			this.dataInicio = dataInicio;
 		}
-
-		public void setX1(String X1){
-			this.X1 = X1;
+//		public String getAppname() {
+//			return appname;
+//		}
+//		public void setAppname(String appname) {
+//			this.appname = appname;
+//		}
+		public int getTotal() {
+			return total;
 		}
-		public String getX1(){
-			return this.X1;
+		public void setTotal(int total) {
+			this.total = total;
 		}
-
-		public void setX2(String X2){
-			this.X2 = X2;
-		}
-		public String getX2(){
-			return this.X2;
-		}
-
-		public void setX3(String X3){
-			this.X3 = X3;
-		}
-		public String getX3(){
-			return this.X3;
-		}
-
-		public void setX4(String X4){
-			this.X4 = X4;
-		}
-		public String getX4(){
-			return this.X4;
-		}
-
+		
 	}
 }
 /*-------------------------*/

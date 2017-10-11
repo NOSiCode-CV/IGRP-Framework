@@ -28,6 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.config.Connection;
+import nosi.core.gui.components.IGRPBox;
 import nosi.core.webapp.Igrp;
 
 @Entity
@@ -282,7 +283,7 @@ public class Session extends BaseActiveRecord<Session> implements Serializable {
 		public void setTotal(int total) {
 			this.total = total;
 		}
-		
+
 		public String getAppName() {
 			return appName;
 		}
@@ -311,17 +312,19 @@ public class Session extends BaseActiveRecord<Session> implements Serializable {
 			nosi.webapps.igrp.pages.session.Session sessionModel = new nosi.webapps.igrp.pages.session.Session();
 			Session session = new Session();
 			// =================================================================
-			// Esta parte vamos prcizar para pegar o utilizadr que esta atualmente
-			// autenticado;
-			// User user_id = Igrp.getInstance().getUser();
-
-			sessionModel.load();
+			if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
+				sessionModel.load();
+			}
+			// Utilizador autenticado
+			User authenticatedUser = (User) Igrp.getInstance().getUser().getIdentity();
 			String dataInicio = sessionModel.getData_inicio();
-			String dataFim = sessionModel.getData_fim();
-			String username = sessionModel.getUtilizador() != null ? sessionModel.getUtilizador() : "demo";
-			String status = "1";
+			String dataFim = sessionModel.getData_fim() != null? null: null;
+			String username = sessionModel.getUtilizador() != null ? sessionModel.getUtilizador()
+					: authenticatedUser.getUser_name();
+			int status = sessionModel.getEstado() != 0 ? sessionModel.getEstado() : authenticatedUser.getStatus();
 			int app = sessionModel.getAplicacao() == 0 ? sessionModel.getAplicacao() : 1;
 
+			System.out.println("Data de inicio: " + dataInicio + "Data de fim: " + dataFim);
 			// Armazenar a data atual
 			// =================================================================
 			SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -329,18 +332,22 @@ public class Session extends BaseActiveRecord<Session> implements Serializable {
 			String dataActual = formatDate.format(dataAtualAux);
 			// =================================================================
 
+//			String sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, s.username, COUNT(*) as total "
+//					+ "FROM TBL_SESSION s " + "WHERE s.starttime BETWEEN '" + dataInicio + "' AND '" + dataFim
+//					+ "' AND" + " s.username = '" + username + "' GROUP BY datainicio ORDER BY datainicio DESC";
+//			
 			String sqlTotal = null;
-			if (dataInicio != null && dataFim != null) {
-				dataInicio = session.convertDate(dataInicio, "dd-MM-yyyy", "yyyy-MM-dd");
-				dataFim = session.convertDate(dataFim, "dd-MM-yyyy", "yyyy-MM-dd");
+			if (dataInicio == null && dataFim == null) {
+				sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_SESSION s"
+						+ " WHERE STARTTIME LIKE '%" + dataActual + "%' GROUP BY datainicio";
+			} else {
+
+				dataInicio = session.convertDate(sessionModel.getData_inicio(), "dd-MM-yyyy", "yyyy-MM-dd");
+				dataFim = session.convertDate(sessionModel.getData_fim(), "dd-MM-yyyy", "yyyy-MM-dd");
 
 				sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, s.username, COUNT(*) as total "
 						+ "FROM TBL_SESSION s " + "WHERE s.starttime BETWEEN '" + dataInicio + "' AND '" + dataFim
 						+ "' AND" + " s.username = '" + username + "' GROUP BY datainicio ORDER BY datainicio DESC";
-
-			} else {
-				sqlTotal = "SELECT CONVERT(s.starttime, DATE) as datainicio, COUNT(*) as total " + "FROM TBL_SESSION s"
-						+ " WHERE STARTTIME LIKE '%" + dataActual + "%' GROUP BY datainicio";
 
 			}
 			return sqlTotal;
@@ -395,7 +402,7 @@ public class Session extends BaseActiveRecord<Session> implements Serializable {
 		while (res.next()) {
 			Session.FetchForChart s = new Session.FetchForChart();
 			s.setStartPerApp(res.getString("datainicio"));
-			s.setAppName(res.getString("appname"));
+			// s.setAppName(res.getString("appname"));
 			s.setTotalPerApp(res.getInt("total"));
 			result.add(s);
 		}

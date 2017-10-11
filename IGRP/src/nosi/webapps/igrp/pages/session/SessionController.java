@@ -50,11 +50,13 @@ public class SessionController extends Controller {
 			dateOut = session.convertDate(model.getData_inicio(), "dd-MM-yyyy", "yyyy-MM-dd");
 			System.out.println("Aqui estamos a imprimir a data convertida:  " + dateIn);
 		}
+		
+		System.out.println("KKKKK ---  "+model.getEstado());
 
 		ArrayList<Session.Table_1> data = new ArrayList<>();
 		List<nosi.webapps.igrp.dao.Session> sessions = session.find()
 				.andWhere("application", "=", model.getAplicacao() != 0 ? model.getAplicacao() : null)
-				.andWhere("user.user_name", "=", model.getUtilizador()).andWhere("user.status", "=", model.getEstado())
+				.andWhere("user.user_name", "=", model.getUtilizador())/*.andWhere("user.status", "=", model.getEstado())*/
 				./*
 					 * andWhere("startTime", "like", dateIn).andWhere("endTime", "like", finalDateF)
 					 */all();
@@ -108,22 +110,26 @@ public class SessionController extends Controller {
 		
 		// ======================================================================================
 		//Total por aplicação
-		/*ArrayList<Session.Chart_t_session_app> listSessionTotalPerApp = new ArrayList<Session.Chart_t_session_app>();
+		ArrayList<Session.Chart_t_session_app> listSessionTotalPerApp = new ArrayList<Session.Chart_t_session_app>();
 		List<nosi.webapps.igrp.dao.Session.FetchForChart> result2 = session.fechTotalSessionPerApp();
 
 		for (nosi.webapps.igrp.dao.Session.FetchForChart rs : result2) {
 			// =========================================
 			Session.Chart_t_session_app chart = new Session().new Chart_t_session_app();
 			// =========================================
-			//int total = rs.getTotal();
-			//String start = rs.getStart();
+			int total = rs.getTotalPerApp();
+			String start = rs.getStartPerApp();
+			//String appname = rs.getAppName();
+			
+			//System.out.println("Data de Aplicação: "+start+" -- Aplicação: "+appname+" -- Tota de sessao: "+total);
 			// =========================================
-			//chart.setData(start);
-			//chart.setTotal(total);
+			chart.setDataInicio(start);
+			//chart.setAppname(appname);
+			chart.setTotal(total);
 			listSessionTotalPerApp.add(chart);
 			// =========================================
 		}
-		view.chart_t_sessao.addData(listSessionTotalPerApp);*/
+		view.chart_t_session_app.addData(listSessionTotalPerApp);
 		// ======================================================================================
 
 		// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
