@@ -34,8 +34,9 @@ public class Import_exportController extends Controller {
 	}
 
 
-	public Response actionExport() throws IOException{
-		/*---- Insert your code here... ----*/		
+	public Response actionImport() throws IOException{
+		/*---- Insert your code here... ----*/
+		
 		return this.redirect("igrp","Import_export","index");
 			/*---- End ----*/
 	}
