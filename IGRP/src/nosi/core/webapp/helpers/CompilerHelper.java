@@ -7,8 +7,7 @@
  */
 
 package nosi.core.webapp.helpers;
-import java.io.File;
-
+import java.util.Map;
 import jd.core.JavaDecompiler;
 import nosi.core.config.Config;
 
@@ -19,7 +18,7 @@ public class CompilerHelper {
 	
 	public static boolean compile(String pathDestination,String className){
 		className = pathDestination+"/"+className;
-		listFilesForFolder(Config.getPathLib(),new File(Config.getPathLib()));
+		listFilesDirectory(Config.getPathLib());
 		return com.sun.tools.javac.Main.compile(new String[]{
 				"-classpath",Config.getBasePathClass(),
 				"-cp",jars+Config.getBasePathClass()+System.getProperty("path.separator"),
@@ -27,15 +26,13 @@ public class CompilerHelper {
 				className}) == 0;
 	}
 	
-	public static void listFilesForFolder(String path,final File folder) {
-	    for (final File fileEntry : folder.listFiles()) {
-	        if (fileEntry.isDirectory()) {
-	            listFilesForFolder(path,fileEntry);
-	        } else {
-	            jars += (path+(fileEntry.getName())+System.getProperty("path.separator"));
-	        }
-	    }
+	public static void listFilesDirectory(String path) {
+		Map<String,String> files = FileHelper.listFilesDirectory(path);
+		for(Map.Entry<String, String> file:files.entrySet()){
+			jars += (file.getValue()+System.getProperty("path.separator"));
+		}
 	}
+	
 	public static String decompile(String basePath,String className){
 		JavaDecompiler jd = new JavaDecompiler();		
 		String file_decompile = jd.decompile(basePath, className);

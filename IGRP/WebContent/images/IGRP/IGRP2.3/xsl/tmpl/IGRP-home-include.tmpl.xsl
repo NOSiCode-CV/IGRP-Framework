@@ -20,12 +20,18 @@
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
     </xsl:if>
     <!-- BS CSS -->
+
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
+      <!-- <link rel="stylesheet" href="{$path}/themes/globals.css"/>
+      <link rel="stylesheet" href="{$path}/themes/base.css"/>
+      <link rel="stylesheet" href="{$path}/themes/topnav.css"/>
+      <link rel="stylesheet" href="{$path}/themes/sidebar.css"/> -->
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
+
     </xsl:if>
     <!--/DEFAULT CSS -->
-
+    
     <!-- THEME CSS -->
     <xsl:for-each select="$themeConfigData/css/file">
       <xsl:choose>
@@ -42,6 +48,7 @@
       <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
     </xsl:if>
     <!-- /THEME CSS -->
+
     <!-- COLOR PALETTES -->
     <xsl:call-template name="colorpalettes-css"/>
     <!-- /COLOR PALETTES -->
@@ -78,10 +85,8 @@
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
-    <!-- IGRP sidebar controller -->
+    <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
-    <!-- IGRP scroll to top controller -->
-    <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
     <!-- IGRP color palettes -->
     <script src="{$path}/core/colorpalettes/palettes.js?v={$version}"></script>
     <!-- IGRP XML XSL Transform -->
@@ -241,10 +246,6 @@
     <igrp-variables class="hidden invisible">
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
-
-    <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
-      <i class="fa fa-chevron-up"></i>
-    </button>
 
     <!-- IFRAME NAVIGATION MODAL -->
     <xsl:call-template name="iframe-nav"/>

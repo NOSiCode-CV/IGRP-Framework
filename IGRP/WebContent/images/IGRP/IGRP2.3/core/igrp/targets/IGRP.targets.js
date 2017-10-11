@@ -38,7 +38,6 @@
 
  			return false;
  		};
- 	
  		//alert_submit
  		var alert_submit = function(p){
  			
@@ -268,10 +267,7 @@
 			return false;
 		};
 		//self
-		var _self        = submit;
-		
-		//self
-		var _link       = function(p){
+		var _self        = function(p){
 			$.IGRP.utils.loading.show();
 
 			var url 	= p.url,
@@ -283,10 +279,11 @@
 			window.location.href = url;
 			return false;
 		};
-
+		//self
+		var _link       = _self;
 		//specific
 		var specific     = function(p){
-			_link(p);
+			_self(p);
 			return true;
 		};
 		//new tab
@@ -583,7 +580,6 @@
 
 			}*/
 		};
-
 
 		$.IGRP.on('init',function(){
 			

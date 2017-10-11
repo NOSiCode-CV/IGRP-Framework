@@ -32,7 +32,7 @@ public class ExecucaoTarefasController extends Controller {
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, "--- Escolher Prioridade ---");
 		listPrioridade.put("100", "Urgente");
-		listPrioridade.put("50", "MÃ©dio");
+		listPrioridade.put("50", "Médio");
 		listPrioridade.put("0", "Normal");
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();

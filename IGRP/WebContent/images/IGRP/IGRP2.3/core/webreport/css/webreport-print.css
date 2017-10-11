@@ -1,6 +1,7 @@
 body {
   -webkit-print-color-adjust: exact;
   background: rgb(204,204,204);
+  text-align: justify;
 }
 
 *{
@@ -33,39 +34,6 @@ div[size="A7"]{
   min-height: 105mm; 
 }
 
-div[size="A4"] .footer{
-  width: 210mm; 
-}
-
-div[size="A4"] .footer .lfooter{
-  width: 2mm; 
-}
-
-div[size="A4"] .footer .rfooter{
-  width: 175.7mm; 
-}
-
-div[size="A4"] .footer #containerQrcode{
-  padding:5px; 
-  width: 30mm; 
-}
-
-div[size="A3"] .footer{
-  width: 297mm;
-}
-
-div[size="A5"] .footer{
-  width: 148mm;
-}
-
-div[size="A6"] .footer{
-  width: 105mm;
-}
-
-div[size="A7"] .footer{
-  width: 74mm;
-}
-
 .page{
   background: white;
   display: block;
@@ -95,7 +63,7 @@ div[size="A7"] .footer{
 
 .noprint{
   display: block;
-  height:65px; 
+  height:60px; 
 }
 
 .lfooter, .rfooter{
@@ -103,30 +71,21 @@ div[size="A7"] .footer{
   border-bottom:60px solid #267199;
   position: relative;
 }
-
-.control{
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.lfooter{
+  width: 10px;
 }
-
-.content:after, .header:after, .footer:after{
-  content: "";
-  display: block;
-  clear: both;
-}
-
-/*.rfooter{
+.rfooter{
   width:673.5px;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0){ 
   .rfooter{ width:667px; } 
-}*/
+}
 
 #containerQrcode{
   display: inline-block; 
+  padding:5px; 
+  width: 100px; 
   height: 100px;
 }
 
@@ -136,8 +95,7 @@ div[size="A7"] .footer{
   position: absolute;
   bottom: -58px;
 }
-
-.contraProva .clabel{
+.contraProva .label{
   text-transform:uppercase; 
   text-align: left; 
   color: #faf7f7;
@@ -146,7 +104,6 @@ div[size="A7"] .footer{
   color: #000; 
   font-size: 18px;
 }
-
 .userprint{
   font-size: 11px; 
   color: #faf7f7;
@@ -154,7 +111,6 @@ div[size="A7"] .footer{
   bottom: -55px;
   position: absolute;
 }
-
 .userprint span{
   padding: 0 5px
 }
@@ -178,12 +134,6 @@ table th, table td{
   border-left: 1px solid #ddd;
   border-spacing: 0;
   width: auto;
-}
-
-table.clean, 
-table.clean thead tr th, 
-table.clean tbody tr td{
-  border:none;
 }
 
 

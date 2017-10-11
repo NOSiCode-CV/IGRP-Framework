@@ -255,20 +255,6 @@ img{
   border-bottom-color: #fff;
 }
 
-#igrp-go-up{
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 5px;
-    z-index: 99;
-    border: none;
-    outline: none;
-    color: white;
-    cursor: pointer;
-    padding: 8px 10px;
-    border-radius: 10px;
-}
-
 /*
  * Sidebar
  */
