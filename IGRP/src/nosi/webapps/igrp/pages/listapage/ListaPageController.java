@@ -57,8 +57,9 @@ public class ListaPageController extends Controller {
 	}
 
 	public Response actionExport() throws IOException{
-		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","Import_export","index");
+		/*---- Insert your code here... ----*/	
+		
+		return this.redirect("igrp","ListaPage","index");
 			/*---- End ----*/
 	}
 }
