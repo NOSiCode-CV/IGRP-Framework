@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BPMNDesigner</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>BPMNDesigner</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>BPMN Designer</title>
+        <page_title type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <page_title_text type="text" name="p_page_title_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[BPMN Designer]]>
+                    </value>
+                </page_title_text>
+            </fields>
+        </page_title>
+        <fmn type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>BPMNDesigner</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-floppy-o</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="publicar">
+                <title>Publicar</title>
+                <app>igrp</app>
+                <page>BPMNDesigner</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-check-square-o</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="exporar_imagem">
+                <title>Exporar Imagem</title>
+                <app>igrp</app>
+                <page>BPMNDesigner</page>
+                <link>index</link>
+                <target>_link</target>
+                <img>warning|fa-picture-o</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</parameter>
+            </item>
+        </fmn>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <data name="p_data" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Node Data</label>
+                    <value>Laudantium ut mollit accusanti</value>
+                </data>
+                <link_data name="p_link_data" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Link Data</label>
+                    <value>Dolor consectetur ut laudantiu</value>
+                </link_data>
+                <area_name name="p_area_name" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Omnis elit aperiam deserunt na</value>
+                </area_name>
+                <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
+                <hidden name="p_link_add_area" type="hidden" maxlength="30" tag="link_add_area"/>
+            </fields>
+        </form_1>
+        <context_menu type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <ctx_nome name="p_ctx_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Ctx Nome</label>
+                </ctx_nome>
+                <ctx_link name="p_ctx_link" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Ctx Link</label>
+                </ctx_link>
+                <cxt_tipo name="p_cxt_tipo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Cxt Tipo</label>
+                </cxt_tipo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <ctx_nome name="p_ctx_nome">Aperiam labore mollit dolor la</ctx_nome>
+                        <ctx_link name="p_ctx_link">Adipiscing totam elit consecte</ctx_link>
+                        <cxt_tipo name="p_cxt_tipo">Accusantium sit elit ipsum off</cxt_tipo>
+                    </row>
+                    <row>
+                        <ctx_nome name="p_ctx_nome">Amet adipiscing lorem consecte</ctx_nome>
+                        <ctx_link name="p_ctx_link">Aperiam anim labore unde natus</ctx_link>
+                        <cxt_tipo name="p_cxt_tipo">Consectetur lorem elit adipisc</cxt_tipo>
+                    </row>
+                    <row>
+                        <ctx_nome name="p_ctx_nome">Anim sit amet ut ipsum</ctx_nome>
+                        <ctx_link name="p_ctx_link">Aperiam iste aliqua voluptatem</ctx_link>
+                        <cxt_tipo name="p_cxt_tipo">Consectetur elit dolor aperiam</cxt_tipo>
+                    </row>
+                    <row>
+                        <ctx_nome name="p_ctx_nome">Elit magna iste dolor doloremq</ctx_nome>
+                        <ctx_link name="p_ctx_link">Perspiciatis sit deserunt dolo</ctx_link>
+                        <cxt_tipo name="p_cxt_tipo">Ipsum amet sit adipiscing ut</cxt_tipo>
+                    </row>
+                    <row>
+                        <ctx_nome name="p_ctx_nome">Unde labore iste dolor lorem</ctx_nome>
+                        <ctx_link name="p_ctx_link">Omnis laudantium accusantium m</ctx_link>
+                        <cxt_tipo name="p_cxt_tipo">Perspiciatis sit lorem stract</cxt_tipo>
+                    </row>
+                </value>
+            </table>
+        </context_menu>
+        <gen_table type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <title name="p_title" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Area</label>
+                </title>
+                <id name="p_id" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Identificacao</label>
+                </id>
+                <id_pai name="p_id_pai" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Identificacao pai</label>
+                </id_pai>
+                <link name="p_link" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="BPMNDesigner" app="igrp" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Link</label>
+                </link>
+                <id_objeto name="p_id_objeto" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Id_objeto</label>
+                </id_objeto>
+                <tipo name="p_tipo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo</label>
+                </tipo>
+                <link_add name="p_link_add" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Adicionar Sub Area</label>
+                </link_add>
+                <link_edit name="p_link_edit" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Editar Area</label>
+                </link_edit>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <title name="p_title">Natus elit accusantium iste do</title>
+                        <id name="p_id">Sit voluptatem labore accusant</id>
+                        <id_pai name="p_id_pai">Accusantium laudantium ut omni</id_pai>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <id_objeto name="p_id_objeto">25</id_objeto>
+                        <tipo name="p_tipo">Adipiscing dolor adipiscing ac</tipo>
+                        <link_add name="p_link_add">Aperiam dolor mollit unde labo</link_add>
+                        <link_edit name="p_link_edit">Laudantium aperiam anim natus</link_edit>
+                    </row>
+                    <row>
+                        <title name="p_title">Consectetur natus elit anim ut</title>
+                        <id name="p_id">Iste adipiscing consectetur an</id>
+                        <id_pai name="p_id_pai">Dolor anim totam doloremque la</id_pai>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <id_objeto name="p_id_objeto">5</id_objeto>
+                        <tipo name="p_tipo">Unde officia sit sed natus</tipo>
+                        <link_add name="p_link_add">Unde lorem rem accusantium sit</link_add>
+                        <link_edit name="p_link_edit">Rem laudantium iste rem laudan</link_edit>
+                    </row>
+                    <row>
+                        <title name="p_title">Adipiscing labore mollit lauda</title>
+                        <id name="p_id">Lorem ipsum unde lorem ut</id>
+                        <id_pai name="p_id_pai">Sit perspiciatis ipsum sit sed</id_pai>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <id_objeto name="p_id_objeto">27</id_objeto>
+                        <tipo name="p_tipo">Sit sit lorem aliqua voluptate</tipo>
+                        <link_add name="p_link_add">Dolor doloremque amet totam ad</link_add>
+                        <link_edit name="p_link_edit">Officia voluptatem adipiscing</link_edit>
+                    </row>
+                    <row>
+                        <title name="p_title">Ipsum omnis sit lorem sed</title>
+                        <id name="p_id">Sit totam laudantium omnis mag</id>
+                        <id_pai name="p_id_pai">Ipsum lorem anim accusantium a</id_pai>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <id_objeto name="p_id_objeto">27</id_objeto>
+                        <tipo name="p_tipo">Doloremque adipiscing voluptat</tipo>
+                        <link_add name="p_link_add">Consectetur rem magna lorem si</link_add>
+                        <link_edit name="p_link_edit">Natus ut mollit natus voluptat</link_edit>
+                    </row>
+                    <row>
+                        <title name="p_title">Amet laudantium magna elit con</title>
+                        <id name="p_id">Labore unde mollit sed ut</id>
+                        <id_pai name="p_id_pai">Sed voluptatem adipiscing aliq</id_pai>
+                        <link name="p_link" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/bpmndesigner/BPMNDesigner.xsl</link>
+                        <link_desc name="p_link_desc">Link</link_desc>
+                        <id_objeto name="p_id_objeto">2</id_objeto>
+                        <tipo name="p_tipo">Perspiciatis stract rem aperia</tipo>
+                        <link_add name="p_link_add">Accusantium unde omnis sit tot</link_add>
+                        <link_edit name="p_link_edit">Sit dolor lorem mollit labore</link_edit>
+                    </row>
+                </value>
+            </table>
+        </gen_table>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <processos name="p_processos" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cog" maxlength="50">
+                    <label>Processos</label>
+                    <value/>
+                </processos>
+                <bpmn name="p_bpmn" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cogs" maxlength="50">
+                    <label>BPMN</label>
+                    <value/>
+                </bpmn>
+            </fields>
+        </tabcontent_1>
+    </content>
+</rows>

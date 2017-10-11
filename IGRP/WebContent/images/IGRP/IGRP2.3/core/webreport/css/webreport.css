@@ -18,10 +18,6 @@
 	display: none;
 }
 
-.main{
-	padding: 20px 7px; 
-}
-
 .toolsbar-holder{
 	position: fixed;
     right: 20px;
@@ -43,6 +39,19 @@
 #wr-list-document{
 	overflow-y: auto;
 }
+
+#igrp-sidebar #list-reports.nav-sidebar{
+	margin-right: -15px;
+	margin-left: -15px;
+}
+
+
+#igrp-sidebar #wr-list-datasource .nav-sidebar{
+	margin-right:0px;
+	margin-left:0px;
+}
+
+
 .nav-sidebar li{
 	position: relative;
 }
@@ -190,5 +199,9 @@ div[data-notify="container"].alert{
 	position: absolute;
     left: -10000px;
     top: -10000px;
+}
+
+#igrp-contents .content>.row:first-child{
+	margin-top:0px; 
 }
 

@@ -54,7 +54,8 @@ public class EnvController extends Controller {
 			app.setDescription(model.getDescription());
 //			app.setFlg_external(model.getFlg_external());
 //			app.setFlg_old(model.getFlg_old());
-//			app.setHost(model.getHost());
+			app.setUrl(model.getHost());
+			app.setExternal(model.getFlg_external());
 			app.setImg_src(model.getImg_src());
 //			app.setLink_center(model.getLink_center());
 //			app.setLink_menu(model.getLink_menu());
@@ -129,8 +130,7 @@ public class EnvController extends Controller {
 			if(obj[6]!=null){
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(obj[6].toString()));
-				page = (ac!=null && ac.getPage()!=null)?ac.getPage()+"/"+ac.getAction():page;
-				page = "/"+page;
+				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
 			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+obj[1].toString().toLowerCase()+"&amp;page="+page);
 			xml_menu.setElement("img", obj[3].toString());
@@ -166,6 +166,8 @@ public class EnvController extends Controller {
 		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
 		model.setName(aplica_db.getName());
 		model.setDescription(aplica_db.getDescription());
+		model.setFlg_external(aplica_db.getExternal());
+		model.setHost(aplica_db.getUrl());
 		if(aplica_db.getAction()!=null){
 			model.setAction_fk(aplica_db.getAction().getId());
 		}
@@ -184,6 +186,9 @@ public class EnvController extends Controller {
 			aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());
+			aplica_db.setUrl(model.getHost());
+			aplica_db.setExternal(model.getFlg_external());
+			
 			aplica_db.setDescription(model.getDescription());
 			Action ac = new Action().findOne(model.getAction_fk());
 			aplica_db.setAction(ac);
@@ -197,7 +202,7 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso !!");
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");

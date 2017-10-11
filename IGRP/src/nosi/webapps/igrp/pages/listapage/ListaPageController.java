@@ -55,4 +55,10 @@ public class ListaPageController extends Controller {
 		
 		return this.renderView(view);
 	}
+
+	public Response actionExport() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("igrp","Import_export","index");
+			/*---- End ----*/
+	}
 }

@@ -50,6 +50,10 @@ div[size="A7"]{
   position: relative;
 }
 
+table{
+  width: 100%;
+}
+
 /*.fixed{
   position: absolute;
   left: 1cm;
@@ -86,6 +90,10 @@ p{
  /* .fixed{
     position: fixed;
   }*/
+
+  table{
+    width: 100%;
+  }
 
   .page{
     margin: 0;

@@ -406,6 +406,10 @@
 			});
 		};
 
+		var remoteList = function(p){
+
+		};
+
 		$.IGRP.targets = {
 			
 			confirm      : {
@@ -566,7 +570,15 @@
 
 				action : changesrc
 
-			}
+			}/*,
+
+			remotelist    : {
+
+				label : 'Remote Lista',
+
+				action : remoteList
+
+			}*/
 		};
 
 		$.IGRP.on('init',function(){
@@ -633,6 +645,8 @@
  				if (canSubmit)
  					$.IGRP.utils.loading.show();
  				
+
+
  				//return false;
 				return canSubmit;		
 

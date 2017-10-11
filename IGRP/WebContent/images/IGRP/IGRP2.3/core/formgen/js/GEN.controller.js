@@ -1720,7 +1720,10 @@ var GENERATOR = function(genparams){
 				}
 
 			if (json.service) {
-				GEN.proprieties.service = {
+
+				GEN.service.set(GEN);
+
+				GEN.SET.service({
 					desc 			: json.service.desc,
 					code 			: json.service.code,
 					proc 			: json.service.proc,
@@ -1728,7 +1731,9 @@ var GENERATOR = function(genparams){
 					connectionsRes 	: json.service.connectionsRes,
 					fieldsReq 	   	: json.service.fieldsReq,
 					fieldsRes 	   	: json.service.fieldsRes
-				}
+				});
+
+				
 			}
 		}
 	}
@@ -2431,7 +2436,7 @@ var GENERATOR = function(genparams){
 			return false;
 		});
 		/*SAVE PAGE*/
-$('.form-gen-save').on('click',function(e){
+		$('.form-gen-save').on('click',function(e){
 			
 			e.preventDefault();
 
@@ -2444,12 +2449,12 @@ $('.form-gen-save').on('click',function(e){
 				var pageXSL = vkbeautify.xml(GEN.getXSL({
 					removeGenAttrs:true
 				}));
-
-				/*var vParam  =  [
+				/*
+				var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
 					{ name:'p_page_xsl', value: pageXSL },//xsl
-					{ name:'p_page_java',value:javaStr},//java
+					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
@@ -2463,7 +2468,7 @@ $('.form-gen-save').on('click',function(e){
 				$('#gen-noif-holder').html('');
 				
 				try{
-					console.log(GEN.SETTINGS.package)
+					
 					$.IGRP.utils.submitStringAsFile({
 						//pUrl        : 'test.save.xml',
 						pUrl        : vUrl,
@@ -2475,7 +2480,6 @@ $('.form-gen-save').on('click',function(e){
 				           		{name:'p_id_objeto', value:vItemId},
 				           		{name:'p_table_name', value:GEN.SETTINGS.table},
 				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				           	]
 				        },
 						pComplete   :function(xml,text,status){
@@ -2511,8 +2515,8 @@ $('.form-gen-save').on('click',function(e){
 			        });
 				}catch(err){
 					console.log(err);
-				}*/
-				
+				}
+				*/
 				GEN.getJava(function(javaStr){
 
 					var vParam  =  [
@@ -2545,7 +2549,6 @@ $('.form-gen-save').on('click',function(e){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
@@ -3610,24 +3613,29 @@ $('.form-gen-save').on('click',function(e){
 		setBTNAction(field.GET.action());
 	}
 
-	GEN.getSrcFields = function(){
 
-		var options = [];
+	GEN.getSrcFields = function(arr){
+
+		var array 	= arr && $.isArray(arr) ? arr : ['img','iframe'];
+			options = [];
+
 		options.push({value:'', label:'-- Fields --'});
 
 		GEN.getContainers().forEach(function(c){
-			if(c.GET.type() == 'img' || c.GET.type() == 'iframe')
+			if($.inArray(c.GET.type(),array) != -1)
 				options.push({value:c.GET.tag(), label:c.GET.tag()});
 
-			c.GET.fields().forEach(function(f){
-				if(f.GET.type() == 'img' || f.GET.type() == 'iframe')
-					options.push({value:f.GET.tag(), label:f.GET.tag()});
-			});
+			if(c.GET.type() != 'table'){
+				c.GET.fields().forEach(function(f){
+					if($.inArray(c.GET.type(),array) != -1)
+						options.push({value:f.GET.tag(), label:f.GET.tag()});
+				});
+			}
 
 			if(c.contents){
 				c.contents.forEach(function(i){
 					if(i.genType == 'field'){
-						if(i.GET.type() == 'img' || i.GET.type() == 'iframe')
+						if($.inArray(c.GET.type(),array) != -1)
 							options.push({value:f.GET.tag(), label:f.GET.tag()});
 					}
 				})
@@ -3748,7 +3756,7 @@ $('.form-gen-save').on('click',function(e){
 			},
 			onEditionStart : function(o){
 
-				if( field.GET.target && field.GET.target() == "exportall" || field.GET.target && field.GET.target() == "changesrc")
+				if( field.GET.target && (field.GET.target() == "exportall" || field.GET.target() == "changesrc"))
 					o.input.show();
 				else
 					o.input.hide();

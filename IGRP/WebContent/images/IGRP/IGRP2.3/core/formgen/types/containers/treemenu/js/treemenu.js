@@ -7,11 +7,13 @@ var TREEMENU = function(name,params){
 
 	var proprieties = params && params.properties;
 	
-	container.fields = false;
+	container.fields 		= true;
 
-	//container.xml.structure = 'table';
+	container.xml.type 		= 'treemenu';
 
-	//container.xml.genGroup = true;
+	container.xml.structure = 'table';
+
+	container.xml.genGroup 	= true;
 
 	container.xml.genRemote = false;
 
@@ -23,7 +25,6 @@ var TREEMENU = function(name,params){
 
 	var showPackageName = function(v){
 		var action  = v ? 'show' : 'hide'; 
-		console.log($('.gen-propreties-checkers-holder div[rel="onLoad"]'));
 		$('.gen-propreties-checkers-holder div[rel="onLoad"]')[action]();
 	}
 
@@ -42,12 +43,6 @@ var TREEMENU = function(name,params){
 		});
 
 		GEN.setTargetAttr(container,{value:'_blank'});
-
-		/*container.setPropriety({
-			name:'package_name',
-			label:'Package Name',
-			value:'',
-		});*/
 
 		container.setPropriety({
 			name 	: 'remote',

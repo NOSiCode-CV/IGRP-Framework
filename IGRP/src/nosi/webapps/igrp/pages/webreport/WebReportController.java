@@ -173,6 +173,21 @@ public class WebReportController extends Controller {
 	}
 	
 
+	public Response actionGetLinkReport() throws IOException{
+		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
+		RepTemplate rep = new RepTemplate().find().andWhere("code", "=", p_code).one();
+		String p_params = Igrp.getInstance().getRequest().getParameter("p_params");
+		String[] params = p_params.split(";");
+		String name_array = "";
+		String value_array = "";
+		for(String p:params){
+			String[] part = p.split("=");
+			name_array += "&name_array="+part[0];
+			value_array += "&value_array="+part[1];
+		}
+		return this.redirect("igrp", "web-report", "preview&p_id="+rep.getId()+name_array+value_array);
+	}
+	
 	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -180,9 +195,11 @@ public class WebReportController extends Controller {
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate();
 			rt = rt.findOne((int)Float.parseFloat(id));
+			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 			//Iterate data source per template
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
-				xml += this.getData(rep);
+				xml += this.getData(rep,name_array,value_array);
 			}
 			xml = this.genXml(xml,rt);
 		}
@@ -190,13 +207,12 @@ public class WebReportController extends Controller {
 		return this.renderView(xml);
 		/*---- End ----*/
 	}
-	
-	private String getData(RepTemplateSource rep) {
+	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {
 			case "object":
 			case "query":
-				return this.getDataForQueryOrObject(rep);
+				return this.getDataForQueryOrObject(rep,name_array,value_array);
 			case "page":
 				return this.getDataForPage(rep);
 		}
@@ -205,19 +221,35 @@ public class WebReportController extends Controller {
 
 
 	private String getDataForPage(RepTemplateSource rep) {
-		// TODO Auto-generated method stub
+		Action ac = new Action().findOne(rep.getRepSource().getType_fk());
+		if(ac!=null){
+			String actionName = "";
+			for(String aux : ac.getAction().split("-"))
+				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			actionName = "action" + actionName;
+			String controllerPath = Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());
+			Object ob = Page.loadPage(controllerPath,actionName);
+			if(ob!=null){
+				Response resp = (Response) ob;
+				if(resp!=null){
+					String content = resp.getContent();
+					int start = content.indexOf("<content");
+					int end = content.indexOf("</rows>");
+					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
+					return content;
+				}
+			}
+		}
 		return "";
 	}
 
 
-	private String getDataForQueryOrObject(RepTemplateSource rep) {
+	private String getDataForQueryOrObject(RepTemplateSource rep,String []name_array,String []value_array) {
 		String query = rep.getRepSource().getType_query();
 		query = rep.getRepSource().getType().equalsIgnoreCase("object")?("SELECT * FROM "+query):query;
 		query += rep.getRepSource().getType().equalsIgnoreCase("query") && !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
-		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 		String rowsXml = rep.getRepSource().getSqlQueryToXml(query, name_array, value_array,rep.getRepTemplate(),rep.getRepSource());
-		return this.processPreview(rowsXml,rep.getRepTemplate(),rep.getRepSource());
+		return this.processPreview(rowsXml,rep,rep.getRepSource());
 	}
 
 
@@ -244,28 +276,11 @@ public class WebReportController extends Controller {
 	/*Process preview in different type
 	 * 
 	 */
-	private String processPreview(String rowsXml, RepTemplate rt, RepSource rs) {
+	private String processPreview(String rowsXml, RepTemplateSource rts, RepSource rs) {
 		if(rs.getType().equalsIgnoreCase("object") || rs.getType().equalsIgnoreCase("query")){
-			return this.getContentXml(rt.getName(),rowsXml);
+			return this.getContentXml(rts.getRepSource().getName(),rowsXml);
 		}else if(rs.getType().equalsIgnoreCase("page")){
-			Action ac = new Action();
-			ac = ac.findOne(rs.getType_fk());
-			String actionName = "";
-			for(String aux : ac.getAction().split("-"))
-				actionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-			actionName = "action" + actionName;
-			String controllerPath = Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction());
-			Object ob = Page.loadPage(controllerPath,actionName);
-			if(ob!=null){
-				Response resp = (Response) ob;
-				if(resp!=null){
-					String content = resp.getContent();
-					int start = content.indexOf("<content");
-					int end = content.indexOf("</rows>");
-					content = (start!=-1 && end!=-1)?content.substring(start,end):"";
-					return content;
-				}
-			}
+			return this.getDataForPage(rts);
 		}
 		return "";
 	}

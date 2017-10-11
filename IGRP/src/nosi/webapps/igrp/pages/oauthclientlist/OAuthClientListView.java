@@ -22,6 +22,8 @@ public class OAuthClientListView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_button_1;
 	public IGRPButton btn_apagar;
@@ -66,6 +68,9 @@ public class OAuthClientListView extends View {
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
 
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		btn_novo = new IGRPButton("Novo","igrp","OAuthClient","index","_self","success|fa-plus-square","","");
+		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","OAuthClientList","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_button_1 = new IGRPButton("Button","igrp","OAuthClientList","button_1","submit","warning|fa-edit","","");
@@ -91,6 +96,8 @@ public class OAuthClientListView extends View {
 		table_1.addField(scope);
 		table_1.addField(p_id);
 
+
+		toolsbar_1.addButton(btn_novo);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_button_1);
 		table_1.addButton(btn_apagar);
@@ -98,6 +105,7 @@ public class OAuthClientListView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(toolsbar_1);
 	}
 }
 /*-------------------------*/

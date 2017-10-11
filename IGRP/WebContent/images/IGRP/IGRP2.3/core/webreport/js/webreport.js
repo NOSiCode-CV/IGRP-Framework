@@ -1,4 +1,4 @@
-(function ($) {
+$(function ($) {
 	if($){
 		$.WR 				= {}; //Objeto W web R report
 		// WR var file webreport.config
@@ -24,8 +24,8 @@
 					$.WR.dataSource = $(this).val();
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-						console.log(url);
+						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+					
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
@@ -326,8 +326,8 @@
 										$.WR.document.save({
 							        		url 	 : p.url,
 							        		file 	 : p.file,
-							        		fields : p.fields,
-							        		action : 'modal'
+							        		fields 	 : p.fields,
+							        		action   : 'modal'
 							        	});
 									}
 
@@ -437,9 +437,8 @@
 						$(this).addClass('active');
 
 						$('#igrp-app-title').html($.WR.reportTitle);
-						console.log(data.responseText);
 
-						//data = $.parseJSON(data.responseText);//.replace(/\s+/g," ")
+						//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
 						$.WR.document.convert2Do(data.textreport);
 
@@ -522,9 +521,9 @@
 				$.IGRP.targets['submit'].action = function(p){
 					if($.WR.app != null){
 						var saveDoc 	= {},
-							head 		= WR.document.includ.head+WR.document.includ.css.all,
+							head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
 							includJs 	= WR.document.includ.js.all,
-							includTmpl 	= WR.document.includ.tmpl.defoult;
+							includTmpl 	= ''; //WR.document.includ.tmpl.defoult
 
 						
 						if ($.WR.hasCarts && !$.WR.notCartsInclud) {
@@ -970,7 +969,7 @@
 
 					switch(p.group.toLowerCase()){
 						case 'row':// caso row
-							var path = p.path+'['+p.cond+']',
+							var path = p.cond ? p.path+'['+p.cond+']' : p.path,
 								td 	 = '',
 								th   = '',
 								tdg  = '',
@@ -1331,7 +1330,7 @@
 
 					size = size && size != undefined ? size : '=:WRPZ:=';
 
-					var html = '<div size="'+size+'"><div class="head">';
+					var html = '<div class="page" size="'+size+'"><div class="head">';
 
 					html += data.head+'</div>';
 					html += '<div class="content">'+data.body+'</div>';
@@ -1352,9 +1351,8 @@
 						$.WR.texteditor = CKEDITOR.instances[fc.editor.name];
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
-						console.log(CKEDITOR.document.getById('datasorce'));
 
-						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
@@ -1430,4 +1428,4 @@
 
 		$.WR.init();
 	}
-}($));
+});

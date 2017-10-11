@@ -7,11 +7,13 @@ package nosi.webapps.igrp.pages.mapaprocesso;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.DateField;
 import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
@@ -19,8 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.FormData;
-import nosi.core.webapp.activit.rest.FormData.FormProperties;
+import nosi.core.webapp.activit.rest.FormDataService;
+import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -52,41 +54,52 @@ public class MapaProcessoController extends Controller {
 	public Response actionOpenProcess(){
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-		FormData formData = null;
+		FormDataService formData = null;
 		if(p_processId!=null){
-			formData = new FormData().getFormDataByProcessDefinitionId(p_processId);
+			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 		}
 		if(taskId!=null){
-			formData = new FormData().getFormDataByTaskId(taskId);
+			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
-		String content = formData!=null?this.transformToXml(formData.getFormProperties()):"";
+		String content = this.transformToXml(formData);
 		return this.renderView(content);
 	}
 	/*---- End ----*/
 
-	private String transformToXml(List<FormProperties> formProperties) {
-		if(formProperties!=null && formProperties.size() > 0){
-			String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
-			XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
+	private String transformToXml(FormDataService formData) {
+		String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
+		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
+		xml.addXml(Config.getHeader());
+		xml.startElement("content");
+		xml.writeAttribute("type", "");
+		xml.setElement("title", "Process Task");
+		IGRPForm form = new IGRPForm("form",(float)2.1);
+		IGRPButton btn_next = new IGRPButton("Seguinte", "igrp", "ExecucaoTarefas", "process-task", "submit", "primary|fa-arrow-circle-right", "", "");
 
-			xml.addXml(Config.getHeader());
-			xml.startElement("content");
-			xml.writeAttribute("type", "");
-			xml.setElement("title", "");
-			IGRPForm form = new IGRPForm("form");
-			for(FormProperties prop:formProperties){
+		if(formData!=null && formData.getFormProperties()!=null){
+			Field id = getField("task_id", "hidden");
+			id.setValue(formData.getTaskId());
+			form.addField(id);
+			for(FormProperties prop:formData.getFormProperties()){
 				Field field = getField(prop.getId().toLowerCase(), prop.getType());
-				field.setValue(prop.getValue());
 				field.setLabel(prop.getName());
+				if(prop.getValue()!=null && !prop.getValue().equals("null"))
+					field.setValue(prop.getValue());
+				if(prop.getRequired())
+					field.propertie().add("required","true");
+//				if(prop.getReadable())
+//					field.propertie().add("readonly", "true");
+//				if(prop.getWritable())
+//					field.propertie().add("disabled", "true");
 				if(prop.getType().endsWith("enum")){
 					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
 				}
 				form.addField(field);
 			}
-			xml.addXml(form.toString());
-			return xml.toString();
 		}
-		return "";
+		form.addButton(btn_next);
+		xml.addXml(form.toString());
+		return xml.toString();
 	}
 	
 	private Field getField(String name,String type){
@@ -99,6 +112,8 @@ public class MapaProcessoController extends Controller {
 			return new CheckBoxField(null, name);
 		case "enum":
 			return new ListField(null, name);
+		case "hidden":
+			return new HiddenField(null, name);
 		}
 		return new TextField(null, name);
 	}
