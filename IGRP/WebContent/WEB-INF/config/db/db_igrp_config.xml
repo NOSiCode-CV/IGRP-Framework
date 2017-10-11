@@ -7,6 +7,6 @@
 	<entry key="port">0</entry>
 	<entry key="password">root</entry>
 	<entry key="connectionName">hibernate-igrp-core</entry>
-	<entry key="dbname">db_igrp_core</entry>
+	<entry key="dbname">db_igrp_core;AUTO_SERVER=TRUE</entry>
 	<entry key="username">root</entry>
 </properties>
