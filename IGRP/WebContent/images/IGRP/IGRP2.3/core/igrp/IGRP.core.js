@@ -26,9 +26,10 @@
 				      });
 
 				      var paramValue = typeof(a[1])==='undefined' ? true : a[1];
-
-				      paramName = paramName.toLowerCase();
-				      paramValue = paramValue.toLowerCase();
+				      console.log(paramName+":"+paramValue);
+//				      paramName = paramName  && paramName  != undefined ? paramName.toLowerCase()  : '';
+//				      paramValue = paramValue && paramValue != undefined ? paramValue.toLowerCase() : '';
+//				      
 
 				      if (obj[paramName]) {
 				        if (typeof obj[paramName] === 'string') {

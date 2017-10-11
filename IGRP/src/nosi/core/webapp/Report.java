@@ -14,11 +14,11 @@ public class Report extends Controller{
 	private Map<String,Object> params = new HashMap<>();
 	
 	public Response invokeReport(String code_report,Report rep){
-		String params = "&p_code="+code_report+"&p_params=";
+		String params = "&p_code="+code_report;
 		if(rep!=null){
 			for(Entry<String,Object> entry:rep.getParams().entrySet()){
 				if(entry.getValue()!=null && !entry.getValue().toString().equals("?"))
-					params += entry.getKey()+"="+entry.getValue()+";";
+					params += ("&name_array="+entry.getKey() + "&value_array="+entry.getValue());
 			}
 		}
 		try {

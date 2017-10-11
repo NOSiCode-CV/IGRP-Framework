@@ -223,6 +223,12 @@
 
 		},
 
+		scrollTo:function(name){
+			
+			console.log(name);
+			
+		},
+
 		config:function(){
 
 			var app  = $('body').attr('app'),
@@ -235,6 +241,10 @@
 
 			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
+			if( $.IGRP.info.params.ichange )
+
+				$.IGRP.scrollTo( $.IGRP.info.params.ichange );
+
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');
@@ -242,6 +252,9 @@
 			});
 
 			$('html').addClass('ready');
+
+			$('body').removeClass('loading');
+			
 		},
 		
 		init:function(){

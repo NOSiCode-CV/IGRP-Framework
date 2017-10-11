@@ -5,7 +5,8 @@
 		sClass     = !initState ? offClass :'';
 		
 	$(function(){
-		$('body').removeClass(offClass).addClass(sClass);
+		if(  !$('body').hasClass('fixed-sidebar')  )
+			$('body').removeClass(offClass).addClass(sClass);
 	});
 
 	var sideBar = new IGRP.component('sideBar', {

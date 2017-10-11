@@ -330,10 +330,12 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
 		
 		Set<Properties> columns = this.getColumns(rt.getId(), query);
+		//Reomve filtro caso nao existir
 		if(value_array==null || value_array.length<=0){
-			query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
+			query =rs.getType().equalsIgnoreCase("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
 		}
-		if(name_array!=null && name_array.length >0){
+		//Aplica filtro caso existir
+		if(value_array!=null && name_array!=null && value_array.length> 0 && name_array.length >0){
 			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
 			for(String name:name_array){
 				String column_name = name.contains("p_")?name.substring(2, name.length()):name;
@@ -349,7 +351,8 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			Query q = em.createNativeQuery(query);
 			if(value_array!=null && value_array.length>0){
 				for(Parameter<?> param:q.getParameters()){
-					q.setParameter(param.getName(), paramsUrl.get(param.getName().toLowerCase()));
+					Object val = paramsUrl.get(param.getName().toLowerCase());
+					q.setParameter(param.getName(), val);
 				}
 			}	
 			@SuppressWarnings("unchecked")

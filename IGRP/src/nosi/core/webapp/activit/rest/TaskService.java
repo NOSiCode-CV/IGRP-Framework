@@ -152,6 +152,7 @@ public class TaskService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		System.out.println(jobj.toString());
 		ClientResponse response = RestRequestHelper.post("runtime/tasks",jobj.toString(),id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);

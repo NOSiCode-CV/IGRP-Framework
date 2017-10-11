@@ -26,7 +26,14 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row" id="row-bb2f2f6f">
+                                    <div class="row row-msg">
+                                        <div class="gen-column col-md-12">
+                                            <div class="gen-inner">
+                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row " id="row-8b562729">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -36,7 +43,6 @@
                                                         </h2>
                                                     </section>
                                                 </xsl:if>
-                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
                                                 <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="default" gen-class="" item-name="tabcontent_1">
                                                     <ul class="nav nav-tabs">
                                                         <xsl:if test="rows/content/tabcontent_1/fields/gerir_tarefas">
@@ -44,7 +50,7 @@
                                                                 <xsl:call-template name="get-active-tab">
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gerir_tarefas/value"/>
                                                                 </xsl:call-template>
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-gerir_tarefas">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-gerir_tarefas">
                                                                     <i class="fa fa-tasks"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/gerir_tarefas/label"/>
@@ -57,7 +63,7 @@
                                                                 <xsl:call-template name="get-active-tab">
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/colaboradores/value"/>
                                                                 </xsl:call-template>
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-colaboradores">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-colaboradores">
                                                                     <i class="fa fa-users"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/colaboradores/label"/>
@@ -70,7 +76,7 @@
                                                                 <xsl:call-template name="get-active-tab">
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/estatistica/value"/>
                                                                 </xsl:call-template>
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-estatistica">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-estatistica">
                                                                     <i class="fa fa-line-chart"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/estatistica/label"/>
@@ -83,7 +89,7 @@
                                                                 <xsl:call-template name="get-active-tab">
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/minhas_tarefas/value"/>
                                                                 </xsl:call-template>
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-minhas_tarefas">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-minhas_tarefas">
                                                                     <i class="fa fa-address-book-o"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/minhas_tarefas/label"/>
@@ -96,7 +102,7 @@
                                                                 <xsl:call-template name="get-active-tab">
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/disponiveis/value"/>
                                                                 </xsl:call-template>
-                                                                <a data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-disponiveis">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-disponiveis">
                                                                     <i class="fa fa-calendar-check-o"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/disponiveis/label"/>
@@ -112,7 +118,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gerir_tarefas/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-d2728b6e">
+                                                                <div class="row " id="row-1a77b80c">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_gerir_tarefa">
@@ -275,6 +281,13 @@
                                                                                                             </span>
                                                                                                         </th>
                                                                                                     </xsl:if>
+                                                                                                    <xsl:if test="rows/content/table_gerir_tarefas/fields/n_tarefa_g">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_gerir_tarefas/fields/n_tarefa_g/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                     <xsl:if test="rows/content/table_gerir_tarefas/fields/tipo">
                                                                                                         <th align="left" class=" gen-fields-holder">
                                                                                                             <span>
@@ -310,6 +323,13 @@
                                                                                                             </span>
                                                                                                         </th>
                                                                                                     </xsl:if>
+                                                                                                    <xsl:if test="rows/content/table_gerir_tarefas/fields/data_fim_g">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_gerir_tarefas/fields/data_fim_g/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
@@ -320,6 +340,13 @@
                                                                                                             <td align="left" data-row="{position()}" data-title="{../../fields/numero_processo_tabela/label}" class="text" item-name="numero_processo_tabela">
                                                                                                                 <span class="">
                                                                                                                     <xsl:value-of select="numero_processo_tabela"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
+                                                                                                        <xsl:if test="n_tarefa_g">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/n_tarefa_g/label}" class="text" item-name="n_tarefa_g">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="n_tarefa_g"/>
                                                                                                                 </span>
                                                                                                             </td>
                                                                                                         </xsl:if>
@@ -358,6 +385,13 @@
                                                                                                                 </span>
                                                                                                             </td>
                                                                                                         </xsl:if>
+                                                                                                        <xsl:if test="data_fim_g">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/data_fim_g/label}" class="date" item-name="data_fim_g">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="data_fim_g"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
                                                                                                     </tr>
                                                                                                 </xsl:for-each>
                                                                                             </tbody>
@@ -377,7 +411,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/colaboradores/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-ba23fd89">
+                                                                <div class="row " id="row-0c575600">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_colaboradores">
@@ -692,7 +726,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/estatistica/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-31a79c6b">
+                                                                <div class="row " id="row-1b08733f">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/view_estatistica">
@@ -989,7 +1023,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/minhas_tarefas/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-26cffbd7">
+                                                                <div class="row " id="row-56a85e2a">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_minhas_tarefas">
@@ -1145,6 +1179,13 @@
                                                                                         <table id="table_minhas_tarefas" class="table table-striped gen-data-table IGRP_contextmenu " exports="null">
                                                                                             <thead>
                                                                                                 <tr>
+                                                                                                    <xsl:if test="rows/content/table_minhas_tarefas/fields/n_tarefa_m">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_minhas_tarefas/fields/n_tarefa_m/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                     <xsl:if test="rows/content/table_minhas_tarefas/fields/tipo_tabela_minhas_tarefas">
                                                                                                         <th align="left" class=" gen-fields-holder">
                                                                                                             <span>
@@ -1173,6 +1214,13 @@
                                                                                                             </span>
                                                                                                         </th>
                                                                                                     </xsl:if>
+                                                                                                    <xsl:if test="rows/content/table_minhas_tarefas/fields/data_fim_m">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_minhas_tarefas/fields/data_fim_m/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                     <xsl:if test="rows/content/table_minhas_tarefas/fields/espera_tabela_minhas_tarefas">
                                                                                                         <th align="left" class=" gen-fields-holder">
                                                                                                             <span>
@@ -1186,6 +1234,13 @@
                                                                                                 <xsl:for-each select="rows/content/table_minhas_tarefas/table/value/row[not(@total='yes')]">
                                                                                                     <tr>
                                                                                                         <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                                                        <xsl:if test="n_tarefa_m">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/n_tarefa_m/label}" class="text" item-name="n_tarefa_m">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="n_tarefa_m"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
                                                                                                         <xsl:if test="tipo_tabela_minhas_tarefas">
                                                                                                             <td align="left" data-row="{position()}" data-title="{../../fields/tipo_tabela_minhas_tarefas/label}" class="text" item-name="tipo_tabela_minhas_tarefas">
                                                                                                                 <span class="">
@@ -1211,6 +1266,13 @@
                                                                                                             <td align="left" data-row="{position()}" data-title="{../../fields/data_entrada_tabela_minhas_tarefas/label}" class="text" item-name="data_entrada_tabela_minhas_tarefas">
                                                                                                                 <span class="">
                                                                                                                     <xsl:value-of select="data_entrada_tabela_minhas_tarefas"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
+                                                                                                        <xsl:if test="data_fim_m">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/data_fim_m/label}" class="date" item-name="data_fim_m">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="data_fim_m"/>
                                                                                                                 </span>
                                                                                                             </td>
                                                                                                         </xsl:if>
@@ -1240,7 +1302,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/disponiveis/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row" id="row-0bbc5523">
+                                                                <div class="row " id="row-064907c7">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_disponiveis">
@@ -1396,6 +1458,13 @@
                                                                                         <table id="table_disponiveis" class="table table-striped gen-data-table IGRP_contextmenu " exports="null">
                                                                                             <thead>
                                                                                                 <tr>
+                                                                                                    <xsl:if test="rows/content/table_disponiveis/fields/n_tarefa_d">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_disponiveis/fields/n_tarefa_d/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                     <xsl:if test="rows/content/table_disponiveis/fields/tarefas_tabela_disponiveis">
                                                                                                         <th align="left" class=" gen-fields-holder">
                                                                                                             <span>
@@ -1417,6 +1486,13 @@
                                                                                                             </span>
                                                                                                         </th>
                                                                                                     </xsl:if>
+                                                                                                    <xsl:if test="rows/content/table_disponiveis/fields/data_fim_d">
+                                                                                                        <th align="left" class=" gen-fields-holder">
+                                                                                                            <span>
+                                                                                                                <xsl:value-of select="rows/content/table_disponiveis/fields/data_fim_d/label"/>
+                                                                                                            </span>
+                                                                                                        </th>
+                                                                                                    </xsl:if>
                                                                                                     <th class="igrp-table-ctx-th"/>
                                                                                                 </tr>
                                                                                             </thead>
@@ -1424,6 +1500,15 @@
                                                                                                 <xsl:for-each select="rows/content/table_disponiveis/table/value/row[not(@total='yes')]">
                                                                                                     <tr>
                                                                                                         <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                                                        <input name="p_id_fk" value="{id}" type="hidden"/>
+                                                                                                        <input name="p_id_fk_desc" value="{id_desc}" type="hidden"/>
+                                                                                                        <xsl:if test="n_tarefa_d">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/n_tarefa_d/label}" class="text" item-name="n_tarefa_d">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="n_tarefa_d"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
                                                                                                         <xsl:if test="tarefas_tabela_disponiveis">
                                                                                                             <td align="left" data-row="{position()}" data-title="{../../fields/tarefas_tabela_disponiveis/label}" class="text" item-name="tarefas_tabela_disponiveis">
                                                                                                                 <span class="">
@@ -1442,6 +1527,13 @@
                                                                                                             <td align="left" data-row="{position()}" data-title="{../../fields/data_entrada_tabela_disponiveis/label}" class="text" item-name="data_entrada_tabela_disponiveis">
                                                                                                                 <span class="">
                                                                                                                     <xsl:value-of select="data_entrada_tabela_disponiveis"/>
+                                                                                                                </span>
+                                                                                                            </td>
+                                                                                                        </xsl:if>
+                                                                                                        <xsl:if test="data_fim_d">
+                                                                                                            <td align="left" data-row="{position()}" data-title="{../../fields/data_fim_d/label}" class="date" item-name="data_fim_d">
+                                                                                                                <span class="">
+                                                                                                                    <xsl:value-of select="data_fim_d"/>
                                                                                                                 </span>
                                                                                                             </td>
                                                                                                         </xsl:if>
@@ -1479,8 +1571,6 @@
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- TABLE JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/table/igrp.table.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js?v={$version}"/>
                 <!-- SELECT JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
@@ -1490,10 +1580,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506683324327"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506683324327"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506683324327"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506683324327"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506683324328"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1506683324332"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1507727829487"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1507727829487"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1507727829487"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1507727829487"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1507727829487"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1507727829487"/>
 </xsl:stylesheet>

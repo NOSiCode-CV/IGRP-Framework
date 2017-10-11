@@ -172,22 +172,25 @@ public class WebReportController extends Controller {
 		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
 	}
 	
-
+	//Faz previsualizacao de report usando a contra senha
 	public Response actionGetLinkReport() throws IOException{
 		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
-		RepTemplate rep = new RepTemplate().find().andWhere("code", "=", p_code).one();
-		String p_params = Igrp.getInstance().getRequest().getParameter("p_params");
-		String[] params = p_params.split(";");
-		String name_array = "";
-		String value_array = "";
-		for(String p:params){
-			String[] part = p.split("=");
-			name_array += "&name_array="+part[0];
-			value_array += "&value_array="+part[1];
+		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
+		String xml = "";
+		if(rt!=null){
+			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+			//Iterate data source per template
+			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
+				xml += this.getData(rep,name_array,value_array);
+			}
+			xml = this.genXml(xml,rt);
 		}
-		return this.redirect("igrp", "web-report", "preview&p_id="+rep.getId()+name_array+value_array);
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml);
 	}
 	
+	//Faz previsualizacao de report sem usar contra senha
 	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -207,6 +210,8 @@ public class WebReportController extends Controller {
 		return this.renderView(xml);
 		/*---- End ----*/
 	}
+	
+	
 	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {

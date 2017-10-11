@@ -39,7 +39,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     </head>
 
-<frameset rows="45,*" framespacing="0" frameborder="no" border="0" bordercolor="#00FF00">
+<frameset rows="56,*" framespacing="0" frameborder="no" border="0" bordercolor="#00FF00">
 
   <frame src="{rows/top_link}" name="topFrame" scrolling="No" noresize="noresize" id="topFrame" title="igrp_head" />
   

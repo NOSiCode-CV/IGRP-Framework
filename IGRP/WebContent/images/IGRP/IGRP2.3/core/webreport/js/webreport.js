@@ -493,7 +493,7 @@ $(function ($) {
 				console.log('-----------------');
 				console.log(p.fields);*/
 
-				$.IGRP.utils.submitStringAsFile({
+				/*$.IGRP.utils.submitStringAsFile({
 		      		pUrl    	: p.url,
 		      		pParam 		: {
 			        	pArrayFiles : p.file,
@@ -515,7 +515,7 @@ $(function ($) {
 			      			}
 		      			}
 		         	}
-			   	});
+			   	});*/
 			},
 			onSave : function(){
 				$.IGRP.targets['submit'].action = function(p){

@@ -555,7 +555,7 @@ $.fn.separatorList = function(o){
 		var checkOpenDialog = function(sl){
 			
 			if(sl.isDialog){
-
+				
 				if(ichange){
 
 					var name = $.isArray(ichange) ? ichange[ichange.length-1] : ichange;

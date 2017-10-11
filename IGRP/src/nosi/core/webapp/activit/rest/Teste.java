@@ -16,6 +16,7 @@ import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.TextField;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 
@@ -69,13 +70,19 @@ public class Teste{
 //		return new TextField(null, name);
 //	}
 	public static void main(String[] args){
-		TaskService task = new TaskService();
-		task.addVariable("n_filhos", "long",1);
-		if(task.completeTask("31653")){
-			System.out.println("ok");
-		}else{
-			System.err.println("task:"+task.getError());
-		}
+		
+		System.out.println(DateHelper.convertDate("11-10-2017", "dd-MM-yyyy", "dd-MM-yyyy h:mm"));
+//		TaskService task = new TaskService();
+//
+//		task.addVariable("customerName", "string","Customer Teste");
+//		task.addVariable("potentialProfit", "long",12);
+//		task.addVariable("details", "string","Teste");
+//		
+//		if(task.completeTask("5516")){
+//			System.out.println("ok");
+//		}else{
+//			System.err.println("task:"+task.getError());
+//		}
 		
 //		FormData formData = new FormData();
 //		formData.setTaskId("5516");

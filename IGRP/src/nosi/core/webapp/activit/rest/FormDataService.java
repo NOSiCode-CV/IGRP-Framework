@@ -88,10 +88,11 @@ public class FormDataService {
 		}
 		ClientResponse response = RestRequestHelper.post("form/form-data", json.toString());
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==200){
+			if(response.getStatus()==200 || response.getStatus()==204){
 				return true;
 			}else{
+				String contentResp = response.getEntity(String.class);
+				System.err.println(contentResp);
 				this.setError((ResponseError) RestRequestHelper.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
