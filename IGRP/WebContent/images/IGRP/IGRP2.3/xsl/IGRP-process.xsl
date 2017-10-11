@@ -138,9 +138,7 @@
 		<xsl:if test="rows/content/js_validation">
 				<script src="{$path}/core/igrp/IGRP.rules.class.js"/>
 			 	<script>
-
 			 		var Arr = [];
-
 					<xsl:for-each select="rows/content/js_validation/row[ field != '' ]">
 				 		<xsl:variable name="event" select="event"/>
 				 		<xsl:variable name="field" select="field"/>
@@ -183,8 +181,7 @@
 
 					 				}
 					 			]
-					 		},'actionsList');
-				 		
+					 		},'actionsList');				 		
 				 	</xsl:for-each>
 
 				 	<xsl:for-each select="rows/content/js_validation/row[ field = '' ]">
@@ -194,7 +191,6 @@
 				</script>
 
 		</xsl:if>
-
 	</xsl:template>
 
 	<xsl:include href="tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>

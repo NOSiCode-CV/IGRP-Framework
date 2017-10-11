@@ -180,6 +180,7 @@ $(function(){
 
 				/* SELECT CHANGE */
 				$(document).on('change','.IGRP_change, [change="true"]',$.IGRP.components.form.change);
+				
 				$.IGRP.components.form.texteditor();
   			}
   		}

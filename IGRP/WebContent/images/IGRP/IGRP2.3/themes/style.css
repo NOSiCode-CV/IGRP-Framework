@@ -15,11 +15,12 @@ html.ready body{
 }
 
 body{
-  font-family: Roboto,sans-serif;
+    font-family: Roboto,sans-serif;
     color: #616a78;
     font-weight: 300;
     font-size: 13px;
-    background: #f3f5f7
+    background: #f3f5f7;
+    opacity: 0
 }
 body.fixed-nav{
   padding-top: 53px;
@@ -252,6 +253,20 @@ img{
 #igrp-top-menu>li>a:focus{
   background-color: rgba(0,0,0,.05);
   border-bottom-color: #fff;
+}
+
+#igrp-go-up{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 5px;
+    z-index: 99;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 10px;
 }
 
 /*
@@ -1179,17 +1194,15 @@ div[data-notify="container"].alert{
 .hidescroll{
   overflow: hidden !important;
 }
-.loading{
+body.loading{
   position: relative;
-  min-height: 70px;
 }
 
-.loading:after{
+body.loading:after{
   content:"";
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
-  border-radius:50%; 
   left: 0;
   top: 0;
   background: rgba(255,255,255,.85);

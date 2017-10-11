@@ -99,30 +99,6 @@ public class ExecucaoTarefas extends Model{
 	@RParam(rParamName = "p_estado_estatistica")
 	private String estado_estatistica;
 
-	private List<Table_estatistica> table_estatistica = new ArrayList<>();
-	public void setTable_estatistica(List<Table_estatistica> table_estatistica){
-		this.table_estatistica = table_estatistica;
-	}
-	public List<Table_estatistica> gettable_estatistica(){
-		return this.table_estatistica;
-	}
-
-	private List<Table_gerir_tarefas> table_gerir_tarefas = new ArrayList<>();
-	public void setTable_gerir_tarefas(List<Table_gerir_tarefas> table_gerir_tarefas){
-		this.table_gerir_tarefas = table_gerir_tarefas;
-	}
-	public List<Table_gerir_tarefas> gettable_gerir_tarefas(){
-		return this.table_gerir_tarefas;
-	}
-
-	private List<Table_disponiveis> table_disponiveis = new ArrayList<>();
-	public void setTable_disponiveis(List<Table_disponiveis> table_disponiveis){
-		this.table_disponiveis = table_disponiveis;
-	}
-	public List<Table_disponiveis> gettable_disponiveis(){
-		return this.table_disponiveis;
-	}
-
 	private List<Table__colaboradores> table__colaboradores = new ArrayList<>();
 	public void setTable__colaboradores(List<Table__colaboradores> table__colaboradores){
 		this.table__colaboradores = table__colaboradores;
@@ -137,6 +113,30 @@ public class ExecucaoTarefas extends Model{
 	}
 	public List<Table_minhas_tarefas> gettable_minhas_tarefas(){
 		return this.table_minhas_tarefas;
+	}
+
+	private List<Table_disponiveis> table_disponiveis = new ArrayList<>();
+	public void setTable_disponiveis(List<Table_disponiveis> table_disponiveis){
+		this.table_disponiveis = table_disponiveis;
+	}
+	public List<Table_disponiveis> gettable_disponiveis(){
+		return this.table_disponiveis;
+	}
+
+	private List<Table_gerir_tarefas> table_gerir_tarefas = new ArrayList<>();
+	public void setTable_gerir_tarefas(List<Table_gerir_tarefas> table_gerir_tarefas){
+		this.table_gerir_tarefas = table_gerir_tarefas;
+	}
+	public List<Table_gerir_tarefas> gettable_gerir_tarefas(){
+		return this.table_gerir_tarefas;
+	}
+
+	private List<Table_estatistica> table_estatistica = new ArrayList<>();
+	public void setTable_estatistica(List<Table_estatistica> table_estatistica){
+		this.table_estatistica = table_estatistica;
+	}
+	public List<Table_estatistica> gettable_estatistica(){
+		return this.table_estatistica;
 	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
@@ -462,139 +462,6 @@ public class ExecucaoTarefas extends Model{
 	}
 
 
-	public static class Table_estatistica{
-		private String n_processo_estat_tabela;
-		private String tipo_estatistica_tabela;
-		private String desc_tarefa_estat_tabela;
-		private String data_entrada_estat_tabela;
-		private String data_conclusao_estat_tabela;
-		public void setN_processo_estat_tabela(String n_processo_estat_tabela){
-			this.n_processo_estat_tabela = n_processo_estat_tabela;
-		}
-		public String getN_processo_estat_tabela(){
-			return this.n_processo_estat_tabela;
-		}
-
-		public void setTipo_estatistica_tabela(String tipo_estatistica_tabela){
-			this.tipo_estatistica_tabela = tipo_estatistica_tabela;
-		}
-		public String getTipo_estatistica_tabela(){
-			return this.tipo_estatistica_tabela;
-		}
-
-		public void setDesc_tarefa_estat_tabela(String desc_tarefa_estat_tabela){
-			this.desc_tarefa_estat_tabela = desc_tarefa_estat_tabela;
-		}
-		public String getDesc_tarefa_estat_tabela(){
-			return this.desc_tarefa_estat_tabela;
-		}
-
-		public void setData_entrada_estat_tabela(String data_entrada_estat_tabela){
-			this.data_entrada_estat_tabela = data_entrada_estat_tabela;
-		}
-		public String getData_entrada_estat_tabela(){
-			return this.data_entrada_estat_tabela;
-		}
-
-		public void setData_conclusao_estat_tabela(String data_conclusao_estat_tabela){
-			this.data_conclusao_estat_tabela = data_conclusao_estat_tabela;
-		}
-		public String getData_conclusao_estat_tabela(){
-			return this.data_conclusao_estat_tabela;
-		}
-
-	}
-	public static class Table_gerir_tarefas{
-		private String numero_processo_tabela;
-		private String tipo;
-		private String desc_tarefa;
-		private String atribuido_por;
-		private String atribuido_a;
-		private String data_entrada;
-		private String p_id;
-		
-		public void setNumero_processo_tabela(String numero_processo_tabela){
-			this.numero_processo_tabela = numero_processo_tabela;
-		}
-		public String getNumero_processo_tabela(){
-			return this.numero_processo_tabela;
-		}
-
-		public void setTipo(String tipo){
-			this.tipo = tipo;
-		}
-		public String getTipo(){
-			return this.tipo;
-		}
-
-		public void setDesc_tarefa(String desc_tarefa){
-			this.desc_tarefa = desc_tarefa;
-		}
-		public String getDesc_tarefa(){
-			return this.desc_tarefa;
-		}
-
-		public void setAtribuido_por(String atribuido_por){
-			this.atribuido_por = atribuido_por;
-		}
-		public String getAtribuido_por(){
-			return this.atribuido_por;
-		}
-
-		public void setAtribuido_a(String atribuido_a){
-			this.atribuido_a = atribuido_a;
-		}
-		public String getAtribuido_a(){
-			return this.atribuido_a;
-		}
-
-		public void setData_entrada(String data_entrada){
-			this.data_entrada = data_entrada;
-		}
-		public String getData_entrada(){
-			return this.data_entrada;
-		}
-		public String getP_id() {
-			return p_id;
-		}
-		public void setP_id(String p_id) {
-			this.p_id = p_id;
-		}
-
-	}
-	public static class Table_disponiveis{
-		private String tarefas_tabela_disponiveis;
-		private String categorias_processo_tabela_disponiveis;
-		private String data_entrada_tabela_disponiveis;
-		private String p_id;
-		public void setTarefas_tabela_disponiveis(String tarefas_tabela_disponiveis){
-			this.tarefas_tabela_disponiveis = tarefas_tabela_disponiveis;
-		}
-		public String getTarefas_tabela_disponiveis(){
-			return this.tarefas_tabela_disponiveis;
-		}
-
-		public void setCategorias_processo_tabela_disponiveis(String categorias_processo_tabela_disponiveis){
-			this.categorias_processo_tabela_disponiveis = categorias_processo_tabela_disponiveis;
-		}
-		public String getCategorias_processo_tabela_disponiveis(){
-			return this.categorias_processo_tabela_disponiveis;
-		}
-
-		public void setData_entrada_tabela_disponiveis(String data_entrada_tabela_disponiveis){
-			this.data_entrada_tabela_disponiveis = data_entrada_tabela_disponiveis;
-		}
-		public String getData_entrada_tabela_disponiveis(){
-			return this.data_entrada_tabela_disponiveis;
-		}
-		public String getP_id() {
-			return p_id;
-		}
-		public void setP_id(String p_id) {
-			this.p_id = p_id;
-		}
-
-	}
 	public static class Table__colaboradores{
 		private String nome_colab_tabela;
 		private String contacto_colab_tabela;
@@ -606,6 +473,7 @@ public class ExecucaoTarefas extends Model{
 		private String foto_colab_tabela;
 		private String param_colab_tabela;
 		private String p_id;
+		
 		public void setNome_colab_tabela(String nome_colab_tabela){
 			this.nome_colab_tabela = nome_colab_tabela;
 		}
@@ -674,15 +542,25 @@ public class ExecucaoTarefas extends Model{
 		public void setP_id(String p_id) {
 			this.p_id = p_id;
 		}
-
+		
 	}
 	public static class Table_minhas_tarefas{
+		private String n_tarefa_m;
 		private String tipo_tabela_minhas_tarefas;
 		private String desc_tarefa_tabela_minhas_tarefas;
 		private String atribuido_por_tabela_minhas_tarefas;
 		private String data_entrada_tabela_minhas_tarefas;
+		private String data_fim_m;
 		private String espera_tabela_minhas_tarefas;
 		private String p_id;
+		
+		public void setN_tarefa_m(String n_tarefa_m){
+			this.n_tarefa_m = n_tarefa_m;
+		}
+		public String getN_tarefa_m(){
+			return this.n_tarefa_m;
+		}
+
 		public void setTipo_tabela_minhas_tarefas(String tipo_tabela_minhas_tarefas){
 			this.tipo_tabela_minhas_tarefas = tipo_tabela_minhas_tarefas;
 		}
@@ -711,6 +589,13 @@ public class ExecucaoTarefas extends Model{
 			return this.data_entrada_tabela_minhas_tarefas;
 		}
 
+		public void setData_fim_m(String data_fim_m){
+			this.data_fim_m = data_fim_m;
+		}
+		public String getData_fim_m(){
+			return this.data_fim_m;
+		}
+
 		public void setEspera_tabela_minhas_tarefas(String espera_tabela_minhas_tarefas){
 			this.espera_tabela_minhas_tarefas = espera_tabela_minhas_tarefas;
 		}
@@ -723,7 +608,182 @@ public class ExecucaoTarefas extends Model{
 		public void setP_id(String p_id) {
 			this.p_id = p_id;
 		}
+		
+	}
+	public static class Table_disponiveis{
+		private String n_tarefa_d;
+		private String tarefas_tabela_disponiveis;
+		private String categorias_processo_tabela_disponiveis;
+		private String data_entrada_tabela_disponiveis;
+		private String data_fim_d;
+		private String p_id;
+		public void setN_tarefa_d(String n_tarefa_d){
+			this.n_tarefa_d = n_tarefa_d;
+		}
+		public String getN_tarefa_d(){
+			return this.n_tarefa_d;
+		}
 
+		public void setTarefas_tabela_disponiveis(String tarefas_tabela_disponiveis){
+			this.tarefas_tabela_disponiveis = tarefas_tabela_disponiveis;
+		}
+		public String getTarefas_tabela_disponiveis(){
+			return this.tarefas_tabela_disponiveis;
+		}
+
+		public void setCategorias_processo_tabela_disponiveis(String categorias_processo_tabela_disponiveis){
+			this.categorias_processo_tabela_disponiveis = categorias_processo_tabela_disponiveis;
+		}
+		public String getCategorias_processo_tabela_disponiveis(){
+			return this.categorias_processo_tabela_disponiveis;
+		}
+
+		public void setData_entrada_tabela_disponiveis(String data_entrada_tabela_disponiveis){
+			this.data_entrada_tabela_disponiveis = data_entrada_tabela_disponiveis;
+		}
+		public String getData_entrada_tabela_disponiveis(){
+			return this.data_entrada_tabela_disponiveis;
+		}
+
+		public void setData_fim_d(String data_fim_d){
+			this.data_fim_d = data_fim_d;
+		}
+		public String getData_fim_d(){
+			return this.data_fim_d;
+		}
+
+		public void setP_id(String p_id){
+			this.p_id = p_id;
+		}
+		public String getP_id(){
+			return this.p_id;
+		}
+
+	}
+	public static class Table_gerir_tarefas{
+		private String numero_processo_tabela;
+		private String n_tarefa_g;
+		private String tipo;
+		private String desc_tarefa;
+		private String atribuido_por;
+		private String atribuido_a;
+		private String data_entrada;
+		private String data_fim_g;
+		private String p_id;
+		
+		public void setNumero_processo_tabela(String numero_processo_tabela){
+			this.numero_processo_tabela = numero_processo_tabela;
+		}
+		public String getNumero_processo_tabela(){
+			return this.numero_processo_tabela;
+		}
+
+		public void setN_tarefa_g(String n_tarefa_g){
+			this.n_tarefa_g = n_tarefa_g;
+		}
+		public String getN_tarefa_g(){
+			return this.n_tarefa_g;
+		}
+
+		public void setTipo(String tipo){
+			this.tipo = tipo;
+		}
+		public String getTipo(){
+			return this.tipo;
+		}
+
+		public void setDesc_tarefa(String desc_tarefa){
+			this.desc_tarefa = desc_tarefa;
+		}
+		public String getDesc_tarefa(){
+			return this.desc_tarefa;
+		}
+
+		public void setAtribuido_por(String atribuido_por){
+			this.atribuido_por = atribuido_por;
+		}
+		public String getAtribuido_por(){
+			return this.atribuido_por;
+		}
+
+		public void setAtribuido_a(String atribuido_a){
+			this.atribuido_a = atribuido_a;
+		}
+		public String getAtribuido_a(){
+			return this.atribuido_a;
+		}
+
+		public void setData_entrada(String data_entrada){
+			this.data_entrada = data_entrada;
+		}
+		public String getData_entrada(){
+			return this.data_entrada;
+		}
+
+		public void setData_fim_g(String data_fim_g){
+			this.data_fim_g = data_fim_g;
+		}
+		public String getData_fim_g(){
+			return this.data_fim_g;
+		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
+		}
+		
+	}
+	public static class Table_estatistica{
+		private String n_processo_estat_tabela;
+		private String tipo_estatistica_tabela;
+		private String desc_tarefa_estat_tabela;
+		private String data_entrada_estat_tabela;
+		private String data_conclusao_estat_tabela;
+		private String p_id;
+		
+		public void setN_processo_estat_tabela(String n_processo_estat_tabela){
+			this.n_processo_estat_tabela = n_processo_estat_tabela;
+		}
+		public String getN_processo_estat_tabela(){
+			return this.n_processo_estat_tabela;
+		}
+
+		public void setTipo_estatistica_tabela(String tipo_estatistica_tabela){
+			this.tipo_estatistica_tabela = tipo_estatistica_tabela;
+		}
+		public String getTipo_estatistica_tabela(){
+			return this.tipo_estatistica_tabela;
+		}
+
+		public void setDesc_tarefa_estat_tabela(String desc_tarefa_estat_tabela){
+			this.desc_tarefa_estat_tabela = desc_tarefa_estat_tabela;
+		}
+		public String getDesc_tarefa_estat_tabela(){
+			return this.desc_tarefa_estat_tabela;
+		}
+
+		public void setData_entrada_estat_tabela(String data_entrada_estat_tabela){
+			this.data_entrada_estat_tabela = data_entrada_estat_tabela;
+		}
+		public String getData_entrada_estat_tabela(){
+			return this.data_entrada_estat_tabela;
+		}
+
+		public void setData_conclusao_estat_tabela(String data_conclusao_estat_tabela){
+			this.data_conclusao_estat_tabela = data_conclusao_estat_tabela;
+		}
+		public String getData_conclusao_estat_tabela(){
+			return this.data_conclusao_estat_tabela;
+		}
+		public String getP_id() {
+			return p_id;
+		}
+		public void setP_id(String p_id) {
+			this.p_id = p_id;
+		}
+
+		
 	}
 }
 /*-------------------------*/

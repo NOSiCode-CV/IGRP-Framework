@@ -239,6 +239,7 @@ var VARS = {
 			searcher.on('keyup','input',function(){
 
 				var word   = $(this).val(),
+
 					parent = $(this).parents('.gen-fa-setter');
 				
 				if(word.length > 0){
@@ -249,9 +250,9 @@ var VARS = {
 
 					$('.icon-search-result',parent).html('');
 
-					var items = $('.gen-fa-icon[rel*="'+word+'"]:not(.duplicated)',parent).clone().show();
+					var items = $('.gen-fa-icon[title*="'+word+'"]:not(.duplicated)',parent).clone().show();
 
-					$('.icon-search-result',parent).append(items)
+					$('.icon-search-result',parent).append(items);
 
 					$('.icon-search-result',parent).show();
 
@@ -267,10 +268,11 @@ var VARS = {
 			});
 
 			for(var c in fa){
+
 				var icons   = fa[c],
 					id      = 'gen-fa-'+c,
 					active  = idx == 0 ? 'active in' : '';
-					li 	    = $('<li rel="'+c+'" class="'+active+'"><a data-toggle="tab" href="#'+id+'">'+c+'</a></li>'),
+					li 	    = $('<li rel="'+icons.label+'" class="'+active+'"><a data-toggle="tab" href="#'+id+'">'+c+'</a></li>'),
 					content = $('<div id="'+id+'" class="tab-pane fade '+active+'"></div>');
 
 					for(var i in icons){
