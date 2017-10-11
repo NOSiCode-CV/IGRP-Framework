@@ -2548,7 +2548,7 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-					           		{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+									{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){

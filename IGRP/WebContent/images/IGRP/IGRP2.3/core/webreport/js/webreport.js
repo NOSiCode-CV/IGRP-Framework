@@ -484,6 +484,8 @@ $(function ($) {
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
+
+						console.log(e.value);
 					}
 				});
 

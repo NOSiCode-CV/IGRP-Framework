@@ -90,18 +90,18 @@ public class MapaProcessoController extends Controller {
 		
 		Field prm_file_name = new TextField(null,"prm_file_name");
 		prm_file_name.setLabel("Nome Ficheiro");
-		prm_file_name.propertie().add("rel", "prm_doc_list");
+		prm_file_name.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel("Nome Ficheiro");
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
 		prm_file_description.setLabel("Descrição");
-		prm_file_description.propertie().add("rel", "prm_doc_list");
+		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
 		prm_file_description_desc.setLabel("Descrição");
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel("Ficheiro");
 		prm_file.propertie().add("rel", "prm_doc_list");
-		prm_file.propertie().add("end", "true");
+		prm_file.propertie().add("end", "true").add("required", "true");
 		Field prm_file_desc = new FileField(null,"prm_file_desc");
 		prm_file_desc.setLabel("Ficheiro");
 		Field prm_doc_list_id = new TextField(null,"prm_doc_list_id");

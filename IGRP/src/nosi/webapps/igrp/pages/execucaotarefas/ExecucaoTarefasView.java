@@ -140,7 +140,7 @@ public class ExecucaoTarefasView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("DistribuiÃ§Ã£o de Tarefas");
+		sectionheader_1_text.setValue("Distribuição de Tarefas");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		gerir_tarefas = new TextField(model,"gerir_tarefas");
 		gerir_tarefas.setLabel("Gerir Tarefas");
@@ -151,7 +151,7 @@ public class ExecucaoTarefasView extends View {
 		
 		colaboradores.propertie().add("name","p_colaboradores").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-users").add("maxlength","50");
 		estatistica = new TextField(model,"estatistica");
-		estatistica.setLabel("EstatÃ­stica");
+		estatistica.setLabel("Estatística");
 		
 		estatistica.propertie().add("name","p_estatistica").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-line-chart").add("maxlength","50");
 		minhas_tarefas = new TextField(model,"minhas_tarefas");
@@ -159,15 +159,15 @@ public class ExecucaoTarefasView extends View {
 		
 		minhas_tarefas.propertie().add("name","p_minhas_tarefas").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-address-book-o").add("maxlength","50");
 		disponiveis = new TextField(model,"disponiveis");
-		disponiveis.setLabel("DisponÃ­veis");
+		disponiveis.setLabel("Disponíveis");
 		
 		disponiveis.propertie().add("name","p_disponiveis").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-calendar-check-o").add("maxlength","50");
 		organica_gerir_tarefa = new ListField(model,"organica_gerir_tarefa");
-		organica_gerir_tarefa.setLabel("OrgÃ¢nica");
+		organica_gerir_tarefa.setLabel("Orgânica");
 		
 		organica_gerir_tarefa.propertie().add("name","p_organica_gerir_tarefa").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_gerir_tarefa = new TextField(model,"numero_processo_gerir_tarefa");
-		numero_processo_gerir_tarefa.setLabel("NÂº Processo");
+		numero_processo_gerir_tarefa.setLabel("Nº Processo");
 		
 		numero_processo_gerir_tarefa.propertie().add("name","p_numero_processo_gerir_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_gerir_tarefa = new ListField(model,"tipo_processo_gerir_tarefa");
@@ -191,11 +191,11 @@ public class ExecucaoTarefasView extends View {
 		
 		pesquisa_gerir_tarefa.propertie().add("name","p_pesquisa_gerir_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		organica_colaborador = new ListField(model,"organica_colaborador");
-		organica_colaborador.setLabel("Orgï¿½nica");
+		organica_colaborador.setLabel("Orgânica");
 		
 		organica_colaborador.propertie().add("name","p_organica_colaborador").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_colaborador = new TextField(model,"numero_processo_colaborador");
-		numero_processo_colaborador.setLabel("Nï¿½mero Processo");
+		numero_processo_colaborador.setLabel("Nº Processo");
 		
 		numero_processo_colaborador.propertie().add("name","p_numero_processo_colaborador").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_colaborador = new ListField(model,"tipo_processo_colaborador");
@@ -235,7 +235,7 @@ public class ExecucaoTarefasView extends View {
 		
 		media_tempo_view_estatistica.propertie().add("name","p_media_tempo_view_estatistica").add("type","text").add("maxlength","30");
 		posicao_ranking_view_estatistica = new TextField(model,"posicao_ranking_view_estatistica");
-		posicao_ranking_view_estatistica.setLabel("Posiï¿½ï¿½o Ranking");
+		posicao_ranking_view_estatistica.setLabel("Posição Ranking");
 		
 		posicao_ranking_view_estatistica.propertie().add("name","p_posicao_ranking_view_estatistica").add("type","text").add("maxlength","30");
 		view_estatistica_img = new TextField(model,"view_estatistica_img");
@@ -243,11 +243,11 @@ public class ExecucaoTarefasView extends View {
 		
 		view_estatistica_img.propertie().add("type","text").add("name","p_view_estatistica_img").add("maxlength","300");
 		organica_minhas_tarefas = new ListField(model,"organica_minhas_tarefas");
-		organica_minhas_tarefas.setLabel("OrgÃ¡nica");
+		organica_minhas_tarefas.setLabel("Orgânica");
 		
 		organica_minhas_tarefas.propertie().add("name","p_organica_minhas_tarefas").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_minhas_tarefas = new TextField(model,"numero_processo_minhas_tarefas");
-		numero_processo_minhas_tarefas.setLabel("NÂº Processo");
+		numero_processo_minhas_tarefas.setLabel("Nº Processo");
 		
 		numero_processo_minhas_tarefas.propertie().add("name","p_numero_processo_minhas_tarefas").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_minhas_tarefas = new ListField(model,"tipo_processo_minhas_tarefas");
@@ -271,11 +271,11 @@ public class ExecucaoTarefasView extends View {
 		
 		pesquisa_minhas_tarefas.propertie().add("name","p_pesquisa_minhas_tarefas").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		organica_form_disponiveis = new ListField(model,"organica_form_disponiveis");
-		organica_form_disponiveis.setLabel("OrgÃ¢nica");
+		organica_form_disponiveis.setLabel("Orgânica");
 		
 		organica_form_disponiveis.propertie().add("name","p_organica_form_disponiveis").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		numero_processo_form_disponiveis = new TextField(model,"numero_processo_form_disponiveis");
-		numero_processo_form_disponiveis.setLabel("NÂº Processo");
+		numero_processo_form_disponiveis.setLabel("Nº Processo");
 		
 		numero_processo_form_disponiveis.propertie().add("name","p_numero_processo_form_disponiveis").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_processo_form_disponiveis = new ListField(model,"tipo_processo_form_disponiveis");
@@ -359,7 +359,7 @@ public class ExecucaoTarefasView extends View {
 		
 		param_colab_tabela.propertie().add("name","p_param_colab_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		n_tarefa_m = new TextField(model,"n_tarefa_m");
-		n_tarefa_m.setLabel("NÂº de Tarefa");
+		n_tarefa_m.setLabel("Nº de Tarefa");
 		
 		n_tarefa_m.propertie().add("name","p_n_tarefa_m").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		tipo_tabela_minhas_tarefas = new TextField(model,"tipo_tabela_minhas_tarefas");
@@ -387,7 +387,7 @@ public class ExecucaoTarefasView extends View {
 		
 		espera_tabela_minhas_tarefas.propertie().add("name","p_espera_tabela_minhas_tarefas").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		n_tarefa_d = new TextField(model,"n_tarefa_d");
-		n_tarefa_d.setLabel("NÂº de Tarefa");
+		n_tarefa_d.setLabel("Nº de Tarefa");
 		
 		n_tarefa_d.propertie().add("name","p_n_tarefa_d").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		tarefas_tabela_disponiveis = new TextField(model,"tarefas_tabela_disponiveis");
@@ -411,11 +411,11 @@ public class ExecucaoTarefasView extends View {
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
 		numero_processo_tabela = new TextField(model,"numero_processo_tabela");
-		numero_processo_tabela.setLabel("NÂº mero Processo");
+		numero_processo_tabela.setLabel("Nº mero Processo");
 		
 		numero_processo_tabela.propertie().add("name","p_numero_processo_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		n_tarefa_g = new TextField(model,"n_tarefa_g");
-		n_tarefa_g.setLabel("NÂº de Tarefa");
+		n_tarefa_g.setLabel("Nº de Tarefa");
 		
 		n_tarefa_g.propertie().add("name","p_n_tarefa_g").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		tipo = new TextField(model,"tipo");
@@ -459,7 +459,7 @@ public class ExecucaoTarefasView extends View {
 		
 		data_entrada_estat_tabela.propertie().add("name","p_data_entrada_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		data_conclusao_estat_tabela = new TextField(model,"data_conclusao_estat_tabela");
-		data_conclusao_estat_tabela.setLabel("Data Conclusï¿½o");
+		data_conclusao_estat_tabela.setLabel("Data Conclusão");
 		
 		data_conclusao_estat_tabela.propertie().add("name","p_data_conclusao_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
