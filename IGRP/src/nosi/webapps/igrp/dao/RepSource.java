@@ -333,13 +333,6 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		if(value_array==null || value_array.length<=0){
 			query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
 		}
-		if(name_array!=null && name_array.length >0){
-			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
-			for(String name:name_array){
-				String column_name = name.contains("p_")?name.substring(2, name.length()):name;
-				query += " AND "+column_name+"=:"+name;
-			}
-		}
 		String xml = null;
 		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> /*name_array[i].contains("p_")?name_array[i].substring("p_".length()):*/name_array[i], i -> value_array[i])):null;
 		EntityManager em = this.entityManagerFactory.createEntityManager();
@@ -349,7 +342,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			Query q = em.createNativeQuery(query);
 			if(value_array!=null && value_array.length>0){
 				for(Parameter<?> param:q.getParameters()){
-					q.setParameter(param.getName(), paramsUrl.get(param.getName().toLowerCase()));
+					q.setParameter(param.getName(), paramsUrl.get(param.getName()));
 				}
 			}	
 			@SuppressWarnings("unchecked")

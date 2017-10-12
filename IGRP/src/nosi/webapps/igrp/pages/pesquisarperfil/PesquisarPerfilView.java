@@ -76,7 +76,7 @@ public class PesquisarPerfilView extends View {
 		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarPerfil","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
 		
-		btn_novo = new IGRPButton("Novo","igrp","NovoPerfil","index","_self","success|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp","NovoPerfil","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		

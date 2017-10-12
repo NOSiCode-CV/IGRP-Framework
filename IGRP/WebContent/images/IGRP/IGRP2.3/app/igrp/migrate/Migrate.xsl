@@ -6,10 +6,12 @@
             <head>
                 <xsl:call-template name="IGRP-head"/>
                 <!-- TOOLSBAR CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css"/>
+                <!-- FORM CSS INCLUDES -->
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
                 <!-- SELECT CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -20,23 +22,10 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row row-msg">
+                                    <div class="row" id="row-83fb3dab">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row " id="row-039af1fa">
-                                        <div class="gen-column col-md-12">
-                                            <div class="gen-inner">
-                                                <xsl:if test="rows/content/sectionheader_1">
-                                                    <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
-                                                        <h2>
-                                                            <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
-                                                        </h2>
-                                                    </section>
-                                                </xsl:if>
                                                 <xsl:if test="rows/content/toolsbar_1">
                                                     <div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder a.btn" gen-class="" item-name="toolsbar_1">
                                                         <div class="btns-holder  pull-right" role="group">
@@ -181,16 +170,16 @@
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
                 <!-- FORM JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
                 <!-- SELECT JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1507121230162"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1507121230162"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1507121230162"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1507121230162"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1507121230163"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1504571573285"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1504571573285"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1504571573285"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1504571573285"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1504571573285"/>
 </xsl:stylesheet>

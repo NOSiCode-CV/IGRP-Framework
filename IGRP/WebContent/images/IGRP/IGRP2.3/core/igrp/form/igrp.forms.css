@@ -77,10 +77,6 @@ select.form-control.select2+span.select2-container{
 	cursor:pointer;
 }
 
-.input-group-btn .btn:after{
-	content:"";
-}
-
 .buttonBar { 
 	text-align: right;
 	padding: relative;

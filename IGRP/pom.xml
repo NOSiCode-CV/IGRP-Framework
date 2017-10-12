@@ -34,6 +34,23 @@
 	    <artifactId>postgresql</artifactId>
 	    <version>42.1.1</version>
 	</dependency>
+
+	<!-- https://search.maven.org/#search%7Cga%7C1%7Corg.apache.oltu -->
+	<dependency>
+		<groupId>org.apache.oltu.oauth2</groupId>
+		<artifactId>org.apache.oltu.oauth2.common</artifactId>
+		<version>1.0.2</version>
+    </dependency>
+    <dependency>
+		<groupId>org.apache.oltu.oauth2</groupId>
+		<artifactId>org.apache.oltu.oauth2.authzserver</artifactId>
+		<version>1.0.2</version>
+    </dependency>
+    <dependency>
+		<groupId>org.apache.oltu.oauth2</groupId>
+		<artifactId>org.apache.oltu.oauth2.resourceserver</artifactId>
+		<version>1.0.2</version>
+    </dependency>
     
 	<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 	<dependency>

@@ -36,7 +36,6 @@ public class TaskService extends Activit{
 	private List<TaskVariables> variables;
 	
 	public TaskService() {
-		this.variables = new ArrayList<>();
 	}
 	
 	public TaskService getTask(String id){
@@ -140,15 +139,10 @@ public class TaskService extends Activit{
 	
 	//Completar Tarefa
 	public boolean completeTask(String id,List<TaskVariables> variables){
-		this.variables = variables;
-		return this.completeTask(id);
-	}
-	
-	public boolean completeTask(String id) {
 		JSONObject jobj = new JSONObject();
 		try {
 			jobj.put("action" ,"complete");
-			jobj.put("variables", this.variables);
+			jobj.put("variables", variables);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -159,19 +153,6 @@ public class TaskService extends Activit{
 			return response.getStatus()==200;
 		}
 		return false;
-	}
-
-	//Adiciona variaveis para completar tarefa
-	public void addVariable(String name, String scope, String type, Object value, String valueUrl){
-		this.variables.add(new TaskVariables(name, scope, type, value, valueUrl));
-	}
-
-	public void addVariable(String name, String scope, String type, Object value){
-		this.variables.add(new TaskVariables(name, scope, type, value, ""));
-	}
-
-	public void addVariable(String name, String type, Object value){
-		this.variables.add(new TaskVariables(name, "local", type, value, ""));
 	}
 	
 	private boolean taskAction(String id,String action,String assignee){

@@ -2,63 +2,6 @@
 	if($ && $.IGRP){
 
 		$.IGRP.utils = {
-
-			url : {
-
-				getParams : function (url) {
-
-				 	var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
-				  		obj 				= {};
-
-				  if (queryString) {
-
-				    queryString = queryString.split('#')[0];
-
-				    var arr = queryString.split('&');
-
-				    for (var i=0; i<arr.length; i++) {
-				      var a = arr[i].split('=');
-
-				      var paramNum = undefined;
-				      var paramName = a[0].replace(/\[\d*\]/, function(v) {
-				        paramNum = v.slice(1,-1);
-				        return '';
-				      });
-
-				      var paramValue = typeof(a[1])==='undefined' ? true : a[1];
-
-				      paramName = paramName.toLowerCase();
-				      paramValue = paramValue.toLowerCase();
-
-				      if (obj[paramName]) {
-				        if (typeof obj[paramName] === 'string') {
-				          obj[paramName] = [obj[paramName]];
-				        }
-				        if (typeof paramNum === 'undefined') {
-				          obj[paramName].push(paramValue);
-				        }
-				        else {
-				          obj[paramName][paramNum] = paramValue;
-				        }
-				      }
-				      else {
-				        obj[paramName] = paramValue;
-				      }
-				    }
-				  }
-
-				  return obj;
-				},
-
-				getParam : function(name){
-					
-					var all = $.IGRP.utils.url.getParams();
-
-					return all[name] || null;
-
-				}
-
-			},
 			
 			openWin:function(p){
 
@@ -76,6 +19,7 @@
 
 				return false;
 			},
+
 			openChartURL : function(pObj){
 				if (pObj.pUrl != null && pObj.pUrl != '') {
 					
@@ -90,6 +34,7 @@
 
 				}
 			},
+
 			getForm:function(){
 				return $('form.IGRP-form');
 			},
@@ -121,68 +66,6 @@
 				}
 				return null;
 			},
-
-			setFieldValue:function(tag,value){
-			
-				var formElement = $('[name="p_'+tag+'"]'),
-
-					parent  	= $(formElement.parents('[item-name]')[0]);
-				
-				if( parent[0] ){
-
-					var type = parent.attr('item-type');
-					
-					switch(type){
-
-						case 'select':
-
-							if(formElement.is('[multiple]'))
-
-								value = value.split('|');
-
-							formElement.val(value);
-
-						break;
-
-						case 'checkboxlist':
-
-							var vArr = value.split('|');
-
-							vArr.forEach(function(v){
-
-								formElement.filter('[value="'+v+'"]').prop('checked',true);
-
-							});
-
-						break;
-
-						case 'radiolist':
-
-							formElement.filter('[value="'+value+'"]').prop('checked',true);
-
-						break;
-
-						case 'checkbox':
-						case 'radio':
-							
-							var checked = value == 1;
-
-							formElement.prop('checked', checked)
-
-						break;
-
-						default:
-
-							formElement.val(value);
-
-					}
-
-					formElement.trigger('change');
-
-				}
-
-			},
-
 			clearSubmittables:function(){
 				$('.submittable').removeClass('submittable');
 			},

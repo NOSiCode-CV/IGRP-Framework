@@ -90,7 +90,7 @@ public class SettingsView extends View {
 		receber_notificacao.propertie().add("name","p_receber_notificacao").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_aplicar = new IGRPButton("Aplicar","igrp","settings","index","submit","success|fa-check","","");
+		btn_aplicar = new IGRPButton("Aplicar","igrp","settings","index","submit","default|fa-check","","");
 		btn_aplicar.propertie.add("type","specific").add("code","").add("rel","guardar");
 		
 	}

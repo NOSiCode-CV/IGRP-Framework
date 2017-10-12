@@ -517,26 +517,17 @@
               </xsl:if>
             }
 
-            [active-bg-color="<xsl:value-of select="@name"/>"].active{
-              background-color:<xsl:value-of select="."/>!important;
-              <xsl:if test="@text-color">
-                color: <xsl:value-of select="@text-color"/>!important;
-              </xsl:if>
-            }
-
-            [style-listener="true"].active [active-bg-color="<xsl:value-of select="@name"/>"]{
-              background-color : <xsl:value-of select="."/>!important;
-            }
-
             <xsl:if test="@bg-hover">
               [bg-hover="<xsl:value-of select="@name"/>"]:hover{
                 background-color:<xsl:value-of select="@bg-hover"/>;
               }
             </xsl:if>
+
            
             [border-color="<xsl:value-of select="@name"/>"]{
               border-color:<xsl:value-of select="@border-hover"/>;
             }
+    
             
             [text-color="<xsl:value-of select="@name"/>"]{
               color:<xsl:value-of select="."/>;

@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.migrate;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
-
 public class Migrate extends Model{		
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
@@ -19,8 +18,6 @@ public class Migrate extends Model{
 	private String username;
 	@RParam(rParamName = "p_password")
 	private String password;
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -69,13 +66,6 @@ public class Migrate extends Model{
 	}
 	public String getPassword(){
 		return this.password;
-	}
-	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
-	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
 	}
 
 

@@ -132,6 +132,7 @@ $(function(){
   				
   				var target   = o.target,
   					scrollTo = '#id'+$(target).attr('name');
+  					//value 	 = target.value ? target.value : target.val();
 
   				$.IGRP.components.form.novalidate();
 

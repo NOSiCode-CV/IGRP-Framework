@@ -60,12 +60,12 @@
                                         </span>
                                         <xsl:choose>
                                             <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                                     <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                 </a>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                               <span class="form-link"><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                               <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </div>
@@ -92,12 +92,12 @@
                                                                     </span>
                                                                     <xsl:choose>
                                                                         <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                                            <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                                            <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                                                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                                             </a>
                                                                         </xsl:when>
                                                                         <xsl:otherwise>
-                                                                           <span class="form-link"><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                                                           <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
                                                                         </xsl:otherwise>
                                                                     </xsl:choose>
                                                                 </div>
@@ -116,7 +116,7 @@
                                                                 </div>
                                                             </xsl:when>
                                                             <xsl:otherwise>
-                                                               <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                               <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                                                     <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                                                     <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                                 </a> 
@@ -143,19 +143,19 @@
                                                 </span>
                                                 <xsl:choose>
                                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                        <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                                             <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                         </a>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                       <span class="form-link"><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                                       <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
                                                     </xsl:otherwise>
                                                 </xsl:choose>
                                             </div>
                                             <div class="list-holder" id="list-{$id}"></div>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                            <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                                 <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                             </a> 
@@ -217,12 +217,12 @@
                                 </span>
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                        <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                             <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                         </a>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                       <span class="form-link"><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                       <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </div>
@@ -241,7 +241,7 @@
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                            <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
                                 <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                             </a>
