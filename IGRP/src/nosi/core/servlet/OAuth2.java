@@ -467,7 +467,7 @@ public class OAuth2 extends HttpServlet {
 					throw new RuntimeException("ClientId Inválido para o utilizador");
 				
 				if(!authClient.getGrant_types().equalsIgnoreCase(response_type.equalsIgnoreCase("code") ? "authorization_code" : ""))
-					throw new RuntimeException("ResponseType inválido");
+					throw new RuntimeException("ResponseType inválido"); 
 				
 				OAuthorizationCode authorizationCode = new OAuthorizationCode();
 				
