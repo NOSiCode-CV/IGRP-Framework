@@ -172,7 +172,29 @@ public class WebReportController extends Controller {
 		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
 	}
 	
+<<<<<<< HEAD
 
+=======
+	//Faz previsualizacao de report usando a contra senha
+	public Response actionGetLinkReport() throws IOException{
+		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
+		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
+		String xml = "";
+		if(rt!=null){
+			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+			//Iterate data source per template
+			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
+				xml += this.getData(rep,name_array,value_array);
+			}
+			xml = this.genXml(xml,rt);
+		}
+		this.format = Response.FORMAT_XML;
+		return this.renderView(xml);
+	}
+	
+	//Faz previsualizacao de report sem usar contra senha
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -191,7 +213,12 @@ public class WebReportController extends Controller {
 		/*---- End ----*/
 	}
 	
+<<<<<<< HEAD
 	private String getData(RepTemplateSource rep) {
+=======
+	
+	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		String type = rep.getRepSource().getType().toLowerCase();
 		switch (type) {
 			case "object":

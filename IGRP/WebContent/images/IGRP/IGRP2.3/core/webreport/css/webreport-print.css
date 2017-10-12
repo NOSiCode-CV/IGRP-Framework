@@ -1,6 +1,6 @@
 body {
-  -webkit-print-color-adjust:exact;
-  background-color: rgb(204,204,204);
+  -webkit-print-color-adjust: exact;
+  background: rgb(204,204,204);
   text-align: justify;
 }
 
@@ -38,10 +38,16 @@ div[size="A7"]{
   background: white;
   display: block;
   margin: 5mm auto;
-  box-shadow: 0 .5mm 2mm rgba(0,0,0,0.5);
+  box-shadow:0 0 0.5cm rgba(0,0,0,0.5);
   position: relative;
   font-size: 12pt;
   font-family:"Times New Roman";
+}
+
+.page .content{
+  padding: 10px 20px 130px 20px;
+  display: block;
+  margin-bottom: 60px;
 }
 
 .wrap{
@@ -50,6 +56,90 @@ div[size="A7"]{
   position: relative;
 }
 
+<<<<<<< HEAD
+=======
+.footer{
+  position: absolute;
+  bottom: 0;
+}
+
+.noprint{
+  display: block;
+  height:60px; 
+}
+
+.lfooter, .rfooter{
+  display: inline-block;
+  border-bottom:60px solid #267199;
+  position: relative;
+}
+.lfooter{
+  width: 10px;
+}
+.rfooter{
+  width:673.5px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0){ 
+  .rfooter{ width:667px; } 
+}
+
+#containerQrcode{
+  display: inline-block; 
+  padding:5px; 
+  width: 100px; 
+  height: 100px;
+}
+
+.contraProva{
+  padding: 0 10px;
+  font-size: 16px;
+  position: absolute;
+  bottom: -58px;
+}
+.contraProva .label{
+  text-transform:uppercase; 
+  text-align: left; 
+  color: #faf7f7;
+}
+.contraProva .val{
+  color: #000; 
+  font-size: 18px;
+}
+.userprint{
+  font-size: 11px; 
+  color: #faf7f7;
+  right: 5px;
+  bottom: -55px;
+  position: absolute;
+}
+.userprint span{
+  padding: 0 5px
+}
+
+table{
+  width: 100%;
+  border-top:1px solid #ddd;
+  border-right:1px solid #ddd;
+  border-spacing: 0;
+  display: block;
+}
+
+table tbody tr:nth-of-type(odd) {
+    background-color: #fbfcfc;
+}
+
+table th, table td{
+  padding: 8px 5px;
+  vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-spacing: 0;
+  width: auto;
+}
+
+
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 /*.fixed{
   position: absolute;
   left: 1cm;

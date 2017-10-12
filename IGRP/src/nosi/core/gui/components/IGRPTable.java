@@ -189,4 +189,15 @@ public class IGRPTable extends IGRPComponent{
 		this.rows = rows;
 	}
 	
+	//Para formato de xml 2.1
+	public String getDoc_list(){
+		this.xml.startElement("table");
+			this.xml.startElement("prm_doc_list");
+				this.xml.writeAttribute("type", "separatordialog");
+				this.xml.writeAttribute("container", "true");
+				GenXMLField.toXmlV21(this.xml,this.fields);
+			this.xml.endElement();
+		this.xml.endElement();
+		return this.xml.toString();
+	}
 }

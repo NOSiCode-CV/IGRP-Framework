@@ -220,6 +220,12 @@
 
 		},
 
+		scrollTo:function(name){
+			
+			console.log(name);
+			
+		},
+
 		config:function(){
 
 			var app  = $('body').attr('app'),
@@ -230,6 +236,15 @@
 
 			$.IGRP.info.page = page ? page.replaceAll(' ','_') : null;
 
+<<<<<<< HEAD
+=======
+			$.IGRP.info.params = $.IGRP.utils.url.getParams();
+
+			if( $.IGRP.info.params.ichange )
+
+				$.IGRP.scrollTo( $.IGRP.info.params.ichange );
+
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');
@@ -237,6 +252,9 @@
 			});
 
 			$('html').addClass('ready');
+
+			$('body').removeClass('loading');
+			
 		},
 		
 		init:function(){

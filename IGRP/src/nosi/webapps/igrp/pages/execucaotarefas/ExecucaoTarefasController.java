@@ -10,20 +10,22 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
+import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-/*---- End ----*/
 import java.util.HashMap;
+/*---- End ----*/
 
 public class ExecucaoTarefasController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(), "id", "name", "--- Selecionar Processo ---");
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, "--- Escolher Prioridade ---");
@@ -36,7 +38,6 @@ public class ExecucaoTarefasController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
-//			model
 			objTask.setFilter(model.getPrioridade_colaborador());
 		}
 		
@@ -50,7 +51,9 @@ public class ExecucaoTarefasController extends Controller {
 			t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setNumero_processo_tabela(task.getProcessDefinitionId());
 			t.setP_id(task.getId());
+			t.setN_tarefa_g(task.getId());
 			t.setTipo(task.getCategory());
+			t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
 			taskManage.add(t);
 		}
 
@@ -63,6 +66,8 @@ public class ExecucaoTarefasController extends Controller {
 			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setTipo_tabela_minhas_tarefas(task.getCategory());
 			t.setP_id(task.getId());
+			t.setN_tarefa_m(task.getId());
+			t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
 			myTasks.add(t);
 		}
 		
@@ -72,6 +77,8 @@ public class ExecucaoTarefasController extends Controller {
 			t.setCategorias_processo_tabela_disponiveis(task.getCategory());
 			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
 			t.setP_id(task.getId());
+			t.setN_tarefa_d(task.getId());
+			t.setData_fim_d(task.getDueDate()!=null?task.getDueDate().toString():"");
 			t.setTarefas_tabela_disponiveis(task.getDescription()!=null?task.getDescription():task.getName());
 			tasksDisponiveis.add(t);
 		}
@@ -109,143 +116,222 @@ public class ExecucaoTarefasController extends Controller {
 		view.btn_transferir_tarefa.setLink("index");
 		view.btn_transferir_tarefa.setPage("Transferir_tarefas");
 		return this.renderView(view);
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 
 
 	public Response actionPesquisar_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_colaborador() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_minhas_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_disponiveis() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionTransferir_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionDetalhes_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionDetalhes_processo() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionAlterar_prioridade_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/
-		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
-	}
-	
-
-	public Response actionAssumir_button_tabela() throws IOException{
-		/*---- Insert your code here... ----*/
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			String id = Igrp.getInstance().getRequest().getParameter("p_id");
-			TaskService task = new TaskService();
-			if(task.claimTask(id, this.getUser().getUser_name())){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa assumido com sucesso");
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta opera��o");				
-			}
-		}
-		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionVer_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionVer_detalhes() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionEnviar_msg() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionExecutar_button_minha_tarefas() throws IOException{
+		/*---- Insert your code here... ----*/		
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		/*---- Insert your code here... ----*/
 		return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionDetalhes_processos_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		return this.redirect("igrp","execucaotarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 
 	public Response actionLeberar_tarefa_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			TaskService task = new TaskService();
 			if(task.freeTask(id)){
 				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa liberada com sucesso");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta opera��o");				
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
 			}
 		}
 		return this.redirect("igrp","ExecucaoTarefas","index");
-		/*---- End ----*/
+			/*---- End ----*/
+	}
+	
+
+	public Response actionAssumir_button_tabela() throws IOException{
+		/*---- Insert your code here... ----*/		
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+			TaskService task = new TaskService();
+			if(task.claimTask(id, this.getUser().getUser_name())){
+				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa assumido com sucesso");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+			}
+		}
+		return this.redirect("igrp","ExecucaoTarefas","index");
+			/*---- End ----*/
+	}
+	
+
+	public Response actionTransferir_tarefa() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("igrp","execucaotarefas","index");
+			/*---- End ----*/
+	}
+	
+
+	public Response actionDetalhes_tarefa() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("igrp","execucaotarefas","index");
+			/*---- End ----*/
+	}
+	
+
+	public Response actionDetalhes_processo() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("igrp","execucaotarefas","index");
+			/*---- End ----*/
+	}
+	
+
+	public Response actionAlterar_prioridade_tarefa() throws IOException{
+		/*---- Insert your code here... ----*/		
+		return this.redirect("igrp","execucaotarefas","index");
+			/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*/
 	private User getUser(){
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
+<<<<<<< HEAD
+=======
+	
+	public Response actionProcessTask() throws IOException{
+		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
+		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");			
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("messages");
+		xml.startElement("message");
+		boolean result = false;
+		String url = "";
+		if(taskId!=null && !taskId.equals("")){
+			result = this.processTask(taskId);
+			url = "&taskId="+taskId;
+		}
+		if(processDefinitionId!=null && !processDefinitionId.equals("")){
+			result = this.processStartEvent(processDefinitionId);
+			url = "&p_processId="+processDefinitionId;
+		}
+		if(result){
+			xml.writeAttribute("type", "success");
+			xml.text("Operação efetuada com sucesso");
+		}else{
+			xml.writeAttribute("type", "error");
+			xml.text("Operação falhada! ");
+		}
+		xml.endElement();
+		xml.endElement();
+		return this.redirect("igrp", "MapaProcesso", "open-process"+url);
+	}
+	
+	private Object getValue(String type,String name){
+		Object value = Igrp.getInstance().getRequest().getParameter("p_"+name.toLowerCase());
+		switch (type) {
+			case "date":
+				return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
+			case "long":
+				return Long.parseLong(value.toString());
+			case "boolean":
+				return value.toString().equals("1");
+			case "enum":
+			case "string":
+				return value.toString();
+		}
+		return null;
+	}
+	
+	//Executa uma tarefa
+	private boolean processTask(String p_prm_taskid){
+		FormDataService formData = new FormDataService();
+		FormDataService properties = null;
+		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
+			formData.setTaskId(p_prm_taskid);
+			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
+			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
+				for(FormProperties prop:properties.getFormProperties()){
+					formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
+				}
+			}
+		}
+		return (p_prm_taskid!=null && !p_prm_taskid.equals(""))?formData.submitFormByTask():false;
+	}
+	
+	//Inicia tarefa de um processo
+	private boolean processStartEvent(String processDefinitionId){
+		FormDataService formData = new FormDataService();
+		FormDataService properties = null;
+		if(processDefinitionId!=null && !processDefinitionId.equals("")){
+			formData.setProcessDefinitionId(processDefinitionId);
+			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
+			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
+				for(FormProperties prop:properties.getFormProperties()){
+					formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
+				}
+			}
+		}
+		return (processDefinitionId!=null && !processDefinitionId.equals(""))?formData.submitFormByProcessDenifition():false;
+	}
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	/*---- End ----*/
 }

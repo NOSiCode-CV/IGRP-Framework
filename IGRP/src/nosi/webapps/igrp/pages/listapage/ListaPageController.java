@@ -6,6 +6,7 @@
 package nosi.webapps.igrp.pages.listapage;
 /*---- Import your packages here... ----*/
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -55,4 +56,20 @@ public class ListaPageController extends Controller {
 		
 		return this.renderView(view);
 	}
+<<<<<<< HEAD
+=======
+
+	public Response actionExport() throws IOException{
+		/*---- Insert your code here... ----*/	
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(id != null && !id.equals("")) {
+			Action pagina = new Action().findOne(id);
+			String caminho = Config.getWorkspace().replace("\\", "/") +"/"+ pagina.getPackage_name().replace(".", "/");
+			
+		}
+		
+		return this.redirect("igrp","ListaPage","index");
+			/*---- End ----*/
+	}
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 }

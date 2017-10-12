@@ -552,6 +552,27 @@ $.fn.separatorList = function(o){
 			},true);
 		};
 
+<<<<<<< HEAD
+=======
+		var checkOpenDialog = function(sl){
+			
+			if(sl.isDialog){
+				
+				if(ichange){
+
+					var name = $.isArray(ichange) ? ichange[ichange.length-1] : ichange;
+
+					if( $('.splist-form [name="'+name+'"]',sl)[0] )
+						
+						openDialog(sl);
+
+				}
+
+			}
+
+		}
+
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		var setEvents = function(sl){
 
 			if($(sl).find('.splist-form').attr('validation-class') != 'false')

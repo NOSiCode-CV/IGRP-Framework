@@ -485,6 +485,8 @@
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
+
+						console.log(e.value);
 					}
 				});
 
@@ -494,7 +496,7 @@
 				console.log('-----------------');
 				console.log(p.fields);*/
 
-				$.IGRP.utils.submitStringAsFile({
+				/*$.IGRP.utils.submitStringAsFile({
 		      		pUrl    	: p.url,
 		      		pParam 		: {
 			        	pArrayFiles : p.file,
@@ -516,7 +518,7 @@
 			      			}
 		      			}
 		         	}
-			   	});
+			   	});*/
 			},
 			onSave : function(){
 				$.IGRP.targets['submit'].action = function(p){

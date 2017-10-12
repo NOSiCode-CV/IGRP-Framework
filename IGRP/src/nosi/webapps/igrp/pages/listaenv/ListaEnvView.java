@@ -60,6 +60,12 @@ public class ListaEnvView extends View {
 		
 		btn_eliminar = new IGRPButton("Eliminar","igrp","lista-env","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
+<<<<<<< HEAD
+=======
+		
+		btn_export = new IGRPButton("Export","igrp","ListaEnv","export","confirm","grey|fa-upload","","");
+		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	}
 		
 	@Override

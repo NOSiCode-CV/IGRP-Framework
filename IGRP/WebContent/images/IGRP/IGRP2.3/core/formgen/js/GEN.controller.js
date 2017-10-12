@@ -2520,7 +2520,6 @@ $('.form-gen-save').on('click',function(e){
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
-						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2545,7 +2544,11 @@ $('.form-gen-save').on('click',function(e){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+<<<<<<< HEAD
 				           			{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+=======
+									{ name:'p_package', value: GEN.SETTINGS.package}//pacote
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 					           	]
 					        },
 							pComplete   :function(xml,text,status){

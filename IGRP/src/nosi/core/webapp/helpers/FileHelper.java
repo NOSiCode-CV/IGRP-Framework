@@ -23,15 +23,30 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-
 import nosi.core.webapp.Igrp;
 
 
 public class FileHelper {
 
+	private static Map<String,String> files = new HashMap<>();
+	
+	public static Map<String,String> listFilesDirectory(String path) {
+		File folder = new File(path);
+	    for (final File fileEntry : folder.listFiles()) {
+	        if (fileEntry.isDirectory()) {
+	            return listFilesDirectory(fileEntry.toString());
+	        } else {
+	        	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+	        }
+	    }
+	    return files;
+	}
+
+	
 	//COnverte file to string
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){

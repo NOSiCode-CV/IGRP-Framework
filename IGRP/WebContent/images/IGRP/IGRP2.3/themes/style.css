@@ -15,11 +15,12 @@ html.ready body{
 }
 
 body{
-  font-family: Roboto,sans-serif;
+    font-family: Roboto,sans-serif;
     color: #616a78;
     font-weight: 300;
     font-size: 13px;
-    background: #f3f5f7
+    background: #f3f5f7;
+    opacity: 0
 }
 body.fixed-nav{
   padding-top: 53px;
@@ -1176,14 +1177,13 @@ div[data-notify="container"].alert{
 .hidescroll{
   overflow: hidden !important;
 }
-.loading{
+body.loading{
   position: relative;
-  min-height: 70px;
 }
 
-.loading:after{
+body.loading:after{
   content:"";
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%;
   left: 0;

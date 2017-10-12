@@ -426,6 +426,8 @@ public class OAuth2 extends HttpServlet {
 		loginUrl += client_id != null && !client_id.isEmpty() ? "&client_id=" + client_id : "";
 		loginUrl += redirect_uri != null && !redirect_uri.isEmpty() ? "&redirect_uri=" + redirect_uri : "";
 		loginUrl += scope != null && !scope.isEmpty() ? "&scope=" + scope : "";
+		
+		System.out.println(loginUrl); 
 		//
 		try {
 			if(validateUri(response_type, client_id, redirect_uri, scope)) { 

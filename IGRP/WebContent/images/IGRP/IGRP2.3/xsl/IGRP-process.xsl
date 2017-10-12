@@ -32,8 +32,76 @@
   </xsl:template>
 
 
+<<<<<<< HEAD
   <xsl:include href="../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
   <xsl:include href="../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
   <xsl:include href="../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
   <xsl:include href="../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
+=======
+		<xsl:if test="rows/content/js_validation">
+				<script src="{$path}/core/igrp/IGRP.rules.class.js"/>
+			 	<script>
+			 		var Arr = [];
+					<xsl:for-each select="rows/content/js_validation/row[ field != '' ]">
+				 		<xsl:variable name="event" select="event"/>
+				 		<xsl:variable name="field" select="field"/>
+				 		<xsl:variable name="operation" select="operation"/>
+				 		<xsl:variable name="value" select="value"/>
+				 		<xsl:variable name="action" select="action"/>
+				 		<xsl:variable name="target" select="target"/>
+
+					 		$.IGRP.rules.set({
+					 			"<xsl:value-of select="$field"/>" : [
+					 				{ 
+
+					 					"conditions" : {
+
+					 						"actions" : [
+					 							{
+					 								"action" 				: "<xsl:value-of select="$action"/>",
+					 								"targets" 		  : "<xsl:value-of select="$target"/>",
+                        	"msg"					  : "",
+                        	"msg_type"	    : "",
+                        	"procedure"		  : "",
+                        	"request_fields": "<xsl:value-of select="$field"/>"
+					 							}
+					 						],
+
+					 						"rules": [
+		                    {
+	                        "condition": "<xsl:value-of select="$operation"/>",
+	                        "opposite": "",
+	                        "patern": "",
+	                        "patern_custom": "",
+	                        "value": "<xsl:value-of select="$value"/>",
+	                        "value2": ""
+		                    }
+			                ]
+					 					
+					 					},
+
+					 					"events" : "<xsl:value-of select="$event"/>"
+
+					 				}
+					 			]
+					 		},'actionsList');				 		
+				 	</xsl:for-each>
+
+				 	<xsl:for-each select="rows/content/js_validation/row[ field = '' ]">
+				 		console.log('<xsl:value-of select="event"/>')
+				 	</xsl:for-each>
+
+				</script>
+
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:include href="tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
+	<xsl:include href="tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
+	<xsl:include href="tmpl/IGRP-functions.tmpl.xsl?v=1463090556311"/>
+	<xsl:include href="tmpl/IGRP-utils.tmpl.xsl?v=1463090556312"/>
+	<xsl:include href="tmpl/IGRP-process-utils.tmpl.xsl?v=1463090556312"/>
+	<xsl:include href="tmpl/IGRP-formgen.tmpl.xsl?v=1463090556312"/>
+	<xsl:include href="tmpl/IGRP-form-utils.tmpl.xsl?v=1507204691038"/>
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 </xsl:stylesheet>

@@ -57,4 +57,17 @@ public class ListaEnvController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		return this.redirect("igrp","lista-env","index");
 	}
+<<<<<<< HEAD
+=======
+	
+
+	public Response actionExport() throws IOException{
+		/*---- Insert your code here... ----*/
+		
+		return this.redirect("igrp","ListaEnv","index");
+		/*---- End ----*/
+	}
+	
+	/*---- Insert your actions here... ----*//*---- End ----*/
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 }
