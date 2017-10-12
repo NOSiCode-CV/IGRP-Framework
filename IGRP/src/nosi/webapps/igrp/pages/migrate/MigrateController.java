@@ -19,23 +19,22 @@ public class MigrateController extends Controller {
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/						
+		/*---- Insert your code here... ----*/				
 		Migrate model = new Migrate();
 		MigrateView view = new MigrateView(model);
-		tipos.put(null, "-- Selecione Base de Dados --");
 		tipos.put("mysql", "MySql");
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");
 		tipos.put("oracle", "Oracle");
 		view.tipo_base_dados.setValue(tipos);
-		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name","-- Selecionar Aplicação --"));
+		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name","--- Selecionar Aplicação ---"));
 		return this.renderView(view);
-					/*---- End ----*/
+				/*---- End ----*/
 	}
 
 
 	public Response actionMigrar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/						
+		/*---- Insert your code here... ----*/				
 		Migrate model = new Migrate();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -45,7 +44,7 @@ public class MigrateController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Migração Efetuada com sucesso");
 		}
 		return this.redirect("igrp","Migrate","index");
-					/*---- End ----*/
+				/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*/

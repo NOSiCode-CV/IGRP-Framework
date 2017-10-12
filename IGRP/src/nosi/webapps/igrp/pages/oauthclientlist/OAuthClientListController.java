@@ -22,7 +22,7 @@ public class OAuthClientListController extends Controller {
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/						
+		/*---- Insert your code here... ----*/				
 		OAuthClientList model = new OAuthClientList();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -48,26 +48,27 @@ public class OAuthClientListController extends Controller {
 		view.btn_pesquisar.setLink("index");
 		view.p_id.setParam(true);
 		return this.renderView(view);
-					/*---- End ----*/
+				/*---- End ----*/
 	}
+
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/						
-		return this.redirect("igrp","oauthclientlist","index");
-					/*---- End ----*/
-	}
-	
-
-	public Response actionButton_1() throws IOException{
 		/*---- Insert your code here... ----*/				
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("igrp","OAuthClient","index&p_id="+id);
+		return this.redirect("igrp","oauthclientlist","index");
 				/*---- End ----*/
 	}
 	
 
+	public Response actionButton_1() throws IOException{
+		/*---- Insert your code here... ----*/		
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		return this.redirect("igrp","OAuthClient","index&p_id="+id);
+			/*---- End ----*/
+	}
+	
+
 	public Response actionApagar() throws IOException{
-		/*---- Insert your code here... ----*/						
+		/*---- Insert your code here... ----*/				
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id != null && !id.equals("")) {
 			OAuthClient cliente = new OAuthClient();
@@ -79,12 +80,12 @@ public class OAuthClientListController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
 		}
 		return this.redirect("igrp","OAuthClientList","index");
-					/*---- End ----*/
+				/*---- End ----*/
 	}
 	
 
 	public Response actionRefresh() throws IOException{
-		/*---- Insert your code here... ----*/				
+		/*---- Insert your code here... ----*/		
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		OAuthClient cliente = new OAuthClient();
 		
@@ -99,7 +100,7 @@ public class OAuthClientListController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
 		
 		return this.redirect("igrp","OAuthClientList","index");
-				/*---- End ----*/
+			/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/

@@ -1,4 +1,4 @@
-$(function ($) {
+(function ($) {
 	if($){
 		$.WR 				= {}; //Objeto W web R report
 		// WR var file webreport.config
@@ -24,8 +24,8 @@ $(function ($) {
 					$.WR.dataSource = $(this).val();
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-					
+							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+						console.log(url);
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
@@ -326,8 +326,8 @@ $(function ($) {
 										$.WR.document.save({
 							        		url 	 : p.url,
 							        		file 	 : p.file,
-							        		fields 	 : p.fields,
-							        		action   : 'modal'
+							        		fields : p.fields,
+							        		action : 'modal'
 							        	});
 									}
 
@@ -437,8 +437,9 @@ $(function ($) {
 						$(this).addClass('active');
 
 						$('#igrp-app-title').html($.WR.reportTitle);
+						console.log(data.responseText);
 
-						//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
+						//data = $.parseJSON(data.responseText);//.replace(/\s+/g," ")
 
 						$.WR.document.convert2Do(data.textreport);
 
@@ -523,9 +524,9 @@ $(function ($) {
 				$.IGRP.targets['submit'].action = function(p){
 					if($.WR.app != null){
 						var saveDoc 	= {},
-							head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
+							head 		= WR.document.includ.head+WR.document.includ.css.all,
 							includJs 	= WR.document.includ.js.all,
-							includTmpl 	= ''; //WR.document.includ.tmpl.defoult
+							includTmpl 	= WR.document.includ.tmpl.defoult;
 
 						
 						if ($.WR.hasCarts && !$.WR.notCartsInclud) {
@@ -971,7 +972,7 @@ $(function ($) {
 
 					switch(p.group.toLowerCase()){
 						case 'row':// caso row
-							var path = p.cond ? p.path+'['+p.cond+']' : p.path,
+							var path = p.path+'['+p.cond+']',
 								td 	 = '',
 								th   = '',
 								tdg  = '',
@@ -1332,7 +1333,7 @@ $(function ($) {
 
 					size = size && size != undefined ? size : '=:WRPZ:=';
 
-					var html = '<div class="page" size="'+size+'"><div class="head">';
+					var html = '<div size="'+size+'"><div class="head">';
 
 					html += data.head+'</div>';
 					html += '<div class="content">'+data.body+'</div>';
@@ -1353,8 +1354,9 @@ $(function ($) {
 						$.WR.texteditor = CKEDITOR.instances[fc.editor.name];
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
+						console.log(CKEDITOR.document.getById('datasorce'));
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
@@ -1430,4 +1432,4 @@ $(function ($) {
 
 		$.WR.init();
 	}
-});
+}($));

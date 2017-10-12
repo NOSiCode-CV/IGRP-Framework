@@ -45,9 +45,9 @@ public class NovoUtilizadorView extends View {
 		portal.propertie().add("name","p_portal").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","novo-utilizador","gravar","submit","info|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","novo-utilizador","gravar","submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","default|fa-angle-right","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

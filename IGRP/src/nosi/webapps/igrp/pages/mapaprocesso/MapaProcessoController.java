@@ -63,12 +63,12 @@ public class MapaProcessoController extends Controller {
 		String title = "";
 		if(p_processId!=null){
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
-			title = process!=null? process.getName()+" -  Nº "+process.getDeploymentId():"";
+			title = process!=null? process.getName()+" -  Nï¿½ "+process.getDeploymentId():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?task.getName()+" - Nº "+task.getId():"";
+			title = task!=null?task.getName()+" - Nï¿½ "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
 		String content = this.transformToXmlWorkFlow(title,formData);
@@ -94,10 +94,10 @@ public class MapaProcessoController extends Controller {
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel("Nome Ficheiro");
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel("Descrição");
+		prm_file_description.setLabel("Descriï¿½ï¿½o");
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel("Descrição");
+		prm_file_description_desc.setLabel("Descriï¿½ï¿½o");
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel("Ficheiro");
 		prm_file.propertie().add("rel", "prm_doc_list");
@@ -157,7 +157,7 @@ public class MapaProcessoController extends Controller {
 	//				if(prop.getWritable())
 	//					field.propertie().add("disabled", "true");
 					if(prop.getType().endsWith("enum")){
-						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
+						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opï¿½ï¿½o ---"));
 					}
 					form.addField(field);
 				}

@@ -40,9 +40,9 @@ public class EditarTransacaoView extends View {
 		id.setLabel("");
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","EditarTransacao","gravar","submit","info|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","EditarTransacao","gravar","submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","EditarTransacao","voltar","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","EditarTransacao","voltar","_self","default|fa-angle-right","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

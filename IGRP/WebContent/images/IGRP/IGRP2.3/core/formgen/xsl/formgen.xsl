@@ -86,24 +86,24 @@
                     <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
                         
                         <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" >
-                            <li class="active col-xs-6">
+                            <li class="active col-xs-4">
                                 <a href="#gen-list-components" role="tab" data-toggle="tab">
                                     <i class="fa fa-cube"></i>
                                     <span class="">Components</span>
                                 </a>
                             </li> 
-                            <li class="col-xs-6">
+                            <li class="col-xs-4">
                                 <a href="#gen-list-fields" role="tab" data-toggle="tab">
                                     <i class="fa fa-dot-circle-o"></i>
                                     <span class="">Fields</span>
                                 </a>
                             </li> 
-                            <!-- <li class="col-xs-4">
+                            <li class="col-xs-4">
                                 <a href="#gen-page-properties" role="tab" data-toggle="tab">
                                     <i class="fa fa-cog"></i>
                                     <span class="">Settings</span>
                                 </a>
-                            </li>  -->
+                            </li> 
                         </ul>
 
                         <div class="tab-content" style="margin:0 -20px;padding:0;border:0">
@@ -754,7 +754,7 @@
                     </label>
 
                     <select class="form-control rule-setter select2 " id="actions_list_gen_rule_action" name="p_gen_rule_action" required="required">
-                      <option value="show" >Show</option>
+                      <option value="show">Show</option>
                       <option value="hide">Hide</option>
                       <option value="disabled">Disable</option>
                       <option value="enabled">Enable</option>
@@ -763,7 +763,6 @@
                       <option value="cleanValue">Clean Value</option>
                       <option value="readonly">Readonly</option>
                       <option value="notreadonly">Not Readonly</option>
-                      <option value="remote">Remote</option>
                       <option value="remote_combobox">Remote Combo Box</option>
                       <option value="remote_list">Remote List</option>
                       <option value="message">Notify</option>

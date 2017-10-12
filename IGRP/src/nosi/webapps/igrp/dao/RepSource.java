@@ -209,7 +209,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 
 	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
-		//lista.put(null, "--- Selecionar Aplicação ---");
+		//lista.put(null, "--- Selecionar Aplicaï¿½ï¿½o ---");
 		for(RepSource rep:this.find().andWhere("application", "=",id).all()){
 			lista.put(rep.getId(), rep.getName());
 		}

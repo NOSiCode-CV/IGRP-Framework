@@ -243,11 +243,8 @@ img{
   padding:0 15px;
   border-bottom: 2px solid transparent
 }
-#igrp-top-menu>li>a:after,
-#igrp-top-menu>li>a:before{
-  content:".";
-  opacity: 0;
-  color:transparent;
+#igrp-top-menu>li>a:after{
+  content:"";
 }
 #igrp-top-menu>li>a:hover,
 #igrp-top-menu>li>a:focus{
@@ -1296,9 +1293,6 @@ body.iframe-nav-holder #igrp-sidebar{
     color: #fff;
 }
 
-.reset-padding{
-  padding: 0 !important;
-}
 
 
 

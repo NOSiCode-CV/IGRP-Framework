@@ -47,7 +47,7 @@ public class DominioView extends View {
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 		btn_pesquisar = new IGRPButton("Pesquisar","RED","Teste","Action","_self","default|fa-search","default||fa-search|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
 		btn_pesquisar.propertie.add("type","specific").add("code","").add("rel","pesquisar");
-		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","success|fa-plus-circle","default||fa-plus-circle|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_novo = new IGRPButton("Novo","RED","Teste","Action","_self","default|fa-plus-circle","default||fa-plus-circle|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		
 	}

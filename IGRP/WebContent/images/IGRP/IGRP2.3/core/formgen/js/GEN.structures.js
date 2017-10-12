@@ -88,14 +88,12 @@ var GENSTRUCTURES = function(GEN){
 						rtn+=genFields(container);
 
 						if(container.xml.table){
-							rtn+=genTable(container);
+							rtn+=genTable(container);	
 						}
 						
 						else if (container.contextMenu)
 							rtn+=GEN.genContextMenu(container);
-					}
-
-					
+					};
 
 					if(container.xml.type == 'calendar')
 						rtn+=genCalendar(container);
@@ -522,7 +520,7 @@ var GENSTRUCTURES = function(GEN){
 			row = '',
 			tag = container.GET.tag();
 
-		rtn += '<fields><'+tag+'_link type="link" maxlength="4000" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
+		rtn += '<fields><'+tag+'_link type="link" target="_self" desc="true"><label>Link</label></'+tag+'_link>';
 		rtn += '<'+tag+'_tmid type="number"><label>ID</label></'+tag+'_tmid>';
 		rtn += '<'+tag+'_parent type="number"><label>Parent ID</label></'+tag+'_parent>';
 		rtn += '<'+tag+'_icon type="text"><label>Icon</label></'+tag+'_icon>';
@@ -547,7 +545,7 @@ var GENSTRUCTURES = function(GEN){
 
 		rtn +=row+'</value></table>';
 
-		return rtn;
+		//return rtn;
 	};
 
 	var getFieldsService = function(service,point){
@@ -587,12 +585,12 @@ var GENSTRUCTURES = function(GEN){
 		var rtn = '<service code="'+service.code+'" proc="'+service.proc+'">';
 			rtn+='<request>';
 			var serviceReq = service.fieldsReq[0] ? service.fieldsReq : service.fieldsRes;
-				rtn+=getFieldsService(service.fieldsReq,'from');
+				rtn+=getFieldsService(serviceReq,'from');
 			rtn+='</request>';
 
 			rtn+='<response '+package+'>';
 			var serviceRes = service.fieldsRes[0] ? service.fieldsRes : service.fieldsReq;
-				rtn+=getFieldsService(service.fieldsRes,'to');
+				rtn+=getFieldsService(serviceRes,'to');
 			rtn+='</response>';
 
 		rtn+='</service>';
@@ -746,7 +744,7 @@ var GENSTRUCTURES = function(GEN){
 									return r;
 								}();
 
-							rtn+='<rule type="'+action+'">';
+							rtn+='<rule>';
 
 								rtn+= '<proc>'+proc+'</proc>';
 

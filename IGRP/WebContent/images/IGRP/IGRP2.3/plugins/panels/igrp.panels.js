@@ -8,7 +8,7 @@
 			console.log(style);
 		}
 
-		//$(this).removeAttr('style');
+		$(this).removeAttr('style');
 
 	});
 

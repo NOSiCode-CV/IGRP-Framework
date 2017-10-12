@@ -8,17 +8,9 @@ public class TaskVariables {
 	private String name;
 	private String scope;
 	private String type;
-	private Object value;
+	private String value;
 	private String valueUrl;
 	
-	public TaskVariables(String name, String scope, String type, Object value, String valueUrl) {
-		super();
-		this.name = name;
-		this.scope = scope;
-		this.type = type;
-		this.value = value;
-		this.valueUrl = valueUrl;
-	}
 	public TaskVariables() {
 	}
 	public String getName() {
@@ -39,10 +31,10 @@ public class TaskVariables {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Object getValue() {
+	public String getValue() {
 		return value;
 	}
-	public void setValue(Object value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 
