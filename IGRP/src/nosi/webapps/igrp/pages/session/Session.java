@@ -12,7 +12,7 @@ public class Session extends Model{
 	private int aplicacao;
 	
 	@RParam(rParamName = "p_utilizador")
-	private String utilizador;
+	private String utilizador; 
 	
 	@RParam(rParamName = "p_data_inicio")
 	private String data_inicio;
