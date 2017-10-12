@@ -10,13 +10,26 @@
 			get:function(){
 				return $($.IGRP.components.globalModal.modalid);
 			},
+
 			set:function(o){
+
 				/*
 					size: lg, sm, xs
 					rel : attr to control
 
 				*/
-				var modal = $.IGRP.components.globalModal.get();
+				var modal  			 = $.IGRP.components.globalModal.get(),
+
+					closeOnBodyClick = o.closeOnBodyClick || false;
+
+				if(closeOnBodyClick)
+
+					modal.removeAttr('tabindex');
+
+				else
+
+					modal.attr('tabindex','-1');
+				
 				
 				$('.modal-dialog',modal).removeClass('modal-lg modal-sm');
 

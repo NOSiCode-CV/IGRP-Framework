@@ -1,4 +1,5 @@
-var WR = {
+var xslpath = '/IGRP/images/IGRP/IGRP2.3/',
+  WR = {
   editor   : 'form_1_report_editor',
   listType : [{type:'table',icon:'fa-table'},{type:'ul',icon:'fa-list-ul'},{type:'ol',icon:'fa-list-ol'}],
   listGroup: [{label:'Linha', value:'row'},{label:'Coluna',value:'col'},{label:'Normal',value:''}],
@@ -315,11 +316,11 @@ var WR = {
 			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/igrp.charts.js"/>'
   		},
   		tmpl : {
-  			defoult : '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-functions.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-variables.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-home-include.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-utils.tmpl.xsl"/>',
-  			chart 	: '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-charts.tmpl.xsl"/>'
+  			defoult : '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-functions.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-variables.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-home-include.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-utils.tmpl.xsl"/>',
+  			chart 	: '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-charts.tmpl.xsl"/>'
   		}
   	}
   }

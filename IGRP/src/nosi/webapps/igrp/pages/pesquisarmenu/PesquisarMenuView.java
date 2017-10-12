@@ -72,7 +72,7 @@ public class PesquisarMenuView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","novo-menu","index","_self","default|fa-plus-square","","");
+		btn_novo = new IGRPButton("Novo","igrp","novo-menu","index","_self","success|fa-plus-square","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_menu_base = new IGRPButton("Menu Base","igrp","PesquisarMenu","menu_base","submit","default|fa-save","","");
 		btn_menu_base.propertie.add("type","specific").add("code","").add("rel","menu_base");

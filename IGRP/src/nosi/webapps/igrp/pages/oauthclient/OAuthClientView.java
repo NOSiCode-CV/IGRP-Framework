@@ -13,15 +13,14 @@ public class OAuthClientView extends View {
 	public Field sectionheader_1_text;
 	public Field uris_de_redirecionamento;
 	public Field scope;
-	public Field p_clientID;
-	public Field p_clientSecret;
-	
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_listar_oauth_client;
 	public IGRPButton btn_salvar;
 	public OAuthClientView(OAuthClient model){
-		this.setPageTitle("OAuth para clientes");
+		this.setPageTitle("Inserir Dados dos clientes");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -37,20 +36,12 @@ public class OAuthClientView extends View {
 		scope = new ListField(model,"scope");
 		scope.setLabel("Scope");
 		
-		p_clientID = new HiddenField(model,"p_clientID");
-		p_clientID.setLabel("");
-		p_clientID.propertie().add("name","p_clientID").add("type","hidden").add("maxlength","100").add("iskey","false").add("tag","id");
-		
-		p_clientSecret = new HiddenField(model,"p_clientSecret");
-		p_clientSecret.setLabel("");
-		
-		p_clientSecret.propertie().add("name","p_clientSecret").add("type","hidden").add("maxlength","100").add("iskey","false").add("tag","id");
-		
-		
-		
 		scope.propertie().add("name","p_scope").add("type","select").add("multiple","true").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 
-		btn_salvar = new IGRPButton("Salvar","igrp","OAuthClient","salvar","submit","success|fa-save","","");
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		btn_listar_oauth_client = new IGRPButton("Listar OAuth Client","igrp","OAuthClientList","index","_self","default|fa-list","","");
+		btn_listar_oauth_client.propertie.add("type","specific").add("code","").add("rel","listar_oauth_client");
+		btn_salvar = new IGRPButton("Gravar","igrp","OAuthClient","salvar","submit","info|fa-save","","");
 		btn_salvar.propertie.add("type","form").add("code","").add("class","success").add("rel","salvar");
 		
 	}
@@ -62,11 +53,13 @@ public class OAuthClientView extends View {
 
 		form_1.addField(uris_de_redirecionamento);
 		form_1.addField(scope);
-		form_1.addField(p_clientID);
-		form_1.addField(p_clientSecret);
-		form_1.addButton(btn_salvar);
+
+
+		toolsbar_1.addButton(btn_listar_oauth_client);
+		toolsbar_1.addButton(btn_salvar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
+		this.addToPage(toolsbar_1);
 	}
 }
 /*-------------------------*/

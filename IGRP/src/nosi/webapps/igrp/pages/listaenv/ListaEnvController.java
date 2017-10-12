@@ -25,7 +25,7 @@ public class ListaEnvController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();		
 			app.setDad(model.getDad());
-			app.setName(model.getName());
+			app.setName(model.getNome());
 		}
 		List<Application> apps = app.find()
 								.andWhere("dad", "like", app.getDad())
@@ -45,7 +45,7 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista Aplicaï¿½ï¿½o";
+		view.title = "Lista Aplicação";
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
@@ -76,9 +76,9 @@ public class ListaEnvController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		if(app.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operaï¿½ï¿½o efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operaï¿½ï¿½o");
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
 		return this.redirect("igrp","lista-env","index");
 	}
 	
