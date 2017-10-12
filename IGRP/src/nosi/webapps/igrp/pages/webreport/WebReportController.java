@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.GUIDGenerator;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -294,16 +295,17 @@ public class WebReportController extends Controller {
 	 * 
 	 */
 	private String genXml(String contentXml,RepTemplate rt){
+		String contraprova = GUIDGenerator.getGUIDWithBraces();
 		XMLWritter xmlW = new XMLWritter("rows", "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode", "por adicionar");
-			xmlW.setElement("img_brasao", "por adicionar");
-			xmlW.setElement("name_brasao", "por adicionar");
+			xmlW.setElement("link_qrcode", "webapps?r=igrp/web-report/get-contraprova&amp;p_contraprova="+contraprova);
+			xmlW.setElement("img_brasao", "brasao.png");
+			xmlW.setElement("name_brasao", "");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
-			xmlW.setElement("name_contraprova", "por adicionar");
-			xmlW.setElement("value_contraprova", "por adicionar");
+			xmlW.setElement("name_contraprova", "Contra Prova");
+			xmlW.setElement("value_contraprova", contraprova);
 			int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 			User user = new User();
 			user = user.findOne(user_id);
@@ -313,6 +315,11 @@ public class WebReportController extends Controller {
 		xmlW.endElement();
 		xmlW.addXml(contentXml);
 		return xmlW.toString();
+	}
+	
+	public Response actionGetContraprova(){
+		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
+		return this.renderView(contraprova);
 	}
 	
 	//Get xsl content of report
