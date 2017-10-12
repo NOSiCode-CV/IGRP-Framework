@@ -2,13 +2,13 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   
   <display-name>IGRP</display-name>
-  
+   
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</param-value>
+      <param-value>D:\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
       <param-name>autentication_type</param-name>
