@@ -302,7 +302,7 @@ $(function ($) {
 							icon  	: 'check',
 							text  	: 'Confirmar',
 							onClick : function(){
-								var data = $('.reporttitle *').serializeArray();
+								var data = $('.reporttitle *:not([name="wr_printsize"])').serializeArray();
 
 								data.forEach(function(e,i){
 									if(e.name == p.codeName)
