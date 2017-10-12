@@ -10,11 +10,16 @@ import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.ImportExportApp;
+import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /*---- End ----*/
 public class ListaPageController extends Controller {		
@@ -61,8 +66,18 @@ public class ListaPageController extends Controller {
 		/*---- Insert your code here... ----*/	
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id != null && !id.equals("")) {
-			Action pagina = new Action().findOne(id);
-			String caminho = Config.getWorkspace().replace("\\", "/") +"/"+ pagina.getPackage_name().replace(".", "/");
+			Action page = new Action().findOne(id);
+			//String xml_file = ImportExportApp.generateXMLPage(page);			
+			//String path_class_files = Config.getWorkspace() +"\\"+ page.getPackage_name().replace(".", "\\");
+			//System.out.println(path_class_files);
+			//String path_xsl_xml = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/nosi/webapps/igrp/pages/listapage/";//Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
+			//System.out.println(path_xsl_xml); 
+			//FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
+			
+			//Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
+			//Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
+			//xsl_xml_files.putAll(Java_files);
+			//JarUnJarFile.saveJarFiles("C:\\Downloads\\"+page.getPage()+".jar", xsl_xml_files, 9);
 			
 		}
 		
