@@ -22,6 +22,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
@@ -73,19 +74,13 @@ public class WebReportController extends Controller {
 
 
 	public Response actionSaveEditTemplate(){
-		System.out.println("Saving Edit Template");
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			Enumeration<String> c = Igrp.getInstance().getRequest().getParameterNames();
-			while(c.hasMoreElements()){
-				System.out.println(c.nextElement());
-			}
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
 			String title_ = Igrp.getInstance().getRequest().getParameter("p_title_report");
-//			System.out.println(id_+":"+code_+":"+title_);
 			if(id_!=null && !id_.equals("")){
 				RepTemplate rt = new RepTemplate();
-				rt = rt.findOne(Integer.parseInt(id_));
+				rt = rt.findOne((int)Float.parseFloat(id_));
 				rt.setCode(code_);
 				rt.setName(title_);
 				rt.setDt_updated(new Date(System.currentTimeMillis()));
@@ -108,7 +103,7 @@ public class WebReportController extends Controller {
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
 			String [] data_sources = Igrp.getInstance().getRequest().getParameterValues("p_datasorce_app");
 			String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			if(fileTxt!=null && fileXsl!=null && env_fk!=null){
+			if(fileTxt!=null && fileXsl!=null && env_fk!=null && !env_fk.equals("")){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
@@ -186,6 +181,7 @@ public class WebReportController extends Controller {
 				xml += this.getData(rep,name_array,value_array);
 			}
 			xml = this.genXml(xml,rt);
+			
 		}
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml);
@@ -302,7 +298,7 @@ public class WebReportController extends Controller {
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
 			xmlW.setElement("link_qrcode", "webapps?r=igrp/web-report/get-contraprova&amp;p_contraprova="+contraprova);
 			xmlW.setElement("img_brasao", "brasao.png");
-			xmlW.setElement("name_brasao", "");
+			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
 			xmlW.setElement("name_contraprova", "Contra Prova");
 			xmlW.setElement("value_contraprova", contraprova);
@@ -319,6 +315,10 @@ public class WebReportController extends Controller {
 	
 	public Response actionGetContraprova(){
 		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
+		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=", contraprova).one();
+		if(ri!=null){
+			
+		}
 		return this.renderView(contraprova);
 	}
 	
