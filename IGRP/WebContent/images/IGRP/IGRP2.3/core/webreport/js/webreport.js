@@ -280,9 +280,11 @@
 					'<div class="col-md-12 form-group"><div class="col-md-4">'+
 					'<label for="'+WR.document.config.printsize.name+'">'+WR.document.config.printsize.label+'</label></div>'+
 					'<div class="col-md-8"><select class="form-control" name="'+WR.document.config.printsize.name+'">'+
-					option+'</select></div></div><div class="col-md-12 form-group"><div class="col-md-4">'+
-					'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
-					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div></div>';
+					option+'</select></div></div>'+
+					/*'<div class="col-md-12 form-group"><div class="col-md-4">'+
+						'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
+					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div>'+*/
+					'</div>';
 
 				$.IGRP.components.globalModal.set({
 					size 		: 'xs',
@@ -485,8 +487,6 @@
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
-
-						console.log(e.value);
 					}
 				});
 
@@ -496,7 +496,7 @@
 				console.log('-----------------');
 				console.log(p.fields);*/
 
-				/*$.IGRP.utils.submitStringAsFile({
+				$.IGRP.utils.submitStringAsFile({
 		      		pUrl    	: p.url,
 		      		pParam 		: {
 			        	pArrayFiles : p.file,
@@ -518,7 +518,7 @@
 			      			}
 		      			}
 		         	}
-			   	});*/
+			   	});
 			},
 			onSave : function(){
 				$.IGRP.targets['submit'].action = function(p){
