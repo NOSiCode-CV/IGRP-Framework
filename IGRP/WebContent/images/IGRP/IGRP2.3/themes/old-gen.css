@@ -158,7 +158,7 @@
     position: relative;
     margin-right: -1px;
     margin-left: -1px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     /*border-top: 1px solid #eee*/
 }
 
@@ -168,11 +168,13 @@
 
 .old-v *[role="form"] .box-head.subtitle  {
     font-size: 18px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     margin-right: -11px;
     margin-left: -11px;
     /*padding: 10px;*/
     line-height: 1;
+    padding-top: 4px;
+    padding-bottom: 4px;
     /*font-weight: bold;*/
     /*margin-top: 10px;*/
  

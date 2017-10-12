@@ -2,8 +2,6 @@
 	if($ && $.IGRP){
 
 		$.IGRP.utils = {
-<<<<<<< HEAD
-=======
 
 			url : {
 
@@ -62,7 +60,6 @@
 				}
 
 			},
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 			
 			openWin:function(p){
 
@@ -80,7 +77,6 @@
 
 				return false;
 			},
-
 			openChartURL : function(pObj){
 				if (pObj.pUrl != null && pObj.pUrl != '') {
 					
@@ -95,7 +91,6 @@
 
 				}
 			},
-
 			getForm:function(){
 				return $('form.IGRP-form');
 			},
@@ -127,6 +122,68 @@
 				}
 				return null;
 			},
+
+			setFieldValue:function(tag,value){
+			
+				var formElement = $('[name="p_'+tag+'"]'),
+
+					parent  	= $(formElement.parents('[item-name]')[0]);
+				
+				if( parent[0] ){
+
+					var type = parent.attr('item-type');
+					
+					switch(type){
+
+						case 'select':
+
+							if(formElement.is('[multiple]'))
+
+								value = value.split('|');
+
+							formElement.val(value);
+
+						break;
+
+						case 'checkboxlist':
+
+							var vArr = value.split('|');
+
+							vArr.forEach(function(v){
+
+								formElement.filter('[value="'+v+'"]').prop('checked',true);
+
+							});
+
+						break;
+
+						case 'radiolist':
+
+							formElement.filter('[value="'+value+'"]').prop('checked',true);
+
+						break;
+
+						case 'checkbox':
+						case 'radio':
+							
+							var checked = value == 1;
+
+							formElement.prop('checked', checked)
+
+						break;
+
+						default:
+
+							formElement.val(value);
+
+					}
+
+					formElement.trigger('change');
+
+				}
+
+			},
+
 			clearSubmittables:function(){
 				$('.submittable').removeClass('submittable');
 			},

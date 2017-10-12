@@ -48,9 +48,9 @@ public class RegistarUtilizadorView extends View {
 		confirmar_password.propertie().add("name","p_confirmar_password").add("type","password").add("maxlength","20").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_guardar = new IGRPButton("Guardar","igrp","registar-utilizador","index","submit","default|fa-save","","");
+		btn_guardar = new IGRPButton("Gravar","igrp","registar-utilizador","index","submit","success|fa-save","","");
 		btn_guardar.propertie.add("type","specific").add("code","").add("rel","guardar");
-		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","default|fa-angle-right","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 		
