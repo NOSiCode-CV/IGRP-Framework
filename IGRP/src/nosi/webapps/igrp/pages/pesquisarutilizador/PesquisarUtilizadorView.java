@@ -77,7 +77,7 @@ public class PesquisarUtilizadorView extends View {
 		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
 		
 
-		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","success|fa-plus","","");
+		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","default|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 		
 		btn_menu = new IGRPButton("Menu","igrp","MenuOrganica","index","_self","default|fa-angle-right","","");

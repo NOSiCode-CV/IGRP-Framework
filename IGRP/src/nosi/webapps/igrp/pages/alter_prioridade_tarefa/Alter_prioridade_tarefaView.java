@@ -101,7 +101,7 @@ public class Alter_prioridade_tarefaView extends View {
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
-		btn_salvar = new IGRPButton("Gravar","igrp","Alter_prioridade_tarefa","salvar","submit","info|fa-save","","");
+		btn_salvar = new IGRPButton("Salvar","igrp","Alter_prioridade_tarefa","salvar","submit","primary|fa-save","","");
 		btn_salvar.propertie.add("type","form").add("code","").add("class","primary").add("rel","salvar");
 		
 	}

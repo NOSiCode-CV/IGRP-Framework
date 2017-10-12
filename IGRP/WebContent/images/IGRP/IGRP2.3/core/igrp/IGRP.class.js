@@ -9,9 +9,7 @@
 
 			page : null,
 
-			app  : null,
-
-			params : null
+			app  : null
 
 		},
 
@@ -206,7 +204,6 @@
 				req = $.ajax({
 					url      : url,
 					data     : options.params,
-					method	 : options.method,
 					dataType : options.dataType
 				})
 				.done(options.success)
@@ -239,12 +236,15 @@
 
 			$.IGRP.info.page = page ? page.replaceAll(' ','_') : null;
 
+<<<<<<< HEAD
+=======
 			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
 			if( $.IGRP.info.params.ichange )
 
 				$.IGRP.scrollTo( $.IGRP.info.params.ichange );
 
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');

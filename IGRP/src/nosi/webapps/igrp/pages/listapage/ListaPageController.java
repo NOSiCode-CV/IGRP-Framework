@@ -50,7 +50,7 @@ public class ListaPageController extends Controller {
 		
 		ListaPageView view = new ListaPageView(model);
 		view.id.setParam(true);
-		view.env_fk.setLabel("Aplicação");
+		view.env_fk.setLabel("Aplicaï¿½ï¿½o");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		

@@ -10,75 +10,7 @@ var TREELIST = function(name,params){
 
 	container.xml.fieldsValue = false;
 
-	container.xml.genGroup    = true;
-
-	container.sortableOptions.items = 'li[main-parent="true"]';
-
-	container.includes = {
-
-		css : [
-
-			{
-				path : '/plugins/treelist/treelist.css'
-			}
-
-		],
-
-		xsl :[ 'treelist']
-
-	};
-
-	var keys = {
-
-		uid     : {
-
-			label : 'Id',
-
-			valueKey : 'tag'
-
-		},
-
-		title  : {
-
-			label    : 'Titulo',
-
-			valueKey : 'label'
-
-		},
-
-		link   : {
-
-			label : 'Link',
-
-			valueKey : 'action'
-
-		},
-
-		target : {
-
-			label : 'Target',
-
-			valueKey : 'target'
-
-		},
-
-		icon   : {
-
-			label : 'Icon',
-
-			valueKey : 'img'
-
-		},
-
-		parent : {
-
-			label : 'Parent ID',
-
-			valueKey : 'parent'
-
-		}
-
-	};
+	container.xml.genGroup = true;
 
 	container.xml.getStructure = function(o){
 		
@@ -87,11 +19,13 @@ var TREELIST = function(name,params){
 
 		rtn += '<fields>';
 
-		for(var k in keys){
+			rtn+='<'+o.tag+'_title></'+o.tag+'_title>';
 
-			rtn+='<'+o.tag+'_'+k+'>'+keys[k].label+'</'+o.tag+'_'+k+'>';
+			rtn+='<'+o.tag+'_link></'+o.tag+'_link>';
 
-		}
+			rtn+='<'+o.tag+'_target></'+o.tag+'_target>';
+
+			rtn+='<'+o.tag+'_parent></'+o.tag+'_parent>';			
 
 		rtn+= '</fields>';
 
@@ -100,14 +34,16 @@ var TREELIST = function(name,params){
 		rtn += '<value>';
 
 		fields.forEach(function(f){
-			//console.log(f)
+
 			rtn+='<row>';		
 
-			for(var k in keys){
+				rtn+='<'+o.tag+'_title>'+f.GET.label()+'</'+o.tag+'_title>';
 
-				rtn+='<'+o.tag+'_'+k+'>'+f.GET[ keys[k].valueKey ]()+'</'+o.tag+'_'+k+'>';
+				rtn+='<'+o.tag+'_link></'+o.tag+'_link>';
 
-			}
+				rtn+='<'+o.tag+'_target>'+f.GET.target()+'</'+o.tag+'_target>';
+
+				rtn+='<'+o.tag+'_parent></'+o.tag+'_parent>';
 
 			rtn+='</row>';	
 			
@@ -120,40 +56,31 @@ var TREELIST = function(name,params){
 		return rtn;
 	}
 
+	container.includes = {
+
+		xsl :[ 'table-utils'],
+		
+		css :[ 
+
+			{
+				path:'/core/igrp/table/igrp.tables.css'
+			}
+
+		],
+
+		js  :[ 
+
+			{
+				path:'/core/igrp/table/igrp.table.js'
+			}
+
+		]
+	};
+
 
 	container.ready = function(){
 
 		console.log(container);
-
-	}
-
-	container.onFieldSet = function(field){
-
-		field.setProperty({
-			name:'parent',
-			order:5,
-			value:{
-				value:'',
-				options:function(){
-
-					var rtn   = [{ value:'', label:'' }]; 
-
-					var menus = container.GET.fields();
-
-					menus.forEach(function(m){
-						if(m.GET.id() != field.GET.id())
-							rtn.push({
-								value:m.GET.tag(),
-								label:m.GET.label()
-							});
-					});
-
-					return rtn;
-				}
-			}
-		
-		});
-
 
 	}
 

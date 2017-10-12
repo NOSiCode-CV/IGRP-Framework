@@ -31,9 +31,9 @@ public class TransacaoOrganicaView extends View {
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","info|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","default|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","TransacaoOrganica","voltar","_back","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton("Voltar","igrp","TransacaoOrganica","voltar","_back","default|fa-angle-right","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

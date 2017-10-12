@@ -56,6 +56,8 @@ div[size="A7"]{
   position: relative;
 }
 
+<<<<<<< HEAD
+=======
 .footer{
   position: absolute;
   bottom: 0;
@@ -137,6 +139,7 @@ table th, table td{
 }
 
 
+>>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 /*.fixed{
   position: absolute;
   left: 1cm;
@@ -173,10 +176,6 @@ p{
  /* .fixed{
     position: fixed;
   }*/
-
-  table{
-    width: 100%;
-  }
 
   .page{
     margin: 0;

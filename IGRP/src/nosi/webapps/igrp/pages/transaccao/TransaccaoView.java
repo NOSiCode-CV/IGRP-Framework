@@ -18,6 +18,7 @@ public class TransaccaoView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
+	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
@@ -46,6 +47,7 @@ public class TransaccaoView extends View {
 		estado.setLabel("Estado");
 		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Transaccao","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","specific").add("code","").add("rel","pesquisar");
 		btn_editar = new IGRPButton("Editar","igrp","Transaccao","editar","submit","default|fa-pencil","","");
@@ -65,7 +67,6 @@ public class TransaccaoView extends View {
 
 		form_1.addField(codigo);
 		form_1.addField(aplicacao);
-		form_1.addButton(btn_pesquisar);
 //		form_1.addField(organica);
 
 
@@ -73,11 +74,13 @@ public class TransaccaoView extends View {
 		table_1.addField(descricao);
 		table_1.addField(estado);
 
+		toolsbar_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_alterar_estado);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(toolsbar_1);
 	}
 }

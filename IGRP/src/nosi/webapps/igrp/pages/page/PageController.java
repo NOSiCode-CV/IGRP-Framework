@@ -118,7 +118,6 @@ public class PageController extends Controller {
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			action.setStatus(model.getP_status());
 			action.setVersion(model.getVersion());
-			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
 			if(model.getP_id()!=0){
 				action = action.update();
 			}else{

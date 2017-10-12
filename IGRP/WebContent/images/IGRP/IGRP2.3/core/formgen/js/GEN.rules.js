@@ -443,32 +443,12 @@
           {
             "event": "change",
             "condition": "equal",
-            "value": "remote",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 6.1",
-            "opposite": "1"
-          },
-
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "remote",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 6.2",
-            "opposite": "1"
-          },
-
-          /*{
-            "event": "change",
-            "condition": "equal",
             "value": "remote_combobox",
             "action": "show",
             "targets": "gen_rule_request_fields,gen_rule_procedure",
             "name": "Action Rule 6.1",
             "opposite": "1"
-          },*/
+          },
 
           {
             "event": "load",
@@ -544,12 +524,10 @@
 		    //open dialog
 		    sepConditions.events.on('dialog-open',function(o){
 		     
-		      var mbody = o.content.parent(),
-
-              actionsStr = $('[name="p_gen_rule_actions"]').val().replace(/'/g,'"');
+		      var mbody = o.content.parent();
 		      
-            $('#igrp-global-modal').removeAttr('tabindex');
-
+		      var actionsStr = $('[name="p_gen_rule_actions"]').val().replace(/'/g,'"');
+		      
 		      if(actionsStr){
 		         
 		        var actions = JSON.parse(actionsStr);
