@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
@@ -26,7 +27,8 @@ import java.util.zip.CheckedOutputStream;
 public class JarUnJarFile {
 	
 	//save data to jar format
-	public static void saveJarFiles(String jarName,HashMap<String,String>files,int level){
+	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
+		boolean result = false;
 		if(jarName.contains(".jar") && files.size() > 0 && (level >= 0 && level <= 9))
 		try{
 			FileOutputStream fos = new FileOutputStream(jarName);
@@ -34,18 +36,21 @@ public class JarUnJarFile {
 			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
 			Set<Entry<String, String>> entry = files.entrySet();
 			for(Entry<String,String> e:entry){
-				JarEntry je = new JarEntry(e.getValue());
+				JarEntry je = new JarEntry(e.getKey());
 				jos.putNextEntry(je);
-				FileInputStream fis = new FileInputStream(e.getKey());
+				FileInputStream fis = new FileInputStream(e.getValue());
 				for(int r=fis.read();r!=-1;r=fis.read()){
 					jos.write(r);
 				}
 				fis.close();
 			}
 			jos.close();
+			result = true;
 		}catch(IOException e){
+			result = false;
 			e.printStackTrace();
 		}
+		return result;
 	}
 	
 	//Extract files jar format

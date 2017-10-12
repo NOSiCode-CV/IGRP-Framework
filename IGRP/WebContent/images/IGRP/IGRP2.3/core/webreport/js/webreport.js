@@ -485,6 +485,7 @@ $(function ($) {
 						e.value = JSON.stringify(e.value);
 					}
 					else if(e.name == 'p_xslreport'){
+						console.log(e.value);
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
 					}
 				});
@@ -1354,7 +1355,7 @@ $(function ($) {
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById( 'wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
