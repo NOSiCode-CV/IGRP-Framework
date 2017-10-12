@@ -50,14 +50,12 @@ public class ListaPageController extends Controller {
 		
 		ListaPageView view = new ListaPageView(model);
 		view.id.setParam(true);
-		view.env_fk.setLabel("Aplicação");
+		view.env_fk.setLabel("Aplicaï¿½ï¿½o");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		
 		return this.renderView(view);
 	}
-<<<<<<< HEAD
-=======
 
 	public Response actionExport() throws IOException{
 		/*---- Insert your code here... ----*/	
@@ -71,5 +69,4 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp","ListaPage","index");
 			/*---- End ----*/
 	}
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 }

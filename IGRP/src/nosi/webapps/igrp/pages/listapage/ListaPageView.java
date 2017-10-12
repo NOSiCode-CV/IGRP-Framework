@@ -9,7 +9,7 @@ import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
 public class ListaPageView extends View {
-	public String title = "Lista de Páginas";		
+	public String title = "Lista de Pï¿½ginas";		
 	
 	public Field env_fk;
 	public Field page;
@@ -31,27 +31,28 @@ public class ListaPageView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_visualizar;
 	public IGRPButton btn_gerar;
+	public IGRPButton btn_export;
 	
 	public ListaPageView(ListaPage model){			
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel("Aplicação");
+		env_fk.setLabel("Aplicaï¿½ï¿½o");
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		page = new TextField(model,"page");
-		page.setLabel("Nome Página");
+		page.setLabel("Nome Pï¿½gina");
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		page_descr = new TextField(model,"page_descr");
-		page_descr.setLabel("Descrição Página");
+		page_descr.setLabel("Descriï¿½ï¿½o Pï¿½gina");
 		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome_page = new TextField(model,"nome_page");
-		nome_page.setLabel("Nome Página");
+		nome_page.setLabel("Nome Pï¿½gina");
 		nome_page.propertie().add("name","p_nome_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		descricao_page = new TextField(model,"descricao_page");
-		descricao_page.setLabel("Descrição da Página");
+		descricao_page.setLabel("Descriï¿½ï¿½o da Pï¿½gina");
 		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		versao_page = new TextField(model,"versao_page");
-		versao_page.setLabel("Versão");
+		versao_page.setLabel("Versï¿½o");
 		versao_page.propertie().add("name","p_versao_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel("Ativo?");
@@ -80,11 +81,8 @@ public class ListaPageView extends View {
 		btn_gerar = new IGRPButton("Gerar Pagina","igrp","generator","index","_target","link|fa-gears","","");
 		btn_gerar.propertie.add("type","specific").add("code","").add("rel","gerar");
 		
-<<<<<<< HEAD
-=======
 		btn_export = new IGRPButton("Export","igrp","ListaPage","export","confirm","grey|fa-upload","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	}
 		
 	@Override
@@ -110,6 +108,7 @@ public class ListaPageView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_visualizar);
 		table_1.addButton(btn_gerar);
+		table_1.addButton(btn_export);
 		
 		this.addToPage(form_1);
 		this.addToPage(table_1);

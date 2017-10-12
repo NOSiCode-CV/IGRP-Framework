@@ -7,17 +7,15 @@ package nosi.webapps.igrp.pages.mapaprocesso;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.DateField;
 import nosi.core.gui.fields.Field;
-<<<<<<< HEAD
-=======
 import nosi.core.gui.fields.FileField;
 import nosi.core.gui.fields.HiddenField;
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 import nosi.core.gui.fields.ListField;
 import nosi.core.gui.fields.NumberField;
 import nosi.core.gui.fields.SeparatorField;
@@ -27,8 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.activit.rest.FormData;
-import nosi.core.webapp.activit.rest.FormData.FormProperties;
+import nosi.core.webapp.activit.rest.FormDataService;
+import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -61,45 +59,23 @@ public class MapaProcessoController extends Controller {
 	public Response actionOpenProcess(){
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
-<<<<<<< HEAD
-		FormData formData = null;
-=======
 		FormDataService formData = null;
 		String title = "";
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		if(p_processId!=null){
-<<<<<<< HEAD
-			formData = new FormData().getFormDataByProcessDefinitionId(p_processId);
-=======
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
-			title = process!=null? process.getName()+" -  Nº "+process.getDeploymentId():"";
+			title = process!=null? process.getName()+" -  Nï¿½ "+process.getDeploymentId():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		}
 		if(taskId!=null){
-<<<<<<< HEAD
-			formData = new FormData().getFormDataByTaskId(taskId);
-=======
 			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?task.getName()+" - Nº "+task.getId():"";
+			title = task!=null?task.getName()+" - Nï¿½ "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		}
-<<<<<<< HEAD
-		String content = formData!=null?this.transformToXml(formData.getFormProperties()):"";
-=======
 		String content = this.transformToXmlWorkFlow(title,formData);
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		return this.renderView(content);
 	}
 	/*---- End ----*/
 
-<<<<<<< HEAD
-	private String transformToXml(List<FormProperties> formProperties) {
-		if(formProperties!=null && formProperties.size() > 0){
-			String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
-			XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
-=======
 	private String transformToXmlWorkFlow(String title,FormDataService formData) {
 		String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
@@ -118,10 +94,10 @@ public class MapaProcessoController extends Controller {
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel("Nome Ficheiro");
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel("Descrição");
+		prm_file_description.setLabel("Descriï¿½ï¿½o");
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel("Descrição");
+		prm_file_description_desc.setLabel("Descriï¿½ï¿½o");
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel("Ficheiro");
 		prm_file.propertie().add("rel", "prm_doc_list");
@@ -158,21 +134,7 @@ public class MapaProcessoController extends Controller {
 		p_fwl_relbox.propertie().add("type", "hidden");
 		Field p_fwl_tab_menu = new TextField(null,"p_fwl_tab_menu");
 		p_fwl_tab_menu.propertie().add("type", "hidden");
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 
-<<<<<<< HEAD
-			xml.addXml(Config.getHeader());
-			xml.startElement("content");
-			xml.writeAttribute("type", "");
-			xml.setElement("title", "");
-			IGRPForm form = new IGRPForm("form");
-			for(FormProperties prop:formProperties){
-				Field field = getField(prop.getId().toLowerCase(), prop.getType());
-				field.setValue(prop.getValue());
-				field.setLabel(prop.getName());
-				if(prop.getType().endsWith("enum")){
-					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
-=======
 		
 		if(formData!=null){
 			Field prm_taskid = getField("prm_taskid", "hidden");
@@ -195,18 +157,12 @@ public class MapaProcessoController extends Controller {
 	//				if(prop.getWritable())
 	//					field.propertie().add("disabled", "true");
 					if(prop.getType().endsWith("enum")){
-						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
+						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opï¿½ï¿½o ---"));
 					}
 					form.addField(field);
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 				}
 			}
-			xml.addXml(form.toString());
-			return xml.toString();
 		}
-<<<<<<< HEAD
-		return "";
-=======
 		form.addField(separatoradd_document1);
 		form.addField(prm_doc_list);
 		form.addField(p_fwl_tab_menu);
@@ -223,21 +179,10 @@ public class MapaProcessoController extends Controller {
 		xml.addXml(form.toString());
 		xml.addXml(table.toString());
 		return xml.toString();
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	}
 	
 	private Field getField(String name,String type){
 		switch (type) {
-<<<<<<< HEAD
-		case "date":
-			return new DateField(null, name);
-		case "long":
-			return new NumberField(null, name);
-		case "boolean":
-			return new CheckBoxField(null, name);
-		case "enum":
-			return new ListField(null, name);
-=======
 			case "date":
 				return new DateField(null, name);
 			case "long":
@@ -248,7 +193,6 @@ public class MapaProcessoController extends Controller {
 				return new ListField(null, name);
 			case "hidden":
 				return new HiddenField(null, name);
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 		}
 		return new TextField(null, name);
 	}

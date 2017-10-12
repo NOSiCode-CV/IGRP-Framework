@@ -8,11 +8,13 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -30,7 +32,7 @@ public class ExecucaoTarefasController extends Controller {
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, "--- Escolher Prioridade ---");
 		listPrioridade.put("100", "Urgente");
-		listPrioridade.put("50", "Médio");
+		listPrioridade.put("50", "Mï¿½dio");
 		listPrioridade.put("0", "Normal");
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
@@ -254,8 +256,6 @@ public class ExecucaoTarefasController extends Controller {
 	private User getUser(){
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
-<<<<<<< HEAD
-=======
 	
 	public Response actionProcessTask() throws IOException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
@@ -332,6 +332,5 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		return (processDefinitionId!=null && !processDefinitionId.equals(""))?formData.submitFormByProcessDenifition():false;
 	}
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 	/*---- End ----*/
 }

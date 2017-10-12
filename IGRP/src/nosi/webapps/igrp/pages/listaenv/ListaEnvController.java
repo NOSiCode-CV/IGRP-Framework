@@ -14,7 +14,9 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 
 /*---- End ----*/
+
 public class ListaEnvController extends Controller {		
+
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		ListaEnv model = new ListaEnv();
@@ -43,22 +45,42 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista Aplicação";
+		view.title = "Lista Aplicaï¿½ï¿½o";
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
+
+
+	public Response actionNovo() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","ListaPage","index");
+		/*---- End ----*/
+	}
 	
+
+	public Response actionPesquisar() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","listaenv","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionEditar() throws IOException{
+		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","ListaPage","index");
+		/*---- End ----*/
+	}
+	
+
 	public Response actionEliminar() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		if(app.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success","Operaï¿½ï¿½o efetuada com sucesso");
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operaï¿½ï¿½o");
 		return this.redirect("igrp","lista-env","index");
 	}
-<<<<<<< HEAD
-=======
 	
 
 	public Response actionExport() throws IOException{
@@ -69,5 +91,4 @@ public class ListaEnvController extends Controller {
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/
->>>>>>> branch 'master' of https://github.com/NOSiCode-CV/IGRP-Framework.git
 }
