@@ -17,6 +17,8 @@ $(function ($) {
 		$.WR.pageUrl 		= $('#p_env_frm_url')[0] ? $('#p_env_frm_url').val() : window.location.href;
 
 		
+		
+		
 		$.WR.fieldDataSource = {
 			urlChange:$('#p_link_source')[0] ? $('#p_link_source').val() : 'XXXX',
 			onChange : function(){
