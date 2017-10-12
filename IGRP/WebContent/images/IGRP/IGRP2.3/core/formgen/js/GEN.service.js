@@ -48,12 +48,7 @@ var GENSERVICE = function(GEN){
 				if(type.indexOf('xml') != -1)
 					data = $(d).to2DOT2();
 
-				console.log($(d));
-				console.log(data.rows);
-
 				contents = GEN.layout.getAllContainers(data.rows);
-
-				console.log(contents);
 
 				contents.forEach(function(c){
 					arr.push({
@@ -304,6 +299,7 @@ var GENSERVICE = function(GEN){
 			}
 		});*/
 		if (p.contents) {
+			
 			p.contents.forEach(function(c){
 
 				var hasChild = c.fields[0] ? true : false,
@@ -425,6 +421,11 @@ var GENSERVICE = function(GEN){
 		});
 
 		//console.log(fieldsServices);
+
+		if (type == 'RESP') {
+			if(!$('#source .global ul.row li:not([name="mimetype"])')[0])
+				fieldsServices = [];
+		}
 
 		return fieldsServices;
 	}

@@ -42,6 +42,10 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	private String img_src;
 	private String description;
 	private int status;
+	
+	private int external;
+	private String url;
+	
 	@ManyToOne()
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
@@ -78,8 +82,22 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		this.status = status;
 		this.action = action;
 	}
+	
+	public int getExternal() {
+		return external;
+	}
 
+	public void setExternal(int external) {
+		this.external = external;
+	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
 	public Integer getId() {
 		return id;
@@ -91,7 +109,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		return dad;
 	}
 	public void setDad(String dad) {
-		this.dad = dad;
+		this.dad = dad.replaceAll("\\s+","_").toLowerCase();
 	}
 	public String getName() {
 		return name;

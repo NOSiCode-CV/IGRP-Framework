@@ -7,20 +7,16 @@ import org.hibernate.internal.SessionImpl;
 import nosi.base.ActiveRecord.PersistenceUtils;
 
 /**
- * @author: Emanuel Pereira 8 Jul 2017
+ * @author: Emanuel Pereira
+ * 8 Jul 2017
  */
 public class Connection {
 
-	public static java.sql.Connection getConnection(String connectionName) {
-		EntityManagerFactory entityManagerFactory = (EntityManagerFactory) PersistenceUtils.SESSION_FACTORY.get(connectionName);
+	public static java.sql.Connection getConnection(String connectionName){
+		EntityManagerFactory entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(connectionName);
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.getTransaction().begin();
 		Session hibernateSession = (Session) em.unwrap(Session.class);
-		return ((SessionImpl) hibernateSession).connection();
+		return ((SessionImpl)hibernateSession).connection();
 	}
-
-	public static java.sql.Connection getConnection() {
-		return Connection.getConnection("hibernate-igrp-core");
-	}
-
 }

@@ -223,12 +223,26 @@
                 </xsl:call-template>
 
                 <xsl:value-of select="$enter2tab"/>
-                REDGLOBAL.GLB_CORE.remote_combo(
-                    CLABEL=&gt;'----',
-                    CTAG =&gt; '<xsl:value-of select="$fname"/>', 
-                    CVALUE =&gt;'',
-                    CSQL =&gt; 'select ''Remote ''||rownum name, rownum id from dual connect by rownum&lt;=3' 
-                );
+                <xsl:choose>
+                   
+                    <xsl:when test="@type = 'remote_combobox'">
+                        
+                        REDGLOBAL.GLB_CORE.remote_combo(
+                            CLABEL=&gt;'----',
+                            CTAG =&gt; '<xsl:value-of select="$fname"/>', 
+                            CVALUE =&gt;'',
+                            CSQL =&gt; 'select ''Remote ''||rownum name, rownum id from dual connect by rownum&lt;=3' 
+                        );
+
+                    </xsl:when>
+
+                </xsl:choose>
+
+                
+                
+
+
+
                 <xsl:call-template name="genProcedureEndCab">
                     <xsl:with-param name="procedureName" select="$procName"/>
                 </xsl:call-template>

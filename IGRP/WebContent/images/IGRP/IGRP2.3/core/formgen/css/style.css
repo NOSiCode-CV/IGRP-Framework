@@ -15,6 +15,10 @@ body[view="gen-design"] .gen-viewers-toolbar{
 	padding-top: 0
 }
 
+#igrp-sidebar.sidebar{
+	padding-top: 39px;
+}
+
 .gen-viewers-toolbar{
 	z-index: 100;
     position: absolute;
@@ -115,7 +119,7 @@ a, button {
 	content:"*";
 	font-size: 16px;
 	margin-right: 4px;
-	font-weight: bold
+	font-weight: 500
 }
 
 
@@ -314,7 +318,7 @@ a, button {
 }
 
 #igrp-sidebar{
-	margin-top: 40px;
+	margin-top: 00px;
 }
 
 #igrp-sidebar .nav-tabs { 
@@ -382,7 +386,10 @@ a, button {
 	color: #fff; 
 }
 
-#igrp-sidebar .tab-content{padding:5px}
+#igrp-sidebar .tab-content{
+	padding:5px
+	margin-top:38px;
+}
 
 
 
@@ -640,7 +647,7 @@ thead tr.no-fields .gen-container-sortable-placeholder{
     margin: 0 2px;
 }
 .rules-target.gen-container{
-	font-weight: bold;
+	font-weight: 500;
 }
 
 .rules-target.gen-field{
@@ -725,7 +732,7 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 #gen-edition-modal .modal-footer .info:before{
 	text-transform: uppercase;
 	font-size: 12px;
-	font-weight: bold;
+	font-weight: 500;
 }
 #gen-edition-modal .modal-footer .info.parent:before{
 	content:'Container: ';

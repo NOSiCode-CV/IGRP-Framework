@@ -20,7 +20,7 @@ public class OAuthClientController extends Controller {
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*---- Insert your code here... ----*/				
 		OAuthClient model = new OAuthClient();
 		
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -37,12 +37,19 @@ public class OAuthClientController extends Controller {
 		if(id != null && !id.equals("")) 
 			view.btn_salvar.setLink("salvar&p_id="+id);
 		return this.renderView(view);
-		/*---- End ----*/
+				/*---- End ----*/
 	}
 
 
-	public Response actionSalvar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionListar_oauth_client() throws IOException{
 		/*---- Insert your code here... ----*/
+		return this.redirect("igrp","OAuthClient","index");
+		/*---- End ----*/
+	}
+	
+
+	public Response actionSalvar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*---- Insert your code here... ----*/				
 		OAuthClient model = new OAuthClient();
 		nosi.webapps.igrp.dao.OAuthClient cliente = new nosi.webapps.igrp.dao.OAuthClient();
 		model.load();
@@ -70,7 +77,7 @@ public class OAuthClientController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
 		}
 		return this.redirect("igrp","OAuthClient","index");
-		/*---- End ----*/
+				/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/

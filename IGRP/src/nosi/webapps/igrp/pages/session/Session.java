@@ -2,8 +2,6 @@
 package nosi.webapps.igrp.pages.session;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class Session extends Model{	
@@ -12,7 +10,7 @@ public class Session extends Model{
 	private int aplicacao;
 	
 	@RParam(rParamName = "p_utilizador")
-	private String utilizador; 
+	private String utilizador;
 	
 	@RParam(rParamName = "p_data_inicio")
 	private String data_inicio;
@@ -21,7 +19,7 @@ public class Session extends Model{
 	private String data_fim;
 	
 	@RParam(rParamName = "p_estado")
-	private int estado;
+	private String estado;
 
 	private ArrayList<Table_1> table_1 = new ArrayList<>();
 	public void setTable_1(ArrayList<Table_1> table_1){
@@ -75,10 +73,10 @@ public class Session extends Model{
 		return this.data_fim;
 	}
 	
-	public void setEstado(int estado){
+	public void setEstado(String estado){
 		this.estado = estado;
 	}
-	public int getEstado(){
+	public String getEstado(){
 		return this.estado;
 	}
 
@@ -134,47 +132,88 @@ public class Session extends Model{
 
 	}
 	public class Chart_t_sessao{
-		private String data;
-		private int total;
-		public String getData() {
-			return data;
+		private String Ano;
+		private String X1;
+		private String X2;
+		private String X3;
+		private String X4;
+		public void setAno(String Ano){
+			this.Ano = Ano;
 		}
-		public void setData(String data) {
-			this.data = data;
+		public String getAno(){
+			return this.Ano;
 		}
-		public int getTotal() {
-			return total;
+
+		public void setX1(String X1){
+			this.X1 = X1;
 		}
-		public void setTotal(int total) {
-			this.total = total;
+		public String getX1(){
+			return this.X1;
 		}
+
+		public void setX2(String X2){
+			this.X2 = X2;
+		}
+		public String getX2(){
+			return this.X2;
+		}
+
+		public void setX3(String X3){
+			this.X3 = X3;
+		}
+		public String getX3(){
+			return this.X3;
+		}
+
+		public void setX4(String X4){
+			this.X4 = X4;
+		}
+		public String getX4(){
+			return this.X4;
+		}
+
 	}
-	
-	
 	public class Chart_t_session_app{
-		private String dataInicio;
-//		private String appname;
-		private int total;
-		
-		public String getDataInicio() {
-			return dataInicio;
+		private String Ano;
+		private String X1;
+		private String X2;
+		private String X3;
+		private String X4;
+		public void setAno(String Ano){
+			this.Ano = Ano;
 		}
-		public void setDataInicio(String dataInicio) {
-			this.dataInicio = dataInicio;
+		public String getAno(){
+			return this.Ano;
 		}
-//		public String getAppname() {
-//			return appname;
-//		}
-//		public void setAppname(String appname) {
-//			this.appname = appname;
-//		}
-		public int getTotal() {
-			return total;
+
+		public void setX1(String X1){
+			this.X1 = X1;
 		}
-		public void setTotal(int total) {
-			this.total = total;
+		public String getX1(){
+			return this.X1;
 		}
-		
+
+		public void setX2(String X2){
+			this.X2 = X2;
+		}
+		public String getX2(){
+			return this.X2;
+		}
+
+		public void setX3(String X3){
+			this.X3 = X3;
+		}
+		public String getX3(){
+			return this.X3;
+		}
+
+		public void setX4(String X4){
+			this.X4 = X4;
+		}
+		public String getX4(){
+			return this.X4;
+		}
+
 	}
 }
 /*-------------------------*/
