@@ -17,7 +17,7 @@ public class Import_exportController extends Controller {
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*---- Insert your code here... ----*/				
 		Import_export model = new Import_export();
 		Import_exportView view = new Import_exportView(model);
 		
@@ -30,22 +30,14 @@ public class Import_exportController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		
 		return this.renderView(view);
-			/*---- End ----*/
+				/*---- End ----*/
 	}
 
-
-	public Response actionImport() throws IOException{
-		/*---- Insert your code here... ----*/
-		
-		return this.redirect("igrp","Import_export","index");
-			/*---- End ----*/
-	}
-	
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*---- Insert your code here... ----*/				
 		return this.redirect("igrp","Import_export","index");
-			/*---- End ----*/
+				/*---- End ----*/
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/
