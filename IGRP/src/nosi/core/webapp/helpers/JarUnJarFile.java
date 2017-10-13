@@ -76,13 +76,6 @@ public class JarUnJarFile {
 				    	content.append(line);
 				    	content.append(ls);
 				    }
-				    in.close();
-				    d.close();
-//					byte data[] = new byte[2048];
-//					while((jis.read(data))!=-1){
-//				        String st = new String(data);
-//				        content+=st;
-//					}
 					contents.put(entry.getName(), content.toString());
 					jis.closeEntry();
 				}
