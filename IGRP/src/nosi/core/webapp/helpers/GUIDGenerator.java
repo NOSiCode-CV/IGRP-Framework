@@ -15,7 +15,7 @@ public class GUIDGenerator {
 	
 	public static String getGUIDWithBraces(){
 		UUID uuid = UUID.randomUUID();
-		return "{"+uuid.toString()+"}".toUpperCase();
+		return "{"+uuid.toString().toUpperCase()+"}";
 	}
 	
 	public static String getGUIDUpperCase(){

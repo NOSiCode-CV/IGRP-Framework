@@ -328,22 +328,23 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 *  <table>
 	 */
 	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
-		
 		Set<Properties> columns = this.getColumns(rt.getId(), query);
 		//Reomve filtro caso nao existir
 		if(value_array==null || value_array.length<=0){
 			query =rs.getType().equalsIgnoreCase("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
 		}
 		//Aplica filtro caso existir
-		if(value_array!=null && name_array!=null && value_array.length> 0 && name_array.length >0){
+		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
+		if(paramsUrl!=null &&paramsUrl.size() > 0){
 			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
-			for(String name:name_array){
-				String column_name = name.contains("p_")?name.substring(2, name.length()):name;
-				query += " AND "+column_name+"=:"+name;
+			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
+				if(parm.getKey()!=null && parm.getValue()!=null  && !parm.getKey().equals("") && !parm.getValue().equals("")){
+					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2, parm.getKey().length()):parm.getKey();
+					query += " AND "+column_name+"=:"+parm.getKey();
+				}
 			}
 		}
 		String xml = null;
-		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> /*name_array[i].contains("p_")?name_array[i].substring("p_".length()):*/name_array[i], i -> value_array[i])):null;
 		EntityManager em = this.entityManagerFactory.createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
@@ -352,7 +353,8 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			if(value_array!=null && value_array.length>0){
 				for(Parameter<?> param:q.getParameters()){
 					Object val = paramsUrl.get(param.getName().toLowerCase());
-					q.setParameter(param.getName(), val);
+					if(val!=null)
+						q.setParameter(param.getName(), val);
 				}
 			}	
 			@SuppressWarnings("unchecked")
