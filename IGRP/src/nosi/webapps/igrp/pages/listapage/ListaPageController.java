@@ -74,8 +74,8 @@ public class ListaPageController extends Controller {
 			FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
 			
 			Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
-			
 			Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
+			
 			xsl_xml_files.putAll(Java_files);
 			System.out.println(xsl_xml_files);
 			boolean status = JarUnJarFile.saveJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+page.getPage()+".jar", xsl_xml_files, 9);
