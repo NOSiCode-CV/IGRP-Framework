@@ -34,7 +34,8 @@ public class Report extends Controller{
 	}
 	
 	public Report addParam(String name,Object value){
-		this.params.put(name, value);
+//		if(value!=null && !value.toString().equals(""))
+			this.params.put(name, value);
 		return this;
 	}
 
