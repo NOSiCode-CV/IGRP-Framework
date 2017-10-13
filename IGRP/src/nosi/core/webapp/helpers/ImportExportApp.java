@@ -20,7 +20,7 @@ public class ImportExportApp {
 		xml.setElement("status", pagina.getStatus()+"");
 		xml.setElement("version", pagina.getVersion());
 		xml.setElement("xsl_src", pagina.getXsl_src());
-		xml.setElement("env_fk", pagina.getApplication()+"");
+		xml.setElement("env_fk", pagina.getApplication().getId()+"");
 		
 		return xml.toString();
 	}
