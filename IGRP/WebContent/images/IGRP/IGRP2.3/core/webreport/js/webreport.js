@@ -316,6 +316,10 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
+										
+										if (p.action == 'edit') 
+											data.push({name:'p_id',value:$.WR.id});
+										
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -419,11 +423,15 @@ $(function ($) {
 							type	: 'danger'
 						});
 					})
-					.success(function(e){
-						var type 	= e.type && e.type != undefined ? e.type : 'danger',
-							message = e.msg && e.msg != undefined ? e.msg : 'Erro';
+					.success(function(e,s,r){
+						var xml 	= $(e).find('messages message'),
+							type 	= xml.attr('type') || 'danger',
+							message = xml.text() || 'Erro';
+
+						type = type == 'error' ? 'danger' : type;
+						
 						$.IGRP.notify({
-							message : $.IGRP.utils.htmlDecode(e.msg),
+							message : $.IGRP.utils.htmlDecode(message),
 							type	: type
 						});
 
