@@ -75,9 +75,11 @@ $(function ($) {
 			setVal : function(data,selected){
 				var option  = null,
 					selected = selected ? selected : [];
+
 				if(data && data != undefined){
 					$('.wr-editdatasource').addClass('active');
 					$("option",$.WR.objDataSource).remove();
+
 					data.find('option').each(function(i,e){
 						var value = $(e).find("value").text();
 						option = new Option(
@@ -150,7 +152,7 @@ $(function ($) {
 						$.IGRP.components.globalModal.set({
 							size 		: 'xs',
 							content 	: content,
-							title 		: 'Edit Data Source',
+							title 		: 'Editar Data Source',
 							buttons 	: [
 								{
 									class 	: 'success',
@@ -245,6 +247,8 @@ $(function ($) {
 								}
 							}	
 						});
+					}else{
+						$('#wr-list-document').html('');
 					}
 				});
 			},
@@ -316,10 +320,10 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
-										
+
 										if (p.action == 'edit') 
 											data.push({name:'p_id',value:$.WR.id});
-										
+
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -429,7 +433,7 @@ $(function ($) {
 							message = xml.text() || 'Erro';
 
 						type = type == 'error' ? 'danger' : type;
-						
+
 						$.IGRP.notify({
 							message : $.IGRP.utils.htmlDecode(message),
 							type	: type
@@ -559,16 +563,18 @@ $(function ($) {
 		      			$.WR.keys = [];
 		      			if (rq.status == 200) {
 			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
-			      				$.WR.newDocument = false;
+			      				if ($.WR.newDocument)
+			      					$.WR.newDocument = false;
+
 			      				$('#igrp-app-title').html($.WR.title);
 			      				$.WR.objApp.change();
 			      				//$.WR.id =  get id in c
 			      			}
 
-			      			if($.WR.isPreview){
+			      			/*if($.WR.isPreview){
 			      				$.WR.isPreview = false;
 			      				$('a[target="alert_submit"]').click();
-			      			}
+			      			}*/
 		      			}
 		         	}
 			   	});
@@ -750,8 +756,13 @@ $(function ($) {
 							});
 				        }
 					} else {
-						$.WR.isPreview = true;
-						$('a[target="submit"]').click();
+						//$.WR.isPreview = true;
+						//$('a[target="submit"]').click();
+
+						$.IGRP.notify({
+							message : 'Documento não foi gravado!!',
+							type	: 'info'
+						});
 					}
 					return false;
 				}
