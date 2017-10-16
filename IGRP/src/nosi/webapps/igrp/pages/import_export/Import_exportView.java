@@ -24,8 +24,6 @@ public class Import_exportView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_import;
 	public IGRPButton btn_pesquisar;
 	public Import_exportView(Import_export model){
 		this.setPageTitle("Import export");
@@ -36,7 +34,7 @@ public class Import_exportView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("Import/Export de uma Aplicação");
+		sectionheader_1_text.setValue("Lista dos Import/Export de uma Aplicação");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicação");
@@ -75,9 +73,6 @@ public class Import_exportView extends View {
 		
 		download.propertie().add("name","p_download").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_import = new IGRPButton("Import","igrp","Import_export","import","_blank","success|fa-download","","");
-		btn_import.propertie.add("type","specific").add("code","").add("rel","import");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Import_export","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
@@ -93,19 +88,16 @@ public class Import_exportView extends View {
 		form_1.addField(data_ate);
 		form_1.addField(tipo);
 
-
 		table_1.addField(aplicacao_tabela);
 		table_1.addField(utilizador);
 		table_1.addField(data);
 		table_1.addField(tipo_tabela);
 		table_1.addField(download);
 
-		toolsbar_1.addButton(btn_import);
 		form_1.addButton(btn_pesquisar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(toolsbar_1);
 	}
 }
 /*-------------------------*/

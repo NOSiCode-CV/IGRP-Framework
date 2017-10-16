@@ -67,18 +67,23 @@ public class ListaPageController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id != null && !id.equals("")) {
 			Action page = new Action().findOne(id);
-			//String xml_file = ImportExportApp.generateXMLPage(page);			
-			//String path_class_files = Config.getWorkspace() +"\\"+ page.getPackage_name().replace(".", "\\");
-			//System.out.println(path_class_files);
-			//String path_xsl_xml = "C:/Users/isaias.nunes/git/IGRP-Framework/IGRP/nosi/webapps/igrp/pages/listapage/";//Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
-			//System.out.println(path_xsl_xml); 
-			//FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
+			String xml_file = ImportExportApp.generateXMLPage(page);			
+			String path_class_files = Config.getWorkspace() +"\\src\\"+ page.getPackage_name().replace(".", "\\");
+			String path_xsl_xml = Config.getWorkspace() + "\\WebContent\\" + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
 			
-			//Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
-			//Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
-			//xsl_xml_files.putAll(Java_files);
-			//JarUnJarFile.saveJarFiles("C:\\Downloads\\"+page.getPage()+".jar", xsl_xml_files, 9);
+			FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
 			
+			Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
+			Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
+			
+			xsl_xml_files.putAll(Java_files);
+			System.out.println(xsl_xml_files);
+			boolean status = JarUnJarFile.saveJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+page.getPage()+".jar", xsl_xml_files, 9);
+			if(status) {
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Upload concluído com sucesso...");
+			}else {
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Upload...");
+			}
 		}
 		
 		return this.redirect("igrp","ListaPage","index");

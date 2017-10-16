@@ -10,9 +10,12 @@ package nosi.core.webapp.helpers;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -63,14 +66,17 @@ public class JarUnJarFile {
 				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
 				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 				JarEntry entry = null;
-				while((entry=jis.getNextJarEntry())!=null){
-					byte data[] = new byte[2048];
-					String content = "";
-					while((jis.read(data))!=-1){
-				        String st = new String(data);
-				        content+=st;
-					}
-					contents.put(entry.getName(), content);
+				while((entry=jis.getNextJarEntry())!=null){				
+				    String         ls = System.getProperty("line.separator");
+				    String         line = null;
+				    DataInputStream in = new DataInputStream(jis); 
+				    StringBuilder content = new StringBuilder();  
+				    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				    while((line=d.readLine())!=null){
+				    	content.append(line);
+				    	content.append(ls);
+				    }
+					contents.put(entry.getName(), content.toString());
 					jis.closeEntry();
 				}
 				jis.close();
