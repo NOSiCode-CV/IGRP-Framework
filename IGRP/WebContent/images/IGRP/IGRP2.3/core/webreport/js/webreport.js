@@ -254,7 +254,7 @@ $(function ($) {
 
 		$.WR.fieldPrintSize = {
 			getVal : function(){
-				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || '';
+				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || 'A4';
 			},
 			setVal : function(v){
 				var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
@@ -302,7 +302,7 @@ $(function ($) {
 							icon  	: 'check',
 							text  	: 'Confirmar',
 							onClick : function(){
-								var data = $('.reporttitle *').serializeArray();
+								var data = $('.reporttitle *:not([name="wr_printsize"])').serializeArray();
 
 								data.forEach(function(e,i){
 									if(e.name == p.codeName)
@@ -313,6 +313,10 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
+
+										if (p.action == 'edit') 
+											data.push({name:'p_id',value:$.WR.id});
+
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -486,6 +490,7 @@ $(function ($) {
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
+						console.log(size);
 					}
 				});
 
@@ -719,7 +724,7 @@ $(function ($) {
 				}else{
 					isActive  = p.config.customfooter;
 					content   = p.content;
-					printsize = p.config.printsize;
+					printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
 				}
 
 				$.WR.fieldPrintSize.setVal(printsize);
@@ -1332,12 +1337,13 @@ $(function ($) {
 
 					size = size && size != undefined ? size : '=:WRPZ:=';
 
-					var html = '<div class="page" size="'+size+'"><div class="head">';
+					var html   = '<div class="page" size="'+size+'"><div class="head">',
+						footer = data.footer ? data.footer : WR.document.config.customfooter.value;
 
 					html += data.head+'</div>';
 					html += '<div class="content">'+data.body+'</div>';
-					html += '<div class="footer">'+data.footer+'</div></div>';
-
+					html += '<div class="footer">'+footer+'</div></div>';
+					
 					return html;
 				}
 			},
@@ -1354,7 +1360,7 @@ $(function ($) {
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							

@@ -23,7 +23,7 @@ var xslpath = '/IGRP/images/IGRP/IGRP2.3/',
 				            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
 				          	'</div>'+
 				          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
-				          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
+				          	'/<span no="print_report" footer="footer" tag="data_print">Data da ImpressÃ£o</span></div>'+
 				        '</div>'+
 			        '</div>'+
 		        '</div>'
@@ -301,11 +301,11 @@ var xslpath = '/IGRP/images/IGRP/IGRP2.3/',
   		js   : {
   			all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
   					'<script type="text/javascript" src="{rows/print_report/link_img}core/qrcode/qrcode.min.js"/>'+
-  					'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/webreport.control.js"/>'+
   					'<script type="text/javascript">'+ 
   						'var qrcodeResult = '+"'"+'<xsl:value-of select="rows/print_report/link_qrcode"/>'+"'"+';'+
       					'var containerQrcode = "#containerQrcode";'+
-      				'</script>',
+      				'</script>'+
+  					'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/webreport.control.js"/>',
 
   			chart : '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts.js"/>'+
 			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts-more.js"/>'+

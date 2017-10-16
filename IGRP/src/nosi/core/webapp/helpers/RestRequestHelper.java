@@ -5,14 +5,12 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.List;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.core.MediaType;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -158,7 +156,6 @@ public class RestRequestHelper{
 			Gson gson = new Gson();
 			response = gson.fromJson(jsonObject.toString(), dao);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return response;
 	}
@@ -180,7 +177,6 @@ public class RestRequestHelper{
 				list = gson.fromJson(aux.toString(), type);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return list;
 	}

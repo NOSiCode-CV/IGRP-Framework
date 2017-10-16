@@ -33,6 +33,7 @@ public class RepInstance extends BaseActiveRecord<RepInstance> implements Serial
 	@ManyToOne
 	@JoinColumn(name="rep_template_fk",foreignKey=@ForeignKey(name="REP_INSTANCE_REP_TEMPLATE_FK"),nullable=true)
 	private RepTemplate template;
+	@Column(nullable=false)
 	private String contra_prova;
 	@Column(nullable=false)
 	@Temporal(TemporalType.DATE)

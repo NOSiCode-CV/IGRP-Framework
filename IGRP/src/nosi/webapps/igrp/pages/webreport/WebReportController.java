@@ -7,11 +7,11 @@ package nosi.webapps.igrp.pages.webreport;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -22,6 +22,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.CLob;
+import nosi.webapps.igrp.dao.RepInstance;
 import nosi.webapps.igrp.dao.RepSource;
 import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
@@ -73,29 +74,23 @@ public class WebReportController extends Controller {
 
 
 	public Response actionSaveEditTemplate(){
-		System.out.println("Saving Edit Template");
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			Enumeration<String> c = Igrp.getInstance().getRequest().getParameterNames();
-			while(c.hasMoreElements()){
-				System.out.println(c.nextElement());
-			}
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
 			String title_ = Igrp.getInstance().getRequest().getParameter("p_title_report");
-//			System.out.println(id_+":"+code_+":"+title_);
 			if(id_!=null && !id_.equals("")){
 				RepTemplate rt = new RepTemplate();
-				rt = rt.findOne(Integer.parseInt(id_));
+				rt = rt.findOne((int)Float.parseFloat(id_));
 				rt.setCode(code_);
 				rt.setName(title_);
 				rt.setDt_updated(new Date(System.currentTimeMillis()));
 				rt = rt.update();
 				if(rt!=null){
-					return this.renderView("<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>");
+					return this.renderView(FlashMessage.MSG_SUCCESS);
 				}
 			}
 		}
-		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
+		return this.renderView(FlashMessage.MSG_ERROR);
 	}
 		
 	public Response actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
@@ -108,7 +103,7 @@ public class WebReportController extends Controller {
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
 			String [] data_sources = Igrp.getInstance().getRequest().getParameterValues("p_datasorce_app");
 			String [] keys = Igrp.getInstance().getRequest().getParameterValues("p_key");
-			if(fileTxt!=null && fileXsl!=null && env_fk!=null){
+			if(fileTxt!=null && fileXsl!=null && env_fk!=null && !env_fk.equals("")){
 				CLob clob_xsl = new CLob();
 				CLob clob_html = new CLob();
 				RepTemplate rt = new RepTemplate();
@@ -167,34 +162,58 @@ public class WebReportController extends Controller {
 						rts.insert();
 					}
 				}	
-				return this.renderView("<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>");
+				return this.renderView(FlashMessage.MSG_SUCCESS);
 			}
 		}	
-		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
+		return this.renderView(FlashMessage.MSG_ERROR);
+	}
+	
+	public Response actionGetContraprova(){
+		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
+		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
+		String content = "";
+		if(ri!=null){
+			content = ri.getXml_content().getC_lob_content();
+		}
+		return this.renderView(content);
+	}
+	
+	//Get xsl content of report
+	public Response actionGetXsl() throws IOException{
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String xsl = "";
+		if(id!=null && !id.equals("")){
+			CLob c = new CLob();
+			c = c.findOne(Integer.parseInt(id));
+			xsl = c.getC_lob_content();
+		}
+		this.format = Response.FORMAT_XSL;
+		return this.renderView(xsl);
 	}
 	
 	//Faz previsualizacao de report usando a contra senha
 	public Response actionGetLinkReport() throws IOException{
 		String p_code = Igrp.getInstance().getRequest().getParameter("p_code");
-		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
-		String xml = "";
-		if(rt!=null){
-			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
-			//Iterate data source per template
-			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
-				xml += this.getData(rep,name_array,value_array);
-			}
-			xml = this.genXml(xml,rt);
+		String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+		String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+		String params = "";
+		if(name_array!=null && value_array!=null && name_array.length > 0 && value_array.length > 0){
+			for(String n:name_array)
+				params += ("&name_array="+n);
+			for(String v:value_array)
+				params += ("&value_array="+v);
 		}
-		this.format = Response.FORMAT_XML;
-		return this.renderView(xml);
+		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
+		if(rt!=null)
+			return this.redirect("igrp", "WebReport", "preview&p_id="+rt.getId()+"&p_type=1"+params);
+		return this.renderView(FlashMessage.MSG_ERROR);
 	}
 	
 	//Faz previsualizacao de report sem usar contra senha
 	public Response actionPreview() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String type = Igrp.getInstance().getRequest().getParameter("p_type");//se for 0 - preview, se for 1 - registar ocorencia
 		String xml = "";
 		if(id!=null && !id.equals("")){
 			RepTemplate rt = new RepTemplate();
@@ -205,7 +224,7 @@ public class WebReportController extends Controller {
 			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
 				xml += this.getData(rep,name_array,value_array);
 			}
-			xml = this.genXml(xml,rt);
+			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0);
 		}
 		this.format = Response.FORMAT_XML;
 		return this.renderView(xml);
@@ -294,21 +313,45 @@ public class WebReportController extends Controller {
 	/*Gen final XML for Web Report
 	 * 
 	 */
-	private String genXml(String contentXml,RepTemplate rt){
-		String contraprova = GUIDGenerator.getGUIDWithBraces();
-		XMLWritter xmlW = new XMLWritter("rows", "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), "");
+	private String genXml(String contentXml,RepTemplate rt,int type){
+		String contra_prova = GUIDGenerator.getGUIDUpperCase();
+		int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		User user = new User();
+		user = user.findOne(user_id);
+		String content = this.getReport(contentXml, "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
+		if(type==1){
+			RepInstance ri = new RepInstance();
+			ri.setContra_prova(contra_prova);
+			ri.setApplication(rt.getApplication());
+			ri.setDt_created(new Date(System.currentTimeMillis()));
+			ri.setReference(contra_prova);
+			ri.setTemplate(rt);
+			ri.setUser(user);
+			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created());
+			xsl = xsl.insert();
+			if(xsl!=null){
+				content = this.getReport(contentXml, "webapps?r=igrp/web-report/get-xsl&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
+				CLob xml = new CLob("", "application/xml", content, ri.getDt_created());
+				xml = xml.insert();
+				ri.setXml_content(xml);
+				ri.setXsl_content(xsl);
+				ri.insert();
+			}
+		}
+		return content;
+	}
+	
+	private String getReport(String contentXml,String xslPath,String contra_prova,RepTemplate rt,User user){
+		XMLWritter xmlW = new XMLWritter("rows", xslPath, "");
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode", "webapps?r=igrp/web-report/get-contraprova&amp;p_contraprova="+contraprova);
+			xmlW.setElement("link_qrcode", "webapps?r=igrp/web-report/get-contraprova&amp;p_contraprova="+contra_prova);
 			xmlW.setElement("img_brasao", "brasao.png");
-			xmlW.setElement("name_brasao", "");
+			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());
 			xmlW.setElement("name_contraprova", "Contra Prova");
-			xmlW.setElement("value_contraprova", contraprova);
-			int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
-			User user = new User();
-			user = user.findOne(user_id);
+			xmlW.setElement("value_contraprova", contra_prova);
 			xmlW.setElement("user_print",user.getName());
 			xmlW.setElement("link_img",Config.getLinkImg()+"/");
 			xmlW.setElement("template", "por adicionar");
@@ -317,23 +360,7 @@ public class WebReportController extends Controller {
 		return xmlW.toString();
 	}
 	
-	public Response actionGetContraprova(){
-		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
-		return this.renderView(contraprova);
-	}
 	
-	//Get xsl content of report
-	public Response actionGetXsl() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String xsl = "";
-		if(id!=null && !id.equals("")){
-			CLob c = new CLob();
-			c = c.findOne(Integer.parseInt(id));
-			xsl = c.getC_lob_content();
-		}
-		this.format = Response.FORMAT_XSL;
-		return this.renderView(xsl);
-	}
 	
 	//Get content xml
 	private String getContentXml(String title,String content) {

@@ -10,10 +10,14 @@ package nosi.core.webapp.helpers;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 import java.util.jar.JarEntry;
@@ -26,7 +30,8 @@ import java.util.zip.CheckedOutputStream;
 public class JarUnJarFile {
 	
 	//save data to jar format
-	public static void saveJarFiles(String jarName,HashMap<String,String>files,int level){
+	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
+		boolean result = false;
 		if(jarName.contains(".jar") && files.size() > 0 && (level >= 0 && level <= 9))
 		try{
 			FileOutputStream fos = new FileOutputStream(jarName);
@@ -34,18 +39,21 @@ public class JarUnJarFile {
 			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
 			Set<Entry<String, String>> entry = files.entrySet();
 			for(Entry<String,String> e:entry){
-				JarEntry je = new JarEntry(e.getValue());
+				JarEntry je = new JarEntry(e.getKey());
 				jos.putNextEntry(je);
-				FileInputStream fis = new FileInputStream(e.getKey());
+				FileInputStream fis = new FileInputStream(e.getValue());
 				for(int r=fis.read();r!=-1;r=fis.read()){
 					jos.write(r);
 				}
 				fis.close();
 			}
 			jos.close();
+			result = true;
 		}catch(IOException e){
+			result = false;
 			e.printStackTrace();
 		}
+		return result;
 	}
 	
 	//Extract files jar format
@@ -58,14 +66,17 @@ public class JarUnJarFile {
 				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
 				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
 				JarEntry entry = null;
-				while((entry=jis.getNextJarEntry())!=null){
-					byte data[] = new byte[2048];
-					String content = "";
-					while((jis.read(data))!=-1){
-				        String st = new String(data);
-				        content+=st;
-					}
-					contents.put(entry.getName(), content);
+				while((entry=jis.getNextJarEntry())!=null){				
+				    String         ls = System.getProperty("line.separator");
+				    String         line = null;
+				    DataInputStream in = new DataInputStream(jis); 
+				    StringBuilder content = new StringBuilder();  
+				    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				    while((line=d.readLine())!=null){
+				    	content.append(line);
+				    	content.append(ls);
+				    }
+					contents.put(entry.getName(), content.toString());
 					jis.closeEntry();
 				}
 				jis.close();

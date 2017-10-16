@@ -1,7 +1,10 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.import_export;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 

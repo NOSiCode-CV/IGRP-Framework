@@ -168,7 +168,6 @@ table{
   border-top:1px solid #ddd;
   border-right:1px solid #ddd;
   border-spacing: 0;
-  display: block;
 }
 
 table tbody tr:nth-of-type(odd) {
