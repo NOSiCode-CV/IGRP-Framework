@@ -366,7 +366,7 @@ $(function ($) {
 
 					$('#wr-list-document').on('mouseenter','.infoReport',function(){
 					var li  = $(this).parents('li.treeview:first'),
-						top = li.position().top + 16;
+						top = li.position().top + 7;
 
 						info.html(li.attr('info')).css({top:top}).addClass('active');
 					});

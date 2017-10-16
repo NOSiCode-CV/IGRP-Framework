@@ -84,7 +84,7 @@
 .nav-sidebar li .tree-menu-options{
 	position: absolute;
 	right:0;
-	top: 7px;
+	top: -1px;
 	display: none;
 	z-index: 10;
 }
@@ -215,7 +215,7 @@ div[data-notify="container"].alert{
    	border: 1px solid #EAEAEA;
     box-shadow:0px 4px 10px 0px #ddd;
     padding: 10px;
-    width: 320px;
+    width:calc(100% - 70px);
     z-index: 2;
     right: 51px;
     opacity: 0;
