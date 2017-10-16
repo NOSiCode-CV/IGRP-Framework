@@ -9,6 +9,8 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Report;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -48,12 +50,18 @@ public class WebReportController extends Controller {
 				for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
 					WebReport.Gen_table t1 = new WebReport.Gen_table();
 					RepTemplateParam rtp = new RepTemplateParam();
-					String params = "";
-					//Get parameters
-					for(RepTemplateParam p:rtp.find().andWhere("reptemplate", "=", t1.getId()).all()){
-						params += "&amp;"+p.getParameter().toLowerCase()+"=?";
+					String params = "null";
+					List<RepTemplateParam> listParams = rtp.find().andWhere("reptemplate", "=", r.getId()).all();
+					if(listParams.size() > 0){
+						params = "new Report()";
+						//Get parameters
+						for(RepTemplateParam p:listParams){
+							params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
+						}
 					}
-					t1.setDescricao("r=igrp/web-report/get-link-report"+params);
+//					Report.getLinkReport("rep_user", new Report().addParam("id", model.getId_utilizador()).addParam("user_name", model.getUser_name()))
+					String link = "Report.getLinkReport(\""+r.getCode()+"\","+params+");";
+					t1.setDescricao(link);
 					t1.setLink("igrp", "web-report", "load-template&amp;id="+r.getId());
 					t1.setLink_desc(r.getCode());
 					t1.setId(r.getId());
@@ -168,14 +176,15 @@ public class WebReportController extends Controller {
 		return this.renderView(FlashMessage.MSG_ERROR);
 	}
 	
-	public Response actionGetContraprova(){
+	public Response actionGetContraprova() throws IOException{
 		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
 			content = ri.getXml_content().getC_lob_content();
+			return this.renderView(content);
 		}
-		return this.renderView(content);
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
 	//Get xsl content of report
@@ -186,9 +195,10 @@ public class WebReportController extends Controller {
 			CLob c = new CLob();
 			c = c.findOne(Integer.parseInt(id));
 			xsl = c.getC_lob_content();
+			this.format = Response.FORMAT_XSL;
+			return this.renderView(xsl);
 		}
-		this.format = Response.FORMAT_XSL;
-		return this.renderView(xsl);
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
 	//Faz previsualizacao de report usando a contra senha
@@ -206,7 +216,7 @@ public class WebReportController extends Controller {
 		RepTemplate rt = new RepTemplate().find().andWhere("code", "=", p_code).one();
 		if(rt!=null)
 			return this.redirect("igrp", "WebReport", "preview&p_id="+rt.getId()+"&p_type=1"+params);
-		return this.renderView(FlashMessage.MSG_ERROR);
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
 	//Faz previsualizacao de report sem usar contra senha
@@ -225,9 +235,10 @@ public class WebReportController extends Controller {
 				xml += this.getData(rep,name_array,value_array);
 			}
 			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0);
+			this.format = Response.FORMAT_XML;
+			return this.renderView(xml);
 		}
-		this.format = Response.FORMAT_XML;
-		return this.renderView(xml);
+		return this.redirect("igrp", "ErrorPage", "exception");
 		/*---- End ----*/
 	}
 	

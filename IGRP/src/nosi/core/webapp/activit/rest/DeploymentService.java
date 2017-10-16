@@ -3,14 +3,17 @@ package nosi.core.webapp.activit.rest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ws.rs.core.MediaType;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.helpers.ResponseError;
 import nosi.core.webapp.helpers.RestRequestHelper;
+
 /**
  * @author: Emanuel Pereira
  * 27 Sep 2017
  */
+
 public class DeploymentService extends Activit{
 
 	private Date deploymentTime;
@@ -58,6 +61,7 @@ public class DeploymentService extends Activit{
 	public DeploymentService create(DeploymentService deploy){
 		deploy.setId(null);
 		DeploymentService d = new DeploymentService();
+		RestRequestHelper.CONTENT_TYPE = MediaType.MULTIPART_FORM_DATA;
 		ClientResponse response = RestRequestHelper.post("repository/deployments",RestRequestHelper.convertDaoToJson(deploy));
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
