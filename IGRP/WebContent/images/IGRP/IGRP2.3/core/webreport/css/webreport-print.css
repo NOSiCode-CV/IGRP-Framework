@@ -243,6 +243,16 @@ p{
     page-break-before: always;
   }
 
+  .page .head{
+    padding: 10px 20px;
+  }
+
+  .page .content{
+    padding: 10px 20px 130px 20px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
   .wrap{
     min-height: initial;
   }
