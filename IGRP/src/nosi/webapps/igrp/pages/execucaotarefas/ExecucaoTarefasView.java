@@ -479,11 +479,11 @@ public class ExecucaoTarefasView extends View {
 		btn_ver_detalhes.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_detalhes");
 		btn_enviar_msg = new IGRPButton("Enviar Msg","igrp","ExecucaoTarefas","enviar_msg","_blank","default|fa-angle-right","","");
 		btn_enviar_msg.propertie.add("type","specific").add("code","").add("class","default").add("rel","enviar_msg");
-		btn_executar_button_minha_tarefas = new IGRPButton("Executar","igrp","ExecucaoTarefas","executar_button_minha_tarefas","_blank","default|fa-angle-right","","");
+		btn_executar_button_minha_tarefas = new IGRPButton("Executar","igrp","ExecucaoTarefas","executar_button_minha_tarefas","submit","default|fa-angle-right","","");
 		btn_executar_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","executar_button_minha_tarefas");
 		btn_detalhes_processos_button_minha_tarefas = new IGRPButton("Detalhes Processos","igrp","ExecucaoTarefas","detalhes_processos_button_minha_tarefas","submit","default|fa-angle-right","","");
 		btn_detalhes_processos_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","detalhes_processos_button_minha_tarefas");
-		btn_leberar_tarefa_button_minha_tarefas = new IGRPButton("Leberar Tarefa","igrp","ExecucaoTarefas","leberar_tarefa_button_minha_tarefas","alert_submit","default|fa-angle-right","","");
+		btn_leberar_tarefa_button_minha_tarefas = new IGRPButton("Liberar Tarefa","igrp","ExecucaoTarefas","leberar_tarefa_button_minha_tarefas","alert_submit","default|fa-angle-right","","");
 		btn_leberar_tarefa_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","leberar_tarefa_button_minha_tarefas");
 		btn_assumir_button_tabela = new IGRPButton("Assumir","igrp","ExecucaoTarefas","assumir_button_tabela","alert_submit","success|fa-check","","");
 		btn_assumir_button_tabela.propertie.add("type","specific").add("code","").add("class","success").add("rel","assumir_button_tabela");

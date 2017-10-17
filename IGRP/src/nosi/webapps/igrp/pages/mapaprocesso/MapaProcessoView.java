@@ -5,7 +5,6 @@
 package nosi.webapps.igrp.pages.mapaprocesso;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
 
 public class MapaProcessoView extends View {
 	
