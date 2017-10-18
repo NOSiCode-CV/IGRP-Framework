@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.pages.login;
 
 import nosi.core.config.Config;
+import nosi.core.ldap.LdapInfo;
+import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.servlet.OAuth2;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -9,7 +11,11 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
+
+import java.io.File;
 import java.io.IOException;
+
+import javax.xml.bind.JAXB;
 /**
  * Marcel Iekiny
  * Oct 4, 2017
@@ -58,7 +64,10 @@ public class LoginController extends Controller {
 								return this.redirect("igrp", "home", "index"); // always go to home index url
 					break;
 					
-					case "ldap": this.loginWithLdap(); break;
+					case "ldap":
+						if(this.loginWithLdap(model.getUser(), model.getPassword()))
+							return this.redirect("igrp", "home", "index");
+					break;
 					
 					default:;
 				}
@@ -213,7 +222,53 @@ public class LoginController extends Controller {
 	}
 	
 	// Use ldap protocol to make login
-	private void loginWithLdap(){
-		// Not set yet
+	private boolean loginWithLdap(String username, String password){
+		boolean success = false;
+		
+		/** Begin ldap AD logic here **/
+		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUrl(), ldapinfo.getPassword(), ldapinfo.getBase());
+		success = ldap.validateLogin(username, password);
+		/** End **/
+		
+		if(success) {
+			// Verify if this credentials exist in DB
+			User user = (User) new User().findIdentityByUsername(username);
+			if(user != null) {
+				password = nosi.core.webapp.User.encryptToHash(password, "MD5");
+				if(user.getPass_hash() != null && !user.getPass_hash().equals(password)) {
+					user.setPass_hash(password); // Anyway !!! update the user's password and encrypt it ...
+					user.update();
+				}
+				/** Begin create user session **/
+				if(user.getStatus() == 1){				
+					Profile profile = new Profile().getByUser(user.getId());
+						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
+							if(!Session.afterLogin(profile)) {
+								success = false;
+								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
+								//String backUrl = Route.previous(); // remember the last url that was requested by the user
+							}
+						}
+						else {
+							success = false;
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+						}
+				}
+				else {
+					success = false;
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
+				}
+				/** End create user session **/
+				
+			}else {
+				success = false;
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
+			}
+		}else
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Comunicação LDAP falhada ou a sua conta ou palavra-passe está incorreta.");
+		
+		return success;
 	}
 }
