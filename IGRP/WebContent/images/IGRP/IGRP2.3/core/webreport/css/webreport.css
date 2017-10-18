@@ -22,7 +22,7 @@
 	position: fixed;
     right: 20px;
     left: 50%;
-    top: 4px;
+    top: 8px;
     z-index: 1049;
 }
 .box.igrp-forms{
@@ -224,6 +224,9 @@ div[data-notify="container"].alert{
     -o-transition: .4s;
     -transition: .4s;
     font-weight: 400;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-align: left;
 }
 
 #wr-list-document .info:after {

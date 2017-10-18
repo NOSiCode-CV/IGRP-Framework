@@ -22,6 +22,7 @@ $(function ($) {
 			onChange : function(){
 				$.WR.objDataSource.on('change',function(){
 					$.WR.dataSource = $(this).val();
+					
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
 						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
@@ -32,52 +33,55 @@ $(function ($) {
 						});
 
 						url += param;
-
-						if($.WR.id)
-							url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
-
-						$.ajax({
-							url : url
-						})
-						.fail(function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
-							});
-						})
-						.success(function(data){
-							if(data){
-								var url 	= $(data).find('fields link_add_source value').text(),
-									loading = $('<div/>').addClass('loading loader'),
-									tab 	= $('#tab-tabcontent_1-data_source');
-
-								loading.appendTo(tab);
-
-								$('#wr-list-datasource').XMLTransform({
-									xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-									xml : $(data).getXMLDocument(),
-									complete : function(c){
-										//if($.WR.id)
-											$('.wr-editdatasource').addClass('active');
-
-										$(loading,tab).remove();
-									},
-									error 	 : function(c){
-										$(loading,tab).remove();
-									}
-								});
-							}
-						});
 					}else
 						$('.wr-editdatasource').removeClass('active');
+
+					if($.WR.id)
+						url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
+
+					$.ajax({
+						url : url
+					})
+					.fail(function(e){
+						$.IGRP.notify({
+							message : 'Not Found',
+							type	: 'danger'
+						});
+					})
+					.success(function(data){
+						if(data){
+							var url 	= $(data).find('fields link_add_source value').text(),
+								loading = $('<div/>').addClass('loading loader'),
+								tab 	= $('#tab-tabcontent_1-data_source');
+
+							loading.appendTo(tab);
+
+							$('#wr-list-datasource').XMLTransform({
+								xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+								xml : $(data).getXMLDocument(),
+								complete : function(c){
+									//if($.WR.id)
+										$('.wr-editdatasource').addClass('active');
+
+									$(loading,tab).remove();
+								},
+								error 	 : function(c){
+									$(loading,tab).remove();
+								}
+							});
+						}
+					});
+					
 				});
 			},
 			setVal : function(data,selected){
 				var option  = null,
 					selected = selected ? selected : [];
+
 				if(data && data != undefined){
 					$('.wr-editdatasource').addClass('active');
 					$("option",$.WR.objDataSource).remove();
+
 					data.find('option').each(function(i,e){
 						var value = $(e).find("value").text();
 						option = new Option(
@@ -99,7 +103,7 @@ $(function ($) {
 				}else
 					$('.wr-editdatasource').removeClass('active');
 
-				$.WR.objDataSource.trigger('change');
+				$.WR.objDataSource.trigger('change.select2');
 			},
 			getVal : function(){
 				$.WR.dataSource = $.WR.objDataSource.val();
@@ -150,7 +154,7 @@ $(function ($) {
 						$.IGRP.components.globalModal.set({
 							size 		: 'xs',
 							content 	: content,
-							title 		: 'Edit Data Source',
+							title 		: 'Editar Data Source',
 							buttons 	: [
 								{
 									class 	: 'success',
@@ -245,6 +249,8 @@ $(function ($) {
 								}
 							}	
 						});
+					}else{
+						$('#wr-list-document').html('');
 					}
 				});
 			},
@@ -316,10 +322,10 @@ $(function ($) {
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
-										
+
 										if (p.action == 'edit') 
 											data.push({name:'p_id',value:$.WR.id});
-										
+
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -429,7 +435,7 @@ $(function ($) {
 							message = xml.text() || 'Erro';
 
 						type = type == 'error' ? 'danger' : type;
-						
+
 						$.IGRP.notify({
 							message : $.IGRP.utils.htmlDecode(message),
 							type	: type
@@ -499,20 +505,21 @@ $(function ($) {
 						$.WR.document.convert2Do(data.textreport);
 
 						if($.WR.objDataSource[0]){
-
+							
 							if(data.datasorce_app){
+								
 								$.WR.datasorce = data.datasorce_app.split(',');
 								$.WR.objDataSource.find("option").removeAttr("selected");
 
-								for (var i = 0; i < $.WR.datasorce.length; i++) {
-									$.WR.objDataSource.find("option").each(function(i,e){
-										if($(e).val() == $.WR.datasorce[i]){
-											$(e).attr("selected","selected");
-										}
-									});
-								}
-								$.WR.objDataSource.trigger('change');
-							}
+								$.WR.objDataSource.find("option").each(function(i,e){
+									if($.inArray($(e).val(),$.WR.datasorce) != -1)
+										$(e).attr("selected","selected").prop('selected',true);
+								});
+								
+							}else
+								$.WR.objDataSource.find("option").removeAttr("selected");
+
+							$.WR.objDataSource.trigger('change');
 						}
 					}
 				});
@@ -559,16 +566,18 @@ $(function ($) {
 		      			$.WR.keys = [];
 		      			if (rq.status == 200) {
 			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
-			      				$.WR.newDocument = false;
+			      				if ($.WR.newDocument)
+			      					$.WR.newDocument = false;
+
 			      				$('#igrp-app-title').html($.WR.title);
 			      				$.WR.objApp.change();
 			      				//$.WR.id =  get id in c
 			      			}
 
-			      			if($.WR.isPreview){
+			      			/*if($.WR.isPreview){
 			      				$.WR.isPreview = false;
 			      				$('a[target="alert_submit"]').click();
-			      			}
+			      			}*/
 		      			}
 		         	}
 			   	});
@@ -750,8 +759,13 @@ $(function ($) {
 							});
 				        }
 					} else {
-						$.WR.isPreview = true;
-						$('a[target="submit"]').click();
+						//$.WR.isPreview = true;
+						//$('a[target="submit"]').click();
+
+						$.IGRP.notify({
+							message : 'Documento não foi gravado!!',
+							type	: 'info'
+						});
 					}
 					return false;
 				}
