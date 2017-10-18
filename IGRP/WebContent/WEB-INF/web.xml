@@ -12,7 +12,7 @@
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
-      <param-value>db</param-value>
+      <param-value>ldap</param-value>
     </init-param>
   </servlet>
   
