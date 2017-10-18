@@ -10,6 +10,7 @@ import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMenu;
+import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.DateField;
@@ -83,6 +84,9 @@ public class MapaProcessoController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", title);
+		IGRPMessage msg = new IGRPMessage();
+		String m = msg.toString();
+		xml.addXml(m);
 		IGRPForm form = new IGRPForm("form",(float)2.1);
 		IGRPButton btn_next = new IGRPButton((formData!=null && formData.getProcessDefinitionId()!=null)?"Iniciar Processo":"Seguinte", "igrp", "ExecucaoTarefas", "process-task", "submit", "next.png", "", "");
 		IGRPTable table = new IGRPTable("table", (float)2.1);
@@ -100,10 +104,11 @@ public class MapaProcessoController extends Controller {
 		prm_file_description_desc.setLabel("Descrição");
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel("Ficheiro");
-		prm_file.propertie().add("rel", "prm_doc_list");
+		prm_file.propertie().add("rel", "prm_doc_list").add("maxlength", 300);
 		prm_file.propertie().add("end", "true").add("required", "true");
 		Field prm_file_desc = new FileField(null,"prm_file_desc");
 		prm_file_desc.setLabel("Ficheiro");
+		prm_file_desc.propertie().add("maxlength", 300);
 		Field prm_doc_list_id = new TextField(null,"prm_doc_list_id");
 		prm_doc_list_id.propertie().add("type", "hidden");
 		
@@ -152,10 +157,10 @@ public class MapaProcessoController extends Controller {
 						field.setValue(prop.getValue());
 					if(prop.getRequired())
 						field.propertie().add("required","true");
-	//				if(prop.getReadable())
-	//					field.propertie().add("readonly", "true");
-	//				if(prop.getWritable())
-	//					field.propertie().add("disabled", "true");
+					if(!prop.getReadable())
+						field.setVisible(false);
+					if(!prop.getWritable())
+						field.propertie().add("readonly", "true");
 					if(prop.getType().endsWith("enum")){
 						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
 					}

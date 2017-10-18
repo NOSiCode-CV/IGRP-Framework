@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.execucaotarefas;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
@@ -14,7 +15,6 @@ import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -179,10 +179,13 @@ public class ExecucaoTarefasController extends Controller {
 	
 
 	public Response actionExecutar_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
-			/*---- End ----*/
+		if(id!=null && !id.equals(""))
+			return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
+		else
+			return this.redirect("igrp", "ErrorPage", "exception");
+		/*---- End ----*/
 	}
 	
 
@@ -259,30 +262,28 @@ public class ExecucaoTarefasController extends Controller {
 	
 	public Response actionProcessTask() throws IOException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
-		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");			
-		XMLWritter xml = new XMLWritter();
-		xml.startElement("messages");
-		xml.startElement("message");
+		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
 		boolean result = false;
-		String url = "";
 		if(taskId!=null && !taskId.equals("")){
 			result = this.processTask(taskId);
-			url = "&taskId="+taskId;
+			if(result){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
+				return this.redirect("igrp","ExecucaoTarefas", "index");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MSG_ERROR);
+				return this.redirect("igrp","MapaProcesso", "open-process&taskId="+taskId);
+			}
 		}
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
 			result = this.processStartEvent(processDefinitionId);
-			url = "&p_processId="+processDefinitionId;
+			if(result){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MSG_ERROR);
+			}
+			return this.redirect("igrp","MapaProcesso", "openProcess&p_processId="+processDefinitionId);
 		}
-		if(result){
-			xml.writeAttribute("type", "success");
-			xml.text("Operação efetuada com sucesso");
-		}else{
-			xml.writeAttribute("type", "error");
-			xml.text("Operação falhada! ");
-		}
-		xml.endElement();
-		xml.endElement();
-		return this.redirect("igrp", "MapaProcesso", "open-process"+url);
+		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
 	private Object getValue(String type,String name){
