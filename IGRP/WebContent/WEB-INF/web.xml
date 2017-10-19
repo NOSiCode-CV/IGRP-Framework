@@ -12,23 +12,13 @@
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
-      <param-value>ldap</param-value>
+      <param-value>db</param-value>
     </init-param>
-  </servlet>
-  
-   <servlet>
-    <servlet-name>oauth2</servlet-name>
-    <servlet-class>nosi.core.servlet.OAuth2</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>oauth2</servlet-name>
-    <url-pattern>/oauth2</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
@@ -46,7 +36,7 @@
   </error-page>
   
   <session-config>
-    <session-timeout>-1</session-timeout>
+    <session-timeout>15</session-timeout><!-- Lost the session after 15min. -->
   </session-config>
   
 </web-app>
