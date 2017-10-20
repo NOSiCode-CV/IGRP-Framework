@@ -16,9 +16,27 @@
     </init-param>
   </servlet>
   
+    <servlet>
+	    <servlet-name>igrpsso</servlet-name>
+	    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
+	    <init-param>
+		    <param-name>oauth2.client_id</param-name>
+		    <param-value>YOUR_CLIENT_ID</param-value>
+	    </init-param>
+	    <init-param>
+		    <param-name>oauth2.client_secret</param-name>
+		    <param-value>YOUR_CLIENT_SECRET</param-value>
+	    </init-param>
+  	</servlet>
+  
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>igrpsso</servlet-name>
+    <url-pattern>/igrpsso</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
