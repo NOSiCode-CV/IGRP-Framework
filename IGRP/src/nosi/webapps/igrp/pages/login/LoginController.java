@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.login;
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.NosiLdapAPI;
-import nosi.core.servlet.OAuth2;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -31,7 +30,7 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
-		// first 
+		// first
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 				StringBuilder oauth2ServerUrl = new StringBuilder();
@@ -43,6 +42,8 @@ public class LoginController extends Controller {
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
+		
+		System.out.println( "IGRP - " + Igrp.getInstance().getRequest().getRequestedSessionId());
 		
 		Login model = new Login();
 		LoginView view = new LoginView(model);

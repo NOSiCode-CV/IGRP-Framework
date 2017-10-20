@@ -25,12 +25,12 @@ public class User implements Component{
 		this.expire = expire;
 		Permission.changeOrgAndProfile("igrp");
 		// Create the session context
-		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "");
+		Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity", this.identity.getIdentityId() + "");
 		return true;
 	}
 	
 	private boolean checkSessionContext(){
-		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
+		String aux = (String) Igrp.getInstance().getRequest().getSession(false).getAttribute("_identity");
 		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");
 		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 		user = user.findIdentityById(identityId);
@@ -48,7 +48,7 @@ public class User implements Component{
 	}
 	
 	public boolean logout(){ // Reset all login session/cookies information
-		Igrp.getInstance().getRequest().getSession().invalidate();
+		Igrp.getInstance().getRequest().getSession(false).invalidate();
 		return true;
 	}
 	
