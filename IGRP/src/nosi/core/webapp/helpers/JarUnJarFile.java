@@ -16,7 +16,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -26,6 +28,8 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
+
+import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 
 public class JarUnJarFile {
 	
@@ -57,33 +61,41 @@ public class JarUnJarFile {
 	}
 	
 	//Extract files jar format
-	public static HashMap<String,String> getJarFiles(String jarName){
-		HashMap<String,String> contents = null;
+	public static List<FileOrderCompile> getJarFiles(String jarName){
+		List<FileOrderCompile> contents = null;
 		if(jarName.contains(".jar")){
-			try{
-				contents = new HashMap<>();
-				FileInputStream fis = new FileInputStream(jarName);
-				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
-				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
-				JarEntry entry = null;
-				while((entry=jis.getNextJarEntry())!=null){				
-				    String         ls = System.getProperty("line.separator");
-				    String         line = null;
-				    DataInputStream in = new DataInputStream(jis); 
-				    StringBuilder content = new StringBuilder();  
-				    BufferedReader d = new BufferedReader(new InputStreamReader(in));
-				    while((line=d.readLine())!=null){
-				    	content.append(line);
-				    	content.append(ls);
-				    }
-					contents.put(entry.getName(), content.toString());
-					jis.closeEntry();
-				}
-				jis.close();
-			}catch(IOException e){
-				e.printStackTrace();
-			}
+		try{
+		contents = new ArrayList<>();
+		FileInputStream fis = new FileInputStream(jarName);
+		CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
+		JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+		JarEntry entry = null;
+		while((entry=jis.getNextJarEntry())!=null){	
+		   String         ls = System.getProperty("line.separator");
+		   String         line = null;
+		   DataInputStream in = new DataInputStream(jis); 
+		   StringBuilder content = new StringBuilder();  
+		   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+		   while((line=d.readLine())!=null){
+		   	content.append(line);
+		   	content.append(ls);
+		   }
+		   int order = 1;
+		   if(entry.getName().toLowerCase().contains("view.java")){
+		   	order = 2;
+		   }else if(entry.getName().toLowerCase().contains("controller.java")){
+		   	order = 3;
+		   }
+		   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+		contents.add(f);
+		jis.closeEntry();
 		}
+		jis.close();
+		}catch(IOException e){
+		e.printStackTrace();
+		}
+		}
+		Collections.sort(contents);
 		return contents;
-	}
+		}
 }

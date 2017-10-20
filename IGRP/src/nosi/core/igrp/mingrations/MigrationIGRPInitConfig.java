@@ -185,7 +185,7 @@ public class MigrationIGRPInitConfig {
 			new CreateViews();
 		}
 		//inserindo dados by default na tabela Scope
-		OAuthScope objScope = new OAuthScope("Login", 0);
+		OAuthScope objScope = new OAuthScope("login", 0);
 		objScope.insert();
 	}
 }
