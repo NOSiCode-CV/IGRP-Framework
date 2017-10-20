@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,7 +50,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	@ManyToOne()
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.EAGER)
 	private List<Action> actions;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Config_env> configs;
