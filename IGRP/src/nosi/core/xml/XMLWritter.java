@@ -59,10 +59,14 @@ public class XMLWritter {
 		}
 
 		public void setElement(String tag,String value){
-			this.startElement(tag);
-			this.text(value);
-			this.countAttr.put(tag,false);
-			this.endElement();
+			//if(value != null && !value.equals("")) {
+				this.startElement(tag);
+				this.text(value);
+				this.countAttr.put(tag,false);
+				this.endElement();
+			//}else {
+				//this.emptyTag(tag);
+			//}
 		}
 
 		private void closeLarger(){

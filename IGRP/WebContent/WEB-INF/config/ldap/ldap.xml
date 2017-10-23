@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ldap>
+<ldap> <!-- Just for test :-) ... -->
 	<url>ldap://10.73.110.168:389</url>
 	<username>ldapuser</username>
 	<password>Pa$$w0rd</password>

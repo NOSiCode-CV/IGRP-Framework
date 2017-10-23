@@ -15,6 +15,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import nosi.core.config.Config;
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
@@ -139,7 +141,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public String getConnectionName() {
-		return "hibernate-igrp-core";
+		return Config.getBaseConnection();
 	}
 
 	/*Get table name of Entity class

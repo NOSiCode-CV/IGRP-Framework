@@ -110,7 +110,7 @@ public class Config {
 	}
 	
 	public static String getAutenticationType(){
-		return Igrp.getInstance().getServlet().getInitParameter("autentication_type");
+		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
 	}
 	
 	public static String getBasePathXsl(){

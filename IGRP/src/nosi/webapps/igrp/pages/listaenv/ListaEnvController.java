@@ -8,9 +8,15 @@ package nosi.webapps.igrp.pages.listaenv;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.ImportExportApp;
+import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
 /*---- End ----*/
@@ -85,7 +91,28 @@ public class ListaEnvController extends Controller {
 
 	public Response actionExport() throws IOException{
 		/*---- Insert your code here... ----*/
-		
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		boolean status = false;
+		boolean statuspage = false;
+		if(id != null && !id.equals("")) {
+			Application app = new Application().findOne(id);
+			List<Action> paginas = app.getActions();
+			for(Action pagina : paginas) {
+				statuspage = ImportExportApp.ExportPage(pagina.getId()+"");
+			}
+			 
+			String xml_config = ImportExportApp.genereteXMLApplication(app);
+			String path_files = "C:\\Users\\isaias.nunes\\Downloads\\"+app.getDad();
+			FileHelper.save(path_files, app.getDad()+"Config.xml", xml_config);
+			Map<String, String> files = FileHelper.listFilesDirectory(path_files);
+			status = JarUnJarFile.saveJarFiles(path_files+".jar", files, 9);
+			
+		}
+		if(status && statuspage) {
+			Igrp.getInstance().getFlashMessage().addMessage("success", "Export de uma aplicação concluído com sucesso...");
+		}else {
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Export...");
+		}
 		return this.redirect("igrp","ListaEnv","index");
 		/*---- End ----*/
 	}

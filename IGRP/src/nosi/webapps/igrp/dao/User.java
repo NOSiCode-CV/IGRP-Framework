@@ -242,4 +242,9 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 		em.close();
 		return this.findOne(0);
 	}
+
+	@Override
+	public String getAuthenticationKey() {
+		return this.auth_key;
+	}
 }

@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javax.servlet.http.Cookie;
+
+import org.apache.commons.lang.RandomStringUtils;
+import org.json.JSONArray;
+
 import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.pages.login.LoginController;
 /**
@@ -13,33 +19,73 @@ import nosi.webapps.igrp.pages.login.LoginController;
 public class User implements Component{
 	
 	private Identity identity;
-	private int expire;
+	private int expire; // for authentication via cookie  
 	
 	public static final String loginUrl = "igrp/login/login";
 	
-	public User(){
-	}
+	public User(){}
 	
 	public boolean login(Identity identity, int expire){ // Make login and authenticate the user ... using session and cookies
-		this.identity = identity;
-		this.expire = expire;
-		Permission.changeOrgAndProfile("igrp");
-		// Create the session context
-		Igrp.getInstance().getRequest().getSession().setAttribute("_identity", this.identity.getIdentityId() + "");
+		if(identity == null || identity.getAuthenticationKey() == null || identity.getAuthenticationKey().isEmpty())
+			return false;
+		try {
+			this.identity = identity;
+			this.expire = expire;
+			Permission.changeOrgAndProfile("igrp");
+			// Create the session context
+			JSONArray json =  new JSONArray();
+			json.put(this.identity.getIdentityId());
+			json.put(this.identity.getAuthenticationKey() + "");
+			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
 		return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	private boolean checkSessionContext(){
-		String aux = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_identity");
-		int identityId = Integer.parseInt(aux != null && !aux.equals("") ? aux : "0");
-		nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
-		user = user.findIdentityById(identityId);
-		try{
-			if(user!=null && user.getId()!=0){
+		String aux = (String) Igrp.getInstance().getRequest().getSession(false).getAttribute("_identity-igrp");
+		if(aux == null || aux.isEmpty()) return false;
+		try {
+			JSONArray json = new JSONArray(aux);
+			int identityId = json.getInt(0);
+			String authenticationKey = json.getString(1);
+			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+			user = user.findIdentityById(identityId);
+			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
 				this.identity = (Identity) user;
-				return true;
+			return true;
 			}
-		}catch(NullPointerException e){}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	private boolean checkCookieContext() {
+		Cookie aux = null;
+		for(Cookie obj : Igrp.getInstance().getRequest().getCookies())
+			if(obj.getName().equals("_identity-igrp"))
+				aux = obj;
+		if(aux == null || aux.getValue().isEmpty()) return false;
+		String value = aux.getValue();
+		try {
+			JSONArray json = new JSONArray(value);
+			int identityId = json.getInt(0);
+			String authenticationKey = json.getString(1);
+			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
+			user = user.findIdentityById(identityId);
+			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
+				// create the session context here
+				Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+				this.identity = (Identity) user;
+			return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 	
@@ -48,8 +94,13 @@ public class User implements Component{
 	}
 	
 	public boolean logout(){ // Reset all login session/cookies information
-		Igrp.getInstance().getRequest().getSession().invalidate();
-		return true;
+		try {
+			Igrp.getInstance().getRequest().getSession(false).invalidate();
+			return true;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public Identity getIdentity(){
@@ -92,6 +143,10 @@ public class User implements Component{
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static String generateAuthenticationKey() {
+		return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
 	}
 	
 }

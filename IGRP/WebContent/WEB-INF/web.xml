@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   
   <display-name>IGRP</display-name>
-  
+   
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
@@ -11,24 +11,27 @@
       <param-value>C:\Users\Yma\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
-      <param-name>autentication_type</param-name>
+      <param-name>authentication_type</param-name>
       <param-value>db</param-value>
     </init-param>
   </servlet>
   
-   <servlet>
-    <servlet-name>oauth2</servlet-name>
-    <servlet-class>nosi.core.servlet.OAuth2</servlet-class>
-  </servlet>
+    <servlet>
+	    <servlet-name>igrpsso</servlet-name>
+	    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
+	    <init-param>
+		    <param-name>oauth2.client_id</param-name>
+		    <param-value>YOUR_CLIENT_ID</param-value>
+	    </init-param>
+	    <init-param>
+		    <param-name>oauth2.client_secret</param-name>
+		    <param-value>YOUR_CLIENT_SECRET</param-value>
+	    </init-param>
+  	</servlet>
   
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>oauth2</servlet-name>
-    <url-pattern>/oauth2</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
@@ -46,7 +49,7 @@
   </error-page>
   
   <session-config>
-    <session-timeout>-1</session-timeout>
+    <session-timeout>15</session-timeout><!-- Lost the session after 15min. -->
   </session-config>
   
 </web-app>
