@@ -26,6 +26,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
@@ -111,7 +112,7 @@ public class EnvController extends Controller {
 	public Response actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		List<Object[]> myApp = new Application().getMyApp();
+		List<Profile> myApp = new Application().getMyApp();
 		List<Object[]> otherApp = new Application().getOtherApp();
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
@@ -123,7 +124,7 @@ public class EnvController extends Controller {
 		}
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;
-		for(Object[] obj:myApp){
+		for(Profile proi:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
 			String page = "/default-page/index&amp;title="+obj[3].toString();
