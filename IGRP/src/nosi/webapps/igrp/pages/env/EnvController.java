@@ -123,12 +123,20 @@ public class EnvController extends Controller {
 		List<Object[]> otherApp = new Application().getOtherApp();
 		XMLWritter xml_menu = new XMLWritter();
 		xml_menu.startElement("applications");
-		if(myApp.size()>0){
+		
+		/** IGRP-PLSQL Apps **/
+		/** Begin **/
+		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
+		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		getAllApps(allowApps,denyApps);
+		if(myApp.size()>0 || allowApps.size()>0){
 			xml_menu.setElement("title", "Minhas Aplicações");
 		}
-		if(otherApp.size()>0){
+		if(otherApp.size()>0 || denyApps.size()>0){
 			xml_menu.setElement("subtitle", "Outras Aplicações");
 		}
+		/** End **/
+		
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		int i=1;
 		for(Object[] obj:myApp){
@@ -149,15 +157,12 @@ public class EnvController extends Controller {
 		}
 		
 		/** IGRP-PLSQL Apps **/
-		//
-		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-		getAllApps(allowApps,denyApps);
+		/** Begin **/
 		
 		for(IgrpPLSQLApp obj: allowApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
 			xml_menu.setElement("img", obj.getImg_src());
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
@@ -167,14 +172,14 @@ public class EnvController extends Controller {
 		for(IgrpPLSQLApp obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
 			xml_menu.setElement("img", obj.getImg_src());
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
 		
-		/** **/
+		/** End **/
 		
 		for(Object[] obj:otherApp){
 			xml_menu.startElement("application");
@@ -185,6 +190,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
+		
 		xml_menu.endElement();
 		
 		Response response = new Response();
