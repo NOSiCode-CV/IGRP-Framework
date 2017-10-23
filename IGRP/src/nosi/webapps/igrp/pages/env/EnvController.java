@@ -34,6 +34,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
@@ -118,47 +119,59 @@ public class EnvController extends Controller {
 //	//App list I have access to
 	public Response actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
+
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		List<Object[]> myApp = new Application().getMyApp();
-		List<Object[]> otherApp = new Application().getOtherApp();
+
+		List<Profile> myApp = new Application().getMyApp();
+		List<Application> otherApp = new Application().getOtherApp();
+		List<Integer> aux = new ArrayList<>();
 		XMLWritter xml_menu = new XMLWritter();
+
 		xml_menu.startElement("applications");
-		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
 		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
 		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
 		getAllApps(allowApps,denyApps);
+		/** End **/
+
 		if(myApp.size()>0 || allowApps.size()>0){
 			xml_menu.setElement("title", "Minhas Aplicações");
 		}
 		if(otherApp.size()>0 || denyApps.size()>0){
 			xml_menu.setElement("subtitle", "Outras Aplicações");
 		}
-		/** End **/
-		
 		xml_menu.setElement("link_img", Config.getLinkImg());
-		int i=1;
-		for(Object[] obj:myApp){
+		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = "/default-page/index&amp;title="+obj[3].toString();
-			if(obj[6]!=null){
-				Action ac = new Action();
-				ac = ac.findOne(Integer.parseInt(obj[6].toString()));
+			String page = "/default-page/index&amp;title="+profile.getOrganization().getApplication().getName();
+			if(profile.getOrganization().getApplication().getAction()!=null){
+				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+obj[1].toString().toLowerCase()+"&amp;page="+page);
-			xml_menu.setElement("img", obj[3].toString());
-			xml_menu.setElement("title", obj[4].toString());
-			xml_menu.setElement("num_alert", ""+i);
+			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page);
+			xml_menu.setElement("img", profile.getOrganization().getApplication().getImg_src());
+			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
+			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
-			i++;
+			aux.add(profile.getOrganization().getApplication().getId());
 		}
+		for(Application app:otherApp){
+			if(!aux.contains(app.getId())){
+				xml_menu.startElement("application");
+				xml_menu.writeAttribute("available", "no");
+				xml_menu.setElement("link", "");
+				xml_menu.setElement("img", app.getImg_src());
+				xml_menu.setElement("title",app.getName());
+				xml_menu.setElement("num_alert", "");
+				xml_menu.endElement();
+			}
+		}
+		
 		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		
 		for(IgrpPLSQLApp obj: allowApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
@@ -168,7 +181,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
-		
+
 		for(IgrpPLSQLApp obj: denyApps){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "no");
@@ -178,27 +191,16 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
-		
+
 		/** End **/
-		
-		for(Object[] obj:otherApp){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", "");
-			xml_menu.setElement("img", obj[3].toString());
-			xml_menu.setElement("title",obj[4].toString() );
-			xml_menu.setElement("num_alert", "");
-			xml_menu.endElement();
-		}
-		
 		xml_menu.endElement();
-		
+
 		Response response = new Response();
 		response.setCharacterEncoding(Response.CHARSET_UTF_8);
 		response.setContentType(Response.FORMAT_XML);
 		response.setContent(xml_menu + "");
 		response.setType(1);
-		
+
 		return response;
 	}
 	

@@ -233,4 +233,8 @@ public class Config {
 			System.err.println("Nao foi possivel concluir a instacao do IGRP!");
 		}
 	}
+
+	public static String getBaseConnection() {
+		return "hibernate-igrp-core";
+	}
 }
