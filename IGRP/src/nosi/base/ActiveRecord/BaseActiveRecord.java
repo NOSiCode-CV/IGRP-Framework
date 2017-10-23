@@ -457,6 +457,18 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 							e = this.getBuilder().le(this.getRoot().get(columnName),value);
 					}
 					break;
+
+				case "<>":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().notEqual(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
+					}
+					break;
 				}
 				this.predicates.add(e);
 			}

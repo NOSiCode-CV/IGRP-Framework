@@ -89,13 +89,20 @@ public class User implements Component{
 		return false;
 	}
 	
+	private void sendCookie(String value) {
+		Cookie aux = new Cookie("_identity-igrp", value);
+		aux.setMaxAge(this.expire);
+		Igrp.getInstance().getResponse().addCookie(aux);
+	}
+	
 	public boolean isAuthenticated(){
 		return this.identity != null;
 	}
 	
 	public boolean logout(){ // Reset all login session/cookies information
 		try {
-			Igrp.getInstance().getRequest().getSession(false).invalidate();
+			Igrp.getInstance().getRequest().getSession(false).invalidate(); // destroy the user session 
+			// destroy the cookie 
 			return true;
 		}catch(Exception e) {
 			e.printStackTrace();

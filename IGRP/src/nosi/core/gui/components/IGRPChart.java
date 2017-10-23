@@ -29,6 +29,7 @@ package nosi.core.gui.components;
         <col>498</col>
         <col>698</col>
     </row>
+    ...
 </value>
 <colors>
     <col>#bdd2a7</col>
@@ -44,10 +45,11 @@ import nosi.core.webapp.DBQuery;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import nosi.core.gui.fields.Field;
 
 public class IGRPChart extends IGRPComponent{
@@ -112,7 +114,6 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	public String toString(){
-		this.setField();
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, this.properties);
 		this.xml.setElement("caption", this.getCaption());
@@ -130,6 +131,7 @@ public class IGRPChart extends IGRPComponent{
 		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
 			this.genChartWithSql();
 		}else{
+			this.setField();
 			this.genChartWithoutSql();
 		}
 	}
@@ -153,30 +155,40 @@ public class IGRPChart extends IGRPComponent{
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
 		}
 		else{
-			this.xml.startElement("label");
-			for(String column:q.getColumns()){
-				if(column!=null && !column.equals("") && !column.equals("''"))
-					this.xml.setElement("col", column);
-				else
-					this.xml.emptyTag("col");
-			}
-			this.xml.endElement();
 			try {
-				this.xml.startElement("value");
-				this.xml.startElement("row");
+				Map<Object,Map<Object,Object>> mapRows = new HashMap<>();
+				Map<String,String> labels = new HashMap<>();
+				this.xml.startElement("label");
 					while(q.getResultSet().next()){
-						//for(int i=1;i<=q.getMetadata().getColumnCount();i++){
-						if(q.getResultSet().getString(3)!=null && !q.getResultSet().getString(3).equals("")){
-							this.xml.startElement("col");
-							this.xml.text(q.getResultSet().getString(3));
-							this.xml.endElement();
-						}else{
-							this.xml.emptyTag("col");
+						labels.put(q.getResultSet().getString(2), q.getResultSet().getString(2));
+						Map<Object,Object> r = new HashMap<>();
+						r.put(q.getResultSet().getString(2), q.getResultSet().getString(3));
+						if(mapRows.containsKey(q.getResultSet().getString(2))){
+							r.putAll(mapRows.get(q.getResultSet().getString(2)));
 						}
-						//}
+						mapRows.put(q.getResultSet().getString(1), r);
 					}
-				this.xml.endElement();
-				this.xml.endElement();
+					this.xml.emptyTag("col");
+					for(Map.Entry<String, String> l:labels.entrySet()){
+						this.xml.setElement("col", l.getKey().toString());
+					}
+				this.xml.endElement();//End tag label
+				this.xml.startElement("value");
+					for(Map.Entry<Object, Map<Object,Object>> list:mapRows.entrySet()){
+						this.xml.startElement("row");
+						this.xml.setElement("col", list.getKey().toString());
+						for(Map.Entry<String, String> l:labels.entrySet()){
+							for(Map.Entry<Object,Object> x:list.getValue().entrySet()){
+								System.out.println(x.getKey()+":"+x.getValue());
+							}
+							this.xml.setElement("col",list.getValue().get(l)!=null?list.getValue().get(l).toString():"0");
+						}
+						/*for(Object obj:list.getValue()){
+							this.xml.setElement("col",obj.toString());
+						}*/
+						this.xml.endElement();
+					}
+				this.xml.endElement();//End tag value
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

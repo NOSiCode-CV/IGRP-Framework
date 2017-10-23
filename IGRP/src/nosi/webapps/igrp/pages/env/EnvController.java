@@ -5,13 +5,21 @@
 package nosi.webapps.igrp.pages.env;
 /*---- Import your packages here... ----*/
 
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 /*import nosi.webapps.red.teste.Teste;
 import nosi.webapps.red.teste.Teste;
 */
 
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
@@ -110,53 +118,89 @@ public class EnvController extends Controller {
 //	
 //	//App list I have access to
 	public Response actionMyApps() throws IOException{
-	/*	Igrp.getInstance().getResponse().setContentType("text/xml");
+		Igrp.getInstance().getResponse().setContentType("text/xml");
+
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+
 		List<Profile> myApp = new Application().getMyApp();
-		List<Object[]> otherApp = new Application().getOtherApp();
+		List<Application> otherApp = new Application().getOtherApp();
+		List<Integer> aux = new ArrayList<>();
 		XMLWritter xml_menu = new XMLWritter();
+
 		xml_menu.startElement("applications");
-		if(myApp.size()>0){
+		/** IGRP-PLSQL Apps **/
+		/** Begin **/
+		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
+		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		getAllApps(allowApps,denyApps);
+		/** End **/
+
+		if(myApp.size()>0 || allowApps.size()>0){
 			xml_menu.setElement("title", "Minhas Aplicações");
 		}
-		if(otherApp.size()>0){
+		if(otherApp.size()>0 || denyApps.size()>0){
 			xml_menu.setElement("subtitle", "Outras Aplicações");
 		}
 		xml_menu.setElement("link_img", Config.getLinkImg());
-		int i=1;
-		for(Profile proi:myApp){
+		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = "/default-page/index&amp;title="+obj[3].toString();
-			if(obj[6]!=null){
-				Action ac = new Action();
-				ac = ac.findOne(Integer.parseInt(obj[6].toString()));
+			String page = "/default-page/index&amp;title="+profile.getOrganization().getApplication().getName();
+			if(profile.getOrganization().getApplication().getAction()!=null){
+				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+obj[1].toString().toLowerCase()+"&amp;page="+page);
-			xml_menu.setElement("img", obj[3].toString());
-			xml_menu.setElement("title", obj[4].toString());
-			xml_menu.setElement("num_alert", ""+i);
+			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page);
+			xml_menu.setElement("img", profile.getOrganization().getApplication().getImg_src());
+			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
+			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
-			i++;
+			aux.add(profile.getOrganization().getApplication().getId());
 		}
-		for(Object[] obj:otherApp){
+		for(Application app:otherApp){
+			if(!aux.contains(app.getId())){
+				xml_menu.startElement("application");
+				xml_menu.writeAttribute("available", "no");
+				xml_menu.setElement("link", "");
+				xml_menu.setElement("img", app.getImg_src());
+				xml_menu.setElement("title",app.getName());
+				xml_menu.setElement("num_alert", "");
+				xml_menu.endElement();
+			}
+		}
+		
+		
+		/** IGRP-PLSQL Apps **/
+		/** Begin **/
+		for(IgrpPLSQLApp obj: allowApps){
 			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", "");
-			xml_menu.setElement("img", obj[3].toString());
-			xml_menu.setElement("title",obj[4].toString() );
+			xml_menu.writeAttribute("available", "yes");
+			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
 		}
+
+		for(IgrpPLSQLApp obj: denyApps){
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "no");
+			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
+			xml_menu.setElement("num_alert", "");
+			xml_menu.endElement();
+		}
+
+		/** End **/
 		xml_menu.endElement();
-		*/
+
 		Response response = new Response();
 		response.setCharacterEncoding(Response.CHARSET_UTF_8);
 		response.setContentType(Response.FORMAT_XML);
-		//response.setContent(xml_menu + "");
+		response.setContent(xml_menu + "");
 		response.setType(1);
-		
+
 		return response;
 	}
 	
@@ -216,11 +260,100 @@ public class EnvController extends Controller {
 		return this.renderView(view);
 	}
 	
-	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 		PersistenceUtils.confiOtherConnections(app);
 		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
 		String[] p = page.split("/");
 		return this.redirect(app, p[1], p[2]);
 	}
+	
+	/** Integration with IGRP-PLSQL Apps **
+	 * */
+	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/nositeste@nosi.cv";
+	// Begin
+	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
+		try {
+			URL url = new URL(endpoint);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoInput(true);
+			StringBuilder result = new StringBuilder();
+			DataInputStream cin = new DataInputStream(conn.getInputStream());
+			String aux = null;
+			while((aux = cin.readLine()) != null) {
+				result.append(aux);
+			}
+			cin.close();
+			conn.disconnect();
+			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
+			for(IgrpPLSQLApp obj : allApps)
+				if(obj.getAvailable().equals("yes"))
+					allowApps.add(obj);
+				else
+					denyApps.add(obj);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// For serialization purpose
+	public static class IgrpPLSQLApp {
+		private String id;
+		private String name;
+		private String dad;
+		private String description;
+		private String img_src;
+		private String link;
+		private String available;
+		
+		public String getAvailable() {
+			return available;
+		}
+		public void setAvailable(String available) {
+			this.available = available;
+		}
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getDad() {
+			return dad;
+		}
+		public void setDad(String dad) {
+			this.dad = dad;
+		}
+		public String getDescription() {
+			return description;
+		}
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		public String getImg_src() {
+			return img_src;
+		}
+		public void setImg_src(String img_src) {
+			this.img_src = img_src;
+		}
+		public String getLink() {
+			return link;
+		}
+		public void setLink(String link) {
+			this.link = link;
+		}
+		
+		@Override
+		public String toString() {
+			return "IgrpPLSQLApp [id=" + id + ", name=" + name + ", dad=" + dad + ", description=" + description
+					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
+		}
+	}
+	
+	// End
 }
