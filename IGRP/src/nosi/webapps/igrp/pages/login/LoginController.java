@@ -42,9 +42,6 @@ public class LoginController extends Controller {
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
-		
-		System.out.println( "IGRP - " + Igrp.getInstance().getRequest().getRequestedSessionId());
-		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
 		//Set user and password for demo 
@@ -61,7 +58,6 @@ public class LoginController extends Controller {
 								
 								User user = (User) Igrp.getInstance().getUser().getIdentity();
 								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
-									System.out.println("Entrado - " + oauth2ServerUrl);
 									return this.redirectToUrl(oauth2ServerUrl.toString());
 								}
 								else
@@ -117,7 +113,7 @@ public class LoginController extends Controller {
 						success = true;
 					}
 					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido.");
 			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");

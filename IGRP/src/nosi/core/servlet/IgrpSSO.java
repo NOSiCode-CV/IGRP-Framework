@@ -14,11 +14,11 @@ import nosi.webapps.igrp.dao.Session;
 
 import java.util.Base64;
 
-@WebServlet
+@WebServlet(name = "igrpsso", urlPatterns = "/igrpsso")
 public class IgrpSSO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-  
+   
 	public IgrpSSO() {
         super();
     }
@@ -26,7 +26,6 @@ public class IgrpSSO extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String _u = request.getParameter("_u");
 		if(_u != null && !_u.isEmpty()) {
-			System.out.println(_u);
 			_u = new String(Base64.getDecoder().decode(_u));
 			String []aux = _u.split(":");
 			if(aux.length != 2) {
@@ -60,9 +59,4 @@ public class IgrpSSO extends HttpServlet {
 		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
 }
