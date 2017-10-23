@@ -18,6 +18,7 @@ import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -38,7 +39,7 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionImport() throws IOException{
 		/*---- Insert your code here... ----*/
-		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\ListaPage.jar");
+		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\teste.jar");
 		boolean status_compile = false;
 		Application app = null;
 		Action page = null;
@@ -53,23 +54,38 @@ public class ImportArquivoController extends Controller {
 			
 			if(un_jar_file.getNome().contains("Config.xml")) {
 				StringReader input = new StringReader(un_jar_file.getConteudo());
-				XMLPageReader xml = JAXB.unmarshal(input, XMLPageReader.class);
+				XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
+				
 				page = new Action();
 				app = new Application();
-				page.setAction(xml.getAction());
-				page.setAction_descr(xml.getAction_desc());
-				page.setPackage_name(xml.getPackage_name());
-				page.setPage(xml.getPage());
-				page.setPage_descr(xml.getPage_desc());
-				page.setStatus(xml.getStatus());
-				page.setVersion(xml.getVersion());
-				page.setXsl_src(xml.getXsl_src());
-				page.setApplication(app.findOne(xml.getEnv_fk()));
+				page.setAction(xmlPage.getAction());
+				page.setAction_descr(xmlPage.getAction_desc());
+				page.setPackage_name(xmlPage.getPackage_name());
+				page.setPage(xmlPage.getPage());
+				page.setPage_descr(xmlPage.getPage_desc());
+				page.setStatus(xmlPage.getStatus());
+				page.setVersion(xmlPage.getVersion());
+				page.setXsl_src(xmlPage.getXsl_src());
+				page.setApplication(app.findOne(xmlPage.getEnv_fk()));
 				page = page.insert();
-				
+
+				if(un_jar_file.getNome().contains("ConfigApplication.xml")) {
+					StringReader inputApp = new StringReader(un_jar_file.getConteudo());
+					XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
+					
+					app.setDad(xmlApplication.getDad());
+					app.setDescription(xmlApplication.getDescription());
+					app.setExternal(xmlApplication.getExternal());
+					app.setImg_src(xmlApplication.getImg_src());
+					app.setName(xmlApplication.getName());
+					app.setStatus(xmlApplication.getStatus());
+					app.setUrl(xmlApplication.getUrl());
+					app.setAction(page.findOne(xmlApplication.getAction_fk()));
+					app = app.insert();
+				}
 			}
 		}
-		if(status_compile && page != null){
+		if(status_compile && page != null && app != null){
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Arquivo Importado com sucesso");
 		}else {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Ups!!! Ocorreu um Erro...");
