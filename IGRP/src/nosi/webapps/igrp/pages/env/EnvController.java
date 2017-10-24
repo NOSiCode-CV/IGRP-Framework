@@ -135,12 +135,9 @@ public class EnvController extends Controller {
 		getAllApps(allowApps,denyApps);
 		/** End **/
 
-		if(myApp.size()>0 || allowApps.size()>0){
-			xml_menu.setElement("title", "Minhas Aplicações");
-		}
-		if(otherApp.size()>0 || denyApps.size()>0){
-			xml_menu.setElement("subtitle", "Outras Aplicações");
-		}
+		boolean displaySubtitle = false;
+		boolean displayTitle = false;
+		
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
@@ -156,9 +153,10 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
+			displayTitle = true;
 		}
 		for(Application app:otherApp){
-			if(!aux.contains(app.getId())){
+			if(!aux.contains(app.getId())){ // :-)
 				xml_menu.startElement("application");
 				xml_menu.writeAttribute("available", "no");
 				xml_menu.setElement("link", "");
@@ -166,6 +164,7 @@ public class EnvController extends Controller {
 				xml_menu.setElement("title",app.getName());
 				xml_menu.setElement("num_alert", "");
 				xml_menu.endElement();
+				displaySubtitle = true;
 			}
 		}
 		
@@ -180,6 +179,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
+			displayTitle = true;
 		}
 
 		for(IgrpPLSQLApp obj: denyApps){
@@ -190,9 +190,15 @@ public class EnvController extends Controller {
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
+			displaySubtitle = true; 
 		}
-
 		/** End **/
+		if(displayTitle){
+			xml_menu.setElement("title", "Minhas Aplicações");
+		}
+		if(displaySubtitle){
+			xml_menu.setElement("subtitle", "Outras Aplicações");
+		}
 		xml_menu.endElement();
 
 		Response response = new Response();
