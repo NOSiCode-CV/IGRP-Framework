@@ -298,7 +298,7 @@ public class EnvController extends Controller {
 				else
 					denyApps.add(obj);
 		}catch(Exception e) {
-			e.printStackTrace();
+			// do nothing yet 
 		}
 	}
 	
