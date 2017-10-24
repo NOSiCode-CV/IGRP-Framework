@@ -53,8 +53,8 @@ public class PersistenceUtils {
     	cfg.configure("/"+connectioName+".cfg.xml");
     	String driver = getDriver(dbmsName);
     	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
-    	cfg.getProperties().setProperty("hibernate.connection.password",user);
-    	cfg.getProperties().setProperty("hibernate.connection.username",password);
+    	cfg.getProperties().setProperty("hibernate.connection.password",password);
+    	cfg.getProperties().setProperty("hibernate.connection.username",user);
     	cfg.getProperties().setProperty("hibernate.connection.url",url);
     	cfg.getProperties().setProperty("current_session_context_class","thread");
     	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
