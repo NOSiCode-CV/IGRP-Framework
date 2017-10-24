@@ -29,6 +29,7 @@ package nosi.core.gui.components;
         <col>498</col>
         <col>698</col>
     </row>
+    ...
 </value>
 <colors>
     <col>#bdd2a7</col>
@@ -40,9 +41,15 @@ package nosi.core.gui.components;
 */
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.DBQuery;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import nosi.core.gui.fields.Field;
 
 public class IGRPChart extends IGRPComponent{
@@ -54,13 +61,16 @@ public class IGRPChart extends IGRPComponent{
 	private String yaxys;
 	private String url;
 	private ArrayList<String> colors;
+	private String sql;
 	
 	public IGRPChart(String tag_name,String title) {
 		super(tag_name,title);
 		this.fields = new ArrayList<>();
 		this.colors = new ArrayList<>();
 		this.properties.put("type", "chart");
-		this.properties.put("structure", "graphic");
+		this.properties.put("xml-type", "chart");
+		this.properties.put("gen-type", "container");
+		this.properties.put("gen-group", "");
 	}
 	public IGRPChart(String tag_name) {
 		this(tag_name,"");
@@ -104,7 +114,6 @@ public class IGRPChart extends IGRPComponent{
 	}
 	
 	public String toString(){
-		this.setField();
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, this.properties);
 		this.xml.setElement("caption", this.getCaption());
@@ -112,6 +121,23 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.setElement("xaxys", this.getXaxys());
 		this.xml.setElement("yaxys", this.getYaxys());
 		this.xml.setElement("url", this.getUrl());
+		this.genChart();
+		this.genColors();
+		this.xml.endElement();
+		return this.xml.toString();
+	}
+	
+	private void genChart() {
+		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			this.genChartWithSql();
+		}else{
+			this.setField();
+			this.genChartWithoutSql();
+		}
+	}
+	
+	//Gera xml de chart a partie de classes
+	private void genChartWithoutSql() {
 		if(this.fields.size() > 0){
 			this.xml.startElement("label");
 				for(Field field:this.fields){
@@ -120,10 +146,57 @@ public class IGRPChart extends IGRPComponent{
 			this.xml.endElement();
 		}
 		this.genRows();
-		this.genColors();
-		this.xml.endElement();
-		return this.xml.toString();
 	}
+	
+	//Gera xml de chart a partir de query sql
+	private void genChartWithSql() {
+		DBQuery q = new DBQuery().query(this.getConnectionName(),this.getSqlQuery());
+		if(q.isError()){
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+		}
+		else{
+			try {
+				Map<Object,Map<Object,Object>> mapRows = new HashMap<>();
+				Map<String,String> labels = new HashMap<>();
+				this.xml.startElement("label");
+					while(q.getResultSet().next()){
+						labels.put(q.getResultSet().getString(2), q.getResultSet().getString(2));
+						Map<Object,Object> r = new HashMap<>();
+						r.put(q.getResultSet().getString(2), q.getResultSet().getString(3));
+						if(mapRows.containsKey(q.getResultSet().getString(2))){
+							r.putAll(mapRows.get(q.getResultSet().getString(2)));
+						}
+						mapRows.put(q.getResultSet().getString(1), r);
+					}
+					this.xml.emptyTag("col");
+					for(Map.Entry<String, String> l:labels.entrySet()){
+						this.xml.setElement("col", l.getKey().toString());
+					}
+				this.xml.endElement();//End tag label
+				this.xml.startElement("value");
+					for(Map.Entry<Object, Map<Object,Object>> list:mapRows.entrySet()){
+						this.xml.startElement("row");
+						this.xml.setElement("col", list.getKey().toString());
+						for(Map.Entry<String, String> l:labels.entrySet()){
+							for(Map.Entry<Object,Object> x:list.getValue().entrySet()){
+								System.out.println(x.getKey()+":"+x.getValue());
+							}
+							this.xml.setElement("col",list.getValue().get(l)!=null?list.getValue().get(l).toString():"0");
+						}
+						/*for(Object obj:list.getValue()){
+							this.xml.setElement("col",obj.toString());
+						}*/
+						this.xml.endElement();
+					}
+				this.xml.endElement();//End tag value
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			q.close();
+		}
+	}
+	
 	
 	private void genColors() {
 		this.xml.startElement("colors");
@@ -168,4 +241,16 @@ public class IGRPChart extends IGRPComponent{
 		this.xml.endElement();
 	}
 
+	public void setSqlQuery(String connectionName,String sql){
+		this.sql = sql;
+		this.connectionName = connectionName;
+	}
+	
+	public void setSqlQuery(String sql){
+		this.sql = sql;
+	}
+	
+	public String getSqlQuery(){
+		return this.sql;
+	}
 }

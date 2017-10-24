@@ -15,6 +15,8 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import nosi.core.config.Config;
 /**
  * @author: Emanuel Pereira
  * 29 Jun 2017
@@ -139,7 +141,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public String getConnectionName() {
-		return "hibernate-igrp-core";
+		return Config.getBaseConnection();
 	}
 
 	/*Get table name of Entity class
@@ -453,6 +455,18 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					}else{
 						if(value!=null && !value.equals(""))
 							e = this.getBuilder().le(this.getRoot().get(columnName),value);
+					}
+					break;
+
+				case "<>":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().notEqual(x,value);
+					}else{
+						if(value!=null && !value.equals(""))
+							e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
 					}
 					break;
 				}
