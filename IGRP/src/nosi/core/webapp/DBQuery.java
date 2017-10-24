@@ -4,10 +4,10 @@ package nosi.core.webapp;
  * 18 Oct 2017
  */
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
@@ -19,14 +19,14 @@ public class DBQuery{
 	private String error;
 	private ResultSetMetaData metadata;
 	private ResultSet resultSet;
-	private PreparedStatement ps;
+	private Statement ps;
 	
 	public ResultSetMetaData getMetadata() {
 		return metadata;
 	}
-	public void setResultSet(ResultSet resultSet, PreparedStatement ps) {
+	public void setResultSet(ResultSet resultSet, Statement ps2) {
 		this.resultSet = resultSet;
-		this.ps = ps;
+		this.ps = ps2;
 	}
 	public void setMetadata(ResultSetMetaData metadata) {
 		this.metadata = metadata;
@@ -76,8 +76,8 @@ public class DBQuery{
 		DBQuery q = new DBQuery();
 		java.sql.Connection conn = Connection.getConnection(connectionName);
 		try {
-			java.sql.PreparedStatement ps = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE);
-			ResultSet rs = ps.executeQuery();
+			Statement ps = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = ps.executeQuery(sql);
 			q.setResultSet(rs,ps);
 			q.setMetadata(rs.getMetaData());
 		} catch (SQLException e) {
