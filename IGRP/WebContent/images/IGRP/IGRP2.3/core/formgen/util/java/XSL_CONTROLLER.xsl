@@ -219,6 +219,8 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
+						<xsl:call-template name="setSqlChart"></xsl:call-template>
+						<xsl:call-template name="setSqlTable"></xsl:call-template>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'return this.renderView(view);'"/>
@@ -310,5 +312,37 @@
 			<xsl:with-param name="type_render_"><xsl:value-of select="'render_message'"/></xsl:with-param>
 		</xsl:call-template>
 		</xsl:for-each>
+ 	</xsl:template>
+ 	<!-- view.chart_1.setSqlQuery("select 'Eixo Y' EixoY, 'Eixo X' EixoX, 100 Valor FROM dual"); -->
+ 	<xsl:template name="setSqlChart">
+ 		<xsl:for-each select="//content/*[@type='chart']">
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+	 		<xsl:choose>
+	 			<xsl:when test="./chart_type='pie'">
+	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
+	 			</xsl:when>
+	 			<xsl:otherwise>
+	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,$sql_chart3d,$double_quotes,');')"/>
+	 			</xsl:otherwise>
+	 		</xsl:choose>
+	 	</xsl:for-each>
+ 	</xsl:template>
+ 	
+ 	
+ 	<!-- view.chart_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
+ 	<xsl:template name="setSqlTable">
+ 		<xsl:for-each select="//content/*[@type='table']">
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+	 		<xsl:variable name="sql_fields">
+	 			<xsl:for-each select="fields/*">
+	 				<xsl:value-of select="concat($simple_quotes,local-name(),$simple_quotes,' ',local-name(),', ')"/>
+	 			</xsl:for-each>
+	 		</xsl:variable>
+			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
+	 	</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>

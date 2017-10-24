@@ -17,7 +17,10 @@
     <xsl:variable name="newline">
         <xsl:text>&#x0A;</xsl:text>
     </xsl:variable>
+    <xsl:variable name="sql_chart3d">SELECT 'Eixo de Y' EixoY,'Eixo de X' EixoX, 1000 Valor From dual</xsl:variable>
+    <xsl:variable name="sql_chart2d">SELECT 'Eixo de X' EixoX, 1000 Valor From dual</xsl:variable>
     <xsl:variable name="double_quotes">"</xsl:variable>
+    <xsl:variable name="simple_quotes">'</xsl:variable>
     <xsl:variable name="import_config">import nosi.core.config.Config;</xsl:variable>
     <xsl:variable name="import_components">import nosi.core.gui.components.*;</xsl:variable>
     <xsl:variable name="import_fields">import nosi.core.gui.fields.*;</xsl:variable>
