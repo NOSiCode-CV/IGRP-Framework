@@ -27,6 +27,10 @@
 		    <param-name>oauth2.client_secret</param-name>
 		    <param-value>YOUR_CLIENT_SECRET</param-value>
 	    </init-param>
+	    <init-param>
+		    <param-name>oauth2.endpoint</param-name>
+		    <param-value>IGRP_OAUTH2_ENDPOINT</param-value>
+	    </init-param>
   	</servlet>
   
   <servlet-mapping>

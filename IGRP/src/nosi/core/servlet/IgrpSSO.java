@@ -3,14 +3,14 @@ package nosi.core.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nosi.core.webapp.FlashMessage;
+import org.json.JSONArray;
+
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.Session;
 
 import java.util.Base64;
 
@@ -40,18 +40,45 @@ public class IgrpSSO extends HttpServlet {
 				else {
 					// make the oauth2 request grant_type=password 
 					
-					// if success create the session 
+					// if success create the cookie information 
+					int userId = 2;
+					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
-					/*Profile profile = new Profile().getByUser(user.getId());
-					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
-						if(!Session.afterLogin(profile))
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
-						//String backUrl = Route.previous(); // remember the last url that was requested by the user
-						success = true;
+					try {
+						
+						boolean generateNewCookie = false;
+						
+						Cookie oldCookie = null;
+						for(Cookie obj : Igrp.getInstance().getRequest().getCookies())
+							if(obj.getName().equals("_identity-igrp"))
+								oldCookie = obj;
+						if(oldCookie == null || oldCookie.getValue().isEmpty()) generateNewCookie = true;
+						String value = new String(Base64.getDecoder().decode(oldCookie.getValue()));
+						try {
+							JSONArray json = new JSONArray(value);
+							int oldUserId = json.getInt(0);
+							String oldAuthenticationKey = json.getString(1);
+						}catch(Exception e) {
+							generateNewCookie = true;
+						}
+						
+					if(generateNewCookie) {
+						
+					}	
+						JSONArray json =  new JSONArray();
+						json.put(userId);
+						json.put(authenticationKey);
+						Cookie cookie = new Cookie("_identity-igrp", Base64.getEncoder().encodeToString(json.toString().getBytes()));
+						cookie.setMaxAge(60*60); // 1h
+						cookie.setHttpOnly(true);
+						response.addCookie(cookie);
+						response.sendRedirect("/webapps?r=igrp/home/index"); 
+						return;
+					}catch(Exception e) {
+						e.printStackTrace();
+						response.sendError(500, "An INTERNAL_SERVER_ERROR occur ! Please contact the Administrator or send mail to <iekinyfernandes@gmail.com>.");
+						return;
 					}
-					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
-					*/
 				}
 			}
 		}else

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 import javax.servlet.http.Cookie;
 
@@ -37,6 +38,7 @@ public class User implements Component{
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
 			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+			this.sendCookie(Base64.getEncoder().encodeToString(json.toString().getBytes())); //  send a cookie to the end user 
 		return true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -63,13 +65,13 @@ public class User implements Component{
 		return false;
 	}
 	
-	private boolean checkCookieContext() {
+	private void checkCookieContext() {
 		Cookie aux = null;
 		for(Cookie obj : Igrp.getInstance().getRequest().getCookies())
 			if(obj.getName().equals("_identity-igrp"))
 				aux = obj;
-		if(aux == null || aux.getValue().isEmpty()) return false;
-		String value = aux.getValue();
+		if(aux == null || aux.getValue().isEmpty()) return;
+		String value = new String(Base64.getDecoder().decode(aux.getValue()));
 		try {
 			JSONArray json = new JSONArray(value);
 			int identityId = json.getInt(0);
@@ -80,18 +82,16 @@ public class User implements Component{
 				// create the session context here
 				Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
 				this.identity = (Identity) user;
-			return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		return false;
 	}
 	
 	private void sendCookie(String value) {
 		Cookie aux = new Cookie("_identity-igrp", value);
 		aux.setMaxAge(this.expire);
+		aux.setHttpOnly(true);
 		Igrp.getInstance().getResponse().addCookie(aux);
 	}
 	
@@ -102,7 +102,8 @@ public class User implements Component{
 	public boolean logout(){ // Reset all login session/cookies information
 		try {
 			Igrp.getInstance().getRequest().getSession(false).invalidate(); // destroy the user session 
-			// destroy the cookie 
+			// destroy the cookie ... make sure this.expire == 0 
+			sendCookie("");
 			return true;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -119,13 +120,14 @@ public class User implements Component{
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
 		/* test the login page (TOO_MANY_REQUEST purpose)*/
-		if(aux != null){ 
+		if(aux != null){
 			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
 		}
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 				//Route.remember(); // remember the url that was requested by the client ...
-				//Igrp.getInstance().getResponse().sendRedirect("webapps?r=" + User.loginUrl);
+				this.checkCookieContext();
+				// Anyway, go to login page 
 				LoginController controller = new LoginController();
 				Response response = controller.actionGoToLogin();
 				controller.setResponseWrapper(response);
