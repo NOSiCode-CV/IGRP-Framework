@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import nosi.core.gui.fields.Field;
 
 public class IGRPChart extends IGRPComponent{
@@ -156,47 +157,111 @@ public class IGRPChart extends IGRPComponent{
 		}
 		else{
 			try {
-				Map<Object,Map<Object,Object>> mapRows = new HashMap<>();
-				Map<String,String> labels = new HashMap<>();
-				this.xml.startElement("label");
-					while(q.getResultSet().next()){
-						labels.put(q.getResultSet().getString(2), q.getResultSet().getString(2));
-						Map<Object,Object> r = new HashMap<>();
-						r.put(q.getResultSet().getString(2), q.getResultSet().getString(3));
-						if(mapRows.containsKey(q.getResultSet().getString(2))){
-							r.putAll(mapRows.get(q.getResultSet().getString(2)));
-						}
-						mapRows.put(q.getResultSet().getString(1), r);
-					}
-					this.xml.emptyTag("col");
-					for(Map.Entry<String, String> l:labels.entrySet()){
-						this.xml.setElement("col", l.getKey().toString());
-					}
-				this.xml.endElement();//End tag label
-				this.xml.startElement("value");
-					for(Map.Entry<Object, Map<Object,Object>> list:mapRows.entrySet()){
-						this.xml.startElement("row");
-						this.xml.setElement("col", list.getKey().toString());
-						for(Map.Entry<String, String> l:labels.entrySet()){
-							for(Map.Entry<Object,Object> x:list.getValue().entrySet()){
-								System.out.println(x.getKey()+":"+x.getValue());
+					Map<String,Number> labels = new HashMap<>();	
+					List<Item> itens = new ArrayList<>();
+					this.xml.startElement("label");
+						while(q.getResultSet().next()){
+							Item item = null;
+							if(q.getColumns().size() > 2){
+								labels.put(q.getResultSet().getString(2),0);
+								item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(2),(Number) q.getResultSet().getObject(3));
+							}else{
+								labels.put(q.getResultSet().getString(1),0);
+								item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(1),(Number) q.getResultSet().getObject(2));
 							}
-							this.xml.setElement("col",list.getValue().get(l)!=null?list.getValue().get(l).toString():"0");
+							itens.add(item );
 						}
-						/*for(Object obj:list.getValue()){
-							this.xml.setElement("col",obj.toString());
-						}*/
-						this.xml.endElement();
-					}
-				this.xml.endElement();//End tag value
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+						this.xml.emptyTag("col");
+						for(Map.Entry<String, Number> l:labels.entrySet()){
+							this.xml.setElement("col", l.getKey().toString());
+						}
+					this.xml.endElement();//End tag label
+					this.xml.startElement("value");// Start tag value
+						if(q.getColumns().size() > 2){	
+							this.genRowsChart3d(itens,labels);
+						}else{
+							this.genRowsChart2d(itens,labels);
+						}
+					this.xml.endElement();//End tag value
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			q.close();
 		}
 	}
 	
+	private void genRowsChart2d(List<Item> itens, Map<String, Number> labels) {
+		this.xml.startElement("row");
+		this.xml.emptyTag("col");
+		for(Item item:itens){
+			for(Map.Entry<String, Number> col:labels.entrySet()){
+				if(col.getKey().equalsIgnoreCase(item.getEixoX()))
+					this.xml.setElement("col",item.getValor());
+			}
+		}
+		this.xml.endElement();//end tag row
+	}
+	
+	private void genRowsChart3d(List<Item> itens, Map<String, Number> labels) {
+		Map<String, Map<String,Number>> result = itens.stream().collect(
+                		Collectors.groupingBy(Item::getEixoX,Collectors.toMap(Item::getEixoY, Item::getValor))
+                );
+		for(Map.Entry<String, Map<String,Number>> row:result.entrySet()){
+			this.xml.startElement("row");
+			this.xml.setElement("col", row.getKey().toString());
+			for(Map.Entry<String, Number> col:labels.entrySet()){
+				if(row.getValue().get(col.getKey())!=null)
+					this.xml.setElement("col",row.getValue().get(col.getKey()));
+				else
+					this.xml.setElement("col", "0");
+			}
+			this.xml.endElement();//end tag row
+		}
+	}
+
+	public class Item{
+		private String eixoX;
+		private String eixoY;
+		private Number valor;
+		
+		public Item(String eixoX, String eixoY, Number valor) {
+			super();
+			this.eixoX = eixoX;
+			this.eixoY = eixoY;
+			this.valor = valor;
+		}
+		
+		public String getEixoX() {
+			return eixoX;
+		}
+		public void setEixoX(String eixoX) {
+			this.eixoX = eixoX;
+		}
+		public String getEixoY() {
+			return eixoY;
+		}
+		public void setEixoY(String eixoY) {
+			this.eixoY = eixoY;
+		}
+		public Number getValor() {
+			return valor;
+		}
+		public void setValor(Number valor) {
+			this.valor = valor;
+		}
+	}
+	
+	public static Number addNumbers(Number a, Number b) {
+	    if(a instanceof Double || b instanceof Double) {
+	        return new Double(a.doubleValue() + b.doubleValue());
+	    } else if(a instanceof Float || b instanceof Float) {
+	        return new Float(a.floatValue() + b.floatValue());
+	    } else if(a instanceof Long || b instanceof Long) {
+	        return new Long(a.longValue() + b.longValue());
+	    } else {
+	        return new Integer(a.intValue() + b.intValue());
+	    }
+	}
 	
 	private void genColors() {
 		this.xml.startElement("colors");
