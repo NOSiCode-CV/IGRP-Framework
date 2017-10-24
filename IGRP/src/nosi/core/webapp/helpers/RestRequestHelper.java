@@ -5,14 +5,12 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.List;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.core.MediaType;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +34,8 @@ public class RestRequestHelper{
 	private static final String BASE_URL = "http://localhost:8080/activiti-rest/service/";
 	private static final String USERNAME = "kermit";
 	private static final String PASSWORD = "kermit";
-	public static String FORMAT = MediaType.APPLICATION_JSON;
+	public static String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
+	public static String CONTENT_TYPE = MediaType.APPLICATION_JSON;
 	
 	public static ClientResponse get(String url, Object id) {
 		try {
@@ -44,12 +43,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
 	        url = RestRequestHelper.BASE_URL + url;
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
 	        client.destroy();
 	   	 	return response;
-		}catch(Exception e){
-			e.printStackTrace();
+		}catch(Exception e){ 
 		}
 		return null;
 	}
@@ -60,12 +58,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
 	        url = RestRequestHelper.BASE_URL + url;
-	        WebResource resource = client.resource(url);
-	        ClientResponse response = resource.accept(FORMAT).get(ClientResponse.class);
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
+	        ClientResponse response = resource.accept(ACCEPT_FORMAT).get(ClientResponse.class);
 		    client.destroy();
 	   	 	return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -77,12 +74,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
 	        url = RestRequestHelper.BASE_URL + url;	        
-	        WebResource resource = client.resource(url);	        
-	        ClientResponse response = resource.accept(FORMAT).type(FORMAT)/*.type(MediaType.MULTIPART_FORM_DATA)*/.post(ClientResponse.class, content);			
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	        
+	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -94,12 +90,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
 	        url = RestRequestHelper.BASE_URL + url;	        
-	        WebResource resource = client.resource(url).path(String.valueOf(id));	        
-	        ClientResponse response = resource.accept(FORMAT).type(FORMAT)/*.type(MediaType.MULTIPART_FORM_DATA)*/.post(ClientResponse.class, content);			
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));	        
+	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -110,12 +105,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));            
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url);
-			ClientResponse response = resource.accept(FORMAT).type(FORMAT).put(ClientResponse.class, content);			
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
+			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -127,12 +121,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));	            
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
-			ClientResponse response = resource.accept(FORMAT).type(FORMAT).put(ClientResponse.class, content);			
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
+			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -143,12 +136,11 @@ public class RestRequestHelper{
 	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	     
 	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));       
 	        url = RestRequestHelper.BASE_URL + url;	               
-	        WebResource resource = client.resource(url).path(String.valueOf(id));
-			ClientResponse response = resource.accept(FORMAT).delete(ClientResponse.class);			
+	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
+			ClientResponse response = resource.accept(ACCEPT_FORMAT).delete(ClientResponse.class);			
 	 	    client.destroy();
 	        return response;
 		}catch(Exception e){
-			e.printStackTrace();
 		}
 	   return null;
 	}
@@ -165,7 +157,6 @@ public class RestRequestHelper{
 			Gson gson = new Gson();
 			response = gson.fromJson(jsonObject.toString(), dao);
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return response;
 	}
@@ -187,7 +178,6 @@ public class RestRequestHelper{
 				list = gson.fromJson(aux.toString(), type);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
 		}
 		return list;
 	}
@@ -213,7 +203,6 @@ public class RestRequestHelper{
 			sslContext = SSLContext.getInstance("SSL");
 			sslContext.init(null, RestRequestHelper.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
 		} catch (NoSuchAlgorithmException | KeyManagementException e) {
-			e.printStackTrace();
 		}
 		return sslContext;
 	}

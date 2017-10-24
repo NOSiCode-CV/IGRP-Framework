@@ -57,6 +57,10 @@ var GENTABCONTENT = function(name,tparams){
 					{
 						value:'boxed',
 						label:'Boxed'
+					},
+					{
+						value:'navbar',
+						label:'Navbar'
 					}
 					/*{
 						value:'buttons',
@@ -64,10 +68,8 @@ var GENTABCONTENT = function(name,tparams){
 					}*/
 				]
 			},
-			transform:false,
-			onChange:function(val){
-				$(container.holder.find('.gen-tab-holder')[0]).attr('tab-template',val);
-			}
+			transform : false,
+			onChange  : container.setTemplate
 		});
 
 		container.setProperty({
@@ -87,6 +89,19 @@ var GENTABCONTENT = function(name,tparams){
 			value    : false,
 			xslValue : 'auto-control'
 		});
+
+	}
+
+
+	container.setTemplate = function(template){
+
+		var tabHolder    = $(container.holder.find('.gen-tab-holder')[0]),
+
+			dclickAction = template == 'navbar'? 'addClass' : 'removeClass';
+				
+		tabHolder.attr('tab-template',template);
+
+		tabHolder[dclickAction]('dont-click');
 
 	}
 
@@ -138,6 +153,8 @@ var GENTABCONTENT = function(name,tparams){
 
 	container.onDrawEnd = function(c){
 		var adder = $('<button class="btn btn-box-tool '+classes.adder+'"><i style="color:green" class="fa fa-plus"></i></button>');
+		var template = container.GET.template();
+
 		//html controllers
 		container.HTML = {
 			holder         : $(container.holder.find('> .container-contents > .'+classes.tabHolder)[0]),
@@ -145,6 +162,9 @@ var GENTABCONTENT = function(name,tparams){
 			contentsHolder : $(container.holder.find('> .container-contents > .'+classes.tabHolder+' > .'+classes.contentsHolder)[0]),
 			adder 		   : adder
 		}
+
+		container.setTemplate(template)
+
 		//append adder
 		container.holder.find('.gen-container-setts').prepend(adder)
 		//append remover
@@ -445,7 +465,7 @@ var GENTABCONTENT = function(name,tparams){
 		var iconHtml = '<i class="fa '+icon+'"></i>';
 		return '<li item-name="'+btn.GET.tag()+'" '+genID+' class="'+_class+' gen-fields-holder" rel="tab-'+idx+'">'+
 					activetabTmpl+
-					'<a data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
+					'<a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-'+idx+'">'+
 						iconHtml+'<span gen-lbl-setter="true">'+title+'</span>'+
 					'</a>'+
 				'</li>';

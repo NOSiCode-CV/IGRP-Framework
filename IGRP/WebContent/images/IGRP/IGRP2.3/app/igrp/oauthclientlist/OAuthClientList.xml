@@ -29,7 +29,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
         <title>pesquisar Dados dos clientes</title>
@@ -46,8 +46,12 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Doloremque rem accusantium ist</value>
+                    <value>Sit voluptatem amet magna stra</value>
                 </uris_>
+                <clientid_pesquisa name="p_clientid_pesquisa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>ClientID</label>
+                    <value>Elit dolor accusantium deserun</value>
+                </clientid_pesquisa>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="default" rel="pesquisar">
@@ -84,10 +88,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Consectetur rem officia stract</client_id>
-                        <client_secret name="p_client_secret">Officia aperiam laudantium ut</client_secret>
-                        <uris name="p_uris">Perspiciatis sed mollit amet o</uris>
-                        <scope name="p_scope">Iste accusantium adipiscing of</scope>
+                        <client_id name="p_client_id">Aliqua perspiciatis consectetu</client_id>
+                        <client_secret name="p_client_secret">Sit voluptatem perspiciatis ap</client_secret>
+                        <uris name="p_uris">Unde accusantium omnis stract</uris>
+                        <scope name="p_scope">Iste aperiam ipsum aperiam adi</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -95,10 +99,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Rem sit ut laudantium anim</client_id>
-                        <client_secret name="p_client_secret">Natus rem consectetur adipisci</client_secret>
-                        <uris name="p_uris">Labore natus aperiam mollit mo</uris>
-                        <scope name="p_scope">Magna unde omnis amet laudanti</scope>
+                        <client_id name="p_client_id">Sed unde ut ipsum aliqua</client_id>
+                        <client_secret name="p_client_secret">Consectetur laudantium totam r</client_secret>
+                        <uris name="p_uris">Sed adipiscing laudantium anim</uris>
+                        <scope name="p_scope">Ut ipsum doloremque totam labo</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -106,10 +110,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Accusantium aperiam anim molli</client_id>
-                        <client_secret name="p_client_secret">Officia lorem aliqua sed molli</client_secret>
-                        <uris name="p_uris">Adipiscing labore unde labore</uris>
-                        <scope name="p_scope">Ipsum omnis aperiam natus ut</scope>
+                        <client_id name="p_client_id">Sit dolor accusantium stract l</client_id>
+                        <client_secret name="p_client_secret">Doloremque ipsum iste natus ap</client_secret>
+                        <uris name="p_uris">Perspiciatis lorem sit iste la</uris>
+                        <scope name="p_scope">Adipiscing lorem perspiciatis</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -117,10 +121,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Elit labore sed stract omnis</client_id>
-                        <client_secret name="p_client_secret">Sed lorem ut consectetur offic</client_secret>
-                        <uris name="p_uris">Amet omnis consectetur mollit</uris>
-                        <scope name="p_scope">Labore anim sit ipsum sed</scope>
+                        <client_id name="p_client_id">Aperiam dolor aperiam laudanti</client_id>
+                        <client_secret name="p_client_secret">Deserunt natus voluptatem elit</client_secret>
+                        <uris name="p_uris">Magna unde lorem voluptatem an</uris>
+                        <scope name="p_scope">Mollit natus laudantium dolor</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -128,10 +132,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Voluptatem sit aperiam adipisc</client_id>
-                        <client_secret name="p_client_secret">Rem unde ipsum magna stract</client_secret>
-                        <uris name="p_uris">Elit rem sit iste amet</uris>
-                        <scope name="p_scope">Stract labore ipsum rem elit</scope>
+                        <client_id name="p_client_id">Mollit accusantium doloremque</client_id>
+                        <client_secret name="p_client_secret">Officia ut perspiciatis aliqua</client_secret>
+                        <uris name="p_uris">Doloremque voluptatem aperiam</uris>
+                        <scope name="p_scope">Ut unde lorem perspiciatis sit</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -166,5 +170,16 @@
                 </context-menu>
             </table>
         </table_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>igrp</app>
+                <page>OAuthClientList</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-plus-square</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl</parameter>
+            </item>
+        </toolsbar_1>
     </content>
 </rows>

@@ -10,6 +10,8 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.GroupService;
+
 import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
@@ -33,6 +35,13 @@ public class NovoPerfilController extends Controller {
 			pt.setApplication(new Application().findOne(model.getAplicacao()));	
 			pt = pt.insert();
 			if(pt!=null){
+
+				//Cria grupo e utilizadores no Activiti
+				GroupService group = new GroupService();
+				group.setId(pt.getOrganization().getCode()+"."+pt.getCode());
+				group.setName(pt.getOrganization().getName()+" - "+pt.getDescr());
+				group.setType("assignment");
+				group.create(group);
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 				return this.redirect("igrp", "novo-perfil", "index");
 			}else{

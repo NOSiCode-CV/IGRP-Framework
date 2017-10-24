@@ -1,12 +1,13 @@
 <style>
+	
 	<colors>
-		<color name="1">#4496C1</color>
-		<color name="2">#267199</color> 
-		<link hover="#267199">#4496C1</link>
-		<button>
-			<primary hover="#267199">#4496C1</primary>
-			<secondary hover="#267199">#267199</secondary>
-		</button>
-	</colors>
+		
+		<color name="primary">#337ab7</color>
+
+		<color name="secondary" text-hover="white" bg-hover="#173c5d">#245580</color>
+
+	</colors> 
+
 	<logo>img/logo.png</logo>
+
 </style>

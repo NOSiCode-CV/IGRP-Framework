@@ -13,6 +13,8 @@ public class Response extends HttpServletResponseWrapper{
 	public static final String FORMAT_JSON = "application/json";
 	public static final String FORMAT_HTML = "text/html";
 	public static final String FORMAT_RAW = "";
+	public static final String FORMAT_XSL = "text/xsl";
+	public static final String FORMAT_TEXT = "text/plain";
 	
 	public static final String CHARSET_UTF_8 = "UTF-8";
 

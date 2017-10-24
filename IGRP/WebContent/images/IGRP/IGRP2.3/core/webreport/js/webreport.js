@@ -1,4 +1,4 @@
-(function ($) {
+$(function ($) {
 	if($){
 		$.WR 				= {}; //Objeto W web R report
 		// WR var file webreport.config
@@ -24,8 +24,8 @@
 					$.WR.dataSource = $(this).val();
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-						console.log(url);
+						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+					
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
@@ -225,6 +225,7 @@
 									xml 	 : $(data).getXMLDocument(),
 									complete : function(c){
 										$(loading,tab).remove();
+										$.WR.document.info.show();
 									},
 									error 	 : function(c){
 										$(loading,tab).remove();
@@ -254,7 +255,7 @@
 
 		$.WR.fieldPrintSize = {
 			getVal : function(){
-				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || '';
+				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || 'A4';
 			},
 			setVal : function(v){
 				var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
@@ -277,12 +278,14 @@
 					'</div></div><div class="col-md-12 form-group">'+
 					'<div class="col-md-4"><label for="'+p.codeName+'">'+p.codeLabel+'</label></div>'+
 					'<div class="col-md-8"><input name="'+p.codeName+'" class="form-control" type="text"/></div></div>'+
-					'<div class="col-md-12 form-group"><div class="col-md-4">'+
+					'<div class="col-md-12 form-group" id="ptsize"><div class="col-md-4">'+
 					'<label for="'+WR.document.config.printsize.name+'">'+WR.document.config.printsize.label+'</label></div>'+
 					'<div class="col-md-8"><select class="form-control" name="'+WR.document.config.printsize.name+'">'+
-					option+'</select></div></div><div class="col-md-12 form-group"><div class="col-md-4">'+
-					'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
-					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div></div>';
+					option+'</select></div></div>'+
+					/*'<div class="col-md-12 form-group"><div class="col-md-4">'+
+						'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
+					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div>'+*/
+					'</div>';
 
 				$.IGRP.components.globalModal.set({
 					size 		: 'xs',
@@ -292,7 +295,9 @@
 						if($.WR.id){ // if edit
 							$('input[name="'+p.titleName+'"]').val(p.title);
 							$('input[name="'+p.codeName+'"]').val(p.code);
-						}
+							$('#ptsize').addClass('hidden');
+						}else
+							$('#ptsize').removeClass('hidden');
 					},
 					buttons 	: [
 						{
@@ -300,7 +305,7 @@
 							icon  	: 'check',
 							text  	: 'Confirmar',
 							onClick : function(){
-								var data = $('.reporttitle *').serializeArray();
+								var data = $('.reporttitle *:not([name="wr_printsize"])').serializeArray();
 
 								data.forEach(function(e,i){
 									if(e.name == p.codeName)
@@ -311,6 +316,10 @@
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
+										
+										if (p.action == 'edit') 
+											data.push({name:'p_id',value:$.WR.id});
+										
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -326,8 +335,8 @@
 										$.WR.document.save({
 							        		url 	 : p.url,
 							        		file 	 : p.file,
-							        		fields : p.fields,
-							        		action : 'modal'
+							        		fields 	 : p.fields,
+							        		action   : 'modal'
 							        	});
 									}
 
@@ -351,6 +360,49 @@
 					]
 				});
 			},
+			info : {
+				show : function(){
+					var info = $('#wr-list-document .info');
+
+					$('#wr-list-document').on('mouseenter','.infoReport',function(){
+					var li  = $(this).parents('li.treeview:first'),
+						top = li.position().top + 7;
+
+						info.html(li.attr('info')).css({top:top}).addClass('active');
+					});
+
+					$('#wr-list-document').on('mouseleave','.infoReport',function(){
+						info.removeClass('active');
+						$('#wr-list-document li .infoReport i').attr('data-original-title', '').tooltip('hide');
+					});
+				},
+				copy : function(){
+					var copy = document.queryCommandSupported('copy');
+
+					$('#wr-list-document').on('click','.infoReport',function(){
+						var info = $(this).parents('li.treeview:first').attr('info');
+
+						if (copy === true) {
+							var objCopy = document.createElement("textarea");
+							objCopy.value = info;
+							document.body.appendChild(objCopy);
+	    					objCopy.select();
+
+	    					try {
+						      var successful = document.execCommand('copy');
+						      var msg = successful ? 'Copiado!' : 'Não Copiado!';
+						      $('i',$(this)).attr('data-original-title', msg).tooltip('show');
+
+						    } catch (err) {
+						      console.log('Oops, unable to copy');
+						    }
+
+						    document.body.removeChild(objCopy);
+						}else
+							window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", info);
+					});
+				}
+			},
 			newOrEdit : function(p){
 				if($.WR.title && !$.WR.id){
 					$('#igrp-app-title').html($.WR.title+' *');
@@ -371,11 +423,15 @@
 							type	: 'danger'
 						});
 					})
-					.success(function(e){
-						var type 	= e.type && e.type != undefined ? e.type : 'danger',
-							message = e.msg && e.msg != undefined ? e.msg : 'Erro';
+					.success(function(e,s,r){
+						var xml 	= $(e).find('messages message'),
+							type 	= xml.attr('type') || 'danger',
+							message = xml.text() || 'Erro';
+
+						type = type == 'error' ? 'danger' : type;
+						
 						$.IGRP.notify({
-							message : $.IGRP.utils.htmlDecode(e.msg),
+							message : $.IGRP.utils.htmlDecode(message),
 							type	: type
 						});
 
@@ -438,7 +494,7 @@
 
 						$('#igrp-app-title').html($.WR.reportTitle);
 
-						data = $.parseJSON(data.responseText.replace(/\s+/g," "));
+						//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
 						$.WR.document.convert2Do(data.textreport);
 
@@ -479,6 +535,8 @@
 					if (e.name == 'p_textreport') {
 						e.value.config.customfooter = $.WR.document.customfooter.getChecked();
 						e.value.config.printsize 	= size;
+
+						e.value = JSON.stringify(e.value);
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
@@ -519,9 +577,9 @@
 				$.IGRP.targets['submit'].action = function(p){
 					if($.WR.app != null){
 						var saveDoc 	= {},
-							head 		= WR.document.includ.head+WR.document.includ.css.all,
+							head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
 							includJs 	= WR.document.includ.js.all,
-							includTmpl 	= WR.document.includ.tmpl.defoult;
+							includTmpl 	= ''; //WR.document.includ.tmpl.defoult
 
 						
 						if ($.WR.hasCarts && !$.WR.notCartsInclud) {
@@ -715,7 +773,7 @@
 				}else{
 					isActive  = p.config.customfooter;
 					content   = p.content;
-					printsize = p.config.printsize;
+					printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
 				}
 
 				$.WR.fieldPrintSize.setVal(printsize);
@@ -748,6 +806,8 @@
 				$.WR.document.onSave();
 				$.WR.document.onPreview();
 				$.WR.document.customfooter.onClick();
+				$.WR.document.info.show();
+				$.WR.document.info.copy();
 			}
 		};
 
@@ -967,7 +1027,7 @@
 
 					switch(p.group.toLowerCase()){
 						case 'row':// caso row
-							var path = p.path+'['+p.cond+']',
+							var path = p.cond ? p.path+'['+p.cond+']' : p.path,
 								td 	 = '',
 								th   = '',
 								tdg  = '',
@@ -1319,7 +1379,7 @@
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," "));
-
+					
 					return structure;
 				},
 				html : function(){
@@ -1328,12 +1388,13 @@
 
 					size = size && size != undefined ? size : '=:WRPZ:=';
 
-					var html = '<div size="'+size+'"><div class="head">';
+					var html   = '<div class="page" size="'+size+'"><div class="head">',
+						footer = data.footer ? data.footer : WR.document.config.customfooter.value;
 
 					html += data.head+'</div>';
 					html += '<div class="content">'+data.body+'</div>';
-					html += '<div class="footer">'+data.footer+'</div></div>';
-
+					html += '<div class="footer">'+footer+'</div></div>';
+					
 					return html;
 				}
 			},
@@ -1350,7 +1411,7 @@
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
@@ -1426,4 +1487,4 @@
 
 		$.WR.init();
 	}
-}($));
+});

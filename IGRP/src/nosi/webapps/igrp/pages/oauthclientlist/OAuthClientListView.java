@@ -12,16 +12,18 @@ public class OAuthClientListView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field uris_;
+	public Field clientid_pesquisa;
 	public Field client_id;
 	public Field client_secret;
 	public Field uris;
 	public Field scope;
 	public Field p_id;
-	
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_novo;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_button_1;
 	public IGRPButton btn_apagar;
@@ -41,6 +43,10 @@ public class OAuthClientListView extends View {
 		uris_.setLabel("URIs ");
 		
 		uris_.propertie().add("name","p_uris_").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		clientid_pesquisa = new TextField(model,"clientid_pesquisa");
+		clientid_pesquisa.setLabel("ClientID");
+		
+		clientid_pesquisa.propertie().add("name","p_clientid_pesquisa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		client_id = new TextField(model,"client_id");
 		client_id.setLabel("Client ID");
 		
@@ -57,12 +63,14 @@ public class OAuthClientListView extends View {
 		scope.setLabel("Scope");
 		
 		scope.propertie().add("name","p_scope").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
-		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel("");
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
-		
+
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		btn_novo = new IGRPButton("Novo","igrp","OAuthClient","index","_self","success|fa-plus-square","","");
+		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","OAuthClientList","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_button_1 = new IGRPButton("Button","igrp","OAuthClientList","button_1","submit","warning|fa-edit","","");
@@ -80,14 +88,16 @@ public class OAuthClientListView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(uris_);
+		form_1.addField(clientid_pesquisa);
 
 		table_1.addField(client_id);
 		table_1.addField(client_secret);
 		table_1.addField(uris);
 		table_1.addField(scope);
 		table_1.addField(p_id);
-		
-		
+
+
+		toolsbar_1.addButton(btn_novo);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_button_1);
 		table_1.addButton(btn_apagar);
@@ -95,6 +105,7 @@ public class OAuthClientListView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(toolsbar_1);
 	}
 }
 /*-------------------------*/

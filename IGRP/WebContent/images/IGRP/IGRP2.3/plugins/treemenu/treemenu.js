@@ -7,7 +7,7 @@
 			name		= parent.attr('name'),
 			package 	= parent.attr('package-db') ? parent.attr('package-db').toUpperCase() : null,
 			app	 		= parent.attr('app') ? parent.attr('app').toUpperCase() : '',
-			url 		= package ? app+'.'+package+'.REMOTE_'+name.toUpperCase() : $.utils.getPageUrl(),
+			url 		= package ? app+'.'+package+'.REMOTE_'+name.toUpperCase() : $.IGRP.utils.getPageUrl(),
 			params 		= package ? 'p_id='+p.id : 'p_remote_tmid='+p.id+'&p_remote_tm='+name;
 
 			xslParams.name 		= name;
@@ -18,7 +18,7 @@
 			if (p.class)
 				xslParams.class = p.class;
 
-			var active = $.IGRP.store.get(name+'_active') || $('#p_'+name+'_tmid').val()*1;
+			var active = $.IGRP.store.get(name+'_active') || $('#p_fwl_'+name+'_tmid').val()*1;
 
 			if (active)
 				params += '&p_active='+active;
@@ -59,7 +59,7 @@
 					name 		= holder.attr('name'),
 					onComplete  = function(){
 						$.IGRP.utils.loading.hide(holder);
-						var active = $.IGRP.store.get(name+'_active') || $('#p_'+name+'_tmid').val() *1;
+						var active = $.IGRP.store.get(name+'_active') || $('#p_fwl_'+name+'_tmid').val() *1;
 						if (active){
 							$('ul.tree li',holder).removeClass('active');
 							$('li#'+active,holder).addClass('active');
@@ -130,7 +130,7 @@
 				var target 		= $(this).attr('tree-target'),
 					id 			= $(this).parents('li:first').attr('id'),
 					holderName 	= $(this).parents('.box-tm:first').attr('name'),
-					name 		= 'p_'+holderName+'_tmid',
+					name 		= 'p_fwl_'+holderName+'_tmid',
 					itarget     = $.IGRP.targets[target] || $.IGRP.targets._self;
 
 				$.IGRP.store.set({

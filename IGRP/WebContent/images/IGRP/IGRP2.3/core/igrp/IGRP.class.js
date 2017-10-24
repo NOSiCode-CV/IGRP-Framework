@@ -9,7 +9,9 @@
 
 			page : null,
 
-			app  : null
+			app  : null,
+
+			params : null
 
 		},
 
@@ -204,6 +206,7 @@
 				req = $.ajax({
 					url      : url,
 					data     : options.params,
+					method	 : options.method,
 					dataType : options.dataType
 				})
 				.done(options.success)
@@ -220,6 +223,12 @@
 
 		},
 
+		scrollTo:function(name){
+			
+			console.log(name);
+			
+		},
+
 		config:function(){
 
 			var app  = $('body').attr('app'),
@@ -230,6 +239,12 @@
 
 			$.IGRP.info.page = page ? page.replaceAll(' ','_') : null;
 
+			$.IGRP.info.params = $.IGRP.utils.url.getParams();
+
+			if( $.IGRP.info.params.ichange )
+
+				$.IGRP.scrollTo( $.IGRP.info.params.ichange );
+
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');
@@ -237,12 +252,17 @@
 			});
 
 			$('html').addClass('ready');
+
+			$('body').removeClass('loading');
+			
 		},
 		
 		init:function(){
 
 			$.IGRP._init = true;
+			
 			$.IGRP.config();
+			
 			$.IGRP.events.execute('init', $.IGRP);
 
 		}

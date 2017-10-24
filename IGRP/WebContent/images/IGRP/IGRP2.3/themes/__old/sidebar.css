@@ -1,0 +1,126 @@
+.sidebar {
+  background: #fff;
+  position: fixed;
+  z-index: 1000;
+  top:55px;
+  height: auto;
+  box-shadow: 0 5px 5px 0 #eee;
+}
+
+.nav-sidebar {
+  margin-right: -20px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+
+.nav-sidebar > li > a {
+  
+  z-index: 2
+}
+
+.nav-sidebar > li.treeview > a > i.pull-right{
+	position: absolute;
+    top: 50%;
+    margin-top: -7px;
+    right: 10px;
+}
+
+.nav-sidebar > li.active > a{
+	box-shadow: 0px 1px 5px #eee
+}
+
+.nav>li>a:focus, .nav>li>a:hover{
+ background-color:inherit;
+}
+
+.nav-sidebar > .active > a .nav-bar-active{
+  display: block;
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  top: 0;
+  left: 0;
+ /* background-color: #267199;*/
+  content:"";
+  margin: 0;
+  display: none;
+}
+
+body.sidebar-off #igrp-sidebar{
+	display: none
+}
+body.sidebar-off .navbar-brand{
+  width: auto!important;
+}
+/*tree view*/
+.treeview-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 0;
+    background: #f9f9f9;
+}
+.treeview-menu>li>a {
+    padding: 5px 25px;
+    display: block;
+    border-bottom: 1px solid rgba(204, 204, 204, 0.24);
+    position: relative;
+}
+
+.treeview-menu>li>a:hover,
+.treeview-menu>li>a.active {
+  background: whitesmoke;
+}
+
+.treeview-menu li > a > i {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	margin-top: -7px;
+}
+
+.treeview-menu li > a > span{
+	margin: 0
+}
+
+.tree-list li.active > a > .fa.pull-right {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+ 
+  body:not(.sidebar-off):not([has-menu="false"]){
+    overflow: hidden;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: calc(100% - 55px);
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .nav-sidebar{
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 55px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding:0 20px 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #fff;
+    border: 0;
+  }
+}

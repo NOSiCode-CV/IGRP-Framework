@@ -189,7 +189,7 @@
   <xsl:template name="igrp-apps" mode="igrp-apps" match="applications">
    
     <section class="content-header gen-container-item clearfix">
-        <h1><xsl:value-of select="title"/></h1>   
+        <h2><xsl:value-of select="title"/></h2>   
     </section>
 
     <div class="box-content igrp-apps-holder clear">
@@ -208,9 +208,9 @@
         </xsl:for-each>
 
     </div>
-
+    <br/>
     <section class="content-header gen-container-item clearfix">
-        <h1><xsl:value-of select="subtitle"/></h1>   
+        <h2><xsl:value-of select="subtitle"/></h2>   
     </section>
 
     <div class="box-content igrp-apps-holder clear">

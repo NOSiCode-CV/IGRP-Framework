@@ -17,7 +17,7 @@ public class DataSourceView extends View {
 	public Field processo;
 	public Field etapa;
 	public Field objecto;
-	public Field pagina;
+	public LookupField pagina;
 	public Field query;
 	public Field servico;
 	public Field p_id_pagina;
@@ -74,7 +74,7 @@ public class DataSourceView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","success|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","DataSource","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		btn_fechar = new IGRPButton("Fechar","","","","closerefresh","danger|fa-close","","");
 		btn_fechar.propertie.add("type","specific").add("code","").add("rel","fechar");

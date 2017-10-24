@@ -44,9 +44,12 @@ package nosi.core.gui.components;
 </table_1>
  */
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
 
@@ -68,8 +71,28 @@ public class IGRPTable extends IGRPComponent{
 		this.properties.put("structure", "fields");
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
+		this.createParamsLookup();
 	}	
 	
+	private void createParamsLookup() {
+		String forLookup = Igrp.getInstance().getRequest().getParameter("forLookup");
+		if(forLookup!=null && !forLookup.equals("")){
+			Enumeration<String> params = Igrp.getInstance().getRequest().getParameterNames();
+			while(params.hasMoreElements()){
+				String param=params.nextElement();
+				if(!param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
+					String name = Igrp.getInstance().getRequest().getParameter(param);
+					if(name!=null && !name.equals("")){
+						Field f = new HiddenField(null, param);
+						f.setValue(name);
+						f.setParam(true);
+						this.fields.add(f);
+					}
+				}
+			}
+		}
+	}
+
 	public IGRPTable(String tag_name){
 		this(tag_name,"");
 	}
@@ -125,14 +148,17 @@ public class IGRPTable extends IGRPComponent{
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
 				this.xml.startElement("row");
-				if(this.buttons.size() > 0){
-					this.xml.startElement("context-menu");
-					for(Field field:this.fields){
-						if(field.isParam())
-							this.xml.setElement("param", field.getName()+"="+IgrpHelper.getValue(obj, field.getName()));
+				this.xml.startElement("context-menu");
+				for(Field field:this.fields){
+					if(field.isParam()){
+						String value = IgrpHelper.getValue(obj, field.getName());
+						value = (value==null||value.equals(""))?IgrpHelper.getValue(obj, field.getValue().toString()).toString():value;
+						value = (value==null||value.equals(""))?field.getValue().toString():value;
+						if(value!=null && !value.equals(""))
+							this.xml.setElement("param", field.getName()+"="+value);
 					}
-					this.xml.endElement();
 				}
+				this.xml.endElement();
 				for(Field field:this.fields){
 					this.xml.startElement(field.getTagName());
 					this.xml.writeAttribute("name", field.propertie().getProperty("name"));
@@ -163,4 +189,15 @@ public class IGRPTable extends IGRPComponent{
 		this.rows = rows;
 	}
 	
+	//Para formato de xml 2.1
+	public String getDoc_list(){
+		this.xml.startElement("table");
+			this.xml.startElement("prm_doc_list");
+				this.xml.writeAttribute("type", "separatordialog");
+				this.xml.writeAttribute("container", "true");
+				GenXMLField.toXmlV21(this.xml,this.fields);
+			this.xml.endElement();
+		this.xml.endElement();
+		return this.xml.toString();
+	}
 }

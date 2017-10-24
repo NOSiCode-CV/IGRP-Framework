@@ -18,6 +18,7 @@
       <xsl:when test="$hasMenu = 'true'">fixed-nav</xsl:when>
       <xsl:otherwise>fluid</xsl:otherwise>
     </xsl:choose>
+     loading
   </xsl:variable>
   <!--/body class -->
 

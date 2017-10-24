@@ -8,6 +8,8 @@ package nosi.webapps.igrp.pages.novoutilizador;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.GroupService;
+import nosi.core.webapp.activit.rest.UserService;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -54,6 +56,15 @@ public class NovoUtilizadorController extends Controller {
 					p.setType_fk(model.getAplicacao());
 					p = p.insert();
 					if(p!=null){
+						//Associa utilizador a grupo no Activiti
+						UserService userActiviti0 = new UserService();
+						userActiviti0.setId(u.getUser_name());
+						userActiviti0.setPassword("password.igrp");
+						userActiviti0.setFirstName(u.getName());
+						userActiviti0.setLastName("");
+						userActiviti0.setEmail(u.getEmail());
+						userActiviti0.create(userActiviti0);	
+						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
 						Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 					}else{
 						Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");

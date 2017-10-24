@@ -7,7 +7,8 @@ package nosi.core.gui.components;
  * Description: class to generate xml of tools-bar 
  */
 import java.util.ArrayList;
-
+import java.util.Map.Entry;
+import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
@@ -19,10 +20,15 @@ public class IGRPToolsBar {
 	protected Object class_name = this;
 	protected XMLWritter xml;
 	protected String type = "toolsbar";
+	protected FieldProperties properties;
+	
 	public IGRPToolsBar(String tag_name) {
 		this.tag_name = tag_name;
 		this.buttons = new ArrayList<>();
 		this.xml = new XMLWritter();
+		this.properties = new FieldProperties();
+		this.properties.add("type", this.type);
+		this.properties.add("xml-type", this.type);
 	}
 	
 	public void setClassName(Object class_name){
@@ -33,6 +39,14 @@ public class IGRPToolsBar {
 		return this.class_name.getClass().getSimpleName().toString();
 	}
 	
+	public FieldProperties getProperties() {
+		return properties;
+	}
+
+	public void setProperties(FieldProperties properties) {
+		this.properties = properties;
+	}
+
 	public String toString(){
 		return this.toXmlTools();
 	}
@@ -49,11 +63,13 @@ public class IGRPToolsBar {
         </item>
 	 */
 	public String toXmlTools(){
-		if(this.buttons.size() > 0){
+		if(this.buttons!=null && this.buttons.size() > 0){
 			xml.startElement(this.tag_name);
 			if(this.getClassName().compareTo("IGRPToolsBar") == 0){
-				xml.writeAttribute("type",this.type);
-				xml.writeAttribute("structure", "items");
+				for(Entry<Object, Object> prop : properties.entrySet()) {
+					if(prop.getKey()!=null && prop.getValue()!=null)
+						xml.writeAttribute(prop.getKey().toString(), prop.getValue().toString());
+				}
 			}
 			for(IGRPButton item:buttons){
 				this.genXmlItem(item, "item");

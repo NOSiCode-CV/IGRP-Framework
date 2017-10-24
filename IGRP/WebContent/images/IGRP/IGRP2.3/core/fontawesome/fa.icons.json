@@ -1,18 +1,22 @@
 {
     
     "apps": {
+
         "none" : {
             "label" : "No icon",
             "value" : ""
         },
+
         "address-book": {
-            "label": "address-book",
+            "label": "address-book,book,livro",
             "value": "fa-address-book"
         },
+
         "address-book-o": {
             "label": "address-book-o",
             "value": "fa-address-book-o"
         },
+
         "address-card": {
             "label": "address-card",
             "value": "fa-address-card"

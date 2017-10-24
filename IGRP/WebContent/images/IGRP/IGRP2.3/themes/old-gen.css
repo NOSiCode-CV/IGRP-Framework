@@ -1,3 +1,6 @@
+.box, .toolsbar-holder.boxed{
+  box-shadow: none;
+}
 .box-body[last-type-container="true"]{
   padding-bottom: 0;
 }
@@ -43,9 +46,10 @@
   clear: both;
   padding: 10px 0;*/
 
-  background: #f8f8f8;
+  background: #f3f5f7;
   margin: 35px -25px 0px!important
 }
+
 
 .old-v .self-boxed-item:after{
   content:"";
@@ -66,7 +70,7 @@
     height: 20px;
     top: 0;
     width: 101%;
-    background: #f8f8f8;
+    background: #f3f5f7;
     left: -1px;
     z-index: 10;
     display: block;
@@ -78,7 +82,7 @@
     height: 10px;
     bottom: -11px;
     width: 101%;
-    background: #f8f8f8;
+    background: #f3f5f7;
     left: -1px;
     display: block;
     /* padding-bottom: 10px; */
@@ -104,7 +108,7 @@
 }
 
 .old-v .gen-item-boxed>.box-header{
-  border-top:1px solid #eee
+  
 }
 
 
@@ -154,7 +158,7 @@
     position: relative;
     margin-right: -1px;
     margin-left: -1px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     /*border-top: 1px solid #eee*/
 }
 
@@ -164,11 +168,13 @@
 
 .old-v *[role="form"] .box-head.subtitle  {
     font-size: 18px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     margin-right: -11px;
     margin-left: -11px;
     /*padding: 10px;*/
     line-height: 1;
+    padding-top: 4px;
+    padding-bottom: 4px;
     /*font-weight: bold;*/
     /*margin-top: 10px;*/
  

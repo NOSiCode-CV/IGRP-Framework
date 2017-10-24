@@ -86,16 +86,18 @@
 		xslValue: function(){
 			var filterTag = container.GET.tag()+"_filter",
 				name	  = "'p_"+filterTag+"'",
-				filter    = "'"+container.GET.filter()+"'";
+				filter    = "'"+container.GET.filter()+"'",
+				fltPg     = container.GET.filter()=='filter_num' ? '<xsl:with-param name="filter_pagination" select="'+container.GET.path()+'/fields/'+filterTag+'_pg/value"/>' : '';
 
 			return '<xsl:call-template name="table-filter">'+
                     '<xsl:with-param name="name" select="'+name+'"/>'+
                     '<xsl:with-param name="value" select="'+container.GET.path()+'/fields/'+filterTag+'/value"/>'+
+                    fltPg+
                     '<xsl:with-param name="type" select="'+filter+'"/>'+
                   '</xsl:call-template>';
 		}
 	});
-
+	
 	container.setPropriety({
 		name:'filter',
 		value:{
