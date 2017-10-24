@@ -67,9 +67,11 @@ public class User implements Component{
 	
 	private void checkCookieContext() {
 		Cookie aux = null;
-		for(Cookie obj : Igrp.getInstance().getRequest().getCookies())
-			if(obj.getName().equals("_identity-igrp"))
-				aux = obj;
+		Cookie []allCookies = Igrp.getInstance().getRequest().getCookies();
+		if(allCookies != null)
+			for(Cookie obj : allCookies)
+				if(obj.getName().equals("_identity-igrp"))
+					aux = obj;
 		if(aux == null || aux.getValue().isEmpty()) return;
 		String value = new String(Base64.getDecoder().decode(aux.getValue()));
 		try {
