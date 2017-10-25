@@ -6,20 +6,16 @@
 package nosi.webapps.igrp.pages.listapage;
 /*---- Import your packages here... ----*/
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
-import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /*---- End ----*/
 public class ListaPageController extends Controller {		
@@ -65,27 +61,12 @@ public class ListaPageController extends Controller {
 	public Response actionExport() throws IOException{
 		/*---- Insert your code here... ----*/	
 		String id = Igrp.getInstance().getRequest().getParameter("id");
-		if(id != null && !id.equals("")) {
-			Action page = new Action().findOne(id);
-			String xml_file = ImportExportApp.generateXMLPage(page);			
-			String path_class_files = Config.getWorkspace() +"\\src\\"+ page.getPackage_name().replace(".", "\\");
-			String path_xsl_xml = Config.getWorkspace() + "\\WebContent\\" + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
-			
-			FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
-			
-			Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
-			Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
-			
-			xsl_xml_files.putAll(Java_files);
-			System.out.println(xsl_xml_files);
-			boolean status = JarUnJarFile.saveJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+page.getPage()+".jar", xsl_xml_files, 9);
-			if(status) {
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Upload concluído com sucesso...");
-			}else {
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Upload...");
-			}
+		boolean status = ImportExportApp.ExportPage(id);
+		if(status) {
+			Igrp.getInstance().getFlashMessage().addMessage("success", "Export concluído com sucesso...");
+		}else {
+			Igrp.getInstance().getFlashMessage().addMessage("error", "Ups!! Falha ao realizar o Export...");
 		}
-		
 		return this.redirect("igrp","ListaPage","index");
 			/*---- End ----*/
 	}

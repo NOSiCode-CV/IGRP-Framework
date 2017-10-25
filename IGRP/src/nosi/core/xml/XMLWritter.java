@@ -59,12 +59,20 @@ public class XMLWritter {
 		}
 
 		public void setElement(String tag,String value){
-			this.startElement(tag);
-			this.text(value);
-			this.countAttr.put(tag,false);
-			this.endElement();
+			if(value != null && !value.equals("")) {
+				this.startElement(tag);
+				this.text(value);
+				this.countAttr.put(tag,false);
+				this.endElement();
+			}else {
+				this.emptyTag(tag);
+			}
 		}
 
+		public void setElement(String tag,Object value){
+			this.setElement(tag, value.toString());
+		}
+		
 		private void closeLarger(){
 			try{
 				String key = this.listXml.get(this.listXml.size()-1);

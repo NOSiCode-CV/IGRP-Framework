@@ -22,18 +22,14 @@ public class MigrationIGRPInitConfig {
 		app = app.insert();
 		
 		if(app!=null){
-			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,null, 2017, 2017);
+			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
-			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "demo",null, null, null, null, null,null, 2017, 2017);
+			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "demo",null, null, null, null, null,"123456", 2017, 2017);
 			user1 = user1.insert();
 			
-			
-			
 			Organization org = new Organization("01.03", "NOSI", 1, app, user0, null);
-			org = org.insert();
-			
-			
+			org = org.insert();	
 			
 			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, app, null);
 			prof0 = prof0.insert();
@@ -185,7 +181,7 @@ public class MigrationIGRPInitConfig {
 			new CreateViews();
 		}
 		//inserindo dados by default na tabela Scope
-		OAuthScope objScope = new OAuthScope("Login", 0);
+		OAuthScope objScope = new OAuthScope("login", 0);
 		objScope.insert();
 	}
 }

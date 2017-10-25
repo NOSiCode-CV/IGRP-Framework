@@ -8,12 +8,20 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 
 import java.io.IOException;
-import java.util.Map;
+import java.io.StringReader;
+import java.util.List;
+
+import javax.xml.bind.JAXB;
 
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.xml.XMLApplicationReader;
+import nosi.core.xml.XMLPageReader;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 
 /*---- End ----*/
 
@@ -31,29 +39,53 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionImport() throws IOException{
 		/*---- Insert your code here... ----*/
-		Map<String , String> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\ListaPage.jar");
+		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\teste.jar");
 		boolean status_compile = false;
-		for(Map.Entry<String, String> un_jar_file:un_jar_files.entrySet()) {
-			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getKey(), un_jar_file.getValue());
+		Application app = null;
+		Action page = null;
+		for(FileOrderCompile un_jar_file:un_jar_files) {
+			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome(), un_jar_file.getConteudo());
 		}
-		for(Map.Entry<String, String> un_jar_file:un_jar_files.entrySet()) {
-			if(un_jar_file.getKey().contains(".java")) {
-				
-				
-				//status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getKey());
-				status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", "ListaPage" + ".java");
-				status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", "ListaPage"  + "View.java");
-				status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", "ListaPage" + "Controller.java");
+		
+		for(FileOrderCompile un_jar_file:un_jar_files) {
+			if(un_jar_file.getNome().contains(".java")) {
+				status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome());
 			}
 			
-			if(un_jar_files.containsKey("Config.xml")) {
+			if(un_jar_file.getNome().contains("Config.xml")) {
+				StringReader input = new StringReader(un_jar_file.getConteudo());
+				XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
 				
+				page = new Action();
+				app = new Application();
+				page.setAction(xmlPage.getAction());
+				page.setAction_descr(xmlPage.getAction_desc());
+				page.setPackage_name(xmlPage.getPackage_name());
+				page.setPage(xmlPage.getPage());
+				page.setPage_descr(xmlPage.getPage_desc());
+				page.setStatus(xmlPage.getStatus());
+				page.setVersion(xmlPage.getVersion());
+				page.setXsl_src(xmlPage.getXsl_src());
+				page.setApplication(app.findOne(xmlPage.getEnv_fk()));
+				page = page.insert();
+
+				if(un_jar_file.getNome().contains("ConfigApplication.xml")) {
+					StringReader inputApp = new StringReader(un_jar_file.getConteudo());
+					XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
+					
+					app.setDad(xmlApplication.getDad());
+					app.setDescription(xmlApplication.getDescription());
+					app.setExternal(xmlApplication.getExternal());
+					app.setImg_src(xmlApplication.getImg_src());
+					app.setName(xmlApplication.getName());
+					app.setStatus(xmlApplication.getStatus());
+					app.setUrl(xmlApplication.getUrl());
+					app.setAction(page.findOne(xmlApplication.getAction_fk()));
+					app = app.insert();
+				}
 			}
-			//System.out.println(un_jar_file.getKey());
-			//System.out.println(un_jar_file.getValue());
 		}
-		//System.out.println(un_jar_files); 
-		if(status_compile){
+		if(status_compile && page != null && app != null){
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Arquivo Importado com sucesso");
 		}else {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Ups!!! Ocorreu um Erro...");
@@ -67,43 +99,8 @@ public class ImportArquivoController extends Controller {
 	
 	
 	
-	
-	
-	
-	
-	
-	//public static void main(String [] args) throws IOException {
-		
-		//Map<String , String> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\ListaPage.jar");
-		//boolean status_compile = false;
-		
-	//	for(Map.Entry<String, String> un_jar_file:un_jar_files.entrySet()) {
-			//if(un_jar_file.getKey().contains(".xml")) {
-		//		FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getKey(), un_jar_file.getValue());
-			    //status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getKey()); 
-			//System.out.println(un_jar_file.getKey());	
-			//System.out.println(un_jar_file.getValue()); 
-			//}
-			/*
-			if(un_jar_files.containsKey(".xml")) {
-				
-			}*/
-			//System.out.println(un_jar_file.getKey());
-			//System.out.println(un_jar_file.getValue());
-	//	}
-			
-		//System.out.println(status_compile); 
-		/*LinkedHashMap<String, String> frutas = new LinkedHashMap<String, String>();
-		frutas.put("a", "Apple");
-		frutas.put("c", "caju");
-		frutas.put("b", "Banana");
-		System.out.println(frutas);
-		
-		
-		System.out.println(frutas);
-		
-	
+	public static void main(String [] args) throws IOException {
 	}
-	*/
+	
 	
 }

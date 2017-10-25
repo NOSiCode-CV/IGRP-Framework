@@ -110,7 +110,7 @@ public class Config {
 	}
 	
 	public static String getAutenticationType(){
-		return Igrp.getInstance().getServlet().getInitParameter("autentication_type");
+		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
 	}
 	
 	public static String getBasePathXsl(){
@@ -232,5 +232,9 @@ public class Config {
 		}else{
 			System.err.println("Nao foi possivel concluir a instacao do IGRP!");
 		}
+	}
+
+	public static String getBaseConnection() {
+		return "hibernate-igrp-core";
 	}
 }

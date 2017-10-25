@@ -9,8 +9,6 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Report;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -59,7 +57,6 @@ public class WebReportController extends Controller {
 							params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
 						}
 					}
-//					Report.getLinkReport("rep_user", new Report().addParam("id", model.getId_utilizador()).addParam("user_name", model.getUser_name()))
 					String link = "Report.getLinkReport(\""+r.getCode()+"\","+params+");";
 					t1.setDescricao(link);
 					t1.setLink("igrp", "web-report", "load-template&amp;id="+r.getId());
@@ -193,7 +190,7 @@ public class WebReportController extends Controller {
 		String xsl = "";
 		if(id!=null && !id.equals("")){
 			CLob c = new CLob();
-			c = c.findOne(Integer.parseInt(id));
+			c = c.findOne((int)Float.parseFloat(id));
 			xsl = c.getC_lob_content();
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(xsl);
@@ -295,11 +292,10 @@ public class WebReportController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String json = "";
 		if(id!=null && !id.equals("")){
-			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne(Integer.parseInt(id));
+			RepTemplate rt = new RepTemplate().findOne(Integer.parseInt(id));
 			CLob clob = new CLob().findOne(rt.getXml_content().getId());
 			String data_sources = "";
-			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(Integer.parseInt(id))){
+			for(RepTemplateSource r:new RepTemplateSource().getAllDataSources(rt.getId())){
 				data_sources+=""+r.getRepSource().getId()+",";
 			}
 			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";

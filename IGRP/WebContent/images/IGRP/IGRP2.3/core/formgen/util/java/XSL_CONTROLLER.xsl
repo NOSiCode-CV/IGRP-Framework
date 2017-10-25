@@ -42,6 +42,8 @@
 				<xsl:value-of select="$newline"/>
 		 		<xsl:value-of select="$import_response"/>
 				<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$import_igrp"/>
+				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$newline"/>
      		</xsl:otherwise>
      	</xsl:choose>
@@ -173,8 +175,15 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
-     	<xsl:value-of select="concat('public Response action',$action,'() throws IOException',$your_code_exception,'{')"/>
-		<xsl:value-of select="$newline"/>	
+		<xsl:choose>
+			<xsl:when test="$your_code_exception != ''">
+				<xsl:value-of select="concat('public Response action',$action,'() ',$your_code_exception,'{')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat('public Response action',$action,'() throws IOException, IllegalArgumentException, IllegalAccessException{')"/>
+			</xsl:otherwise>
+		</xsl:choose>
+     	<xsl:value-of select="$newline"/>	
      	<xsl:value-of select="$tab2"/>     	
      	<!--         Actions modified by programmer -->     	
      	<xsl:value-of select="$begin_reserve_code_controller_on_action"></xsl:value-of>		
@@ -198,6 +207,17 @@
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="'model.load();'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>	
+						<xsl:value-of select="'}'"/>	
+						
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
@@ -206,6 +226,20 @@
 						<xsl:value-of select="$tab"/>  
 					</xsl:when>
 					<xsl:when test="$type_render_='redirect'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>	
+						<xsl:value-of select="$tab"/>					
+						<xsl:value-of select="'model.load();'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>	
+						<xsl:value-of select="'}'"/>
+						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>

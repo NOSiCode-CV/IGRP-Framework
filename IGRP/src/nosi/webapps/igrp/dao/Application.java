@@ -9,8 +9,7 @@ import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
@@ -49,7 +47,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	@ManyToOne()
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.EAGER)
 	private List<Action> actions;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Config_env> configs;
@@ -229,44 +227,20 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		return p!=null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Object[]> getMyApp() {	
+	public List<Profile> getMyApp() {	
 		User u = (User) Igrp.getInstance().getUser().getIdentity();
-		EntityManager em = this.entityManagerFactory.createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		String query = "SELECT E.* FROM tbl_env E,tbl_profile P "
-				+ "	WHERE "
-				+ " E.id = P.type_fk "
-				+ "	AND P.type=?"
-				+ " AND P.user_fk=?"
-				+ " AND E.id <> ? "
-				+ "	ORDER BY id";
-		Query q = em.createNativeQuery(query);
-		q.setParameter(1, "ENV");
-		q.setParameter(2, u.getId());
-		q.setParameter(3,1);
-		List<Object[]> list = q.getResultList();
-		t.commit();
-		em.close();
+		List<Profile> list = new Profile().find()
+									 .andWhere("type", "=", "ENV")
+									 .andWhere("user", "=", u.getId())
+									 .andWhere("id", "<>", 1)
+									 .all();
 		return list;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Object[]> getOtherApp() {
-		User u = (User) Igrp.getInstance().getUser().getIdentity();
-		EntityManager em = this.entityManagerFactory.createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		String query ="SELECT E.* FROM tbl_env E"
-				+ " WHERE E.id NOT IN (SELECT P.type_fk FROM tbl_profile P WHERE P.type=? AND P.user_fk=?)  AND E.id<>?";
-		Query q = em.createNativeQuery(query);
-		q.setParameter(1, "ENV");
-		q.setParameter(2, u.getId());
-		q.setParameter(3,1);
-		List<Object[]> list = q.getResultList();
-		t.commit();
-		em.close();
+
+	public List<Application> getOtherApp() {
+		List<Application> list = this.find()
+				 .andWhere("id", "<>", 1)
+				 .all();
 		return list;
 	}
 }

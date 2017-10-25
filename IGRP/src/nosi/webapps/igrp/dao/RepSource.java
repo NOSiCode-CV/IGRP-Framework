@@ -353,6 +353,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			if(value_array!=null && value_array.length>0){
 				for(Parameter<?> param:q.getParameters()){
 					Object val = paramsUrl.get(param.getName().toLowerCase());
+					val = val==null?paramsUrl.get("p_"+param.getName().toLowerCase()):val;
 					if(val!=null)
 						q.setParameter(param.getName(), val);
 				}

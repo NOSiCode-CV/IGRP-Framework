@@ -1,15 +1,21 @@
 package nosi.webapps.igrp.pages.login;
 
 import nosi.core.config.Config;
-import nosi.core.servlet.OAuth2;
+import nosi.core.ldap.LdapInfo;
+import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
+
+import java.io.File;
 import java.io.IOException;
+
+import javax.xml.bind.JAXB;
 /**
  * Marcel Iekiny
  * Oct 4, 2017
@@ -24,17 +30,18 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
-		// first 
+		// first
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
-				String response = "";
+				StringBuilder oauth2ServerUrl = new StringBuilder();
 				User user = (User) Igrp.getInstance().getUser().getIdentity();
-				response = this.generateOauth2Response(user, response_type, client_id, redirect_uri, scope);
-			return this.redirectToUrl(response); // Bug here ...
+				if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope))
+					return this.redirectToUrl(oauth2ServerUrl.toString());
+				else
+					;// Go to error page
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
-		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
 		//Set user and password for demo 
@@ -43,31 +50,32 @@ public class LoginController extends Controller {
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				model.load();
-				switch(Config.getAutenticationType()){
+				switch(Config.getAutenticationType()){//generateOauth2Response
 					case "db": 
-						if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
-							String result = this.loginWithDbForAuth2(model.getUser(), model.getPassword(), response_type, client_id, redirect_uri, scope);
-							if(result != null) {
-								if(result.contains("error="))
-									Igrp.getInstance().getUser().logout();
-								return this.redirectToUrl(result);
-							}
-						}
-						else
-							if(this.loginWithDb(model.getUser(), model.getPassword()))
+						if(this.loginWithDb(model.getUser(), model.getPassword())) {
+							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+								StringBuilder oauth2ServerUrl = new StringBuilder();
+								
+								User user = (User) Igrp.getInstance().getUser().getIdentity();
+								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
+									return this.redirectToUrl(oauth2ServerUrl.toString());
+								}
+								else
+									;// Go to error page
+							}else
 								return this.redirect("igrp", "home", "index"); // always go to home index url
+						}
 					break;
 					
-					case "ldap": this.loginWithLdap(); break;
+					case "ldap":
+						if(this.loginWithLdap(model.getUser(), model.getPassword()))
+							return this.redirect("igrp", "home", "index");
+					break;
 					
 					default:;
 				}
 			}
 		return this.renderView(view,true);
-	}
-	
-	public Response actionGoToLogin() throws IOException {
-		return this.redirect("igrp", "login", "login");
 	}
 	
 	public Response actionLogout() throws IOException{
@@ -80,91 +88,16 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 	
+	// Dont delete this method 
+	public Response actionGoToLogin() throws IOException {
+		return this.redirect("igrp", "login", "login");
+	}
 	
 	/*
 	 * The following methods are all encapsulate (private) ... Those methods encapsulate the specific IGRP login and
 	 * authentication business logic ...
 	 * Your never call those methods out of this class ... Those methods are not a action of IGRP Controller !
 	 * */
-	
-	private String generateOauth2Response(User user, String response_type, String client_id, String redirect_uri, String scope ) {
-		String url_ = "";
-		switch(response_type) {
-			case "code":
-				String authorizationCode = null;
-				try {
-					authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
-					
-					if(authorizationCode != null)
-						url_ = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
-					else
-						url_ = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro ! Access Denied");
-			
-				}catch(Exception e) {
-					url_ = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
-				}
-			break;
-			
-			case "token": 
-				
-				String token = null;
-				try {
-					token = OAuth2.getAccessToken(user.getId() + "", response_type, client_id, redirect_uri, scope);
-					if(token != null)
-						url_ = OAuth2.buildUrl(redirect_uri, 2, token);
-					else
-						url_ = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro ! Access Denied");
-			
-				}catch(Exception e) {
-					url_ = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
-				}
-				
-			break;
-			
-			default: url_ = redirect_uri + "?error=Ocorreu um erro ! Access Denied";
-		}
-		return url_;
-	}
-	
-	private String generateOauth2Response(String response_type, User user, String client_id, String redirect_uri, String scope) {
-		String result = "";
-		switch(response_type) {
-		
-		case "code":
-			String authorizationCode = null;
-			try {
-				authorizationCode = OAuth2.getAuthorizationCode(user.getId() + "", response_type, client_id, redirect_uri, scope);
-				if(authorizationCode != null){
-					result = OAuth2.buildUrl(redirect_uri, 1, authorizationCode);
-				}
-				else {
-					result = OAuth2.buildUrl(redirect_uri, 3, "Ocorreu um erro Access Denied");
-				}
-			}catch(Exception e) {
-				result = OAuth2.buildUrl(redirect_uri, 3, e.getMessage());
-			}
-			break;
-		
-		case "token": 
-			String token = null;
-			try {
-				token =  OAuth2.getAccessToken(user.getId() + "", response_type, client_id, redirect_uri, scope);
-				
-				if(token != null){
-					result = OAuth2.buildUrl(redirect_uri, 2, token);
-				}
-				else {
-					result = OAuth2.buildUrl(redirect_uri, 4, "Ocorreu um erro Access Denied");
-				}
-			}catch(Exception e) {
-				result = OAuth2.buildUrl(redirect_uri, 4, e.getMessage());
-				//e.printStackTrace();
-			}
-			break;
-			default: result = redirect_uri + "?error=Ocorreu um erro Access Denied";
-		}
-		return result;
-	}
 	
 	// Use default connectionName "db1" and default igrp user table
 	private boolean loginWithDb(String username, String password) throws IOException{
@@ -173,14 +106,14 @@ public class LoginController extends Controller {
 		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
 			if(user.getStatus() == 1){				
 				Profile profile = new Profile().getByUser(user.getId());
-					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
+					if(profile != null && Igrp.getInstance().getUser().login(user, 60*60/*1h*/)){ // 3600 * 24 * 30
 						if(!Session.afterLogin(profile))
 							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
 						success = true;
 					}
 					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido.");
 			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
@@ -189,31 +122,71 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	private String  loginWithDbForAuth2(String username, String password, String response_type, String client_id, String redirect_uri, String scope) throws IOException {		
-		User user = (User) new User().findIdentityByUsername(username);
-		String result = null;
-		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
-			if(user.getStatus() == 1){
-				Profile profile = new Profile().getByUser(user.getId());
-					if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
-						if(!Session.afterLogin(profile))
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
-						//String backUrl = Route.previous(); // remember the last url that was requested by the user
-						result = this.generateOauth2Response(response_type, user, client_id, redirect_uri, scope);
-					}
-					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+	// Use ldap protocol to make login
+	private boolean loginWithLdap(String username, String password){
+		boolean success = false;
+		
+		/** Begin ldap AD logic here **/
+		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUrl(), ldapinfo.getPassword(), ldapinfo.getBase());
+		success = ldap.validateLogin(username, password);
+		/** End **/
+		
+		if(success) {
+			// Verify if this credentials exist in DB
+			User user = (User) new User().findIdentityByUsername(username);
+			if(user != null) {
+				password = nosi.core.webapp.User.encryptToHash(password, "MD5");
+				if(user.getPass_hash() != null && !user.getPass_hash().equals(password)) {
+					user.setPass_hash(password); // Anyway !!! update the user's password and encrypt it ...
+					user.update();
+				}
+				/** Begin create user session **/
+				if(user.getStatus() == 1){				
+					Profile profile = new Profile().getByUser(user.getId());
+						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
+							if(!Session.afterLogin(profile)) {
+								success = false;
+								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
+								//String backUrl = Route.previous(); // remember the last url that was requested by the user
+							}
+						}
+						else {
+							success = false;
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+						}
+				}
+				else {
+					success = false;
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
+				}
+				/** End create user session **/
+				
+			}else {
+				success = false;
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
 			}
-			else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Comunicação LDAP falhada ou a sua conta ou palavra-passe está incorreta.");
+		
+		return success;
+	}
+	
+	private boolean generateOauth2Response(StringBuilder oauth2ServerUrl/*INOUT var*/, User user, String response_type, String client_id, String redirect_uri, String scope ) {
+		boolean result = true;
+		
+		String url_ = "http://localhost:8080/igrp-rest/rs/oauth2/authorization";
+		String queryString = "?";
+		queryString += "authorize=1";
+		queryString += "&response_type=" + response_type;
+		queryString += "&client_id=" + client_id;
+		queryString += "&redirect_uri=" + redirect_uri;
+		queryString += "&scope=" + scope;
+		
+		oauth2ServerUrl.append(url_.concat(queryString));
 		
 		return result;
 	}
 	
-	// Use ldap protocol to make login
-	private void loginWithLdap(){
-		// Not set yet
-	}
 }

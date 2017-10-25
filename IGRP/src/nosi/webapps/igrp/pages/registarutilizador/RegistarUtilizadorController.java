@@ -37,7 +37,7 @@ public class RegistarUtilizadorController extends Controller {
 				user.setStatus(1);
 				user.setCreated_at(System.currentTimeMillis());
 				user.setUpdated_at(System.currentTimeMillis());
-				user.setAuth_key("NOTSETYET");
+				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user = user.insert();
 				if(user!=null){
 					Igrp.getInstance().getFlashMessage().addMessage("success", "Utilizador registado com sucesso.");
