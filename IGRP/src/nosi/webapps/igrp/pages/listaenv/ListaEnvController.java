@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -43,6 +42,9 @@ public class ListaEnvController extends Controller {
 				table.setDad(a.getDad());
 				table.setName(""+a.getName());
 				table.setStatus(a.getStatus());
+				if(a.getStatus()==1){
+					table.setStatus_check(a.getStatus());
+				}
 				table.setId(a.getId());
 				lista.add(table);
 			}
