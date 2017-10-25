@@ -76,7 +76,6 @@ public class IGRPTable extends IGRPComponent{
 		this.properties.put("structure", "fields");
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
-		this.q = new DBQuery();
 		this.createParamsLookup();
 	}	
 	
@@ -158,27 +157,21 @@ public class IGRPTable extends IGRPComponent{
 
 	private void genRowsWithSql() {
 		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
-			if(this.q.isError()){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
-			}
-			else{
-				try {
-					while(q.getResultSet().next()){
-						this.xml.startElement("row");
-						for(Field field:this.fields){
-							if(field.isParam()){
-								this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
-							}
-							this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
+			try {
+				while(q.getResultSet().next()){
+					this.xml.startElement("row");
+					for(Field field:this.fields){
+						if(field.isParam()){
+							this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
 						}
-						this.xml.endElement();
+						this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
 					}
-				} catch (SQLException e) {
-					
+					this.xml.endElement();
 				}
-				q.close();
+			} catch (SQLException e) {
+				
 			}
+			q.close();
 		}
 	}
 
@@ -240,8 +233,21 @@ public class IGRPTable extends IGRPComponent{
 		return this.xml.toString();
 	}
 	
+	public void setSqlQuery(String connectionName,String sql){
+		this.connectionName = connectionName;
+		this.setSqlQuery(sql);
+	}
+	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
+		this.q = new DBQuery();
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
+			if(this.q.isError()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+				this.sql = null;
+			}
+		}
 	}
 	
 	public String getSqlQuery(){
