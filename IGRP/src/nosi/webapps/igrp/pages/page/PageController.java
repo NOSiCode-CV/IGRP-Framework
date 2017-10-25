@@ -45,9 +45,12 @@ public class PageController extends Controller {
 		 this.format = Response.FORMAT_JSON;
 		 return this.renderView(json);
 	}
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		if(id!=null){
 			Action a = new Action();
 			a = a.findOne(Integer.parseInt(id));
@@ -86,6 +89,10 @@ public class PageController extends Controller {
 			action.setApplication(app.findOne(model.getEnv_fk()));
 			action.setVersion(model.getVersion());
 			action.setPage(model.getPage());
+			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de página inválida");
+				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{action.getId() + ""});
+			}
 			action.setPage_descr(model.getAction_descr());
 			action = action.update();
 			if(action!=null)
@@ -116,6 +123,10 @@ public class PageController extends Controller {
 			action.setAction_descr(model.getAction_descr());
 			action.setPage_descr(model.getAction_descr());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
+			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de página inválida");
+				return this.forward("igrp", "page", "index");
+			}
 			action.setStatus(model.getP_status());
 			action.setVersion(model.getVersion());
 			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
@@ -134,6 +145,7 @@ public class PageController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+				return this.forward("igrp", "page", "index");
 			}
 		}
 		return this.redirect("igrp", "page", "index");

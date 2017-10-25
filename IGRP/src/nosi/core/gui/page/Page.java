@@ -12,6 +12,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -88,9 +89,11 @@ public class Page {
 	}
 	
 	public static String getPageName(String page){
-		page = page.replaceAll("\\s+", "");
-		page = page.replaceAll("-", "");
-		return page;
+		return StringHelper.camelCase(StringHelper.removeSpace(page));
+	}
+	
+	public static boolean validatePage(String page){
+		return StringHelper.validateClassName(page);
 	}
 	
 	public static String getPageFolder(String page){

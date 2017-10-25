@@ -169,7 +169,7 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.endElement();
 				}
 			} catch (SQLException e) {
-				
+				q.close();
 			}
 			q.close();
 		}
