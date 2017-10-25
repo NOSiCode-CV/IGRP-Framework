@@ -100,8 +100,7 @@ public class ListaEnvController extends Controller {
 			
 			if(paginas != null) {
 				for(Action pagina : paginas) {
-					//statuspage = ImportExportApp.ExportPage(pagina.getId()+"");
-					System.out.println(pagina.getAction()); 
+					statuspage = ImportExportApp.ExportPage(pagina.getId()+"");
 				}
 			}
 			
@@ -112,7 +111,7 @@ public class ListaEnvController extends Controller {
 			status = JarUnJarFile.saveJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+app.getDad()+".jar", files, 9);
 			
 		}
-		if(status) {
+		if(status && statuspage) {
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Export de uma aplicação concluído com sucesso...");
 		}else {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Export...");
