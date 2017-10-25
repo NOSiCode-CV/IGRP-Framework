@@ -46,9 +46,15 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.sql.SQLException;
+
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.DBQuery;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
@@ -62,6 +68,8 @@ public class IGRPTable extends IGRPComponent{
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
 	protected String rows = "";
+	private String sql;
+	private DBQuery q;
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -127,7 +135,10 @@ public class IGRPTable extends IGRPComponent{
 				GenXMLField.toXml(this.xml,this.fields);
 				this.xml.startElement("table");
 					this.xml.startElement("value");
-						this.genRows();
+						if(this.getSqlQuery()!=null && !this.getSqlQuery().equals(""))
+							this.genRowsWithSql();
+						else
+							this.genRows();
 					this.xml.endElement();
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
@@ -135,7 +146,10 @@ public class IGRPTable extends IGRPComponent{
 			}else if(this.version == (float) 2.1){
 				GenXMLField.toXmlV21(this.xml,this.fields);
 				this.xml.startElement("value");
-					this.genRows();
+					if(this.getSqlQuery()!=null && !this.getSqlQuery().equals(""))
+						this.genRowsWithSql();
+					else
+						this.genRows();
 				this.xml.endElement();//end tag value
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
@@ -144,6 +158,27 @@ public class IGRPTable extends IGRPComponent{
 		return this.xml.toString();
 	}
 
+	private void genRowsWithSql() {
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			try {
+				while(q.getResultSet().next()){
+					this.xml.startElement("row");
+					for(Field field:this.fields){
+						if(field.isParam()){
+							this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
+						}
+						this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
+					}
+					this.xml.endElement();
+				}
+			} catch (SQLException e) {
+				q.close();
+			}
+			q.close();
+		}
+	}
+
+	
 	protected void genRows() {
 		if(this.data != null && this.data.size() > 0 && this.fields.size() > 0){
 			for(Object obj:this.data){
@@ -168,9 +203,13 @@ public class IGRPTable extends IGRPComponent{
 					}
 					this.xml.text(val);
 					this.xml.endElement();
-					this.xml.startElement(field.getTagName()+"_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name")+"_desc");
-					String val1 = IgrpHelper.getValue(obj, field.getName()+"_desc");
+					String sufix = "_desc";
+					if(field instanceof CheckBoxField || field instanceof CheckBoxListField){
+						sufix = "_check";
+					}
+					this.xml.startElement(field.getTagName()+sufix);
+					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
+					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
 					if(val1==null || val1.equals("")){
 						val1 = field.getValue().toString();
 					}
@@ -199,5 +238,26 @@ public class IGRPTable extends IGRPComponent{
 			this.xml.endElement();
 		this.xml.endElement();
 		return this.xml.toString();
+	}
+	
+	public void setSqlQuery(String connectionName,String sql){
+		this.connectionName = connectionName;
+		this.setSqlQuery(sql);
+	}
+	
+	public void setSqlQuery(String sql){
+		this.sql = sql;
+		this.q = new DBQuery();
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
+			if(this.q.isError()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+				this.sql = null;
+			}
+		}
+	}
+	
+	public String getSqlQuery(){
+		return this.sql;
 	}
 }

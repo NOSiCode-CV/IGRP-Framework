@@ -40,6 +40,7 @@ public class ListaEnv extends Model{
 		private String name;
 		private String host;
 		private int status;		
+		private int status_check;
 		
 		public int getId() {
 			return id;
@@ -67,14 +68,19 @@ public class ListaEnv extends Model{
 		public String getHost(){
 			return this.host;
 		}
-
 		public void setStatus(int status){
 			this.status = status;
 		}
 		public int getStatus(){
 			return this.status;
 		}
-
+		public int getStatus_check() {
+			return status_check;
+		}
+		public void setStatus_check(int status_check) {
+			this.status_check = status_check;
+		}
+		
 	}
 }
 /*-------------------------*/

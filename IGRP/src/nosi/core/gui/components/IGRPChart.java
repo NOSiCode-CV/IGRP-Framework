@@ -63,6 +63,7 @@ public class IGRPChart extends IGRPComponent{
 	private String url;
 	private ArrayList<String> colors;
 	private String sql;
+	private DBQuery q;
 	
 	public IGRPChart(String tag_name,String title) {
 		super(tag_name,title);
@@ -151,11 +152,7 @@ public class IGRPChart extends IGRPComponent{
 	
 	//Gera xml de chart a partir de query sql
 	private void genChartWithSql() {
-		DBQuery q = new DBQuery().query(this.getConnectionName(),this.getSqlQuery());
-		if(q.isError()){
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
-		}
-		else{
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
 			try {
 					Map<String,Number> labels = new HashMap<>();	
 					List<Item> itens = new ArrayList<>();
@@ -184,10 +181,22 @@ public class IGRPChart extends IGRPComponent{
 						}
 					this.xml.endElement();//End tag value
 				} catch (SQLException e) {
+					q.close();
 					e.printStackTrace();
 				}
 			q.close();
 		}
+	}
+	
+	private boolean validateSqlChart(int columnCount) {
+		if(this.getChart_type().equalsIgnoreCase("pie") && columnCount!=2){
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,this.properties.getProperty("title")+": O seu SQL deve conter apenas 2 campos");
+			return false;
+		}else if(!this.chart_type.equalsIgnoreCase("pie") && columnCount!=3){
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,this.properties.getProperty("title")+": O seu SQL deve conter 3 campos");
+			return false;
+		}
+		return true;
 	}
 	
 	private void genRowsChart2d(List<Item> itens, Map<String, Number> labels) {
@@ -307,12 +316,24 @@ public class IGRPChart extends IGRPComponent{
 	}
 
 	public void setSqlQuery(String connectionName,String sql){
-		this.sql = sql;
 		this.connectionName = connectionName;
+		this.setSqlQuery(sql);
 	}
 	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
+		this.q = new DBQuery();
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
+			if(this.q.isError()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+				this.sql = null;
+			}
+		}
+		if(!this.validateSqlChart(q.getColumns().size())){
+			this.sql = null;
+			q.close();
+		}
 	}
 	
 	public String getSqlQuery(){
