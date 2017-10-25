@@ -181,6 +181,7 @@ public class IGRPChart extends IGRPComponent{
 						}
 					this.xml.endElement();//End tag value
 				} catch (SQLException e) {
+					q.close();
 					e.printStackTrace();
 				}
 			q.close();
@@ -331,6 +332,7 @@ public class IGRPChart extends IGRPComponent{
 		}
 		if(!this.validateSqlChart(q.getColumns().size())){
 			this.sql = null;
+			q.close();
 		}
 	}
 	
