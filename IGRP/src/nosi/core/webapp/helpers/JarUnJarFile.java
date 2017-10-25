@@ -82,10 +82,11 @@ public class JarUnJarFile {
 		   }
 		   int order = 1;
 		   if(entry.getName().toLowerCase().contains("view.java")){
-		   	order = 2;
+		   		order = 2;
 		   }else if(entry.getName().toLowerCase().contains("controller.java")){
-		   	order = 3;
-		   }
+		   		order = 3;
+		   }else if(entry.getName().toLowerCase().contains("configapplication.xml"))
+			   order = -1;
 		   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
 		contents.add(f);
 		jis.closeEntry();
