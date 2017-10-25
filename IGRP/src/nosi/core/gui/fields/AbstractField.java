@@ -118,6 +118,7 @@ public abstract class AbstractField implements Field{
 						}
 						this.value = options;
 					} catch (SQLException e) {
+						q.close();
 						e.printStackTrace();
 					}
 					q.close();
