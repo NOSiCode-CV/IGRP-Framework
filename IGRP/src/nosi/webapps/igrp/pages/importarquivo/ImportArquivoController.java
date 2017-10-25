@@ -15,6 +15,7 @@ import java.util.List;
 import javax.xml.bind.JAXB;
 
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -46,7 +47,7 @@ public class ImportArquivoController extends Controller {
 		for(FileOrderCompile un_jar_file:un_jar_files) {
 			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome(), un_jar_file.getConteudo());
 		}
-		for(FileOrderCompile un_jar_file:un_jar_files) {
+		for(FileOrderCompile un_jar_file : un_jar_files) {
 			
 			if(un_jar_file.getNome().contains("ConfigApplication.xml")) {
 				StringReader inputApp = new StringReader(un_jar_file.getConteudo());
@@ -61,17 +62,28 @@ public class ImportArquivoController extends Controller {
 				app.setUrl(xmlApplication.getUrl());
 				app.setAction(null);//page.findOne(xmlApplication.getAction_fk()));
 				//app = app.insert();
+				
+				//criar o Arquivo DefaultPageController no diretorio de classes para compilar 
+				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-			
+				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
+				
+				//criar o Arquivo DefaultPageController no diretorio do packge da application
+				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				}
+				
 			}
 			if(un_jar_file.getNome().contains(".java")) {
-				String path_java = Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages";
+				String path_java = "";
 				FileHelper.createDiretory(path_java);
+				status_compile = CompilerHelper.compile(path_java, un_jar_file.getNome());
+				
 				FileHelper.save(path_java, un_jar_file.getNome(), un_jar_file.getConteudo());
 			}
 			
 			if(un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
-				
+				//String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
 			}
 			
 			if(un_jar_file.getNome().contains("ConfigPages.xml")) {
@@ -101,27 +113,5 @@ public class ImportArquivoController extends Controller {
 	}
 	
 	/*---- Insert your actions here... ----*//*---- End ----*/
-	
-	
-	public static void main(String [] args) throws IOException {
-		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\cidadao.jar");
-		for(FileOrderCompile un_jar_file:un_jar_files) {
-			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome(), un_jar_file.getConteudo());
-		}
-		for(FileOrderCompile un_jar_file:un_jar_files) {
-			if(un_jar_file.getNome().contains(".java")) {
-				String path_java = Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+"teste"+"/"+"pages";
-				FileHelper.createDiretory(path_java);
-				
-				FileHelper.save(path_java, un_jar_file.getNome(), un_jar_file.getConteudo());
-			}
-			
-			if(un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
-				
-		
-			}
-		}
-	}
-	
 	
 }
