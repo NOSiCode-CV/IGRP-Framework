@@ -100,7 +100,7 @@ public class ImportExportApp {
 			String path_class_files = Config.getWorkspace() +"\\src\\"+ page.getPackage_name().replace(".", "\\");
 			String path_xsl_xml = Config.getWorkspace() + "\\WebContent\\" + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
 			
-			FileHelper.save(path_xsl_xml, page.getPage()+"Config.xml", xml_file);
+			FileHelper.save(path_xsl_xml, page.getPage()+"ConfigPages.xml", xml_file);
 			
 			Map<String, String> xsl_xml_files = FileHelper.listFilesDirectory(path_xsl_xml);
 			Map<String, String> Java_files = FileHelper.listFilesDirectory(path_class_files);
