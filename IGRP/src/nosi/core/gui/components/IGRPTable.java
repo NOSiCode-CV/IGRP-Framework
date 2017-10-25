@@ -47,6 +47,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.sql.SQLException;
+
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
@@ -200,9 +203,13 @@ public class IGRPTable extends IGRPComponent{
 					}
 					this.xml.text(val);
 					this.xml.endElement();
-					this.xml.startElement(field.getTagName()+"_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name")+"_desc");
-					String val1 = IgrpHelper.getValue(obj, field.getName()+"_desc");
+					String sufix = "_desc";
+					if(field instanceof CheckBoxField || field instanceof CheckBoxListField){
+						sufix = "_check";
+					}
+					this.xml.startElement(field.getTagName()+sufix);
+					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
+					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
 					if(val1==null || val1.equals("")){
 						val1 = field.getValue().toString();
 					}
