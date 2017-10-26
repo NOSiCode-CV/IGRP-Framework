@@ -45,19 +45,24 @@ public class ExecucaoTarefasController extends Controller {
 		
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
 		
-		for(TaskService task:objTask.getTasks()){
-			ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
-			t.setAtribuido_a(task.getAssignee());
-			t.setAtribuido_por(task.getOwner());
-			t.setData_entrada(task.getCreateTime().toString());
-			t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
-			t.setNumero_processo_tabela(task.getProcessDefinitionId());
-			t.setP_id(task.getId());
-			t.setN_tarefa_g(task.getId());
-			t.setTipo(task.getCategory());
-			t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
-			taskManage.add(t);
+		//Verifica se é perfil pai
+		if(ProfileType.isPerfilPai()){
+			for(TaskService task:objTask.getTasks()){
+				ExecucaoTarefas.Table_gerir_tarefas t = new ExecucaoTarefas.Table_gerir_tarefas();
+				t.setAtribuido_a(task.getAssignee());
+				t.setAtribuido_por(task.getOwner());
+				t.setData_entrada(task.getCreateTime().toString());
+				t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
+				t.setNumero_processo_tabela(task.getProcessDefinitionId());
+				t.setP_id(task.getId());
+				t.setN_tarefa_g(task.getId());
+				t.setTipo(task.getCategory());
+				t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
+				taskManage.add(t);
+			}
 		}
+				
+		
 
 		
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
@@ -124,56 +129,56 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionPesquisar_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_colaborador() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_minhas_tarefas() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_button_disponiveis() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionPesquisar_estatistica() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionVer_estatistica() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionVer_detalhes() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionEnviar_msg() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
@@ -191,7 +196,7 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionDetalhes_processos_button_minha_tarefas() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","DetalhesProcesso","index");
 			/*---- End ----*/
 	}
 	
@@ -230,28 +235,28 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionTransferir_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionDetalhes_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionDetalhes_processo() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","DetalhesProcesso","index");
 			/*---- End ----*/
 	}
 	
 
 	public Response actionAlterar_prioridade_tarefa() throws IOException{
 		/*---- Insert your code here... ----*/		
-		return this.redirect("igrp","execucaotarefas","index");
+		return this.redirect("igrp","ExecucaoTarefas","index");
 			/*---- End ----*/
 	}
 	

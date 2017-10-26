@@ -9,9 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import nosi.base.ActiveRecord.BaseActiveRecord;
-
 import java.io.Serializable;
 
 @Entity
@@ -55,6 +53,10 @@ public class Config extends BaseActiveRecord<Config> implements Serializable{
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public static String getBaseUrlActiviti() {
+		return new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
 	}
 
 }

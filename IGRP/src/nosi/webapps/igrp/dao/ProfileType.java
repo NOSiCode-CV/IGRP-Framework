@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.Permission;
 
 @Entity
 @Table(name="tbl_profile_type")
@@ -158,6 +159,12 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
+	}
+
+	//Verifica se é perfil pai
+	public static boolean isPerfilPai(){
+		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Permission.getCurrentPerfilId()).all();
+		return profiles.size() > 0;
 	}
 	
 }
