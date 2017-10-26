@@ -21,7 +21,7 @@ public class LookupListUserController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/		
 		LookupListUser model = new LookupListUser();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		List<User> users = new User().find()
