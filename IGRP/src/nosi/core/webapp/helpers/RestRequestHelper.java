@@ -21,6 +21,7 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
+import nosi.webapps.igrp.dao.Config;
 import com.sun.jersey.api.client.ClientResponse;
 
 /**
@@ -31,7 +32,7 @@ import com.sun.jersey.api.client.ClientResponse;
 
 public class RestRequestHelper{
 	
-	private static final String BASE_URL = "http://localhost:8080/activiti-rest/service/";
+	private static final String BASE_URL = Config.getBaseUrlActiviti();
 	private static final String USERNAME = "kermit";
 	private static final String PASSWORD = "kermit";
 	public static String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
