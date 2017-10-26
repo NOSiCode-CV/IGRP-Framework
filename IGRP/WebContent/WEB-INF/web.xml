@@ -14,6 +14,14 @@
       <param-name>authentication_type</param-name>
       <param-value>db</param-value>
     </init-param>
+    
+    <multipart-config> <!-- For upload file purpose -->
+      <!-- 50MB max -->
+      <max-file-size>52428800</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+    
   </servlet>
   
   <servlet-mapping>
@@ -36,7 +44,7 @@
   </error-page>
   
   <session-config>
-    <session-timeout>15</session-timeout><!-- Lost the session after 15min. -->
+    <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
   </session-config>
   
 </web-app>

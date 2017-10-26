@@ -70,7 +70,7 @@ public class EnvController extends Controller {
 //			app.setLink_menu(model.getLink_menu());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-//			app.setTemplates(model.getTemplates());
+//			app.setTemplates(model.getTemplates()); 
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
@@ -194,10 +194,10 @@ public class EnvController extends Controller {
 		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", "Minhas Aplicaï¿½ï¿½es");
+			xml_menu.setElement("title", "Minhas Aplicações");
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", "Outras Aplicaï¿½ï¿½es");
+			xml_menu.setElement("subtitle", "Outras Aplicações");
 		}
 		xml_menu.endElement();
 
