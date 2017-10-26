@@ -1,9 +1,10 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.teste;
+
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 
-public class Teste extends Model{		
+public class Teste extends Model{ 
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_nome")
