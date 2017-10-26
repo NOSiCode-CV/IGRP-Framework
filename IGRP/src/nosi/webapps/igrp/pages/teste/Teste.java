@@ -1,10 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.teste;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 
 public class Teste extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -52,7 +49,4 @@ public class Teste extends Model{
 	public String getFile_2(){
 		return this.file_2;
 	}
-
-
 }
-/*-------------------------*/
