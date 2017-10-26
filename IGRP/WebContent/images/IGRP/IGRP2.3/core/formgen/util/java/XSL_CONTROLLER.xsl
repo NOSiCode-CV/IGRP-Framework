@@ -221,6 +221,7 @@
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
 						<xsl:call-template name="setSqlChart"></xsl:call-template>
 						<xsl:call-template name="setSqlTable"></xsl:call-template>
+						<xsl:call-template name="setSqlCombobox"></xsl:call-template>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'return this.renderView(view);'"/>
@@ -343,6 +344,18 @@
 	 			</xsl:for-each>
 	 		</xsl:variable>
 			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
+	 	</xsl:for-each>
+ 	</xsl:template>
+ 	
+ 	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
+ 	<xsl:template name="setSqlCombobox">
+ 		<xsl:for-each select="//content/*">
+	 		<xsl:for-each select="fields/*[@type='select']">
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,'SELECT id as ID, name as NAME FROM tbl_domain WHERE code = ',$simple_quotes,'SIM_NAO',$simple_quotes,$double_quotes,');')"/>
+		 	</xsl:for-each>
 	 	</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>
