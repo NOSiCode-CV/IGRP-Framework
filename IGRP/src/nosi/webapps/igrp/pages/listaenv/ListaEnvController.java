@@ -53,7 +53,7 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista Aplicação";
+		view.title = "Lista AplicaÃ§Ã£o";
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
@@ -84,9 +84,9 @@ public class ListaEnvController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		if(app.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success","OperaÃ§Ã£o efetuada com sucesso");
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operaÃ§Ã£o");
 		return this.redirect("igrp","lista-env","index");
 	}
 	
@@ -114,7 +114,7 @@ public class ListaEnvController extends Controller {
 			
 		}
 		if(status && statuspage) {
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Export de uma aplicação concluído com sucesso...");
+			Igrp.getInstance().getFlashMessage().addMessage("success", "Export de uma aplicaÃ§Ã£o concluÃ­do com sucesso...");
 		}else {
 			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Export...");
 		}

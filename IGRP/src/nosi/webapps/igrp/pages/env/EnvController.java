@@ -61,7 +61,7 @@ public class EnvController extends Controller {
 //			app.setApache_dad(model.getApache_dad());
 			app.setDad(nosi.core.gui.page.Page.getPageName(model.getDad()));
 			if(!nosi.core.gui.page.Page.validatePage(app.getDad())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de dad inválida");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de dad invÃ¡lida");
 				return this.forward("igrp", "env", "index");
 			}
 			app.setDescription(model.getDescription());
@@ -80,7 +80,7 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
+				Igrp.getInstance().getFlashMessage().addMessage("success", "AplicaÃ§Ã£o registada com sucesso!");
 				User user = new User();
 				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 				Organization org = new Organization();				
@@ -103,7 +103,7 @@ public class EnvController extends Controller {
 						return this.forward("igrp", "env", "index");
 					}					
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
+					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a OrgÃ¢nica!");
 					return this.forward("igrp", "env", "index");
 				}
 				
@@ -111,7 +111,7 @@ public class EnvController extends Controller {
 					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}				
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicaÃ§Ã£o!");
 				return this.forward("igrp", "env", "index");
 			}
 		}
@@ -142,10 +142,10 @@ public class EnvController extends Controller {
 		/** End **/
 
 		if(myApp.size()>0 || allowApps.size()>0){
-			xml_menu.setElement("title", "Minhas Aplicações");
+			xml_menu.setElement("title", "Minhas AplicaÃ§Ãµes");
 		}
 		if(otherApp.size()>0 || denyApps.size()>0){
-			xml_menu.setElement("subtitle", "Outras Aplicações");
+			xml_menu.setElement("subtitle", "Outras AplicaÃ§Ãµes");
 		}
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		for(Profile profile:myApp){
@@ -253,16 +253,16 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso !!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "AplicaÃ§Ã£o Actualizada com sucesso !!");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a AplicaÃ§Ã£o!!");
 				return this.forward("igrp", "env", "index");
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
+		view.sectionheader_1_text.setValue("GestÃ£o de AplicaÃ§Ã£o - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar PÃ¡gina ---"));
 		return this.renderView(view);
 	}
 	

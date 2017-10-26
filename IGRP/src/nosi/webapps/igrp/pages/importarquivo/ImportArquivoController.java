@@ -3,6 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.importarquivo;
+import nosi.core.config.Config;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -38,7 +39,7 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionImport() throws IOException{
 		/*---- Insert your code here... ----*/
-		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\isaiac.jar");
+		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\cidadao.jar");
 		boolean status_compile = false;
 		Application app = new Application();
 		Action page = new Action();
@@ -46,15 +47,11 @@ public class ImportArquivoController extends Controller {
 		for(FileOrderCompile un_jar_file:un_jar_files) {
 			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome(), un_jar_file.getConteudo());
 		}
-		String dad = "";
-		for(FileOrderCompile un_jar_file:un_jar_files) {
+		for(FileOrderCompile un_jar_file : un_jar_files) {
 			
 			if(un_jar_file.getNome().contains("ConfigApplication.xml")) {
 				StringReader inputApp = new StringReader(un_jar_file.getConteudo());
 				XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
-				System.out.println("Entrei na application"); 
-				System.out.println(xmlApplication.toString());
-			    dad = xmlApplication.getDad();
 				app = new Application();
 				app.setDad(xmlApplication.getDad());
 				app.setDescription(xmlApplication.getDescription());
@@ -63,29 +60,35 @@ public class ImportArquivoController extends Controller {
 				app.setName(xmlApplication.getName());
 				app.setStatus(xmlApplication.getStatus());
 				app.setUrl(xmlApplication.getUrl());
-				//app.setAction(null);//page.findOne(xmlApplication.getAction_fk()));
+				app.setAction(null);//page.findOne(xmlApplication.getAction_fk()));
 				//app = app.insert();
-
 				
+				//criar o Arquivo DefaultPageController no diretorio de classes para compilar 
+				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
 				
-			}
-			if(un_jar_file.getNome().contains(".jar")) {
-				List<FileOrderCompile> un_jar_files_pages =  JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+ dad +"\\"+un_jar_file.getNome());
-				for(FileOrderCompile un_jar_files_page : un_jar_files_pages) { 
-					FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_files_page.getNome(), un_jar_files_page.getConteudo());
+				//criar o Arquivo DefaultPageController no diretorio do packge da application
+				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}
+				
+			}
+			if(un_jar_file.getNome().contains(".java")) {
+				String path_java = "";
+				FileHelper.createDiretory(path_java);
+				status_compile = CompilerHelper.compile(path_java, un_jar_file.getNome());
+				
+				FileHelper.save(path_java, un_jar_file.getNome(), un_jar_file.getConteudo());
 			}
 			
-			/*
-			
-			if(un_jar_file.getNome().contains(".java")) {
-				status_compile = CompilerHelper.compile("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome());
+			if(un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
+				//String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
 			}
 			
 			if(un_jar_file.getNome().contains("ConfigPages.xml")) {
 				StringReader input = new StringReader(un_jar_file.getConteudo());
 				XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
-				System.out.println("Entrei no paage");
 				page = new Action();
 				app = new Application();
 				page.setAction(xmlPage.getAction());
@@ -95,11 +98,10 @@ public class ImportArquivoController extends Controller {
 				page.setPage_descr(xmlPage.getPage_desc());
 				page.setStatus(xmlPage.getStatus());
 				page.setVersion(xmlPage.getVersion());
-				page.setXsl_src(xmlPage.getXsl_src());
-				System.out.println(xmlPage.toString()); 
+				page.setXsl_src(xmlPage.getXsl_src()); 
 				page.setApplication(app.find().andWhere("dad", "=", xmlPage.getDad()).one());
-				page = page.insert();
-			}*/
+				//page = page.insert();
+			}
 		}
 		if(status_compile && page != null && app != null){
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Arquivo Importado com sucesso");

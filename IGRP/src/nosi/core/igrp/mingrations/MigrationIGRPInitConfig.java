@@ -1,4 +1,5 @@
 package nosi.core.igrp.mingrations;
+
 /**
  * @author: Emanuel Pereira
  * 30 Jun 2017
@@ -188,5 +189,3 @@ public class MigrationIGRPInitConfig {
 		objScope.insert();
 	}
 }
-
-	
