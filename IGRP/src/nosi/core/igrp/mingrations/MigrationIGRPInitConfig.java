@@ -1,4 +1,5 @@
 package nosi.core.igrp.mingrations;
+
 /**
  * @author: Emanuel Pereira
  * 30 Jun 2017
@@ -22,6 +23,9 @@ public class MigrationIGRPInitConfig {
 		app = app.insert();
 		
 		if(app!=null){
+			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
+			config.insert();
+			
 			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
@@ -185,5 +189,3 @@ public class MigrationIGRPInitConfig {
 		objScope.insert();
 	}
 }
-
-	
