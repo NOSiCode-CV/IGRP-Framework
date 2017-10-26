@@ -76,7 +76,7 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicaï¿½ï¿½o registada com sucesso!");
 				User user = new User();
 				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 				Organization org = new Organization();				
@@ -98,7 +98,7 @@ public class EnvController extends Controller {
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
 					}					
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
+					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgï¿½nica!");
 				}
 				
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
@@ -106,7 +106,7 @@ public class EnvController extends Controller {
 				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicaï¿½ï¿½o!");
 			}
 		}
 		return this.redirect("igrp", "env", "index");
@@ -194,10 +194,10 @@ public class EnvController extends Controller {
 		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", "Minhas Aplicações");
+			xml_menu.setElement("title", "Minhas Aplicaï¿½ï¿½es");
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", "Outras Aplicações");
+			xml_menu.setElement("subtitle", "Outras Aplicaï¿½ï¿½es");
 		}
 		xml_menu.endElement();
 
@@ -253,14 +253,14 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso !!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicaï¿½ï¿½o Actualizada com sucesso !!");
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicaï¿½ï¿½o!!");
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
+		view.sectionheader_1_text.setValue("Gestï¿½o de Aplicaï¿½ï¿½o - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(new Action().getListActions());
 		return this.renderView(view);

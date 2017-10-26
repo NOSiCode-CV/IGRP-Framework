@@ -47,6 +47,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.sql.SQLException;
+
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
@@ -76,7 +79,6 @@ public class IGRPTable extends IGRPComponent{
 		this.properties.put("structure", "fields");
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);
-		this.q = new DBQuery();
 		this.createParamsLookup();
 	}	
 	
@@ -158,27 +160,21 @@ public class IGRPTable extends IGRPComponent{
 
 	private void genRowsWithSql() {
 		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
-			if(this.q.isError()){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
-			}
-			else{
-				try {
-					while(q.getResultSet().next()){
-						this.xml.startElement("row");
-						for(Field field:this.fields){
-							if(field.isParam()){
-								this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
-							}
-							this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
+			try {
+				while(q.getResultSet().next()){
+					this.xml.startElement("row");
+					for(Field field:this.fields){
+						if(field.isParam()){
+							this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
 						}
-						this.xml.endElement();
+						this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
 					}
-				} catch (SQLException e) {
-					
+					this.xml.endElement();
 				}
+			} catch (SQLException e) {
 				q.close();
 			}
+			q.close();
 		}
 	}
 
@@ -207,9 +203,13 @@ public class IGRPTable extends IGRPComponent{
 					}
 					this.xml.text(val);
 					this.xml.endElement();
-					this.xml.startElement(field.getTagName()+"_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name")+"_desc");
-					String val1 = IgrpHelper.getValue(obj, field.getName()+"_desc");
+					String sufix = "_desc";
+					if(field instanceof CheckBoxField || field instanceof CheckBoxListField){
+						sufix = "_check";
+					}
+					this.xml.startElement(field.getTagName()+sufix);
+					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
+					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
 					if(val1==null || val1.equals("")){
 						val1 = field.getValue().toString();
 					}
@@ -240,8 +240,21 @@ public class IGRPTable extends IGRPComponent{
 		return this.xml.toString();
 	}
 	
+	public void setSqlQuery(String connectionName,String sql){
+		this.connectionName = connectionName;
+		this.setSqlQuery(sql);
+	}
+	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
+		this.q = new DBQuery();
+		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
+			if(this.q.isError()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+				this.sql = null;
+			}
+		}
 	}
 	
 	public String getSqlQuery(){

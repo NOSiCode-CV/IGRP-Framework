@@ -17,7 +17,8 @@ public class XMLPageReader {
 	private int status;
 	private String version;
 	private String xsl_src;
-	private int env_fk;
+	private String dad;
+	
 	public String getAction() {
 		return action;
 	}
@@ -66,11 +67,11 @@ public class XMLPageReader {
 	public void setXsl_src(String xsl_src) {
 		this.xsl_src = xsl_src;
 	}
-	public int getEnv_fk() {
-		return env_fk;
+	public String getDad() {
+		return dad;
 	}
-	public void setEnv_fk(int env_fk) {
-		this.env_fk = env_fk;
+	public void setDad(String dad) {
+		this.dad = dad;
 	}
 	
 	
@@ -79,7 +80,7 @@ public class XMLPageReader {
 	public String toString() {
 		return "XMLReader action=" + action + ", action_desc=" + action_desc + ", package_name="
 				+ package_name + ", page=" + page + ", page_desc=" + page_desc + ", status=" + status + ", version="
-				+ version + ", xsl_src=" + xsl_src + ", env_fk=" + env_fk + "]";
+				+ version + ", xsl_src=" + xsl_src + ", dad=" + dad + "]";
 	}
 	
 	
