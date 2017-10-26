@@ -13,7 +13,7 @@ import java.util.Base64;
 /** 
  	This API is the only one way that allow you to guarante the SSO (Single Sign On) from others Web Applications to IGRP. 
  	Endpoint: ../igrpsso?_u=XYX..XYZ where _u = base64 of "username:password" 
- 	Set the following configuration to web.xml and enjoy it !
+ 	Set the following configuration to web.xml and enjoy it ! 
 	 <servlet>
 		    <servlet-name>igrpsso</servlet-name>
 		    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
