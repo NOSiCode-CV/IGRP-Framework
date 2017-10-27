@@ -29,6 +29,8 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 
+import javax.servlet.http.Part;
+
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 
 public class JarUnJarFile {
@@ -36,7 +38,8 @@ public class JarUnJarFile {
 	//save data to jar format
 	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
 		boolean result = false;
-		if(jarName.contains(".jar") && files.size() > 0 && (level >= 0 && level <= 9))
+		jarName = jarName.endsWith(".jar")?jarName:(jarName+".jar");
+		if(files.size() > 0 && (level >= 0 && level <= 9))
 		try{
 			FileOutputStream fos = new FileOutputStream(jarName);
 			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
@@ -64,39 +67,88 @@ public class JarUnJarFile {
 	public static List<FileOrderCompile> getJarFiles(String jarName){
 		List<FileOrderCompile> contents = null;
 		if(jarName.contains(".jar")){
-		try{
-		contents = new ArrayList<>();
-		FileInputStream fis = new FileInputStream(jarName);
-		CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
-		JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
-		JarEntry entry = null;
-		while((entry=jis.getNextJarEntry())!=null){	
-		   String         ls = System.getProperty("line.separator");
-		   String         line = null;
-		   DataInputStream in = new DataInputStream(jis); 
-		   StringBuilder content = new StringBuilder();  
-		   BufferedReader d = new BufferedReader(new InputStreamReader(in));
-		   while((line=d.readLine())!=null){
-		   	content.append(line);
-		   	content.append(ls);
-		   }
-		   int order = 1;
-		   if(entry.getName().toLowerCase().contains("view.java")){
-		   		order = 2;
-		   }else if(entry.getName().toLowerCase().contains("controller.java")){
-		   		order = 3;
-		   }else if(entry.getName().toLowerCase().contains("configapplication.xml"))
-			   order = -1;
-		   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
-		contents.add(f);
-		jis.closeEntry();
-		}
-		jis.close();
-		}catch(IOException e){
-		e.printStackTrace();
-		}
+			try{
+				contents = new ArrayList<>();
+				FileInputStream fis = new FileInputStream(jarName);
+				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
+				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+				JarEntry entry = null;
+				while((entry=jis.getNextJarEntry())!=null){	
+					   String         ls = System.getProperty("line.separator");
+					   String         line = null;
+					   DataInputStream in = new DataInputStream(jis); 
+					   StringBuilder content = new StringBuilder();  
+					   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+					   while((line=d.readLine())!=null){
+					   	content.append(line);
+					   	content.append(ls);
+					   }
+					   int order = 1;
+					   if(entry.getName().toLowerCase().endsWith("View.java")){
+					   		order = 2;
+					   }else if(entry.getName().toLowerCase().endsWith("Controller.java")){
+					   		order = 3;
+					   }else if(entry.getName().toLowerCase().endsWith(".xml") || entry.getName().toLowerCase().endsWith(".json") || entry.getName().toLowerCase().endsWith(".xsl")){
+						   order = -1;
+					   }
+					   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+					contents.add(f);
+					jis.closeEntry();
+				}
+				jis.close();
+				fis.close();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
 		}
 		Collections.sort(contents);
 		return contents;
+	}
+	
+
+	//Extract files jar format
+	public static List<FileOrderCompile> getJarFiles(Part file){
+		List<FileOrderCompile> contents = null;
+		try{
+			contents = new ArrayList<>();
+			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
+			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+			JarEntry entry = null;
+			while((entry=jis.getNextJarEntry())!=null){	
+				   String         ls = System.getProperty("line.separator");
+				   String         line = null;
+				   DataInputStream in = new DataInputStream(jis); 
+				   StringBuilder content = new StringBuilder();  
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				   while((line=d.readLine())!=null){
+				   	content.append(line);
+				   	content.append(ls);
+				   }
+				   int order = 1;
+				   if(entry.getName().endsWith("View.java")){
+				   		order = 2;
+				   }
+				   if(entry.getName().endsWith("Controller.java")){
+				   		order = 3;
+				   }
+				   if(entry.getName().startsWith("configApp")){
+					   order = 4;
+				   }
+				   if(entry.getName().startsWith("configPage")){
+					   order = 5;
+				   }
+				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
+					   order = 6;
+				   }
+				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+				contents.add(f);
+				jis.closeEntry();
+			}
+			jis.close();
+		}catch(IOException e){
+			e.printStackTrace();
 		}
+		Collections.sort(contents);
+		return contents;
+	}
 }
