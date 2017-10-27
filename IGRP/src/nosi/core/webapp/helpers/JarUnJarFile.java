@@ -83,13 +83,22 @@ public class JarUnJarFile {
 					   	content.append(line);
 					   	content.append(ls);
 					   }
-					   int order = 1;
-					   if(entry.getName().toLowerCase().endsWith("View.java")){
-					   		order = 2;
-					   }else if(entry.getName().toLowerCase().endsWith("Controller.java")){
-					   		order = 3;
-					   }else if(entry.getName().toLowerCase().endsWith(".xml") || entry.getName().toLowerCase().endsWith(".json") || entry.getName().toLowerCase().endsWith(".xsl")){
-						   order = -1;
+					   int order = 3;
+
+					   if(entry.getName().endsWith("View.java")){
+					   		order = 4;
+					   }
+					   if(entry.getName().endsWith("Controller.java")){
+					   		order = 5;
+					   }
+					   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
+						   order = 6;
+					   }
+					   if(entry.getName().startsWith("configApp")){
+						   order = 1;
+					   }
+					   if(entry.getName().startsWith("configPage")){
+						   order = 2;
 					   }
 					   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
 					contents.add(f);
@@ -126,12 +135,6 @@ public class JarUnJarFile {
 				   }
 				   int order = 3;
 
-				   if(entry.getName().startsWith("configApp")){
-					   order = 1;
-				   }
-				   if(entry.getName().startsWith("configPage")){
-					   order = 2;
-				   }
 				   if(entry.getName().endsWith("View.java")){
 				   		order = 4;
 				   }
@@ -140,6 +143,12 @@ public class JarUnJarFile {
 				   }
 				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
 					   order = 6;
+				   }
+				   if(entry.getName().startsWith("configApp")){
+					   order = 1;
+				   }
+				   if(entry.getName().startsWith("configPage")){
+					   order = 2;
 				   }
 				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
 				contents.add(f);
