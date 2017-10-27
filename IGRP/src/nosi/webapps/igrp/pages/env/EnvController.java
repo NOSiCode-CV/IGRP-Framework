@@ -70,13 +70,13 @@ public class EnvController extends Controller {
 //			app.setLink_menu(model.getLink_menu());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-//			app.setTemplates(model.getTemplates());
+//			app.setTemplates(model.getTemplates()); 
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicaï¿½ï¿½o registada com sucesso!");
 				User user = new User();
 				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 				Organization org = new Organization();				
@@ -98,7 +98,7 @@ public class EnvController extends Controller {
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
 					}					
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
+					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgï¿½nica!");
 				}
 				
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
@@ -106,7 +106,7 @@ public class EnvController extends Controller {
 				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicaï¿½ï¿½o!");
 			}
 		}
 		return this.redirect("igrp", "env", "index");
@@ -135,12 +135,9 @@ public class EnvController extends Controller {
 		getAllApps(allowApps,denyApps);
 		/** End **/
 
-		if(myApp.size()>0 || allowApps.size()>0){
-			xml_menu.setElement("title", "Minhas Aplicações");
-		}
-		if(otherApp.size()>0 || denyApps.size()>0){
-			xml_menu.setElement("subtitle", "Outras Aplicações");
-		}
+		boolean displaySubtitle = false;
+		boolean displayTitle = false;
+		
 		xml_menu.setElement("link_img", Config.getLinkImg());
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
@@ -156,9 +153,10 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
+			displayTitle = true;
 		}
 		for(Application app:otherApp){
-			if(!aux.contains(app.getId())){
+			if(!aux.contains(app.getId())){ // :-)
 				xml_menu.startElement("application");
 				xml_menu.writeAttribute("available", "no");
 				xml_menu.setElement("link", "");
@@ -166,6 +164,7 @@ public class EnvController extends Controller {
 				xml_menu.setElement("title",app.getName());
 				xml_menu.setElement("num_alert", "");
 				xml_menu.endElement();
+				displaySubtitle = true;
 			}
 		}
 		
@@ -180,6 +179,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
+			displayTitle = true;
 		}
 
 		for(IgrpPLSQLApp obj: denyApps){
@@ -190,9 +190,15 @@ public class EnvController extends Controller {
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
 			xml_menu.endElement();
+			displaySubtitle = true; 
 		}
-
 		/** End **/
+		if(displayTitle){
+			xml_menu.setElement("title", "Minhas Aplicações");
+		}
+		if(displaySubtitle){
+			xml_menu.setElement("subtitle", "Outras Aplicações");
+		}
 		xml_menu.endElement();
 
 		Response response = new Response();
@@ -247,14 +253,14 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicação Actualizada com sucesso !!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicaï¿½ï¿½o Actualizada com sucesso !!");
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicação!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicaï¿½ï¿½o!!");
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
+		view.sectionheader_1_text.setValue("Gestï¿½o de Aplicaï¿½ï¿½o - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(new Action().getListActions());
 		return this.renderView(view);
@@ -269,10 +275,11 @@ public class EnvController extends Controller {
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
-	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/nositeste@nosi.cv";
+	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
 	// Begin
 	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
 		try {
+			endpoint += "/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
 			URL url = new URL(endpoint);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoInput(true);
@@ -291,7 +298,7 @@ public class EnvController extends Controller {
 				else
 					denyApps.add(obj);
 		}catch(Exception e) {
-			e.printStackTrace();
+			// do nothing yet 
 		}
 	}
 	

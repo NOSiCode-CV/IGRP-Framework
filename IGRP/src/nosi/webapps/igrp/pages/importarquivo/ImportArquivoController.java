@@ -1,19 +1,22 @@
+
 /*-------------------------*/
 
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.importarquivo;
-import nosi.core.config.Config;
+
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-
+import nosi.core.config.Config;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
-
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
-
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
@@ -37,88 +40,119 @@ public class ImportArquivoController extends Controller {
 		/*---- End ----*/
 	}
 
+
 	public Response actionImport() throws IOException{
 		/*---- Insert your code here... ----*/
-		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles("C:\\Users\\isaias.nunes\\Downloads\\cidadao.jar");
-		boolean status_compile = false;
-		Application app = new Application();
-		Action page = new Action();
-		
-		for(FileOrderCompile un_jar_file:un_jar_files) {
-			FileHelper.save("C:\\Users\\isaias.nunes\\Downloads", un_jar_file.getNome(), un_jar_file.getConteudo());
-		}
-		for(FileOrderCompile un_jar_file : un_jar_files) {
-			
-			if(un_jar_file.getNome().contains("ConfigApplication.xml")) {
-				StringReader inputApp = new StringReader(un_jar_file.getConteudo());
-				XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
-				app = new Application();
-				app.setDad(xmlApplication.getDad());
-				app.setDescription(xmlApplication.getDescription());
-				app.setExternal(xmlApplication.getExternal());
-				app.setImg_src(xmlApplication.getImg_src());
-				app.setName(xmlApplication.getName());
-				app.setStatus(xmlApplication.getStatus());
-				app.setUrl(xmlApplication.getUrl());
-				app.setAction(null);//page.findOne(xmlApplication.getAction_fk()));
-				app = app.insert();
-				
-				//criar o Arquivo DefaultPageController no diretorio de classes para compilar 
-				//FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-				//FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				//CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				
-				//criar o Arquivo DefaultPageController no diretorio do packge da application
-				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-					//FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}
-				
+		try {
+			Part jarFile = Igrp.getInstance().getRequest().getPart("p_arquivo");
+			List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(jarFile);
+			String msg = null;
+			for(FileOrderCompile file:un_jar_files){
+				if(file.getNome().endsWith(".java")){
+					msg = this.compileFiles(file);
+					if(msg!=FlashMessage.MESSAGE_SUCCESS){	
+						break;					
+					}
+				}else if(!file.getNome().startsWith("configApp") && !file.getNome().startsWith("configPage"))
+					this.saveFiles(file);
+				else if(file.getNome().startsWith("configApp"))
+					this.saveConfigApp(file);
+				else if(file.getNome().startsWith("configPage"))
+					this.saveConfigPage(file);				
 			}
-	
-			
-			
-			if(un_jar_file.getNome().contains("ConfigPages.xml")) {
-				StringReader input = new StringReader(un_jar_file.getConteudo());
-				XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
-				page = new Action();
-				app = new Application();
-				page.setAction(xmlPage.getAction());
-				page.setAction_descr(xmlPage.getAction_desc());
-				page.setPackage_name(xmlPage.getPackage_name());
-				page.setPage(xmlPage.getPage());
-				page.setPage_descr(xmlPage.getPage_desc());
-				page.setStatus(xmlPage.getStatus());
-				page.setVersion(xmlPage.getVersion());
-				page.setXsl_src(xmlPage.getXsl_src()); 
-				page.setApplication(app.find().andWhere("dad", "=", xmlPage.getDad()).one());
-				//page = page.insert();
-			}
-			
-			if(un_jar_file.getNome().contains(".java")) {
-				System.out.println("Primeiro java");
-				String path_java = Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/";
-				System.out.println(path_java);
-				//FileHelper.createDiretory(path_java+page.getPage());
-				//FileHelper.save(path_java+un_jar_file.getNome(), un_jar_file.getNome(), un_jar_file.getConteudo());
-				//status_compile = CompilerHelper.compile(path_java+un_jar_file.getNome(), un_jar_file.getNome());
-			}
-			
-			if((!un_jar_file.getNome().contains("configapplication.xml") && !un_jar_file.getNome().contains("configpages.xml")) && un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
-				//String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl("cidadao", un_jar_file.getNome(), "IGRP2.3");
-				
-				//String path_xsl1 = Config.getWorkspace()+"WebContent\\images\\IGRP\\IGRP2.3\\app";
-				System.out.println(Config.getBasePathXsl());
-			}
-			
-		}
-		if(status_compile && page != null && app != null){
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Arquivo Importado com sucesso");
-		}else {
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Ups!!! Ocorreu um Erro...");
-		}
+			Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		}		
 		return this.redirect("igrp","ImportArquivo","index");
 		/*---- End ----*/
 	}
+
+
+	private void saveConfigApp(FileOrderCompile file) {
+		StringReader inputApp = new StringReader(file.getConteudo());
+		XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
+		Application app = new Application();
+		app.setDad(xmlApplication.getDad());
+		if(app.find().andWhere("dad", "=", app.getDad()).one()==null){
+			app.setDescription(xmlApplication.getDescription());
+			app.setExternal(xmlApplication.getExternal());
+			app.setImg_src(xmlApplication.getImg_src());
+			app.setName(xmlApplication.getName());
+			app.setStatus(xmlApplication.getStatus());
+			app.setUrl(xmlApplication.getUrl());
+			app.setAction(null);
+			app = app.insert();
+		}
+	}
+
+
+	private void saveConfigPage(FileOrderCompile file) {
+		StringReader input = new StringReader(file.getConteudo());
+		XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
+		Action page = new Action();
+		page.setAction(xmlPage.getAction());
+		page.setPage(xmlPage.getPage());
+		page.setPackage_name(xmlPage.getPackage_name());
+		Application app = new Application().find().andWhere("dad", "=",xmlPage.getDad()).one();
+		if(app!=null && new Action().find().andWhere("page", "=", page.getPage()).andWhere("action", "=", page.getAction()).andWhere("package_name", "=", page.getPackage_name()).andWhere("application.dad", "=", xmlPage.getDad()).one()==null){
+			page.setAction_descr(xmlPage.getAction_desc());
+			page.setPackage_name(xmlPage.getPackage_name());
+			page.setPage(xmlPage.getPage());
+			page.setPage_descr(xmlPage.getPage_desc());
+			page.setStatus(xmlPage.getStatus());
+			page.setVersion(xmlPage.getVersion());
+			page.setXsl_src(xmlPage.getXsl_src()); 
+			page.setApplication(app);
+			page = page.insert();
+		}
+	}
+
+
+	private void saveFiles(FileOrderCompile file) {
+		String[] partPage = file.getNome().split("/");
+		Action page = new Action().find()
+								  .andWhere("application.dad", "=", partPage[1])
+								  .andWhere("page", "=", partPage[2])
+								  .andWhere("action", "=", partPage[3])
+								  .one();
+		String path = Config.getBasePahtXsl(page);		
+		FileHelper.createDiretory(path);
+		try {
+			//Guarda ficheiros no workspace caso existe
+			if(FileHelper.fileExists(Config.getWorkspace())){
+				String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad()+File.separator+page.getPage().toLowerCase();			
+				FileHelper.save(path_xsl_work_space,partPage[4], file.getConteudo());
+			}
+			FileHelper.save(path, partPage[4], file.getConteudo());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private String compileFiles(FileOrderCompile file) {
+		String[] partPage = file.getNome().split("/");
+		Action page = new Action().find()
+				  .andWhere("application.dad", "=", partPage[1])
+				  .andWhere("page", "=", partPage[2])
+				  .one();		
+		String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+		try {
+			FileHelper.save(path_class,partPage[3],file.getConteudo());
+			if(FileHelper.fileExists(Config.getWorkspace())){
+				String path_class_work_space = Config.getBasePahtClass(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
+				FileHelper.save(path_class_work_space,partPage[3],file.getConteudo());
+			}
+			if(CompilerHelper.compile(path_class,partPage[3]))
+				return FlashMessage.MESSAGE_SUCCESS;
+			else
+				return CompilerHelper.getError();
+		} catch (IOException e) {
+			return e.getMessage();
+		}
+	}
+	
 	/*---- Insert your actions here... ----*//*---- End ----*/
 	
 }

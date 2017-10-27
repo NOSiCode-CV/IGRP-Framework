@@ -2,32 +2,27 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   
   <display-name>IGRP</display-name>
-   
+ 
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</param-value>
+      <param-value>C:\Users\Yma\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
       <param-value>db</param-value>
     </init-param>
+    
+    <multipart-config> <!-- For upload file purpose -->
+      <!-- 50MB max -->
+      <max-file-size>52428800</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
+    
   </servlet>
-  
-    <servlet>
-	    <servlet-name>igrpsso</servlet-name>
-	    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
-	    <init-param>
-		    <param-name>oauth2.client_id</param-name>
-		    <param-value>YOUR_CLIENT_ID</param-value>
-	    </init-param>
-	    <init-param>
-		    <param-name>oauth2.client_secret</param-name>
-		    <param-value>YOUR_CLIENT_SECRET</param-value>
-	    </init-param>
-  	</servlet>
   
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
@@ -49,7 +44,7 @@
   </error-page>
   
   <session-config>
-    <session-timeout>15</session-timeout><!-- Lost the session after 15min. -->
+    <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
   </session-config>
   
 </web-app>

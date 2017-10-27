@@ -5,12 +5,14 @@
 package nosi.webapps.igrp.pages.listaenv;
 /*---- Import your packages here... ----*/
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
@@ -43,6 +45,9 @@ public class ListaEnvController extends Controller {
 				table.setDad(a.getDad());
 				table.setName(""+a.getName());
 				table.setStatus(a.getStatus());
+				if(a.getStatus()==1){
+					table.setStatus_check(a.getStatus());
+				}
 				table.setId(a.getId());
 				lista.add(table);
 			}
@@ -51,7 +56,7 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista Aplicação";
+		view.title = "Lista AplicaÃ§Ã£o";
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
@@ -82,9 +87,9 @@ public class ListaEnvController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		if(app.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		return this.redirect("igrp","lista-env","index");
 	}
 	
@@ -92,33 +97,46 @@ public class ListaEnvController extends Controller {
 	public Response actionExport() throws IOException{
 		/*---- Insert your code here... ----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
-		boolean status = false;
-		boolean statuspage = false;
 		if(id != null && !id.equals("")) {
 			Application app = new Application().findOne(id);
-			List<Action> paginas = app.getActions();
-			
-			if(paginas != null) {
-				for(Action pagina : paginas) {
-					statuspage = ImportExportApp.ExportPage(pagina.getId()+"");
+			if(app!=null){
+				ImportExportApp iea = new ImportExportApp();
+				if(iea.validateExportApp(app)){
+					return this.exportApp(app,iea);
+				}else{	
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_EXPORT_APP);
 				}
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.ERROR);
 			}
-			
-			String xml_config = ImportExportApp.genereteXMLApplication(app);
-			String path_files = "C:\\Users\\isaias.nunes\\Downloads\\"+app.getDad();
-			FileHelper.save(path_files, app.getDad()+"ConfigApplication.xml", xml_config);
-			Map<String, String> files = FileHelper.listFilesDirectory(path_files);
-			status = JarUnJarFile.saveJarFiles("C:\\Users\\isaias.nunes\\Downloads\\"+app.getDad()+".jar", files, 9);
-			
-		}
-		if(status && statuspage) {
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Export de uma aplicação concluído com sucesso...");
-		}else {
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao realizar o Export...");
 		}
 		return this.redirect("igrp","ListaEnv","index");
 		/*---- End ----*/
 	}
+
+
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	
+	/*---- Insert your actions here... ----*/
+	private Response exportApp(Application app,ImportExportApp iea) {
+		for(Action a:new Action().find().andWhere("application", "=", app.getId()).all()){
+			iea.putFilesPageConfig(a);
+		}
+		Map<String,String> files = iea.getFilesPageClasses();
+		if(iea.getFilesDaoClasses()!=null)
+			files.putAll(iea.getFilesDaoClasses());
+
+		String pathConfigApp = Config.getPathExport()+"ConfigApp"+File.separator+app.getDad().toLowerCase();
+		try {
+			FileHelper.save(pathConfigApp , "Config"+app.getDad()+".xml", ImportExportApp.genereteXMLApplication(app));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		files.put("configApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+".xml");
+		String pathJar = Config.getPathExport()+app.getDad().toLowerCase()+File.separator+app.getDad().toLowerCase()+".jar";
+		FileHelper.createDiretory(Config.getPathExport()+app.getDad().toLowerCase());
+		JarUnJarFile.saveJarFiles(pathJar, files,9);
+		return this.sendFile(new File(pathJar), app.getDad().toLowerCase(), "application/jar", true);
+	}
+	/*---- End ----*/
 }

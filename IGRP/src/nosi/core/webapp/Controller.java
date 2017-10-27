@@ -1,5 +1,7 @@
 package nosi.core.webapp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -16,9 +18,9 @@ import nosi.core.webapp.helpers.Route;
 public abstract class Controller {
 	
 	private View view;
+	
 	protected String format = Response.FORMAT_XML;
 	protected String encoding = Response.CHARSET_UTF_8;
-	private boolean isRedirect; // To specify when to redirect or render the content ... (Detected by the bug with flash message)
 	
 	private Response responseWrapper;
 	
@@ -30,25 +32,20 @@ public abstract class Controller {
 		this.responseWrapper = responseWrapper;
 	}
 
-	public Controller(){
-		this.view = null;
-		this.isRedirect = false; // Default value ...
-	}
+	public Controller(){this.view = null;}
 	
-	protected final Response renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout
+	protected final Response renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout 
 		Response resp = new Response();
-		if(!this.isRedirect){ // (Bug to fixe) dont render content if redirect
-			this.view = view;
-			view.setContext(this); // associa controller ao view
-			this.view.render();
-			String result = this.view.getPage().renderContent(!isRenderPartial);
-			resp.setType(1);
-			resp.setCharacterEncoding(Response.CHARSET_UTF_8);
-			resp.setContentType(Response.FORMAT_XML);
-			resp.setHttpStatus(HttpStatus.STATUS_200);
-			resp.setContent(result);
-		}
-		return resp;
+		this.view = view;
+		view.setContext(this); // associa controller ao view
+		this.view.render();
+		String result = this.view.getPage().renderContent(!isRenderPartial);
+		resp.setType(1);
+		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
+		resp.setContentType(Response.FORMAT_XML);
+		resp.setHttpStatus(HttpStatus.STATUS_200);
+		resp.setContent(result);
+	return resp;
 	}
 	
 	protected final Response renderView(View view) throws IOException{ // Overload ...
@@ -70,8 +67,7 @@ public abstract class Controller {
 		resp.setContentType(this.format);
 		resp.setUrl(url);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
-		this.isRedirect = true;
-		return resp;
+	return resp;
 	}
 	
 	protected final Response redirect(String app, String page, String action, String qs) throws IOException{
@@ -99,7 +95,6 @@ public abstract class Controller {
 		resp.setType(2);
 		resp.setUrl(url);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
-		this.isRedirect = true;
 		return resp;
 	}
 	
@@ -108,6 +103,48 @@ public abstract class Controller {
 		resp.setType(3);
 		resp.setUrl(Route.toUrl(app, page, action));
 		return resp;
+	}
+	
+	protected final Response sendFile(File file, String name, String contentType, boolean download) {
+		byte []content = null;
+		try {
+			content = new byte[(int)file.length()];
+			FileInputStream is = new FileInputStream(file);
+			is.read(content);
+			is.close();
+			return this.xSend(content, name, contentType, download);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return this.xSend(content, name, contentType, download); // send it as stream ... binary file 
+	}
+	// send it as stream ... binary file 
+	protected final Response xSend(byte []file, String name, String contentType, boolean download) {
+		if(file == null) throw new ServerErrorHttpException();
+		if(name.contains(".") && contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
+		Response response = new Response();
+		if(contentType == null || contentType.isEmpty()) {
+			contentType = "application/octet-stream"; // default 
+		}else {
+			try {
+				String extension = "." + contentType.split("/")[1];
+				name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
+			}catch(Exception e) {
+				contentType = "application/octet-stream";
+				e.printStackTrace();
+			}
+		}
+		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
+		if(download)
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+		else
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline");
+		response.setType(1);
+		response.setContentLength(file.length);
+		response.setContentType(contentType);
+		response.setStream(file);
+		
+		return response;
 	}
 	
 	public View getView(){
@@ -168,14 +205,18 @@ public abstract class Controller {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
 		try {
 			switch(responseWrapper.getType()) {
-			case 1:
+			case 1: // render it 
 					try {
-						Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+						if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
+							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+						}else {
+							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					break;
-				case 2:
+				case 2: // redirect 
 					boolean isAbsolute = false;
 					try {
 						String url = responseWrapper.getUrl();
@@ -190,7 +231,7 @@ public abstract class Controller {
 						e.printStackTrace();
 					}
 					break;
-				case 3:
+				case 3: // forward 
 					try {
 						Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 					} catch (ServletException | IOException e) {

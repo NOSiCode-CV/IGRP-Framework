@@ -15,15 +15,26 @@ public class CompilerHelper {
 
 	//Compile files and saves
 	private static String jars = "";
-	
+	private static String error = "";
 	public static boolean compile(String pathDestination,String className){
 		className = pathDestination+"/"+className;
 		listFilesDirectory(Config.getPathLib());
+		try{
 		return com.sun.tools.javac.Main.compile(new String[]{
 				"-classpath",Config.getBasePathClass(),
 				"-cp",jars+Config.getBasePathClass()+System.getProperty("path.separator"),
 				"-d",Config.getBasePathClass(),
 				className}) == 0;
+		}catch(Exception e){
+			error = e.getMessage();
+		}
+		return false;
+	}
+	
+	public static String getError(){
+		String e = error;
+		error = "";
+		return e;
 	}
 	
 	public static void listFilesDirectory(String path) {

@@ -99,10 +99,10 @@ public class WebReportController extends Controller {
 	}
 		
 	public Response actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
-		if(Igrp.getInstance().getRequest().getMethod().toLowerCase().equals("post")){
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
 			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
-			String title = Igrp.getInstance().getRequest().getParameter("p_title");
+			String title = Igrp.getInstance().getRequest().getParameter("p_title_report");
 			String code = Igrp.getInstance().getRequest().getParameter("p_code");
 			String env_fk = Igrp.getInstance().getRequest().getParameter("p_env_fk");
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
