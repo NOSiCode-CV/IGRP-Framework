@@ -124,18 +124,19 @@ public class JarUnJarFile {
 				   	content.append(line);
 				   	content.append(ls);
 				   }
-				   int order = 1;
-				   if(entry.getName().endsWith("View.java")){
-				   		order = 2;
-				   }
-				   if(entry.getName().endsWith("Controller.java")){
-				   		order = 3;
-				   }
+				   int order = 3;
+
 				   if(entry.getName().startsWith("configApp")){
-					   order = 4;
+					   order = 1;
 				   }
 				   if(entry.getName().startsWith("configPage")){
-					   order = 5;
+					   order = 2;
+				   }
+				   if(entry.getName().endsWith("View.java")){
+				   		order = 4;
+				   }
+				   if(entry.getName().endsWith("Controller.java")){
+				   		order = 5;
 				   }
 				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
 					   order = 6;
