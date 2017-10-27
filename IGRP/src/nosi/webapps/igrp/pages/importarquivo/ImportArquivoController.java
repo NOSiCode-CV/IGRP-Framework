@@ -73,7 +73,7 @@ public class ImportArquivoController extends Controller {
 		XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
 		Application app = new Application();
 		app.setDad(xmlApplication.getDad());
-		if(app.find().andWhere("dad", "=", app.getDad()).one()==null){
+		if(new Application().find().andWhere("dad", "=", app.getDad()).one()==null){
 			app.setDescription(xmlApplication.getDescription());
 			app.setExternal(xmlApplication.getExternal());
 			app.setImg_src(xmlApplication.getImg_src());
@@ -95,6 +95,7 @@ public class ImportArquivoController extends Controller {
 		page.setPackage_name(xmlPage.getPackage_name());
 		Application app = new Application().find().andWhere("dad", "=",xmlPage.getDad()).one();
 		if(app!=null && new Action().find().andWhere("page", "=", page.getPage()).andWhere("action", "=", page.getAction()).andWhere("package_name", "=", page.getPackage_name()).andWhere("application.dad", "=", xmlPage.getDad()).one()==null){
+			System.out.println("Saving page");
 			page.setAction_descr(xmlPage.getAction_desc());
 			page.setPackage_name(xmlPage.getPackage_name());
 			page.setPage(xmlPage.getPage());
@@ -103,7 +104,7 @@ public class ImportArquivoController extends Controller {
 			page.setVersion(xmlPage.getVersion());
 			page.setXsl_src(xmlPage.getXsl_src()); 
 			page.setApplication(app);
-			page = page.insert();
+			page = page.insert();			
 		}
 	}
 
@@ -132,23 +133,42 @@ public class ImportArquivoController extends Controller {
 
 	private String compileFiles(FileOrderCompile file) {
 		String[] partPage = file.getNome().split("/");
-		Action page = new Action().find()
-				  .andWhere("application.dad", "=", partPage[1])
-				  .andWhere("page", "=", partPage[2])
-				  .one();		
-		String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
-		try {
-			FileHelper.save(path_class,partPage[3],file.getConteudo());
-			if(FileHelper.fileExists(Config.getWorkspace())){
-				String path_class_work_space = Config.getBasePahtClass(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
-				FileHelper.save(path_class_work_space,partPage[3],file.getConteudo());
+		if(partPage[2].equalsIgnoreCase("DefaultPage")){
+			FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+partPage[1].toLowerCase()+"/"+"pages");
+			try {
+				Application app = new Application().find().andWhere("dad", "=", partPage[1]).one();
+				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				}	
+				if(CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java"))
+					return FlashMessage.MESSAGE_SUCCESS;
+				else
+					return CompilerHelper.getError();
+			} catch (IOException e) {
+				return e.getMessage();
 			}
-			if(CompilerHelper.compile(path_class,partPage[3]))
-				return FlashMessage.MESSAGE_SUCCESS;
-			else
-				return CompilerHelper.getError();
-		} catch (IOException e) {
-			return e.getMessage();
+			
+		}else{
+			Action page = new Action().find()
+					  .andWhere("application.dad", "=", partPage[1])
+					  .andWhere("page", "=", partPage[2])
+					  .one();	
+			String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+			try {
+				FileHelper.save(path_class,partPage[3],file.getConteudo());
+				if(FileHelper.fileExists(Config.getWorkspace())){
+					String path_class_work_space = Config.getBasePahtClass(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
+					FileHelper.save(path_class_work_space,partPage[3],file.getConteudo());
+				}
+				if(CompilerHelper.compile(path_class,partPage[3]))
+					return FlashMessage.MESSAGE_SUCCESS;
+				else
+					return CompilerHelper.getError();
+			} catch (IOException e) {
+				return e.getMessage();
+			}
 		}
 	}
 	
