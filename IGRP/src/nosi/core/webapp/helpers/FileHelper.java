@@ -35,17 +35,37 @@ public class FileHelper {
 	private static Map<String,String> files = new HashMap<>();
 	
 	public static Map<String,String> listFilesDirectory(String path) {
-		File folder = new File(path);
-	    for (final File fileEntry : folder.listFiles()) {
-	        if (fileEntry.isDirectory()) {
-	            return listFilesDirectory(fileEntry.toString());
-	        } else {
-	        	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
-	        }
-	    }
-	    return files;
+		if(FileHelper.fileExists(path)){
+			File folder = new File(path);
+		    for (final File fileEntry : folder.listFiles()) {
+		        if (fileEntry.isDirectory()) {
+		            return listFilesDirectory(fileEntry.toString());
+		        } else {
+		        	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+		        }
+		    }
+		    return files;
+			}
+		return null;
 	}
 
+	public static void reset(){
+		files = new HashMap<>();
+	}
+	
+	public static Map<String,String> readAllFileDirectory(String path){
+		if(FileHelper.fileExists(path)){
+			File folder = new File(path);
+			File[] listOfFiles = folder.listFiles();
+		    for (int i = 0; i < listOfFiles.length; i++) {
+		      if (listOfFiles[i].isDirectory()) {
+		         FileHelper.listFilesDirectory(path+listOfFiles[i].getName());
+		      }
+		    }
+		    return files;
+			}
+		return null;
+	}
 	
 	//COnverte file to string
 	public static String convertToString(Part file) throws IOException{

@@ -20,6 +20,14 @@ public class FlashMessage implements Serializable{
 	public static final String INFO = "info";
 	public static final String MSG_ERROR = "<messages><message type=\"error\">Operacao falhada</message></messages>";
 	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>";
+    public static final String WARNING_EXPORT_APP = "Esta aplicaçã não possui conteudo suficiente para ser exportado";
+
+	public static final String MESSAGE_SUCCESS = "Operacao Efetuada com sucesso";
+	public static final String MESSAGE_ERROR = "Operacao falhada";
+
+	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteudo suficiente para ser exportado";
+    
+    
 	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
 		// "_flash" is the reserved name for messages in session
 		if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){
