@@ -61,30 +61,21 @@ public class ImportArquivoController extends Controller {
 				app.setStatus(xmlApplication.getStatus());
 				app.setUrl(xmlApplication.getUrl());
 				app.setAction(null);//page.findOne(xmlApplication.getAction_fk()));
-				//app = app.insert();
+				app = app.insert();
 				
 				//criar o Arquivo DefaultPageController no diretorio de classes para compilar 
-				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
+				//FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+				//FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				//CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
 				
 				//criar o Arquivo DefaultPageController no diretorio do packge da application
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+					//FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}
 				
 			}
-			if(un_jar_file.getNome().contains(".java")) {
-				String path_java = "";
-				FileHelper.createDiretory(path_java);
-				status_compile = CompilerHelper.compile(path_java, un_jar_file.getNome());
-				
-				FileHelper.save(path_java, un_jar_file.getNome(), un_jar_file.getConteudo());
-			}
+	
 			
-			if(un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
-				//String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
-			}
 			
 			if(un_jar_file.getNome().contains("ConfigPages.xml")) {
 				StringReader input = new StringReader(un_jar_file.getConteudo());
@@ -102,6 +93,23 @@ public class ImportArquivoController extends Controller {
 				page.setApplication(app.find().andWhere("dad", "=", xmlPage.getDad()).one());
 				//page = page.insert();
 			}
+			
+			if(un_jar_file.getNome().contains(".java")) {
+				System.out.println("Primeiro java");
+				String path_java = Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/";
+				System.out.println(path_java);
+				//FileHelper.createDiretory(path_java+page.getPage());
+				//FileHelper.save(path_java+un_jar_file.getNome(), un_jar_file.getNome(), un_jar_file.getConteudo());
+				//status_compile = CompilerHelper.compile(path_java+un_jar_file.getNome(), un_jar_file.getNome());
+			}
+			
+			if((!un_jar_file.getNome().contains("configapplication.xml") && !un_jar_file.getNome().contains("configpages.xml")) && un_jar_file.getNome().contains(".json") || un_jar_file.getNome().contains(".xml") || un_jar_file.getNome().contains(".xsl")) {
+				//String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl("cidadao", un_jar_file.getNome(), "IGRP2.3");
+				
+				//String path_xsl1 = Config.getWorkspace()+"WebContent\\images\\IGRP\\IGRP2.3\\app";
+				System.out.println(Config.getBasePathXsl());
+			}
+			
 		}
 		if(status_compile && page != null && app != null){
 			Igrp.getInstance().getFlashMessage().addMessage("success", "Arquivo Importado com sucesso");
@@ -111,7 +119,6 @@ public class ImportArquivoController extends Controller {
 		return this.redirect("igrp","ImportArquivo","index");
 		/*---- End ----*/
 	}
-	
 	/*---- Insert your actions here... ----*//*---- End ----*/
 	
 }
