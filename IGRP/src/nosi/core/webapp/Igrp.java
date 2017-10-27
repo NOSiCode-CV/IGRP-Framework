@@ -49,9 +49,6 @@ public class Igrp {
 	return Igrp.app;
 	}
 
-	public static String getMethod(){
-		return Igrp.getInstance().getRequest().getMethod();
-	}
 	// Inicialize the web app components
 	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
 			this.servlet = servlet;
@@ -62,7 +59,7 @@ public class Igrp {
 			this.baseRoute = this.request.getServletPath();
 			this.homeUrl = "igrp/home/index";
 			
-			// init. of others configuration
+			// init. of others configuration 
 			this.flashMessage = new FlashMessage(); // Flash Message instance
 			
 			// Config. of RDBMS or others DS ...
@@ -168,5 +165,9 @@ public class Igrp {
 
 	public void die(){
 		this.die = true;
+	}
+	
+	public static String getMethod() {
+		return Igrp.getInstance().getRequest().getMethod();
 	}
 }

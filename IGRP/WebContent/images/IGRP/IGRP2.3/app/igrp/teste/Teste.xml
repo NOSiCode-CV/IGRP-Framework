@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/teste/Teste.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Teste</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Teste</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+    </plsql>
+    <content>
+        <title>Simple Test ...</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Simple Test]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <nome name="p_nome" type="text" maxlength="60" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Mollit amet rem magna unde</value>
+                </nome>
+                <email_1 name="p_email_1" type="email" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>ban@example.com</value>
+                </email_1>
+                <file_1 name="p_file_1" type="file" maxlength="70" required="false" disabled="false" right="false" class="default">
+                    <label>File</label>
+                    <value/>
+                </file_1>
+                <file_2 name="p_file_2" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="50" required="false" disabled="false" right="false" class="default">
+                    <label>File</label>
+                    <value/>
+                </file_2>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="default" rel="enviar">
+                    <title>Enviar</title>
+                    <app>igrp</app>
+                    <page>Teste</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/teste/Teste.xsl?</parameter>
+                    <target>submit_form</target>
+                    <img>default|fa-angle-right</img>
+                </item>
+            </tools-bar>
+        </form_1>
+    </content>
+</rows>
