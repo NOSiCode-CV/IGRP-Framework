@@ -7,7 +7,10 @@ package nosi.webapps.igrp.pages.listaenv;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import nosi.core.config.Config;
@@ -20,6 +23,7 @@ import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.ImportExportDAO;
 
 /*---- End ----*/
 
@@ -56,7 +60,7 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista AplicaÃ§Ã£o";
+		view.title = "Lista Aplicação";
 		view.id.setParam(true);
 		return this.renderView(view);
 	}
@@ -102,6 +106,15 @@ public class ListaEnvController extends Controller {
 			if(app!=null){
 				ImportExportApp iea = new ImportExportApp();
 				if(iea.validateExportApp(app)){
+					ImportExportDAO ie_dao = new ImportExportDAO();
+					ie_dao.setAplicacao(app.getName()); 
+					ie_dao.setUsuario(Config.getUserName());
+					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+					String data = dateFormat.format(new Date()); 
+					ie_dao.setData(data);
+					ie_dao.setTipo("Export");
+					ie_dao.setDowload(app.getDad());
+					ie_dao =  ie_dao.insert();
 					return this.exportApp(app,iea);
 				}else{	
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_EXPORT_APP);
@@ -139,4 +152,5 @@ public class ListaEnvController extends Controller {
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase(), "application/jar", true);
 	}
 	/*---- End ----*/
+	
 }

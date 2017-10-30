@@ -81,7 +81,7 @@ public class Config {
 		return xml.toString();
 	}
 	
-	private static String getUserName() {
+	public static String getUserName() {
 		User u = (User) Igrp.getInstance().getUser().getIdentity();
 		return (u!=null)?u.getName():"red-igrp";
 	}
