@@ -5,6 +5,8 @@
 package nosi.webapps.igrp.pages.migrate;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
+
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -18,9 +20,12 @@ import nosi.core.webapp.Igrp;
 public class MigrateController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/						
 		Migrate model = new Migrate();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		MigrateView view = new MigrateView(model);
 		tipos.put(null, "-- Selecione Base de Dados --");
 		tipos.put("mysql", "MySql");
@@ -40,14 +45,33 @@ public class MigrateController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			if(model.getAplicacao().equals("1")){
-				MigrationIGRP.start(model);
+				if(MigrationIGRP.validate(model)){
+					MigrationIGRP.start(model);
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Migração Efetuada com sucesso");
+				}else{
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Conexão inválido");
+					return this.forward("igrp","Migrate","index");
+				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Migração Efetuada com sucesso");
 		}
 		return this.redirect("igrp","Migrate","index");
 					/*---- End ----*/
 	}
 	
+	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*---- Insert your code here... ----*/
+		Migrate model = new Migrate();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			if(MigrationIGRP.validate(model)){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Conexão válido");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Conexão inválido");
+			}
+		}
+		return this.forward("igrp","Migrate","index");
+		/*---- End ----*/
+	}
 	/*---- Insert your actions here... ----*/
 	private static Map<String,String> tipos = new HashMap<>();
 	/*---- End ----*/

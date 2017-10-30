@@ -16,7 +16,7 @@ public class PersistenceUtils {
 
 	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();	
 	
-	private static boolean isSuccessful = false; // For now this field is private
+	public static boolean isSuccessful = false; // For now this field is private
 	
 	public static void init(){
 		if(!PersistenceUtils.isSuccessful) {
@@ -48,7 +48,7 @@ public class PersistenceUtils {
 		}
 	}
 	
-	private static void setConnection(String dbmsName,String connectioName,String url,String user,String password){
+	public static boolean setConnection(String dbmsName,String connectioName,String url,String user,String password){
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+connectioName+".cfg.xml");
     	String driver = getDriver(dbmsName);
@@ -58,12 +58,18 @@ public class PersistenceUtils {
     	cfg.getProperties().setProperty("hibernate.connection.url",url);
     	cfg.getProperties().setProperty("current_session_context_class","thread");
     	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
-		SessionFactory sf = cfg.buildSessionFactory();
-		
-		SESSION_FACTORY.put(connectioName, sf);
+    	boolean isConnected = false;
+    	try{
+			SessionFactory sf = cfg.buildSessionFactory();		
+			SESSION_FACTORY.put(connectioName, sf);
+			isConnected = true;
+    	}catch(Exception e){
+    		isConnected = false;
+    	}
+    	return isConnected;
 	}
 	
-	private static String getDriver(String type) {
+	public static String getDriver(String type) {
 		switch (type.toLowerCase()) {
 			case "h2":			
 				return "org.h2.Driver";
