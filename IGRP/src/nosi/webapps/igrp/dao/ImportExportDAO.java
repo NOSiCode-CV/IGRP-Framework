@@ -23,8 +23,8 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private Application aplicacao;
-	private User usuario;
+	private String aplicacao;
+	private String usuario;
 	private String data;
 	private String tipo;
 	private String dowload;
@@ -33,7 +33,7 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 		
 	}
 	
-	public ImportExportDAO(Application aplicacao, User usuario, String data, String tipo, String dowload) {
+	public ImportExportDAO(String aplicacao, String usuario, String data, String tipo, String dowload) {
 		super();
 		this.aplicacao = aplicacao;
 		this.usuario = usuario;
@@ -50,19 +50,19 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 		this.id = id;
 	}
 
-	public Application getAplicacao() {
+	public String getAplicacao() {
 		return aplicacao;
 	}
 
-	public void setAplicacao(Application aplicacao) {
+	public void setAplicacao(String aplicacao) {
 		this.aplicacao = aplicacao;
 	}
 
-	public User getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(User usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 
