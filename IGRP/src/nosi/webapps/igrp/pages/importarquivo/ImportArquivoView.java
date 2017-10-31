@@ -11,30 +11,55 @@ public class ImportArquivoView extends View {
 	
 	
 	public Field sectionheader_1_text;
-	public Field arquivo;
+	public Field importar_aplicacao;
+	public Field importar_pagina;
+	public Field arquivo_aplicacao;
+	public Field list_aplicacao;
+	public Field arquivo_pagina;
 	public IGRPSectionHeader sectionheader_1;
+	public IGRPTabContent tabcontent_1;
+	public IGRPForm form_2;
 	public IGRPForm form_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_import;
+	public IGRPButton btn_btm_import_aplicacao;
+	public IGRPButton btn_btm_importar_page;
 	public ImportArquivoView(ImportArquivo model){
-		this.setPageTitle("Pagina que importa os arquivos Jar");
+		this.setPageTitle("Import Arquivo");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
+		form_2 = new IGRPForm("form_2","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("Import Arquivos Jar (Páginas/Aplicações)");
+		sectionheader_1_text.setValue("Import Arquivos Jar/Zip (Páginas/Aplicações)");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		arquivo = new FileField(model,"arquivo");
-		arquivo.setLabel("Arquivo");
+		importar_aplicacao = new TextField(model,"importar_aplicacao");
+		importar_aplicacao.setLabel("Importar Aplicação");
 		
-		arquivo.propertie().add("name","p_arquivo").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
+		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cloud-download").add("maxlength","50");
+		importar_pagina = new TextField(model,"importar_pagina");
+		importar_pagina.setLabel("Importar Página");
+		
+		importar_pagina.propertie().add("name","p_importar_pagina").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cloud-download").add("maxlength","50");
+		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
+		arquivo_aplicacao.setLabel("Aplicação");
+		
+		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
+		list_aplicacao = new ListField(model,"list_aplicacao");
+		list_aplicacao.setLabel("Aplicação");
+		
+		list_aplicacao.propertie().add("name","p_list_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		arquivo_pagina = new FileField(model,"arquivo_pagina");
+		arquivo_pagina.setLabel("Página");
+		
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_import = new IGRPButton("Import","igrp","ImportArquivo","import","submit","success|fa-download","","");
-		btn_import.propertie.add("type","specific").add("code","").add("rel","import");
+		btn_btm_import_aplicacao = new IGRPButton("Import","igrp","ImportArquivo","btm_import_aplicacao","submit","success|fa-download","","");
+		btn_btm_import_aplicacao.propertie.add("type","form").add("code","").add("class","success").add("rel","btm_import_aplicacao");
+		btn_btm_importar_page = new IGRPButton("Import","igrp","ImportArquivo","btm_importar_page","submit","success|fa-download","","");
+		btn_btm_importar_page.propertie.add("type","form").add("code","").add("class","success").add("rel","btm_importar_page");
 		
 	}
 		
@@ -43,13 +68,20 @@ public class ImportArquivoView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
+		tabcontent_1.addField(importar_aplicacao);
+		tabcontent_1.addField(importar_pagina);
 
-		form_1.addField(arquivo);
+		form_2.addField(arquivo_aplicacao);
 
-		toolsbar_1.addButton(btn_import);
+		form_1.addField(list_aplicacao);
+		form_1.addField(arquivo_pagina);
+
+		form_2.addButton(btn_btm_import_aplicacao);
+		form_1.addButton(btn_btm_importar_page);
 		this.addToPage(sectionheader_1);
+		this.addToPage(tabcontent_1);
+		this.addToPage(form_2);
 		this.addToPage(form_1);
-		this.addToPage(toolsbar_1);
 	}
 }
 /*-------------------------*/

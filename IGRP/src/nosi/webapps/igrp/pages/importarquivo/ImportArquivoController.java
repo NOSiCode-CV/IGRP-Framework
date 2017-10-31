@@ -1,10 +1,8 @@
-
 /*-------------------------*/
 
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.importarquivo;
-
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -34,18 +32,23 @@ import nosi.webapps.igrp.dao.ImportExportDAO;
 public class ImportArquivoController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
 		ImportArquivo model = new ImportArquivo();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		ImportArquivoView view = new ImportArquivoView(model);
+		view.list_aplicacao.setValue(new Application().getListApps());
 		return this.renderView(view);
 		/*---- End ----*/
 	}
 
-	public Response actionImport() throws IOException{
+
+	public Response actionBtm_import_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
 		try {
-			Part jarFile = Igrp.getInstance().getRequest().getPart("p_arquivo");
+			Part jarFile = Igrp.getInstance().getRequest().getPart("p_importar_aplicacao");
 			List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(jarFile);
 			String msg = null;
 			for(FileOrderCompile file:un_jar_files){
@@ -70,8 +73,7 @@ public class ImportArquivoController extends Controller {
 		return this.redirect("igrp","ImportArquivo","index");
 		/*---- End ----*/
 	}
-
-
+	
 	private void saveConfigApp(FileOrderCompile file) {
 		StringReader inputApp = new StringReader(file.getConteudo());
 		XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
@@ -133,8 +135,7 @@ public class ImportArquivoController extends Controller {
 			e.printStackTrace();
 		}
 	}
-
-
+	
 	private String compileFiles(FileOrderCompile file) {
 		String[] partPage = file.getNome().split("/");
 		if(partPage[2].equalsIgnoreCase("DefaultPage")){
@@ -176,6 +177,15 @@ public class ImportArquivoController extends Controller {
 		}
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*---- Insert your code here... ----*/
+		ImportArquivo model = new ImportArquivo();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
+		return this.redirect("igrp","ImportArquivo","index");
+		/*---- End ----*/
+	}
 	
+	/*---- Insert your actions here... ----*//*---- End ----*/
 }

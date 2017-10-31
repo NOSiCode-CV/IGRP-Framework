@@ -32,34 +32,87 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
     </plsql>
     <content>
-        <title>Pagina que importa os arquivos Jar</title>
+        <title>Import Arquivo</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Import Arquivos Jar (Páginas/Aplicações)]]>
+                        <![CDATA[Import Arquivos Jar/Zip (Páginas/Aplicações)]]>
                     </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="import">
-                <title>Import</title>
-                <app>igrp</app>
-                <page>ImportArquivo</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>success|fa-download</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl</parameter>
-            </item>
-        </toolsbar_1>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <importar_aplicacao name="p_importar_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-download" maxlength="50">
+                    <label>Importar Aplicação</label>
+                    <value/>
+                </importar_aplicacao>
+                <importar_pagina name="p_importar_pagina" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-cloud-download" maxlength="50">
+                    <label>Importar Página</label>
+                    <value/>
+                </importar_pagina>
+            </fields>
+        </tabcontent_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                    <label>Aplicação</label>
+                    <value/>
+                </arquivo_aplicacao>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="btm_import_aplicacao">
+                    <title>Import</title>
+                    <app>igrp</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl?</parameter>
+                    <target>submit</target>
+                    <img>success|fa-download</img>
+                </item>
+            </tools-bar>
+        </form_2>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo name="p_arquivo" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
-                    <label>Arquivo</label>
+                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </list_aplicacao>
+                <arquivo_pagina name="p_arquivo_pagina" type="file" accept="" targetrend="" multiple="false" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                    <label>Página</label>
                     <value/>
-                </arquivo>
+                </arquivo_pagina>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="success" rel="btm_importar_page">
+                    <title>Import</title>
+                    <app>igrp</app>
+                    <page>ImportArquivo</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl?</parameter>
+                    <target>submit</target>
+                    <img>success|fa-download</img>
+                </item>
+            </tools-bar>
         </form_1>
     </content>
 </rows>
