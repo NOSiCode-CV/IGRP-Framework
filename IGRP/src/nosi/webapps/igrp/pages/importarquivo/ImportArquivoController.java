@@ -21,6 +21,7 @@ import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.webapp.helpers.ZipUnzipFile;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
 import nosi.webapps.igrp.dao.Action;
@@ -39,7 +40,7 @@ public class ImportArquivoController extends Controller {
 			model.load();
 		}
 		ImportArquivoView view = new ImportArquivoView(model);
-		view.list_aplicacao.setValue(new Application().getListApps());
+		view.list_aplicacao.setSqlQuery("SELECT dad,name FROM tbl_env");
 		return this.renderView(view);
 		/*---- End ----*/
 	}
@@ -48,33 +49,59 @@ public class ImportArquivoController extends Controller {
 	public Response actionBtm_import_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/
 		try {
-			Part jarFile = Igrp.getInstance().getRequest().getPart("p_importar_aplicacao");
-			List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(jarFile);
-			String msg = null;
-			for(FileOrderCompile file:un_jar_files){
-				if(file.getNome().endsWith(".java")){
-					msg = this.compileFiles(file);
-					if(msg!=FlashMessage.MESSAGE_SUCCESS){	
-						break;					
-					}
-				}else if(!file.getNome().startsWith("configApp") && !file.getNome().startsWith("configPage"))
-					this.saveFiles(file);
-				else if(file.getNome().startsWith("configApp"))
-					this.saveConfigApp(file);
-				else if(file.getNome().startsWith("configPage"))
-					this.saveConfigPage(file);				
+			Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
+			if(file.getSubmittedFileName().endsWith(".zip")){
+				this.importZipFile(file,null);//Importa aplicação de plsql (Vem no formato zip)
+			}else if(file.getSubmittedFileName().endsWith(".jar")){
+				this.importJarFile(file,null);//Importa aplicação do porprio IGRP OS (Vem no formato jar)
 			}
-			ImportExportDAO ie_dao = new ImportExportDAO(jarFile.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
-			ie_dao = ie_dao.insert();
-			Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
 		} catch (ServletException e) {
-			e.printStackTrace();
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, e.getMessage());
+			return this.forward("igrp", "ImportArquivo", "index");
 		}		
 		return this.redirect("igrp","ImportArquivo","index");
 		/*---- End ----*/
 	}
 	
-	private void saveConfigApp(FileOrderCompile file) {
+
+	
+	/*---- Insert your actions here... ----*/
+	private void importJarFile(Part fileName,String dad) {
+		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(fileName);
+		String msg = null;
+		Application app = null;
+		for(FileOrderCompile file:un_jar_files){
+			if(file.getNome().endsWith(".java")){
+				msg = this.compileFiles(file);
+				if(msg!=FlashMessage.MESSAGE_SUCCESS){	
+					break;					
+				}
+			}else if(!file.getNome().startsWith("configApp") && !file.getNome().startsWith("configPage"))
+				this.saveFiles(file);
+			else if(file.getNome().startsWith("configApp"))
+				app = this.saveConfigApp(file);
+			else if(file.getNome().startsWith("configPage"))
+				this.saveConfigPage(file,(dad!=null && !dad.equals(""))?dad:app.getDad());				
+		}
+		ImportExportDAO ie_dao = new ImportExportDAO(fileName.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
+		ie_dao = ie_dao.insert();
+		Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
+	}
+
+
+	private void importZipFile(Part fileName,String dad) {
+		List<FileOrderCompile> unzip_files = ZipUnzipFile.getZipFiles(fileName);
+		String msg = null;
+		for(FileOrderCompile file:unzip_files){
+			System.out.println(file.getNome());			
+		}
+		/*ImportExportDAO ie_dao = new ImportExportDAO(fileName.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
+		ie_dao = ie_dao.insert();*/
+		Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
+	}
+
+
+	private Application saveConfigApp(FileOrderCompile file) {
 		StringReader inputApp = new StringReader(file.getConteudo());
 		XMLApplicationReader xmlApplication = JAXB.unmarshal(inputApp, XMLApplicationReader.class); 
 		Application app = new Application();
@@ -87,21 +114,21 @@ public class ImportArquivoController extends Controller {
 			app.setStatus(xmlApplication.getStatus());
 			app.setUrl(xmlApplication.getUrl());
 			app.setAction(null);
-			app = app.insert();
+			return app.insert();
 		}
+		return new Application();
 	}
 
 
-	private void saveConfigPage(FileOrderCompile file) {
+	private void saveConfigPage(FileOrderCompile file,String dad) {
 		StringReader input = new StringReader(file.getConteudo());
 		XMLPageReader xmlPage = JAXB.unmarshal(input, XMLPageReader.class);
 		Action page = new Action();
 		page.setAction(xmlPage.getAction());
 		page.setPage(xmlPage.getPage());
 		page.setPackage_name(xmlPage.getPackage_name());
-		Application app = new Application().find().andWhere("dad", "=",xmlPage.getDad()).one();
+		Application app = new Application().find().andWhere("dad", "=",dad).one();
 		if(app!=null && new Action().find().andWhere("page", "=", page.getPage()).andWhere("action", "=", page.getAction()).andWhere("package_name", "=", page.getPackage_name()).andWhere("application.dad", "=", xmlPage.getDad()).one()==null){
-			System.out.println("Saving page");
 			page.setAction_descr(xmlPage.getAction_desc());
 			page.setPackage_name(xmlPage.getPackage_name());
 			page.setPage(xmlPage.getPage());
@@ -176,16 +203,26 @@ public class ImportArquivoController extends Controller {
 			}
 		}
 	}
+	/*---- End ----*/
 	
-	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionBtm_importar_page() throws IOException, IllegalArgumentException, IllegalAccessException, ServletException{
 		/*---- Insert your code here... ----*/
 		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
+		try {
+			Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
+			if(file.getSubmittedFileName().endsWith(".zip")){
+				this.importZipFile(file,model.getList_aplicacao());//Importa aplicação de plsql (Vem no formato zip)
+			}else if(file.getSubmittedFileName().endsWith(".jar")){
+				this.importJarFile(file,model.getList_aplicacao());//Importa aplicação do porprio IGRP OS (Vem no formato jar)
+			}
+		} catch (ServletException e) {
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, e.getMessage());
+			return this.forward("igrp", "ImportArquivo", "index");
+		}		
 		return this.redirect("igrp","ImportArquivo","index");
 		/*---- End ----*/
 	}
-	
-	/*---- Insert your actions here... ----*//*---- End ----*/
 }
