@@ -232,7 +232,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		List<Profile> list = new Profile().find()
 									 .andWhere("type", "=", "ENV")
 									 .andWhere("user", "=", u.getId())
-									 .andWhere("id", "<>", 1)
+									 .andWhere("type_fk", "<>", 1)
 									 .all();
 		return list;
 	}
