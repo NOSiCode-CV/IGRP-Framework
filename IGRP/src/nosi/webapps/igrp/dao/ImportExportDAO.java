@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * Isaias.Nunes
@@ -27,19 +29,17 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	private String usuario;
 	private String data;
 	private String tipo;
-	private String dowload;
 	
 	public ImportExportDAO() {
 		
 	}
 	
-	public ImportExportDAO(String aplicacao, String usuario, String data, String tipo, String dowload) {
+	public ImportExportDAO(String aplicacao, String usuario, String data, String tipo) {
 		super();
 		this.aplicacao = aplicacao;
 		this.usuario = usuario;
 		this.data = data;
 		this.tipo = tipo;
-		this.dowload = dowload;
 	}
 
 	public Integer getId() {
@@ -81,14 +81,9 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
-	public String getDowload() {
-		return dowload;
+	
+	public Map<Object, Object> getList(){
+		return IgrpHelper.toMap(this.findAll(), "aplicacao", "aplicacao", "--- Selecionar Aplicação/Página ---");
 	}
 
-	public void setDowload(String dowload) {
-		this.dowload = dowload;
-	}
-	
-	
 }
