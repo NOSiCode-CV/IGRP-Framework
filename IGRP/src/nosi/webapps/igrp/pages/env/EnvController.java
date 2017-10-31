@@ -275,11 +275,11 @@ public class EnvController extends Controller {
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
-	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
+//	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
 	// Begin
 	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
 		try {
-			endpoint += "/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
+			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
 			URL url = new URL(endpoint);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoInput(true);
