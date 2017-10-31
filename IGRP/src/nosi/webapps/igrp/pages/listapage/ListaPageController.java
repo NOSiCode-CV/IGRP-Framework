@@ -11,11 +11,14 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.ImportExportDAO;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,6 +76,11 @@ public class ListaPageController extends Controller {
 				String pathJar = Config.getPathExport()+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage()+".jar";
 				FileHelper.createDiretory(Config.getPathExport()+page.getApplication().getDad().toLowerCase());
 				JarUnJarFile.saveJarFiles(pathJar, iea.getFilesPageClasses(),9);			
+				
+				//insert data on import/export table
+				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), Config.getUserName(), DateHelper.getCurrentDataTime(), "Export");
+				ie_dao = ie_dao.insert();
+				
 				return this.sendFile(new File(pathJar), page.getPage(), "application/jar", true);
 			}
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.WARNING_EXPORT_PAGE);

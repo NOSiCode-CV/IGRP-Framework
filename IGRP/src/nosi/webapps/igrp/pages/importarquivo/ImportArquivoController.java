@@ -19,6 +19,7 @@ import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
@@ -26,6 +27,7 @@ import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.ImportExportDAO;
 
 /*---- End ----*/
 
@@ -59,6 +61,8 @@ public class ImportArquivoController extends Controller {
 				else if(file.getNome().startsWith("configPage"))
 					this.saveConfigPage(file);				
 			}
+			ImportExportDAO ie_dao = new ImportExportDAO(jarFile.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
+			ie_dao = ie_dao.insert();
 			Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
 		} catch (ServletException e) {
 			e.printStackTrace();
