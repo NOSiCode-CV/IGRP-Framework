@@ -4,12 +4,15 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
+import nosi.core.i18n.I18n;
+import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
 public class Igrp {
@@ -38,13 +41,20 @@ public class Igrp {
 	// User component (Identity)
 	private User user;
 	
+	// For i18n
+	I18nManager i18nManager;
 	
-	private Igrp(){ // Private and empty default constructor ... allow Singleton class
-	}
+	private Igrp(){} // Private and empty default constructor ... allow Singleton class
 	
 	public static Igrp getInstance(){ // Allow us to define the only one instance of Igrp class as a Singleton
 		if(Igrp.app == null){
+			/*synchronized(Igrp.class) {
+                if (Igrp.app == null) {
+                	Igrp.app = new Igrp();
+                }
+            }*/ 
 			Igrp.app = new Igrp();
+			System.out.println("Igrp nulo.");
 		}
 	return Igrp.app;
 	}
@@ -68,6 +78,10 @@ public class Igrp {
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
+			
+			// For internacionalization purpose 
+			this.i18nManager = new I18nManager();
+			this.i18nManager.init();
 			
 		return this;
 	}
@@ -167,7 +181,23 @@ public class Igrp {
 		this.die = true;
 	}
 	
+	public I18nManager getI18nManager() {
+		return i18nManager;
+	}
+
 	public static String getMethod() {
 		return Igrp.getInstance().getRequest().getMethod();
+	}
+	
+	public static String gt(String text) { // call the GNU Gettext for IGRP-core 
+		return gt("igrp", text);
+	}
+	
+	public static String gt(String name, String text) { // call the GNU Gettext for IGRP-apps  
+		I18n language = Igrp.getInstance().getI18nManager().getIgrpCore(name);
+		if(language == null)
+			return text;
+		String r = language.t(text);
+		return r;
 	}
 }

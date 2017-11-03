@@ -55,6 +55,14 @@
 	    <version>2.8.1</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/org.gnu.gettext/libintl -->
+	<!-- For internacionalization -->
+	<dependency>
+	    <groupId>org.gnu.gettext</groupId>
+	    <artifactId>libintl</artifactId>
+	    <version>0.18.3</version>
+	</dependency>
+	
   </dependencies>
   
   <build>

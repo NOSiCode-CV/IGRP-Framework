@@ -6,7 +6,6 @@ import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
@@ -16,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.xml.bind.JAXB;
+
+import static nosi.core.webapp.Igrp.gt;
 /**
  * Marcel Iekiny
  * Oct 4, 2017
@@ -23,6 +24,8 @@ import javax.xml.bind.JAXB;
 public class LoginController extends Controller {
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		System.out.println(gt("This text is translated rand padded"));
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
