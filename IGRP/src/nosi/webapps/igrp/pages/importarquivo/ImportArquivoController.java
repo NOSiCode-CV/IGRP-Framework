@@ -11,16 +11,21 @@ import nosi.core.config.Config;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
+import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.webapp.helpers.XMLTransform;
 import nosi.core.webapp.helpers.ZipUnzipFile;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
@@ -64,8 +69,12 @@ public class ImportArquivoController extends Controller {
 	}
 	
 
-	
+
 	/*---- Insert your actions here... ----*/
+	
+	//Variavel para mapear ficheiros de configuracao de paginas de plsql
+	private Map<String,FileOrderCompile> filesConfigPagePlsql = new HashMap<>();
+	
 	private void importJarFile(Part fileName,String dad) {
 		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(fileName);
 		String msg = null;
@@ -94,37 +103,74 @@ public class ImportArquivoController extends Controller {
 		String msg = null;
 		Application app = new Application();
 		for(FileOrderCompile file:unzip_files){
-			//System.out.println(file.getNome());
-			/*if(file.getConteudo()!=null && !file.getConteudo().equals("") && file.getNome().startsWith("FTP") && file.getNome().endsWith(".xml") && !file.getNome().endsWith("navigation.xml") && !file.getNome().endsWith("slide-menu.xml")){
-				if(file.getNome().startsWith("FTP/IGRP")){
-					String content = file.getConteudo();
-					String className = content.substring(content.indexOf("<package_html>")+"<package_html>".length(),content.indexOf("</package_html>"));
-					//Verifica se o xml possui package_html que será o nome da classe
-					//Caso não exista, assumi o nome do ficheiro como nome da classe
-					if(className==null || className.equals("")){
-						className = file.getNome().substring(file.getNome().indexOf("xml/")+"xml/".length(), file.getNome().indexOf(".xml"));
-						content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ className+content.substring(content.indexOf("</package_html>"));
-					}
-					String package_name = Config.getBasePackage(app.getDad()).contains(".pages")?Config.getBasePackage(app.getDad())+"."+className.toLowerCase():Config.getBasePackage(app.getDad())+".pages."+className.toLowerCase();
-					content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+package_name +content.substring(content.indexOf("</package_db>"));
-					
-					System.out.println(content);
-//					try {
-//						System.out.println(XMLTransform.tranform(file.getNome(), Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl"));
-//					} catch (TransformerConfigurationException e) {
-//					}
-				}
-			}else */
-			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ENV.xml")){
-				app = this.saveConfigApp(file);
-			}
-			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ACTION.xml")){
-				this.saveConfigPage(file, app.getDad(),"plsql");
+			if(file.getConteudo()!=null && !file.getConteudo().equals("")  && file.getNome().startsWith("FTP/IGRP")){
+				String part[] = file.getNome().split("/");
+				if(!"navigation.xml".equals(part[part.length-1]) && !"slide-menu.xml".equals(part[part.length-1]))
+					this.filesConfigPagePlsql.put(part[part.length-1], file);
 			}
 		}
-		/*ImportExportDAO ie_dao = new ImportExportDAO(fileName.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
-		ie_dao = ie_dao.insert();*/
+		for(FileOrderCompile file:unzip_files){
+			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ENV.xml")){
+				app = this.saveConfigApp(file);
+				FileOrderCompile f = new ImportExportApp().new FileOrderCompile("page/"+((dad!=null && !dad.equals(""))?dad:app.getDad())+"/DefaultPage/index", "", 1);
+				msg = this.compileFiles(f, (dad!=null && !dad.equals(""))?dad:app.getDad());
+			}
+			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ACTION.xml")){
+				msg = this.saveConfigPage(file, (dad!=null && !dad.equals(""))?dad:app.getDad(),"plsql");
+			}
+		}
+		ImportExportDAO ie_dao = new ImportExportDAO(fileName.getSubmittedFileName().replace(".jar", ""), Config.getUserName(), DateHelper.getCurrentDataTime(), "Import");
+		ie_dao = ie_dao.insert();
 		Igrp.getInstance().getFlashMessage().addMessage(msg==FlashMessage.MESSAGE_SUCCESS?FlashMessage.SUCCESS:FlashMessage.ERROR, msg);
+	}
+
+
+	private String saveConfigFilesPlsql(String fileName,Application app,Action page) {
+		String part[] = fileName.split("/");
+		String xsl = part[part.length-1];
+		String xml = xsl.replace(".xsl", ".xml");
+		String msg = null;
+		if(this.filesConfigPagePlsql.get(xsl)!=null){
+			String content = this.filesConfigPagePlsql.get(xsl).getConteudo();
+			content = content.replaceAll("../../xsl", "../../../xsl");
+			FileOrderCompile file = new ImportExportApp().new FileOrderCompile("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xsl", content, 1);
+			this.saveFiles(file , app.getDad());			
+		}
+
+		if(this.filesConfigPagePlsql.get(xml)!=null){
+			String content = this.filesConfigPagePlsql.get(xml).getConteudo();
+			//Verifica se o xml possui package_html que será o nome da classe
+			//Caso não exista, assumi o nome do ficheiro como nome da classe
+			content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ page.getPage()+content.substring(content.indexOf("</package_html>"));
+			String package_name = Config.getBasePackage(app.getDad()).contains(".pages")?Config.getBasePackage(app.getDad()):Config.getBasePackage(app.getDad())+".pages";
+			content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+package_name +content.substring(content.indexOf("</package_db>"));
+			FileOrderCompile file = new ImportExportApp().new FileOrderCompile("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
+			this.saveFiles(file , app.getDad());
+			try {
+				String path = Config.getBasePathXsl()+Config.getResolvePathXsl(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
+				//Gera codigo MVC a partir de xml, usando gerador xsl
+				String modelViewController = XMLTransform.tranform(path, Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl");
+				String[] partsJavaCode = modelViewController.toString().split(" END ");
+				if(partsJavaCode.length > 2){
+					String model = partsJavaCode[0]+"*/";
+					String view = "/*"+partsJavaCode[1]+"*/";
+					String controller = "/*"+partsJavaCode[2];
+					file.setNome("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+".java");
+					file.setConteudo(model);
+					msg = this.compileFiles(file, app.getDad());
+	
+					file.setNome("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+"View.java");
+					file.setConteudo(view);
+					msg = this.compileFiles(file, app.getDad());
+	
+					file.setNome("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+"Controller.java");
+					file.setConteudo(controller);
+					msg = this.compileFiles(file, app.getDad());
+				}
+			} catch (TransformerConfigurationException e) {
+			}
+		}
+		return msg;
 	}
 
 
@@ -149,9 +195,10 @@ public class ImportArquivoController extends Controller {
 	}
 
 
-	private void saveConfigPage(FileOrderCompile file,String dad,String type) {
+	private String saveConfigPage(FileOrderCompile file,String dad,String type) {
 		StringReader input = new StringReader(file.getConteudo());
 		XMLPageReader listPage = JAXB.unmarshal(input, XMLPageReader.class);
+		String msg = null;
 		for(Action p:listPage.getRow()){
 			Action page = new Action();
 			page.setAction(p.getAction());
@@ -159,20 +206,35 @@ public class ImportArquivoController extends Controller {
 			page.setPage(p.getPage());
 			page.setPage_descr(p.getPage_descr());				
 			page.setStatus(p.getStatus());
-			page.setVersion(p.getVersion());
+			page.setVersion("2.3");
 			page.setXsl_src(p.getXsl_src()); 			
 			page.setPage(p.getPage());
-			if(type.equals("psql")){//Se for de psql, assume Page como Action
+			Application app = new Application().find().andWhere("dad", "=",dad).one();
+			//Depois validar nome de classe
+			if(type.equals("plsql")){//Se for de psql, assume Page como Action
 				page.setPage(p.getAction());
 				page.setPage_descr(p.getAction_descr());
-			}
-			Application app = new Application().find().andWhere("dad", "=",dad).one();
-			if(app!=null && new Action().find().andWhere("page", "=", p.getPage()).andWhere("action", "=", p.getAction()).andWhere("application.dad", "=", dad).one()==null){
 				page.setApplication(app);
-				page.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
-				page = page.insert();			
 			}
+			page.setApplication(app);
+			page.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
+			Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", dad).one();
+			if(!type.equals("plsql")){
+				if(nosi.core.gui.page.Page.validatePage(page.getPage()) && app!=null && new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", dad).one()==null)
+					page = page.insert();
+			}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
+				if(nosi.core.gui.page.Page.validatePage(page.getPage()) && app!=null 
+					&& pageCheck ==null 
+					&& p.getVersion_src()!=null 
+					&& p.getVersion_src().equals("IGRP2.3")){
+						page = page.insert();
+						this.saveConfigFilesPlsql(page.getXsl_src(),app,page);
+				}else if(pageCheck!=null){
+					msg = this.saveConfigFilesPlsql(page.getXsl_src(),app,pageCheck);
+				}
+			}	
 		}
+		return msg;
 	}
 
 
@@ -181,9 +243,8 @@ public class ImportArquivoController extends Controller {
 		Action page = new Action().find()
 								  .andWhere("application.dad", "=", dad)
 								  .andWhere("page", "=", partPage[2])
-								  .andWhere("action", "=", partPage[3])
 								  .one();
-		String path = Config.getBasePahtXsl(page);		
+		String path = Config.getBasePathXsl()+Config.getResolvePathXsl(dad, page.getPage(), page.getVersion());
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
 		if(file.getNome().endsWith(".xml")){
@@ -196,7 +257,7 @@ public class ImportArquivoController extends Controller {
 		try {
 			//Guarda ficheiros no workspace caso existe
 			if(FileHelper.fileExists(Config.getWorkspace())){
-				String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad()+File.separator+page.getPage().toLowerCase();			
+				String path_xsl_work_space = Config.getBasePahtXsl(page);		
 				FileHelper.save(path_xsl_work_space,partPage[4], content);
 			}
 			FileHelper.save(path, partPage[4], content);
