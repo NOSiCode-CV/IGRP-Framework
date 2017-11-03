@@ -135,7 +135,7 @@
    			<xsl:value-of select="$page_"></xsl:value-of>
 		</xsl:variable>
 			
-		<xsl:variable name="action">
+		<xsl:variable name="actionCamel">
 			<xsl:choose>
 				<xsl:when test="$type_render_!='render_message'">
 					<xsl:call-template name="CamelCaseWord">
@@ -148,7 +148,14 @@
 	    			<xsl:value-of select="$action_name_"></xsl:value-of>
 		    	</xsl:otherwise>
 	    	</xsl:choose>
-		</xsl:variable>			
+		</xsl:variable>		
+		<xsl:variable name="action">
+			<xsl:call-template name="replace-all">
+		        <xsl:with-param name="text" select="$actionCamel" />
+		        <xsl:with-param name="replace" select="'-'" />
+		        <xsl:with-param name="by" select="''" />
+		    </xsl:call-template>
+		</xsl:variable>	
 		<xsl:variable name="app__">
 			<xsl:call-template name="lowerCase">
 	    		<xsl:with-param name="text">
