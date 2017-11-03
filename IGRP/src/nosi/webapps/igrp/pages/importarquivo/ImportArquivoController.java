@@ -51,9 +51,9 @@ public class ImportArquivoController extends Controller {
 		try {
 			Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_aplicacao");
 			if(file.getSubmittedFileName().endsWith(".zip")){
-				this.importZipFile(file,null);//Importa aplicaÁ„o de plsql (Vem no formato zip)
+				this.importZipFile(file,null);//Importa aplica√ß√£o de plsql (Vem no formato zip)
 			}else if(file.getSubmittedFileName().endsWith(".jar")){
-				this.importJarFile(file,null);//Importa aplicaÁ„o do porprio IGRP OS (Vem no formato jar)
+				this.importJarFile(file,null);//Importa aplica√ß√£o do porprio IGRP OS (Vem no formato jar)
 			}
 		} catch (ServletException e) {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, e.getMessage());
@@ -99,8 +99,8 @@ public class ImportArquivoController extends Controller {
 				if(file.getNome().startsWith("FTP/IGRP")){
 					String content = file.getConteudo();
 					String className = content.substring(content.indexOf("<package_html>")+"<package_html>".length(),content.indexOf("</package_html>"));
-					//Verifica se o xml possui package_html que ser· o nome da classe
-					//Caso n„o exista, assumi o nome do ficheiro como nome da classe
+					//Verifica se o xml possui package_html que ser√° o nome da classe
+					//Caso n√£o exista, assumi o nome do ficheiro como nome da classe
 					if(className==null || className.equals("")){
 						className = file.getNome().substring(file.getNome().indexOf("xml/")+"xml/".length(), file.getNome().indexOf(".xml"));
 						content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ className+content.substring(content.indexOf("</package_html>"));
@@ -260,9 +260,9 @@ public class ImportArquivoController extends Controller {
 		try {
 			Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
 			if(file.getSubmittedFileName().endsWith(".zip")){
-				this.importZipFile(file,model.getList_aplicacao());//Importa aplicaÁ„o de plsql (Vem no formato zip)
+				this.importZipFile(file,model.getList_aplicacao());//Importa aplica√ß√£o de plsql (Vem no formato zip)
 			}else if(file.getSubmittedFileName().endsWith(".jar")){
-				this.importJarFile(file,model.getList_aplicacao());//Importa aplicaÁ„o do porprio IGRP OS (Vem no formato jar)
+				this.importJarFile(file,model.getList_aplicacao());//Importa aplica√ß√£o do porprio IGRP OS (Vem no formato jar)
 			}
 		} catch (ServletException e) {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, e.getMessage());
