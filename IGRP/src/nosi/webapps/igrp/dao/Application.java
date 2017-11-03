@@ -212,6 +212,14 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		this.repinstances = repinstances;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		return "Application [dad=" + dad + ", name=" + name + ", description=" + description + ", status=" + status
+				+ ", url=" + url + ", action=" + action + "]";
+	}
+
 	public Map<Object, Object> getListApps(){
 		return IgrpHelper.toMap(this.findAll(), "id", "name", "--- Selecionar Aplicacao ---");
 	}
@@ -232,7 +240,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		List<Profile> list = new Profile().find()
 									 .andWhere("type", "=", "ENV")
 									 .andWhere("user", "=", u.getId())
-									 .andWhere("id", "<>", 1)
+									 .andWhere("type_fk", "<>", 1)
 									 .all();
 		return list;
 	}

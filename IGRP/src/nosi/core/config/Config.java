@@ -1,5 +1,6 @@
 package nosi.core.config;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ public class Config {
 		return xml.toString();
 	}
 	
-	private static String getUserName() {
+	public static String getUserName() {
 		User u = (User) Igrp.getInstance().getUser().getIdentity();
 		return (u!=null)?u.getName():"red-igrp";
 	}
@@ -99,6 +100,10 @@ public class Config {
 	
 	public static String getPathLib(){
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/lib/");
+	}
+	
+	public static String getPathExport(){
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/export/");
 	}
 	
 	public static String getBasePathClass(){
@@ -193,10 +198,20 @@ public class Config {
 				  + "}";
 	}
 	
-	public static void main(String[]args){
-		new nosi.webapps.igrp.dao.Config().findAll();
+	public static String getBasePackage(String app) {
+		if(app!=null && !app.equals(""))
+			return "nosi.webapps." + app.toLowerCase();
+		return "nosi.webapps.igrp.pages";
 	}
-
+	
+	public static String getBasePahtClass(String app){
+		return Config.getWorkspace() + File.separator +  "src"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator) +File.separator;
+	}
+	
+	public static String getBasePahtXsl(Action page){
+		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
+	}
+	
 	public static String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		if(!app.equals("") && !page.equals("") && !action.equals("")){

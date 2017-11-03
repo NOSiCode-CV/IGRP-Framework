@@ -50,9 +50,24 @@ public class MigrationIGRP {
 			config.setPassword(model.getPassword());
 			config.save();
 		}
+		PersistenceUtils.isSuccessful = false;
 		PersistenceUtils.init();
 		saveData();
 		new CreateViews();
+	}
+	
+	public static boolean validate(Migrate model){
+		if(model!=null){
+			ConfigDBIGRP config = new ConfigDBIGRP();
+			config.setHost(model.getHostname());
+			config.setName_db(model.getNome_de_bade_dados());
+			config.setType_db(model.getTipo_base_dados());
+			config.setPort(model.getPort());
+			config.setUsername(model.getUsername());
+			config.setPassword(model.getPassword());
+			return config.validate();
+		}
+		return false;
 	}
 
 	private static void getData() {
@@ -91,7 +106,7 @@ public class MigrationIGRP {
 		}
 		if(applications.size() > 0){
 			for(Application app:applications){
-				Application a = new Application(app.getDad(), app.getName(), app.getImg_src(), app.getDescription(), app.getStatus(), app.getAction());
+				Application a = new Application(app.getDad(), app.getName(), app.getImg_src(), app.getDescription(), app.getStatus(),null);
 				a.insert();
 			}
 		}

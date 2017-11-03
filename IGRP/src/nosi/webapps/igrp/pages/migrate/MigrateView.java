@@ -23,6 +23,8 @@ public class MigrateView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_migrar;
+	public IGRPButton btn_testar_conexao;
+	
 	public MigrateView(Migrate model){
 		this.setPageTitle("Migrate IGRP");
 			
@@ -63,9 +65,11 @@ public class MigrateView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_migrar = new IGRPButton("Migrar","igrp","Migrate","migrar","submit","info|fa-exchange","","");
+		btn_migrar = new IGRPButton("Migrar","igrp","Migrate","migrar","submit","success|fa-exchange","","");
 		btn_migrar.propertie.add("type","specific").add("code","").add("rel","migrar");
 		
+		btn_testar_conexao = new IGRPButton("Testar Conexão","igrp","Migrate","testar_conexao","submit","primary|fa-check","","");
+		btn_testar_conexao.propertie.add("type","specific").add("code","").add("rel","testar_conexao");
 	}
 		
 	@Override
@@ -82,6 +86,7 @@ public class MigrateView extends View {
 
 		sectionheader_1.addField(sectionheader_1_text);
 
+		toolsbar_1.addButton(btn_testar_conexao);
 		toolsbar_1.addButton(btn_migrar);
 		this.addToPage(form_1);
 		this.addToPage(sectionheader_1);

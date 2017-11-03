@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * Isaias.Nunes
@@ -23,23 +25,21 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private Application aplicacao;
-	private User usuario;
+	private String aplicacao;
+	private String usuario;
 	private String data;
 	private String tipo;
-	private String dowload;
 	
 	public ImportExportDAO() {
 		
 	}
 	
-	public ImportExportDAO(Application aplicacao, User usuario, String data, String tipo, String dowload) {
+	public ImportExportDAO(String aplicacao, String usuario, String data, String tipo) {
 		super();
 		this.aplicacao = aplicacao;
 		this.usuario = usuario;
 		this.data = data;
 		this.tipo = tipo;
-		this.dowload = dowload;
 	}
 
 	public Integer getId() {
@@ -50,19 +50,19 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 		this.id = id;
 	}
 
-	public Application getAplicacao() {
+	public String getAplicacao() {
 		return aplicacao;
 	}
 
-	public void setAplicacao(Application aplicacao) {
+	public void setAplicacao(String aplicacao) {
 		this.aplicacao = aplicacao;
 	}
 
-	public User getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(User usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 
@@ -81,14 +81,9 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-
-	public String getDowload() {
-		return dowload;
+	
+	public Map<Object, Object> getList(){
+		return IgrpHelper.toMap(this.findAll(), "aplicacao", "aplicacao", "--- Selecionar Aplicação/Página ---");
 	}
 
-	public void setDowload(String dowload) {
-		this.dowload = dowload;
-	}
-	
-	
 }

@@ -6,13 +6,19 @@
 package nosi.webapps.igrp.pages.listapage;
 /*---- Import your packages here... ----*/
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
+import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-
+import nosi.webapps.igrp.dao.ImportExportDAO;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +67,24 @@ public class ListaPageController extends Controller {
 	public Response actionExport() throws IOException{
 		/*---- Insert your code here... ----*/	
 		String id = Igrp.getInstance().getRequest().getParameter("id");
-		boolean status = ImportExportApp.ExportPage(id);
-		if(status) {
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Export concluído com sucesso...");
+		if(id!=null && !id.equals("")){
+			Action page = new Action().findOne(Integer.parseInt(id));
+			ImportExportApp iea = new ImportExportApp();
+			if(iea.validateExportPage(page)){
+				iea.ExportPage(page);
+				String pathJar = Config.getPathExport()+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage()+".jar";
+				FileHelper.createDiretory(Config.getPathExport()+page.getApplication().getDad().toLowerCase());
+				JarUnJarFile.saveJarFiles(pathJar, iea.getFilesPageClasses(),9);			
+				
+				//insert data on import/export table
+				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), Config.getUserName(), DateHelper.getCurrentDataTime(), "Export");
+				ie_dao = ie_dao.insert();
+				
+				return this.sendFile(new File(pathJar), page.getPage(), "application/jar", true);
+			}
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.WARNING_EXPORT_PAGE);
 		}else {
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Ups!! Falha ao realizar o Export...");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		}
 		return this.redirect("igrp","ListaPage","index");
 			/*---- End ----*/

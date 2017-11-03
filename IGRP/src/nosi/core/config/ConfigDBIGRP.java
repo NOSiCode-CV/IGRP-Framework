@@ -6,6 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.webapp.helpers.FileHelper;
 
 /**
@@ -43,10 +48,30 @@ public class ConfigDBIGRP {
 			File file = new File(this.path+File.separator+this.fileName);
 			FileOutputStream out = new FileOutputStream(file);
 			this.generateConfig().storeToXML(out, "store config igrp database");
+			out.close();	
+			this.saveIntoWorkSpace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	//Save config connection into worksapce
+	public void saveIntoWorkSpace(){
+		this.path = Config.getWorkspace();
+		if(FileHelper.fileExists(this.path)){
+			try {
+				this.path +=File.separator+"WebContent"+File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
+				FileHelper.createDiretory(this.path);
+				File file = new File(this.path+File.separator+this.fileName);
+				FileOutputStream out = new FileOutputStream(file);
+				this.generateConfig().storeToXML(out, "store config igrp database");
+				out.close();			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	
 	public void load(){
 		File file = new File(this.path+File.separator+this.fileName);
@@ -56,7 +81,7 @@ public class ConfigDBIGRP {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
 			fis = null;	
-			save();
+			this.save();
 			this.load();
 			return;
 		}
@@ -136,12 +161,41 @@ public class ConfigDBIGRP {
 	public void setName(String name) {
 		this.name = name;
 	}
+		
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 	@Override
 	public String toString() {
 		return "ConfigDBIGRP [port=" + port + ", type_db=" + type_db + ", host=" + host + ", name_db="
 				+ name_db + ", username=" + username + ", password=" + password + ", name=" + name + ", fileName="
 				+ fileName + ", path=" + path + "]";
+	}
+
+	public boolean validate() {
+		String url = PersistenceUtils.getUrl(this.getType_db(),this.getHost(),this.getPort(), this.getName_db());
+		Configuration cfg = new Configuration();
+    	cfg.configure("/"+this.getName()+".cfg.xml");
+    	String driver = PersistenceUtils.getDriver(this.getType_db());
+    	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
+    	cfg.getProperties().setProperty("hibernate.connection.password",this.getPassword());
+    	cfg.getProperties().setProperty("hibernate.connection.username",this.getUsername());
+    	cfg.getProperties().setProperty("hibernate.connection.url",url);
+    	cfg.getProperties().setProperty("current_session_context_class","thread");
+    	boolean isConnected = false;
+    	try{
+			SessionFactory sf = cfg.buildSessionFactory();	
+			sf.close();
+			isConnected = true;
+    	}catch(Exception e){
+    		isConnected = false;
+    	}
+    	return isConnected;
 	}
 	
 	

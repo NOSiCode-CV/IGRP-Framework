@@ -63,6 +63,13 @@
 	    <version>0.18.3</version>
 	</dependency>
 	
+	<!-- https://mvnrepository.com/artifact/xalan/xalan -->
+	<dependency>
+	    <groupId>xalan</groupId>
+	    <artifactId>xalan</artifactId>
+	    <version>2.7.2</version>
+	</dependency>
+	
   </dependencies>
   
   <build>
