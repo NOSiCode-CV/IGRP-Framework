@@ -76,7 +76,7 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicaï¿½ï¿½o registada com sucesso!");
+				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
 				User user = new User();
 				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 				Organization org = new Organization();				
@@ -98,7 +98,7 @@ public class EnvController extends Controller {
 						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
 					}					
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgï¿½nica!");
+					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
 				}
 				
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
@@ -106,7 +106,7 @@ public class EnvController extends Controller {
 				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicaï¿½ï¿½o!");
+				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
 			}
 		}
 		return this.redirect("igrp", "env", "index");
