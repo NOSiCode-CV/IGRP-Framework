@@ -1,88 +1,35 @@
 
 package nosi.core.xml;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
+import nosi.webapps.igrp.dao.Action;
+import java.io.Serializable;
+import java.util.List;
 /**
  * @author Isaias.Nunes
  *
  */
-@XmlRootElement(name="page")
-public class XMLPageReader {
-	private String action;
-	private String action_desc;
-	private String package_name;
-	private String page;
-	private String page_desc;
-	private int status;
-	private String version;
-	private String xsl_src;
-	private String dad;
-	
-	public String getAction() {
-		return action;
-	}
-	public void setAction(String action) {
-		this.action = action;
-	}
-	public String getAction_desc() {
-		return action_desc;
-	}
-	public void setAction_desc(String action_desc) {
-		this.action_desc = action_desc;
-	}
-	public String getPackage_name() {
-		return package_name;
-	}
-	public void setPackage_name(String package_name) {
-		this.package_name = package_name;
-	}
-	public String getPage() {
-		return page;
-	}
-	public void setPage(String page) {
-		this.page = page;
-	}
-	public String getPage_desc() {
-		return page_desc;
-	}
-	public void setPage_desc(String page_desc) {
-		this.page_desc = page_desc;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	public String getXsl_src() {
-		return xsl_src;
-	}
-	public void setXsl_src(String xsl_src) {
-		this.xsl_src = xsl_src;
-	}
-	public String getDad() {
-		return dad;
-	}
-	public void setDad(String dad) {
-		this.dad = dad;
+@XmlRootElement(name="rows")
+public class XMLPageReader implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private List<Action> row;
+
+	@XmlElement(name = "row")
+	public List<Action> getRow() {
+		return row;
 	}
 	
-	
-	
+	public void setRow(List<Action> row) {
+		this.row = row;
+	}
+
 	@Override
 	public String toString() {
-		return "XMLReader action=" + action + ", action_desc=" + action_desc + ", package_name="
-				+ package_name + ", page=" + page + ", page_desc=" + page_desc + ", status=" + status + ", version="
-				+ version + ", xsl_src=" + xsl_src + ", dad=" + dad + "]";
+		return "XMLPageReader [row=" + row + "]";
 	}
-	
-	
 	
 }

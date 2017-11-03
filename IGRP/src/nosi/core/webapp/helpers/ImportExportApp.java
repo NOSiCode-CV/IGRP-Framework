@@ -17,32 +17,36 @@ public class ImportExportApp {
 	
 	public static String generateXMLPage(Action pagina) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("page");
-		xml.setElement("id", pagina.getId()+"");
-		xml.setElement("action", pagina.getAction());
-		xml.setElement("action_desc", pagina.getAction_descr());
-		xml.setElement("package_name", pagina.getPackage_name());
-		xml.setElement("page", pagina.getPage());
-		xml.setElement("page_desc", pagina.getPage_descr());
-		xml.setElement("status", pagina.getStatus()+"");
-		xml.setElement("version", pagina.getVersion());
-		xml.setElement("xsl_src", pagina.getXsl_src());
-		xml.setElement("dad", pagina.getApplication().getDad()+"");
+		xml.startElement("rows");
+			xml.startElement("row");
+				xml.setElement("id", pagina.getId()+"");
+				xml.setElement("action", pagina.getAction());
+				xml.setElement("action_desc", pagina.getAction_descr());
+				xml.setElement("package_name", pagina.getPackage_name());
+				xml.setElement("page", pagina.getPage());
+				xml.setElement("page_desc", pagina.getPage_descr());
+				xml.setElement("status", pagina.getStatus()+"");
+				xml.setElement("version", pagina.getVersion());
+				xml.setElement("xsl_src", pagina.getXsl_src());
+				xml.setElement("dad", pagina.getApplication().getDad()+"");
+			xml.endElement();
 		xml.endElement();
 		return xml.toString();
 	}
 	
 	public static String genereteXMLApplication(Application app) {
 		XMLWritter xml = new XMLWritter();
-		xml.startElement("Application");
-		xml.setElement("dad", app.getDad());
-		xml.setElement("description", app.getDescription());
-		xml.setElement("external", app.getExternal()+"");
-		xml.setElement("img_src", app.getImg_src());
-		xml.setElement("name", app.getName());
-		xml.setElement("status", app.getStatus()+"");
-		xml.setElement("url", app.getUrl());
-		xml.setElement("action_fk", (app != null) && (app.getAction() != null) ? app.getAction().getId() + "" : "");
+		xml.startElement("rows");
+			xml.startElement("row");
+				xml.setElement("dad", app.getDad());
+				xml.setElement("description", app.getDescription());
+				xml.setElement("external", app.getExternal()+"");
+				xml.setElement("img_src", app.getImg_src());
+				xml.setElement("name", app.getName());
+				xml.setElement("status", app.getStatus()+"");
+				xml.setElement("url", app.getUrl());
+				xml.setElement("action_fk", (app != null) && (app.getAction() != null) ? app.getAction().getId() + "" : "");
+			xml.endElement();
 		xml.endElement();
 		return xml.toString();
 	}
@@ -116,7 +120,7 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		return this.filesPageClasses.size() > 0;
+		return this.filesPageClasses!=null && this.filesPageClasses.size() > 0;
 	}
 	
 	public boolean validateExportApp(Application app){
@@ -141,7 +145,7 @@ public class ImportExportApp {
 			}
 			this.filesDaoClasses = newFilesDao;
 		}
-		return this.filesPageClasses.size() > 1;
+		return this.filesPageClasses!=null && this.filesPageClasses.size() > 1;
 	}
 	
 	public Map<String,String> getFilesPageClasses(){
