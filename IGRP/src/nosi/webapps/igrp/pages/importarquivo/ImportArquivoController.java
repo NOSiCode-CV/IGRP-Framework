@@ -66,13 +66,14 @@ public class ImportArquivoController extends Controller {
 
 	
 	/*---- Insert your actions here... ----*/
-	private void importJarFile(Part fileName,String dad) {
+	private void importJarFile(Part fileName,String dad) throws IllegalArgumentException, IllegalAccessException {
 		List<FileOrderCompile> un_jar_files = JarUnJarFile.getJarFiles(fileName);
 		String msg = null;
 		Application app = null;
 		for(FileOrderCompile file:un_jar_files){
 			if(file.getNome().endsWith(".java")){
 				msg = this.compileFiles(file);
+				System.out.println("Menssagem recebida "+msg);
 				if(msg!=FlashMessage.MESSAGE_SUCCESS){	
 					break;					
 				}
@@ -163,8 +164,11 @@ public class ImportArquivoController extends Controller {
 		}
 	}
 	
-	private String compileFiles(FileOrderCompile file) {
+	private String compileFiles(FileOrderCompile file) throws IllegalArgumentException, IllegalAccessException {
+		ImportArquivo model = new ImportArquivo();
+			model.load();
 		String[] partPage = file.getNome().split("/");
+		System.out.println(file.getNome()); 
 		if(partPage[2].equalsIgnoreCase("DefaultPage")){
 			FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+partPage[1].toLowerCase()+"/"+"pages");
 			try {
@@ -187,7 +191,8 @@ public class ImportArquivoController extends Controller {
 					  .andWhere("application.dad", "=", partPage[1])
 					  .andWhere("page", "=", partPage[2])
 					  .one();	
-			String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+			String path_class = Config.getBasePathClass() + ((page != null && !page.equals("")) ? page.getPackage_name().replace(".",File.separator) :"nosi"+ File.separator +"webapps"+File.separator + model.getArquivo_pagina()+File.separator+"pages" + File.separator + partPage[3].replace(".java", "").toLowerCase());
+			System.out.println(path_class);
 			try {
 				FileHelper.save(path_class,partPage[3],file.getConteudo());
 				if(FileHelper.fileExists(Config.getWorkspace())){
