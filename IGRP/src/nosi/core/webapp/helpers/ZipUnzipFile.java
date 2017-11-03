@@ -38,8 +38,20 @@ public class ZipUnzipFile {
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);
+				   } 
+				   
+				   int order = 3;
+
+				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
+					   order = 4;
 				   }
-				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), 1);
+				   if(entry.getName().startsWith("SQL/CONFIG") && entry.getName().endsWith("_ENV.xml")){
+					   order = 1;
+				   }
+				   if(entry.getName().startsWith("SQL/CONFIG")  && entry.getName().endsWith("_ACTION.xml") ){
+					   order = 2;
+				   }
+				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
 				contents.add(f);
 				zis.closeEntry();
 			}

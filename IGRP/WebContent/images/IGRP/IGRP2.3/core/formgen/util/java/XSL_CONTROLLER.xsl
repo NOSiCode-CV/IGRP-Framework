@@ -229,6 +229,7 @@
 						<xsl:value-of select="$tab"/>  
 					</xsl:when>
 					<xsl:when test="$type_render_='redirect'">
+						<!--  
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
@@ -242,6 +243,7 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="'}'"/>
+						-->
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
