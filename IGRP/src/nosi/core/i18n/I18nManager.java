@@ -3,6 +3,8 @@ package nosi.core.i18n;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+
 import nosi.core.webapp.Component;
 import nosi.core.webapp.Igrp;
 
@@ -16,19 +18,38 @@ public final class I18nManager implements Component{
 	
 	private Map<String, I18n> laguages;
 	
-	private boolean loadDefaultConfig;
 	
 	public I18nManager() {}
 	
 	@Override
 	public void init() {
-		if(!this.loadDefaultConfig) {
-			this.laguages = new HashMap<String, I18n>();
-			String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-			I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? I18nManager.defaultPath : aux));
-			this.laguages.put(igrpCore.getName(), igrpCore);
-			Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
-			this.loadDefaultConfig = true;
+		if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
+			boolean isCookieOk = false;
+			String v = "";
+			for(Cookie cookie : Igrp.getInstance().getRequest().getCookies())
+				if(cookie.getName().equals("igrp_lang")) {
+					v = cookie.getValue();
+					break;
+				}
+			if(v != null && !v.isEmpty()) {// cookie ok 
+				this.laguages = new HashMap<String, I18n>();
+				String aux =  I18nManager.defaultPath.replaceAll("pt_pt", v);	
+				I18n igrpCore = I18nFactory.createI18n("igrp", aux);
+				try {
+					this.laguages.put(igrpCore.getName(), igrpCore);
+				}catch(Exception e) {}
+				Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+			}else {
+				this.laguages = new HashMap<String, I18n>();
+				String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
+				I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? I18nManager.defaultPath : aux));
+				try {
+					this.laguages.put(igrpCore.getName(), igrpCore);
+				}catch(Exception e) {}
+				Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+			}
+		}else {
+			this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
 		}
 	}
 	
@@ -37,8 +58,8 @@ public final class I18nManager implements Component{
 	}
 	
 	public void newLanguageForApp(String name, String path) {
-		I18n igrpCore = this.laguages.get(name);
-		this.laguages.replace(name, igrpCore);
+		I18n i18n = I18nFactory.createI18n(name, path);
+		this.laguages.replace(name, i18n);
 	}
 	
 	public I18n getAppLanguage(String name) {

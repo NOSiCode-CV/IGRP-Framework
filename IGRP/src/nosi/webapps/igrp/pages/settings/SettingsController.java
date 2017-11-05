@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.settings;
 /*---- Import your packages here... ----*/
 
+import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -24,13 +25,38 @@ public class SettingsController extends Controller {
 public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Settings model = new Settings();
+		
 		model.load();
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			String data = model.getOrganica()+"-"+model.getPerfil();
 			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
 			
+			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
+				String aux =  I18nManager.defaultPath.replaceAll("pt_pt", model.getIdioma());
+				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(aux);
+				Igrp.getInstance().getResponse().addCookie(new Cookie("igrp_lang", model.getIdioma()));
+			}
+			
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
+		
+			return this.redirect("igrp", "settings", "index");
+		}
+		
+		// Fetch all cookies 
+		for(Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
+			if(cookie.getName().equals("igrp_lang")) {
+				model.setIdioma(cookie.getValue());
+			}
+			if(cookie.getName().equals("igrp")) {
+				try {
+					String []aux = cookie.getValue().split("-");
+					model.setOrganica(aux[0]);
+					model.setPerfil(aux[1]);
+				}catch(Exception e) {
+					// Do nothing 
+				}
+			}
 		}
 		
 		model.setPerfil(Permission.getCurrentPerfilId() + "");
@@ -56,10 +82,10 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", "--- Selecionar Idioma ---");
-		idioma.put("PT", "Português");
-		idioma.put("EN", "Inglês");
-		idioma.put("FR", "Francês");
-		idioma.put("ES", "Espanhol");
+		idioma.put("pt_pt", "Português");
+		idioma.put("en_us", "Inglês");
+		idioma.put("fr_fr", "Francês");
+		idioma.put("es_es", "Espanhol");
 		view.idioma.setValue(idioma);
 		
 		return this.renderView(view);

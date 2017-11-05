@@ -188,16 +188,4 @@ public class Igrp {
 	public static String getMethod() {
 		return Igrp.getInstance().getRequest().getMethod();
 	}
-	
-	public static String gt(String text) { // call the GNU Gettext for IGRP-core 
-		return gt("igrp", text);
-	}
-	
-	public static String gt(String name, String text) { // call the GNU Gettext for IGRP-apps  
-		I18n language = Igrp.getInstance().getI18nManager().getIgrpCore(name);
-		if(language == null)
-			return text;
-		String r = language.t(text);
-		return r;
-	}
 }
