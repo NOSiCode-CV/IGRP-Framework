@@ -11,14 +11,11 @@ import javax.servlet.annotation.WebServlet;
 
 @WebServlet
 @MultipartConfig
-public class IgrpServlet extends HttpServlet {
+public class IgrpServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
-       
     
-    public IgrpServlet() {
-        super();
-    }
+    public IgrpServlet() { super(); }
     
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	Igrp.getInstance().init(this, request, response).run();
@@ -31,5 +28,4 @@ public class IgrpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

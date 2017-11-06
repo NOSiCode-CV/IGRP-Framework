@@ -35,7 +35,9 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
 				String aux =  I18nManager.defaultPath.replaceAll("pt_pt", model.getIdioma());
 				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(aux);
-				Igrp.getInstance().getResponse().addCookie(new Cookie("igrp_lang", model.getIdioma()));
+				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
+				cookie.setMaxAge(I18nManager.cookieExpire);
+				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
 			
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");

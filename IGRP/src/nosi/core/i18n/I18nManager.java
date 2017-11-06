@@ -16,6 +16,8 @@ public final class I18nManager implements Component{
 	
 	public static final String defaultPath = "nosi.core.i18n.pt_pt";
 	
+	public static final int cookieExpire = 60*60*24*30; // 1 months 
+	
 	private Map<String, I18n> laguages;
 	
 	
@@ -24,32 +26,42 @@ public final class I18nManager implements Component{
 	@Override
 	public void init() {
 		if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
-			boolean isCookieOk = false;
-			String v = "";
-			for(Cookie cookie : Igrp.getInstance().getRequest().getCookies())
+			this.newConfiguration();
+		}else {
+			try {
+				this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
+			}catch(Exception e) {
+				this.newConfiguration();
+			}
+		}
+	}
+	
+	private void newConfiguration() {
+		boolean isCookieOk = false;
+		String v = "";
+		Cookie cookies[] = Igrp.getInstance().getRequest().getCookies();
+		if(cookies != null)
+			for(Cookie cookie : cookies)
 				if(cookie.getName().equals("igrp_lang")) {
 					v = cookie.getValue();
 					break;
 				}
-			if(v != null && !v.isEmpty()) {// cookie ok 
-				this.laguages = new HashMap<String, I18n>();
-				String aux =  I18nManager.defaultPath.replaceAll("pt_pt", v);	
-				I18n igrpCore = I18nFactory.createI18n("igrp", aux);
-				try {
-					this.laguages.put(igrpCore.getName(), igrpCore);
-				}catch(Exception e) {}
-				Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
-			}else {
-				this.laguages = new HashMap<String, I18n>();
-				String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-				I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? I18nManager.defaultPath : aux));
-				try {
-					this.laguages.put(igrpCore.getName(), igrpCore);
-				}catch(Exception e) {}
-				Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
-			}
+		if(v != null && !v.isEmpty()) {// cookie ok 
+			this.laguages = new HashMap<String, I18n>();
+			String aux =  I18nManager.defaultPath.replaceAll("pt_pt", v);	
+			I18n igrpCore = I18nFactory.createI18n("igrp", aux);
+			try {
+				this.laguages.put(igrpCore.getName(), igrpCore);
+			}catch(Exception e) {}
+			Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
 		}else {
-			this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
+			this.laguages = new HashMap<String, I18n>();
+			String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
+			I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? I18nManager.defaultPath : aux));
+			try {
+				this.laguages.put(igrpCore.getName(), igrpCore);
+			}catch(Exception e) {}
+			Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
 		}
 	}
 	

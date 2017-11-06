@@ -15,10 +15,10 @@ import nosi.core.i18n.I18n;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
-public class Igrp {
+public class Igrp implements IgrpFactory<Igrp>{
 	
-	private static Igrp app;
-	
+	private static IgrpFactory<Igrp> appInstance = null;
+
 	private HttpServlet servlet; // Refer to HttpServlet
 	private HttpServletRequest request;
 	private HttpServletResponse response;
@@ -46,17 +46,18 @@ public class Igrp {
 	
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class
 	
-	public static Igrp getInstance(){ // Allow us to define the only one instance of Igrp class as a Singleton
-		if(Igrp.app == null){
-			/*synchronized(Igrp.class) {
-                if (Igrp.app == null) {
-                	Igrp.app = new Igrp();
-                }
-            }*/ 
-			Igrp.app = new Igrp();
-			System.out.println("Igrp nulo.");
-		}
-	return Igrp.app;
+	public static Igrp getInstance() {
+        if (appInstance == null) {
+        	IgrpFactory<Igrp> singleton = new Igrp();
+            appInstance = new ThreadLocalIgrpFactory<Igrp>(singleton);
+            System.out.println("Criado uma vez");
+        }
+        return appInstance.create();
+   }
+	
+	@Override
+	public Igrp create() {
+		return this;
 	}
 
 	// Inicialize the web app components
