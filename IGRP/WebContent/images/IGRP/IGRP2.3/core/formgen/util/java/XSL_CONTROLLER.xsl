@@ -60,7 +60,8 @@
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
             </xsl:call-template>
            </xsl:for-each>
@@ -69,7 +70,8 @@
 				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
 				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
             </xsl:call-template>
            </xsl:for-each>           
@@ -79,7 +81,8 @@
 					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 					<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-					<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
+					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
 					<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
 	            </xsl:call-template>
             </xsl:if>
@@ -112,9 +115,17 @@
 		<xsl:param name="app_"/>
 		<xsl:param name="target_"/>
 		<xsl:param name="link_"/>
-		<xsl:param name="title_"/>
+		<xsl:param name="rel" select="''"/>
+		<xsl:param name="code" select="''"/>
+		<xsl:variable name="button_name">
+			<xsl:value-of select="$rel"/>
+        	<xsl:if test="$rel =''">
+    			<xsl:value-of select="$code"/>
+        	</xsl:if>
+        </xsl:variable>
+
 		<xsl:call-template name="gen-action">
-			<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
+			<xsl:with-param name="action_name_"><xsl:value-of select="$button_name"/></xsl:with-param>
 			<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
 			<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
 			<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>

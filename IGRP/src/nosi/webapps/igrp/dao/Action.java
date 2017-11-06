@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
 
@@ -42,6 +41,8 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private String version;
 	@Transient
 	private String version_src;
+	@Transient //Para armazenar id de pagina quando importar de plsql
+	private Integer id_plsql;
 	private int status;
 	@ManyToOne
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
@@ -121,6 +122,15 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 
 	public void setVersion_src(String version_src) {
 		this.version_src = version_src;
+	}
+
+	@Transient
+	public Integer getId_plsql() {
+		return id_plsql;
+	}
+
+	public void setId_plsql(Integer id_plsql) {
+		this.id_plsql = id_plsql;
 	}
 
 	public int getStatus() {
