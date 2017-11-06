@@ -8,7 +8,7 @@
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</param-value>
+      <param-value>D:\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
@@ -21,7 +21,6 @@
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
-    
   </servlet>
   
   <servlet-mapping>
@@ -46,5 +45,5 @@
   <session-config>
     <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
   </session-config>
-  
+
 </web-app>
