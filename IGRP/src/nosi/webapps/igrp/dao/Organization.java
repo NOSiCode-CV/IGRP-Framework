@@ -127,7 +127,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListMyOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Organica ---");
+		lista.put("", "--- Selecionar Organica ---");
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getOrganization().getId()+"", p.getOrganization().getName());
 		}
