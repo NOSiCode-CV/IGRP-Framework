@@ -4,18 +4,21 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
+import nosi.core.i18n.I18n;
+import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
-public class Igrp {
+public class Igrp implements IgrpFactory<Igrp>{
 	
-	private static Igrp app;
-	
+	private static IgrpFactory<Igrp> appInstance = null;
+
 	private HttpServlet servlet; // Refer to HttpServlet
 	private HttpServletRequest request;
 	private HttpServletResponse response;
@@ -38,15 +41,23 @@ public class Igrp {
 	// User component (Identity)
 	private User user;
 	
+	// For i18n
+	I18nManager i18nManager;
 	
-	private Igrp(){ // Private and empty default constructor ... allow Singleton class
-	}
+	private Igrp(){} // Private and empty default constructor ... allow Singleton class
 	
-	public static Igrp getInstance(){ // Allow us to define the only one instance of Igrp class as a Singleton
-		if(Igrp.app == null){
-			Igrp.app = new Igrp();
-		}
-	return Igrp.app;
+	public static Igrp getInstance() {
+        if (appInstance == null) {
+        	IgrpFactory<Igrp> singleton = new Igrp();
+            appInstance = new ThreadLocalIgrpFactory<Igrp>(singleton);
+            System.out.println("Criado uma vez");
+        }
+        return appInstance.create();
+   }
+	
+	@Override
+	public Igrp create() {
+		return this;
 	}
 
 	// Inicialize the web app components
@@ -68,6 +79,10 @@ public class Igrp {
 			// User component (Identity)
 			this.user = new User();
 			this.user.init();
+			
+			// For internacionalization purpose 
+			this.i18nManager = new I18nManager();
+			this.i18nManager.init();
 			
 		return this;
 	}
@@ -167,6 +182,10 @@ public class Igrp {
 		this.die = true;
 	}
 	
+	public I18nManager getI18nManager() {
+		return i18nManager;
+	}
+
 	public static String getMethod() {
 		return Igrp.getInstance().getRequest().getMethod();
 	}

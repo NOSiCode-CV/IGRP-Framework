@@ -1,0 +1,21 @@
+<page>
+	<id>27</id>
+
+	<action>index</action>
+
+	<action_desc>pesquisar Dados dos clientes</action_desc>
+
+	<package_name>nosi.webapps.igrp.pages.oauthclientlist</package_name>
+
+	<page>OAuthClientList</page>
+
+	<page_desc>pesquisar Dados dos clientes</page_desc>
+
+	<status>1</status>
+
+	<version>2.3</version>
+
+	<xsl_src>igrp/oauthclientlist/OAuthClientList.xsl</xsl_src>
+
+	<dad>igrp</dad>
+</page>
