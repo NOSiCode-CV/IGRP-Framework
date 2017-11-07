@@ -6,7 +6,6 @@ import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
@@ -16,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.xml.bind.JAXB;
+
+import static nosi.core.i18n.Translator.gt;
 /**
  * Marcel Iekiny
  * Oct 4, 2017
@@ -23,6 +24,8 @@ import javax.xml.bind.JAXB;
 public class LoginController extends Controller {
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		//System.out.println(gt("This text is translated rand padded"));
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
@@ -82,9 +85,9 @@ public class LoginController extends Controller {
 		String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 		if(Igrp.getInstance().getUser().logout()){
 			if(!Session.afterLogout(currentSessionId))
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um erro com registo session ...");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro com registo session ..."));
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro no logout.");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro no logout."));
 		return this.redirect("igrp", "login", "login");
 	}
 	
@@ -108,17 +111,17 @@ public class LoginController extends Controller {
 				Profile profile = new Profile().getByUser(user.getId());
 					if(profile != null && Igrp.getInstance().getUser().login(user, 60*60/*1h*/)){ // 3600 * 24 * 30
 						if(!Session.afterLogin(profile))
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Error no registo session ..."));
 						//String backUrl = Route.previous(); // remember the last url that was requested by the user
 						success = true;
 					}
 					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido.");
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido."));
 			}
 			else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador.");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador."));
 		return success;
 	}
 	

@@ -21,7 +21,6 @@
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
-    
   </servlet>
   
   <servlet-mapping>
@@ -46,5 +45,5 @@
   <session-config>
     <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
   </session-config>
-  
+
 </web-app>
