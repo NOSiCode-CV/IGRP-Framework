@@ -27,6 +27,8 @@ public class FlashMessage implements Serializable{
 
 	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteudo suficiente para ser exportado";
     public static final String WARNING_PAGE_INVALID = "Nome de Página Invalida";
+
+	public static final String ERROR_IMPORT = "Ocorreu um erro ao importa o ficheiro";
     
 	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
 		// "_flash" is the reserved name for messages in session

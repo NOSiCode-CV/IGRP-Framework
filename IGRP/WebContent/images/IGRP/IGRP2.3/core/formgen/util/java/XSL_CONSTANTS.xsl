@@ -17,6 +17,8 @@
     <xsl:variable name="newline">
         <xsl:text>&#x0A;</xsl:text>
     </xsl:variable>
+    
+    <xsl:key name="unique_instance" match="//content/*" use="local-name()"/>
     <xsl:variable name="sql_chart3d">SELECT 'Eixo de Y' EixoY,'Eixo de X' EixoX, 1000 Valor From dual</xsl:variable>
     <xsl:variable name="sql_chart2d">SELECT 'Eixo de X' EixoX, 1000 Valor From dual</xsl:variable>
     <xsl:variable name="double_quotes">"</xsl:variable>
