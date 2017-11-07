@@ -119,25 +119,27 @@
 		<xsl:param name="type_"/>	 	
 		<xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0)">
           <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']">
-	         <xsl:variable name="className">
-		 		<xsl:call-template name="typeClass">
-		 			<xsl:with-param name="type">                
-		 				<xsl:value-of select="@type"/>
-		 			</xsl:with-param>
-		 		</xsl:call-template>
-		 	 </xsl:variable>
-          	<xsl:choose>
-				<xsl:when test="$type_='declare'">
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab"/>
-					<xsl:value-of select="concat('public ',$className,' ',local-name(),';')"/>
-				</xsl:when>
-				<xsl:when test="$type_='instance'">
-					<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat(local-name(),' = new ',$className,'(',$double_quotes,local-name(),$double_quotes,');')"/>
-				</xsl:when>
-			</xsl:choose>
+          	<xsl:if test="(generate-id() = generate-id(key('unique_instance', local-name())[1]))">
+		         <xsl:variable name="className">
+			 		<xsl:call-template name="typeClass">
+			 			<xsl:with-param name="type">                
+			 				<xsl:value-of select="@type"/>
+			 			</xsl:with-param>
+			 		</xsl:call-template>
+			 	 </xsl:variable>
+	          	<xsl:choose>
+					<xsl:when test="$type_='declare'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="concat('public ',$className,' ',local-name(),';')"/>
+					</xsl:when>
+					<xsl:when test="$type_='instance'">
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="concat(local-name(),' = new ',$className,'(',$double_quotes,local-name(),$double_quotes,');')"/>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:if>
           </xsl:for-each>
         </xsl:if>
     </xsl:template>
@@ -164,24 +166,24 @@
 						<xsl:value-of select="@code"/>
 		        	</xsl:if>
 		        </xsl:variable>
-
 				<xsl:value-of select="$tab2"/>
            		<xsl:value-of select="concat($toolsbar,'.addButton(',$button_name,');')"/>
 				<xsl:value-of select="$newline"/>
 			</xsl:if>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'form' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/tools-bar"><!-- add button on form -->           		<xsl:variable name="form_">
+           <xsl:for-each select="/rows/content/*[@type = 'form' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/tools-bar"><!-- add button on form -->           		
+           		<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
-			 	</xsl:variable>			 	
-			 	<xsl:variable name="button_name">
-					<xsl:value-of select="'btn_'"/>
-					<xsl:value-of select="@rel"/>
-		        	<xsl:if test="@rel =''">
-						<xsl:value-of select="@code"/>
-		        	</xsl:if>
-		        </xsl:variable>
-           		<xsl:for-each select="item">
-	           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+			 	</xsl:variable>	
+           		<xsl:for-each select="item"> 
+	           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">	           			          					 	
+					 	<xsl:variable name="button_name">
+							<xsl:value-of select="'btn_'"/>
+							<xsl:value-of select="@rel"/>
+				        	<xsl:if test="@rel =''">
+								<xsl:value-of select="@code"/>
+				        	</xsl:if>
+				        </xsl:variable>
 						<xsl:value-of select="$tab2"/>
 		           		<xsl:value-of select="concat($form_,'.addButton(',$button_name,');')"/>
 						<xsl:value-of select="$newline"/>
@@ -192,19 +194,19 @@
 			 	<xsl:variable name="form_">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
-			 	<xsl:variable name="button_name">
-					<xsl:value-of select="'btn_'"/>
-					<xsl:value-of select="@rel"/>
-		        	<xsl:if test="@rel =''">
-						<xsl:value-of select="@code"/>
-		        	</xsl:if>
-		        </xsl:variable>
            		<xsl:for-each select="context-menu/item">
-           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
-						<xsl:value-of select="$tab2"/>
-		           		<xsl:value-of select="concat($form_,'.addButton(',$button_name,');')"/>
-						<xsl:value-of select="$newline"/>
-				</xsl:if>
+	           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">           		
+					 	<xsl:variable name="button_name">
+							<xsl:value-of select="'btn_'"/>
+							<xsl:value-of select="@rel"/>
+				        	<xsl:if test="@rel =''">
+								<xsl:value-of select="@code"/>
+				        	</xsl:if>
+				        </xsl:variable>
+							<xsl:value-of select="$tab2"/>
+			           		<xsl:value-of select="concat($form_,'.addButton(',$button_name,');')"/>
+							<xsl:value-of select="$newline"/>
+					</xsl:if>
 				</xsl:for-each>
            </xsl:for-each>
           </xsl:if>

@@ -3,7 +3,6 @@ package nosi.core.webapp.import_export;
 import java.util.List;
 import javax.servlet.http.Part;
 import nosi.core.webapp.helpers.JarUnJarFile;
-import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
@@ -14,7 +13,7 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ImportAppJar extends Import implements IFImportExport{
 
-	protected List<FileOrderCompile> un_jar_files = null;
+	protected List<FileImportAppOrPage> un_jar_files = null;
 	//Variavel para mapear ficheiros de configuracao de paginas de plsql
 	protected Application app;
 	
@@ -29,7 +28,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 	@Override
 	public boolean importApp() {
 		boolean result = true;
-		for(FileOrderCompile file:this.un_jar_files){
+		for(FileImportAppOrPage file:this.un_jar_files){
 			if(file.getNome().endsWith(".java") && this.app!=null){
 				if(!this.compileFiles(file,this.app)){
 					result = false;

@@ -13,7 +13,7 @@ import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.servlet.http.Part;
-import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
+import nosi.core.webapp.import_export.FileImportAppOrPage;
 
 /**
  * @author: Emanuel Pereira
@@ -22,8 +22,8 @@ import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 public class ZipUnzipFile {
 
 	//Extract files jar format
-	public static List<FileOrderCompile> getZipFiles(Part file){
-		List<FileOrderCompile> contents = null;
+	public static List<FileImportAppOrPage> getZipFiles(Part file){
+		List<FileImportAppOrPage> contents = null;
 		try{
 			contents = new ArrayList<>();
 			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
@@ -51,7 +51,7 @@ public class ZipUnzipFile {
 				   if(entry.getName().startsWith("SQL/CONFIG")  && entry.getName().endsWith("_ACTION.xml") ){
 					   order = 2;
 				   }
-				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+				   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
 				contents.add(f);
 				zis.closeEntry();
 			}

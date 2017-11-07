@@ -9,7 +9,6 @@ import javax.xml.bind.JAXB;
 import nosi.core.config.Config;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
 import nosi.webapps.igrp.dao.Action;
@@ -29,7 +28,7 @@ public class Import {
 		return ie.importPage(app);
 	}
 	
-	protected boolean compileFiles(FileOrderCompile file,Application app){
+	protected boolean compileFiles(FileImportAppOrPage file,Application app){
 		String[] partPage = file.getNome().split("/");
 		if(partPage[2].equalsIgnoreCase("DefaultPage")){
 			FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
@@ -68,7 +67,7 @@ public class Import {
 		return false;
 	}
 	
-	protected boolean saveFiles(FileOrderCompile file, Application app){
+	protected boolean saveFiles(FileImportAppOrPage file, Application app){
 		String[] partPage = file.getNome().split("/");
 		Action page = new Action().find()
 								  .andWhere("application.dad", "=", app.getDad())
@@ -81,7 +80,7 @@ public class Import {
 		//Substitui nome de pacotes tanto no arquivo xml como tambem no json
 		if(file.getNome().endsWith(".xml")){
 			content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+page.getPackage_name() +content.substring(content.indexOf("</package_db>"));
-		}else if(file.getNome().endsWith(".json")){		
+		}else if(file.getNome().endsWith(".json") && content.indexOf("\"package\":") >=0 ){		
 			String package_name = page.getPackage_name();
 			package_name = package_name.substring(0, package_name.indexOf(".",package_name.indexOf("pages")));
 			content = content.substring(0, content.indexOf("\"html\":")+"\"html\":\"".length())+page.getPage()+"\""+content.substring(content.indexOf(",\"replace\""));
@@ -102,7 +101,7 @@ public class Import {
 		return false;
 	}
 	
-	protected Application saveApp(FileOrderCompile file){
+	protected Application saveApp(FileImportAppOrPage file){
 		StringReader input = new StringReader(file.getConteudo());
 		XMLApplicationReader listApp = JAXB.unmarshal(input, XMLApplicationReader.class);
 		for(Application app:listApp.getRow()){
@@ -118,15 +117,15 @@ public class Import {
 		return null;
 	}
 	
-	protected List<Action> savePageJava(FileOrderCompile file,Application app){
+	protected List<Action> savePageJava(FileImportAppOrPage file,Application app){
 		return this.savePage(file, app, "java");
 	}
 	
-	protected List<Action> savePagePlsql(FileOrderCompile file,Application app){
+	protected List<Action> savePagePlsql(FileImportAppOrPage file,Application app){
 		return this.savePage(file, app, "plsql");
 	}
 	
-	private List<Action> savePage(FileOrderCompile file,Application app,String type){
+	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
 		StringReader input = new StringReader(file.getConteudo());
 		XMLPageReader listPage = JAXB.unmarshal(input, XMLPageReader.class);
 		List<Action> pages = new ArrayList<>();
@@ -147,19 +146,24 @@ public class Import {
 			action.setStatus(page.getStatus());
 			action.setXsl_src(page.getXsl_src());
 			action.setApplication(app);		
-			action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 			Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", app.getDad()).one();
 			
 			if(type.equals("java")){
 				if(nosi.core.gui.page.Page.validatePage(page.getPage()) && pageCheck==null){
+					action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 					action = action.insert();
 					pages.add(action);
 				}
 			}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
-				if(nosi.core.gui.page.Page.validatePage(page.getPage())
+				if(
+					page.getPage()!=null
+					&& !page.getPage().equals("")
 					&& pageCheck ==null 
 					&& page.getVersion_src()!=null 
+					&& nosi.core.gui.page.Page.validatePage(page.getPage())
+					&& page.getImg_src()==null
 					&& page.getVersion_src().equals("IGRP2.3")){
+						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 						action.setVersion("2.3");	
 						action = action.insert();
 						pages.add(action);
