@@ -117,7 +117,7 @@
 	-->
  	<xsl:template name="add-to-page">
  		<xsl:call-template name="add-button-to-container"></xsl:call-template>
- 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+ 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
  		
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
@@ -127,7 +127,7 @@
 			</xsl:call-template>
  		</xsl:for-each>
  		<xsl:for-each select="//content/*[@type='toolsbar' or @type='verticalmenu']"> 	
- 			<xsl:if test="local-name() != 'tools-bar' and local-name() != 'verticalmenu'  and (generate-id() = generate-id(key('unique_instance', local-name())[1]))">
+ 			<xsl:if test="local-name() != 'tools-bar' and local-name() != 'verticalmenu'">
 			 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 			<xsl:call-template name="gen-instance-components">
 					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
@@ -181,14 +181,16 @@
  		<xsl:call-template name="gen-field-view">
 			<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
 		</xsl:call-template>
-		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
-		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
- 			<xsl:call-template name="gen-instance-components">
-				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
-				<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
-				<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
-				<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
-			</xsl:call-template>
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
+			<xsl:if test="not(@name=preceding::node()/@name)">
+			 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+	 			<xsl:call-template name="gen-instance-components">
+					<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
+					<xsl:with-param name="type"><xsl:value-of select="'declare'" /></xsl:with-param>
+					<xsl:with-param name="instance_name"><xsl:value-of select="$instance_name"/> </xsl:with-param>
+					<xsl:with-param name="title_"><xsl:value-of select="@title"/> </xsl:with-param>
+				</xsl:call-template>
+			</xsl:if>
  		</xsl:for-each>
  		<xsl:call-template name="gen-toolsbar">
 			<xsl:with-param name="type_"><xsl:value-of select="'declare'"></xsl:value-of> </xsl:with-param>	
@@ -203,7 +205,7 @@
  	<xsl:template name="instance-components-view">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
 				<xsl:with-param name="type_content"><xsl:value-of select="@type" /></xsl:with-param>
@@ -228,7 +230,7 @@
 	</xsl:template>
 
 	<xsl:template name="config-chart">
-		<xsl:for-each select="//content/*[@type='chart' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
+		<xsl:for-each select="//content/*[@type='chart']">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 		 	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>

@@ -103,8 +103,7 @@ public class ListaEnvController extends Controller {
 			Application app = new Application().findOne(id);
 			if(app!=null){
 				ImportExportApp iea = new ImportExportApp();
-				if(iea.validateExportApp(app)){
-					
+				if(iea.validateExportApp(app)){					
 					//Insert data on Export/Import
 					ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), Config.getUserName(), DateHelper.getCurrentDataTime(), "Export");
 					ie_dao =  ie_dao.insert();
@@ -146,8 +145,4 @@ public class ListaEnvController extends Controller {
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase(), "application/jar", true);
 	}
 	/*---- End ----*/
-	public static void main(String[] args) {
-		String data = DateHelper.getCurrentDataTime();
-		System.out.println(data);
-	}
 }

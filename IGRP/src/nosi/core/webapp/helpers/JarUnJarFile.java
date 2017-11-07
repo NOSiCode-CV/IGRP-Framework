@@ -28,10 +28,10 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
-
 import javax.servlet.http.Part;
 
-import nosi.core.webapp.helpers.ImportExportApp.FileOrderCompile;
+import nosi.core.webapp.import_export.FileImportAppOrPage;
+
 
 public class JarUnJarFile {
 	
@@ -64,8 +64,8 @@ public class JarUnJarFile {
 	}
 	
 	//Extract files jar format
-	public static List<FileOrderCompile> getJarFiles(String jarName){
-		List<FileOrderCompile> contents = null;
+	public static List<FileImportAppOrPage> getJarFiles(String jarName){
+		List<FileImportAppOrPage> contents = null;
 		if(jarName.contains(".jar")){
 			try{
 				contents = new ArrayList<>();
@@ -100,7 +100,7 @@ public class JarUnJarFile {
 					   if(entry.getName().startsWith("configPage")){
 						   order = 2;
 					   }
-					   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+					   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
 					contents.add(f);
 					jis.closeEntry();
 				}
@@ -116,8 +116,8 @@ public class JarUnJarFile {
 	
 
 	//Extract files jar format
-	public static List<FileOrderCompile> getJarFiles(Part file){
-		List<FileOrderCompile> contents = null;
+	public static List<FileImportAppOrPage> getJarFiles(Part file){
+		List<FileImportAppOrPage> contents = null;
 		try{
 			contents = new ArrayList<>();
 			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
@@ -150,7 +150,7 @@ public class JarUnJarFile {
 				   if(entry.getName().startsWith("configPage")){
 					   order = 2;
 				   }
-				   FileOrderCompile f = new ImportExportApp().new FileOrderCompile(entry.getName(), content.toString(), order);
+				   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
 				contents.add(f);
 				jis.closeEntry();
 			}
