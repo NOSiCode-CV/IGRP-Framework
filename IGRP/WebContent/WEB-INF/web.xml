@@ -45,5 +45,5 @@
   <session-config>
     <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
   </session-config>
-
+  
 </web-app>

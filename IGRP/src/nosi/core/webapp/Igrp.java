@@ -4,18 +4,17 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
-import java.util.Map;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.i18n.I18n;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
-public class Igrp implements IgrpFactory<Igrp>{
+public final class Igrp{ // Not extends 
 	
 	private static IgrpFactory<Igrp> appInstance = null;
 
@@ -44,45 +43,46 @@ public class Igrp implements IgrpFactory<Igrp>{
 	// For i18n
 	I18nManager i18nManager;
 	
-	private Igrp(){} // Private and empty default constructor ... allow Singleton class
-	
+	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
+	/**
+		Ensure a single instance of Igrp.class per thread for each request 
+		That is a Threadlocal Singleton :-) 
+	 **/
 	public static Igrp getInstance() {
         if (appInstance == null) {
-        	IgrpFactory<Igrp> singleton = new Igrp();
-            appInstance = new ThreadLocalIgrpFactory<Igrp>(singleton);
-            System.out.println("Criado uma vez");
+            appInstance = new ThreadLocalIgrpFactory<>(
+            		new IgrpFactory<Igrp>() {
+						@Override
+						public Igrp create() {
+							return new Igrp();
+						}
+				});
         }
-        return appInstance.create();
-   }
-	
-	@Override
-	public Igrp create() {
-		return this;
-	}
-
+	    return appInstance.create();
+	 }
+	 
 	// Inicialize the web app components
 	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
-			this.servlet = servlet;
-			this.request = request;
-			this.response = response;
-			
-			this.basePath = this.request.getContextPath();
-			this.baseRoute = this.request.getServletPath();
-			this.homeUrl = "igrp/home/index";
-			
-			// init. of others configuration 
-			this.flashMessage = new FlashMessage(); // Flash Message instance
-			
-			// Config. of RDBMS or others DS ...
-			PersistenceUtils.init();
-			
-			// User component (Identity)
-			this.user = new User();
-			this.user.init();
-			
-			// For internacionalization purpose 
-			this.i18nManager = new I18nManager();
-			this.i18nManager.init();
+		this.servlet = servlet;
+		this.request = request;
+		this.response = response;
+		this.basePath = this.request.getContextPath();
+		this.baseRoute = this.request.getServletPath();
+		this.homeUrl = "igrp/home/index";
+		
+		// init. of others configuration 
+		this.flashMessage = new FlashMessage(); // Flash Message instance
+		
+		// Config. of RDBMS or others DS ...
+		PersistenceUtils.init();
+		
+		// User component (Identity)
+		this.user = new User();
+		this.user.init();
+		
+		// For internacionalization purpose 
+		this.i18nManager = new I18nManager();
+		this.i18nManager.init();
 			
 		return this;
 	}
