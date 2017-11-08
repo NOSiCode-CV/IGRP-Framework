@@ -62,12 +62,9 @@ public class PesquisarPerfilController extends Controller {
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");
 	}
 	
-	public void actionTransacao() throws IOException{
+	public Response actionTransacao() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");
+		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");
 	}
 	
-	public void actionEtapa() throws IOException{
-		
-	}
 }

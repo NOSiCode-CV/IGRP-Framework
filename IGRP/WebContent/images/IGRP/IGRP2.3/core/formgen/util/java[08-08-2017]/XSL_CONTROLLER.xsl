@@ -56,37 +56,30 @@
 	<xsl:template name="createActions">
          <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
             <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
-            	<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
-		          	<xsl:call-template name="actions">
-						<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
-						<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-						<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-						<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
-						<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
-						<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
-		            </xsl:call-template>
-		        </xsl:if>
+          	<xsl:call-template name="actions">
+				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+            </xsl:call-template>
            </xsl:for-each>
            <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
-           	<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
-	          	<xsl:call-template name="actions">
-					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
-					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
-					<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
-					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
-					<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
-	            </xsl:call-template>
-	        </xsl:if>
+          	<xsl:call-template name="actions">
+				<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
+				<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
+				<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
+				<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
+				<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
+            </xsl:call-template>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="actions">
 					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
 					<xsl:with-param name="link_"><xsl:value-of select="./link"/></xsl:with-param>
-					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
-					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
+					<xsl:with-param name="title_"><xsl:value-of select="@rel"/></xsl:with-param>
 					<xsl:with-param name="target_"><xsl:value-of select="./target"/></xsl:with-param>
 	            </xsl:call-template>
             </xsl:if>
@@ -119,17 +112,9 @@
 		<xsl:param name="app_"/>
 		<xsl:param name="target_"/>
 		<xsl:param name="link_"/>
-		<xsl:param name="rel" select="''"/>
-		<xsl:param name="code" select="''"/>
-		<xsl:variable name="button_name">
-			<xsl:value-of select="$rel"/>
-        	<xsl:if test="$rel =''">
-    			<xsl:value-of select="$code"/>
-        	</xsl:if>
-        </xsl:variable>
-
+		<xsl:param name="title_"/>
 		<xsl:call-template name="gen-action">
-			<xsl:with-param name="action_name_"><xsl:value-of select="$button_name"/></xsl:with-param>
+			<xsl:with-param name="action_name_"><xsl:value-of select="$title_"/></xsl:with-param>
 			<xsl:with-param name="page_"><xsl:value-of select="$page_"/></xsl:with-param>
 			<xsl:with-param name="app_"><xsl:value-of select="$app_"/></xsl:with-param>
 			<xsl:with-param name="link_"><xsl:value-of select="$link_"/></xsl:with-param>
@@ -251,19 +236,21 @@
 						<xsl:value-of select="$tab"/>  
 					</xsl:when>
 					<xsl:when test="$type_render_='redirect'">
+						<!--  
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
+						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="$tab2"/>	
+						<xsl:value-of select="$tab"/>					
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="'}'"/>
+						-->
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>

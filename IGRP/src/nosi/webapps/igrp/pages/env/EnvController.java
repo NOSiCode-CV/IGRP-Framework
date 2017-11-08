@@ -10,16 +10,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
-/*import nosi.webapps.red.teste.Teste;
-import nosi.webapps.red.teste.Teste;
-*/
-
 import java.util.List;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
