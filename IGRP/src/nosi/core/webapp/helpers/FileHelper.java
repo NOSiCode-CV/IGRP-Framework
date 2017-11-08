@@ -223,4 +223,18 @@ public class FileHelper {
 		}
 		return code.toString();
 	}
+	
+	//Save MVC code java
+	public static boolean saveFilesJava(String path,String page,String[] content) throws IOException{
+		return FileHelper.save(path,page+".java",content[0]+"*/") && // Save Model;
+			   FileHelper.save(path,page+"View.java","/*"+content[1]+"*/") && //Save View
+			   FileHelper.save(path,page+"Controller.java","/*"+content[2]); // save controller
+	}
+	
+	//Save files json, xml and xsl of the page
+	public static boolean saveFilesPageConfig(String path,String page,Part[] content) throws IOException{
+		return FileHelper.save(path,page+".xml",content[0]) && // Save xml;
+			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
+			   FileHelper.save(path,page+".json",content[2]); // save json
+	}
 }
