@@ -165,6 +165,7 @@ public class PageController extends Controller {
 	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
+		String error = "";
 		if(ac!=null){			
 			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
@@ -173,43 +174,57 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
 			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
-			this.processJson(fileJson,ac);
 			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
+				this.processJson(fileJson,ac);
 				String[] partsJavaCode = javaCode.toString().split(" END ");
 				if(
-						FileHelper.save(path_class,ac.getPage()+".java", partsJavaCode[0]+"*/") && // save model
-						FileHelper.save(path_class,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
-						FileHelper.save(path_class,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]) && // save controller
-						FileHelper.save(path_xsl,ac.getPage()+".xml", fileXml) && // save xml
-						FileHelper.save(path_xsl,ac.getPage()+".xsl", fileXsl) && // save xsl
-						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) && // save json
-						CompilerHelper.compile(path_class,ac.getPage()+".java") && //Compile model
-						CompilerHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
-						CompilerHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
+						FileHelper.saveFilesJava(path_class, ac.getPage(), partsJavaCode) &&
+						FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson})
 				){
-					if(FileHelper.fileExists(Config.getWorkspace())){
-						if(!FileHelper.fileExists(path_class_work_space)){//check directory
-							FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+					error += this.processCompile(path_class,ac.getPage());
+					if(error.equals("")){//Check if not error on the compilation class
+						if(FileHelper.fileExists(Config.getWorkspace())){
+							if(!FileHelper.fileExists(path_class_work_space)){//check directory
+								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+							}
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), partsJavaCode);
+							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson});
 						}
-						FileHelper.save(path_class_work_space,ac.getPage()+".java", partsJavaCode[0]+"*/"); // save model
-						FileHelper.save(path_class_work_space,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/"); // save view
-						FileHelper.save(path_class_work_space,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]); // save controller
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".xml", fileXml) ; // save xml
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".xsl", fileXsl) ; // save xsl
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
+						ac.setId(Integer.parseInt(p_id));
+						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
+						ac.update();
+						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso</message></messages>");
 					}
-					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
-					ac.update();
-					return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso</message></messages>");
 				}
 			}
 		}
-		return this.renderView("<messages><message type=\"error\">Operacao falhada</message></messages>");
+		return this.renderView("<messages><message type=\"error\">Operacao falhada: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
+	}
+	
+	
+	
+	private String processCompile(String path_class, String page) {
+		String error = "";
+		error += this.compile(path_class,page+".java"); //Compile model
+		if(error.equals("")){//Check the model class is compiled
+			error += this.compile(path_class,page+"View.java"); //Compile controller
+			if(error.equals(""))//Check the view class is compiled
+				error += this.compile(path_class,page+"Controller.java"); //Compile view;
+		}
+		return error;
+	}
+
+	private String compile(String path_class,String className){
+		boolean isCompiled = CompilerHelper.compile(path_class,className);
+		if(!isCompiled){
+			String error = CompilerHelper.getError();
+			return "Ocoreu um erro no ficheiro: "+className+" na lina "+error.substring(error.indexOf(".java:")+".java:".length())+"\n";
+		}
+		return "";
 	}
 	
 	//Read json and extract transactions

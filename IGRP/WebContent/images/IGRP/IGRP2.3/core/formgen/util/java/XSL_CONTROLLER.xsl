@@ -251,21 +251,19 @@
 						<xsl:value-of select="$tab"/>  
 					</xsl:when>
 					<xsl:when test="$type_render_='redirect'">
-						<!--  
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
+						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>	
-						<xsl:value-of select="$tab"/>					
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>				
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="'}'"/>
-						-->
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>

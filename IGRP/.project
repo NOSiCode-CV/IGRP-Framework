@@ -3,6 +3,7 @@
 	<name>IGRP</name>
 	<comment></comment>
 	<projects>
+		<project>spring-web-4.1.5.RELEASE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
