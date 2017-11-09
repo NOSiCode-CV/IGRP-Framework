@@ -2,6 +2,7 @@ package nosi.core.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import nosi.base.ActiveRecord.PersistenceUtils;
@@ -251,5 +252,15 @@ public class Config {
 
 	public static String getBaseConnection() {
 		return "hibernate-igrp-core";
+	}
+
+	public static Object getDatabaseTypes() {
+		Map<String,String> tipos = new HashMap<>();
+		tipos.put(null, "-- Selecione Base de Dados --");
+		tipos.put("mysql", "MySql");
+		tipos.put("postgresql", "Postgresql");
+		tipos.put("h2", "H2");
+		tipos.put("oracle", "Oracle");
+		return tipos;
 	}
 }

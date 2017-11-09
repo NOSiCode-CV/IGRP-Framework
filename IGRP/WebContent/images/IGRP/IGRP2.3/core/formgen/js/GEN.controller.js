@@ -20,6 +20,8 @@ var GENERATOR = function(genparams){
 	var viewChangeEvents = [];
 
 	var xslTmplPath = path+'/xsl/tmpl/';
+
+	GEN.params 			 = genparams;
 	
 	GEN.svApplet      	 = null;
 
@@ -1496,14 +1498,17 @@ var GENERATOR = function(genparams){
 		GEN.getContainers().forEach(function(c){
 			var type = c.type;
 			if(c.includes && ( c.includes.css || c.includes.js || c.includes.xsl) ){
-				rtn[type] = {
-					xsl:[],
-					css:[],
-					js :[]
-				}
+				if(!rtn[type])
+					rtn[type] = {
+						xsl:[],
+						css:[],
+						js :[]
+					}
+
 				for(i in c.includes){
 					rtn[type][i] = $.merge(rtn[type][i], c.includes[i]);
 				}
+
 			}
 		});
 
@@ -1645,10 +1650,38 @@ var GENERATOR = function(genparams){
 					setCustomCSStoView();
 				}
 
+				if(GEN.files.css[0]){
+					
+					GEN.files.css.forEach(function(f){
+
+						GEN.includeToHead({
+							type : 'css',
+							path : GEN.getIncludeURL(f.file)
+						});
+
+					});
+
+				}
+
 				if(json.js){
 					GEN.jsEditor.setValue(json.js);
 					setCustomJStoView();
 				}
+
+				if(GEN.files.js[0]){
+					
+					GEN.files.js.forEach(function(f){
+
+						GEN.includeToHead({
+							type : 'js',
+							path : GEN.getIncludeURL(f.file)
+						});
+
+					});
+					
+				}
+
+
 				//js value
 				//set here
 				//console.log(json.rows);
@@ -1663,7 +1696,7 @@ var GENERATOR = function(genparams){
 						
 						$(window).resize();
 						
-						done();
+						GEN.done();
 						
 						_import(false);
 					}
@@ -1672,7 +1705,7 @@ var GENERATOR = function(genparams){
 			}else{
 
 				var startCb = function(){
-					done();
+					GEN.done();
 
 					_import(false);
 
@@ -1807,8 +1840,7 @@ var GENERATOR = function(genparams){
 		if(GEN.files.xsl[0]){
 
 			GEN.files.xsl.forEach(function(x){
-
-				rtn+= '<xsl:include href="'+x.file+'"/>';
+				rtn+= '<xsl:include href="'+iPath+'/xsl/tmpl/'+x.file+'?v='+_getDate()+'"/>';
 			});
 		}
 
@@ -1875,10 +1907,11 @@ var GENERATOR = function(genparams){
 		if(!relative && p.path.indexOf('{$path}') == 0)
 			viewLink = path+p.path.split('{$path}').pop();
 
+		if(viewLink.indexOf('{$path}') >= 0)
+			viewLink = viewLink.replace('{$path}', path);
 
 		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+_getDate()+'"/>' :
 					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+_getDate()+'"></script>' : null;
-
 
 		//include css to the GEN VIEW
 		if(!GEN.viewFileIncluded(viewLink,p.type)) 
@@ -2103,9 +2136,7 @@ var GENERATOR = function(genparams){
 					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
 						setPLSQLValue({
 							callback:callback
-						});
-						//console.log($('#gen-page-setts-ctrl'))
-						
+						});						
 					}
 						
 					else{
@@ -2116,10 +2147,17 @@ var GENERATOR = function(genparams){
 				case 'gen-java':
 					
 					if( GEN.SETTINGS.html && GEN.SETTINGS.package ){
-						setPLSQLValue({
+						//callback();
+
+						genUICode({
+							mode    : 'java',
+							callback:callback
+
+						})
+						/*setPLSQLValue({
 							rel:'gen-java',
 							callback:callback
-						});
+						});*/
 						//console.log($('#gen-page-setts-ctrl'))
 						
 					}
@@ -2449,7 +2487,7 @@ var GENERATOR = function(genparams){
 				var pageXSL = vkbeautify.xml(GEN.getXSL({
 					removeGenAttrs:true
 				}));
-				/*
+
 				var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
@@ -2458,72 +2496,93 @@ var GENERATOR = function(genparams){
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
 
-				console.log(vParam)
-				
-				console.log(  GEN.export() );
+				GEN.server.compile({
 
-				var vItemId = getPageId();
-				
-				$('body').attr('has-message','false');
-				$('#gen-noif-holder').html('');
-				
-				try{
-					
-					$.IGRP.utils.submitStringAsFile({
-						//pUrl        : 'test.save.xml',
-						pUrl        : vUrl,
-						pMessage    : false,
-						pLoading    : true,
-			         	pParam      : {
-			          		pArrayFiles : vParam,
-				           	pArrayItem  : [
-				           		{name:'p_id_objeto', value:vItemId},
-				           		{name:'p_table_name', value:GEN.SETTINGS.table},
-				           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-				           	]
-				        },
-						pComplete   :function(xml,text,status){
-							//:not(')
-							var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
+					mode : 'java',
 
-							$.each(msgs,function(i,msg){
-								var type = $(msg).attr('type');
-								var text = $(msg).text();
+					then : function(results){
 
-								$.notify({
-									icon: 'fa fa-times',
-									message: text,
-
-								},{
-									type:'success',
-									delay: 8000,
-								});
-
-							});
-						},
-						pError:function(request){
+						results.forEach(function(r){
 							
-							$.notify({
-								icon: 'fa fa-times',
-								message: request.statusText,
+							var name = r.name.toLowerCase();
 
-							},{
-								type:'warning',
-								delay: 8000,
+							vParam.push({
+								name : 'p_'+name,
+								value : r.code
 							});
+						
+						});
+
+						var vItemId = getPageId();
+						
+						$('body').attr('has-message','false');
+
+						$('#gen-noif-holder').html('');
+						
+						try{
+							
+							$.IGRP.utils.submitStringAsFile({
+								//pUrl        : 'test.save.xml',
+								pUrl        : vUrl,
+								pMessage    : false,
+								pLoading    : true,
+					         	pParam      : {
+					          		pArrayFiles : vParam,
+						           	pArrayItem  : [
+						           		{name:'p_id_objeto', value:vItemId},
+						           		{name:'p_table_name', value:GEN.SETTINGS.table},
+						           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
+						           		{name:'p_package', value: GEN.SETTINGS.package}
+						           	]
+						        },
+								pComplete   :function(xml,text,status){
+									//:not(')
+									var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
+
+									$.each(msgs,function(i,msg){
+										var type = $(msg).attr('type');
+										var text = $(msg).text();
+
+										$.notify({
+											icon: 'fa fa-times',
+											message: text,
+
+										},{
+											type:'success',
+											delay: 8000,
+										});
+
+									});
+								},
+								pError:function(request){
+									
+									$.notify({
+										icon: 'fa fa-times',
+										message: request.statusText,
+
+									},{
+										type:'warning',
+										delay: 8000,
+									});
+								}
+					        });
+						}catch(err){
+							console.log(err);
 						}
-			        });
-				}catch(err){
-					console.log(err);
-				}
-				*/
-				GEN.getJava(function(javaStr){
+
+					}
+
+				});
+
+
+				/*GEN.getJava(function(javaStr){
 
 					var vParam  =  [
 						{ name:'p_data'    , value: GEN.export() },//json
 						{ name:'p_page_xml', value: pageXML },//xml
 						{ name:'p_page_xsl', value: pageXSL },//xsl
 						{ name:'p_page_java',value:javaStr},//java
+						//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					];
 
 					console.log(vParam)
@@ -2548,7 +2607,6 @@ var GENERATOR = function(genparams){
 					           		{name:'p_id_objeto', value:vItemId},
 					           		{name:'p_table_name', value:GEN.SETTINGS.table},
 					           		{name:'p_pkg_html_name', value:GEN.SETTINGS.html},
-									{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 					           	]
 					        },
 							pComplete   :function(xml,text,status){
@@ -2586,7 +2644,7 @@ var GENERATOR = function(genparams){
 						console.log(err);
 					}
 
-				});
+				});*/
 
 				
 			}else{
@@ -2905,7 +2963,7 @@ var GENERATOR = function(genparams){
 
 	var initBlank = function(){
 		GEN.layout.addRow({index:0});
-		done();
+		GEN.done();
 	}
 
 	var loadData = function(url,callback){
@@ -3077,7 +3135,7 @@ var GENERATOR = function(genparams){
 	}
 
 	var resizeCodeMirrorArea = function(){
-		$('.gen-viewers .cm-s-default').height( $(window).height()-76);
+		$('.gen-viewers .cm-s-default, .gen-editor-toolsbar').height( $(window).height()-86);	
 	}
 
 	var codeEditorView = function(o){
@@ -3256,7 +3314,27 @@ var GENERATOR = function(genparams){
 		return false;
 	}	
 
+	var genUICode = function(params){	
+
+		GEN.server.set(params);
+		/*//console.log(params);
+		var server = genparams.server || {},
+
+			codes  = server[params.mode];
+
+		if(codes[0]){
+
+
+
+		}
+
+		params.callback();*/
+
+	}
+
+
 	var setPLSQLValue = function(params){
+
 		var p             = params ? params : {};  
 		var rel           = p.rel ? p.rel : 'gen-plsql';
 		var btnController = p.controller ? p.controller : $(VARS.html.viewsController+'[rel="'+rel+'"]');
@@ -3280,7 +3358,7 @@ var GENERATOR = function(genparams){
 		if(isIE)
 			replaceSpace( $(plsqlXML) );
 
-		waiting();
+		GEN.waiting();
 
 		$('<div/>').XMLTransform({
 			xml         : plsqlXML,
@@ -3328,7 +3406,7 @@ var GENERATOR = function(genparams){
 
 					codeEditorView(true);
 
-					done();
+					GEN.done();
 
 					if(p.callback) p.callback(content);
 
@@ -3488,16 +3566,31 @@ var GENERATOR = function(genparams){
 	}
 
 	var configJAVAEditor = function(){
+
+		CodeMirror.commands.autocomplete = function(cm) {
+	        CodeMirror.showHint(cm, CodeMirror.hint.anyword); 
+	    };
 		/*get editor*/
         GEN.javaEditor = CodeMirror($('#gen-java-view')[0], {
-        	mode: 'text/x-java',
-        	readOnly:true,
-		    lineNumbers: false,
-		    matchBrackets : true
+	    	 lineNumbers: true,
+	   		 matchBrackets: true,
+	   		 //autoCloseBrackets: true,
+	   		 mode: "text/x-java",
+	   		 extraKeys: {
+	   		 	"Ctrl-Space": "autocomplete"
+	   		 },
+	   		 autohint: true,
+			 lineWrapping: true
         });
        
         GEN.javaEditor.refresh();
+
         GEN.javaEditor.focus();
+
+        //var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+
+      	//CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+
 	}
 
 	GEN.getJava = function(callback){
@@ -4277,7 +4370,9 @@ var GENERATOR = function(genparams){
 	var getObjectCssFiles = function(incObjects,genType){
 		var rtn = "";
 		var folderGetter = genType == 'container' ? 'getContainerFolder' : 'getFieldFolder';
-		 for(var type in incObjects){
+		
+		for(var type in incObjects){
+
 		 	if( incObjects[type].css[0] ){
 		 		rtn+='<!-- '+type.toUpperCase()+' CSS INCLUDES -->';
 		 		incObjects[type].css.forEach(function(css){
@@ -4317,9 +4412,13 @@ var GENERATOR = function(genparams){
 	var getObjectJSFiles = function(incObjects,genType){
 		var rtn          = "";
 		var folderGetter = genType == 'container' ? 'getContainerFolder' : 'getFieldFolder';
+		
 		for(var type in incObjects){
+
 			if( incObjects[type].js[0] ){
+
 				rtn+='<!-- '+type.toUpperCase()+' JS INCLUDES -->';
+				
 				incObjects[type].js.forEach(function(js){
 					if(js.path){
 						var isExternal = /^https?:\/\//i.test(js.path);
@@ -4344,6 +4443,7 @@ var GENERATOR = function(genparams){
 						}
 					}
 				});
+
 			}
 		}
 		 return rtn;
@@ -4419,6 +4519,9 @@ var GENERATOR = function(genparams){
 			
 		});
 
+		//console.log(GEN.getContainersIncludes());
+		//console.log(GEN.getFieldsIncludes())
+
 		jsIncludes+=getObjectJSFiles(GEN.getContainersIncludes(),'container');
 
 		jsIncludes+=getObjectJSFiles(GEN.getFieldsIncludes(),'field');
@@ -4469,11 +4572,11 @@ var GENERATOR = function(genparams){
 	var start = function(){
 		$('body').addClass('startin');
 	}
-	var done = function(){
+	GEN.done = function(){
 		$('body').removeClass('startin waiting');
 	}
 
-	var waiting = function(){
+	GEN.waiting = function(){
 		$('body').addClass('waiting');
 	}
 	

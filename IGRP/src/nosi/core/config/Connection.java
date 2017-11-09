@@ -14,9 +14,12 @@ public class Connection {
 
 	public static java.sql.Connection getConnection(String connectionName){
 		EntityManagerFactory entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(connectionName);
-		EntityManager em = entityManagerFactory.createEntityManager();
-		em.getTransaction().begin();
-		Session hibernateSession = (Session) em.unwrap(Session.class);
-		return ((SessionImpl)hibernateSession).connection();
+		if(entityManagerFactory!=null){
+			EntityManager em = entityManagerFactory.createEntityManager();
+			em.getTransaction().begin();
+			Session hibernateSession = (Session) em.unwrap(Session.class);
+			return ((SessionImpl)hibernateSession).connection();
+		}
+		return null;
 	}
 }

@@ -21,6 +21,7 @@ import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 
 /*---- End ----*/
@@ -128,21 +129,39 @@ public class ListaEnvController extends Controller {
 		for(Action a:new Action().find().andWhere("application", "=", app.getId()).all()){
 			iea.putFilesPageConfig(a);
 		}
+
 		Map<String,String> files = iea.getFilesPageClasses();
+		
+		for(Config_env configDb:new Config_env().find().andWhere("application", "=", app.getId()).all()){
+			files.put("configDB/"+configDb.getName(), Config.getBasePathClass()+configDb.getName()+".cfg.xml");
+		}
+		
 		if(iea.getFilesDaoClasses()!=null)
 			files.putAll(iea.getFilesDaoClasses());
 
 		String pathConfigApp = Config.getPathExport()+"ConfigApp"+File.separator+app.getDad().toLowerCase();
 		try {
 			FileHelper.save(pathConfigApp , "Config"+app.getDad()+".xml", ImportExportApp.genereteXMLApplication(app));
+			FileHelper.save(pathConfigApp , "Config"+app.getDad()+"DB.xml", ImportExportApp.generateXMLConfigDB(app));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		files.put("configAppDB/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+"DB.xml");
 		files.put("configApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+".xml");
 		String pathJar = Config.getPathExport()+app.getDad().toLowerCase()+File.separator+app.getDad().toLowerCase()+".jar";
 		FileHelper.createDiretory(Config.getPathExport()+app.getDad().toLowerCase());
 		JarUnJarFile.saveJarFiles(pathJar, files,9);
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase(), "application/jar", true);
+	}
+	
+	public Response actionConfigDB() throws IOException{
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			String id = Igrp.getInstance().getRequest().getParameter("id");
+			if(id!=null){
+				return this.redirect("igrp", "ConfigDatabase", "index&id="+id);
+			}
+		}
+		return this.forward("igrp", "ListaEnv", "index");
 	}
 	/*---- End ----*/
 }

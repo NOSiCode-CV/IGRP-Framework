@@ -133,7 +133,7 @@
 			</xsl:for-each>
     	</xsl:for-each> 
     	-->
-    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']">
+    	<xsl:for-each select="/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist']">
     		<xsl:variable name="tableName"><xsl:call-template name="CamelCaseWord"><xsl:with-param name="text"><xsl:value-of select="name()"/> </xsl:with-param> </xsl:call-template> </xsl:variable>
 	 		<xsl:value-of select="$newline"/>			
 			<xsl:value-of select="$tab"/>
@@ -166,7 +166,7 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list_annotation"/>
 		<xsl:value-of select="$newline"/>
-		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist' or @type = 'chart']) > 0">
+		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$import_list"/>
@@ -307,6 +307,7 @@
  	
  	
  	<!-- Gen attributes for chart -->
+ 	<!-- 
  	<xsl:template name="gen-ttributes-subclass-chart">
  		<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab"/>
@@ -336,6 +337,7 @@
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="'}'"/> 	
  	</xsl:template>
+ 	-->
  	
  	<!-- Gen subclass -->
  	<xsl:template name="gen-subclass">
@@ -351,8 +353,10 @@
  		<xsl:for-each select="/rows/content/*[@type='formlist']">
  			<xsl:call-template name="gen-ttributes-subclass-separatorList"></xsl:call-template>
  		</xsl:for-each>		
+ 		<!-- 
  		<xsl:for-each select="/rows/content/*[@type='chart']">
  			<xsl:call-template name="gen-ttributes-subclass-chart"></xsl:call-template>
  		</xsl:for-each>
+ 		-->
  	</xsl:template>
 </xsl:stylesheet>
