@@ -56,7 +56,7 @@
 	<xsl:template name="createActions">
          <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or  (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
             <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
-            	<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            	<xsl:if test="not(@rel=preceding::node()/@rel)">
 		          	<xsl:call-template name="actions">
 						<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 						<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
@@ -68,7 +68,7 @@
 		        </xsl:if>
            </xsl:for-each>
            <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
-           	<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+           	<xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="actions">
 					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
@@ -80,7 +80,7 @@
 	        </xsl:if>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="actions">
 					<xsl:with-param name="page_"><xsl:value-of select="./page"/></xsl:with-param>
 					<xsl:with-param name="app_"><xsl:value-of select="./app"/></xsl:with-param>
@@ -261,6 +261,30 @@
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>				
 						<xsl:value-of select="'model.load();'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>	
+						<xsl:value-of select="concat('/*','if(/* Your code condition *//*){')"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="'	Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="' }else{'"/>						
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="'	Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);'"/>
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>							
+						<xsl:value-of select="$newline"/>
+						<xsl:value-of select="$tab2"/>		
+						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="concat('}','*/')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="'}'"/>

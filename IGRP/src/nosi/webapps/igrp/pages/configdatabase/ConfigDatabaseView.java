@@ -2,14 +2,15 @@
 
 /*Create View*/
 
-package nosi.webapps.igrp.pages.migrate;
+package nosi.webapps.igrp.pages.configdatabase;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
-public class MigrateView extends View {
+public class ConfigDatabaseView extends View {
 	
 	
+	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field tipo_base_dados;
 	public Field hostname;
@@ -17,19 +18,23 @@ public class MigrateView extends View {
 	public Field nome_de_bade_dados;
 	public Field username;
 	public Field password;
-	public Field sectionheader_1_text;
-	public IGRPForm form_1;
 	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_migrar;
+	public IGRPButton btn_gravar;
 	public IGRPButton btn_testar_conexao;
 	
-	public MigrateView(Migrate model){
-		this.setPageTitle("Migrate IGRP");
+	public ConfigDatabaseView(ConfigDatabase model){
+		this.setPageTitle("Configurar Base de Dados");
 			
-		form_1 = new IGRPForm("form_1","");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		form_1 = new IGRPForm("form_1","");
+		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
+		sectionheader_1_text.setLabel("");
+		
+		sectionheader_1_text.setValue("Configuração de base de dados");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel("Aplicacao");
 		
@@ -58,23 +63,21 @@ public class MigrateView extends View {
 		password.setLabel("Password");
 		
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel("");
-		
-		sectionheader_1_text.setValue("Migração de base de dados");
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_migrar = new IGRPButton("Migrar","igrp","Migrate","migrar","submit","primary|fa-exchange","","");
-		btn_migrar.propertie.add("type","specific").add("code","").add("rel","migrar");
-		
-		btn_testar_conexao = new IGRPButton("Testar Conexão","igrp","Migrate","testar_conexao","submit","success|fa-check","","");
+		btn_testar_conexao = new IGRPButton("Testar Conexão","igrp","ConfigDatabase","testar_conexao","submit","success|fa-check","","");
 		btn_testar_conexao.propertie.add("type","specific").add("code","").add("rel","testar_conexao");
+	
+		btn_gravar = new IGRPButton("Gravar","igrp","ConfigDatabase","gravar","submit","primary|fa-save","","");
+		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
+		
 	}
 		
 	@Override
 	public void render(){
 		
+		sectionheader_1.addField(sectionheader_1_text);
+
 
 		form_1.addField(aplicacao);
 		form_1.addField(tipo_base_dados);
@@ -83,13 +86,11 @@ public class MigrateView extends View {
 		form_1.addField(nome_de_bade_dados);
 		form_1.addField(username);
 		form_1.addField(password);
-
-		sectionheader_1.addField(sectionheader_1_text);
-
+		
 		toolsbar_1.addButton(btn_testar_conexao);
-		toolsbar_1.addButton(btn_migrar);
-		this.addToPage(form_1);
+		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);
+		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
 	}
 }

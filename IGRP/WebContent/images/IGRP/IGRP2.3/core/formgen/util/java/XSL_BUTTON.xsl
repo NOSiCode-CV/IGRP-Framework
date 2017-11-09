@@ -13,7 +13,7 @@
 		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0) or (count(/rows/content//context-menu/item) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type='verticalmenu']/item">   <!-- Button in tools-bar -->
 
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="gen-item">
 					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
 					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
@@ -30,7 +30,7 @@
 	        </xsl:if>
            </xsl:for-each>
            <xsl:for-each select="//tools-bar/item">   <!-- Button in form -->
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="gen-item">
 					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
 					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
@@ -47,7 +47,7 @@
 	        </xsl:if>
            </xsl:for-each>           
            <xsl:for-each select="//context-menu/item">   <!-- Button in table -->
-            <xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">
+            <xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:call-template name="gen-item">
 					<xsl:with-param name="rel"><xsl:value-of select="@rel"/></xsl:with-param>
 					<xsl:with-param name="code"><xsl:value-of select="@code"/></xsl:with-param>
@@ -155,7 +155,7 @@
 	 	</xsl:variable>
 		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']/item"><!-- add button on toolsbar --> 
-           	<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">    		
+           	<xsl:if test="not(@rel=preceding::node()/@rel)">    		
 			 	<xsl:variable name="toolsbar">
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
@@ -176,7 +176,7 @@
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>	
            		<xsl:for-each select="item"> 
-	           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">	           			          					 	
+	           		<xsl:if test="not(@rel=preceding::node()/@rel)">	           			          					 	
 					 	<xsl:variable name="button_name">
 							<xsl:value-of select="'btn_'"/>
 							<xsl:value-of select="@rel"/>

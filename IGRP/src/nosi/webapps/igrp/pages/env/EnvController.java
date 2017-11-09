@@ -22,6 +22,7 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.CompilerHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -34,10 +35,13 @@ import nosi.webapps.igrp.dao.User;
 /*---- End ----*/
 public class EnvController extends Controller {		
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		Env model = new Env();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		EnvView view = new EnvView(model);
-		view.action_fk.setValue(new Action().getListActions());
+		//view.action_fk.setValue(new Action().getListActions());
 		view.img_src.setValue("default.png");
 		return this.renderView(view);
 	}
@@ -69,7 +73,7 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				CompilerHelper.compile(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java");
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Aplicação registada com sucesso!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 				User user = new User();
 				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 				Organization org = new Organization();				
@@ -99,10 +103,10 @@ public class EnvController extends Controller {
 				}				
 				return this.redirect("igrp", "lista-env","index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a aplicação!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 			}
 		}
-		return this.redirect("igrp", "env", "index");
+		return this.forward("igrp", "env", "index");
 	}
 	
 	public Response actionVoltar() throws IOException{
@@ -246,16 +250,16 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Aplicaï¿½ï¿½o Actualizada com sucesso !!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
 				return this.redirect("igrp", "lista-env", "index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorre um Erro ao tentar Actualizar a Aplicaï¿½ï¿½o!!");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue("Gestï¿½o de Aplicaï¿½ï¿½o - Actualizar");
+		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(new Action().getListActions());
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
 		return this.renderView(view);
 	}
 	

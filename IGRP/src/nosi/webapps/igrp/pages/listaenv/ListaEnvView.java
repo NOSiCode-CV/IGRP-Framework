@@ -28,6 +28,7 @@ public class ListaEnvView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_export;
+	public IGRPButton btn_conf_db;
 	
 	public ListaEnvView(ListaEnv model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
@@ -66,6 +67,9 @@ public class ListaEnvView extends View {
 		btn_eliminar = new IGRPButton("Eliminar","igrp","lista-env","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 		
+		btn_conf_db = new IGRPButton("Configurar Base Dados","igrp","ListaEnv","configDB","submit","grey|fa-database","","");
+		btn_conf_db.propertie.add("type","specific").add("code","").add("class","grey").add("rel","conf_db");
+		
 		btn_export = new IGRPButton("Export","igrp","ListaEnv","export","confirm","grey|fa-upload","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
@@ -89,6 +93,7 @@ public class ListaEnvView extends View {
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
+		table_1.addButton(btn_conf_db);
 		table_1.addButton(btn_export);
 		
 		this.addToPage(table_1);
