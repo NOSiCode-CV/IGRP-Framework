@@ -8,12 +8,32 @@ import nosi.core.config.Config;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Config_env;
 
 /**
  * Isaias.Nunes
  * Oct 11, 2017
  */
 public class ImportExportApp {
+	
+	public static String generateXMLConfigDB(Application app) {
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("rows");
+		for(Config_env c:new Config_env().find().andWhere("application","=",app.getId()).all()){
+			xml.startElement("row");
+				xml.setElement("host", c.getHost());
+				xml.setElement("username", c.getUsername());
+				xml.setElement("password", c.getPassword());
+				xml.setElement("port", c.getPort());
+				xml.setElement("chartset", c.getCharset());
+				xml.setElement("name", c.getName());
+				xml.setElement("name_db", c.getName_db());
+				xml.setElement("type_db", c.getType_db());
+			xml.endElement();
+		}
+		xml.endElement();
+		return xml.toString();
+	}
 	
 	public static String generateXMLPage(Action pagina) {
 		XMLWritter xml = new XMLWritter();
