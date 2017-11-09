@@ -133,22 +133,29 @@ public class JarUnJarFile {
 				   	content.append(line);
 				   	content.append(ls);
 				   }
-				   int order = 3;
+				   int order = 4;
 
 				   if(entry.getName().endsWith("View.java")){
-				   		order = 4;
-				   }
-				   if(entry.getName().endsWith("Controller.java")){
 				   		order = 5;
 				   }
+				   if(entry.getName().endsWith("Controller.java")){
+				   		order = 6;
+				   }
 				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
-					   order = 6;
+					   order = 7;
+				   }
+				   if(entry.getName().startsWith("configDB")){
+					   order = 0;
 				   }
 				   if(entry.getName().startsWith("configApp")){
 					   order = 1;
 				   }
-				   if(entry.getName().startsWith("configPage")){
+
+				   if(entry.getName().startsWith("configAppDB")){
 					   order = 2;
+				   }
+				   if(entry.getName().startsWith("configPage")){
+					   order = 3;
 				   }
 				   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
 				contents.add(f);
