@@ -18,11 +18,15 @@
 	    <artifactId>hibernate-core</artifactId>
 	    <version>5.2.10.Final</version>
 	</dependency>
-  	<dependency>
+	
+  	<!-- https://mvnrepository.com/artifact/c3p0/c3p0 -->
+  	<!-- For connection pool -->
+	<dependency>
 	    <groupId>c3p0</groupId>
 	    <artifactId>c3p0</artifactId>
 	    <version>0.9.1.2</version>
 	</dependency>
+
 	<dependency>
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>

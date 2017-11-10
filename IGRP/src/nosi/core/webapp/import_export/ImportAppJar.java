@@ -3,7 +3,6 @@ package nosi.core.webapp.import_export;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
@@ -11,7 +10,6 @@ import nosi.core.config.Config;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.core.xml.XMLConfigDBReader;
-import nosi.core.xml.XMLPageReader;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
@@ -39,7 +37,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 	public boolean importApp() {
 		boolean result = true;
 		for(FileImportAppOrPage file:this.un_jar_files){
-			if(file.getNome().endsWith(".java") && this.app!=null){
+			if(file.getNome().endsWith(".java") && this.app!=null && !file.getNome().startsWith("dao")){
 				if(!this.compileFiles(file,this.app)){
 					result = false;
 					break;
@@ -50,7 +48,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 					result = false;
 					break;
 				}
-			}else if(file.getNome().startsWith("configAppDB")){
+			}else if(file.getNome().startsWith("configDBApp")){
 				result = this.saveConfigDB(file.getConteudo(),this.app);
 			}else if(file.getNome().startsWith("configPage")  && this.app!=null){
 				List<Action> pages = this.savePageJava(file,this.app);
@@ -58,12 +56,14 @@ public class ImportAppJar extends Import implements IFImportExport{
 					result = false;
 					break;
 				}
-			}else if(file.getNome().startsWith("configDB") && this.app!=null){
+			}else if(file.getNome().startsWith("configHibernate") && this.app!=null){
 				try {
 					String[] fileName = file.getNome().split("/");
-					result = FileHelper.save(Config.getBasePathClass(),fileName[1]+".cfg.xml", file.getConteudo());
-					if(FileHelper.fileExists(Config.getWorkspace())){
-						result = FileHelper.save(Config.getWorkspace()+"/src",fileName[1]+".cfg.xml", file.getConteudo());
+					if(!FileHelper.fileExists(fileName[1]+".cfg.xml")){
+						result = FileHelper.save(Config.getBasePathClass(),fileName[1]+".cfg.xml", file.getConteudo());
+						if(FileHelper.fileExists(Config.getWorkspace())){
+							result = FileHelper.save(Config.getWorkspace()+"/src",fileName[1]+".cfg.xml", file.getConteudo());
+						}
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -93,7 +93,10 @@ public class ImportAppJar extends Import implements IFImportExport{
 		XMLConfigDBReader listConfig = JAXB.unmarshal(input, XMLConfigDBReader.class);
 		boolean result = false;
 		for(Config_env config:listConfig.getRow()){
-			result = config.insert()!=null;
+			config.setApplication(app);
+			config.setCharset("utf-8");
+			if(new Config_env().find().andWhere("name", "=", config.getName()).one()==null)
+				result = config.insert()!=null;
 		}
 		return result;
 	}

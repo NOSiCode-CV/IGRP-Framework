@@ -145,7 +145,7 @@ var VARS = {
 				        '<copy_menu>false</copy_menu>'+
 				        '<package_copy_db />'+
 				        '<package_copy_html />'+
-				        '<preserve_url>'+GEN.UTILS.preserve_url+'</preserve_url>'+
+				        '<preserve_url>'+GEN.UTILS.preserve_url+GEN.DETAILS.id+'</preserve_url>'+
 			    	'</'+VARS.tags.plsql+'>';
 		},
 

@@ -11,8 +11,37 @@ body[view="gen-design"] .gen-viewers-toolbar{
 	margin: 0 -50px;
 }
 
+#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.col-options{
+	margin-top: -1px;
+}
+
+#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li{
+	margin-top: -1px;
+}
+
+#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder{
+	margin: 0;
+}
+
+#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder>.gen-settings-holder{
+	position: absolute;
+	z-index: 15;
+	top: 10px;
+	right: 10px;
+	opacity: 0;
+	transition: opacity .5s
+}
+
+#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder:hover>.gen-settings-holder{
+	opacity: 1;
+}
+
 #igrp-contents {
 	padding-top: 0
+}
+
+#igrp-top-nav{
+	overflow: hidden;
 }
 
 #igrp-sidebar.sidebar{
@@ -343,6 +372,7 @@ a, button {
 
 #igrp-sidebar .nav-tabs li a i{
 	display: block;
+	font-size: 15px;
 }
 
 #igrp-sidebar .nav-tabs > li.active > a, 
@@ -354,7 +384,7 @@ a, button {
 	border: none;  
 	color: #e8e8e8;
 	font-weight: 400;
-	font-size: 12px;
+	font-size: 11px;
 	text-transform: uppercase;
 	margin:0;
 	padding: 5px;
@@ -565,9 +595,39 @@ th .gen-field-edt-options{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
 	height: 100%;
+}
 
+.gen-code-mirror:not(.custom-size){
+	width: 100%;
+}
+
+.gen-code-mirror.custom-size{
+	padding:0;
+}
+
+.gen-editor-toolsbar{
+	position: absolute;
+	top: 30px;
+	right: 0;
+	height: 100%;
+	border-left: 1px solid #ccc;
+	overflow-x: hidden;
+    overflow-y: auto;
+    padding:0;
+}
+
+.gen-editor-toolsbar .list-group{
+	margin: -1px
+}
+
+.gen-editor-toolsbar .list-group-item{
+	
+	cursor: pointer;
+}
+
+.gen-editor-toolsbar .list-group-item:not(.active){
+	background:transparent;
 }
 
 [gen-id="drop-zone"]:not(tr):not(td):after {
@@ -779,6 +839,10 @@ thead tr.no-fields .gen-container-sortable-placeholder{
 	display: block;
 	float: none;
 	clear: both;
+}
+
+#gen-edition-modal .gen-propreties-checkers-holder .form-group{
+	min-height: auto
 }
 
 #gen-edition-modal .gen-propreties-checkers-holder:after{
@@ -1111,4 +1175,11 @@ new rows / columns style
 
 .ui-widget-content[role="tooltip"]{
 	display: none!important;;
+}
+
+/* SERVER */
+.server-editor:not(.active){
+	visibility: hidden;
+	top:-800%;
+	left:-800%;
 }

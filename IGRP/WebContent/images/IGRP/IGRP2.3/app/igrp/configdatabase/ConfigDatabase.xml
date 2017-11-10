@@ -101,24 +101,28 @@
                 </tipo_base_dados>
                 <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Hostname</label>
-                    <value>Deserunt amet dolor iste omnis</value>
+                    <value>Adipiscing consectetur anim dolor voluptatem</value>
                 </hostname>
                 <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="">
                     <label>Porta</label>
-                    <value>17</value>
+                    <value>13</value>
                 </port>
                 <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome de Bade Dados</label>
-                    <value>Sit sed elit officia omnis</value>
+                    <value>Consectetur sit stract omnis sed</value>
                 </nome_de_bade_dados>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Unde iste deserunt sed consectetur</value>
+                    <value>Unde officia sit labore deserunt</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
                     <value>******</value>
                 </password>
+                <nome_de_conxeao name="p_nome_de_conxeao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome de Conxeão</label>
+                    <value>Ipsum perspiciatis anim volupt</value>
+                </nome_de_conxeao>
             </fields>
         </form_1>
     </content>

@@ -379,11 +379,100 @@ function copyToClipboard(content,callback) {
 }
 
 
+var preserveArea = function(array,p){
+
+	var idx  = p.idx ? p.idx : 0;
+	//var isIE = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false;
+	var beginExp = p.beginExp;
+	
+	var endExp   = p.endExp ;
+
+	var startUrlExp = '/*----#gen(';
+
+	var endUrlExp = ')/#----*/';
+
+	var _endComment = '----*/';
+
+	if(idx < array.length){
+
+		var item 			= array[idx];
+
+		var endItem         =  p.end[idx]+endExp.length;
+
+		var expression      = p.content.substring(item,endItem);
+
+		var areaName 		= expression.match(/\(([^)]+)\)/)[1];
+
+		var areaReplaceble  = areaName+')'+_endComment;
+
+		beginExp 			= beginExp.replace(areaName+')'+_endComment ,_endComment);
+
+		var originalContent = expression.substring(beginExp.length, expression.length - endExp.length);
+
+		var startUrl 		= getIndicesOf(startUrlExp, expression)[0];
+
+		var endUrl   		= getIndicesOf(endUrlExp, expression)[0];
+
+		var urlExpression 	= expression.substring(startUrl,endUrl+endUrlExp.length);
+
+		var urlContent 		= expression.substring(startUrl,endUrl).split(',');
+
+		var url 			= urlContent[1];
+
+		originalContent = originalContent.replace(areaReplaceble,'');
+
+		$.ajax({
+			url: url
+		})
+		.done(function(d) {
+			
+			var xml  = $(d);
+
+			var text = xml.find('your_code').text();
+
+			preserveArea.returnObject.push({
+				areaName  : areaName,
+				originalContent : originalContent,
+				expression:expression,
+				urlExpression : urlExpression,
+				text:text
+			});
+		})
+		.fail(function(){
+			alert('error: '+urlContent[1]);
+			preserveArea.returnObject.push({
+				areaName  : areaName,
+				originalContent : originalContent,
+				expression:expression,
+				urlExpression : urlExpression,
+				text:''
+			});
+		})
+		.always(function(){
+			p.idx = idx+1;
+			preserveArea(array,p)
+		});
+
+	}else{
+
+		if(p.callback)
+			p.callback(preserveArea.returnObject);
+		
+		preserveArea.returnObject = [];
+
+	}
+	
+}
+
+preserveArea.returnObject = [];
+
+
 var preserve_code = function(array,p){
 	var idx  = p.idx ? p.idx : 0;
 	//var isIE = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false;
-	var beginExp = '#gen(';
-	var endExp   = ')/#';
+	var beginExp = p.beginExp || '#gen(';
+	
+	var endExp   = p.endExp || ')/#';
 
 	if(idx < array.length){
 		
@@ -394,15 +483,18 @@ var preserve_code = function(array,p){
 		var expression        = p.content.substring(item,endItem);
 
 		var expressionContent = expression.substring(beginExp.length,expression.length-endExp.length).split(',');
-		//console.log(expressionContent)
+		
 		var url = expressionContent[1];
 
 		$.ajax({
 			url: url
 		})
 		.done(function(d) {
+			
 			var xml  = $(d);
 			var text = xml.find('your_code').text();
+
+			
 			preserve_code.returnObject.push({
 				expression:expression,
 				text:text
@@ -421,10 +513,10 @@ var preserve_code = function(array,p){
 		});
 
 	}else{
-		console.log(preserve_code.returnObject)
-		if(p.callback){
+		
+		if(p.callback)
 			p.callback(preserve_code.returnObject);
-		}
+		
 		preserve_code.returnObject = [];
 	}
 }

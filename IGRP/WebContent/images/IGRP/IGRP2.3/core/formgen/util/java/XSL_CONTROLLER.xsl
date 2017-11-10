@@ -190,6 +190,7 @@
 		<xsl:variable name="url_">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=exception_after_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>	
+
      	<xsl:variable name="your_code_exception">
 			<xsl:value-of select="document($url_)/your_code"/>
 		</xsl:variable>	
@@ -208,18 +209,28 @@
      	<xsl:value-of select="$newline"/>	
      	<xsl:value-of select="$tab2"/>     	
      	<!--         Actions modified by programmer -->     	
-     	<xsl:value-of select="$begin_reserve_code_controller_on_action"></xsl:value-of>		
-		
+     	
+     	<!-- <xsl:value-of select="$begin_reserve_code_controller_on_action"></xsl:value-of> -->		
+
      	<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
-     	</xsl:variable>	     	
+     	</xsl:variable>	   
+
+     	<xsl:call-template name="begin_reserve_code_action">
+     		<xsl:with-param name="type" select="$action"/>
+     		<xsl:with-param name="url" select="$url"/>
+     	</xsl:call-template>
+		
+     	
 		<xsl:variable name="your_code">
 			<xsl:value-of select="document($url)/your_code"/>
 		</xsl:variable>	
+
 		<xsl:if test="$your_code!=''">
 			<xsl:value-of select="$tab2"/>	
 			<xsl:value-of select="$your_code"/>	
 		</xsl:if>
+
 		<xsl:choose>
 			<xsl:when  test="$page_ != '' and $your_code=''">
 				<xsl:choose>
@@ -328,9 +339,17 @@
 					<xsl:value-of select="$tab"/>
 				</xsl:if>
 			</xsl:otherwise>
-		</xsl:choose>   	
+		</xsl:choose>  
+
 		<xsl:value-of select="$tab"/>
-     	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
+
+     	<!-- <xsl:value-of select="$end_reserve_code"></xsl:value-of> -->
+
+     	<xsl:call-template name="end_reserve_code_action">
+     		<xsl:with-param name="type" select="$action"/>
+     	</xsl:call-template>
+
+
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
  		<xsl:value-of select="'}'"/>

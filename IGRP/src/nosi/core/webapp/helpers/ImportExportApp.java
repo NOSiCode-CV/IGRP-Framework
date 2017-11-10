@@ -84,9 +84,10 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportPage(Action page){
-		FileHelper.reset();
+		//FileHelper.reset();
+		FileHelper fileH = new FileHelper();
 		String pathPageClass = Config.getBasePahtClass(page.getApplication().getDad().toLowerCase())+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
-		this.filesPageClasses = FileHelper.listFilesDirectory(pathPageClass);	
+		this.filesPageClasses = fileH.listFilesDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
 			for(Map.Entry<String, String> file:this.filesPageClasses.entrySet()){
@@ -99,9 +100,10 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportApp(Application app){
-		FileHelper.reset();
+//		FileHelper.reset();
+//		FileHelper fileH = new FileHelper();
 		String pathPageClass = Config.getBasePahtClass(app.getDad().toLowerCase())+"pages"+File.separator;
-		this.filesPageClasses = FileHelper.readAllFileDirectory(pathPageClass);	
+		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
 			for(Map.Entry<String, String> file:this.filesPageClasses.entrySet()){
@@ -110,12 +112,14 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		FileHelper.reset();
+		//FileHelper.reset();
 		String pathDaoClass = Config.getBasePahtClass(app.getDad().toLowerCase())+"dao"+File.separator;
-		this.filesDaoClasses = FileHelper.readAllFileDirectory(pathDaoClass);		
+		System.out.println("Daoa Export:"+pathDaoClass);
+		this.filesDaoClasses = new FileHelper().listFilesDirectory(pathDaoClass);		
 		Map<String,String> newFilesDao = new HashMap<>();
 		if(this.filesDaoClasses!=null){
 			for(Map.Entry<String, String> file:this.filesDaoClasses.entrySet()){
+				System.out.println("Putting: "+file.getKey()+"--"+file.getValue());
 				newFilesDao.put("dao/"+file.getKey(), file.getValue());
 			}
 			this.filesDaoClasses = newFilesDao;
@@ -134,8 +138,8 @@ public class ImportExportApp {
 	public void putFilesPageConfig(Action page){
 		if(page.getXsl_src()!=null){
 			String pathPageXsl = Config.getBasePahtXsl(page)+File.separator;	
-			FileHelper.reset();
-			Map<String,String> list = FileHelper.listFilesDirectory(pathPageXsl);
+//			FileHelper.reset();
+			Map<String,String> list = new FileHelper().listFilesDirectory(pathPageXsl);
 			if(list!=null){
 				for(Map.Entry<String, String> file:list.entrySet()){
 					this.filesPageClasses.put("configs/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage()+"/"+page.getAction()+"/"+file.getKey(), file.getValue());

@@ -49,7 +49,7 @@ public class CompilerHelper {
 	}
 	
 	public static void listFilesDirectory(String path) {
-		Map<String,String> files = FileHelper.listFilesDirectory(path);
+		Map<String,String> files = new FileHelper().listFilesDirectory(path);
 		for(Map.Entry<String, String> file:files.entrySet()){
 			jars += (file.getValue()+System.getProperty("path.separator"));
 		}
