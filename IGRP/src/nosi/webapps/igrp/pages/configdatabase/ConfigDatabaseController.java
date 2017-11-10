@@ -54,13 +54,24 @@ public class ConfigDatabaseController extends Controller {
 			config.setPassword(model.getPassword());
 			config.setPort(model.getPort());
 			config.setType_db(model.getTipo_base_dados());
-			config = config.insert();
-			if(config != null){
-				config.setName("hibernate-"+config.getApplication().getDad().toLowerCase()+"_"+config.getId());
-				config = config.update();
-				this.saveConfigHibernateFile(config);
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO,"Nome da conexão: "+config.getName());
+			config.setName(model.getNome_de_conxeao());
+			Migrate m = new Migrate();
+			m.load();
+			if(!MigrationIGRP.validate(m)){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Falha na Conexão Com a Base de Dados");
+				return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
+			}
+			boolean check = new Config_env().find().andWhere("name", "=", config.getName()).one()==null;
+			if(check){
+				config = config.insert();
+				if(config != null){
+					this.saveConfigHibernateFile(config);
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO,"Nome da conexão: "+config.getName());
+					return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
+				}
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de conxeão já existe");
 				return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
 			}
 		}

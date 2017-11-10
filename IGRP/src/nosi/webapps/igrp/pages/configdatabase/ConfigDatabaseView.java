@@ -18,6 +18,7 @@ public class ConfigDatabaseView extends View {
 	public Field nome_de_bade_dados;
 	public Field username;
 	public Field password;
+	public Field nome_de_conxeao;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
@@ -64,6 +65,10 @@ public class ConfigDatabaseView extends View {
 		
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","80").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 
+		nome_de_conxeao = new TextField(model,"nome_de_conxeao");
+		nome_de_conxeao.setLabel("Nome de Conxeão");
+		nome_de_conxeao.propertie().add("name","p_nome_de_conxeao").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_testar_conexao = new IGRPButton("Testar Conexão","igrp","ConfigDatabase","testar_conexao","submit","success|fa-check","","");
 		btn_testar_conexao.propertie.add("type","specific").add("code","").add("rel","testar_conexao");
@@ -86,6 +91,7 @@ public class ConfigDatabaseView extends View {
 		form_1.addField(nome_de_bade_dados);
 		form_1.addField(username);
 		form_1.addField(password);
+		form_1.addField(nome_de_conxeao);
 		
 		toolsbar_1.addButton(btn_testar_conexao);
 		toolsbar_1.addButton(btn_gravar);

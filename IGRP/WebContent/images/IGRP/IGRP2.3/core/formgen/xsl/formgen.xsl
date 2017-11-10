@@ -234,8 +234,9 @@
                         </div>
 
                         <div id="gen-java" class="gen-viewers">
-                            <div class="gen-editor-toolsbar col-sm-2 pull-right" >tb</div>
-                            <div id="gen-java-view" class="gen-code-mirror col-sm-10 custom-size"></div>
+                            <div class="gen-editor-toolsbar col-sm-2 pull-right" ></div>
+                            <div class="gen-editors-wrapper"></div>
+                            <!-- <div id="gen-java-view" class="gen-code-mirror col-sm-10 custom-size"></div> -->
                         </div>
                         
 
@@ -581,12 +582,16 @@
         <script>
 
           this[VARS.name] = new GENERATOR({
+           
             sourcePath : "<xsl:value-of select="$sourcePath"/>",
+            
             dataSrc    : "<xsl:value-of select="rows/content/form/value/page_form"/>",
+            
             imagesURL  : "<xsl:value-of select="rows/content/form/value/link_image"/>",
+            
             configURL  : "<xsl:value-of select="rows/content/form/value/gen_elements"/>",
 
-            server : {
+            server     : {
 
                 java : {
 
@@ -614,7 +619,6 @@
                 }
 
             }
-
 
           });
 
