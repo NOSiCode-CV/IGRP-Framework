@@ -71,7 +71,7 @@ public class RepTemplateSource extends BaseActiveRecord<RepTemplateSource> imple
 		return list;
 	}
 	public void deleteAll(Integer id) {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query q = em.createNativeQuery("DELETE FROM tbl_rep_template_source WHERE rep_template_fk=?");

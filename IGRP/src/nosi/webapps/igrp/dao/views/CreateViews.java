@@ -189,7 +189,7 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 	}
 	
 	private void createView(){
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		for(String sql:VIEWS){

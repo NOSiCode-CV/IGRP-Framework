@@ -91,7 +91,7 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 	}
 
 	public boolean getPermission(String transaction) {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		String sql = "SELECT T.* FROM tbl_transaction T,tbl_profile P "

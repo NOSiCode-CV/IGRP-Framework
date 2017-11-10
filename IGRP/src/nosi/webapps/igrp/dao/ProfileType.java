@@ -133,7 +133,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	}
 
 	public ProfileType updateToZero() {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query q = em.createNativeQuery("UPDATE tbl_profile_type SET id=0 WHERE id=1");

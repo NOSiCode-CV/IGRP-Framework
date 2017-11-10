@@ -133,7 +133,7 @@ public class ListaEnvController extends Controller {
 		Map<String,String> files = iea.getFilesPageClasses();
 		
 		for(Config_env configDb:new Config_env().find().andWhere("application", "=", app.getId()).all()){
-			files.put("configDB/"+configDb.getName(), Config.getBasePathClass()+configDb.getName()+".cfg.xml");
+			files.put("configHibernate/"+configDb.getName(), Config.getBasePathClass()+configDb.getName()+".cfg.xml");
 		}
 		
 		if(iea.getFilesDaoClasses()!=null)
@@ -146,7 +146,7 @@ public class ListaEnvController extends Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		files.put("configAppDB/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+"DB.xml");
+		files.put("configDBApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+"DB.xml");
 		files.put("configApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+".xml");
 		String pathJar = Config.getPathExport()+app.getDad().toLowerCase()+File.separator+app.getDad().toLowerCase()+".jar";
 		FileHelper.createDiretory(Config.getPathExport()+app.getDad().toLowerCase());

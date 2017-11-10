@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +30,6 @@ import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CheckedOutputStream;
 import javax.servlet.http.Part;
-
 import nosi.core.webapp.import_export.FileImportAppOrPage;
 
 
@@ -63,57 +63,31 @@ public class JarUnJarFile {
 		return result;
 	}
 	
-	//Extract files jar format
-	public static List<FileImportAppOrPage> getJarFiles(String jarName){
-		List<FileImportAppOrPage> contents = null;
-		if(jarName.contains(".jar")){
-			try{
-				contents = new ArrayList<>();
-				FileInputStream fis = new FileInputStream(jarName);
-				CheckedInputStream cis = new CheckedInputStream(fis, new Adler32());
-				JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
-				JarEntry entry = null;
-				while((entry=jis.getNextJarEntry())!=null){	
-					   String         ls = System.getProperty("line.separator");
-					   String         line = null;
-					   DataInputStream in = new DataInputStream(jis); 
-					   StringBuilder content = new StringBuilder();  
-					   BufferedReader d = new BufferedReader(new InputStreamReader(in));
-					   while((line=d.readLine())!=null){
-					   	content.append(line);
-					   	content.append(ls);
-					   }
-					   int order = 3;
-
-					   if(entry.getName().endsWith("View.java")){
-					   		order = 4;
-					   }
-					   if(entry.getName().endsWith("Controller.java")){
-					   		order = 5;
-					   }
-					   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
-						   order = 6;
-					   }
-					   if(entry.getName().startsWith("configApp")){
-						   order = 1;
-					   }
-					   if(entry.getName().startsWith("configPage")){
-						   order = 2;
-					   }
-					   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
-					contents.add(f);
-					jis.closeEntry();
-				}
-				jis.close();
-				fis.close();
-			}catch(IOException e){
-				e.printStackTrace();
+	public static Map<String,String> readJarFile(Part file){
+		Map<String,String> files = new HashMap<>();
+		try{
+			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
+			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));
+			JarEntry entry = null;
+			while((entry=jis.getNextJarEntry())!=null){	
+				   String         ls = System.getProperty("line.separator");
+				   String         line = null;
+				   DataInputStream in = new DataInputStream(jis); 
+				   StringBuilder content = new StringBuilder();  
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				   while((line=d.readLine())!=null){
+				   	content.append(line);
+				   	content.append(ls);
+				   }
+				   files.put(entry.getName(), content.toString());
+				   jis.closeEntry();
 			}
+			jis.close();
+		}catch(IOException e){
+			e.printStackTrace();
 		}
-		Collections.sort(contents);
-		return contents;
+		return files;
 	}
-	
 
 	//Extract files jar format
 	public static List<FileImportAppOrPage> getJarFiles(Part file){
@@ -134,7 +108,6 @@ public class JarUnJarFile {
 				   	content.append(ls);
 				   }
 				   int order = 4;
-
 				   if(entry.getName().endsWith("View.java")){
 				   		order = 5;
 				   }
@@ -143,15 +116,14 @@ public class JarUnJarFile {
 				   }
 				   if(entry.getName().endsWith(".xml") || entry.getName().endsWith(".json") || entry.getName().endsWith(".xsl")){
 					   order = 7;
-				   }
-				   if(entry.getName().startsWith("configDB")){
+				   }				   
+				   if(entry.getName().startsWith("configApp")){
 					   order = 0;
 				   }
-				   if(entry.getName().startsWith("configApp")){
+				   if(entry.getName().startsWith("configDBApp")){
 					   order = 1;
 				   }
-
-				   if(entry.getName().startsWith("configAppDB")){
+				   if(entry.getName().startsWith("configHibernate")){
 					   order = 2;
 				   }
 				   if(entry.getName().startsWith("configPage")){

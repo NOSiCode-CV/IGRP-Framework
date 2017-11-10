@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.Adler32;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.ZipEntry;
@@ -21,6 +23,32 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
  */
 public class ZipUnzipFile {
 
+	public static Map<String,String> readZipFile(Part file){
+		Map<String,String> files = new HashMap<>();
+		try{
+			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
+			ZipInputStream zis = new ZipInputStream(new BufferedInputStream(cis));
+			ZipEntry entry = null;
+			while((entry=zis.getNextEntry())!=null){	
+				   String         ls = System.getProperty("line.separator");
+				   String         line = null;
+				   DataInputStream in = new DataInputStream(zis); 
+				   StringBuilder content = new StringBuilder();  
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				   while((line=d.readLine())!=null){
+				   	content.append(line);
+				   	content.append(ls);
+				   } 
+				   files.put(entry.getName(), content.toString());
+				zis.closeEntry();
+			}
+			zis.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return files;
+	}
+	
 	//Extract files jar format
 	public static List<FileImportAppOrPage> getZipFiles(Part file){
 		List<FileImportAppOrPage> contents = null;

@@ -82,7 +82,7 @@ public class WebReportController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
-			String title_ = Igrp.getInstance().getRequest().getParameter("p_title_report");
+			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");
 			if(id_!=null && !id_.equals("")){
 				RepTemplate rt = new RepTemplate();
 				rt = rt.findOne((int)Float.parseFloat(id_));
@@ -102,7 +102,7 @@ public class WebReportController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
 			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
-			String title = Igrp.getInstance().getRequest().getParameter("p_title_report");
+			String title = Igrp.getInstance().getRequest().getParameter("p_title");
 			String code = Igrp.getInstance().getRequest().getParameter("p_code");
 			String env_fk = Igrp.getInstance().getRequest().getParameter("p_env_fk");
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");			
@@ -162,8 +162,7 @@ public class WebReportController extends Controller {
 				rts.deleteAll(rt.getId());//Delete old data source of report
 				if(data_sources!=null && data_sources.length>0){
 					for(String dts:data_sources){
-						RepSource rs = new RepSource();
-						rts = new RepTemplateSource(rt, rs.findOne(Integer.parseInt(dts)));
+						rts = new RepTemplateSource(rt, new RepSource().findOne(Integer.parseInt(dts)));
 						rts.insert();
 					}
 				}	
