@@ -22,7 +22,7 @@ public final class Igrp{ // Not extends
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
-	private Controller controller; // Current controller ...
+	private Controller controller; // Current controller ... 
 	
 	private String currentAppName;
 	private String currentPageName;
@@ -98,6 +98,7 @@ public final class Igrp{ // Not extends
 	// Exit and Send the response ...
 	private void exit(){
 		Controller.sendResponse();
+		
 		this.die = false;
 	}
 	

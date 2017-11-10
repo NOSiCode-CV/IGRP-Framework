@@ -24,9 +24,6 @@ import static nosi.core.i18n.Translator.gt;
 public class LoginController extends Controller {
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		//System.out.println(gt("This text is translated rand padded"));
-		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
