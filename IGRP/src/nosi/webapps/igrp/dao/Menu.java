@@ -136,7 +136,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	}
 
 	public boolean getPermissionMen(String app) {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		String sql =  "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=? "
@@ -165,7 +165,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String,List<Menu>> getMyMenu() {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?) "
@@ -245,7 +245,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		sql = sql + (this.getApplication() != null ? "and (M1.env_fk = " + this.getApplication().getId() + " AND M2.env_fk = " + this.getApplication().getId() + ") " : "");
 		sql = sql + (this.getMenu() != null ? " and M1.id = " + this.getMenu().getId() + " " : "");
 		sql = sql + (this.getOrganization()!=null? " AND prof.org_fk= "+this.getOrganization().getId():"");
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		TypedQuery<Object[]> q = (TypedQuery<Object[]>) em.createNativeQuery(sql);

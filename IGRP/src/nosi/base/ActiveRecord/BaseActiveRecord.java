@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
 import nosi.core.config.Config;
 /**
  * @author: Emanuel Pereira
@@ -23,17 +22,19 @@ import nosi.core.config.Config;
  */
 public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
-	protected SessionFactory entityManagerFactory;
+	private SessionFactory entityManagerFactory;
 	private T className;
 	private CriteriaBuilder builder = null;
 	private CriteriaQuery<T> criteria = null;
 	private Root<T> root = null;
 	private List<Predicate> predicates = new ArrayList<Predicate>();
+	private String connectionName;
 	
 	@SuppressWarnings("unchecked")
 	public BaseActiveRecord() {
+		this.connectionName = Config.getBaseConnection();
 		this.className = (T) this;
-		this.opeConnection();
+		//this.opeConnection();
 	}
 	
 	/*Inserted data into database
@@ -141,9 +142,14 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	 */
 	@Override
 	public String getConnectionName() {
-		return Config.getBaseConnection();
+		return this.connectionName;
 	}
 
+	@Override
+	public void setConnectionName(String connectionName){
+		this.connectionName = connectionName;
+	}
+	
 	/*Get table name of Entity class
 	 * 
 	 */
@@ -212,7 +218,8 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	
 	
 	@SuppressWarnings("unchecked")
-	private void startCriteria() {		
+	private void startCriteria() {	
+		this.opeConnection();
 		if(this.entityManagerFactory!=null){
 			if(this.entityManagerFactory.isOpen()){
 				this.builder = this.entityManagerFactory.getCriteriaBuilder();
@@ -543,6 +550,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	}
 
 	public SessionFactory getEntityManagerFactory() {
+		this.opeConnection();
 		return entityManagerFactory;
 	}
 	

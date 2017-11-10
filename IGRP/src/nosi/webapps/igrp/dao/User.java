@@ -233,7 +233,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User updateTozero() {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query q = em.createNativeQuery("UPDATE tbl_user SET id=0 WHERE id=1");

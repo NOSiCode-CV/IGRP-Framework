@@ -164,7 +164,7 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	}
 
 	public void deleteAllProfile() {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query q = em.createNativeQuery("DELETE FROM tbl_profile where "

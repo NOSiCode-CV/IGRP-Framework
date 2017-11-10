@@ -23,6 +23,7 @@ public interface ActiveRecordIterface<T> {
 	public List<T> findAll();
 	public List<T> findAll(CriteriaQuery<T> criteria);
 	public CriteriaQuery<T> getCriteria();
+	public void setConnectionName(String connectionName);
 	public String getConnectionName();
 	public Object getValuePrimaryKey();
 	public String getNamePrimaryKey();

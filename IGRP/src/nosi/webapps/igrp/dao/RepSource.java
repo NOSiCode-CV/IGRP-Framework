@@ -218,7 +218,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	
 	//Validate sql query
 	public boolean validateQuery(String query) {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		boolean x = false;
@@ -280,7 +280,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 */
 	public Set<String> getParamsQuery(int template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -345,7 +345,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		String xml = null;
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
