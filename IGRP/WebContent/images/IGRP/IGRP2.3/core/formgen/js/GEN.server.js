@@ -65,6 +65,8 @@ $(function(){
 
 				content = content.replaceAll('&gt;','>');
 
+				content = content.replaceAll('&amp;','&');
+				
 				LoadPreservedCodes( content, onFinish);
 				
 			},
