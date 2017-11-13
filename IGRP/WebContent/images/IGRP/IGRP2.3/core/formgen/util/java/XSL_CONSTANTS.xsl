@@ -86,7 +86,24 @@
       <xsl:value-of select="translate(substring($text,1,1),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')" />
       <xsl:value-of select="translate(substring($text,2,string-length($text)-1),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')" />
     </xsl:template>
- 
+    
+    <xsl:template name="gen-className"> 
+        <xsl:param name="className"/>
+        <xsl:variable name="tableName_">
+            <xsl:call-template name="CamelCaseWord">
+                <xsl:with-param name="text"><xsl:value-of select="$className"/> </xsl:with-param> 
+            </xsl:call-template>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$tableName_ = 'List'">
+                <xsl:value-of select="concat($tableName_,'1')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$tableName_"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <xsl:template name="upperCase">
         <xsl:param name="text"/>
         <xsl:value-of select="translate($text, $smallcase, $uppercase)"/>
