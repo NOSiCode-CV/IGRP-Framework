@@ -529,18 +529,25 @@ var GENERATOR = function(genparams){
 	GEN.removeContainer = function(id){
 		
 		for(var x = 0; x < CONTAINERS.length; x++){
+			
 			var container = CONTAINERS[x];
 			
 			if(container.id == id){
+
 				var idx = CONTAINERS.indexOf(container);
+
 				var column = $(container.holder.parents('.gen-column')[0]);
+
 				if(idx > -1){
 
 					if(container.contents){
+
 						var contentsContainers = container.holder.find('.gen-container-holder');
 	
 						$.each(contentsContainers,function(i,c){
+					   		
 					   		var cId   = $(c).attr('id');
+
 					   		var cType = $(c).attr('type');
 
 					   		if(cId) GEN.removeContainer(cId);
@@ -548,8 +555,16 @@ var GENERATOR = function(genparams){
 					    });
 					}
 
+					container.GET.fields().forEach(function(f){
+
+						container.removeField(f.id,false)
+
+					});
+
 					container.onRemove();
-					CONTAINERS.splice(idx,1);					
+
+					CONTAINERS.splice(idx,1);
+
 					container.holder.parent().remove();
 
 					GEN.checkColumnComponents(column);
@@ -1441,8 +1456,46 @@ var GENERATOR = function(genparams){
 		var rtn = [];
 		CONTAINERS.forEach(function(c){
 			rtn = rtn.concat(c.GET.fields())
+
 		});
 		return rtn;
+	};
+
+	GEN.getAllFieldsAndMenus = function(){
+		
+		var rtn = [];
+
+		CONTAINERS.forEach(function(c){
+
+			rtn = rtn.concat(c.GET.fields())
+			
+			if(c.contextMenu)
+
+				rtn = rtn.concat(c.contextMenu.getFields())
+		});
+
+		return rtn;
+	};
+
+	GEN.getFieldByTag = function(tag){
+		
+		var fields = GEN.getAllFieldsAndMenus(),
+
+			rtn    = null;
+
+		for(var i = 0; i < fields.length; i++){
+			
+			var field = fields[i];
+
+			if(field.GET.tag() == tag){
+				rtn = field;
+				break;
+			}
+
+		}
+
+		return rtn;
+
 	}
 
 	GEN.getFieldByAttr = function(attr,value){
@@ -2809,19 +2862,26 @@ var GENERATOR = function(genparams){
 	}			
 
 	var getConfigData = function(){
+
 		if(genparams.configURL){
+			
 			$.ajax({
+
 				url:genparams.configURL,
+
 				success:function(configData){
+
 					configDataSet = true;
 					
 					GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
 
+					console.log(GEN.UTILS)
 					//loadDomains();
 
 					loadPageContents({ source: genparams.dataSrc });
 				}
-			})
+			});
+
 		}
 
 	}
@@ -2847,7 +2907,7 @@ var GENERATOR = function(genparams){
 
 				configPLSQLEditor();
 
-				configJAVAEditor();
+				//configJAVAEditor();
 
 				baseXslSet = true;
 
@@ -3317,6 +3377,7 @@ var GENERATOR = function(genparams){
 	var genUICode = function(params){	
 
 		GEN.server.set(params);
+
 		/*//console.log(params);
 		var server = genparams.server || {},
 
@@ -3574,7 +3635,7 @@ var GENERATOR = function(genparams){
         GEN.javaEditor = CodeMirror($('#gen-java-view')[0], {
 	    	 lineNumbers: true,
 	   		 matchBrackets: true,
-	   		 //autoCloseBrackets: true,
+	   		 autoCloseBrackets: true,
 	   		 mode: "text/x-java",
 	   		 extraKeys: {
 	   		 	"Ctrl-Space": "autocomplete"
@@ -3586,6 +3647,26 @@ var GENERATOR = function(genparams){
         GEN.javaEditor.refresh();
 
         GEN.javaEditor.focus();
+
+        GEN.javaEditor.on('blur',function(cm,change) {
+        	
+        	var m = GEN.server.activeMenu,
+
+        		p = GEN.server.preserved;
+
+        	if(p[m.mode] && p[m.mode][m.part]){
+
+        		 p[m.mode][m.part] = GEN.javaEditor.getValue();
+
+        	};
+
+        	//console.log(GEN.javaEditor.getValue());
+        	//console.log(GEN.server.preserved)
+
+		    /*if ( readOnlyLines.indexOf(change.from.line) ) {
+		        change.cancel();
+		    }*/
+		});
 
         //var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
 

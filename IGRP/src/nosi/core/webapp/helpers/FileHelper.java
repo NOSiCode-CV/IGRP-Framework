@@ -32,37 +32,37 @@ import nosi.core.webapp.Igrp;
 
 public class FileHelper {
 
-	private static Map<String,String> files = new HashMap<>();
+	private Map<String,String> files = new HashMap<>();
 	
-	public static Map<String,String> listFilesDirectory(String path) {
+	public Map<String,String> listFilesDirectory(String path) {
 		if(FileHelper.fileExists(path)){
 			File folder = new File(path);
 		    for (final File fileEntry : folder.listFiles()) {
 		        if (fileEntry.isDirectory()) {
 		            return listFilesDirectory(fileEntry.toString());
 		        } else {
-		        	files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
+		        	this.files.put(fileEntry.getName(), fileEntry.getAbsolutePath());
 		        }
 		    }
-		    return files;
+		    return this.files;
 			}
 		return null;
 	}
 
-	public static void reset(){
+	/*public static void reset(){
 		files = new HashMap<>();
-	}
+	}*/
 	
-	public static Map<String,String> readAllFileDirectory(String path){
+	public Map<String,String> readAllFileDirectory(String path){
 		if(FileHelper.fileExists(path)){
 			File folder = new File(path);
 			File[] listOfFiles = folder.listFiles();
 		    for (int i = 0; i < listOfFiles.length; i++) {
 		      if (listOfFiles[i].isDirectory()) {
-		         FileHelper.listFilesDirectory(path+listOfFiles[i].getName());
+		         this.listFilesDirectory(path+listOfFiles[i].getName());
 		      }
 		    }
-		    return files;
+		    return this.files;
 			}
 		return null;
 	}
@@ -237,4 +237,10 @@ public class FileHelper {
 			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
 			   FileHelper.save(path,page+".json",content[2]); // save json
 	}
+	
+	public static boolean saveFilesJava(String path,String page,String[] content) throws IOException{
+		 		return FileHelper.save(path,page+".java",content[0]+"*/") && // Save Model;		 
+		 			   FileHelper.save(path,page+"View.java","/*"+content[1]+"*/") && //Save View		 
+		 			   FileHelper.save(path,page+"Controller.java","/*"+content[2]); // save controller
+  	}
 }

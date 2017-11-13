@@ -23,7 +23,7 @@ public class Config {
 	public static String type_header = "normal";
 	public static final String RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER = "/*---- Import your packages here... ----*/";
 	public static final String RESERVE_CODE_ACTIONS_CONTROLLER = "/*---- Insert your actions here... ----*/";
-	public static final String RESERCE_CODE_ON_ACTIONS_CONTROLLER = "/*---- Insert your code here... ----*/";
+//	public static final String RESERCE_CODE_ON_ACTIONS_CONTROLLER = "/*---- Insert your code here... ----*/";
 	public static final String RESERVE_CODE_END = "/*---- End ----*/";
 	
 	public static String getHeader(){
@@ -262,5 +262,13 @@ public class Config {
 		tipos.put("h2", "H2");
 		tipos.put("oracle", "Oracle");
 		return tipos;
+	}
+	
+	public static String getStartReseveCodeAction(String actionName){
+		return "/*----#START-PRESERVED-AREA("+actionName.toUpperCase()+")----*/";
+	}
+	
+	public static String getEndReserveCodeAction(){
+		return "/*----#END-PRESERVED-AREA----*/";
 	}
 }

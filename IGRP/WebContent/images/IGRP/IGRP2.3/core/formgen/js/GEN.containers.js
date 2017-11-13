@@ -170,6 +170,25 @@ var CONTAINER = function(name,params){
 						array.splice(idx,1);
 
 						container.onFieldRemove(field);
+
+						if(GEN.server.preserved && GEN.server.preserved.java && GEN.server.preserved.java.controller){
+							
+							var key = field.GET.tag().toUpperCase();
+							var preserved = GEN.server.preserved.java.controller[key];
+							
+							if(preserved){
+
+								console.log('dslka')
+							
+								delete GEN.server.preserved.java.controller[key];
+
+							}
+
+									
+							console.log( GEN.server.preserved.java.controller )
+							
+
+						};
 						
 						try{
 							if(field.type == container.contextMenu.type){
@@ -1245,6 +1264,14 @@ var CONTAINER = function(name,params){
 		template = template.replaceAll('#tag#', container.GET.tag());
 		template = template.replaceAll('#title#',container.GET.title ? container.GET.title() : "");
 		template = template.replaceAll('#collapsible#',container.GET.collapsible ? container.GET.collapsible() : "false");
+
+		template = template.replaceAll('#fields.count#',FIELDS.length);
+
+		var notHiddenFields = $.grep(FIELDS, function( n, i ) {
+			return n.type != 'hidden';
+		});
+
+		template = template.replaceAll('#fields.count:not(hidden)#', notHiddenFields.length );		
 
 		var replaces_from_attr = GenVarsReplaceFromObjAttr({
 			object   :container,

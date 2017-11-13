@@ -33,17 +33,24 @@
     <xsl:variable name="import_separator_list">import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:variable>
     <xsl:variable name="import_separator_list_annotation">import nosi.core.webapp.SeparatorList;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
-    <xsl:variable name="import_exception">import java.io.IOException;</xsl:variable>
+    <xsl:variable name="import_exception">import java.io.IOException;<xsl:value-of select="$newline"/> import nosi.core.webapp.FlashMessage;</xsl:variable>
     <xsl:variable name="import_response">import nosi.core.webapp.Response;</xsl:variable>
     <xsl:variable name="import_igrp">import nosi.core.webapp.Igrp;</xsl:variable>
     <xsl:variable name="import_annotations">import nosi.core.webapp.RParam;</xsl:variable>
     <xsl:variable name="base_import">import nosi.webapps.</xsl:variable>   
+    
     <xsl:variable name="preserve_url" select="rows/plsql/preserve_url"/>
+   
     <xsl:variable name="begin_reserve_code_controller_actions" select="'/*---- Insert your actions here... ----*/'"/>
+    
     <xsl:variable name="begin_reserve_code_controller_import" select="'/*---- Import your packages here... ----*/'"/>
+
     <xsl:variable name="begin_reserve_code_controller_on_action" select="'/*---- Insert your code here... ----*/'"/>
+
     <xsl:variable name="end_reserve_code" select="'/*---- End ----*/'"/>
+
     <xsl:variable name="app_name"><xsl:value-of select="rows/app"/></xsl:variable>
+    
     <xsl:variable name="page_name"><xsl:value-of select="rows/page"/></xsl:variable>
     
     <xsl:variable name="class_name">
@@ -174,6 +181,9 @@
     		</xsl:when>
     		<xsl:when test="$type='treemenu'">
     			<xsl:value-of select="'IGRPTreeMenu'" />
+    		</xsl:when>    		
+    		<xsl:when test="$type='tabmenu'">
+    			<xsl:value-of select="'IGRPMenu'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
@@ -202,4 +212,28 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+    <!-- begin reserve_code tmpl -->
+    <xsl:template name="begin_reserve_code_action">
+        <xsl:param name="type"/>
+        <xsl:param name="url"/>
+        <xsl:variable name="typeUpper">
+            <xsl:call-template name="upperCase">
+                <xsl:with-param name="text" select="$type"/>
+            </xsl:call-template>
+        </xsl:variable>
+        /*----#START-PRESERVED-AREA(<xsl:value-of select="$typeUpper"/>)----*/
+        /*----#gen(preserve_code,<xsl:value-of select="$url"/>)/#----*/
+    </xsl:template>
+    <!-- end reserve_code tmpl -->
+    <xsl:template name="end_reserve_code_action">
+        <xsl:param name="type"/>
+        <xsl:variable name="typeUpper">
+            <xsl:call-template name="upperCase">
+                <xsl:with-param name="text" select="$type"/>
+            </xsl:call-template>
+        </xsl:variable>
+        /*----#END-PRESERVED-AREA----*/
+    </xsl:template>
+
 </xsl:stylesheet>

@@ -40,7 +40,7 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	private String password;
 	@Column(nullable=false)
 	private String charset;
-	@Column(nullable=false,unique=false)
+	@Column(nullable=false,unique=true)
 	private String name;
 	@ManyToOne
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="CONFIG_ENV_FK"),nullable=false)

@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.configdatabase;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
@@ -23,6 +22,8 @@ public class ConfigDatabase extends Model{
 	private String username;
 	@RParam(rParamName = "p_password")
 	private String password;
+	@RParam(rParamName = "p_nome_de_conxeao")
+	private String nome_de_conxeao;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -79,7 +80,13 @@ public class ConfigDatabase extends Model{
 	public String getPassword(){
 		return this.password;
 	}
+	
+	public void setNome_de_conxeao(String nome_de_conxeao){
+		this.nome_de_conxeao = nome_de_conxeao;
+	}
+	public String getNome_de_conxeao(){
+		return this.nome_de_conxeao;
+	}
 
 
 }
-/*-------------------------*/
