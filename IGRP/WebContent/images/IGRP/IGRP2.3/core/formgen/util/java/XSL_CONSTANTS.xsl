@@ -181,6 +181,9 @@
     		</xsl:when>
     		<xsl:when test="$type='treemenu'">
     			<xsl:value-of select="'IGRPTreeMenu'" />
+    		</xsl:when>    		
+    		<xsl:when test="$type='tabmenu'">
+    			<xsl:value-of select="'IGRPMenu'" />
     		</xsl:when>
     		<xsl:otherwise />   
     	</xsl:choose>
