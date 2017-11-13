@@ -12,6 +12,8 @@ import java.util.Map;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.config.Config;
+
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class Alter_prioridade_tarefaController extends Controller {		
@@ -20,7 +22,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/				
 		Map<String,String> listPrioridade = new HashMap<String,String>();
-		listPrioridade.put(null, "--- Escolher Prioridade ---");
+		listPrioridade.put(null, gt("--- Escolher Prioridade ---"));
 		listPrioridade.put("100", "Urgente");
 		listPrioridade.put("50", "Médio");
 		listPrioridade.put("0", "Normal");
@@ -57,12 +59,12 @@ public class Alter_prioridade_tarefaController extends Controller {
 				task.setPriority(Integer.parseInt(model.getNova_prioridade()));
 				task = task.update(task);
 				if(task!=null){
-					Igrp.getInstance().getFlashMessage().addMessage("success","Prioridade da tarefa alterada com sucesso");
+					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Prioridade da tarefa alterada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 		}
 		if(type!=null && type.equalsIgnoreCase("view")){

@@ -7,6 +7,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
+import static nosi.core.i18n.Translator.gt;
+
 public class EnvView extends View {
 	
 	
@@ -34,72 +36,72 @@ public class EnvView extends View {
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_voltar;
 	public EnvView(Env model){
-		this.setPageTitle("Registar Aplicacão");
+		this.setPageTitle(gt("Registar Aplicacão"));
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("Gestão de Aplicacão - Novo");
+		sectionheader_1_text.setValue(gt("Gestão de Aplicacão - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		dad = new TextField(model,"dad");
-		dad.setLabel("Schema");
+		dad.setLabel(gt("Schema"));
 		
 		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		name = new TextField(model,"name");
-		name.setLabel("Nome");
+		name.setLabel(gt("Nome"));
 		
 		name.propertie().add("name","p_name").add("type","text").add("maxlength","50").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		description = new TextAreaField(model,"description");
-		description.setLabel("Descrição");
+		description.setLabel(gt("Descrição"));
 		
 		description.propertie().add("name","p_description").add("type","textarea").add("maxlength","500").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		img_src = new TextField(model,"img_src");
-		img_src.setLabel("Logotipo");
+		img_src.setLabel(gt("Logotipo"));
 		
 		img_src.propertie().add("name","p_img_src").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		action_fk = new ListField(model,"action_fk");
-		action_fk.setLabel("Primeira Página");
+		action_fk.setLabel(gt("Primeira Página"));
 		
 		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		host = new TextField(model,"host");
-		host.setLabel("Host");
+		host.setLabel(gt("Host"));
 		
 		host.propertie().add("name","p_host").add("type","text").add("maxlength","255").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		apache_dad = new TextField(model,"apache_dad");
-		apache_dad.setLabel("DAD");
+		apache_dad.setLabel(gt("DAD"));
 		
 		apache_dad.propertie().add("name","p_apache_dad").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		link_menu = new TextField(model,"link_menu");
-		link_menu.setLabel("Link Menu (Antigo)");
+		link_menu.setLabel(gt("Link Menu (Antigo)"));
 		
 		link_menu.propertie().add("name","p_link_menu").add("type","text").add("maxlength","2000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		link_center = new TextField(model,"link_center");
-		link_center.setLabel("Link Centro (Antigo)");
+		link_center.setLabel(gt("Link Centro (Antigo)"));
 		
 		link_center.propertie().add("name","p_link_center").add("type","text").add("maxlength","2000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		templates = new TextField(model,"templates");
-		templates.setLabel("Template");
+		templates.setLabel(gt("Template"));
 		
 		templates.propertie().add("name","p_templates").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		flg_old = new CheckBoxField(model,"flg_old");
-		flg_old.setLabel("Antigo?");
+		flg_old.setLabel(gt("Antigo?"));
 		
 		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		flg_external = new CheckBoxField(model,"flg_external");
-		flg_external.setLabel("Externo?");
+		flg_external.setLabel(gt("Externo?"));
 		
 		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		status = new CheckBoxField(model,"status");
-		status.setLabel("Ativo?");
+		status.setLabel(gt("Ativo?"));
 		
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","Env","gravar","submit","info|fa-save","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","Env","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","Env","voltar","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","Env","voltar","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

@@ -6,7 +6,9 @@ package nosi.webapps.igrp.pages.listaenv;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
+import nosi.core.config.Config;
+
+import static nosi.core.i18n.Translator.gt;
 
 public class ListaEnvView extends View {
 	public String title = "Detalhe App";		
@@ -36,41 +38,41 @@ public class ListaEnvView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao de Aplicação");
+		sectionheader_1_text.setValue(gt("Gestao de Aplicação"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		dad = new TextField(model,"dad");
-		dad.setLabel("Schema");
+		dad.setLabel(gt("Schema"));
 		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		nome = new TextField(model,"nome");
-		nome.setLabel("Nome");
+		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		name = new TextField(model,"name");
-		name.setLabel("Nome");
+		name.setLabel(gt("Nome"));
 		name.propertie().add("name","p_name").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		host = new TextField(model,"host");
-		host.setLabel("Host");
+		host.setLabel(gt("Host"));
 		host.propertie().add("name","p_host").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		status = new CheckBoxField(model,"status");
-		status.setLabel("Ativo?");
+		status.setLabel(gt("Ativo?"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		id = new HiddenField(model, "id");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","env","index","_self","success|fa-plus","","");
+		btn_novo = new IGRPButton(gt("Novo"),"igrp","env","index","_self","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-env","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","lista-env","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","env","editar","_self","warning|fa-pencil","","");
+		btn_editar = new IGRPButton(gt("Editar"),"igrp","env","editar","_self","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
 		
-		btn_eliminar = new IGRPButton("Eliminar","igrp","lista-env","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","lista-env","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 		
-		btn_conf_db = new IGRPButton("Configurar Base Dados","igrp","ListaEnv","configDB","submit","grey|fa-database","","");
+		btn_conf_db = new IGRPButton(gt("Configurar Base Dados"),"igrp","ListaEnv","configDB","submit","grey|fa-database","","");
 		btn_conf_db.propertie.add("type","specific").add("code","").add("class","grey").add("rel","conf_db");
 		
-		btn_export = new IGRPButton("Export","igrp","ListaEnv","export","confirm","grey|fa-upload","","");
+		btn_export = new IGRPButton(gt("Export"),"igrp","ListaEnv","export","confirm","grey|fa-upload","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
 		

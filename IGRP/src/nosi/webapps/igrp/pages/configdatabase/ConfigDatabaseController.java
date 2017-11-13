@@ -17,6 +17,8 @@ import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 
+import static nosi.core.i18n.Translator.gt;
+
 /*---- End ----*/
 
 public class ConfigDatabaseController extends Controller {		
@@ -58,7 +60,7 @@ public class ConfigDatabaseController extends Controller {
 			Migrate m = new Migrate();
 			m.load();
 			if(!MigrationIGRP.validate(m)){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Falha na Conexão Com a Base de Dados");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
 				return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
 			}
 			boolean check = new Config_env().find().andWhere("name", "=", config.getName()).one()==null;
@@ -67,11 +69,11 @@ public class ConfigDatabaseController extends Controller {
 				if(config != null){
 					this.saveConfigHibernateFile(config);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO,"Nome da conexão: "+config.getName());
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt("Nome da conexão: ")+config.getName());
 					return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,"Nome de conxeão já existe");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,gt("Nome de conxeão já existe"));
 				return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
 			}
 		}
@@ -106,9 +108,9 @@ public class ConfigDatabaseController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			if(MigrationIGRP.validate(model)){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Conetado com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Falha na Conexão Com a Base de Dados");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
 			}
 		}
 		return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
