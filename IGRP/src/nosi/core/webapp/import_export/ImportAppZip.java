@@ -1,6 +1,7 @@
 package nosi.core.webapp.import_export;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ import nosi.webapps.igrp.dao.Application;
 public class ImportAppZip extends ImportAppJar{
 
 	private Map<String,FileImportAppOrPage> filesConfigPagePlsql = new HashMap<>();
-
+	List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
 	public ImportAppZip(Part fileName){
 		super(null);
 		this.un_jar_files = ZipUnzipFile.getZipFiles(fileName);
@@ -41,7 +42,7 @@ public class ImportAppZip extends ImportAppJar{
 	
 	@Override
 	public boolean importApp() {
-		boolean result = true;
+		boolean result = true;		
 		for(FileImportAppOrPage file:this.un_jar_files){
 			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ENV.xml")){
 				this.app = this.saveApp(file);
@@ -50,7 +51,7 @@ public class ImportAppZip extends ImportAppJar{
 					break;
 				}
 				FileImportAppOrPage f = new FileImportAppOrPage("page/"+this.app.getDad()+"/DefaultPage/index", "", 1);
-				result = this.compileFiles(f,this.app);
+				this.filesToCompile.add(f);
 			}
 			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ACTION.xml")){
 				List<Action> pages = this.savePagePlsql(file,this.app);
@@ -62,6 +63,7 @@ public class ImportAppZip extends ImportAppJar{
 				}
 			}
 		}
+		result = this.compileFiles(this.filesToCompile,this.app);
 		return result;
 	}
 
@@ -123,7 +125,9 @@ public class ImportAppZip extends ImportAppJar{
 						FileImportAppOrPage fileM = new FileImportAppOrPage("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+".java",model,1);
 						FileImportAppOrPage fileV = new FileImportAppOrPage("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+"View.java",view,1);
 						FileImportAppOrPage fileC = new FileImportAppOrPage("pages/"+app.getDad()+"/"+page.getPage()+"/"+page.getPage()+"Controller.java",controller,1);
-						result = this.compileFiles(fileM, app) && this.compileFiles(fileV, app) && this.compileFiles(fileC, app);
+						this.filesToCompile.add(fileM);
+						this.filesToCompile.add(fileV);
+						this.filesToCompile.add(fileC);
 					}
 				} catch (TransformerConfigurationException e) {
 				}
