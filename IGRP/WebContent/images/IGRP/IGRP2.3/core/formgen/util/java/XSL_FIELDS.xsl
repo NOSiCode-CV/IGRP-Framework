@@ -330,9 +330,15 @@
 	    			</xsl:if>
 	    		</xsl:when>
 	    		<xsl:when test="$type='arraylist'">
+	    			<xsl:value-of select="$tab"/>
+					<xsl:variable name="tableName">
+		    			<xsl:call-template name="gen-className">
+		    				<xsl:with-param name="className"><xsl:value-of select="$name_"/> </xsl:with-param> 
+		    			</xsl:call-template> 
+		    		</xsl:variable>  
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>
-	    			<xsl:value-of select="concat('public void set',$name_,'(List&lt;',$name_,'&gt; ',$name,'){')" />
+	    			<xsl:value-of select="concat('public void set',$tableName,'(List&lt;',$tableName,'&gt; ',$name,'){')" />
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab2_"/>
 	    			<xsl:value-of select="concat('this.',$name,' = ',$name,';')"/>
@@ -342,7 +348,7 @@
 
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab_"/>
-	    			<xsl:value-of select="concat('public List&lt;',$name_,'&gt; get',$name,'(){')" />
+	    			<xsl:value-of select="concat('public List&lt;',$tableName,'&gt; get',$tableName,'(){')" />
 	    			<xsl:value-of select="$newline"/>
 	    			<xsl:value-of select="$tab2_"/>
 	    			<xsl:value-of select="concat('return this.',$name,';')"/>
