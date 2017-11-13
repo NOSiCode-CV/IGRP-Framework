@@ -71,7 +71,7 @@ public class ImportAppZip extends ImportAppJar{
 	private boolean saveConfigFilesPlsql(List<Action> pages) {
 		boolean result = false;
 		for(Action page:pages)
-			result = this.saveConfigFilesPlsql(page.getXsl_src(), page.getApplication(), page);
+			result = this.saveConfigFilesPlsql(page.getSrc_xsl_plsql(), page.getApplication(), page);
 		return result;
 	}
 

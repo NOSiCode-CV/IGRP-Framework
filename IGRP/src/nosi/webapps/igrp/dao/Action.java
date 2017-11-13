@@ -45,6 +45,8 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private String img_src;
 	@Transient //Para armazenar id de pagina quando importar de plsql
 	private Integer id_plsql;
+	@Transient //Para armazenar src_xsl de pagina quando importar de plsql
+	private String src_xsl_plsql;
 	private int status;
 	@ManyToOne
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
@@ -135,6 +137,14 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.id_plsql = id_plsql;
 	}
 
+	@Transient
+	public String getSrc_xsl_plsql() {
+		return src_xsl_plsql;
+	}
+
+	public void setSrc_xsl_plsql(String src_xsl_plsql) {
+		this.src_xsl_plsql = src_xsl_plsql;
+	}
 
 	@Transient
 	public String getImg_src() {
