@@ -7,6 +7,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
+import static nosi.core.i18n.Translator.gt;
+
 public class DetalhesProcessoView extends View {
 	
 	
@@ -14,13 +16,13 @@ public class DetalhesProcessoView extends View {
 	public IGRPSectionHeader sectionheader_1;
 
 	public DetalhesProcessoView(DetalhesProcesso model){
-		this.setPageTitle("Detalhes Processo");
+		this.setPageTitle(gt("Detalhes Processo"));
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue("Detalhes de Processo");
+		sectionheader_1_text.setValue(gt("Detalhes de Processo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		

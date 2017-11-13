@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class ExecucaoTarefasController extends Controller {		
@@ -207,9 +209,9 @@ public class ExecucaoTarefasController extends Controller {
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			TaskService task = new TaskService();
 			if(task.freeTask(id)){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa liberada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa liberada com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operaÃ§Ã£o");				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 		}
 		return this.redirect("igrp","ExecucaoTarefas","index");
@@ -223,9 +225,9 @@ public class ExecucaoTarefasController extends Controller {
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			TaskService task = new TaskService();
 			if(task.claimTask(id, this.getUser().getUser_name())){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa assumido com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa assumido com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operaÃ§Ã£o");				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 		}
 		return this.redirect("igrp","ExecucaoTarefas","index");

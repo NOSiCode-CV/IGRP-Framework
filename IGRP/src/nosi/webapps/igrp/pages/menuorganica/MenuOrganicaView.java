@@ -2,7 +2,9 @@ package nosi.webapps.igrp.pages.menuorganica;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
+import nosi.core.config.Config;
+
+import static nosi.core.i18n.Translator.gt;
 
 public class MenuOrganicaView extends View {
 	public String title = "";	
@@ -14,21 +16,22 @@ public class MenuOrganicaView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_voltar;
+	
 	public MenuOrganicaView(MenuOrganica model){			
 		table_1 = new IGRPTable("table_1");
 		menu = new CheckBoxField(model,"menu");
-		menu.setLabel("Menu");
+		menu.setLabel(gt("Menu"));
 		menu_check = new CheckBoxField(model,"menu_check");
-		menu_check.setLabel("Menu");
+		menu_check.setLabel(gt("Menu"));
 		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Descricao"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","success|fa-save","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","MenuOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","MenuOrganica","voltar","_back","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","MenuOrganica","voltar","_back","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

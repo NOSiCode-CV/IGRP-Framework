@@ -7,6 +7,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
+import static nosi.core.i18n.Translator.gt;
+
 public class LookupListPageView extends View {
 	
 	
@@ -31,19 +33,19 @@ public class LookupListPageView extends View {
 		
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		page = new TextField(model,"page");
-		page.setLabel("Nome Pagina");
+		page.setLabel(gt("Nome Página"));
 		
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		page_descr = new TextField(model,"page_descr");
-		page_descr.setLabel("Descricao Pagina");
+		page_descr.setLabel(gt("Descricao Página"));
 		
 		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome_pagina = new TextField(model,"nome_pagina");
-		nome_pagina.setLabel("Nome Pagina");
+		nome_pagina.setLabel(gt("Nome Página"));
 		
 		nome_pagina.propertie().add("name","p_nome_pagina").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Descrição"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		p_id = new HiddenField(model,"p_id");
@@ -54,7 +56,7 @@ public class LookupListPageView extends View {
 		p_id_aplicacao.setLabel("");
 		p_id_aplicacao.propertie().add("name","p_id_aplicacao").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","p_id_aplicacao");
 
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","LookupListPage","pesquisar","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","LookupListPage","pesquisar","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
 	}

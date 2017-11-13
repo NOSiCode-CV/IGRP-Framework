@@ -33,6 +33,8 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.compiler.helpers.Compiler;
+
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class EnvController extends Controller {		
 
@@ -93,10 +95,10 @@ public class EnvController extends Controller {
 					proty.setStatus(1);		
 					proty = proty.insert();
 					if(proty==null){
-						Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar o perfil !");
+						Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao registar o perfil !"));
 					}					
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao registar a Orgânica!");
+					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao registar a Orgânica !"));
 				}
 				
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
@@ -192,10 +194,10 @@ public class EnvController extends Controller {
 		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", "Minhas Aplicações");
+			xml_menu.setElement("title", gt("Minhas Aplicações"));
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", "Outras Aplicações");
+			xml_menu.setElement("subtitle", gt("Outras Aplicações"));
 		}
 		xml_menu.endElement();
 
@@ -258,7 +260,7 @@ public class EnvController extends Controller {
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue("Gestão de Aplicação - Actualizar");
+		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
 		return this.renderView(view);

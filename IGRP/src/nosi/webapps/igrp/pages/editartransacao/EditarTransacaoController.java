@@ -14,6 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
 
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class EditarTransacaoController extends Controller {		
 
@@ -38,9 +39,9 @@ public class EditarTransacaoController extends Controller {
 				t.setId(Integer.parseInt(codigo));
 				t = t.update();
 				if(t!=null)
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Transacao atualizada com sucesso.");
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Transação atualizada com sucesso."));
 				else
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a transacao.");
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Error ao atualizar a transação."));
 				return this.redirect("igrp", "EditarTransacao", "index", new String[]{"codigo"}, new String[]{t.getCode() + ""});
 			}
 			EditarTransacaoView view = new EditarTransacaoView(model);

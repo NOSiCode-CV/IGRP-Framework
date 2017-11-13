@@ -33,6 +33,8 @@ import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 
+import static nosi.core.i18n.Translator.gt;
+
 /*---- End ----*/
 
 public class MapaProcessoController extends Controller {		
@@ -43,8 +45,8 @@ public class MapaProcessoController extends Controller {
 		MapaProcesso model = new MapaProcesso();
 		MapaProcessoView view = new MapaProcessoView(model);
 		List<IGRPMenu> listMenus = new ArrayList<>();
-		IGRPMenu menus = new IGRPMenu("Lista de Processos","webapps?r=");
-		IGRPMenu.Menu menu = new IGRPMenu.Menu("Processos Ativos");
+		IGRPMenu menus = new IGRPMenu(gt("Lista de Processos"),"webapps?r=");
+		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
 		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos()){
 			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&amp;p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
@@ -93,21 +95,21 @@ public class MapaProcessoController extends Controller {
 		IGRPTable table_form = new IGRPTable("table", (float)2.1);
 		
 		Field prm_file_name = new TextField(null,"prm_file_name");
-		prm_file_name.setLabel("Nome Ficheiro");
+		prm_file_name.setLabel(gt("Nome Ficheiro"));
 		prm_file_name.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
-		prm_file_name_desc.setLabel("Nome Ficheiro");
+		prm_file_name_desc.setLabel(gt("Nome Ficheiro"));
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel("Descrição");
+		prm_file_description.setLabel(gt("Descrição"));
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel("Descrição");
+		prm_file_description_desc.setLabel(gt("Descrição"));
 		Field prm_file = new FileField(null,"prm_file");
-		prm_file.setLabel("Ficheiro");
+		prm_file.setLabel(gt("Ficheiro"));
 		prm_file.propertie().add("rel", "prm_doc_list").add("maxlength", 300);
 		prm_file.propertie().add("end", "true").add("required", "true");
 		Field prm_file_desc = new FileField(null,"prm_file_desc");
-		prm_file_desc.setLabel("Ficheiro");
+		prm_file_desc.setLabel(gt("Ficheiro"));
 		prm_file_desc.propertie().add("maxlength", 300);
 		Field prm_doc_list_id = new TextField(null,"prm_doc_list_id");
 		prm_doc_list_id.propertie().add("type", "hidden");
@@ -122,12 +124,12 @@ public class MapaProcessoController extends Controller {
 		
 		Field separatoradd_document1 = new SeparatorField(null, "separatoradd_document1");
 		separatoradd_document1.propertie().add("start", "add_document");
-		separatoradd_document1.setLabel("Adicionar Documento");
+		separatoradd_document1.setLabel(gt("Adicionar Documento"));
 		
 		Field prm_doc_list = new TextField(null,"prm_doc_list");
 		prm_doc_list.propertie().add("type", "separatordialog");
 		prm_doc_list.propertie().add("container", "true");
-		prm_doc_list.setLabel("Adicionar Documentos");
+		prm_doc_list.setLabel(gt("Adicionar Documentos"));
 		
 		Field p_fwl_tab_page = new TextField(null,"p_fwl_tab_page");
 		p_fwl_tab_page.propertie().add("type", "hidden");
@@ -162,7 +164,7 @@ public class MapaProcessoController extends Controller {
 					if(!prop.getWritable())
 						field.propertie().add("readonly", "true");
 					if(prop.getType().endsWith("enum")){
-						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
+						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opção ---")));
 					}
 					form.addField(field);
 				}

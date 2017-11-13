@@ -14,6 +14,8 @@ import java.util.List;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 
+import static nosi.core.i18n.Translator.gt;
+
 /*---- End ----*/
 
 public class Import_exportController extends Controller {		
@@ -45,7 +47,7 @@ public class Import_exportController extends Controller {
 		}
 		Import_exportView view = new Import_exportView(model);
 		HashMap<String, String> tipo = new HashMap<>();
-		tipo.put(null, "-- Escolha o tipo --");
+		tipo.put(null, gt("-- Escolha o tipo --"));
 		tipo.put("export", "Export");
 		tipo.put("import", "Import");
 		view.tipo.setValue(tipo);

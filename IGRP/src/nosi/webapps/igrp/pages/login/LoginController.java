@@ -148,27 +148,27 @@ public class LoginController extends Controller {
 						if(profile != null && Igrp.getInstance().getUser().login(user, 3600 * 24 * 30)){
 							if(!Session.afterLogin(profile)) {
 								success = false;
-								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Error no registo session ...");
+								Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Error no registo session ..."));
 								//String backUrl = Route.previous(); // remember the last url that was requested by the user
 							}
 						}
 						else {
 							success = false;
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ooops !!! Login inválido ...");
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
 						}
 				}
 				else {
 					success = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Utilizador desativado. Por favor contacte o Administrador.");
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
 				}
 				/** End create user session **/
 				
 			}else {
 				success = false;
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
 			}
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Comunicação LDAP falhada ou a sua conta ou palavra-passe está incorreta.");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Comunicação LDAP falhada ou a sua conta ou palavra-passe está incorreta."));
 		
 		return success;
 	}
