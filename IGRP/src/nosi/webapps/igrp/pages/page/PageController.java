@@ -12,8 +12,10 @@ package nosi.webapps.igrp.pages.page;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -27,10 +29,9 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.CompilerHelper;
-import nosi.core.webapp.helpers.ErrorCompile;
-import nosi.core.webapp.helpers.ErrorCompile.ErrorConfig;
-import nosi.core.webapp.helpers.ErrorCompile.ErrorConfig.ErrorDescr;
+import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.compiler.helpers.ErrorCompile;
+import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -192,6 +193,7 @@ public class PageController extends Controller {
 				){
 					error += this.processCompile(path_class,ac.getPage());
 					if(error.equals("")){//Check if not error on the compilation class
+						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
 						if(FileHelper.fileExists(Config.getWorkspace())){
 							if(!FileHelper.fileExists(path_class_work_space)){//check directory
 								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
@@ -202,7 +204,7 @@ public class PageController extends Controller {
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 						ac.update();
-						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso</message></messages>");
+						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 					}
 				}
 			}
@@ -211,60 +213,23 @@ public class PageController extends Controller {
 	}
 	
 	
-	private ErrorConfig getError(String error,String split){	
-		error = error.replaceAll("\n", " ");
-		ErrorConfig eC = new ErrorCompile().new ErrorConfig();	
-		if(error!=null && !error.equals("")){
-			List<ErrorDescr> errors = new ArrayList<>();
-			for(String e:error.split(split)){
-				if(e.startsWith(":")){
-					int start = e.indexOf(":");
-					int start2 = e.indexOf("error:");
-					if(start!=-1 && start2!=-1){
-						 start += ":".length();
-						 start2 += "error:".length();
-						 ErrorDescr p = new ErrorCompile().new ErrorConfig().new ErrorDescr();
-						 p.setError(e.substring(start2,e.indexOf("^")));
-						 p.setLine(e.substring(start,e.indexOf(":",start)));
-						 errors.add(p);
-					}
-				}
-			}
-			if(!errors.isEmpty() && errors.size() >0 ){
-				eC.setName(split);
-				eC.setErrors(errors);
-				return eC;
-			}
-		}
-		return null;
-	}
-	
 	private String processCompile(String path_class, String page) {
-		String error = "";
-		ErrorConfig e1 = this.getError(this.compile(path_class,page+".java"),page+".java");
-		ErrorConfig e2 = this.getError(this.compile(path_class,page+"View.java"), page+"View.java");
-		ErrorConfig e3 = this.getError(this.compile(path_class,page+"Controller.java"), page+"Controller.java");		
-		ErrorCompile eC = new ErrorCompile();
-		eC.setMsg(FlashMessage.MESSAGE_SUCCESS);
-		eC.addError(e1);
-		eC.addError(e2);
-		eC.addError(e3);
-		if(eC.getError().size() > 0){
-			eC.setMsg(FlashMessage.ERROR_COMPILED);
-			Gson g = new Gson();
-			error = g.toJson(eC);
+		String errors = "";
+		path_class = path_class+File.separator;
+		File[] files = new File[]{new File(path_class+page+".java"),new File(path_class+page+"View.java"),new File(path_class+page+"Controller.java")};
+		Compiler compiler = new Compiler();
+    	try {
+			if(!compiler.compile(files)){			
+				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+			}
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
 		}
-		return error;
+		return errors;
 	}
 
-	private String compile(String path_class,String className){
-		boolean isCompiled = CompilerHelper.compile(path_class,className);
-		if(!isCompiled){
-			return CompilerHelper.getError();
-		}
-		return "";
-	}
-	
 	//Read json and extract transactions
 	private void processJson(Part fileJson,Action ac) throws IOException {
 		if(fileJson!=null){

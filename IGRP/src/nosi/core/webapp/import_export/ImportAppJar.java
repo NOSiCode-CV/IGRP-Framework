@@ -1,8 +1,8 @@
 package nosi.core.webapp.import_export;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
@@ -36,12 +36,10 @@ public class ImportAppJar extends Import implements IFImportExport{
 	@Override
 	public boolean importApp() {
 		boolean result = true;
+		List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
 		for(FileImportAppOrPage file:this.un_jar_files){
-			if(file.getNome().endsWith(".java") && this.app!=null && !file.getNome().startsWith("dao")){
-				if(!this.compileFiles(file,this.app)){
-					result = false;
-					break;
-				}
+			if(file.getNome().endsWith(".java") && this.app!=null){
+				filesToCompile.add(file);
 			}else if(file.getNome().startsWith("configApp")){
 				this.app = this.saveApp(file);
 				if(this.app==null){
@@ -66,16 +64,6 @@ public class ImportAppJar extends Import implements IFImportExport{
 						}
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}else if(file.getNome().startsWith("dao") && this.app!=null){
-				try {
-					String[] fileName = file.getNome().split("/");
-					String pathDaoClass = Config.getBasePahtClass(this.app.getDad().toLowerCase())+"dao"+File.separator;
-					FileHelper.save(pathDaoClass, fileName[1], file.getConteudo());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}else if(!file.getNome().startsWith("configApp") && !file.getNome().startsWith("configPage")  && !file.getNome().startsWith("configDB")   && !file.getNome().startsWith("dao") && this.app!=null){
@@ -85,9 +73,11 @@ public class ImportAppJar extends Import implements IFImportExport{
 				}
 			}
 		}
+		result = this.compileFiles(filesToCompile,this.app);
 		return result;
 	}
-	
+
+
 	private boolean saveConfigDB(String conteudo,Application app) {
 		StringReader input = new StringReader(conteudo);
 		XMLConfigDBReader listConfig = JAXB.unmarshal(input, XMLConfigDBReader.class);
