@@ -1,11 +1,15 @@
 package nosi.core.webapp;
 
 import java.util.Map;
+
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
+
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -23,7 +27,7 @@ public class FlashMessage implements Serializable{
     public static final String WARNING_EXPORT_APP = "Esta aplicaçã não possui conteudo suficiente para ser exportado";
     
 	public static final String MESSAGE_SUCCESS = "Operacao Efetuada com sucesso";
-	public static final String MESSAGE_ERROR = "Operacao falhada";
+	public static final String MESSAGE_ERROR = "Falha ao tentar efetuar esta operação";
 
 	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteudo suficiente para ser exportado";
     public static final String WARNING_PAGE_INVALID = "Nome de Página Invalida";

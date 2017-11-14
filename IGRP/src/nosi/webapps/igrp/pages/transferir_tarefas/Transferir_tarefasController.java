@@ -6,12 +6,14 @@ package nosi.webapps.igrp.pages.transferir_tarefas;
 import nosi.core.config.Config;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.webapps.igrp.dao.User;
 
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class Transferir_tarefasController extends Controller {		
@@ -50,12 +52,12 @@ public class Transferir_tarefasController extends Controller {
 			if(model.getP_id_utilizador()!=null && !model.getP_id_utilizador().equals("")){
 				User user = new User().findOne(Integer.parseInt(model.getP_id_utilizador()));
 				if(user!=null && new TaskService().delegateTask(id, user.getUser_name())){
-					Igrp.getInstance().getFlashMessage().addMessage("success","Tarefa transferido para "+user.getName()+" com sucesso");
+					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa transferido para ")+user.getName()+gt(" com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);				
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);				
 			}
 		}
 		Config.target = "_blank";

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class SessionController extends Controller {		
 
@@ -65,7 +65,7 @@ public class SessionController extends Controller {
 		view.table_1.addData(data);		
 		view.aplicacao.setValue(new Application().getListApps());		
 		HashMap<String, String> status = new HashMap<String,String>();
-		status.put("", "--- Escolher estado ---");
+		status.put("", gt("--- Escolher estado ---"));
 		status.put("1", "Ativo");
 		status.put("0", "Inativo");
 		view.estado.setValue(status);		

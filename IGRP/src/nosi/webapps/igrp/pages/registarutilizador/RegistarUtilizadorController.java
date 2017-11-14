@@ -13,7 +13,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class RegistarUtilizadorController extends Controller {		
 
@@ -24,7 +24,7 @@ public class RegistarUtilizadorController extends Controller {
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
 			model.load();			
 			if(!model.getPassword().equals(model.getConfirmar_password())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Password inconsistentes ... Tente de novo.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Password inconsistentes ... Tente de novo."));
 				isError = true;
 			}
 				
@@ -40,11 +40,11 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user = user.insert();
 				if(user!=null){
-					Igrp.getInstance().getFlashMessage().addMessage("success", "Utilizador registado com sucesso.");
+					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Utilizador registado com sucesso."));
 					return this.redirect("igrp", "registar-utilizador", "index");
 				}
 				else
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Error ao registar uilizador.");
+					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Error ao registar uilizador."));
 			}
 			
 		}
@@ -69,7 +69,7 @@ public class RegistarUtilizadorController extends Controller {
 			model.load();			
 			boolean isError = false;
 			if(!model.getPassword().equals(model.getConfirmar_password())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Password inconsistentes ... Tente de novo.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Password inconsistentes ... Tente de novo."));
 				isError = true;
 			}				
 			if(!isError){
@@ -80,11 +80,11 @@ public class RegistarUtilizadorController extends Controller {
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				if(user !=null){
-					Igrp.getInstance().getFlashMessage().addMessage("success", "Utilizador atualizado com sucesso.");
+					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Utilizador atualizado com sucesso."));
 					return this.redirect("igrp", "registar-utilizador", "editar", new String[]{"p_id"}, new String[]{user.getId() + ""});
 				}
 				else
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Error ao atualizar uilizador.");
+					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Error ao atualizar uilizador."));
 			}			
 		}		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);

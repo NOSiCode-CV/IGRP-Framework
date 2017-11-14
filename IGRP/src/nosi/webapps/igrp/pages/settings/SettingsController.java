@@ -18,7 +18,7 @@ import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class SettingsController extends Controller {		
 
@@ -40,7 +40,7 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
 			
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "OK - [APLICAR] Operação efectuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efectuada com sucesso"));
 		
 			return this.redirect("igrp", "settings", "index");
 		}
@@ -83,7 +83,7 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 		view.perfil.setValue(profiles);
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put("", "--- Selecionar Idioma ---");
+		idioma.put("", gt("--- Selecionar Idioma ---"));
 		idioma.put("pt_pt", "Português");
 		idioma.put("en_us", "Inglês");
 		idioma.put("fr_fr", "Francês");

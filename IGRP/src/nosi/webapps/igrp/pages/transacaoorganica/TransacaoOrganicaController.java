@@ -16,7 +16,7 @@ import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class TransacaoOrganicaController extends Controller {		
 
@@ -102,7 +102,7 @@ public class TransacaoOrganicaController extends Controller {
 					prof = prof.insert();
 				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Operação realizada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
 		}
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
 	}

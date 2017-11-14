@@ -7,7 +7,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
-
+import static nosi.core.i18n.Translator.gt;
 public class PesquisarMenuView extends View {
 	public String title = "null";		
 	
@@ -38,28 +38,28 @@ public class PesquisarMenuView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao Menu");
+		sectionheader_1_text.setValue(gt("Gestão Menu"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
-		organica.setLabel("Organica");
+		organica.setLabel(gt("Orgânica"));
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		menu_principal = new ListField(model,"menu_principal");
-		menu_principal.setLabel("Menu Principal");
+		menu_principal.setLabel(gt("Menu Principal"));
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
-		descricao.setLabel("Menu Principal");
+		descricao.setLabel(gt("Menu Principal"));
 		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		titulo = new PlainTextField(model,"titulo");
 		titulo.setLabel("Menu");
 		titulo.propertie().add("name","p_titulo").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		pagina = new PlainTextField(model,"pagina");
-		pagina.setLabel("Pagina");
+		pagina.setLabel(gt("Página"));
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
 		ativo = new TextField(model,"ativo");
-		ativo.setLabel("Ativo");
+		ativo.setLabel(gt("Ativo"));
 		ativo.propertie().add("name","p_ativo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		checkbox = new CheckBoxField(model,"checkbox");
 		checkbox.setLabel("Checkbox");
@@ -72,17 +72,17 @@ public class PesquisarMenuView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","novo-menu","index","_self","success|fa-plus-square","","");
+		btn_novo = new IGRPButton(gt("Novo"),"igrp","novo-menu","index","_self","success|fa-plus-square","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_menu_base = new IGRPButton("Menu Base","igrp","PesquisarMenu","menu_base","submit","default|fa-save","","");
 		btn_menu_base.propertie.add("type","specific").add("code","").add("rel","menu_base");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarMenu","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","PesquisarMenu","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","novo-menu","editar","_self","default|fa-pencil","","");
+		btn_editar = new IGRPButton(gt("Editar"),"igrp","novo-menu","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("rel","editar");
 		
-		btn_eliminar = new IGRPButton("Eliminar","igrp","pesquisar-menu","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","pesquisar-menu","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("rel","eliminar");
 	}
 	
