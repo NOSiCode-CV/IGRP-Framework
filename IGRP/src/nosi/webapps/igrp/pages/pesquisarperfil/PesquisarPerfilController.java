@@ -13,7 +13,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class PesquisarPerfilController extends Controller {		
@@ -51,9 +51,9 @@ public class PesquisarPerfilController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		ProfileType p = new ProfileType();
 		if(p.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 		return this.redirect("igrp","PesquisarPerfil","index");
 	}
 	

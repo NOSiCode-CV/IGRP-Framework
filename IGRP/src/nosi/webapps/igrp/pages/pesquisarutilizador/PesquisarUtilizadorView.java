@@ -3,7 +3,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
-
+import static nosi.core.i18n.Translator.gt;
 public class PesquisarUtilizadorView extends View {
 	public String title = "";		
 	
@@ -35,19 +35,19 @@ public class PesquisarUtilizadorView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao de utilizador");
+		sectionheader_1_text.setValue(gt("Gestao de utilizador"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
-		organica.setLabel("Organica");
+		organica.setLabel(gt("Orgânica"));
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		perfil = new ListField(model,"perfil");
-		perfil.setLabel("Perfil");
+		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		username = new TextField(model,"username");
-		username.setLabel("Username");
+		username.setLabel(gt("Username"));
 		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		email = new TextField(model,"email");
 		email.setLabel("Email");
@@ -64,26 +64,26 @@ public class PesquisarUtilizadorView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","PesquisarUtilizador","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","RegistarUtilizador","editar","_self","default|fa-pencil","","");
+		btn_editar = new IGRPButton(gt("Editar"),"igrp","RegistarUtilizador","editar","_self","default|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
 		
-		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 		
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
+		btn_convidar = new IGRPButton(gt("Convidar"),"igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
 		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
 		
 
-		btn_novo = new IGRPButton("Novo","igrp","RegistarUtilizador","index","_self","success|fa-plus","","");
+		btn_novo = new IGRPButton(gt("Novo"),"igrp","RegistarUtilizador","index","_self","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 		
 		btn_menu = new IGRPButton("Menu","igrp","MenuOrganica","index","_self","default|fa-angle-right","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
 
-		btn_transacao = new IGRPButton("Transacao","igrp","TransacaoOrganica","index","_self","default|fa-angle-right","","");
+		btn_transacao = new IGRPButton(gt("Transação"),"igrp","TransacaoOrganica","index","_self","default|fa-angle-right","","");
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 	}
 		

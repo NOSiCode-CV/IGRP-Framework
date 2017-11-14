@@ -18,7 +18,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class PesquisarMenuController extends Controller {		
 
@@ -121,9 +121,9 @@ public class PesquisarMenuController extends Controller {
 				}
 			}
 			if(x){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 			}
 		}
 		return this.redirect("igrp","pesquisar-menu","index");
@@ -133,9 +133,9 @@ public class PesquisarMenuController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if(menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 		return this.redirect("igrp","pesquisar-menu","index");
 	}
 	
