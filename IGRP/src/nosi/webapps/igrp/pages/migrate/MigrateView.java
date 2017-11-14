@@ -47,7 +47,7 @@ public class MigrateView extends View {
 		
 		port.propertie().add("name","p_port").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("min","").add("max","");
 		nome_de_bade_dados = new TextField(model,"nome_de_bade_dados");
-		nome_de_bade_dados.setLabel(gt("Nome de Bade Dados"));
+		nome_de_bade_dados.setLabel(gt("Nome de Base Dados"));
 		
 		nome_de_bade_dados.propertie().add("name","p_nome_de_bade_dados").add("type","text").add("maxlength","50").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		username = new TextField(model,"username");
