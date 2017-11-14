@@ -78,12 +78,12 @@ public class Permission {
 		return env!=null && !env.equals("")?env:"igrp";
 	}
 	
-	public static int getCurrentPerfilId() {
+	public static Integer getCurrentPerfilId() {
 		Integer prof = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
 		return prof!=null && !prof.equals("")?prof:-1;
 	}
 
-	public static int getCurrentOrganization() {
+	public static Integer getCurrentOrganization() {
 		Integer org = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org");
 		return org!=null && !org.equals("")?org:-1;
 	}

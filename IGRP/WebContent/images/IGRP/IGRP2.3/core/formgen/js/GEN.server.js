@@ -1,17 +1,51 @@
 $(function(){
+	
 	'use strict';
 
 	var GEN    	   = VARS.getGen(),
 
-		genOptions = GEN.params && GEN.params.server ? GEN.params.server : {},
+		genOptions 	  = GEN.params && GEN.params.server ? GEN.params.server : {},
 
-		server 	   = GEN.server = {};
+		server 	   	  = GEN.server = {},
+
+		clicked 	  = {},
+
+		reservedAreas = {
+
+			java : {
+
+				controller : {
+
+					'PACKAGES_IMPORT' : {
+
+						code : ''
+
+					},
+
+					'INDEX' : {
+
+						code : ''
+
+					},
+
+					'CUSTOM_ACTIONS' : {
+
+						code : ''
+
+					}
+
+				}
+
+			}
+
+		};
 
 	server.activeMenu = {};
 
 	server.preserved  = {};
 
 	server.editors    = {};
+
 
 	server.set = function(p){
 
@@ -47,6 +81,7 @@ $(function(){
 			
 			complete    : function(d,e){
 
+
 				var content  = d.html(),
  
 					onFinish = function(ncontent){
@@ -59,6 +94,10 @@ $(function(){
 
 						GEN.done();
 
+						//getPreservedLines( );
+
+						//console.log(reservedAreas)
+
 					};
 
 				content = content.replaceAll('&lt;','<');
@@ -66,7 +105,7 @@ $(function(){
 				content = content.replaceAll('&gt;','>');
 
 				content = content.replaceAll('&amp;','&');
-				
+
 				LoadPreservedCodes( content, onFinish);
 				
 			},
@@ -112,6 +151,7 @@ $(function(){
 
 		var end  = getIndicesOf(endExp, content);
 
+
 		if(begin[0] && end[0]){
 
 			var canPreserve = begin.length == end.length;
@@ -130,66 +170,68 @@ $(function(){
 
 					callback:function(r){
 
+						console.log(r);
+						
+						var m = clicked;
+
 						r.forEach(function(o){
-							
-							if(server.preserved && server.preserved.java && server.preserved.java.controller && server.preserved.java.controller[o.areaName]){
+
+							var text = $.trim(o.text);
+
+							if( reservedAreas[m.mode] && reservedAreas[m.mode][m.part] && reservedAreas[m.mode][m.part][o.areaName] ){
 								
-								var val = server.preserved.java.controller[o.areaName];
+								var reserved = reservedAreas[m.mode][m.part][o.areaName].code;
 
-								content = content.replaceAll(o.originalContent,val);
+								if(reserved != '')
+									
+									content = content.replaceAll(o.originalContent,reserved);
 
-							}else{	
-							
-								var text = $.trim(o.text);
+								else{
 
-								if(text != '')
-
-									content = content.replaceAll(o.originalContent,'\n\n'+$.trim(o.text));
-
-								content = content.replaceAll(o.urlExpression,'');
-
-								setTimeout(function(){
-
-									var m = server.activeMenu;
-
-									if(!server.preserved[m.mode])
-
-										server.preserved[m.mode] = {};
-
-									if(!server.preserved[m.mode][m.part])
+									if(text!=''){
 										
-										server.preserved[m.mode][m.part] = {};
+										content = content.replaceAll(o.originalContent,text);
 
-									server.preserved[m.mode][m.part][o.areaName] = o.text;
+									reservedAreas[m.mode][m.part][o.areaName].code = text;
+									
+									}
+										
+								}
 
-								},50)
+							}else{
+								
+								var tag   = o.areaName.toLowerCase(),
+
+									field = GEN.getFieldByTag(tag);
+
+								if(field){
+									
+									if(field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] && field.server.preserved[m.mode][m.part].code != '' ){
+										
+										var val = field.server.preserved[m.mode][m.part].code;
+
+										content = content.replaceAll(o.originalContent,val);
+									
+									}else{
+										
+										if(text != '')
+
+											content = content.replaceAll(o.originalContent,text);
+										
+										field.server.preserved[m.mode] =field.server.preserved[m.mode] || {};
+
+										field.server.preserved[m.mode][m.part] = field.server.preserved[m.mode][m.part] || {
+
+											code : text
+
+										}
+										
+									}
+								}
+
 							}
-							
-							//if(server.preserved)
-							
-							/*var text = $.trim(o.text);
-
-							if(text != '')
-
-								content = content.replaceAll(o.originalContent,'\n\n'+$.trim(o.text));
 
 							content = content.replaceAll(o.urlExpression,'');
-
-							setTimeout(function(){
-
-								var m = server.activeMenu;
-
-								if(!server.preserved[m.mode])
-
-									server.preserved[m.mode] = {};
-
-								if(!server.preserved[m.mode][m.part])
-									
-									server.preserved[m.mode][m.part] = {};
-
-								server.preserved[m.mode][m.part][o.areaName] = o.text;
-
-							},50)*/
 
 						});
 
@@ -209,6 +251,77 @@ $(function(){
 
 	};
 
+	var readOnlyLines = function(o){
+
+		console.log(i);
+
+		var idx = o.index || 0;
+
+		if(idx < o.start.length){
+
+			console.log(o.start[idx])
+
+			console.log(o.end[idx]);
+
+			readOnlyLines
+
+		}else{
+
+			console.log('end')
+
+		}
+
+	}
+
+	var getPreservedLines = function(change){
+
+		var start  = '/*----#START-PRESERVED-AREA(',
+
+			end    = '/*----#END-PRESERVED-AREA----*/',
+
+			res    = [],
+
+			arrSt  = [],
+
+			arrEd  = [],
+
+			active = clicked,
+
+			editor = server.editors[active.mode][active.part.toUpperCase()];
+
+		if(editor.lineCount() > 1){
+
+			editor.eachLine(function(e,i){
+
+				if(e.text.indexOf(start) >= 0)
+
+					arrSt.push(e.lineNo());
+				
+
+				if(e.text.indexOf(end) >= 0)
+
+					arrEd.push(e.lineNo());
+				
+
+			});
+
+			/*readOnlyLines( {
+				
+				start : arrSt,
+
+				end   : arrEd
+
+			} )*/
+
+			return {
+				start : arrSt,
+				end   : arrEd
+			}
+
+		}
+
+	}	
+
 	var DeactivateMenus = function(){
 
 		$('.server-transform').removeClass('active');
@@ -220,6 +333,11 @@ $(function(){
 		var options = GetMenuOptions( menu );
 
 		var editor  = server.editors[options.mode][options.part.toUpperCase()];
+
+		clicked = {
+			mode : options.mode,
+			part : options.part
+		}
 		
 		options.callback = function(content){
 
@@ -312,40 +430,186 @@ $(function(){
 
 	var SetEditorEvents = function(editor,mode){
 		
+		var writing = false;
+
 		editor.on('blur',function(){
 
-			var m = server.activeMenu,
+			var m 		 	 = server.activeMenu,
 
-        		p = server.preserved;
+				content      = editor.getValue(),
 
-        	if(p[m.mode] && p[m.mode][m.part]){
+				commentStart = '/*----',
 
-        		var keys 	 = Object.keys(p[m.mode][m.part]),
+				commentEnd   = '----*/',
 
-        			content  = editor.getValue(),
+				startExp = commentStart+'#START-PRESERVED-AREA(',
 
-        			endIDX 	 = getIndicesOf('/*----#END-PRESERVED-AREA----*/',content);
+				endExp   = commentStart+'#END-PRESERVED-AREA'+commentEnd,
 
-        		keys.forEach(function(k,i){
+				startIDX = getIndicesOf(startExp,content),
 
-        			var tag = k.toLowerCase();
+				endIDX 	 = getIndicesOf(endExp,content),
 
-        			var startExp = '/*----#START-PRESERVED-AREA('+k+')----*/';
+				reserved = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
 
-        			var startIDX = getIndicesOf(startExp,content);
+			if(startIDX.length == endIDX.length){
 
-    				startIDX.forEach(function(si,x){
+				startIDX.forEach(function(sidx,i){
 
-    					var ei = endIDX[i];
+					var eidx 	     = endIDX[i],
 
-    					p[m.mode][m.part][k] = content.substring(si+startExp.length,ei);
+						partContent  = content.substring(sidx,eidx+endExp.length),
+
+						nameStartIdx = partContent.indexOf(startExp),
+
+						nameEndIdx 	 = partContent.indexOf(')'+commentEnd),
+
+						name 		 = partContent.substring(nameStartIdx+startExp.length,nameEndIdx),
+
+						field 		 = GEN.getFieldByTag(name.toLowerCase()),
+
+						codeHead 	 =  startExp+name+')'+commentEnd,
+
+						codeContent  = partContent.replaceAll(codeHead,'').replaceAll(endExp,'');
+
+					if(field){
+
+						if( field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] )
+
+    						field.server.preserved[m.mode][m.part].code = codeContent;
+
+					}else{
+
+						var r = reserved[name];
+
+						r.code = codeContent;
+
+					}	
+
+				});
+
+			}
+
+		});
+
+		editor.on('blursssss',function(){
+
+			var m 		 = server.activeMenu,
+
+				content  = editor.getValue(),
+
+				endIDX 	 = getIndicesOf('/*----#END-PRESERVED-AREA----*/',content),
+
+				reserved = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
+
+			//set fields actions reserved
+			GEN.getAllFieldsAndMenus().forEach(function(f,i){
+
+				var tag 	 = f.GET.tag(),
+
+					k   	 = tag.toUpperCase(),
+
+					eIdx;
+
+				if( !reserved[k] ){
+
+					//console.log('Name: '+k);
+
+					var startExp = '/*----#START-PRESERVED-AREA('+k+')----*/';
+
+	        		var startIDX = getIndicesOf(startExp,content);
+
+	        		startIDX.forEach(function(si,x){
+
+	        			eIdx = i+2
+
+    					var ei = endIDX[eIdx];
+    			
+    					if( f.server.preserved[m.mode] && f.server.preserved[m.mode][m.part] )
+
+    						f.server.preserved[m.mode][m.part].code = $.trim(content.substring(si+startExp.length,ei));
+
+    					endIDX[eIdx] = false;
+
+    					console.log( $.trim(content.substring(si+startExp.length,ei)) )
 
     				});
 
-        		});
+				}else{
+					console.log(k+' is a reserved name! please change your button name!');
+				}
 
-        	};
+			});
+			//set reseved actions		
+			for(var a in reserved){
 
+				var startExp = '/*----#START-PRESERVED-AREA('+a+')----*/';
+
+        		var startIDX = getIndicesOf(startExp,content);
+
+        		console.log('Name: '+a);
+
+        		startIDX.forEach(function(si,x){
+
+					var ei = endIDX[x];
+
+					if(ei){
+
+						var code = content.substring(si+startExp.length,ei);
+
+						reserved[a].code = code;
+
+						console.log( reserved[a].code )
+
+					}
+
+				});
+
+			}
+
+		});
+
+
+		editor.on('beforeChange',function(cm,change){
+
+			if(writing){
+
+				var start = '/*----#START-PRESERVED-AREA(',
+
+					end   = '/*----#END-PRESERVED-AREA----*/',
+
+					lines = getPreservedLines();
+
+				if(lines){
+					
+					var isReservedArea = false;
+
+					for(var x = 0; x < lines.start.length; x++){
+						
+						for(var i = lines.start[x]; i <= lines.end[x]; i++){
+
+							if(change.from.line == i)
+
+								isReservedArea = true;
+						}
+
+					}
+
+					if( !isReservedArea )
+
+						change.cancel();
+
+				}
+			}
+
+		});
+
+		editor.on('keydown',function(cm,e){
+			writing = true;
+		});
+
+		editor.on('keyup',function(cm,e){
+			writing = false;
 		});
 
 	};

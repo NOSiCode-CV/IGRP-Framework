@@ -138,7 +138,7 @@ public class FileHelper {
 	        out = new FileOutputStream(new File(path + File.separator+ filename));
 	        filecontent = file.getInputStream();
 	        int read = 0;
-	        final byte[] bytes = new byte[1024];
+	        final byte[] bytes = new byte[(int) file.getSize()];
 	        while ((read = filecontent.read(bytes)) != -1) {
 	            out.write(bytes, 0, read);
 	        }
@@ -154,6 +154,7 @@ public class FileHelper {
 	            filecontent.close();
 	        }
 	    }
+		file.delete();
 		return isSaved;
 	}
 	
