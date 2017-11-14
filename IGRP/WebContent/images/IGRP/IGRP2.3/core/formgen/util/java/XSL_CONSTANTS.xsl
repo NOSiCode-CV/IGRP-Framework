@@ -33,7 +33,7 @@
     <xsl:variable name="import_separator_list">import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:variable>
     <xsl:variable name="import_separator_list_annotation">import nosi.core.webapp.SeparatorList;</xsl:variable>
     <xsl:variable name="import_controller">import nosi.core.webapp.Controller;</xsl:variable>
-    <xsl:variable name="import_exception">import java.io.IOException;<xsl:value-of select="$newline"/> import nosi.core.webapp.FlashMessage;</xsl:variable>
+    <xsl:variable name="import_exception">import java.io.IOException;<xsl:value-of select="$newline"/> import nosi.core.webapp.FlashMessage;<xsl:value-of select="$newline"/> import nosi.core.webapp.Core;</xsl:variable>
     <xsl:variable name="import_response">import nosi.core.webapp.Response;</xsl:variable>
     <xsl:variable name="import_igrp">import nosi.core.webapp.Igrp;</xsl:variable>
     <xsl:variable name="import_annotations">import nosi.core.webapp.RParam;</xsl:variable>
@@ -47,7 +47,7 @@
 
     <xsl:variable name="begin_reserve_code_controller_on_action" select="'/*---- Insert your code here... ----*/'"/>
 
-    <xsl:variable name="end_reserve_code" select="'/*---- End ----*/'"/>
+    <xsl:variable name="end_reserve_code" select="'/*----#END-PRESERVED-AREA----*/'"/>
 
     <xsl:variable name="app_name"><xsl:value-of select="rows/app"/></xsl:variable>
     

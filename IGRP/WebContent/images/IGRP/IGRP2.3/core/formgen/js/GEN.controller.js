@@ -1,4 +1,5 @@
 var GENERATOR = function(genparams){
+	
 	var GEN                = this;
 	
 	var declaredContainers = [];
@@ -92,7 +93,7 @@ var GENERATOR = function(genparams){
 		},
 
 		valid : function(tag,object){
-			console.log(object)
+			//console.log(object)
 			var r = true,
 
 				t = object.genType,
@@ -1510,6 +1511,24 @@ var GENERATOR = function(genparams){
 		return rtn;
 	}
 
+	GEN.getFieldsPreservedCodes = function(mode,part){
+
+		var rtn = [];
+
+		GEN.getAllFieldsAndMenus().forEach(function(f){
+
+			if(f.server.preserved[mode] && f.server.preserved[mode][part]){
+				
+				rtn.push(f);
+
+			}
+
+		});
+
+		return rtn;
+
+	}
+
 	GEN.getFieldsIncludes = function(){
 		var rtn = {};
 		var idx  = 0;
@@ -2509,11 +2528,8 @@ var GENERATOR = function(genparams){
 
 		$('#gen-page-setts-ctrl').on('click',function(){
 			
-			//var editorName = getActiveEditorName() || 'plsql';
-
-			//GEN.SETTINGS.gentype = editorName;
-			
 			openPLSQLSettings();
+
 		});
 
 		$('.gen-page-setter').on('keyup change',function(){
@@ -3101,27 +3117,35 @@ var GENERATOR = function(genparams){
 			}
 		}
 
+
 		GEN.SETTINGS = {
 			//title   : '',
 			instance       : '',
 			table          : '',
 			package        : '',
 			html           : '',
-			gentype        : '',
+			gentype        : $('.gen-page-setter[rel="gentype"] option[selected]').val() || 'java', 
 			replace        : false,
 			label          : false,
 			biztalk        : false,
 			subversionpath : '',
+			
 			GET     : function(attr){
 				return GEN.SETTINGS.hasOwnProperty(attr) ? GEN.SETTINGS[attr] : '';
 			},
+
 			SET     : function(attr,val){
+			
 				if(GEN.SETTINGS.hasOwnProperty(attr))
+
 					GEN.SETTINGS[attr] = val;
 
 				if(typeof val == 'boolean')
+
 					$('.gen-page-setter[rel="'+attr+'"]').prop('checked', val)
+
 				else
+
 					$('.gen-page-setter[rel="'+attr+'"]').val(val);
 
 				GEN.SETTINGS.checkBtn();
@@ -3329,9 +3353,8 @@ var GENERATOR = function(genparams){
 
 			service  = GEN.proprieties.service ? GEN.proprieties.service : {};
 
-		
-
 		GEN.service.set(GEN);
+
 		objServ.append(GEN.proprieties.service.setter()[0]);
 		
 		if(service.code){
@@ -3356,12 +3379,16 @@ var GENERATOR = function(genparams){
 		$.each($('.gen-page-setter'),function(i,s){
 			
 			var setter = $(s),
+
 				rel    = setter.attr('rel');
 
 			if(setter.attr('type') == 'checkbox')
+
 				setter.prop('checked',GEN.SETTINGS[rel]);
+
 			else
-				setter.val(GEN.SETTINGS[rel]);
+
+				setter.val(GEN.SETTINGS[rel]);		
 		
 		});
 

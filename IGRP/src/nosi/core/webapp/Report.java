@@ -42,9 +42,4 @@ public class Report extends Controller{
 	public Map<String, Object> getParams() {
 		return params;
 	}
-	
-	public static void main(String[] args){
-		Report.getLinkReport("002", new Report().addParam("id", 1));
-		
-	}
 }

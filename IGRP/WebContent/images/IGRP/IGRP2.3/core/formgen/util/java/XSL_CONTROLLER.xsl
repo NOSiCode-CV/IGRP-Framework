@@ -29,7 +29,12 @@
 			<xsl:value-of select="document($url)/your_code"/>
 		</xsl:variable>	
 		<xsl:value-of select="$newline"/>
-     	<xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of>		
+		<!-- <xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of> -->
+     	<xsl:call-template name="begin_reserve_code_action">
+     		<xsl:with-param name="type" select="'PACKAGES_IMPORT'"/>
+     		<xsl:with-param name="url" select="$url"/>
+     	</xsl:call-template>
+
 		<xsl:choose>
      		<xsl:when test="$your_code !=''">
 				<xsl:value-of select="$your_code"/>		
@@ -102,7 +107,10 @@
 		
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$tab"/>
-     	<xsl:value-of select="$begin_reserve_code_controller_actions"></xsl:value-of>
+     	<xsl:call-template name="begin_reserve_code_action">
+     		<xsl:with-param name="type" select="'CUSTOM_ACTIONS'"/>
+     		<xsl:with-param name="url" select="$url"/>
+     	</xsl:call-template>
      	<xsl:choose>
      		<xsl:when test="$url !=''">
 				<xsl:value-of select="$your_code"/>	

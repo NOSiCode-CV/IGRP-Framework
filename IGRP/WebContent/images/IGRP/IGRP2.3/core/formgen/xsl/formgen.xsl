@@ -336,7 +336,7 @@
                                 <div class="col-md-6 form-group" item-name="gentype">
                                     <label>Gen Type</label>
                                     <select name="p_gentype" id="p_gentype" class="select gen-page-setter form-control" rel="gentype">
-                                      <option value="plsql" selected="">Plsql</option>
+                                      <option value="plsql">Plsql</option>
                                       <option value="java" selected="">Java</option>
                                     </select>
                                 </div>

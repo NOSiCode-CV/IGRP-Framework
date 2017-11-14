@@ -106,6 +106,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, app));
 			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp.pages.importarquivo", "igrp/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, app));
 			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, app));
+			actions.add(new Action("AddPluginIGRP", "index", "nosi.webapps.igrp.pages.addpluginigrp", "igrp/addpluginigrp/AddPluginIGRP.xsl", "Importar Plugin IGRP", "Importar Plugin IGRP", "2.3", 1, app));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -116,6 +117,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Parâmetros Gerais", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app, null));
+			menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
 			
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), app, menus.get(0)));
@@ -132,7 +134,8 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
 			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
 			menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
-			menus.add(new Menu("Import Aplicação/Página", 1, 1, 0, "_self", actions.get(35), app, menus.get(0)));
+			menus.add(new Menu("Importar Aplicação/Página", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
+			menus.add(new Menu("Importar Plugin IGRP", 1, 1, 0, "_self", actions.get(37), app, menus.get(4)));
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -145,7 +148,6 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(2, "PROF", prof1, user1, org));
 			
 			//permisao de acesso ao menu
-			profiles.add(new Profile(5, "MEN", prof0, user0, org));
 			profiles.add(new Profile(6, "MEN", prof0, user0, org));
 			profiles.add(new Profile(7, "MEN", prof0, user0, org));
 			profiles.add(new Profile(8, "MEN", prof0, user0, org));
@@ -160,8 +162,9 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(17, "MEN", prof0, user0, org));
 			profiles.add(new Profile(18, "MEN", prof0, user0, org));
 			profiles.add(new Profile(19, "MEN", prof0, user0, org));
+			profiles.add(new Profile(20, "MEN", prof0, user0, org));
+			profiles.add(new Profile(21, "MEN", prof0, user0, org));
 			
-			profiles.add(new Profile(5, "MEN", prof1, user0, org));
 			profiles.add(new Profile(6, "MEN", prof1, user0, org));
 			profiles.add(new Profile(7, "MEN", prof1, user0, org));
 			profiles.add(new Profile(8, "MEN", prof1, user0, org));
@@ -176,6 +179,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(17, "MEN", prof1, user0, org));
 			profiles.add(new Profile(18, "MEN", prof1, user0, org));
 			profiles.add(new Profile(19, "MEN", prof1, user0, org));
+			profiles.add(new Profile(20, "MEN", prof1, user0, org));
+			profiles.add(new Profile(21, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();
