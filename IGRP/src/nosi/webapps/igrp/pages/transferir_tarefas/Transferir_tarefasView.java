@@ -37,7 +37,7 @@ public class Transferir_tarefasView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Transferêcia de Processos"));
+		sectionheader_1_text.setValue(gt("Transferência de Processos"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		numero_processo = new TextField(model,"numero_processo");
 		numero_processo.setLabel(gt("Número Processo"));
@@ -68,7 +68,7 @@ public class Transferir_tarefasView extends View {
 		
 		criado_por_.propertie().add("name","p_criado_por_").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		atribuido_por = new TextField(model,"atribuido_por");
-		atribuido_por.setLabel(gt("Atribuido Por"));
+		atribuido_por.setLabel(gt("Atribuído Por"));
 		
 		atribuido_por.propertie().add("name","p_atribuido_por").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		utilizador_actual = new TextField(model,"utilizador_actual");

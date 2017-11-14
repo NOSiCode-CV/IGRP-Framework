@@ -62,7 +62,7 @@ public class WebReportView extends View {
 		data_source.setValue("");
 		data_source.propertie().add("name","p_data_source").add("type","button").add("target_fields","").add("iconColor","#333").add("iconClass","").add("img","fa-database").add("maxlength","50");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel(gt("Aplicacao"));
+		env_fk.setLabel(gt("Aplicação"));
 		env_fk.setValue("");
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		datasorce_app = new ListField(model,"datasorce_app");

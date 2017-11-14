@@ -52,7 +52,7 @@ public class Transferir_tarefasController extends Controller {
 			if(model.getP_id_utilizador()!=null && !model.getP_id_utilizador().equals("")){
 				User user = new User().findOne(Integer.parseInt(model.getP_id_utilizador()));
 				if(user!=null && new TaskService().delegateTask(id, user.getUser_name())){
-					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa transferido para ")+user.getName()+gt(" com sucesso"));
+					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa transferida para ")+user.getName()+gt(" com sucesso"));
 				}else{
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);				
 				}

@@ -59,7 +59,7 @@ public class MigrateController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			if(MigrationIGRP.validate(model)){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conetado com sucesso"));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
 			}else{
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
 			}
