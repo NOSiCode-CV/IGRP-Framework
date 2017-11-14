@@ -374,18 +374,18 @@ public class PageController extends Controller {
 			String controller = FileHelper.readFile(basePath, page+"Controller.java");
 			if(controller!=null && !controller.equals("")){
 				if(type.equals("c_import")){
-					int start = controller.indexOf(Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER);
-					int end = controller.indexOf(Config.RESERVE_CODE_END);
-					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER.length(), end):"";
+					int start = controller.indexOf(Config.getStartReseveCodeAction("PACKAGES_IMPORT"));
+					int end = controller.indexOf(Config.getEndReserveCode());
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction("PACKAGES_IMPORT").length(), end):"";
 				}else if(type.equals("c_actions")){
-					int start = controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER);
-					int end =  start!=-1? controller.indexOf(Config.RESERVE_CODE_END,start):-1;
-					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_ACTIONS_CONTROLLER.length(),end):"";
+					int start = controller.indexOf(Config.getStartReseveCodeAction("CUSTOM_ACTIONS"));
+					int end =  start!=-1? controller.indexOf(Config.getEndReserveCode(),start):-1;
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction("CUSTOM_ACTIONS").length(),end):"";
 				}else if(ac!=null && !ac.equals("") && type.equals("c_on_action")){
 					String actionName = "action"+ac;
 					int start_ = controller.indexOf(actionName);
 					int start = start_!=-1?controller.indexOf(Config.getStartReseveCodeAction(ac),start_):-1;
-					int end = start!=-1?controller.indexOf(Config.getEndReserveCodeAction(),start):-1;
+					int end = start!=-1?controller.indexOf(Config.getEndReserveCode(),start):-1;
 					your_code = (start!=-1 && start_!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction(ac).length(), end):"";
 				}else if(ac!=null && !ac.equals("") && type.equals("exception_after_action")){
 					String actionName = "action"+ac;
