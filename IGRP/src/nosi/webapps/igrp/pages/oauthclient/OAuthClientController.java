@@ -14,6 +14,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthScope;
 
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class OAuthClientController extends Controller {		
@@ -72,9 +73,9 @@ public class OAuthClientController extends Controller {
 		}
 		
 		if(cliente != null) {
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operacao efetuada com sucesso"));
 		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Operacao falhada"));
 		}
 		return this.redirect("igrp","OAuthClient","index");
 				/*---- End ----*/
