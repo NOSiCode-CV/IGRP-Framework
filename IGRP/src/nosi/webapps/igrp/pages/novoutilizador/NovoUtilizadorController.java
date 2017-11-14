@@ -16,7 +16,7 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class NovoUtilizadorController extends Controller {		
 
@@ -65,15 +65,15 @@ public class NovoUtilizadorController extends Controller {
 						userActiviti0.setEmail(u.getEmail());
 						userActiviti0.create(userActiviti0);	
 						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-						Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 					}else{
-						Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 					}
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Email inválido");
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inválido"));
 			}
 		}
 		return this.redirect("igrp", "novo-utilizador", "index");

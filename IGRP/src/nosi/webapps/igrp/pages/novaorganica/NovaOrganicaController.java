@@ -14,7 +14,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class NovaOrganicaController extends Controller {		
 
@@ -35,9 +35,9 @@ public class NovaOrganicaController extends Controller {
 			organization.setName(model.getNome());
 			organization = organization.insert();
 			if(organization!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica registada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Orgânica registada com sucesso"));
 			}else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Ocorreu um erro.");			
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro."));			
 		}
 			
 		view.aplicacao.setValue(new Application().getListApps());		
@@ -67,15 +67,15 @@ public class NovaOrganicaController extends Controller {
 			organization.setStatus(model.getAtivo());
 			organization = organization.update();
 			if(organization!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Orgânica actualizada com sucesso.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Orgânica actualizada com sucesso."));
 				return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
 			}else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar."));
 		}		
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		view.aplicacao.setValue(new Application().getListApps());		
 		view.organica_pai.setValue(organization.getListOrganizations());		
-		view.sectionheader_1_text.setValue("Gestão de Orgânica - Atualizar");		
+		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));		
 		view.btn_gravar.setLink("editar&p_id=" + idOrganica);	
 		return this.renderView(view);
 	}

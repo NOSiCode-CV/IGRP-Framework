@@ -13,6 +13,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Igrp;
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class MigrateController extends Controller {		
@@ -27,7 +28,7 @@ public class MigrateController extends Controller {
 		MigrateView view = new MigrateView(model);
 		
 		view.tipo_base_dados.setValue(Config.getDatabaseTypes());
-		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name","-- Selecionar Aplicação --"));
+		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar Aplicação --")));
 		return this.renderView(view);
 					/*---- End ----*/
 	}
@@ -41,9 +42,9 @@ public class MigrateController extends Controller {
 			if(model.getAplicacao().equals("1")){
 				if(MigrationIGRP.validate(model)){
 					MigrationIGRP.start(model);
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Migração Efetuada com sucesso");
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Migração Efetuada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Falha na Conexão Com a Base de Dados");
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
 					return this.forward("igrp","Migrate","index");
 				}
 			}
@@ -58,9 +59,9 @@ public class MigrateController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			if(MigrationIGRP.validate(model)){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Conetado com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conetado com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Falha na Conexão Com a Base de Dados");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
 			}
 		}
 		return this.forward("igrp","Migrate","index");

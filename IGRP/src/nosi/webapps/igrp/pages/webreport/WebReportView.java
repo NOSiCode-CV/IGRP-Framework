@@ -114,7 +114,7 @@ public class WebReportView extends View {
 		link.setValue("");
 		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("target_fields","").add("action","index").add("page","WebReport").add("app","igrp").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Descrição"));
 		descricao.setValue("");
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		id = new NumberField(model,"id");
