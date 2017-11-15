@@ -127,7 +127,6 @@ $(function(){
 							object = field ? field.server.preserved[m.mode][m.part] : reservedAreas[m.mode][m.part][o.name.toUpperCase()];
 
 						}catch(err){
-							console.log(err)
 							null;
 						}
 
@@ -173,17 +172,13 @@ $(function(){
 
 	var LoadPreservedCodes = function(content, callback){
 
-		//var beginExp = '/*----#START-PRESERVED-AREA----*/';
-
-		//var endExp   = '/*----#END-PRESERVED-AREA----*/';
-
 		var beginExp = '/*----#START-PRESERVED-AREA(';
 
 		var endExp   = '/*----#END-PRESERVED-AREA----*/';
 
-		var begin = getIndicesOf(beginExp, content);
+		var begin 	 = getIndicesOf(beginExp, content);
 
-		var end  = getIndicesOf(endExp, content);
+		var end  	 = getIndicesOf(endExp, content);
 
 		if(begin[0] && end[0]){
 
@@ -584,48 +579,61 @@ $(function(){
 		});
 
 		editor.on('beforeChange',function(cm,change){
-
+			
 			if(writing){
 
 				var start = '/*----#START-PRESERVED-AREA(',
 
 					end   = '/*----#END-PRESERVED-AREA----*/',
 
-					lines = getPreservedLines();
+					lines = getPreservedLines(),
 
-				if(lines){
-					
-					var isReservedArea = false;
+					isPreservedInit = editor.getLine(change.from.line).indexOf(start) != -1;
 
-					for( var x = 0; x < lines.start.length; x++ ){
+
+				if(!isPreservedInit){
+
+					if(lines){
 						
-						for(var i = lines.start[x]; i <= lines.end[x]; i++ ){
+						var isReservedArea = false;
 
-							if( change.from.line == i-1 )
+						for( var x = 0; x < lines.start.length; x++ ){
+							
+							for(var i = lines.start[x]; i <= lines.end[x]; i++ ){
+								//console.log(i)
+								if( change.from.line == i-1 )
 
-								isReservedArea = true;
+									isReservedArea = true;
+							}
+
+						}
+
+						if( !isReservedArea  ){
+							
+							change.cancel();
+
 						}
 
 					}
 
-					if( !isReservedArea )
+				}else{
 
-						change.cancel();
+					change.cancel();
 
-				}
+				}	
 
 			}
 
 		});
 
 		editor.on('keydown',function(cm,e){
-
+			
 			writing = true;
 
 		});
 
 		editor.on('keyup',function(cm,e){
-
+			
 			writing = false;
 
 		});
