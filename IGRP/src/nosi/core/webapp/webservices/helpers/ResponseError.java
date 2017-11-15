@@ -1,4 +1,4 @@
-package nosi.core.webapp.helpers;
+package nosi.core.webapp.webservices.helpers;
 
 
 /**

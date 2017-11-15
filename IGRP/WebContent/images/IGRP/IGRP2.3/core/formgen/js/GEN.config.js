@@ -378,6 +378,78 @@ function copyToClipboard(content,callback) {
     return succeed;
 }
 
+var preserveExceptions = function(content,o){
+
+	var idx = o.index || 0,
+
+		defaultExcp  	    = 'throws IOException, IllegalArgumentException, IllegalAccessException',
+
+		mainExpressionStart = '/*----#EXECEP(',
+
+		mainExpressionEnd 	= ','+defaultExcp+')EXECEP#----*/';
+
+	if(idx < o.starts.group.length){
+
+		var startIdx 	 = o.starts.group[idx],
+
+			endIdx 	 	 = o.ends.group[idx],
+
+			innerContent = content.substring( startIdx,endIdx+o.ends.expression.length ),
+
+			urlSubStart  = innerContent.indexOf(mainExpressionStart),
+
+			urlSubEnd 	 = innerContent.indexOf(mainExpressionEnd),
+
+			url 	     = innerContent.substring(urlSubStart+mainExpressionStart.length,urlSubEnd),
+
+			expression	 = mainExpressionStart+url+mainExpressionEnd;
+
+		$.ajax({
+			url: url
+		})
+		.done(function(d) {
+
+			var xml  = $(d),
+
+				text = xml.find('your_code').text() || defaultExcp;
+
+			preserveExceptions.returner.push({
+				expression : expression,
+				text 	   : text
+			});
+
+		})
+		.fail(function(){
+
+			alert('error: '+expression);
+
+			preserveExceptions.returner.push({
+				expression:expression,
+				text:defaultExcp
+			});
+
+		})
+		.always(function(){
+			
+			o.index = idx+1;
+
+			preserveExceptions(content,o);
+
+		});
+
+
+	}else{
+
+		if(o.callback)
+
+			o.callback(preserveExceptions.returner);
+
+		preserveExceptions.returner = [];
+
+	}
+}
+
+preserveExceptions.returner = [];
 
 var preserveArea = function(array,p){
 

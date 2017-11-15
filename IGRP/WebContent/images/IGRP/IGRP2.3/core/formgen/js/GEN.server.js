@@ -63,13 +63,15 @@ $(function(){
 
 	server.transform = function(o){
 
-		var xmlStr    = GEN.getXML(),
+		var xmlStr     = GEN.getXML(),
 
-			xml  	  = $.parseXML(xmlStr),
+			xml  	   = $.parseXML(xmlStr),
 
-			isIE      = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false,
+			isIE       = window.ActiveXObject || window.navigator.userAgent.match(/rv:11.0/i) ? true : false,
 
-			xslParams = isIE ? { jsEnter:enterParam } : false;
+			enterParam = '$$enter$$',
+
+			xslParams  = isIE ? { jsEnter:enterParam } : false;
 
 		GEN.waiting();
 		
@@ -81,6 +83,7 @@ $(function(){
 			
 			complete    : function(d,e){
 
+				console.log('transformed')
 
 				var content  = d.html(),
  
@@ -94,9 +97,6 @@ $(function(){
 
 						GEN.done();
 
-						//getPreservedLines( );
-
-						//console.log(reservedAreas)
 
 					};
 
@@ -106,7 +106,20 @@ $(function(){
 
 				content = content.replaceAll('&amp;','&');
 
-				LoadPreservedCodes( content, onFinish);
+				content = content.replaceAll(enterParam,'\n');
+
+				LoadExceptions(content,function(result){
+
+					result.forEach(function(o){
+
+						content = content.replaceAll(o.expression,o.text);
+
+					});
+
+					LoadPreservedCodes( content, onFinish);
+				});
+
+				
 				
 			},
 
@@ -151,7 +164,6 @@ $(function(){
 
 		var end  = getIndicesOf(endExp, content);
 
-
 		if(begin[0] && end[0]){
 
 			var canPreserve = begin.length == end.length;
@@ -176,7 +188,7 @@ $(function(){
 
 						r.forEach(function(o){
 
-							var text = $.trim(o.text);
+							var text = o.text;
 
 							if( reservedAreas[m.mode] && reservedAreas[m.mode][m.part] && reservedAreas[m.mode][m.part][o.areaName] ){
 								
@@ -250,6 +262,44 @@ $(function(){
 		}
 
 	};
+
+	var LoadExceptions = function(content,callback){
+		
+		var expStart = '/*----#EXECEP(',
+
+			expEnd   = ')EXECEP#----*/',
+
+			sidx 	 = getIndicesOf(expStart,content),
+
+			eidx  	 = getIndicesOf(expEnd,content);
+
+		if(sidx.length == eidx.length){
+
+			preserveExceptions(content,{
+
+				starts : {
+
+					expression : expStart,
+
+					group      : sidx
+
+				},
+
+				ends   : {
+
+					expression : expEnd,
+
+					group 	   : eidx 
+
+				},
+
+				callback:callback
+
+			});
+
+		}
+
+	}
 
 	var readOnlyLines = function(o){
 
@@ -337,7 +387,7 @@ $(function(){
 		clicked = {
 			mode : options.mode,
 			part : options.part
-		}
+		};
 		
 		options.callback = function(content){
 
@@ -584,11 +634,11 @@ $(function(){
 					
 					var isReservedArea = false;
 
-					for(var x = 0; x < lines.start.length; x++){
+					for( var x = 0; x < lines.start.length; x++ ){
 						
-						for(var i = lines.start[x]; i <= lines.end[x]; i++){
+						for(var i = lines.start[x]; i <= lines.end[x]; i++ ){
 
-							if(change.from.line == i)
+							if( change.from.line == i )
 
 								isReservedArea = true;
 						}
@@ -600,16 +650,21 @@ $(function(){
 						change.cancel();
 
 				}
+
 			}
 
 		});
 
 		editor.on('keydown',function(cm,e){
+
 			writing = true;
+
 		});
 
 		editor.on('keyup',function(cm,e){
+
 			writing = false;
+
 		});
 
 	};
