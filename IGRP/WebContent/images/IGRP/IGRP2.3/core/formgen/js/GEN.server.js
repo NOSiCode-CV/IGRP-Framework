@@ -38,6 +38,10 @@ $(function(){
 
 			}
 
+		},
+
+		reservedExceptions = {
+
 		};
 
 	server.activeMenu = {};
@@ -71,7 +75,9 @@ $(function(){
 
 			enterParam = '$$enter$$',
 
-			xslParams  = isIE ? { jsEnter:enterParam } : false;
+			xslParams  = isIE ? { jsEnter:enterParam } : false,
+
+			m  	       = clicked;
 
 		GEN.waiting();
 		
@@ -112,7 +118,22 @@ $(function(){
 
 					result.forEach(function(o){
 
-						content = content.replaceAll(o.expression,o.text);
+						var field = GEN.getFieldByTag(o.name),
+
+							object = false;
+
+						try{
+
+							object = field ? field.server.preserved[m.mode][m.part] : reservedAreas[m.mode][m.part][o.name.toUpperCase()];
+
+						}catch(err){
+							console.log(err)
+							null;
+						}
+
+						var text = object && object.exceptions ? 'throws '+object.exceptions : o.text;
+
+						content = content.replaceAll(o.expression,$.trim(text));
 
 					});
 
@@ -299,29 +320,7 @@ $(function(){
 
 		}
 
-	}
-
-	var readOnlyLines = function(o){
-
-		console.log(i);
-
-		var idx = o.index || 0;
-
-		if(idx < o.start.length){
-
-			console.log(o.start[idx])
-
-			console.log(o.end[idx]);
-
-			readOnlyLines
-
-		}else{
-
-			console.log('end')
-
-		}
-
-	}
+	};
 
 	var getPreservedLines = function(change){
 
@@ -355,13 +354,6 @@ $(function(){
 
 			});
 
-			/*readOnlyLines( {
-				
-				start : arrSt,
-
-				end   : arrEd
-
-			} )*/
 
 			return {
 				start : arrSt,
@@ -370,7 +362,7 @@ $(function(){
 
 		}
 
-	}	
+	};	
 
 	var DeactivateMenus = function(){
 
@@ -478,11 +470,44 @@ $(function(){
 	
 	};
 
+	var storeExceptions = function(content,o){
+
+		var commentStart  = '/*----',
+
+			startExp 	  = commentStart+'#START-PRESERVED-AREA(',
+
+			declaration   = 'public Response action'+capitalizeFirstLetter(o.name)+'() throws ',
+
+			split 	 	  = content.split(declaration),
+
+			exceptionsRow = split[1] || false;
+
+		if(exceptionsRow){
+			
+			var exContent = exceptionsRow.split(startExp)[0].replace('{','');
+
+			if(o.field){
+
+				if(o.field.server.preserved[o.mode][o.part])
+
+					o.field.server.preserved[o.mode][o.part].exceptions = exContent;
+				
+			}else{
+
+				if(reservedAreas[o.mode] && reservedAreas[o.mode][o.part] && reservedAreas[o.mode][o.part][o.name.toUpperCase()])
+
+					reservedAreas[o.mode][o.part][o.name.toUpperCase()].exceptions = exContent;
+
+			}
+
+		}
+	}
+
 	var SetEditorEvents = function(editor,mode){
 		
 		var writing = false;
 
-		editor.on('blur',function(){
+		editor.on('blur',function(cm,change){
 
 			var m 		 	 = server.activeMenu,
 
@@ -492,15 +517,15 @@ $(function(){
 
 				commentEnd   = '----*/',
 
-				startExp = commentStart+'#START-PRESERVED-AREA(',
+				startExp 	 = commentStart+'#START-PRESERVED-AREA(',
 
-				endExp   = commentStart+'#END-PRESERVED-AREA'+commentEnd,
+				endExp   	 = commentStart+'#END-PRESERVED-AREA'+commentEnd,
 
-				startIDX = getIndicesOf(startExp,content),
+				startIDX 	 = getIndicesOf(startExp,content),
 
-				endIDX 	 = getIndicesOf(endExp,content),
+				endIDX 	 	 = getIndicesOf(endExp,content),
 
-				reserved = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
+				reserved 	 = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
 
 			if(startIDX.length == endIDX.length){
 
@@ -516,7 +541,9 @@ $(function(){
 
 						name 		 = partContent.substring(nameStartIdx+startExp.length,nameEndIdx),
 
-						field 		 = GEN.getFieldByTag(name.toLowerCase()),
+						_name 		 = name.toLowerCase(),
+
+						field 		 = GEN.getFieldByTag(_name),
 
 						codeHead 	 =  startExp+name+')'+commentEnd,
 
@@ -524,101 +551,37 @@ $(function(){
 
 					if(field){
 
+						storeExceptions(content,{
+							field   : field,
+							name    : _name,
+							mode    : m.mode,
+							part 	: m.part
+						});
+
 						if( field.server.preserved[m.mode] && field.server.preserved[m.mode][m.part] )
 
     						field.server.preserved[m.mode][m.part].code = codeContent;
 
+   
 					}else{
 
-						var r = reserved[name];
+						storeExceptions(content,{
+							name    : _name,
+							mode    : m.mode,
+							part 	: m.part
+						});
+						
+						if(reserved[name])
 
-						r.code = codeContent;
+							reserved[name].code = codeContent;
 
 					}	
 
 				});
 
-			}
+			};
 
 		});
-
-		editor.on('blursssss',function(){
-
-			var m 		 = server.activeMenu,
-
-				content  = editor.getValue(),
-
-				endIDX 	 = getIndicesOf('/*----#END-PRESERVED-AREA----*/',content),
-
-				reserved = reservedAreas[m.mode] && reservedAreas[m.mode][m.part] ? reservedAreas[m.mode][m.part] : {};
-
-			//set fields actions reserved
-			GEN.getAllFieldsAndMenus().forEach(function(f,i){
-
-				var tag 	 = f.GET.tag(),
-
-					k   	 = tag.toUpperCase(),
-
-					eIdx;
-
-				if( !reserved[k] ){
-
-					//console.log('Name: '+k);
-
-					var startExp = '/*----#START-PRESERVED-AREA('+k+')----*/';
-
-	        		var startIDX = getIndicesOf(startExp,content);
-
-	        		startIDX.forEach(function(si,x){
-
-	        			eIdx = i+2
-
-    					var ei = endIDX[eIdx];
-    			
-    					if( f.server.preserved[m.mode] && f.server.preserved[m.mode][m.part] )
-
-    						f.server.preserved[m.mode][m.part].code = $.trim(content.substring(si+startExp.length,ei));
-
-    					endIDX[eIdx] = false;
-
-    					console.log( $.trim(content.substring(si+startExp.length,ei)) )
-
-    				});
-
-				}else{
-					console.log(k+' is a reserved name! please change your button name!');
-				}
-
-			});
-			//set reseved actions		
-			for(var a in reserved){
-
-				var startExp = '/*----#START-PRESERVED-AREA('+a+')----*/';
-
-        		var startIDX = getIndicesOf(startExp,content);
-
-        		console.log('Name: '+a);
-
-        		startIDX.forEach(function(si,x){
-
-					var ei = endIDX[x];
-
-					if(ei){
-
-						var code = content.substring(si+startExp.length,ei);
-
-						reserved[a].code = code;
-
-						console.log( reserved[a].code )
-
-					}
-
-				});
-
-			}
-
-		});
-
 
 		editor.on('beforeChange',function(cm,change){
 
@@ -638,7 +601,7 @@ $(function(){
 						
 						for(var i = lines.start[x]; i <= lines.end[x]; i++ ){
 
-							if( change.from.line == i )
+							if( change.from.line == i-1 )
 
 								isReservedArea = true;
 						}

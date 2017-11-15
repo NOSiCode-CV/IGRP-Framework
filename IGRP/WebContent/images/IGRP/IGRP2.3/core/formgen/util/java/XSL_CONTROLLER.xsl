@@ -207,7 +207,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 
-		<xsl:variable name="preserveActionsExceptionsUrl" select="concat('/*----#EXECEP(',$url_,',throws IOException, IllegalArgumentException, IllegalAccessException)EXECEP#----*/')"/>
+		<xsl:variable name="preserveActionsExceptionsUrl" select="concat('/*----#EXECEP(',$url_,',throws IOException, IllegalArgumentException, IllegalAccessException,',$action,')EXECEP#----*/')"/>
 
 		<xsl:value-of select="concat('public Response action',$action,'() ',$preserveActionsExceptionsUrl,'{')"/>
 
