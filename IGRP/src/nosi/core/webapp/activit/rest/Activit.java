@@ -2,7 +2,7 @@ package nosi.core.webapp.activit.rest;
 
 import com.google.gson.annotations.Expose;
 
-import nosi.core.webapp.helpers.ResponseError;
+import nosi.core.webapp.webservices.helpers.ResponseError;
 
 /**
  * Yma
