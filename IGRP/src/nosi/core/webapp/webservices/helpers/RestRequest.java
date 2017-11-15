@@ -1,4 +1,4 @@
-package nosi.core.webapp.helpers;
+package nosi.core.webapp.webservices.helpers;
 
 import java.lang.reflect.Type;
 import java.security.KeyManagementException;
@@ -21,6 +21,8 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
+
+import nosi.core.webapp.helpers.UrlHelper;
 import nosi.webapps.igrp.dao.Config;
 import com.sun.jersey.api.client.ClientResponse;
 
@@ -30,7 +32,7 @@ import com.sun.jersey.api.client.ClientResponse;
  * @param <T>
  */
 
-public class RestRequestHelper{
+public class RestRequest{
 	
 	private static final String BASE_URL = Config.getBaseUrlActiviti();
 	private static final String USERNAME = "kermit";
@@ -41,9 +43,9 @@ public class RestRequestHelper{
 	public static ClientResponse get(String url, Object id) {
 		try {
 			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
-	        url = RestRequestHelper.BASE_URL + url;
+	        Client client = Client.create(RestRequest.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));
+	        url = RestRequest.BASE_URL + url;
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
 	        client.destroy();
@@ -56,9 +58,9 @@ public class RestRequestHelper{
 	public static ClientResponse get(String url) {
 		try {
 			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));
-	        url = RestRequestHelper.BASE_URL + url;
+	        Client client = Client.create(RestRequest.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));
+	        url = RestRequest.BASE_URL + url;
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).get(ClientResponse.class);
 		    client.destroy();
@@ -72,9 +74,9 @@ public class RestRequestHelper{
 	public static ClientResponse post(String url, String content) {
 		try {
 			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
-	        url = RestRequestHelper.BASE_URL + url;	        
+	        Client client = Client.create(RestRequest.applySslSecurity(config));	   
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));     
+	        url = RestRequest.BASE_URL + url;	        
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	        
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
@@ -88,9 +90,9 @@ public class RestRequestHelper{
 	public static ClientResponse post(String url, String content,Object id) {
 		try {
 			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));     
-	        url = RestRequestHelper.BASE_URL + url;	        
+	        Client client = Client.create(RestRequest.applySslSecurity(config));	   
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));     
+	        url = RestRequest.BASE_URL + url;	        
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));	        
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
@@ -103,9 +105,9 @@ public class RestRequestHelper{
 	public static ClientResponse put(String url,String content){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));            
-	        url = RestRequestHelper.BASE_URL + url;	               
+	        Client client = Client.create(RestRequest.applySslSecurity(config));	
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));            
+	        url = RestRequest.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
@@ -119,9 +121,9 @@ public class RestRequestHelper{
 	public static ClientResponse put(String url,String content, Object id){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));	            
-	        url = RestRequestHelper.BASE_URL + url;	               
+	        Client client = Client.create(RestRequest.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));	            
+	        url = RestRequest.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
@@ -134,9 +136,9 @@ public class RestRequestHelper{
 	public static ClientResponse delete(String url,Object id){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequestHelper.applySslSecurity(config));	     
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequestHelper.USERNAME, RestRequestHelper.PASSWORD));       
-	        url = RestRequestHelper.BASE_URL + url;	               
+	        Client client = Client.create(RestRequest.applySslSecurity(config));	     
+	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));       
+	        url = RestRequest.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).delete(ClientResponse.class);			
 	 	    client.destroy();
@@ -183,7 +185,7 @@ public class RestRequestHelper{
 		return list;
 	}
 	public static ClientConfig applySslSecurity(ClientConfig clientConfig) {
-		SSLContext sslContext = RestRequestHelper.createSslContext();
+		SSLContext sslContext = RestRequest.createSslContext();
 		if(sslContext != null) {
 			clientConfig.getProperties()
 	        .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
@@ -202,7 +204,7 @@ public class RestRequestHelper{
 		SSLContext sslContext = null;
 		try {
 			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, RestRequestHelper.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
+			sslContext.init(null, RestRequest.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
 		} catch (NoSuchAlgorithmException | KeyManagementException e) {
 		}
 		return sslContext;
