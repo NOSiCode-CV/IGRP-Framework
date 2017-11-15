@@ -380,29 +380,44 @@ function copyToClipboard(content,callback) {
 
 var preserveExceptions = function(content,o){
 
-	var idx = o.index || 0,
+	var idx 	  		    = o.index || 0,
 
 		defaultExcp  	    = 'throws IOException, IllegalArgumentException, IllegalAccessException',
 
 		mainExpressionStart = '/*----#EXECEP(',
 
-		mainExpressionEnd 	= ','+defaultExcp+')EXECEP#----*/';
+		afterName 		    = ')EXECEP#----*/',
+
+		mainExpressionEnd 	= ','+defaultExcp+',';
 
 	if(idx < o.starts.group.length){
 
-		var startIdx 	 = o.starts.group[idx],
+		var startIdx 	 	  = o.starts.group[idx],
 
-			endIdx 	 	 = o.ends.group[idx],
+			endIdx 	 	 	  = o.ends.group[idx],
 
-			innerContent = content.substring( startIdx,endIdx+o.ends.expression.length ),
+			innerContent 	  = content.substring( startIdx,endIdx+o.ends.expression.length ),
 
-			urlSubStart  = innerContent.indexOf(mainExpressionStart),
+			urlSubStart  	  = innerContent.indexOf(mainExpressionStart),
 
-			urlSubEnd 	 = innerContent.indexOf(mainExpressionEnd),
+			urlSubEnd 	 	  = innerContent.indexOf(mainExpressionEnd),
 
-			url 	     = innerContent.substring(urlSubStart+mainExpressionStart.length,urlSubEnd),
+			url 	     	  = innerContent.substring(urlSubStart+mainExpressionStart.length,urlSubEnd),
 
-			expression	 = mainExpressionStart+url+mainExpressionEnd;
+			urlIndx 	 	  = innerContent.indexOf(url),
+
+			beforeName   	  = mainExpressionStart+url+','+defaultExcp+',',
+
+			startExceptionIdx = innerContent.indexOf(beforeName),
+
+			endExceptionIdx   = innerContent.indexOf(afterName),
+
+			itemName 		  = innerContent.substring(startExceptionIdx+beforeName.length,endExceptionIdx),
+
+			expression	 	  = mainExpressionStart+url+mainExpressionEnd;
+
+
+		o.index = idx+1;
 
 		$.ajax({
 			url: url
@@ -414,7 +429,8 @@ var preserveExceptions = function(content,o){
 				text = xml.find('your_code').text() || defaultExcp;
 
 			preserveExceptions.returner.push({
-				expression : expression,
+				name 	   : itemName.toLowerCase(),
+				expression : innerContent,
 				text 	   : text
 			});
 

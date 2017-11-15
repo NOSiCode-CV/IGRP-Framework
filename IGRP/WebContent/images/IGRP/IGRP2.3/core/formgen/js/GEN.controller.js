@@ -2557,6 +2557,8 @@ var GENERATOR = function(genparams){
 					removeGenAttrs:true
 				}));
 
+				console.log( GEN.export() )
+
 				var vParam  =  [
 					{ name:'p_data'    , value: GEN.export() },//json
 					{ name:'p_page_xml', value: pageXML },//xml
@@ -2949,6 +2951,7 @@ var GENERATOR = function(genparams){
 
 
 	var loadDomains = function(cback){
+
 		$.ajax({
 			url:GEN.UTILS.link_domains,
 			success:function(d){ 
