@@ -1,18 +1,21 @@
 package nosi.core.webapp;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Properties;
-
-import com.google.gson.Gson;
-
-import nosi.core.config.Config;
+import java.io.StringReader;
+import java.rmi.RemoteException;
+import javax.xml.bind.JAXB;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaGeografia;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaHierarquicaCAE;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaSNIAC;
+import nosi.core.webapp.webservices.biztalk.dao.Request;
+import nosi.core.webapp.webservices.biztalk.dao.ServiceSerach;
+import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
+import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -26,23 +29,24 @@ public class Core {
 
 	private static final String URL_CLASS_CORE = "C:/Users/Yma/git/IGRP-Framework/IGRP/src/nosi/core/webapp/Core.java";
 	public static void main(String[]args){
-		File file = new File(URL_CLASS_CORE);
-		try {
-		    URL[] urls = new URL[]{file.toURL()};
-		    Properties p = new Properties();
-		    for(Method method:new URLClassLoader(urls).loadClass("nosi.core.webapp.Core").getDeclaredMethods()){
-		    	String methodName = method.getName()+"(";
-		    	for(Parameter param:method.getParameters())
-		    		methodName +=param.getName()+",";
-		    	methodName = methodName.substring(0, methodName.length()-1);
-		    	methodName +=");";
-		    	p.put(methodName, methodName);
-		    }
-		    System.out.println(new Gson().toJson(p));
-		} catch (MalformedURLException e) {
-		} catch (ClassNotFoundException e) {
-		}
+//		File file = new File(URL_CLASS_CORE);
+//		try {
+//		    URL[] urls = new URL[]{file.toURL()};
+//		    Properties p = new Properties();
+//		    for(Method method:new URLClassLoader(urls).loadClass("nosi.core.webapp.Core").getDeclaredMethods()){
+//		    	String methodName = method.getName()+"(";
+//		    	for(Parameter param:method.getParameters())
+//		    		methodName +=param.getName()+",";
+//		    	methodName = methodName.substring(0, methodName.length()-1);
+//		    	methodName +=");";
+//		    	p.put(methodName, methodName);
+//		    }
+//		    System.out.println(new Gson().toJson(p));
+//		} catch (MalformedURLException e) {
+//		} catch (ClassNotFoundException e) {
+//		}
 	}
+	
 	//Add Message Error
 	public static void setMessageError(String msg){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
@@ -166,5 +170,94 @@ public class Core {
 	
 	public static Response getLinkReport(String code_report,Report rep){
 		return new Report().invokeReport(code_report, rep);
+	}
+	
+	public static GenericServiceResponse getBizTalkClient(String clientId,String transaction,String service,String args){
+		GenericService_DevProxy proxy = new GenericService_DevProxy(); 
+		GenericServiceRequest part = new GenericServiceRequest(clientId, transaction, service, args);
+		try {
+			return proxy.getGenericService_Dev().genericRequest(part);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service){
+		String args = new Request().prepare(service,"xml");
+		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);			
+	}
+	
+	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,ServiceSerach service){
+		if(response.getStatus().equals("true")){
+			String xml = response.getResult();
+			StringReader input = new StringReader(xml);
+			nosi.core.webapp.webservices.biztalk.dao.Response r = JAXB.unmarshal(input,nosi.core.webapp.webservices.biztalk.dao.Response.class);
+			if(r.getRow()!=null){
+				if(r.getRow().isStatus()){
+					xml = xml.substring(xml.indexOf("<lista>"), xml.indexOf("</lista>")+"</lista>".length());
+					input = new StringReader(xml);
+					service = JAXB.unmarshal(input, service.getClass());
+					return service;
+				}
+			}
+		}
+		return null;
+	}
+	
+	//Pesquia SNIAC via Biztalk
+	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
+		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(Integer num_idnt_civil_pes, String num_registo_pes, String nome_pes, String data_nasc_pes,
+			Integer id_tp_doc_pes){
+		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
+	}	
+
+	//Pesquia BI via Biztalk
+	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
+		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome){
+		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
+	}	
+
+	//Pesquia NIF via Biztalk
+	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
+		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaNIF getBizTalkPesquisaNIF(Integer numero, String nome){
+		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
+	}
+	
+	//Pesquia Nascimento via Biztalk
+	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
+		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaNascimento getBizTalkPesquisaNascimento(String nome, Integer numero_registo, String data_nascimento){
+		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
+	}	
+
+	//Pesquia Hierarquia CAE via Biztalk
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
+		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
+		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
+	}
+	
+	//Pesquia Geografia via Biztalk
+	public static PesquisaGeografia getBizTalkPesquisaGeografia(PesquisaGeografia pesquisa){
+		return (PesquisaGeografia) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	}
+	
+	public static PesquisaGeografia getBizTalkPesquisaGeografia(String id, String zona, String freguesia, String concelho, String ilha, String pais,
+			String nivel_detalhe, String tp_geog_cd, String codigo_ine, String codigo, String self_id){
+		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
 	}
 }
