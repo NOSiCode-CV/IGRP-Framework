@@ -26,6 +26,35 @@ public class MigrationIGRPInitConfig {
 			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
 			config.insert();
 			
+			//Configuration ClientID, Transaction ID and Service ID for Biztalk
+			config = new Config("CLIENT_ID_BIZTALK", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_NIF", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_NIF", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_GEOGRAFIA", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_GEOGRAFIA", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_HIERARQUICA_CAE", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_HIERARQUICA_CAE", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_NASCIMENTO", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_NASCIMENTO", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_SNIAC", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_SNIAC", "your id");
+			config.insert();
+			config = new Config("TRANSACTION_ID_BIZTALK_PESQUISA_BI", "your id");
+			config.insert();
+			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_BI", "your id");
+			config.insert();
+			
+			
 			User user0 = new User("IGRP", "igrp@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
