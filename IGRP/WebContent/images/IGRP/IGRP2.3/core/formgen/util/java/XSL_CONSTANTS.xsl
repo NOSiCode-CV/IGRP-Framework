@@ -85,8 +85,6 @@
     <xsl:variable name="import_exception">
         <xsl:text>import java.io.IOException;</xsl:text>
         <xsl:value-of select="$newline"/>
-        <xsl:text>import nosi.core.webapp.FlashMessage;</xsl:text>
-        <xsl:value-of select="$newline"/>
         <xsl:text>import nosi.core.webapp.Core;</xsl:text>
     </xsl:variable>
 
