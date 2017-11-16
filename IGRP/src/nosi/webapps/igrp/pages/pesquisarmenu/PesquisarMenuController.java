@@ -18,6 +18,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
+
 import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class PesquisarMenuController extends Controller {		
@@ -69,7 +70,7 @@ public class PesquisarMenuController extends Controller {
 		HashMap<Integer, String> menu_principal = new Menu().getListPrincipalMenus();
 		view.menu_principal.setValue(menu_principal);
 
-		//Para pegar os parametros que queremos enviar para poder editar o menu no view
+		//Para pegar os parametros que queremos enviar para poder editar o menu no view 
 		view.p_id.setParam(true);
 		view.title = "";
 		view.table_1.addData(lista);
@@ -87,14 +88,14 @@ public class PesquisarMenuController extends Controller {
 			if(menu !=null){
 				for(Entry<String, List<Menu>> m:menu.entrySet()){
 					xml_menu.startElement("menu");
-					xml_menu.setElement("title", m.getKey());
+					xml_menu.setElement("title", gt(m.getKey()));
 						for(Menu main:m.getValue()){
 							if(main.getMenu()!=null){
 								xml_menu.startElement("submenu");
-								xml_menu.writeAttribute("title", main.getMenu().getDescr());
+								xml_menu.writeAttribute("title", gt(main.getMenu().getDescr()));
 								xml_menu.writeAttribute("id",""+main.getMenu().getId());
 								xml_menu.setElement("link", "webapps?r="+main.getMenu().getLink());
-								xml_menu.setElement("title", main.getMenu().getDescr());
+								xml_menu.setElement("title", gt(main.getMenu().getDescr()));
 								xml_menu.setElement("target", main.getMenu().getTarget());
 								xml_menu.setElement("id",""+main.getMenu().getId());
 								xml_menu.setElement("status",""+ main.getMenu().getStatus());
