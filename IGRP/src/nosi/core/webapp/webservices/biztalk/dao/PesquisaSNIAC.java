@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gson.annotations.Expose;
 
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 15 Nov 2017
@@ -449,9 +451,23 @@ public class PesquisaSNIAC  implements ServiceSerach,Serializable{
 					+ ", data_validade=" + data_validade + ", data_inscricao=" + data_inscricao + ", local_emissao="
 					+ local_emissao + ", fotografia=" + fotografia + ", imprissao_digt_esq=" + imprissao_digt_esq
 					+ ", imprissao_digt_dir=" + imprissao_digt_dir + ", assinatura=" + assinatura + "]";
-		}
+		}		
 		
-		
+	}
+	
+	@Override
+	public String getClientID() {
+		return Core.getConfig("CLIENT_ID_BIZTALK");
+	}
+
+	@Override
+	public String getTransactionID() {
+		return Core.getConfig("TRANSACTION_ID_BIZTALK_PESQUISA_SNIAC");
+	}
+
+	@Override
+	public String getServiceID() {
+		return Core.getConfig("SERVICE_ID_BIZTALK_PESQUISA_SNIAC");
 	}
 
 }

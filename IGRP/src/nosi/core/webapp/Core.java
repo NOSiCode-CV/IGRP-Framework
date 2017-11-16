@@ -8,7 +8,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaGeografia;
-import nosi.core.webapp.webservices.biztalk.dao.PesquisaHierarquiaCAE;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaHierarquicaCAE;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaSNIAC;
@@ -29,31 +29,6 @@ public class Core {
 
 	private static final String URL_CLASS_CORE = "C:/Users/Yma/git/IGRP-Framework/IGRP/src/nosi/core/webapp/Core.java";
 	public static void main(String[]args){
-		
-		PesquisaBI p = Core.getBizTalkPesquisaBI(12345, null);
-		if(p!=null){
-			System.out.println(p.getRowList());
-		}else{
-			System.err.println("Null");
-		}
-//		GenericServiceResponse response = getBizTalkClientService(new PesquisaSNIAC(null, null, "MARCIO CLAUDINO DE CARVALHO GOMES", null, null));
-//		System.out.println(response.getResult());
-//		String xml = "<rows><row><status>true</status><status_text/><lista><row><num_idnt_civil>19871002M002W</num_idnt_civil><num_registo>776002</num_registo><data_nasc>02-10-1987</data_nasc><nome>Márcio Claudino De Carvalho Gomes Lopes</nome><nome_completo>Márcio Claudino De Carvalho Gomes Lopes</nome_completo><nome_proprio>Márcio Claudino</nome_proprio><nome_apelido>De Carvalho Gomes Lopes</nome_apelido><nome_mae>Maria Filomena Soares De Carvalho</nome_mae><nm_mae_proprio>Maria Filomena</nm_mae_proprio><nm_mae_apelido>Soares De Carvalho</nm_mae_apelido><nome_pai>Arlindo Gomes Lopes</nome_pai><nm_pai_proprio>Arlindo</nm_pai_proprio><nm_pai_apelido>Gomes Lopes</nm_pai_apelido><estado_documento/><estado_pessoa/><perda_nasc/><id_pessoa>1987100201874</id_pessoa><natuaralidade>CABO VERDE</natuaralidade><natuaralidade_id>238</natuaralidade_id><nacionalidade>CABO VERDE</nacionalidade><nacionalidade_id>238</nacionalidade_id><sexo>M</sexo><local_nasc>SANTIAGO</local_nasc><local_nasc_id>2387</local_nasc_id><altura>1.75</altura><estado_civil>S</estado_civil><sinais_partic/><indicacoes/><grupo_profissional>Profissoes_Elementares</grupo_profissional><profissao>ENFORMATICO</profissao><num_nic>19871002M002W</num_nic><bi/><num_passaporte>PA000356</num_passaporte><nif/><data_emissao/><data_validade/><data_inscricao/><local_emissao/><fotografia/><imprissao_digt_esq/><imprissao_digt_dir/><assinatura/></row></lista></row></rows>";
-//		processRequestBiztalkClientService(xml,new PesquisaSNIAC());
-		
-//		if(r.getRow()!=null){
-//			if(r.getRow().isStatus()){
-//				if(r.getRow().getLista()!=null){
-////					for(RowList p:r.getRow().getLista().getRowList()){
-////					if(service instanceof PesquisaSNIAC){
-////						PesquisaSNIAC p = (PesquisaSNIAC) service;
-//						System.out.println(r.getRow().getLista());
-////					}
-////					}
-//				}
-//			}
-//		}
-		//		getBizTalkClient("IGRP_JAVA", "XAUdxHFzk2Hy7FLinvMIbb4lWBakd5X0Vs+GQObYTnPPHsSsuHF9HGm2pbWUGGg+", "5004281", arg);
 //		File file = new File(URL_CLASS_CORE);
 //		try {
 //		    URL[] urls = new URL[]{file.toURL()};
@@ -209,15 +184,8 @@ public class Core {
 	}
 	
 	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service){
-		if(service instanceof PesquisaBI){//Se for Pesquisa BI
-			String args = new Request().prepare(service,"xml");
-			return getBizTalkClient("IGRP_JAVA", "XAUdxHFzk2Hy7FLinvMIbb4lWBakd5X0Vs+GQObYTnPPHsSsuHF9HGm2pbWUGGg+", "5004281", args);			
-		}
-		else if(service instanceof PesquisaSNIAC){//Se for Pesquisa SNIAC
-			String args = new Request().prepare(service,"xml");
-			return getBizTalkClient("IGRP_JAVA", "XAUdxHFzk2Hy7FLinvMIbXUJehXlQ4ZYwdEHmzQeMEH2S9u8bxj89amyJRtP+9Hm", "5004599", args);			
-		}	
-		return null;
+		String args = new Request().prepare(service,"xml");
+		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);			
 	}
 	
 	private static ServiceSerach processRequestBiztalkClientService(GenericServiceResponse response,ServiceSerach service){
@@ -230,6 +198,7 @@ public class Core {
 					xml = xml.substring(xml.indexOf("<lista>"), xml.indexOf("</lista>")+"</lista>".length());
 					input = new StringReader(xml);
 					service = JAXB.unmarshal(input, service.getClass());
+					return service;
 				}
 			}
 		}
@@ -274,12 +243,12 @@ public class Core {
 	}	
 
 	//Pesquia Hierarquia CAE via Biztalk
-	public static PesquisaHierarquiaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquiaCAE pesquisa){
-		return (PesquisaHierarquiaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
+		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	
-	public static PesquisaHierarquiaCAE getBizTalkPesquisaHierarquiaCAE(Integer id, String codigo, Integer crpcae_id, Integer self_id){
-		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquiaCAE(id, codigo, crpcae_id, self_id));
+	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
+		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
 	}
 	
 	//Pesquia Geografia via Biztalk
@@ -287,7 +256,7 @@ public class Core {
 		return (PesquisaGeografia) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
 	
-	public static PesquisaGeografia getBizTalkPesquisaGeografia(Integer id, String zona, String freguesia, String concelho, String ilha, String pais,
+	public static PesquisaGeografia getBizTalkPesquisaGeografia(String id, String zona, String freguesia, String concelho, String ilha, String pais,
 			String nivel_detalhe, String tp_geog_cd, String codigo_ine, String codigo, String self_id){
 		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
 	}

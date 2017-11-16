@@ -5,6 +5,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gson.annotations.Expose;
 
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 15 Nov 2017
@@ -48,10 +50,6 @@ public class PesquisaNIF implements ServiceSerach,Serializable{
 		this.nome = nome;
 	}
 
-	public void setRowList(List<PesquisaNIF.RowList> rowList) {
-		this.rowList = rowList;
-	}
-	
 	@Override
 	public List<PesquisaNIF.RowList> getRowList() {
 		return this.rowList;
@@ -71,4 +69,18 @@ public class PesquisaNIF implements ServiceSerach,Serializable{
 		
 	}
 	
+	@Override
+	public String getClientID() {
+		return Core.getConfig("CLIENT_ID_BIZTALK");
+	}
+
+	@Override
+	public String getTransactionID() {
+		return Core.getConfig("TRANSACTION_ID_BIZTALK_PESQUISA_NIF");
+	}
+
+	@Override
+	public String getServiceID() {
+		return Core.getConfig("SERVICE_ID_BIZTALK_PESQUISA_NIF");
+	}
 }
