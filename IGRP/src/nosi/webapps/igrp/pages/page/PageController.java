@@ -12,7 +12,11 @@ package nosi.webapps.igrp.pages.page;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,6 +29,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -222,7 +227,7 @@ public class PageController extends Controller {
 			if(!compiler.compile(files)){			
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
 				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilaï¿½ï¿½o", er));
 			}
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
@@ -413,6 +418,22 @@ public class PageController extends Controller {
 			return this.renderView(content);
 		}
 		return null;
+	}
+	
+	//For Editor
+	public Response actionMetodosCore(){
+		List<Map<String,List<String>>> metodos = new ArrayList<>();
+		for(Method method:Core.class.getDeclaredMethods()){
+			Map<String,List<String>> m = new HashMap<>();
+			List<String> mm = new ArrayList<>();
+				for(Parameter param:method.getParameters()){
+					mm.add(param.getName());
+				}
+			m.put(method.getName(), mm);
+			metodos.add(m);
+		}
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(new Gson().toJson(metodos));
 	}
 
 }

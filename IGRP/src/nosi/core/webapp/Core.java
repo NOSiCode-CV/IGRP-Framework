@@ -25,27 +25,7 @@ import nosi.webapps.igrp.dao.Transaction;
  * @author: Emanuel Pereira
  * 13 Nov 2017
  */
-public class Core {
-
-	private static final String URL_CLASS_CORE = "C:/Users/Yma/git/IGRP-Framework/IGRP/src/nosi/core/webapp/Core.java";
-	public static void main(String[]args){
-//		File file = new File(URL_CLASS_CORE);
-//		try {
-//		    URL[] urls = new URL[]{file.toURL()};
-//		    Properties p = new Properties();
-//		    for(Method method:new URLClassLoader(urls).loadClass("nosi.core.webapp.Core").getDeclaredMethods()){
-//		    	String methodName = method.getName()+"(";
-//		    	for(Parameter param:method.getParameters())
-//		    		methodName +=param.getName()+",";
-//		    	methodName = methodName.substring(0, methodName.length()-1);
-//		    	methodName +=");";
-//		    	p.put(methodName, methodName);
-//		    }
-//		    System.out.println(new Gson().toJson(p));
-//		} catch (MalformedURLException e) {
-//		} catch (ClassNotFoundException e) {
-//		}
-	}
+public class Core {	
 	
 	//Add Message Error
 	public static void setMessageError(String msg){

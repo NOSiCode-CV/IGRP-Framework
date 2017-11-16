@@ -3,9 +3,11 @@ package nosi.webapps.igrp.pages.pesquisanif;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.FlashMessage;
+import java.util.ArrayList;
+import java.util.List;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF.RowList;
 import nosi.core.webapp.Igrp;
 
 /*----#END-PRESERVED-AREA----*/
@@ -20,8 +22,6 @@ public class PesquisaNIFController extends Controller {
 			model.load();
 		}
 		PesquisaNIFView view = new PesquisaNIFView(model);
-		//view.table_1.setSqlQuery("SELECT 'nif_tabela' nif_tabela, 'nome_tabela' nome_tabela, 'desig_social' desig_social, 'data_nascimento' data_nascimento, 'nome_pai' nome_pai, 'nome_mae' nome_mae, 'documento' documento FROM dual");
-		//view.tipo_contribuinte.setSqlQuery("SELECT id as ID, name as NAME FROM tbl_domain WHERE code = 'SIM_NAO'");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -32,12 +32,19 @@ public class PesquisaNIFController extends Controller {
 		PesquisaNIF model = new PesquisaNIF();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			/*if(/* Your code condition *//*){
-			 Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
-			 }else{
-			 Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-			 return this.forward("igrp","PesquisaNIF","index");
-			}*/
+			nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF p = Core.getBizTalkPesquisaNIF(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNIF(model.getNif(), model.getNome()));
+
+			List<PesquisaNIF.Table_1> data = new ArrayList<>();
+			if(p!=null){
+				System.out.println(p.getRowList());
+				for(RowList row:p.getRowList()){
+					PesquisaNIF.Table_1 pbi = new PesquisaNIF.Table_1();
+//					pbi.setData_nascimento(row.);
+					data.add(pbi);
+				}
+				PesquisaNIFView view = new PesquisaNIFView(model);
+				return this.renderView(view);
+			}
 		}
 		return this.redirect("igrp","PesquisaNIF","index");
 		/*----#END-PRESERVED-AREA----*/

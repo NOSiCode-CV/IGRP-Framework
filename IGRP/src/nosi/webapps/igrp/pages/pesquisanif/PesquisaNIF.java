@@ -11,11 +11,11 @@ public class PesquisaNIF extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_nif")
-	private float nif;
+	private Integer nif;
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_n_documento")
-	private float n_documento;
+	private Integer n_documento;
 	@RParam(rParamName = "p_tipo_contribuinte")
 	private String tipo_contribuinte;
 	
@@ -34,10 +34,10 @@ public class PesquisaNIF extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setNif(float nif){
+	public void setNif(Integer nif){
 		this.nif = nif;
 	}
-	public float getNif(){
+	public Integer getNif(){
 		return this.nif;
 	}
 	
@@ -48,10 +48,10 @@ public class PesquisaNIF extends Model{
 		return this.nome;
 	}
 	
-	public void setN_documento(float n_documento){
+	public void setN_documento(Integer n_documento){
 		this.n_documento = n_documento;
 	}
-	public float getN_documento(){
+	public Integer getN_documento(){
 		return this.n_documento;
 	}
 	
