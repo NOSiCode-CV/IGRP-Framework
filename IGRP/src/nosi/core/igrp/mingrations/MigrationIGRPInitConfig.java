@@ -108,6 +108,10 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, app));
 			actions.add(new Action("AddPluginIGRP", "index", "nosi.webapps.igrp.pages.addpluginigrp", "igrp/addpluginigrp/AddPluginIGRP.xsl", "Importar Plugin IGRP", "Importar Plugin IGRP", "2.3", 1, app));
 			
+			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, app));
+			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, app));
+			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, app));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -118,6 +122,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
+			menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), app, menus.get(0)));
@@ -136,6 +141,10 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
 			menus.add(new Menu("Importar Aplicação/Página", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
 			menus.add(new Menu("Importar Plugin IGRP", 1, 1, 0, "_self", actions.get(37), app, menus.get(4)));
+			
+			menus.add(new Menu("Pesquisar BI", 1, 1, 0, "_self", actions.get(38), app, menus.get(5)));
+			menus.add(new Menu("Pesquisar NIF", 1, 1, 0, "_self", actions.get(39), app, menus.get(5)));
+			menus.add(new Menu("Pesquisar Nascimento", 1, 1, 0, "_self", actions.get(40), app, menus.get(5)));
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -148,7 +157,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(2, "PROF", prof1, user1, org));
 			
 			//permisao de acesso ao menu
-			profiles.add(new Profile(6, "MEN", prof0, user0, org));
+			
 			profiles.add(new Profile(7, "MEN", prof0, user0, org));
 			profiles.add(new Profile(8, "MEN", prof0, user0, org));
 			profiles.add(new Profile(9, "MEN", prof0, user0, org));
@@ -164,8 +173,11 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(19, "MEN", prof0, user0, org));
 			profiles.add(new Profile(20, "MEN", prof0, user0, org));
 			profiles.add(new Profile(21, "MEN", prof0, user0, org));
+			profiles.add(new Profile(22, "MEN", prof0, user0, org));
+			profiles.add(new Profile(23, "MEN", prof0, user0, org));
+			profiles.add(new Profile(24, "MEN", prof0, user0, org));
+			profiles.add(new Profile(25, "MEN", prof0, user0, org));
 			
-			profiles.add(new Profile(6, "MEN", prof1, user0, org));
 			profiles.add(new Profile(7, "MEN", prof1, user0, org));
 			profiles.add(new Profile(8, "MEN", prof1, user0, org));
 			profiles.add(new Profile(9, "MEN", prof1, user0, org));
@@ -181,6 +193,10 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(19, "MEN", prof1, user0, org));
 			profiles.add(new Profile(20, "MEN", prof1, user0, org));
 			profiles.add(new Profile(21, "MEN", prof1, user0, org));
+			profiles.add(new Profile(22, "MEN", prof1, user0, org));
+			profiles.add(new Profile(23, "MEN", prof1, user0, org));
+			profiles.add(new Profile(24, "MEN", prof1, user0, org));
+			profiles.add(new Profile(25, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();
