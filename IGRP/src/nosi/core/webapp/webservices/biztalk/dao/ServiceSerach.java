@@ -9,4 +9,7 @@ import java.util.List;
 public interface ServiceSerach {
 
 	public List<?> getRowList();
+	public String getClientID();
+	public String getTransactionID();
+	public String getServiceID();
 }

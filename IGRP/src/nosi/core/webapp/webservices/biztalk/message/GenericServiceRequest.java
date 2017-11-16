@@ -228,4 +228,11 @@ public class GenericServiceRequest  implements java.io.Serializable {
             _javaType, _xmlType, typeDesc);
     }
 
+	@Override
+	public String toString() {
+		return "GenericServiceRequest [clientId=" + clientId + ", transaction=" + transaction + ", service=" + service
+				+ ", args=" + args + ", __equalsCalc=" + __equalsCalc + ", __hashCodeCalc=" + __hashCodeCalc + "]";
+	}
+
+    
 }
