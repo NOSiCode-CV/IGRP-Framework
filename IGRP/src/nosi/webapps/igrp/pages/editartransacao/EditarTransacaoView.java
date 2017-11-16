@@ -6,10 +6,12 @@ package nosi.webapps.igrp.pages.editartransacao;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
+import nosi.core.config.Config;
+
+import static nosi.core.i18n.Translator.gt;
 
 public class EditarTransacaoView extends View {
-	public String title = "Editar Transacao";		
+	public String title = gt("Editar Transacao");		
 	
 	public Field codigo;
 	public Field descricao;
@@ -25,16 +27,16 @@ public class EditarTransacaoView extends View {
 	public EditarTransacaoView(EditarTransacao model){			
 		form_1 = new IGRPForm("form_1");
 		codigo = new TextField(model,"codigo");
-		codigo.setLabel("Codigo");
+		codigo.setLabel(gt("Codigo"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Descrição"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","150").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		status = new CheckBoxField(model,"status");
-		status.setLabel("Ativo?");
+		status.setLabel(gt("Ativo?"));
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		id = new HiddenField(model,"id");
 		id.setLabel("");
@@ -42,7 +44,7 @@ public class EditarTransacaoView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","EditarTransacao","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","EditarTransacao","voltar","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","EditarTransacao","voltar","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

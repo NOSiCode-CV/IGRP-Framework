@@ -16,6 +16,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthClient;
 
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class OAuthClientListController extends Controller {		
@@ -74,9 +75,9 @@ public class OAuthClientListController extends Controller {
 			cliente = cliente.findOne(id);
 			boolean status = cliente.delete();
 			if(status) 
-				Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operacao efetuada com sucesso"));
 			else 
-				Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
+				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Operacao falhada"));
 		}
 		return this.redirect("igrp","OAuthClientList","index");
 					/*---- End ----*/
@@ -94,9 +95,9 @@ public class OAuthClientListController extends Controller {
 		cliente = cliente.update();
 		
 		if(cliente != null) 
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Operacao efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operacao efetuada com sucesso"));
 		else 
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Operacao falhada");
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Operacao falhada"));
 		
 		return this.redirect("igrp","OAuthClientList","index");
 				/*---- End ----*/

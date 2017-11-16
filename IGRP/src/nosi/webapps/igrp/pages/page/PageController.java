@@ -222,7 +222,7 @@ public class PageController extends Controller {
 			if(!compiler.compile(files)){			
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
 				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilaÃ§Ã£o", er));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 			}
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();

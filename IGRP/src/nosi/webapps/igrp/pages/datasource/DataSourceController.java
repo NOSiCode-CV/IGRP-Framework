@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
+
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 
 public class DataSourceController extends Controller {		
@@ -136,12 +138,12 @@ public class DataSourceController extends Controller {
 					rep = rep.insert();
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Operação falhada");
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Operação falhada"));
 			}
 			if(rep!=null){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 		}
 		return this.redirect("igrp","DataSource","index");

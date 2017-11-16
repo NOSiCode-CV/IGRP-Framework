@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.transaccao;
 /*---- Import your packages here... ----*/
 
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
@@ -11,7 +12,7 @@ import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class TransaccaoController extends Controller {		
 
@@ -55,9 +56,9 @@ public class TransaccaoController extends Controller {
 		Transaction t = new Transaction();
 		t = t.find().andWhere("code", "=", code).one();
 		if(t.delete(t.getId()))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		return this.redirect("igrp","Transaccao","index");
 	}
 	
@@ -75,9 +76,9 @@ public class TransaccaoController extends Controller {
 			}
 			t = t.update();
 			if(t!=null)	
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 			else
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 		}
 		this.redirect("igrp","Transaccao","index");
 	}

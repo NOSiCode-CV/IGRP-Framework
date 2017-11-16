@@ -16,7 +16,7 @@ import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
-
+import static nosi.core.i18n.Translator.gt;
 /*---- End ----*/
 public class NovoPerfilController extends Controller {		
 
@@ -42,10 +42,10 @@ public class NovoPerfilController extends Controller {
 				group.setName(pt.getOrganization().getName()+" - "+pt.getDescr());
 				group.setType("assignment");
 				group.create(group);
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
 				return this.redirect("igrp", "novo-perfil", "index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
 			}
 			
 		}
@@ -83,11 +83,11 @@ public class NovoPerfilController extends Controller {
 			p.setApplication(new Application().findOne(model.getAplicacao()));	
 			p = p.update();
 			if(p!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Perfil atualizado com sucesso.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Perfil atualizado com sucesso."));
 				return this.redirect("igrp", "novo-perfil", "editar", new String[]{"p_id"}, new String[]{p.getId() + ""});
 			}
 			else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Erro ao atualizar o perfil.");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar o perfil."));
 			
 		}		
 		NovoPerfilView view = new NovoPerfilView(model);		

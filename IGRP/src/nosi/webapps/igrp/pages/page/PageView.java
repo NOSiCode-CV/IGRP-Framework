@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.page;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class PageView extends View {		
 	
 	public Field sectionheader_1_text;
@@ -41,16 +41,16 @@ public class PageView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestão de Página - Novo");
+		sectionheader_1_text.setValue(gt("Gestão de Página - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel("Aplicação");
+		env_fk.setLabel(gt("Aplicação"));
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		page = new TextField(model,"page");
-		page.setLabel("Nome da Página");
+		page.setLabel(gt("Nome da Página"));
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		action_descr = new TextAreaField(model,"action_descr");
-		action_descr.setLabel("Descricao");
+		action_descr.setLabel(gt("Descrição"));
 		action_descr.propertie().add("name","p_action_descr").add("type","textarea").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel("");
@@ -105,9 +105,9 @@ public class PageView extends View {
 		p_proc_name.propertie().add("name","p_proc_name").add("type","hidden").add("maxlength","30").add("tag","proc_name");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","page","gravar","submit","info|fa-floppy-o","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","page","gravar","submit","info|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","lista-page","index","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","lista-page","index","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

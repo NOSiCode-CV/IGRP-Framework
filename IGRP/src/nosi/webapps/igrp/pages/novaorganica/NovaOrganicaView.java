@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.novaorganica;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class NovaOrganicaView extends View {		
 	
 	public Field sectionheader_1_text;
@@ -26,28 +26,28 @@ public class NovaOrganicaView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestao de Organica - Novo");
+		sectionheader_1_text.setValue(gt("Gestao de Organica - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		codigo = new TextField(model,"codigo");
-		codigo.setLabel("Codigo");
+		codigo.setLabel(gt("Código"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome = new LookupField(model,"nome");
-		nome.setLabel("Nome");
+		nome.setLabel(gt("Nome"));
 		nome.propertie().add("name","p_nome").add("type","lookup").add("action","Action").add("page","Teste").add("app","RED").add("lookup_type","LOOKUP").add("class","default").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		ativo = new CheckBoxField(model,"ativo");
-		ativo.setLabel("Ativo");
+		ativo.setLabel(gt("Ativo"));
 		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		organica_pai = new ListField(model,"organica_pai");
-		organica_pai.setLabel("Organica Pai");
+		organica_pai.setLabel(gt("Organica Pai"));
 		organica_pai.propertie().add("name","p_organica_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","nova-organica","index","submit","info|fa-save","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","nova-organica","index","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-organica","index","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-organica","index","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

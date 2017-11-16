@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.oauthclient;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class OAuthClientView extends View {
 	
 	
@@ -20,7 +20,7 @@ public class OAuthClientView extends View {
 	public IGRPButton btn_listar_oauth_client;
 	public IGRPButton btn_salvar;
 	public OAuthClientView(OAuthClient model){
-		this.setPageTitle("Inserir Dados dos clientes");
+		this.setPageTitle(gt("Inserir Dados dos clientes"));
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -30,7 +30,7 @@ public class OAuthClientView extends View {
 		sectionheader_1_text.setValue("OAuth Client Id");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		uris_de_redirecionamento = new TextField(model,"uris_de_redirecionamento");
-		uris_de_redirecionamento.setLabel("URIs de redirecionamento");
+		uris_de_redirecionamento.setLabel(gt("URIs de redirecionamento"));
 		
 		uris_de_redirecionamento.propertie().add("name","p_uris_de_redirecionamento").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		scope = new ListField(model,"scope");

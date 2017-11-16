@@ -17,9 +17,7 @@ public class IgrpServlet extends HttpServlet{
 	public IgrpServlet() { super(); }
     
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-    	nosi.core.webapp.Igrp igrp = nosi.core.webapp.Igrp.getInstance().init(this, request, response);
-    	igrp.run();
-    	System.out.println("Thread: " + Thread.currentThread().getName() + " Instance: " + igrp);
+    	nosi.core.webapp.Igrp.getInstance().init(this, request, response).run();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

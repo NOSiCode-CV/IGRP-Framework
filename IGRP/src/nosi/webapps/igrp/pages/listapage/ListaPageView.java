@@ -8,8 +8,10 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
 
+import static nosi.core.i18n.Translator.gt;
+
 public class ListaPageView extends View {
-	public String title = "Lista de Páginas";		
+	public String title = gt("Lista de Páginas");		
 	
 	public Field env_fk;
 	public Field page;
@@ -37,51 +39,51 @@ public class ListaPageView extends View {
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel("Aplicação");
+		env_fk.setLabel(gt("Aplicação"));
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		page = new TextField(model,"page");
-		page.setLabel("Nome Página");
+		page.setLabel(gt("Nome Página"));
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		page_descr = new TextField(model,"page_descr");
-		page_descr.setLabel("Descrição Página");
+		page_descr.setLabel(gt("Descrição Página"));
 		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome_page = new TextField(model,"nome_page");
-		nome_page.setLabel("Nome Página");
+		nome_page.setLabel(gt("Nome Página"));
 		nome_page.propertie().add("name","p_nome_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		descricao_page = new TextField(model,"descricao_page");
-		descricao_page.setLabel("Descrição da Página");
+		descricao_page.setLabel(gt("Descrição da Página"));
 		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		versao_page = new TextField(model,"versao_page");
-		versao_page.setLabel("Versão");
+		versao_page.setLabel(gt("Versão"));
 		versao_page.propertie().add("name","p_versao_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		status_page = new CheckBoxField(model,"status_page");
-		status_page.setLabel("Ativo?");
+		status_page.setLabel(gt("Ativo?"));
 		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		status_page_check = new CheckBoxField(model,"status_page_check");
-		status_page_check.setLabel("Ativo?");
+		status_page_check.setLabel(gt("Ativo?"));
 		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("check","true").add("desc","true");
 		id = new HiddenField(model,"id");
 		id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","p_id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","page","index","_self","success|fa-plus-square","","");
+		btn_novo = new IGRPButton(gt("Novo"),"igrp","page","index","_self","success|fa-plus-square","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","lista-page","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","lista-page","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		
-		btn_editar = new IGRPButton("Editar","igrp","page","editar","_self","warning|fa-pencil","","");
+		btn_editar = new IGRPButton(gt("Editar"),"igrp","page","editar","_self","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("rel","editar");
 		
-		btn_eliminar = new IGRPButton("Eliminar","igrp","page","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","page","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("rel","eliminar");
 		
-		btn_visualizar = new IGRPButton("Visualizar","igrp","page","visualizar","_target","primary|fa-eye","","");
+		btn_visualizar = new IGRPButton(gt("Visualizar"),"igrp","page","visualizar","_target","primary|fa-eye","","");
 		btn_visualizar.propertie.add("type","specific").add("code","").add("rel","visualizar");
 		
-		btn_gerar = new IGRPButton("Gerar Pagina","igrp","generator","index","_target","link|fa-gears","","");
+		btn_gerar = new IGRPButton(gt("Gerar Página"),"igrp","generator","index","_target","link|fa-gears","","");
 		btn_gerar.propertie.add("type","specific").add("code","").add("rel","gerar");
 		
-		btn_export = new IGRPButton("Export","igrp","ListaPage","export","confirm","grey|fa-upload","","");
+		btn_export = new IGRPButton(gt("Export"),"igrp","ListaPage","export","confirm","grey|fa-upload","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
 		

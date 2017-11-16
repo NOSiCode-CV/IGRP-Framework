@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.migrate;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class MigrateView extends View {
 	
 	
@@ -31,11 +31,11 @@ public class MigrateView extends View {
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		tipo_base_dados = new ListField(model,"tipo_base_dados");
-		tipo_base_dados.setLabel("Tipo Base Dados");
+		tipo_base_dados.setLabel(gt("Tipo Base Dados"));
 		
 		tipo_base_dados.propertie().add("name","p_tipo_base_dados").add("type","select").add("multiple","false").add("maxlength","20").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		hostname = new TextField(model,"hostname");
@@ -43,11 +43,11 @@ public class MigrateView extends View {
 		
 		hostname.propertie().add("name","p_hostname").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		port = new NumberField(model,"port");
-		port.setLabel("Porta");
+		port.setLabel(gt("Porta"));
 		
 		port.propertie().add("name","p_port").add("type","number").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("min","").add("max","");
 		nome_de_bade_dados = new TextField(model,"nome_de_bade_dados");
-		nome_de_bade_dados.setLabel("Nome de Bade Dados");
+		nome_de_bade_dados.setLabel(gt("Nome de Base Dados"));
 		
 		nome_de_bade_dados.propertie().add("name","p_nome_de_bade_dados").add("type","text").add("maxlength","50").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		username = new TextField(model,"username");
@@ -65,10 +65,10 @@ public class MigrateView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_migrar = new IGRPButton("Migrar","igrp","Migrate","migrar","submit","primary|fa-exchange","","");
+		btn_migrar = new IGRPButton(gt("Migrar"),"igrp","Migrate","migrar","submit","primary|fa-exchange","","");
 		btn_migrar.propertie.add("type","specific").add("code","").add("rel","migrar");
 		
-		btn_testar_conexao = new IGRPButton("Testar Conexão","igrp","Migrate","testar_conexao","submit","success|fa-check","","");
+		btn_testar_conexao = new IGRPButton(gt("Testar Conexão"),"igrp","Migrate","testar_conexao","submit","success|fa-check","","");
 		btn_testar_conexao.propertie.add("type","specific").add("code","").add("rel","testar_conexao");
 	}
 		
