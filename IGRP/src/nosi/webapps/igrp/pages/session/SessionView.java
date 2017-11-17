@@ -29,16 +29,16 @@ public class SessionView extends View {
 	public SessionView(Session model){
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
-		chart_t_sessao = new IGRPChart("chart_t_sessao","Total Sessoes");
-		chart_t_session_app = new IGRPChart("chart_t_session_app","Total Sessoes por Aplicacao");
+		chart_t_sessao = new IGRPChart("chart_t_sessao",gt("Total Sessões"));
+		chart_t_session_app = new IGRPChart("chart_t_session_app",gt("Total Sessões por Aplicação"));
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicacao"));
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		utilizador = new TextField(model,"utilizador");
 		utilizador.setLabel(gt("Utilizador"));
 		utilizador.propertie().add("name","p_utilizador").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		data_inicio = new DateField(model,"data_inicio");
-		data_inicio.setLabel(gt("Data Inicio"));
+		data_inicio.setLabel(gt("Data Início"));
 		data_inicio.propertie().add("name","p_data_inicio").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_fim = new DateField(model,"data_fim");
 		data_fim.setLabel(gt("Data Fim"));
@@ -53,7 +53,7 @@ public class SessionView extends View {
 		filter.setLabel("");
 		filter.propertie().add("name","p_table_1_filter").add("type","filter_az");
 		
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Session","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","Session","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
 		btn_ver_logs = new IGRPButton("Ver Logs","igrp","Session","ver_logs","submit","default|fa-angle-right","","");
 		btn_ver_logs.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_logs");

@@ -24,6 +24,8 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 
+import static nosi.core.i18n.Translator.gt;
+
 /*---- End ----*/
 
 public class ListaEnvController extends Controller {		
@@ -59,7 +61,7 @@ public class ListaEnvController extends Controller {
 		
 		ListaEnvView view = new ListaEnvView(model);
 		view.table_1.addData(model.gettable_1());
-		view.title = "Lista Aplicação";
+		view.title = gt("Lista Aplicação");
 		view.id.setParam(true);
 		return this.renderView(view);
 	}

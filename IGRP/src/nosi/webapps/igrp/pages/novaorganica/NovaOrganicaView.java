@@ -26,7 +26,7 @@ public class NovaOrganicaView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Gestao de Organica - Novo"));
+		sectionheader_1_text.setValue(gt("Gestao de Orgânica - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
@@ -41,7 +41,7 @@ public class NovaOrganicaView extends View {
 		ativo.setLabel(gt("Ativo"));
 		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		organica_pai = new ListField(model,"organica_pai");
-		organica_pai.setLabel(gt("Organica Pai"));
+		organica_pai.setLabel(gt("Orgânica Pai"));
 		organica_pai.propertie().add("name","p_organica_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");

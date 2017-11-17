@@ -22,6 +22,8 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 
+import static nosi.core.i18n.Translator.gt;
+
 @Entity
 @Table(name="tbl_env")
 public class Application extends BaseActiveRecord<Application> implements Serializable{
@@ -221,7 +223,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public Map<Object, Object> getListApps(){
-		return IgrpHelper.toMap(this.findAll(), "id", "name", "--- Selecionar Aplicacao ---");
+		return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
 	}
 	
 	public boolean getPermissionApp(String dad) {

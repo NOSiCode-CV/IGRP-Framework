@@ -26,6 +26,8 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 
+import static nosi.core.i18n.Translator.gt;
+
 @Entity
 @Table(name="tbl_menu")
 public class Menu extends BaseActiveRecord<Menu> implements Serializable{
@@ -229,7 +231,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 
 	public HashMap<Integer, String> getListPrincipalMenus() {
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Menu Principal ---");
+		lista.put(null, gt("-- Selecionar Menu Principal --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
 			lista.put(m.getId(),m.getDescr());
 		}
