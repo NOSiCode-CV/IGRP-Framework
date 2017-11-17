@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
+import static nosi.core.i18n.Translator.gt;
+
 @Entity
 @Table(name="tbl_organization")
 public class Organization extends BaseActiveRecord<Organization> implements Serializable{
@@ -136,7 +138,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Organica ---");
+		lista.put(null, gt("-- Selecionar Orgânica --"));
 		for(Organization o:this.findAll()){
 			lista.put(o.getId()+"", o.getName());
 		}

@@ -15,6 +15,8 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.User;
 
+import static nosi.core.i18n.Translator.gt;
+
 public class Config {
 	
 	public static String TITLE = "";
@@ -250,7 +252,7 @@ public class Config {
 
 	public static Object getDatabaseTypes() {
 		Map<String,String> tipos = new HashMap<>();
-		tipos.put(null, "-- Selecione Base de Dados --");
+		tipos.put(null, gt("-- Selecione Base de Dados --"));
 		tipos.put("mysql", "MySql");
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");

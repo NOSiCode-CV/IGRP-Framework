@@ -83,7 +83,7 @@ public class ImportExportDAO extends BaseActiveRecord<ImportExportDAO> implement
 	}
 	
 	public Map<Object, Object> getList(){
-		return IgrpHelper.toMap(this.findAll(), "aplicacao", "aplicacao", "--- Selecionar Aplicação/Página ---");
+		return IgrpHelper.toMap(this.findAll(), "aplicacao", "aplicacao", "-- Selecionar Aplicação/Página --");
 	}
 
 }

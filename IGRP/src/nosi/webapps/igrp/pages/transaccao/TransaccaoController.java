@@ -36,7 +36,7 @@ public class TransaccaoController extends Controller {
 		}		
 		
 		TransaccaoView view = new TransaccaoView(model);
-		view.title = "Gestao de Transação";
+		view.title = gt("Gestão de Transação");
 		view.aplicacao.setValue(new Application().getListApps());
 //		view.organica.setValue(new Organization().getListMyOrganizations());
 		view.table_1.addData(table_1);

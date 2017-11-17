@@ -40,7 +40,7 @@ public class PesquisarPerfilView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		organia = new ListField(model,"organia");
-		organia.setLabel(gt("Orgânia"));
+		organia.setLabel(gt("Orgânica"));
 		organia.propertie().add("name","p_organia").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));

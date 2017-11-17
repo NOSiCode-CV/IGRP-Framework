@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.helpers.Permission;
 
+import static nosi.core.i18n.Translator.gt;
+
 @Entity
 @Table(name="tbl_profile_type")
 public class ProfileType extends BaseActiveRecord<ProfileType> implements Serializable {
@@ -145,7 +147,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public HashMap<String, String> getListMyProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put("", "--- Selecionar Perfil ---");
+		lista.put("", gt("-- Selecionar Perfil --"));
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " - "+ p.getProfileType().getDescr());
 		}
@@ -154,7 +156,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public HashMap<String, String> getListProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Perfil ---");
+		lista.put(null, "-- Selecionar Perfil --");
 		for(ProfileType p: this.findAll()){
 			lista.put(p.getId()+"", p.getDescr());
 		}

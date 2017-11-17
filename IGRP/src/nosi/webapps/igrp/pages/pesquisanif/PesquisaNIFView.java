@@ -80,7 +80,7 @@ public class PesquisaNIFView extends View {
 		
 		documento.propertie().add("name","p_documento").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisaNIF","pesquisar","submit","primary|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","PesquisaNIF","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","primary").add("rel","pesquisar");
 		
 	}

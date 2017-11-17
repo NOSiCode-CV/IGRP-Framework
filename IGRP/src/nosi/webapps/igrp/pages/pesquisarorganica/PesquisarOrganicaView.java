@@ -35,7 +35,7 @@ public class PesquisarOrganicaView extends View {
 		sectionheader_1_text.setValue(gt("Gestão Orgânica"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicacao"));
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
 		descricao.setLabel(gt("Descrição"));

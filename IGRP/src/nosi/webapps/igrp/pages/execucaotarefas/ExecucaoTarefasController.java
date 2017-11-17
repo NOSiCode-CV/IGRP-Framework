@@ -30,9 +30,9 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*---- Insert your code here... ----*/		
-		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(), "id", "name", "--- Selecionar Processo ---");
+		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(), "id", "name", gt("-- Selecionar Processo --"));
 		Map<String,String> listPrioridade = new HashMap<String,String>();
-		listPrioridade.put(null, "--- Escolher Prioridade ---");
+		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
 		listPrioridade.put("50", "Médio");
 		listPrioridade.put("0", "Normal");
