@@ -3,14 +3,12 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novodominio;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Response;
-
 import java.io.IOException;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class NovoDominioController extends Controller {		
 

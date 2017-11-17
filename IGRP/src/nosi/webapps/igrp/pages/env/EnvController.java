@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.env;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -33,12 +33,13 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.compiler.helpers.Compiler;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class EnvController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Env model = new Env();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -47,9 +48,11 @@ public class EnvController extends Controller {
 		//view.action_fk.setValue(new Action().getListActions());
 		view.img_src.setValue("default.png");
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, URISyntaxException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Env model = new Env();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			
@@ -110,13 +113,76 @@ public class EnvController extends Controller {
 			}
 		}
 		return this.forward("igrp", "env", "index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
 		return this.redirect("igrp", "lista-env","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
-//	
-//	//App list I have access to
+	
+	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		Env model = new Env();		
+		Application aplica_db = new Application();
+		aplica_db = aplica_db.findOne(Integer.parseInt(idAplicacao));
+		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
+		model.setName(aplica_db.getName());
+		model.setDescription(aplica_db.getDescription());
+		model.setFlg_external(aplica_db.getExternal());
+		model.setHost(aplica_db.getUrl());
+		if(aplica_db.getAction()!=null){
+			model.setAction_fk(aplica_db.getAction().getId());
+		}
+//		model.setApache_dad(aplica_db.getApache_dad());
+//		model.setFlg_external(aplica_db.getFlg_external());
+		model.setImg_src(aplica_db.getImg_src());
+		model.setStatus(aplica_db.getStatus());
+//		model.setFlg_old(aplica_db.getFlg_old());
+//		model.setLink_center(aplica_db.getLink_center());
+//		model.setLink_menu(aplica_db.getLink_menu());
+//		model.setTemplates(aplica_db.getTemplates());
+//		model.setHost(aplica_db.getHost());
+		
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+			model.load();			
+			aplica_db.setDad(model.getDad());
+			aplica_db.setName(model.getName());
+			aplica_db.setImg_src(model.getImg_src());
+			aplica_db.setUrl(model.getHost());
+			aplica_db.setExternal(model.getFlg_external());
+			
+			aplica_db.setDescription(model.getDescription());
+			Action ac = new Action().findOne(model.getAction_fk());
+			aplica_db.setAction(ac);
+			aplica_db.setStatus(model.getStatus());
+//			aplica_db.setFlg_old(model.getFlg_old());
+//			aplica_db.setLink_menu(model.getLink_menu());
+//			aplica_db.setLink_center(model.getLink_center());
+//			aplica_db.setApache_dad(model.getApache_dad());
+//			aplica_db.setTemplates(model.getTemplates());
+//			aplica_db.setHost(model.getHost());
+//			aplica_db.setFlg_external(model.getFlg_external());			
+			aplica_db = aplica_db.update();
+			if(aplica_db!=null){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
+				return this.redirect("igrp", "lista-env", "index");
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+			}
+		}	
+		EnvView view = new EnvView(model);
+		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
+		view.btn_gravar.setLink("editar&id=" + idAplicacao);
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
+	}
+
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	//App list I have access to
 	public Response actionMyApps() throws IOException{
 		Igrp.getInstance().getResponse().setContentType("text/xml");
 
@@ -208,62 +274,6 @@ public class EnvController extends Controller {
 		response.setType(1);
 
 		return response;
-	}
-	
-	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
-		Env model = new Env();		
-		Application aplica_db = new Application();
-		aplica_db = aplica_db.findOne(Integer.parseInt(idAplicacao));
-		model.setDad(aplica_db.getDad()); // field dad is the same a Schema
-		model.setName(aplica_db.getName());
-		model.setDescription(aplica_db.getDescription());
-		model.setFlg_external(aplica_db.getExternal());
-		model.setHost(aplica_db.getUrl());
-		if(aplica_db.getAction()!=null){
-			model.setAction_fk(aplica_db.getAction().getId());
-		}
-//		model.setApache_dad(aplica_db.getApache_dad());
-//		model.setFlg_external(aplica_db.getFlg_external());
-		model.setImg_src(aplica_db.getImg_src());
-		model.setStatus(aplica_db.getStatus());
-//		model.setFlg_old(aplica_db.getFlg_old());
-//		model.setLink_center(aplica_db.getLink_center());
-//		model.setLink_menu(aplica_db.getLink_menu());
-//		model.setTemplates(aplica_db.getTemplates());
-//		model.setHost(aplica_db.getHost());
-		
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			model.load();			
-			aplica_db.setDad(model.getDad());
-			aplica_db.setName(model.getName());
-			aplica_db.setImg_src(model.getImg_src());
-			aplica_db.setUrl(model.getHost());
-			aplica_db.setExternal(model.getFlg_external());
-			
-			aplica_db.setDescription(model.getDescription());
-			Action ac = new Action().findOne(model.getAction_fk());
-			aplica_db.setAction(ac);
-			aplica_db.setStatus(model.getStatus());
-//			aplica_db.setFlg_old(model.getFlg_old());
-//			aplica_db.setLink_menu(model.getLink_menu());
-//			aplica_db.setLink_center(model.getLink_center());
-//			aplica_db.setApache_dad(model.getApache_dad());
-//			aplica_db.setTemplates(model.getTemplates());
-//			aplica_db.setHost(model.getHost());
-//			aplica_db.setFlg_external(model.getFlg_external());			
-			aplica_db = aplica_db.update();
-			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
-				return this.redirect("igrp", "lista-env", "index");
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
-			}
-		}	
-		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
-		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
-		return this.renderView(view);
 	}
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
@@ -361,6 +371,6 @@ public class EnvController extends Controller {
 					+ ", img_src=" + img_src + ", link=" + link + ", available=" + available + "]";
 		}
 	}
-	
-	// End
+
+	/*----#END-PRESERVED-AREA----*/
 }

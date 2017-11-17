@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoutilizador;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -17,10 +17,12 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class NovoUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoUtilizador model = new NovoUtilizador();		
 		NovoUtilizadorView view = new NovoUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
@@ -32,9 +34,11 @@ public class NovoUtilizadorController extends Controller {
 			view.email.setValue(u.getEmail());
 		}
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoUtilizador model = new NovoUtilizador();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -77,6 +81,11 @@ public class NovoUtilizadorController extends Controller {
 			}
 		}
 		return this.redirect("igrp", "novo-utilizador", "index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

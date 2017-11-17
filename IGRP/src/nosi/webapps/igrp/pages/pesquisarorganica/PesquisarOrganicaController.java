@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.pesquisarorganica;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -12,11 +12,11 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.io.IOException;
 import java.util.ArrayList;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 public class PesquisarOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarOrganica model = new PesquisarOrganica();
 		ArrayList<PesquisarOrganica.Table_1> lista = new ArrayList<>();
 		
@@ -39,6 +39,7 @@ public class PesquisarOrganicaController extends Controller {
 		view.table_1.addData(lista);
 		view.p_id.setParam(true);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	
@@ -51,16 +52,26 @@ public class PesquisarOrganicaController extends Controller {
 	}
 	
 	public Response actionMenu() throws IOException{
+		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=org");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionTransacao() throws IOException{
+		/*----#START-PRESERVED-AREA(TRANSACAO)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=org");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public void actionEtapa() throws IOException{
 		
 	}
+	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
+	
 }

@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novomenu;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -13,14 +13,14 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-
 import java.io.IOException;
 import java.util.HashMap;
+/*----#END-PRESERVED-AREA----*/
 
-/*---- End ----*/
 public class NovoMenuController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoMenu model = new NovoMenu();
 		NovoMenuView view = new NovoMenuView(model);
 		HashMap<String,String> targets = new HashMap<>();
@@ -35,9 +35,11 @@ public class NovoMenuController extends Controller {
 		view.target.setValue(targets); // prompt
 		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoMenu model = new NovoMenu();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -67,9 +69,11 @@ public class NovoMenuController extends Controller {
 			}
 		}
 		return this.redirect("igrp", "novo-menu", "index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditar(@RParam(rParamName = "p_id") String id_menu) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 			
 			Menu menu = new Menu().findOne(Integer.parseInt(id_menu));			
 			NovoMenu model = new NovoMenu();			
@@ -89,7 +93,6 @@ public class NovoMenuController extends Controller {
 			
 			if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 				model.load();
-				System.out.println(id_menu);
 				if(model.getAction_fk()!=0){
 					menu.setAction(new Action().findOne(model.getAction_fk()));
 				}
@@ -135,11 +138,18 @@ public class NovoMenuController extends Controller {
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 			
 			return this.renderView(view);
+			/*----#END-PRESERVED-AREA----*/
 		
 	}
 	
 	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
 		return this.redirect("igrp","pesquisar-menu","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+
 	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

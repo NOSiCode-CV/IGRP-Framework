@@ -3,8 +3,9 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.transferir_tarefas;
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
-/*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -12,15 +13,14 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.webapps.igrp.dao.User;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class Transferir_tarefasController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(INDEX)----*/				
 		Transferir_tarefas model = new Transferir_tarefas();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null && !id.equals("")){
@@ -62,15 +62,19 @@ public class Transferir_tarefasController extends Controller {
 		}
 		Config.target = "_blank";
 		return this.renderView(view);
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionGravar() throws IOException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/				
 		return this.redirect("igrp","Transferir_tarefas","index");
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

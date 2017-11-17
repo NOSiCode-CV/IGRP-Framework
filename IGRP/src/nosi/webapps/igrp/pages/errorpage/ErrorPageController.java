@@ -3,17 +3,18 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.errorpage;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import java.io.IOException;
-
 import static nosi.core.i18n.Translator.gt;
+/*----#END-PRESERVED-AREA----*/
 
-/*---- End ----*/
 public class ErrorPageController extends Controller {		
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	/*public Response actionNotFound() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
@@ -47,5 +48,6 @@ public class ErrorPageController extends Controller {
 		}
 		else
 			return this.redirect("igrp", "login", "login");
-	}*/
+	}*/	
+	/*----#END-PRESERVED-AREA----*/
 }

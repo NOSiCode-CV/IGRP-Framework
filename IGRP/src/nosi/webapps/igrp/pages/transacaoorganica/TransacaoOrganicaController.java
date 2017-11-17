@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.transacaoorganica;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -17,10 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class TransacaoOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		TransacaoOrganicaView view = null;
@@ -61,9 +63,11 @@ public class TransacaoOrganicaController extends Controller {
 			view.table_1.addData(data);
 		}
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
@@ -105,10 +109,17 @@ public class TransacaoOrganicaController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
 		}
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
 		return this.redirect("igrp","TransacaoOrganica","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

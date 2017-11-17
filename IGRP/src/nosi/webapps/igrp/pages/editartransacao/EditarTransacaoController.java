@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.editartransacao;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -13,12 +13,13 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class EditarTransacaoController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		if(codigo!=null){
 			Transaction t = new Transaction().find().andWhere("code", "=", codigo).one();
 			EditarTransacao model = new EditarTransacao();
@@ -52,10 +53,17 @@ public class EditarTransacaoController extends Controller {
 		}
 		else
 			return this.redirect("igrp", "error-page", "permission");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
 		return this.redirect("igrp","Transaccao","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+
 	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

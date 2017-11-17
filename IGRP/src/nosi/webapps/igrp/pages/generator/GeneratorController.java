@@ -1,6 +1,6 @@
 package nosi.webapps.igrp.pages.generator;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
@@ -8,11 +8,12 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
+/*----#END-PRESERVED-AREA----*/
 
-/*---- End ----*/
 public class GeneratorController extends Controller{
 	
 	public Response actionIndex() throws IOException{		
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Generator model = new Generator();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
@@ -39,5 +40,10 @@ public class GeneratorController extends Controller{
 			}
 		}
 		return this.redirect("igrp", "error-page", "exception");
+		/*----#END-PRESERVED-AREA----*/
 	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

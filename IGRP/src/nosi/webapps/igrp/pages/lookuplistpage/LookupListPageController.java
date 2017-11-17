@@ -3,26 +3,23 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.lookuplistpage;
-import nosi.core.config.Config;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class LookupListPageController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		LookupListPage model = new LookupListPage();
 		ArrayList<LookupListPage.Table_1> lista = new ArrayList<>();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -50,15 +47,17 @@ public class LookupListPageController extends Controller {
 		Config.target = "_blank";
 		view.btn_pesquisar.setLink("index");
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		return this.redirect("igrp","ListaPage","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

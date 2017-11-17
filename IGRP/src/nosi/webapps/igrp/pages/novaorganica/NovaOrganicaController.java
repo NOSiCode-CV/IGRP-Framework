@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novaorganica;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -15,10 +15,12 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class NovaOrganicaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovaOrganica model = new NovaOrganica();
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		Organization organization = new Organization();
@@ -43,9 +45,11 @@ public class NovaOrganicaController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());		
 		view.organica_pai.setValue(organization.getListOrganizations());		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		NovaOrganica model = new NovaOrganica();
 		
 		Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));		
@@ -78,6 +82,10 @@ public class NovaOrganicaController extends Controller {
 		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));		
 		view.btn_gravar.setLink("editar&p_id=" + idOrganica);	
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 	
 }

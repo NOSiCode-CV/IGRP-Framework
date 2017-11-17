@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.listaenv;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,15 +23,14 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-
 import static nosi.core.i18n.Translator.gt;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class ListaEnvController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		ListaEnv model = new ListaEnv();
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
 		Application app = new Application();
@@ -64,31 +63,33 @@ public class ListaEnvController extends Controller {
 		view.title = gt("Lista Aplicação");
 		view.id.setParam(true);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionNovo() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(NOVO)----*/
 		return this.redirect("igrp","ListaPage","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
 		return this.redirect("igrp","listaenv","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionEditar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		return this.redirect("igrp","ListaPage","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionEliminar() throws IOException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		Application app = new Application();
 		if(app.delete(Integer.parseInt(id)))
@@ -96,11 +97,12 @@ public class ListaEnvController extends Controller {
 		else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		return this.redirect("igrp","lista-env","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionExport() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(EXPORT)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id != null && !id.equals("")) {
 			Application app = new Application().findOne(id);
@@ -120,13 +122,13 @@ public class ListaEnvController extends Controller {
 			}
 		}
 		return this.redirect("igrp","ListaEnv","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	
 	
-	/*---- Insert your actions here... ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private Response exportApp(Application app,ImportExportApp iea) {
 		for(Action a:new Action().find().andWhere("application", "=", app.getId()).all()){
 			iea.putFilesPageConfig(a);
@@ -165,5 +167,5 @@ public class ListaEnvController extends Controller {
 		}
 		return this.forward("igrp", "ListaEnv", "index");
 	}
-	/*---- End ----*/
+	/*----#END-PRESERVED-AREA----*/
 }

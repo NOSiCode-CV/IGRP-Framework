@@ -2,14 +2,13 @@
 
 /*Create Controller*/
 package nosi.webapps.igrp.pages.pesquisarmenu;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -18,12 +17,13 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class PesquisarMenuController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarMenu model = new PesquisarMenu();		
 		Menu menu = new Menu();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -75,8 +75,25 @@ public class PesquisarMenuController extends Controller {
 		view.title = "";
 		view.table_1.addData(lista);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+
+	
+	public Response actionEliminar() throws IOException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		Menu menu_db = new Menu();
+		if(menu_db.delete(Integer.parseInt(id)))
+			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+		else
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+		return this.redirect("igrp","pesquisar-menu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	//Menu list I have access to
 	public Response actionMyMenu() throws IOException{
@@ -130,16 +147,6 @@ public class PesquisarMenuController extends Controller {
 		return this.redirect("igrp","pesquisar-menu","index");
 	}
 	
-	public Response actionEliminar() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		Menu menu_db = new Menu();
-		if(menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
-		else
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
-		return this.redirect("igrp","pesquisar-menu","index");
-	}
-	
 	//Get Top Menu
 	public Response actionTopMenu() throws IOException{	
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
@@ -149,4 +156,5 @@ public class PesquisarMenuController extends Controller {
 		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
 		return this.renderView(topMenu.toString());
 	}
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -50,5 +50,7 @@ public class PesquisaNIFController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*//*----#END-PRESERVED-AREA----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

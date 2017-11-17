@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.pesquisarutilizador;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -16,11 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class PesquisarUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarUtilizador model = new PesquisarUtilizador();
 		
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();			
@@ -55,6 +56,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	
@@ -67,6 +69,13 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 	
 	public Response actionConvidar() throws IOException{
+		/*----#START-PRESERVED-AREA(CONVIDAR)----*/
 		return this.redirect("igrp", "NovoUtilizador","index","id="+Igrp.getInstance().getRequest().getParameter("p_id"));
+		/*----#END-PRESERVED-AREA----*/
 	}
+	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

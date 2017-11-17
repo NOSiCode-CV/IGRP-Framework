@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.configdatabase;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -17,16 +17,14 @@ import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-
 import static nosi.core.i18n.Translator.gt;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class ConfigDatabaseController extends Controller {		
 
 
 	public Response actionIndex(@RParam(rParamName = "id") String idAplicacao) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ConfigDatabase model = new ConfigDatabase();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -38,12 +36,12 @@ public class ConfigDatabaseController extends Controller {
 			return this.renderView(view);
 		}
 		return this.redirect("igrp", "error-page", "exception");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		ConfigDatabase model = new ConfigDatabase();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -79,9 +77,26 @@ public class ConfigDatabaseController extends Controller {
 			}
 		}
 		return this.redirect("igrp","ConfigDatabase","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+
+	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(TESTAR_CONEXAO)----*/
+		Migrate model = new Migrate();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			if(MigrationIGRP.validate(model)){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
+			}
+		}
+		return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private void saveConfigHibernateFile(Config_env config) throws IOException {
 		String package_ = "nosi.webapps."+config.getApplication().getDad().toLowerCase()+".dao";
 		String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -100,22 +115,5 @@ public class ConfigDatabaseController extends Controller {
 			FileHelper.save(pathWS, config.getName()+".cfg.xml", content);
 		}
 	}
-
-
-	/*---- Insert your actions here... ----*/
-	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
-		Migrate model = new Migrate();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(MigrationIGRP.validate(model)){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
-			}
-		}
-		return this.forward("igrp","ConfigDatabase","index&id="+model.getAplicacao());
-		/*---- End ----*/
-	}
-	/*---- End ----*/
+	/*----#END-PRESERVED-AREA----*/
 }
