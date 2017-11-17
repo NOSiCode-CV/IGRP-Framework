@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-d529ec60">
+                                    <div class="row " id="row-82a5de69">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -45,7 +45,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_aplicacao/value"/>
                                                                 </xsl:call-template>
                                                                 <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-importar_aplicacao">
-                                                                    <i class="fa fa-cloud-download"/>
+                                                                    <i class="fa fa-cloud-upload"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/importar_aplicacao/label"/>
                                                                     </span>
@@ -58,9 +58,22 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_pagina/value"/>
                                                                 </xsl:call-template>
                                                                 <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-importar_pagina">
-                                                                    <i class="fa fa-cloud-download"/>
+                                                                    <i class="fa fa-cloud-upload"/>
                                                                     <span>
                                                                         <xsl:value-of select="rows/content/tabcontent_1/fields/importar_pagina/label"/>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/importar_jar_file">
+                                                            <li item-name="importar_jar_file" class=" gen-fields-holder" rel="tab-tabcontent_1-importar_jar_file">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_jar_file/value"/>
+                                                                </xsl:call-template>
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-importar_jar_file">
+                                                                    <i class="fa fa-cloud-upload"/>
+                                                                    <span>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/importar_jar_file/label"/>
                                                                     </span>
                                                                 </a>
                                                             </li>
@@ -73,16 +86,23 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_aplicacao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-c5326d34">
+                                                                <div class="row " id="row-6992170e">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/sectionheader_2">
+                                                                                <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_2">
+                                                                                    <h2>
+                                                                                        <xsl:value-of select="rows/content/sectionheader_2/fields/sectionheader_2_text/value"/>
+                                                                                    </h2>
+                                                                                </section>
+                                                                            </xsl:if>
                                                                             <xsl:if test="rows/content/form_2">
                                                                                 <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_2">
                                                                                     <div class="box-body">
                                                                                         <div role="form">
                                                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_2/fields"/>
                                                                                             <xsl:if test="rows/content/form_2/fields/arquivo_aplicacao">
-                                                                                                <div class="form-group col-sm-3  gen-fields-holder" item-name="arquivo_aplicacao" item-type="file" required="required">
+                                                                                                <div class="form-group col-sm-4  gen-fields-holder" item-name="arquivo_aplicacao" item-type="file" required="required">
                                                                                                     <label for="{rows/content/form_2/fields/arquivo_aplicacao/@name}">
                                                                                                         <span>
                                                                                                             <xsl:value-of select="rows/content/form_2/fields/arquivo_aplicacao/label"/>
@@ -119,16 +139,23 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_pagina/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-00655449">
+                                                                <div class="row " id="row-3eba2c37">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/sectionheader_3">
+                                                                                <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_3">
+                                                                                    <h2>
+                                                                                        <xsl:value-of select="rows/content/sectionheader_3/fields/sectionheader_3_text/value"/>
+                                                                                    </h2>
+                                                                                </section>
+                                                                            </xsl:if>
                                                                             <xsl:if test="rows/content/form_1">
                                                                                 <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
                                                                                     <div class="box-body">
                                                                                         <div role="form">
                                                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
                                                                                             <xsl:if test="rows/content/form_1/fields/list_aplicacao">
-                                                                                                <div class="col-sm-3 form-group  gen-fields-holder" item-name="list_aplicacao" item-type="select" required="required">
+                                                                                                <div class="col-sm-4 form-group  gen-fields-holder" item-name="list_aplicacao" item-type="select" required="required">
                                                                                                     <label for="{rows/content/form_1/fields/list_aplicacao/@name}">
                                                                                                         <xsl:value-of select="rows/content/form_1/fields/list_aplicacao/label"/>
                                                                                                     </label>
@@ -150,7 +177,7 @@
                                                                                                 </div>
                                                                                             </xsl:if>
                                                                                             <xsl:if test="rows/content/form_1/fields/arquivo_pagina">
-                                                                                                <div class="form-group col-sm-3  gen-fields-holder" item-name="arquivo_pagina" item-type="file" required="required">
+                                                                                                <div class="form-group col-sm-4  gen-fields-holder" item-name="arquivo_pagina" item-type="file" required="required">
                                                                                                     <label for="{rows/content/form_1/fields/arquivo_pagina/@name}">
                                                                                                         <span>
                                                                                                             <xsl:value-of select="rows/content/form_1/fields/arquivo_pagina/label"/>
@@ -181,6 +208,59 @@
                                                                 </div>
                                                             </div>
                                                         </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/importar_jar_file">
+                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-importar_jar_file" rel="tab-tabcontent_1-importar_jar_file">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_jar_file/value"/>
+                                                                    <xsl:with-param name="class" select="'tab-pane'"/>
+                                                                </xsl:call-template>
+                                                                <div class="row " id="row-e13b662d">
+                                                                    <div class="gen-column col-sm-12">
+                                                                        <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/sectionheader_4">
+                                                                                <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_4">
+                                                                                    <h2>
+                                                                                        <xsl:value-of select="rows/content/sectionheader_4/fields/sectionheader_4_text/value"/>
+                                                                                    </h2>
+                                                                                </section>
+                                                                            </xsl:if>
+                                                                            <xsl:if test="rows/content/form_3">
+                                                                                <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_3">
+                                                                                    <div class="box-body">
+                                                                                        <div role="form">
+                                                                                            <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_3/fields"/>
+                                                                                            <xsl:if test="rows/content/form_3/fields/jar_file">
+                                                                                                <div class="form-group col-sm-4  gen-fields-holder" item-name="jar_file" item-type="file" required="required">
+                                                                                                    <label for="{rows/content/form_3/fields/jar_file/@name}">
+                                                                                                        <span>
+                                                                                                            <xsl:value-of select="rows/content/form_3/fields/jar_file/label"/>
+                                                                                                        </span>
+                                                                                                    </label>
+                                                                                                    <div class="input-group">
+                                                                                                        <input type="text" class="form-control not-form" readonly=""/>
+                                                                                                        <span class="input-group-btn">
+                                                                                                            <span class="btn btn-primary file-btn-holder">
+                                                                                                                <i class="fa fa-upload"/>
+                                                                                                                <input id="{rows/content/form_3/fields/jar_file/@name}" name="{rows/content/form_3/fields/jar_file/@name}" required="required" value="{rows/content/form_3/fields/jar_file/value}" target-rend="[object Object]" class="transparent " type="file" multiple="multiple" accept="[object Object]">
+                                                                                                                    <xsl:call-template name="setAttributes">
+                                                                                                                        <xsl:with-param name="field" select="rows/content/form_3/fields/jar_file"/>
+                                                                                                                    </xsl:call-template>
+                                                                                                                </input>
+                                                                                                            </span>
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </xsl:if>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <xsl:apply-templates select="rows/content/form_3/tools-bar" mode="form-buttons"/>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </xsl:if>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,9 +282,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1509449756347"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1509449756347"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1509449756347"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1509449756347"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1509449756347"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1510938850678"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1510938850678"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1510938850678"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1510938850678"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1510938850679"/>
 </xsl:stylesheet>

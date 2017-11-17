@@ -150,10 +150,10 @@ public class ListaEnvController extends Controller {
 		}
 		files.put("configDBApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+"DB.xml");
 		files.put("configApp/"+app.getDad().toLowerCase()+"/"+app.getDad().toLowerCase()+".xml",pathConfigApp+File.separator+"Config"+app.getDad().toLowerCase()+".xml");
-		String pathJar = Config.getPathExport()+app.getDad().toLowerCase()+File.separator+app.getDad().toLowerCase()+".jar";
+		String pathJar = Config.getPathExport()+app.getDad().toLowerCase()+File.separator+app.getDad().toLowerCase()+".app.jar";
 		FileHelper.createDiretory(Config.getPathExport()+app.getDad().toLowerCase());
 		JarUnJarFile.saveJarFiles(pathJar, files,9);
-		return this.sendFile(new File(pathJar), app.getDad().toLowerCase(), "application/jar", true);
+		return this.sendFile(new File(pathJar), app.getDad().toLowerCase()+".app", "application/jar", true);
 	}
 	
 	public Response actionConfigDB() throws IOException{
