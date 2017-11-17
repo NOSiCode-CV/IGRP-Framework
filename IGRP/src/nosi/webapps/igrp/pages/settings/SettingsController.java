@@ -33,13 +33,13 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
 			
 			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
-				String aux =  I18nManager.defaultPath.replaceAll("pt_pt", model.getIdioma());
+				String aux =  I18nManager.defaultPath.replaceAll("en_us", model.getIdioma());
 				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(aux);
 				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
 				cookie.setMaxAge(I18nManager.cookieExpire);
 				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
-			
+
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efectuada com sucesso"));
 		
 			return this.redirect("igrp", "settings", "index");
@@ -83,11 +83,11 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 		view.perfil.setValue(profiles);
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put("", gt("--- Selecionar Idioma ---"));
-		idioma.put("pt_pt", "Português");
-		idioma.put("en_us", "Inglês");
-		idioma.put("fr_fr", "Francês");
-		idioma.put("es_es", "Espanhol");
+		idioma.put("", gt("-- Selecionar Idioma --"));
+		idioma.put("pt_pt", gt("Português"));
+		idioma.put("en_us", gt("Inglês"));
+		idioma.put("fr_fr", gt("Francês"));
+		idioma.put("es_es", gt("Espanhol"));
 		view.idioma.setValue(idioma);
 		
 		return this.renderView(view);
