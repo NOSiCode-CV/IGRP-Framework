@@ -3,7 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.migrate;
-/*---- Import your packages here... ----*/
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import java.io.IOException;
@@ -14,13 +15,13 @@ import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
 import nosi.core.webapp.Igrp;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class MigrateController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/						
+		/*----#START-PRESERVED-AREA(INDEX)----*/						
 		Migrate model = new Migrate();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -30,12 +31,12 @@ public class MigrateController extends Controller {
 		view.tipo_base_dados.setValue(Config.getDatabaseTypes());
 		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar Aplicação --")));
 		return this.renderView(view);
-					/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionMigrar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/						
+		/*----#START-PRESERVED-AREA(MIGRAR)----*/						
 		Migrate model = new Migrate();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -50,11 +51,11 @@ public class MigrateController extends Controller {
 			}
 		}
 		return this.redirect("igrp","Migrate","index");
-					/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(TESTAR_CONEXAO)----*/
 		Migrate model = new Migrate();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -65,8 +66,9 @@ public class MigrateController extends Controller {
 			}
 		}
 		return this.forward("igrp","Migrate","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
-	/*---- Insert your actions here... ----*/
-	/*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

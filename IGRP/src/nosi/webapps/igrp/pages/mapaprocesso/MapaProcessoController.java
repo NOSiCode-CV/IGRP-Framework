@@ -3,7 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.mapaprocesso;
-/*---- Import your packages here... ----*/
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.config.Config;
@@ -32,16 +33,15 @@ import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
-
 import static nosi.core.i18n.Translator.gt;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class MapaProcessoController extends Controller {		
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		MapaProcesso model = new MapaProcesso();
 		MapaProcessoView view = new MapaProcessoView(model);
 		List<IGRPMenu> listMenus = new ArrayList<>();
@@ -55,10 +55,10 @@ public class MapaProcessoController extends Controller {
 		listMenus.add(menus);
 		view.menu.setListMenu(listMenus);
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
-	/*---- Insert your actions here... ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionOpenProcess(){
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
@@ -77,7 +77,7 @@ public class MapaProcessoController extends Controller {
 		String content = this.transformToXmlWorkFlow(title,formData);
 		return this.renderView(content);
 	}
-	/*---- End ----*/
+
 
 	private String transformToXmlWorkFlow(String title,FormDataService formData) {
 		String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
@@ -203,4 +203,5 @@ public class MapaProcessoController extends Controller {
 		}
 		return new TextField(null, name);
 	}
+	/*----#END-PRESERVED-AREA----*/
 }

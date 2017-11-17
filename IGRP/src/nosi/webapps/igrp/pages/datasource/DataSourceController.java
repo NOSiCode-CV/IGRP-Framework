@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.datasource;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.gui.components.IGRPForm;
@@ -25,15 +25,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class DataSourceController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/	
+		/*----#START-PRESERVED-AREA(INDEX)----*/	
 		HashMap<String,String> tipo = new HashMap<>();
 		tipo.put(null, "--- Selecionar Tipo Data Source ---");
 		//tipo.put("acti", "Etapa");
@@ -91,12 +90,12 @@ public class DataSourceController extends Controller {
 			view.btn_gravar.setLink("gravar&p_datasorce_app="+id);
 		}
 		return this.renderView(view);
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/		
 		DataSource model = new DataSource();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
@@ -147,17 +146,17 @@ public class DataSourceController extends Controller {
 			}
 		}
 		return this.redirect("igrp","DataSource","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionFechar() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(FECHAR)----*/		
 		return this.redirect("igrp","DataSource","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	//Print data source in xml format
 	public Response actionGetDataSource() throws IOException{
@@ -222,5 +221,5 @@ public class DataSourceController extends Controller {
 		return xml.toString();
 	}
 	
-	/*---- End ----*/
+	/*----#END-PRESERVED-AREA----*/
 }

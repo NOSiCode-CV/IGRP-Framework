@@ -3,7 +3,7 @@
 /*Create Controller*/
 package nosi.webapps.igrp.pages.webreport;
 
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
@@ -28,13 +28,13 @@ import nosi.webapps.igrp.dao.RepTemplate;
 import nosi.webapps.igrp.dao.RepTemplateParam;
 import nosi.webapps.igrp.dao.RepTemplateSource;
 import nosi.webapps.igrp.dao.User;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class WebReportController extends Controller {		
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		WebReport model = new WebReport();
 		WebReportView view = new WebReportView(model);
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")){		
@@ -74,31 +74,13 @@ public class WebReportController extends Controller {
 		view.p_edit_name_report.setValue("webapps?r=igrp/web-report/save-edit-template&amp;dad=igrp");
 		
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
-	public Response actionSaveEditTemplate(){
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
-			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
-			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");
-			if(id_!=null && !id_.equals("")){
-				RepTemplate rt = new RepTemplate();
-				rt = rt.findOne((int)Float.parseFloat(id_));
-				rt.setCode(code_);
-				rt.setName(title_);
-				rt.setDt_updated(new Date(System.currentTimeMillis()));
-				rt = rt.update();
-				if(rt!=null){
-					return this.renderView(FlashMessage.MSG_SUCCESS);
-				}
-			}
-		}
-		return this.renderView(FlashMessage.MSG_ERROR);
-	}
-		
+	
 	public Response actionGravar()throws IllegalArgumentException, IllegalAccessException, IOException, ServletException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_xslreport");
 			Part fileTxt = Igrp.getInstance().getRequest().getPart("p_textreport");
@@ -170,8 +152,33 @@ public class WebReportController extends Controller {
 			}
 		}	
 		return this.renderView(FlashMessage.MSG_ERROR);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+	//Faz previsualizacao de report sem usar contra senha
+	public Response actionPreview() throws IOException{
+		/*----#START-PRESERVED-AREA(PREVIEW)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String type = Igrp.getInstance().getRequest().getParameter("p_type");//se for 0 - preview, se for 1 - registar ocorencia
+		String xml = "";
+		if(id!=null && !id.equals("")){
+			RepTemplate rt = new RepTemplate();
+			rt = rt.findOne((int)Float.parseFloat(id));
+			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
+			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
+			//Iterate data source per template
+			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
+				xml += this.getData(rep,name_array,value_array);
+			}
+			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0);
+			this.format = Response.FORMAT_XML;
+			return this.renderView(xml);
+		}
+		return this.redirect("igrp", "ErrorPage", "exception");
+		/*----#END-PRESERVED-AREA----*/
+	}
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/	
 	public Response actionGetContraprova() throws IOException{
 		String contraprova = Igrp.getInstance().getRequest().getParameter("p_contraprova");
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
@@ -183,6 +190,26 @@ public class WebReportController extends Controller {
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
+	public Response actionSaveEditTemplate(){
+		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
+			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
+			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
+			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");
+			if(id_!=null && !id_.equals("")){
+				RepTemplate rt = new RepTemplate();
+				rt = rt.findOne((int)Float.parseFloat(id_));
+				rt.setCode(code_);
+				rt.setName(title_);
+				rt.setDt_updated(new Date(System.currentTimeMillis()));
+				rt = rt.update();
+				if(rt!=null){
+					return this.renderView(FlashMessage.MSG_SUCCESS);
+				}
+			}
+		}
+		return this.renderView(FlashMessage.MSG_ERROR);
+	}
+		
 	//Get xsl content of report
 	public Response actionGetXsl() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -215,28 +242,7 @@ public class WebReportController extends Controller {
 		return this.redirect("igrp", "ErrorPage", "exception");
 	}
 	
-	//Faz previsualizacao de report sem usar contra senha
-	public Response actionPreview() throws IOException{
-		/*---- Insert your code here... ----*/
-		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String type = Igrp.getInstance().getRequest().getParameter("p_type");//se for 0 - preview, se for 1 - registar ocorencia
-		String xml = "";
-		if(id!=null && !id.equals("")){
-			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne((int)Float.parseFloat(id));
-			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
-			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
-			//Iterate data source per template
-			for(RepTemplateSource rep:new RepTemplateSource().getAllDataSources(rt.getId())){
-				xml += this.getData(rep,name_array,value_array);
-			}
-			xml = this.genXml(xml,rt,(type!=null && !type.equals(""))?Integer.parseInt(type):0);
-			this.format = Response.FORMAT_XML;
-			return this.renderView(xml);
-		}
-		return this.redirect("igrp", "ErrorPage", "exception");
-		/*---- End ----*/
-	}
+	
 	
 	
 	private String getData(RepTemplateSource rep,String []name_array,String []value_array) {
@@ -285,7 +291,6 @@ public class WebReportController extends Controller {
 	}
 
 
-	/*---- Insert your actions here... ----*/
 	//Load report, load all configuration of report
 	public Response actionLoadTemplate() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("id");
@@ -377,5 +382,5 @@ public class WebReportController extends Controller {
 		xml.endElement();
 		return xml.toString();
 	}
-	/*---- End ----*/
+	/*----#END-PRESERVED-AREA----*/
 }

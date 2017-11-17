@@ -1,7 +1,7 @@
 
 package nosi.webapps.igrp.pages.transaccao;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -13,10 +13,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class TransaccaoController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Transaccao model = new Transaccao();		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();
@@ -42,16 +44,20 @@ public class TransaccaoController extends Controller {
 		view.table_1.addData(table_1);
 		view.codigo.setParam(true);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditar(@RParam(rParamName = "codigo")String codigo) throws IOException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		if(codigo!=null && !codigo.equals(""))
 			return this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
 		else
 			return this.redirect("igrp", "error-page", "permission");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEliminar() throws IOException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
 		t = t.find().andWhere("code", "=", code).one();
@@ -60,10 +66,12 @@ public class TransaccaoController extends Controller {
 		else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		return this.redirect("igrp","Transaccao","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	
 	public void actionAlterar_estado() throws IOException{
+		/*----#START-PRESERVED-AREA(ALTERAR_ESTADO)----*/
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
 		t.setCode(code);
@@ -81,6 +89,11 @@ public class TransaccaoController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 		}
 		this.redirect("igrp","Transaccao","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 	
 }

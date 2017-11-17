@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.alter_prioridade_tarefa;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
@@ -12,15 +12,14 @@ import java.util.Map;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.config.Config;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class Alter_prioridade_tarefaController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("--- Escolher Prioridade ---"));
 		listPrioridade.put("100", "Urgente");
@@ -76,15 +75,17 @@ public class Alter_prioridade_tarefaController extends Controller {
 			view.nova_prioridade.setVisible(false);
 		}
 		return this.renderView(view);
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionSalvar() throws IOException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(SALVAR)----*/				
 		return this.redirect("igrp","alter_prioridade_tarefa","index");
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

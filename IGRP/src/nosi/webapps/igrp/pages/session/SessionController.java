@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.session;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -18,10 +18,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class SessionController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "dad") String dad) throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Session model = new Session();
 		
 		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
@@ -39,7 +41,6 @@ public class SessionController extends Controller {
 																	 .andWhere("endTime", "=", model.getData_fim() != null && !model.getData_fim().equals("") ? auxFormat.parse(model.getData_fim()).getTime() : 0)
 																	 .all();
 		
-		System.out.println("all Sessions - " + sessions.size());
 		
 		for(nosi.webapps.igrp.dao.Session s : sessions ){
 			Session.Table_1 table = new Session().new Table_1();			
@@ -72,14 +73,22 @@ public class SessionController extends Controller {
 		view.btn_pesquisar.setLink("index&dad=" + dad);
 		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionPesquisar() throws IOException{
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
 		return this.redirect("igrp","Dominio","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVer_logs() throws IOException{
+		/*----#START-PRESERVED-AREA(VER_LOGS)----*/
 		return this.redirect("igrp","Session","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
+	/*----#END-PRESERVED-AREA----*/
 }

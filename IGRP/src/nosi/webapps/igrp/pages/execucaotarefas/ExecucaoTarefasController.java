@@ -3,7 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.execucaotarefas;
-/*---- Import your packages here... ----*/
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -21,15 +22,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class ExecucaoTarefasController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(INDEX)----*/		
 		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(), "id", "name", gt("-- Selecionar Processo --"));
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
@@ -125,86 +125,86 @@ public class ExecucaoTarefasController extends Controller {
 		view.btn_transferir_tarefa.setLink("index");
 		view.btn_transferir_tarefa.setPage("Transferir_tarefas");
 		return this.renderView(view);
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionPesquisar_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR_TAREFA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPesquisar_colaborador() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR_COLABORADOR)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPesquisar_button_minhas_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR_BUTTON_MINHAS_TAREFAS)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPesquisar_button_disponiveis() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR_BUTTON_DISPONIVEIS)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPesquisar_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR_ESTATISTICA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionVer_estatistica() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(VER_ESTATISTICA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionVer_detalhes() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(VER_DETALHES)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionEnviar_msg() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(ENVIAR_MSG)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionExecutar_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(EXECUTAR_BUTTON_MINHA_TAREFAS)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null && !id.equals(""))
 			return this.redirect("igrp","MapaProcesso","open-process&taskId="+id );
 		else
 			return this.redirect("igrp", "ErrorPage", "exception");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionDetalhes_processos_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(DETALHES_PROCESSOS_BUTTON_MINHA_TAREFAS)----*/		
 		return this.redirect("igrp","DetalhesProcesso","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionLeberar_tarefa_button_minha_tarefas() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(LEBERAR_TAREFA_BUTTON_MINHA_TAREFAS)----*/		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			TaskService task = new TaskService();
@@ -215,12 +215,12 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionAssumir_button_tabela() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(ASSUMIR_BUTTON_TABLE)----*/		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			TaskService task = new TaskService();
@@ -231,38 +231,38 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionTransferir_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(TRANSFERIR_TAREFA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionDetalhes_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(DETALHES_TAREFA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionDetalhes_processo() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(DETALHES_PROCESSO)----*/		
 		return this.redirect("igrp","DetalhesProcesso","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionAlterar_prioridade_tarefa() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(ALTERAR_PRIORIDADE_TAREFA)----*/		
 		return this.redirect("igrp","ExecucaoTarefas","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private User getUser(){
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
@@ -340,5 +340,5 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		return (processDefinitionId!=null && !processDefinitionId.equals(""))?formData.submitFormByProcessDenifition():false;
 	}
-	/*---- End ----*/
+	/*----#END-PRESERVED-AREA----*/
 }

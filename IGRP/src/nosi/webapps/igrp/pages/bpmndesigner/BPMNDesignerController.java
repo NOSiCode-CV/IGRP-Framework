@@ -3,44 +3,46 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.bpmndesigner;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class BPMNDesignerController extends Controller {		
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		BPMNDesigner model = new BPMNDesigner();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionGravar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		return this.redirect("igrp","BPMNDesigner","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionPublicar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(PUBLICAR)----*/
 		return this.redirect("igrp","BPMNDesigner","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
 	public Response actionExporar_imagem() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(EXPORTAR_IMAGEM)----*/
 		return this.redirect("igrp","BPMNDesigner","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -3,30 +3,31 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.detalhes_tarefas;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {		
 
 
 	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Detalhes_tarefas model = new Detalhes_tarefas();
 		Detalhes_tarefasView view = new Detalhes_tarefasView(model);
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionFechar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(FECHAR)----*/
 		return this.redirect("igrp","ListaPage","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -3,24 +3,25 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoperfil;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.GroupService;
-
 import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class NovoPerfilController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoPerfil model = new NovoPerfil();		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
 			model.load();			
@@ -54,9 +55,11 @@ public class NovoPerfilController extends Controller {
 		view.perfil.setValue(new ProfileType().getListProfiles());
 		view.organica.setValue(new Organization().getListOrganizations());
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditar(@RParam(rParamName="p_id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		
 		NovoPerfil model = new NovoPerfil();
 		ProfileType p = new ProfileType();
@@ -97,6 +100,10 @@ public class NovoPerfilController extends Controller {
 		view.perfil.setValue(new ProfileType().getListProfiles());
 		view.organica.setValue(new Organization().getListOrganizations());
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
+	/*----#END-PRESERVED-AREA----*/
 }

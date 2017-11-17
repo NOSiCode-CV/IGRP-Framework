@@ -3,26 +3,23 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.import_export;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-
 import static nosi.core.i18n.Translator.gt;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class Import_exportController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(INDEX)----*/				
 		Import_export model = new Import_export();
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -54,16 +51,16 @@ public class Import_exportController extends Controller {
 		view.aplicacao.setValue(new ImportExportDAO().getList());
 		view.table_1.addData(lista);
 		return this.renderView(view);
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/				
-		
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
 		return this.redirect("igrp","Import_export","index");
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#END-PRESERVED-AREA----*/
 }

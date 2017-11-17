@@ -3,27 +3,28 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.detalhesprocesso;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class DetalhesProcessoController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		DetalhesProcesso model = new DetalhesProcesso();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
 		DetalhesProcessoView view = new DetalhesProcessoView(model);
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -3,7 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.lookuplistuser;
-/*---- Import your packages here... ----*/
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
@@ -12,14 +13,13 @@ import java.util.ArrayList;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
-
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class LookupListUserController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(INDEX)----*/		
 		LookupListUser model = new LookupListUser();
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
@@ -42,15 +42,17 @@ public class LookupListUserController extends Controller {
 		view.table_1.addData(data);
 		Config.target = "_blank";
 		return this.renderView(view);
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/		
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/		
 		return this.redirect("igrp","LookupListUser","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

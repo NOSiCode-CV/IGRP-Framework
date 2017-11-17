@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.registarutilizador;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -14,10 +14,12 @@ import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class RegistarUtilizadorController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		RegistarUtilizador model = new RegistarUtilizador();
 		boolean isError = false;
 		
@@ -52,6 +54,7 @@ public class RegistarUtilizadorController extends Controller {
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
 		view.title = "";
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public void actionGuardar() throws IOException{
@@ -60,6 +63,7 @@ public class RegistarUtilizadorController extends Controller {
 	
 	public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		RegistarUtilizador model = new RegistarUtilizador();		
 		User user = new User().findOne(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
@@ -91,10 +95,17 @@ public class RegistarUtilizadorController extends Controller {
 		view.title = "Atualizar utilizador";
 		view.btn_guardar.setLink("editar&p_id=" + idUser);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
 		return this.redirect("red","teste","action");
+		/*----#END-PRESERVED-AREA----*/
 	}	
 	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

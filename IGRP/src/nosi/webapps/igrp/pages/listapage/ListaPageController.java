@@ -4,7 +4,7 @@
 
 
 package nosi.webapps.igrp.pages.listapage;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
@@ -23,10 +23,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 public class ListaPageController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/	
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		Action a = new Action();
@@ -62,10 +63,11 @@ public class ListaPageController extends Controller {
 		view.table_1.addData(lista);
 		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionExport() throws IOException{
-		/*---- Insert your code here... ----*/	
+		/*----#START-PRESERVED-AREA(EXPORT)----*/	
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
 			Action page = new Action().findOne(Integer.parseInt(id));
@@ -87,6 +89,10 @@ public class ListaPageController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
 		}
 		return this.redirect("igrp","ListaPage","index");
-			/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -3,15 +3,14 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.settings;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
-
 import java.io.IOException;
 import java.util.HashMap;
 import javax.servlet.http.Cookie;
@@ -19,11 +18,12 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
+
 public class SettingsController extends Controller {		
 
-public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		
 		model.load();
@@ -91,9 +91,17 @@ public Response actionIndex() throws IOException, IllegalArgumentException, Ille
 		view.idioma.setValue(idioma);
 		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionAplicar() throws IOException{
+		/*----#START-PRESERVED-AREA(APLICAR)----*/
 		return this.redirect("RED","Teste","Action");
+		/*----#END-PRESERVED-AREA----*/
 	}	
+	
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

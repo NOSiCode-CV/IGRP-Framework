@@ -3,8 +3,8 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.pesquisarperfil;
-/*---- Import your packages here... ----*/
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -14,11 +14,12 @@ import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
 import static nosi.core.i18n.Translator.gt;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class PesquisarPerfilController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarPerfil model = new PesquisarPerfil();		
 		ArrayList<PesquisarPerfil.Table_1> lista = new ArrayList<>();
 		ProfileType profile_db = new ProfileType();		
@@ -45,9 +46,11 @@ public class PesquisarPerfilController extends Controller {
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEliminar() throws IOException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		ProfileType p = new ProfileType();
 		if(p.delete(Integer.parseInt(id)))
@@ -55,16 +58,24 @@ public class PesquisarPerfilController extends Controller {
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 		return this.redirect("igrp","PesquisarPerfil","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionMenu() throws IOException{
+		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");
+		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionTransacao() throws IOException{
+		/*----#START-PRESERVED-AREA(TRANSACAO)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");
+		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");		
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }
