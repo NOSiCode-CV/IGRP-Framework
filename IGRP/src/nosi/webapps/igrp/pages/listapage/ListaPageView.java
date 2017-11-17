@@ -83,7 +83,7 @@ public class ListaPageView extends View {
 		btn_gerar = new IGRPButton(gt("Gerar Página"),"igrp","generator","index","_target","link|fa-gears","","");
 		btn_gerar.propertie.add("type","specific").add("code","").add("rel","gerar");
 		
-		btn_export = new IGRPButton(gt("Export"),"igrp","ListaPage","export","confirm","grey|fa-upload","","");
+		btn_export = new IGRPButton(gt("Export"),"igrp","ListaPage","export","confirm","grey|fa-download","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
 		

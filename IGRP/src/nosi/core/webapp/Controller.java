@@ -121,7 +121,7 @@ public abstract class Controller {
 	// send it as stream ... binary file 
 	protected final Response xSend(byte []file, String name, String contentType, boolean download) {
 		if(file == null) throw new ServerErrorHttpException();
-		if(name.contains(".") && contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
+//		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();
 		if(contentType == null || contentType.isEmpty()) {
 			contentType = "application/octet-stream"; // default 

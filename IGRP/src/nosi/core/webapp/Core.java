@@ -32,10 +32,18 @@ public class Core {
 	public static void setMessageError(String msg){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
 	}	
+	public static void setMessageError(){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
+	}	
 
 	//Add Message Success
 	public static void setMessageSuccess(String msg){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, msg);
+	}
+	
+	//Add Message Success
+	public static void setMessageSuccess(){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
 	}
 	
 	//Add Message Info

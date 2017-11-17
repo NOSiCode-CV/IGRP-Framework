@@ -72,7 +72,7 @@ public class ListaPageController extends Controller {
 			ImportExportApp iea = new ImportExportApp();
 			if(iea.validateExportPage(page)){
 				iea.ExportPage(page);
-				String pathJar = Config.getPathExport()+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage()+".jar";
+				String pathJar = Config.getPathExport()+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage()+".page.jar";
 				FileHelper.createDiretory(Config.getPathExport()+page.getApplication().getDad().toLowerCase());
 				JarUnJarFile.saveJarFiles(pathJar, iea.getFilesPageClasses(),9);			
 				
@@ -80,7 +80,7 @@ public class ListaPageController extends Controller {
 				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), Config.getUserName(), DateHelper.getCurrentDataTime(), "Export");
 				ie_dao = ie_dao.insert();
 				
-				return this.sendFile(new File(pathJar), page.getPage(), "application/jar", true);
+				return this.sendFile(new File(pathJar), page.getPage()+".page", "application/jar", true);
 			}
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.WARNING_EXPORT_PAGE);
 		}else {

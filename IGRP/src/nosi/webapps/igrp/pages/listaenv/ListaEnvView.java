@@ -72,7 +72,7 @@ public class ListaEnvView extends View {
 		btn_conf_db = new IGRPButton(gt("Configurar Base Dados"),"igrp","ListaEnv","configDB","submit","grey|fa-database","","");
 		btn_conf_db.propertie.add("type","specific").add("code","").add("class","grey").add("rel","conf_db");
 		
-		btn_export = new IGRPButton(gt("Export"),"igrp","ListaEnv","export","confirm","grey|fa-upload","","");
+		btn_export = new IGRPButton(gt("Export"),"igrp","ListaEnv","export","confirm","grey|fa-download","","");
 		btn_export.propertie.add("type","specific").add("code","").add("class","grey").add("rel","export");
 	}
 		
