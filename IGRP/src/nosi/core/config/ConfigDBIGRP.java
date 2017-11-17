@@ -6,10 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.webapp.helpers.FileHelper;
 
@@ -178,7 +176,7 @@ public class ConfigDBIGRP {
 	}
 
 	public boolean validate() {
-		String url = PersistenceUtils.getUrl(this.getType_db(),this.getHost(),this.getPort(), this.getName_db());
+		String url = PersistenceUtils.getUrl(this.getType_db(),this.getHost(),""+this.getPort(), this.getName_db());
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+this.getName()+".cfg.xml");
     	String driver = PersistenceUtils.getDriver(this.getType_db());

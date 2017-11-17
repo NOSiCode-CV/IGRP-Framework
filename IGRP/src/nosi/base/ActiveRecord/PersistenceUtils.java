@@ -5,6 +5,7 @@ import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 import java.util.List;
 
@@ -22,28 +23,18 @@ public class PersistenceUtils {
 		if(!PersistenceUtils.isSuccessful) {
 			ConfigDBIGRP config = new ConfigDBIGRP();
 			config.load();
-			String url = getUrl(config.getType_db(),config.getHost(),config.getPort(), config.getName_db());
+			String url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
 			setConnection(config.getType_db(), config.getName(), url, config.getUsername(), config.getPassword());
 			PersistenceUtils.isSuccessful = true;
 		}
 	}
 	
-	public static void confiOtherConnections(){
-		List<Config_env> configs = new Config_env().findAll();
-		if(configs!=null){
-			for(Config_env c:configs){
-				String url = getUrl(c.getType_db(),c.getHost(),c.getPort(), c.getName_db());
-				setConnection(c.getType_db(), c.getName(), url, c.getUsername(), c.getPassword());
-			}
-		}
-	}
-
 	public static void confiOtherConnections(String app) {
 		List<Config_env> configs = new Config_env().find().andWhere("application.dad", "=", app).all();
 		if(configs!=null){
 			for(Config_env c:configs){
-				String url = getUrl(c.getType_db(),c.getHost(),c.getPort(), c.getName_db());
-				setConnection(c.getType_db(), c.getName(), url, c.getUsername(), c.getPassword());
+				String url = getUrl(Core.decrypt(c.getType_db()),Core.decrypt(c.getHost()),Core.decrypt(c.getPort()), Core.decrypt(c.getName_db()));
+				setConnection(Core.decrypt(c.getType_db()), Core.decrypt(c.getName()), url, Core.decrypt(c.getUsername()), Core.decrypt(c.getPassword()));
 			}
 		}
 	}
@@ -88,7 +79,7 @@ public class PersistenceUtils {
 		return "org.h2.Driver";
 	}
 	
-	public static String getUrl(String type,String host,int port,String db_name){
+	public static String getUrl(String type,String host,String port,String db_name){
 		switch (type) {
 			case "h2":			
 				return host.equalsIgnoreCase("mem")?("jdbc:h2:"+host+":"+db_name):("jdbc:h2:"+host+"/"+db_name);

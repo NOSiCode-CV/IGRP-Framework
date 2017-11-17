@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.rmi.RemoteException;
 import javax.xml.bind.JAXB;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.biztalk.GenericService_DevProxy;
 import nosi.core.webapp.webservices.biztalk.dao.PesquisaBI;
@@ -239,5 +240,13 @@ public class Core {
 	public static PesquisaGeografia getBizTalkPesquisaGeografia(String id, String zona, String freguesia, String concelho, String ilha, String pais,
 			String nivel_detalhe, String tp_geog_cd, String codigo_ine, String codigo, String self_id){
 		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
+	}
+	
+	public static String encrypt(String content){
+		return EncrypDecrypt.encrypt(content);
+	}
+	
+	public static String decrypt(String content){
+		return EncrypDecrypt.decrypt(content);
 	}
 }

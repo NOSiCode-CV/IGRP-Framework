@@ -105,6 +105,8 @@
 			<xsl:value-of select="document($url)/your_code"/>
 		</xsl:variable>	
 		
+
+    
 		<xsl:value-of select="$newline"/>	
 		<xsl:value-of select="$tab"/>
      	<xsl:call-template name="begin_reserve_code_action">
@@ -119,6 +121,10 @@
 				<xsl:value-of select="$newline"/>
      		</xsl:otherwise>
      	</xsl:choose>
+		<xsl:value-of select="$newline"/>
+	    <xsl:value-of select="$tab"/>
+	    <xsl:value-of select="$newline"/>
+	    <xsl:value-of select="$tab"/>
      	<xsl:value-of select="$end_reserve_code"></xsl:value-of>
 	</xsl:template>
 	
