@@ -47,11 +47,11 @@ public class ImportArquivoView extends View {
 		sectionheader_1_text.setValue("Importar Arquivos");
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		importar_aplicacao = new TextField(model,"importar_aplicacao");
-		importar_aplicacao.setLabel("Importar AplicaÃ§Ã£o");
+		importar_aplicacao.setLabel("Importar Aplicação");
 		
 		importar_aplicacao.propertie().add("name","p_importar_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cloud-upload").add("maxlength","50");
 		importar_pagina = new TextField(model,"importar_pagina");
-		importar_pagina.setLabel("Importar PÃ¡gina");
+		importar_pagina.setLabel("Importar Página");
 		
 		importar_pagina.propertie().add("name","p_importar_pagina").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cloud-upload").add("maxlength","50");
 		importar_jar_file = new TextField(model,"importar_jar_file");
@@ -61,12 +61,12 @@ public class ImportArquivoView extends View {
 		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
 		sectionheader_2_text.setLabel("");
 		
-		sectionheader_2_text.setValue("Imporar AplicaÃ§Ã£o (.app.jar/.zip)");
+		sectionheader_2_text.setValue("Imporar Aplicação (.app.jar/.zip)");
 		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("persist","true").add("maxlength","4000");
 		sectionheader_3_text = new TextField(model,"sectionheader_3_text");
 		sectionheader_3_text.setLabel("");
 		
-		sectionheader_3_text.setValue("Importar PÃ¡gina (.page.jar/.zip)");
+		sectionheader_3_text.setValue("Importar Página (.page.jar/.zip)");
 		sectionheader_3_text.propertie().add("type","text").add("name","p_sectionheader_3_text").add("persist","true").add("maxlength","4000");
 		sectionheader_4_text = new TextField(model,"sectionheader_4_text");
 		sectionheader_4_text.setLabel("");
@@ -74,21 +74,21 @@ public class ImportArquivoView extends View {
 		sectionheader_4_text.setValue("Importar Jar File (.jar)");
 		sectionheader_4_text.propertie().add("type","text").add("name","p_sectionheader_4_text").add("persist","true").add("maxlength","4000");
 		arquivo_aplicacao = new FileField(model,"arquivo_aplicacao");
-		arquivo_aplicacao.setLabel("AplicaÃ§Ã£o");
+		arquivo_aplicacao.setLabel("Aplicação");
 		
 		arquivo_aplicacao.propertie().add("name","p_arquivo_aplicacao").add("type","file").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
 		list_aplicacao = new ListField(model,"list_aplicacao");
-		list_aplicacao.setLabel("AplicaÃ§Ã£o");
+		list_aplicacao.setLabel("Aplicação");
 		
 		list_aplicacao.propertie().add("name","p_list_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		arquivo_pagina = new FileField(model,"arquivo_pagina");
-		arquivo_pagina.setLabel("PÃ¡gina");
+		arquivo_pagina.setLabel("Página");
 		
-		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
+		arquivo_pagina.propertie().add("name","p_arquivo_pagina").add("type","file").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false");
 		jar_file = new FileField(model,"jar_file");
 		jar_file.setLabel("Jar File");
 		
-		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","[object Object]").add("targetrend","[object Object]").add("multiple","true").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
+		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
 
 		btn_btm_import_aplicacao = new IGRPButton("Import","igrp","ImportArquivo","btm_import_aplicacao","submit","success|fa-upload","","");
 		btn_btm_import_aplicacao.propertie.add("type","form").add("code","").add("class","success").add("rel","btm_import_aplicacao");

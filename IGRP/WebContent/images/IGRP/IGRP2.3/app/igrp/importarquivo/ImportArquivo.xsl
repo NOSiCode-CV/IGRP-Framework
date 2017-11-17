@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-82a5de69">
+                                    <div class="row " id="row-45cb5fbc">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -86,7 +86,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_aplicacao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-6992170e">
+                                                                <div class="row " id="row-ac2992b2">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_2">
@@ -139,7 +139,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_pagina/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-3eba2c37">
+                                                                <div class="row " id="row-d3a3889c">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_3">
@@ -214,7 +214,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_jar_file/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-e13b662d">
+                                                                <div class="row " id="row-582a6cbb">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_4">
@@ -241,7 +241,7 @@
                                                                                                         <span class="input-group-btn">
                                                                                                             <span class="btn btn-primary file-btn-holder">
                                                                                                                 <i class="fa fa-upload"/>
-                                                                                                                <input id="{rows/content/form_3/fields/jar_file/@name}" name="{rows/content/form_3/fields/jar_file/@name}" required="required" value="{rows/content/form_3/fields/jar_file/value}" target-rend="[object Object]" class="transparent " type="file" multiple="multiple" accept="[object Object]">
+                                                                                                                <input id="{rows/content/form_3/fields/jar_file/@name}" name="{rows/content/form_3/fields/jar_file/@name}" required="required" value="{rows/content/form_3/fields/jar_file/value}" target-rend="" class="transparent " type="file" multiple="multiple" accept="">
                                                                                                                     <xsl:call-template name="setAttributes">
                                                                                                                         <xsl:with-param name="field" select="rows/content/form_3/fields/jar_file"/>
                                                                                                                     </xsl:call-template>
@@ -282,9 +282,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1510938850678"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1510938850678"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1510938850678"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1510938850678"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1510938850679"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1510939054362"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1510939054362"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1510939054362"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1510939054362"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1510939054362"/>
 </xsl:stylesheet>
