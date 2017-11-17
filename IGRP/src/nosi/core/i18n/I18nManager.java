@@ -14,7 +14,7 @@ import nosi.core.webapp.Igrp;
  */
 public final class I18nManager implements Component{
 	
-	public static final String defaultPath = "nosi.core.i18n.pt_pt";
+	public static final String defaultPath = "nosi.core.i18n.en_us";
 	
 	public static final int cookieExpire = 60*60*24*30; // 1 months 
 	
@@ -48,7 +48,7 @@ public final class I18nManager implements Component{
 				}
 		if(v != null && !v.isEmpty()) {// cookie ok 
 			this.laguages = new HashMap<String, I18n>();
-			String aux =  I18nManager.defaultPath.replaceAll("pt_pt", v);	
+			String aux =  I18nManager.defaultPath.replaceAll("en_us", v);	
 			I18n igrpCore = I18nFactory.createI18n("igrp", aux);
 			try {
 				this.laguages.put(igrpCore.getName(), igrpCore);
