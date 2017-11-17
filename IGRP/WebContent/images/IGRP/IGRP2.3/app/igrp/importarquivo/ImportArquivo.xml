@@ -128,7 +128,7 @@
                         </option>
                     </list>
                 </list_aplicacao>
-                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                <arquivo_pagina name="p_arquivo_pagina" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Página</label>
                     <value/>
                 </arquivo_pagina>
@@ -147,7 +147,7 @@
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" accept="[object Object]" targetrend="[object Object]" multiple="true" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                <jar_file name="p_jar_file" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
                     <label>Jar File</label>
                     <value/>
                 </jar_file>
