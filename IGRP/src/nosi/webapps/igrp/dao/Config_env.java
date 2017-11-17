@@ -27,7 +27,7 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@Column(nullable=false)
-	private int port;
+	private String port;
 	@Column(nullable=false)
 	private String type_db;
 	@Column(nullable=false)
@@ -48,7 +48,7 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	
 	public Config_env(){}
 	
-	public Config_env(int port, String type_db, String host, String name_db, String username,
+	public Config_env(String port, String type_db, String host, String name_db, String username,
 			String password, String charset, String name, Application application) {
 		super();
 		this.port = port;
@@ -70,10 +70,10 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getPort() {
+	public String getPort() {
 		return port;
 	}
-	public void setPort(int port) {
+	public void setPort(String port) {
 		this.port = port;
 	}
 	public String getType_db() {

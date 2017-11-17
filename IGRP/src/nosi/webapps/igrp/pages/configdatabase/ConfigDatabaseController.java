@@ -5,6 +5,7 @@
 package nosi.webapps.igrp.pages.configdatabase;
 /*---- Import your packages here... ----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
@@ -49,14 +50,13 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setHost(model.getHostname());
-			config.setName("");
-			config.setName_db(model.getNome_de_bade_dados());
-			config.setUsername(model.getUsername());
-			config.setPassword(model.getPassword());
-			config.setPort(model.getPort());
-			config.setType_db(model.getTipo_base_dados());
-			config.setName(model.getNome_de_conxeao());
+			config.setHost(Core.encrypt(model.getHostname()));
+			config.setName_db(Core.encrypt(model.getNome_de_bade_dados()));
+			config.setUsername(Core.encrypt(model.getUsername()));
+			config.setPassword(Core.encrypt(model.getPassword()));
+			config.setPort(Core.encrypt(""+model.getPort()));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados()));
+			config.setName(Core.encrypt(model.getNome_de_conxeao()));
 			Migrate m = new Migrate();
 			m.load();
 			if(!MigrationIGRP.validate(m)){
@@ -67,6 +67,7 @@ public class ConfigDatabaseController extends Controller {
 			if(check){
 				config = config.insert();
 				if(config != null){
+					config.setName(model.getNome_de_conxeao());
 					this.saveConfigHibernateFile(config);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt("Nome da conexão: ")+config.getName());
