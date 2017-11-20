@@ -81,7 +81,7 @@ public class NovoMenuView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoMenu","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","NovoMenu","voltar","_self","warning|fa-arrow-left","","");
+		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","NovoMenu","voltar","_self","warning|fa-arrow-left","","");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
