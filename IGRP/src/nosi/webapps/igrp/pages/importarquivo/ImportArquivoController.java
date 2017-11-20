@@ -103,17 +103,12 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionImportar_jar_file() throws IOException, IllegalArgumentException, IllegalAccessException, ServletException{
 		/*----#START-PRESERVED-AREA(IMPORTAR_JAR_FILE)----*/
-		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
 			Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
 			boolean imported = false;
 			for(Part part:parts){
 				if(part.getSubmittedFileName()!=null && part.getSubmittedFileName().endsWith(".jar")){
 					imported = new ImportPluginIGRP().importPlugin(part);
-				}else{
-					imported = false;
-					break;
 				}
 			}
 			if(imported){
