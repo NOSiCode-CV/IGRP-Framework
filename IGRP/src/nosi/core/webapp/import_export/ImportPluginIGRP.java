@@ -38,6 +38,7 @@ public class ImportPluginIGRP {
 		}
 		try {
 			result = FileHelper.saveFile(Config.getPathLib(), file.getSubmittedFileName(), file);
+			FileHelper.deletePartFile(file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
