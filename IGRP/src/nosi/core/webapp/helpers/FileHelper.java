@@ -23,8 +23,11 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Igrp;
@@ -154,7 +157,6 @@ public class FileHelper {
 	            filecontent.close();
 	        }
 	    }
-		file.delete();
 		return isSaved;
 	}
 	
@@ -227,21 +229,51 @@ public class FileHelper {
 	
 	//Save MVC code java
 	public static boolean saveFilesJava(String path,String page,Part[] content) throws IOException{
-		return FileHelper.save(path,page+".java",content[0]) && // Save Model;
+		boolean r = FileHelper.save(path,page+".java",content[0]) && // Save Model;
 			   FileHelper.save(path,page+"View.java",content[1]) && //Save View
 			   FileHelper.save(path,page+"Controller.java",content[2]); // save controller
+		deletePartFile(content[0]);
+		deletePartFile(content[1]);
+		deletePartFile(content[2]);
+		return r;
 	}
 	
 	//Save files json, xml and xsl of the page
 	public static boolean saveFilesPageConfig(String path,String page,Part[] content) throws IOException{
-		return FileHelper.save(path,page+".xml",content[0]) && // Save xml;
+		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml;
 			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
 			   FileHelper.save(path,page+".json",content[2]); // save json
+		deletePartFile(content[0]);
+		deletePartFile(content[1]);
+		deletePartFile(content[2]);
+		return r;
 	}
 	
 	public static boolean saveFilesJava(String path,String page,String[] content) throws IOException{
-		 		return FileHelper.save(path,page+".java",content[0]+"*/") && // Save Model;		 
-		 			   FileHelper.save(path,page+"View.java","/*"+content[1]+"*/") && //Save View		 
-		 			   FileHelper.save(path,page+"Controller.java","/*"+content[2]); // save controller
+ 		return FileHelper.save(path,page+".java",content[0]+"*/") && // Save Model;		 
+ 			   FileHelper.save(path,page+"View.java","/*"+content[1]+"*/") && //Save View		 
+ 			   FileHelper.save(path,page+"Controller.java","/*"+content[2]); // save controller
   	}
+	
+	public static void deletePartFile(Part file) throws IOException{
+		if(file!=null){
+			file.delete();
+		}
+	}
+	public static void deletePartFile(Part file,Predicate<Part> test) throws IOException{
+		if(test.test(file)){
+			file.delete();
+		}
+	}
+	
+	public static void deletePartFile(Collection<Part> files) throws IOException{
+		for(Part file:files)
+			deletePartFile(file);
+	}
+
+	public static void deletePartFile(Collection<Part> files,Predicate<Part> test) throws IOException{
+		for(Part file:files){
+			deletePartFile(file, test);
+		}
+	}
 }
