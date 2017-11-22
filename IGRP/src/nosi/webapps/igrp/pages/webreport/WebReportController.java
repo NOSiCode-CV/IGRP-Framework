@@ -57,7 +57,7 @@ public class WebReportController extends Controller {
 							params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
 						}
 					}
-					String link = "Report.getLinkReport(\""+r.getCode()+"\","+params+");";
+					String link = "Core.getLinkReport(\""+r.getCode()+"\","+params+");";
 					t1.setDescricao(link);
 					t1.setLink("igrp", "web-report", "load-template&amp;id="+r.getId());
 					t1.setLink_desc(r.getCode());

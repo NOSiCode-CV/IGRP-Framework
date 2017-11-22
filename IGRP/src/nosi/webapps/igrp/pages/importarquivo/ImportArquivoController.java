@@ -9,6 +9,7 @@ import javax.servlet.http.Part;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppJar;
 import nosi.core.webapp.import_export.ImportAppZip;
@@ -50,6 +51,7 @@ public class ImportArquivoController extends Controller {
 				}else{
 					result = false;
 				}
+				FileHelper.deletePartFile(file);
 			} catch (ServletException e) {
 				Core.setMessageError(e.getMessage());
 				return this.forward("igrp", "ImportArquivo", "index");
@@ -84,6 +86,7 @@ public class ImportArquivoController extends Controller {
 					}else{
 						result = false;
 					}
+					FileHelper.deletePartFile(file);
 				} catch (ServletException e) {
 					Core.setMessageError(e.getMessage());;
 					return this.forward("igrp", "ImportArquivo", "index");
@@ -103,17 +106,12 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionImportar_jar_file() throws IOException, IllegalArgumentException, IllegalAccessException, ServletException{
 		/*----#START-PRESERVED-AREA(IMPORTAR_JAR_FILE)----*/
-		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
 			Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
 			boolean imported = false;
 			for(Part part:parts){
 				if(part.getSubmittedFileName()!=null && part.getSubmittedFileName().endsWith(".jar")){
 					imported = new ImportPluginIGRP().importPlugin(part);
-				}else{
-					imported = false;
-					break;
 				}
 			}
 			if(imported){
@@ -121,6 +119,7 @@ public class ImportArquivoController extends Controller {
 			}else{
 				Core.setMessageError(FlashMessage.ERROR_IMPORT);
 			}
+			FileHelper.deletePartFile(parts,p->p.getSubmittedFileName()!=null && p.getSubmittedFileName().endsWith(".jar"));
 		}
 		return this.redirect("igrp","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/
