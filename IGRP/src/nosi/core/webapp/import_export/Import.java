@@ -181,7 +181,7 @@ public class Import {
 		for(Action page:listPage.getRow()){
 			//Depois validar nome de classe
 			if(type.equals("plsql")){//Se for de psql, assume Page como Action
-				page.setPage(page.getAction());
+				page.setPage(page.getPage()+"_"+page.getAction());
 				page.setPage_descr(page.getAction_descr());
 			}
 			Action action = new Action();
