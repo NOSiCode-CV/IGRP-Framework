@@ -3052,7 +3052,7 @@ var GENERATOR = function(genparams){
 			url:url,
 			//cache:false,
 			success:function(d,s,r){
-				var contentType = r.getResponseHeader('Content-Type');
+				var contentType = r.getResponseHeader('content-type') || 'json';
 				var type = contentType.split(';')[0];
 
 				if(type.indexOf('xml') != -1)
@@ -4346,9 +4346,11 @@ var GENERATOR = function(genparams){
 			if(p.callback) p.callback(GEN.images[p.id]);
 			//element = GEN.images[p.paramName];
 		}else{
+
 			var link = p.paramName ? p.dir+p.paramName : p.dir;
 			$.ajax({
 				url:link,
+				dataType :'json',
 				success:function(data){
 					if(p.callback) p.callback(data);
 					GEN.images[p.id] = data;

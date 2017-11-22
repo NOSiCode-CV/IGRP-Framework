@@ -185,7 +185,6 @@ public class Import {
 				page.setPage_descr(page.getAction_descr());
 			}
 			Action action = new Action();
-			action.setId_plsql(page.getId());
 			action.setId(null);
 			action.setAction("index");
 			action.setPage(page.getPage());
@@ -215,10 +214,11 @@ public class Import {
 					&& page.getImg_src()==null
 					&& page.getVersion_src().equals("IGRP2.3")){
 						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
-						action.setXsl_src("app/"+app.getDad().toLowerCase()+"/"+page.getPage()+".xsl");
+						action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
 						action.setVersion("2.3");	
 						action = action.insert();
 						action.setSrc_xsl_plsql(page.getXsl_src());
+						action.setId_plsql(page.getId());
 						pages.add(action);
 				}else if(pageCheck!=null){
 					pageCheck.setId_plsql(page.getId());
