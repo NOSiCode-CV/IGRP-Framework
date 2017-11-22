@@ -20,7 +20,7 @@ public final class I18n implements Serializable{
 	
 	public I18n(String name, ResourceBundle bundle) {
 		this.name = name;
-		this.bundle = bundle;
+		this.bundle =  bundle;
 		this.locale = bundle.getLocale();
 	}
 	

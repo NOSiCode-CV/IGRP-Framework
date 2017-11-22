@@ -83,7 +83,7 @@ public final class Igrp{ // Not extends
 		// For internacionalization purpose 
 		this.i18nManager = new I18nManager();
 		this.i18nManager.init();
-			
+		
 		return this;
 	}
 	
@@ -98,7 +98,6 @@ public final class Igrp{ // Not extends
 	// Exit and Send the response ...
 	private void exit(){
 		Controller.sendResponse();
-		
 		this.die = false;
 	}
 	
