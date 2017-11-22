@@ -232,9 +232,6 @@ public class FileHelper {
 		boolean r = FileHelper.save(path,page+".java",content[0]) && // Save Model;
 			   FileHelper.save(path,page+"View.java",content[1]) && //Save View
 			   FileHelper.save(path,page+"Controller.java",content[2]); // save controller
-		deletePartFile(content[0]);
-		deletePartFile(content[1]);
-		deletePartFile(content[2]);
 		return r;
 	}
 	
@@ -243,9 +240,6 @@ public class FileHelper {
 		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml;
 			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
 			   FileHelper.save(path,page+".json",content[2]); // save json
-		deletePartFile(content[0]);
-		deletePartFile(content[1]);
-		deletePartFile(content[2]);
 		return r;
 	}
 	

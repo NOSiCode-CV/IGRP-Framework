@@ -210,15 +210,23 @@ public class PageController extends Controller {
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 						ac.update();
+						this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
 						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 					}
 				}
 			}
+			this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
 		}
 		return this.renderView("<messages><message type=\"error\">Operacao falhada: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 	}
 	
 	
+	private void deleteFilesInMemory(Part[] content) throws IOException {
+		FileHelper.deletePartFile(content[0]);
+		FileHelper.deletePartFile(content[1]);
+		FileHelper.deletePartFile(content[2]);
+	}
+
 	private String processCompile(String path_class, String page) {
 		String errors = "";
 		path_class = path_class+File.separator;
