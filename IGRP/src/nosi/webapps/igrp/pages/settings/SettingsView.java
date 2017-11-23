@@ -74,7 +74,7 @@ public class SettingsView extends View {
 		perfil.setLabel("Perfil");
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		janela_inicil = new ListField(model,"janela_inicil");
-		janela_inicil.setLabel("Janela Inicil");
+		janela_inicil.setLabel(gt("Janela Inicial"));
 		janela_inicil.propertie().add("name","p_janela_inicil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		idioma = new ListField(model,"idioma");
 		idioma.setLabel(gt("Idioma"));

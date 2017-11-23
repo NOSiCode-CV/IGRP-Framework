@@ -26,6 +26,9 @@ public class SettingsController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		
+
+		//System.out.println("Ok: " + Igrp.getInstance().getI18nManager().getAppLanguage("igrp").getLocale()); 
+		
 		model.load();
 		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -33,8 +36,7 @@ public class SettingsController extends Controller {
 			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
 			
 			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
-				String aux =  I18nManager.defaultPath.replaceAll("en_us", model.getIdioma());
-				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(aux);
+				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
 				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
 				cookie.setMaxAge(I18nManager.cookieExpire);
 				Igrp.getInstance().getResponse().addCookie(cookie);
@@ -84,10 +86,10 @@ public class SettingsController extends Controller {
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", gt("-- Selecionar Idioma --"));
-		idioma.put("pt_pt", gt("Português"));
-		idioma.put("en_us", gt("Inglês"));
-		idioma.put("fr_fr", gt("Francês"));
-		idioma.put("es_es", gt("Espanhol"));
+		idioma.put("pt_PT", gt("Português"));
+		idioma.put("en_US", gt("Inglês"));
+		idioma.put("fr_FR", gt("Francês"));
+		idioma.put("es_ES", gt("Espanhol"));
 		view.idioma.setValue(idioma);
 		
 		return this.renderView(view);

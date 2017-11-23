@@ -27,7 +27,7 @@ public class ImportArquivoController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
+			model.load(); 
 		}
 		ImportArquivoView view = new ImportArquivoView(model);
 		view.list_aplicacao.setSqlQuery("SELECT id,name FROM tbl_env");
