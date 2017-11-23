@@ -9,7 +9,7 @@ public class PesquisarPerfilView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
-	public Field organia;
+	public Field organia; 
 	public Field codigo;
 	public Field descricao;
 	public Field organica;

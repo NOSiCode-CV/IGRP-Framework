@@ -29,7 +29,7 @@ public class NovoMenuController extends Controller {
 		targets.put("_self", "Mesma página");
 		targets.put("target", "Popup");
 		targets.put("submit", "Submit");
-		targets.put("confirm", "Confirm"); 
+		targets.put("confirm", "Confirm");
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
 		view.action_fk.setValue( model.getEnv_fk() != 0 ? new Action().getListActions(model.getEnv_fk()) : null);
 		view.self_id.setValue(  model.getEnv_fk() != 0 ? new Menu().getListPrincipalMenus(model.getEnv_fk()) : null);

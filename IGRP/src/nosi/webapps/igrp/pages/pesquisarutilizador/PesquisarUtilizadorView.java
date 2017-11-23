@@ -14,7 +14,7 @@ public class PesquisarUtilizadorView extends View {
 	public Field organica;
 	public Field perfil;
 	public Field username;
-	public Field email; 
+	public Field email;
 	public Field nome;
 	public Field nominho;
 	public Field p_id;
