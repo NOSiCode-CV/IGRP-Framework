@@ -25,19 +25,4 @@ public final class I18nFactory {
 		}
 		return null;
 	}
-	
-	public static void main(String ...args) {
-		// create a new ResourceBundle with specified locale
-	   ResourceBundle bundle =
-	   ResourceBundle.getBundle(I18nManager.defaultPath, new Locale("en", "us"));
-
-	   // print the text assigned to key "hello"
-	   System.out.println("" + bundle.getString("Data Fim"));
-
-	   // get the locale
-	   System.out.println("" + bundle.getLocale());
-		/*Locale locale = new Locale("en", "us");
-		ResourceBundle bundle = ResourceBundle.getBundle("nosi.core.i18n.pt_pt", locale);
-		System.out.println(locale);*/
-	}
 }

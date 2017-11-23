@@ -144,6 +144,15 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		}
 		return lista;
 	}
+	
+	public HashMap<String, String> getListOrganizations(int app) {
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, gt("-- Selecionar Orgânica --"));
+		for(Organization o:this.find().andWhere("application.id", "=", app).all()){
+			lista.put(o.getId()+"", o.getName());
+		}
+		return lista;
+	}
 
 	public List<Menu> getOrgMenu() {	
 		Menu m = new Menu();

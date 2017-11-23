@@ -96,7 +96,7 @@
                         </option>
                     </list>
                 </self_id>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false">
                     <label>Aplicação</label>
                     <list>
                         <option>

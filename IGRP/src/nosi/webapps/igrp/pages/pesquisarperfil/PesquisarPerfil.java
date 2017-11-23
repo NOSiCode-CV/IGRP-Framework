@@ -2,7 +2,7 @@ package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
-
+ 
 public class PesquisarPerfil extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
