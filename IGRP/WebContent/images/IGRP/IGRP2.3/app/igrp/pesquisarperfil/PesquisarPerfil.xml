@@ -66,7 +66,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organia name="p_organia" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <organia name="p_organia" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false">
                     <label>Orgânia</label>
                     <list>
                         <option>

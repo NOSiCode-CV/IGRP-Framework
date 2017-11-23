@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.novomenu;
-
+ 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -22,20 +22,21 @@ public class NovoMenuController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoMenu model = new NovoMenu();
+		model.load();
 		NovoMenuView view = new NovoMenuView(model);
 		HashMap<String,String> targets = new HashMap<>();
-		targets.put(null, "--- Selecionar Target ---");
+		targets.put(null, "--- Selecionar Target ---"); 
 		targets.put("_self", "Mesma página");
 		targets.put("target", "Popup");
 		targets.put("submit", "Submit");
-		targets.put("confirm", "Confirm");
+		targets.put("confirm", "Confirm"); 
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
-		view.action_fk.setValue(new Action().getListActions());
-		view.self_id.setValue(new Menu().getListPrincipalMenus());
+		view.action_fk.setValue( model.getEnv_fk() != 0 ? new Action().getListActions(model.getEnv_fk()) : null);
+		view.self_id.setValue(  model.getEnv_fk() != 0 ? new Menu().getListPrincipalMenus(model.getEnv_fk()) : null);
 		view.target.setValue(targets); // prompt
 		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		/*----#END-PRESERVED-AREA----*/ 
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{

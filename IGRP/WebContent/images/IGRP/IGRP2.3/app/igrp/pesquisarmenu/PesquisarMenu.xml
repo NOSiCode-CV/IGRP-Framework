@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -19,7 +18,7 @@
     <app>igrp</app>
     <plsql>
         <action>index</action>
-        <package_instance></package_instance>
+        <package_instance>null</package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>PesquisarMenu</package_html>
         <table_name></table_name>
@@ -30,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=9</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Lista de Menu</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -45,9 +44,10 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="">
                     <label>Aplicacao</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -66,9 +66,10 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="">
                     <label>Organica</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -87,9 +88,10 @@
                         </option>
                     </list>
                 </organica>
-                <menu_principal name="p_menu_principal" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false">
+                <menu_principal name="p_menu_principal" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Menu Principal</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -115,7 +117,7 @@
                     <app/>
                     <page/>
                     <link/>
-                    <parameter/>
+                    <parameter>undefined?</parameter>
                     <target>submit</target>
                     <img>default|fa-search</img>
                 </item>
@@ -129,8 +131,7 @@
                 <link/>
                 <target>_self</target>
                 <img>default|fa-plus-square</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-plus-square|www</params>
+                <parameter>undefined</parameter>
             </item>
             <item type="specific" code="" rel="menu_base">
                 <title>Menu Base</title>
@@ -139,28 +140,27 @@
                 <link/>
                 <target>submit</target>
                 <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-save|www</params>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <descricao name="p_descricao" type="plaintext" maxlength="100" align="left" lookup_parser="false">
+                <descricao name="p_descricao" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Descricao</label>
                 </descricao>
-                <titulo name="p_titulo" type="plaintext" maxlength="100" align="left" lookup_parser="false">
+                <titulo name="p_titulo" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Titulo</label>
                 </titulo>
-                <pagina name="p_pagina" type="plaintext" maxlength="100" align="left" lookup_parser="false">
+                <pagina name="p_pagina" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Pagina</label>
                 </pagina>
-                <ativo name="p_ativo" type="plaintext" maxlength="30" align="left" lookup_parser="false">
+                <ativo name="p_ativo" type="plaintext" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Ativo</label>
                 </ativo>
-                <checkbox name="p_checkbox" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                <checkbox name="p_checkbox" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
                     <label>Checkbox</label>
                 </checkbox>
-                <id name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -169,10 +169,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Aperiam ipsum labore unde mollit dolor aperiam mollit omnis sed laudantium iste accusantium amet iste</descricao>
-                        <titulo name="p_titulo">Deserunt labore natus aperiam accusantium adipiscing omnis laudantium sit lorem omnis ipsum magna ipsum sit</titulo>
-                        <pagina name="p_pagina">Sed voluptatem magna anim sit sit perspiciatis voluptatem adipiscing labore stract laudantium ipsum sed totam</pagina>
-                        <ativo name="p_ativo">Lorem rem unde consectetur iste officia perspiciatis rem totam laudantium ipsum sit elit deserunt amet</ativo>
+                        <descricao name="p_descricao">Deserunt voluptatem doloremque sed labore dolor aliqua amet mollit amet natus ut doloremque sit natu</descricao>
+                        <titulo name="p_titulo">Deserunt anim ipsum unde omnis sit unde omnis aliqua accusantium iste ut dolor magna officia</titulo>
+                        <pagina name="p_pagina">Omnis adipiscing aliqua elit iste totam aperiam aliqua ut totam natus elit magna unde rem</pagina>
+                        <ativo name="p_ativo">Sit consectetur sit omnis aliq</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -182,10 +182,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Accusantium deserunt totam elit deserunt rem accusantium natus stract sit totam consectetur ut lorem mollit</descricao>
-                        <titulo name="p_titulo">Natus dolor stract sit lorem dolor lorem dolor natus aliqua rem officia voluptatem unde mollit</titulo>
-                        <pagina name="p_pagina">Doloremque natus totam sed doloremque dolor aliqua accusantium magna unde voluptatem sit stract iste voluptatem</pagina>
-                        <ativo name="p_ativo">Adipiscing rem dolor aliqua amet aperiam accusantium natus officia dolor magna mollit omnis sit ipsum</ativo>
+                        <descricao name="p_descricao">Stract lorem rem omnis consectetur ut doloremque officia mollit laudantium doloremque deserunt omnis</descricao>
+                        <titulo name="p_titulo">Stract accusantium magna labore laudantium accusantium deserunt labore consectetur stract dolor natu</titulo>
+                        <pagina name="p_pagina">Sit aliqua magna dolor unde rem ipsum aperiam magna dolor aperiam ipsum anim sit ut</pagina>
+                        <ativo name="p_ativo">Voluptatem ipsum ut natus sed</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -195,10 +195,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Amet unde elit deserunt voluptatem deserunt unde voluptatem doloremque rem lorem sed consectetur anim omnis</descricao>
-                        <titulo name="p_titulo">Laudantium iste aliqua labore perspiciatis mollit ut sit sed totam aliqua mollit stract consectetur deserunt</titulo>
-                        <pagina name="p_pagina">Adipiscing natus sit mollit aperiam omnis magna stract adipiscing iste labore ipsum adipiscing ut perspiciatis</pagina>
-                        <ativo name="p_ativo">Accusantium elit mollit anim sit sit sit lorem mollit adipiscing aliqua amet laudantium sit lorem</ativo>
+                        <descricao name="p_descricao">Ipsum sed consectetur rem omnis totam ipsum dolor stract mollit ut voluptatem ut dolor laudantium</descricao>
+                        <titulo name="p_titulo">Ut dolor stract elit totam aperiam consectetur anim aperiam consectetur unde sit mollit magna amet</titulo>
+                        <pagina name="p_pagina">Magna stract labore deserunt doloremque accusantium totam iste elit anim elit labore officia dolorem</pagina>
+                        <ativo name="p_ativo">Ut omnis labore aliqua adipisc</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -208,10 +208,23 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Iste dolor sit amet laudantium lorem perspiciatis elit sed doloremque sit stract consectetur omnis accusantium</descricao>
-                        <titulo name="p_titulo">Perspiciatis sit amet unde rem perspiciatis sed dolor natus rem ut laudantium ut labore ipsum</titulo>
-                        <pagina name="p_pagina">Dolor mollit stract magna elit ut anim laudantium consectetur totam sit ipsum omnis anim dolor</pagina>
-                        <ativo name="p_ativo">Perspiciatis natus adipiscing ut mollit anim sit laudantium sit officia totam iste natus rem sit</ativo>
+                        <descricao name="p_descricao">Amet ut ipsum magna stract rem iste officia labore sit ipsum accusantium ut amet totam</descricao>
+                        <titulo name="p_titulo">Ipsum consectetur ut voluptatem laudantium sed ipsum deserunt anim lorem elit rem perspiciatis ipsum</titulo>
+                        <pagina name="p_pagina">Amet omnis rem voluptatem doloremque sit lorem adipiscing dolor aperiam magna officia deserunt dolor</pagina>
+                        <ativo name="p_ativo">Officia voluptatem accusantium</ativo>
+                        <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
+                        <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <descricao name="p_descricao">Aliqua aperiam lorem anim totam aliqua mollit anim consectetur magna unde ipsum amet perspiciatis am</descricao>
+                        <titulo name="p_titulo">Sed accusantium iste omnis voluptatem aliqua omnis totam doloremque aliqua mollit aperiam anim volup</titulo>
+                        <pagina name="p_pagina">Mollit labore rem ipsum elit sit rem magna doloremque sed amet rem unde labore magna</pagina>
+                        <ativo name="p_ativo">Officia magna aperiam totam si</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -223,7 +236,7 @@
                         <app/>
                         <page/>
                         <link/>
-                        <parameter/>
+                        <parameter>undefined?</parameter>
                         <target>_blank</target>
                         <img>default|fa-angle-right</img>
                     </item>

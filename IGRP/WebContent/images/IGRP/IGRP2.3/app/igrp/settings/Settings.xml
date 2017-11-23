@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -15,11 +14,11 @@
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>Settings</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
-        <package_instance></package_instance>
+        <action>index</action>
+        <package_instance>null</package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>Settings</package_html>
         <table_name></table_name>
@@ -30,72 +29,119 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=14</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Settings</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Settings Aplicação : ]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
         <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Voluptatem sit deserunt sit mollit</value>
+                    <value>Dolor voluptatem rem aperiam totam</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Omnis voluptatem lorem anim rem</value>
+                    <value>Ut natus labore doloremque magna</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Voluptatem labore sit anim totam</value>
+                    <value>Deserunt aperiam voluptatem pe</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Officia sit sed elit aperiam</value>
+                    <value>Stract deserunt dolor lorem re</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Labore rem sit totam laudantium</value>
+                    <value>Labore sit voluptatem adipisci</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
-                    <label>�?ltimo Acesso IGRP</label>
-                    <value>Sed adipiscing accusantium aperiam elit</value>
+                    <label>Ultimo Acesso IGRP</label>
+                    <value>Ut sed labore natus ut</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
-                    <label>�?ltimo Acesso Rede Estado</label>
-                    <value>Labore consectetur ipsum unde consectetur</value>
+                    <label>Ultimo Acesso Rede Estado</label>
+                    <value>Consectetur sed laudantium lab</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Consectetur accusantium sit amet voluptatem</value>
+                    <value>Natus aliqua elit natus omnis</value>
                 </password_expira_em>
-                <view_img maxlength="300">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_img>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                </view_1_img>
             </fields>
         </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="aplicar">
                 <title>Aplicar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
+                <app>igrp</app>
+                <page>Settings</page>
+                <link>index</link>
                 <target>_self</target>
                 <img>default|fa-check</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-check|www</params>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" title="PARAMETROS" gen-type="container" gen-group="">
             <fields>
-                <organica name="p_organica" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Orgânica</label>
-                    <value>Aliqua amet magna ipsum consectetur</value>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="">
+                    <label>Organica</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
                 </organica>
-                <perfil name="p_perfil" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="">
                     <label>Perfil</label>
-                    <value>Officia lorem omnis perspiciatis voluptatem</value>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
                 </perfil>
-                <janela_inicil name="p_janela_inicil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <janela_inicil name="p_janela_inicil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Janela Inicil</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -114,9 +160,10 @@
                         </option>
                     </list>
                 </janela_inicil>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Idioma</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -140,7 +187,7 @@
                     <value>1</value>
                 </auto_complete>
                 <notificacao name="p_notificacao" type="separator" maxlength="30" placeholder="" right="false">
-                    <label>NOTIFICA�?�?O</label>
+                    <label>Notificação</label>
                 </notificacao>
                 <receber_notificacao name="p_receber_notificacao" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Receber Notificação?</label>
@@ -148,22 +195,13 @@
                 </receber_notificacao>
                 <email name="p_email" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>Iste aperiam unde aperiam officia</value>
+                    <value>Sit sit accusantium voluptatem</value>
                 </email>
                 <telemovel name="p_telemovel" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Telemovel</label>
-                    <value>Deserunt consectetur voluptatem ut sed</value>
+                    <value>Sed lorem stract deserunt natu</value>
                 </telemovel>
             </fields>
         </form_1>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Settings Aplicação : ]]>
-                    </value>
-                </sectionheader_1_text>
-            </fields>
-        </sectionheader_1>
     </content>
 </rows>

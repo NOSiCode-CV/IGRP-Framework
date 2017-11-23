@@ -6,7 +6,9 @@ package nosi.webapps.igrp.pages.novaorganica;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
+
 import static nosi.core.i18n.Translator.gt;
+
 public class NovaOrganicaView extends View {		
 	
 	public Field sectionheader_1_text;
@@ -36,7 +38,7 @@ public class NovaOrganicaView extends View {
 		nome.propertie().add("name","p_nome").add("type","lookup").add("action","Action").add("page","Teste").add("app","RED").add("lookup_type","LOOKUP").add("class","default").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		ativo = new CheckBoxField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
 		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");

@@ -190,4 +190,16 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		}
 		return lista;
 	}
+	
+	public HashMap<Integer,String> getListActions(int app){
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, "--- Selecionar Página ---");
+		for(Action ac:this.find().andWhere("application.id", "=", "" + app).all()){
+			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
+				lista.put(ac.getId(), ac.getPage_descr());
+			else
+				lista.put(ac.getId(), ac.getPage());
+		}
+		return lista;
+	}
 }
