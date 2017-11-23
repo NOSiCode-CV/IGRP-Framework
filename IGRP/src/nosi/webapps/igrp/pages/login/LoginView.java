@@ -54,7 +54,6 @@ public class LoginView extends View {
 		
 	@Override
 	public void render(){
-		//System.out.println(Igrp.getInstance().getFlashMessage().getMessages("error").size());
 		form_1.addField(user);
 		form_1.addField(password);
 		form_1.addField(button);

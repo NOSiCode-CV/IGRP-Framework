@@ -51,7 +51,7 @@ public class PesquisarUtilizadorController extends Controller {
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
-		view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()): new ProfileType().getListProfiles());		
+		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);		

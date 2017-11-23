@@ -58,7 +58,7 @@ public final class I18nManager implements Component{
 		}else {
 			this.laguages = new HashMap<String, I18n>();
 			String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
-			I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? "" : aux)); // default locale
+			I18n igrpCore = I18nFactory.createI18n("igrp", (aux == null || aux.isEmpty() ? "en_US" : aux)); // default locale
 			try {
 				this.laguages.put(igrpCore.getName(), igrpCore);
 			}catch(Exception e) {}
