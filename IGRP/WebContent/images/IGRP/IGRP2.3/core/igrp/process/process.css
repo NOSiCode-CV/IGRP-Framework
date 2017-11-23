@@ -1,4 +1,8 @@
 
+.toolsbar-holder.block-icons a span{
+	display: block;
+}
+
 #IGRP-process .process {
 	overflow: hidden;
 	border-radius: 5px;
@@ -136,3 +140,81 @@
 }
 
 
+
+
+/*
+	TEMPLATE 2
+*/
+
+.f1 {
+	padding: 10px 0; 
+	text-align: center;
+}
+
+.f1-steps { position: relative; }
+
+.f1-progress {display: none; position: absolute; top: 24px; left: 0; width: 100%; height: 1px; background: #ddd; }
+.f1-progress-line { position: absolute; top: 0; left: 0; height: 1px; background: #ddd; }
+
+.f1-step { position: relative; float: left; padding: 0 5px; text-decoration: none!important;}
+
+.f1-step:before {
+    content: "";
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: #dddddd;
+    left: 0;
+    top: 50%;
+    position: absolute;
+    margin-top: -7px;
+}
+.f1-step-icon {
+	display: inline-block; width: 40px; height: 40px; margin-top: 4px; background: #ddd;
+	font-size: 16px; color: #fff; line-height: 40px;
+	-moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;
+	position: relative;
+	z-index: 10
+}
+.f1-step.activated .f1-step-icon {
+	background: #fff; border: 1px solid #f35b3f; color: #f35b3f; line-height: 38px;
+}
+/*.f1-step.active .f1-step-icon {
+	width: 48px; height: 48px; margin-top: 0; background: #f35b3f; font-size: 22px; line-height: 48px;
+}*/
+
+.f1-step p { color: #ccc; }
+.f1-step.activated p { color: #f35b3f; }
+.f1-step.active p { color: #f35b3f; }
+
+.f1 fieldset { display: none; text-align: left; }
+
+.f1-buttons { text-align: right; }
+
+.f1 .input-error { border-color: #f35b3f; }
+
+/*.f1 .wiz-step:hover{
+	position: relative;
+	overflow: visible;
+}
+
+.f1 .wiz-step:hover >p{
+	    text-overflow: unset;
+    white-space: nowrap;
+    overflow: visible;
+    position: absolute;
+    z-index: 10;
+    padding: 0 5px;
+    text-align: center;
+
+    width: 200px;
+   
+    margin-left: -62px;
+}*/
+
+@media (max-width: 415px) {
+	
+	.f1 { padding-bottom: 20px; }
+	.f1-buttons button { margin-bottom: 5px; }
+
+}

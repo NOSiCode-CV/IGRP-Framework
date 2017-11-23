@@ -1,5 +1,7 @@
 (function(){
+	
 	if($.IGRP && !$.IGRP.components.contextMenu){
+		
 		var __ctxBodyClickSet = false;
 		
 		var _open = false;
@@ -12,15 +14,14 @@
 				$.IGRP.components.contextMenu.hide( $('.table-context-menu'));
 		});
 
-
 		$.IGRP.components.contextMenu = {
 			
 			set: function(h,p){
 				
 				var params = p ? p : {};
-				var holder = h ? h : $(".box-table-contents");
+				var hld = h ? h : $(".box-table-contents");
 				
-				if(holder[0] && $('.table-context-menu',holder)[0]){
+				if(hld[0] && $('.table-context-menu',hld)[0]){
 
 					var scope       = params.scope ? params.scope : '.IGRP_contextmenu tbody tr';
 					var menu        = params.menu  ? params.menu  : '.table-context-menu';
@@ -36,7 +37,7 @@
 							$('table tbody tr').removeClass('ctx-open');
 
 							var row 		= $(e.currentTarget),
-								vCtxMenu	= holder.find(settings.menu),
+								vCtxMenu	= $(e.delegateTarget).find(settings.menu),
 								menus   	= $('>li',vCtxMenu)[0] ? $('>li',vCtxMenu) : $('ul>li',vCtxMenu);
 							
 							$.IGRP.components.contextMenu.setRowMenu({
@@ -51,7 +52,9 @@
 									$.IGRP.components.contextMenu.show(vCtxMenu);	
 									
 									setPosition(e,{
+
 										ctxMenu : vCtxMenu
+
 									});
 
 									row.addClass('ctx-open');
@@ -63,10 +66,17 @@
 						onItem    : null
 					},p);
 
-					holder.on("contextmenu",settings.scope,settings.onContext);
 
-					if(settings.onItem && typeof settings.onItem  == 'function')
-						holder.on('click',settings.menu,settings.onItem);
+					hld.each(function(i,hl){
+						
+						var holder = $(hl);
+
+						holder.on("contextmenu",settings.scope,settings.onContext);
+
+						if(settings.onItem && typeof settings.onItem  == 'function')
+							holder.on('click',settings.menu,settings.onItem);
+					})
+					
 
 				}
 			},
@@ -116,7 +126,7 @@
 					vCtxMenu
 						.removeClass("active")
 						.removeAttr('style')
-						.css({left:vLeft,top:vTop})
+						.css({left:vLeft,top:vTop + row.parent().position().top })
 				}
 			},
 
@@ -199,7 +209,8 @@
 					return false; 	
 				});
 			}
-		}
+
+		};
 
 		$.IGRP.on('init',function(e){
 		    $.IGRP.components.contextMenu.set();

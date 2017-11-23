@@ -4,22 +4,28 @@ if($ && $.IGRP && !$.IGRP.rules){
 	$.IGRP.rules = {
 		
 		satisfy:function(p){
+
 			var rtn 		= false,
 				field 		= $(p.field),
 				type  		= field.attr('type'),
 				fieldValue 	= field.val(),
 				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
-			if (type == 'radio') {
+
+			if (type == 'radio') 
+
 				fieldValue =  $('input[name="'+field.attr('name')+'"]:checked').val();
-			}
 
 			p.fieldValue = fieldValue;
 
 			try{
+
 				rtn = condition ? condition.satisfy(p)/*p.condition.satisfy(fieldValue,p.testValue)*/ : true;
+			
 			}catch(err){
+
 				console.log(err);
+
 			}
 
 			return rtn;
@@ -53,7 +59,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 						r.sourceName = source;
 
-						//console.log(r)
+						
 
 						if( events.indexOf('load') !== -1){
 							
@@ -110,7 +116,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		set2:function(data){
-			//console.log(data)
+			
 			for(var fname in data){
 				
 				var rules  = data[fname];
@@ -131,7 +137,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 					});
 
-				})
+				});
 			}
 		},
 
@@ -273,7 +279,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		notnull:{
-			satisfy:function(r){
+			satisfy:function(r){		
 				return r.fieldValue != null && r.fieldValue != '' && r.fieldValue != undefined;
 			},
 			opposite:'null'
@@ -651,7 +657,6 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 		var rules = o.conditions.rules;
 
-
 		if(field[0] && idx < rules.length){
 
 			var r = rules[idx];
@@ -665,6 +670,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 				rule      : r
 
 			});
+
+			//console.log(r.condition);
+
+			//console.log(field.val());
+
+			//console.log(r)
 
 			vRuleArr.push(satisfy);
 

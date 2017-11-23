@@ -138,13 +138,18 @@ form [item-type="plaintext"]{
 	height: 62px;
 }
 
+.igrp-forms td .form-group[item-type], *[role="form"] td .form-group{
+	height: auto;
+	min-height: 0;
+}
+
 
 
 /* FORM VALIDATION */
 .form-validator-label {
 	position: absolute;
 	left: 15px;
-    top: 15px;
+    top: 12px;
     font-size: 10px;
     font-weight: normal!important;
     color: #c9302c;

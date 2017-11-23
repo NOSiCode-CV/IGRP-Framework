@@ -54,18 +54,31 @@
 				modal.modal('show');
 			},
 			hide:function(){
-				var modal  = $($.IGRP.components.iframeNav.modal),
-					iframe = $('iframe',modal);
+
+				$($.IGRP.components.iframeNav.modal).modal('hide');
+
+			},
+
+			onHide : function(){
 				
-				modal.modal('hide');
+				var modal  = $($.IGRP.components.iframeNav.modal),
+
+					iframe = $('iframe',modal);
+
 				iframe.attr('src','');
 
 				if (modal.attr('close') && modal.attr('close') == 'refresh')
+
 					$.IGRP.targets.closerefresh.action();
 
 			},
+
 			events:function(){
+				
 				$( $.IGRP.components.iframeNav.modal ).on('click','.iframe-nav-close',$.IGRP.components.iframeNav.hide);
+				
+				$( $.IGRP.components.iframeNav.modal ).on('hide.bs.modal',$.IGRP.components.iframeNav.onHide);
+
 			}
 		} 
 		

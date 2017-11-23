@@ -19,9 +19,9 @@
 				    for (var i=0; i<arr.length; i++) {
 				      var a = arr[i].split('=');
 
-				      var paramNum = undefined;
+				      var paramNum  = undefined;
 				      var paramName = a[0].replace(/\[\d*\]/, function(v) {
-				        paramNum = v.slice(1,-1);
+				        paramNum 	= v.slice(1,-1);
 				        return '';
 				      });
 
@@ -30,12 +30,11 @@
 				      paramName 	= paramName   ? paramName.toLowerCase()  : '';
 				      paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
 
-
 				      if (obj[paramName]) {
 				        if (typeof obj[paramName] === 'string') {
 				          obj[paramName] = [obj[paramName]];
 				        }
-				        if (typeof paramNum === 'undefined') {
+				        if (typeof paramNum === undefined) {
 				          obj[paramName].push(paramValue);
 				        }
 				        else {
@@ -60,7 +59,6 @@
 				}
 
 			},
-			
 			openWin:function(p){
 
 				var width  = p.width ? p.width : 980;
@@ -122,7 +120,6 @@
 				}
 				return null;
 			},
-
 			setFieldValue:function(tag,value){
 			
 				var formElement = $('[name="p_'+tag+'"]'),
@@ -181,9 +178,7 @@
 					formElement.trigger('change');
 
 				}
-
 			},
-
 			clearSubmittables:function(){
 				$('.submittable').removeClass('submittable');
 			},
@@ -299,6 +294,15 @@
 		        }
 
 		      	return new Blob(byteArrays, {type: contentType});
+			},
+			verticalCentralize:function(s){
+				var selector = s || '[vertical-centralize="true"]';
+
+				$(selector).each(function(i,el){
+					
+					console.log(el);
+
+				})
 			},
 			message : {
 				getIcon : {
@@ -588,27 +592,6 @@
 			}
 		};
 
-		$.IGRP.utils.getXMLStylesheet = function(d){
-			
-			var xstr;
-
-		    xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
-
-		    if(xstr){
-		    	var beginExp = '<?xml-stylesheet href="';
-
-				var endExp   = '" type="text/xsl"?>';
-				
-				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
-
-				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
-
-				var exprss = xstr.substring(begin,end);
-		    }
-
-			return exprss;
-		};
-
 		$.IGRP.utils.xsl = {
 
 			getStyleSheet : function(nodes,includes){
@@ -663,6 +646,27 @@
 
 				return arr;
 			}
+		};
+
+		$.IGRP.utils.getXMLStylesheet = function(d){
+			
+			var xstr;
+
+		    xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
+
+		    if(xstr){
+		    	var beginExp = '<?xml-stylesheet href="';
+
+				var endExp   = '" type="text/xsl"?>';
+				
+				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
+
+				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
+
+				var exprss = xstr.substring(begin,end);
+		    }
+
+			return exprss;
 		};
 
 		$.IGRP.utils.transformXMLNodes = function(params){
@@ -734,6 +738,7 @@
 											});
 										}
 									});
+									
 								});
 							}
 						}
@@ -751,6 +756,12 @@
         jQuery.expr[':'].Contains = containsFunc;
 
         jQuery.expr[':'].contains = containsFunc;
+
+        var init = function(){
+
+        	$.IGRP.utils.verticalCentralize();
+        
+        };
 
 	}else{
 		console.log('jQuery or IGRP.js missing!')

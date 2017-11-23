@@ -216,6 +216,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page);
 			xml_menu.setElement("img", profile.getOrganization().getApplication().getImg_src());
 			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
+			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
@@ -229,6 +230,7 @@ public class EnvController extends Controller {
 				xml_menu.setElement("img", app.getImg_src());
 				xml_menu.setElement("title",app.getName());
 				xml_menu.setElement("num_alert", "");
+				xml_menu.setElement("description", app.getDescription());
 				xml_menu.endElement();
 				displaySubtitle = true;
 			}
@@ -244,6 +246,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("img", obj.getImg_src());
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
 			xml_menu.endElement();
 			displayTitle = true;
 		}
@@ -255,6 +258,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("img", obj.getImg_src());
 			xml_menu.setElement("title", obj.getName());
 			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
 			xml_menu.endElement();
 			displaySubtitle = true; 
 		}
