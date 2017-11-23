@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* CSS Document */
+.Absolute-Center.is-Responsive {
+	height:100%;
+	width:100%;
+}
+.login_formular {
+	margin: 0;
+	padding: 0;
+	width: 80%;
+	margin: 0 auto;
+}

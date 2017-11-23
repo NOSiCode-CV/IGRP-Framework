@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.login_formular legend, .login_formular label { color:#fff; }
+body,html { }
+body{
+	background-color:#dce1e5;
+ 	position:absolute;
+	height:100%;
+	width:100%;
+	margin:0;
+}
+.Center-Container {
+  /*position: relative;*/
+}
+.pd50 { padding:50px; }
+.Absolute-Center.is-Responsive {
+width:70%;
+min-height:320px;
+max-height: 442px;
+margin: auto;
+position: relative;
+/*overflow:hidden;*/
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+display:table;
+overflow:auto;
+}
+.clear { clear:Both }
+.login_formular { margin:0;padding:0;width:50%;margin:10px auto; }
+
+.login_formular .login_text-input { width:100%; }
+
+.inner{
+	display:table-cell;
+	margin:0 auto;
+	width:50%;
+	height:100%;
+	position:relative;
+}
+#left{
+color: #FFF;
+/*background:url('../img/left_cniap_2.png')no-repeat top center;
+background:url('../img/banner-carnaval.png')no-repeat top center;*/
+background-size:cover;
+/*float: left;*/
+text-align: right;
+
+}
+#rigth{
+color: #FFF;
+background:url('../img/Lg_bg01.png') no-repeat top center; 
+background-size:cover;
+/*float: left;
+min-height: 442px;*/
+/*max-width: 363px;
+background-color:#0a6584;*/
+/*background:url('../img/bgright.png') #0a6584 no-repeat top center;*/
+}
+#rigth img {max-width:100%;}
+#rt_content {
+padding-top:20px;
+position:relative;
+}
+
+.login_footer { position: relative;width:100%;color:#fff;
+bottom: 0; padding:25px 0 10px 0!important; }
+.login_footer div { }
+
+/*MESSAGE*/
+.message-login { width:auto!important;margin:0!important; }
+.message-login .notification { 
+	width:85%!important;
+	margin:5px auto!important;
+}	
+.notification { height:auto; }
+.notification .messages { padding-right:50px; }

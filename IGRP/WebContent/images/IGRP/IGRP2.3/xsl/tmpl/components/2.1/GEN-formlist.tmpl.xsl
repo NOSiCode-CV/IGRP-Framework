@@ -21,7 +21,7 @@
 							<xsl:if test="not($table/value/row[@nodelete]) or not($table/value/row[@noupdate])">
 								<th class="table-btn add">
 									<xsl:if test="not($table/value/row[@noupdate])">
-										<a class="formlist-row-add" rel="{$tag}">
+										<a class="formlist-row-add btn btn-primary" rel="{$tag}">
 											<i class="fa fa-plus"/>
 										</a>
 									</xsl:if>

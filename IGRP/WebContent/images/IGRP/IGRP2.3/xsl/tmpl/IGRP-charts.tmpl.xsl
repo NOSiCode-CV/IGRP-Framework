@@ -2,6 +2,7 @@
   
   <xsl:param name="pheight"/>
   <xsl:param name="filter"/>
+  <xsl:param name="filter_type"/>
   
   <xsl:template match="*">
     
@@ -17,6 +18,7 @@
       <xsl:with-param name="tipo" select="./chart_type"/>
       <xsl:with-param name="height" select="$nheight"/>
       <xsl:with-param name="filter" select="$filter"/>
+      <xsl:with-param name="filter_type" select="$filter_type"/>
     </xsl:call-template>
   </xsl:template>  
   
@@ -26,6 +28,7 @@
     <xsl:param name="height" select="'250'"/>
     <xsl:param name="url" select="''"/>
     <xsl:param name="filter" select="'false'"/>
+    <xsl:param name="filter_type"/>
     <xsl:variable name="vtipo">
       <xsl:choose>
         <xsl:when test="$tipo = 'barchart' or $tipo = 'BarChart'">bar</xsl:when>
@@ -65,6 +68,11 @@
     <div class="IGRP-highcharts" item-name="{$graph-id}" chart-categories="{$categories}" chart-id="id-{$graph-id}" chart-type="{$vtipo}" chart-desc-label="{$desc-label}" chart-labels="{$labels}" chart-colors="{$colors}" chart-data="{$data}" chart-url="{$url}">
 
       <xsl:if test="$filter = 'true'">
+        <xsl:if test="$filter_type != ''">
+          <xsl:attribute name="filter-type">
+            <xsl:value-of select="$filter_type"/>
+          </xsl:attribute>
+        </xsl:if>
         <div class="toggleChart btn-group dropdown">
           <button type="button" class="active-chart btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           </button>
@@ -84,6 +92,7 @@
     <xsl:param name="url" select="''"/>
     <xsl:param name="title" select="'Grafico'"/>
     <xsl:param name="filter" select="'false'"/>
+    <xsl:param name="filter_type"/>
     
     <xsl:variable name="vheight" select="$height+50"/>
     
@@ -94,6 +103,7 @@
         <xsl:with-param name="height" select="$vheight"/>
         <xsl:with-param name="url" select="$url"/>
         <xsl:with-param name="filter" select="$filter"/>
+        <xsl:with-param name="filter_type" select="$filter_type"/>
       </xsl:call-template>
       <div class="_clear"/>
    </div>
