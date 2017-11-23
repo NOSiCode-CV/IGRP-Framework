@@ -116,7 +116,7 @@ public class ImportAppZip extends ImportAppJar{
 				try {
 					String path = Config.getBasePathXsl()+Config.getResolvePathXsl(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
 					//Gera codigo MVC a partir de xml, usando gerador xsl
-					String modelViewController = XMLTransform.tranform(path, Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl");
+					String modelViewController = XMLTransform.tranform(path, Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl");
 					String[] partsJavaCode = modelViewController.toString().split(" END ");
 					if(partsJavaCode.length > 2){
 						String model = partsJavaCode[0]+"*/";

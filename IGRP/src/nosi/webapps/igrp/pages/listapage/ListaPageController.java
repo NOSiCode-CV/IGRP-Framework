@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nosi.core.i18n.Translator.gt;
+
 /*----#END-PRESERVED-AREA----*/
 public class ListaPageController extends Controller {		
 
@@ -55,10 +57,10 @@ public class ListaPageController extends Controller {
 			}
 			lista.add(table1);
 		}
-		
+		 
 		ListaPageView view = new ListaPageView(model);
 		view.id.setParam(true);
-		view.env_fk.setLabel("Aplicação");
+		view.env_fk.setLabel(gt("Aplicação"));
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		

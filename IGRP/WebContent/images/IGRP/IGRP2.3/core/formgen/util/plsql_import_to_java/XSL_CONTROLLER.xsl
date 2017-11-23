@@ -32,7 +32,7 @@
 		<!-- <xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of> -->
      	<xsl:call-template name="begin_reserve_code_action">
      		<xsl:with-param name="type" select="'PACKAGES_IMPORT'"/>
-     		<xsl:with-param name="url" select="$url"/>
+     		<xsl:with-param name="url" select="''"/>
      	</xsl:call-template>
 
 		<xsl:choose>
@@ -111,7 +111,7 @@
 		<xsl:value-of select="$tab"/>
      	<xsl:call-template name="begin_reserve_code_action">
      		<xsl:with-param name="type" select="'CUSTOM_ACTIONS'"/>
-     		<xsl:with-param name="url" select="$url"/>
+     		<xsl:with-param name="url" select="''"/>
      	</xsl:call-template>
      	<xsl:choose>
      		<xsl:when test="$url !=''">
@@ -213,7 +213,7 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
 
-		<xsl:variable name="preserveActionsExceptionsUrl" select="concat('/*----#EXECEP(',$url_,',throws IOException, IllegalArgumentException, IllegalAccessException,',$action,')EXECEP#----*/')"/>
+		<xsl:variable name="preserveActionsExceptionsUrl" select="'throws IOException, IllegalArgumentException, IllegalAccessException'"/>
 
 		<xsl:value-of select="concat('public Response action',$action,'() ',$preserveActionsExceptionsUrl,'{')"/>
 
