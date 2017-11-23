@@ -2,8 +2,10 @@
  
   <!-- Bootstrap Version -->
   <xsl:variable name="bs-v" select="'3.3.7'"/>
+  
   <!-- jQuery Version -->
   <xsl:variable name="jq-v" select="'2.1'"/>
+  
   <!-- target is blank? popup -->
   <xsl:variable name="hasMenu">
     <xsl:choose>
@@ -35,6 +37,7 @@
   </xsl:variable>
   <!--/igrp path -->
 
+  <!-- version -->
   <xsl:variable name="version">
       <xsl:choose>
         <xsl:when test="rows/version">
@@ -45,6 +48,11 @@
         </xsl:otherwise>
       </xsl:choose>
   </xsl:variable>
+  <!-- /version -->
+
+  <!-- fixed labels -->
+  <xsl:variable name="labels" select="document(concat($path,'/core/igrp/labels/igrp.labels.pt.xml'))/labels"/>
+  <!-- /fixed labels -->
 
   <!-- app theme -->
   <xsl:variable name="theme">
@@ -74,6 +82,10 @@
   <!-- theme config data-->
   <xsl:variable name="themeConfigData" select="document($themeConfigPath)/style"/>
   <!--/theme config data-->
+
+  <xsl:variable name="palettesXMLPath" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
+
+  <xsl:variable name="palettesXML" select="document($palettesXMLPath)/palettes/color"/>
 
 
 </xsl:stylesheet>

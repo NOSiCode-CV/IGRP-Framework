@@ -62,8 +62,7 @@
       <xsl:if test="$use-fa = 'false'"> 
         <xsl:attribute name="class">btn 
           <xsl:choose>
-            <xsl:when test="$target = 'submit'">btn-default</xsl:when>
-            <xsl:when test="$target = 'alert_submit'">btn-default</xsl:when>
+            <xsl:when test="$target = 'submit' or $target = 'alert_submit'">btn-default</xsl:when>
             <xsl:otherwise><xsl:value-of select="$fixed-btn-class"/></xsl:otherwise>
           </xsl:choose>
         </xsl:attribute>
@@ -374,13 +373,13 @@
         </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
   <!-- 2.1 TO 2.3 ICONS -->
   <xsl:template name="topMenuIconsMap">
-    
     <xsl:choose>
       <xsl:when test="img='home.png'">fa-home</xsl:when>
       <xsl:when test="img='settings.png'">fa-gears</xsl:when>
-      <xsl:when test="img='process.png'">fa-share-alt</xsl:when>
+      <xsl:when test="img='process.png'">fa-sitemap</xsl:when>
       <xsl:when test="img='tasks.png'">fa-list-ol</xsl:when>
       <xsl:when test="img='support.png'">fa-question</xsl:when>
       <xsl:when test="img='info.png'">fa-info</xsl:when>

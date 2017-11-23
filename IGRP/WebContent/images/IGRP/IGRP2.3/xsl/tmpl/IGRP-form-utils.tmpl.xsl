@@ -4,6 +4,7 @@
     <xsl:param name="use-fa" select="'true'"/>
     <xsl:param name="vertical" select="'true'"/>
     <xsl:param name="fixed-target"/>
+    <xsl:param name="fixed-btn-class"/>
 
     <div class="box-footer gen-form-footer">
       <div class="pull-right gen-form-btns" role="group">
@@ -12,6 +13,7 @@
           <xsl:with-param name="vertical" select="$vertical"/>
           <xsl:with-param name="type" select="'tools-bar'"/>
           <xsl:with-param name="fixed-target" select="$fixed-target"/>
+          <xsl:with-param name="fixed-btn-class" select="$fixed-btn-class"/>
         </xsl:apply-templates>
       </div>
     </div>

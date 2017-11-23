@@ -29,7 +29,7 @@
 											
 											<xsl:apply-templates mode="process-flow" select="rows/content/table" />
 											<xsl:if test="rows/content/form/tools-bar">
-												<div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-class="">
+												<div class="toolsbar-holder boxed gen-container-item block-icons" gen-structure="toolsbar" gen-class="">
 													<div class="btns-holder pull-right" role="group">
 														<xsl:apply-templates select="rows/content/form/tools-bar" mode="gen-buttons">
 															<xsl:with-param name="outline" select="'true'"/>

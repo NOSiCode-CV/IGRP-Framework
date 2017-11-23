@@ -1,0 +1,284 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font-family:"Helvetica Neue", Helvetica, Arial, "Trebuchet MS";/*background-color:#E2E2E2 !important;*/
+}
+a img {
+	border:none;
+	margin-bottom:5px;
+}
+.login_top {
+	background-image: url("../img/bg.gif");
+	height: 45px;
+	text-align: right;
+	width: 965px;
+	border-bottom:4px solid #217eac;
+	margin:0 auto;
+}
+.login_line {
+	height: 4px;
+	width: 965px;
+	background:#c5c7c8;
+	margin:0 auto;
+}
+.login_logo{
+	float: left;
+	height: 45px;
+	padding-left: 21px;
+	text-align: left;
+	width: 488px;
+}
+.top-right {
+	float: left;
+	height:46px;
+	text-align: left;
+	width: 456px;
+}
+.top-info {
+	font-family: Tahoma;
+	font-size: 11px;
+	height: 23px;
+	text-align: left;
+	width: 100%;
+}
+.top-icons {
+	height: 23px;
+	width:100%;
+}
+.top-rounded-left {
+	float: left;
+	width: 24px;
+	height: 23px;
+}
+.top-rounded-middle {
+	background-image: url("../img/top-rounded-middle.png");
+	float: left;
+	font-family: verdana;
+	font-size: 9px;
+	height: 22px !important;
+	width: 400px;
+}
+.top-rounded-right {
+	width:32px;
+	height:23px;
+	float:left;
+}
+td.button {
+	padding-right: 23px;
+	text-align: right;
+}
+.login_formular .text-input {
+	background: url(../../img/img/text-bg.gif) repeat-x scroll 0 0 #cccccc;
+	border: 2px solid #B5B8C8;
+	font-size: 14px;
+	margin-top: 4px;
+	padding: 4px;
+	width: 250px;
+}
+.login_divform {
+	width:340px;
+	float:right;
+}
+
+.login_formular {
+	font-family: tahoma, verdana, "sans-serif";
+	font-size: 12px;
+	color:#828688;
+	padding: 20px 75px 0 5px;
+}
+
+
+.login_formular legend {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif", "Trebuchet MS";
+	color:#828688;
+	font-size:14px;
+	font-weight:600;
+	margin-bottom:5px;
+}
+.login_formular fieldset label {
+	float: none;
+	text-align: inherit;
+	width: auto;
+}
+
+.login_formular label {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color: #6c6f70;
+	margin-left:5px;
+
+}
+
+.login_formular input, .login_formular select, .login_formular textarea {
+	/*display: block;*/
+	margin-bottom: 5px;
+}
+.login_formular .login_text-input {
+	width: 250px;
+	height:15px;
+	color: #555;
+	padding: 4px;
+	border: 1px solid #B5B8C8;
+	font-size: 14px;
+	margin-top: 4px;
+	background: #FFF url(../img/text-bg.gif) repeat-x;
+}
+
+.login_formular .login_text-input2 {
+	width: 40px;
+	height:15px;
+	color: #555;
+	padding: 4px;
+	border: 1px solid #B5B8C8;
+	font-size: 14px;
+	margin-top: 4px;
+	background: #FFF url(../img/text-bg.gif) repeat-x;
+}
+
+
+.login_formular span.checkbox, .login_formular .checkbox {
+	display: inline;
+}
+
+.login_formular .button {
+	text-align:right;
+	margin-top: 10px;
+	height:31px;
+}
+
+.login_submit {
+font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#1c7aa9;
+	float:right;
+   /*background: url("../img/bt_submit.png") no-repeat ; */cursor:pointer; padding-bottom:3px; 
+}
+
+.login_formular a.submit {
+	/*background: url(../img/button-bg.png) repeat-x;
+	border: 1px solid #AAA;*/
+	padding: 4px;
+}
+
+input.button {
+	 background: url("../img/bt_submit.png") no-repeat ;
+	border: 2px solid #AAA;
+	padding: 4px 4px 1px;
+	font-size:14px;
+	margin-top:4px;
+}
+.login_formular input {
+	/*background:url(../img/button-bg.png) repeat-x;
+	border: 1px solid #AAA;*/
+	padding: 4px;
+	width:80px;
+}
+.login_formular hr {
+	clear: both;
+	visibility: hidden;
+}
+.login_formular .fc-error {
+	width: 350px;
+	color: #555;
+	padding: 4px;
+	border: 1px solid #B5B8C8;
+	font-size: 12px;
+	margin-bottom: 15px;
+	background: #FFEAEA;
+}
+.login_nav {
+	width:955px;
+	height:auto;
+	background-color: #FFFFFF;
+	border: 1px solid #dddddd;
+	margin: 1px auto;
+	padding:5px;
+	-moz-border-radius: 4px;  FF1+ 
+	-webkit-border-radius: 4px;  Saf3-4, iOS 1+, Android 1.5+ 
+	border-radius: 4px; Opera 10.5, IE9, Saf5, Chrome 
+	clear:both;
+}
+.login_title {
+	font-family: "Verdana", "Arial", "Helvetica", "sans-serif", "Trebuchet MS";
+	color:#828688;
+	font-size:13px;
+	font-weight:bold;
+}
+.login_bckg {
+	width:574px;
+	min-height:285px;
+	height:auto;
+	background:url(../img/bckg_login.gif) no-repeat;
+	border: 1px solid #dddddd;
+	font-family: "Trebuchet MS", "Arial", "Helvetica", "Verdana", "sans-serif";
+	margin:auto;
+	margin-top:55px;
+	margin-bottom:5px;
+	-moz-border-radius: 4px;  FF1+ 
+	-webkit-border-radius: 4px;  Saf3-4, iOS 1+, Android 1.5+ 
+	border-radius: 4px;  Opera 10.5, IE9, Saf5, Chrome 
+	clear:both;
+}
+.login_footer {
+	font-family: "Arial", "Verdana", "Helvetica", "sans-serif", "Trebuchet MS";
+	color:#000;
+	font-size:11px;
+	text-align:center;
+	padding-top:4px;
+}
+
+
+/*----------MENSAGENS DE ERRO-----------------*/
+
+.notification {
+	height: 30px;;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    position: relative;
+    width: 99%;
+}
+
+.notification .messages {
+	color: #2B2B2B;
+    font-size: 11px;
+    margin: 1px;
+    padding: 7px 0 7px 50px;
+    position: relative;
+	/*padding:13px 0 13px 50px*/
+}
+.notification .messages .close {
+	position:absolute;
+	top:10px;
+	right:10px;
+	cursor:pointer
+}
+.error {
+	border:1px dashed #c58f75
+}
+.error .messages {
+	background:#f2bba0 url(../img/icon/error.png) no-repeat 20px 9px
+}
+.success {
+	border:1px dashed #9ac933
+}
+.success .messages {
+	background:#cee790 url(../img/icon/success.png) no-repeat 20px 9px
+}
+.warning {
+	border:1px dashed #e6d260
+}
+.warning .messages {
+	background:#f9edaa url(../img/icon/warning.png) no-repeat 20px 9px
+}
+.info {
+	border:1px dashed #acdbef
+}
+.info .messages {
+	background:#daeffb url(../img/icon/info.png) no-repeat 20px 9px
+}
+
+.message-login{ width:574px;
+height:auto;
+margin: 5px auto;}
