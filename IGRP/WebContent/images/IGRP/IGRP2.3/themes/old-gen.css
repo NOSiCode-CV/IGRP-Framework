@@ -90,6 +90,20 @@
     padding-bottom: 15px;
 }
 
+.old-v .btns-holder-form{
+  display: inline-block;
+  margin-top: 25px;
+  margin-left: 15px;
+}
+
+.old-v *[role="form"] .IGRP_formlist .form-group{
+  min-height: 0;
+} 
+
+.old-v .checkbox-label{
+  display: block;
+}
+
 /*.old-v .gen-item-boxed+.gen-item-boxed:before{
     position: absolute;
     top: auto;
