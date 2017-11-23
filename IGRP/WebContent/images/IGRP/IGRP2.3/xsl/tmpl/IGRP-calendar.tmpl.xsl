@@ -4,9 +4,12 @@
         <xsl:param name="id" select="'calendar'"/>
         <xsl:param name="lang" select="'pt'"/>
         <xsl:param name="editevents"/>
+        <xsl:param name="alleditevents"/>
         <xsl:param name="addevents"/>
         <xsl:param name="defaultview"/>
         <xsl:param name="defaultdate"/>
+        <xsl:param name="views"/>
+        <xsl:param name="header"/>
         
         <div class="igrp-calendar-holder">
             <div id="{$id}" class="igrp-calendar"></div>
@@ -57,11 +60,14 @@
             <script>
                 $(function(){
                     $.IGRP.components.calendar.init('<xsl:value-of select="$id"/>',{
-                        locale      : '<xsl:value-of select="$lang"/>',
-                        editevents  : '<xsl:value-of select="$editevents"/>',
-                        addevents   : '<xsl:value-of select="$addevents"/>',
-                        defaultview : '<xsl:value-of select="$defaultview"/>',
-                        defaultdate : '<xsl:value-of select="$defaultdate"/>'
+                        locale          : '<xsl:value-of select="$lang"/>',
+                        editevents      : '<xsl:value-of select="$editevents"/>',
+                        alleditevents   : '<xsl:value-of select="$alleditevents"/>',
+                        addevents       : '<xsl:value-of select="$addevents"/>',
+                        defaultview     : '<xsl:value-of select="$defaultview"/>',
+                        defaultdate     : '<xsl:value-of select="$defaultdate"/>',
+                        views           : '<xsl:value-of select="$views"/>',
+                        header          : '<xsl:value-of select="$header"/>'
                     });
                 });
             </script>

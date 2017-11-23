@@ -20,18 +20,12 @@
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
     </xsl:if>
     <!-- BS CSS -->
-
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
-      <!-- <link rel="stylesheet" href="{$path}/themes/globals.css"/>
-      <link rel="stylesheet" href="{$path}/themes/base.css"/>
-      <link rel="stylesheet" href="{$path}/themes/topnav.css"/>
-      <link rel="stylesheet" href="{$path}/themes/sidebar.css"/> -->
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
-
     </xsl:if>
     <!--/DEFAULT CSS -->
-    
+
     <!-- THEME CSS -->
     <xsl:for-each select="$themeConfigData/css/file">
       <xsl:choose>
@@ -48,8 +42,10 @@
       <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
     </xsl:if>
     <!-- /THEME CSS -->
-
     <!-- COLOR PALETTES -->
+
+    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"/>
+
     <xsl:call-template name="colorpalettes-css"/>
     <!-- /COLOR PALETTES -->
     <!-- FORM -->
@@ -85,15 +81,16 @@
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
-    <!-- IGRP targets controller -->
+    <!-- IGRP sidebar controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
-    <!-- IGRP color palettes -->
-    <script src="{$path}/core/colorpalettes/palettes.js?v={$version}"></script>
+    <!-- IGRP scroll to top controller -->
+    <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
     <!-- IGRP XML XSL Transform -->
     <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}"></script>
-    
     <!-- IGRP handler -->
     <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
+
+    <xsl:call-template name="colorpalettes-js"/>
 
     <script>
       var path = '<xsl:value-of select="$path"/>';
@@ -205,7 +202,7 @@
                   <xsl:for-each select="submenu">
                     <li>
                       <a href="{link}" item-id="{$parentId}-{position()}">
-                          <i class="fa fa-angle-right"></i>
+                          <!-- <i class="fa fa-angle-right"></i> -->
                           <span><xsl:value-of select="title"/></span>
                       </a>
                     </li>
@@ -246,6 +243,10 @@
     <igrp-variables class="hidden invisible">
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
+
+    <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
+      <i class="fa fa-chevron-up"></i>
+    </button>
 
     <!-- IFRAME NAVIGATION MODAL -->
     <xsl:call-template name="iframe-nav"/>
@@ -341,8 +342,7 @@
   <!-- COLOR PALLETES -->
   <xsl:template name="colorpalettes-css">
     <style>
-      <xsl:variable name="palettesXML" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
-      <xsl:for-each select="document($palettesXML)/palettes/color">
+      <xsl:for-each select="$palettesXML">
         .cp-<xsl:value-of select="@name"/> {
           background: <xsl:value-of select="."/>!important;
           border-color: <xsl:value-of select="."/>!important;
@@ -353,6 +353,24 @@
         }
       </xsl:for-each>
     </style>
+  </xsl:template>
+  <xsl:template name="colorpalettes-js">
+    <script>
+      $.IGRP.component('colorPalettes',{
+        colors : [
+        <xsl:for-each select="$palettesXML">
+          {
+            value:"cp-<xsl:value-of select="@name"/>",
+            label:"<xsl:value-of select="@name"/>",
+            color:"<xsl:value-of select="."/>",
+            text :"<xsl:value-of select="@bg-text-color"/>"
+          }<xsl:if test="position() != last()">,</xsl:if>
+        </xsl:for-each>
+        ]
+      });
+      
+
+    </script>
   </xsl:template>
   <!-- COLORS -->
   <xsl:template name="theme-colors" mode="theme-colors" match="*">
@@ -548,7 +566,7 @@
             }
 
             <!-- BUTTONS -->
-            .btn.btn-<xsl:value-of select="@name"/>{
+            .btn-<xsl:value-of select="@name"/>{
               <xsl:if test="@text-color">
                 color:<xsl:value-of select="@text-color"/>;
               </xsl:if>
@@ -565,17 +583,17 @@
             }
 
             <xsl:if test="@bg-hover">
-              .btn.btn-<xsl:value-of select="@name"/>:hover,
-              .btn.btn-<xsl:value-of select="@name"/>.focus, 
-              .btn.btn-<xsl:value-of select="@name"/>:focus{
+              .btn-<xsl:value-of select="@name"/>:hover,
+              .btn-<xsl:value-of select="@name"/>.focus, 
+              .btn-<xsl:value-of select="@name"/>:focus{
                 background-color:<xsl:value-of select="@bg-hover"/>
               }
             </xsl:if>
 
             <xsl:if test="@text-hover">
-              .btn.btn-<xsl:value-of select="@name"/>:hover,
-              .btn.btn-<xsl:value-of select="@name"/>.focus, 
-              .btn.btn-<xsl:value-of select="@name"/>:focus{
+              .btn-<xsl:value-of select="@name"/>:hover,
+              .btn-<xsl:value-of select="@name"/>.focus, 
+              .btn-<xsl:value-of select="@name"/>:focus{
                 color:<xsl:value-of select="@text-hover"/>
               }
             </xsl:if>

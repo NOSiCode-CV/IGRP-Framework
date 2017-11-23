@@ -63,7 +63,7 @@ public class DBQuery{
 	
 	public void close(){
 		try {
-			if(this.getResultSet()!=null && !this.getResultSet().isClosed()){
+			if(this.getResultSet()!=null){
 				this.ps.close();
 				this.getResultSet().close();
 			}
