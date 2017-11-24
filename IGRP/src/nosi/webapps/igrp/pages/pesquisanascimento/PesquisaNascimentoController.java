@@ -33,15 +33,13 @@ public class PesquisaNascimentoController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento(new nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento(model.getNome(), (model.getN_registo()!=null && !model.getN_registo().equals(""))?Integer.parseInt(model.getN_registo()):null, null));
-
 			List<PesquisaNascimento.Table_1> data = new ArrayList<>();
 			if(p!=null){
-				System.out.println(p.getRowList());
 				for(RowList row:p.getRowList()){
 					PesquisaNascimento.Table_1 pbi = new PesquisaNascimento.Table_1();
 					pbi.setData_facto(row.getData_nascimento());
 					pbi.setN_registo_tabela(""+row.getNumero());
-					pbi.setNome_mae(row.getMae_nome());
+					pbi.setNome_mae(row.getNome_mae());
 					pbi.setNome_pai(row.getNome_pai());
 					pbi.setNome_tabela(row.getIdentificacao());
 					data.add(pbi);
@@ -56,6 +54,6 @@ public class PesquisaNascimentoController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
+
 	/*----#END-PRESERVED-AREA----*/
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gson.annotations.Expose;
-
 import nosi.core.webapp.Core;
 
 /**
@@ -50,14 +49,11 @@ public class PesquisaBI implements ServiceSerach,Serializable{
 		this.nome = nome;
 	}
 
-
+	@Override
 	public List<PesquisaBI.RowList> getRowList() {
 		return rowList;
 	}
 
-	public void setRowList(List<PesquisaBI.RowList> rowList) {
-		this.rowList = rowList;
-	}
 
 	@Override
 	public String toString() {

@@ -39,7 +39,7 @@ public class PesquisaNIFController extends Controller {
 				System.out.println(p.getRowList());
 				for(RowList row:p.getRowList()){
 					PesquisaNIF.Table_1 pbi = new PesquisaNIF.Table_1();
-//					pbi.setData_nascimento(row.);
+//					pbi.setData_nascimento(row.get);
 					data.add(pbi);
 				}
 				PesquisaNIFView view = new PesquisaNIFView(model);
