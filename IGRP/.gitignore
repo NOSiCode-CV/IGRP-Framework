@@ -6,3 +6,4 @@ bin/
 .project
 WebContent/WEB-INF/config/app/
 *.class
+/bin
