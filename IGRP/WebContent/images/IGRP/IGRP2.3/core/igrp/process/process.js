@@ -61,5 +61,45 @@
 
 	}();
 
+	var checkEllipsis = function(){
+		
+		$.each($('.wiz-step'),function(){
+			
+			var $element = $(this);
+
+				$c 		 = $element
+			           		.clone()
+			           		.css({display: 'inline', width: 'auto', visibility: 'hidden'})
+			           		.appendTo('body');
+
+
+			if( $c.width() > $element.width() && ($c.width() - $element.width()) > 3 ) {
+
+			    var text = $('.txt-ellipsis',$element).text();
+
+				$element.attr('data-title',text).attr('data-toggle','tooltip');
+
+				$element.tooltip();
+
+			}else
+				$element.removeAttr('data-toggle').removeAttr('title');
+			
+			$c.remove();
+			
+		});
+	};
+
+	var setEvents = function(){
+
+		$.IGRP.on('windowResize',function(){
+			checkEllipsis();
+		});
+
+		setTimeout(function(){
+			checkEllipsis();
+		},250)
+
+	}();
+
 
 })();

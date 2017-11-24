@@ -156,7 +156,7 @@
 
 					name  = $(t).attr('item-name') || 'igrp_table_export',
 
-					table = $('>.table-box>table',t)[0];
+					table = $('.table-box-inner>table',t)[0];
 
 				$(t).on('click','.table-export-options a.btn',function(){
 					

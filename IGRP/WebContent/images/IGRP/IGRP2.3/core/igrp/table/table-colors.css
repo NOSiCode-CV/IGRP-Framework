@@ -20,6 +20,7 @@ table td.tdcolor span.tdcolor-item {
 	position: relative;
     border-bottom: 1px solid whitesmoke;
     padding: 5px;
+    /*margin-bottom: 10px;*/
 }
 
 .box-table-legend .legend-holder{

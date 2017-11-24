@@ -94,13 +94,15 @@ $.fn.XMLTransform = function(params) {
  		var i       = p.index > 0 ? p.index : 0;
  		var content = p.content ? p.content : "";
 
+
  		if(i < p.includes.length){
 
  			var includeFile = p.includes[i].global ? tmplSplitter+p.includes[i].name : p.includes[i].name;
 
  			var baseWay = includeFile.split('/').slice(0,-1).join('/');
  			
- 			if(!baseWay) includeFile=tmplSplitter+'/'+includeFile;
+ 			if(!baseWay) 
+ 				includeFile=tmplSplitter+'/'+includeFile;
 
  			$.ajax({
  				url:includeFile,
@@ -196,6 +198,7 @@ $.fn.XMLTransform = function(params) {
  	}	
  	//include templates manually
  	var includeTemplates =function(p){
+
  		var includesArr = getIncludesArr(xsl);
 
  		var stylesheet = xsl.documentElement;

@@ -662,6 +662,12 @@ html#igrp-login body{
   padding: 5px 15px
 }
 
+#igrp-login-wrapper *[role="form"] .form-group {
+    min-height: auto;
+    margin: 0;
+    margin-top: 5px;
+}
+
 #igrp-login-wrapper .input-group-addon{
   background: white;
   color: #b8b8b8
@@ -1151,7 +1157,7 @@ ul.nav-tabs{
   margin:3px!important;
 }
 
-/*IGRP APPS*/
+/*IGRP APPS2*/
 .igrp-apps-holder .igrp-app-block{
   background: #fff;
   border:1px solid rgba(204, 204, 204, 0.6);
@@ -1207,6 +1213,194 @@ ul.nav-tabs{
   text-overflow: ellipsis;
   height: 40px;*/
 }
+
+/* APPS1 */
+#igrp-apps-1{
+  margin-bottom: 40px;
+  margin-left: 0;
+  margin-right: 0
+}
+#igrp-apps-1 table tbody{
+  vertical-align: top
+}
+
+#igrp-apps-1 .nav.nav-tabs{
+  margin-right: 10px;
+  margin-left: 10px;
+  border:0;
+}
+
+#igrp-apps-1 .nav.nav-tabs li a{
+  padding-left: 0;
+  border:0;
+  font-size: 14px;
+  line-height: 16px;
+  color:#ccd1da;
+}
+
+#igrp-apps-1 .nav.nav-tabs li.active a{
+  font-size: 16px;
+
+}
+
+#igrp-apps-1 .app-img {
+    position: absolute;
+    left: 15px;
+    height: 50px;
+    top: 50%;
+    max-width: 50px;
+    margin-top: -25px;
+}
+
+
+#igrp-apps-1 a.igrp-app-block {
+    background: #ffffff94;
+    padding: 30px 30px 30px 75px;
+    position: relative;
+    height: 105px;
+    margin: 5px;
+    overflow: hidden;
+}
+
+#igrp-apps-1 a.igrp-app-block.not-available{
+  cursor: default;
+  opacity: .75
+}
+
+#igrp-apps-1 a.igrp-app-block:not(.not-available):hover {
+  background: white;
+  box-shadow: 0px 0px 15px 2px #eaeaea
+}
+
+#igrp-apps-1 .apps-col{
+  padding: 0
+}
+
+#igrp-apps-1 .app-title {
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+tbody#igrp-apps-1 {
+  vertical-align: top;
+  text-align: center;
+}
+
+table tbody#igrp-apps-1 tr:hover{
+  background-color: transparent!important;
+}
+
+tbody#igrp-apps-1 a.igrp-app-block {
+    padding: 10px;
+    background: transparent;
+}
+
+tbody#igrp-apps-1 .app-img {
+    position: relative;
+    left: auto;
+    height: 50px;
+    top: auto;
+    max-width: none;
+    margin-top: auto;
+}
+
+tbody#igrp-apps-1 .app-title {
+    font-weight: 400
+}
+
+#igrp-apps-1 a .app-desc span{
+  color: #8c8c8c;
+  line-height: 14px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  display: -webkit-box;
+}
+
+#igrp-apps-1 a .app-title span{
+  line-height: 16px;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  display: -webkit-box;
+  font-weight: 400;
+  font-size: 14px
+}
+
+#igrp-apps-1 a:hover{
+  text-decoration: none;
+}
+
+/*with search*/
+
+#igrp-contents.with-search .content{
+ padding-top:50px;
+}
+#igrp-contents.with-search .row-fluid .container-fluid{
+  padding:0 60px;
+}
+
+#igrp-contents.with-search .row-fluid .navbar {
+  border-radius:0;
+  border:0;
+  background:#f9fafb;
+  min-height:auto;
+  padding:0;
+  border-bottom:1px solid #ddd;
+  position:fixed;
+  z-index:100;
+  top:55px;
+  box-shadow: 1px 0 4px 0px #ccc
+}
+
+#igrp-contents.with-search .row-fluid .navbar .form-group{
+  margin:0;
+  position:relative;
+  top:1px
+}
+
+#igrp-contents.with-search #searcher input{
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+  font-size:18px;
+  height:auto;
+  padding-left: 2px;
+}
+
+#igrp-contents.with-search #searcher input:focus,
+#igrp-contents.with-search #searcher input:focus+.input-group-btn{
+  /*border-color:#337ab7*/
+}
+
+#igrp-contents.with-search #searcher input:focus+.input-group-btn .btn{
+  /*color:#337ab7*/
+}
+
+#igrp-contents.with-search #searcher{
+  margin-top: -1px
+}
+#igrp-contents.with-search #searcher input,
+#igrp-contents.with-search #searcher .input-group-btn{
+  border-bottom: 1px solid #ddd;
+  transition: border-color .8s
+}
+
+#igrp-contents.with-search #searcher .input-group-btn button{
+  background:transparent;
+  border:0;
+  box-shadow:none!important;
+  color:#ddd
+}
+
+#igrp-contents.with-search #searcher .input-group-btn button:after{
+  content:""
+}
+
 
 /*TABLE*/
 table thead th {

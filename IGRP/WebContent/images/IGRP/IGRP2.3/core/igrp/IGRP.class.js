@@ -107,12 +107,9 @@
 
 				com._name = name;
 				
-				if(!com.init)
-					com.init = function(){};
-
-				if(!com.events)
-					com.events = new $.EVENTS(['init']);
-
+				com.init = com.init || function(){};
+				
+				com.events = com.events || new $.EVENTS(['init']);
 
 				if(autoinit){
 
@@ -217,6 +214,22 @@
 			
 		},
 
+		checkBrowser:function(){
+
+			var IE = function(){
+
+				var ua 	 = window.navigator.userAgent,
+
+			    	msie = ua.indexOf("MSIE ");
+
+			    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
+
+			    	$('html').addClass('ie');
+
+			}();
+			
+		},
+
 		getPageInfo : function(){
 
 			return $.IGRP.info.page+'.'+$.IGRP.info.app;
@@ -241,19 +254,13 @@
 
 			$.IGRP.info.params = $.IGRP.utils.url.getParams();
 
-			if( $.IGRP.info.params.ichange )
-
-				$.IGRP.scrollTo( $.IGRP.info.params.ichange );
-
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');
 
 			});
 
-			$('html').addClass('ready');
-
-			$('body').removeClass('loading');
+			$.IGRP.checkBrowser();
 			
 		},
 		
@@ -264,6 +271,10 @@
 			$.IGRP.config();
 			
 			$.IGRP.events.execute('init', $.IGRP);
+
+			$('html').addClass('ready');
+
+			$('body').removeClass('loading');
 
 		}
 

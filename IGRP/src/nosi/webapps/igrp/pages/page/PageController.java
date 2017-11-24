@@ -457,5 +457,17 @@ public class PageController extends Controller {
 		 return this.renderView(json);
 	}
 	
+	public Response actionGetPageJson() throws IOException{
+		 String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		 String json = "";
+		 if(p_id!=null && !p_id.equals("")){
+			 Action ac = new Action().findOne(Integer.parseInt(p_id));
+			 if(ac!=null){
+				 json = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac), ac.getPage()+".json");
+			 }
+		 }
+		 this.format = Response.FORMAT_JSON;
+		 return this.renderView(json);
+	}
 	/*----#END-PRESERVED-AREA----*/
 }

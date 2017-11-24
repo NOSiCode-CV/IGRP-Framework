@@ -57,7 +57,7 @@
 						<xsl:value-of select="concat('(','model',',',$double_quotes,$tag_name,$double_quotes,');')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat($tag_name,'.setLabel(',$double_quotes,./label,$double_quotes,');')"/>
+						<xsl:value-of select="concat($tag_name,'.setLabel(gt(',$double_quotes,./label,$double_quotes,'));')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						
@@ -68,7 +68,7 @@
 					 	<xsl:if test="$container_type='sectionheader' or $container_type='paragraph'  or $container_type='video'  or $container_type='iframe'  or $container_type='statbox'  or $container_type='quickbuttonbox'  or $container_type='smallbox'">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
-							<xsl:value-of select="concat($tag_name,'.setValue(',$double_quotes,normalize-space(./value),$double_quotes,');')"/>
+							<xsl:value-of select="concat($tag_name,'.setValue(gt(',$double_quotes,normalize-space(./value),$double_quotes,'));')"/>
 						</xsl:if>
 						
 						<xsl:variable name="_tag">
