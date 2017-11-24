@@ -238,6 +238,18 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		return lista;
 	}	
 	
+	public HashMap<Integer, String> getListPrincipalMenus(int app) {
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, gt("-- Selecionar Menu Principal --"));
+		List<Menu> aux = this.getEntityManagerFactory().createEntityManager().createQuery("select t from Menu t where t.application.id = :_a and t.menu is null ")
+				.setParameter("_a", app)
+				.getResultList();
+		for(Menu m : aux){
+			lista.put(m.getId(),m.getDescr());
+		}
+		return lista;
+	}	
+	
 	@SuppressWarnings("unchecked")
 	public List<Menu> searchMen(){
 		List<Menu> list = new ArrayList<>();

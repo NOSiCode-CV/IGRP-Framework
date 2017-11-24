@@ -7,9 +7,11 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
+
 import static nosi.core.i18n.Translator.gt;
+
 public class PesquisarMenuView extends View {
-	public String title = "null";		
+	public String title = gt("Gestão Menu");		
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -42,10 +44,10 @@ public class PesquisarMenuView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		menu_principal = new ListField(model,"menu_principal");
 		menu_principal.setLabel(gt("Menu Principal"));
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false");

@@ -26,26 +26,7 @@ public class SettingsController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		
-
-		//System.out.println("Ok: " + Igrp.getInstance().getI18nManager().getAppLanguage("igrp").getLocale()); 
-		
 		model.load();
-		
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			String data = model.getOrganica()+"-"+model.getPerfil();
-			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
-			
-			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
-				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
-				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
-				cookie.setMaxAge(I18nManager.cookieExpire);
-				Igrp.getInstance().getResponse().addCookie(cookie);
-			}
-
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efectuada com sucesso"));
-		
-			return this.redirect("igrp", "settings", "index");
-		}
 		
 		// Fetch all cookies 
 		for(Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
@@ -96,9 +77,25 @@ public class SettingsController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public Response actionAplicar() throws IOException{
+	public Response actionAplicar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(APLICAR)----*/
-		return this.redirect("RED","Teste","Action");
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			Settings model = new Settings();
+			model.load();
+			String data = model.getOrganica()+"-"+model.getPerfil();
+			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
+			
+			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
+				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
+				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
+				cookie.setMaxAge(I18nManager.cookieExpire);
+				Igrp.getInstance().getResponse().addCookie(cookie);
+			}
+
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efectuada com sucesso"));
+		
+		}
+		return this.redirect("igrp", "settings", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}	
 	

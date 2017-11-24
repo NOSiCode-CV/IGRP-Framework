@@ -45,8 +45,8 @@ public class LoginController extends Controller {
 		Login model = new Login();
 		LoginView view = new LoginView(model);
 		//Set user and password for demo
-		//view.user.setValue("demo");
-		//view.password.setValue("demo");
+		view.user.setValue("demo");
+		view.password.setValue("demo");
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				model.load();

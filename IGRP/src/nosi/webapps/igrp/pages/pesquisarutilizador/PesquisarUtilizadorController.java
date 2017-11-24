@@ -28,7 +28,7 @@ public class PesquisarUtilizadorController extends Controller {
 		//condiccao para pesquisar com filtros
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-		}
+		} 
 		Profile prof = new Profile();
 		List<Profile> profiles = prof.find().andWhere("type","=", "PROF")
 											.andWhere("user.user_name", "=", model.getUsername())
@@ -50,8 +50,8 @@ public class PesquisarUtilizadorController extends Controller {
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organica.setValue(new Organization().getListOrganizations());
-		view.perfil.setValue(new ProfileType().getListProfiles());		
+		view.organica.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
+		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);		

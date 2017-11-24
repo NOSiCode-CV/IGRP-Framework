@@ -2,7 +2,7 @@
 package nosi.webapps.igrp.pages.novomenu;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-
+ 
 public class NovoMenu extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
@@ -41,7 +41,7 @@ public class NovoMenu extends Model{
 	}
 	
 	public void setCode(String code){
-		this.code = code;
+		this.code = code; 
 	}
 	public String getCode(){
 		return this.code;
@@ -70,7 +70,7 @@ public class NovoMenu extends Model{
 	
 	public void setAction_fk(int action_fk){
 		this.action_fk = action_fk;
-	}
+	} 
 	public int getAction_fk(){
 		return this.action_fk;
 	}

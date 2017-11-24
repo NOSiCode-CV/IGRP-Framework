@@ -1,5 +1,3 @@
-/*-------------------------*/
-
 /*Create Controller*/
 package nosi.webapps.igrp.pages.pesquisarmenu;
 
@@ -64,16 +62,17 @@ public class PesquisarMenuController extends Controller {
 		}		
 		PesquisarMenuView view = new PesquisarMenuView(model);		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		view.aplicacao.setValue(new Application().getListApps());
-		HashMap<String,String> organizations =  new Organization().getListOrganizations();
+		view.aplicacao.setValue(new Application().getListApps()); 
+		HashMap<String,String> organizations =  (!new String(model.getAplicacao() + "").isEmpty() ? new Organization().getListOrganizations(model.getAplicacao())  : null);
 		view.organica.setValue(organizations);
-		HashMap<Integer, String> menu_principal = new Menu().getListPrincipalMenus();
+		HashMap<Integer, String> menu_principal = (!new String(model.getAplicacao() + "").isEmpty() && !new String(model.getAplicacao() + "").isEmpty() ?
+				new Menu().getListPrincipalMenus(model.getAplicacao())	: null);
 		view.menu_principal.setValue(menu_principal);
 
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view 
 		view.p_id.setParam(true);
-		view.title = "";
 		view.table_1.addData(lista);
+		view.setPageTitle(gt("Gestão Menu"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

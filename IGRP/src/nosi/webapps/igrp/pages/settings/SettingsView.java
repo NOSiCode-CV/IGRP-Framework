@@ -2,10 +2,13 @@ package nosi.webapps.igrp.pages.settings;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
+import nosi.core.config.Config;
+
 import static nosi.core.i18n.Translator.gt;
+
 public class SettingsView extends View {
-	public String title = "";		
+	
+	public String title = gt("Settings Aplicação");		
 	
 	public Field sectionheader_1_text;
 	public Field nome;
@@ -38,7 +41,7 @@ public class SettingsView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Settings Aplicação :"));
+		sectionheader_1_text.setValue(gt("Settings Aplicação: ") + model.getNome());
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -90,7 +93,7 @@ public class SettingsView extends View {
 		receber_notificacao.propertie().add("name","p_receber_notificacao").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_aplicar = new IGRPButton(gt("Aplicar"),"igrp","settings","index","submit","success|fa-check","","");
+		btn_aplicar = new IGRPButton(gt("Aplicar"),"igrp","settings","aplicar","submit","success|fa-check","","");
 		btn_aplicar.propertie.add("type","specific").add("code","").add("rel","guardar");
 		
 	}

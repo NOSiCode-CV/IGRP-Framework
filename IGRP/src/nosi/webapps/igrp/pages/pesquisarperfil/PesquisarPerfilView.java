@@ -9,7 +9,7 @@ public class PesquisarPerfilView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
-	public Field organia;
+	public Field organia; 
 	public Field codigo;
 	public Field descricao;
 	public Field organica;
@@ -27,7 +27,7 @@ public class PesquisarPerfilView extends View {
 	public IGRPButton btn_transacao;
 	public IGRPButton btn_etapa;
 	public IGRPButton btn_novo;
-	
+	 
 	public PesquisarPerfilView(PesquisarPerfil model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
@@ -38,7 +38,7 @@ public class PesquisarPerfilView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		organia = new ListField(model,"organia");
 		organia.setLabel(gt("Orgânica"));
 		organia.propertie().add("name","p_organia").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
