@@ -52,6 +52,8 @@
 
     <xsl:variable name="import_fields">
         <xsl:text>import nosi.core.gui.fields.*;</xsl:text>
+        <xsl:value-of select="$newline"/>
+        <xsl:text>import static nosi.core.i18n.Translator.gt;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_view">
