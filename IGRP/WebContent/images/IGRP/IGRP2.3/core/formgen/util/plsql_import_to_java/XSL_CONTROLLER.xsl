@@ -298,7 +298,7 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat('Core.setMessageSuccess(',$double_quotes,'Mesagem de Sucesso',$double_quotes,');')"/>
+						<xsl:value-of select="concat('Core.setMessageSuccess(gt(',$double_quotes,'Mesagem de Sucesso',$double_quotes,'));')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>
@@ -306,7 +306,7 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab2"/>						
-						<xsl:value-of select="concat('Core.setMessageError(',$double_quotes,'Mesagem de Erro',$double_quotes,');')"/>
+						<xsl:value-of select="concat('Core.setMessageError(gt(',$double_quotes,'Mesagem de Erro',$double_quotes,'));')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>
