@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  
   <display-name>IGRP</display-name>
- 
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
@@ -14,36 +12,28 @@
       <param-name>authentication_type</param-name>
       <param-value>db</param-value>
     </init-param>
-    
-    <multipart-config> <!-- For upload file purpose --> 
-      <!-- 50MB max -->
+    <multipart-config>
       <max-file-size>52428800</max-file-size>
       <max-request-size>52428800</max-request-size>
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/images/*</url-pattern>
   </servlet-mapping>
-  
   <welcome-file-list>
     <welcome-file>/webapps?r=igrp/home/index</welcome-file>
   </welcome-file-list>
-  
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
     <location>/webapps?r=igrp/error-page/exception</location>
   </error-page>
-  
   <session-config>
-    <session-timeout>30</session-timeout><!-- Lost the session after 30min. inactive -->
+    <session-timeout>30</session-timeout>
   </session-config>
-  
 </web-app>

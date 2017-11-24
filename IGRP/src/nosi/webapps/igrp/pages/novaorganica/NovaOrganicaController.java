@@ -24,9 +24,19 @@ public class NovaOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovaOrganica model = new NovaOrganica();
+		model.load();
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		Organization organization = new Organization();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){			
+		view.aplicacao.setValue(new Application().getListApps());		
+		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations() : null);		
+		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			NovaOrganica model = new NovaOrganica();		
+			Organization organization = new Organization();
 			model.load();			
 			organization.setCode(model.getCodigo());
 			organization.setApplication(new Application().findOne(model.getAplicacao()));
@@ -42,12 +52,10 @@ public class NovaOrganicaController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Orgânica registada com sucesso"));
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro."));			
+		return this.redirect("igrp", "nova-organica", "index");
 		}
-			
-		view.aplicacao.setValue(new Application().getListApps());		
-		view.organica_pai.setValue(organization.getListOrganizations());		
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Invalid request ..."));			
+		return this.redirect("igrp", "nova-organica", "index");
 	}
 	
 	public Response actionEditar(@RParam(rParamName = "p_id") String idOrganica) throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -62,7 +70,31 @@ public class NovaOrganicaController extends Controller {
 			model.setOrganica_pai(organization.getOrganization().getId());
 		}
 		model.setAtivo(organization.getStatus());		
+			
+		NovaOrganicaView view = new NovaOrganicaView(model);		
+		view.aplicacao.setValue(new Application().getListApps());		
+		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations() : null);		
+		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));		
+		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);	
+		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
+	}
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	public Response actionEditar_(@RParam(rParamName = "p_id") String idOrganica) throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+			
+			NovaOrganica model = new NovaOrganica();
+			Organization organization = new Organization().findOne(Integer.parseInt(idOrganica));		
+			model.setCodigo(organization.getCode());
+			model.setNome(organization.getName());
+			model.setAplicacao(organization.getApplication().getId());
+			if(organization.getOrganization()!=null){
+				model.setOrganica_pai(organization.getOrganization().getId());
+			}
+			model.setAtivo(organization.getStatus());	
+			
 			model.load();
 			organization.setCode(model.getCodigo());
 			organization.setName(model.getNome());
@@ -74,19 +106,13 @@ public class NovaOrganicaController extends Controller {
 			organization = organization.update();
 			if(organization!=null){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Orgânica actualizada com sucesso."));
-				return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar."));
-		}		
-		NovaOrganicaView view = new NovaOrganicaView(model);		
-		view.aplicacao.setValue(new Application().getListApps());		
-		view.organica_pai.setValue(organization.getListOrganizations());		
-		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));		
-		view.btn_gravar.setLink("editar&p_id=" + idOrganica);	
-		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+			return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});
+		}
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Invalid request ..."));
+		return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{idOrganica + ""});
 	}
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/
 	
