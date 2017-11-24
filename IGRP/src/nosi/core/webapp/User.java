@@ -5,8 +5,12 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONArray;
@@ -23,6 +27,8 @@ public class User implements Component{
 	private int expire; // for authentication via cookie  
 	
 	public static final String loginUrl = "igrp/login/login";
+	
+	//private static Map<String, HttpSession> users = Collections.synchronizedMap(new HashMap<String, HttpSession>());
 	
 	public User(){}
 	
