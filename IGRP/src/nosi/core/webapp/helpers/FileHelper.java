@@ -178,6 +178,10 @@ public class FileHelper {
 		Path dir = Paths.get(fileName);
 		return Files.exists(dir);
 	}
+
+	public static boolean dirExists(String dirName){
+		return fileExists(dirName);
+	}
 	
 	//Read file and return your content
 	public static String readFile(String basePath,String fileName){

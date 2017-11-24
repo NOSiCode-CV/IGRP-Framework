@@ -111,7 +111,7 @@ b{
 }
 
 .content-header>h2{
-  font-size: 22px;
+  font-size: 20px;
    margin: 0;
   font-weight: 400;
   line-height: 30px;
@@ -166,6 +166,7 @@ b{
   text-align: center;
   height: auto;
   background: rgba(0,0,0,.3);
+  height: 55px;
 }
 .navbar-brand:hover{
   color:white;
@@ -174,6 +175,8 @@ b{
   float: none;
   width: 32px;
   display: inline;
+  vertical-align: top;
+  margin-top: 11px
 }
 
 .navbar-brand>span{
@@ -255,7 +258,7 @@ b{
 
 #igrp-top-menu>li>a{
   color:white;
-  line-height: 55px;
+  line-height: 53px;
   padding:0 15px;
   border-bottom: 2px solid transparent
 }
@@ -363,7 +366,7 @@ b{
 #igrp-sidebar .nav-sidebar > li > a {
   border-bottom: 1px solid;
   z-index: 2;
-  padding: 15px 20px 15px 15px;
+  padding: 15px 30px 15px 15px;
   border-color: rgba(51, 122, 183, 0.05);
   opacity: .8;
   font-weight: 400
@@ -373,7 +376,7 @@ b{
 	position: absolute;
   top: 50%;
   margin-top: -7px;
-  right: 10px;
+  right: 15px;
 }
 
 #igrp-sidebar .nav>li>a:focus, #igrp-sidebar .nav>li>a:hover{
@@ -1347,14 +1350,15 @@ tbody#igrp-apps-1 .app-title {
 #igrp-contents.with-search .row-fluid .navbar {
   border-radius:0;
   border:0;
-  background:#f9fafb;
+  background:#fdfdfd;
   min-height:auto;
   padding:0;
-  border-bottom:1px solid #ddd;
+  border-bottom:0px solid #ddd;
   position:fixed;
   z-index:100;
   top:55px;
-  box-shadow: 1px 0 4px 0px #ccc
+  box-shadow: 1px 0 10px 0px #ddd;
+  width: 100%;
 }
 
 #igrp-contents.with-search .row-fluid .navbar .form-group{
@@ -1367,8 +1371,9 @@ tbody#igrp-apps-1 .app-title {
   background: transparent;
   box-shadow: none;
   border: 0;
-  font-size:18px;
+  font-size:16px;
   height:auto;
+  line-height: 30px;
   padding-left: 2px;
 }
 

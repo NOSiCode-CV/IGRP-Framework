@@ -33,10 +33,8 @@ public class PesquisaBIController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			nosi.core.webapp.webservices.biztalk.dao.PesquisaBI p = Core.getBizTalkPesquisaBI(new nosi.core.webapp.webservices.biztalk.dao.PesquisaBI(model.getBi(), model.getNome()));
-
 			List<PesquisaBI.Table_1> data = new ArrayList<>();
 			if(p!=null){
-				System.out.println(p.getRowList());
 				for(RowList row:p.getRowList()){
 					PesquisaBI.Table_1 pbi = new PesquisaBI.Table_1();
 					pbi.setBi_tabela(""+row.getNumero());
