@@ -37,7 +37,7 @@ public class PesquisarUtilizadorController extends Controller {
 											.andWhere("profileType.application", "=", model.getAplicacao()!=0?model.getAplicacao():null)
 											.andWhere("user.email", "=", model.getEmail())
 											.all();
-		//Preenchendo a tabela
+		//Preenchendo a tabela 
 		for(Profile p:profiles){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador().new Table_1();
 			table1.setEmail(p.getUser().getEmail());
@@ -50,7 +50,7 @@ public class PesquisarUtilizadorController extends Controller {
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organica.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
+		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));		
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
