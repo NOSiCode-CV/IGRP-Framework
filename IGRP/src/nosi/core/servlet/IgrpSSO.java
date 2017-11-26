@@ -92,6 +92,5 @@ public class IgrpSSO extends HttpServlet {
 			cookie.setHttpOnly(true);
 			response.addCookie(cookie);
 			response.sendRedirect(igrpPath);
-			
 	}
 }
