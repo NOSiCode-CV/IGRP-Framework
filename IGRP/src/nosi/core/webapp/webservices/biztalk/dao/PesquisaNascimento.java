@@ -2,9 +2,9 @@ package nosi.core.webapp.webservices.biztalk.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import com.google.gson.annotations.Expose;
-
 import nosi.core.webapp.Core;
 
 /**
@@ -24,6 +24,7 @@ public class PesquisaNascimento implements ServiceSerach,Serializable{
 	private Integer numero_registo;
 	@Expose(serialize = true, deserialize = false)
 	private String data_nascimento; 
+	@XmlElement(name="row")
 	@Expose(serialize = false, deserialize = true)
 	private List<PesquisaNascimento.RowList> rowList;
 
@@ -63,15 +64,9 @@ public class PesquisaNascimento implements ServiceSerach,Serializable{
 	
 	@Override
 	public List<PesquisaNascimento.RowList> getRowList() {
-		// TODO Auto-generated method stub
-		return this.rowList;
+		return rowList;
 	}
 
-	public void setRowList(List<PesquisaNascimento.RowList> rowList) {
-		this.rowList = rowList;
-	}
-	
-	
 	@Override
 	public String toString() {
 		return "PesquisaNascimento [rowList=" + rowList + "]";
@@ -84,25 +79,19 @@ public class PesquisaNascimento implements ServiceSerach,Serializable{
 		 * 
 		 */
 		private static final long serialVersionUID = 4452593229526625368L;
-		private Integer id;
-        private Integer numero;
+		private Integer numero;
         private String identificacao;
         private String data_nascimento;
-        private String mae_nome;
+        private Integer id_list;
+        private String nome_mae;
         private String nome_pai;
+        private String sexo;
         private String local_nascimento;
-        private String orgao;
-        private String numero_livro;
-        private String folha;
-        private String natureza;
-        private String estado;
-        private String link;
-		public Integer getId() {
-			return id;
-		}
-		public void setId(Integer id) {
-			this.id = id;
-		}
+        private Integer local_id;
+        private String morada;
+        private Integer morada_id;
+        private String data_registo;
+        private String estado_civil;
 		public Integer getNumero() {
 			return numero;
 		}
@@ -121,11 +110,17 @@ public class PesquisaNascimento implements ServiceSerach,Serializable{
 		public void setData_nascimento(String data_nascimento) {
 			this.data_nascimento = data_nascimento;
 		}
-		public String getMae_nome() {
-			return mae_nome;
+		public Integer getId_list() {
+			return id_list;
 		}
-		public void setMae_nome(String mae_nome) {
-			this.mae_nome = mae_nome;
+		public void setId_list(Integer id_list) {
+			this.id_list = id_list;
+		}
+		public String getNome_mae() {
+			return nome_mae;
+		}
+		public void setNome_mae(String nome_mae) {
+			this.nome_mae = nome_mae;
 		}
 		public String getNome_pai() {
 			return nome_pai;
@@ -133,54 +128,56 @@ public class PesquisaNascimento implements ServiceSerach,Serializable{
 		public void setNome_pai(String nome_pai) {
 			this.nome_pai = nome_pai;
 		}
+		public String getSexo() {
+			return sexo;
+		}
+		public void setSexo(String sexo) {
+			this.sexo = sexo;
+		}
 		public String getLocal_nascimento() {
 			return local_nascimento;
 		}
 		public void setLocal_nascimento(String local_nascimento) {
 			this.local_nascimento = local_nascimento;
 		}
-		public String getOrgao() {
-			return orgao;
+		public Integer getLocal_id() {
+			return local_id;
 		}
-		public void setOrgao(String orgao) {
-			this.orgao = orgao;
+		public void setLocal_id(Integer local_id) {
+			this.local_id = local_id;
 		}
-		public String getNumero_livro() {
-			return numero_livro;
+		public String getMorada() {
+			return morada;
 		}
-		public void setNumero_livro(String numero_livro) {
-			this.numero_livro = numero_livro;
+		public void setMorada(String morada) {
+			this.morada = morada;
 		}
-		public String getFolha() {
-			return folha;
+		public Integer getMorada_id() {
+			return morada_id;
 		}
-		public void setFolha(String folha) {
-			this.folha = folha;
+		public void setMorada_id(Integer morada_id) {
+			this.morada_id = morada_id;
 		}
-		public String getNatureza() {
-			return natureza;
+		public String getData_registo() {
+			return data_registo;
 		}
-		public void setNatureza(String natureza) {
-			this.natureza = natureza;
+		public void setData_registo(String data_registo) {
+			this.data_registo = data_registo;
 		}
-		public String getEstado() {
-			return estado;
+		public String getEstado_civil() {
+			return estado_civil;
 		}
-		public void setEstado(String estado) {
-			this.estado = estado;
+		public void setEstado_civil(String estado_civil) {
+			this.estado_civil = estado_civil;
 		}
-		public String getLink() {
-			return link;
-		}
-		public void setLink(String link) {
-			this.link = link;
-		}
+		
 		@Override
 		public String toString() {
-			return "RowList [id=" + id + ", numero=" + numero + ", identificacao=" + identificacao
-					+ ", data_nascimento=" + data_nascimento + ", mae_nome=" + mae_nome + ", nome_pai=" + nome_pai
-					+ ", local_nascimento=" + local_nascimento + ", orgao=" + orgao + ", numero_livro=" + numero_livro
-					+ ", folha=" + folha + ", natureza=" + natureza + ", estado=" + estado + ", link=" + link + "]";
+			return "RowList [numero=" + numero + ", identificacao=" + identificacao + ", data_nascimento="
+					+ data_nascimento + ", id_list=" + id_list + ", nome_mae=" + nome_mae + ", nome_pai=" + nome_pai
+					+ ", sexo=" + sexo + ", local_nascimento=" + local_nascimento + ", local_id=" + local_id
+					+ ", morada=" + morada + ", morada_id=" + morada_id + ", data_registo=" + data_registo
+					+ ", estado_civil=" + estado_civil + "]";
 		}        
         
 	}

@@ -15,6 +15,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+import jd.core.JavaDecompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 import nosi.core.config.Config;
 import nosi.core.webapp.helpers.FileHelper;
@@ -120,15 +121,21 @@ public class Compiler {
 		}				
  	}
 	 //Get jar files
-	 public void listFilesDirectory(String path) {
+	public void listFilesDirectory(String path) {
 		Map<String,String> files = new FileHelper().listFilesDirectory(path);
 		for(Map.Entry<String, String> file:files.entrySet()){
 			this.jars += (file.getValue()+System.getProperty("path.separator"));
 		}
 	}
-		
-	 
-	 public List<ErrorCompile> getErrors(){
+			 
+	public List<ErrorCompile> getErrors(){
 		 return this.errors;
-	 }
+	}
+
+	//Decompile .class
+	public String decompile(String basePath,String className){
+		JavaDecompiler jd = new JavaDecompiler();		
+		String file_decompile = jd.decompile(basePath, className);
+		return file_decompile;
+	}
 }

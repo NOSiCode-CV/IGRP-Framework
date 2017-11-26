@@ -174,6 +174,7 @@ public class Core {
 	
 	public static GenericServiceResponse getBizTalkClientService(ServiceSerach service){
 		String args = new Request().prepare(service,"xml");
+		System.out.println("args: "+args);
 		return getBizTalkClient(service.getClientID(), service.getTransactionID(), service.getServiceID(), args);			
 	}
 	
@@ -184,6 +185,7 @@ public class Core {
 			nosi.core.webapp.webservices.biztalk.dao.Response r = JAXB.unmarshal(input,nosi.core.webapp.webservices.biztalk.dao.Response.class);
 			if(r.getRow()!=null){
 				if(r.getRow().isStatus()){
+					xml = xml.replaceAll("lista_nifs", "lista");
 					xml = xml.substring(xml.indexOf("<lista>"), xml.indexOf("</lista>")+"</lista>".length());
 					input = new StringReader(xml);
 					service = JAXB.unmarshal(input, service.getClass());
@@ -256,5 +258,12 @@ public class Core {
 	
 	public static String decrypt(String content){
 		return EncrypDecrypt.decrypt(content);
+	}
+	
+	public static void main(String[] args){
+		nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento("ANGELO BENJAMIM CARDOSO CORREIA", null, null);
+		if(p!=null){
+			System.out.println(p.getRowList());
+		}
 	}
 }

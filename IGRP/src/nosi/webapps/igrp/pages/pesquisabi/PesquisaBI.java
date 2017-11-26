@@ -10,7 +10,7 @@ public class PesquisaBI extends Model{
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_bi")
-	private Integer bi;
+	private int bi;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -34,10 +34,10 @@ public class PesquisaBI extends Model{
 		return this.nome;
 	}
 	
-	public void setBi(Integer bi){
+	public void setBi(int bi){
 		this.bi = bi;
 	}
-	public Integer getBi(){
+	public int getBi(){
 		return this.bi;
 	}
 

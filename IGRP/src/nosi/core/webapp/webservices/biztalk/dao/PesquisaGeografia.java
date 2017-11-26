@@ -289,7 +289,8 @@ public class PesquisaGeografia implements ServiceSerach,Serializable{
 
 	@Override
 	public String getClientID() {
-		return Core.getConfig("CLIENT_ID_BIZTALK");
+//		return Core.getConfig("CLIENT_ID_BIZTALK");
+		return "IGRP_JAVA";
 	}
 
 	@Override

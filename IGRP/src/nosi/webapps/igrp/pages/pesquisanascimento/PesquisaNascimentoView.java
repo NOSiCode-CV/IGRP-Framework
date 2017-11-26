@@ -71,7 +71,7 @@ public class PesquisaNascimentoView extends View {
 		
 		sectionheader_1.addField(sectionheader_1_text);
 
-		form_1.addField(n_registo);
+//		form_1.addField(n_registo);
 		form_1.addField(nome);
 
 		table_1.addField(n_registo_tabela);

@@ -36,7 +36,10 @@ public class Request{
 					for(Annotation anotation:field.getDeclaredAnnotationsByType(Expose.class)){
 						Expose a = (Expose) anotation;
 						if(a.serialize()){
-							xml.setElement(field.getName(),Helper.getValue(service, field.getName()));
+							String value = Helper.getValue(service, field.getName());
+							if(value!=null && !value.equals("") && !value.equals("0")){
+								xml.setElement(field.getName(),value);
+							}
 						}
 					}
 				}

@@ -1,9 +1,6 @@
 package nosi.webapps.igrp.pages.pesquisanif;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +8,11 @@ public class PesquisaNIF extends Model{
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_nif")
-	private Integer nif;
+	private int nif;
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_n_documento")
-	private Integer n_documento;
+	private int n_documento;
 	@RParam(rParamName = "p_tipo_contribuinte")
 	private String tipo_contribuinte;
 	
@@ -34,10 +31,10 @@ public class PesquisaNIF extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setNif(Integer nif){
+	public void setNif(int nif){
 		this.nif = nif;
 	}
-	public Integer getNif(){
+	public int getNif(){
 		return this.nif;
 	}
 	
@@ -48,10 +45,10 @@ public class PesquisaNIF extends Model{
 		return this.nome;
 	}
 	
-	public void setN_documento(Integer n_documento){
+	public void setN_documento(int n_documento){
 		this.n_documento = n_documento;
 	}
-	public Integer getN_documento(){
+	public int getN_documento(){
 		return this.n_documento;
 	}
 	
