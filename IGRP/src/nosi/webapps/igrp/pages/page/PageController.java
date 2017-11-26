@@ -47,7 +47,7 @@ public class PageController extends Controller {
 
 	
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/ 
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(Igrp.getMethod().equalsIgnoreCase("post")){

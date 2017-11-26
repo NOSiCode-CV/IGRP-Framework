@@ -21,13 +21,14 @@ import static nosi.core.i18n.Translator.gt;
 
 public class NovoUtilizadorController extends Controller {		
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		NovoUtilizador model = new NovoUtilizador();		
+		NovoUtilizador model = new NovoUtilizador();
+		model.load();
 		NovoUtilizadorView view = new NovoUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organica.setValue(new Organization().getListOrganizations());
-		view.perfil.setValue(new ProfileType().getListProfiles());
+		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
+		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
@@ -39,8 +40,8 @@ public class NovoUtilizadorController extends Controller {
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		NovoUtilizador model = new NovoUtilizador();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			NovoUtilizador model = new NovoUtilizador();
 			model.load();
 			Profile p = new Profile();
 			p.setOrganization(new Organization().findOne(model.getOrganica()));

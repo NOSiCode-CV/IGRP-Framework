@@ -7,7 +7,7 @@ import nosi.core.config.Config;
 import static nosi.core.i18n.Translator.gt;
 
 public class PesquisarUtilizadorView extends View {
-	public String title = gt("Gestão de utilizador");		
+	public String title = gt("Gestão de utilizador");
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;

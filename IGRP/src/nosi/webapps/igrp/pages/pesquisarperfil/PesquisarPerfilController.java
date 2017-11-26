@@ -41,7 +41,7 @@ public class PesquisarPerfilController extends Controller {
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarPerfilView view = new PesquisarPerfilView(model);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.organia.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
+		view.organia.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
