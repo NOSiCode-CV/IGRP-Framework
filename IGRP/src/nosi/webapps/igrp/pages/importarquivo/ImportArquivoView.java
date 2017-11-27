@@ -92,11 +92,11 @@ public class ImportArquivoView extends View {
 		
 		jar_file.propertie().add("name","p_jar_file").add("type","file").add("accept","").add("targetrend","").add("multiple","true").add("rendvalue","false").add("maxlength","30").add("required","true").add("disabled","false").add("right","false").add("class","primary");
 
-		btn_btm_import_aplicacao = new IGRPButton(gt("Import"),"igrp","ImportArquivo","btm_import_aplicacao","submit","success|fa-upload","","");
+		btn_btm_import_aplicacao = new IGRPButton(gt("Import"),"igrp","ImportArquivo","btm_import_aplicacao","submit_form","success|fa-upload","","");
 		
 		btn_btm_import_aplicacao.propertie.add("type","form").add("code","").add("class","success").add("rel","btm_import_aplicacao");
 
-		btn_btm_importar_page = new IGRPButton(gt("Import"),"igrp","ImportArquivo","btm_importar_page","submit","success|fa-upload","","");
+		btn_btm_importar_page = new IGRPButton(gt("Import"),"igrp","ImportArquivo","btm_importar_page","submit_form","success|fa-upload","","");
 		btn_btm_importar_page.propertie.add("type","form").add("code","").add("class","success").add("rel","btm_importar_page");
 		
 		btn_importar_jar_file = new IGRPButton(gt("Importar"),"igrp","ImportArquivo","importar_jar_file","submit_form","success|fa-upload","","");

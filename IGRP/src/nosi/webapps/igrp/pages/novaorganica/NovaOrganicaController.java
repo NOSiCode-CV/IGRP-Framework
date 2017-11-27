@@ -14,7 +14,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
-
 import static nosi.core.i18n.Translator.gt;
 
 /*----#END-PRESERVED-AREA----*/
@@ -24,11 +23,16 @@ public class NovaOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovaOrganica model = new NovaOrganica();
-		model.load();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
+		if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
+			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
+		}
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());		
-		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations() : null);		
+		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations(model.getAplicacao()) : null);		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

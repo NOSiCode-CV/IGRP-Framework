@@ -183,6 +183,7 @@ public class PageController extends Controller {
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			Part fileModel = Igrp.getInstance().getRequest().getPart("p_model");
 			Part fileView = Igrp.getInstance().getRequest().getPart("p_view");
+			//System.out.println(fileView.getInputStream().toString());
 			Part fileController = Igrp.getInstance().getRequest().getPart("p_controller");				
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
@@ -204,7 +205,7 @@ public class PageController extends Controller {
 							if(!FileHelper.fileExists(path_class_work_space)){//check directory
 								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 							}
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController});
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController},FileHelper.ENCODE_ISO);
 							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson});
 						}
 						ac.setId(Integer.parseInt(p_id));

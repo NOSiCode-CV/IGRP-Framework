@@ -24,7 +24,15 @@ public class NovoPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoPerfil model = new NovoPerfil();
-		model.load();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
+		if(Igrp.getInstance().getRequest().getParameter("id_org")!=null){
+			model.setOrganica(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_org")));
+		}
+		if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
+			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
+		}
 		NovoPerfilView view = new NovoPerfilView(model);	
 		view.aplicacao.setValue(new Application().getListApps());
 		view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);

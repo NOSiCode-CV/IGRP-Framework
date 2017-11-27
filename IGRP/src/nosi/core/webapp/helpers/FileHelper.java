@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +29,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 import nosi.core.webapp.Igrp;
@@ -36,6 +37,8 @@ import nosi.core.webapp.Igrp;
 public class FileHelper {
 
 	private Map<String,String> files = new HashMap<>();
+	public static final String ENCODE_UTF8 = "UTF-8";
+	public static final String ENCODE_ISO = "ISO-8859-1";
 	
 	public Map<String,String> listFilesDirectory(String path) {
 		if(FileHelper.fileExists(path)){
@@ -75,6 +78,7 @@ public class FileHelper {
 		if(file!=null){
 			InputStream is = file.getInputStream();		   
 		    StringBuilder  code = new StringBuilder();
+		    
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
 		    DataInputStream in = new DataInputStream(is);   
@@ -96,7 +100,7 @@ public class FileHelper {
 		}
 		return null;
 	}
-	
+
 	//Save file in a specific directory
 	public static boolean save(String path,String file_name,String data) throws IOException{	
 		createDiretory(path);
@@ -128,23 +132,36 @@ public class FileHelper {
 		return false;
 	}
 	
+	//Write data using default encode ISO
 	public static boolean save(String path,String filename,Part file) throws IOException{
 		return save(path,filename,convertToString(file));
 	}
 	
+	//Write data using default encode ISO
 	public static boolean saveFile(String path,String filename,Part file) throws IOException{
+		return saveFile(path, filename, file, ENCODE_UTF8);
+	}
+	
+	public static boolean saveFile(String path,String filename,Part file,String encode) throws IOException{
+		System.out.print("Saving "+file.getName()+"... with encode "+encode);
 		createDiretory(path);
 		OutputStream out = null;
 		InputStream filecontent = file.getInputStream();
 		boolean isSaved = false;
 		try {
 	        out = new FileOutputStream(new File(path + File.separator+ filename));
-	        filecontent = file.getInputStream();
-	        int read = 0;
-	        final byte[] bytes = new byte[(int) file.getSize()];
-	        while ((read = filecontent.read(bytes)) != -1) {
-	            out.write(bytes, 0, read);
+			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,encode));
+			Writer       outputStreamWriter = new OutputStreamWriter(out, encode);
+			StringBuilder  code = new StringBuilder();
+			String         ls = System.getProperty("line.separator");
+		    String         line = null;
+	        while((line = d.readLine()) != null) {
+	            code.append(line);
+	            code.append(ls);
 	        }
+	        outputStreamWriter.write(code.toString());
+	        d.close();
+	        outputStreamWriter.close();
 	        isSaved = true;
 	    } catch (FileNotFoundException e) {
 	    	isSaved = false;
@@ -233,17 +250,17 @@ public class FileHelper {
 	
 	//Save MVC code java
 	public static boolean saveFilesJava(String path,String page,Part[] content) throws IOException{
-		boolean r = FileHelper.save(path,page+".java",content[0]) && // Save Model;
-			   FileHelper.save(path,page+"View.java",content[1]) && //Save View
-			   FileHelper.save(path,page+"Controller.java",content[2]); // save controller
+		boolean r = FileHelper.saveFile(path,page+".java",content[0]) && // Save Model;
+			   FileHelper.saveFile(path,page+"View.java",content[1]) && //Save View
+			   FileHelper.saveFile(path,page+"Controller.java",content[2]); // save controller
 		return r;
 	}
 	
 	//Save files json, xml and xsl of the page
 	public static boolean saveFilesPageConfig(String path,String page,Part[] content) throws IOException{
-		boolean r = FileHelper.save(path,page+".xml",content[0]) && // Save xml;
-			   FileHelper.save(path,page+".xsl",content[1]) && //Save xsl
-			   FileHelper.save(path,page+".json",content[2]); // save json
+		boolean r = FileHelper.saveFile(path,page+".xml",content[0]) && // Save xml;
+			   FileHelper.saveFile(path,page+".xsl",content[1]) && //Save xsl
+			   FileHelper.saveFile(path,page+".json",content[2]); // save json
 		return r;
 	}
 	
@@ -273,5 +290,12 @@ public class FileHelper {
 		for(Part file:files){
 			deletePartFile(file, test);
 		}
+	}
+
+	public static boolean saveFilesJava(String path, String page, Part[] content, String encode) throws IOException {
+		boolean r = FileHelper.saveFile(path,page+".java",content[0],encode) && // Save Model;
+				   FileHelper.saveFile(path,page+"View.java",content[1],encode) && //Save View
+				   FileHelper.saveFile(path,page+"Controller.java",content[2],encode); // save controller
+			return r;
 	}
 }

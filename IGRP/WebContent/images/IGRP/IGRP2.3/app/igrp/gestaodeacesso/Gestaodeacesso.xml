@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/gestaodeacesso/Gestaodeacesso.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>Gestaodeacesso</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>Gestaodeacesso</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=41</preserve_url>
+    </plsql>
+    <content>
+        <title>null</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Gestão de Acesso]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="false" change="true" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                    <rules/>
+                </aplicacao>
+            </fields>
+        </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="adicionar_organica">
+                <title>Adicionar Orgânica</title>
+                <app>igrp</app>
+                <page>NovaOrganica</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>link|fa-plus-square</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <org_table type="table" xml-type="table" title="Orgânicas" gen-type="container" gen-group="true">
+            <fields>
+                <estado name="p_estado" type="color" format="rgba" maxlength="10" align="center" lookup_parser="true" iskey="true">
+                    <label>Estado</label>
+                </estado>
+                <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </org_nome>
+                <aidicionar_perfil name="p_aidicionar_perfil" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="success" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
+                    <label>Aidicionar Perfil</label>
+                </aidicionar_perfil>
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="link" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
+                    <label>Mostrar perfis</label>
+                </mostrar_perfis>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">4</estado>
+                        <org_nome name="p_org_nome">Accusantium omnis sed perspici</org_nome>
+                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
+                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">2</estado>
+                        <org_nome name="p_org_nome">Sit lorem sed sit officia</org_nome>
+                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
+                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">8</estado>
+                        <org_nome name="p_org_nome">Lorem doloremque rem iste unde</org_nome>
+                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
+                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">4</estado>
+                        <org_nome name="p_org_nome">Dolor sit dolor elit officia</org_nome>
+                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
+                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">1</estado>
+                        <org_nome name="p_org_nome">Accusantium stract doloremque</org_nome>
+                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
+                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                    </row>
+                </value>
+                <legend_color>
+                    <title>Legenda</title>
+                    <item>
+                        <label>Cor 1</label>
+                        <value>1</value>
+                    </item>
+                    <item>
+                        <label>Cor 2</label>
+                        <value>2</value>
+                    </item>
+                    <item>
+                        <label>Cor 3</label>
+                        <value>3</value>
+                    </item>
+                    <item>
+                        <label>Cor 4</label>
+                        <value>4</value>
+                    </item>
+                    <item>
+                        <label>Cor 5</label>
+                        <value>5</value>
+                    </item>
+                    <item>
+                        <label>Cor 6</label>
+                        <value>6</value>
+                    </item>
+                    <item>
+                        <label>Cor 7</label>
+                        <value>7</value>
+                    </item>
+                    <item>
+                        <label>Cor 8</label>
+                        <value>8</value>
+                    </item>
+                    <item>
+                        <label>Cor 9</label>
+                        <value>9</value>
+                    </item>
+                </legend_color>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
+                        <target>_blank</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="menu">
+                        <title>Menu</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
+                        <target>_blank</target>
+                        <img>default|fa-bars</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="transaction">
+                        <title>Transaction</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
+                        <target>_blank</target>
+                        <img>default|fa-exchange</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
+                        <target>_blank</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                    <item type="specific" code="" class="default" rel="button_1">
+                        <title>Button</title>
+                        <app>igrp</app>
+                        <page>Gestaodeacesso</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/gestaodeacesso/Gestaodeacesso.xsl?</parameter>
+                        <target>_blank</target>
+                        <img>default|fa-angle-right</img>
+                    </item>
+                </context-menu>
+            </table>
+        </org_table>
+    </content>
+</rows>

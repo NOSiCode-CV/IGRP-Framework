@@ -66,6 +66,19 @@ var TREEMENU = function(name,params){
 		});
 
 		container.setPropriety({
+			name 	: 'tooltip',
+			label	: 'Has Tooltip',
+			value 	: false,
+			xslValue: '<xsl:with-param name="tooltip" select="\'true\'"/>',
+			onChange : function(v){
+				
+			},
+			onEditionStart : function(v){
+				
+			}
+		});
+
+		container.setPropriety({
 			name:'packageName',
 			value:false,
 			editable:false,
