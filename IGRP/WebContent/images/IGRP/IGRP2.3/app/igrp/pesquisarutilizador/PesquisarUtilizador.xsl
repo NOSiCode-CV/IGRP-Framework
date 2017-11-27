@@ -44,7 +44,7 @@
                                     <label for="{rows/content/form_1/fields/aplicacao/@name}">
                                       <xsl:value-of select="rows/content/form_1/fields/aplicacao/label"/>
                                     </label>
-                                    <select class="form-control select2 " id="form_1_aplicacao" name="{rows/content/form_1/fields/aplicacao/@name}">
+                                    <select class="form-control select2 IGRP_change" id="form_1_aplicacao" name="{rows/content/form_1/fields/aplicacao/@name}">
                                       <xsl:for-each select="rows/content/form_1/fields/aplicacao/list/option">
                                         <option value="{value}" label="{text}">
                                           <xsl:if test="@selected='true'">
@@ -64,7 +64,7 @@
                                     <label for="{rows/content/form_1/fields/organica/@name}">
                                       <xsl:value-of select="rows/content/form_1/fields/organica/label"/>
                                     </label>
-                                    <select class="form-control select2 " id="form_1_organica" name="{rows/content/form_1/fields/organica/@name}">
+                                    <select class="form-control select2 IGRP_change" id="form_1_organica" name="{rows/content/form_1/fields/organica/@name}">
                                       <xsl:for-each select="rows/content/form_1/fields/organica/list/option">
                                         <option value="{value}" label="{text}">
                                           <xsl:if test="@selected='true'">

@@ -35,7 +35,7 @@ public class NovoMenuView extends View {
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel("");
+		sectionheader_1_text.setLabel(""); 
 		sectionheader_1_text.setValue(gt("Gestão Menu - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		code = new TextField(model,"code");

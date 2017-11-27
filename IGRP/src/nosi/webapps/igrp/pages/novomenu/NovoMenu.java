@@ -34,7 +34,7 @@ public class NovoMenu extends Model{
 	private int p_id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
+		this.sectionheader_1_text = sectionheader_1_text; 
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
