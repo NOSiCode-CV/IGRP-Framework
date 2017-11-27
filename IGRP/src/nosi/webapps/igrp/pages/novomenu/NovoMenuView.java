@@ -42,7 +42,7 @@ public class NovoMenuView extends View {
 		code.setLabel(gt("Código"));
 		code.propertie().add("name","p_code").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		descr = new TextField(model,"descr");
-		descr.setLabel(gt("Título"));
+		descr.setLabel(gt("Título")); 
 		descr.propertie().add("name","p_descr").add("type","text").add("maxlength","80").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		self_id = new ListField(model,"self_id");
 		self_id.setLabel(gt("Menu Principal"));
@@ -82,8 +82,7 @@ public class NovoMenuView extends View {
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoMenu","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","NovoMenu","voltar","_self","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
-		
+		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar"); 
 	}
 		
 	@Override
