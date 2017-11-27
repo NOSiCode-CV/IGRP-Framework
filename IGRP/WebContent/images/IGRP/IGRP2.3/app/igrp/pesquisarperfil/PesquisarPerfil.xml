@@ -5,7 +5,7 @@
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <user_name>red-igrp</user_name> 
         <button type="specific">
             <title>Sair</title>
             <app>RED</app>

@@ -5,7 +5,7 @@
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
-                <!-- TOOLSBAR CSS INCLUDES -->
+                <!-- TOOLSBAR CSS INCLUDES --> 
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>

@@ -4,7 +4,7 @@
     <html>
       <head>
         <xsl:call-template name="IGRP-head"/>
-        <!-- FORM CSS INCLUDES -->
+        <!-- FORM CSS INCLUDES --> 
         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
         <!-- TOOLSBAR CSS INCLUDES -->
         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css"/>

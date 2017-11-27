@@ -8,7 +8,7 @@
         <button type="specific">
             <title>Sair</title>
             <app>RED</app>
-            <page />
+            <page /> 
             <link>#</link>
             <target>_self</target>
             <img>exit.png</img>
