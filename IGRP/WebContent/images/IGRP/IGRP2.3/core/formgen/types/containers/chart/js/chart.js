@@ -43,10 +43,39 @@ var GENCHART = function(name,params){
 		});
 
 		container.setPropriety({
+			name:'filter_type',
+			label:'Filter Type',
+			value:{
+				value   : '',
+				options :$.IGRP.defaults.highcharts.types,
+				multiple:true
+			},
+			onEditionStart : function(o){
+				if(container.GET.filter && container.GET.filter())
+					o.input.show();
+				else
+					o.input.hide();
+			}
+		});
+
+		container.setPropriety({
 			name 	 :'filter',
-			label 	 : 'Filter Type',
+			label 	 : 'Filter',
 			value 	 : false,
-			xslValue : '<xsl:with-param name="filter" select="\'true\'"/>' //XSL VALUE WHEN PROPRIETY IS TRUE
+			xslValue : function(){
+				var rtn = '<xsl:with-param name="filter" select="\'true\'"/>';
+
+				if(container.GET.filter_type && container.GET.filter_type())
+					rtn += '<xsl:with-param name="filter_type" select="\''+container.GET.filter_type()+'\'"/>'
+				
+				return rtn;
+			}, //XSL VALUE WHEN PROPRIETY IS TRUE
+			onEditionStart:function(v){
+				$('input',v.input).on('change',function(){
+					var action  = $(this).val() ? 'show' : 'hide'; 
+					$('.gen-properties-setts-holder div[rel="filter_type"]')[action]();
+				});
+			}
 		});
 	}
 

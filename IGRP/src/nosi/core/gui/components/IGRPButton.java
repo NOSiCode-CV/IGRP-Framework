@@ -1,6 +1,7 @@
 package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
+import nosi.core.webapp.Igrp;
 
 public class IGRPButton {
 	
@@ -58,6 +59,9 @@ public class IGRPButton {
 		this.page = page;
 	}
 	public String getLink() {
+		if(Igrp.getInstance().getRequest().getParameter("target")!=null){
+			this.link+="&amp;target="+Igrp.getInstance().getRequest().getParameter("target");
+		}
 		return app+"/"+page+"/"+link;
 	}
 	public void setLink(String link) {

@@ -33,7 +33,7 @@ var GENCALENDAR = function(name,params){
 				'<'+tag+'_id name="p_'+tag+'_id" type="text" maxlength="30"><label>ID do Evento</label></'+tag+'_id>'+
 				'<'+tag+'_start name="p_'+tag+'_start" type="date" maxlength="30"><label>Data Inicio do Evento</label></'+tag+'_start>'+
 				'<'+tag+'_end name="p_'+tag+'_end" type="date" maxlength="30"><label>Data Fim do Evento</label></'+tag+'_end>'+
-				'<'+tag+'_bgcolor name="p_'+tag+'_bgcolor" type="text" maxlength="30"><label>Cor de Fundo do Evento simboliza prioridade</label></'+tag+'_bgcolor>'+
+				'<'+tag+'_color name="p_'+tag+'_color" type="text" maxlength="30"><label>Cor de Fundo do Evento simboliza prioridade</label></'+tag+'_color>'+
 				'<'+tag+'_allday name="p_'+tag+'_allday" type="text" maxlength="30"><label>Evento Dia Todo (value Boolean)</label></'+tag+'_allday>'+
 			'</fields>'+
 			'<table><value>'+
@@ -92,6 +92,35 @@ var GENCALENDAR = function(name,params){
 			}
 		]
 	}
+
+	container.setPropriety({
+		name:'header',
+		label:'Header Views',
+		value:{
+			value   : '',
+			options :[
+				{value : 'prev', label : 'Prev'},
+				{value : 'title', label : 'Title'},
+				{value : 'next', label : 'Next'}
+			],
+			multiple:true
+		}
+	});
+
+	container.setPropriety({
+		name:'views',
+		label:'Views',
+		value:{
+			value   : '',
+			options :[
+				{value : 'month', label : 'Month'},
+				{value : 'agendaWeek', label : 'Week'},
+				{value : 'agendaDay', label : 'Day'},
+				{value : 'today', label : 'Today'}
+			],
+			multiple:true
+		}
+	});
 
 	container.setPropriety({
 		name:'editevents',

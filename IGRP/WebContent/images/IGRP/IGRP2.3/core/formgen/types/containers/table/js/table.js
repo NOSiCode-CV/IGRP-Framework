@@ -40,10 +40,13 @@ var GENTABLE = function(name,params){
 	container.includes = {
 		xsl :[ 'table-utils'],
 		css :[ 
+			{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
 			{path:'/core/igrp/table/igrp.tables.css'},
 			/*{path:'/core/igrp/table/dataTables.bootstrap.css'} */
 		],
 		js  :[ 
+			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
+			{path:'/core/igrp/table/datatable/dataTables.bootstrap.min.js',id:'DataTable'},
 			{path:'/core/igrp/table/igrp.table.js'}
 		]
 	};
@@ -85,6 +88,13 @@ var GENTABLE = function(name,params){
 			value:false,
 			editable:false,
 			xslValue:'<xsl:apply-templates mode="context-param" select="context-menu" />'
+		});
+
+		container.setPropriety({
+			name:'dataTable',
+			label : 'Data Table',
+			value:false,
+			xslValue:'igrp-data-table'
 		});
 
 		container.setPropriety({
@@ -398,10 +408,15 @@ var GENTABLE = function(name,params){
 		if(tableExportInc &&  container.GET.fields()[0])
 			$.IGRP.components.tableExport2.init( 
 				container.holder.find( $('.box-table-contents') ) 
-			)
+			);
 
 		if(container.GET.ctxMenuClass() && $.IGRP.components.contextMenu)
 			$.IGRP.components.contextMenu.set($('.box-table-contents',container.holder));
+
+		if(container.GET.dataTable())
+			$.IGRP.components.tableCtrl.dataTable({
+				selector : 'table#'+container.GET.tag()+'.igrp-data-table'
+			});
 	}
 
 	var getTableFooter = function(){

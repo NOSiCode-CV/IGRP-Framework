@@ -14,7 +14,6 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.User;
-
 import static nosi.core.i18n.Translator.gt;
 
 public class Config {
@@ -24,13 +23,14 @@ public class Config {
 	public static String type_header = "normal";
 
 	public static String getHeader(){
+		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
 		xml.setElement("title", TITLE);
 		xml.setElement("version",getVersion());
 		xml.setElement("link",getLink());
 		xml.setElement("link_img",getLinkImg());
-		if(!target.equals("")){
+		if(target!=null && !target.equals("")){
 			xml.setElement("target", target);
 		}
 		xml.startElement("site");
