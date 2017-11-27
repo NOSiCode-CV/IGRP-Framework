@@ -18,7 +18,7 @@ import java.util.List;
 
 /*----#END-PRESERVED-AREA----*/
 
-public class PesquisarUtilizadorController extends Controller {		
+public class PesquisarUtilizadorController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/

@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
+import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_action")
@@ -181,7 +182,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 
 	public HashMap<Integer,String> getListActions(){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Página ---");
+		lista.put(null, gt("-- Selecionar Página --"));
 		for(Action ac:this.findAll()){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
@@ -193,7 +194,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	
 	public HashMap<Integer,String> getListActions(int app){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Página ---");
+		lista.put(null, gt("-- Selecionar Página --"));
 		for(Action ac:this.find().andWhere("application.id", "=", "" + app).all()){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
