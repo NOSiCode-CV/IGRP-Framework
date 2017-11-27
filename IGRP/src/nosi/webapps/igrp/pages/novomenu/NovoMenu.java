@@ -130,7 +130,5 @@ public class NovoMenu extends Model{
 	public int getP_id(){
 		return this.p_id;
 	}
-
-
 }
 /*-------------------------*/
