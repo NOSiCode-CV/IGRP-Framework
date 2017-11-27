@@ -55,7 +55,7 @@ public class NovoMenuController extends Controller {
 			menu.setDescr(model.getDescr());
 			menu.setApplication(new Application().findOne(model.getEnv_fk()));
 			menu.setFlg_base(model.getFlg_base());
-//			menu.setImg_src(model.getP_img_src()); 
+//			menu.setImg_src(model.getP_img_src());
 //			menu.setLink(model.getLink());
 			menu.setOrderby(model.getOrderby());
 			if(model.getSelf_id()!=0){

@@ -47,6 +47,25 @@
                                                         <div class="box-body">
                                                             <div role="form">
                                                                 <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                                                                 <xsl:if test="rows/content/form_1/fields/env_fk">
+                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="env_fk" item-type="select" required="required">
+                                                                        <label for="{rows/content/form_1/fields/env_fk/@name}">
+                                                                            <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
+                                                                        </label>
+                                                                        <select class="form-control select2 IGRP_change" id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}" required="required">
+                                                                            <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
+                                                                                <option value="{value}" label="{text}">
+                                                                                    <xsl:if test="@selected='true'">
+                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                                    </xsl:if>
+                                                                                    <span>
+                                                                                        <xsl:value-of select="text"/>
+                                                                                    </span>
+                                                                                </option>
+                                                                            </xsl:for-each>
+                                                                        </select>
+                                                                    </div>
+                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/code">
                                                                     <div class="form-group col-md-3   gen-fields-holder" item-name="code" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/code/@name}">
@@ -85,26 +104,7 @@
                                                                             </xsl:for-each>
                                                                         </select>
                                                                     </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/env_fk">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="env_fk" item-type="select" required="required">
-                                                                        <label for="{rows/content/form_1/fields/env_fk/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 " id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}" required="required">
-                                                                            <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
-                                                                    </div>
-                                                                </xsl:if>
+                                                                </xsl:if> 
                                                                 <xsl:if test="rows/content/form_1/fields/action_fk">
                                                                     <div class="col-md-3 form-group  gen-fields-holder" item-name="action_fk" item-type="select">
                                                                         <label for="{rows/content/form_1/fields/action_fk/@name}">
