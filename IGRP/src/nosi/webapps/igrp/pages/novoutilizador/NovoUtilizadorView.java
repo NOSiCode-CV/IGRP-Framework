@@ -33,10 +33,10 @@ public class NovoUtilizadorView extends View {
 		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
