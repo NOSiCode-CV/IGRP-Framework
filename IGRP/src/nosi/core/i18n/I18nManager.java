@@ -26,15 +26,16 @@ public final class I18nManager implements Component{
 	
 	@Override
 	public void init() {
-		if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
-			this.newConfiguration();
+		this.newConfiguration();
+		/*if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
+			this.newConfiguration(); 
 		}else {
 			try {
 				this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
 			}catch(Exception e) {
 				this.newConfiguration();
 			}
-		}
+		}*/
 	}
 	
 	private void newConfiguration() {
@@ -54,7 +55,7 @@ public final class I18nManager implements Component{
 			try {
 				this.laguages.put(igrpCore.getName(), igrpCore);
 			}catch(Exception e) {}
-			Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+			//Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
 		}else {
 			this.laguages = new HashMap<String, I18n>();
 			String aux = Igrp.getInstance().getServlet().getInitParameter("default_language");
@@ -62,7 +63,7 @@ public final class I18nManager implements Component{
 			try {
 				this.laguages.put(igrpCore.getName(), igrpCore);
 			}catch(Exception e) {}
-			Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
+			//Igrp.getInstance().getRequest().getSession().setAttribute("i18n", this.laguages);
 		}
 	}
 	
