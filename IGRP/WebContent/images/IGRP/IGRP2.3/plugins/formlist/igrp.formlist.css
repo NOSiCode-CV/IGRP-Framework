@@ -17,7 +17,7 @@
 .IGRP_formlist .formlist-row-add,
 .IGRP_formlist .formlist-row-remove {
 	cursor: pointer;
-    padding: 2px 3px;
+    padding: 1px 5px;
     font-size: 12px;
 }
 

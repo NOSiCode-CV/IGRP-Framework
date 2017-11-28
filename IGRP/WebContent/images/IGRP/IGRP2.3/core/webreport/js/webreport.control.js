@@ -1,4 +1,4 @@
-var wbControl = {
+var WRControl = {
 	pageControl : function(){
 		$("p.page").remove();
 
@@ -81,11 +81,11 @@ var wbControl = {
   		});
 	},
 	init : function(){
-		wbControl.pageControl();
-		wbControl.qrcode();
+		WRControl.pageControl();
+		WRControl.qrcode();
 	}
 };
 
 $(function() {
-	wbControl.init();
+	WRControl.init();
 });

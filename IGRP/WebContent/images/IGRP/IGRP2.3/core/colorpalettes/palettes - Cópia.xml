@@ -1,0 +1,28 @@
+<?xml-stylesheet href="palettes.xsl?v=30" type="text/xsl"?>
+<palettes>
+	<color name="lime" bg-text-color="white">#a4c400</color>
+	<color name="green" bg-text-color="white">#60a917</color>
+	<color name="emerald" bg-text-color="white">#008a00</color>
+	<color name="teal" bg-text-color="white">#00aba9</color>
+	<color name="cyan" bg-text-color="white">#1ba1e2</color>
+	<color name="indigo" bg-text-color="white">#6a00ff</color>
+	<color name="violet" bg-text-color="white">#aa00ff</color>
+	<color name="pink" bg-text-color="white">#f472d0</color>
+	<color name="magenta" bg-text-color="white">#d80073</color>
+	<color name="crimson" bg-text-color="white">#a20025</color>
+	<color name="red" bg-text-color="white">#e51400</color>
+	<color name="orange" bg-text-color="white">#fa6800</color>
+	<color name="amber" bg-text-color="white">#f0a30a</color>
+	<color name="yellow" bg-text-color="white">#e3c800</color>
+	<color name="brown" bg-text-color="white">#825a2c</color>
+	<color name="olive" bg-text-color="white">#6d8764</color>
+	<color name="steel" bg-text-color="white">#647687</color>
+	<color name="mauve" bg-text-color="white">#76608a</color>
+	<color name="sienna" bg-text-color="white">#a0522d</color>
+	<color name="khaki" bg-text-color="white">#f0e68c</color>
+	<color name="black" bg-text-color="white">#000000</color>
+	<color name="darkkhaki" bg-text-color="white">#bdb76b</color>
+
+
+</palettes>
+

@@ -43,6 +43,7 @@ public class Gestaodeacesso extends Model{
 		private String aidicionar_perfil_desc;
 		private String mostrar_perfis;
 		private String mostrar_perfis_desc;
+		private String p_id;
 		public void setEstado(String estado){
 			this.estado = estado;
 		}
@@ -81,6 +82,13 @@ public class Gestaodeacesso extends Model{
 		}
 		public String getMostrar_perfis_desc(){
 			return this.mostrar_perfis_desc;
+		}
+
+		public void setP_id(String p_id){
+			this.p_id = p_id;
+		}
+		public String getP_id(){
+			return this.p_id;
 		}
 
 	}

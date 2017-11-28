@@ -51,9 +51,9 @@ public class NovoPerfilView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","novo-perfil","index","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-perfil","index","_self","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
-		
+//		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-perfil","index","_self","warning|fa-arrow-left","","");
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		
 	}
 		
 	@Override
@@ -70,7 +70,7 @@ public class NovoPerfilView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(form_1);
 		this.addToPage(sectionheader_1);
 		this.addToPage(toolsbar_1);

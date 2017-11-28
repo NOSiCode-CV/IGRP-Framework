@@ -178,8 +178,10 @@ $.fn.separatorList = function(o){
 
 				if(ftype != 'file'){
 					
-					if(ftype == 'select')
+					if(ftype == 'select'){
 						$(f).val(rowVal.split(','));
+						$(f).trigger('change.select2');
+					}
 					
 					else
 						if(ftype == 'checkbox' || ftype == 'radio')
@@ -193,8 +195,8 @@ $.fn.separatorList = function(o){
 							$(f).val(rowVal);
 						
 						
-					if(ftype == 'select' || ftype == 'checkbox' || ftype == 'radio')
-						$(f).trigger("change");
+					//if(ftype == 'select' || ftype == 'checkbox' || ftype == 'radio')
+						//$(f).trigger("change");
 				}
 			}
 		};
@@ -257,7 +259,7 @@ $.fn.separatorList = function(o){
 					
 					setFormFieldValue(f,rowVal);
 					
-					if($(f).hasClass('IGRP_change') && genType != 'select'){
+					if($(f).hasClass('IGRP_change')){
 						isChange = true;
 						fChange  = $(f);
 					}
@@ -293,7 +295,8 @@ $.fn.separatorList = function(o){
 				var rowId = $('.sl-row-id',row).val();
 				
 				if(rowId)
-					$.IGRP.utils.createHidden({ name:"p_"+sltag+"_del",value:rowId });
+					$("form").append('<input type="hidden" name="p_'+sltag+'_del" value="'+rowId+'"/>');
+					//$.IGRP.utils.createHidden({ name:"p_"+sltag+"_del",value:rowId });
 				
 				$(row).remove();
 
@@ -425,7 +428,7 @@ $.fn.separatorList = function(o){
 					}else{
 						val = field.val();
 						values[fname].value.push(val);
-						var text = ftype == 'file' ? $('label span',field.parents('.form-group')).text() : val;
+						var text = ftype == 'file' ? $('label',field.parents('.form-group')).text() : val;
 						
 						if (ftype == 'file' && val) {
 							var sle  	  = rowEdit.get(sl),

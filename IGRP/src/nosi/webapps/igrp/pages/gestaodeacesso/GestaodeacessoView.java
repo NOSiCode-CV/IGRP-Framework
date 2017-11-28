@@ -14,6 +14,7 @@ public class GestaodeacessoView extends View {
 	public Field org_nome;
 	public Field aidicionar_perfil;
 	public Field mostrar_perfis;
+	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable org_table;
@@ -24,7 +25,6 @@ public class GestaodeacessoView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transaction;
 	public IGRPButton btn_eliminar;
-	public IGRPButton btn_button_1;
 	public GestaodeacessoView(Gestaodeacesso model){
 		this.setPageTitle("null");
 			
@@ -56,20 +56,22 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		
 		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","link").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		p_id = new HiddenField(model,"p_id");
+		p_id.setLabel(gt(""));
+		
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_adicionar_organica = new IGRPButton("Adicionar Orgânica","igrp","Gestaodeacesso","adicionar_organica","modal","link|fa-plus-square","","");
 		btn_adicionar_organica.propertie.add("type","specific").add("code","").add("rel","adicionar_organica");
-		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","_blank","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","mpsubmit","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
-		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","_blank","default|fa-bars","","");
+		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","mpsubmit","default|fa-bars","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
-		btn_transaction = new IGRPButton("Transaction","igrp","Gestaodeacesso","transaction","_blank","default|fa-exchange","","");
+		btn_transaction = new IGRPButton("Transaction","igrp","Gestaodeacesso","transaction","mpsubmit","default|fa-exchange","","");
 		btn_transaction.propertie.add("type","specific").add("code","").add("class","default").add("rel","transaction");
-		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","_blank","danger|fa-trash","","");
+		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_button_1 = new IGRPButton("Button","igrp","Gestaodeacesso","button_1","_blank","default|fa-angle-right","","");
-		btn_button_1.propertie.add("type","specific").add("code","").add("class","default").add("rel","button_1");
 		
 	}
 		
@@ -85,8 +87,13 @@ public class GestaodeacessoView extends View {
 		org_table.addField(org_nome);
 		org_table.addField(aidicionar_perfil);
 		org_table.addField(mostrar_perfis);
+		org_table.addField(p_id);
 
 		toolsbar_1.addButton(btn_adicionar_organica);
+		org_table.addButton(btn_editar);
+		org_table.addButton(btn_menu);
+		org_table.addButton(btn_transaction);
+		org_table.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(org_table);

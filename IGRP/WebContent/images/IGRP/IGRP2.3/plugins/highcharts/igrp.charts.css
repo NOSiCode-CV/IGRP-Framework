@@ -69,7 +69,8 @@
    	border: 1px solid rgba(173, 173, 173, 0.36);
    	top: 95%;
    	margin: 0;
-    height: 250px;
+    min-height: 40px;
+    max-height: 250px;
     overflow: auto;
 }
 
