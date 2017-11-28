@@ -110,7 +110,7 @@ public class PageController extends Controller {
 		
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
-		view.sectionheader_1_text.setValue("GestÃ£o de PÃ¡gina - Atualizar");
+		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
 		view.btn_gravar.setLink("editar&id="+id);
 		
 		return this.renderView(view);
@@ -200,7 +200,7 @@ public class PageController extends Controller {
 				){
 					error += this.processCompile(path_class,ac.getPage());
 					if(error.equals("")){//Check if not error on the compilation class
-						error = new Gson().toJson(new MapErrorCompile("CompilaÃ§Ã£o efetuada com sucesso", null));
+						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
 						if(FileHelper.fileExists(Config.getWorkspace())){
 							if(!FileHelper.fileExists(path_class_work_space)){//check directory
 								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
@@ -237,7 +237,7 @@ public class PageController extends Controller {
 			if(!compiler.compile(files)){			
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
 				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilaï¿½ï¿½o", er));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 			}
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();

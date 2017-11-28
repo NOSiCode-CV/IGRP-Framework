@@ -26,23 +26,6 @@ public class GeralApresentacaoController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(DOWNLOAD)----*/
-		GeralApresentacao model = new GeralApresentacao();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			/*if(/* Your code condition *//*){
-				Core.setMessageSuccess("Mesagem de Sucesso");
-			 }else{
-				Core.setMessageError("Mesagem de Erro");
-			 return this.forward("tutorial","GeralApresentacao","index");
-			}*/
-		}
-		return this.redirect("tutorial","GeralApresentacao","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/

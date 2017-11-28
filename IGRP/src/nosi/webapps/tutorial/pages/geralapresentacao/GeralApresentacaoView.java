@@ -17,6 +17,8 @@ public class GeralApresentacaoView extends View {
 	public Field minha_primeira_aplicacao;
 	public Field demo_de_um_aplicacao;
 	public Field paragraph_6_text;
+	public Field documento;
+	public Field ver;
 	public Field paragraph_2_text;
 	public Field paragraph_3_text;
 	public Field paragraph_4_text;
@@ -24,15 +26,13 @@ public class GeralApresentacaoView extends View {
 	public Field video_1_text;
 	public Field video_3_text;
 	public Field video_4_text;
-	public Field video_2_text;
 	public Field video_5_text;
-	public Field documento;
-	public Field ver;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPParagraph paragraph_1;
 	public IGRPTabContent tabcontent_1;
 	public IGRPTabContent tabcontent_2;
 	public IGRPParagraph paragraph_6;
+	public IGRPTable table_1;
 	public IGRPParagraph paragraph_2;
 	public IGRPParagraph paragraph_3;
 	public IGRPParagraph paragraph_4;
@@ -40,36 +40,32 @@ public class GeralApresentacaoView extends View {
 	public IGRPVideo video_1;
 	public IGRPVideo video_3;
 	public IGRPVideo video_4;
-	public IGRPVideo video_2;
 	public IGRPVideo video_5;
-	public IGRPTable table_1;
 
-	public IGRPButton btn_download;
 	public GeralApresentacaoView(GeralApresentacao model){
-		this.setPageTitle(gt("O que fazer dentro do IGRP JAVA..."));
+		this.setPageTitle("O que fazer dentro do IGRP JAVA...");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
-		paragraph_1 = new IGRPParagraph("paragraph_1",gt("Tutorial IGRP JAVA Framework"));
+		paragraph_1 = new IGRPParagraph("paragraph_1","Tutorial IGRP JAVA Framework");
 		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
 		tabcontent_2 = new IGRPTabContent("tabcontent_2","");
-		paragraph_6 = new IGRPParagraph("paragraph_6",gt("Documentos IGRP JAVA Framework"));
-		paragraph_2 = new IGRPParagraph("paragraph_2",gt("Como Contribuir no IGRP JAVA"));
-		paragraph_3 = new IGRPParagraph("paragraph_3",gt("Baixar e instalar IGRP JAVA Framework"));
-		paragraph_4 = new IGRPParagraph("paragraph_4",gt("Minha Primeira Aplicação"));
-		paragraph_5 = new IGRPParagraph("paragraph_5",gt("Aplicação Marcação de Consulta"));
-		video_1 = new IGRPVideo("video_1","");
-		video_3 = new IGRPVideo("video_3",gt("Como importar o IGRP JAVA do GitHub"));
-		video_4 = new IGRPVideo("video_4","");
-		video_2 = new IGRPVideo("video_2",gt("Como baixar o IGRP JAVA do NosiCode"));
-		video_5 = new IGRPVideo("video_5","");
+		paragraph_6 = new IGRPParagraph("paragraph_6","Documentos IGRP JAVA Framework");
 		table_1 = new IGRPTable("table_1","");
+		paragraph_2 = new IGRPParagraph("paragraph_2","Como Contribuir no IGRP JAVA");
+		paragraph_3 = new IGRPParagraph("paragraph_3","Baixar e instalar IGRP JAVA Framework");
+		paragraph_4 = new IGRPParagraph("paragraph_4","Minha Primeira Aplicação");
+		paragraph_5 = new IGRPParagraph("paragraph_5","Aplicação Marcação de Consulta");
+		video_1 = new IGRPVideo("video_1","");
+		video_3 = new IGRPVideo("video_3","Como importar o IGRP JAVA (NosiCode e GitHub)");
+		video_4 = new IGRPVideo("video_4","");
+		video_5 = new IGRPVideo("video_5","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel("");
+		sectionheader_1_text.setLabel(gt(""));
 		
 		sectionheader_1_text.setValue(gt("Bem-vindo ao seu IGRP Java"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		paragraph_1_text = new TextField(model,"paragraph_1_text");
-		paragraph_1_text.setLabel("");
+		paragraph_1_text.setLabel(gt(""));
 		
 		paragraph_1_text.setValue(gt("Nesse pequeno Tutorial vamos ver como fazer diversas coisas com o IGRP JAVA, através de vídeos e documentos. Bom aproveito..."));
 		paragraph_1_text.propertie().add("type","text").add("name","p_paragraph_1_text").add("persist","true").add("maxlength","4000");
@@ -98,55 +94,10 @@ public class GeralApresentacaoView extends View {
 		
 		demo_de_um_aplicacao.propertie().add("name","p_demo_de_um_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
 		paragraph_6_text = new TextField(model,"paragraph_6_text");
-		paragraph_6_text.setLabel("");
+		paragraph_6_text.setLabel(gt(""));
 		
 		paragraph_6_text.setValue(gt("Documentos auxiliares na apredizagem de algumas funcionalidades do IGRP JAVA Framework."));
 		paragraph_6_text.propertie().add("type","text").add("name","p_paragraph_6_text").add("persist","true").add("maxlength","4000");
-		paragraph_2_text = new TextField(model,"paragraph_2_text");
-		paragraph_2_text.setLabel("");
-		
-		paragraph_2_text.setValue(gt("Nesse vídeo vamos aprender como fazer uma contribuição nesse framework, desde do import do projecto no repositório GitHub até como gerar as nossas páginas e actualizar o nosso repositório local."));
-		paragraph_2_text.propertie().add("type","text").add("name","p_paragraph_2_text").add("persist","true").add("maxlength","4000");
-		paragraph_3_text = new TextField(model,"paragraph_3_text");
-		paragraph_3_text.setLabel("");
-		
-		paragraph_3_text.setValue(gt("Nessa sessão mostra como baixar e instalar o IGRP, para tal temos 2 vídeos. Primeiro mostra como como importar o IGRP JAVA do repositório GitHub directamente do Eclipse IDE e o segundo mostra como baixar o IGRP JAVA do site NosiCode e depois importar no Eclipse IDE"));
-		paragraph_3_text.propertie().add("type","text").add("name","p_paragraph_3_text").add("persist","true").add("maxlength","4000");
-		paragraph_4_text = new TextField(model,"paragraph_4_text");
-		paragraph_4_text.setLabel("");
-		
-		paragraph_4_text.setValue(gt("Aqui vamos desenvolver uma pequena aplicação com duas páginas com intuito de inserir e ler dados os dados de base de dados (PostgreSql). Ao longo do vídeo também mostra como baixar e instalar o PostGreSql e configurar a conexão da aplicação com o mesmo."));
-		paragraph_4_text.propertie().add("type","text").add("name","p_paragraph_4_text").add("persist","true").add("maxlength","4000");
-		paragraph_5_text = new TextField(model,"paragraph_5_text");
-		paragraph_5_text.setLabel("");
-		
-		paragraph_5_text.setValue(gt("Um pequeno Demo de como criar uma aplicação, gerar páginas e atribuir permissões de acesso a determinados utilizadores."));
-		paragraph_5_text.propertie().add("type","text").add("name","p_paragraph_5_text").add("persist","true").add("maxlength","4000");
-		video_1_text = new TextField(model,"video_1_text");
-		video_1_text.setLabel("");
-		
-		video_1_text.setValue("https://www.youtube.com/embed/cJTJuEtTRbc");
-		video_1_text.propertie().add("type","text").add("name","p_video_1_text").add("persist","true").add("maxlength","4000");
-		video_3_text = new TextField(model,"video_3_text");
-		video_3_text.setLabel("");
-		
-		video_3_text.setValue("https://www.youtube.com/embed/Viz9FefXZYg");
-		video_3_text.propertie().add("type","text").add("name","p_video_3_text").add("persist","true").add("maxlength","4000");
-		video_4_text = new TextField(model,"video_4_text");
-		video_4_text.setLabel("");
-		
-		video_4_text.setValue("https://www.youtube.com/embed/Viz9FefXZYg");
-		video_4_text.propertie().add("type","text").add("name","p_video_4_text").add("persist","true").add("maxlength","4000");
-		video_2_text = new TextField(model,"video_2_text");
-		video_2_text.setLabel("");
-		
-		video_2_text.setValue("https://www.youtube.com/embed/Viz9FefXZYg");
-		video_2_text.propertie().add("type","text").add("name","p_video_2_text").add("persist","true").add("maxlength","4000");
-		video_5_text = new TextField(model,"video_5_text");
-		video_5_text.setLabel("");
-		
-		video_5_text.setValue("https://www.youtube.com/embed/Viz9FefXZYg");
-		video_5_text.propertie().add("type","text").add("name","p_video_5_text").add("persist","true").add("maxlength","4000");
 		documento = new TextField(model,"documento");
 		documento.setLabel(gt("Documento"));
 		
@@ -154,10 +105,48 @@ public class GeralApresentacaoView extends View {
 		ver = new LinkField(model,"ver");
 		ver.setLabel(gt("Ver"));
 		
-		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("target_fields","").add("closerefresh","false").add("action","index").add("page","GeralApresentacao").add("app","tutorial").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		ver.propertie().add("name","p_ver").add("type","link").add("target","_newtab").add("target_fields","").add("closerefresh","false").add("action","undefined").add("page","undefined").add("app","undefined").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		paragraph_2_text = new TextField(model,"paragraph_2_text");
+		paragraph_2_text.setLabel(gt(""));
+		
+		paragraph_2_text.setValue(gt("Nesse vídeo vamos aprender como fazer uma contribuição nesse framework, desde do import do projecto no repositório GitHub até como gerar as nossas páginas e actualizar o nosso repositório local."));
+		paragraph_2_text.propertie().add("type","text").add("name","p_paragraph_2_text").add("persist","true").add("maxlength","4000");
+		paragraph_3_text = new TextField(model,"paragraph_3_text");
+		paragraph_3_text.setLabel(gt(""));
+		
+		paragraph_3_text.setValue(gt("Nessa sessão mostra como baixar e instalar o IGRP, para tal temos 2 vídeos. Primeiro mostra como como importar o IGRP JAVA do repositório GitHub directamente do Eclipse IDE e o segundo mostra como baixar o IGRP JAVA do site NosiCode e depois importar no Eclipse IDE"));
+		paragraph_3_text.propertie().add("type","text").add("name","p_paragraph_3_text").add("persist","true").add("maxlength","4000");
+		paragraph_4_text = new TextField(model,"paragraph_4_text");
+		paragraph_4_text.setLabel(gt(""));
+		
+		paragraph_4_text.setValue(gt("Aqui vamos desenvolver uma pequena aplicação com duas páginas com intuito de inserir e ler dados os dados de base de dados (PostgreSql). Ao longo do vídeo também mostra como baixar e instalar o PostGreSql e configurar a conexão da aplicação com o mesmo."));
+		paragraph_4_text.propertie().add("type","text").add("name","p_paragraph_4_text").add("persist","true").add("maxlength","4000");
+		paragraph_5_text = new TextField(model,"paragraph_5_text");
+		paragraph_5_text.setLabel(gt(""));
+		
+		paragraph_5_text.setValue(gt("Um pequeno Demo de como criar uma aplicação, gerar páginas e atribuir permissões de acesso a determinados utilizadores."));
+		paragraph_5_text.propertie().add("type","text").add("name","p_paragraph_5_text").add("persist","true").add("maxlength","4000");
+		video_1_text = new TextField(model,"video_1_text");
+		video_1_text.setLabel(gt(""));
+		
+		video_1_text.setValue(gt("https://www.youtube.com/embed/cJTJuEtTRbc"));
+		video_1_text.propertie().add("type","text").add("name","p_video_1_text").add("persist","true").add("maxlength","4000");
+		video_3_text = new TextField(model,"video_3_text");
+		video_3_text.setLabel(gt(""));
+		
+		video_3_text.setValue(gt("https://www.youtube.com/embed/ABd-IR3_wsQ?rel=0"));
+		video_3_text.propertie().add("type","text").add("name","p_video_3_text").add("persist","true").add("maxlength","4000");
+		video_4_text = new TextField(model,"video_4_text");
+		video_4_text.setLabel(gt(""));
+		
+		video_4_text.setValue(gt("https://www.youtube.com/embed/BEjnNo_old8"));
+		video_4_text.propertie().add("type","text").add("name","p_video_4_text").add("persist","true").add("maxlength","4000");
+		video_5_text = new TextField(model,"video_5_text");
+		video_5_text.setLabel(gt(""));
+		
+		video_5_text.setValue(gt("https://www.youtube.com/embed/v5zFGYK3zV8"));
+		video_5_text.propertie().add("type","text").add("name","p_video_5_text").add("persist","true").add("maxlength","4000");
 
-		btn_download = new IGRPButton("Download","tutorial","GeralApresentacao","download","submit","primary|fa-download","","");
-		btn_download.propertie.add("type","specific").add("code","").add("class","primary").add("rel","download");
 		
 	}
 		
@@ -178,6 +167,9 @@ public class GeralApresentacaoView extends View {
 
 		paragraph_6.addField(paragraph_6_text);
 
+		table_1.addField(documento);
+		table_1.addField(ver);
+
 		paragraph_2.addField(paragraph_2_text);
 
 		paragraph_3.addField(paragraph_3_text);
@@ -192,18 +184,14 @@ public class GeralApresentacaoView extends View {
 
 		video_4.addField(video_4_text);
 
-		video_2.addField(video_2_text);
-
 		video_5.addField(video_5_text);
-
-		table_1.addField(documento);
-		table_1.addField(ver);
 
 		this.addToPage(sectionheader_1);
 		this.addToPage(paragraph_1);
 		this.addToPage(tabcontent_1);
 		this.addToPage(tabcontent_2);
 		this.addToPage(paragraph_6);
+		this.addToPage(table_1);
 		this.addToPage(paragraph_2);
 		this.addToPage(paragraph_3);
 		this.addToPage(paragraph_4);
@@ -211,8 +199,6 @@ public class GeralApresentacaoView extends View {
 		this.addToPage(video_1);
 		this.addToPage(video_3);
 		this.addToPage(video_4);
-		this.addToPage(video_2);
 		this.addToPage(video_5);
-		this.addToPage(table_1);
 	}
 }
