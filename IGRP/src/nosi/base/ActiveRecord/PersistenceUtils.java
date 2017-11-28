@@ -87,8 +87,9 @@ public class PersistenceUtils {
 			case "postgresql":			
 				return "jdbc:postgresql://"+host+":"+port+"/"+db_name;
 			case "oracle":
-				return "jdbc:oracle:thin:@"+host+":"+port+":"+db_name;
+				return "jdbc:oracle:thin:@"+host+":"+port+"/"+db_name;
 		}
 		return "";
 	}
+	
 }
