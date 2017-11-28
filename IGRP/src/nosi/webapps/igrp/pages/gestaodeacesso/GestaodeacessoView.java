@@ -30,14 +30,14 @@ public class GestaodeacessoView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
-		org_table = new IGRPTable("org_table","Org√¢nicas");
+		org_table = new IGRPTable("org_table","Org‚nicas");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
-		sectionheader_1_text.setValue(gt("Gest√£o de Acesso"));
+		sectionheader_1_text.setValue(gt("Gest„o de Acesso"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplica√ß√£o"));
+		aplicacao.setLabel(gt("AplicaÁ„o"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false");
 		estado = new ColorField(model,"estado");
@@ -58,7 +58,7 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","link").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_adicionar_organica = new IGRPButton("Adicionar Org√¢nica","igrp","Gestaodeacesso","adicionar_organica","modal","link|fa-plus-square","","");
+		btn_adicionar_organica = new IGRPButton("Adicionar Org‚nica","igrp","Gestaodeacesso","adicionar_organica","modal","link|fa-plus-square","","");
 		btn_adicionar_organica.propertie.add("type","specific").add("code","").add("rel","adicionar_organica");
 		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","_blank","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
