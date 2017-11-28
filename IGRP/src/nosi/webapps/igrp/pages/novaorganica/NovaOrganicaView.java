@@ -45,7 +45,7 @@ public class NovaOrganicaView extends View {
 		organica_pai = new ListField(model,"organica_pai");
 		organica_pai.setLabel(gt("Orgânica Pai"));
 		organica_pai.propertie().add("name","p_organica_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
-
+		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","nova-organica","index","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
@@ -64,7 +64,7 @@ public class NovaOrganicaView extends View {
 		form_1.addField(nome);
 		form_1.addField(aplicacao);
 		form_1.addField(ativo);
-		form_1.addField(organica_pai);
+		//form_1.addField(organica_pai);
 
 		toolsbar_1.addButton(btn_gravar);
 //		toolsbar_1.addButton(btn_voltar);
