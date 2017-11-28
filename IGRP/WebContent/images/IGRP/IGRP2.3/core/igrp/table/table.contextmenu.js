@@ -119,7 +119,7 @@
 			 	if(vLeft + vBoxWidth > vTableWidth)
 			 		vLeft -= vBoxWidth;
 
-			 	if(vTop + vBoxHeight >= e.pageY)
+			 	if(vTop + vBoxHeight >= vTableHeight)
 			 		vTop -= vBoxHeight;
 
 				if(!vTable.attr("data-view") || (vTable.attr("data-view") && vTable.attr("data-view") == "list")){

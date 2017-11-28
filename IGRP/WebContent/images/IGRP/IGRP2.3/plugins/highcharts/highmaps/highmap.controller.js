@@ -6,6 +6,8 @@
             height = o.height || 350,
             joinBy = o.joinBy || ['ID','id'];
 
+
+
         map.events  = new $.EVENTS(['basemap-add','map-set']);
 
         map.id      = id;
@@ -282,9 +284,9 @@
 
                     style:{
 
-                        fontFamily :'Source Sans Pro, Helvetica Neue, Helvetica, Arial, sans-serif',
+                        fontFamily :'Roboto,sans-serif,Arial',
 
-                        fontWeight : '400'
+                        fontWeight : '300'
 
                     }
 

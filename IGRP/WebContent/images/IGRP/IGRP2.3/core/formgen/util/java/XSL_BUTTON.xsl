@@ -195,7 +195,7 @@
 			 		<xsl:value-of select="local-name(parent::*)"/>
 			 	</xsl:variable>
            		<xsl:for-each select="context-menu/item">
-	           		<xsl:if test="not(@rel=preceding::node()/@rel) and not(@code=preceding::node()/@code)">           		
+	           		<xsl:if test="not(@rel=preceding::node()/@rel)">           		
 					 	<xsl:variable name="button_name">
 							<xsl:value-of select="'btn_'"/>
 							<xsl:value-of select="@rel"/>

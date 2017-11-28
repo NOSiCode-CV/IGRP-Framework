@@ -2,6 +2,31 @@
 	
 	var com;
 
+	var Colors = $.IGRP.components.colorPalettes.colors;
+
+	var colorsIdx = -1;
+
+	function getRandomColor(size) {
+		
+		var keys = Object.keys(Colors);
+
+		if(size < keys.length){
+			
+			colorsIdx++;
+
+			return  Colors[ keys[colorsIdx] ].color;
+
+		}else{
+			return ('#'+'0123456789abcdef'.split('').map(function(v,i,a){
+			  		return i>5 ? null : a[Math.floor(Math.random()*16)] 
+			  	}).join('') 
+			);
+
+		}	
+
+	}
+
+
 	$.IGRP.component('charts',{
 
 		utils : {
@@ -33,18 +58,24 @@
 			return t;
 		},
 
-		setFilter : function(o,type){
+		creatItem : function(e,imgpath){
+			return '<a class="dropdown-item" chart-type="'+e.value+'">'+
+				'<img src="'+imgpath+e.value+'.svg" class="icon"/><span>'+
+				e.label+'</span></a>';
+		},
+		setFilter : function(o,type,filter){
 			if (!o.hasClass('hasfilter')) {
-				
 				var imgpath = path+'/plugins/highcharts/img/',
-					item 	= '';
-
+					item    = '';
+				
 				$('.toggleChart .active-chart',o).html('<img src="'+imgpath+com.getTypeChart(type)+'.svg"/><span class="caret"/>');
 				
 				$.IGRP.defaults.highcharts.types.forEach(function(e,i){
-					item += '<a class="dropdown-item" chart-type="'+e.value+'">'+
-					'<img src="'+imgpath+e.value+'.svg" class="icon"/><span>'+
-					e.label+'</span></a>';
+					if(filter[0]){
+						if ($.inArray(e.value,filter) !=-1)
+							item += com.creatItem(e,imgpath);
+					}else
+						item += com.creatItem(e,imgpath);
 				});
 
 				$('.toggleChart .dropdown-menu',o).html(item);
@@ -505,7 +536,7 @@
 			var data = [];
 			arr.forEach(function(e,i){
 				var d = [];
-				e.split(',').forEach(function(c,x){
+				e.split('!').forEach(function(c,x){
 					d.push(c*1);
 				});
 				data.push(d);
@@ -525,27 +556,89 @@
 			return t;
 		},
 
+		colors : {
+
+			setted : {},
+
+			get : function(size){
+
+				var arr    = [];
+		
+				for(var i = 0; i < size; i++){
+
+					arr.push( com.colors.unique(size) );
+
+				}
+
+				com.colors.setted = {};
+
+				colorsIdx = -1;
+
+				return arr;
+		
+			},
+
+			unique:function(size){
+
+				var color = getRandomColor(size);
+				
+				if(!com.colors.setted[color]){
+
+					com.colors.setted[color] = true;
+
+					return color;
+
+				}else{
+
+					return com.colors.unique(size);
+
+				}
+
+			}
+
+		},
+
 		renderCharts : function(p){
+
 			var o 	 		= $(p.chart),
 				type 		= o.attr('chart-type') ? o.attr('chart-type').toUpperCase() : 'LINE',
 				data 		= o.attr('chart-data') ? o.attr('chart-data').split('|') : [],
 				id 	 		= o.attr('chart-id') ? o.attr('chart-id') : '',
 				url  		= o.attr('chart-url') ? o.attr('chart-url') : '',
-				labels 		= o.attr('chart-labels') ? o.attr('chart-labels').split(',') : [],
-				categories  = o.attr('chart-categories') ? o.attr('chart-categories').split(',') : [];
-
+				labels 		= o.attr('chart-labels') ? o.attr('chart-labels').split('|') : [],
+				categories  = o.attr('chart-categories') ? o.attr('chart-categories').split('|') : [],
+				filterType  = o.attr('filter-type') ? o.attr('filter-type').split(',') : [];
+	
 			if (data[0]) {
+
 				if(p.type){
-					type = p.type.toUpperCase();
+					type  = p.type.toUpperCase();
 					o.attr('chart-type',p.type);
 				}
+
+				var colors = [];
+				
+				switch(type){
+					case 'FUNNEL':
+					case 'PIE':
+					case 'PYRAMID':
+
+						colors = com.colors.get(categories.length);
+
+					break;
+
+					default:
+						colors = com.colors.get(com.getChartData(data).length);
+
+				}
+
 
 				$('#'+id).removeClass('table_graph');
 
 				var chart = com.charts[com.getStructure(type)]({
 					data 		: com.getChartData(data),
 					categories  : categories ,
-					colors 		: o.attr('chart-colors') ? o.attr('chart-colors').split(',') : [],
+					colors 		: colors,
 					id 			: id,
 					url 		: url,
 					desclabel 	: o.attr('chart-desc-label') ? o.attr('chart-desc-label') : '',
@@ -637,14 +730,39 @@
 				 	var renderChart = Highcharts.chart(id,chart.structure);
 				}
 				if ($('.toggleChart',o)[0])
-					com.setFilter(o,type);
+					com.setFilter(o,type,filterType);
 
 				return renderChart;
 			}
 		},
 
 		init:function(){
+			
 			com = this;
+
+			/*var max    = 0,
+
+				colors = [];
+
+			$('.IGRP-highcharts').each(function(i,o){
+				
+				var labels = $(o).attr('chart-labels').split(','),
+
+					length = labels.length;
+
+				if( length > max )
+
+					max = length;
+				
+			});
+
+			var keys = Object.keys( Colors.names );
+
+			for(var i = 0; i < max; i++){
+
+				colors[i] = Colors.names[keys[i]];
+
+			} */
 
 			$('.IGRP-highcharts').each(function(i,o){
 				com.renderCharts({
@@ -653,8 +771,9 @@
 			});
 
 			$('body').on('click','.toggleChart .dropdown-item',function(){
-				var type 	= $(this).attr('chart-type') || 'LINE',
-					holder 	= $(this).parents('.IGRP-highcharts');
+				var type 		= $(this).attr('chart-type') || 'LINE',
+					holder 		= $(this).parents('.IGRP-highcharts'),
+					filterType 	= $(this).attr('filter-type') || '';
 
 				$('.active-chart img',holder).attr(
 					'src',
@@ -662,8 +781,9 @@
 				);
 
 				com.renderCharts({
-					chart : holder,
-					type  : type
+					chart 		: holder,
+					type  		: type,
+					filter_type : filterType
 				});
 			});
 

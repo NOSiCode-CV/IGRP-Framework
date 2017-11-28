@@ -484,6 +484,7 @@ $(function ($) {
 				});
 			},
 			onLoad : function(url){
+				
 				$.ajax({
 					url : url
 				})
@@ -515,7 +516,7 @@ $(function ($) {
 									if($.inArray($(e).val(),$.WR.datasorce) != -1)
 										$(e).attr("selected","selected").prop('selected',true);
 								});
-								
+
 							}else
 								$.WR.objDataSource.find("option").removeAttr("selected");
 
@@ -775,19 +776,20 @@ $(function ($) {
 					content   = '',
 					printsize = 'A4';
 
-				
-				if (!p.content) {
-					content = {};
+				if(p){
+					if (!p.content) {
+						content = {};
 
-					var report = $(p.content);
+						var report = $(p.content);
 
-					content.head   = report.find('#header').html();
-					content.body   = report.find('#content').html();
-					content.footer = report.find('#footer').html();
-				}else{
-					isActive  = p.config.customfooter;
-					content   = p.content;
-					printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
+						content.head   = report.find('#header').html();
+						content.body   = report.find('#content').html();
+						content.footer = report.find('#footer').html();
+					}else{
+						isActive  = p.config.customfooter;
+						content   = p.content;
+						printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
+					}
 				}
 
 				$.WR.fieldPrintSize.setVal(printsize);
@@ -1441,18 +1443,24 @@ $(function ($) {
 							element.label 		= '<b>['+target.getText()+']</b>';
 							element.type		= $target.attr('notype') ? $target.attr('notype') : $target.attr('type');
 							element.parentTag 	= $target.attr('tag');
-							element.parentType 	= $target.attr('parentType');
+							element.parentType 	= $target.attr('parentType') || 'form';
 							element.parentPos 	= $target.attr('parentPos');
 							element.iskey 		= $target.find('.btn input[name="p_'+element.tag+'"]').is(':checked');
 
+							element.type = element.type.replace(/xs:/g, "");
+
 							if(element.parentType == 'table'){
 								element.list = [];
-
 								if(element.type == 'node'){
-									$('ul[tag="'+element.tag+'"] li').each(function(i,e){
-										var item 	= {};
-										item.tag 	= $(e).attr('rel');
-										item.label 	= $(e).attr('label');
+									var obj  	= $('ul[tag="'+element.parentTag+'"]')[0] ? $('ul[tag="'+element.parentTag+'"]') : $('ul[tag="'+element.tag+'"]'),
+										seletor = $target.find('input[name="p_'+element.parentTag+'"]',obj).is(':checked') ? $('li input[name="p_'+element.parentTag+'"]:checked',obj) : $('li input[name="p_'+element.parentTag+'"]',obj);
+									
+									seletor.each(function(i,e){
+										var item 	= {},
+											parents = $(e).parents('li:first');
+
+										item.tag 	= parents.attr('rel');
+										item.label 	= parents.attr('label');
 
 										element.list.push(item);
 									});

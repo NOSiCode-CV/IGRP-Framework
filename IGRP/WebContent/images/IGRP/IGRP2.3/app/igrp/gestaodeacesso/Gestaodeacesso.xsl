@@ -26,7 +26,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-d5ccfc99">
+                                    <div class="row " id="row-b7836614">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-7e903453">
+                                    <div class="row " id="row-378a98ec">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-54d13d4e">
+                                    <div class="row " id="row-544dd9d8">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
@@ -142,6 +142,8 @@
                                                                             <xsl:for-each select="rows/content/org_table/table/value/row[not(@total='yes')]">
                                                                                 <tr>
                                                                                     <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                                    <input type="hidden" name="p_id_fk" value="{id}"/>
+                                                                                    <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
                                                                                     <xsl:if test="estado">
                                                                                         <td align="" data-row="{position()}" data-title="{../../label/estado}" class="color" item-name="estado">
                                                                                             <xsl:call-template name="tdcolor">
@@ -234,10 +236,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"show","events":"change","isTable":fals
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511831681709"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511831681709"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511831681709"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511831681709"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511831681709"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511872257620"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511872257620"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511872257620"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511872257620"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511872257620"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1511872257620"/>
 </xsl:stylesheet>

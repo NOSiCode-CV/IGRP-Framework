@@ -143,23 +143,22 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 	}
 
 	public boolean isInsertedPerfMen() {
-		Profile p = new Profile();
-		p = p.findOne(p.getCriteria().where(
-					p.getBuilder().equal(p.getRoot().get("type"), "MEN"),
-					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
-					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization()!=null?this.getOrganization().getId():1),
-					p.getBuilder().equal(p.getRoot().get("profileType"),this.getProfileType().getId())
-				));
+		Profile p = new Profile().find()
+				.andWhere("type", "=", "MEN")
+				.andWhere("type_fk", "=", this.getType_fk())
+				.andWhere("organization", "=", this.getOrganization()!=null?this.getOrganization().getId():1)
+				.andWhere("profileType", "=", this.getProfileType()!=null?this.getProfileType().getId():-1)
+				.one();
 		return p!=null && p.getProfileType()!=null;
 	}
 
 	public boolean isInsertedOrgMen() {
-		Profile p = new Profile();
-		p = p.findOne(p.getCriteria().where(
-					p.getBuilder().equal(p.getRoot().get("type"), "MEN"),
-					p.getBuilder().equal(p.getRoot().get("type_fk"), this.getType_fk()),
-					p.getBuilder().equal(p.getRoot().get("organization"), this.getOrganization().getId())
-				));
+		Profile p = new Profile().find()
+					.andWhere("type", "=", "MEN")
+					.andWhere("type_fk", "=", this.getType_fk())
+					.andWhere("organization", "=", this.getOrganization().getId())
+					.andWhere("profileType", "=", 0)
+					.one();
 		return p!=null && p.getOrganization()!=null;
 	}
 
