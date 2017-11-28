@@ -8,7 +8,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class SettingsView extends View {
 	
-	public String title = gt("Settings Aplicação");		
+	public String title = gt("Área Pessoal");		
 	
 	public Field sectionheader_1_text;
 	public Field nome;
@@ -41,7 +41,7 @@ public class SettingsView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Settings Aplicação: "));
+		sectionheader_1_text.setValue(gt("Área Pessoal"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
