@@ -23,7 +23,6 @@
             var vRel        = TABLE.attr('rel'),
                 type        = TABLE.attr('type') ? TABLE.attr('type') : 'table',
                 obj         = type == 'table' ? 'tbody tr' : '.fl-box';
-
             
             try{
                 vRel        = vRel.substring(2,vRel.length);
@@ -59,8 +58,6 @@
                     if(($(element).prop('tagName')).toLowerCase() == "select")
                         $(element).find("option").removeAttr("selected");
                 });
-
-                console.log(TABLE)
 
                 TABLE[0].events.execute('row-reset',vObjTr);
             }
@@ -156,9 +153,12 @@
                 onDelete($(this).parents(element));
             });
 
+
             this.each(function(i,e){
-                
-                e.events    = new $.EVENTS(["row-add","row-remove","row-reset"]);
+
+                e.events    = new $.EVENTS(["ready","row-add","row-remove","row-reset"]);
+
+                e.events.execute('ready');
 
                 var onInit = function(){
                     $(obj,e).each(function(i,tr){
@@ -173,7 +173,6 @@
                             }
                         }
                     });
-   
 
                     hideShowItem();
 
@@ -190,16 +189,20 @@
                             $(settings.btnObjDelete,e).hide();
                         }
                     }
+
+                    
                 };
 
                 onInit();
+
             });
+
             return _this;
         }
 		
 	};
 })(jQuery);
 
-$(function(){
+(function(){
     $('.IGRP_formlist').IGRP_formlist();
-});
+})();

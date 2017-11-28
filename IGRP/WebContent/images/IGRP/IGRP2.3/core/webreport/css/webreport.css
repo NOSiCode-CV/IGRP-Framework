@@ -248,3 +248,21 @@ div[data-notify="container"].alert{
 	opacity: 1;
 }
 
+
+.checkList{
+	position: absolute;
+    left: 44px;
+    outline: none;
+    width: 12px;
+    height: 12px;
+}
+
+#igrp-sidebar #wr-list-datasource 
+.nav-sidebar li .drag i{
+	margin-right:5px;
+}
+
+#igrp-sidebar #wr-list-datasource 
+.nav-sidebar li[tagtype="separator"] .drag i{
+	margin-right: 20px;
+}

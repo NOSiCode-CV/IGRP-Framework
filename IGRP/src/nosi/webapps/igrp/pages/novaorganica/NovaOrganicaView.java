@@ -50,8 +50,8 @@ public class NovaOrganicaView extends View {
 		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","nova-organica","index","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-organica","index","_self","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
-		
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		
 	}
 		
 	@Override
@@ -67,7 +67,7 @@ public class NovaOrganicaView extends View {
 		form_1.addField(organica_pai);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

@@ -128,23 +128,32 @@
 
 /* CLEAN */
 .gen-tab-holder[tab-template="clean"]>ul.nav-tabs{
-   margin-bottom: 20px;
+    margin-bottom: 20px;
+    border: 0;
 } 
 
 .gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li>a {
     color: #959faf;
     margin-right: 0;
-    padding: 10px 20px;
+    padding: 10px 30px 10px 0;
     border:0;
-    font-size: 16px;
     font-weight: 500;
+    line-height: 18px;
+    font-size: 16px;
     border-bottom: 2px solid transparent;
+
 }
 
 .gen-tab-holder[tab-template="clean"]>ul.nav-tabs>li.active>a {
     background: transparent;
     color:#337ab7;
-    border-bottom: 2px solid 
+    font-size: 18px;
+
+}
+
+.gen-tab-holder[tab-template="clean"]>.nav>li>a:focus, 
+.gen-tab-holder[tab-template="clean"]>.nav>li>a:hover{
+    background-color:transparent;
 }
 
 

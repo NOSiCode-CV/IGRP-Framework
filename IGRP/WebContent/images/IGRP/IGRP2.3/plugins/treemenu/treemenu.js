@@ -1,6 +1,11 @@
 (function () {
 	var com;
 	$.IGRP.component('tm',{// tm = tree menu
+		toolTip   : function(){
+			$('body').tooltip({
+			    selector: '[data-toggle="tooltip"]'
+			});	
+		},
 		transform : function(p){
 			var parent  = p.holder,
 			xslParams 	= {},
@@ -13,8 +18,12 @@
 			xslParams.name 		= name;
 			xslParams.target  	= parent.attr('target');
 
+			if (parent.attr('tooltip') && parent.attr('tooltip') != undefined)
+				xslParams.tooltip = parent.attr('tooltip');
+
 			if (p.id != '')
 				xslParams.id 	= p.id;
+
 			if (p.class)
 				xslParams.class = p.class;
 
@@ -65,6 +74,7 @@
 							$('li#'+active,holder).addClass('active');
 							$.IGRP.store.unset(name+'_active');
 						}
+						com.toolTip();
 					},
 					onError = function(){
 						$.IGRP.utils.loading.hide(holder);
@@ -96,6 +106,7 @@
 						complete 	: function(){
 							f.addClass('set').removeClass('load');
 							com.toggle.live(f);
+							com.toolTip();
 						},
 						error  		: function(){
 							f.removeClass('load').removeAttr('type');
@@ -117,7 +128,7 @@
 		},
 		init:function(){
 			com = this;
-
+			com.toolTip();
 			com.onLoad();
 
 			$('body').on('click','.tree-toggler',function(){

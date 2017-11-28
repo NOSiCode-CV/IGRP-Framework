@@ -1,4 +1,4 @@
-var xslpath = '/IGRP/images/IGRP/IGRP2.3/',
+var xslpath = '../../',
   WR = {
   editor   : 'form_1_report_editor',
   listType : [{type:'table',icon:'fa-table'},{type:'ul',icon:'fa-list-ul'},{type:'ol',icon:'fa-list-ol'}],
@@ -23,7 +23,7 @@ var xslpath = '/IGRP/images/IGRP/IGRP2.3/',
 				            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
 				          	'</div>'+
 				          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
-				          	'/<span no="print_report" footer="footer" tag="data_print">Data da ImpressÃ£o</span></div>'+
+				          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
 				        '</div>'+
 			        '</div>'+
 		        '</div>'

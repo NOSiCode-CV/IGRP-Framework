@@ -25,7 +25,13 @@ public class PesquisarPerfilController extends Controller {
 		ProfileType profile_db = new ProfileType();		
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-		}		
+		}	
+		if(Igrp.getInstance().getRequest().getParameter("id_org")!=null){
+			model.setOrgania(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_org")));
+		}
+		if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
+			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
+		}
 		//Preenchendo a tabela
 		for(ProfileType p:profile_db.find().andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null).andWhere("organization", "=",model.getOrgania()!=0? model.getOrgania():null).all()){
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil().new Table_1();

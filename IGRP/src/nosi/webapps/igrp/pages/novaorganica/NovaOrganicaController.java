@@ -30,9 +30,10 @@ public class NovaOrganicaController extends Controller {
 			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
 		}
 		NovaOrganicaView view = new NovaOrganicaView(model);		
-		Organization organization = new Organization();
+//		Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());		
-		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations(model.getAplicacao()) : null);		
+		view.organica_pai.setVisible(false);
+//		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations(model.getAplicacao()) : null);		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

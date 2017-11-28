@@ -104,7 +104,7 @@
 
 .box-tm .nav.nav-list.tree > li > a.holder:before{
 	top: 0px;
-	right: 96%;
+	right:100%;
 }
 
 .box-tm .nav.nav-list.tree > li > a.holder:hover:before,

@@ -33,8 +33,8 @@ public class TransacaoOrganicaView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","TransacaoOrganica","gravar&amp;id="+model.getId()+"&amp;type="+model.getType(),"submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","TransacaoOrganica","voltar","_back","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","TransacaoOrganica","voltar","_back","warning|fa-arrow-left","","");
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -48,7 +48,7 @@ public class TransacaoOrganicaView extends View {
 		table_1.addField(descricao);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);
 	}
