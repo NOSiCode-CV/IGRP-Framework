@@ -38,7 +38,7 @@ public class PesquisarOrganicaView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("Nome"));
 		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		estado = new PlainTextField(model,"estado");
 		estado.setLabel(gt("Estado"));
