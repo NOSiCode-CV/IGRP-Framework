@@ -29,7 +29,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=41</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=42</preserve_url>
     </plsql>
     <content>
         <title>O que fazer dentro do IGRP JAVA...</title>
@@ -93,6 +93,45 @@ Bom aproveito...]]>
                 </paragraph_6_text>
             </fields>
         </paragraph_6>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Documento</label>
+                </documento>
+                <ver name="p_ver" type="link" target="_newtab" target_fields="" closerefresh="false" action="undefined" page="undefined" app="undefined" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Ver</label>
+                </ver>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <documento name="p_documento">Rem dolor adipiscing sed sit</documento>
+                        <ver name="p_ver" desc="true">http://vetem.edu/kufla</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Stract laudantium ipsum aperia</documento>
+                        <ver name="p_ver" desc="true">http://pitvuuj.gov/judic</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Laudantium lorem adipiscing un</documento>
+                        <ver name="p_ver" desc="true">http://ep.net/tu</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Ipsum rem adipiscing rem ut</documento>
+                        <ver name="p_ver" desc="true">http://sako.com/binjegra</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                    <row>
+                        <documento name="p_documento">Ipsum sed mollit elit aliqua</documento>
+                        <ver name="p_ver" desc="true">http://gogupe.io/rirgaamu</ver>
+                        <ver_desc name="p_ver_desc">Ver</ver_desc>
+                    </row>
+                </value>
+            </table>
+        </table_1>
         <paragraph_2 type="paragraph" xml-type="form" title="Como Contribuir no IGRP JAVA" gen-type="container" gen-group="">
             <fields>
                 <paragraph_2_text type="text" name="p_paragraph_2_text" persist="true" maxlength="4000">
@@ -133,16 +172,16 @@ Bom aproveito...]]>
             <fields>
                 <video_1_text type="text" name="p_video_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
+                        <![CDATA[https://www.youtube.com/embed/cJTJuEtTRbc]]>
                     </value>
                 </video_1_text>
             </fields>
         </video_1>
-        <video_3 type="video" xml-type="video" title="Como importar o IGRP JAVA do GitHub" gen-type="container" gen-group="">
+        <video_3 type="video" xml-type="video" title="Como importar o IGRP JAVA (NosiCode e GitHub)" gen-type="container" gen-group="">
             <fields>
                 <video_3_text type="text" name="p_video_3_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
+                        <![CDATA[https://www.youtube.com/embed/ABd-IR3_wsQ?rel=0]]>
                     </value>
                 </video_3_text>
             </fields>
@@ -151,98 +190,19 @@ Bom aproveito...]]>
             <fields>
                 <video_4_text type="text" name="p_video_4_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
+                        <![CDATA[https://www.youtube.com/embed/BEjnNo_old8]]>
                     </value>
                 </video_4_text>
             </fields>
         </video_4>
-        <video_2 type="video" xml-type="video" title="Como baixar o IGRP JAVA do NosiCode" gen-type="container" gen-group="">
-            <fields>
-                <video_2_text type="text" name="p_video_2_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
-                    </value>
-                </video_2_text>
-            </fields>
-        </video_2>
         <video_5 type="video" xml-type="video" gen-type="container" gen-group="">
             <fields>
                 <video_5_text type="text" name="p_video_5_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[https://www.youtube.com/embed/Viz9FefXZYg]]>
+                        <![CDATA[https://www.youtube.com/embed/v5zFGYK3zV8]]>
                     </value>
                 </video_5_text>
             </fields>
         </video_5>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <documento name="p_documento" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Documento</label>
-                </documento>
-                <ver name="p_ver" type="link" target="_newtab" target_fields="" closerefresh="false" action="index" page="GeralApresentacao" app="tutorial" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
-                    <label>Ver</label>
-                </ver>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <documento name="p_documento">Sit consectetur perspiciatis l</documento>
-                        <ver name="p_ver" desc="true">undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <documento name="p_documento">Omnis mollit doloremque volupt</documento>
-                        <ver name="p_ver" desc="true">undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <documento name="p_documento">Accusantium iste perspiciatis</documento>
-                        <ver name="p_ver" desc="true">undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <documento name="p_documento">Voluptatem elit deserunt strac</documento>
-                        <ver name="p_ver" desc="true">undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <documento name="p_documento">Deserunt iste mollit consectet</documento>
-                        <ver name="p_ver" desc="true">undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl</ver>
-                        <ver_desc name="p_ver_desc">Ver</ver_desc>
-                    </row>
-                </value>
-                <context-menu>
-                    <item type="specific" code="" class="primary" rel="download">
-                        <title>Download</title>
-                        <app>tutorial</app>
-                        <page>GeralApresentacao</page>
-                        <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/tutorial/geralapresentacao/GeralApresentacao.xsl?</parameter>
-                        <target>submit</target>
-                        <img>primary|fa-download</img>
-                    </item>
-                </context-menu>
-            </table>
-        </table_1>
     </content>
 </rows>
