@@ -8,6 +8,7 @@
                 <!-- TOOLSBAR CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
                 <!-- TABLE CSS INCLUDES -->
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/datatable/dataTables.bootstrap.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/table-colors.css?v={$version}"/>
                 <!-- SELECT CSS INCLUDES -->
@@ -25,7 +26,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-f5126917">
+                                    <div class="row " id="row-d5ccfc99">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -39,7 +40,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-d225d692">
+                                    <div class="row " id="row-7e903453">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -77,7 +78,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-03c8d9e7">
+                                    <div class="row " id="row-54d13d4e">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
@@ -97,102 +98,110 @@
                                                             <xsl:with-param name="collapsible" select="'true'"/>
                                                             <xsl:with-param name="collapsed" select="'false'"/>
                                                         </xsl:call-template>
-                                                        <div class="box-body table-box">
+                                                        <div class="box-body ">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/org_table/fields"/>
-                                                            <xsl:apply-templates mode="table-legend" select="rows/content/org_table/table/legend_color"/>
-                                                            <table id="org_table" class="table table-striped gen-data-table IGRP_contextmenu " exports="null">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <xsl:if test="rows/content/org_table/fields/estado">
-                                                                            <th align="center" class="color-th gen-fields-holder">
-                                                                                <xsl:value-of select="rows/content/org_table/fields/estado/label"/>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/org_table/fields/org_nome">
-                                                                            <th align="center" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/org_table/fields/org_nome/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/org_table/fields/aidicionar_perfil">
-                                                                            <th align="right" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/org_table/fields/aidicionar_perfil/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/org_table/fields/mostrar_perfis">
-                                                                            <th align="right" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/org_table/fields/mostrar_perfis/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <xsl:for-each select="rows/content/org_table/table/value/row[not(@total='yes')]">
-                                                                        <tr>
-                                                                            <xsl:apply-templates mode="context-param" select="context-menu"/>
-                                                                            <xsl:if test="estado">
-                                                                                <td align="" data-row="{position()}" data-title="{../../label/estado}" class="color" item-name="estado">
-                                                                                    <xsl:call-template name="tdcolor">
-                                                                                        <xsl:with-param name="color" select="estado"/>
-                                                                                    </xsl:call-template>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="org_nome">
-                                                                                <td align="center" data-row="{position()}" data-title="{../../fields/org_nome/label}" class="text" item-name="org_nome">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="org_nome"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="aidicionar_perfil">
-                                                                                <td align="right" data-row="{position()}" data-title="{../../label/aidicionar_perfil}" class="link" item-name="aidicionar_perfil">
-                                                                                    <xsl:choose>
-                                                                                        <xsl:when test="aidicionar_perfil != ''">
-                                                                                            <a href="{aidicionar_perfil}" class="link bClick btn btn-success btn-xs" target-fields="" target="modal" name="aidicionar_perfil">
-                                                                                                <i class="fa fa-plus-square"/>
-                                                                                                <span>
-                                                                                                    <xsl:value-of select="aidicionar_perfil_desc"/>
-                                                                                                </span>
-                                                                                            </a>
-                                                                                        </xsl:when>
-                                                                                        <xsl:otherwise>
-                                                                                            <span>
-                                                                                                <xsl:value-of select="aidicionar_perfil_desc"/>
+                                                            <div class="table-contents-head">
+                                                                <div class="table-contents-inner">
+                                                                    <xsl:apply-templates mode="table-legend" select="rows/content/org_table/table/legend_color"/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="table-box">
+                                                                <div class="table-box-inner">
+                                                                    <table id="org_table" class="table table-striped  IGRP_contextmenu " exports="null">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <xsl:if test="rows/content/org_table/fields/estado">
+                                                                                    <th align="center" class="color-th gen-fields-holder">
+                                                                                        <xsl:value-of select="rows/content/org_table/fields/estado/label"/>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/org_table/fields/org_nome">
+                                                                                    <th align="center" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/org_table/fields/org_nome/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/org_table/fields/aidicionar_perfil">
+                                                                                    <th align="right" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/org_table/fields/aidicionar_perfil/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/org_table/fields/mostrar_perfis">
+                                                                                    <th align="right" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/org_table/fields/mostrar_perfis/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <xsl:for-each select="rows/content/org_table/table/value/row[not(@total='yes')]">
+                                                                                <tr>
+                                                                                    <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                                    <xsl:if test="estado">
+                                                                                        <td align="" data-row="{position()}" data-title="{../../label/estado}" class="color" item-name="estado">
+                                                                                            <xsl:call-template name="tdcolor">
+                                                                                                <xsl:with-param name="color" select="estado"/>
+                                                                                            </xsl:call-template>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="org_nome">
+                                                                                        <td align="center" data-row="{position()}" data-title="{../../../fields/org_nome/label}" class="text" item-name="org_nome">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="org_nome"/>
                                                                                             </span>
-                                                                                        </xsl:otherwise>
-                                                                                    </xsl:choose>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="mostrar_perfis">
-                                                                                <td align="right" data-row="{position()}" data-title="{../../label/mostrar_perfis}" class="link" item-name="mostrar_perfis">
-                                                                                    <xsl:choose>
-                                                                                        <xsl:when test="mostrar_perfis != ''">
-                                                                                            <a href="{mostrar_perfis}" class="link bClick btn btn-link btn-xs" target-fields="" target="modal" name="mostrar_perfis">
-                                                                                                <i class="fa fa-address-card"/>
-                                                                                                <span>
-                                                                                                    <xsl:value-of select="mostrar_perfis_desc"/>
-                                                                                                </span>
-                                                                                            </a>
-                                                                                        </xsl:when>
-                                                                                        <xsl:otherwise>
-                                                                                            <span>
-                                                                                                <xsl:value-of select="mostrar_perfis_desc"/>
-                                                                                            </span>
-                                                                                        </xsl:otherwise>
-                                                                                    </xsl:choose>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                        </tr>
-                                                                    </xsl:for-each>
-                                                                </tbody>
-                                                            </table>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="aidicionar_perfil">
+                                                                                        <td align="right" data-row="{position()}" data-title="{../../label/aidicionar_perfil}" class="link" item-name="aidicionar_perfil">
+                                                                                            <xsl:choose>
+                                                                                                <xsl:when test="aidicionar_perfil != ''">
+                                                                                                    <a href="{aidicionar_perfil}" class="link bClick btn btn-success btn-xs" target-fields="" target="modal" name="aidicionar_perfil">
+                                                                                                        <i class="fa fa-plus-square"/>
+                                                                                                        <span>
+                                                                                                            <xsl:value-of select="aidicionar_perfil_desc"/>
+                                                                                                        </span>
+                                                                                                    </a>
+                                                                                                </xsl:when>
+                                                                                                <xsl:otherwise>
+                                                                                                    <span>
+                                                                                                        <xsl:value-of select="aidicionar_perfil_desc"/>
+                                                                                                    </span>
+                                                                                                </xsl:otherwise>
+                                                                                            </xsl:choose>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="mostrar_perfis">
+                                                                                        <td align="right" data-row="{position()}" data-title="{../../label/mostrar_perfis}" class="link" item-name="mostrar_perfis">
+                                                                                            <xsl:choose>
+                                                                                                <xsl:when test="mostrar_perfis != ''">
+                                                                                                    <a href="{mostrar_perfis}" class="link bClick btn btn-link btn-xs" target-fields="" target="modal" name="mostrar_perfis">
+                                                                                                        <i class="fa fa-address-card"/>
+                                                                                                        <span>
+                                                                                                            <xsl:value-of select="mostrar_perfis_desc"/>
+                                                                                                        </span>
+                                                                                                    </a>
+                                                                                                </xsl:when>
+                                                                                                <xsl:otherwise>
+                                                                                                    <span>
+                                                                                                        <xsl:value-of select="mostrar_perfis_desc"/>
+                                                                                                    </span>
+                                                                                                </xsl:otherwise>
+                                                                                            </xsl:choose>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                </tr>
+                                                                            </xsl:for-each>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <xsl:apply-templates select="rows/content/org_table/table/context-menu" mode="table-context-menu"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <xsl:apply-templates select="rows/content/org_table/table/context-menu" mode="table-context-menu"/>
                                                     </div>
                                                 </xsl:if>
                                             </div>
@@ -207,6 +216,8 @@
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- TABLE JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/core/igrp/table/datatable/jquery.dataTables.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/table/datatable/dataTables.bootstrap.min.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/igrp.table.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js?v={$version}"/>
@@ -223,10 +234,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"show","events":"change","isTable":fals
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511810380653"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511810380653"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511810380653"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511810380653"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511810380654"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1511810380654"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511831681709"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1511831681709"/>
 </xsl:stylesheet>

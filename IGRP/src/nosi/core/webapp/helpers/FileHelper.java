@@ -39,7 +39,7 @@ public class FileHelper {
 	private Map<String,String> files = new HashMap<>();
 	public static final String ENCODE_UTF8 = "UTF-8";
 	public static final String ENCODE_ISO = "ISO-8859-1";
-	
+	public static final String ENCODE_CP1252 = "Cp1252";
 	public Map<String,String> listFilesDirectory(String path) {
 		if(FileHelper.fileExists(path)){
 			File folder = new File(path);
@@ -143,14 +143,13 @@ public class FileHelper {
 	}
 	
 	public static boolean saveFile(String path,String filename,Part file,String encode) throws IOException{
-		System.out.print("Saving "+file.getName()+"... with encode "+encode);
 		createDiretory(path);
 		OutputStream out = null;
 		InputStream filecontent = file.getInputStream();
 		boolean isSaved = false;
 		try {
 	        out = new FileOutputStream(new File(path + File.separator+ filename));
-			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,encode));
+			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,ENCODE_UTF8));
 			Writer       outputStreamWriter = new OutputStreamWriter(out, encode);
 			StringBuilder  code = new StringBuilder();
 			String         ls = System.getProperty("line.separator");
