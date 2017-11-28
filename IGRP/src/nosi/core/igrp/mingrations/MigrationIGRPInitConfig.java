@@ -22,6 +22,9 @@ public class MigrationIGRPInitConfig {
 		app.setStatus(1);
 		app = app.insert();
 		
+		Application tutorial = new Application("tutorial", "Tutorial IGRP", "default.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
+		tutorial = tutorial.insert();
+		
 		if(app!=null){
 			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
 			config.insert();
@@ -63,13 +66,21 @@ public class MigrationIGRPInitConfig {
 			
 			Organization org = new Organization("01.03", "NOSI", 1, app, user0, null);
 			org = org.insert();	
-			
+
 			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, app, null);
 			prof0 = prof0.insert();
 			prof0 = prof0.updateToZero();
 			
 			ProfileType prof1 = new ProfileType("Administrador", "ADMIN", 1, org, app, null);
 			prof1 = prof1.insert();
+			
+			//Organizacao do tutorial
+			Organization tutorial_org = new Organization("org.tutorial", "org.Tutorial IGRP", 1, tutorial, user0, null);
+			tutorial_org = tutorial_org.insert();
+			
+			//Perfil da aplicacao tutorial
+			ProfileType tutrial_prof = new ProfileType("PefilAdmin.default org.Tutorial IGRP", "Admin.org.Tutorial IGRP", 1, tutorial_org, tutorial, null);
+			tutrial_prof = tutrial_prof.insert();
 			
 			//Cria grupo e utilizadores no Activiti
 			GroupService group = new GroupService();
@@ -139,9 +150,13 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, app));
 			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, app));
 			
+			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app));
+			
+			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, tutorial));
 			for(Action ac:actions){
 				ac.insert();
 			}
+			
 			
 			List<Menu> menus = new ArrayList<>();			
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app, null));
@@ -157,10 +172,11 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));
 			menus.add(new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), app, menus.get(3)));
 			
-			menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
-			menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
+			//menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
+			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
+			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), app, menus.get(1)));
-			menus.add(new Menu("Settings", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
+			menus.add(new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
 			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
@@ -178,12 +194,15 @@ public class MigrationIGRPInitConfig {
 			List<Profile> profiles = new ArrayList<>();
 			//permisao de acesso a aplicacao
 			profiles.add(new Profile(1, "ENV", prof1, user1, org));
-			
 			//permisao de acesso do utilizador a perfil
 			profiles.add(new Profile(2, "PROF", prof1, user1, org));
 			
-			//permisao de acesso ao menu
+			//permisao de acesso a aplicacao tutotrial
+			profiles.add(new Profile(2, "ENV", tutrial_prof, user1, tutorial_org));
+			//permisao de acesso do utilizador a perfil do tutorial
+			profiles.add(new Profile(3, "PROF", tutrial_prof, user1, tutorial_org));
 			
+			//permisao de acesso ao menu
 			profiles.add(new Profile(7, "MEN", prof0, user0, org));
 			profiles.add(new Profile(8, "MEN", prof0, user0, org));
 			profiles.add(new Profile(9, "MEN", prof0, user0, org));
@@ -225,11 +244,22 @@ public class MigrationIGRPInitConfig {
 			for(Profile p:profiles){
 				p.insert();
 			}
+			
+			//colocar a aplicacao tutorial uma outra pagina default
+			tutorial = tutorial.findOne(2);
+			if(tutorial != null) {
+				tutorial.setAction(new Action().find().andWhere("page", "=", "GeralApresentacao").andWhere("application", "=", 2).one()); 
+				tutorial.update();
+			}
+			
 			profiles = null;
 			menus = null;
 			actions = null;
 			new CreateViews();
+			
+			
 		}
+		
 		//inserindo dados by default na tabela Scope
 		OAuthScope objScope = new OAuthScope("login", 0);
 		objScope.insert();
