@@ -8,6 +8,7 @@ package nosi.webapps.igrp.pages.registarutilizador;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -73,22 +74,22 @@ public class RegistarUtilizadorController extends Controller {
 			model.load();			
 			boolean isError = false;
 			if(!model.getPassword().equals(model.getConfirmar_password())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Password inconsistentes ... Tente de novo."));
+				Core.setMessageError(gt("Password inconsistentes ... Tente de novo."));
 				isError = true;
 			}				
 			if(!isError){
 				user.setName(model.getNome());
-				user.setPass_hash(model.getPassword());
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(model.getPassword(), "MD5"));
 				user.setEmail(model.getEmail());
 				user.setUser_name(model.getUsername());
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
 				if(user !=null){
-					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Utilizador atualizado com sucesso."));
+					Core.setMessageSuccess(gt("Utilizador atualizado com sucesso."));
 					return this.redirect("igrp", "registar-utilizador", "editar", new String[]{"p_id"}, new String[]{user.getId() + ""});
 				}
 				else
-					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Error ao atualizar uilizador."));
+					Core.setMessageError(gt("Error ao atualizar uilizador."));
 			}			
 		}		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
