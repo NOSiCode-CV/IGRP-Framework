@@ -66,22 +66,26 @@ Bom aproveito...]]>
         </tabcontent_1>
         <tabcontent_2 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <como_contribuir name="p_como_contribuir" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
-                    <label>Como Contribuir</label>
+                <bem_vindo name="p_bem_vindo" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
+                    <label>Bem-vindo</label>
                     <value/>
-                </como_contribuir>
+                </bem_vindo>
                 <como_instalar_o_igrp name="p_como_instalar_o_igrp" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
                     <label>Como instalar o IGRP</label>
                     <value/>
                 </como_instalar_o_igrp>
-                <minha_primeira_aplicacao name="p_minha_primeira_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
-                    <label>Minha Primeira Aplicação</label>
-                    <value/>
-                </minha_primeira_aplicacao>
                 <demo_de_um_aplicacao name="p_demo_de_um_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
                     <label>Demo de um Aplicação</label>
                     <value/>
                 </demo_de_um_aplicacao>
+                <minha_primeira_aplicacao name="p_minha_primeira_aplicacao" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
+                    <label>Minha Primeira Aplicação</label>
+                    <value/>
+                </minha_primeira_aplicacao>
+                <como_contribuir name="p_como_contribuir" type="button" target_fields="" closerefresh="false" iconColor="#333" iconClass="" img="fa-hand-o-right" maxlength="50">
+                    <label>Como Contribuir</label>
+                    <value/>
+                </como_contribuir>
             </fields>
         </tabcontent_2>
         <paragraph_6 type="paragraph" xml-type="form" title="Documentos IGRP JAVA Framework" gen-type="container" gen-group="">
@@ -105,28 +109,28 @@ Bom aproveito...]]>
             <table>
                 <value>
                     <row>
-                        <documento name="p_documento">Rem dolor adipiscing sed sit</documento>
-                        <ver name="p_ver" desc="true">http://vetem.edu/kufla</ver>
+                        <documento name="p_documento">Aliqua unde amet doloremque ap</documento>
+                        <ver name="p_ver" desc="true">http://un.com/mazsa</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Stract laudantium ipsum aperia</documento>
-                        <ver name="p_ver" desc="true">http://pitvuuj.gov/judic</ver>
+                        <documento name="p_documento">Magna laudantium doloremque mo</documento>
+                        <ver name="p_ver" desc="true">http://codvehu.io/bubawec</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Laudantium lorem adipiscing un</documento>
-                        <ver name="p_ver" desc="true">http://ep.net/tu</ver>
+                        <documento name="p_documento">Perspiciatis sit adipiscing ut</documento>
+                        <ver name="p_ver" desc="true">http://gurut.co.uk/zoihahe</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Ipsum rem adipiscing rem ut</documento>
-                        <ver name="p_ver" desc="true">http://sako.com/binjegra</ver>
+                        <documento name="p_documento">Voluptatem iste sed unde dolor</documento>
+                        <ver name="p_ver" desc="true">http://nonihmo.io/zonfol</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                     <row>
-                        <documento name="p_documento">Ipsum sed mollit elit aliqua</documento>
-                        <ver name="p_ver" desc="true">http://gogupe.io/rirgaamu</ver>
+                        <documento name="p_documento">Doloremque iste unde accusanti</documento>
+                        <ver name="p_ver" desc="true">http://luge.io/ewehivep</ver>
                         <ver_desc name="p_ver_desc">Ver</ver_desc>
                     </row>
                 </value>
@@ -204,5 +208,14 @@ Bom aproveito...]]>
                 </video_5_text>
             </fields>
         </video_5>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Tutorial IGRP]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
     </content>
 </rows>

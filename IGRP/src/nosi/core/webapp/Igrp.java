@@ -4,9 +4,13 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
+import java.security.SecureRandom;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
@@ -188,5 +192,15 @@ public final class Igrp{ // Not extends
 
 	public static String getMethod() {
 		return Igrp.getInstance().getRequest().getMethod();
+	}
+	
+	public String generateCsrfToken() {
+		byte[] buffer = new byte[50];
+		new SecureRandom().nextBytes(buffer);
+	    String result = DatatypeConverter.printHexBinary(buffer);
+	    String cookieName = this.request.getParameter("r").replaceAll("/", "-");
+	    Cookie cookie = new Cookie(cookieName, result);
+	    this.response.addCookie(cookie);
+		return result;
 	}
 }

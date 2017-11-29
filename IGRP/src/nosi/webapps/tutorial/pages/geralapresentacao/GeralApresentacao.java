@@ -16,14 +16,16 @@ public class GeralApresentacao extends Model{
 	private String videos;
 	@RParam(rParamName = "p_documentos")
 	private String documentos;
-	@RParam(rParamName = "p_como_contribuir")
-	private String como_contribuir;
+	@RParam(rParamName = "p_bem_vindo")
+	private String bem_vindo;
 	@RParam(rParamName = "p_como_instalar_o_igrp")
 	private String como_instalar_o_igrp;
-	@RParam(rParamName = "p_minha_primeira_aplicacao")
-	private String minha_primeira_aplicacao;
 	@RParam(rParamName = "p_demo_de_um_aplicacao")
 	private String demo_de_um_aplicacao;
+	@RParam(rParamName = "p_minha_primeira_aplicacao")
+	private String minha_primeira_aplicacao;
+	@RParam(rParamName = "p_como_contribuir")
+	private String como_contribuir;
 	@RParam(rParamName = "p_paragraph_6_text")
 	private String paragraph_6_text;
 	@RParam(rParamName = "p_paragraph_2_text")
@@ -42,6 +44,8 @@ public class GeralApresentacao extends Model{
 	private String video_4_text;
 	@RParam(rParamName = "p_video_5_text")
 	private String video_5_text;
+	@RParam(rParamName = "p_sectionheader_2_text")
+	private String sectionheader_2_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -79,11 +83,11 @@ public class GeralApresentacao extends Model{
 		return this.documentos;
 	}
 	
-	public void setComo_contribuir(String como_contribuir){
-		this.como_contribuir = como_contribuir;
+	public void setBem_vindo(String bem_vindo){
+		this.bem_vindo = bem_vindo;
 	}
-	public String getComo_contribuir(){
-		return this.como_contribuir;
+	public String getBem_vindo(){
+		return this.bem_vindo;
 	}
 	
 	public void setComo_instalar_o_igrp(String como_instalar_o_igrp){
@@ -93,6 +97,13 @@ public class GeralApresentacao extends Model{
 		return this.como_instalar_o_igrp;
 	}
 	
+	public void setDemo_de_um_aplicacao(String demo_de_um_aplicacao){
+		this.demo_de_um_aplicacao = demo_de_um_aplicacao;
+	}
+	public String getDemo_de_um_aplicacao(){
+		return this.demo_de_um_aplicacao;
+	}
+	
 	public void setMinha_primeira_aplicacao(String minha_primeira_aplicacao){
 		this.minha_primeira_aplicacao = minha_primeira_aplicacao;
 	}
@@ -100,11 +111,11 @@ public class GeralApresentacao extends Model{
 		return this.minha_primeira_aplicacao;
 	}
 	
-	public void setDemo_de_um_aplicacao(String demo_de_um_aplicacao){
-		this.demo_de_um_aplicacao = demo_de_um_aplicacao;
+	public void setComo_contribuir(String como_contribuir){
+		this.como_contribuir = como_contribuir;
 	}
-	public String getDemo_de_um_aplicacao(){
-		return this.demo_de_um_aplicacao;
+	public String getComo_contribuir(){
+		return this.como_contribuir;
 	}
 	
 	public void setParagraph_6_text(String paragraph_6_text){
@@ -168,6 +179,13 @@ public class GeralApresentacao extends Model{
 	}
 	public String getVideo_5_text(){
 		return this.video_5_text;
+	}
+	
+	public void setSectionheader_2_text(String sectionheader_2_text){
+		this.sectionheader_2_text = sectionheader_2_text;
+	}
+	public String getSectionheader_2_text(){
+		return this.sectionheader_2_text;
 	}
 
 
