@@ -4,8 +4,10 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +23,7 @@ import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
-
+import nosi.core.webapp.helpers.Permission;
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -223,7 +225,29 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public Map<Object, Object> getListApps(){
-		return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
+		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		int idProf = Permission.getCurrentPerfilId();
+		ProfileType p = new ProfileType().findOne(idProf);		
+		if(p!=null && p.getCode().equalsIgnoreCase("ALL")){
+			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
+		}else if(p!=null){
+			Application app = this.find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+			if(app!=null){
+				List<Application> listApp = new ArrayList<>();
+				List<Profile> list = new Profile().find()
+								.andWhere("profileType.application", "=",app.getId())
+								.andWhere("organization", "=",Permission.getCurrentOrganization())
+								.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+								.andWhere("type", "=", "ENV")
+								.andWhere("user", "=", idUser)
+								.all();
+				if(!list.isEmpty()){				
+					list.stream().peek(e->listApp.add(e.getProfileType().getApplication())).collect(Collectors.toList());
+					return IgrpHelper.toMap(listApp, "id", "name", gt("-- Selecionar Aplicação --"));
+				}
+			}
+		}
+		return null;
 	}
 	
 	public boolean getPermissionApp(String dad) {
@@ -252,5 +276,35 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 				 .andWhere("id", "<>", 1)
 				 .all();
 		return list;
+	}
+	
+	@Override
+	public Application insert() {
+		Application app = super.insert();
+		if(app!=null){
+			User user = new User();
+			user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			Organization org = new Organization();				
+			org.setCode("org.admin." + app.getDad());
+			org.setName("Organica Admin - " + app.getName());
+			org.setUser(user);
+			org.setApplication(app);
+			org.setStatus(1);
+			org = org.insert();
+			if(org!=null){	
+				ProfileType proty = new ProfileType();			
+				proty.setCode("perfil." + app.getDad());
+				proty.setDescr("Perfil Admin - " + org.getName());
+				proty.setOrganization(org);
+				proty.setApplication(app);
+				proty.setStatus(1);		
+				proty = proty.insert();				
+			}
+		}
+		return null;
+	}
+	
+	public Application insertOnly() {
+		return super.insert();
 	}
 }
