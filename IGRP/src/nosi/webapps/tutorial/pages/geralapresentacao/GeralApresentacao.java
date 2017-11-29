@@ -2,6 +2,8 @@ package nosi.webapps.tutorial.pages.geralapresentacao;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +40,6 @@ public class GeralApresentacao extends Model{
 	private String video_3_text;
 	@RParam(rParamName = "p_video_4_text")
 	private String video_4_text;
-	@RParam(rParamName = "p_video_2_text")
-	private String video_2_text;
 	@RParam(rParamName = "p_video_5_text")
 	private String video_5_text;
 	
@@ -161,13 +161,6 @@ public class GeralApresentacao extends Model{
 	}
 	public String getVideo_4_text(){
 		return this.video_4_text;
-	}
-	
-	public void setVideo_2_text(String video_2_text){
-		this.video_2_text = video_2_text;
-	}
-	public String getVideo_2_text(){
-		return this.video_2_text;
 	}
 	
 	public void setVideo_5_text(String video_5_text){

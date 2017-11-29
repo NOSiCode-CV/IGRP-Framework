@@ -178,9 +178,9 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), app, menus.get(1)));
 			menus.add(new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
-			menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
-			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
-			menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
+			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
+			//menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
+			//menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
 			menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
 			menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
 			
