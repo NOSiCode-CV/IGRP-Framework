@@ -1,0 +1,24 @@
+#igrp-top-nav.navbar{
+	background: white;
+}
+#side-bar-ctrl,
+#igrp-app-title,
+#igrp-top-menu>li>a{
+	color:#337ab7;
+}
+
+#igrp-top-menu>li>a:hover, 
+#igrp-top-menu>li>a:focus{
+	border-bottom-color: #337ab7;
+	background: #fafafa
+}
+#igrp-sidebar.sidebar{
+	background: #2a699e
+}
+#igrp-sidebar .nav-sidebar > li > a,
+.treeview-menu>li>a{
+	color: white;
+}
+.treeview-menu{
+	background: #1e5380
+}

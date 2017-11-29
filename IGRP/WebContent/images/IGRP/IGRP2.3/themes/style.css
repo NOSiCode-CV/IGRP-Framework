@@ -111,7 +111,7 @@ b{
 }
 
 .content-header>h2{
-  font-size: 20px;
+  font-size: 18px;
    margin: 0;
   font-weight: 400;
   line-height: 30px;
@@ -649,7 +649,7 @@ html#igrp-login body{
 #igrp-login-wrapper .box {
   background:#ffffffe6;
   outline: 10px solid rgba(255, 255, 255, 0.50);
-  min-height: 440px;
+  /*min-height: 440px;*/
   margin-bottom: 50px
 }
 
@@ -777,6 +777,15 @@ body[has-menu="true"] .content>.row:first-child{
   margin-top: 0!important;
   margin-bottom: 10px;
 }
+
+
+@media (max-width: 560px) {
+  .content>.row{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
 
 .row-fluid > .gen-column {
   padding: 0;
@@ -1257,7 +1266,7 @@ ul.nav-tabs{
 
 
 #igrp-apps-1 a.igrp-app-block {
-    background: #ffffff94;
+    background: #fff;
     padding: 30px 30px 30px 75px;
     position: relative;
     height: 105px;
@@ -1347,6 +1356,11 @@ tbody#igrp-apps-1 .app-title {
   padding:0 60px;
 }
 
+body.sidebar-off #igrp-contents.with-search .row-fluid .navbar {
+  left:0;
+  width: 100%;
+}
+
 #igrp-contents.with-search .row-fluid .navbar {
   border-radius:0;
   border:0;
@@ -1358,7 +1372,15 @@ tbody#igrp-apps-1 .app-title {
   z-index:100;
   top:55px;
   box-shadow: 1px 0 10px 0px #ddd;
-  width: 100%;
+  width: 83.33333333%;
+  left: 16.66666667%
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #igrp-contents.with-search .row-fluid .navbar {
+    width: 75%;
+    left: 25%;
+  }
 }
 
 #igrp-contents.with-search .row-fluid .navbar .form-group{
@@ -1371,7 +1393,7 @@ tbody#igrp-apps-1 .app-title {
   background: transparent;
   box-shadow: none;
   border: 0;
-  font-size:16px;
+  font-size:14px;
   height:auto;
   line-height: 30px;
   padding-left: 2px;
@@ -1391,7 +1413,7 @@ tbody#igrp-apps-1 .app-title {
 }
 #igrp-contents.with-search #searcher input,
 #igrp-contents.with-search #searcher .input-group-btn{
-  border-bottom: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;*/
   transition: border-color .8s
 }
 

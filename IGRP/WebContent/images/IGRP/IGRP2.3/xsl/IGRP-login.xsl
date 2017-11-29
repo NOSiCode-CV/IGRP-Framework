@@ -8,6 +8,7 @@
   <xsl:template match="/">
     <html id="igrp-login">
       <head>
+        <TITLE>IGRP - Login</TITLE>
         <xsl:call-template name="IGRP-head"/>
         <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
         <style>
@@ -95,7 +96,7 @@
 
                   </div>
                 </div>
-
+                <br/>
                 <p id="igrp-login-footer" class="text-primary clear text-right">
                   <xsl:value-of select="rows/content/footer_note"/>
                 </p>

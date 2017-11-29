@@ -1,0 +1,16 @@
+#igrp-sidebar.sidebar{
+	background: #454b5a;
+}
+#igrp-sidebar .nav-sidebar > li > a{
+	color:white;
+}
+.treeview-menu{
+	background: #3a3f4c
+}
+.treeview-menu>li>a{
+	color:white;
+}
+.treeview-menu>li>a:hover, 
+.treeview-menu>li>a.active{
+	background: rgba(0, 0, 0, 0.07)
+}

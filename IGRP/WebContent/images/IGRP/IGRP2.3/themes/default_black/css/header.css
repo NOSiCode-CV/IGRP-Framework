@@ -2,13 +2,27 @@
 	background: #337ab7
 }
 
-.navbar-brand{
-	background: #2a699e;
+.navbar-brand,
+#igrp-sidebar.sidebar{
+	background: #4d4f54;
 }
+
+#igrp-sidebar .nav-sidebar > li > a,
+.treeview-menu>li>a{
+	color:white;
+}
+
+#igrp-sidebar .nav-sidebar > li.active > a{
+	opacity: 1
+}
+
+.treeview-menu{
+	background:#35363a;
+}
+
 .navbar-brand>span{
 	margin: 0 10px;
     font-size: 20px;
-    color: white;
 }
 .navbar-brand>img{
 	width: 26px;

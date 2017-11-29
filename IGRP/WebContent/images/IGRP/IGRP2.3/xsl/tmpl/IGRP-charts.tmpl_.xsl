@@ -56,7 +56,7 @@
 
     <xsl:variable name="data">
       <xsl:for-each select="$grafico/value/row"><xsl:for-each select="col[position() &gt; 1]">
-        <xsl:choose><xsl:when test=". != ''"><xsl:value-of select="."/></xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose><xsl:if test="position() != last()">!</xsl:if></xsl:for-each><xsl:if test="position() != last()">|</xsl:if>
+        <xsl:choose><xsl:when test=". != ''"><xsl:value-of select="."/></xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose><xsl:if test="position() != last()">,</xsl:if></xsl:for-each><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
     </xsl:variable>
 

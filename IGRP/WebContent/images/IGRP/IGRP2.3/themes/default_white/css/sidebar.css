@@ -1,41 +1,42 @@
 #igrp-sidebar.sidebar{
-    background: #3f4a59
+    background: #fff
 }
 
 #igrp-sidebar .nav-sidebar > li > a{
-    color: whitesmoke;
+    color: #337ab7;
     padding: 15px 20px 15px 15px;
-    border:0;
-    opacity: .8
+    border-color: rgba(51, 122, 183, 0.05);
+    opacity: .8;
+    font-weight: 400
 }
 
 .nav-bar-active{
     display: none;
 }
-#igrp-sidebar  .nav-sidebar > li.active > a,
-#igrp-sidebar .nav-sidebar > li > a:hover{
+
+#igrp-sidebar .nav-sidebar > li.active > a,
+#igrp-sidebar .nav-sidebar > li > a:hover,
+#igrp-sidebar .nav-sidebar > li > a:focus{
     box-shadow: none;
     opacity: 1;
-    background-color: rgba(0,0,0,0.1)
+    background-color:white;
 }
 
 #igrp-sidebar .treeview-menu{
-    background: #394250
+  background: rgba(243, 245, 247, 0.5);
 }
 
 #igrp-sidebar .treeview-menu>li>a{
     padding: 10px 25px;
-    color: white;
     opacity: .8;
     border:0;
 }
 
 #igrp-sidebar .treeview-menu>li>a:hover, 
 #igrp-sidebar .treeview-menu>li>a.active{
-    background: #353d4a;
     text-decoration:  none;
     opacity: 1;
-
+    background: none;
 }
 
 #igrp-sidebar::-webkit-scrollbar{
@@ -47,6 +48,6 @@
 
 @media (min-width: 768px) {
   #igrp-sidebar.sidebar {
-    top: 53px;
+    top: 55px;
   }
 }

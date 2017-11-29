@@ -14,7 +14,7 @@
         <div class="igrp-calendar-holder">
             <div id="{$id}" class="igrp-calendar"></div>
             <div class="dropdown clearfix igrp-calendar-ctx rc-ctx table-context-menu">
-                <ul id="{$id}-calendar-ctx" class="dropdown-menu ctx-holder">
+                <ul id="{$id}-calendar-ctx" class="list-group ctx-holder">
                     <xsl:for-each select="//rows/content/*[name() = concat($id,'_events')]/table/context-menu/item|context-menu/item">
                        <li class="igrp-calendar-ctx-item" trel="{title}">
                             <a class="{target}" target="{target}">
@@ -49,6 +49,7 @@
                                       <xsl:with-param name="list" select="img"/>
                                       <xsl:with-param name="use-fa" select="'true'"/>
                                       <xsl:with-param name="img-folder" select="'tools-bar'"/>
+                                      <xsl:with-param name="btnClass" select="'list-group-item'"/>
                                     </xsl:call-template>
                                 </xsl:if>
                                 <span class="ctx-title"><xsl:value-of select="title"/></span>

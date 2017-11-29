@@ -20,7 +20,7 @@
           
         <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
             <a class="navbar-brand col-sm-3 col-md-2" href="#" >
-                <img src="{$themePath}/{$themeConfigData/logo}"/>
+                <img src="{$path}/assets/img/studioLogoBlank.svg"/>
                 <span>IGRP</span>
             </a>
             <div id="side-bar-ctrl" bg-hover-color="template">
@@ -86,19 +86,14 @@
                     <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
                         
                         <ul class="nav nav-tabs col-md-2 col-sm-3 col-xs-12 clearfix" role="tablist" >
-                            <li class="col-xs-4">
-                                <a class="txt-ellipsis" href="#gen-page-properties" role="tab" data-toggle="tab">
-                                    <i class="fa fa-cog"></i>
-                                    <span class="">Settings</span>
-                                </a>
-                            </li>
-                            <li class="active col-xs-4">
+                            
+                            <li class="active col-xs-6">
                                 <a class="txt-ellipsis" href="#gen-list-components" role="tab" data-toggle="tab">
                                     <i class="fa fa-cube"></i>
                                     <span class="">Components</span>
                                 </a>
                             </li> 
-                            <li class="col-xs-4">
+                            <li class="col-xs-6">
                                 <a class="txt-ellipsis" href="#gen-list-fields" role="tab" data-toggle="tab">
                                     <i class="fa fa-dot-circle-o"></i>
                                     <span class="">Fields</span>
