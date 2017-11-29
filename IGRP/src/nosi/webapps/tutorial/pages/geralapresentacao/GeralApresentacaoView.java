@@ -12,10 +12,11 @@ public class GeralApresentacaoView extends View {
 	public Field paragraph_1_text;
 	public Field videos;
 	public Field documentos;
-	public Field como_contribuir;
+	public Field bem_vindo;
 	public Field como_instalar_o_igrp;
-	public Field minha_primeira_aplicacao;
 	public Field demo_de_um_aplicacao;
+	public Field minha_primeira_aplicacao;
+	public Field como_contribuir;
 	public Field paragraph_6_text;
 	public Field documento;
 	public Field ver;
@@ -27,6 +28,7 @@ public class GeralApresentacaoView extends View {
 	public Field video_3_text;
 	public Field video_4_text;
 	public Field video_5_text;
+	public Field sectionheader_2_text;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPParagraph paragraph_1;
 	public IGRPTabContent tabcontent_1;
@@ -41,6 +43,7 @@ public class GeralApresentacaoView extends View {
 	public IGRPVideo video_3;
 	public IGRPVideo video_4;
 	public IGRPVideo video_5;
+	public IGRPSectionHeader sectionheader_2;
 
 	public GeralApresentacaoView(GeralApresentacao model){
 		this.setPageTitle("O que fazer dentro do IGRP JAVA...");
@@ -59,6 +62,7 @@ public class GeralApresentacaoView extends View {
 		video_3 = new IGRPVideo("video_3","Como importar o IGRP JAVA (NosiCode e GitHub)");
 		video_4 = new IGRPVideo("video_4","");
 		video_5 = new IGRPVideo("video_5","");
+		sectionheader_2 = new IGRPSectionHeader("sectionheader_2","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
@@ -77,22 +81,26 @@ public class GeralApresentacaoView extends View {
 		documentos.setLabel(gt("Documentos"));
 		
 		documentos.propertie().add("name","p_documentos").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-file-text").add("maxlength","50");
-		como_contribuir = new TextField(model,"como_contribuir");
-		como_contribuir.setLabel(gt("Como Contribuir"));
+		bem_vindo = new TextField(model,"bem_vindo");
+		bem_vindo.setLabel(gt("Bem-vindo"));
 		
-		como_contribuir.propertie().add("name","p_como_contribuir").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
+		bem_vindo.propertie().add("name","p_bem_vindo").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
 		como_instalar_o_igrp = new TextField(model,"como_instalar_o_igrp");
 		como_instalar_o_igrp.setLabel(gt("Como instalar o IGRP"));
 		
 		como_instalar_o_igrp.propertie().add("name","p_como_instalar_o_igrp").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
-		minha_primeira_aplicacao = new TextField(model,"minha_primeira_aplicacao");
-		minha_primeira_aplicacao.setLabel(gt("Minha Primeira Aplicação"));
-		
-		minha_primeira_aplicacao.propertie().add("name","p_minha_primeira_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
 		demo_de_um_aplicacao = new TextField(model,"demo_de_um_aplicacao");
 		demo_de_um_aplicacao.setLabel(gt("Demo de um Aplicação"));
 		
 		demo_de_um_aplicacao.propertie().add("name","p_demo_de_um_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
+		minha_primeira_aplicacao = new TextField(model,"minha_primeira_aplicacao");
+		minha_primeira_aplicacao.setLabel(gt("Minha Primeira Aplicação"));
+		
+		minha_primeira_aplicacao.propertie().add("name","p_minha_primeira_aplicacao").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
+		como_contribuir = new TextField(model,"como_contribuir");
+		como_contribuir.setLabel(gt("Como Contribuir"));
+		
+		como_contribuir.propertie().add("name","p_como_contribuir").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-hand-o-right").add("maxlength","50");
 		paragraph_6_text = new TextField(model,"paragraph_6_text");
 		paragraph_6_text.setLabel(gt(""));
 		
@@ -146,6 +154,11 @@ public class GeralApresentacaoView extends View {
 		
 		video_5_text.setValue(gt("https://www.youtube.com/embed/v5zFGYK3zV8"));
 		video_5_text.propertie().add("type","text").add("name","p_video_5_text").add("persist","true").add("maxlength","4000");
+		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
+		sectionheader_2_text.setLabel(gt(""));
+		
+		sectionheader_2_text.setValue(gt("Tutorial IGRP"));
+		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("persist","true").add("maxlength","4000");
 
 		
 	}
@@ -160,10 +173,11 @@ public class GeralApresentacaoView extends View {
 		tabcontent_1.addField(videos);
 		tabcontent_1.addField(documentos);
 
-		tabcontent_2.addField(como_contribuir);
+		tabcontent_2.addField(bem_vindo);
 		tabcontent_2.addField(como_instalar_o_igrp);
-		tabcontent_2.addField(minha_primeira_aplicacao);
 		tabcontent_2.addField(demo_de_um_aplicacao);
+		tabcontent_2.addField(minha_primeira_aplicacao);
+		tabcontent_2.addField(como_contribuir);
 
 		paragraph_6.addField(paragraph_6_text);
 
@@ -186,6 +200,8 @@ public class GeralApresentacaoView extends View {
 
 		video_5.addField(video_5_text);
 
+		sectionheader_2.addField(sectionheader_2_text);
+
 		this.addToPage(sectionheader_1);
 		this.addToPage(paragraph_1);
 		this.addToPage(tabcontent_1);
@@ -200,5 +216,6 @@ public class GeralApresentacaoView extends View {
 		this.addToPage(video_3);
 		this.addToPage(video_4);
 		this.addToPage(video_5);
+		this.addToPage(sectionheader_2);
 	}
 }
