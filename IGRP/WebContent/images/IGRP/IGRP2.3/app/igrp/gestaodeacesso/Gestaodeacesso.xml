@@ -32,7 +32,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=41</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Gestao de Acesso</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -88,9 +88,9 @@
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <aidicionar_perfil name="p_aidicionar_perfil" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="success" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
-                    <label>Aidicionar Perfil</label>
-                </aidicionar_perfil>
+                <adicionar_perfil name="p_adicionar_perfil" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="success" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
+                    <label>Adicionar Perfil</label>
+                </adicionar_perfil>
                 <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="link" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
@@ -103,23 +103,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">3</estado>
-                        <org_nome name="p_org_nome">Ut deserunt omnis sed labore</org_nome>
-                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
-                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
-                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">1</estado>
-                        <org_nome name="p_org_nome">Accusantium rem officia iste l</org_nome>
-                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
-                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <estado name="p_estado">7</estado>
+                        <org_nome name="p_org_nome">Rem adipiscing voluptatem anim</org_nome>
+                        <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
+                        <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -130,22 +117,9 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">2</estado>
-                        <org_nome name="p_org_nome">Perspiciatis sit mollit magna</org_nome>
-                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
-                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
-                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">9</estado>
-                        <org_nome name="p_org_nome">Totam stract dolor stract sed</org_nome>
-                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
-                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <org_nome name="p_org_nome">Anim stract perspiciatis magna</org_nome>
+                        <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
+                        <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -156,9 +130,35 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">5</estado>
-                        <org_nome name="p_org_nome">Perspiciatis anim labore rem s</org_nome>
-                        <aidicionar_perfil name="p_aidicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aidicionar_perfil>
-                        <aidicionar_perfil_desc name="p_aidicionar_perfil_desc">Aidicionar Perfil</aidicionar_perfil_desc>
+                        <org_nome name="p_org_nome">Officia elit consectetur magna</org_nome>
+                        <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
+                        <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">9</estado>
+                        <org_nome name="p_org_nome">Adipiscing labore totam deseru</org_nome>
+                        <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
+                        <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">4</estado>
+                        <org_nome name="p_org_nome">Adipiscing aliqua officia unde</org_nome>
+                        <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
+                        <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>

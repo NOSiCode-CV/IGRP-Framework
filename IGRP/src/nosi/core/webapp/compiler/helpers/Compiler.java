@@ -65,9 +65,13 @@ public class Compiler {
 	           task.call();
 	       }        
 	       for(final Diagnostic< ? extends JavaFileObject> diagnostic: diagnostics.getDiagnostics()){
-	    	 String[] fileName = diagnostic.getSource().getName().split(File.separator+File.separator);
-	      	 ErrorCompile error = new ErrorCompile(diagnostic.getMessage( null ), diagnostic.getLineNumber(),fileName[fileName.length-1]);
-	      	 this.errors.add(error);
+	    	   if(diagnostic.getSource()!=null){
+		    	 String[] fileName = diagnostic.getSource().getName().split(File.separator+File.separator);
+		      	 ErrorCompile error = new ErrorCompile(diagnostic.getMessage( null ), diagnostic.getLineNumber(),fileName[fileName.length-1]);
+		      	 this.errors.add(error);
+	    	   }else{
+	    		   System.err.println("diagnostic.getSource() = null");
+	    	   }
 	       }
 	 }
 

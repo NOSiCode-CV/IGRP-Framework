@@ -45,21 +45,12 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>NovoPerfil</page>
+                <link>index</link>
                 <target>submit</target>
-                <img>default|fa-save</img>
-                <parameter>undefined</parameter>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>_back</target>
-                <img>default|fa-arrow-left</img>
-                <parameter>undefined</parameter>
+                <img>info|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -110,11 +101,11 @@
                 </organica>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Stract mollit unde ipsum sed</value>
+                    <value>Officia sit amet elit voluptat</value>
                 </codigo>
                 <descricao name="p_descricao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descrição</label>
-                    <value>Officia amet voluptatem adipis</value>
+                    <value>Mollit aliqua omnis ipsum offi</value>
                 </descricao>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Perfil</label>

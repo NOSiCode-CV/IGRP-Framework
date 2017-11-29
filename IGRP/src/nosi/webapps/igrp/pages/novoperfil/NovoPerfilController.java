@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoperfil;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -20,7 +16,8 @@ import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class NovoPerfilController extends Controller {		
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+
+
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoPerfil model = new NovoPerfil();
@@ -28,20 +25,23 @@ public class NovoPerfilController extends Controller {
 			model.load();
 		}
 		if(Igrp.getInstance().getRequest().getParameter("id_org")!=null){
-			model.setOrganica(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_org")));
+			model.setOrganica(Igrp.getInstance().getRequest().getParameter("id_org"));
 		}
 		if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
-			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
+			model.setAplicacao(Igrp.getInstance().getRequest().getParameter("id_app"));
 		}
 		NovoPerfilView view = new NovoPerfilView(model);	
 		view.aplicacao.setValue(new Application().getListApps());
-		view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);
-		view.organica.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
+		/*view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() != null && !model.getAplicacao().equals("0") && !model.getOrganica().equals("0")) ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);*/
+		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
+      	view.perfil.setVisible(false);
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/ 
+		/*----#END-PRESERVED-AREA----*/
 	}
-	
-	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoPerfil model = new NovoPerfil();
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){	
 			model.load();
@@ -49,9 +49,9 @@ public class NovoPerfilController extends Controller {
 			pt.setCode(model.getCodigo());
 			pt.setDescr(model.getDescricao());
 			pt.setOrganization(new Organization().findOne(model.getOrganica()));
-			if(model.getPerfil()!=0){
+			/*if(model.getPerfil()!=0){
 				pt.setProfiletype(new ProfileType().findOne(model.getPerfil()));
-			}
+			}*/
 			pt.setStatus(model.getActivo());
 			pt.setApplication(new Application().findOne(model.getAplicacao()));	
 			pt = pt.insert();
@@ -72,35 +72,35 @@ public class NovoPerfilController extends Controller {
 		}
 		Igrp.getInstance().getFlashMessage().addMessage("error",gt("Invalid Request ..."));
 		return this.redirect("igrp", "novo-perfil", "index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionEditar(@RParam(rParamName="p_id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
-		
 		NovoPerfil model = new NovoPerfil();
 		model.load();
 		ProfileType p = new ProfileType();
 		p=p.findOne(Integer.parseInt(id));		
 		model.setCodigo(p.getCode());
 		model.setDescricao(p.getDescr());
-		model.setAplicacao(p.getApplication().getId());
+		model.setAplicacao(""+p.getApplication().getId());
 		if(p.getOrganization()!=null){
-			model.setOrganica(p.getOrganization().getId());
+			model.setOrganica(""+p.getOrganization().getId());
 		}
 		model.setActivo(p.getStatus());
 		if(p.getProfiletype()!=null){
-			model.setPerfil(p.getProfiletype().getId());
+		//	model.setPerfil(p.getProfiletype().getId());
 		}
 		
 		NovoPerfilView view = new NovoPerfilView(model);		
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");		
 		view.btn_gravar.setLink("editar_&p_id="+id);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);
-		view.organica.setValue( model.getAplicacao() != 0 ? new Organization().getListOrganizations(model.getAplicacao()) : null);
-		
+		/*view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);
+		*/
+		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
+      	
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditar_(@RParam(rParamName="p_id")String id) throws IllegalArgumentException, IllegalAccessException, IOException {
@@ -110,21 +110,21 @@ public class NovoPerfilController extends Controller {
 			p=p.findOne(Integer.parseInt(id));		
 			model.setCodigo(p.getCode());
 			model.setDescricao(p.getDescr());
-			model.setAplicacao(p.getApplication().getId());
+			model.setAplicacao(""+p.getApplication().getId());
 			if(p.getOrganization()!=null){
-				model.setOrganica(p.getOrganization().getId());
+				model.setOrganica(""+p.getOrganization().getId());
 			}
 			model.setActivo(p.getStatus());
 			if(p.getProfiletype()!=null){
-				model.setPerfil(p.getProfiletype().getId());
+				//model.setPerfil(p.getProfiletype().getId());
 			}
 			model.load();			
 			p.setCode(model.getCodigo());
 			p.setDescr(model.getDescricao());
 			p.setOrganization(new Organization().findOne(model.getOrganica()));
-			if(model.getPerfil()!=0){
+			/*if(model.getPerfil()!=0){
 				p.setProfiletype(new ProfileType().findOne(model.getPerfil()));
-			}
+			}*/
 			p.setStatus(model.getActivo());
 			p.setApplication(new Application().findOne(model.getAplicacao()));	
 			p = p.update();

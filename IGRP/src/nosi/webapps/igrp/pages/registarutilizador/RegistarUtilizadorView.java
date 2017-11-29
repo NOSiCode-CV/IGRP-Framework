@@ -50,9 +50,9 @@ public class RegistarUtilizadorView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_guardar = new IGRPButton(gt("Gravar"),"igrp","registar-utilizador","index","submit","success|fa-save","","");
 		btn_guardar.propertie.add("type","specific").add("code","").add("rel","guardar");
-		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
-		
+//		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		
 		
 	}
 		
@@ -69,7 +69,7 @@ public class RegistarUtilizadorView extends View {
 		form_1.addField(confirmar_password);
 
 		toolsbar_1.addButton(btn_guardar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

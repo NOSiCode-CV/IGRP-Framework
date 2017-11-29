@@ -8,7 +8,7 @@
         <button type="specific">
             <title>Sair</title>
             <app>RED</app>
-            <page /> 
+            <page />
             <link>#</link>
             <target>_self</target>
             <img>exit.png</img>
@@ -45,34 +45,16 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>NovaOrganica</page>
+                <link>index</link>
                 <target>submit</target>
-                <img>default|fa-angle-right</img>
-                <parameter>undefined</parameter>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>_back</target>
-                <img>default|fa-angle-right</img>
-                <parameter>undefined</parameter>
+                <img>info|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Codigo</label>
-                    <value>Magna sed lorem dolor labore</value>
-                </codigo>
-                <nome name="p_nome" type="lookup" action="" page="" app="" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome</label>
-                    <value/>
-                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
-                </nome>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
                     <label>Aplicacao</label>
                     <list>
@@ -95,6 +77,14 @@
                         </option>
                     </list>
                 </aplicacao>
+                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Deserunt dolor sed sit anim</value>
+                </nome>
+                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Dolor consectetur aperiam adip</value>
+                </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo</label>
                     <value>1</value>

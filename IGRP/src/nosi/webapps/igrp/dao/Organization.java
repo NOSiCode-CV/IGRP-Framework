@@ -50,7 +50,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	private Organization organization;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
 	private List<ProfileType> profilesType;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
+	@OneToMany(mappedBy="organization")
 	private List<Profile> profiles;
 	
 	public Organization(){}

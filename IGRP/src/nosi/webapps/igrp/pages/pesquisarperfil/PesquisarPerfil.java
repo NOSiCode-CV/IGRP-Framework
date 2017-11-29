@@ -1,21 +1,21 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
- 
+import java.util.List;
+
 public class PesquisarPerfil extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_aplicacao")
-	private int aplicacao;
-	@RParam(rParamName = "p_organia")
-	private int organia;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
@@ -25,28 +25,14 @@ public class PesquisarPerfil extends Model{
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
 	}
-	
-	public void setAplicacao(int aplicacao){
-		this.aplicacao = aplicacao;
-	}
-	public int getAplicacao(){
-		return this.aplicacao;
-	}
-	
-	public void setOrgania(int organia){
-		this.organia = organia;
-	}
-	public int getOrgania(){
-		return this.organia;
-	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String codigo;
 		private String descricao;
 		private String organica;
 		private String estado;
-		private int p_id;
+		private String p_id;
 		public void setCodigo(String codigo){
 			this.codigo = codigo;
 		}
@@ -75,13 +61,12 @@ public class PesquisarPerfil extends Model{
 			return this.estado;
 		}
 
-		public void setP_id(int p_id){
+		public void setP_id(String p_id){
 			this.p_id = p_id;
 		}
-		public int getP_id(){
+		public String getP_id(){
 			return this.p_id;
 		}
 
 	}
 }
-/*------------------------- END -------------------------*/

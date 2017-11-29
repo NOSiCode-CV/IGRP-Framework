@@ -82,6 +82,10 @@ public abstract class Controller {
 		return this.redirect_(Route.toUrl(r));
 	}
 	
+	protected final Response redirectError() throws IOException{
+		return this.redirect_(Route.toUrl("igrp", "error-page", "exception"));
+	}
+	
 	protected final Response redirect(String app, String page, String action) throws IOException{
 		return this.redirect_(Route.toUrl(app, page, action));
 	}
