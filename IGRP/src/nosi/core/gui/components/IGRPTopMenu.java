@@ -25,15 +25,17 @@ public class IGRPTopMenu extends IGRPComponent{
 		xml.startElement("top_menu");
 		if(this.buttons.size() > 0){
 			for(IGRPButton b:this.buttons){
-				xml.startElement("button");
-				xml.writeAttribute("type", "specific");
-					xml.setElement("title", b.getTitle());
-					xml.setElement("link", b.getLink());
-					xml.setElement("page", b.getPage());
-					xml.setElement("app",b.getApp());
-					xml.setElement("target", b.getTarget());
-					xml.setElement("img", b.getImg());
-				xml.endElement();
+				if(b.isVisible()){
+					xml.startElement("button");
+					xml.writeAttribute("type", "specific");
+						xml.setElement("title", b.getTitle());
+						xml.setElement("link", b.getLink());
+						xml.setElement("page", b.getPage());
+						xml.setElement("app",b.getApp());
+						xml.setElement("target", b.getTarget());
+						xml.setElement("img", b.getImg());
+					xml.endElement();
+				}
 			}
 		}
 		this.buttons = null;

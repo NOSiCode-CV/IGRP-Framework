@@ -12,7 +12,7 @@ public class GestaodeacessoView extends View {
 	public Field aplicacao;
 	public Field estado;
 	public Field org_nome;
-	public Field aidicionar_perfil;
+	public Field adicionar_perfil;
 	public Field mostrar_perfis;
 	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
@@ -26,7 +26,7 @@ public class GestaodeacessoView extends View {
 	public IGRPButton btn_transaction;
 	public IGRPButton btn_eliminar;
 	public GestaodeacessoView(Gestaodeacesso model){
-		this.setPageTitle("null");
+		this.setPageTitle("Gestao de Acesso");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -48,10 +48,10 @@ public class GestaodeacessoView extends View {
 		org_nome.setLabel(gt("Nome"));
 		
 		org_nome.propertie().add("name","p_org_nome").add("type","text").add("maxlength","30").add("align","center").add("lookup_parser","false").add("iskey","false");
-		aidicionar_perfil = new LinkField(model,"aidicionar_perfil");
-		aidicionar_perfil.setLabel(gt("Aidicionar Perfil"));
+		adicionar_perfil = new LinkField(model,"adicionar_perfil");
+		adicionar_perfil.setLabel(gt("Adicionar Perfil"));
 		
-		aidicionar_perfil.propertie().add("name","p_aidicionar_perfil").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","success").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		adicionar_perfil.propertie().add("name","p_adicionar_perfil").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","success").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		
@@ -85,7 +85,7 @@ public class GestaodeacessoView extends View {
 
 		org_table.addField(estado);
 		org_table.addField(org_nome);
-		org_table.addField(aidicionar_perfil);
+		org_table.addField(adicionar_perfil);
 		org_table.addField(mostrar_perfis);
 		org_table.addField(p_id);
 

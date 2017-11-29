@@ -6,7 +6,9 @@ package nosi.webapps.igrp.pages.novoutilizador;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.GroupService;
 import nosi.core.webapp.activit.rest.UserService;
@@ -87,6 +89,55 @@ public class NovoUtilizadorController extends Controller {
 	
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	public Response actionEditar(@RParam(rParamName = "p_id") String idProfile) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		if(idProfile!=null){
+			Profile p = new Profile().findOne(Integer.parseInt(idProfile));
+			if(p!=null){
+				NovoUtilizador model = new NovoUtilizador();
+				model.setAplicacao(p.getProfileType().getApplication().getId());
+				model.setOrganica(p.getOrganization().getId());
+				model.setPerfil(p.getProfileType().getId());
+				
+				NovoUtilizadorView view = new NovoUtilizadorView(model);
+				view.aplicacao.setValue(new Application().getListApps());
+				view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
+				view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
+				view.email.setValue(p.getUser().getEmail());
+				view.btn_gravar.setLink("editarProfile&p_id="+idProfile);
+				return this.renderView(view);
+			}
+		}
+		return this.redirectError();
+		/*----#END-PRESERVED-AREA----*/
+	}
 	
+	public Response actionEditarProfile(@RParam(rParamName = "p_id") String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		if(Igrp.getMethod().equalsIgnoreCase("post") && id!=null){
+			NovoUtilizador model = new NovoUtilizador();
+			model.load();
+			Profile p = new Profile().findOne(Integer.parseInt(id));
+			p.setOrganization(new Organization().findOne(model.getOrganica()));
+			p.setProfileType(new ProfileType().findOne(model.getPerfil()));
+			p.setType("PROF");
+			User u = new User().find().andWhere("email", "=", model.getEmail()).one();
+			if(u!=null){
+				p.setUser(u);
+				p.setType_fk(model.getPerfil());
+				p = p.update();
+				if(p!=null){
+					Core.setMessageSuccess();
+					return this.forward("igrp", "novo-utilizador", "editar&p_id="+id);
+				}else{
+					Core.setMessageError();
+				}
+			}else{
+				Core.setMessageError(gt("Email inválido"));
+			}
+		}
+		return this.redirectError();
+		/*----#END-PRESERVED-AREA----*/
+	}
 	/*----#END-PRESERVED-AREA----*/
 }

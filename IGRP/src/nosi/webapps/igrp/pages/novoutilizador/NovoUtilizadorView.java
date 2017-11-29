@@ -47,8 +47,8 @@ public class NovoUtilizadorView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","novo-utilizador","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -65,7 +65,7 @@ public class NovoUtilizadorView extends View {
 		form_1.addField(portal);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

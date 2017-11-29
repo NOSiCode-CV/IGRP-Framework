@@ -14,6 +14,8 @@ public class IGRPButton {
     private String params = "";
     private String parameter = "";
     private String type = "form";
+    private boolean visible = true;
+    
     public FieldProperties propertie;
     
     public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params){
@@ -32,6 +34,14 @@ public class IGRPButton {
     	this.propertie = new FieldProperties();
     }
     
+    public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
 	public String getType() {
 		return type;
 	}

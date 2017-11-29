@@ -111,21 +111,23 @@ public class IGRPToolsBar {
 	}
 	
 	private void genItem(String tag,IGRPButton item){
-		xml.startElement(tag);
-		GenXMLField.writteAttributes(xml, item.getProperties());
-		xml.setElement("title", item.getTitle());
-		xml.setElement("app", item.getApp());
-		xml.setElement("page", item.getPage());
-		xml.setElement("link", item.getLink());
-		xml.setElement("target", item.getTarget());
-		xml.setElement("img", item.getImg());
-		if(item.getParams().compareTo("") != 0){
-			xml.setElement("params", item.getParams());
+		if(item.isVisible()){
+			xml.startElement(tag);
+			GenXMLField.writteAttributes(xml, item.getProperties());
+			xml.setElement("title", item.getTitle());
+			xml.setElement("app", item.getApp());
+			xml.setElement("page", item.getPage());
+			xml.setElement("link", item.getLink());
+			xml.setElement("target", item.getTarget());
+			xml.setElement("img", item.getImg());
+			if(item.getParams().compareTo("") != 0){
+				xml.setElement("params", item.getParams());
+			}
+			if(item.getParams().compareTo("") != 0){
+				xml.setElement("parameter", item.getParameter());
+			}
+			xml.endElement();
 		}
-		if(item.getParams().compareTo("") != 0){
-			xml.setElement("parameter", item.getParameter());
-		}
-		xml.endElement();
 	}
 	
 	public void addButton(IGRPButton button){

@@ -34,5 +34,7 @@ public abstract class IGRPComponent {
 		this.connectionName = connectionName;
 	}
 
-	
+	public void setTitle(String title){
+		this.properties.put("title", title);
+	}
 }

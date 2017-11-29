@@ -1,13 +1,12 @@
+
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
-
 import static nosi.core.i18n.Translator.gt;
 
 public class PesquisarUtilizadorView extends View {
-	public String title = gt("Gestão de utilizador");
+	
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -23,76 +22,78 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_adicionar_utilizador;
+	public IGRPButton btn_lista_geral;
+	public IGRPButton btn_convidar;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
-	public IGRPButton btn_convidar;
-	public IGRPButton btn_novo;
-	public IGRPButton btn_menu;
-	public IGRPButton btn_transacao;
-	
-	public PesquisarUtilizadorView(PesquisarUtilizador model){			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
-		form_1 = new IGRPForm("form_1");
-		table_1 = new IGRPTable("table_1");
+	public IGRPButton btn_convidar_user;
+	public PesquisarUtilizadorView(PesquisarUtilizador model){
+		this.setPageTitle("Lista de Utilizador");
+			
+		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		form_1 = new IGRPForm("form_1","");
+		table_1 = new IGRPTable("table_1","Utilizadores Convidados");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
-		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Gestão de utilizador"));
+		sectionheader_1_text.setLabel(gt(""));
+		
+		sectionheader_1_text.setValue(gt("Gestao de utilizador"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicação"));
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","true").add("disabled","false").add("right","false");
+		aplicacao.setLabel(gt("Aplicacao"));
+		
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false");
+		organica.setLabel(gt("Organica"));
+		
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","false").add("disabled","false").add("right","false");
+		
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		username = new TextField(model,"username");
 		username.setLabel(gt("Username"));
+		
 		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		email = new TextField(model,"email");
-		email.setLabel("Email");
+		email.setLabel(gt("Email"));
+		
 		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome = new PlainTextField(model,"nome");
-		nome.setLabel("User Name");
-		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false");
+		nome.setLabel(gt("Nome"));
+		
+		nome.propertie().add("name","p_nome").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nominho = new PlainTextField(model,"nominho");
-		nominho.setLabel("Name");
-		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false");
+		nominho.setLabel(gt("Nominho"));
+		
+		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false").add("iskey","false");
 		p_id = new HiddenField(model,"p_id");
-		p_id.setLabel("");
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
+		p_id.setLabel(gt(""));
+		
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","modal","success|fa-plus-square","","");
+		btn_adicionar_utilizador.propertie.add("type","specific").add("code","").add("rel","adicionar_utilizador");
+		btn_lista_geral = new IGRPButton("Lista Geral","igrp","PesquisarUtilizador","lista_geral","modal","default|fa-list","","");
+		btn_lista_geral.propertie.add("type","specific").add("code","").add("rel","lista_geral");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","modal","warning|fa-send","","");
+		btn_convidar.propertie.add("type","specific").add("code","").add("rel","convidar");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
+		btn_pesquisar.propertie.add("type","form").add("code","").add("class","primary").add("rel","pesquisar");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit","warning|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
+		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarUtilizador","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
+		btn_convidar_user = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar_user","mpsubmit","warning|fa-send","","");
+		btn_convidar_user.propertie.add("type","specific").add("code","").add("class","warning").add("rel","convidar_user");
 		
-		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","PesquisarUtilizador","index","submit","default|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		
-		btn_editar = new IGRPButton(gt("Editar"),"igrp","RegistarUtilizador","editar","_self","default|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("code","").add("class","default").add("rel","editar");
-		
-		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","PesquisarUtilizador","eliminar","confirm","default|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
-		
-		btn_convidar = new IGRPButton(gt("Convidar"),"igrp","PesquisarUtilizador","convidar","submit","default|fa-angle-right","","");
-		btn_convidar.propertie.add("type","specific").add("code","").add("class","default").add("rel","convidar");
-		
-
-		btn_novo = new IGRPButton(gt("Novo"),"igrp","RegistarUtilizador","index","_self","success|fa-plus","","");
-		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
-		
-		btn_menu = new IGRPButton("Menu","igrp","MenuOrganica","index","_self","default|fa-angle-right","","");
-		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
-
-		btn_transacao = new IGRPButton(gt("Transação"),"igrp","TransacaoOrganica","index","_self","default|fa-angle-right","","");
-		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 	}
 		
 	@Override
 	public void render(){
-		Config.TITLE = this.title;
-
+		
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);
@@ -108,15 +109,13 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(perfil);
 		table_1.addField(p_id);
 
+		toolsbar_1.addButton(btn_adicionar_utilizador);
+		toolsbar_1.addButton(btn_lista_geral);
+		toolsbar_1.addButton(btn_convidar);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
-		table_1.addButton(btn_convidar);
-//		table_1.addButton(btn_menu);
-//		table_1.addButton(btn_transacao);
-		
-		toolsbar_1.addButton(btn_novo);
-		toolsbar_1.addButton(btn_convidar);
+		table_1.addButton(btn_convidar_user);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
