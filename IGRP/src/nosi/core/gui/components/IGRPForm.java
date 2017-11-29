@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.Igrp;
 
 public class IGRPForm extends IGRPComponent{
 	protected ArrayList<Field> fields;
@@ -33,6 +35,11 @@ public class IGRPForm extends IGRPComponent{
 	public IGRPForm(String tag_name,String title) {
 		super(tag_name,title);
 		this.fields = new ArrayList<>();
+		
+		/** IGRP Csrf Protection **/
+		this.fields.add(new HiddenField("igrp_csrf", Igrp.getInstance().generateCsrfToken()));
+		/** **/
+		
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "form");
 		this.properties.put("xml-type", "form");
