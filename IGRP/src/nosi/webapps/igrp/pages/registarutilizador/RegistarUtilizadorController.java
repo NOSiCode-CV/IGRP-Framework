@@ -23,7 +23,7 @@ public class RegistarUtilizadorController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		RegistarUtilizador model = new RegistarUtilizador();
 		boolean isError = false;
-		
+
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){			
 			model.load();			
 			if(!model.getPassword().equals(model.getConfirmar_password())){
@@ -43,7 +43,8 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user = user.insert();
 				if(user!=null){
-					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Utilizador registado com sucesso."));
+					Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
+					Core.setMessageInfoLink(gt("Convidar "+user.getName()),"igrp","novo-utilizador","index&target=_blank&id="+user.getId());
 					return this.redirect("igrp", "registar-utilizador", "index");
 				}
 				else

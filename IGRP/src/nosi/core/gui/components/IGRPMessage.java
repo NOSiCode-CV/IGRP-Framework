@@ -13,6 +13,11 @@ package nosi.core.gui.components;
  * </messages>
  */
 import nosi.core.xml.XMLWritter;
+
+import org.apache.commons.lang.StringEscapeUtils;
+
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.LinkField;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 
@@ -46,6 +51,16 @@ public class IGRPMessage {
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "info");
 			this.result.text(msg);
+			this.result.endElement();
+		}
+		
+
+		// Info
+		for(String msg : flashMessage.getMessages(FlashMessage.INFO_LINK)){
+			this.result.startElement("message");
+			this.result.writeAttribute("type", "info");
+			String []m = msg.split("/#RESERVE#/");
+			this.result.text(StringEscapeUtils.escapeXml("<a href=\""+m[1]+"\">"+m[0]+"</a>"));
 			this.result.endElement();
 		}
 		

@@ -21,6 +21,7 @@ public class NovaOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovaOrganica model = new NovaOrganica();
+		model.setAtivo(1);
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
@@ -55,6 +56,7 @@ public class NovaOrganicaController extends Controller {
 			organization = organization.insert();
 			if(organization!=null){
 				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
+				Core.setMessageInfoLink(gt("Atribuir menu para Orgânica: "+organization.getName()),"igrp", "MenuOrganica", "index&target=_blank&id="+organization.getId()+"&type=org");
 			}else
 				Core.setMessageError(gt("Ocorreu um erro."));			
 		return this.redirect("igrp", "nova-organica", "index");

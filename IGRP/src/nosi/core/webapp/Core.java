@@ -3,6 +3,8 @@ package nosi.core.webapp;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import javax.xml.bind.JAXB;
+
+import nosi.core.config.Config;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
@@ -51,6 +53,16 @@ public class Core {
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, msg);
 	}
 
+	//Add Message Info With Link
+	public static void setMessageInfoLink(String msg,String link){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+link);
+	}
+	
+	//Add Message Info With Link
+	public static void setMessageInfoLink(String msg,String app,String page,String action){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
+	}
+		
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);

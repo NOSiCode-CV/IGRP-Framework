@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeralApresentacao extends Model{		
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
-	@RParam(rParamName = "p_paragraph_1_text")
-	private String paragraph_1_text;
+	@RParam(rParamName = "p_sectionheader_2_text")
+	private String sectionheader_2_text;
 	@RParam(rParamName = "p_videos")
 	private String videos;
 	@RParam(rParamName = "p_documentos")
@@ -28,24 +26,26 @@ public class GeralApresentacao extends Model{
 	private String como_contribuir;
 	@RParam(rParamName = "p_paragraph_6_text")
 	private String paragraph_6_text;
-	@RParam(rParamName = "p_paragraph_2_text")
-	private String paragraph_2_text;
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	@RParam(rParamName = "p_paragraph_3_text")
 	private String paragraph_3_text;
-	@RParam(rParamName = "p_paragraph_4_text")
-	private String paragraph_4_text;
 	@RParam(rParamName = "p_paragraph_5_text")
 	private String paragraph_5_text;
-	@RParam(rParamName = "p_video_1_text")
-	private String video_1_text;
+	@RParam(rParamName = "p_paragraph_4_text")
+	private String paragraph_4_text;
+	@RParam(rParamName = "p_paragraph_2_text")
+	private String paragraph_2_text;
+	@RParam(rParamName = "p_paragraph_1_text")
+	private String paragraph_1_text;
 	@RParam(rParamName = "p_video_3_text")
 	private String video_3_text;
-	@RParam(rParamName = "p_video_4_text")
-	private String video_4_text;
 	@RParam(rParamName = "p_video_5_text")
 	private String video_5_text;
-	@RParam(rParamName = "p_sectionheader_2_text")
-	private String sectionheader_2_text;
+	@RParam(rParamName = "p_video_4_text")
+	private String video_4_text;
+	@RParam(rParamName = "p_video_1_text")
+	private String video_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -55,18 +55,11 @@ public class GeralApresentacao extends Model{
 		return this.table_1;
 	}
 	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
+	public void setSectionheader_2_text(String sectionheader_2_text){
+		this.sectionheader_2_text = sectionheader_2_text;
 	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
-	}
-	
-	public void setParagraph_1_text(String paragraph_1_text){
-		this.paragraph_1_text = paragraph_1_text;
-	}
-	public String getParagraph_1_text(){
-		return this.paragraph_1_text;
+	public String getSectionheader_2_text(){
+		return this.sectionheader_2_text;
 	}
 	
 	public void setVideos(String videos){
@@ -125,11 +118,11 @@ public class GeralApresentacao extends Model{
 		return this.paragraph_6_text;
 	}
 	
-	public void setParagraph_2_text(String paragraph_2_text){
-		this.paragraph_2_text = paragraph_2_text;
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
 	}
-	public String getParagraph_2_text(){
-		return this.paragraph_2_text;
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
 	}
 	
 	public void setParagraph_3_text(String paragraph_3_text){
@@ -139,13 +132,6 @@ public class GeralApresentacao extends Model{
 		return this.paragraph_3_text;
 	}
 	
-	public void setParagraph_4_text(String paragraph_4_text){
-		this.paragraph_4_text = paragraph_4_text;
-	}
-	public String getParagraph_4_text(){
-		return this.paragraph_4_text;
-	}
-	
 	public void setParagraph_5_text(String paragraph_5_text){
 		this.paragraph_5_text = paragraph_5_text;
 	}
@@ -153,11 +139,25 @@ public class GeralApresentacao extends Model{
 		return this.paragraph_5_text;
 	}
 	
-	public void setVideo_1_text(String video_1_text){
-		this.video_1_text = video_1_text;
+	public void setParagraph_4_text(String paragraph_4_text){
+		this.paragraph_4_text = paragraph_4_text;
 	}
-	public String getVideo_1_text(){
-		return this.video_1_text;
+	public String getParagraph_4_text(){
+		return this.paragraph_4_text;
+	}
+	
+	public void setParagraph_2_text(String paragraph_2_text){
+		this.paragraph_2_text = paragraph_2_text;
+	}
+	public String getParagraph_2_text(){
+		return this.paragraph_2_text;
+	}
+	
+	public void setParagraph_1_text(String paragraph_1_text){
+		this.paragraph_1_text = paragraph_1_text;
+	}
+	public String getParagraph_1_text(){
+		return this.paragraph_1_text;
 	}
 	
 	public void setVideo_3_text(String video_3_text){
@@ -167,13 +167,6 @@ public class GeralApresentacao extends Model{
 		return this.video_3_text;
 	}
 	
-	public void setVideo_4_text(String video_4_text){
-		this.video_4_text = video_4_text;
-	}
-	public String getVideo_4_text(){
-		return this.video_4_text;
-	}
-	
 	public void setVideo_5_text(String video_5_text){
 		this.video_5_text = video_5_text;
 	}
@@ -181,11 +174,18 @@ public class GeralApresentacao extends Model{
 		return this.video_5_text;
 	}
 	
-	public void setSectionheader_2_text(String sectionheader_2_text){
-		this.sectionheader_2_text = sectionheader_2_text;
+	public void setVideo_4_text(String video_4_text){
+		this.video_4_text = video_4_text;
 	}
-	public String getSectionheader_2_text(){
-		return this.sectionheader_2_text;
+	public String getVideo_4_text(){
+		return this.video_4_text;
+	}
+	
+	public void setVideo_1_text(String video_1_text){
+		this.video_1_text = video_1_text;
+	}
+	public String getVideo_1_text(){
+		return this.video_1_text;
 	}
 
 

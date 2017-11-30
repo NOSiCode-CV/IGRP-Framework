@@ -101,6 +101,23 @@ public class PesquisarPerfilController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
+
+	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(CONVIDAR)----*/
+		PesquisarPerfil model = new PesquisarPerfil();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+          	if(id!=null){
+              return this.redirect("igrp", "novo-utilizador", "index&target=_blank&p_id_prof="+id);
+            }else{
+              return this.redirectError();
+            }
+		}
+		return this.redirect("igrp","NovoUtilizador","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/
