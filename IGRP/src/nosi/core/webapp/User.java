@@ -86,7 +86,7 @@ public class User implements Component{
 			String authenticationKey = json.getString(1);
 			nosi.webapps.igrp.dao.User user = new nosi.webapps.igrp.dao.User();
 			user = user.findIdentityById(identityId);
-			if(user!=null && authenticationKey.equals(user.getAuth_key())) {
+			if(user!=null && user.getId()!=0 && authenticationKey.equals(user.getAuth_key())) {
 				// create the session context here
 				Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
 				this.identity = (Identity) user;

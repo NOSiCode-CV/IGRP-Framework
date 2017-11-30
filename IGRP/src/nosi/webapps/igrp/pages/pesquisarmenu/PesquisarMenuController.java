@@ -11,10 +11,13 @@ import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.ProfileType;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -31,11 +34,22 @@ public class PesquisarMenuController extends Controller {
 			menu.setMenu(model.getMenu_principal()!=0?new Menu().findOne(model.getMenu_principal()):null);
 		}
 		List<Menu> menus= null;
+	
 		if(model.getOrganica()==0){
-			menus = menu.find()
-					   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null)
-					   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
-					   .all();
+			int idProf = Permission.getCurrentPerfilId();
+			ProfileType p = new ProfileType().findOne(idProf);		
+			if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+				menus = menu.find()
+						   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null)
+						   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
+						   .all();
+			}else{
+				Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+				  menus = menu.find()
+						   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():app.getId())
+						   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
+						   .all();
+			}
 		}else{
 			menus = menu.searchMen();
 		}	

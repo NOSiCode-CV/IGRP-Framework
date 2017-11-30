@@ -27,7 +27,7 @@ public class MenuOrganicaController extends Controller {
 			model.setId(id);
 			model.setType(type);		
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
-			List<Menu> menus = null;
+			List<Menu> menus = new ArrayList<>();
 			if(type.equals("org")){
 				menus = new Organization().getOrgMenu();
 			}else if(type.equals("perfil")){
@@ -35,25 +35,27 @@ public class MenuOrganicaController extends Controller {
 				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
 			}
 			for(Menu m:menus){
-				MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
-				table.setMenu(m.getId());
-				Profile prof = new Profile();
-				prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
-				prof.setProfileType(new ProfileType().findOne(0));
-				prof.setUser(new User().findOne(0));
-				prof.setType_fk(m.getId());
-				if(type.equals("perfil")){
-					ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
-					prof.setOrganization(p.getOrganization());
-					prof.setProfileType(new ProfileType().findOne(p.getId()));
+				if(m.getFlg_base()==0){
+					MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
+					table.setMenu(m.getId());
+					Profile prof = new Profile();
+					prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+					prof.setProfileType(new ProfileType().findOne(0));
+					prof.setUser(new User().findOne(0));
+					prof.setType_fk(m.getId());
+					if(type.equals("perfil")){
+						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+						prof.setOrganization(p.getOrganization());
+						prof.setProfileType(new ProfileType().findOne(p.getId()));
+					}
+					if((type.equals("org") && prof.isInsertedOrgMen()) || (type.equals("perfil") && prof.isInsertedPerfMen())){
+						table.setMenu_check(m.getId());
+					}else{
+						table.setMenu_check(-1);
+					}
+					table.setDescricao(m.getDescr());
+					data.add(table);
 				}
-				if((type.equals("org") && prof.isInsertedOrgMen()) || (type.equals("perfil") && prof.isInsertedPerfMen())){
-					table.setMenu_check(m.getId());
-				}else{
-					table.setMenu_check(-1);
-				}
-				table.setDescricao(m.getDescr());
-				data.add(table);
 			}		
 			view = new MenuOrganicaView(model);	
 			view.table_1.addData(data);

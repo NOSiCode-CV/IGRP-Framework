@@ -6,6 +6,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -36,13 +37,28 @@ public class PesquisarUtilizadorController extends Controller {
       	int idProf = (model.getPerfil()!=null && !model.getPerfil().equals(""))?Integer.parseInt(model.getPerfil()):0;
       
 		Profile prof = new Profile();
-		List<Profile> profiles = prof.find().andWhere("type","=", "PROF")
-											.andWhere("user.user_name", "=", model.getUsername())
-											.andWhere("organization", "=",idOrg!=0?idOrg:null)
-											.andWhere("profileType", "=",idProf!=0?idProf:null)
-											.andWhere("profileType.application", "=",idApp!=0?idApp:null)
-											.andWhere("user.email", "=", model.getEmail())
-											.all();
+		List<Profile> profiles = null;
+
+		int idProfC = Permission.getCurrentPerfilId();
+		ProfileType pp = new ProfileType().findOne(idProfC);		
+		if(pp!=null && pp.getCode().equalsIgnoreCase("ADMIN")){
+			profiles = prof.find().andWhere("type","=", "PROF")
+						.andWhere("user.user_name", "=", model.getUsername())
+						.andWhere("organization", "=",idOrg!=0?idOrg:null)
+						.andWhere("profileType", "=",idProf!=0?idProf:null)
+						.andWhere("profileType.application", "=",idApp!=0?idApp:null)
+						.andWhere("user.email", "=", model.getEmail())
+						.all();
+		}else{
+			Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+			profiles = prof.find().andWhere("type","=", "PROF")
+					.andWhere("user.user_name", "=", model.getUsername())
+					.andWhere("organization", "=",idOrg!=0?idOrg:null)
+					.andWhere("profileType", "=",idProf!=0?idProf:null)
+					.andWhere("profileType.application", "=",idApp!=0?idApp:app.getId())
+					.andWhere("user.email", "=", model.getEmail())
+					.all();
+		}
 		//Preenchendo a tabela 
 		for(Profile p:profiles){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
@@ -162,10 +178,16 @@ public class PesquisarUtilizadorController extends Controller {
 		} 
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();			
 		//condiccao para pesquisar com filtros
-		List<User> users = new User().find()
+		List<User> users = new ArrayList<>();
+
+		int idProfC = Permission.getCurrentPerfilId();
+		ProfileType pp = new ProfileType().findOne(idProfC);		
+		if(pp!=null && pp.getCode().equalsIgnoreCase("ADMIN")){
+			users = new User().find()
 							.andWhere("email", "=", model.getEmail())
 							.andWhere("user_name", "=", model.getUsername())
 							.all();
+		}
 		//Preenchendo a tabela 
 		for(User p:users){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();

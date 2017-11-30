@@ -228,7 +228,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 		int idProf = Permission.getCurrentPerfilId();
 		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ALL")){
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
 			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
 		}else if(p!=null){
 			Application app = this.find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
@@ -301,7 +301,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 				proty = proty.insert();				
 			}
 		}
-		return null;
+		return app;
 	}
 	
 	public Application insertOnly() {
