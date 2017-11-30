@@ -93,7 +93,7 @@ var GENTABLE = function(name,params){
 		container.setPropriety({
 			name:'dataTable',
 			label : 'Data Table',
-			value:false,
+			value:true,
 			xslValue:'igrp-data-table'
 		});
 

@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -28,10 +29,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -86,37 +84,13 @@ public class EnvController extends Controller {
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				new Compiler().compile(new File[]{new File(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-				User user = new User();
-				user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-				Organization org = new Organization();				
-				org.setCode("org." + model.getDad());
-				org.setName("org." + model.getName());
-				org.setUser(user);
-				org.setApplication(app);
-				org.setStatus(1);
-				org = org.insert();
-				if(org!=null){	
-					ProfileType proty = new ProfileType();			
-					proty.setCode("Admin." + org.getName());
-					proty.setDescr("PefilAdmin.default " + org.getName());
-					proty.setOrganization(org);
-					proty.setApplication(app);
-					proty.setStatus(1);		
-					proty = proty.insert();
-					if(proty==null){
-						Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao registar o perfil !"));
-					}					
-				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao registar a Orgânica !"));
-				}
-				
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-				}				
+				}		
+				Core.setMessageSuccess();
 				return this.redirect("igrp", "lista-env","index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+				Core.setMessageError();
 			}
 		}
 		return this.forward("igrp", "env", "index");

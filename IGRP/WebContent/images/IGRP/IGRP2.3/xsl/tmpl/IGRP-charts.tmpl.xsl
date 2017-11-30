@@ -43,25 +43,25 @@
     <xsl:variable name="graph-id" select="local-name($grafico)"/>
 
     <xsl:variable name="categories">
-      <xsl:for-each select="$grafico/label/col[position()!=1]"><xsl:value-of select="."/><xsl:if test="position() != last()">,</xsl:if>
+      <xsl:for-each select="$grafico/label/col[position()!=1]"><xsl:value-of select="."/><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
     </xsl:variable>
 
     <xsl:variable name="desc-label" select="$grafico/label/col[position()=1]"/>
 
     <xsl:variable name="labels">
-      <xsl:for-each select="$grafico/value/row"><xsl:value-of select="col[position() = 1]"/><xsl:if test="position() != last()">,</xsl:if>
+      <xsl:for-each select="$grafico/value/row"><xsl:value-of select="col[position() = 1]"/><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
     </xsl:variable>
 
     <xsl:variable name="data">
       <xsl:for-each select="$grafico/value/row"><xsl:for-each select="col[position() &gt; 1]">
-        <xsl:choose><xsl:when test=". != ''"><xsl:value-of select="."/></xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose><xsl:if test="position() != last()">,</xsl:if></xsl:for-each><xsl:if test="position() != last()">|</xsl:if>
+        <xsl:choose><xsl:when test=". != ''"><xsl:value-of select="."/></xsl:when><xsl:otherwise>0</xsl:otherwise></xsl:choose><xsl:if test="position() != last()">!</xsl:if></xsl:for-each><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
     </xsl:variable>
 
     <xsl:variable name="colors">
-      <xsl:for-each select="$grafico/colors/col"><xsl:value-of select="."/><xsl:if test="position() != last()">,</xsl:if>
+      <xsl:for-each select="$grafico/colors/col"><xsl:value-of select="."/><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
     </xsl:variable>
     

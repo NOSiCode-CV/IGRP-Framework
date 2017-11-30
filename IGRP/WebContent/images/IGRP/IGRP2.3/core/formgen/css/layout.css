@@ -11,14 +11,14 @@
 	border: 1px solid rgba(255, 255, 150, 0.5);
 }
 
-#gen-design .row{
+#gen-design .gen-row{
 	position: relative;
 	border: 1px dashed #ececec;
 	margin-bottom: 15px;
 	min-height: 110px;
 }
 
-.row .row .row {
+.gen-row .gen-row .gen-row {
 	margin:0;
 }
 
@@ -26,7 +26,7 @@
 .ui-sortable-helper>*{ 
 	display: none;
 }
-.row .row-options{
+.gen-row .row-options{
 	right: 0;
 	top: 0;
 	border-bottom: 1px solid rgb(236, 236, 236);

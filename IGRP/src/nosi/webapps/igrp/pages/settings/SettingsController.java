@@ -54,8 +54,7 @@ public class SettingsController extends Controller {
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());
-		
-		view.sectionheader_1_text.setValue(gt("Minha ¡rea Pessoal")+ ": " + user.getName());
+		view.sectionheader_1_text.setValue(gt("Minha √Årea Pessoal") + ": " + user.getName());
 		/*view.telefone.setValue(user.getPhone());
 		view.telemovel.setValue(user.getMobile());
 		view.password_expira_em.setValue(user.getValid_until());
@@ -69,9 +68,9 @@ public class SettingsController extends Controller {
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", gt("-- Selecionar Idioma --"));
-		idioma.put("pt_PT", gt("PortuguÍs"));
-		idioma.put("en_US", gt("InglÍs"));
-		idioma.put("fr_FR", gt("FrancÍs"));
+		idioma.put("pt_PT", gt("Portugu√™s"));
+		idioma.put("en_US", gt("Ingl√™s"));
+		idioma.put("fr_FR", gt("Franc√™s"));
 		idioma.put("es_ES", gt("Espanhol"));
 		view.idioma.setValue(idioma);
 		
@@ -94,7 +93,7 @@ public class SettingsController extends Controller {
 				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
 
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] OperaÁ„o efectuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Opera√ß√£o efectuada com sucesso"));
 		
 		}
 		return this.redirect("igrp", "settings", "index");

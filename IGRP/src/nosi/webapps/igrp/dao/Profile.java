@@ -200,4 +200,12 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 				));
 		return p!=null && p.getProfileType()!=null;
 	}
+
+	@Override
+	public String toString() {
+		return "Profile [id=" + id + ", type_fk=" + type_fk + ", type=" + type + ", profileType=" + profileType
+				+ ", user=" + user + ", organization=" + organization + "]";
+	}
+	
+	
 }

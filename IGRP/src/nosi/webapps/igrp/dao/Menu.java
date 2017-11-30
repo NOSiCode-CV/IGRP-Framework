@@ -187,6 +187,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		q.setParameter(6,Permission.getCurrentPerfilId());	
 		q.setParameter(7,Permission.getCurrentOrganization());	
 		HashMap<String,List<Menu>> list = new HashMap<>();
+		System.out.println(q.toString());
+		System.err.println(sql);
 		for(Object[] o: q.getResultList()){
 			if(o instanceof Object[]){
 				Menu m = new Menu();

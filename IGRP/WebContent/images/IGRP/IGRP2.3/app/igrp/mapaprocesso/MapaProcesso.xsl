@@ -11,71 +11,13 @@
         <link rel="stylesheet" type="text/css" href="{$path}/plugins/panels/igrp.panels.css?v={$version}"/>
         
         <style>
-          #igrp-contents .content{
-           padding-top:50px;
-          }
-          .row-fluid .container-fluid{
-            padding:0 50px;
-          }
-
-          .row-fluid .navbar {
-            border-radius:0;
-            border:0;
-            background:#f7f7f7;
-            min-height:auto;
-            padding:0;
-            border-bottom:2px solid #ddd;
-            position:fixed;
-            z-index:100;
-            top:55px;
-          }
-
-          .row-fluid .navbar .form-group{
-            margin:0;
-            position:relative;
-            top:2px
-          }
-
+          
           section.content-header.gen-container-item{
             padding:0
           }
           section.content-header h2{
             margin: 0;
             line-height: 50px;
-          }
-            
-          #searcher input{
-            background: transparent;
-            box-shadow: none;
-            border: 0;
-            font-size:18px;
-            height:auto
-          }
-
-          #searcher input:focus,
-          #searcher input:focus+.input-group-btn{
-            border-color:#337ab7
-          }
-
-          #searcher input:focus+.input-group-btn .btn{
-            color:#337ab7
-          }
-
-          #searcher input,
-          #searcher .input-group-btn{
-            border-bottom: 2px solid #ddd;
-            transition: border-color .8s
-          }
-
-          #searcher .input-group-btn button{
-            background:transparent;
-            border:0;
-            box-shadow:none!important;
-            color:#ddd
-          }
-
-          #searcher .input-group-btn button:after{
-            content:""
           }
 
           .igrp-box-holder.box>.box-body{
@@ -106,13 +48,13 @@
         </style>
 
       </head>
-      <body class="{$bodyClass} old-v fluid sidebar-off">
+      <body class="{$bodyClass} old-v fluid sidebar-off" >
         <xsl:call-template name="IGRP-topmenu"/>
         <form>
           <div class="container-fluid">
             <div class="row">
               <xsl:call-template name="IGRP-sidebar"/>
-              <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
+              <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main with-search" id="igrp-contents">
                 <div class="content">
                   <div class="row row-fluid">
                     <nav class="navbar navbar-default" role="navigation">
@@ -323,6 +265,7 @@
 
     </xsl:if>
   </xsl:template>
+
 
   <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=20150615"/>
   <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=20150615"/>
