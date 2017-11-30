@@ -97,7 +97,9 @@ public abstract class AbstractField implements Field{
 	}
 
 	public void setSqlQuery(String connectionName,String sql){
-		this.connectionName = connectionName;
+		if(connectionName!=null && !connectionName.equals("")){
+			this.connectionName = connectionName;
+		}
 		this.setSqlQuery(sql);
 	}
 	

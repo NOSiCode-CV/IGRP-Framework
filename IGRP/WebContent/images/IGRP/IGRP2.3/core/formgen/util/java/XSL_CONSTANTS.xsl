@@ -315,4 +315,13 @@
         </xsl:variable>
         <xsl:text>/*----#END-PRESERVED-AREA----*/</xsl:text>
     </xsl:template>
+    
+    <!-- Your connection name -->
+    <xsl:template name="generateCommentConnectionName">
+    	<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/>
+		<xsl:text>/*Specify your connection name in first parameter*/</xsl:text>
+    	<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/>
+    </xsl:template>
 </xsl:stylesheet>

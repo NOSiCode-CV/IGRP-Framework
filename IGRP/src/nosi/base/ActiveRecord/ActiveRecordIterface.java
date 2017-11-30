@@ -17,6 +17,7 @@ public interface ActiveRecordIterface<T> {
 	public T find();
 	public T one();
 	public List<T> all();
+	public T andWhere(String columnName,String operator);
 	public T andWhere(String columnName,String operator,Object value);
 	public T andWhere(String columnName,String operator,java.sql.Date value);
 	public T andWhere(String columnName,String operator,Number value);

@@ -404,12 +404,13 @@
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
+ 			<xsl:call-template name="generateCommentConnectionName"/>
 	 		<xsl:choose>
 	 			<xsl:when test="./chart_type='pie'">
-	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
+	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
 	 			</xsl:when>
 	 			<xsl:otherwise>
-	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,$sql_chart3d,$double_quotes,');')"/>
+	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart3d,$double_quotes,');')"/>
 	 			</xsl:otherwise>
 	 		</xsl:choose>
 	 	</xsl:for-each>
@@ -427,7 +428,8 @@
 	 				<xsl:value-of select="concat($simple_quotes,local-name(),$simple_quotes,' ',local-name(),', ')"/>
 	 			</xsl:for-each>
 	 		</xsl:variable>
-			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,'your connection name',$double_quotes,',',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
+ 			<xsl:call-template name="generateCommentConnectionName"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
 	 	</xsl:for-each>
  	</xsl:template>
  	
@@ -438,7 +440,8 @@
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
 		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
-				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,'your connection name',$double_quotes,',',$double_quotes,'SELECT id as ID, name as NAME FROM tbl_domain WHERE code = ',$simple_quotes,'SIM_NAO',$simple_quotes,$double_quotes,');')"/>
+	 			<xsl:call-template name="generateCommentConnectionName"/>
+				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT id as ID, name as NAME FROM tbl_domain WHERE code = ',$simple_quotes,'SIM_NAO',$simple_quotes,$double_quotes,');')"/>
 		 	</xsl:for-each>
 	 	</xsl:for-each>
  	</xsl:template>

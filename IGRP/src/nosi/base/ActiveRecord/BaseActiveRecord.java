@@ -327,6 +327,35 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 	}
 
 	@Override
+	public T andWhere(String columnName, String operator) {
+		if((operator.toString().equalsIgnoreCase("notnull") || operator.toString().equalsIgnoreCase("notnull"))&& this.entityManagerFactory!=null){
+			if(this.entityManagerFactory.isOpen()){
+				Predicate e = null;
+				switch (operator.toLowerCase()) {
+				case "isnull":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						e = this.getBuilder().isNull(this.getRoot().join(aux[0]).get(aux[1]));
+					}else{
+						e = this.getBuilder().isNull(this.getRoot().get(columnName));
+					}
+					break;
+				case "notnull":
+					if(columnName.contains(".")){
+						String[] aux = columnName.split("\\.");
+						e = this.getBuilder().isNotNull(this.getRoot().join(aux[0]).get(aux[1]));
+					}else{
+						e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
+					}
+					break;
+				}
+				this.predicates.add(e);
+			}
+		}
+		return this.className;
+	}
+	
+	@Override
 	public T andWhere(String columnName, String operator, Date value) {
 		if(value!=null && !value.toString().equals("") && this.entityManagerFactory!=null){
 			if(this.entityManagerFactory.isOpen()){

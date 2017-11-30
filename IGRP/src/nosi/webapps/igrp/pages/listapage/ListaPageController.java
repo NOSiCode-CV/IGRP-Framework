@@ -13,11 +13,15 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
+import nosi.webapps.igrp.dao.ProfileType;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,11 +44,23 @@ public class ListaPageController extends Controller {
 			a.setPage(model.getPage());
 			a.setPage_descr(model.getPage_descr());
 		}	
-		List<Action> actions = a.find()
-				  .andWhere("application", "=", model.getEnv_fk()!=0?model.getEnv_fk():null)
+		List<Action> actions = null;
+		int idProf = Permission.getCurrentPerfilId();
+		ProfileType p = new ProfileType().findOne(idProf);		
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+			 actions = a.find()
+					  .andWhere("application", "=", model.getEnv_fk()!=0?model.getEnv_fk():null)
+					  .andWhere("page", "like", model.getPage())
+					  .andWhere("page_descr", "like", model.getPage_descr())
+					  .all();
+		}else if(p!=null){
+				  Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+				  actions = a.find()
+				  .andWhere("application", "=", model.getEnv_fk()!=0?model.getEnv_fk():app.getId())
 				  .andWhere("page", "like", model.getPage())
 				  .andWhere("page_descr", "like", model.getPage_descr())
 				  .all();
+		}
 		for(Action ac:actions){
 			ListaPage.Table_1 table1 = new ListaPage().new Table_1();
 			table1.setId(ac.getId());
