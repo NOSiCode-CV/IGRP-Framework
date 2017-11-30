@@ -429,7 +429,7 @@
 	 			</xsl:for-each>
 	 		</xsl:variable>
  			<xsl:call-template name="generateCommentConnectionName"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),$double_quotes,');')"/>
 	 	</xsl:for-each>
  	</xsl:template>
  	
@@ -441,7 +441,7 @@
 				<xsl:value-of select="$tab2"/>
 		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 			<xsl:call-template name="generateCommentConnectionName"/>
-				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT id as ID, name as NAME FROM tbl_domain WHERE code = ',$simple_quotes,'SIM_NAO',$simple_quotes,$double_quotes,');')"/>
+				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,');')"/>
 		 	</xsl:for-each>
 	 	</xsl:for-each>
  	</xsl:template>
