@@ -19,6 +19,7 @@ public class FlashMessage implements Serializable{
 	private Message msgs;
 	
 	public static final String SUCCESS = "success";
+	public static final String INFO_LINK = "info_link";
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
 	public static final String INFO = "info";
@@ -37,6 +38,8 @@ public class FlashMessage implements Serializable{
 	public static final String ERROR_COMPILED = "Erro de compilação";
 
 	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome de página inválido";
+
+	
     
 	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
 		// "_flash" is the reserved name for messages in session

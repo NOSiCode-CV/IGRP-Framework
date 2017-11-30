@@ -27,6 +27,15 @@ public class NovoUtilizadorController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
+
+		String p_id_prof = Igrp.getInstance().getRequest().getParameter("p_id_prof");
+		if(p_id_prof!=null && !p_id_prof.equals("")){
+			Profile prof = new Profile().findOne(Integer.parseInt(p_id_prof));
+			model.setAplicacao(prof.getProfileType().getApplication().getId());
+			model.setOrganica(prof.getProfileType().getOrganization().getId());
+			model.setPerfil(prof.getId());
+		}
+		
 		NovoUtilizadorView view = new NovoUtilizadorView(model);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
@@ -36,6 +45,7 @@ public class NovoUtilizadorController extends Controller {
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
 		}
+		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
