@@ -68,7 +68,7 @@ public class SettingsController extends Controller {
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", gt("-- Selecionar Idioma --"));
-		idioma.put("pt_PT", gt("PortuguÃªs"));
+		idioma.put("pt_PT", gt("Português"));
 		idioma.put("en_US", gt("Inglês"));
 		idioma.put("fr_FR", gt("Francês"));
 		idioma.put("es_ES", gt("Espanhol"));
