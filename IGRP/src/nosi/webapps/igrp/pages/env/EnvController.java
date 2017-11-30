@@ -45,6 +45,13 @@ public class EnvController extends Controller {
 		EnvView view = new EnvView(model);
 		//view.action_fk.setValue(new Action().getListActions());
 		view.img_src.setValue("default.png");
+		view.host.setVisible(false);
+		view.apache_dad.setVisible(false); 
+		view.link_menu.setVisible(false);
+		view.link_center.setVisible(false);
+		view.templates.setVisible(false);
+		view.flg_old.setVisible(false);
+		view.flg_external.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -150,6 +157,13 @@ public class EnvController extends Controller {
 		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		view.host.setVisible(false);
+		view.apache_dad.setVisible(false); 
+		view.link_menu.setVisible(false);
+		view.link_center.setVisible(false);
+		view.templates.setVisible(false);
+		view.flg_old.setVisible(false);
+		view.flg_external.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
