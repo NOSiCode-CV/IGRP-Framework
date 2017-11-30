@@ -52,6 +52,7 @@ public class EnvController extends Controller {
 		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
 		view.flg_external.setVisible(false);
+		view.status_check.setVisible(true);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
