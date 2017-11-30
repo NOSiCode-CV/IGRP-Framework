@@ -407,7 +407,7 @@
  			<xsl:call-template name="generateCommentConnectionName"/>
 	 		<xsl:choose>
 	 			<xsl:when test="./chart_type='pie'">
-	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
+	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart2d,$double_quotes,');')"/>
 	 			</xsl:when>
 	 			<xsl:otherwise>
 	 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,$sql_chart3d,$double_quotes,');')"/>
@@ -429,7 +429,7 @@
 	 			</xsl:for-each>
 	 		</xsl:variable>
  			<xsl:call-template name="generateCommentConnectionName"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),' FROM dual',$double_quotes,');')"/>
 	 	</xsl:for-each>
  	</xsl:template>
  	

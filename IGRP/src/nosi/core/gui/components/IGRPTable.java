@@ -241,7 +241,9 @@ public class IGRPTable extends IGRPComponent{
 	}
 	
 	public void setSqlQuery(String connectionName,String sql){
-		this.connectionName = connectionName;
+		if(connectionName!=null && !connectionName.equals("")){
+			this.connectionName = connectionName;
+		}
 		this.setSqlQuery(sql);
 	}
 	
