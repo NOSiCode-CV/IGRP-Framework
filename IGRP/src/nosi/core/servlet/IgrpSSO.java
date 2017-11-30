@@ -1,7 +1,16 @@
 package nosi.core.servlet;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -79,10 +88,72 @@ public class IgrpSSO extends HttpServlet {
 			String username = aux[0];
 			String password = aux[1];
 			
-			String result = username + password;
+			Properties p = this.load();
 			
-			int userId = 2; // demo
-			String authenticationKey = "123456"; // demo
+			System.out.println(p.getProperty("type_db"));
+			System.out.println(p.getProperty("hostname"));
+			System.out.println(p.getProperty("port"));
+			System.out.println(p.getProperty("dbname"));
+			System.out.println(p.getProperty("username"));
+			System.out.println(p.getProperty("password"));
+			
+			if(1==1)return;
+			
+			String driverName = "";
+			String dns = "";
+			
+			switch(p.getProperty("type_db")) {
+				case "h2": 
+					driverName = "";
+					dns = "jdbc:h2:" + p.getProperty("hostname") + (Integer.parseInt(p.getProperty("port")) == 0 ? "" : ":" + p.getProperty("port")) + "/" + p.getProperty("dbname");
+				break;
+				case "mysql": 
+					driverName = "com.mysql.jdbc.Driver";
+					dns = "jdbc:mysql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "3306" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+				break;
+				case "postgresql": 
+					driverName = "org.postgresql.Driver"; 
+					dns = "jdbc:postgresql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "5432" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+				break;
+				case "sqlserver": 
+					driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
+					//dns = "jdbc:sqlserver://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "1433" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+				break;
+				case "oracle": 
+					driverName = "oracle.jdbc.driver.Driver"; 
+					dns = "jdbc:oracle:thin:" + p.getProperty("username") + "/" + p.getProperty("password") + "@" + p.getProperty("hostname") + ":" + p.getProperty("port") + ":" + p.getProperty("dbname");
+				break;
+				default: {
+					response.sendError(500, "Invalid Database configuration ... so we block the request !");
+					return;
+				}
+			}
+			
+			int userId = 2; // demo 
+			String authenticationKey = "123456"; // demo 
+			
+			try {
+				Class.forName(driverName);
+				Connection conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
+				PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
+				ps.setString(1, username);
+				ResultSet rs = ps.executeQuery();
+				userId = rs.getInt("id");
+				authenticationKey = rs.getString("auth_key");
+				System.out.println("UserID: " + userId);
+				System.out.println("AuthKey: " + authenticationKey);
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				response.sendError(500, "An SQLException occurred ... so we block the request !");
+				return;
+			}catch(ClassNotFoundException e) {
+				e.printStackTrace();
+				response.sendError(500, "Database driver not found ... so we block the request !");
+				return;
+			}
 			
 			JSONArray json =  new JSONArray();
 			json.put(userId);
@@ -93,4 +164,30 @@ public class IgrpSSO extends HttpServlet {
 			response.addCookie(cookie);
 			response.sendRedirect(igrpPath);
 	}
+	
+	private Properties load() {
+		String path = this.getServletContext().getRealPath("/WEB-INF/config/") + "db";
+		String fileName = "db_igrp_config.xml";
+		File file = new File(path + File.separator + fileName);
+		FileInputStream fis = null;
+		Properties props = new Properties();
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			props.loadFromXML(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return props;
+	}
+	
 }

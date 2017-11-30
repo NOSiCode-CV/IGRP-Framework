@@ -33,7 +33,7 @@ public class NovoPerfilController extends Controller {
 		NovoPerfilView view = new NovoPerfilView(model);	
 		view.aplicacao.setValue(new Application().getListApps());
 		/*view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() != null && !model.getAplicacao().equals("0") && !model.getOrganica().equals("0")) ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);*/
-		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
+		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().trim().isEmpty() && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
       	view.perfil.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
