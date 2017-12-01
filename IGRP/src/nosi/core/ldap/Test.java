@@ -31,17 +31,17 @@ public class Test {
 		l_ldap_password = ldapinfo.getPassword();
 		l_ldap_base = ldapinfo.getBase();
 		
-		System.out.println("url:"+l_ldap_url);
+		
 		TesteLogin();
-		//
-		//TestePesquisa();
+		
+		System.out.println(ldapinfo);
 
 	}
 
 	static void TesteLogin() {
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
 
-		if (ldap.validateLogin("zeguimoko", "Pa$$w0rd"))
+		if (ldap.validateLogin("iekini.fernandes", ""))
 			System.out.println("User Válido");
 		else {
 			System.out.println("User Inválido: " + ldap.getError());
@@ -50,7 +50,7 @@ public class Test {
 
 	static void TestePesquisa() {
 
-		String email = "zeguimoko@moko.cv";
+		String email = "iekini.fernandes@nosi.cv";
 
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
 
@@ -67,6 +67,7 @@ public class Test {
 				System.out.println("givenName:" + p.getGivenName());
 				System.out.println("Mail:" + p.getMail());
 				System.out.println("ProxyAdrresses:" + p.getProxyAddresses());
+				System.out.println("Username:" + p.getUserPrincipalName());
 			}
 		} else
 			System.out.println("Pesquisa não encontrada: " + ldap.getError());
