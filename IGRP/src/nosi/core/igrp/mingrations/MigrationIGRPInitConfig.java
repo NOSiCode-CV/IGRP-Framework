@@ -16,8 +16,8 @@ public class MigrationIGRPInitConfig {
 	public static void start(){
 		Application app = new Application();
 		app.setDad("igrp");
-		app.setDescription("IGRP Open Source");
-		app.setName("IGRP Open Source");
+		app.setDescription("IGRP");
+		app.setName("IGRP");
 		app.setImg_src("app_casacidadao.png");
 		app.setStatus(1);
 		app = app.insertOnly();
