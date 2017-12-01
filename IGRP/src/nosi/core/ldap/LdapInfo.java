@@ -58,7 +58,10 @@ public class LdapInfo implements Serializable {
 	public void setBase(String base) {
 		this.base = base;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "LdapInfo [url=" + url + ", username=" + username + ", password=" + password + ", base=" + base + "]";
+	}
+	
 }

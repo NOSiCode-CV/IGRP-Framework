@@ -71,98 +71,80 @@ public class IgrpSSO extends HttpServlet {
 	public IgrpSSO() { super(); }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			try {
-				// First check if the session exits 
-				String sessionValue = (String) request.getSession(false).getAttribute("_identity-igrp");
-				if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
-					response.sendRedirect(igrpPath);
-					return;
-				}
-			}catch(Exception e) { // NullPointerException Purpose 
-				e.printStackTrace();
-			}
-			
-			String []aux = request.getHeader("Authorization").split(" ");
-			aux = new String(Base64.getDecoder().decode(aux[1])).split(":");
-			
-			String username = aux[0];
-			String password = aux[1];
-			
-			Properties p = this.load();
-			
-			System.out.println(p.getProperty("type_db"));
-			System.out.println(p.getProperty("hostname"));
-			System.out.println(p.getProperty("port"));
-			System.out.println(p.getProperty("dbname"));
-			System.out.println(p.getProperty("username"));
-			System.out.println(p.getProperty("password"));
-			
-			if(1==1)return;
-			
-			String driverName = "";
-			String dns = "";
-			
-			switch(p.getProperty("type_db")) {
-				case "h2": 
-					driverName = "";
-					dns = "jdbc:h2:" + p.getProperty("hostname") + (Integer.parseInt(p.getProperty("port")) == 0 ? "" : ":" + p.getProperty("port")) + "/" + p.getProperty("dbname");
-				break;
-				case "mysql": 
-					driverName = "com.mysql.jdbc.Driver";
-					dns = "jdbc:mysql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "3306" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-				break;
-				case "postgresql": 
-					driverName = "org.postgresql.Driver"; 
-					dns = "jdbc:postgresql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "5432" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-				break;
-				case "sqlserver": 
-					driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
-					//dns = "jdbc:sqlserver://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "1433" : p.getProperty("port")) + "/" + p.getProperty("dbname");
-				break;
-				case "oracle": 
-					driverName = "oracle.jdbc.driver.Driver"; 
-					dns = "jdbc:oracle:thin:" + p.getProperty("username") + "/" + p.getProperty("password") + "@" + p.getProperty("hostname") + ":" + p.getProperty("port") + ":" + p.getProperty("dbname");
-				break;
-				default: {
-					response.sendError(500, "Invalid Database configuration ... so we block the request !");
-					return;
-				}
-			}
-			
-			int userId = 2; // demo 
-			String authenticationKey = "123456"; // demo 
-			
-			try {
-				Class.forName(driverName);
-				Connection conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
-				PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
-				ps.setString(1, username);
-				ResultSet rs = ps.executeQuery();
-				userId = rs.getInt("id");
-				authenticationKey = rs.getString("auth_key");
-				System.out.println("UserID: " + userId);
-				System.out.println("AuthKey: " + authenticationKey);
-				rs.close();
-				ps.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				response.sendError(500, "An SQLException occurred ... so we block the request !");
-				return;
-			}catch(ClassNotFoundException e) {
-				e.printStackTrace();
-				response.sendError(500, "Database driver not found ... so we block the request !");
+		try {
+			// First check if the session exits 
+			String sessionValue = (String) request.getSession(false).getAttribute("_identity-igrp");
+			if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
+				response.sendRedirect(igrpPath);
 				return;
 			}
-			
-			JSONArray json =  new JSONArray();
-			json.put(userId);
-			json.put(authenticationKey);
-			Cookie cookie = new Cookie("_identity-igrp", Base64.getEncoder().encodeToString(json.toString().getBytes()));
-			cookie.setMaxAge(60*60); // 1h
-			cookie.setHttpOnly(true);
-			response.addCookie(cookie);
-			response.sendRedirect(igrpPath);
+		}catch(Exception e) { // NullPointerException Purpose 
+			e.printStackTrace();
+		}
+		String []aux = request.getHeader("Authorization").split(" ");
+		aux = new String(Base64.getDecoder().decode(aux[1])).split(":");
+		String username = aux[0];
+		String password = aux[1];
+		Properties p = this.load();
+		String driverName = "";
+		String dns = "";
+		switch(p.getProperty("type_db")) {
+			case "h2": 
+				driverName = "org.h2.Driver";
+				dns = "jdbc:h2:" + p.getProperty("hostname") + (Integer.parseInt(p.getProperty("port")) == 0 ? "" : ":" + p.getProperty("port")) + "/" + p.getProperty("dbname");
+			break;
+			case "mysql": 
+				driverName = "com.mysql.jdbc.Driver";
+				dns = "jdbc:mysql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "3306" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+			break;
+			case "postgresql": 
+				driverName = "org.postgresql.Driver"; 
+				dns = "jdbc:postgresql://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "5432" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+			break;
+			case "sqlserver": 
+				driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver"; 
+				//dns = "jdbc:sqlserver://" + p.getProperty("hostname") +  ":" + (Integer.parseInt(p.getProperty("port")) == 0 ? "1433" : p.getProperty("port")) + "/" + p.getProperty("dbname");
+			break;
+			case "oracle": 
+				driverName = "oracle.jdbc.driver.Driver"; 
+				dns = "jdbc:oracle:thin:" + p.getProperty("username") + "/" + p.getProperty("password") + "@" + p.getProperty("hostname") + ":" + p.getProperty("port") + ":" + p.getProperty("dbname");
+			break;
+			default: {
+				response.sendError(500, "Invalid Database configuration ... so we block the request !");
+				return;
+			}
+		}
+		int userId = 2; // demo 
+		String authenticationKey = "123456"; // demo 
+		try {
+			Class.forName(driverName);
+			Connection conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
+			PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			userId = rs.getInt("id");
+			authenticationKey = rs.getString("auth_key");
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.sendError(500, "A SQLException occurred ... so we block the request !");
+			return;
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+			response.sendError(500, "Database driver not found ... so we block the request !");
+			return;
+		}
+		JSONArray json =  new JSONArray();
+		json.put(userId);
+		json.put(authenticationKey);
+		Cookie cookie = new Cookie("_identity-igrp", Base64.getEncoder().encodeToString(json.toString().getBytes()));
+		cookie.setMaxAge(60*60); // 1h
+		cookie.setHttpOnly(true);
+		response.addCookie(cookie);
+		response.sendRedirect(igrpPath);
 	}
 	
 	private Properties load() {

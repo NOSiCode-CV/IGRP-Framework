@@ -130,7 +130,12 @@ public class LoginController extends Controller {
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUrl(), ldapinfo.getPassword(), ldapinfo.getBase());
+		
 		success = ldap.validateLogin(username, password);
+		
+		System.out.println(ldap.getError());
+		System.out.println(success);
+		
 		/** End **/
 		
 		if(success) {
