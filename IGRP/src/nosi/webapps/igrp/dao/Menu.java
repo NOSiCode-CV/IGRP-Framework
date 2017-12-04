@@ -284,4 +284,13 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		em.close();
 		return list;
 	}
+
+	@Override
+	public String toString() {
+		return "Menu [id=" + id + ", descr=" + descr + ", orderby=" + orderby + ", status=" + status + ", flg_base="
+				+ flg_base + ", target=" + target + ", action=" + action + ", application=" + application + ", menu="
+				+ menu + ", organization=" + organization + "]";
+	}
+	
+	
 }

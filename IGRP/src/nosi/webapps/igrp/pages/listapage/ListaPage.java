@@ -1,29 +1,32 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.listapage;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListaPage extends Model{		
 	@RParam(rParamName = "p_env_fk")
-	private int env_fk;
+	private String env_fk;
 	@RParam(rParamName = "p_page")
 	private String page;
 	@RParam(rParamName = "p_page_descr")
 	private String page_descr;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
-	public void setEnv_fk(int env_fk){
+	public void setEnv_fk(String env_fk){
 		this.env_fk = env_fk;
 	}
-	public int getEnv_fk(){
+	public String getEnv_fk(){
 		return this.env_fk;
 	}
 	
@@ -42,13 +45,12 @@ public class ListaPage extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String nome_page;
 		private String descricao_page;
-		private String versao_page;
 		private int status_page;
 		private int status_page_check;
-		private int id;
+		private String p_id_page;
 		public void setNome_page(String nome_page){
 			this.nome_page = nome_page;
 		}
@@ -63,33 +65,25 @@ public class ListaPage extends Model{
 			return this.descricao_page;
 		}
 
-		public void setVersao_page(String versao_page){
-			this.versao_page = versao_page;
-		}
-		public String getVersao_page(){
-			return this.versao_page;
-		}
-
 		public void setStatus_page(int status_page){
 			this.status_page = status_page;
 		}
 		public int getStatus_page(){
 			return this.status_page;
 		}
-
-		public int getStatus_page_check() {
-			return status_page_check;
-		}
-		public void setStatus_page_check(int status_page_check) {
+		public void setStatus_page_check(int status_page_check){
 			this.status_page_check = status_page_check;
 		}
-		public void setId(int p_id_page){
-			this.id = p_id_page;
+		public int getStatus_page_check(){
+			return this.status_page_check;
 		}
-		public int getId(){
-			return this.id;
+
+		public void setP_id_page(String p_id_page){
+			this.p_id_page = p_id_page;
+		}
+		public String getP_id_page(){
+			return this.p_id_page;
 		}
 
 	}
 }
-/*-------------------------*/

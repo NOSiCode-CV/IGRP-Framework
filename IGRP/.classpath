@@ -53,7 +53,6 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/hibernate-c3p0-5.2.12.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/hibernate-core-5.2.12.Final.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/c3p0-0.9.5.2.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mlog-scala_2.12-0.3.10.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mchange-commons-java-0.2.14.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

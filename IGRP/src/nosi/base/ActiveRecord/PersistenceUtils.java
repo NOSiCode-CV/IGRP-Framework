@@ -50,7 +50,7 @@ public class PersistenceUtils {
     	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
     	cfg.getProperties().setProperty("hibernate.c3p0.min_size","5");
     	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
-    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","1800");
+    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
     	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
     	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
     	boolean isConnected = false;
