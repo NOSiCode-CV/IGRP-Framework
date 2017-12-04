@@ -1,11 +1,3 @@
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 20, 2017
- *
- *
- */
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.page;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
@@ -41,11 +33,12 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class PageController extends Controller {		
 
-	
+
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/ 
 		Page model = new Page();
@@ -58,33 +51,86 @@ public class PageController extends Controller {
 			a = a.findOne(Integer.parseInt(id));
 			if(a!=null){
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk(a.getApplication().getId());
+				model.setEnv_fk(""+a.getApplication().getId());
 				model.setP_action(a.getAction());
 				model.setP_page_descr(a.getPage_descr());
 				model.setPage(a.getPage());
-				model.setP_id(a.getId());
-				model.setP_version(a.getVersion());
+				model.setP_id(""+a.getId());
+				model.setVersion(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
-				model.setP_status(a.getStatus());
+				model.setP_status(""+a.getStatus());
 			}
 		}
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
+		view.version.setVisible(false);
 		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		Page model = new Page();
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			model.load();	
+          	int idPage = model.getP_id()!=null && !model.getP_id().equals("")?Integer.parseInt(model.getP_id()):0;
+			Application app = new Application();
+			Action action = new Action();
+			action.setAction("index");
+			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
+			action.setAction_descr(model.getAction_descr());
+			action.setPage_descr(model.getAction_descr());
+			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
+			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
+				return this.forward("igrp", "page", "index");
+			}
+			//action.setStatus(model.getP_status());
+			action.setVersion(model.getVersion());
+			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
+			if(idPage!=0){
+              	action.setId(idPage);
+				action = action.update();
+			}else{
+				action = action.insert();
+			}
+			if(action!=null){
+				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
+				FileHelper.save(path_xsl, action.getPage()+".json", json);
+				if(FileHelper.fileExists(Config.getWorkspace())){
+					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				}
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
+				return this.forward("igrp", "page", "index");
+			}
+		}
+		return this.redirect("igrp", "page", "index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
+		return this.redirect("igrp","page","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		Page model = new Page();
 		
 		Action action = new Action();
 		action = action.findOne(Integer.parseInt(id));
 		
-		model.setEnv_fk(action.getApplication().getId());
-		model.setP_version(action.getVersion());
+		model.setEnv_fk(""+action.getApplication().getId());
+		model.setVersion(action.getVersion());
 		model.setPage(action.getPage());
 		model.setAction_descr(action.getPage_descr());
 		
@@ -114,66 +160,12 @@ public class PageController extends Controller {
 		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
 		view.btn_gravar.setLink("editar&id="+id);
 		view.btn_voltar.setVisible(false);
+		view.version.setVisible(false);
+		view.page.setLabel(gt("Código"));
 		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		Page model = new Page();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();			
-			Application app = new Application();
-			Action action = new Action();
-			action.setAction("index");
-			action.setApplication(app.findOne(model.getEnv_fk()));
-			action.setAction_descr(model.getAction_descr());
-			action.setPage_descr(model.getAction_descr());
-			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
-				return this.forward("igrp", "page", "index");
-			}
-			action.setStatus(model.getP_status());
-			action.setVersion(model.getVersion());
-			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
-			if(model.getP_id()!=0){
-				action = action.update();
-			}else{
-				action = action.insert();
-			}
-			if(action!=null){
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
-				FileHelper.save(path_xsl, action.getPage()+".json", json);
-				if(FileHelper.fileExists(Config.getWorkspace())){
-					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
-				}
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
-				return this.forward("igrp", "page", "index");
-			}
-		}
-		return this.redirect("igrp", "page", "index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-	public Response actionEliminar() throws IOException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		Action ac = new Action();
-		if(ac.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
-		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
-		return this.redirect("igrp","lista-page","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	//Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");

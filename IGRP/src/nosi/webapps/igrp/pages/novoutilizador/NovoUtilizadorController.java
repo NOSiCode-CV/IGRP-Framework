@@ -4,12 +4,12 @@
 
 package nosi.webapps.igrp.pages.novoutilizador;
 
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -22,13 +22,10 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.xml.bind.JAXB;
-
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -76,9 +73,11 @@ public class NovoUtilizadorController extends Controller {
 	return this.redirect("igrp", "novo-utilizador", "index");
 	/*----#END-PRESERVED-AREA----*/
 	}
-	/*----#START-PRESERVED-AREA(GRAVAR)----*/
+	
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
 	private void db() throws IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		Profile p = new Profile();
@@ -118,11 +117,8 @@ public class NovoUtilizadorController extends Controller {
 		}else{
 			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inválido"));
 		}
-		/*----#END-PRESERVED-AREA----*/
 	}
-	/*----#END-PRESERVED-AREA----*/
 	
-	/*----#START-PRESERVED-AREA(GRAVAR)----*/
 	private void ldap() throws IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoUtilizador model = new NovoUtilizador();
@@ -202,13 +198,9 @@ public class NovoUtilizadorController extends Controller {
 		}
 		
 		/** End **/
-		/*----#END-PRESERVED-AREA----*/
 	}
-	/*----#END-PRESERVED-AREA----*/
 
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionEditar(@RParam(rParamName = "p_id") String idProfile) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		if(idProfile!=null){
 			Profile p = new Profile().findOne(Integer.parseInt(idProfile));
 			if(p!=null){
@@ -227,11 +219,9 @@ public class NovoUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionEditarProfile(@RParam(rParamName = "p_id") String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		if(Igrp.getMethod().equalsIgnoreCase("post") && id!=null){
 			NovoUtilizador model = new NovoUtilizador();
 			model.load();
@@ -255,7 +245,6 @@ public class NovoUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

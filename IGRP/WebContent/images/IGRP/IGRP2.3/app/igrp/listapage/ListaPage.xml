@@ -59,11 +59,11 @@
                 </env_fk>
                 <page name="p_page" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome Página</label>
-                    <value>Officia natus adipiscing sed o</value>
+                    <value>Sed consectetur doloremque dol</value>
                 </page>
                 <page_descr name="p_page_descr" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descrição Página</label>
-                    <value>Mollit accusantium deserunt re</value>
+                    <value>Deserunt rem sit dolor sit</value>
                 </page_descr>
             </fields>
             <tools-bar>
@@ -109,8 +109,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_page name="p_nome_page">Voluptatem mollit perspiciatis</nome_page>
-                        <descricao_page name="p_descricao_page">Labore deserunt magna officia</descricao_page>
+                        <nome_page name="p_nome_page">Adipiscing rem aperiam anim of</nome_page>
+                        <descricao_page name="p_descricao_page">Rem omnis labore stract offici</descricao_page>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
@@ -120,8 +120,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_page name="p_nome_page">Totam mollit accusantium strac</nome_page>
-                        <descricao_page name="p_descricao_page">Doloremque accusantium adipisc</descricao_page>
+                        <nome_page name="p_nome_page">Perspiciatis iste labore natus</nome_page>
+                        <descricao_page name="p_descricao_page">Lorem natus labore accusantium</descricao_page>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
@@ -131,8 +131,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_page name="p_nome_page">Consectetur stract natus totam</nome_page>
-                        <descricao_page name="p_descricao_page">Stract magna dolor natus sit</descricao_page>
+                        <nome_page name="p_nome_page">Aperiam sit iste aperiam amet</nome_page>
+                        <descricao_page name="p_descricao_page">Sit sit stract natus amet</descricao_page>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
@@ -142,8 +142,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_page name="p_nome_page">Laudantium anim lorem perspici</nome_page>
-                        <descricao_page name="p_descricao_page">Sit perspiciatis dolor natus s</descricao_page>
+                        <nome_page name="p_nome_page">Omnis sit elit ut laudantium</nome_page>
+                        <descricao_page name="p_descricao_page">Deserunt amet officia doloremq</descricao_page>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
@@ -153,8 +153,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome_page name="p_nome_page">Labore ut consectetur lorem mo</nome_page>
-                        <descricao_page name="p_descricao_page">Deserunt sit consectetur aliqu</descricao_page>
+                        <nome_page name="p_nome_page">Ipsum sit magna unde sed</nome_page>
+                        <descricao_page name="p_descricao_page">Lorem sit amet totam sit</descricao_page>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
@@ -167,7 +167,7 @@
                         <page>Page</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
-                        <target>mpsubmit</target>
+                        <target>modal</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="primary" rel="visualizar">

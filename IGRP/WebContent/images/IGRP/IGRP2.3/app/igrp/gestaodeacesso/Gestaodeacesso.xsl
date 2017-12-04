@@ -26,7 +26,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-6faa2e30">
+                                    <div class="row " id="row-ab614564">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-55f1f262">
+                                    <div class="row " id="row-280376d1">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-03976f3a">
+                                    <div class="row " id="row-c5798c7d">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
@@ -182,7 +182,7 @@
                                                                                         <td align="right" data-row="{position()}" data-title="{../../label/mostrar_perfis}" class="link" item-name="mostrar_perfis" style="width:110px">
                                                                                             <xsl:choose>
                                                                                                 <xsl:when test="mostrar_perfis != ''">
-                                                                                                    <a href="{mostrar_perfis}" class="link bClick btn btn-link btn-xs" target-fields="" target="modal" name="mostrar_perfis">
+                                                                                                    <a href="{mostrar_perfis}" class="link bClick btn btn-primary btn-xs" target-fields="" target="modal" name="mostrar_perfis">
                                                                                                         <i class="fa fa-address-card"/>
                                                                                                         <span>
                                                                                                             <xsl:value-of select="mostrar_perfis_desc"/>
@@ -241,10 +241,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"show","events":"change","isTable":fals
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512150955751"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512150955751"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512150955751"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512150955751"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1512150955751"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512150955751"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512385730609"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512385730609"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512385730609"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512385730609"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1512385730609"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512385730610"/>
 </xsl:stylesheet>

@@ -76,10 +76,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Stract lorem deserunt aliqua e</codigo>
-                        <descricao name="p_descricao">Totam ut totam accusantium sit</descricao>
-                        <organica name="p_organica">Laudantium omnis elit ut deser</organica>
-                        <estado name="p_estado">Deserunt dolor rem mollit aliq</estado>
+                        <codigo name="p_codigo">Aperiam doloremque ut officia</codigo>
+                        <descricao name="p_descricao">Mollit aliqua elit officia eli</descricao>
+                        <organica name="p_organica">Sit aperiam officia ipsum anim</organica>
+                        <estado name="p_estado">Mollit dolor laudantium rem ip</estado>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,10 +87,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Sit sed magna iste rem</codigo>
-                        <descricao name="p_descricao">Deserunt unde omnis perspiciat</descricao>
-                        <organica name="p_organica">Officia perspiciatis anim rem</organica>
-                        <estado name="p_estado">Sit elit rem accusantium offic</estado>
+                        <codigo name="p_codigo">Lorem stract adipiscing perspi</codigo>
+                        <descricao name="p_descricao">Stract perspiciatis ut deserun</descricao>
+                        <organica name="p_organica">Officia elit adipiscing amet d</organica>
+                        <estado name="p_estado">Magna dolor laudantium sed ut</estado>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -98,10 +98,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Amet sed deserunt officia aliq</codigo>
-                        <descricao name="p_descricao">Ut deserunt dolor elit laudant</descricao>
-                        <organica name="p_organica">Iste stract omnis accusantium</organica>
-                        <estado name="p_estado">Sit totam mollit amet stract</estado>
+                        <codigo name="p_codigo">Magna consectetur unde elit ad</codigo>
+                        <descricao name="p_descricao">Ut natus elit omnis elit</descricao>
+                        <organica name="p_organica">Mollit sed doloremque ipsum la</organica>
+                        <estado name="p_estado">Unde consectetur aliqua sit ut</estado>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -109,10 +109,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Sit sit consectetur laudantium</codigo>
-                        <descricao name="p_descricao">Elit anim voluptatem amet accu</descricao>
-                        <organica name="p_organica">Omnis doloremque totam adipisc</organica>
-                        <estado name="p_estado">Omnis anim sit omnis elit</estado>
+                        <codigo name="p_codigo">Doloremque lorem perspiciatis</codigo>
+                        <descricao name="p_descricao">Amet perspiciatis ipsum amet l</descricao>
+                        <organica name="p_organica">Lorem dolor ipsum magna unde</organica>
+                        <estado name="p_estado">Labore accusantium officia mol</estado>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -120,10 +120,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Lorem labore magna natus ut</codigo>
-                        <descricao name="p_descricao">Dolor lorem deserunt sit totam</descricao>
-                        <organica name="p_organica">Laudantium deserunt elit natus</organica>
-                        <estado name="p_estado">Ipsum ut stract sed officia</estado>
+                        <codigo name="p_codigo">Unde stract anim labore accusa</codigo>
+                        <descricao name="p_descricao">Mollit sit elit stract consect</descricao>
+                        <organica name="p_organica">Adipiscing anim magna laudanti</organica>
+                        <estado name="p_estado">Anim dolor rem sit sed</estado>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -134,7 +134,7 @@
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>submit</target>
+                        <target>_self</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
@@ -146,23 +146,23 @@
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
-                    <item type="specific" code="" class="default" rel="menu">
+                    <item type="specific" code="" class="primary" rel="menu">
                         <title>Menu</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>submit</target>
-                        <img>default|fa-list</img>
+                        <target>_self</target>
+                        <img>primary|fa-list</img>
                     </item>
-                    <item type="specific" code="" class="default" rel="transacao">
+                    <item type="specific" code="" class="black" rel="transacao">
                         <title>Transacao</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>submit</target>
-                        <img>default|fa-exchange</img>
+                        <target>_self</target>
+                        <img>black|fa-exchange</img>
                     </item>
                     <item type="specific" code="" class="warning" rel="convidar">
                         <title>Convidar</title>
@@ -170,7 +170,7 @@
                         <page>NovoUtilizador</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl?</parameter>
-                        <target>submit</target>
+                        <target>_self</target>
                         <img>warning|fa-send</img>
                     </item>
                 </context-menu>

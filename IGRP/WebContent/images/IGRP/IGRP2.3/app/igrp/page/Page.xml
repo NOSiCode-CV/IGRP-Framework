@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -30,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=17</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Registar Pagina</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -46,13 +45,12 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
                 <target>submit</target>
-                <img>default|fa-floppy-o</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-floppy-o|www</params>
+                <img>primary|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
             <item type="specific" code="" rel="voltar">
                 <title>Voltar</title>
@@ -61,15 +59,15 @@
                 <link/>
                 <target>_self</target>
                 <img>default|fa-arrow-left</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/undefined</parameter>
-                <params>default||fa-arrow-left|www</params>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Aplicação</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -88,9 +86,10 @@
                         </option>
                     </list>
                 </env_fk>
-                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
                     <label>Versão de Página</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -110,12 +109,12 @@
                     </list>
                 </version>
                 <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome da Página</label>
-                    <value>Omnis dolor officia sit accusantium</value>
+                    <label>Código</label>
+                    <value>Deserunt elit sit iste aperiam</value>
                 </page>
-                <action_descr name="p_action_descr" type="textarea" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descricao</label>
-                    <value>Lorem stract natus unde omnis iste ut omnis sit omnis adipiscing totam iste sit perspiciatis</value>
+                <action_descr name="p_action_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Título</label>
+                    <value>Adipiscing lorem officia aliqu</value>
                 </action_descr>
                 <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
                 <hidden name="p_table_name" type="hidden" maxlength="80" tag="table_name"/>

@@ -70,13 +70,22 @@
             </fields>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gestao_de_utilizadores">
+                <title>Gestão de Utilizadores</title>
+                <app>igrp</app>
+                <page>PesquisarUtilizador</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-users</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl</parameter>
+            </item>
             <item type="specific" code="" rel="adicionar_organica">
                 <title>Adicionar Orgânica</title>
                 <app>igrp</app>
                 <page>NovaOrganica</page>
                 <link>index</link>
                 <target>modal</target>
-                <img>link|fa-plus-square</img>
+                <img>primary|fa-plus-square</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</parameter>
             </item>
         </toolsbar_1>
@@ -91,7 +100,7 @@
                 <adicionar_perfil name="p_adicionar_perfil" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="success" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
                     <label>Adicionar Perfil</label>
                 </adicionar_perfil>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="link" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
@@ -103,8 +112,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">9</estado>
-                        <org_nome name="p_org_nome">Elit sed iste sed unde</org_nome>
+                        <estado name="p_estado">8</estado>
+                        <org_nome name="p_org_nome">Officia aperiam laudantium ape</org_nome>
                         <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
                         <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
@@ -117,7 +126,7 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">3</estado>
-                        <org_nome name="p_org_nome">Voluptatem ut adipiscing accus</org_nome>
+                        <org_nome name="p_org_nome">Aliqua aperiam aliqua omnis lo</org_nome>
                         <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
                         <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
@@ -129,8 +138,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">9</estado>
-                        <org_nome name="p_org_nome">Aperiam voluptatem dolor volup</org_nome>
+                        <estado name="p_estado">6</estado>
+                        <org_nome name="p_org_nome">Officia totam stract elit amet</org_nome>
                         <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
                         <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
@@ -142,8 +151,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <org_nome name="p_org_nome">Anim iste dolor accusantium al</org_nome>
+                        <estado name="p_estado">3</estado>
+                        <org_nome name="p_org_nome">Consectetur iste sed stract se</org_nome>
                         <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
                         <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
@@ -155,8 +164,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">5</estado>
-                        <org_nome name="p_org_nome">Officia voluptatem sed magna u</org_nome>
+                        <estado name="p_estado">1</estado>
+                        <org_nome name="p_org_nome">Iste anim labore perspiciatis</org_nome>
                         <adicionar_perfil name="p_adicionar_perfil" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</adicionar_perfil>
                         <adicionar_perfil_desc name="p_adicionar_perfil_desc">Adicionar Perfil</adicionar_perfil_desc>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
@@ -213,23 +222,23 @@
                         <target>mpsubmit</target>
                         <img>warning|fa-pencil</img>
                     </item>
-                    <item type="specific" code="" class="default" rel="menu">
+                    <item type="specific" code="" class="info" rel="menu">
                         <title>Menu</title>
                         <app>igrp</app>
                         <page>ListaPage</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
                         <target>mpsubmit</target>
-                        <img>default|fa-bars</img>
+                        <img>info|fa-bars</img>
                     </item>
-                    <item type="specific" code="" class="default" rel="transaction">
+                    <item type="specific" code="" class="black" rel="transaction">
                         <title>Transaction</title>
                         <app>igrp</app>
                         <page>ListaPage</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
                         <target>mpsubmit</target>
-                        <img>default|fa-exchange</img>
+                        <img>black|fa-exchange</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>

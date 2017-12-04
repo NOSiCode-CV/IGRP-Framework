@@ -25,6 +25,9 @@ public class MigrationIGRPInitConfig {
 		Application tutorial = new Application("tutorial", "Tutorial IGRP", "default.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
 		tutorial = tutorial.insertOnly();
 		
+		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "default.png", "IGRP Studio - Software Developer", 1, null);
+		igrp_studio = igrp_studio.insertOnly();
+		
 		if(app!=null){
 			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
 			config.insert();
@@ -75,12 +78,20 @@ public class MigrationIGRPInitConfig {
 			prof1 = prof1.insert();
 			
 			//Organizacao do tutorial
-			Organization tutorial_org = new Organization("org.tutorial", "org.Tutorial IGRP", 1, tutorial, user0, null);
+			Organization tutorial_org = new Organization("org.tutorial", "Tutorial", 1, tutorial, user0, null);
 			tutorial_org = tutorial_org.insert();
 			
 			//Perfil da aplicacao tutorial
-			ProfileType tutrial_prof = new ProfileType("PefilAdmin.default org.Tutorial IGRP", "Admin.org.Tutorial IGRP", 1, tutorial_org, tutorial, null);
+			ProfileType tutrial_prof = new ProfileType("Tutorial", "perfil.tutorial", 1,tutorial_org, tutorial, null);
 			tutrial_prof = tutrial_prof.insert();
+			
+			//Organizacao do IGRP Studio
+			Organization igrp_studio_org = new Organization("org.developer", "Developer", 1, igrp_studio, user0, null);
+			igrp_studio_org = igrp_studio_org.insert();
+			
+			//Perfil da aplicacao IGRP Studio
+			ProfileType igrp_studio_prof = new ProfileType("Developer", "perfil.developer", 1, igrp_studio_org, igrp_studio, null);
+			igrp_studio_prof = igrp_studio_prof.insert();
 			
 			//Cria grupo e utilizadores no Activiti
 			GroupService group = new GroupService();
@@ -162,15 +173,15 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Parâmetros Gerais", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app, null));
-			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app, null));
+			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, igrp_studio, null));
 			menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
-			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), app, menus.get(0)));
-			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), app, menus.get(0)));
+			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), igrp_studio, menus.get(3)));
+			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), igrp_studio, menus.get(3)));
 			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));
-			menus.add(new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), app, menus.get(3)));
+			menus.add(new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), igrp_studio, menus.get(3)));
 			
 			//menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
@@ -202,12 +213,18 @@ public class MigrationIGRPInitConfig {
 			//permisao de acesso do utilizador a perfil do tutorial
 			profiles.add(new Profile(3, "PROF", tutrial_prof, user1, tutorial_org));
 			
+			//permisao de acesso a aplicacao tutotrial
+			profiles.add(new Profile(3, "ENV", igrp_studio_prof, user1,igrp_studio_org));
+			//permisao de acesso do utilizador a perfil do tutorial
+			profiles.add(new Profile(4, "PROF", igrp_studio_prof, user1, igrp_studio_org));
+			
+			
 			//permisao de acesso ao menu
-			profiles.add(new Profile(7, "MEN", prof0, user0, org));
-			profiles.add(new Profile(8, "MEN", prof0, user0, org));
+			profiles.add(new Profile(7, "MEN", prof0, user0, igrp_studio_org));
+			profiles.add(new Profile(8, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", prof0, user0, org));
 			profiles.add(new Profile(10, "MEN", prof0, user0, org));
-			profiles.add(new Profile(11, "MEN", prof0, user0, org));
+			profiles.add(new Profile(11, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(12, "MEN", prof0, user0, org));
 			profiles.add(new Profile(13, "MEN", prof0, user0, org));
 			profiles.add(new Profile(14, "MEN", prof0, user0, org));
@@ -222,11 +239,11 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(23, "MEN", prof0, user0, org));
 			profiles.add(new Profile(24, "MEN", prof0, user0, org));
 			
-			profiles.add(new Profile(7, "MEN", prof1, user0, org));
-			profiles.add(new Profile(8, "MEN", prof1, user0, org));
+			profiles.add(new Profile(7, "MEN", igrp_studio_prof, user0, igrp_studio_org));
+			profiles.add(new Profile(8, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", prof1, user0, org));
 			profiles.add(new Profile(10, "MEN", prof1, user0, org));
-			profiles.add(new Profile(11, "MEN", prof1, user0, org));
+			profiles.add(new Profile(11, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
 			profiles.add(new Profile(13, "MEN", prof1, user0, org));
 			profiles.add(new Profile(14, "MEN", prof1, user0, org));

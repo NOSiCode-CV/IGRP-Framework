@@ -68,7 +68,7 @@ public class ListaPageView extends View {
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","ListaPage","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","primary").add("rel","pesquisar");
-		btn_eidtar = new IGRPButton("Eidtar","igrp","ListaPage","eidtar","mpsubmit","warning|fa-pencil","","");
+		btn_eidtar = new IGRPButton("Eidtar","igrp","ListaPage","eidtar","modal","warning|fa-pencil","","");
 		btn_eidtar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","eidtar");
 		btn_visualizar = new IGRPButton("Visualizar","igrp","ListaPage","visualizar","submit_popup","primary|fa-eye","","");
 		btn_visualizar.propertie.add("type","specific").add("code","").add("class","primary").add("rel","visualizar");

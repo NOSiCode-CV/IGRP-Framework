@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-54292256">
+                                    <div class="row " id="row-1d6a0099">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -56,7 +56,7 @@
                                                             </div>
                                                             <div class="table-box">
                                                                 <div class="table-box-inner">
-                                                                    <table id="table_1" class="table table-striped  IGRP_contextmenu " exports="">
+                                                                    <table id="table_1" class="table table-striped  IGRP_contextmenu " exports="null">
                                                                         <thead>
                                                                             <tr>
                                                                                 <xsl:if test="rows/content/table_1/fields/codigo">
@@ -87,6 +87,7 @@
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
+                                                                                <th class="igrp-table-ctx-th"/>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -123,11 +124,15 @@
                                                                                             </span>
                                                                                         </td>
                                                                                     </xsl:if>
+                                                                                    <td class="igrp-table-ctx-td">
+                                                                                        <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
+                                                                                            <xsl:with-param name="row-params" select="context-menu"/>
+                                                                                        </xsl:apply-templates>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </xsl:for-each>
                                                                         </tbody>
                                                                     </table>
-                                                                    <xsl:apply-templates select="rows/content/table_1/table/context-menu" mode="table-context-menu"/>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -151,9 +156,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512058045529"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512058045529"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512058045529"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512058045529"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512058045529"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512388831052"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512388831052"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512388831052"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512388831052"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512388831052"/>
 </xsl:stylesheet>

@@ -76,7 +76,7 @@ public class ListaPageController extends Controller {
 		view.env_fk.setLabel(gt("Aplicação"));
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
-		
+		view.nome_page.setLabel(gt("Código"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
