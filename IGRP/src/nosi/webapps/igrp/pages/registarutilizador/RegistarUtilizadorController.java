@@ -14,6 +14,8 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.UserRole;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -42,6 +44,10 @@ public class RegistarUtilizadorController extends Controller {
 				user.setUpdated_at(System.currentTimeMillis());
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user = user.insert();
+				UserRole role = new UserRole();
+				role.setRole_name("IGRP_ADMIN");
+				role.setUser(user);
+				role = role.insert();
 				if(user!=null){
 					Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
 					Core.setMessageInfoLink(gt("Convidar "+user.getName()),"igrp","novo-utilizador","index&target=_blank&id="+user.getId());
