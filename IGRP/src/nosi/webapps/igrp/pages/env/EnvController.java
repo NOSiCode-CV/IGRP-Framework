@@ -230,29 +230,29 @@ public class EnvController extends Controller {
 		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		for(IgrpPLSQLApp obj: allowApps){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "yes");
-			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
-			xml_menu.setElement("img", obj.getImg_src());
-			xml_menu.setElement("title", obj.getName());
-			xml_menu.setElement("num_alert", "");
-			xml_menu.setElement("description", obj.getDescription());
-			xml_menu.endElement();
-			displayTitle = true;
-		}
-
-		for(IgrpPLSQLApp obj: denyApps){
-			xml_menu.startElement("application");
-			xml_menu.writeAttribute("available", "no");
-			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
-			xml_menu.setElement("img", obj.getImg_src());
-			xml_menu.setElement("title", obj.getName());
-			xml_menu.setElement("num_alert", "");
-			xml_menu.setElement("description", obj.getDescription());
-			xml_menu.endElement();
-			displaySubtitle = true; 
-		}
+//		for(IgrpPLSQLApp obj: allowApps){
+//			xml_menu.startElement("application");
+//			xml_menu.writeAttribute("available", "yes");
+//			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
+//			xml_menu.setElement("img", obj.getImg_src());
+//			xml_menu.setElement("title", obj.getName());
+//			xml_menu.setElement("num_alert", "");
+//			xml_menu.setElement("description", obj.getDescription());
+//			xml_menu.endElement();
+//			displayTitle = true;
+//		}
+//
+//		for(IgrpPLSQLApp obj: denyApps){
+//			xml_menu.startElement("application");
+//			xml_menu.writeAttribute("available", "no");
+//			xml_menu.setElement("link", obj.getLink().replaceAll("&", "&amp;"));
+//			xml_menu.setElement("img", obj.getImg_src());
+//			xml_menu.setElement("title", obj.getName());
+//			xml_menu.setElement("num_alert", "");
+//			xml_menu.setElement("description", obj.getDescription());
+//			xml_menu.endElement();
+//			displaySubtitle = true; 
+//		}
 		/** End **/
 		if(displayTitle){
 			xml_menu.setElement("title", gt("Minhas Aplicações"));

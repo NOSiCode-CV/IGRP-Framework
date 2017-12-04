@@ -235,9 +235,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 			if(app!=null){
 				List<Application> listApp = new ArrayList<>();
 				List<Profile> list = new Profile().find()
-								.andWhere("profileType.application", "=",app.getId())
-								.andWhere("organization", "=",Permission.getCurrentOrganization())
-								.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+//								.andWhere("profileType.application", "=",app.getId())
+//								.andWhere("organization", "=",Permission.getCurrentOrganization())
+//								.andWhere("profileType", "=",Permission.getCurrentPerfilId())
 								.andWhere("type", "=", "ENV")
 								.andWhere("user", "=", idUser)
 								.all();
