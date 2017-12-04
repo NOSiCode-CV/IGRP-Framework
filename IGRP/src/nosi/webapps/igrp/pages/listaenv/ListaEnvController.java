@@ -15,11 +15,12 @@ import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
+import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-import static nosi.core.i18n.Translator.gt;
+import nosi.webapps.igrp.dao.ProfileType;
 /*----#END-PRESERVED-AREA----*/
 
 public class ListaEnvController extends Controller {		
@@ -35,10 +36,19 @@ public class ListaEnvController extends Controller {
 			app.setDad(model.getDad());
 			app.setName(model.getNome());
 		}
-		List<Application> apps = app.find()
-								.andWhere("dad", "like", app.getDad())
-								.andWhere("name", "like", app.getName())
-								.all();
+		List<Application> apps = new ArrayList<>();
+		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		int idProf = Permission.getCurrentPerfilId();
+		ProfileType p = new ProfileType().findOne(idProf);		
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+			apps = 	app.find()
+						.andWhere("dad", "like", app.getDad())
+						.andWhere("name", "like", app.getName())
+						.all();
+		}else{
+			apps = app.getListMyApp(idUser);
+		}
+		
 		for(Application a:apps){
 			if(!a.getDad().toLowerCase().equals("igrp")){
 				ListaEnv.Table_1 table = new ListaEnv.Table_1();
