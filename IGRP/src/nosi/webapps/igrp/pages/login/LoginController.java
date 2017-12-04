@@ -51,7 +51,7 @@ public class LoginController extends Controller {
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				model.load();
 				switch(Config.getAutenticationType()){//generateOauth2Response
-					case "db": 
+					case "db":
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
@@ -126,17 +126,13 @@ public class LoginController extends Controller {
 	private boolean loginWithLdap(String username, String password){
 		boolean success = false;
 		
-		/** Begin ldap AD logic here **/
+		/** Begin ldap AD logic here **/ 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUrl(), ldapinfo.getPassword(), ldapinfo.getBase());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
 		
 		success = ldap.validateLogin(username, password);
-		
-		System.out.println(ldap.getError());
-		System.out.println(success);
-		
-		/** End **/
+		/** End **/ 
 		
 		if(success) {
 			// Verify if this credentials exist in DB
