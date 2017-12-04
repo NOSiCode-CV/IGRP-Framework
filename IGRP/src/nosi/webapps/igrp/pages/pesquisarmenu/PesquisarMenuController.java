@@ -1,6 +1,5 @@
-/*Create Controller*/
-package nosi.webapps.igrp.pages.pesquisarmenu;
 
+package nosi.webapps.igrp.pages.pesquisarmenu;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,31 +22,39 @@ import static nosi.core.i18n.Translator.gt;
 
 public class PesquisarMenuController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarMenu model = new PesquisarMenu();		
 		Menu menu = new Menu();
+      	int idApp = 0;
+      	int idOrg = 0;
+      	int idMen = 0;
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-			menu.setApplication(model.getAplicacao()!=0?new Application().findOne(model.getAplicacao()):null);
-			menu.setOrganization(model.getOrganica()!=0?new Organization().findOne(model.getOrganica()):null);
-			menu.setMenu(model.getMenu_principal()!=0?new Menu().findOne(model.getMenu_principal()):null);
+          	idApp = (model.getAplicacao()!=null && !model.getAplicacao().equals(""))?Integer.parseInt(model.getAplicacao()):0;
+          	idOrg = (model.getOrganica()!=null && !model.getOrganica().equals(""))?Integer.parseInt(model.getOrganica()):0;
+          	idMen = (model.getMenu_principal()!=null && !model.getMenu_principal().equals(""))?Integer.parseInt(model.getMenu_principal()):0;
+          
+			menu.setApplication(idApp!=0?new Application().findOne(idApp):null);
+			menu.setOrganization(idOrg!=0?new Organization().findOne(idOrg):null);
+			menu.setMenu(idMen!=0?new Menu().findOne(idMen):null);
 		}
 		List<Menu> menus= null;
 	
-		if(model.getOrganica()==0){
+		if(idOrg==0){
 			int idProf = Permission.getCurrentPerfilId();
 			ProfileType p = new ProfileType().findOne(idProf);		
 			if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
 				menus = menu.find()
-						   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null)
-						   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
+						   .andWhere("application", "=",idApp!=0?idApp:null)
+						   .andWhere("menu", "=", idMen!=0? idMen:null)
 						   .all();
 			}else{
 				Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
 				  menus = menu.find()
-						   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():app.getId())
-						   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
+						   .andWhere("application", "=",idApp!=0?idApp:app.getId())
+						   .andWhere("menu", "=",idMen!=0?idMen:null)
 						   .all();
 			}
 		}else{
@@ -56,7 +63,7 @@ public class PesquisarMenuController extends Controller {
 		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 		//Preenchendo a tabela
 		for(Menu menu_db1:menus){
-			PesquisarMenu.Table_1 table1 = new PesquisarMenu().new Table_1();
+			PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
 			if(menu_db1.getMenu()!=null){
 				table1.setDescricao(menu_db1.getMenu().getDescr());
 			}else{
@@ -68,7 +75,7 @@ public class PesquisarMenuController extends Controller {
 			}
 			table1.setAtivo(menu_db1.getStatus()==1?"Ativo":"Inativo");
 			table1.setCheckbox(menu_db1.getId());
-			table1.setP_id(menu_db1.getId());
+			table1.setP_id(""+menu_db1.getId());
 			if(menu_db1.getFlg_base()==1){
 				table1.setCheckbox_check(menu_db1.getId());
 			}
@@ -77,10 +84,10 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenuView view = new PesquisarMenuView(model);		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps()); 
-		HashMap<String,String> organizations =  (!new String(model.getAplicacao() + "").isEmpty() ? new Organization().getListOrganizations(model.getAplicacao())  : null);
+		HashMap<String,String> organizations =  (!new String(model.getAplicacao() + "").isEmpty() ? new Organization().getListOrganizations(idApp)  : null);
 		view.organica.setValue(organizations);
 		HashMap<Integer, String> menu_principal = (!new String(model.getAplicacao() + "").isEmpty() && !new String(model.getAplicacao() + "").isEmpty() ?
-				new Menu().getListPrincipalMenus(model.getAplicacao())	: null);
+				new Menu().getListPrincipalMenus(idApp)	: null);
 		view.menu_principal.setValue(menu_principal);
 
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view 
@@ -90,10 +97,62 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVO)----*/
+		return this.redirect("igrp","NovoMenu","index&target=_blank");
+		/*----#END-PRESERVED-AREA----*/
+	}
 	
 
+	public Response actionMenu_base() throws IOException{
+		/*----#START-PRESERVED-AREA(MENU_BASE)----*/
+		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+			String[] menu = Igrp.getInstance().getRequest().getParameterValues("p_checkbox");
+			boolean x = false;
+			for(String m:menu){
+				Menu main = new Menu().findOne(Integer.parseInt(m));
+				if(main!=null){
+					main.setFlg_base(1);main = main.update();
+					x = true;
+				}
+			}
+			if(x){
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+			}
+		}
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
 	
-	public Response actionEliminar() throws IOException{
+
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
+		PesquisarMenu model = new PesquisarMenu();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			return this.forward("igrp","PesquisarMenu","index");
+		}
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+      	if(id!=null && !id.equals("")){
+          return this.redirect("igrp","novo-menu","editar&target=_blank&p_id="+id);
+        }
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
@@ -101,11 +160,11 @@ public class PesquisarMenuController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 		else
 			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
-		return this.redirect("igrp","pesquisar-menu","index");
+		
+		return this.redirect("igrp","PesquisarMenu","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	//Menu list I have access to
@@ -138,26 +197,6 @@ public class PesquisarMenuController extends Controller {
 		}
 		xml_menu.endElement();
 		return this.renderView(xml_menu + "");
-	}
-	
-	public Response actionMenu_base() throws IOException{
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			String[] menu = Igrp.getInstance().getRequest().getParameterValues("p_checkbox");
-			boolean x = false;
-			for(String m:menu){
-				Menu main = new Menu().findOne(Integer.parseInt(m));
-				if(main!=null){
-					main.setFlg_base(1);main = main.update();
-					x = true;
-				}
-			}
-			if(x){
-				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
-			}
-		}
-		return this.redirect("igrp","pesquisar-menu","index");
 	}
 	
 	//Get Top Menu

@@ -39,6 +39,7 @@ public class EnvController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Env model = new Env();
+		model.setStatus(1);
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
@@ -52,7 +53,7 @@ public class EnvController extends Controller {
 		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
 		view.flg_external.setVisible(false);
-		view.status_check.setVisible(true);
+		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -89,7 +90,7 @@ public class EnvController extends Controller {
 					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}		
 				Core.setMessageSuccess();
-				return this.redirect("igrp", "lista-env","index");
+				return this.redirect("igrp", "env","index");
 			}else{
 				Core.setMessageError();
 			}
@@ -148,10 +149,10 @@ public class EnvController extends Controller {
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
-				return this.redirect("igrp", "lista-env", "index");
+				Core.setMessageSuccess();
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+				Core.setMessageError();
+				return this.forward("igrp", "env","editar&id=" + idAplicacao);
 			}
 		}	
 		EnvView view = new EnvView(model);
@@ -165,6 +166,7 @@ public class EnvController extends Controller {
 		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
 		view.flg_external.setVisible(false);
+		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

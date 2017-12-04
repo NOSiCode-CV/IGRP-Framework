@@ -8,6 +8,7 @@
                 <!-- TOOLSBAR CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
                 <!-- TABLE CSS INCLUDES -->
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/datatable/dataTables.bootstrap.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
                 <style/>
             </head>
@@ -26,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-caa2c458">
+                                    <div class="row " id="row-2254605a">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -79,86 +80,81 @@
                                                 </xsl:if>
                                                 <xsl:if test="rows/content/table_1">
                                                     <div class="box box-table-contents gen-container-item " gen-class="" item-name="table_1">
-                                                        <div class="box-body table-box">
+                                                        <div class="box-body ">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/table_1/fields"/>
-                                                            <table id="table_1" class="table table-striped gen-data-table IGRP_contextmenu " exports="null">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <xsl:if test="rows/content/table_1/fields/dad">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/table_1/fields/dad/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/table_1/fields/name">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/table_1/fields/name/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/table_1/fields/host">
-                                                                            <th align="left" class=" gen-fields-holder">
-                                                                                <span>
-                                                                                    <xsl:value-of select="rows/content/table_1/fields/host/label"/>
-                                                                                </span>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <xsl:if test="rows/content/table_1/fields/status">
-                                                                            <th class="bs-checkbox gen-fields-holder" align="center">
-  Ativo? 
-                                                                                <input type="checkbox" class="IGRP_checkall" check-rel="status" title="Ativo?" data-toggle="tooltip"/>
-                                                                            </th>
-                                                                        </xsl:if>
-                                                                        <th class="igrp-table-ctx-th"/>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <xsl:for-each select="rows/content/table_1/table/value/row[not(@total='yes')]">
-                                                                        <tr>
-                                                                            <xsl:apply-templates mode="context-param" select="context-menu"/>
-                                                                            <xsl:if test="dad">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/dad/label}" class="text" item-name="dad">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="dad"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="name">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/name/label}" class="text" item-name="name">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="name"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="host">
-                                                                                <td align="left" data-row="{position()}" data-title="{../../fields/host/label}" class="text" item-name="host">
-                                                                                    <span class="">
-                                                                                        <xsl:value-of select="host"/>
-                                                                                    </span>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <xsl:if test="status">
-                                                                                <td align="" data-row="{position()}" data-title="{../../label/status}" class="bs-checkbox" item-name="status">
-                                                                                    <xsl:if test="status != '-0'">
-                                                                                        <input type="checkbox" name="p_status" value="{status}" check-rel="status">
-                                                                                            <xsl:if test="status_check=status">
-                                                                                                <xsl:attribute name="checked">checked</xsl:attribute>
-                                                                                            </xsl:if>
-                                                                                        </input>
+                                                            <div class="table-contents-head">
+                                                                <div class="table-contents-inner"></div>
+                                                            </div>
+                                                            <div class="table-box">
+                                                                <div class="table-box-inner">
+                                                                    <table id="table_1" class="table table-striped igrp-data-table IGRP_contextmenu " exports="null">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <xsl:if test="rows/content/table_1/fields/dad">
+                                                                                    <th align="left" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/table_1/fields/dad/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/table_1/fields/name">
+                                                                                    <th align="left" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/table_1/fields/name/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/table_1/fields/status">
+                                                                                    <th class="bs-checkbox gen-fields-holder" align="center">
+                                                                                        <span>Ativo?</span>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="status" title="Ativo?" data-toggle="tooltip"/>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <th class="igrp-table-ctx-th"/>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <xsl:for-each select="rows/content/table_1/table/value/row[not(@total='yes')]">
+                                                                                <tr>
+                                                                                    <xsl:apply-templates mode="context-param" select="context-menu"/>
+                                                                                    <input type="hidden" name="p_id_fk" value="{id}"/>
+                                                                                    <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
+                                                                                    <xsl:if test="dad">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/dad/label}" class="text" item-name="dad">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="dad"/>
+                                                                                            </span>
+                                                                                        </td>
                                                                                     </xsl:if>
-                                                                                </td>
-                                                                            </xsl:if>
-                                                                            <td class="igrp-table-ctx-td">
-                                                                                <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
-                                                                                    <xsl:with-param name="row-params" select="context-menu"/>
-                                                                                </xsl:apply-templates>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </xsl:for-each>
-                                                                </tbody>
-                                                            </table>
+                                                                                    <xsl:if test="name">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/name/label}" class="text" item-name="name">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="name"/>
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="status">
+                                                                                        <td align="" data-row="{position()}" data-title="{../../label/status}" class="bs-checkbox" item-name="status">
+                                                                                            <xsl:if test="status != '-0'">
+                                                                                                <input type="checkbox" name="p_status" value="{status}" check-rel="status">
+                                                                                                    <xsl:if test="status_check=status">
+                                                                                                        <xsl:attribute name="checked">checked</xsl:attribute>
+                                                                                                    </xsl:if>
+                                                                                                </input>
+                                                                                            </xsl:if>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <td class="igrp-table-ctx-td">
+                                                                                        <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
+                                                                                            <xsl:with-param name="row-params" select="context-menu"/>
+                                                                                        </xsl:apply-templates>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </xsl:for-each>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </xsl:if>
@@ -174,16 +170,18 @@
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- TABLE JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/core/igrp/table/datatable/jquery.dataTables.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/table/datatable/dataTables.bootstrap.min.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/igrp.table.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/bootstrap-contextmenu.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/core/igrp/table/table.contextmenu.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1507638475552"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1507638475552"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1507638475552"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1507638475552"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1507638475552"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1507638475552"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512347239766"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512347239766"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512347239766"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512347239766"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1512347239766"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512347239766"/>
 </xsl:stylesheet>

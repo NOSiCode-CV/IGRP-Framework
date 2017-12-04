@@ -71,6 +71,7 @@ public class PageController extends Controller {
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
+		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -112,6 +113,7 @@ public class PageController extends Controller {
 		view.version.setValue(Config.getVersions());
 		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
 		view.btn_gravar.setLink("editar&id="+id);
+		view.btn_voltar.setVisible(false);
 		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
