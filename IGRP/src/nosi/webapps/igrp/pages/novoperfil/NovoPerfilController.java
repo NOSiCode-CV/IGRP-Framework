@@ -2,6 +2,7 @@
 package nosi.webapps.igrp.pages.novoperfil;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
@@ -21,6 +22,7 @@ public class NovoPerfilController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoPerfil model = new NovoPerfil();
+		model.setActivo(1);
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
@@ -33,8 +35,9 @@ public class NovoPerfilController extends Controller {
 		NovoPerfilView view = new NovoPerfilView(model);	
 		view.aplicacao.setValue(new Application().getListApps());
 		/*view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() != null && !model.getAplicacao().equals("0") && !model.getOrganica().equals("0")) ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) : null);*/
-		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
+		view.organica.setValue((model.getAplicacao() != null && !model.getAplicacao().trim().isEmpty() && !model.getAplicacao().equals("0"))? new Organization().getListOrganizations(Integer.parseInt(model.getAplicacao())) : null);
       	view.perfil.setVisible(false);
+      	view.descricao.setLabel(gt("Nome Perfil"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -63,14 +66,15 @@ public class NovoPerfilController extends Controller {
 				group.setName(pt.getOrganization().getName()+" - "+pt.getDescr());
 				group.setType("assignment");
 				group.create(group);
-				Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
+				Core.setMessageSuccess(gt("Operação efetuada com sucesso"));
+				Core.setMessageInfoLink(gt("Atribuir menu para pefil: "+pt.getDescr()),"igrp", "MenuOrganica", "index&target=_blank&id="+pt.getId()+"&type=perfil");
 				return this.redirect("igrp", "novo-perfil", "index");
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
+				Core.setMessageError(gt("Falha ao tentar efetuar esta operação"));				
 			}
 			return this.redirect("igrp", "novo-perfil", "index");
 		}
-		Igrp.getInstance().getFlashMessage().addMessage("error",gt("Invalid Request ..."));
+		Core.setMessageError(gt("Invalid Request ..."));
 		return this.redirect("igrp", "novo-perfil", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}

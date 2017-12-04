@@ -593,7 +593,10 @@
                     basePath : '<xsl:value-of select="$path"/>/core/formgen/util/java',
 
                     codes : [
-
+						{
+                            name : 'CONTROLLER',
+                            xsl  : '/mvc/XSL_CONTROLLER.xsl'
+                        },
                         {
                             name : 'MODEL',
                             xsl  : '/mvc/XSL_MODEL.xsl'
@@ -602,12 +605,9 @@
                         {
                             name : 'VIEW',
                             xsl  : '/mvc/XSL_VIEW.xsl'
-                        },
-
-                        {
-                            name : 'CONTROLLER',
-                            xsl  : '/mvc/XSL_CONTROLLER.xsl'
                         }
+
+                       
 
                     ]
 

@@ -112,35 +112,35 @@
                 </menu_principal>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="default" rel="pesquisar">
+                <item type="form" code="" class="primary" rel="pesquisar">
                     <title>Pesquisar</title>
-                    <app/>
-                    <page/>
-                    <link/>
-                    <parameter>undefined?</parameter>
-                    <target>submit</target>
-                    <img>default|fa-search</img>
+                    <app>igrp</app>
+                    <page>ListaPage</page>
+                    <link>index</link>
+                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
+                    <target>submit_form</target>
+                    <img>primary|fa-search</img>
                 </item>
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="novo">
                 <title>Novo</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>_self</target>
-                <img>default|fa-plus-square</img>
-                <parameter>undefined</parameter>
+                <app>igrp</app>
+                <page>NovoMenu</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>success|fa-plus-square</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl</parameter>
             </item>
             <item type="specific" code="" rel="menu_base">
                 <title>Menu Base</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>submit</target>
+                <app>igrp</app>
+                <page>PesquisarMenu</page>
+                <link>index</link>
+                <target>confirm</target>
                 <img>default|fa-save</img>
-                <parameter>undefined</parameter>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -169,10 +169,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Deserunt voluptatem doloremque sed labore dolor aliqua amet mollit amet natus ut doloremque sit natu</descricao>
-                        <titulo name="p_titulo">Deserunt anim ipsum unde omnis sit unde omnis aliqua accusantium iste ut dolor magna officia</titulo>
-                        <pagina name="p_pagina">Omnis adipiscing aliqua elit iste totam aperiam aliqua ut totam natus elit magna unde rem</pagina>
-                        <ativo name="p_ativo">Sit consectetur sit omnis aliq</ativo>
+                        <descricao name="p_descricao">Aliqua voluptatem perspiciatis accusantium perspiciatis consectetur ipsum stract sed elit accusantiu</descricao>
+                        <titulo name="p_titulo">Officia consectetur labore aperiam magna adipiscing magna laudantium natus doloremque adipiscing vol</titulo>
+                        <pagina name="p_pagina">Ut elit amet ipsum unde mollit magna sit stract rem mollit ut rem mollit sit</pagina>
+                        <ativo name="p_ativo">Iste aperiam ipsum iste adipis</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -182,10 +182,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Stract lorem rem omnis consectetur ut doloremque officia mollit laudantium doloremque deserunt omnis</descricao>
-                        <titulo name="p_titulo">Stract accusantium magna labore laudantium accusantium deserunt labore consectetur stract dolor natu</titulo>
-                        <pagina name="p_pagina">Sit aliqua magna dolor unde rem ipsum aperiam magna dolor aperiam ipsum anim sit ut</pagina>
-                        <ativo name="p_ativo">Voluptatem ipsum ut natus sed</ativo>
+                        <descricao name="p_descricao">Iste unde mollit lorem magna sit natus anim accusantium natus officia labore voluptatem iste dolor</descricao>
+                        <titulo name="p_titulo">Amet labore dolor doloremque sed laudantium natus officia sit elit amet aliqua elit omnis mollit</titulo>
+                        <pagina name="p_pagina">Laudantium rem sit stract elit laudantium sit aliqua adipiscing stract sed perspiciatis lorem ipsum</pagina>
+                        <ativo name="p_ativo">Labore elit magna consectetur</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -195,10 +195,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Ipsum sed consectetur rem omnis totam ipsum dolor stract mollit ut voluptatem ut dolor laudantium</descricao>
-                        <titulo name="p_titulo">Ut dolor stract elit totam aperiam consectetur anim aperiam consectetur unde sit mollit magna amet</titulo>
-                        <pagina name="p_pagina">Magna stract labore deserunt doloremque accusantium totam iste elit anim elit labore officia dolorem</pagina>
-                        <ativo name="p_ativo">Ut omnis labore aliqua adipisc</ativo>
+                        <descricao name="p_descricao">Doloremque consectetur rem omnis aliqua voluptatem lorem labore amet iste consectetur aliqua perspic</descricao>
+                        <titulo name="p_titulo">Perspiciatis iste ipsum sit amet iste adipiscing aliqua laudantium unde dolor stract iste mollit adi</titulo>
+                        <pagina name="p_pagina">Omnis sit amet perspiciatis ut magna totam stract natus lorem officia sit natus aliqua deserunt</pagina>
+                        <ativo name="p_ativo">Adipiscing dolor aperiam strac</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -208,10 +208,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Amet ut ipsum magna stract rem iste officia labore sit ipsum accusantium ut amet totam</descricao>
-                        <titulo name="p_titulo">Ipsum consectetur ut voluptatem laudantium sed ipsum deserunt anim lorem elit rem perspiciatis ipsum</titulo>
-                        <pagina name="p_pagina">Amet omnis rem voluptatem doloremque sit lorem adipiscing dolor aperiam magna officia deserunt dolor</pagina>
-                        <ativo name="p_ativo">Officia voluptatem accusantium</ativo>
+                        <descricao name="p_descricao">Sed laudantium sit sed dolor ipsum anim doloremque sit magna aliqua deserunt anim stract sit</descricao>
+                        <titulo name="p_titulo">Lorem natus ut unde magna omnis officia lorem perspiciatis rem elit aperiam deserunt ut totam</titulo>
+                        <pagina name="p_pagina">Officia rem aperiam iste deserunt accusantium adipiscing natus officia deserunt rem accusantium ipsu</pagina>
+                        <ativo name="p_ativo">Aperiam mollit perspiciatis de</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
@@ -221,24 +221,33 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Aliqua aperiam lorem anim totam aliqua mollit anim consectetur magna unde ipsum amet perspiciatis am</descricao>
-                        <titulo name="p_titulo">Sed accusantium iste omnis voluptatem aliqua omnis totam doloremque aliqua mollit aperiam anim volup</titulo>
-                        <pagina name="p_pagina">Mollit labore rem ipsum elit sit rem magna doloremque sed amet rem unde labore magna</pagina>
-                        <ativo name="p_ativo">Officia magna aperiam totam si</ativo>
+                        <descricao name="p_descricao">Deserunt magna natus elit mollit elit sit iste deserunt magna unde laudantium anim iste aperiam</descricao>
+                        <titulo name="p_titulo">Consectetur lorem rem elit omnis rem adipiscing totam mollit aliqua perspiciatis voluptatem rem sit</titulo>
+                        <pagina name="p_pagina">Adipiscing lorem amet sit omnis deserunt amet sit voluptatem voluptatem labore consectetur anim laud</pagina>
+                        <ativo name="p_ativo">Ut labore ut aliqua omnis amet</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="default" rel="button_1">
-                        <title>Button</title>
-                        <app/>
-                        <page/>
-                        <link/>
-                        <parameter>undefined?</parameter>
-                        <target>_blank</target>
-                        <img>default|fa-angle-right</img>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>PesquisarMenu</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl?</parameter>
+                        <target>mpsubmit</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>PesquisarMenu</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
                     </item>
                 </context-menu>
             </table>

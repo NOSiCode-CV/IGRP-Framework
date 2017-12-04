@@ -39,6 +39,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	private String valid_until; // Date type
 	private int status;
 	private String remarks;
+	@Column(nullable = false)
 	private int activation_key;
 	@Column(unique=true)
 	private String user_name;

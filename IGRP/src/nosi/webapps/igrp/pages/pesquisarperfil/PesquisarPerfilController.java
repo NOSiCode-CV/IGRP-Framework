@@ -62,8 +62,8 @@ public class PesquisarPerfilController extends Controller {
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		PesquisarPerfil model = new PesquisarPerfil();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			String id = Igrp.getInstance().getRequest().getParameter("p_id");
+      	String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		if(id!=null && !id.equals("")){
 			return this.redirect("igrp","NovoPerfil","editar&target=_blank&p_id="+id);
 		}
 		return this.redirectError();
@@ -89,6 +89,7 @@ public class PesquisarPerfilController extends Controller {
 	public Response actionMenu() throws IOException{
 		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		System.out.println("Id:"+id);
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -98,6 +99,17 @@ public class PesquisarPerfilController extends Controller {
 		/*----#START-PRESERVED-AREA(TRANSACAO)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type=perfil");		
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionConvidar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(CONVIDAR)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+        if(id!=null && !id.equals("")){
+          return this.redirect("igrp", "novo-utilizador", "index&target=_blank&p_id_prof="+id);
+        }
+        return this.redirectError();
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

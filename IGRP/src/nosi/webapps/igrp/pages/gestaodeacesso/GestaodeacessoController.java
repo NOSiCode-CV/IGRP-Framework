@@ -50,6 +50,13 @@ public class GestaodeacessoController extends Controller {
 	}
 
 
+	public Response actionGestao_de_utilizadores() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GESTAO_DE_UTILIZADORES)----*/
+		return this.redirect("igrp","PesquisarUtilizador","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
 	public Response actionAdicionar_organica() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ADICIONAR_ORGANICA)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_application");

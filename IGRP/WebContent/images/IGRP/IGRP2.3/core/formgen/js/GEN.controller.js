@@ -2244,7 +2244,7 @@ var GENERATOR = function(genparams){
 					callback();
 			}
 			
-			resizeCodeMirrorArea( );
+			GEN.resizeCodeMirrorArea( );
 
 			GEN.SETTINGS.hide( );
 			
@@ -2855,7 +2855,7 @@ var GENERATOR = function(genparams){
       	});
 
       	$(window).resize(function(){
-      		resizeCodeMirrorArea();
+      		GEN.resizeCodeMirrorArea();
       	});
 
 		/*sort containers*/
@@ -3221,7 +3221,7 @@ var GENERATOR = function(genparams){
 
 	}
 
-	var resizeCodeMirrorArea = function(){
+	GEN.resizeCodeMirrorArea = function(){
 		$('.gen-viewers .cm-s-default, .gen-editor-toolsbar').height( $(window).height()-86);	
 	}
 

@@ -101,7 +101,15 @@ $(function(){
 
 						$('#gen-page-setts-ctrl').show();
 
-						GEN.done();
+						setTimeout(function(){
+
+							GEN.resizeCodeMirrorArea();
+
+							GEN.done();
+
+						},250)
+
+						
 
 
 					};
@@ -747,4 +755,3 @@ $(function(){
 	}();
 
 })
-

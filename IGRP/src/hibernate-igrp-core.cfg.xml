@@ -27,5 +27,7 @@
 		<mapping class="nosi.webapps.igrp.dao.OAuthScope"/>
 		<mapping class="nosi.webapps.igrp.dao.OAuthRefreshToken"/>
 		
+		<mapping class="nosi.webapps.igrp.dao.UserRole"/>
+		
 	</session-factory>
 </hibernate-configuration>

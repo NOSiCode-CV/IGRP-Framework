@@ -23,6 +23,7 @@ public class PesquisarPerfilView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
+	public IGRPButton btn_convidar;
 	public PesquisarPerfilView(PesquisarPerfil model){
 		this.setPageTitle("Lista de Perfil");
 			
@@ -57,14 +58,16 @@ public class PesquisarPerfilView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_novo = new IGRPButton("Novo","igrp","PesquisarPerfil","novo","_self","success|fa-plus-square","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","submit","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","PesquisarPerfil","editar","_self","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","submit","default|fa-list","","");
-		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
-		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","submit","default|fa-exchange","","");
-		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
+		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","_self","primary|fa-list","","");
+		btn_menu.propertie.add("type","specific").add("code","").add("class","primary").add("rel","menu");
+		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","_self","black|fa-exchange","","");
+		btn_transacao.propertie.add("type","specific").add("code","").add("class","black").add("rel","transacao");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarPerfil","convidar","_self","warning|fa-send","","");
+		btn_convidar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","convidar");
 		
 	}
 		
@@ -85,6 +88,7 @@ public class PesquisarPerfilView extends View {
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
+		table_1.addButton(btn_convidar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);

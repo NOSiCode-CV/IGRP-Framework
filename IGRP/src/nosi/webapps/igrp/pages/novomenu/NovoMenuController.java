@@ -36,7 +36,7 @@ public class NovoMenuController extends Controller {
 		view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
 		view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
 		view.target.setValue(targets); // prompt
-		
+		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/ 
 	}
@@ -110,6 +110,7 @@ public class NovoMenuController extends Controller {
 			view.self_id.setValue(new Menu().getListPrincipalMenus());
 			view.btn_gravar.setLink("editar_&p_id="+id_menu);
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
+			view.btn_voltar.setVisible(false);
 			
 			return this.renderView(view);
 			/*----#END-PRESERVED-AREA----*/
