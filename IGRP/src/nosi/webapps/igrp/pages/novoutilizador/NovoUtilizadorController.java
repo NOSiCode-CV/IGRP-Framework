@@ -22,6 +22,8 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.UserRole;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +37,6 @@ public class NovoUtilizadorController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
-
 		String p_id_prof = Igrp.getInstance().getRequest().getParameter("p_id_prof");
 		if(p_id_prof!=null && !p_id_prof.equals("")){
 			ProfileType prof = new ProfileType().findOne(Integer.parseInt(p_id_prof));
@@ -53,7 +54,6 @@ public class NovoUtilizadorController extends Controller {
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
 		}
-		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -159,8 +159,11 @@ public class NovoUtilizadorController extends Controller {
 				User u = new User().find().andWhere("email", "=", model.getEmail()).one();
 				if(u == null) {
 					u = userLdap.insert();
+					UserRole role = new UserRole();
+					role.setRole_name("IGRP_ADMIN");
+					role.setUser(u);
+					role = role.insert();
 				}
-				
 				p.setUser(u);
 				p.setType_fk(model.getPerfil());
 				p = p.insert();
@@ -208,7 +211,6 @@ public class NovoUtilizadorController extends Controller {
 				model.setAplicacao(p.getProfileType().getApplication().getId());
 				model.setOrganica(p.getOrganization().getId());
 				model.setPerfil(p.getProfileType().getId());
-				
 				NovoUtilizadorView view = new NovoUtilizadorView(model);
 				view.aplicacao.setValue(new Application().getListApps());
 				view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
