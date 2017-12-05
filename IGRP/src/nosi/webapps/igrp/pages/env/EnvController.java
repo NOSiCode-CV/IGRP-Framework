@@ -272,7 +272,7 @@ public class EnvController extends Controller {
 	}
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
-		PersistenceUtils.confiOtherConnections(app);
+//		PersistenceUtils.confiOtherConnections(app);
 		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
 		String[] p = page.split("/");
 		return this.redirect(app, p[1], p[2]);

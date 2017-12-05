@@ -3,6 +3,8 @@ package nosi.core.gui.components;
 import nosi.core.config.Config;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.xml.XMLWritter;
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -20,7 +22,7 @@ public abstract class IGRPComponent {
 		this.tag_name = tag_name;
 		this.xml = new XMLWritter();
 		this.properties = new FieldProperties();
-		this.properties.put("title", title);
+		this.properties.put("title", gt(title));
 		this.connectionName = Config.getBaseConnection();
 	}
 	public IGRPComponent(String tag_name) {
@@ -35,6 +37,6 @@ public abstract class IGRPComponent {
 	}
 
 	public void setTitle(String title){
-		this.properties.put("title", title);
+		this.properties.put("title", gt(title));
 	}
 }

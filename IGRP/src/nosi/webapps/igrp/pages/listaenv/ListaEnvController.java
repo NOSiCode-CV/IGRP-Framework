@@ -21,6 +21,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 /*----#END-PRESERVED-AREA----*/
 
 public class ListaEnvController extends Controller {		
@@ -37,16 +38,17 @@ public class ListaEnvController extends Controller {
 			app.setName(model.getNome());
 		}
 		List<Application> apps = new ArrayList<>();
-		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		User user = (User) Igrp.getInstance().getUser().getIdentity();
+		
 		int idProf = Permission.getCurrentPerfilId();
 		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
 			apps = 	app.find()
 						.andWhere("dad", "like", app.getDad())
 						.andWhere("name", "like", app.getName())
 						.all();
 		}else{
-			apps = app.getListMyApp(idUser);
+			apps = app.getListMyApp(user.getId());
 		}
 		
 		for(Application a:apps){

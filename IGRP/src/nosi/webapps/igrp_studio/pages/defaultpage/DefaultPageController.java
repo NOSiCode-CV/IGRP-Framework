@@ -10,10 +10,13 @@ import nosi.webapps.igrp.dao.User;
 public class DefaultPageController extends Controller {
 	
 	public Response actionIndex() throws IOException {
-		User user = (User)Igrp.getInstance().getUser().getIdentity();
-		String username = user.getUser_name();
-		String password = user.getPass_hash();
-		String url = "http://" + username + ":" + password + "@" + "10.4.2.93/IGRP/igrpsso";
-		return this.redirectToUrl(url);
+//		User user = (User)Igrp.getInstance().getUser().getIdentity();
+//		String username = user.getUser_name();
+//		String password = user.getPass_hash();
+//		String url = "http://" + username + ":" + password + "@" + "10.4.2.93/IGRP/igrpsso";
+//		return this.redirectToUrl(url);
+		HomeAppView view = new HomeAppView();
+		view.title = "IGRP Studio";
+		return this.renderView(view,true);
 	}
 }
