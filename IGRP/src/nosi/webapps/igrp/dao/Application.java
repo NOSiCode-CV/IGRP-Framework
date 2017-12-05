@@ -225,15 +225,15 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public Map<Object, Object> getListApps(){
-		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		int idProf = Permission.getCurrentPerfilId();
 		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
 			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
 		}else if(p!=null){
 			Application app = this.find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
 			if(app!=null){
-				return IgrpHelper.toMap(getListMyApp(idUser), "id", "name", gt("-- Selecionar Aplicação --"));
+				return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar Aplicação --"));
 			}
 		}
 		return null;

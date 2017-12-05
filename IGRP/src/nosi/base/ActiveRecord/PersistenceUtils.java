@@ -46,13 +46,13 @@ public class PersistenceUtils {
     	cfg.getProperties().setProperty("hibernate.connection.password",password);
     	cfg.getProperties().setProperty("hibernate.connection.username",user);
     	cfg.getProperties().setProperty("hibernate.connection.url",url);
-    	cfg.getProperties().setProperty("current_session_context_class","thread");
-    	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
-    	cfg.getProperties().setProperty("hibernate.c3p0.min_size","5");
-    	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
-    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
-    	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
-    	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
+//    	cfg.getProperties().setProperty("current_session_context_class","thread");
+//    	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
+//    	cfg.getProperties().setProperty("hibernate.c3p0.min_size","5");
+//    	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
+//    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
+//    	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
+//    	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
     	boolean isConnected = false;
     	try{
 			SessionFactory sf = cfg.buildSessionFactory();		
