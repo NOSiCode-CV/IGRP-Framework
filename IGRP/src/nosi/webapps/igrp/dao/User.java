@@ -197,7 +197,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User findIdentityById(int identityId) {
-		return this.findOne(this.getCriteria().where(this.getBuilder().equal(this.getRoot().get("id"), identityId)));
+		return this.findOne(identityId);
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 
 	@Override
 	public Object findIdentityByUsername(String username) {	
-		return this.findOne(this.getCriteria().where(this.getBuilder().equal(this.getRoot().get("user_name"), username)));
+		return this.find().andWhere("user_name", "=", username).one();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
 import nosi.core.webapp.DBQuery;
 import nosi.core.webapp.FlashMessage;
@@ -40,7 +40,7 @@ public abstract class AbstractField implements Field{
 	}
 	public String getLabel() {
 		label = label != ""?label:this.propertie.get("name").toString().toUpperCase();
-		return label;
+		return gt(label);
 	}
 	public void setLabel(String label) {
 		this.label = label;
