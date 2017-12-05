@@ -99,10 +99,13 @@ public final class Igrp{ // Not extends
 		this.exit();
 	}
 	
-	// Exit and Send the response ...
+	// Exit and Send the response ... 
 	private void exit(){
 		Controller.sendResponse();
 		this.die = false;
+		/*((ThreadLocalIgrpFactory)this.appInstance).cleanUp();
+		this.appInstance = null;
+		System.out.println("Is Null: " + (this.appInstance == null));*/
 	}
 	
 	private void runController() throws IOException{
