@@ -139,7 +139,7 @@ public class LoginController extends Controller {
 			User user = (User) new User().findIdentityByUsername(username);
 			if(user != null) {
 				password = nosi.core.webapp.User.encryptToHash(password, "MD5");
-				if(user.getPass_hash() != null && !user.getPass_hash().equals(password)) {
+				if((user.getPass_hash() == null) || (user.getPass_hash() != null && !user.getPass_hash().equals(password))) {
 					user.setPass_hash(password); // Anyway !!! update the user's password and encrypt it ...
 					user.update();
 				}

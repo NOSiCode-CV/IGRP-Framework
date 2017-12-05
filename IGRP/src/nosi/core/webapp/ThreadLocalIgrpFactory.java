@@ -20,4 +20,8 @@ public class ThreadLocalIgrpFactory<T> implements IgrpFactory<T>{
 	public T create() {
 		return this.t.get();
 	}
+
+	public void cleanUp() {
+		this.t.remove();
+	}
 }
