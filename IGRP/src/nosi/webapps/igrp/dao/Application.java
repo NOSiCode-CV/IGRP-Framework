@@ -225,29 +225,33 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 
 	public Map<Object, Object> getListApps(){
-		int idUser = Igrp.getInstance().getUser().getIdentity().getIdentityId();
+		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		int idProf = Permission.getCurrentPerfilId();
 		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
 			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
 		}else if(p!=null){
 			Application app = this.find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
 			if(app!=null){
-				List<Application> listApp = new ArrayList<>();
-				List<Profile> list = new Profile().find()
-								.andWhere("profileType.application", "=",app.getId())
-								.andWhere("organization", "=",Permission.getCurrentOrganization())
-								.andWhere("profileType", "=",Permission.getCurrentPerfilId())
-								.andWhere("type", "=", "ENV")
-								.andWhere("user", "=", idUser)
-								.all();
-				if(!list.isEmpty()){				
-					list.stream().peek(e->listApp.add(e.getProfileType().getApplication())).collect(Collectors.toList());
-					return IgrpHelper.toMap(listApp, "id", "name", gt("-- Selecionar Aplicação --"));
-				}
+				return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar Aplicação --"));
 			}
 		}
 		return null;
+	}
+	
+	public List<Application> getListMyApp(int idUser){
+		List<Application> listApp = new ArrayList<>();
+		List<Profile> list = new Profile().find()
+						.andWhere("type", "=", "ENV")
+						 .andWhere("type_fk", "<>", 1)//Oculta IGRP Core
+						 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
+						 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
+						.andWhere("user", "=", idUser)
+						.all();
+		if(!list.isEmpty()){				
+			list.stream().peek(e->listApp.add(e.getProfileType().getApplication())).collect(Collectors.toList());
+		}
+		return listApp;
 	}
 	
 	public boolean getPermissionApp(String dad) {
@@ -298,7 +302,13 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 				proty.setOrganization(org);
 				proty.setApplication(app);
 				proty.setStatus(1);		
-				proty = proty.insert();				
+				proty = proty.insert();		
+				if(proty!=null){
+					Profile p1 = new Profile(app.getId(), "ENV", proty, user, org);
+					p1.insert();
+					Profile p2 = new Profile(proty.getId(), "PROF", proty, user, org);
+					p2.insert();
+				}
 			}
 		}
 		return app;

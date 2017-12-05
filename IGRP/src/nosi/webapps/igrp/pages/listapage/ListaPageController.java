@@ -17,6 +17,8 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,8 +46,9 @@ public class ListaPageController extends Controller {
 		}	
 		List<Action> actions = null;
 		int idProf = Permission.getCurrentPerfilId();
+		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
 			 actions = a.find()
 					  .andWhere("application", "=", model.getEnv_fk()!=null && !model.getEnv_fk().equals("")?Integer.parseInt(model.getEnv_fk()):null)
 					  .andWhere("page", "like", model.getPage())

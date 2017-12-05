@@ -177,7 +177,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
-			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, "_self", actions.get(2), igrp_studio, menus.get(3)));
+			menus.add(new Menu("Detalhes de Aplicação", 1, 1, 1, "_self", actions.get(2), igrp_studio, menus.get(0)));
 			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), igrp_studio, menus.get(3)));
 			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));

@@ -39,9 +39,9 @@ public class NovoUtilizadorController extends Controller {
 		model.load();
 		String p_id_prof = Igrp.getInstance().getRequest().getParameter("p_id_prof");
 		if(p_id_prof!=null && !p_id_prof.equals("")){
-			Profile prof = new Profile().findOne(Integer.parseInt(p_id_prof));
-			model.setAplicacao(prof.getProfileType().getApplication().getId());
-			model.setOrganica(prof.getProfileType().getOrganization().getId());
+			ProfileType prof = new ProfileType().findOne(Integer.parseInt(p_id_prof));
+			model.setAplicacao(prof.getApplication().getId());
+			model.setOrganica(prof.getOrganization().getId());
 			model.setPerfil(prof.getId());
 		}
 		

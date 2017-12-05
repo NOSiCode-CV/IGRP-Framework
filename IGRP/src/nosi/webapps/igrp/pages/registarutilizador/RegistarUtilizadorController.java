@@ -13,9 +13,12 @@ import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
-
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -49,6 +52,14 @@ public class RegistarUtilizadorController extends Controller {
 				role.setUser(user);
 				role = role.insert();
 				if(user!=null){
+					Application app = new Application().find().andWhere("dad", "=", "tutorial").one();
+					ProfileType prof = new ProfileType().find().andWhere("code","=","perfil.tutorial").andWhere("application", "=",app.getId()).one();
+					Organization org = new Organization().find().andWhere("code","=","org.tutorial").andWhere("application", "=",app.getId()).one();
+					//Atribui acesso a aplicação IGRP Tutorial
+					Profile p1 = new Profile(app.getId(), "ENV",prof, user,org);
+					p1.insert();
+					Profile p2 = new Profile(prof.getId(), "PROF", prof, user, org);
+					p2.insert();
 					Core.setMessageSuccess(gt("Utilizador registado com sucesso."));
 					Core.setMessageInfoLink(gt("Convidar "+user.getName()),"igrp","novo-utilizador","index&target=_blank&id="+user.getId());
 					return this.redirect("igrp", "registar-utilizador", "index");

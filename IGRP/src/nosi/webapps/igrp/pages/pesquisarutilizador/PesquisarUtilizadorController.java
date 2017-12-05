@@ -80,7 +80,8 @@ public class PesquisarUtilizadorController extends Controller {
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.email.setParam(true);
-		view.table_1.addData(lista);		
+		view.table_1.addData(lista);	
+		view.btn_lista_geral.setTitle("Cadastro Geral");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
