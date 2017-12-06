@@ -18,10 +18,22 @@
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
   </servlet>
+  
+  <servlet>
+		<servlet-name>Log4JInitServlet</servlet-name>
+		<servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class>
+		<init-param>
+			<param-name>log4j-properties-location</param-name>
+			<param-value>WEB-INF/log4j.properties</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+  
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/images/*</url-pattern>
