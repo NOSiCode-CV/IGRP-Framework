@@ -164,6 +164,8 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app));
 			
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, tutorial));
+			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, igrp_studio));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -266,9 +268,15 @@ public class MigrationIGRPInitConfig {
 			tutorial = tutorial.findOne(2);
 			if(tutorial != null) {
 				tutorial.setAction(new Action().find().andWhere("page", "=", "GeralApresentacao").andWhere("application", "=", 2).one()); 
-				tutorial.update();
+				tutorial = tutorial.update();
 			}
 			
+			//colocar a aplicacao tutorial uma outra pagina default
+			if(igrp_studio != null) {
+				Action ac = new Action().find().andWhere("page", "=", "HomeStudio").andWhere("application", "=", igrp_studio.getId()).one();
+				igrp_studio.setAction(ac); 
+				igrp_studio = igrp_studio.update();
+			}
 			profiles = null;
 			menus = null;
 			actions = null;

@@ -35,7 +35,7 @@ public class ListaPageController extends Controller {
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 		Action a = new Action();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();		
 			Application app = new Application();
 			if(model.getEnv_fk()!=null && !model.getEnv_fk().equals("")){
@@ -44,24 +44,11 @@ public class ListaPageController extends Controller {
 			a.setPage(model.getPage());
 			a.setPage_descr(model.getPage_descr());
 		}	
-		List<Action> actions = null;
-		int idProf = Permission.getCurrentPerfilId();
-		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
-			 actions = a.find()
-					  .andWhere("application", "=", model.getEnv_fk()!=null && !model.getEnv_fk().equals("")?Integer.parseInt(model.getEnv_fk()):null)
-					  .andWhere("page", "like", model.getPage())
-					  .andWhere("page_descr", "like", model.getPage_descr())
-					  .all();
-		}else if(p!=null){
-				  Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
-				  actions = a.find()
-				  .andWhere("application", "=", model.getEnv_fk()!=null && !model.getEnv_fk().equals("")?Integer.parseInt(model.getEnv_fk()):app.getId())
-				  .andWhere("page", "like", model.getPage())
-				  .andWhere("page_descr", "like", model.getPage_descr())
-				  .all();
-		}
+		List<Action> actions = a.find()
+			  .andWhere("application", "=",(model.getEnv_fk()!=null && !model.getEnv_fk().equals(""))?Integer.parseInt(model.getEnv_fk()):-1)
+			  .andWhere("page", "like", model.getPage())
+			  .andWhere("page_descr", "like", model.getPage_descr())
+			  .all();
 		for(Action ac:actions){
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setP_id_page(""+ac.getId());

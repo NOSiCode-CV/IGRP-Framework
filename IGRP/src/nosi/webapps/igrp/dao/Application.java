@@ -48,10 +48,10 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	private int external;
 	private String url;
 	
-	@ManyToOne()
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.LAZY)
 	private List<Action> actions;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Config_env> configs;
@@ -226,28 +226,38 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 
 	public Map<Object, Object> getListApps(){
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		int idProf = Permission.getCurrentPerfilId();
-		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
+		String dad = Permission.getCurrentEnv();		
+		if("igrp".equalsIgnoreCase(dad)){
 			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
-		}else if(p!=null){
-			Application app = this.find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
-			if(app!=null){
-				return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar Aplicação --"));
-			}
+		}else{
+			return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar Aplicação --"));
 		}
-		return null;
 	}
 	
 	public List<Application> getListMyApp(int idUser){
 		List<Application> listApp = new ArrayList<>();
-		List<Profile> list = new Profile().find()
+		String dad = Permission.getCurrentEnv();
+		List<Profile> list = new ArrayList<>();
+		if("igrp_studio".equalsIgnoreCase(dad)) {
+			list = new Profile().find()
+					.andWhere("type", "=", "ENV")
+					.andWhere("user", "=", idUser)
+					 .andWhere("type_fk", "<>", 1)//Oculta IGRP Core
+					 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
+					 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
+					.all();
+		}else {
+			list = new Profile().find()
 						.andWhere("type", "=", "ENV")
-						 .andWhere("type_fk", "<>", 1)//Oculta IGRP Core
-						 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
-						 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
+						.andWhere("type_fk", "=",new Application().find().andWhere("dad", "=", dad).one().getId())
 						.andWhere("user", "=", idUser)
+						.andWhere("type_fk", "<>", 1)//Oculta IGRP Core
+						.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
+						.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
+						.andWhere("organization", "=",Permission.getCurrentOrganization())
+						.andWhere("profileType", "=",Permission.getCurrentPerfilId())
 						.all();
+		}
 		if(!list.isEmpty()){				
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication())).collect(Collectors.toList());
 		}
@@ -272,6 +282,11 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 									 .andWhere("user", "=", u.getId())
 									 .andWhere("type_fk", "<>", 1)
 									 .all();
+		String dad = Permission.getCurrentEnv();
+		if("igrp_studio".equalsIgnoreCase(dad)) {
+			Application app = new Application().find().andWhere("dad", "=", dad).one();
+			list = list.stream().filter(d->d.getType_fk()!=app.getId()).collect(Collectors.toList());
+		}
 		return list;
 	}
 

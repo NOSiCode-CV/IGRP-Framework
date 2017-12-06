@@ -43,17 +43,18 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus= null;
 	
 		if(idOrg==0){
-			int idProf = Permission.getCurrentPerfilId();
-			ProfileType p = new ProfileType().findOne(idProf);		
-			if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+			String dad = Permission.getCurrentEnv();			
+			if("igrp".equalsIgnoreCase(dad)){
 				menus = menu.find()
 						   .andWhere("application", "=",idApp!=0?idApp:null)
 						   .andWhere("menu", "=", idMen!=0? idMen:null)
 						   .all();
 			}else{
-				Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
-				  menus = menu.find()
-						   .andWhere("application", "=",idApp!=0?idApp:app.getId())
+			  	menus = menu.find()
+						   .andWhere("application", "=",new Application().find().andWhere("dad", "=", dad).one().getId())
+						   .andWhere("application", "<>", 1)//Oculta IGRP Core
+						   .andWhere("application", "<>", 2)//Oculta IGRP Tutorial
+						   .andWhere("application", "<>", 3)//Oculta IGRP Studio
 						   .andWhere("menu", "=",idMen!=0?idMen:null)
 						   .all();
 			}
@@ -202,7 +203,7 @@ public class PesquisarMenuController extends Controller {
 	//Get Top Menu
 	public Response actionTopMenu() throws IOException{	
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
-		topMenu.addItem("Home", "webapps?r=igrp", "home", "index", "_self", "home.png");
+		topMenu.addItem("Home", "webapps?r="+Permission.getCurrentEnv(), "DefaultPage", "index", "_self", "home.png");
 		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
 		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
 		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
