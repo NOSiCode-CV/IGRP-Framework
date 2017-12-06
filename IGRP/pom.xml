@@ -2,9 +2,15 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>IGRP</groupId>
   <artifactId>IGRP</artifactId>
-  
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  
+  <!--  Database migrations properties-->
+  <properties>
+    <activejdbc.version>1.4.13</activejdbc.version>
+    <environments>development.test,development</environments>
+ </properties>
+ 
   <!-- 
   <dependencies>
   
@@ -93,6 +99,8 @@
         </excludes>
       </resource>
     </resources>
+    
+    <pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -109,6 +117,48 @@
           <warSourceDirectory>WebContent</warSourceDirectory>
         </configuration>
       </plugin>
+      
+      <!--  Database migrations plugin-->
+
+        <plugin>
+            <groupId>org.javalite</groupId>
+            <artifactId>db-migrator-maven-plugin</artifactId>
+            <version>1.4.13</version>
+            <configuration>
+                <username>${jdbc.user}</username>
+                <password>${jdbc.password}</password>
+                <driver>${jdbc.driver}</driver>
+            </configuration>
+            
+        </plugin>
+    	
+    	<!--  plugin to execute multiple databases -->
+    	
+		<plugin>
+		    <groupId>org.javalite</groupId>
+		    <artifactId>db-migrator-maven-plugin</artifactId>
+		    <executions>
+		        <execution>
+		            <id>dev_migrations</id>
+		            <phase>validate</phase>
+		            <goals>
+		                <goal>migrate</goal>
+		            </goals>
+		        </execution>
+		        <execution>
+		            <id>test_migrations</id>
+		            <phase>validate</phase>
+		            <goals>
+		                <goal>migrate</goal>
+		            </goals>
+		            <configuration>
+		                <url>${jdbc.test.url}</url>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
     </plugins>
+    </pluginManagement>
+    
   </build>
 </project>
