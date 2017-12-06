@@ -26,6 +26,9 @@ public class IGRPHome{
 		if(this.type_home.equals("home-app")){
 			path = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
 		}
+		else if(this.type_home.equals("home-app-studio")){
+			path = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
+		}
 		 this.xml = new XMLWritter("rows", path, "dash");
 		 Config.type_header = "home";
 		 this.xml.addXml(Config.getHeader());

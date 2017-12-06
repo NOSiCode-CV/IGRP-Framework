@@ -3,8 +3,6 @@ package nosi.base.ActiveRecord;
 import java.util.HashMap;
 import java.util.Map;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.webapps.igrp.dao.Config_env;
@@ -14,7 +12,6 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class PersistenceUtils {
 
-	public static StandardServiceRegistry registry = null;
 	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();
 	
 	public static SessionFactory getSessionFactory(String connectionName) {
@@ -61,9 +58,6 @@ public class PersistenceUtils {
     			SESSION_FACTORY.put(connectionName, sf);
 	        	
 	         } catch (Exception e) {
-	            if (registry != null) {
-	               StandardServiceRegistryBuilder.destroy(registry);
-	            }
 	            e.printStackTrace();
 	         }
 	      }

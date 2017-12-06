@@ -177,7 +177,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public String toString() {
 		return "Action [page=" + page + ", action=" + action + ", package_name=" + package_name + ", xsl_src=" + xsl_src
 				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + version + ", status="
-				+ status + ", application=" + application + "]";
+				+ status +"]";
 	}
 
 	public HashMap<Integer,String> getListActions(){

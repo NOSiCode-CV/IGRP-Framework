@@ -35,7 +35,7 @@ public class ListaPageView extends View {
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicacao"));
 		
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		page = new TextField(model,"page");
 		page.setLabel(gt("Nome Página"));
 		

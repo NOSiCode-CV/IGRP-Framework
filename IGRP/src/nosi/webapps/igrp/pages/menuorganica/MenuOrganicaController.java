@@ -35,7 +35,7 @@ public class MenuOrganicaController extends Controller {
 				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
 			}
 			for(Menu m:menus){
-				if(m!=null && m.getFlg_base()==0){
+				if(m!=null){
 					MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
 					table.setMenu(m.getId());
 					Profile prof = new Profile();
