@@ -4,4 +4,5 @@ target/
 bin/
 .project
 WebContent/WEB-INF/config/app/
+/src/
 *.class
