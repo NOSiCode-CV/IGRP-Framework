@@ -218,7 +218,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	
 	//Validate sql query
 	public boolean validateQuery(String query) {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		boolean x = false;
@@ -280,7 +280,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 */
 	public Set<String> getParamsQuery(int template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -328,21 +328,34 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 *  <table>
 	 */
 	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
-		
 		Set<Properties> columns = this.getColumns(rt.getId(), query);
+		//Reomve filtro caso nao existir
 		if(value_array==null || value_array.length<=0){
-			query =rs.getType().equals("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
+			query =rs.getType().equalsIgnoreCase("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
+		}
+		//Aplica filtro caso existir
+		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i ->name_array[i], i -> value_array[i])):null;
+		if(paramsUrl!=null &&paramsUrl.size() > 0){
+			query += !query.toLowerCase().contains("where")?" WHERE 1=1 ":"";		
+			for(Map.Entry<String, String> parm:paramsUrl.entrySet()){
+				if(parm.getKey()!=null && parm.getValue()!=null  && !parm.getKey().equals("") && !parm.getValue().equals("")){
+					String column_name = parm.getKey().contains("p_")?parm.getKey().substring(2, parm.getKey().length()):parm.getKey();
+					query += " AND "+column_name+"=:"+parm.getKey();
+				}
+			}
 		}
 		String xml = null;
-		Map<String, String> paramsUrl = (value_array!=null && value_array.length > 0)?(Map<String, String>) IntStream.range(0, name_array.length).boxed().collect(Collectors.toMap(i -> /*name_array[i].contains("p_")?name_array[i].substring("p_".length()):*/name_array[i], i -> value_array[i])):null;
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
 			Query q = em.createNativeQuery(query);
 			if(value_array!=null && value_array.length>0){
 				for(Parameter<?> param:q.getParameters()){
-					q.setParameter(param.getName(), paramsUrl.get(param.getName()));
+					Object val = paramsUrl.get(param.getName().toLowerCase());
+					val = val==null?paramsUrl.get("p_"+param.getName().toLowerCase()):val;
+					if(val!=null)
+						q.setParameter(param.getName(), val);
 				}
 			}	
 			@SuppressWarnings("unchecked")
@@ -360,13 +373,12 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	
 	private String getSqlQueryToXml(Set<Properties> columns,List<Object[]> data){
 		XMLWritter xml = new XMLWritter();
-		IGRPForm form = new IGRPForm("form",(float)2.1);
-		IGRPTable table = new IGRPTable("table",(float)2.1);
+		IGRPForm form = new IGRPForm("form");
+		IGRPTable table = new IGRPTable("table");
 		Map<Properties,String> mappData = this.mappingColumnValue(columns, data);		
 		Set<Entry<Properties, String>> setData = mappData.entrySet();
 		for(Entry<Properties,String> entry:setData){
 				Field f = new TextField(null,entry.getKey().getProperty("tag"));
-				f.propertie().clear();
 				f.propertie().add("name",entry.getKey().getProperty("name"));
 				f.setValue(entry.getValue());
 				form.addField(f);
@@ -401,6 +413,14 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		return mapping;
+	}
+
+	@Override
+	public String toString() {
+		return "RepSource [id=" + id + ", name=" + name + ", type=" + type + ", type_fk=" + type_fk + ", type_name="
+				+ type_name + ", type_query=" + type_query + ", status=" + status + ", dt_created=" + dt_created
+				+ ", dt_updated=" + dt_updated + ", application=" + application + ", application_source="
+				+ application_source + ", user_created=" + user_created + ", user_updated=" + user_updated + "]";
 	}
 
 	

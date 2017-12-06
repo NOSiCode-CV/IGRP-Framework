@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 94.43 127.20999"
+   version="1.1"
+   sodipodi:docname="IGRP_so Logo azul.svg"
+   inkscape:version="0.92.1 r15371"
+   width="94.43"
+   height="127.21">
+  <metadata
+     id="metadata47">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>IGRP_Logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     id="namedview45"
+     showgrid="false"
+     inkscape:zoom="4.9489051"
+     inkscape:cx="99.89788"
+     inkscape:cy="29.170592"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1"
+     inkscape:snap-grids="true"
+     inkscape:pagecheckerboard="true"
+     borderlayer="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#c4ccd4;}.cls-1,.cls-2{opacity:0.8;}.cls-2{fill:#3aa0d9;}.cls-3{fill:#6d6e71;}</style>
+  </defs>
+  <title
+     id="title6">IGRP_Logo</title>
+  <polygon
+     class="cls-1"
+     points="51.07,5.19 4.67,44.48 4.67,94.14 51.07,52.12 "
+     id="polygon8"
+     style="opacity:0.8;fill:#c4ccd4"
+     transform="translate(-4.67,-5.19)" />
+  <polygon
+     class="cls-2"
+     points="4.67,44.48 51.07,72.16 51.07,120.19 4.67,94.14 "
+     id="polygon10"
+     style="opacity:0.8;fill:#3aa0d9"
+     transform="translate(-4.67,-5.19)" />
+  <polygon
+     class="cls-2"
+     points="54.33,14.37 99.1,44.48 99.1,90.88 54.33,64.02 "
+     id="polygon12"
+     style="opacity:0.8;fill:#3aa0d9"
+     transform="translate(-4.67,-5.19)" />
+  <polygon
+     class="cls-1"
+     points="54.33,132.4 99.1,90.88 99.1,44.48 54.33,82.34 "
+     id="polygon14"
+     style="opacity:0.8;fill:#c4ccd4"
+     transform="translate(-4.67,-5.19)" />
+  <path
+     style="fill:none;stroke-width:0.07144073"
+     d="M 247.51156,88.379866 V 78.056681 h 0.89301 0.89301 v 6.501106 c 0,3.575609 0.0241,6.499619 0.0536,6.497801 0.0295,-0.0018 1.69314,-1.607534 3.69706,-3.568257 l 3.64347,-3.564953 1.13324,-0.0038 1.13324,-0.0038 -0.78918,0.839428 c -0.43404,0.461686 -1.62715,1.675053 -2.65135,2.696373 -1.0242,1.021319 -1.86218,1.895257 -1.86218,1.942086 0,0.04683 1.20968,2.136701 2.68818,4.644162 1.47849,2.507463 2.70203,4.583133 2.71896,4.612603 0.0169,0.0295 -0.42066,0.0536 -0.97243,0.0536 h -1.00322 l -2.37101,-3.968571 -2.37101,-3.96857 -0.46992,0.449493 c -0.25846,0.247222 -0.94412,0.915522 -1.52368,1.485112 l -1.05375,1.035617 v 2.483459 2.48346 h -0.89301 -0.89301 z"
+     id="path85"
+     inkscape:connector-curvature="0" />
+</svg>

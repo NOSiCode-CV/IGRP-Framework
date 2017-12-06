@@ -22,16 +22,24 @@ import java.util.ArrayList;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.Igrp;
 
 public class IGRPForm extends IGRPComponent{
 	protected ArrayList<Field> fields;
 	protected ArrayList<IGRPButton> buttons;
 	protected IGRPToolsBar toolsbar;
 	protected float version = (float) 2.3;
+	private IGRPTable table;
 	
 	public IGRPForm(String tag_name,String title) {
 		super(tag_name,title);
 		this.fields = new ArrayList<>();
+		
+		/** IGRP Csrf Protection **/
+		this.fields.add(new HiddenField("igrp_csrf", Igrp.getInstance().generateCsrfToken()));
+		/** **/
+		
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "form");
 		this.properties.put("xml-type", "form");
@@ -59,7 +67,16 @@ public class IGRPForm extends IGRPComponent{
 		button.propertie.put("type",button.getType());
 		this.buttons.add(button);
 	}
-			
+	
+	
+	public IGRPTable getTable() {
+		return table;
+	}
+
+	public void setTable(IGRPTable table) {
+		this.table = table;
+	}
+
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);
@@ -68,8 +85,14 @@ public class IGRPForm extends IGRPComponent{
 		else if(this.version == (float) 2.1){
 			GenXMLField.toXmlV21(this.xml,this.fields);
 		}
+		if(this.table!=null){
+			this.xml.addXml(this.table.getDoc_list());
+			this.table = null;
+		}
 		this.toolsbar.setButtons(this.buttons);
-		this.xml.addXml(this.toolsbar.toXmlTools());
+		if(this.toolsbar!=null){
+			this.xml.addXml(this.toolsbar.toXmlTools());
+		}
 		this.xml.endElement();
 		return this.xml.toString();
 	}

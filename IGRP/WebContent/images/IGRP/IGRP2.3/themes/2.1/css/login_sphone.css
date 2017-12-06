@@ -1,0 +1,15 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.Absolute-Center.is-Responsive {
+	width:100%;
+	height:100%;
+		
+	}
+#left.inner { display:none; }
+.inner{
+	width:100%;
+	/*height:100%;*/
+	position:relative;
+
+}

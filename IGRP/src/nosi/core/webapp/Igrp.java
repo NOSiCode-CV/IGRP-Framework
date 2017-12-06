@@ -4,20 +4,29 @@ package nosi.core.webapp;
  * Apr 14, 2017
  */
 import java.io.IOException;
+import java.security.SecureRandom;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
+
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
+import nosi.core.i18n.I18n;
+import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
-public class Igrp {
+public final class Igrp{ // Not extends 
 	
-	private static Igrp app;
-	
-	private IgrpServlet servlet; // Refer to HttpServlet
+	private static IgrpFactory<Igrp> appInstance = null;
+
+	private HttpServlet servlet; // Refer to HttpServlet
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
-	private Controller controller; // Current controller ...
+	private Controller controller; // Current controller ... 
 	
 	private String currentAppName;
 	private String currentPageName;
@@ -35,34 +44,50 @@ public class Igrp {
 	// User component (Identity)
 	private User user;
 	
+	// For i18n
+	I18nManager i18nManager;
 	
-	private Igrp(){ // Private and empty default constructor ... allow Singleton class
-	}
-	
-	public static Igrp getInstance(){ // Allow us to define the only one instance of Igrp class as a Singleton
-		if(Igrp.app == null){
-			Igrp.app = new Igrp();
-		}
-	return Igrp.app;
-	}
-
+	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
+	/**
+		Ensure a single instance of Igrp.class per thread for each request 
+		That is a Threadlocal Singleton :-) 
+	 **/
+	public static Igrp getInstance() {
+        if (appInstance == null) {
+            appInstance = new ThreadLocalIgrpFactory<>(
+            		new IgrpFactory<Igrp>() {
+						@Override
+						public Igrp create() {
+							return new Igrp();
+						}
+				});
+        }
+	    return appInstance.create();
+	 }
+	 
 	// Inicialize the web app components
-	public Igrp init(IgrpServlet servlet, HttpServletRequest request, HttpServletResponse response){
-			this.servlet = servlet;
-			this.request = request;
-			this.response = response;
-			
-			this.basePath = this.request.getContextPath();
-			this.baseRoute = this.request.getServletPath();
-			this.homeUrl = "igrp/home/index";
-			
-			// init of others configuration
-			this.flashMessage = new FlashMessage(); // Flash Message instance
-			
-			// User component (Identity)
-			this.user = new User();
-			this.user.init();
-			
+	public Igrp init(HttpServlet servlet, HttpServletRequest request, HttpServletResponse response){
+		this.servlet = servlet;
+		this.request = request;
+		this.response = response;
+		this.basePath = this.request.getContextPath();
+		this.baseRoute = this.request.getServletPath();
+		this.homeUrl = "igrp/home/index";
+		
+		// init. of others configuration 
+		this.flashMessage = new FlashMessage(); // Flash Message instance
+		
+		// Config. of RDBMS or others DS ...
+//		PersistenceUtils.init();
+		
+		// User component (Identity)
+		this.user = new User();
+		this.user.init();
+		
+		// For internacionalization purpose 
+		this.i18nManager = new I18nManager();
+		this.i18nManager.init();
+		
 		return this;
 	}
 	
@@ -74,16 +99,20 @@ public class Igrp {
 		this.exit();
 	}
 	
-	// Send the response ...
-	private void exit(){ // Destroy all app components init. before
+	// Exit and Send the response ... 
+	private void exit(){
+		Controller.sendResponse();
 		this.die = false;
+		/*((ThreadLocalIgrpFactory)this.appInstance).cleanUp();
+		this.appInstance = null;
+		System.out.println("Is Null: " + (this.appInstance == null));*/
 	}
 	
 	private void runController() throws IOException{
 		Controller.initControllerNRunAction();
 	}
 	
-	public IgrpServlet getServlet() {
+	public HttpServlet getServlet() {
 		return servlet;
 	}
 
@@ -159,5 +188,22 @@ public class Igrp {
 	public void die(){
 		this.die = true;
 	}
+	
+	public I18nManager getI18nManager() {
+		return i18nManager;
+	}
 
+	public static String getMethod() {
+		return Igrp.getInstance().getRequest().getMethod();
+	}
+	
+	public String generateCsrfToken() {
+		byte[] buffer = new byte[50];
+		new SecureRandom().nextBytes(buffer);
+	    String result = DatatypeConverter.printHexBinary(buffer);
+	    String cookieName = this.request.getParameter("r").replaceAll("/", "-");
+	    Cookie cookie = new Cookie(cookieName, result);
+	    this.response.addCookie(cookie);
+		return result;
+	}
 }

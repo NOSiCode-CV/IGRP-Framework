@@ -3,7 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.session;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -17,14 +17,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import static nosi.core.i18n.Translator.gt;
+/*----#END-PRESERVED-AREA----*/
 
-/*---- End ----*/
 public class SessionController extends Controller {		
 
 	public Response actionIndex(@RParam(rParamName = "dad") String dad) throws IOException, IllegalArgumentException, IllegalAccessException, ParseException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Session model = new Session();
-		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();		
-		SimpleDateFormat auxFormat = new SimpleDateFormat("dd-MM-yyyy");		
+		
+		nosi.webapps.igrp.dao.Session session = new nosi.webapps.igrp.dao.Session();
+		
+		SimpleDateFormat auxFormat = new SimpleDateFormat("dd-MM-yyyy");
+		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();
 		}		
@@ -35,6 +40,8 @@ public class SessionController extends Controller {
 																	 .andWhere("startTime", "=", model.getData_inicio() != null && !model.getData_inicio().equals("") ? auxFormat.parse(model.getData_inicio()).getTime() : 0)
 																	 .andWhere("endTime", "=", model.getData_fim() != null && !model.getData_fim().equals("") ? auxFormat.parse(model.getData_fim()).getTime() : 0)
 																	 .all();
+		
+		
 		for(nosi.webapps.igrp.dao.Session s : sessions ){
 			Session.Table_1 table = new Session().new Table_1();			
 			Date auxEndTime = new Date(s.getEndTime());
@@ -59,20 +66,29 @@ public class SessionController extends Controller {
 		view.table_1.addData(data);		
 		view.aplicacao.setValue(new Application().getListApps());		
 		HashMap<String, String> status = new HashMap<String,String>();
-		status.put("", "--- Escolher estado ---");
+		status.put("", gt("-- Escolher estado --"));
 		status.put("1", "Ativo");
 		status.put("0", "Inativo");
 		view.estado.setValue(status);		
-		view.btn_pesquisar.setLink("index&dad=" + dad);		
+		view.btn_pesquisar.setLink("index&dad=" + dad);
+		
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 	public Response actionPesquisar() throws IOException{
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
 		return this.redirect("igrp","Dominio","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	public Response actionVer_logs() throws IOException{
+		/*----#START-PRESERVED-AREA(VER_LOGS)----*/
 		return this.redirect("igrp","Session","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
+	/*----#END-PRESERVED-AREA----*/
 }

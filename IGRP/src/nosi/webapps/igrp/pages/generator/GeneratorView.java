@@ -13,6 +13,8 @@ import nosi.core.gui.fields.TextField;
 import nosi.core.gui.generator.Generator2_3;
 import nosi.core.webapp.View;
 
+import static nosi.core.i18n.Translator.gt;
+
 public class GeneratorView extends View{
 	public Field package_;
 	public Field page;
@@ -78,9 +80,9 @@ public class GeneratorView extends View{
 		tipo = new TextField(model,"tipo");
 		package_ = new TextField(model, "package_");
 		page = new TextField(model,"page");
-		btn_gravar = new IGRPButton("Gravar", "igrp", "page", "saveGenPage", "submit", "save.png", "","");
-		btn_publicar = new IGRPButton("Publicar1", "igrp", "page", "publishGenPage", "submit", "save.png", "","");
-		btn_pesquisar = new IGRPButton("Pesquisar", "igrp", "form", "1", "_self", "search.png","","");
+		btn_gravar = new IGRPButton(gt("Gravar"), "igrp", "page", "saveGenPage", "submit", "save.png", "","");
+		btn_publicar = new IGRPButton(gt("Publicar"), "igrp", "page", "publishGenPage", "submit", "save.png", "","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"), "igrp", "form", "1", "_self", "search.png","","");
 	}
 	
 	@Override

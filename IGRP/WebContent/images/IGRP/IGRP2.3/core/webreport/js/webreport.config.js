@@ -1,4 +1,5 @@
-var WR = {
+var xslpath = '../../',
+  WR = {
   editor   : 'form_1_report_editor',
   listType : [{type:'table',icon:'fa-table'},{type:'ul',icon:'fa-list-ul'},{type:'ol',icon:'fa-list-ol'}],
   listGroup: [{label:'Linha', value:'row'},{label:'Coluna',value:'col'},{label:'Normal',value:''}],
@@ -12,15 +13,19 @@ var WR = {
   		customfooter : {
   			label : 'Custom Footer',
   			name  : 'wr_customfooter',
-  			value : '<div class="lfooter"></div>'+
-		        '<div id="containerQrcode"></div>'+
-		        '<div class="rfooter">'+
-		        	'<div class="contraProva">'+
-		            	'<div class="clabel"><span footer="footer" no="print_report" tag="name_contraprova">Titulo Contra Prova</span></div>'+
-		            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
-		          	'</div>'+
-		          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
-		          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
+  			value : '<div class="noprint">'+
+  					'<div class="control">'+
+		  				'<div class="lfooter"></div>'+
+				        '<div id="containerQrcode"></div>'+
+				        '<div class="rfooter">'+
+				        	'<div class="contraProva">'+
+				            	'<div class="clabel"><span footer="footer" no="print_report" tag="name_contraprova">Titulo Contra Prova</span></div>'+
+				            	'<div class="val"><span footer="footer" no="print_report" tag="value_contraprova">Value Contra Prova</span></div>'+
+				          	'</div>'+
+				          	'<div class="userprint"><span footer="footer" no="print_report" tag="user_print">Nome Utilizador Logado</span>'+
+				          	'/<span no="print_report" footer="footer" tag="data_print">Data da Impressão</span></div>'+
+				        '</div>'+
+			        '</div>'+
 		        '</div>'
   		}
   	},	
@@ -294,7 +299,14 @@ var WR = {
   			chart : '<link rel="stylesheet" type="text/css" href="{rows/print_report/link_img}plugins/highcharts/igrp.charts.css"/>',
   		},
   		js   : {
-  			all   : '',
+  			all   : '<script type="text/javascript" src="{rows/print_report/link_img}core/jquery/2.1/jquery.min.js"/>'+
+  					'<script type="text/javascript" src="{rows/print_report/link_img}core/qrcode/qrcode.min.js"/>'+
+  					'<script type="text/javascript">'+ 
+  						'var qrcodeResult = '+"'"+'<xsl:value-of select="rows/print_report/link_qrcode"/>'+"'"+';'+
+      					'var containerQrcode = "#containerQrcode";'+
+      				'</script>'+
+  					'<script type="text/javascript" src="{rows/print_report/link_img}core/webreport/js/webreport.control.js"/>',
+
   			chart : '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts.js"/>'+
 			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/highcharts-more.js"/>'+
 			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/exporting.js"/>'+
@@ -304,11 +316,11 @@ var WR = {
 			        '<script type="text/javascript" src="{rows/print_report/link_img}plugins/highcharts/igrp.charts.js"/>'
   		},
   		tmpl : {
-  			defoult : '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-functions.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-variables.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-home-include.tmpl.xsl"/>'+
-					  '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-utils.tmpl.xsl"/>',
-  			chart 	: '<xsl:include href="{rows/print_report/link_img}xsl/tmpl/IGRP-charts.tmpl.xsl"/>'
+  			defoult : '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-functions.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-variables.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-home-include.tmpl.xsl"/>'+
+					  '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-utils.tmpl.xsl"/>',
+  			chart 	: '<xsl:include href="'+xslpath+'xsl/tmpl/IGRP-charts.tmpl.xsl"/>'
   		}
   	}
   }

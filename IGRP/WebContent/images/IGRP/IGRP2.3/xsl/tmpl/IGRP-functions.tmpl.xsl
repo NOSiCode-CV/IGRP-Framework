@@ -145,7 +145,7 @@
       </xsl:attribute>
     </xsl:if>
     
-    <xsl:if test="$field/@readonly='readonly' and $field/@type != 'file'">
+    <xsl:if test="$field/@readonly='readonly' and ($field/@type != 'file' or not($field/@type))">
       <xsl:attribute name="readonly">
         <xsl:value-of select="'readonly'" />
       </xsl:attribute>

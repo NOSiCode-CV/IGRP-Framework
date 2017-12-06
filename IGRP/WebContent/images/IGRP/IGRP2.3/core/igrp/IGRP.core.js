@@ -2,7 +2,63 @@
 	if($ && $.IGRP){
 
 		$.IGRP.utils = {
-			
+
+			url : {
+
+				getParams : function (url) {
+
+				 	var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+				  		obj 				= {};
+
+				  if (queryString) {
+
+				    queryString = queryString.split('#')[0];
+
+				    var arr = queryString.split('&');
+
+				    for (var i=0; i<arr.length; i++) {
+				      var a = arr[i].split('=');
+
+				      var paramNum  = undefined;
+				      var paramName = a[0].replace(/\[\d*\]/, function(v) {
+				        paramNum 	= v.slice(1,-1);
+				        return '';
+				      });
+
+				      var paramValue = typeof(a[1]) === undefined ? '' : a[1];
+
+				      paramName 	= paramName   ? paramName.toLowerCase()  : '';
+				      paramValue 	= paramValue  ? paramValue.toLowerCase() : '';
+
+				      if (obj[paramName]) {
+				        if (typeof obj[paramName] === 'string') {
+				          obj[paramName] = [obj[paramName]];
+				        }
+				        if (typeof paramNum === undefined) {
+				          obj[paramName].push(paramValue);
+				        }
+				        else {
+				          obj[paramName][paramNum] = paramValue;
+				        }
+				      }
+				      else {
+				        obj[paramName] = paramValue;
+				      }
+				    }
+				  }
+
+				  return obj;
+				},
+
+				getParam : function(name){
+					
+					var all = $.IGRP.utils.url.getParams();
+
+					return all[name] || null;
+
+				}
+
+			},
 			openWin:function(p){
 
 				var width  = p.width ? p.width : 980;
@@ -19,7 +75,6 @@
 
 				return false;
 			},
-
 			openChartURL : function(pObj){
 				if (pObj.pUrl != null && pObj.pUrl != '') {
 					
@@ -34,7 +89,6 @@
 
 				}
 			},
-
 			getForm:function(){
 				return $('form.IGRP-form');
 			},
@@ -65,6 +119,65 @@
 					}
 				}
 				return null;
+			},
+			setFieldValue:function(tag,value){
+			
+				var formElement = $('[name="p_'+tag+'"]'),
+
+					parent  	= $(formElement.parents('[item-name]')[0]);
+				
+				if( parent[0] ){
+
+					var type = parent.attr('item-type');
+					
+					switch(type){
+
+						case 'select':
+
+							if(formElement.is('[multiple]'))
+
+								value = value.split('|');
+
+							formElement.val(value);
+
+						break;
+
+						case 'checkboxlist':
+
+							var vArr = value.split('|');
+
+							vArr.forEach(function(v){
+
+								formElement.filter('[value="'+v+'"]').prop('checked',true);
+
+							});
+
+						break;
+
+						case 'radiolist':
+
+							formElement.filter('[value="'+value+'"]').prop('checked',true);
+
+						break;
+
+						case 'checkbox':
+						case 'radio':
+							
+							var checked = value == 1;
+
+							formElement.prop('checked', checked)
+
+						break;
+
+						default:
+
+							formElement.val(value);
+
+					}
+
+					formElement.trigger('change');
+
+				}
 			},
 			clearSubmittables:function(){
 				$('.submittable').removeClass('submittable');
@@ -181,6 +294,15 @@
 		        }
 
 		      	return new Blob(byteArrays, {type: contentType});
+			},
+			verticalCentralize:function(s){
+				var selector = s || '[vertical-centralize="true"]';
+
+				$(selector).each(function(i,el){
+					
+					console.log(el);
+
+				})
 			},
 			message : {
 				getIcon : {
@@ -470,27 +592,6 @@
 			}
 		};
 
-		$.IGRP.utils.getXMLStylesheet = function(d){
-			
-			var xstr;
-
-		    xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
-
-		    if(xstr){
-		    	var beginExp = '<?xml-stylesheet href="';
-
-				var endExp   = '" type="text/xsl"?>';
-				
-				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
-
-				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
-
-				var exprss = xstr.substring(begin,end);
-		    }
-
-			return exprss;
-		};
-
 		$.IGRP.utils.xsl = {
 
 			getStyleSheet : function(nodes,includes){
@@ -545,6 +646,27 @@
 
 				return arr;
 			}
+		};
+
+		$.IGRP.utils.getXMLStylesheet = function(d){
+			
+			var xstr;
+
+		    xstr = typeof d == 'string' ? d : new XMLSerializer().serializeToString(d);
+
+		    if(xstr){
+		    	var beginExp = '<?xml-stylesheet href="';
+
+				var endExp   = '" type="text/xsl"?>';
+				
+				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
+
+				var end  = $.IGRP.utils.string.getIndices(endExp, xstr,false)[0];
+
+				var exprss = xstr.substring(begin,end);
+		    }
+
+			return exprss;
 		};
 
 		$.IGRP.utils.transformXMLNodes = function(params){
@@ -616,6 +738,7 @@
 											});
 										}
 									});
+									
 								});
 							}
 						}
@@ -625,6 +748,20 @@
 
 			//console.log(options)			
 		};
+
+		var containsFunc = function(a, i, m) {
+        	return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        jQuery.expr[':'].Contains = containsFunc;
+
+        jQuery.expr[':'].contains = containsFunc;
+
+        var init = function(){
+
+        	$.IGRP.utils.verticalCentralize();
+        
+        };
 
 	}else{
 		console.log('jQuery or IGRP.js missing!')

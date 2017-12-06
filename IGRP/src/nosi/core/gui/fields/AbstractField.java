@@ -9,6 +9,14 @@ package nosi.core.gui.fields;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.config.Config;
+import nosi.core.webapp.DBQuery;
+import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Igrp;
 
 public abstract class AbstractField implements Field{
 
@@ -19,6 +27,8 @@ public abstract class AbstractField implements Field{
 	private String lookup = "";
 	private boolean isVisible=true;
 	private boolean isParam = false;
+	private String sql;
+	private String connectionName = Config.getBaseConnection();
 	
 	public FieldProperties propertie;
 	
@@ -30,7 +40,7 @@ public abstract class AbstractField implements Field{
 	}
 	public String getLabel() {
 		label = label != ""?label:this.propertie.get("name").toString().toUpperCase();
-		return label;
+		return gt(label);
 	}
 	public void setLabel(String label) {
 		this.label = label;
@@ -80,6 +90,50 @@ public abstract class AbstractField implements Field{
 	}
 	public String getName(){
 		return this.name;
+	}
+	public void setSqlQuery(String sql){
+		this.sql = sql;
+		this.configValueWithSql();
+	}
+
+	public void setSqlQuery(String connectionName,String sql){
+		if(connectionName!=null && !connectionName.equals("")){
+			this.connectionName = connectionName;
+		}
+		this.setSqlQuery(sql);
+	}
+	
+	private void configValueWithSql() {
+		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			DBQuery q = new DBQuery().query(this.getConnectionName(), this.getSqlQuery());
+			if(q.isError()){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+			}else{
+				if(q.getColumns().size()!=2){
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,"O seu SQL deve conter apenas 2 campos");
+					q.close();
+				}else{
+					try {
+						Map<Object,Object> options = new HashMap<>();
+						while(q.getResultSet().next()){
+							options.put(q.getResultSet().getObject(1), q.getResultSet().getObject(2));
+						}
+						this.value = options;
+					} catch (SQLException e) {
+						q.close();
+						e.printStackTrace();
+					}
+					q.close();
+				}
+			}
+		}
+	}
+	public String getSqlQuery(){
+		return this.sql;
+	}
+	
+	protected String getConnectionName(){
+		return this.connectionName;
 	}
 	
 	protected void configValue(Object model){

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/pesquisarpefil/PesquisarPerfil.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -15,10 +14,10 @@
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>PesquisarPerfil</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
+        <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>PesquisarPerfil</package_html>
@@ -30,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=11</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Lista de Perfil</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -43,117 +42,138 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Aplicação</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </aplicacao>
-                <organia name="p_organia" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Orgânia</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </organia>
-            </fields>
-            <tools-bar>
-                <item type="form" code="" class="default" rel="pesquisar">
-                    <title>Pesquisar</title>
-                    <app>RED</app>
-                    <page>Teste</page>
-                    <link>Action</link>
-                    <parameter/>
-                    <target>submit</target>
-                    <img>default|fa-search</img>
-                </item>
-            </tools-bar>
-        </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="novo">
                 <title>Novo</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
+                <app>igrp</app>
+                <page>PesquisarPerfil</page>
+                <link>index</link>
                 <target>_self</target>
-                <img>default|fa-plus-circle</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-plus-circle|www</params>
+                <img>success|fa-plus-square</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false">
+                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </codigo>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
                 </descricao>
-                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false">
+                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Orgânica</label>
                 </organica>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Estado</label>
                 </estado>
+                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <codigo name="p_codigo">Omnis officia adipiscing totam ut</codigo>
-                        <descricao name="p_descricao">Dolor deserunt officia rem dolor</descricao>
-                        <organica name="p_organica">Omnis mollit labore stract magna</organica>
-                        <estado name="p_estado">Officia aperiam dolor unde dolor</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Aperiam doloremque ut officia</codigo>
+                        <descricao name="p_descricao">Mollit aliqua elit officia eli</descricao>
+                        <organica name="p_organica">Sit aperiam officia ipsum anim</organica>
+                        <estado name="p_estado">Mollit dolor laudantium rem ip</estado>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Adipiscing doloremque officia sit magna</codigo>
-                        <descricao name="p_descricao">Sit magna laudantium sit laudantium</descricao>
-                        <organica name="p_organica">Amet magna lorem adipiscing mollit</organica>
-                        <estado name="p_estado">Rem mollit iste unde amet</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Lorem stract adipiscing perspi</codigo>
+                        <descricao name="p_descricao">Stract perspiciatis ut deserun</descricao>
+                        <organica name="p_organica">Officia elit adipiscing amet d</organica>
+                        <estado name="p_estado">Magna dolor laudantium sed ut</estado>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Deserunt rem magna ut dolor</codigo>
-                        <descricao name="p_descricao">Sit lorem perspiciatis sit ipsum</descricao>
-                        <organica name="p_organica">Unde sit aliqua lorem sit</organica>
-                        <estado name="p_estado">Sed accusantium magna sit elit</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Magna consectetur unde elit ad</codigo>
+                        <descricao name="p_descricao">Ut natus elit omnis elit</descricao>
+                        <organica name="p_organica">Mollit sed doloremque ipsum la</organica>
+                        <estado name="p_estado">Unde consectetur aliqua sit ut</estado>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <codigo name="p_codigo">Totam accusantium stract consectetur aperiam</codigo>
-                        <descricao name="p_descricao">Ipsum omnis accusantium ipsum rem</descricao>
-                        <organica name="p_organica">Sed consectetur sed anim adipiscing</organica>
-                        <estado name="p_estado">Labore consectetur ut deserunt consectetur</estado>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Doloremque lorem perspiciatis</codigo>
+                        <descricao name="p_descricao">Amet perspiciatis ipsum amet l</descricao>
+                        <organica name="p_organica">Lorem dolor ipsum magna unde</organica>
+                        <estado name="p_estado">Labore accusantium officia mol</estado>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Unde stract anim labore accusa</codigo>
+                        <descricao name="p_descricao">Mollit sit elit stract consect</descricao>
+                        <organica name="p_organica">Adipiscing anim magna laudanti</organica>
+                        <estado name="p_estado">Anim dolor rem sit sed</estado>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>_self</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                    <item type="specific" code="" class="primary" rel="menu">
+                        <title>Menu</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>_self</target>
+                        <img>primary|fa-list</img>
+                    </item>
+                    <item type="specific" code="" class="black" rel="transacao">
+                        <title>Transacao</title>
+                        <app>igrp</app>
+                        <page>PesquisarPerfil</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>_self</target>
+                        <img>black|fa-exchange</img>
+                    </item>
+                    <item type="specific" code="" class="warning" rel="convidar">
+                        <title>Convidar</title>
+                        <app>igrp</app>
+                        <page>NovoUtilizador</page>
+                        <link>index</link>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl?</parameter>
+                        <target>_self</target>
+                        <img>warning|fa-send</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
     </content>

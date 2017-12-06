@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.novodominio;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class NovoDominioView extends View {		
 	
 	public Field sectionheader_1_text;
@@ -26,28 +26,28 @@ public class NovoDominioView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestão de Dominio - Novo");
+		sectionheader_1_text.setValue(gt("Gestão de Dominio - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		dominio = new TextField(model,"dominio");
-		dominio.setLabel("Domínio");
+		dominio.setLabel(gt("Domínio"));
 		dominio.propertie().add("name","p_dominio").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		valor = new TextField(model,"valor");
-		valor.setLabel("Valor");
+		valor.setLabel(gt("Valor"));
 		valor.propertie().add("name","p_valor").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		significado = new TextField(model,"significado");
-		significado.setLabel("Significado");
+		significado.setLabel(gt("Significado"));
 		significado.propertie().add("name","p_significado").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo = new ListField(model,"tipo");
-		tipo.setLabel("Tipo");
+		tipo.setLabel(gt("Tipo"));
 		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		tabela_view = new TextField(model,"tabela_view");
-		tabela_view.setLabel("Tabela_view");
+		tabela_view.setLabel(gt("Tabela_view"));
 		tabela_view.propertie().add("name","p_tabela_view").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","RED","Teste","Action","_self","default|fa-save","default||fa-save|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_gravar = new IGRPButton(gt("Gravar"),"RED","Teste","Action","_self","default|fa-save","default||fa-save|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","RED","Teste","Action","_back","default|fa-arrow-left","default||fa-arrow-left|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
+		btn_voltar = new IGRPButton(gt("Voltar"),"RED","Teste","Action","_back","default|fa-arrow-left","default||fa-arrow-left|www","http://igrp.teste.gov.cv/images/IGRP/Teste.xml");
 		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}

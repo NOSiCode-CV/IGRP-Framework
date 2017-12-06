@@ -18,15 +18,15 @@ public class Permission {
 	public static boolean isPermition(String app,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
 			if(
-				(action.equals("index") && app.equals("igrp") && page.equals("home")) || 
-				(action.equals("logout") && app.equals("igrp") && page.equals("login"))|| 
-				(action.equals("myMenu") && app.equals("igrp") && page.equals("pesquisar-menu"))|| 
-				(action.equals("myApps") && app.equals("igrp") && page.equals("env")) ||
-				(action.equals("login") && app.equals("igrp") && page.equals("login")) ||
-				(action.equals("permission") && app.equals("igrp") && page.equals("error-page")) ||
-				(action.equals("exception") && app.equals("igrp") && page.equals("error-page")) ||
-				(action.equals("notFound") && app.equals("igrp") && page.equals("error-page"))  ||
-				(action.equals("openApp") && app.equals("igrp") && page.equals("env")) 
+				(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("home")) || 
+				(action.equalsIgnoreCase("logout") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login"))|| 
+				(action.equalsIgnoreCase("myMenu") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("pesquisar-menu"))|| 
+				(action.equalsIgnoreCase("myApps") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("env")) ||
+				(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) ||
+				(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
+				(action.equalsIgnoreCase("exception") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
+				(action.equalsIgnoreCase("notFound") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page"))  ||
+				(action.equalsIgnoreCase("openApp") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("env"))
 			  ){
 				return true;
 			}
@@ -36,11 +36,11 @@ public class Permission {
 			}
 			return x;
 		}else if(
-					(action.equals("login") && app.equals("igrp") && page.equals("login")) ||
-					(action.equals("permission") && app.equals("igrp") && page.equals("error-page")) ||
-					(action.equals("exception") && app.equals("igrp") && page.equals("error-page")) ||
-					(action.equals("notFound") && app.equals("igrp") && page.equals("error-page")) 
-				){
+					(action.equalsIgnoreCase("login") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("login")) ||
+					(action.equalsIgnoreCase("permission") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
+					(action.equalsIgnoreCase("exception") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")) ||
+					(action.equalsIgnoreCase("notFound") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("error-page")))
+		{
 			return true;
 		}
 		return false;
@@ -71,6 +71,10 @@ public class Permission {
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
+		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
+		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof", profType.getId());
+		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
+		
 	}
 	
 	public static String getCurrentEnv() {
@@ -78,12 +82,12 @@ public class Permission {
 		return env!=null && !env.equals("")?env:"igrp";
 	}
 	
-	public static int getCurrentPerfilId() {
+	public static Integer getCurrentPerfilId() {
 		Integer prof = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
 		return prof!=null && !prof.equals("")?prof:-1;
 	}
 
-	public static int getCurrentOrganization() {
+	public static Integer getCurrentOrganization() {
 		Integer org = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org");
 		return org!=null && !org.equals("")?org:-1;
 	}

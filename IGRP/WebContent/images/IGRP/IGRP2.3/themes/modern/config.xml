@@ -1,5 +1,9 @@
 <style>
-	
+	<colors>
+		
+		<color name="primary">#3f4a59</color>
+
+	</colors>
 	<!-- <colors>
 		<color name="1">#3f4a59</color>
 		<color name="2">#2e3744</color> 
@@ -10,7 +14,7 @@
 		</button>
 	</colors> -->
 
-	<css>
+	<css default="">
 		<file external="true">https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i</file>
 		<file>css/globals.css</file>
 		<file>css/header.css</file>

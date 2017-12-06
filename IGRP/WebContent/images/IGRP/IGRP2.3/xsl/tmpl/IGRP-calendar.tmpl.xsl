@@ -4,14 +4,17 @@
         <xsl:param name="id" select="'calendar'"/>
         <xsl:param name="lang" select="'pt'"/>
         <xsl:param name="editevents"/>
+        <xsl:param name="alleditevents"/>
         <xsl:param name="addevents"/>
         <xsl:param name="defaultview"/>
         <xsl:param name="defaultdate"/>
+        <xsl:param name="views"/>
+        <xsl:param name="header"/>
         
         <div class="igrp-calendar-holder">
             <div id="{$id}" class="igrp-calendar"></div>
             <div class="dropdown clearfix igrp-calendar-ctx rc-ctx table-context-menu">
-                <ul id="{$id}-calendar-ctx" class="dropdown-menu ctx-holder">
+                <ul id="{$id}-calendar-ctx" class="list-group ctx-holder">
                     <xsl:for-each select="//rows/content/*[name() = concat($id,'_events')]/table/context-menu/item|context-menu/item">
                        <li class="igrp-calendar-ctx-item" trel="{title}">
                             <a class="{target}" target="{target}">
@@ -46,6 +49,7 @@
                                       <xsl:with-param name="list" select="img"/>
                                       <xsl:with-param name="use-fa" select="'true'"/>
                                       <xsl:with-param name="img-folder" select="'tools-bar'"/>
+                                      <xsl:with-param name="btnClass" select="'list-group-item'"/>
                                     </xsl:call-template>
                                 </xsl:if>
                                 <span class="ctx-title"><xsl:value-of select="title"/></span>
@@ -57,11 +61,14 @@
             <script>
                 $(function(){
                     $.IGRP.components.calendar.init('<xsl:value-of select="$id"/>',{
-                        locale      : '<xsl:value-of select="$lang"/>',
-                        editevents  : '<xsl:value-of select="$editevents"/>',
-                        addevents   : '<xsl:value-of select="$addevents"/>',
-                        defaultview : '<xsl:value-of select="$defaultview"/>',
-                        defaultdate : '<xsl:value-of select="$defaultdate"/>'
+                        locale          : '<xsl:value-of select="$lang"/>',
+                        editevents      : '<xsl:value-of select="$editevents"/>',
+                        alleditevents   : '<xsl:value-of select="$alleditevents"/>',
+                        addevents       : '<xsl:value-of select="$addevents"/>',
+                        defaultview     : '<xsl:value-of select="$defaultview"/>',
+                        defaultdate     : '<xsl:value-of select="$defaultdate"/>',
+                        views           : '<xsl:value-of select="$views"/>',
+                        header          : '<xsl:value-of select="$header"/>'
                     });
                 });
             </script>

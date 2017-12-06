@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl" type="text/xsl"?>
+<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Ola</welcome_note>
         <footer_note>2011 - Copyright NOSI</footer_note>
@@ -15,11 +14,11 @@
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>NovaOrganica</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
-        <package_instance></package_instance>
+        <action>index</action>
+        <package_instance>null</package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>NovaOrganica</package_html>
         <table_name></table_name>
@@ -30,10 +29,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=7</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Registar Organica</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -46,39 +45,20 @@
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
+                <app>igrp</app>
+                <page>NovaOrganica</page>
+                <link>index</link>
                 <target>submit</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-angle-right|www</params>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_back</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-angle-right|www</params>
+                <img>info|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Codigo</label>
-                    <value>Perspiciatis voluptatem lorem voluptatem consectetur</value>
-                </codigo>
-                <nome name="p_nome" type="lookup" action="Action" page="Teste" app="RED" lookup_type="LOOKUP" class="default" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome</label>
-                    <value/>
-                    <lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>
-                </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
                     <label>Aplicacao</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -97,13 +77,22 @@
                         </option>
                     </list>
                 </aplicacao>
+                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Deserunt dolor sed sit anim</value>
+                </nome>
+                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Codigo</label>
+                    <value>Dolor consectetur aperiam adip</value>
+                </codigo>
                 <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo</label>
                     <value>1</value>
                 </ativo>
-                <organica_pai name="p_organica_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <organica_pai name="p_organica_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Organica Pai</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>

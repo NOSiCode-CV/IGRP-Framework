@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,6 +21,9 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implements Serializable{
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
+	
 	private String access_token;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -78,6 +83,14 @@ public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implem
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 }

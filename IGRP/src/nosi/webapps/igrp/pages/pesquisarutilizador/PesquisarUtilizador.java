@@ -1,27 +1,31 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PesquisarUtilizador extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
-	private int aplicacao;
+	private String aplicacao;
 	@RParam(rParamName = "p_organica")
-	private int organica;
+	private String organica;
 	@RParam(rParamName = "p_perfil")
-	private int perfil;
+	private String perfil;
 	@RParam(rParamName = "p_username")
 	private String username;
 	@RParam(rParamName = "p_email")
 	private String email;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
@@ -32,24 +36,24 @@ public class PesquisarUtilizador extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setAplicacao(int aplicacao){
+	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public int getAplicacao(){
+	public String getAplicacao(){
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(int organica){
+	public void setOrganica(String organica){
 		this.organica = organica;
 	}
-	public int getOrganica(){
+	public String getOrganica(){
 		return this.organica;
 	}
 	
-	public void setPerfil(int perfil){
+	public void setPerfil(String perfil){
 		this.perfil = perfil;
 	}
-	public int getPerfil(){
+	public String getPerfil(){
 		return this.perfil;
 	}
 	
@@ -68,12 +72,12 @@ public class PesquisarUtilizador extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String nome;
 		private String nominho;
 		private String email;
 		private String perfil;
-		private int p_id;
+		private String p_id;
 		public void setNome(String nome){
 			this.nome = nome;
 		}
@@ -102,10 +106,10 @@ public class PesquisarUtilizador extends Model{
 			return this.perfil;
 		}
 
-		public void setP_id(int p_id){
+		public void setP_id(String p_id){
 			this.p_id = p_id;
 		}
-		public int getP_id(){
+		public String getP_id(){
 			return this.p_id;
 		}
 

@@ -15,8 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
+import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_action")
@@ -38,6 +40,14 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private String page_descr;
 	private String action_descr;
 	private String version;
+	@Transient
+	private String version_src;
+	@Transient
+	private String img_src;
+	@Transient //Para armazenar id de pagina quando importar de plsql
+	private Integer id_plsql;
+	@Transient //Para armazenar src_xsl de pagina quando importar de plsql
+	private String src_xsl_plsql;
 	private int status;
 	@ManyToOne
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
@@ -109,6 +119,43 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public void setVersion(String version) {
 		this.version = version;
 	}
+
+	@Transient
+	public String getVersion_src() {
+		return version_src;
+	}
+
+	public void setVersion_src(String version_src) {
+		this.version_src = version_src;
+	}
+
+	@Transient
+	public Integer getId_plsql() {
+		return id_plsql;
+	}
+
+	public void setId_plsql(Integer id_plsql) {
+		this.id_plsql = id_plsql;
+	}
+
+	@Transient
+	public String getSrc_xsl_plsql() {
+		return src_xsl_plsql;
+	}
+
+	public void setSrc_xsl_plsql(String src_xsl_plsql) {
+		this.src_xsl_plsql = src_xsl_plsql;
+	}
+
+	@Transient
+	public String getImg_src() {
+		return img_src;
+	}
+
+	public void setImg_src(String img_src) {
+		this.img_src = img_src;
+	}
+
 	public int getStatus() {
 		return status;
 	}
@@ -124,10 +171,31 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.application = application;
 	}
 
+	
+	
+	@Override
+	public String toString() {
+		return "Action [page=" + page + ", action=" + action + ", package_name=" + package_name + ", xsl_src=" + xsl_src
+				+ ", page_descr=" + page_descr + ", action_descr=" + action_descr + ", version=" + version + ", status="
+				+ status + ", application=" + application + "]";
+	}
+
 	public HashMap<Integer,String> getListActions(){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Página ---");
+		lista.put(null, gt("-- Selecionar Página --"));
 		for(Action ac:this.findAll()){
+			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
+				lista.put(ac.getId(), ac.getPage_descr());
+			else
+				lista.put(ac.getId(), ac.getPage());
+		}
+		return lista;
+	}
+	
+	public HashMap<Integer,String> getListActions(int app){
+		HashMap<Integer,String> lista = new HashMap<>();
+		lista.put(null, gt("-- Selecionar Página --"));
+		for(Action ac:this.find().andWhere("application.id", "=", "" + app).all()){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
 			else

@@ -8,6 +8,10 @@ import nosi.core.webapp.Igrp;
 public class Route {
 
 	public static String toUrl(String app, String page, String action, String qs){
+		String target = Igrp.getInstance().getRequest().getParameter("target");
+		if(target!=null && !target.equals("")){
+			action = action+"&target="+target;
+		}
 		String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + qs);
 		return aux;
 	}

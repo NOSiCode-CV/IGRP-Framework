@@ -91,10 +91,12 @@ var GENSERVICE = function(GEN){
 				$('.gen-service-panel#source h3').text(sourceTitle);
 				$('.gen-service-panel#target h3').text(targetTitle);
 
+				var contents = GEN.getAllContents();
+
 				setSourceFields({
 					id 		 : id,
-					contents : GEN.getAllContents(),
-					title 	 : getTitlePage(GEN.getAllContents())
+					contents : contents,
+					title 	 : getTitlePage(contents)
 				});
 
 				if(o.type == 'RESP' && pagId != action){
@@ -297,6 +299,7 @@ var GENSERVICE = function(GEN){
 			}
 		});*/
 		if (p.contents) {
+			
 			p.contents.forEach(function(c){
 
 				var hasChild = c.fields[0] ? true : false,
@@ -310,8 +313,13 @@ var GENSERVICE = function(GEN){
 						ulChild  = $('<ul class="row child"/>'),
 						fCount   = 0; 
 
-					if (type == 'table')
+					if (type == 'table' || type == 'separatorlist')
 						ulChild.attr('parent',tag);
+
+					if (type == 'separatorlist') {
+						ulChild.append('<li type="hidden" name="'+tag+'_id" gen-id="'+genId+'"><span class="row-symbol"/><span class="row-name">'+tag+'_id</span></li>');
+						ulChild.append('<li type="hidden" name="'+tag+'_del" gen-id="'+genId+'"><span class="row-symbol"/><span class="row-name">'+tag+'_del</span></li>');
+					}
 
 					c.fields.forEach(function(f){
 						var fType = f.GET ? f.GET.type() : f.properties.type;
@@ -321,9 +329,15 @@ var GENSERVICE = function(GEN){
 								liF  	= $('<li type="'+fType+'" name="'+tagF+'" gen-id="'+fGenId+'"><span class="row-symbol"/><span class="row-name">'+tagF+'</span></li>');
 							
 							ulChild.append(liF);
+
+							if (type == 'separatorlist') {
+								ulChild.append('<li type="hidden" name="'+tagF+'_fk_desc" gen-id="'+fGenId+'"><span class="row-symbol"/><span class="row-name">'+tagF+'_fk_desc</span></li>');
+							}
+
 							fCount++;
 						}
 					});
+					
 
 					li.append(ulChild);
 
@@ -382,11 +396,12 @@ var GENSERVICE = function(GEN){
 						var auxObj 	= $('#'+auxId+' .global li[name="'+auxConnected+'"]');
 						auxType 	= auxObj.attr('type') ? auxObj.attr('type') : auxType;
 					}*/
+					var _connected = $(e).parents('li.has-child:first').attr('connected') ? $(e).parents('li.has-child:first').attr('connected') : '';
 
 					length 					= fieldsServices.length;
 					fieldsServices[length] 	= [];
 					auxParent  				= parent;
-					fieldsServices[length].push({to : parent,from : '',type : $(e).parents('li.has-child:first').attr('type')});
+					fieldsServices[length].push({to : parent,from : _connected ,type : $(e).parents('li.has-child:first').attr('type')});
 				}
 
 				setFieldsServices({
@@ -406,6 +421,11 @@ var GENSERVICE = function(GEN){
 		});
 
 		//console.log(fieldsServices);
+
+		if (type == 'RESP') {
+			if(!$('#source .global ul.row li:not([name="mimetype"])')[0])
+				fieldsServices = [];
+		}
 
 		return fieldsServices;
 	}

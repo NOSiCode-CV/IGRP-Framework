@@ -1,11 +1,15 @@
 package nosi.core.webapp;
 
 import java.util.Map;
+
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
+
+import static nosi.core.i18n.Translator.gt;
+
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -15,10 +19,28 @@ public class FlashMessage implements Serializable{
 	private Message msgs;
 	
 	public static final String SUCCESS = "success";
+	public static final String INFO_LINK = "info_link";
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
 	public static final String INFO = "info";
+	public static final String MSG_ERROR = "<messages><message type=\"error\">Operacao falhada</message></messages>";
+	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operacao Efetuada com sucesso</message></messages>";
+    public static final String WARNING_EXPORT_APP = "Esta aplicaçã não possui conteudo suficiente para ser exportado";
+    
+	public static final String MESSAGE_SUCCESS = "Operacao Efetuada com sucesso";
+	public static final String MESSAGE_ERROR = "Falha ao tentar efetuar esta operação";
+
+	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteudo suficiente para ser exportado";
+    public static final String WARNING_PAGE_INVALID = "Nome de Página Invalida";
+
+	public static final String ERROR_IMPORT = "Ocorreu um erro ao importa o ficheiro";
+
+	public static final String ERROR_COMPILED = "Erro de compilação";
+
+	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome de página inválido";
+
 	
+    
 	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
 		// "_flash" is the reserved name for messages in session
 		if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){

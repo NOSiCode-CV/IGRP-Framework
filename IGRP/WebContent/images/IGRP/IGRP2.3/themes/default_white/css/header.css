@@ -1,0 +1,27 @@
+#igrp-top-nav.navbar{
+	background: #337ab7
+}
+
+.navbar-brand{
+	background: white;
+}
+.navbar-brand>span{
+	margin: 0 10px;
+    font-size: 20px;
+    color: #337ab7;
+}
+.navbar-brand>img{
+	width: 26px;
+}
+#side-bar-ctrl{
+	-webkit-transition: color .25s;
+	   -moz-transition: color .25s;
+	    -ms-transition: color .25s;
+	     -o-transition: color .25s;
+	        transition: color .25s;
+}
+#side-bar-ctrl:hover{
+	color: #e4e4e4;
+	background: none;
+}
+

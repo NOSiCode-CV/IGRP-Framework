@@ -1,19 +1,23 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.page;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_env_fk")
-	private int env_fk;
+	private String env_fk;
+	@RParam(rParamName = "p_version")
+	private String version;
 	@RParam(rParamName = "p_page")
 	private String page;
 	@RParam(rParamName = "p_action_descr")
 	private String action_descr;
 	@RParam(rParamName = "p_id")
-	private int p_id;
+	private String p_id;
 	@RParam(rParamName = "p_table_name")
 	private String p_table_name;
 	@RParam(rParamName = "p_xsl_src")
@@ -27,23 +31,21 @@ public class Page extends Model{
 	@RParam(rParamName = "p_page_descr")
 	private String p_page_descr;
 	@RParam(rParamName = "p_flg_menu")
-	private int p_flg_menu;
+	private String p_flg_menu;
 	@RParam(rParamName = "p_flg_transaction")
-	private int p_flg_transaction;
+	private String p_flg_transaction;
 	@RParam(rParamName = "p_self_id")
-	private int p_self_id;
+	private String p_self_id;
 	@RParam(rParamName = "p_self_fw_id")
-	private int p_self_fw_id;
-	@RParam(rParamName = "p_version")
-	private String version;
+	private String p_self_fw_id;
 	@RParam(rParamName = "p_db_connection")
 	private String p_db_connection;
 	@RParam(rParamName = "p_flg_offline")
-	private int p_flg_offline;
+	private String p_flg_offline;
 	@RParam(rParamName = "p_flg_internet")
-	private int p_flg_internet;
+	private String p_flg_internet;
 	@RParam(rParamName = "p_status")
-	private int p_status;
+	private String p_status;
 	@RParam(rParamName = "p_proc_name")
 	private String p_proc_name;
 	
@@ -54,11 +56,18 @@ public class Page extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setEnv_fk(int env_fk){
+	public void setEnv_fk(String env_fk){
 		this.env_fk = env_fk;
 	}
-	public int getEnv_fk(){
+	public String getEnv_fk(){
 		return this.env_fk;
+	}
+	
+	public void setVersion(String version){
+		this.version = version;
+	}
+	public String getVersion(){
+		return this.version;
 	}
 	
 	public void setPage(String page){
@@ -75,10 +84,10 @@ public class Page extends Model{
 		return this.action_descr;
 	}
 	
-	public void setP_id(int p_id){
+	public void setP_id(String p_id){
 		this.p_id = p_id;
 	}
-	public int getP_id(){
+	public String getP_id(){
 		return this.p_id;
 	}
 	
@@ -124,39 +133,32 @@ public class Page extends Model{
 		return this.p_page_descr;
 	}
 	
-	public void setP_flg_menu(int p_flg_menu){
+	public void setP_flg_menu(String p_flg_menu){
 		this.p_flg_menu = p_flg_menu;
 	}
-	public int getP_flg_menu(){
+	public String getP_flg_menu(){
 		return this.p_flg_menu;
 	}
 	
-	public void setP_flg_transaction(int p_flg_transaction){
+	public void setP_flg_transaction(String p_flg_transaction){
 		this.p_flg_transaction = p_flg_transaction;
 	}
-	public int getP_flg_transaction(){
+	public String getP_flg_transaction(){
 		return this.p_flg_transaction;
 	}
 	
-	public void setP_self_id(int p_self_id){
+	public void setP_self_id(String p_self_id){
 		this.p_self_id = p_self_id;
 	}
-	public int getP_self_id(){
+	public String getP_self_id(){
 		return this.p_self_id;
 	}
 	
-	public void setP_self_fw_id(int p_self_fw_id){
+	public void setP_self_fw_id(String p_self_fw_id){
 		this.p_self_fw_id = p_self_fw_id;
 	}
-	public int getP_self_fw_id(){
+	public String getP_self_fw_id(){
 		return this.p_self_fw_id;
-	}
-	
-	public void setP_version(String p_version){
-		this.version = p_version;
-	}
-	public String getP_version(){
-		return this.version;
 	}
 	
 	public void setP_db_connection(String p_db_connection){
@@ -166,24 +168,24 @@ public class Page extends Model{
 		return this.p_db_connection;
 	}
 	
-	public void setP_flg_offline(int p_flg_offline){
+	public void setP_flg_offline(String p_flg_offline){
 		this.p_flg_offline = p_flg_offline;
 	}
-	public int getP_flg_offline(){
+	public String getP_flg_offline(){
 		return this.p_flg_offline;
 	}
 	
-	public void setP_flg_internet(int p_flg_internet){
+	public void setP_flg_internet(String p_flg_internet){
 		this.p_flg_internet = p_flg_internet;
 	}
-	public int getP_flg_internet(){
+	public String getP_flg_internet(){
 		return this.p_flg_internet;
 	}
 	
-	public void setP_status(int p_status){
+	public void setP_status(String p_status){
 		this.p_status = p_status;
 	}
-	public int getP_status(){
+	public String getP_status(){
 		return this.p_status;
 	}
 	
@@ -196,4 +198,3 @@ public class Page extends Model{
 
 
 }
-/*-------------------------*/

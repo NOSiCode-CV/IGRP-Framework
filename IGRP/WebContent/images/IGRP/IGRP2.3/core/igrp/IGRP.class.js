@@ -9,7 +9,9 @@
 
 			page : null,
 
-			app  : null
+			app  : null,
+
+			params : null
 
 		},
 
@@ -105,12 +107,9 @@
 
 				com._name = name;
 				
-				if(!com.init)
-					com.init = function(){};
-
-				if(!com.events)
-					com.events = new $.EVENTS(['init']);
-
+				com.init = com.init || function(){};
+				
+				com.events = com.events || new $.EVENTS(['init']);
 
 				if(autoinit){
 
@@ -204,6 +203,7 @@
 				req = $.ajax({
 					url      : url,
 					data     : options.params,
+					method	 : options.method,
 					dataType : options.dataType
 				})
 				.done(options.success)
@@ -214,10 +214,32 @@
 			
 		},
 
+		checkBrowser:function(){
+
+			var IE = function(){
+
+				var ua 	 = window.navigator.userAgent,
+
+			    	msie = ua.indexOf("MSIE ");
+
+			    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))
+
+			    	$('html').addClass('ie');
+
+			}();
+			
+		},
+
 		getPageInfo : function(){
 
 			return $.IGRP.info.page+'.'+$.IGRP.info.app;
 
+		},
+
+		scrollTo:function(name){
+			
+			console.log(name);
+			
 		},
 
 		config:function(){
@@ -230,20 +252,29 @@
 
 			$.IGRP.info.page = page ? page.replaceAll(' ','_') : null;
 
+			$.IGRP.info.params = $.IGRP.utils.url.getParams();
+
 			$(window).resize(function(){
 				
 				$.IGRP.events.execute('windowResize');
 
 			});
 
-			$('html').addClass('ready');
+			$.IGRP.checkBrowser();
+			
 		},
 		
 		init:function(){
 
 			$.IGRP._init = true;
+			
 			$.IGRP.config();
+			
 			$.IGRP.events.execute('init', $.IGRP);
+
+			$('html').addClass('ready');
+
+			$('body').removeClass('loading');
 
 		}
 

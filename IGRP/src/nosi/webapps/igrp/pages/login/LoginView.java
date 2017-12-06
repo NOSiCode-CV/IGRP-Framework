@@ -7,7 +7,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
-public class LoginView extends View {		
+import static nosi.core.i18n.Translator.gt;
+
+public class LoginView extends View {
 	
 	public Field user;
 	public Field password;
@@ -23,13 +25,13 @@ public class LoginView extends View {
 	public LoginView(Login model){
 		form_1 = new IGRPLogin("form_1");
 		user = new TextField(model,"user");
-		user.setLabel("Utilizador");
+		user.setLabel(gt("Utilizador"));
 		user.propertie().add("name","p_user").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		password = new PasswordField(model,"password");
-		password.setLabel("Password");
+		password.setLabel(gt("Senha"));
 		password.propertie().add("name","p_password").add("type","password").add("maxlength","200").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		button = new TextField(model,"button");
-		button.setLabel("Login");
+		button.setLabel(gt("Entrar"));
 		button.propertie().add("name","p_button").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		buttontoken = new TextField(model,"buttontoken");
 		buttontoken.setLabel("Login com Token");
@@ -52,7 +54,6 @@ public class LoginView extends View {
 		
 	@Override
 	public void render(){
-		//System.out.println(Igrp.getInstance().getFlashMessage().getMessages("error").size());
 		form_1.addField(user);
 		form_1.addField(password);
 		form_1.addField(button);

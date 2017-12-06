@@ -3,34 +3,39 @@
   
   <display-name>IGRP</display-name>
   
+  <!-- Filter Example 1 -->
+ <!--  <filter> 
+    <filter-name>igrpsecurity</filter-name>
+    <filter-class>nosi.core.filter.IgrpSecurity</filter-class> 
+  </filter> 
+  <filter-mapping>
+  	<filter-name>igrpsecurity</filter-name>
+  	<servlet-name>igrp</servlet-name>
+  </filter-mapping> -->
+  <!-- end Filter Example 1 -->
+  
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>D:\git\IGRP-Framework\IGRP</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
-      <param-name>autentication_type</param-name>
+      <param-name>authentication_type</param-name>
       <param-value>db</param-value>
-    </init-param>
-  </servlet>
-  
-   <servlet>
-    <servlet-name>oauth2</servlet-name>
-    <servlet-class>nosi.core.servlet.OAuth2</servlet-class>
+    </init-param> 
+    <multipart-config>
+      <max-file-size>52428800</max-file-size>
+      <max-request-size>52428800</max-request-size>
+      <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
-    <url-pattern>/webapps</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
-  
-  <servlet-mapping>
-    <servlet-name>oauth2</servlet-name>
-    <url-pattern>/oauth2</url-pattern>
-  </servlet-mapping>
-  
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>/images/*</url-pattern>
@@ -46,7 +51,37 @@
   </error-page>
   
   <session-config>
-    <session-timeout>-1</session-timeout>
+    <session-timeout>30</session-timeout>
   </session-config>
+  
+  <servlet>
+	    <servlet-name>igrpsso</servlet-name>
+	    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
+  </servlet>
+  	<servlet-mapping>
+	    <servlet-name>igrpsso</servlet-name>
+	    <url-pattern>/igrpsso</url-pattern>
+	</servlet-mapping>
+  	  <login-config>
+	    <auth-method>BASIC</auth-method>
+	  </login-config>
+	  <security-constraint>
+	    <display-name>Default IGRP Security Constraints</display-name>
+	    <web-resource-collection>
+	      <web-resource-name>IGRP SSO</web-resource-name>
+	      <url-pattern>/igrpsso</url-pattern>
+	      <http-method>GET</http-method>
+	    </web-resource-collection>
+	    <auth-constraint>
+	      <role-name>IGRP_ADMIN</role-name>
+	    </auth-constraint>
+	    <user-data-constraint>
+	      <transport-guarantee>NONE</transport-guarantee>
+	    </user-data-constraint>
+	  </security-constraint>
+	  <security-role>
+	    <description>Non-Existent Role - this prevents direct access to JSPs</description>
+	    <role-name>IGRP_ADMIN</role-name>
+	  </security-role>
   
 </web-app>

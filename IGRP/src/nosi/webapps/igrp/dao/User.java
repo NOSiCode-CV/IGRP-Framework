@@ -5,6 +5,7 @@ package nosi.webapps.igrp.dao;
  */
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -37,6 +39,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	private String valid_until; // Date type
 	private int status;
 	private String remarks;
+	@Column(nullable = false)
 	private int activation_key;
 	@Column(unique=true)
 	private String user_name;
@@ -48,6 +51,9 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	private String auth_key;
 	private long created_at;
 	private long updated_at;
+
+	@OneToMany(mappedBy="user")
+	private List<Profile> profiles;
 	
 	@Transient
 	private ProfileType profileType;
@@ -191,7 +197,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User findIdentityById(int identityId) {
-		return this.findOne(this.getCriteria().where(this.getBuilder().equal(this.getRoot().get("id"), identityId)));
+		return this.findOne(identityId);
 	}
 
 	@Override
@@ -201,7 +207,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 
 	@Override
 	public Object findIdentityByUsername(String username) {	
-		return this.findOne(this.getCriteria().where(this.getBuilder().equal(this.getRoot().get("user_name"), username)));
+		return this.find().andWhere("user_name", "=", username).one();
 	}
 
 	@Override
@@ -233,7 +239,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	}
 
 	public User updateTozero() {
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query q = em.createNativeQuery("UPDATE tbl_user SET id=0 WHERE id=1");
@@ -241,5 +247,10 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 		t.commit();
 		em.close();
 		return this.findOne(0);
+	}
+
+	@Override
+	public String getAuthenticationKey() {
+		return this.auth_key;
 	}
 }

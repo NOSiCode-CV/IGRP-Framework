@@ -1,48 +1,69 @@
-/*-------------------------*/
 
-/*Create Controller*/
 package nosi.webapps.igrp.pages.pesquisarmenu;
-/*---- Import your packages here... ----*/
-
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.ProfileType;
 
-/*---- End ----*/
+import static nosi.core.i18n.Translator.gt;
+/*----#END-PRESERVED-AREA----*/
+
 public class PesquisarMenuController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarMenu model = new PesquisarMenu();		
 		Menu menu = new Menu();
+      	int idApp = 0;
+      	int idOrg = 0;
+      	int idMen = 0;
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
-			menu.setApplication(model.getAplicacao()!=0?new Application().findOne(model.getAplicacao()):null);
-			menu.setOrganization(model.getOrganica()!=0?new Organization().findOne(model.getOrganica()):null);
-			menu.setMenu(model.getMenu_principal()!=0?new Menu().findOne(model.getMenu_principal()):null);
+          	idApp = (model.getAplicacao()!=null && !model.getAplicacao().equals(""))?Integer.parseInt(model.getAplicacao()):0;
+          	idOrg = (model.getOrganica()!=null && !model.getOrganica().equals(""))?Integer.parseInt(model.getOrganica()):0;
+          	idMen = (model.getMenu_principal()!=null && !model.getMenu_principal().equals(""))?Integer.parseInt(model.getMenu_principal()):0;
+          
+			menu.setApplication(idApp!=0?new Application().findOne(idApp):null);
+			menu.setOrganization(idOrg!=0?new Organization().findOne(idOrg):null);
+			menu.setMenu(idMen!=0?new Menu().findOne(idMen):null);
 		}
 		List<Menu> menus= null;
-		if(model.getOrganica()==0){
-			menus = menu.find()
-					   .andWhere("application", "=",model.getAplicacao()!=0? model.getAplicacao():null)
-					   .andWhere("menu", "=", model.getMenu_principal()!=0? model.getMenu_principal():null)
-					   .all();
+	
+		if(idOrg==0){
+			int idProf = Permission.getCurrentPerfilId();
+			ProfileType p = new ProfileType().findOne(idProf);		
+			if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+				menus = menu.find()
+						   .andWhere("application", "=",idApp!=0?idApp:null)
+						   .andWhere("menu", "=", idMen!=0? idMen:null)
+						   .all();
+			}else{
+				Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+				  menus = menu.find()
+						   .andWhere("application", "=",idApp!=0?idApp:app.getId())
+						   .andWhere("menu", "=",idMen!=0?idMen:null)
+						   .all();
+			}
 		}else{
 			menus = menu.searchMen();
 		}	
 		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 		//Preenchendo a tabela
 		for(Menu menu_db1:menus){
-			PesquisarMenu.Table_1 table1 = new PesquisarMenu().new Table_1();
+			PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
 			if(menu_db1.getMenu()!=null){
 				table1.setDescricao(menu_db1.getMenu().getDescr());
 			}else{
@@ -54,7 +75,7 @@ public class PesquisarMenuController extends Controller {
 			}
 			table1.setAtivo(menu_db1.getStatus()==1?"Ativo":"Inativo");
 			table1.setCheckbox(menu_db1.getId());
-			table1.setP_id(menu_db1.getId());
+			table1.setP_id(""+menu_db1.getId());
 			if(menu_db1.getFlg_base()==1){
 				table1.setCheckbox_check(menu_db1.getId());
 			}
@@ -62,55 +83,31 @@ public class PesquisarMenuController extends Controller {
 		}		
 		PesquisarMenuView view = new PesquisarMenuView(model);		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		view.aplicacao.setValue(new Application().getListApps());
-		HashMap<String,String> organizations =  new Organization().getListOrganizations();
+		view.aplicacao.setValue(new Application().getListApps()); 
+		HashMap<String,String> organizations =  (!new String(model.getAplicacao() + "").isEmpty() ? new Organization().getListOrganizations(idApp)  : null);
 		view.organica.setValue(organizations);
-		HashMap<Integer, String> menu_principal = new Menu().getListPrincipalMenus();
+		HashMap<Integer, String> menu_principal = (!new String(model.getAplicacao() + "").isEmpty() && !new String(model.getAplicacao() + "").isEmpty() ?
+				new Menu().getListPrincipalMenus(idApp)	: null);
 		view.menu_principal.setValue(menu_principal);
 
-		//Para pegar os parametros que queremos enviar para poder editar o menu no view
+		//Para pegar os parametros que queremos enviar para poder editar o menu no view 
 		view.p_id.setParam(true);
-		view.title = "";
 		view.table_1.addData(lista);
+		view.setPageTitle(gt("Gestão Menu"));
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
+	}
+
+
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVO)----*/
+		return this.redirect("igrp","NovoMenu","index&target=_blank");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	
-	//Menu list I have access to
-	public PrintWriter actionMyMenu() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");
-		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		XMLWritter xml_menu = new XMLWritter();
-		xml_menu.startElement("menus");
-		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Menu x = new Menu();
-			HashMap<String,List<Menu>> menu = x.getMyMenu();
-			if(menu !=null){
-				for(Entry<String, List<Menu>> m:menu.entrySet()){
-					xml_menu.startElement("menu");
-					xml_menu.setElement("title", m.getKey());
-						for(Menu main:m.getValue()){
-							if(main.getMenu()!=null){
-								xml_menu.startElement("submenu");
-								xml_menu.writeAttribute("title", main.getMenu().getDescr());
-								xml_menu.writeAttribute("id",""+main.getMenu().getId());
-								xml_menu.setElement("link", "webapps?r="+main.getMenu().getLink());
-								xml_menu.setElement("title", main.getMenu().getDescr());
-								xml_menu.setElement("target", main.getMenu().getTarget());
-								xml_menu.setElement("id",""+main.getMenu().getId());
-								xml_menu.setElement("status",""+ main.getMenu().getStatus());
-								xml_menu.endElement();
-							}
-						}
-					xml_menu.endElement();
-				}
-			}
-		}
-		xml_menu.endElement();
-		return Igrp.getInstance().getResponse().getWriter().append(xml_menu.toString());
-	}
-	
+
 	public Response actionMenu_base() throws IOException{
+		/*----#START-PRESERVED-AREA(MENU_BASE)----*/
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			String[] menu = Igrp.getInstance().getRequest().getParameterValues("p_checkbox");
 			boolean x = false;
@@ -122,20 +119,94 @@ public class PesquisarMenuController extends Controller {
 				}
 			}
 			if(x){
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
 			}
 		}
-		return this.redirect("igrp","pesquisar-menu","index");
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
-	public Response actionEliminar() throws IOException{
+	
+
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
+		PesquisarMenu model = new PesquisarMenu();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			return this.forward("igrp","PesquisarMenu","index");
+		}
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+      	if(id!=null && !id.equals("")){
+          return this.redirect("igrp","novo-menu","editar&target=_blank&p_id="+id);
+        }
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if(menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		return this.redirect("igrp","pesquisar-menu","index");
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+		
+		return this.redirect("igrp","PesquisarMenu","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	//Menu list I have access to
+	public Response actionMyMenu() throws IOException{
+		XMLWritter xml_menu = new XMLWritter();
+		xml_menu.startElement("menus");
+		if(Igrp.getInstance().getUser().isAuthenticated()){
+			Menu x = new Menu();
+			HashMap<String,List<Menu>> menu = x.getMyMenu();
+			if(menu !=null){
+				for(Entry<String, List<Menu>> m:menu.entrySet()){
+					xml_menu.startElement("menu");
+					xml_menu.setElement("title", gt(m.getKey()));
+						for(Menu main:m.getValue()){
+							if(main.getMenu()!=null){
+								xml_menu.startElement("submenu");
+								xml_menu.writeAttribute("title", gt(main.getMenu().getDescr()));
+								xml_menu.writeAttribute("id",""+main.getMenu().getId());
+								xml_menu.setElement("link", "webapps?r="+main.getMenu().getLink());
+								xml_menu.setElement("title", gt(main.getMenu().getDescr()));
+								xml_menu.setElement("target", main.getMenu().getTarget());
+								xml_menu.setElement("id",""+main.getMenu().getId());
+								xml_menu.setElement("status",""+ main.getMenu().getStatus());
+								xml_menu.endElement();
+							}
+						}
+					xml_menu.endElement();
+				}
+			}
+		}
+		xml_menu.endElement();
+		return this.renderView(xml_menu + "");
+	}
+	
+	//Get Top Menu
+	public Response actionTopMenu() throws IOException{	
+		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
+		topMenu.addItem("Home", "webapps?r=igrp", "home", "index", "_self", "home.png");
+		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
+		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
+		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
+		return this.renderView(topMenu.toString());
+	}
+	/*----#END-PRESERVED-AREA----*/
 }

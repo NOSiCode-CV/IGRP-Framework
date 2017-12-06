@@ -67,6 +67,27 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
+            	<env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
                 <code name="p_code" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
                     <value>Aperiam iste sit natus doloremque</value>
@@ -96,27 +117,6 @@
                         </option>
                     </list>
                 </self_id>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Aplicação</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </env_fk>
                 <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
                     <label>Página</label>
                     <list>

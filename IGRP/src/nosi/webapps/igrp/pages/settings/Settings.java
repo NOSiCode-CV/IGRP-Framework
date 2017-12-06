@@ -1,9 +1,13 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.settings;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Settings extends Model{		
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_email")
@@ -20,8 +24,8 @@ public class Settings extends Model{
 	private String ultimo_acesso_rede_estado;
 	@RParam(rParamName = "p_password_expira_em")
 	private String password_expira_em;
-	@RParam(rParamName = "")
-	private String view_img;
+	@RParam(rParamName = "p_view_1_img")
+	private String view_1_img;
 	@RParam(rParamName = "p_organica")
 	private String organica;
 	@RParam(rParamName = "p_perfil")
@@ -31,13 +35,18 @@ public class Settings extends Model{
 	@RParam(rParamName = "p_idioma")
 	private String idioma;
 	@RParam(rParamName = "p_auto_complete")
-	private String auto_complete;
+	private int auto_complete;
 	@RParam(rParamName = "p_notificacao")
 	private String notificacao;
 	@RParam(rParamName = "p_receber_notificacao")
-	private String receber_notificacao;
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
+	private int receber_notificacao;
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
 	
 	public void setNome(String nome){
 		this.nome = nome;
@@ -95,11 +104,11 @@ public class Settings extends Model{
 		return this.password_expira_em;
 	}
 	
-	public void setView_img(String view_img){
-		this.view_img = view_img;
+	public void setView_1_img(String view_1_img){
+		this.view_1_img = view_1_img;
 	}
-	public String getView_img(){
-		return this.view_img;
+	public String getView_1_img(){
+		return this.view_1_img;
 	}
 	
 	public void setOrganica(String organica){
@@ -130,10 +139,10 @@ public class Settings extends Model{
 		return this.idioma;
 	}
 	
-	public void setAuto_complete(String auto_complete){
+	public void setAuto_complete(int auto_complete){
 		this.auto_complete = auto_complete;
 	}
-	public String getAuto_complete(){
+	public int getAuto_complete(){
 		return this.auto_complete;
 	}
 	
@@ -144,20 +153,12 @@ public class Settings extends Model{
 		return this.notificacao;
 	}
 	
-	public void setReceber_notificacao(String receber_notificacao){
+	public void setReceber_notificacao(int receber_notificacao){
 		this.receber_notificacao = receber_notificacao;
 	}
-	public String getReceber_notificacao(){
+	public int getReceber_notificacao(){
 		return this.receber_notificacao;
-	}
-	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
-	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
 	}
 
 
 }
-/*-------------------------*/

@@ -1,6 +1,8 @@
 package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
+import nosi.core.webapp.Igrp;
+import static nosi.core.i18n.Translator.gt;
 
 public class IGRPButton {
 	
@@ -13,6 +15,8 @@ public class IGRPButton {
     private String params = "";
     private String parameter = "";
     private String type = "form";
+    private boolean visible = true;
+    
     public FieldProperties propertie;
     
     public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params){
@@ -31,6 +35,14 @@ public class IGRPButton {
     	this.propertie = new FieldProperties();
     }
     
+    public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
 	public String getType() {
 		return type;
 	}
@@ -40,7 +52,7 @@ public class IGRPButton {
 	}
 
 	public String getTitle() {
-		return title;
+		return gt(title);
 	}
 	public void setTitle(String title) {
 		this.title = title;
@@ -58,6 +70,9 @@ public class IGRPButton {
 		this.page = page;
 	}
 	public String getLink() {
+		if(Igrp.getInstance().getRequest().getParameter("target")!=null){
+			this.link+="&amp;target="+Igrp.getInstance().getRequest().getParameter("target");
+		}
 		return app+"/"+page+"/"+link;
 	}
 	public void setLink(String link) {

@@ -1,6 +1,7 @@
 
 .IGRP_formlist .form-group{
 	margin-bottom: 0!important;
+	position: relative;
 }
 
 .IGRP_formlist .formlist-table-btn{
@@ -13,15 +14,15 @@
 }
 
 
-.formlist-row-add,
-.formlist-row-remove {
+.IGRP_formlist .formlist-row-add,
+.IGRP_formlist .formlist-row-remove {
 	cursor: pointer;
-    padding: 2px 3px;
+    padding: 1px 5px;
     font-size: 12px;
 }
 
 /*select2*/
-select.select2 {
+.IGRP_formlist select.select2 {
 	display: none;
 }
 /*checkbox*/
@@ -38,11 +39,11 @@ select.select2 {
 	border-radius: 0 4px 4px 0;
 }
 
-table td .input-group {
+.IGRP_formlist td .input-group {
 	display: block;
 }
 
-table td .input-group input.form-control{ 
+.IGRP_formlist td .input-group input.form-control{ 
 	width:calc(100% - 41px);
 }
 
@@ -59,9 +60,9 @@ table td .input-group input.form-control{
 	border-left: 1px solid #ccc;
 }
 
-table td .input-group .form-control, 
-table td .input-group-addon, 
-table td .input-group-btn{
+.IGRP_formlist td .input-group .form-control, 
+.IGRP_formlist td .input-group-addon, 
+.IGRP_formlist td .input-group-btn{
 	display: block;
 }
 
@@ -163,4 +164,16 @@ table td .input-group-btn{
 	display: block;
 	clear: both;
 	content: '';
+}
+
+.IGRP_formlist .form-check-offset{
+	padding: 0
+}
+
+.IGRP_formlist .error.form-validator-label{
+	position: absolute;
+    margin: 0;
+    left: 0;
+    bottom: -12px;
+    top: auto;
 }

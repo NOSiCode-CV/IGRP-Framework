@@ -1,52 +1,47 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.listaenv;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ListaEnv extends Model{			
+public class ListaEnv extends Model{		
 	@RParam(rParamName = "p_dad")
 	private String dad;
-	@RParam(rParamName = "p_name")
-	private String name;
+	@RParam(rParamName = "p_nome")
+	private String nome;
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDad() {
-		return dad;
-	}
-	public void setDad(String dad) {
-		this.dad = dad;
-	}
-
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	
+	public void setDad(String dad){
+		this.dad = dad;
+	}
+	public String getDad(){
+		return this.dad;
+	}
+	
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+	public String getNome(){
+		return this.nome;
 	}
 
 
-	public class Table_1{
-		private int id;
+	public static class Table_1{
 		private String dad;
 		private String name;
-		private String host;
-		private int status;		
-		
-		public int getId() {
-			return id;
-		}
-		public void setId(int id) {
-			this.id = id;
-		}
+		private int status;
+		private int status_check;
+		private String p_id;
 		public void setDad(String dad){
 			this.dad = dad;
 		}
@@ -61,20 +56,25 @@ public class ListaEnv extends Model{
 			return this.name;
 		}
 
-		public void setHost(String host){
-			this.host = host;
-		}
-		public String getHost(){
-			return this.host;
-		}
-
 		public void setStatus(int status){
 			this.status = status;
 		}
 		public int getStatus(){
 			return this.status;
 		}
+		public void setStatus_check(int status_check){
+			this.status_check = status_check;
+		}
+		public int getStatus_check(){
+			return this.status_check;
+		}
+
+		public void setP_id(String p_id){
+			this.p_id = p_id;
+		}
+		public String getP_id(){
+			return this.p_id;
+		}
 
 	}
 }
-/*-------------------------*/

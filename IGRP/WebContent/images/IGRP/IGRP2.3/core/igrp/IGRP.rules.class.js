@@ -4,22 +4,28 @@ if($ && $.IGRP && !$.IGRP.rules){
 	$.IGRP.rules = {
 		
 		satisfy:function(p){
+
 			var rtn 		= false,
 				field 		= $(p.field),
 				type  		= field.attr('type'),
 				fieldValue 	= field.val(),
 				condition   = typeof p.condition == 'string' ? conditionsList[p.condition] : p.condition;
 
-			if (type == 'radio') {
+
+			if (type == 'radio') 
+
 				fieldValue =  $('input[name="'+field.attr('name')+'"]:checked').val();
-			}
 
 			p.fieldValue = fieldValue;
 
 			try{
+
 				rtn = condition ? condition.satisfy(p)/*p.condition.satisfy(fieldValue,p.testValue)*/ : true;
+			
 			}catch(err){
+
 				console.log(err);
+
 			}
 
 			return rtn;
@@ -53,7 +59,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 						r.sourceName = source;
 
-						//console.log(r)
+						
 
 						if( events.indexOf('load') !== -1){
 							
@@ -110,7 +116,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		set2:function(data){
-			console.log(data)
+			
 			for(var fname in data){
 				
 				var rules  = data[fname];
@@ -131,7 +137,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 						
 					});
 
-				})
+				});
 			}
 		},
 
@@ -216,9 +222,25 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 	};
 
+	var getParam = function(fields){
+					
+		var res = {};
+
+		if(fields){
+			var names = fields.split(',');
+			
+			names.forEach(function(n){
+				res['p_'+n] = $('[name="p_'+n+'"]').val();
+			});
+		}
+
+		return res;
+	};
+
 	var conditionsList = {
 		equal:{
 			satisfy:function(r){
+				
 				return !isNaN(r.fieldValue*1)?(r.fieldValue == r.rule.value):(r.fieldValue.toLowerCase() == r.rule.value.toLowerCase());
 			},
 			opposite:'diff'
@@ -257,7 +279,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 
 		notnull:{
-			satisfy:function(r){
+			satisfy:function(r){		
 				return r.fieldValue != null && r.fieldValue != '' && r.fieldValue != undefined;
 			},
 			opposite:'null'
@@ -462,31 +484,42 @@ if($ && $.IGRP && !$.IGRP.rules){
 				})
 			}
 		},
+
+		remote:{
+			
+			do : function(p){
+
+				$.IGRP.request( p.procedure ,{
+					params  : getParam(p.request_fields),
+					method 	: 'POST',
+					success : function(data){
+
+						var contents = $(data).find('>*');
+
+						$.each($(contents),function(i,item){
+
+							var tag 	    = item.tagName.toLowerCase(),
+
+								val         = $(item).text();
+
+							$.IGRP.utils.setFieldValue( tag , val );
+
+						});
+					}
+				});
+			}
+		},
+
 		remote_combobox:{
 			do:function(p){
 				
 				//var param = p.sourceName+'='+$(p.sourceField).val();
 
-				var params = function(){
-					
-					var res = {};
-
-					if(p.request_fields){
-						var names = p.request_fields.split(',');
-						
-						names.forEach(function(n){
-							res['p_'+n] = $('[name="p_'+n+'"]').val();
-						});
-					}
-
-					return res;
-				}();	
-
 				$.ajax({
-					url: p.procedure,
-					method:'post',
+					url 	: p.procedure,
+					method 	: 'post',
 					dataType: 'xml',
-					data: params
+					data 	: getParam(p.request_fields)
 				})
 				.done(function(list) {
 					
@@ -525,7 +558,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 		},
 		remote_list:{
 			do : function(p){
-				var actionURL	 = $("input[name='p_env_frm_url']").val() || window.location.href,
+				var actionURL	 = $.IGRP.utils.getPageUrl(),
 					form		 = $.IGRP.utils.getForm();
 				
 				$.each( p.targetFields ,function(i,f){
@@ -624,7 +657,7 @@ if($ && $.IGRP && !$.IGRP.rules){
 
 		var rules = o.conditions.rules;
 
-		if(idx < rules.length){
+		if(field[0] && idx < rules.length){
 
 			var r = rules[idx];
 
@@ -637,6 +670,12 @@ if($ && $.IGRP && !$.IGRP.rules){
 				rule      : r
 
 			});
+
+			//console.log(r.condition);
+
+			//console.log(field.val());
+
+			//console.log(r)
 
 			vRuleArr.push(satisfy);
 

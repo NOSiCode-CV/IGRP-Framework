@@ -236,7 +236,7 @@ var GENPANELS = function(name,tparams){
 
 			var item = $(getPanelItem(title,rel,headClss,contentClss,btn)); //$('<li class="'+activeClass+'" rel="tab-'+(i+1)+'">'+c.title+'</li>');
 
-			var rowsHolder = item.find('>.panel-collapse>.panel-body>.gen-rows-holder');
+			var rowsHolder = item.find('.panel-collapse>.panel-body>.gen-rows-holder');
 
 			var btnHolder = item.find('>.panel-heading');
 
@@ -281,6 +281,8 @@ var GENPANELS = function(name,tparams){
 			checkCopyClass();
 
 			container.contents.push(btn);
+
+			console.log(rowsHolder)
 
 			__GEN.layout.setViewSortable(rowsHolder);
 

@@ -18,7 +18,7 @@
 					});
 				else
 					$('>.box-body,>.box-footer',box).slideDown(function(){
-						icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');7
+						icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
 						
 						$(window).resize();
 					});
@@ -29,9 +29,10 @@
 		};
 
 		var toolTip = function(){
-			/*$('body').tooltip({
+			
+			$('body').tooltip({
 			    selector: '[data-toggle="tooltip"]'
-			});*/
+			});			
 		};
 
 		/* DEBUG */
@@ -74,8 +75,7 @@
 			    range: jQuery.validator.format("Introduza um valor entre {0} e {1}."),
 			    max: jQuery.validator.format("Introduza um valor menor ou igual a {0}."),
 			    min: jQuery.validator.format("Introduza um valor maior ou igual a {0}.")
-			});
-			
+			});	
 		};
 
 		var checkActiveToolsBarItem = function(){
@@ -137,7 +137,6 @@
 				}
 
 			}*/
-
 		};
 
 		var toolsbarCrl = function(){
@@ -205,8 +204,7 @@
 
 			});
 
-			checkActiveToolsBarItem();	
-			
+			checkActiveToolsBarItem();				
 		};
 
 		$.IGRP.on('init',function(){

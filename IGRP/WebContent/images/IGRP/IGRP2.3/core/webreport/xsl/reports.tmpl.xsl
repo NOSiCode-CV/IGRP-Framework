@@ -13,7 +13,7 @@
         </a>
         <div class="tree-menu-options">
           <a class="btn icon infoReport">
-            <i class="fa fa-info-circle"/>
+            <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="left"/>
           </a>
           <a class="btn icon editReport" title="Edit">
             <i class="fa fa-pencil-square-o"/>

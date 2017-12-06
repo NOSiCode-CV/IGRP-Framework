@@ -18,15 +18,11 @@
 	display: none;
 }
 
-.main{
-	padding: 20px 7px; 
-}
-
 .toolsbar-holder{
 	position: fixed;
     right: 20px;
     left: 50%;
-    top: 4px;
+    top: 8px;
     z-index: 1049;
 }
 .box.igrp-forms{
@@ -43,6 +39,19 @@
 #wr-list-document{
 	overflow-y: auto;
 }
+
+#igrp-sidebar #list-reports.nav-sidebar{
+	margin-right: -15px;
+	margin-left: -15px;
+}
+
+
+#igrp-sidebar #wr-list-datasource .nav-sidebar{
+	margin-right:0px;
+	margin-left:0px;
+}
+
+
 .nav-sidebar li{
 	position: relative;
 }
@@ -75,7 +84,7 @@
 .nav-sidebar li .tree-menu-options{
 	position: absolute;
 	right:0;
-	top: 7px;
+	top: -1px;
 	display: none;
 	z-index: 10;
 }
@@ -90,6 +99,10 @@
 
 .nav-sidebar .tree-menu-options .btn{
 	padding: 6px 5px;
+}
+
+.nav-sidebar .tree-menu-options .infoReport{
+	position: relative;
 }
 
 .nav-sidebar li:hover > .tree-menu-options{
@@ -192,3 +205,64 @@ div[data-notify="container"].alert{
     top: -10000px;
 }
 
+#igrp-contents .content>.row:first-child{
+	margin-top:0px; 
+}
+
+#wr-list-document .info{
+	position: absolute;
+    background: #ffffff;
+   	border: 1px solid #EAEAEA;
+    box-shadow:0px 4px 10px 0px #ddd;
+    padding: 10px;
+    width:calc(100% - 70px);
+    z-index: 2;
+    right: 51px;
+    opacity: 0;
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+    -o-transition: .4s;
+    -transition: .4s;
+    font-weight: 400;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+#wr-list-document .info:after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -1px;
+    right: -16px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #ddd;
+}
+
+#wr-list-document .info.active{
+	opacity: 1;
+}
+
+
+.checkList{
+	position: absolute;
+    left: 44px;
+    outline: none;
+    width: 12px;
+    height: 12px;
+}
+
+#igrp-sidebar #wr-list-datasource 
+.nav-sidebar li .drag i{
+	margin-right:5px;
+}
+
+#igrp-sidebar #wr-list-datasource 
+.nav-sidebar li[tagtype="separator"] .drag i{
+	margin-right: 20px;
+}

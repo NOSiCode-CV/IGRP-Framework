@@ -8,7 +8,7 @@
           <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate) or not(#path#/table/value/row[position() = 1]/@nodelete)" gen-preserve="last">
             <th class="table-btn add">
               <xsl:if test="not(#path#/table/value/row[position() = 1]/@noupdate)">
-                <a class="formlist-row-add" rel="#tag#">
+                <a class="formlist-row-add btn btn-primary" rel="#tag#">
                   <i class="fa fa-plus"></i>
                 </a>
               </xsl:if>

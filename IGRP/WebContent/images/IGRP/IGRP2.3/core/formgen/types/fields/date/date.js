@@ -1,36 +1,57 @@
 var DATEFIELD = function(type,params){
+	
 	Field.call(this,type,params);
 	
-	var field = this;
+	var field 	    = this;
+
 	var proprieties = params.properties;
+
 
 	field.includes = {
 		css :[ 
-			{ path: '/plugins/datetimepicker/css/datetimepicker.css' } 
+			{ path: '/plugins/datepicker2/daterangepicker.css' },
+			{ path: '/plugins/datepicker2/IGRP.daterangepicker.css' } 
 		],
 		js  :[ 
-			{ path: '/plugins/datetimepicker/js/datetimepicker.js'}, 
-			{ path: '/plugins/datetimepicker/js/dtp.init.js' } 
+			{ path: '/core/moment/moment.min.js'},
+			{ path: '/plugins/datepicker2/daterangepicker.js'},
+			{ path: '/plugins/datepicker2/IGRP.daterangepicker.config.js'},
+			{ path: '/plugins/datepicker2/locale/dp.locale.pt.js'}
 		]
 	}
 
+	var initDatePicker = function(){
+
+		var component  = $.IGRP.components.daterangepicker,
+
+			parent 	   = field.parent,
+
+			holder     = field.parent.hasTableRows ? parent.holder : field.holder;
+
+		component.init({
+
+			selector : '.gen-date-picker',
+
+			parent 	 : holder
+
+		});
+		
+	};
+
 	field.ready = function(){
+
 		field.setPropriety({
-			name:'format',
-			value:{
-				value: proprieties && proprieties.format ? proprieties.format : 'IGRP_datePicker',
-				options:[
-					{ value:'IGRP_datePicker'    , label: 'Date' },
-					{ value:'IGRP_dateTimePicker', label: 'Date & Time' },
-					{ value:'IGRP_timePicker'    , label: 'Time' }
-				]
-			}
+			name  : 'range',
+			label : 'From/To',
+			value : false 
 		});
 
 		field.parent.on('draw-end',function(){
-			datePickerConfig($('.gen-date',field.parent.holder));
-		},true);
-	}
+			initDatePicker();
+		});
+
+	};
+
 }
 
 this[VARS.name].declareField({

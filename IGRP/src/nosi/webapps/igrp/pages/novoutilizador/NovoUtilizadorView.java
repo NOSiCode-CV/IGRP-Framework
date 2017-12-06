@@ -6,7 +6,7 @@ package nosi.webapps.igrp.pages.novoutilizador;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-
+import static nosi.core.i18n.Translator.gt;
 public class NovoUtilizadorView extends View {		
 	
 	public Field sectionheader_1_text;
@@ -26,29 +26,29 @@ public class NovoUtilizadorView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Convite - Novo");
+		sectionheader_1_text.setValue(gt("Convite - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		email = new EmailField(model,"email");
 		email.setLabel("Email");
 		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		aplicacao.setLabel(gt("Aplicação"));
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		organica = new ListField(model,"organica");
-		organica.setLabel("Organica");
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
+		organica.setLabel(gt("Orgânica"));
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false");
 		perfil = new ListField(model,"perfil");
-		perfil.setLabel("Perfil");
+		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		portal = new CheckBoxField(model,"portal");
-		portal.setLabel("Portal");
+		portal.setLabel(gt("Portal"));
 		portal.propertie().add("name","p_portal").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","novo-utilizador","gravar","submit","default|fa-save","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","novo-utilizador","gravar","submit","info|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","pesquisar-utilizador","index","_self","default|fa-angle-right","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
+//		btn_voltar = new IGRPButton(gt("Voltar"),"igrp","pesquisar-utilizador","index","_self","warning|fa-arrow-left","","");
+//		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -65,7 +65,7 @@ public class NovoUtilizadorView extends View {
 		form_1.addField(portal);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
+//		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

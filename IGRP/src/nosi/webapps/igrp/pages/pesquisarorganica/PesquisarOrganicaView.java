@@ -4,7 +4,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import nosi.core.config.Config; 
-
+import static nosi.core.i18n.Translator.gt;
 public class PesquisarOrganicaView extends View {
 	public String title = "";		
 	
@@ -32,35 +32,35 @@ public class PesquisarOrganicaView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue("Gestão Orgânica");
+		sectionheader_1_text.setValue(gt("Gestão Orgânica"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel("Aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Nome"));
 		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		estado = new PlainTextField(model,"estado");
-		estado.setLabel("Estado");
+		estado.setLabel(gt("Estado"));
 		estado.propertie().add("name","p_estado").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel("");
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
-
+		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarOrganica","index","submit","default|fa-search","","");
+		btn_pesquisar = new IGRPButton(gt("Pesquisar"),"igrp","PesquisarOrganica","index","submit","default|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar");
-		btn_eidtar = new IGRPButton("Eidtar","igrp","nova-organica","editar","_self","default|fa-pencil","","");
+		btn_eidtar = new IGRPButton(gt("Eidtar"),"igrp","nova-organica","editar","_self","default|fa-pencil","","");
 		btn_eidtar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eidtar");
-		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarOrganica","eliminar","confirm","default|fa-trash","","");
+		btn_eliminar = new IGRPButton(gt("Eliminar"),"igrp","PesquisarOrganica","eliminar","confirm","default|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 		btn_menu = new IGRPButton("Menu","igrp","PesquisarOrganica","menu","submit","default|fa-angle-right","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
-		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarOrganica","transacao","submit","default|fa-angle-right","","");
+		btn_transacao = new IGRPButton(gt("Transação"),"igrp","PesquisarOrganica","transacao","submit","default|fa-angle-right","","");
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
-		btn_etapa = new IGRPButton("Etapa","igrp","PesquisarOrganica","etapa","submit","default|fa-angle-right","","");
+		btn_etapa = new IGRPButton(gt("Etapa"),"igrp","PesquisarOrganica","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");
-		btn_novo = new IGRPButton("Novo","igrp","NovaOrganica","index","_self","default|fa-plus","","");
+		btn_novo = new IGRPButton(gt("Novo"),"igrp","NovaOrganica","index","_self","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("class","default").add("rel","novo");
 	}
 		

@@ -1,0 +1,7 @@
+#gen-form-contents,
+#gen-form-contents>.box-body{
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  margin-bottom: 0
+}

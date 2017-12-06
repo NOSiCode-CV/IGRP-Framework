@@ -1,0 +1,128 @@
+
+body{
+	font-family: Roboto,sans-serif;
+    color: #616a78;
+    font-weight: 300;
+    font-size: 13px;
+    
+    background: #f3f5f7
+}
+
+body.fixed-nav{
+	padding-top: 53px;
+}
+
+body.sidebar-off .navbar-brand{
+	display: none;
+}
+
+/*box*/
+.box,
+.toolsbar-holder.boxed {
+	border:0!important;
+	box-shadow: 0 0px 6px rgba(0,0,0,0.1);
+}
+
+.box.clean{
+	border:0!important;
+	box-shadow:  none;
+}
+
+.box .box-header{
+	border-bottom-color: #f3f5f7;
+	background: transparent;
+	padding: 2px 15px;
+}
+
+.content-header>*,
+.box .box-header .box-title{
+	font-weight: 400
+}
+/*forms*/
+.form-group label,
+.view-block .view-label{
+	font-weight: normal!important
+}
+.form-group label input+span{
+	font-weight: normal;
+}
+*[role="form"] .box-head.subtitle{
+	padding: 0 15px!important;
+}
+*[role="form"] .box-head.subtitle span{
+	font-weight: 400!important
+}
+.slider-handle{
+	background-color: #3f4a59!important;
+	background-image: linear-gradient(to bottom,#3f4a59 0,#2e3744 100%)!important;
+}
+/*table*/
+table thead th{
+	font-weight: 500!important
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #fcfdfe;
+}
+/*head titles*/
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+	font-weight: 400
+}
+
+.box-head.subtitle{
+	border-color: #f3f5f7
+}
+
+.view-block .view-item{
+	border-color: rgba(51, 122, 183, 0.1)!important
+}
+
+/*buttons*/
+.btn{
+    border-radius: 2px;
+    outline: none !important;
+    -webkit-transition: 0.15s linear;
+    transition: 0.15s linear;
+    position: relative;
+    /*border-color:transparent;*/
+}
+.input-group-btn .btn.btn-default{
+	border-color: #EAEAEA
+}
+/*text colors*/
+
+/*.box .box-header .box-title,
+*[role="form"] .box-head.subtitle span*/
+a, 
+.clickable{
+	color:#337ab7;
+}
+
+/*panels*/
+.panel-group[template="igrp-accordion-group"] .panel-body {
+    background: rgba(243, 245, 247, 0.5)!important;
+    border-top-color: #eaf1f8!important
+}
+.panel-group[template="igrp-accordion-group"] .panel{
+	border-color: #eaf1f8!important	
+}
+.panel-group[template="igrp-accordion-group"] .panel-body>a, .panel-group[template="igrp-accordion-group"] .panel-body .igrp-vertical-menu>.list-group>a{
+	border-bottom-color:  #eaf1f8!important	
+}
+.panel-group .panel-heading h4 a{
+	color: #337ab7
+}
+
+.old-v .self-boxed-item{
+	background: #f3f5f7!important
+}
+
+
+::-webkit-scrollbar-thumb {
+    background-color: #bebebe;
+    /* border-radius: 5px; */
+}
+::-webkit-scrollbar {
+    width : 6px;
+    height: 6px;
+    background-color: transparent;
+}

@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.Permission;
+import static nosi.core.i18n.Translator.gt;
 
 @Entity
 @Table(name="tbl_organization")
@@ -48,7 +51,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	private Organization organization;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
 	private List<ProfileType> profilesType;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="organization")
+	@OneToMany(mappedBy="organization")
 	private List<Profile> profiles;
 	
 	public Organization(){}
@@ -127,7 +130,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListMyOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Organica ---");
+		lista.put("", "--- Selecionar Organica ---");
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getOrganization().getId()+"", p.getOrganization().getName());
 		}
@@ -136,8 +139,17 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, "--- Selecionar Organica ---");
+		lista.put(null, gt("-- Selecionar Orgânica --"));
 		for(Organization o:this.findAll()){
+			lista.put(o.getId()+"", o.getName());
+		}
+		return lista;
+	}
+	
+	public HashMap<String, String> getListOrganizations(int app) {
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, gt("-- Selecionar Orgânica --"));
+		for(Organization o:this.find().andWhere("application.id", "=", app).all()){
 			lista.put(o.getId()+"", o.getName());
 		}
 		return lista;
@@ -145,7 +157,34 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public List<Menu> getOrgMenu() {	
 		Menu m = new Menu();
-		return m.findAll(m.getCriteria().where(m.getBuilder().isNotNull(m.getRoot().get("action"))));
+
+		int idProf = Permission.getCurrentPerfilId();
+		ProfileType p = new ProfileType().findOne(idProf);		
+		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+			return m.find().andWhere("action", "notnull").all();
+		}else{
+			Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
+			List<Menu> myMenu = new ArrayList<>();
+			HashMap<String,List<Menu>> menu = m.getMyMenu();
+			if(menu !=null){
+				for(Entry<String, List<Menu>> mm:menu.entrySet()){
+						for(Menu main:mm.getValue()){
+							if(main.getMenu()!=null){
+								System.out.println("Main1:"+main.getMenu().getDescr()+"---"+main.getMenu().getFlg_base());
+								System.out.println("Main2:"+main.getDescr()+"---"+main.getFlg_base());
+								
+								Menu e = new Menu();
+								e.setDescr(gt(main.getMenu().getDescr()));
+								e.setId(main.getId());
+								e.setFlg_base(main.getMenu().getFlg_base());
+								myMenu.add(e);
+							}
+						}
+				}
+			}
+			myMenu.addAll(m.find().andWhere("action", "notnull").andWhere("application", "=",app.getId()).all());
+			return myMenu;
+		}
 	}
 
 	public List<Menu> getPerfilMenu(Integer org) {

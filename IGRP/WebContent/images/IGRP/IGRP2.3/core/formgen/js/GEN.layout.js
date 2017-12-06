@@ -14,6 +14,8 @@ var GEN_LAYOUT = function(viewer){
 			includeContainerId:includeContainerId
 		});
 
+		console.log(rows)
+
 		return rows;
 	}
 
@@ -22,8 +24,19 @@ var GEN_LAYOUT = function(viewer){
 		var p    = parm ? parm : {};
 
 		$.each(view.find('>'+VARS.layout.rows),function(i,_row){
-			
-			var row = { columns : [] }
+
+			var rowClss = $(_row).attr('gen-class');
+
+			var row = { 
+
+				columns : [], 
+
+				propreties:{
+
+					class : rowClss
+
+				}
+			}
 
 			$.each($(_row).find('>'+VARS.layout.columns),function(cidx,_column){
 
@@ -39,7 +52,7 @@ var GEN_LAYOUT = function(viewer){
 					if(id){
 						var container = GEN.getContainer(id);
 						var includeId = !p.includeContainerId ? false : true;
-						if(container) 
+						if(container) 	
 							column.containers.push(container.export(includeId))
 					}
 					
@@ -60,8 +73,8 @@ var GEN_LAYOUT = function(viewer){
 
 		if(view[0]){
 
-			var id = 'row-'+guid();
-
+			var id   = 'row-'+guid();
+			
 			var row = $(VARS.layout.rowsHtml).attr('id',id);
 
 			setColumnOptions(row);
@@ -102,13 +115,17 @@ var GEN_LAYOUT = function(viewer){
 				view.insertAt(row,p.index);
 			}
 
+			row.find('.row-class-setter').val(p.class).trigger('blur');
+
 			if(p.callback) p.callback(rtn);
 
 			GEN.resizeView();
 
 			setZindex();
+			
+			console.log('dsadsa')
 
-			//console.log(view.find('>.row').length)
+			row.addClass('gen-row');
 			
 			return row;
 		}
@@ -373,6 +390,7 @@ var GEN_LAYOUT = function(viewer){
 			var parent              = rowAppenderSelector ? $($(this).parents(rowAppenderSelector)[0]) : $($(this).parents('.gen-rows-holder')[0]);
 			var index               = $(this).parents(VARS.layout.rows).index()+1;
 
+			console.log(parent)
 
 			layout.addRow({index:index, parent:parent});
 			
@@ -395,6 +413,23 @@ var GEN_LAYOUT = function(viewer){
 			}
 			setZindex();
 		});
+
+		$(VARS.html.view).on('blur','.row-class-setter',function(){
+
+			var clss  = $(this).val(),
+
+				row   = $(this).parents('.row')[0],
+
+				oclss = $(row).attr('gen-class');
+
+			//console.log(oclss)
+
+			$(row).removeClass(oclss).addClass(clss);
+
+			$(row).attr('gen-class',clss);
+
+		});
+
 		//sort columns
 		setRowSortable($(VARS.layout.rows));
 

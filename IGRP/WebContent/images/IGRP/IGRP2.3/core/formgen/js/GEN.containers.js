@@ -170,6 +170,25 @@ var CONTAINER = function(name,params){
 						array.splice(idx,1);
 
 						container.onFieldRemove(field);
+
+						if(GEN.server.preserved && GEN.server.preserved.java && GEN.server.preserved.java.controller){
+							
+							var key = field.GET.tag().toUpperCase();
+							var preserved = GEN.server.preserved.java.controller[key];
+							
+							if(preserved){
+
+								console.log('dslka')
+							
+								delete GEN.server.preserved.java.controller[key];
+
+							}
+
+									
+							console.log( GEN.server.preserved.java.controller )
+							
+
+						};
 						
 						try{
 							if(field.type == container.contextMenu.type){
@@ -700,8 +719,9 @@ var CONTAINER = function(name,params){
 
 		//in apply templates Case: inform fields and label selector
 		container.fieldsSelector.forEach(function(f,count){
+			
 			var fieldsHolder = contents.find(f.selector);
-
+		
 			if(fieldsHolder[0]){
 				
 				if(!fieldsHolder.hasClass(VARS.class.fieldsHolder))	
@@ -713,11 +733,14 @@ var CONTAINER = function(name,params){
 				
 					var fieldHolder = $(fieldsHolder[i]);
 
+					console.log(field)
+
 					fieldHolder.attr('gen-field-type',field.GET.type())
 					
 					fieldHolder.attr('gen-field-id',field.GET.id());
 				
-					if(field.GET.group) fieldHolder.attr('gen-group-id',field.GET.group());
+					if(field.GET.group) 
+						fieldHolder.attr('gen-group-id',field.GET.group());
 
 					field.holder = fieldHolder;
 					
@@ -810,12 +833,38 @@ var CONTAINER = function(name,params){
 
 			}else if(container.fieldsSelector[0]){
 				//HAS NO DROP ZONE
+
 				container.fieldsSelector.forEach(function(fs,i){
+
+					var holder   = $(('[gen-fields]',container.holder)[i]),
+ 
+						selector = $(fs.selector,holder),
+
+						items    = container.sortableOptions.items ? selector.filter(container.sortableOptions.items) : selector;
+
+					if(items[0]){
+
+						var dropZ = items.parent();
+
+						setSortable(dropZ,items);
+
+						/*holder.find(fs.selector).not('.field-edit,.field-remove').addClass('gen-sortable-items');
+
+						var items = !found ? fs.selector : '.gen-sortable-items';
+
+						setSortable(dropZone,items);*/
+					}
+					
+				});
+
+				/*container.fieldsSelector.forEach(function(fs,i){
+
 					var holder = $(container.holder.find('[gen-fields]')[i]);
 					
 					var found = holder.find(fs.selector)[0] ? true : false;
 
 					if(found){
+
 						var dropZone = found ? holder.find(fs.selector).parent() :
 									   holder;
 
@@ -823,11 +872,9 @@ var CONTAINER = function(name,params){
 
 						var items = !found ? fs.selector : '.gen-sortable-items';
 
-
-
 						setSortable(dropZone,items);
 					}
-				});
+				});*/
 			}
 		}
 		
@@ -890,7 +937,7 @@ var CONTAINER = function(name,params){
 				receive:function(e,ui){
 					//from another container;
 					if(ui.sender && ui.sender.hasClass('gen-sortable')){
-						
+						//console.log('FROM ANOTHER')
 						var item      = ui.item;
 						var name      = item.attr('gen-field-type');
 
@@ -1100,9 +1147,6 @@ var CONTAINER = function(name,params){
 				containersIDs:[container.GET.id()]
 			}));
 
-
-			console.log(tXSL);
-			console.log(tXML)
 			/*}catch(err){
 				console.log(err);
 			}*/
@@ -1220,6 +1264,14 @@ var CONTAINER = function(name,params){
 		template = template.replaceAll('#tag#', container.GET.tag());
 		template = template.replaceAll('#title#',container.GET.title ? container.GET.title() : "");
 		template = template.replaceAll('#collapsible#',container.GET.collapsible ? container.GET.collapsible() : "false");
+
+		template = template.replaceAll('#fields.count#',FIELDS.length);
+
+		var notHiddenFields = $.grep(FIELDS, function( n, i ) {
+			return n.type != 'hidden';
+		});
+
+		template = template.replaceAll('#fields.count:not(hidden)#', notHiddenFields.length );		
 
 		var replaces_from_attr = GenVarsReplaceFromObjAttr({
 			object   :container,
@@ -2082,6 +2134,8 @@ var CONTAINER = function(name,params){
 
 			}
 
+
+
 			var templateCallback = function(contents){
 				
 				if(contents.template){
@@ -2097,6 +2151,14 @@ var CONTAINER = function(name,params){
 					container.ready();
 
 					_EVENTS.execute('ready',container);
+
+					if(container.proprieties.hasOwnProperty('collapsible')){
+						container.setPropriety({
+							name  : 'collapsed',
+							value : false
+
+						});
+					}
 					
 					setUpTemplate();
 
@@ -2116,31 +2178,22 @@ var CONTAINER = function(name,params){
 
 					}
 
-					console.log(settedFields)
-					if(settedFields[0]) {
-						//console.log(settedFields)
+					if(settedFields[0]) 
 						container.SET.fields(settedFields,null,function(){
-							console.log('OKK')
 							callback();
 							container.complete();
 						});
-
-					}else{
-						console.log('TRANS')
+					else
 						container.Transform({
 							callback:function(){
-								console.log('exe')
 								callback();
 								container.complete();
 							}
 						});
 
-					}	
 
-
-				}else{
+				}else
 					console.log('template not found: '+container.type)
-				}
 			};
 
 			var templateError = function(e){

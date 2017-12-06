@@ -13,7 +13,7 @@
           }
       </script>
     </head>
-    <body class="{$bodyClass}">
+    <body class="{$bodyClass} fixed-sidebar">
        <nav id="igrp-top-nav" class="navbar navbar-fixed-top">
             
         <a class="navbar-brand col-sm-3 col-md-2" href="javascript:GoToPage('{rows/link}')" bg-color="template" style="width:23%">

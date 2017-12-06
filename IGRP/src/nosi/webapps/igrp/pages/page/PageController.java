@@ -1,152 +1,98 @@
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 20, 2017
- *
- *
- */
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.page;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import javax.servlet.ServletContext;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.helpers.CompilerHelper;
+import nosi.core.webapp.compiler.helpers.Compiler;
+import nosi.core.webapp.compiler.helpers.ErrorCompile;
+import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
+import static nosi.core.i18n.Translator.gt;
+/*----#END-PRESERVED-AREA----*/
 
-/*---- End ----*/
 public class PageController extends Controller {		
 
-	public PrintWriter actionListDomains() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("application/json");
-		String json = "{\"list\":[\"7M_CATEGORIAS\",\"ACL_ELEMENT\",\"ACOMP_ENT\",\"ACOMP_EST_PROD\",\"ALIENACAO_FOGO\",\"ALINHAMENTO\",\"ALTERAR NOTA\",\"ALT_MTR_CM\",\"ALT_PRD_CM\",\"ALT_VEL_INV\",\"AMBEINTE\",\"AMBIENTE\",\"AM_FAMILY_ASSET\",\"AM_MANDATORY\",\"AM_PORT_TYPE\",\"AM_RACK_SPEC\",\"AM_STATUS\",\"AM_TIPO_SPEC\",\"ANEXO_EXPEDIENTE\",\"ANO\",\"AREA_DETALHE\",\"ARFA_SETOR\",\"ARFA_TP_DIPLOMA\",\"ARM_FINANCIADOR\",\"ARM_PRIORIDADE\",\"ARM_USO\",\"ASSOCIAR\",\"ASSOC_NEGOCIOS\",\"AVALIA CONVITE\",\"AVALIAÇÃO ATRIBUÍDA\",\"AVAL_OBRA\",\"AVD_ACEITAR\",\"AVD_COMPETENCIA\",\"AVD_DIMENSAO\",\"AVD_GRAFICO\",\"AVD_HORA\",\"AVD_METRICAS\",\"AVD_TIP_AVA\",\"BANCO\",\"BUSS_AREA\",\"BUS_AR\",\"CAB_DEC\",\"CAD_ALTIMETRIA\",\"CAD_DESPACHO\",\"CAD_ESTADO\",\"CAD_PARECER\",\"CAD_PONTOS\",\"CAD_TIPO_CLAIM\",\"CAD_TP_STATUS\",\"CAPITALIZAÇÃO\",\"CARLOS_CATEGORIA\",\"CARLOS_LOCALIDADE\",\"CARLOS_STATUS\",\"CATEGORY_TYPE\",\"CAT_AREA_NEG\",\"CAT_CATEG_PRODUTO\",\"CAT_ESTADO\",\"CAT_EST_PROJ\",\"CAT_FUNCAO\",\"CAT_NIVEL_ACESSO\",\"CAT_NIVEL_ESCOLAR\",\"CAT_OBJECTO\",\"CAT_ORIG_CLI\",\"CAT_ORIG_REC\",\"CAT_TP_CLIENTE\",\"CAT_TP_DOC\",\"CAT_TP_INTERVENCAO\",\"CAT_TP_OBS\",\"CHART_TYPE\",\"CLONE_OPTION\",\"CLONE_OPTION_ACT\",\"CODE_PEDIDO\",\"CODE_PERFIL\",\"CONDITION\",\"CONTINENTE\",\"CONTR_TP_DEBITO\",\"CON_EXT_ESTADO\",\"COR\",\"CUSTA_BENEFICIARIO\",\"CUSTA_TP_NATUREZA\",\"DATA_SOURCE\",\"DECISAO\",\"DECLARACAO_FISCAL\",\"DEMO\",\"DEMO_DEMO_IGRP\",\"DESTINO_OBRA\",\"DGESC - GRAU EQUIVALÊNCIA\",\"DM_MEIO_PAG\",\"DM_N_INSCRITO\",\"DM_PARECER\",\"DM_TP_FILTRO\",\"DM_TP_HIST_LAB\",\"DM_TP_MUDANCA\",\"DOC_MNEC\",\"DOC_STATUS\",\"D_ABONO\",\"D_ARM_ARMAZEM\",\"D_ARM_ESTADO_INVENTARIO\",\"D_ARM_ESTADO_REG\",\"D_ARM_FINANCIADOR\",\"D_ARM_MARCA\",\"D_ARM_MOEDA\",\"D_ARM_SIM_NAO\",\"D_ARM_TP_MOVIMENTO\",\"D_ARM_TP_PRODUTO\",\"D_CATEGORY_TYPE\",\"D_CLASS_TYPE\",\"D_COMPTBLDD\",\"D_CONTRIBUINTE\",\"D_DESPACHO\",\"D_MEIO_PAGAMENTO\",\"D_MOMENTO_COBRANCA\",\"D_PARECER\",\"D_PRIORIDADE\",\"D_REGIME_BENS\",\"D_RNI_ESTADO_CIVIL\",\"D_RNI_ORGAO\",\"D_RNI_TP_DOC\",\"D_SNC_ENTIDADE\",\"D_TIPO_PASSAPORTE\",\"D_TIPO_URGENCIA_PASS\",\"D_USO\",\"ECRAN_DETAILS\",\"ECRAN_DET_INFO\",\"ECRAN_DET_REGRA\",\"ECRAN_DET_VALID\",\"EDUGLOBAL - MENU\",\"EFECTIVO\",\"EFEITO_FORM\",\"ENT_APROVACAO\",\"ENV_DETAILS\",\"EQUIV_DOC\",\"ESTADO\",\"ESTADO ASSOC\",\"ESTADO_AGENDA\",\"ESTADO_APROVACAO_FATURA\",\"ESTADO_CABIMENTO_FATURA\",\"ESTADO_CLAIM\",\"ESTADO_CONFLITO\",\"ESTADO_FATURA\",\"ESTADO_FATURA_APROVA\",\"ESTADO_INVENTARIO\",\"ESTADO_MOBILIDADE\",\"ESTADO_PARTY\",\"ESTADO_PGTO\",\"ESTADO_REGISTO\",\"EST_PROJ\",\"EVEN_ESTADO\",\"EVEN_T_AREA\",\"EVEN_T_CATEGORY\",\"EVEN_T_MUNICIP\",\"EVEN_T_RECURSO\",\"EXTENSAO\",\"FASE_PROC_TOPO\",\"FATURA_ACOMPANHAMENTO\",\"FINANCIADOR\",\"FISC_CM_RESULT\",\"FLUENCIA_LEC_ESC\",\"GE:_ESTADO_CIVIL\",\"GENERATOR\",\"GE_ESTADO_FISICO_REGISTRO\",\"GE_LADO\",\"GE_MANU_AUTOM\",\"GE_NATURALEZA\",\"GE_OFICINA\",\"GE_ORIGEM_REGISTRO\",\"GE_REG_SEXO\",\"GE_REG_T_MATRIMONIO\",\"GE_SEXO\",\"GE_STATUS\",\"GE_TIPO_CONTRATO\",\"GE_TIPO_DOCUMENTO\",\"GE_TIPO_OBJETO\",\"GE_TIPO_REGISTRO\",\"GRAFICO_MOVEL\",\"GRAM_GEN\",\"GRAM_NUM\",\"GRAU_ACADEMICO\",\"GRE_TP_DEC\",\"GRUPO_PROFISSIONAL\",\"IGRP_APLICACOES\",\"IGRP_DIMENSOES\",\"IGRP_LIC_TIPO_MUDANCA\",\"IGRP_LIC_TP_DOC_PESQ\",\"IGRP_METRICAS\",\"IGRP_THEMES\",\"IIH_ESTADO_CONSER\",\"IIH_EXI_MANUT\",\"IIH_EXTRACAO_AGUA\",\"IIH_FORMA_BASE\",\"IIH_GESTAO\",\"IIH_IMPLANTACAO\",\"IIH_INEX_MUITO\",\"IIH_LOCAL_FISICA\",\"IIH_PROV_AGUA\",\"IIH_PROX_CASA\",\"IIH_TIPO_AQUIFERO\",\"IIH_TIPO_BOMBA\",\"IIH_TIPO_BOMBA_SB\",\"IIH_TIPO_CONSTRUCAO\",\"IIH_TIPO_DADOS\",\"IIH_TIPO_ENERGIA\",\"IIH_TIPO_OBJECTO\",\"IIH_USO_AGUA\",\"INFO_DOC_TYPE\",\"INSTANCE_FLOW\",\"INTEGRATION\",\"INVESTIMENTO\",\"IN_OUT\",\"ITALICO\",\"JUROS\",\"LAB\",\"LAB_REDLAB\",\"LANG_CODE\",\"LIMITES_DIREITOS\",\"LMITS_ESTADO\",\"LMITS_ESTADO_ENTREGA\",\"LMITS_ESTADO_PEDIDO\",\"LOOKUP_DB\",\"LOOP_FLOW\",\"L_SIGE_ANO\",\"L_SIGE_ANO_LETIVO\",\"L_SIGE_AREA\",\"L_SIGE_NIVEL_ENSINO\",\"L_SIGE_PERIODO\",\"MARAVILHA\",\"MARITAL\",\"MC_ACTIVIDADE\",\"METRICAS_ASSOC\",\"MIREX_TP_DOMINIO\",\"MIREX_TP_NATUREZA\",\"MNOVU - CONCURSO\",\"MNOVU - CONTEMPLADO\",\"MNOVU - EQUIPAMENTO\",\"MNOVU - FACTOR\",\"MNOVU - FORMULA\",\"MNOVU - TP- FICHA\",\"MNOVU_CONFIRMADO\",\"MNOVU_CONTEMPLADO\",\"MNOVU_GRUPO_ITEM\",\"MNOVU_GRUPO_TP_FICHA\",\"MNOVU_NR_PRESTACAO\",\"MNOVU_VALIDADO\",\"MOEDA\",\"MONTH\",\"MOTIVO_PERDA\",\"NATIVENESS\",\"NATUREZA_OBRA\",\"NAT_JURIDICA\",\"NEGRITO\",\"NIF_GE_COMBO_DIMENSIONES\",\"NIF_GE_COMBO_METRICAS\",\"NIF_GE_ESTADO\",\"NIF_GE_ESTADO_NIF\",\"NIF_GE_FORMA_JURIDICA\",\"NIF_GE_TP_AUTORIZACION\",\"NIF_GE_TP_CONTRIBUYENTE\",\"NIF_GE_TP_DOCUMENTO\",\"NIVEL DE ALCANCE DA META\",\"NIVEL DE ALCANCE DO COMPORTAMENTO\",\"NIVEL_INSTRUCAO\",\"NOTIFICA_ENTIDADE\",\"NOTIF_EST_ENVIO\",\"NOTIF_PERIODIC\",\"NOT_DIMENSAO\",\"NOT_MODALIDADE\",\"NUMERACAO\",\"N_TENDO\",\"OBJ_FISCALIZACAO_CM\",\"OPERADORA_CHIP\",\"ORD_T_ESPECIALIDADE\",\"ORD_T_ESTADO\",\"ORD_T_INSCRICAO\",\"ORD_T_TIPO\",\"ORD_T_TIPO_EXERCICIO\",\"ORD_T_TIPO_ORD\",\"ORG_CLONE_OPTION\",\"PAGE_TYPE\",\"PAG_OP\",\"PARAMETRIZA_ASSOC\",\"PARECER_AMBIENTAL\",\"PARECER_AUG\",\"PARECER_AUGI\",\"PARECER_CONFLITO\",\"PARECER_SOCIAL_GENERO\",\"PARTY_TYPE\",\"PART_ORAGNICA_DEFAULT\",\"PART_TP_PART_PAI_FILHO\",\"PART_T_ENTIDADE\",\"PED_MNEC\",\"PERF_CLONE_OPTION\",\"PLAN_DOC_TYPE\",\"POR_ATOS\",\"PPOJ_FINAL\",\"PRAZO\",\"PRECAD_AGENDA_VISITA\",\"PRECAD_CONC_ADMIN\",\"PRECAD_DECL\",\"PRECAD_DOMINIO_LINGUA\",\"PRECAD_ESTADO_RECOMENDACAO\",\"PRECAD_FASE_CLAIM\",\"PRECAD_FINALIDADE\",\"PRECAD_FORMA_AQUISICAO\",\"PRECAD_GRAU_ESCOLAR\",\"PRECAD_LINGUA\",\"PRECAD_MEDIDA_DURACAO\",\"PRECAD_MSG_ERRO\",\"PRECAD_NACIONALIDADE\",\"PRECAD_NATUREZA\",\"PRECAD_OPINIAO_EAT\",\"PRECAD_OPINIAO_EAT_MA\",\"PRECAD_PH_FRACAO\",\"PRECAD_REL_AGREGADO\",\"PRECAD_SITUACAO_LAB\",\"PRECAD_TIPOLOGIA_TITULAR\",\"PRECAD_TIPO_DADOS\",\"PRECAD_TIPO_OCUPANTE\",\"PRECAD_TIPO_VISITA\",\"PRECAD_TP_NECES_ESPECIAL\",\"PRIORITY\",\"PROC_ACT\",\"PROD\",\"PROD_EXA_SNIACPROD\",\"PROD_INPSEXA\",\"PROD_NOSIPROD1\",\"PROD_RNIEXA\",\"PROD_SAUDEEXA\",\"PROFILE_TYPE\",\"PROJECT_TYPE\",\"PROJ_ARQ_TP\",\"PROJ_PROF\",\"PUBLICO_ALVO\",\"REASON_ACTION\",\"RECLAMAÇÃO\",\"RECLAMAÇÃO OU RECURSO\",\"RECURSO\",\"REG\",\"REQ_TYPE\",\"REQ_T_DOCUMENT\",\"RESUL_FISC_CM\",\"RES_APROVACAO\",\"RES_FASE_PLANO\",\"REUSL_TOPO\",\"RH_DIMENSAO\",\"RH_ESTADO\",\"RH_METRICA\",\"RH_METRICAS\",\"RH_QUADRO_PENSAO\",\"RNI_TIPO_SERVICO\",\"RRR_OBJ_TYPE\",\"SEARCH_TYPE\",\"SECTOR\",\"SEMANA\",\"SEND_MANNER\",\"SEND_STATUS\",\"SEND_TYPE\",\"SEXO\",\"SIGE -  PERIODO\",\"SIGE -  TIPO MENU\",\"SIGE - AGENDA REPETICAO\",\"SIGE - ANO CURRICULAR\",\"SIGE - ANO LECTIVO\",\"SIGE - APROVEITAMENTO\",\"SIGE - AREA\",\"SIGE - CICLO\",\"SIGE - COMPORTAMENTO\",\"SIGE - ESCALAO\",\"SIGE - ESCOLA\",\"SIGE - ESPECIALIDADE\",\"SIGE - ESTADO\",\"SIGE - ESTADO DISC ALUNO\",\"SIGE - ESTADO FALTA\",\"SIGE - ESTADO PEDIDO\",\"SIGE - MENU ITEM PAI\",\"SIGE - MOTIVO ANULACAO\",\"SIGE - MOTIVO REDUCAO PROP\",\"SIGE - NR IRMAO ENSINO\",\"SIGE - ORIGEM PEDIDO\",\"SIGE - PAUTA_REG_OBS\",\"SIGE - PERIODO PROPINA\",\"SIGE - TIPO DE NOTA\",\"SIGE - TIPO FALTA\",\"SIGE - TITULAR DECLARAÇÃO\",\"SIGE - VIA\",\"SIGE- TRIMESTRE\",\"SIGE_EFEITO_DECLARAÇÃO\",\"SIGE_MOTIVO_JUSTIFICACAO\",\"SIGE_NR_MATRICULA\",\"SIGE_PARENTESCO\",\"SIGE_S_N\",\"SIGE_TP_ASSUNTO\",\"SIGE_TP_DECLARACAO\",\"SIGE_VIA_MARCACAO_SUMARIO\",\"SIGPG_STOCK\",\"SIGPG_TIPO_BEM\",\"SIG_MUNICIPIOS_CV\",\"SIMNAO\",\"SIM_ASC_TP_PREDIO\",\"SIM_NAO\",\"SIN_OUTORG_ORDEM\",\"SIS_PAGAMENTO\",\"SNC_CARGO\",\"SNC_ESTADO_ASSOC\",\"SNC_TIPO_ASSOCIACAO\",\"SNC_TIPO_DOCUMENTO\",\"SNIAC_CONSULTA\",\"SNIAC_MOTIVO_2VIA\",\"SNITE_FUNCTIONAL_ROAD_CLASS\",\"SNITE_OBJ_TP_DOC\",\"SOCIAL_ESTADO\",\"SOCIAL_SIM_NAO\",\"STAGE\",\"STAGE_STAGIN\",\"START_MODE\",\"STATUS\",\"STATUS_DIVIDA\",\"STATUS_NAME\",\"STATUS_PART\",\"STATUS_VERSAO\",\"ST_ METRICA\",\"ST_ METRICA_PGTO\",\"ST_ METRICA_PRST\",\"ST_ASSOC\",\"ST_A_PNS_SUB\",\"ST_DIMENSAO\",\"ST_DIMENSAO_ PGTO\",\"ST_DIMENSAO_ PRST\",\"ST_ESTADO\",\"ST_ESTADO_CNTB\",\"ST_ESTADO_ENTIDADE\",\"ST_ESTADO_PROCESSO\",\"ST_EST_MULT\",\"ST_EST_VALD\",\"ST_FOS_ENTRADA\",\"ST_FOS_ENTREGA\",\"ST_F_PAGAMENTO\",\"ST_MTV\",\"ST_NOTIFICA\",\"ST_PROC\",\"ST_PRST\",\"ST_QUALIFICA\",\"ST_TP_ACAO\",\"ST_TP_CONTRIBUINTE\",\"ST_TP_DOC\",\"ST_TP_DOC_PROC\",\"ST_TP_FNCRO\",\"ST_TP_FOS\",\"ST_TP_PEDIDO\",\"ST_TP_PESQ\",\"ST_TP_REG\",\"ST_TP_UTENTE\",\"ST_VALIDA\",\"SUBLINHADO\",\"TARGET\",\"TEMPO\",\"TESTE\",\"TESTE_DEPLOY\",\"TES_CX_STATUS\",\"TES_STATUS\",\"TES_T_POSTO\",\"TES_T_TESOURARIA\",\"TF\",\"TIMESTOPSUNITS\",\"TIME_UNITY\",\"TIPO\",\"TIPO_ANEXO\",\"TIPO_CUSTA\",\"TIPO_DOC_MOV\",\"TIPO_ESCALA\",\"TIPO_FILME\",\"TIPO_PD\",\"TIPO_PROTECAO\",\"TIPO_RECLAMAÇÃO\",\"TIPO_SALDO\",\"TIPO_UTENTE\",\"TIP_CONST\",\"TOPO_OBJ_COMP\",\"TOPO_PAR\",\"TP_ANO\",\"TP_APROVEITAMENTO\",\"TP_COMISSAO\",\"TP_COMPROMISS\",\"TP_CONTACTO\",\"TP_DIMENSAO_IND\",\"TP_DIVIDA\",\"TP_DOC\",\"TP_DOCUMENTO\",\"TP_DOC_CONS_EXT\",\"TP_DOC_INPS\",\"TP_DOC_NEGOCIOS\",\"TP_ENCAMINHAMENTO_CM\",\"TP_ENTIDADE\",\"TP_ENTITY\",\"TP_ESTADO\",\"TP_ESTADO_IRRE\",\"TP_ESTADO_IRREGULARIDADE\",\"TP_EXECUCAO\",\"TP_FERIA\",\"TP_FICHA\",\"TP_FONTE_DADO\",\"TP_FONTE_DADOS\",\"TP_FUNCIONARIO\",\"TP_FUNC_RH\",\"TP_GRAFICO\",\"TP_HORA\",\"TP_INSTITUICAO\",\"TP_INTERVENIENTE \",\"TP_INTERVINIENTE\",\"TP_LEIS\",\"TP_LOTE\",\"TP_LOTEAMENTO\",\"TP_MOVEL\",\"TP_NATUREZA\",\"TP_NUMERACAO\",\"TP_OCUPACAO\",\"TP_OPERACAO\",\"TP_ORIGEM\",\"TP_PARTILHA\",\"TP_PARTY\",\"TP_PERMISAO\",\"TP_PRESTADOR\",\"TP_Pessoa\",\"TP_RECLAMACAO\",\"TP_REP_GEOG\",\"TP_REQUERENTE\",\"TP_SOCIEDADE\",\"TP_TERMINAL\",\"TRIMESTRE\",\"TYPE_MULTI\",\"TYPE_PONDERAÇÃO\",\"T_REC\",\"Tipologia\",\"USERPROFILE\",\"USERSTATUS\",\"VAL_EXEC_OBRA\",\"VAL_FISC_OBRA\",\"VIA_LEVANTAMENTO\",\"VISTO_MNEC\",\"WF_COND\",\"WF_DOCTP_AUX\",\"WF_RUN_TYPE\",\"WF_STATUS\",\"WF_TIME_SCALE\",\"XXX\",\"YES_NO\",\"custa_t_tp_iten\",\"d_cad_tipologia\",\"mes_ref\",\"tp_recurso\",\"tp_stake\"]}";;
-		return Igrp.getInstance().getResponse().getWriter().append(json);
-	}
-	
-	public PrintWriter actionDomainsValues() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("application/json");
-		 String json = "[{\"value\": \"Y\",\"text\": \"Sim\"},{\"value\": \"N\",\"text\": \"Nao\"}]";
-		 return Igrp.getInstance().getResponse().getWriter().append(json);
-	}
-	public Response actionIndex() throws IOException{
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/ 
 		Page model = new Page();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		if(id!=null){
 			Action a = new Action();
 			a = a.findOne(Integer.parseInt(id));
 			if(a!=null){
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk(a.getApplication().getId());
+				model.setEnv_fk(""+a.getApplication().getId());
 				model.setP_action(a.getAction());
 				model.setP_page_descr(a.getPage_descr());
 				model.setPage(a.getPage());
-				model.setP_id(a.getId());
-				model.setP_version(a.getVersion());
+				model.setP_id(""+a.getId());
+				model.setVersion(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
-//				model.setP_db_connection(a.getDb_connection());
-//				model.setP_flg_internet(a.getFlg_internet());
-//				model.setP_flg_menu(a.getFlg_menu());
-//				model.setP_flg_offline(a.getFlg_offline());
-//				model.setP_flg_transaction(a.getFlg_transaction());
-//				model.setP_img_src(a.getImg_src());
-//				model.setP_page_type(a.getPage_type());
-//				model.setP_proc_name(a.getProc_name());
-//				model.setP_self_fw_id(a.getSelf_fw_id());
-//				model.setP_self_id(a.getSelf_id());
-				model.setP_status(a.getStatus());
+				model.setP_status(""+a.getStatus());
 			}
 		}
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
+		view.version.setVisible(false);
+		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
+		/*----#END-PRESERVED-AREA----*/
 	}
-	
-	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
-		
-		Action action = new Action();
-		action = action.findOne(Integer.parseInt(id));
-		
-		model.setEnv_fk(action.getApplication().getId());
-		model.setP_version(action.getVersion());
-		model.setPage(action.getPage());
-		model.setAction_descr(action.getPage_descr());
-		
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			model.load();
-			Application app = new Application();
-			action.setApplication(app.findOne(model.getEnv_fk()));
-			action.setVersion(model.getP_version());
-			action.setPage(model.getPage());
-			action.setPage_descr(model.getAction_descr());
-			action = action.update();
-			if(action!=null)
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, "Página atualizada com sucesso.");
-			else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Error ao atualizar a página.");
-			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
-		}
-		
-		PageView view = new PageView(model);
-		
-		view.env_fk.setValue(new Application().getListApps());
-		view.version.setValue(Config.getVersions());
-		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
-		view.btn_gravar.setLink("editar&id="+id);
-		
-		return this.renderView(view);
-	}
-	
+
+
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Page model = new Page();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();			
+			model.load();	
+          	int idPage = model.getP_id()!=null && !model.getP_id().equals("")?Integer.parseInt(model.getP_id()):0;
 			Application app = new Application();
 			Action action = new Action();
 			action.setAction("index");
-			action.setApplication(app.findOne(model.getEnv_fk()));
+			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 			action.setAction_descr(model.getAction_descr());
-//			action.setTable_name(model.getP_table_name());
-//			action.setFlg_transaction(model.getP_flg_transaction());
-//			action.setDb_connection(model.getP_db_connection());
 			action.setPage_descr(model.getAction_descr());
-//			action.setFlg_internet(model.getP_flg_transaction());
-//			action.setFlg_menu(model.getP_flg_menu());
-//			action.setFlg_offline(model.getP_flg_offline());
-//			action.setEnv_fk(model.getEnv_fk());
-//			action.setSelf_fw_id(model.getP_self_id());
-//			action.setImg_src(model.getP_img_src());
-//			action.setXsl_src(model.getP_xsl_src());
-//			action.setSelf_fw_id(model.getP_self_fw_id());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-//			action.setPage_type(model.getP_page_type());
-//			action.setProc_name(model.getP_proc_name());
-			action.setStatus(model.getP_status());
-			action.setVersion(model.getP_version());
-			if(model.getP_id()!=0){
+			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
+				return this.forward("igrp", "page", "index");
+			}
+			//action.setStatus(model.getP_status());
+			action.setVersion(model.getVersion());
+			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
+			if(idPage!=0){
+              	action.setId(idPage);
 				action = action.update();
 			}else{
 				action = action.insert();
@@ -158,76 +104,141 @@ public class PageController extends Controller {
 				if(FileHelper.fileExists(Config.getWorkspace())){
 					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
 				}
-				Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
+				return this.forward("igrp", "page", "index");
 			}
 		}
 		return this.redirect("igrp", "page", "index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionEliminar() throws IOException{
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		Action ac = new Action();
-		if(ac.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success","Operação efetuada com sucesso");
-		else
-			Igrp.getInstance().getFlashMessage().addMessage("error","Falha ao tentar efetuar esta operação");
-		return this.redirect("igrp","lista-page","index");
+
+	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
+		return this.redirect("igrp","page","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+		Page model = new Page();
+		
+		Action action = new Action();
+		action = action.findOne(Integer.parseInt(id));
+		
+		model.setEnv_fk(""+action.getApplication().getId());
+		model.setVersion(action.getVersion());
+		model.setPage(action.getPage());
+		model.setAction_descr(action.getPage_descr());
+		
+		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+			model.load();
+			Application app = new Application();
+			action.setApplication(app.findOne(model.getEnv_fk()));
+			action.setVersion(model.getVersion());
+			action.setPage(model.getPage());
+			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
+				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{action.getId() + ""});
+			}
+			action.setPage_descr(model.getAction_descr());
+			action = action.update();
+			if(action!=null)
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+			else
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
+			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
+		}
+		
+		PageView view = new PageView(model);
+		
+		view.env_fk.setValue(new Application().getListApps());
+		view.version.setValue(Config.getVersions());
+		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
+		view.btn_gravar.setLink("editar&id="+id);
+		view.btn_voltar.setVisible(false);
+		view.version.setVisible(false);
+		view.page.setLabel(gt("Código"));
+		
+		return this.renderView(view);
 	}
 	
 	//Save page generated
-	public PrintWriter actionSaveGenPage() throws IOException, ServletException{
-		Igrp.getInstance().getResponse().setContentType("text/xml");		
+	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
+		String error = "";
 		if(ac!=null){			
 			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
-			String javaCode = FileHelper.convertToString(Igrp.getInstance().getRequest().getPart("p_page_java"));		
+			Part fileModel = Igrp.getInstance().getRequest().getPart("p_model");
+			Part fileView = Igrp.getInstance().getRequest().getPart("p_view");
+			//System.out.println(fileView.getInputStream().toString());
+			Part fileController = Igrp.getInstance().getRequest().getPart("p_controller");				
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());//Config.getPathXsl()  +""+"/"+"images"+"/"+"IGRP"+"/"+"IGRP"+Config.getPageVersion()+"/"+"app"+"/"+ac.getEnv().getDad()+"/"+ac.getPage().toLowerCase();			
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
 			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
-			this.processJson(fileJson,ac);
-			if(fileJson!=null && fileXml!=null && fileXsl!=null && javaCode!=null && javaCode!="" && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
-				String[] partsJavaCode = javaCode.toString().split(" END ");
+			if(fileJson!=null && fileXml!=null && fileXsl!=null && fileModel!=null && fileView!=null && fileController!=null && path_xsl!=null && path_xsl!=""  && path_class!=null && path_class!=""){
+				this.processJson(fileJson,ac);
 				if(
-						FileHelper.save(path_class,ac.getPage()+".java", partsJavaCode[0]+"*/") && // save model
-						FileHelper.save(path_class,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/") && // save view
-						FileHelper.save(path_class,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]) && // save controller
-						FileHelper.save(path_xsl,ac.getPage()+".xml", fileXml) && // save xml
-						FileHelper.save(path_xsl,ac.getPage()+".xsl", fileXsl) && // save xsl
-						FileHelper.save(path_xsl,ac.getPage()+".json", fileJson) && // save json
-						CompilerHelper.compile(path_class,ac.getPage()+".java") && //Compile model
-						CompilerHelper.compile(path_class,ac.getPage()+"View.java") && //Compile controller
-						CompilerHelper.compile(path_class,ac.getPage()+"Controller.java") //Compile view
+						FileHelper.saveFilesJava(path_class, ac.getPage(), new Part[]{fileModel,fileView,fileController}) &&
+						FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson})
 				){
-					if(FileHelper.fileExists(Config.getWorkspace())){
-						if(!FileHelper.fileExists(path_class_work_space)){//check directory
-							FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+					error += this.processCompile(path_class,ac.getPage());
+					if(error.equals("")){//Check if not error on the compilation class
+						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
+						if(FileHelper.fileExists(Config.getWorkspace())){
+							if(!FileHelper.fileExists(path_class_work_space)){//check directory
+								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+							}
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController},FileHelper.ENCODE_CP1252);//ENCODE_CP1252 for default encode eclipse
+							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson});
 						}
-						FileHelper.save(path_class_work_space,ac.getPage()+".java", partsJavaCode[0]+"*/"); // save model
-						FileHelper.save(path_class_work_space,ac.getPage()+"View.java","/*"+partsJavaCode[1]+"*/"); // save view
-						FileHelper.save(path_class_work_space,ac.getPage()+"Controller.java","/*"+partsJavaCode[2]); // save controller
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".xml", fileXml) ; // save xml
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".xsl", fileXsl) ; // save xsl
-						FileHelper.save(path_xsl_work_space,ac.getPage()+".json", fileJson); // save json
+						ac.setId(Integer.parseInt(p_id));
+						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
+						ac.update();
+						this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
+						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 					}
-					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
-					ac.update();
-					return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"success\">Operação efectuada com sucesso</message></messages>");
 				}
 			}
+			this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
 		}
-		return Igrp.getInstance().getResponse().getWriter().append("<messages><message type=\"error\">Operação falhada</message></messages>");
+		return this.renderView("<messages><message type=\"error\">Operacao falhada: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 	}
 	
+	
+	private void deleteFilesInMemory(Part[] content) throws IOException {
+		FileHelper.deletePartFile(content[0]);
+		FileHelper.deletePartFile(content[1]);
+		FileHelper.deletePartFile(content[2]);
+	}
+
+	private String processCompile(String path_class, String page) {
+		String errors = "";
+		path_class = path_class+File.separator;
+		File[] files = new File[]{new File(path_class+page+".java"),new File(path_class+page+"View.java"),new File(path_class+page+"Controller.java")};
+		Compiler compiler = new Compiler();
+    	try {
+			if(!compiler.compile(files)){			
+				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
+				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+			}
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return errors;
+	}
+
 	//Read json and extract transactions
 	private void processJson(Part fileJson,Action ac) throws IOException {
 		if(fileJson!=null){
@@ -304,7 +315,7 @@ public class PageController extends Controller {
 	}
 
 	//list all page of an application
-	public PrintWriter actionListPage() throws IOException{
+	public Response actionListPage() throws IOException{
 		String p_dad = Igrp.getInstance().getRequest().getParameter("amp;p_dad");
 		String json = "[";
 		Action a = new Action();
@@ -325,12 +336,12 @@ public class PageController extends Controller {
 		}
 		json = json.substring(0, json.length()-1);
 		json += "]";
-		Igrp.getInstance().getResponse().setContentType("application/json");
-		return Igrp.getInstance().getResponse().getWriter().append(json);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(json);
 	}
 	
 	//get detail page
-	public PrintWriter actionDetailPage() throws IOException{
+	public Response actionDetailPage() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("amp;p_id");		
 		Action ac = new Action().findOne(Integer.parseInt(p_id));		
 		String json = "{";
@@ -344,11 +355,11 @@ public class PageController extends Controller {
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
-		Igrp.getInstance().getResponse().setContentType("application/json");
-		return Igrp.getInstance().getResponse().getWriter().append(json);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(json);
 	}
 	
-	public PrintWriter actionImageList() throws IOException{
+	public Response actionImageList() throws IOException{
 		String param = Igrp.getInstance().getRequest().getParameter("amp;name");
 		String menu = "";
 		if(param == "menu"){
@@ -356,76 +367,117 @@ public class PageController extends Controller {
 		}else{
 			menu = "[\"themes/default/img/icon/tools-bar/Book_phones.png\",\"themes/default/img/icon/tools-bar/Folha_C.png\",\"themes/default/img/icon/tools-bar/Folha_F.png\",\"themes/default/img/icon/tools-bar/Folha_M.png\",\"themes/default/img/icon/tools-bar/Folha_RC.png\",\"themes/default/img/icon/tools-bar/Folha_RF.png\",\"themes/default/img/icon/tools-bar/Folha_S.png\",\"themes/default/img/icon/tools-bar/PDF_C.png\",\"themes/default/img/icon/tools-bar/PDF_F.png\",\"themes/default/img/icon/tools-bar/PDF_M-.png\",\"themes/default/img/icon/tools-bar/PDF_M.png\",\"themes/default/img/icon/tools-bar/PDF_RC.png\",\"themes/default/img/icon/tools-bar/PDF_RF.png\",\"themes/default/img/icon/tools-bar/PDF_S.png\",\"themes/default/img/icon/tools-bar/activar.png\",\"themes/default/img/icon/tools-bar/add-temp.png\",\"themes/default/img/icon/tools-bar/add.png\",\"themes/default/img/icon/tools-bar/alterar-assinatura.png\",\"themes/default/img/icon/tools-bar/alterar-digital.png\",\"themes/default/img/icon/tools-bar/alterar-foto.png\",\"themes/default/img/icon/tools-bar/apply.png\",\"themes/default/img/icon/tools-bar/assumir_tarefas.png\",\"themes/default/img/icon/tools-bar/avaliar.png\",\"themes/default/img/icon/tools-bar/back.png\",\"themes/default/img/icon/tools-bar/balcoes.png\",\"themes/default/img/icon/tools-bar/calendario.png\",\"themes/default/img/icon/tools-bar/cancel.png\",\"themes/default/img/icon/tools-bar/circulo.png\",\"themes/default/img/icon/tools-bar/clientes_tb.png\",\"themes/default/img/icon/tools-bar/close.png\",\"themes/default/img/icon/tools-bar/contas.png\",\"themes/default/img/icon/tools-bar/contrato_tb.png\",\"themes/default/img/icon/tools-bar/ctx-acount.png\",\"themes/default/img/icon/tools-bar/ctx-attachment.png\",\"themes/default/img/icon/tools-bar/ctx-close.png\",\"themes/default/img/icon/tools-bar/ctx-delete.png\",\"themes/default/img/icon/tools-bar/ctx-demote.png\",\"themes/default/img/icon/tools-bar/ctx-details.png\",\"themes/default/img/icon/tools-bar/ctx-payment.png\",\"themes/default/img/icon/tools-bar/ctx_benefic.png\",\"themes/default/img/icon/tools-bar/ctx_disponive.png\",\"themes/default/img/icon/tools-bar/ctx_documents.png\",\"themes/default/img/icon/tools-bar/ctx_family.png\",\"themes/default/img/icon/tools-bar/ctx_group.png\",\"themes/default/img/icon/tools-bar/ctx_house.png\",\"themes/default/img/icon/tools-bar/ctx_info.png\",\"themes/default/img/icon/tools-bar/ctx_mudar_prop.png\",\"themes/default/img/icon/tools-bar/ctx_process.png\",\"themes/default/img/icon/tools-bar/ctx_selecionado.png\",\"themes/default/img/icon/tools-bar/ctx_text_list.png\",\"themes/default/img/icon/tools-bar/delete.png\",\"themes/default/img/icon/tools-bar/desativar.png\",\"themes/default/img/icon/tools-bar/disable.png\",\"themes/default/img/icon/tools-bar/distribuir.png\",\"themes/default/img/icon/tools-bar/document-excel.png\",\"themes/default/img/icon/tools-bar/document-pdf.png\",\"themes/default/img/icon/tools-bar/down.png\",\"themes/default/img/icon/tools-bar/edit.png\",\"themes/default/img/icon/tools-bar/emitir_factura.png\",\"themes/default/img/icon/tools-bar/enable.png\",\"themes/default/img/icon/tools-bar/entrar.png\",\"themes/default/img/icon/tools-bar/enviar_notificacoes.png\",\"themes/default/img/icon/tools-bar/enviar_roxo.png\",\"themes/default/img/icon/tools-bar/enviar_verde.png\",\"themes/default/img/icon/tools-bar/error.png\",\"themes/default/img/icon/tools-bar/et-add.png\",\"themes/default/img/icon/tools-bar/excel.png\",\"themes/default/img/icon/tools-bar/exportar.png\",\"themes/default/img/icon/tools-bar/familiares.png\",\"themes/default/img/icon/tools-bar/filtro.png\",\"themes/default/img/icon/tools-bar/fim.png\",\"themes/default/img/icon/tools-bar/gerencia.png\",\"themes/default/img/icon/tools-bar/grosso.png\",\"themes/default/img/icon/tools-bar/help.png\",\"themes/default/img/icon/tools-bar/imagem.png\",\"themes/default/img/icon/tools-bar/importar.png\",\"themes/default/img/icon/tools-bar/indutria.png\",\"themes/default/img/icon/tools-bar/iniciar_processo.png\",\"themes/default/img/icon/tools-bar/invoice.png\",\"themes/default/img/icon/tools-bar/keepass.png\",\"themes/default/img/icon/tools-bar/key__pencil.png\",\"themes/default/img/icon/tools-bar/key_arrow.png\",\"themes/default/img/icon/tools-bar/key_delete.png\",\"themes/default/img/icon/tools-bar/key_go.png\",\"themes/default/img/icon/tools-bar/key_plus.png\",\"themes/default/img/icon/tools-bar/keys.png\",\"themes/default/img/icon/tools-bar/liberar_tarefa.png\",\"themes/default/img/icon/tools-bar/lista.png\",\"themes/default/img/icon/tools-bar/mail.png\",\"themes/default/img/icon/tools-bar/mapa.png\",\"themes/default/img/icon/tools-bar/modulos.png\",\"themes/default/img/icon/tools-bar/mostrar.png\",\"themes/default/img/icon/tools-bar/new_modulo.png\",\"themes/default/img/icon/tools-bar/new_page.png\",\"themes/default/img/icon/tools-bar/next.png\",\"themes/default/img/icon/tools-bar/novo_cliente.png\",\"themes/default/img/icon/tools-bar/novo_contrato.png\",\"themes/default/img/icon/tools-bar/ocultar.png\",\"themes/default/img/icon/tools-bar/pagar.png\",\"themes/default/img/icon/tools-bar/pdf.png\",\"themes/default/img/icon/tools-bar/percentage.png\",\"themes/default/img/icon/tools-bar/perda_bonificacao.png\",\"themes/default/img/icon/tools-bar/preview.png\",\"themes/default/img/icon/tools-bar/print.png\",\"themes/default/img/icon/tools-bar/printer.png\",\"themes/default/img/icon/tools-bar/publish.png\",\"themes/default/img/icon/tools-bar/reenviar_notficacoes.png\",\"themes/default/img/icon/tools-bar/refresh.png\",\"themes/default/img/icon/tools-bar/regularizar.png\",\"themes/default/img/icon/tools-bar/retalho.png\",\"themes/default/img/icon/tools-bar/save.png\",\"themes/default/img/icon/tools-bar/search.png\",\"themes/default/img/icon/tools-bar/self-service.png\",\"themes/default/img/icon/tools-bar/send.png\",\"themes/default/img/icon/tools-bar/sitemap.png\",\"themes/default/img/icon/tools-bar/sms.png\",\"themes/default/img/icon/tools-bar/start.png\",\"themes/default/img/icon/tools-bar/switch.png\",\"themes/default/img/icon/tools-bar/tab.png\",\"themes/default/img/icon/tools-bar/tb_acercar.png\",\"themes/default/img/icon/tools-bar/tb_agregado-seriado.png\",\"themes/default/img/icon/tools-bar/tb_agregado-trocar.png\",\"themes/default/img/icon/tools-bar/tb_apartment.png\",\"themes/default/img/icon/tools-bar/tb_building.png\",\"themes/default/img/icon/tools-bar/tb_caderno.png\",\"themes/default/img/icon/tools-bar/tb_categoria.png\",\"themes/default/img/icon/tools-bar/tb_classification.png\",\"themes/default/img/icon/tools-bar/tb_close.png\",\"themes/default/img/icon/tools-bar/tb_community-equipment.png\",\"themes/default/img/icon/tools-bar/tb_distanciar.png\",\"themes/default/img/icon/tools-bar/tb_document.png\",\"themes/default/img/icon/tools-bar/tb_entrega_cartao.png\",\"themes/default/img/icon/tools-bar/tb_evaluation.png\",\"themes/default/img/icon/tools-bar/tb_habitacao.png\",\"themes/default/img/icon/tools-bar/tb_historico.png\",\"themes/default/img/icon/tools-bar/tb_housing-complex.png\",\"themes/default/img/icon/tools-bar/tb_imoveis.png\",\"themes/default/img/icon/tools-bar/tb_janela-dupla.png\",\"themes/default/img/icon/tools-bar/tb_licenca.png\",\"themes/default/img/icon/tools-bar/tb_link.png\",\"themes/default/img/icon/tools-bar/tb_lista.png\",\"themes/default/img/icon/tools-bar/tb_livrete.png\",\"themes/default/img/icon/tools-bar/tb_market.png\",\"themes/default/img/icon/tools-bar/tb_medir.png\",\"themes/default/img/icon/tools-bar/tb_medir_area.png\",\"themes/default/img/icon/tools-bar/tb_observacoes.png\",\"themes/default/img/icon/tools-bar/tb_print_actualizar.png\",\"themes/default/img/icon/tools-bar/tb_processos.png\",\"themes/default/img/icon/tools-bar/tb_refresh.png\",\"themes/default/img/icon/tools-bar/tb_search_land.png\",\"themes/default/img/icon/tools-bar/tb_statistically.png\",\"themes/default/img/icon/tools-bar/tb_vista-anterior.png\",\"themes/default/img/icon/tools-bar/tb_vista-inicial.png\",\"themes/default/img/icon/tools-bar/tb_zoom-janela.png\",\"themes/default/img/icon/tools-bar/transferir.png\",\"themes/default/img/icon/tools-bar/turismo.png\",\"themes/default/img/icon/tools-bar/view.png\"]";
 		}
-		Igrp.getInstance().getResponse().setContentType("application/json");
-		return Igrp.getInstance().getResponse().getWriter().append(menu);
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(menu);
 	}
 	
 	//Extracting reserve code inserted by programmer
-	public PrintWriter actionPreserveUrl() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("application/xml");
+	public Response actionPreserveUrl() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String page = Igrp.getInstance().getRequest().getParameter("page");
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 		String ac = Igrp.getInstance().getRequest().getParameter("ac");
 		String your_code = "";
 		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
-			String basePath = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
-			String controller = FileHelper.readFile(basePath, page+"Controller.java");
-			if(controller!=null && !controller.equals("")){
+			String controller = this.getPageController(app,page);
+			if(controller!=null){
 				if(type.equals("c_import")){
-					int start = controller.indexOf(Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER);
-					int end = controller.indexOf(Config.RESERVE_CODE_END);
-					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_IMPORP_PACKAGE_CONTROLLER.length(), end):"";
+					int start = controller.indexOf(Config.getStartReseveCodeAction("PACKAGES_IMPORT"));
+					int end = controller.indexOf(Config.getEndReserveCode());
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction("PACKAGES_IMPORT").length(), end):"";
 				}else if(type.equals("c_actions")){
-					int start = controller.indexOf(Config.RESERVE_CODE_ACTIONS_CONTROLLER);
-					int end =  start!=-1? controller.indexOf(Config.RESERVE_CODE_END,start):-1;
-					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.RESERVE_CODE_ACTIONS_CONTROLLER.length(),end):"";
+					int start = controller.indexOf(Config.getStartReseveCodeAction("CUSTOM_ACTIONS"));
+					int end =  start!=-1? controller.indexOf(Config.getEndReserveCode(),start):-1;
+					your_code = (start!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction("CUSTOM_ACTIONS").length(),end):"";
 				}else if(ac!=null && !ac.equals("") && type.equals("c_on_action")){
 					String actionName = "action"+ac;
 					int start_ = controller.indexOf(actionName);
-					int start = start_!=-1?controller.indexOf(Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER,start_):-1;
-					int end = start!=-1?controller.indexOf(Config.RESERVE_CODE_END,start):-1;
-					your_code = (start!=-1 && start_!=-1 && end!=-1)?controller.substring(start+Config.RESERCE_CODE_ON_ACTIONS_CONTROLLER.length(), end):"";
+					int start = start_!=-1?controller.indexOf(Config.getStartReseveCodeAction(ac),start_):-1;
+					int end = start!=-1?controller.indexOf(Config.getEndReserveCode(),start):-1;
+					your_code = (start!=-1 && start_!=-1 && end!=-1)?controller.substring(start+Config.getStartReseveCodeAction(ac).length(), end):"";
 				}else if(ac!=null && !ac.equals("") && type.equals("exception_after_action")){
 					String actionName = "action"+ac;
 					int start_ = controller.indexOf(actionName);
-					int start = controller.indexOf("IOException",start_);
+					int start = controller.indexOf(")",start_);
 					int end = start!=-1?controller.indexOf("{",start):-1;
-					your_code = (start_!=-1 && start!=-1 && end!=-1)?controller.substring(start+"IOException".length(), end):"";
+					your_code = (start_!=-1 && start!=-1 && end!=-1)?controller.substring(start+")".length(), end):"";
 				}
 			}
 		}
 		your_code = StringEscapeUtils.escapeXml(your_code);
-		return Igrp.getInstance().getResponse().getWriter().append("<your_code>"+your_code+"</your_code>");
+		return this.renderView("<your_code>"+your_code+"</your_code>");
 	}
 	
+	private String getPageController(String app,String page) {
+		String workspace = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
+		String controller = null;
+		if(FileHelper.dirExists(workspace)){
+			controller = FileHelper.readFile(workspace, page+"Controller.java");
+		}
+		else{
+			workspace = Config.getBasePathClass()+"nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
+			if(FileHelper.fileExists(workspace+page+"Controller.java")){
+				controller = FileHelper.readFile(workspace, page+"Controller.java");
+			}
+		}
+		return controller;
+	}
+
 	public void actionListService(){
 		
 	}
 	
 	//View page with xml
-	public PrintWriter actionVisualizar() throws IOException{
-		Igrp.getInstance().getResponse().setContentType("application/xml");
+	public Response actionVisualizar() throws IOException{
 		String p_id = Igrp.getInstance().getRequest().getParameter("id");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));	
 		if(ac!=null){			
-			String filename = Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
-			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
-			InputStream inputStrem = context.getResourceAsStream(filename);
-	        if (inputStrem != null) {
-	            InputStreamReader inputSReader = new InputStreamReader(inputStrem);
-	            BufferedReader reader = new BufferedReader(inputSReader);
-	            PrintWriter writer = Igrp.getInstance().getResponse().getWriter();
-	            String text;
-	            while ((text = reader.readLine()) != null) {
-	                writer.println(text);
-	            }
-	            reader.close();
-	            inputSReader.close();
-	           return writer;
-	        }
+			String content = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac),ac.getPage()+".xml");
+			return this.renderView(content);
 		}
 		return null;
 	}
-
+	
+	//For Editor
+	public Response actionMetodosCore(){
+		List<Map<String,List<String>>> metodos = new ArrayList<>();
+		for(Method method:Core.class.getDeclaredMethods()){
+			Map<String,List<String>> m = new HashMap<>();
+			List<String> mm = new ArrayList<>();
+				for(Parameter param:method.getParameters()){
+					mm.add(param.getName());
+				}
+			m.put(method.getName(), mm);
+			metodos.add(m);
+		}
+		this.format = Response.FORMAT_JSON;
+		return this.renderView(new Gson().toJson(metodos));
+	}
+	
+	
+	public Response actionListDomains() throws IOException{
+	 	String json = "{\"list\":[\"7M_CATEGORIAS\",\"ACL_ELEMENT\",\"ACOMP_ENT\",\"ACOMP_EST_PROD\",\"ALIENACAO_FOGO\",\"ALINHAMENTO\",\"ALTERAR NOTA\",\"ALT_MTR_CM\",\"ALT_PRD_CM\",\"ALT_VEL_INV\",\"AMBEINTE\",\"AMBIENTE\",\"AM_FAMILY_ASSET\",\"AM_MANDATORY\",\"AM_PORT_TYPE\",\"AM_RACK_SPEC\",\"AM_STATUS\",\"AM_TIPO_SPEC\",\"ANEXO_EXPEDIENTE\",\"ANO\",\"AREA_DETALHE\",\"ARFA_SETOR\",\"ARFA_TP_DIPLOMA\",\"ARM_FINANCIADOR\",\"ARM_PRIORIDADE\",\"ARM_USO\",\"ASSOCIAR\",\"ASSOC_NEGOCIOS\",\"AVALIA CONVITE\",\"AVALIAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O ATRIBUÃƒÆ’Ã¯Â¿Â½DA\",\"AVAL_OBRA\",\"AVD_ACEITAR\",\"AVD_COMPETENCIA\",\"AVD_DIMENSAO\",\"AVD_GRAFICO\",\"AVD_HORA\",\"AVD_METRICAS\",\"AVD_TIP_AVA\",\"BANCO\",\"BUSS_AREA\",\"BUS_AR\",\"CAB_DEC\",\"CAD_ALTIMETRIA\",\"CAD_DESPACHO\",\"CAD_ESTADO\",\"CAD_PARECER\",\"CAD_PONTOS\",\"CAD_TIPO_CLAIM\",\"CAD_TP_STATUS\",\"CAPITALIZAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"CARLOS_CATEGORIA\",\"CARLOS_LOCALIDADE\",\"CARLOS_STATUS\",\"CATEGORY_TYPE\",\"CAT_AREA_NEG\",\"CAT_CATEG_PRODUTO\",\"CAT_ESTADO\",\"CAT_EST_PROJ\",\"CAT_FUNCAO\",\"CAT_NIVEL_ACESSO\",\"CAT_NIVEL_ESCOLAR\",\"CAT_OBJECTO\",\"CAT_ORIG_CLI\",\"CAT_ORIG_REC\",\"CAT_TP_CLIENTE\",\"CAT_TP_DOC\",\"CAT_TP_INTERVENCAO\",\"CAT_TP_OBS\",\"CHART_TYPE\",\"CLONE_OPTION\",\"CLONE_OPTION_ACT\",\"CODE_PEDIDO\",\"CODE_PERFIL\",\"CONDITION\",\"CONTINENTE\",\"CONTR_TP_DEBITO\",\"CON_EXT_ESTADO\",\"COR\",\"CUSTA_BENEFICIARIO\",\"CUSTA_TP_NATUREZA\",\"DATA_SOURCE\",\"DECISAO\",\"DECLARACAO_FISCAL\",\"DEMO\",\"DEMO_DEMO_IGRP\",\"DESTINO_OBRA\",\"DGESC - GRAU EQUIVALÃƒÆ’Ã…Â NCIA\",\"DM_MEIO_PAG\",\"DM_N_INSCRITO\",\"DM_PARECER\",\"DM_TP_FILTRO\",\"DM_TP_HIST_LAB\",\"DM_TP_MUDANCA\",\"DOC_MNEC\",\"DOC_STATUS\",\"D_ABONO\",\"D_ARM_ARMAZEM\",\"D_ARM_ESTADO_INVENTARIO\",\"D_ARM_ESTADO_REG\",\"D_ARM_FINANCIADOR\",\"D_ARM_MARCA\",\"D_ARM_MOEDA\",\"D_ARM_SIM_NAO\",\"D_ARM_TP_MOVIMENTO\",\"D_ARM_TP_PRODUTO\",\"D_CATEGORY_TYPE\",\"D_CLASS_TYPE\",\"D_COMPTBLDD\",\"D_CONTRIBUINTE\",\"D_DESPACHO\",\"D_MEIO_PAGAMENTO\",\"D_MOMENTO_COBRANCA\",\"D_PARECER\",\"D_PRIORIDADE\",\"D_REGIME_BENS\",\"D_RNI_ESTADO_CIVIL\",\"D_RNI_ORGAO\",\"D_RNI_TP_DOC\",\"D_SNC_ENTIDADE\",\"D_TIPO_PASSAPORTE\",\"D_TIPO_URGENCIA_PASS\",\"D_USO\",\"ECRAN_DETAILS\",\"ECRAN_DET_INFO\",\"ECRAN_DET_REGRA\",\"ECRAN_DET_VALID\",\"EDUGLOBAL - MENU\",\"EFECTIVO\",\"EFEITO_FORM\",\"ENT_APROVACAO\",\"ENV_DETAILS\",\"EQUIV_DOC\",\"ESTADO\",\"ESTADO ASSOC\",\"ESTADO_AGENDA\",\"ESTADO_APROVACAO_FATURA\",\"ESTADO_CABIMENTO_FATURA\",\"ESTADO_CLAIM\",\"ESTADO_CONFLITO\",\"ESTADO_FATURA\",\"ESTADO_FATURA_APROVA\",\"ESTADO_INVENTARIO\",\"ESTADO_MOBILIDADE\",\"ESTADO_PARTY\",\"ESTADO_PGTO\",\"ESTADO_REGISTO\",\"EST_PROJ\",\"EVEN_ESTADO\",\"EVEN_T_AREA\",\"EVEN_T_CATEGORY\",\"EVEN_T_MUNICIP\",\"EVEN_T_RECURSO\",\"EXTENSAO\",\"FASE_PROC_TOPO\",\"FATURA_ACOMPANHAMENTO\",\"FINANCIADOR\",\"FISC_CM_RESULT\",\"FLUENCIA_LEC_ESC\",\"GE:_ESTADO_CIVIL\",\"GENERATOR\",\"GE_ESTADO_FISICO_REGISTRO\",\"GE_LADO\",\"GE_MANU_AUTOM\",\"GE_NATURALEZA\",\"GE_OFICINA\",\"GE_ORIGEM_REGISTRO\",\"GE_REG_SEXO\",\"GE_REG_T_MATRIMONIO\",\"GE_SEXO\",\"GE_STATUS\",\"GE_TIPO_CONTRATO\",\"GE_TIPO_DOCUMENTO\",\"GE_TIPO_OBJETO\",\"GE_TIPO_REGISTRO\",\"GRAFICO_MOVEL\",\"GRAM_GEN\",\"GRAM_NUM\",\"GRAU_ACADEMICO\",\"GRE_TP_DEC\",\"GRUPO_PROFISSIONAL\",\"IGRP_APLICACOES\",\"IGRP_DIMENSOES\",\"IGRP_LIC_TIPO_MUDANCA\",\"IGRP_LIC_TP_DOC_PESQ\",\"IGRP_METRICAS\",\"IGRP_THEMES\",\"IIH_ESTADO_CONSER\",\"IIH_EXI_MANUT\",\"IIH_EXTRACAO_AGUA\",\"IIH_FORMA_BASE\",\"IIH_GESTAO\",\"IIH_IMPLANTACAO\",\"IIH_INEX_MUITO\",\"IIH_LOCAL_FISICA\",\"IIH_PROV_AGUA\",\"IIH_PROX_CASA\",\"IIH_TIPO_AQUIFERO\",\"IIH_TIPO_BOMBA\",\"IIH_TIPO_BOMBA_SB\",\"IIH_TIPO_CONSTRUCAO\",\"IIH_TIPO_DADOS\",\"IIH_TIPO_ENERGIA\",\"IIH_TIPO_OBJECTO\",\"IIH_USO_AGUA\",\"INFO_DOC_TYPE\",\"INSTANCE_FLOW\",\"INTEGRATION\",\"INVESTIMENTO\",\"IN_OUT\",\"ITALICO\",\"JUROS\",\"LAB\",\"LAB_REDLAB\",\"LANG_CODE\",\"LIMITES_DIREITOS\",\"LMITS_ESTADO\",\"LMITS_ESTADO_ENTREGA\",\"LMITS_ESTADO_PEDIDO\",\"LOOKUP_DB\",\"LOOP_FLOW\",\"L_SIGE_ANO\",\"L_SIGE_ANO_LETIVO\",\"L_SIGE_AREA\",\"L_SIGE_NIVEL_ENSINO\",\"L_SIGE_PERIODO\",\"MARAVILHA\",\"MARITAL\",\"MC_ACTIVIDADE\",\"METRICAS_ASSOC\",\"MIREX_TP_DOMINIO\",\"MIREX_TP_NATUREZA\",\"MNOVU - CONCURSO\",\"MNOVU - CONTEMPLADO\",\"MNOVU - EQUIPAMENTO\",\"MNOVU - FACTOR\",\"MNOVU - FORMULA\",\"MNOVU - TP- FICHA\",\"MNOVU_CONFIRMADO\",\"MNOVU_CONTEMPLADO\",\"MNOVU_GRUPO_ITEM\",\"MNOVU_GRUPO_TP_FICHA\",\"MNOVU_NR_PRESTACAO\",\"MNOVU_VALIDADO\",\"MOEDA\",\"MONTH\",\"MOTIVO_PERDA\",\"NATIVENESS\",\"NATUREZA_OBRA\",\"NAT_JURIDICA\",\"NEGRITO\",\"NIF_GE_COMBO_DIMENSIONES\",\"NIF_GE_COMBO_METRICAS\",\"NIF_GE_ESTADO\",\"NIF_GE_ESTADO_NIF\",\"NIF_GE_FORMA_JURIDICA\",\"NIF_GE_TP_AUTORIZACION\",\"NIF_GE_TP_CONTRIBUYENTE\",\"NIF_GE_TP_DOCUMENTO\",\"NIVEL DE ALCANCE DA META\",\"NIVEL DE ALCANCE DO COMPORTAMENTO\",\"NIVEL_INSTRUCAO\",\"NOTIFICA_ENTIDADE\",\"NOTIF_EST_ENVIO\",\"NOTIF_PERIODIC\",\"NOT_DIMENSAO\",\"NOT_MODALIDADE\",\"NUMERACAO\",\"N_TENDO\",\"OBJ_FISCALIZACAO_CM\",\"OPERADORA_CHIP\",\"ORD_T_ESPECIALIDADE\",\"ORD_T_ESTADO\",\"ORD_T_INSCRICAO\",\"ORD_T_TIPO\",\"ORD_T_TIPO_EXERCICIO\",\"ORD_T_TIPO_ORD\",\"ORG_CLONE_OPTION\",\"PAGE_TYPE\",\"PAG_OP\",\"PARAMETRIZA_ASSOC\",\"PARECER_AMBIENTAL\",\"PARECER_AUG\",\"PARECER_AUGI\",\"PARECER_CONFLITO\",\"PARECER_SOCIAL_GENERO\",\"PARTY_TYPE\",\"PART_ORAGNICA_DEFAULT\",\"PART_TP_PART_PAI_FILHO\",\"PART_T_ENTIDADE\",\"PED_MNEC\",\"PERF_CLONE_OPTION\",\"PLAN_DOC_TYPE\",\"POR_ATOS\",\"PPOJ_FINAL\",\"PRAZO\",\"PRECAD_AGENDA_VISITA\",\"PRECAD_CONC_ADMIN\",\"PRECAD_DECL\",\"PRECAD_DOMINIO_LINGUA\",\"PRECAD_ESTADO_RECOMENDACAO\",\"PRECAD_FASE_CLAIM\",\"PRECAD_FINALIDADE\",\"PRECAD_FORMA_AQUISICAO\",\"PRECAD_GRAU_ESCOLAR\",\"PRECAD_LINGUA\",\"PRECAD_MEDIDA_DURACAO\",\"PRECAD_MSG_ERRO\",\"PRECAD_NACIONALIDADE\",\"PRECAD_NATUREZA\",\"PRECAD_OPINIAO_EAT\",\"PRECAD_OPINIAO_EAT_MA\",\"PRECAD_PH_FRACAO\",\"PRECAD_REL_AGREGADO\",\"PRECAD_SITUACAO_LAB\",\"PRECAD_TIPOLOGIA_TITULAR\",\"PRECAD_TIPO_DADOS\",\"PRECAD_TIPO_OCUPANTE\",\"PRECAD_TIPO_VISITA\",\"PRECAD_TP_NECES_ESPECIAL\",\"PRIORITY\",\"PROC_ACT\",\"PROD\",\"PROD_EXA_SNIACPROD\",\"PROD_INPSEXA\",\"PROD_NOSIPROD1\",\"PROD_RNIEXA\",\"PROD_SAUDEEXA\",\"PROFILE_TYPE\",\"PROJECT_TYPE\",\"PROJ_ARQ_TP\",\"PROJ_PROF\",\"PUBLICO_ALVO\",\"REASON_ACTION\",\"RECLAMAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"RECLAMAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O OU RECURSO\",\"RECURSO\",\"REG\",\"REQ_TYPE\",\"REQ_T_DOCUMENT\",\"RESUL_FISC_CM\",\"RES_APROVACAO\",\"RES_FASE_PLANO\",\"REUSL_TOPO\",\"RH_DIMENSAO\",\"RH_ESTADO\",\"RH_METRICA\",\"RH_METRICAS\",\"RH_QUADRO_PENSAO\",\"RNI_TIPO_SERVICO\",\"RRR_OBJ_TYPE\",\"SEARCH_TYPE\",\"SECTOR\",\"SEMANA\",\"SEND_MANNER\",\"SEND_STATUS\",\"SEND_TYPE\",\"SEXO\",\"SIGE -  PERIODO\",\"SIGE -  TIPO MENU\",\"SIGE - AGENDA REPETICAO\",\"SIGE - ANO CURRICULAR\",\"SIGE - ANO LECTIVO\",\"SIGE - APROVEITAMENTO\",\"SIGE - AREA\",\"SIGE - CICLO\",\"SIGE - COMPORTAMENTO\",\"SIGE - ESCALAO\",\"SIGE - ESCOLA\",\"SIGE - ESPECIALIDADE\",\"SIGE - ESTADO\",\"SIGE - ESTADO DISC ALUNO\",\"SIGE - ESTADO FALTA\",\"SIGE - ESTADO PEDIDO\",\"SIGE - MENU ITEM PAI\",\"SIGE - MOTIVO ANULACAO\",\"SIGE - MOTIVO REDUCAO PROP\",\"SIGE - NR IRMAO ENSINO\",\"SIGE - ORIGEM PEDIDO\",\"SIGE - PAUTA_REG_OBS\",\"SIGE - PERIODO PROPINA\",\"SIGE - TIPO DE NOTA\",\"SIGE - TIPO FALTA\",\"SIGE - TITULAR DECLARAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"SIGE - VIA\",\"SIGE- TRIMESTRE\",\"SIGE_EFEITO_DECLARAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"SIGE_MOTIVO_JUSTIFICACAO\",\"SIGE_NR_MATRICULA\",\"SIGE_PARENTESCO\",\"SIGE_S_N\",\"SIGE_TP_ASSUNTO\",\"SIGE_TP_DECLARACAO\",\"SIGE_VIA_MARCACAO_SUMARIO\",\"SIGPG_STOCK\",\"SIGPG_TIPO_BEM\",\"SIG_MUNICIPIOS_CV\",\"SIMNAO\",\"SIM_ASC_TP_PREDIO\",\"SIM_NAO\",\"SIN_OUTORG_ORDEM\",\"SIS_PAGAMENTO\",\"SNC_CARGO\",\"SNC_ESTADO_ASSOC\",\"SNC_TIPO_ASSOCIACAO\",\"SNC_TIPO_DOCUMENTO\",\"SNIAC_CONSULTA\",\"SNIAC_MOTIVO_2VIA\",\"SNITE_FUNCTIONAL_ROAD_CLASS\",\"SNITE_OBJ_TP_DOC\",\"SOCIAL_ESTADO\",\"SOCIAL_SIM_NAO\",\"STAGE\",\"STAGE_STAGIN\",\"START_MODE\",\"STATUS\",\"STATUS_DIVIDA\",\"STATUS_NAME\",\"STATUS_PART\",\"STATUS_VERSAO\",\"ST_ METRICA\",\"ST_ METRICA_PGTO\",\"ST_ METRICA_PRST\",\"ST_ASSOC\",\"ST_A_PNS_SUB\",\"ST_DIMENSAO\",\"ST_DIMENSAO_ PGTO\",\"ST_DIMENSAO_ PRST\",\"ST_ESTADO\",\"ST_ESTADO_CNTB\",\"ST_ESTADO_ENTIDADE\",\"ST_ESTADO_PROCESSO\",\"ST_EST_MULT\",\"ST_EST_VALD\",\"ST_FOS_ENTRADA\",\"ST_FOS_ENTREGA\",\"ST_F_PAGAMENTO\",\"ST_MTV\",\"ST_NOTIFICA\",\"ST_PROC\",\"ST_PRST\",\"ST_QUALIFICA\",\"ST_TP_ACAO\",\"ST_TP_CONTRIBUINTE\",\"ST_TP_DOC\",\"ST_TP_DOC_PROC\",\"ST_TP_FNCRO\",\"ST_TP_FOS\",\"ST_TP_PEDIDO\",\"ST_TP_PESQ\",\"ST_TP_REG\",\"ST_TP_UTENTE\",\"ST_VALIDA\",\"SUBLINHADO\",\"TARGET\",\"TEMPO\",\"TESTE\",\"TESTE_DEPLOY\",\"TES_CX_STATUS\",\"TES_STATUS\",\"TES_T_POSTO\",\"TES_T_TESOURARIA\",\"TF\",\"TIMESTOPSUNITS\",\"TIME_UNITY\",\"TIPO\",\"TIPO_ANEXO\",\"TIPO_CUSTA\",\"TIPO_DOC_MOV\",\"TIPO_ESCALA\",\"TIPO_FILME\",\"TIPO_PD\",\"TIPO_PROTECAO\",\"TIPO_RECLAMAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"TIPO_SALDO\",\"TIPO_UTENTE\",\"TIP_CONST\",\"TOPO_OBJ_COMP\",\"TOPO_PAR\",\"TP_ANO\",\"TP_APROVEITAMENTO\",\"TP_COMISSAO\",\"TP_COMPROMISS\",\"TP_CONTACTO\",\"TP_DIMENSAO_IND\",\"TP_DIVIDA\",\"TP_DOC\",\"TP_DOCUMENTO\",\"TP_DOC_CONS_EXT\",\"TP_DOC_INPS\",\"TP_DOC_NEGOCIOS\",\"TP_ENCAMINHAMENTO_CM\",\"TP_ENTIDADE\",\"TP_ENTITY\",\"TP_ESTADO\",\"TP_ESTADO_IRRE\",\"TP_ESTADO_IRREGULARIDADE\",\"TP_EXECUCAO\",\"TP_FERIA\",\"TP_FICHA\",\"TP_FONTE_DADO\",\"TP_FONTE_DADOS\",\"TP_FUNCIONARIO\",\"TP_FUNC_RH\",\"TP_GRAFICO\",\"TP_HORA\",\"TP_INSTITUICAO\",\"TP_INTERVENIENTE \",\"TP_INTERVINIENTE\",\"TP_LEIS\",\"TP_LOTE\",\"TP_LOTEAMENTO\",\"TP_MOVEL\",\"TP_NATUREZA\",\"TP_NUMERACAO\",\"TP_OCUPACAO\",\"TP_OPERACAO\",\"TP_ORIGEM\",\"TP_PARTILHA\",\"TP_PARTY\",\"TP_PERMISAO\",\"TP_PRESTADOR\",\"TP_Pessoa\",\"TP_RECLAMACAO\",\"TP_REP_GEOG\",\"TP_REQUERENTE\",\"TP_SOCIEDADE\",\"TP_TERMINAL\",\"TRIMESTRE\",\"TYPE_MULTI\",\"TYPE_PONDERAÃƒÆ’Ã¢â‚¬Â¡ÃƒÆ’Ã†â€™O\",\"T_REC\",\"Tipologia\",\"USERPROFILE\",\"USERSTATUS\",\"VAL_EXEC_OBRA\",\"VAL_FISC_OBRA\",\"VIA_LEVANTAMENTO\",\"VISTO_MNEC\",\"WF_COND\",\"WF_DOCTP_AUX\",\"WF_RUN_TYPE\",\"WF_STATUS\",\"WF_TIME_SCALE\",\"XXX\",\"YES_NO\",\"custa_t_tp_iten\",\"d_cad_tipologia\",\"mes_ref\",\"tp_recurso\",\"tp_stake\"]}";;
+	 	this.format = Response.FORMAT_JSON;
+		return this.renderView(json);
+	}
+	
+	public Response actionDomainsValues() throws IOException{
+		 String json = "[{\"value\": \"Y\",\"text\": \"Sim\"},{\"value\": \"N\",\"text\": \"Nao\"}]";
+		 this.format = Response.FORMAT_JSON;
+		 return this.renderView(json);
+	}
+	
+	public Response actionGetPageJson() throws IOException{
+		 String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		 String json = "";
+		 if(p_id!=null && !p_id.equals("")){
+			 Action ac = new Action().findOne(Integer.parseInt(p_id));
+			 if(ac!=null){
+				 json = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac), ac.getPage()+".json");
+			 }
+		 }
+		 this.format = Response.FORMAT_JSON;
+		 return this.renderView(json);
+	}
+	/*----#END-PRESERVED-AREA----*/
 }

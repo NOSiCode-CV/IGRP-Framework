@@ -56,12 +56,12 @@
     animation: fa-spin 2s infinite linear;
 }
 
-.box-tm .nav-list .holder{
+/*.box-tm .nav-list .holder{
 	margin-left: 10px;
-}
+}*/
 
 .box-tm .nav-list .holder .icon {
-	left: 5px;
+	left: 20px;
 }
 
 .box-tm .nav-list li .tree-toggler[type='active'] .icon{
@@ -94,13 +94,40 @@
 	display: block;
 }*/
 
+.box-tm .nav.nav-list.tree > li > a{
+	position: static;
+}
+
+.box-tm .nav.nav-list.tree > li > a.holder .icon{
+	left:15px;
+}
+
+.box-tm .nav.nav-list.tree > li > a.holder:before{
+	top: 0px;
+	right:100%;
+}
+
+.box-tm .nav.nav-list.tree > li > a.holder:hover:before,
+.box-tm .nav.nav-list.tree > li > a.holder:focus:before{
+	background-color: #eee;
+	text-decoration: none;
+}
+
+.box-tm .nav > li > a>i.fa+*{
+	margin-left: 25px;
+}
+
+.box-tm .nav.nav-list.tree > li > a>i.fa+*{
+	margin-left: 15px;
+}
+
 .box-tm > ul > li.active>.nav-header>a{
-	font-weight: bold;
+	font-weight: 400;
 	color:#333;
 }
 
 .box-tm .tree li.active>a, .box-tm .tree li.active>.nav-header>a{
-	font-weight: bold;
+	font-weight: 400;
 	color: #333;
 }
 

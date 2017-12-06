@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="{$path}/core/normalize/normalize.css"/>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="{$path}/core/fontawesome/4.7/css/font-awesome.css"/>
-    
     <!-- BS CSS -->
     <xsl:if test="not($themeConfigData/css/@bootstrap) or $themeConfigData/css/@bootstrap!='false'">
       <link rel="stylesheet" href="{$path}/core/bootstrap/{$bs-v}/css/bootstrap.min.css"/>
@@ -21,13 +20,12 @@
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
     </xsl:if>
     <!-- BS CSS -->
-
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
     </xsl:if>
     <!--/DEFAULT CSS -->
-    
+
     <!-- THEME CSS -->
     <xsl:for-each select="$themeConfigData/css/file">
       <xsl:choose>
@@ -40,12 +38,14 @@
       </xsl:choose>
     </xsl:for-each>
 
-    <xsl:if test="$themeConfigData/colors/color">
-      <xsl:apply-templates mode="theme-colors" select="$themeConfigData/colors"/>
+    <xsl:if test="$themeConfigData">
+      <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
     </xsl:if>
     <!-- /THEME CSS -->
-
     <!-- COLOR PALETTES -->
+
+    <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"/>
+
     <xsl:call-template name="colorpalettes-css"/>
     <!-- /COLOR PALETTES -->
     <!-- FORM -->
@@ -81,15 +81,16 @@
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
-    <!-- IGRP targets controller -->
+    <!-- IGRP sidebar controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
-    <!-- IGRP color palettes -->
-    <script src="{$path}/core/colorpalettes/palettes.js?v={$version}"></script>
+    <!-- IGRP scroll to top controller -->
+    <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
     <!-- IGRP XML XSL Transform -->
     <script src="{$path}/core/igrp/xml.xslt/xml.xsl.transform.js?v={$version}"></script>
-    
     <!-- IGRP handler -->
     <script encode="utf-8" src="{$path}/core/igrp/IGRP.handler.js?v={$version}"></script>
+
+    <xsl:call-template name="colorpalettes-js"/>
 
     <script>
       var path = '<xsl:value-of select="$path"/>';
@@ -201,7 +202,7 @@
                   <xsl:for-each select="submenu">
                     <li>
                       <a href="{link}" item-id="{$parentId}-{position()}">
-                          <i class="fa fa-angle-right"></i>
+                          <!-- <i class="fa fa-angle-right"></i> -->
                           <span><xsl:value-of select="title"/></span>
                       </a>
                     </li>
@@ -242,6 +243,10 @@
     <igrp-variables class="hidden invisible">
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
+
+    <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
+      <i class="fa fa-chevron-up"></i>
+    </button>
 
     <!-- IFRAME NAVIGATION MODAL -->
     <xsl:call-template name="iframe-nav"/>
@@ -337,8 +342,7 @@
   <!-- COLOR PALLETES -->
   <xsl:template name="colorpalettes-css">
     <style>
-      <xsl:variable name="palettesXML" select="concat($path,'/core/colorpalettes/palettes.xml')"/>
-      <xsl:for-each select="document($palettesXML)/palettes/color">
+      <xsl:for-each select="$palettesXML">
         .cp-<xsl:value-of select="@name"/> {
           background: <xsl:value-of select="."/>!important;
           border-color: <xsl:value-of select="."/>!important;
@@ -349,6 +353,24 @@
         }
       </xsl:for-each>
     </style>
+  </xsl:template>
+  <xsl:template name="colorpalettes-js">
+    <script>
+      $.IGRP.component('colorPalettes',{
+        colors : [
+        <xsl:for-each select="$palettesXML">
+          {
+            value:"cp-<xsl:value-of select="@name"/>",
+            label:"<xsl:value-of select="@name"/>",
+            color:"<xsl:value-of select="."/>",
+            text :"<xsl:value-of select="@bg-text-color"/>"
+          }<xsl:if test="position() != last()">,</xsl:if>
+        </xsl:for-each>
+        ]
+      });
+      
+
+    </script>
   </xsl:template>
   <!-- COLORS -->
   <xsl:template name="theme-colors" mode="theme-colors" match="*">
@@ -395,9 +417,16 @@
             </xsl:if>
           </xsl:variable>
 
+          <xsl:variable name="borderColor">
+            <xsl:if test="@border-color">
+             <xsl:text>border-color: </xsl:text><xsl:value-of select="@border-color"/>
+            </xsl:if>
+          </xsl:variable>
+
           .btn-<xsl:value-of select="name()"/> {
             background: <xsl:value-of select="."/>;
-            <xsl:value-of select="$color"/>
+            <xsl:value-of select="$color"/>;
+            <xsl:value-of select="$borderColor"/>
              
           }
 
@@ -457,6 +486,123 @@
 
       </xsl:for-each>
     </style>
+  </xsl:template>
+  <!-- COLORS Config -->
+  <xsl:template name="theme-colors-config" mode="theme-colors-config" match="*">
+    
+    <style>
+
+        <xsl:if test="nav">
+          <xsl:if test="nav/background">
+            #igrp-top-nav{
+              background-color:<xsl:value-of select="nav/background"/>
+            }
+          </xsl:if>
+        </xsl:if>
+
+ 
+        <xsl:if test="colors/color">
+          <!--  -->
+          a,.clickable,.btn-link{
+            color:<xsl:value-of select="colors/color[@link='true']"/>;
+          }
+          <xsl:variable name="link-hover-color">
+            <xsl:choose>
+              <xsl:when test="colors/color[@link='true']/@bg-hover">
+                <xsl:value-of select="colors/color[@link='true']/@bg-hover"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="colors/color[@link='true']"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+          
+          a:hover,
+          .clickable:hover,
+          a:focus,
+          .clickable:focus,
+          .btn-link:focus,
+          .btn-link:hover{
+            color:<xsl:value-of select="$link-hover-color"/>;
+          }
+          
+          <xsl:for-each select="colors/color">
+            
+            [bg-color="<xsl:value-of select="@name"/>"]{
+              background-color:<xsl:value-of select="."/>!important;
+              <xsl:if test="@text-color">
+                color: <xsl:value-of select="@text-color"/>!important;
+              </xsl:if>
+            }
+
+            [active-bg-color="<xsl:value-of select="@name"/>"].active{
+              background-color:<xsl:value-of select="."/>!important;
+              <xsl:if test="@text-color">
+                color: <xsl:value-of select="@text-color"/>!important;
+              </xsl:if>
+            }
+
+            [style-listener="true"].active [active-bg-color="<xsl:value-of select="@name"/>"]{
+              background-color : <xsl:value-of select="."/>!important;
+            }
+
+            <xsl:if test="@bg-hover">
+              [bg-hover="<xsl:value-of select="@name"/>"]:hover{
+                background-color:<xsl:value-of select="@bg-hover"/>;
+              }
+            </xsl:if>
+           
+            [border-color="<xsl:value-of select="@name"/>"]{
+              border-color:<xsl:value-of select="@border-hover"/>;
+            }
+            
+            [text-color="<xsl:value-of select="@name"/>"]{
+              color:<xsl:value-of select="."/>;
+            }
+
+            [active-text-color="<xsl:value-of select="@name"/>"].active,
+            .active [active-text-color="<xsl:value-of select="@name"/>"]{
+              color:<xsl:value-of select="."/>!important;
+            }
+
+            <!-- BUTTONS -->
+            .btn-<xsl:value-of select="@name"/>{
+              <xsl:if test="@text-color">
+                color:<xsl:value-of select="@text-color"/>;
+              </xsl:if>
+              background-color:<xsl:value-of select="."/>;
+              <xsl:choose>
+                <xsl:when test="@border-color">
+                  border-color:<xsl:value-of select="@border-color"/>;
+                </xsl:when>
+                <xsl:otherwise>
+                  border-color:transparent;
+                </xsl:otherwise>
+              </xsl:choose>
+
+            }
+
+            <xsl:if test="@bg-hover">
+              .btn-<xsl:value-of select="@name"/>:hover,
+              .btn-<xsl:value-of select="@name"/>.focus, 
+              .btn-<xsl:value-of select="@name"/>:focus{
+                background-color:<xsl:value-of select="@bg-hover"/>
+              }
+            </xsl:if>
+
+            <xsl:if test="@text-hover">
+              .btn-<xsl:value-of select="@name"/>:hover,
+              .btn-<xsl:value-of select="@name"/>.focus, 
+              .btn-<xsl:value-of select="@name"/>:focus{
+                color:<xsl:value-of select="@text-hover"/>
+              }
+            </xsl:if>
+
+          </xsl:for-each>
+        </xsl:if>
+
+    </style>
+ 
   </xsl:template>
   <!-- COLORS2 -->
   <xsl:template name="theme-colors2" mode="theme-colors2" match="*">

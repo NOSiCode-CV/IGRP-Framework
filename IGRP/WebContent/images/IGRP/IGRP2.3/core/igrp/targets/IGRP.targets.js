@@ -38,6 +38,7 @@
 
  			return false;
  		};
+ 	
  		//alert_submit
  		var alert_submit = function(p){
  			
@@ -244,13 +245,27 @@
 				success:function(c){
 		
 					var table = $('.gen-container-item[item-name="'+tableName+'"]'),
+
 						fitem = $('.igrp-table-filter [filter-item="'+filterLetter[1]+'"]',table);
 						
 					fitem.addClass('active');
 					
 					if($.IGRP.components.contextMenu)
+
 						$.IGRP.components.contextMenu.set( table );
 
+					if(table.find('table').hasClass('igrp-data-table')){
+						
+						var id = table.find('table').attr('id');
+
+						$.IGRP.components.tableCtrl.dataTable({
+
+							selector : 'table#'+id+'.igrp-data-table'
+
+						});
+						
+					}
+						
 				},
 
 				error:function(){
@@ -266,6 +281,7 @@
 
 			return false;
 		};
+		
 		//self
 		var _self        = function(p){
 			$.IGRP.utils.loading.show();
@@ -384,9 +400,16 @@
 
 		var closerefresh = function(p){
 			try{
-				var _window = window.opener ? window.opener : window.parent;
+
+				var popup 	= window.opener || false,
+					_window = popup || window.parent,
+					_window = _window.frames['head_filho'] || _window;
+				
 				_window.location.reload(true);
-				close();
+				
+				if(popup)
+					close();
+
 			}catch(e){null;}
 		};
 
@@ -404,6 +427,10 @@
 			$.each($('a[target], button[target]'),function(i,e){
 				e.events = $.EVENTS(['submit-ajax-complete','submit-ajax-error']);
 			});
+		};
+
+		var remoteList = function(p){
+
 		};
 
 		$.IGRP.targets = {
@@ -566,8 +593,17 @@
 
 				action : changesrc
 
-			}
+			}/*,
+
+			remotelist    : {
+
+				label : 'Remote Lista',
+
+				action : remoteList
+
+			}*/
 		};
+
 
 		$.IGRP.on('init',function(){
 			
@@ -632,7 +668,7 @@
 
  				if (canSubmit)
  					$.IGRP.utils.loading.show();
- 				
+
  				//return false;
 				return canSubmit;		
 

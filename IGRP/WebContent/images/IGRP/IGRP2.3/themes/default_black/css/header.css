@@ -1,0 +1,41 @@
+#igrp-top-nav.navbar{
+	background: #337ab7
+}
+
+.navbar-brand,
+#igrp-sidebar.sidebar{
+	background: #4d4f54;
+}
+
+#igrp-sidebar .nav-sidebar > li > a,
+.treeview-menu>li>a{
+	color:white;
+}
+
+#igrp-sidebar .nav-sidebar > li.active > a{
+	opacity: 1
+}
+
+.treeview-menu{
+	background:#35363a;
+}
+
+.navbar-brand>span{
+	margin: 0 10px;
+    font-size: 20px;
+}
+.navbar-brand>img{
+	width: 26px;
+}
+#side-bar-ctrl{
+	-webkit-transition: color .25s;
+	   -moz-transition: color .25s;
+	    -ms-transition: color .25s;
+	     -o-transition: color .25s;
+	        transition: color .25s;
+}
+#side-bar-ctrl:hover{
+	color: #e4e4e4;
+	background: none;
+}
+

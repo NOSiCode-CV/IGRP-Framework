@@ -3,25 +3,23 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.lookuplistpage;
-
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import java.io.IOException;
-
+import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.config.Config;
-import java.util.ArrayList;
-import java.util.List;
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class LookupListPageController extends Controller {		
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		LookupListPage model = new LookupListPage();
 		ArrayList<LookupListPage.Table_1> lista = new ArrayList<>();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
@@ -34,12 +32,11 @@ public class LookupListPageController extends Controller {
 											   .all();
 		
 		for(Action ac : listActions){
-			LookupListPage.Table_1 table1 = new LookupListPage().new Table_1();
-			table1.setP_id(ac.getId());
-			table1.setNome_page("webapps?r=igrp/data-source/index&amp;id="+ac.getId());
-			table1.setNome_page_desc(ac.getPage());
-			table1.setDescricao_page(ac.getPage_descr());
-			table1.setDescricao_page_desc(ac.getPage_descr());
+			LookupListPage.Table_1 table1 = new LookupListPage.Table_1();
+			table1.setP_id(""+ac.getId());
+			table1.setNome_pagina(ac.getPage());
+			table1.setDescricao(ac.getPage_descr());
+			table1.setP_id_aplicacao(ac.getApplication().getId());
 			lista.add(table1);
 		}
 		LookupListPageView view = new LookupListPageView(model);
@@ -50,15 +47,17 @@ public class LookupListPageController extends Controller {
 		Config.target = "_blank";
 		view.btn_pesquisar.setLink("index");
 		return this.renderView(view);
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionPesquisar() throws IOException{
-		/*---- Insert your code here... ----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		return this.redirect("igrp","ListaPage","index");
-		/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*//*---- End ----*/
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

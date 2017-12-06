@@ -104,7 +104,7 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 		    + "glb_mv_profile_type d "
 		    + " WHERE   d.id = b.prof_type_fk");
 		
-		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROFILE_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE) AS "+ 
+		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROFILE_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE,FLG_BASE) AS "+ 
 			" SELECT a.id,"
 			+ "e.descr descr,"
 			+ "a.descr descr_menu,"
@@ -119,7 +119,8 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 			+ "b.org_fk,"
 			+ "a.status,"
 			+ "a.target,"
-			+ "d.env_fk as env_fk_prof_type"
+			+ "d.env_fk as env_fk_prof_type,"
+			+ "e.flg_base"
 			+ " FROM glb_mv_menu a,"
 			+ "glb_mv_menu e,"
 			+ "glb_mv_profile b,"
@@ -135,7 +136,7 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 			+ " FROM GLB_V_PROFILE_MENU "
 			+ " WHERE USER_FK<>0");
 	
-		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROF_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE) AS "+ 
+		VIEWS.add("CREATE OR REPLACE  VIEW GLB_V_PROF_MENU (ID, DESCR, DESCR_MENU, ORDERBY, ENV_FK, SELF_FK, ACTION_FK, PROF_TYPE_FK, USER_FK, PROF_CODE, PROF_NAME, ORG_FK,STATUS,TARGET,ENV_FK_PROF_TYPE,FLG_BASE) AS "+ 
 		 	"SELECT  ID,"
 		 	+ "DESCR,"
 		 	+ "DESCR_MENU,"
@@ -150,7 +151,8 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 		 	+ "ORG_FK,"
 		 	+ "STATUS,"
 		 	+ "TARGET,"
-		 	+ "env_fk_prof_type"
+		 	+ "env_fk_prof_type,"
+			+ "FLG_BASE"
 		 	+ " FROM  GLB_V_PROFILE_MENU"
 		 	+ " WHERE  PROF_TYPE_FK <> 0 AND USER_FK = 0");
 	
@@ -189,7 +191,7 @@ public class CreateViews extends BaseActiveRecord<CreateViews>{
 	}
 	
 	private void createView(){
-		EntityManager em = this.entityManagerFactory.createEntityManager();
+		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		for(String sql:VIEWS){

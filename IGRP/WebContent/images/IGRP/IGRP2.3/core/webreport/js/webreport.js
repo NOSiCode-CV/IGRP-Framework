@@ -1,4 +1,4 @@
-(function ($) {
+$(function ($) {
 	if($){
 		$.WR 				= {}; //Objeto W web R report
 		// WR var file webreport.config
@@ -22,62 +22,66 @@
 			onChange : function(){
 				$.WR.objDataSource.on('change',function(){
 					$.WR.dataSource = $(this).val();
+					
 					var param = '', 
 						url   = $.IGRP.utils.getUrl($.WR.fieldDataSource.urlChange);
-							//$.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
-						console.log(url);
+						//url   = $.IGRP.utils.getUrl('http://igrp.teste.gov.cv/images/IGRP/IGRP2.3/app/RED/xml/RED_REPORT_REP_dash-new.xml');
+					
 					if($.WR.dataSource){
 						$.WR.dataSource.forEach(function(e,i){
 							param += i > 0 ? '&p_id='+e : 'p_id='+e;
 						});
 
 						url += param;
-
-						if($.WR.id)
-							url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
-
-						$.ajax({
-							url : url
-						})
-						.fail(function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
-							});
-						})
-						.success(function(data){
-							if(data){
-								var url 	= $(data).find('fields link_add_source value').text(),
-									loading = $('<div/>').addClass('loading loader'),
-									tab 	= $('#tab-tabcontent_1-data_source');
-
-								loading.appendTo(tab);
-
-								$('#wr-list-datasource').XMLTransform({
-									xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-									xml : $(data).getXMLDocument(),
-									complete : function(c){
-										//if($.WR.id)
-											$('.wr-editdatasource').addClass('active');
-
-										$(loading,tab).remove();
-									},
-									error 	 : function(c){
-										$(loading,tab).remove();
-									}
-								});
-							}
-						});
 					}else
 						$('.wr-editdatasource').removeClass('active');
+
+					if($.WR.id)
+						url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
+
+					$.ajax({
+						url : url
+					})
+					.fail(function(e){
+						$.IGRP.notify({
+							message : 'Not Found',
+							type	: 'danger'
+						});
+					})
+					.success(function(data){
+						if(data){
+							var url 	= $(data).find('fields link_add_source value').text(),
+								loading = $('<div/>').addClass('loading loader'),
+								tab 	= $('#tab-tabcontent_1-data_source');
+
+							loading.appendTo(tab);
+
+							$('#wr-list-datasource').XMLTransform({
+								xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+								xml : $(data).getXMLDocument(),
+								complete : function(c){
+									//if($.WR.id)
+										$('.wr-editdatasource').addClass('active');
+
+									$(loading,tab).remove();
+								},
+								error 	 : function(c){
+									$(loading,tab).remove();
+								}
+							});
+						}
+					});
+					
 				});
 			},
 			setVal : function(data,selected){
 				var option  = null,
 					selected = selected ? selected : [];
+
 				if(data && data != undefined){
 					$('.wr-editdatasource').addClass('active');
 					$("option",$.WR.objDataSource).remove();
+
 					data.find('option').each(function(i,e){
 						var value = $(e).find("value").text();
 						option = new Option(
@@ -99,7 +103,7 @@
 				}else
 					$('.wr-editdatasource').removeClass('active');
 
-				$.WR.objDataSource.trigger('change');
+				$.WR.objDataSource.trigger('change.select2');
 			},
 			getVal : function(){
 				$.WR.dataSource = $.WR.objDataSource.val();
@@ -150,7 +154,7 @@
 						$.IGRP.components.globalModal.set({
 							size 		: 'xs',
 							content 	: content,
-							title 		: 'Edit Data Source',
+							title 		: 'Editar Data Source',
 							buttons 	: [
 								{
 									class 	: 'success',
@@ -225,6 +229,7 @@
 									xml 	 : $(data).getXMLDocument(),
 									complete : function(c){
 										$(loading,tab).remove();
+										$.WR.document.info.show();
 									},
 									error 	 : function(c){
 										$(loading,tab).remove();
@@ -244,6 +249,8 @@
 								}
 							}	
 						});
+					}else{
+						$('#wr-list-document').html('');
 					}
 				});
 			},
@@ -254,7 +261,7 @@
 
 		$.WR.fieldPrintSize = {
 			getVal : function(){
-				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || '';
+				return $('select[name="'+WR.document.config.printsize.name+'"]').val() || 'A4';
 			},
 			setVal : function(v){
 				var selPrintSize = $('select[name="'+WR.document.config.printsize.name+'"]');
@@ -277,12 +284,14 @@
 					'</div></div><div class="col-md-12 form-group">'+
 					'<div class="col-md-4"><label for="'+p.codeName+'">'+p.codeLabel+'</label></div>'+
 					'<div class="col-md-8"><input name="'+p.codeName+'" class="form-control" type="text"/></div></div>'+
-					'<div class="col-md-12 form-group"><div class="col-md-4">'+
+					'<div class="col-md-12 form-group" id="ptsize"><div class="col-md-4">'+
 					'<label for="'+WR.document.config.printsize.name+'">'+WR.document.config.printsize.label+'</label></div>'+
 					'<div class="col-md-8"><select class="form-control" name="'+WR.document.config.printsize.name+'">'+
-					option+'</select></div></div><div class="col-md-12 form-group"><div class="col-md-4">'+
-					'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
-					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div></div>';
+					option+'</select></div></div>'+
+					/*'<div class="col-md-12 form-group"><div class="col-md-4">'+
+						'<label for="'+WR.document.config.customfooter.name+'">'+WR.document.config.customfooter.label+'</label></div>'+
+					'<div class="col-md-8"><input name="'+WR.document.config.customfooter.name+'" type="checkbox"/></div></div>'+*/
+					'</div>';
 
 				$.IGRP.components.globalModal.set({
 					size 		: 'xs',
@@ -292,7 +301,9 @@
 						if($.WR.id){ // if edit
 							$('input[name="'+p.titleName+'"]').val(p.title);
 							$('input[name="'+p.codeName+'"]').val(p.code);
-						}
+							$('#ptsize').addClass('hidden');
+						}else
+							$('#ptsize').removeClass('hidden');
 					},
 					buttons 	: [
 						{
@@ -300,7 +311,7 @@
 							icon  	: 'check',
 							text  	: 'Confirmar',
 							onClick : function(){
-								var data = $('.reporttitle *').serializeArray();
+								var data = $('.reporttitle *:not([name="wr_printsize"])').serializeArray();
 
 								data.forEach(function(e,i){
 									if(e.name == p.codeName)
@@ -311,6 +322,10 @@
 
 								if($.WR.title && $.WR.title != undefined){
 									if(p.action != 'save'){
+
+										if (p.action == 'edit') 
+											data.push({name:'p_id',value:$.WR.id});
+
 										$.WR.document.newOrEdit({
 											url 	: p.url,
 											data 	: data
@@ -326,8 +341,8 @@
 										$.WR.document.save({
 							        		url 	 : p.url,
 							        		file 	 : p.file,
-							        		fields : p.fields,
-							        		action : 'modal'
+							        		fields 	 : p.fields,
+							        		action   : 'modal'
 							        	});
 									}
 
@@ -351,6 +366,49 @@
 					]
 				});
 			},
+			info : {
+				show : function(){
+					var info = $('#wr-list-document .info');
+
+					$('#wr-list-document').on('mouseenter','.infoReport',function(){
+					var li  = $(this).parents('li.treeview:first'),
+						top = li.position().top + 7;
+
+						info.html(li.attr('info')).css({top:top}).addClass('active');
+					});
+
+					$('#wr-list-document').on('mouseleave','.infoReport',function(){
+						info.removeClass('active');
+						$('#wr-list-document li .infoReport i').attr('data-original-title', '').tooltip('hide');
+					});
+				},
+				copy : function(){
+					var copy = document.queryCommandSupported('copy');
+
+					$('#wr-list-document').on('click','.infoReport',function(){
+						var info = $(this).parents('li.treeview:first').attr('info');
+
+						if (copy === true) {
+							var objCopy = document.createElement("textarea");
+							objCopy.value = info;
+							document.body.appendChild(objCopy);
+	    					objCopy.select();
+
+	    					try {
+						      var successful = document.execCommand('copy');
+						      var msg = successful ? 'Copiado!' : 'Não Copiado!';
+						      $('i',$(this)).attr('data-original-title', msg).tooltip('show');
+
+						    } catch (err) {
+						      console.log('Oops, unable to copy');
+						    }
+
+						    document.body.removeChild(objCopy);
+						}else
+							window.prompt("Copy to clipboard: Ctrl+C or Command+C, Enter", info);
+					});
+				}
+			},
 			newOrEdit : function(p){
 				if($.WR.title && !$.WR.id){
 					$('#igrp-app-title').html($.WR.title+' *');
@@ -371,11 +429,15 @@
 							type	: 'danger'
 						});
 					})
-					.success(function(e){
-						var type 	= e.type && e.type != undefined ? e.type : 'danger',
-							message = e.msg && e.msg != undefined ? e.msg : 'Erro';
+					.success(function(e,s,r){
+						var xml 	= $(e).find('messages message'),
+							type 	= xml.attr('type') || 'danger',
+							message = xml.text() || 'Erro';
+
+						type = type == 'error' ? 'danger' : type;
+
 						$.IGRP.notify({
-							message : $.IGRP.utils.htmlDecode(e.msg),
+							message : $.IGRP.utils.htmlDecode(message),
 							type	: type
 						});
 
@@ -422,6 +484,7 @@
 				});
 			},
 			onLoad : function(url){
+				
 				$.ajax({
 					url : url
 				})
@@ -438,25 +501,26 @@
 
 						$('#igrp-app-title').html($.WR.reportTitle);
 
-						data = $.parseJSON(data.responseText.replace(/\s+/g," "));
+						//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
 						$.WR.document.convert2Do(data.textreport);
 
 						if($.WR.objDataSource[0]){
-
+							
 							if(data.datasorce_app){
+								
 								$.WR.datasorce = data.datasorce_app.split(',');
 								$.WR.objDataSource.find("option").removeAttr("selected");
 
-								for (var i = 0; i < $.WR.datasorce.length; i++) {
-									$.WR.objDataSource.find("option").each(function(i,e){
-										if($(e).val() == $.WR.datasorce[i]){
-											$(e).attr("selected","selected");
-										}
-									});
-								}
-								$.WR.objDataSource.trigger('change');
-							}
+								$.WR.objDataSource.find("option").each(function(i,e){
+									if($.inArray($(e).val(),$.WR.datasorce) != -1)
+										$(e).attr("selected","selected").prop('selected',true);
+								});
+
+							}else
+								$.WR.objDataSource.find("option").removeAttr("selected");
+
+							$.WR.objDataSource.trigger('change');
 						}
 					}
 				});
@@ -479,6 +543,8 @@
 					if (e.name == 'p_textreport') {
 						e.value.config.customfooter = $.WR.document.customfooter.getChecked();
 						e.value.config.printsize 	= size;
+
+						e.value = JSON.stringify(e.value);
 					}
 					else if(e.name == 'p_xslreport'){
 						e.value = e.value.replace(/=:WRPZ:=/g,size);
@@ -501,16 +567,18 @@
 		      			$.WR.keys = [];
 		      			if (rq.status == 200) {
 			      			if((p.action && p.action == 'modal') || $.WR.newDocument){
-			      				$.WR.newDocument = false;
+			      				if ($.WR.newDocument)
+			      					$.WR.newDocument = false;
+
 			      				$('#igrp-app-title').html($.WR.title);
 			      				$.WR.objApp.change();
 			      				//$.WR.id =  get id in c
 			      			}
 
-			      			if($.WR.isPreview){
+			      			/*if($.WR.isPreview){
 			      				$.WR.isPreview = false;
 			      				$('a[target="alert_submit"]').click();
-			      			}
+			      			}*/
 		      			}
 		         	}
 			   	});
@@ -519,9 +587,9 @@
 				$.IGRP.targets['submit'].action = function(p){
 					if($.WR.app != null){
 						var saveDoc 	= {},
-							head 		= WR.document.includ.head+WR.document.includ.css.all,
+							head 		= WR.document.includ.css.all, /*WR.document.includ.head+*/
 							includJs 	= WR.document.includ.js.all,
-							includTmpl 	= WR.document.includ.tmpl.defoult;
+							includTmpl 	= ''; //WR.document.includ.tmpl.defoult
 
 						
 						if ($.WR.hasCarts && !$.WR.notCartsInclud) {
@@ -692,8 +760,13 @@
 							});
 				        }
 					} else {
-						$.WR.isPreview = true;
-						$('a[target="submit"]').click();
+						//$.WR.isPreview = true;
+						//$('a[target="submit"]').click();
+
+						$.IGRP.notify({
+							message : 'Documento não foi gravado!!',
+							type	: 'info'
+						});
 					}
 					return false;
 				}
@@ -703,19 +776,20 @@
 					content   = '',
 					printsize = 'A4';
 
-				
-				if (!p.content) {
-					content = {};
+				if(p){
+					if (!p.content) {
+						content = {};
 
-					var report = $(p.content);
+						var report = $(p.content);
 
-					content.head   = report.find('#header').html();
-					content.body   = report.find('#content').html();
-					content.footer = report.find('#footer').html();
-				}else{
-					isActive  = p.config.customfooter;
-					content   = p.content;
-					printsize = p.config.printsize;
+						content.head   = report.find('#header').html();
+						content.body   = report.find('#content').html();
+						content.footer = report.find('#footer').html();
+					}else{
+						isActive  = p.config.customfooter;
+						content   = p.content;
+						printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
+					}
 				}
 
 				$.WR.fieldPrintSize.setVal(printsize);
@@ -748,6 +822,8 @@
 				$.WR.document.onSave();
 				$.WR.document.onPreview();
 				$.WR.document.customfooter.onClick();
+				$.WR.document.info.show();
+				$.WR.document.info.copy();
 			}
 		};
 
@@ -967,7 +1043,7 @@
 
 					switch(p.group.toLowerCase()){
 						case 'row':// caso row
-							var path = p.path+'['+p.cond+']',
+							var path = p.cond ? p.path+'['+p.cond+']' : p.path,
 								td 	 = '',
 								th   = '',
 								tdg  = '',
@@ -1319,7 +1395,7 @@
 					structure.content.head 	 = $.trim(data.head.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.body 	 = $.trim(data.body.replace(/"/g, "'").replace(/\s+/g," "));
 					structure.content.footer = $.trim(data.footer.replace(/"/g, "'").replace(/\s+/g," "));
-
+					
 					return structure;
 				},
 				html : function(){
@@ -1328,12 +1404,13 @@
 
 					size = size && size != undefined ? size : '=:WRPZ:=';
 
-					var html = '<div size="'+size+'"><div class="head">';
+					var html   = '<div class="page" size="'+size+'"><div class="head">',
+						footer = data.footer ? data.footer : WR.document.config.customfooter.value;
 
 					html += data.head+'</div>';
 					html += '<div class="content">'+data.body+'</div>';
-					html += '<div class="footer">'+data.footer+'</div></div>';
-
+					html += '<div class="footer">'+footer+'</div></div>';
+					
 					return html;
 				}
 			},
@@ -1350,7 +1427,7 @@
 
 						fc.editor.execCommand( 'removeFormat', fc.editor.getSelection() );
 
-						CKEDITOR.document.getById( 'datasorce').on( 'dragstart', function( evt ) {
+						CKEDITOR.document.getById('wr-list-datasource').on( 'dragstart', function( evt ) {
 							evt.stop();
 							var target = evt.data.getTarget().getAscendant( 'li', true );
 							
@@ -1366,18 +1443,24 @@
 							element.label 		= '<b>['+target.getText()+']</b>';
 							element.type		= $target.attr('notype') ? $target.attr('notype') : $target.attr('type');
 							element.parentTag 	= $target.attr('tag');
-							element.parentType 	= $target.attr('parentType');
+							element.parentType 	= $target.attr('parentType') || 'form';
 							element.parentPos 	= $target.attr('parentPos');
 							element.iskey 		= $target.find('.btn input[name="p_'+element.tag+'"]').is(':checked');
 
+							element.type = element.type.replace(/xs:/g, "");
+
 							if(element.parentType == 'table'){
 								element.list = [];
-
 								if(element.type == 'node'){
-									$('ul[tag="'+element.tag+'"] li').each(function(i,e){
-										var item 	= {};
-										item.tag 	= $(e).attr('rel');
-										item.label 	= $(e).attr('label');
+									var obj  	= $('ul[tag="'+element.parentTag+'"]')[0] ? $('ul[tag="'+element.parentTag+'"]') : $('ul[tag="'+element.tag+'"]'),
+										seletor = $target.find('input[name="p_'+element.parentTag+'"]',obj).is(':checked') ? $('li input[name="p_'+element.parentTag+'"]:checked',obj) : $('li input[name="p_'+element.parentTag+'"]',obj);
+									
+									seletor.each(function(i,e){
+										var item 	= {},
+											parents = $(e).parents('li:first');
+
+										item.tag 	= parents.attr('rel');
+										item.label 	= parents.attr('label');
 
 										element.list.push(item);
 									});
@@ -1426,4 +1509,4 @@
 
 		$.WR.init();
 	}
-}($));
+});

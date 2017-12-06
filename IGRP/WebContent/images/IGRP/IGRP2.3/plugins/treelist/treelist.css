@@ -1,0 +1,19 @@
+.igrp-treelist>ul li {
+	position: relative;
+}
+
+.igrp-treelist>ul>li>a{
+	padding-right: 15px;
+}
+
+.igrp-treelist>ul>li>i{
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	margin-top: -8px;
+}
+
+.igrp-treelist ul li ul{
+	padding-left: 15px;
+	display: none;
+}

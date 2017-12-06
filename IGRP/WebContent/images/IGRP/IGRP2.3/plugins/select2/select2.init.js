@@ -20,27 +20,33 @@ $(function(){
 
         setOptions:function(o){
             
-            var select = o.select;
+          var select = o.select;
            
-           if(select[0]){
+          if(select[0]){
 
-                $("option",select).remove();
+            var isChange = select.hasClass('IGRP_change') || select.attr('change') == true;
 
-                select.select2("destroy");
+            $("option",select).remove();
 
-                o.options.forEach(function(op){
-                  
-                  var option = new Option(op.text,op.value);
+            select.select2("destroy");
 
-                  if(op.selected)
-                    option.selected = true;
+            o.options.forEach(function(op){
+              
+              var option = new Option(op.text,op.value);
 
-                  select.append(option);
+              if(op.selected)
+                option.selected = true;
 
-                });
+              select.append(option);
 
-                select.select2();
-            }
+            });
+
+            select.select2();
+
+            if(isChange)
+              select.trigger('change');
+
+          }
            
         },
 
@@ -96,9 +102,41 @@ $(function(){
 
             }
         },
+
+        setClear : function(select){
+
+          $.each(select,function(i,s){
+
+            var holder   = $(s).parent(),
+
+                clearBtn = $('<div class="select2-clear"><i class="fa fa-times"></i></div>').on('click',function(){
+                  
+                  $(s).select2('val', '');
+
+                });
+
+            holder.addClass('select2-holder');
+
+            holder.append(clearBtn);
+
+          })
+
+        },
+
+
         init:function(parent){
+          
           var select   = $('.select2',parent);
-          $('.select2',parent).select2();
+
+          select.each(function(i,e){
+            if($(e).is('[multiple]')){
+              $('option[value=""]:first',$(e)).remove();
+            }
+          });
+
+          select.select2();
+
+          //$.IGRP.components.select2.setClear(select);
 
           $.IGRP.components.select2.formListConfig(parent);
 

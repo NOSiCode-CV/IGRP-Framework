@@ -32,18 +32,17 @@
             });
         },
         nextOrPrevButtom : function(holder){
-           holder.on('click','.fc-prev-button, .fc-next-button',function(){
-                $.IGRP.targets.submit.action({
-                    url      : $.IGRP.utils.getPageUrl(),
-                    validate : false
-                });
+            var id = $('.igrp-calendar',holder).attr('id');
+
+            holder.on('click','.fc-prev-button, .fc-next-button',function(){
+                $.IGRP.components.calendar.getViewParam(id);
             });
         },
         resizeORdropEvent : function(p){
             var param = 'p_event_id='+p.event.id;
 
             param +='&p_start='+p.event.start.format();
-
+            
             if (p.event.end)
                 param +='&p_end='+p.event.end.format();
 
@@ -77,7 +76,7 @@
                     type    : type
                 });
 
-                console.log(e);
+                console.log(d);
             }).fail(function(d){
                 $.IGRP.notify({
                     message : $.IGRP.utils.htmlDecode(d.responseText),
@@ -107,12 +106,12 @@
             });
             
             var holder = cal.parent();
-
+            
             var calendar = cal.fullCalendar({
                 header:{
-                    left    : 'prev,title,next',
+                    left    : p.header && p.header != 'null' ? p.header : 'prev,title,next',
                     center  : '',
-                    right   : 'month,agendaWeek,agendaDay,today'
+                    right   : p.views && p.views != 'null' ? p.views : 'month,agendaWeek,agendaDay,today'
                 },
                 displayEventEnd :{
                     month     : true,
@@ -171,15 +170,22 @@
                         }
                     });
                 },
-                eventColor: '#4496C1',
+                eventColor: '#008975',
                 loading:function(isLoading, view ){
                     if(isLoading)
                         $.IGRP.utils.loading.show(holder);
-                    else
+                    else{
+                        $.IGRP.components.calendar.getViewParam(id);
                         $.IGRP.utils.loading.hide(holder);
+                    }
                 },
                 eventAfterRender:function( event, element, view ) {
+                    
+                },
+                eventRender : function(event, element){
+
                     var ctxParams = event["context-param"];
+
                     if(ctxParams[0]){
                         element.attr('CTX_PARAM_COUNT',ctxParams.length);
                         
@@ -187,6 +193,11 @@
                             var idx = i+1;
                             element.attr('ctx_p'+idx,c);
                         });
+                    }
+
+                    if (event.description) {
+                        element.attr('title',event.description).attr('data-toggle','tooltip').attr('data-html',true);
+                        //.attr('data-placement','right')
                     }
 
                     element.bind('mousedown', function (e) {
@@ -200,10 +211,10 @@
                                     var parent      = $(p.ctxMenu.parents('.box')[0]),
                                         parentLeft  = parent.offset().left,
                                         parentTop   = parent.offset().top,
-                                        ctxLeft     = e.pageX-parentLeft,
-                                        ctxTop      = e.pageY-parentTop;
+                                        ctxLeft     = e.pageX - parentLeft,
+                                        ctxTop      = e.pageY - parentTop;
 
-                                    if (e.pageX-parentLeft+p.ctxMenu.width() > parent.width())
+                                    if (e.pageX - parentLeft + p.ctxMenu.width() > parent.width())
                                         ctxLeft = ctxLeft - p.ctxMenu.width()
                                     
                                     p.ctxMenu.css({
@@ -214,8 +225,6 @@
                             });
                         }
                     });
-
-                    $.IGRP.components.calendar.getViewParam(id);
                 },
                 dayClick : function(date, allDay ,jsEvent, view) {
                     var param = 'p_date='+date.format().igrpDateFormat();
@@ -230,9 +239,15 @@
                     }
                 },
                 eventClick : function(event, jsEvent, view) {
-                    if (p.addevents) {
+                    /*var table = $(jsEvent.target).parents('.fc-content-skeleton'),
+                        index = $(jsEvent.target).parents('.fc-event-container').index(),
+                        edit  = p.alleditevents ? p.alleditevents : p.addevents,
+                        param = 'p_date='+$('table thead tr td:eq('+index+')',table).attr('data-date').igrpDateFormat();*/
+                    var edit  = p.alleditevents ? p.alleditevents : p.addevents;
+
+                    if (edit) {
                         $.IGRP.components.iframeNav.set({
-                            url : $.IGRP.utils.getUrl(p.addevents)+'p_event_id='+event.id,
+                            url     : $.IGRP.utils.getUrl(edit)+'p_event_id='+event.id
                         });
                     }
                 },
@@ -254,12 +269,14 @@
                         id     : id,
                         url    : p.editevents
                     });
+                },
+                eventMouseover : function(event){
                 }
             });
 
             calendars[id] = calendar;
 
-            //$.IGRP.components.calendar.nextOrPrevButtom(holder);
+            $.IGRP.components.calendar.nextOrPrevButtom(holder);
         }
     });
 })($.IGRP);

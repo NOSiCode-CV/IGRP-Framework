@@ -3,51 +3,72 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.migrate;
-/*---- Import your packages here... ----*/
+
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.FlashMessage;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Application;
+import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
-import java.util.HashMap;
-import java.util.Map;
 import nosi.core.webapp.Igrp;
-/*---- End ----*/
+import static nosi.core.i18n.Translator.gt;
+/*----#END-PRESERVED-AREA----*/
 
 public class MigrateController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
-		/*---- Insert your code here... ----*/				
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(INDEX)----*/						
 		Migrate model = new Migrate();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+		}
 		MigrateView view = new MigrateView(model);
-		tipos.put("mysql", "MySql");
-		tipos.put("postgresql", "Postgresql");
-		tipos.put("h2", "H2");
-		tipos.put("oracle", "Oracle");
-		view.tipo_base_dados.setValue(tipos);
-		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name","--- Selecionar Aplicação ---"));
+		
+		view.tipo_base_dados.setValue(Config.getDatabaseTypes());
+		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar Aplicação --")));
 		return this.renderView(view);
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 
 
 	public Response actionMigrar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*---- Insert your code here... ----*/				
+		/*----#START-PRESERVED-AREA(MIGRAR)----*/						
 		Migrate model = new Migrate();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 			model.load();
 			if(model.getAplicacao().equals("1")){
-				MigrationIGRP.start(model);
+				if(MigrationIGRP.validate(model)){
+					MigrationIGRP.start(model);
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Migração Efetuada com sucesso"));
+				}else{
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
+					return this.forward("igrp","Migrate","index");
+				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", "Migração Efetuada com sucesso");
 		}
 		return this.redirect("igrp","Migrate","index");
-				/*---- End ----*/
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	/*---- Insert your actions here... ----*/
-	private static Map<String,String> tipos = new HashMap<>();
-	/*---- End ----*/
+	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(TESTAR_CONEXAO)----*/
+		Migrate model = new Migrate();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			if(MigrationIGRP.validate(model)){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
+			}else{
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conexão Com a Base de Dados"));
+			}
+		}
+		return this.forward("igrp","Migrate","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	/*----#END-PRESERVED-AREA----*/
 }

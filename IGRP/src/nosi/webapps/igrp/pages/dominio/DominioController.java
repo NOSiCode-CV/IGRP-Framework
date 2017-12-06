@@ -3,13 +3,13 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp.pages.dominio;
-/*---- Import your packages here... ----*/
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Response;
 import java.io.IOException;
 
-/*---- End ----*/
+/*----#END-PRESERVED-AREA----*/
 
 public class DominioController extends Controller {		
 

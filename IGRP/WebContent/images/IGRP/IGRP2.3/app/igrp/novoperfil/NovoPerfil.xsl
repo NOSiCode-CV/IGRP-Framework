@@ -1,17 +1,15 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
                 <!-- TOOLSBAR CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css"/>
-                <!-- FORM CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
                 <!-- SELECT CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -22,7 +20,14 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row">
+                                    <div class="row row-msg">
+                                        <div class="gen-column col-md-12">
+                                            <div class="gen-inner">
+                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row " id="row-89dc390d">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -32,12 +37,12 @@
                                                         </h2>
                                                     </section>
                                                 </xsl:if>
-                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
                                                 <xsl:if test="rows/content/toolsbar_1">
-                                                    <div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder a.btn" gen-class="" item-name="toolsbar_1">
+                                                    <div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
                                                         <div class="btns-holder  pull-right" role="group">
                                                             <xsl:apply-templates select="rows/content/toolsbar_1" mode="gen-buttons">
                                                                 <xsl:with-param name="vertical" select="'true'"/>
+                                                                <xsl:with-param name="outline" select="'false'"/>
                                                             </xsl:apply-templates>
                                                         </div>
                                                     </div>
@@ -47,32 +52,15 @@
                                                         <div class="box-body">
                                                             <div role="form">
                                                                 <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
-                                                                <xsl:if test="rows/content/form_1/fields/codigo">
-                                                                    <div class="form-group col-md-3   gen-fields-holder" item-name="codigo" item-type="text" required="required">
-                                                                        <label for="{rows/content/form_1/fields/codigo/@name}">
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/codigo/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/codigo/value}" class="form-control " id="{rows/content/form_1/fields/codigo/@name}" name="{rows/content/form_1/fields/codigo/@name}" required="required" maxlength="30" placeholder=""></input>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/descricao">
-                                                                    <div class="form-group col-md-3   gen-fields-holder" item-name="descricao" item-type="text" required="required">
-                                                                        <label for="{rows/content/form_1/fields/descricao/@name}">
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/descricao/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/descricao/value}" class="form-control " id="{rows/content/form_1/fields/descricao/@name}" name="{rows/content/form_1/fields/descricao/@name}" required="required" maxlength="30" placeholder=""></input>
-                                                                    </div>
-                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/aplicacao">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="aplicacao" item-type="select">
+                                                                    <div class="col-sm-3 form-group  gen-fields-holder" item-name="aplicacao" item-type="select">
                                                                         <label for="{rows/content/form_1/fields/aplicacao/@name}">
                                                                             <xsl:value-of select="rows/content/form_1/fields/aplicacao/label"/>
                                                                         </label>
-                                                                        <select class="form-control select2 " id="form_1_aplicacao" name="{rows/content/form_1/fields/aplicacao/@name}">
+                                                                        <select class="form-control select2 IGRP_change" id="form_1_aplicacao" name="{rows/content/form_1/fields/aplicacao/@name}">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/aplicacao"/>
+                                                                            </xsl:call-template>
                                                                             <xsl:for-each select="rows/content/form_1/fields/aplicacao/list/option">
                                                                                 <option value="{value}" label="{text}">
                                                                                     <xsl:if test="@selected='true'">
@@ -87,11 +75,14 @@
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/organica">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="organica" item-type="select">
+                                                                    <div class="col-sm-3 form-group  gen-fields-holder" item-name="organica" item-type="select">
                                                                         <label for="{rows/content/form_1/fields/organica/@name}">
                                                                             <xsl:value-of select="rows/content/form_1/fields/organica/label"/>
                                                                         </label>
-                                                                        <select class="form-control select2 " id="form_1_organica" name="{rows/content/form_1/fields/organica/@name}">
+                                                                        <select class="form-control select2 IGRP_change" id="form_1_organica" name="{rows/content/form_1/fields/organica/@name}">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/organica"/>
+                                                                            </xsl:call-template>
                                                                             <xsl:for-each select="rows/content/form_1/fields/organica/list/option">
                                                                                 <option value="{value}" label="{text}">
                                                                                     <xsl:if test="@selected='true'">
@@ -105,12 +96,43 @@
                                                                         </select>
                                                                     </div>
                                                                 </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/codigo">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="codigo" item-type="text" required="required">
+                                                                        <label for="{rows/content/form_1/fields/codigo/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/codigo/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" value="{rows/content/form_1/fields/codigo/value}" class="form-control " id="{rows/content/form_1/fields/codigo/@name}" name="{rows/content/form_1/fields/codigo/@name}" required="required" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/codigo"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/descricao">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="descricao" item-type="text" required="required">
+                                                                        <label for="{rows/content/form_1/fields/descricao/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/descricao/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" value="{rows/content/form_1/fields/descricao/value}" class="form-control " id="{rows/content/form_1/fields/descricao/@name}" name="{rows/content/form_1/fields/descricao/@name}" required="required" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/descricao"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/perfil">
-                                                                    <div class="col-md-3 form-group  gen-fields-holder" item-name="perfil" item-type="select">
+                                                                    <div class="col-sm-3 form-group  gen-fields-holder" item-name="perfil" item-type="select">
                                                                         <label for="{rows/content/form_1/fields/perfil/@name}">
                                                                             <xsl:value-of select="rows/content/form_1/fields/perfil/label"/>
                                                                         </label>
                                                                         <select class="form-control select2 " id="form_1_perfil" name="{rows/content/form_1/fields/perfil/@name}">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/perfil"/>
+                                                                            </xsl:call-template>
                                                                             <xsl:for-each select="rows/content/form_1/fields/perfil/list/option">
                                                                                 <option value="{value}" label="{text}">
                                                                                     <xsl:if test="@selected='true'">
@@ -125,11 +147,14 @@
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/activo">
-                                                                    <div class="col-md-3  gen-fields-holder" item-name="activo" item-type="checkbox">
+                                                                    <div class="col-sm-3  gen-fields-holder" item-name="activo" item-type="checkbox">
                                                                         <div class="form-group">
                                                                             <div class="checkbox form-check-offset">
                                                                                 <label>
                                                                                     <input type="checkbox" name="{rows/content/form_1/fields/activo/@name}" value="1" class="checkbox " label="{rows/content/form_1/fields/activo/label}">
+                                                                                        <xsl:call-template name="setAttributes">
+                                                                                            <xsl:with-param name="field" select="rows/content/form_1/fields/activo"/>
+                                                                                        </xsl:call-template>
                                                                                         <xsl:if test="rows/content/form_1/fields/activo/value = '1'">
                                                                                             <xsl:attribute name="checked">checked</xsl:attribute>
                                                                                         </xsl:if>
@@ -157,16 +182,16 @@
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
                 <!-- FORM JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- SELECT JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1493300695654"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1493300695654"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1493300695654"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1493300695654"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1493300695655"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511962992181"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511962992181"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511962992181"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511962992181"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511962992181"/>
 </xsl:stylesheet>

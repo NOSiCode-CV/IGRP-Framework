@@ -20,7 +20,7 @@
 }
 
 #igrp-sidebar .treeview-menu{
-    background: #455160
+    background: #394250
 }
 
 #igrp-sidebar .treeview-menu>li>a{
@@ -32,7 +32,7 @@
 
 #igrp-sidebar .treeview-menu>li>a:hover, 
 #igrp-sidebar .treeview-menu>li>a.active{
-    background: #455160;
+    background: #353d4a;
     text-decoration:  none;
     opacity: 1;
 

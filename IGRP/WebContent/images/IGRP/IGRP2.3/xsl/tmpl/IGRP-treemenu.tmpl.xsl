@@ -3,6 +3,7 @@
     <xsl:param name="id"/>
     <xsl:param name="name"/>
     <xsl:param name="class" select="'tree'"/>
+    <xsl:param name="tooltip" select="'false'"/>
 
     <xsl:template match="/" priority="0">
         <ul class="nav nav-list {$class}">
@@ -14,6 +15,7 @@
                 <xsl:with-param name="id" select="$id"/>
                 <xsl:with-param name="name" select="$name"/>
                 <xsl:with-param name="target" select="$target"/>
+                <xsl:with-param name="tooltip" select="$tooltip"/>
             </xsl:call-template>
         </ul>
     </xsl:template>
@@ -23,6 +25,7 @@
         <xsl:param name="style" select="'default'"/>
         <xsl:param name="toggle" select="'live'"/>
         <xsl:param name="onload" select="'false'"/>
+        <xsl:param name="tooltip" select="'false'"/>
         <xsl:param name="package"/>
         <xsl:param name="app"/>
         <xsl:variable name="name" select="local-name(.)"/>
@@ -34,6 +37,9 @@
             </xsl:choose>
         </xsl:variable>
         <div class="box-tm box-body" app="{$vapp}" package-db="{$package}" themes="{$style}" data-toggle="{$toggle}" name="{$name}" id="tm_{$name}">
+            <xsl:if test="$tooltip = 'true'">
+                <xsl:attribute name="tooltip"><xsl:value-of select="$tooltip"/></xsl:attribute>
+            </xsl:if>
             <xsl:if test="$toggle = 'remote'">
                 <xsl:attribute name="target"><xsl:value-of select="$target"/></xsl:attribute>
             </xsl:if>
@@ -60,12 +66,22 @@
                                         </span>
                                         <xsl:choose>
                                             <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                    <xsl:call-template name="setTooltip">
+                                                        <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                        <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                    </xsl:call-template>
                                                     <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                 </a>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                               <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                                <span class="form-link">
+                                                    <xsl:call-template name="setTooltip">
+                                                        <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                        <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                    </xsl:call-template>
+                                                    <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
+                                                </span> 
                                             </xsl:otherwise>
                                         </xsl:choose>
                                     </div>
@@ -92,12 +108,22 @@
                                                                     </span>
                                                                     <xsl:choose>
                                                                         <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                                            <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                                            <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                                                <xsl:call-template name="setTooltip">
+                                                                                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                                    <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                                                </xsl:call-template>
                                                                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                                             </a>
                                                                         </xsl:when>
                                                                         <xsl:otherwise>
-                                                                           <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                                                            <span class="form-link">
+                                                                                <xsl:call-template name="setTooltip">
+                                                                                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                                    <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                                                </xsl:call-template>
+                                                                                <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
+                                                                            </span> 
                                                                         </xsl:otherwise>
                                                                     </xsl:choose>
                                                                 </div>
@@ -111,12 +137,17 @@
                                                                             <xsl:with-param name="id" select="$vid"/>
                                                                             <xsl:with-param name="name" select="$name"/>
                                                                             <xsl:with-param name="target" select="$target"/>
+                                                                            <xsl:with-param name="tooltip" select="$tooltip"/>
                                                                         </xsl:call-template>
                                                                     </ul>
                                                                 </div>
                                                             </xsl:when>
                                                             <xsl:otherwise>
-                                                               <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                               <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                                    <xsl:call-template name="setTooltip">
+                                                                        <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                        <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                                    </xsl:call-template>
                                                                     <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                                                     <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                                 </a> 
@@ -143,19 +174,33 @@
                                                 </span>
                                                 <xsl:choose>
                                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                                        <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                            <xsl:call-template name="setTooltip">
+                                                                <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                            </xsl:call-template>
                                                             <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                                         </a>
                                                     </xsl:when>
                                                     <xsl:otherwise>
-                                                       <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                                        <span class="form-link">
+                                                            <xsl:call-template name="setTooltip">
+                                                                <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                                <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                            </xsl:call-template>
+                                                            <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
+                                                        </span> 
                                                     </xsl:otherwise>
                                                 </xsl:choose>
                                             </div>
                                             <div class="list-holder" id="list-{$id}"></div>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                                <xsl:call-template name="setTooltip">
+                                                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                    <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                                </xsl:call-template>
                                                 <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                             </a> 
@@ -191,14 +236,27 @@
         </xsl:if>
     </xsl:template>
 
+    <xsl:template name="setTooltip">
+        <xsl:param name="tooltip"  select="'false'"/>
+        <xsl:param name="text"/>
+        <xsl:if test="$tooltip = 'true'">
+            <xsl:attribute name="data-toggle"><xsl:value-of select="'tooltip'"/></xsl:attribute>
+            <xsl:attribute name="title"><xsl:value-of select="$text"/></xsl:attribute>
+            <xsl:if test="position() = 1">
+                <xsl:attribute name="data-placement"><xsl:value-of select="'bottom'"/></xsl:attribute>
+            </xsl:if>
+        </xsl:if>
+    </xsl:template>
+
    <xsl:template name="recorTreeMenu">
         <xsl:param name="treeMenu"/>
         <xsl:param name="id"/>
         <xsl:param name="name"/>
         <xsl:param name="target" select="'_self'"/>
+        <xsl:param name="tooltip" select="'false'"/>
         <xsl:variable name="parent" select="concat($name,'_parent')"/>
         <xsl:for-each select="$treeMenu/*[$parent = name()]">
-
+       
             <xsl:if test="text() = $id">
                 <xsl:variable name="parentId" select="../*[name() = concat($name,'_tmid')]"/>
                 <li id="{$parentId}">
@@ -217,12 +275,22 @@
                                 </span>
                                 <xsl:choose>
                                     <xsl:when test="../*[name() = concat($name,'_link')] != ''">
-                                        <a tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                        <a class="form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                            <xsl:call-template name="setTooltip">
+                                                <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                            </xsl:call-template>
                                             <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                                         </a>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                       <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span> 
+                                        <span class="form-link">
+                                            <xsl:call-template name="setTooltip">
+                                                <xsl:with-param name="tooltip" select="$tooltip"/>
+                                                <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                            </xsl:call-template>
+                                            <xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/>
+                                        </span> 
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </div>
@@ -236,12 +304,17 @@
                                         <xsl:with-param name="id" select="$parentId"/>
                                         <xsl:with-param name="name" select="$name"/>
                                         <xsl:with-param name="target" select="$target"/>
+                                        <xsl:with-param name="tooltip" select="$tooltip"/>
                                     </xsl:call-template>
                                 </ul>
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a class="holder" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                            <a class="holder form-link" tree-target="{$target}" href="{../*[name() = concat($name,'_link')]}">
+                                <xsl:call-template name="setTooltip">
+                                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                                    <xsl:with-param name="text" select="../*[name() = concat($name,'_link_desc')]"/>
+                                </xsl:call-template>
                                 <i class="fa fa-angle-right icon" aria-hidden="true"></i>
                                 <span><xsl:value-of select="../*[name() = concat($name,'_link_desc')]"/></span>
                             </a>

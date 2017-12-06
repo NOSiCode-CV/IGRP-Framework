@@ -7,6 +7,9 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 
+import static nosi.core.i18n.Translator.gt;
+
+
 public class WebReportView extends View {
 	
 	
@@ -39,7 +42,7 @@ public class WebReportView extends View {
 	public IGRPButton btn_preview;
 	public WebReportView(WebReport model){
 		this.setPageTitle("Report Builder");
-			
+		
 		page_title = new IGRPSectionHeader("page_title","");
 		tabcontent_1 = new IGRPTabContent("tabcontent_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -59,7 +62,7 @@ public class WebReportView extends View {
 		data_source.setValue("");
 		data_source.propertie().add("name","p_data_source").add("type","button").add("target_fields","").add("iconColor","#333").add("iconClass","").add("img","fa-database").add("maxlength","50");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel("Aplicacao");
+		env_fk.setLabel(gt("Aplicação"));
 		env_fk.setValue("");
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		datasorce_app = new ListField(model,"datasorce_app");
@@ -111,7 +114,7 @@ public class WebReportView extends View {
 		link.setValue("");
 		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("target_fields","").add("action","index").add("page","WebReport").add("app","igrp").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel("Descricao");
+		descricao.setLabel(gt("Descrição"));
 		descricao.setValue("");
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		id = new NumberField(model,"id");
@@ -120,9 +123,12 @@ public class WebReportView extends View {
 		id.propertie().add("name","p_id").add("type","number").add("min","").add("max","").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("total_footer","false");
 
 		fmn = new IGRPToolsBar("fmn");
-		btn_gravar = new IGRPButton("Gravar","igrp","WebReport","gravar","submit","success|fa-save","","");
+		fmn.getProperties().add("gen-type", "menu");
+		fmn.getProperties().add("gen-group", "");
+		
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","WebReport","gravar","submit","success|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_preview = new IGRPButton("Preview","igrp","WebReport","preview","alert_submit","default|fa-file-video-o","","");
+		btn_preview = new IGRPButton("Preview","igrp","WebReport","preview","alert_submit","warning|fa-file-video-o","","");
 		btn_preview.propertie.add("type","specific").add("code","").add("rel","preview");
 		
 		chart_1.setCaption("");
