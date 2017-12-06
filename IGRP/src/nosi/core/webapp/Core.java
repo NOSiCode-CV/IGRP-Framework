@@ -40,9 +40,10 @@ public class Core {
 	 * */
 	//Add Message Error
 	public static void setMessageError(String msg){
+		log.error(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
 		
-		log.error(msg);
+		
 		
 	}	
 	public static void setMessageError(){
@@ -62,9 +63,10 @@ public class Core {
 	
 	//Add Message Info
 	public static void setMessageInfo(String msg){
+		log.info(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, msg);
 		
-		log.info(msg);
+		
 		
 	}
 
@@ -81,9 +83,10 @@ public class Core {
 		
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
+		log.warn(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);
 		
-		log.warn(msg);
+		
 		
 	}	
 	
