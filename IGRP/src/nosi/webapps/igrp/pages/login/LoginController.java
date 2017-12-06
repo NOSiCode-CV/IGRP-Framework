@@ -1,6 +1,7 @@
 package nosi.webapps.igrp.pages.login;
 
 import nosi.core.config.Config;
+import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
@@ -40,6 +41,19 @@ public class LoginController extends Controller {
 				else
 					;// Go to error page
 			}
+			
+			String destination = Igrp.getInstance().getRequest().getParameter("_url");
+			if(destination != null ) {
+				try {
+					String []aux = destination.split("/");
+					if(aux.length != 3)
+						throw new ServerErrorHttpException();
+				return redirect(aux[0], aux[1], aux[2]);
+				}catch(Exception e) {
+					
+				}
+			}
+			
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		Login model = new Login();
@@ -90,7 +104,11 @@ public class LoginController extends Controller {
 	
 	// Dont delete this method 
 	public Response actionGoToLogin() throws IOException {
-		return this.redirect("igrp", "login", "login");
+		String aux = Igrp.getInstance().getRequest().getParameter("_url");
+		if(aux != null && !aux.isEmpty())
+			return this.redirect("igrp", "login", "login", new String[] {"_url"}, new String[] {aux});
+		else
+			return this.redirect("igrp", "login", "login");
 	}
 	
 	/*

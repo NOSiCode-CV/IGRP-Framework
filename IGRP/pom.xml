@@ -5,6 +5,12 @@
   
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  
+	<properties>
+	    <activejdbc.version>1.4.13</activejdbc.version>
+	    <environments>development.test,development</environments>
+	</properties>
+  
   <!-- 
   <dependencies>
   
@@ -93,6 +99,7 @@
         </excludes>
       </resource>
     </resources>
+    <pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -109,6 +116,43 @@
           <warSourceDirectory>WebContent</warSourceDirectory>
         </configuration>
       </plugin>
+      
+       <plugin>
+            <groupId>org.javalite</groupId>
+            <artifactId>db-migrator-maven-plugin</artifactId>
+            <version>1.4.13</version>
+            <configuration>
+                <username>${jdbc.user}</username>
+                <password>${jdbc.password}</password>
+                <driver>${jdbc.driver}</driver>
+            </configuration>
+        </plugin>
+        
+        <plugin>
+		    <groupId>org.javalite</groupId>
+		    <artifactId>db-migrator-maven-plugin</artifactId>
+		    <executions>
+		        <execution>
+		            <id>dev_migrations</id>
+		            <phase>validate</phase>
+		            <goals>
+		                <goal>migrate</goal>
+		            </goals>
+		        </execution>
+		        <execution>
+		            <id>test_migrations</id>
+		            <phase>validate</phase>
+		            <goals>
+		                <goal>migrate</goal>
+		            </goals>
+		            <configuration>
+		                <url>${jdbc.test.url}</url>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
+      
     </plugins>
+    </pluginManagement>
   </build>
 </project>
