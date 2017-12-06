@@ -16,7 +16,7 @@ import org.apache.log4j.PropertyConfigurator;
 @WebServlet("/Log4JInitServlet")
 public class Log4JInitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+       //ffd
 	public void init(ServletConfig config) throws ServletException {
 		
 		String log4jLocation = config.getInitParameter("log4j-properties-location");
