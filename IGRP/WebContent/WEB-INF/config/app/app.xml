@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Config>
-	<ProjectLoc>C:\Users\isaias.nunes\git\IGRP-Framework\IGRP</ProjectLoc>
-	<!-- Authenticaton type for the IGRP: db, OAuth2, ldap, ... -->
-	<AuthenticationType>db</AuthenticationType>
-</Config>
