@@ -18,11 +18,7 @@
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
   </servlet>
-  
-  <servlet>
-		<servlet-name>Log4JTestServlet</servlet-name>
-		<servlet-class>nosi.core.servlet.Log4JTestServlet</servlet-class>
-	</servlet>
+
 	<servlet>
 		<servlet-name>Log4JInitServlet</servlet-name>
 		<servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class>
