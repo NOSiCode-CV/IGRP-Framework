@@ -54,7 +54,7 @@ public class ConfigDatabaseController extends Controller {
 			config.setPassword(Core.encrypt(model.getPassword()));
 			config.setPort(Core.encrypt(""+model.getPort()));
 			config.setType_db(Core.encrypt(model.getTipo_base_dados()));
-			config.setName(Core.encrypt(model.getNome_de_conxeao()));
+			config.setName(model.getNome_de_conxeao());
 			Migrate m = new Migrate();
 			m.load();
 			if(!MigrationIGRP.validate(m)){
@@ -65,7 +65,6 @@ public class ConfigDatabaseController extends Controller {
 			if(check){
 				config = config.insert();
 				if(config != null){
-					config.setName(model.getNome_de_conxeao());
 					this.saveConfigHibernateFile(config);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt("Nome da conexão: ")+config.getName());

@@ -18,6 +18,7 @@
       <file-size-threshold>0</file-size-threshold>
     </multipart-config>
   </servlet>
+  
   <servlet>
 		<servlet-name>Log4JInitServlet</servlet-name>
 		<servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class>
@@ -28,7 +29,6 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
   
-  
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
@@ -38,7 +38,6 @@
     <servlet-name>default</servlet-name>
     <url-pattern>/images/*</url-pattern>
   </servlet-mapping>
-  
   <welcome-file-list>
     <welcome-file>/webapps?r=igrp/home/index</welcome-file>
   </welcome-file-list>
@@ -78,4 +77,9 @@
     <description>Non-Existent Role - this prevents direct access to JSPs</description>
     <role-name>IGRP_ADMIN</role-name>
   </security-role>
+  
+  <!-- <listener>
+  	<listener-class>nosi.core.listener.SingletonListener</listener-class>
+  </listener> -->
+  
 </web-app>

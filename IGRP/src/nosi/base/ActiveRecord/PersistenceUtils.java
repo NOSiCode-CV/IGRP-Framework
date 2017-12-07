@@ -5,6 +5,7 @@ import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import nosi.core.config.ConfigDBIGRP;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
 /**
  * @author Emanuel Pereira
@@ -17,12 +18,27 @@ public class PersistenceUtils {
 	public static SessionFactory getSessionFactory(String connectionName) {
 	      if (!SESSION_FACTORY.containsKey(connectionName)) {
 	         try {
-	            String url = null;
-	            String driver = null;
-	            String password = null;
-	            String user = null;
-	            
-	            if("hibernate-igrp-core".equalsIgnoreCase(connectionName)) {
+        		System.out.println("Config for:"+connectionName);
+        		Configuration configuration = getConfiguration(connectionName);
+        		if(configuration!=null) {
+	    			SessionFactory sf = configuration.buildSessionFactory();		
+	    			SESSION_FACTORY.put(connectionName, sf);	  
+        		}else {
+        			return null;
+        		}
+	         } catch (Exception e) {
+	            e.printStackTrace();
+	         }
+	      }
+	      return SESSION_FACTORY.get(connectionName);
+	   }
+
+		public static Configuration getConfiguration(String connectionName) {
+			String url = null;
+            String driver = null;
+            String password = null;
+            String user = null;
+			  if("hibernate-igrp-core".equalsIgnoreCase(connectionName)) {
 	            	ConfigDBIGRP config = new ConfigDBIGRP();
 	    			config.load();
 	    			url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
@@ -30,15 +46,14 @@ public class PersistenceUtils {
 	    			password = config.getPassword();
 	    			user = config.getUsername();
 	            }else{
-	            	Config_env config = new Config_env().andWhere("name", "=",connectionName).one();
+	            	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).one();
 	            	if(config!=null) {
-	            		url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
-		    			driver = getDriver(config.getType_db());
-		    			password = config.getPassword();
-		    			user = config.getUsername();
+	            		url = getUrl(Core.decrypt(config.getType_db()),Core.decrypt(config.getHost()),Core.decrypt(config.getPort()), Core.decrypt(config.getName_db()));
+	    				driver = getDriver(Core.decrypt(config.getType_db()));
+		    			password = Core.decrypt(config.getPassword());
+		    			user = Core.decrypt(config.getUsername());
 	            	}
 	            }
-
 	    		Configuration cfg = new Configuration();
 	        	cfg.configure("/"+connectionName+".cfg.xml");	        
 	        	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
@@ -52,18 +67,8 @@ public class PersistenceUtils {
 	        	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
 	        	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
 	        	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
-
-        		System.out.println("Config for:"+connectionName);
-    			SessionFactory sf = cfg.buildSessionFactory();		
-    			SESSION_FACTORY.put(connectionName, sf);
-	        	
-	         } catch (Exception e) {
-	            e.printStackTrace();
-	         }
-	      }
-	      return SESSION_FACTORY.get(connectionName);
-	   }
-
+	        	return cfg;
+		}
 	   public static String getDriver(String type) {
 			switch (type.toLowerCase()) {
 				case "h2":			

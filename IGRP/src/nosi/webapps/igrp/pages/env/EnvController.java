@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,14 +49,14 @@ public class EnvController extends Controller {
 		}
 		EnvView view = new EnvView(model);
 		//view.action_fk.setValue(new Action().getListActions());
-		view.img_src.setValue("default.png");
-		view.host.setVisible(false);
+		view.img_src.setValue("default.svg");
+		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.flg_external.setVisible(false);
+		view.flg_external.setVisible(true);
 		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -64,7 +66,6 @@ public class EnvController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Env model = new Env();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			
 			model.load();
 			Application app = new Application();		
 			Action ac = new Action();
@@ -73,10 +74,12 @@ public class EnvController extends Controller {
 //			app.setApache_dad(model.getApache_dad());
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());
-//			app.setFlg_external(model.getFlg_external());
 //			app.setFlg_old(model.getFlg_old());
-			app.setUrl(model.getHost());
+			
 			app.setExternal(model.getFlg_external());
+			if(app.getExternal() == 1 && model.getHost() != null && !model.getHost().isEmpty())
+				app.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
+			
 			app.setImg_src(model.getImg_src());
 //			app.setLink_center(model.getLink_center());
 //			app.setLink_menu(model.getLink_menu());
@@ -135,8 +138,13 @@ public class EnvController extends Controller {
 			aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
 			aplica_db.setImg_src(model.getImg_src());
-			aplica_db.setUrl(model.getHost());
+			
+			
 			aplica_db.setExternal(model.getFlg_external());
+			
+			if(aplica_db.getExternal() == 1 && model.getHost() != null && !model.getHost().isEmpty()) {
+				aplica_db.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
+			}
 			
 			aplica_db.setDescription(model.getDescription());
 			Action ac = new Action().findOne(model.getAction_fk());
@@ -161,13 +169,13 @@ public class EnvController extends Controller {
 		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
-		view.host.setVisible(false);
+		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
 		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.flg_external.setVisible(false);
+		view.flg_external.setVisible(true);
 		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -182,7 +190,7 @@ public class EnvController extends Controller {
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
 		List<Profile> myApp = new Application().getMyApp();
 		if(type!=null && type.equalsIgnoreCase("dev")) {
@@ -283,8 +291,12 @@ public class EnvController extends Controller {
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
-		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta
+		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 		String[] p = page.split("/");
+		Application env = new Application().find().andWhere("dad", "=", app).one();
+		//System.out.println(env.getExternal() + " - " + env.getUrl());
+		if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty())
+			return this.redirectToUrl(URLDecoder.decode(URLDecoder.decode(env.getUrl(), "utf-8"), "utf-8"));
 		return this.redirect(app, p[1], p[2]);
 	}
 	

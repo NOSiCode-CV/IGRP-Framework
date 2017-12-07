@@ -49,6 +49,10 @@ public class HomeStudioController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
+	
+	public Response actionCrud_gen() throws IOException {
+		return this.redirect("igrp_studio", "CRUDGenerator", "index");
+	}
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/

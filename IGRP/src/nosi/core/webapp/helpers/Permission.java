@@ -74,7 +74,6 @@ public class Permission {
 		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
 		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof", profType.getId());
 		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
-		
 	}
 	
 	public static String getCurrentEnv() {
