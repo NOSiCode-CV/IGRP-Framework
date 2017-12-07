@@ -170,12 +170,12 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
-		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?) "
-					+ "UNION "
-					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 1 as FLG_BASE "
-					+ "FROM tbl_MENU M1, tbl_menu M2 "
-					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 AND M1.ID NOT IN (SELECT TYPE_FK FROM tbl_profile WHERE TYPE=? AND PROF_TYPE_FK=? AND ORG_FK=?) "
-					+ "ORDER BY orderby";
+		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?) ";
+//					+ "UNION "
+//					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 1 as FLG_BASE "
+//					+ "FROM tbl_MENU M1, tbl_menu M2 "
+//					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 AND M1.ID NOT IN (SELECT TYPE_FK FROM tbl_profile WHERE TYPE=? AND PROF_TYPE_FK=? AND ORG_FK=?) "
+//					+ "ORDER BY orderby";
 		TypedQuery<Object[]> q = (TypedQuery<Object[]>) em.createNativeQuery(sql);
 		q.setParameter(1,Permission.getCurrentOrganization());
 		q.setParameter(2,Permission.getCurrentPerfilId());		
@@ -183,9 +183,9 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Permission.getCurrentEnv() )));
 		q.setParameter(3, a.getId());
 		q.setParameter(4,Permission.getCurrentOrganization());	
-		q.setParameter(5,"MEN");	
-		q.setParameter(6,Permission.getCurrentPerfilId());	
-		q.setParameter(7,Permission.getCurrentOrganization());	
+//		q.setParameter(5,"MEN");	
+//		q.setParameter(6,Permission.getCurrentPerfilId());	
+//		q.setParameter(7,Permission.getCurrentOrganization());	
 		HashMap<String,List<Menu>> list = new HashMap<>();
 		for(Object[] o: q.getResultList()){
 			if(o instanceof Object[]){

@@ -39,10 +39,8 @@ public class ListaEnvController extends Controller {
 		}
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		
-		int idProf = Permission.getCurrentPerfilId();
-		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN") || user.getUserProfile().equalsIgnoreCase("ADMIN")){
+		String dad = Permission.getCurrentEnv();		
+		if("igrp".equalsIgnoreCase(dad)){
 			apps = 	app.find()
 						.andWhere("dad", "like", app.getDad())
 						.andWhere("name", "like", app.getName())

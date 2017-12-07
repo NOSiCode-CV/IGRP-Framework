@@ -13,17 +13,21 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 	
+	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
 
 	public static String getHeader(){
 		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target
+		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
+		TITLE = "".equals(TITLE)?app.getName():TITLE;
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("tamplate", "");
 		xml.setElement("title", TITLE);
@@ -70,12 +74,13 @@ public class Config {
 		xml.endElement();
 		if(type_header.equals("home")){
 			xml.startElement("applications");
-			xml.writeAttribute("file","webapps?r=igrp/env/myApps");
+			xml.writeAttribute("file",LINK_MY_APPS);
 			xml.endElement();
 		}
 		target = "";
 		TITLE = "";
 		type_header = "normal";
+		LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 		return xml.toString();
 	}
 	
@@ -188,15 +193,20 @@ public class Config {
 	public static String getDefaultPageController(String app,String title){
 		return "package nosi.webapps."+app.toLowerCase()+".pages.defaultpage;\n"
 				 + "import nosi.webapps.igrp.pages.home.HomeAppView;\n"
+				 + "import nosi.webapps.igrp.dao.Application;"
 				 + "import java.io.IOException;\n"
 				 + "import nosi.core.webapp.Response;\n"
 				 + "import nosi.core.webapp.Controller;\n"
 				 + "public class DefaultPageController extends Controller {	\n"
-						+ "public Response actionIndex() throws IOException{\n"
-							+ "HomeAppView view = new HomeAppView();\n"
-							+ "view.title = \""+title+"\";\n"
-							+ "return this.renderView(view,true);\n"
-						+ "}\n"
+						+ "\tpublic Response actionIndex() throws IOException{\n"
+							+ "\tApplication app = new Application().find().andWhere(\"dad\",\"=\",\""+app+"\").one();\n" 
+							+ "\t		if(app!=null && app.getAction()!=null) {\n"
+							+ "\t			return this.redirect(app.getDad().toLowerCase(),app.getAction().getPage(), \"index\");\n"
+							+ "\t		}\n"
+							+ "\tHomeAppView view = new HomeAppView();\n"
+							+ "\tview.title = \""+title+"\";\n"
+							+ "\treturn this.renderView(view,true);\n"
+						+ "\t}\n"
 				  + "}";
 	}
 	

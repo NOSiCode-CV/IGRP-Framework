@@ -89,7 +89,7 @@ public class PageController extends Controller {
 				return this.forward("igrp", "page", "index");
 			}
 			//action.setStatus(model.getP_status());
-			action.setVersion(model.getVersion());
+			action.setVersion("2.3");
 			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
 			if(idPage!=0){
               	action.setId(idPage);

@@ -15,6 +15,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nosi.base.ActiveRecord.PersistenceUtils;
@@ -181,13 +183,19 @@ public class EnvController extends Controller {
 
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+
+	
 	//App list I have access to
 	public Response actionMyApps() throws IOException{
+		String type = Igrp.getInstance().getRequest().getParameter("type");
+		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-
 		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
 		List<Profile> myApp = new Application().getMyApp();
+		if(type!=null && type.equalsIgnoreCase("dev")) {
+			myApp = myApp.stream().filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial")).filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio")).collect(Collectors.toList());
+		}
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();
 		XMLWritter xml_menu = new XMLWritter();
@@ -219,19 +227,21 @@ public class EnvController extends Controller {
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
 			xml_menu.endElement();
 			aux.add(profile.getOrganization().getApplication().getId());
-			displayTitle = true;
+			displayTitle = (type==null || type.equalsIgnoreCase(""))?true:false;
 		}
-		for(Application app:otherApp){
-			if(!aux.contains(app.getId())){ // :-)
-				xml_menu.startElement("application");
-				xml_menu.writeAttribute("available", "no");
-				xml_menu.setElement("link", "");
-				xml_menu.setElement("img", app.getImg_src());
-				xml_menu.setElement("title",app.getName());
-				xml_menu.setElement("num_alert", "");
-				xml_menu.setElement("description", app.getDescription());
-				xml_menu.endElement();
-				displaySubtitle = true;
+		if(type==null || type.equals("")) {
+			for(Application app:otherApp){
+				if(!aux.contains(app.getId())){ // :-)
+					xml_menu.startElement("application");
+					xml_menu.writeAttribute("available", "no");
+					xml_menu.setElement("link", "");
+					xml_menu.setElement("img", app.getImg_src());
+					xml_menu.setElement("title",app.getName());
+					xml_menu.setElement("num_alert", "");
+					xml_menu.setElement("description", app.getDescription());
+					xml_menu.endElement();
+					displaySubtitle = (type==null || type.equalsIgnoreCase(""))?true:false;
+				}
 			}
 		}
 		

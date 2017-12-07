@@ -12,8 +12,6 @@ import nosi.webapps.igrp.pages.home.HomeAppView;
 public class DefaultPageController extends Controller{
 	
 	public Response actionIndex() throws IOException{
-		HomeAppView view = new HomeAppView();
-		view.title = Igrp.getInstance().getRequest().getParameter("title");
-		return this.renderView(view,true);
+		return this.redirect("igrp", "home", "index");
 	}
 }
