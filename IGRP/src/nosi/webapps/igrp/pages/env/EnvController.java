@@ -49,7 +49,7 @@ public class EnvController extends Controller {
 		}
 		EnvView view = new EnvView(model);
 		//view.action_fk.setValue(new Action().getListActions());
-		view.img_src.setValue("default.png");
+		view.img_src.setValue("default.svg");
 		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
@@ -190,7 +190,7 @@ public class EnvController extends Controller {
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		
 		Igrp.getInstance().getResponse().setContentType("text/xml");
-		Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
 		List<Profile> myApp = new Application().getMyApp();
 		if(type!=null && type.equalsIgnoreCase("dev")) {

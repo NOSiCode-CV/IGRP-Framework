@@ -1,11 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
-  
-  <xsl:variable name="login-slides" select="document(concat($path,'/xml/IGRP-login-banner.xml'))/rows/content/table/value"/>
-  
-  <xsl:variable name="slides-total" select="count($login-slides/images/row)"/>
-  
+   <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" />
+
+   <xsl:variable name="login-slides" select="document(concat($path,'/xml/IGRP-login-banner.xml'))/rows/content/table/value"/>
+   <xsl:variable name="slides-total" select="count($login-slides/images/row)"/>
+ 
   <xsl:template match="/">
+    <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text> 
+ 
     <html id="igrp-login">
       <head>
         <TITLE>IGRP - Login</TITLE>
