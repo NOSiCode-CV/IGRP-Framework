@@ -14,17 +14,18 @@ public class HomeController extends Controller {
 
 	public Response actionIndex() throws IOException{
 		String destination = Igrp.getInstance().getRequest().getParameter("_url");
-		Permission.changeOrgAndProfile("igrp");
 		if(destination != null ) {
 			try {
 				String []aux = destination.split("/");
 				if(aux.length != 3)
 					throw new ServerErrorHttpException();
+				Permission.changeOrgAndProfile(aux[0]);
 			return redirect(aux[0], aux[1], aux[2]);
 			}catch(Exception e) {
 				
 			}
 		}
+		Permission.changeOrgAndProfile("igrp");
 		HomeView view = new HomeView();
 		view.title = "Home";
 		return this.renderView(view,true);

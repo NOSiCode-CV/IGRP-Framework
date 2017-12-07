@@ -82,7 +82,6 @@ public class IgrpSSO extends HttpServlet {
 			// First check if the session exits 
 			String sessionValue = (String) request.getSession(false).getAttribute("_identity-igrp");
 			if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
-				System.out.println(_url);
 				response.sendRedirect(_url);
 				return;
 			}
@@ -136,7 +135,6 @@ public class IgrpSSO extends HttpServlet {
 			rs.close();
 			ps.close();
 			conn.close();
-			System.out.println("Entrado");
 		} catch (SQLException e) {
 			e.printStackTrace();
 			response.sendError(500, "A SQLException occurred ... so we block the request !");

@@ -8,12 +8,15 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.Session;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.xml.bind.JAXB;
 
@@ -42,7 +45,7 @@ public class LoginController extends Controller {
 					;// Go to error page
 			}
 			
-			String destination = Igrp.getInstance().getRequest().getParameter("_url");
+			/*String destination = Igrp.getInstance().getRequest().getParameter("_url");
 			if(destination != null ) {
 				try {
 					String []aux = destination.split("/");
@@ -52,8 +55,17 @@ public class LoginController extends Controller {
 				}catch(Exception e) {
 					
 				}
-			}
+			}*/
 			
+			String destination = Route.previous();
+			if(destination != null) {
+				String qs = URI.create(destination).getQuery();
+				qs.indexOf("r=");
+				qs = qs.substring(qs.indexOf("r=") + "r=".length());
+				String param[] = qs.split("/");
+				Permission.changeOrgAndProfile(param[0]);
+				return this.redirectToUrl(destination);
+			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
 		Login model = new Login();
@@ -76,14 +88,34 @@ public class LoginController extends Controller {
 								}
 								else
 									;// Go to error page
-							}else
-								return this.redirect("igrp", "home", "index"); // always go to home index url
+							}else {
+								String destination = Route.previous();
+								if(destination != null) {
+									String qs = URI.create(destination).getQuery();
+									qs.indexOf("r=");
+									qs = qs.substring(qs.indexOf("r=") + "r=".length());
+									String param[] = qs.split("/");
+									Permission.changeOrgAndProfile(param[0]);
+									return this.redirectToUrl(destination);
+								}
+								return this.redirect("igrp", "home", "index"); // For default go to home index url 
+							}
 						}
 					break;
 					
 					case "ldap":
-						if(this.loginWithLdap(model.getUser(), model.getPassword()))
+						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
+							String destination = Route.previous();
+							if(destination != null) {
+								String qs = URI.create(destination).getQuery();
+								qs.indexOf("r=");
+								qs = qs.substring(qs.indexOf("r=") + "r=".length());
+								String param[] = qs.split("/");
+								Permission.changeOrgAndProfile(param[0]);
+								return this.redirectToUrl(destination);
+							}
 							return this.redirect("igrp", "home", "index");
+						}
 					break;
 					
 					default:;
@@ -104,10 +136,10 @@ public class LoginController extends Controller {
 	
 	// Dont delete this method 
 	public Response actionGoToLogin() throws IOException {
-		String aux = Igrp.getInstance().getRequest().getParameter("_url");
+		/*String aux = Igrp.getInstance().getRequest().getParameter("_url");
 		if(aux != null && !aux.isEmpty())
 			return this.redirect("igrp", "login", "login", new String[] {"_url"}, new String[] {aux});
-		else
+		else*/
 			return this.redirect("igrp", "login", "login");
 	}
 	
