@@ -255,7 +255,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 
 	private void opeConnection(){
 		if(this.entityManagerFactory==null){
-			this.entityManagerFactory = PersistenceUtils.SESSION_FACTORY.get(this.getConnectionName());
+			this.entityManagerFactory = PersistenceUtils.getSessionFactory(this.getConnectionName());
 		}
 	}
 	/**
@@ -301,22 +301,6 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					}else{
 						Expression<String> x = this.getRoot().get(columnName);
 						e = this.getBuilder().like(this.getBuilder().lower(x ), val);
-					}
-					break;
-				case "isnull":
-					if(columnName.contains(".")){
-						String[] aux = columnName.split("\\.");
-						e = this.getBuilder().isNull(this.getRoot().join(aux[0]).get(aux[1]));
-					}else{
-						e = this.getBuilder().isNull(this.getRoot().get(columnName));
-					}
-					break;
-				case "notnull":
-					if(columnName.contains(".")){
-						String[] aux = columnName.split("\\.");
-						e = this.getBuilder().isNotNull(this.getRoot().join(aux[0]).get(aux[1]));
-					}else{
-						e = this.getBuilder().isNotNull(this.getRoot().get(columnName));
 					}
 					break;
 				}
@@ -365,10 +349,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().equal(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().equal(this.getRoot().<Date>get(columnName),value);
 					}
 					break;
@@ -377,10 +361,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().greaterThan(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().greaterThan(this.getRoot().<Date>get(columnName),value);
 					}
 					break;
@@ -389,10 +373,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().greaterThanOrEqualTo(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().greaterThanOrEqualTo(this.getRoot().<Date>get(columnName),value);
 					}
 					break;
@@ -401,10 +385,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lessThan(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lessThan(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -413,10 +397,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Date> x = this.getRoot().join(aux[0]).<Date>get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lessThanOrEqualTo(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lessThanOrEqualTo(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -438,10 +422,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().equal(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().equal(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -450,10 +434,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().gt(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().gt(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -462,10 +446,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().ge(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().ge(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -474,10 +458,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lt(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().lt(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -486,10 +470,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().le(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().le(this.getRoot().get(columnName),value);
 					}
 					break;
@@ -498,10 +482,10 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 					if(columnName.contains(".")){
 						String[] aux = columnName.split("\\.");
 						Expression<Number> x = this.getRoot().join(aux[0]).get(aux[1]);
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().notEqual(x,value);
 					}else{
-						if(value!=null && !value.equals(""))
+						if(value!=null)
 							e = this.getBuilder().notEqual(this.getRoot().get(columnName),value);
 					}
 					break;

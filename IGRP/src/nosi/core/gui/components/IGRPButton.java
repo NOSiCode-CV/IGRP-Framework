@@ -2,6 +2,7 @@ package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Igrp;
+import static nosi.core.i18n.Translator.gt;
 
 public class IGRPButton {
 	
@@ -51,7 +52,7 @@ public class IGRPButton {
 	}
 
 	public String getTitle() {
-		return title;
+		return gt(title);
 	}
 	public void setTitle(String title) {
 		this.title = title;

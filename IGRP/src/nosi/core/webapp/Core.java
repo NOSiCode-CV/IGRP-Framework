@@ -4,6 +4,8 @@ import java.io.StringReader;
 import java.rmi.RemoteException;
 import javax.xml.bind.JAXB;
 
+import org.apache.log4j.Logger;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
@@ -23,16 +25,26 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
-
+import org.apache.log4j.Logger;
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
  */
 public class Core {	
+
+	static Logger log = Logger.getLogger(Core.class);
 	
+	/**
+	 * log.fatal("fatal message");
+		log.debug("debug message");
+	 * */
 	//Add Message Error
 	public static void setMessageError(String msg){
+		log.error(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
+		
+		
+		
 	}	
 	public static void setMessageError(){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
@@ -41,6 +53,7 @@ public class Core {
 	//Add Message Success
 	public static void setMessageSuccess(String msg){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, msg);
+		
 	}
 	
 	//Add Message Success
@@ -50,12 +63,17 @@ public class Core {
 	
 	//Add Message Info
 	public static void setMessageInfo(String msg){
+		log.info(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, msg);
+		
+		
+		
 	}
 
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String link){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+link);
+		
 	}
 	
 	//Add Message Info With Link
@@ -65,7 +83,11 @@ public class Core {
 		
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
+		log.warn(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);
+		
+		
+		
 	}	
 	
 	//Get Config Property

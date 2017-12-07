@@ -157,10 +157,8 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public List<Menu> getOrgMenu() {	
 		Menu m = new Menu();
-
-		int idProf = Permission.getCurrentPerfilId();
-		ProfileType p = new ProfileType().findOne(idProf);		
-		if(p!=null && p.getCode().equalsIgnoreCase("ADMIN")){
+		String dad = Permission.getCurrentEnv();		
+		if("igrp".equalsIgnoreCase(dad)){
 			return m.find().andWhere("action", "notnull").all();
 		}else{
 			Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
@@ -170,9 +168,6 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 				for(Entry<String, List<Menu>> mm:menu.entrySet()){
 						for(Menu main:mm.getValue()){
 							if(main.getMenu()!=null){
-								System.out.println("Main1:"+main.getMenu().getDescr()+"---"+main.getMenu().getFlg_base());
-								System.out.println("Main2:"+main.getDescr()+"---"+main.getFlg_base());
-								
 								Menu e = new Menu();
 								e.setDescr(gt(main.getMenu().getDescr()));
 								e.setId(main.getId());
@@ -183,6 +178,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 				}
 			}
 			myMenu.addAll(m.find().andWhere("action", "notnull").andWhere("application", "=",app.getId()).all());
+			myMenu.addAll(m.find().andWhere("action", "notnull").andWhere("flg_base", "=", 1).andWhere("application", "=",app.getId()).all());
 			return myMenu;
 		}
 	}
