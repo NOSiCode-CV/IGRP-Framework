@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.page.Page;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 /**
  * @author Marcel Iekiny
