@@ -13,6 +13,7 @@ import nosi.webapps.igrp.dao.views.CreateViews;
 
 public class MigrationIGRPInitConfig {
 
+	
 	public static void start(){
 		Application app = new Application();
 		app.setDad("igrp");
