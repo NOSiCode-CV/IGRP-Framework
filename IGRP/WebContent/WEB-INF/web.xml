@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  
   <display-name>IGRP</display-name>
-  
-  <description> IGRP-Framework. </description>
-
-  
-  
   <servlet>
     <servlet-name>igrp</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>C:\git\IGRP-Framework\IGRP</param-value>
+      <param-value>C:\Users\Isaías Nunes\git\IGRP-Framework\IGRP</param-value>
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
@@ -34,19 +28,6 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	
-	<filter>
-		<filter-name>IgrpCharacterEncoding</filter-name>
-		<filter-class>nosi.core.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-		  <param-name>encoding</param-name>
-		  <param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>IgrpCharacterEncoding</filter-name>
-		<servlet-name>igrp</servlet-name>
-	</filter-mapping>
   
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
@@ -64,6 +45,20 @@
     <exception-type>java.lang.Exception</exception-type>
     <location>/webapps?r=igrp/error-page/exception</location>
   </error-page>
+  
+<filter>
+   <filter-name>IgrpCharacterEncoding</filter-name>
+   <filter-class>nosi.core.filter.CharacterEncodingFilter</filter-class>
+   <init-param>
+     <param-name>encoding</param-name>
+     <param-value>UTF-8</param-value>
+   </init-param>
+ </filter>
+ <filter-mapping>
+   <filter-name>IgrpCharacterEncoding</filter-name>
+   <servlet-name>igrp</servlet-name>
+ </filter-mapping>
+ 
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
