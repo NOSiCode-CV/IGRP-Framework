@@ -14,14 +14,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
@@ -195,9 +192,9 @@ public class EnvController extends Controller {
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-		getAllApps(allowApps,denyApps);
+//		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
+//		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+//		getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;

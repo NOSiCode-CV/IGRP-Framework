@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl" type="text/xsl"?>
+<rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>CRUDGenerator</page>
+    <app>igrp_studio</app>
+    <plsql>
+        <action>index</action>
+        <package_instance></package_instance>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
+        <package_html>CRUDGenerator</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=129</preserve_url>
+    </plsql>
+    <content>
+        <title>CRUD Generator</title>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gerar">
+                <title>Gerar</title>
+                <app>igrp_studio</app>
+                <page>CRUDGenerator</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-gear</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl</parameter>
+            </item>
+        </toolsbar_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_source>
+                <schema name="p_schema" type="radiolist" domain="" maxlength="30" required="false" change="true" readonly="false" disabled="false" child_size="12" right="false">
+                    <label>Schema</label>
+                    <list>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </schema>
+                <hidden name="p_is_schema" type="hidden" maxlength="30" tag="is_schema"/>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <check_table name="p_check_table" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
+                    <label/>
+                </check_table>
+                <table_name name="p_table_name" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Table Name</label>
+                </table_name>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Ipsum anim magna consectetur l</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Totam labore adipiscing anim s</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Voluptatem amet sit consectetu</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Labore ut sed adipiscing persp</table_name>
+                    </row>
+                    <row>
+                        <check_table name="p_check_table" check="true" desc="true">1</check_table>
+                        <check_table_desc name="p_check_table_desc">1</check_table_desc>
+                        <table_name name="p_table_name">Laudantium officia sed dolorem</table_name>
+                    </row>
+                </value>
+            </table>
+        </table_1>
+    </content>
+</rows>

@@ -26,7 +26,7 @@ public class MigrationIGRPInitConfig {
 		Application tutorial = new Application("tutorial", "Tutorial IGRP", "default.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
 		tutorial = tutorial.insertOnly();
 		
-		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "default.png", "IGRP Studio - Software Developer", 1, null);
+		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "default.png", "IGRP Studio - Software Developer", 1, null,"igrp_studio");
 		igrp_studio = igrp_studio.insertOnly();
 		
 		if(app!=null){
@@ -161,11 +161,10 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, app));
 			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, app));
 			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, app));
-			
 			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app));
-			
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, tutorial));
 			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, igrp_studio));
+			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();

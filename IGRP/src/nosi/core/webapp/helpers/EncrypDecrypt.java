@@ -25,11 +25,13 @@ public class EncrypDecrypt {
     }
     
 	public static String encrypt(String content){
-		return encrypt(content, "igrp.encrypt.test");
+//		return encrypt(content, "igrp.encrypt.test");
+		return content;
 	}
 	
 	public static String decrypt(String content){
-		return decrypt(content, "igrp.encrypt.test");
+//		return decrypt(content, "igrp.encrypt.test");
+		return content;
 	}
 	
 	public static SecretKeySpec generateSecretKey(String key){

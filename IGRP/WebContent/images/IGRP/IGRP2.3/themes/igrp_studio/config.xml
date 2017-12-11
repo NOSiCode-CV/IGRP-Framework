@@ -1,0 +1,17 @@
+<style>
+
+	<nav>
+
+		<background>#408140</background>
+
+	</nav>
+
+	<colors>
+		
+		<color name="primary" bg-hover="#326532" text-color="white" link="true">#408140</color>
+
+	</colors>
+
+	<logo>img/logo.png</logo>
+
+</style>

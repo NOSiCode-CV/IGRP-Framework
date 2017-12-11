@@ -29,7 +29,7 @@ public class Config {
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
 		TITLE = "".equals(TITLE)?app.getName():TITLE;
 		XMLWritter xml = new XMLWritter();
-		xml.setElement("tamplate", "");
+		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", TITLE);
 		xml.setElement("version",getVersion());
 		xml.setElement("link",getLink());

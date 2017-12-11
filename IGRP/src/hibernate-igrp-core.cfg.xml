@@ -21,6 +21,7 @@
 		<mapping class="nosi.webapps.igrp.dao.Transaction"/>
 		<mapping class="nosi.webapps.igrp.dao.User"/>
 		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO"/>
+		<mapping class="nosi.webapps.igrp.dao.CRUD"/>
 		
 		<!-- OAuth -->
 		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken"/>
