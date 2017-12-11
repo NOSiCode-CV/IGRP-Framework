@@ -5,7 +5,13 @@ package nosi.webapps.igrp.dao;
  */
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 @Entity
 @Table(name="tbl_config_env")
@@ -123,6 +130,10 @@ public class Config_env extends BaseActiveRecord<Config_env> implements Serializ
 	}
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+
+	public  Map<Object, Object> getListEnv(int idEnv) {
+		return IgrpHelper.toMap(this.find().andWhere("application", "=",idEnv).all(), "id", "name", gt("-- Selecionar Data Source --"));
 	}
 	
 }

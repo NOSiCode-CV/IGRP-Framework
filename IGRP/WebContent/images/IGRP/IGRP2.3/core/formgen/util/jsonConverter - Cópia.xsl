@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ext="http://exslt.org/common" exclude-result-prefixes="ext" version="1.0">
-    <xsl:output method="text" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
+    <xsl:output method="text" omit-xml-declaration="yes"  	encoding="UTF-8" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <xsl:variable name="form" select="rows/content/form" />
         <xsl:variable name="formFields" select="$form/label/*[not(@rel)][not(@container='true')][not(@type='list')]" />

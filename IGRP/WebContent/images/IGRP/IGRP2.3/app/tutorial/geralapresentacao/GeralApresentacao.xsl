@@ -1,7 +1,8 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
     <xsl:template match="/">
+        <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
@@ -27,7 +28,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-0ce1b019">
+                                    <div class="row " id="row-72406196">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_2">
@@ -39,139 +40,235 @@
                                                 </xsl:if>
                                                 <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="boxed" gen-class="" item-name="tabcontent_1">
                                                     <ul class="nav nav-tabs">
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/videos">
-                                                            <li item-name="videos" class="active gen-fields-holder" rel="tab-tabcontent_1-videos">
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/welcome">
+                                                            <li item-name="welcome" class="active gen-fields-holder" rel="tab-tabcontent_1-welcome">
                                                                 <xsl:call-template name="get-active-tab">
-                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/videos/value"/>
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/welcome/value"/>
                                                                 </xsl:call-template>
-                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-videos">
-                                                                    <i class="fa fa-video-camera"/>
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-welcome">
+                                                                    <i class="fa fa-child"/>
                                                                     <span>
-                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/videos/label"/>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/welcome/label"/>
                                                                     </span>
                                                                 </a>
                                                             </li>
                                                         </xsl:if>
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/documentos">
-                                                            <li item-name="documentos" class=" gen-fields-holder" rel="tab-tabcontent_1-documentos">
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/gestao">
+                                                            <li item-name="gestao" class=" gen-fields-holder" rel="tab-tabcontent_1-gestao">
                                                                 <xsl:call-template name="get-active-tab">
-                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/documentos/value"/>
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gestao/value"/>
                                                                 </xsl:call-template>
-                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-documentos">
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-gestao">
+                                                                    <i class="fa fa-video-camera"/>
+                                                                    <span>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/gestao/label"/>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/desenvolvimento">
+                                                            <li item-name="desenvolvimento" class=" gen-fields-holder" rel="tab-tabcontent_1-desenvolvimento">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/desenvolvimento/value"/>
+                                                                </xsl:call-template>
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-desenvolvimento">
+                                                                    <i class="fa fa-video-camera"/>
+                                                                    <span>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/desenvolvimento/label"/>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/contribuicao">
+                                                            <li item-name="contribuicao" class=" gen-fields-holder" rel="tab-tabcontent_1-contribuicao">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/contribuicao/value"/>
+                                                                </xsl:call-template>
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-contribuicao">
+                                                                    <i class="fa fa-video-camera"/>
+                                                                    <span>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/contribuicao/label"/>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/documentos_gerais">
+                                                            <li item-name="documentos_gerais" class=" gen-fields-holder" rel="tab-tabcontent_1-documentos_gerais">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/documentos_gerais/value"/>
+                                                                </xsl:call-template>
+                                                                <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_1-documentos_gerais">
                                                                     <i class="fa fa-file-text"/>
                                                                     <span>
-                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/documentos/label"/>
+                                                                        <xsl:value-of select="rows/content/tabcontent_1/fields/documentos_gerais/label"/>
                                                                     </span>
                                                                 </a>
                                                             </li>
                                                         </xsl:if>
                                                     </ul>
                                                     <div class="tab-content">
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/videos">
-                                                            <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-videos" rel="tab-tabcontent_1-videos">
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/welcome">
+                                                            <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_1-welcome" rel="tab-tabcontent_1-welcome">
                                                                 <xsl:call-template name="get-active-tab">
-                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/videos/value"/>
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/welcome/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-9a43aeb2">
+                                                                <div class="row " id="row-86dded59">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/sectionheader_1">
+                                                                                <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
+                                                                                    <h2>
+                                                                                        <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
+                                                                                    </h2>
+                                                                                </section>
+                                                                            </xsl:if>
+                                                                            <xsl:if test="rows/content/paragraph_1">
+                                                                                <div class="box gen-container-item " gen-class="" item-name="paragraph_1">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/paragraph_1/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <p>
+                                                                                            <xsl:value-of select="rows/content/paragraph_1/fields/paragraph_1_text/value"/>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                            <xsl:if test="rows/content/video_2">
+                                                                                <div class="gen-container-item " gen-class="" item-name="video_2">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/video_2/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'false'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <iframe style="height:500px" src="{rows/content/video_2/fields/video_2_text/value}" frameborder="0" allowfullscreen=""/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
                                                                             <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="accordion" gen-class="" item-name="tabcontent_2">
+                                                                                <ul class="nav nav-tabs"></ul>
+                                                                                <div class="tab-content"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/gestao">
+                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-gestao" rel="tab-tabcontent_1-gestao">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gestao/value"/>
+                                                                    <xsl:with-param name="class" select="'tab-pane'"/>
+                                                                </xsl:call-template>
+                                                                <div class="row " id="row-04874ffa">
+                                                                    <div class="gen-column col-sm-12">
+                                                                        <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/paragraph_3">
+                                                                                <div class="box gen-container-item " gen-class="" item-name="paragraph_3">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/paragraph_3/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <p>
+                                                                                            <xsl:value-of select="rows/content/paragraph_3/fields/paragraph_3_text/value"/>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                            <xsl:if test="rows/content/video_3">
+                                                                                <div class="box gen-container-item " gen-class="" item-name="video_3">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/video_3/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <iframe style="height:500px" src="{rows/content/video_3/fields/video_3_text/value}" frameborder="0" allowfullscreen=""/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/desenvolvimento">
+                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-desenvolvimento" rel="tab-tabcontent_1-desenvolvimento">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/desenvolvimento/value"/>
+                                                                    <xsl:with-param name="class" select="'tab-pane'"/>
+                                                                </xsl:call-template>
+                                                                <div class="row " id="row-4d1a3497">
+                                                                    <div class="gen-column col-sm-12">
+                                                                        <div class="gen-inner">
+                                                                            <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="accordion" gen-class="" item-name="tabcontent_3">
                                                                                 <ul class="nav nav-tabs">
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/bem_vindo">
-                                                                                        <li item-name="bem_vindo" class="active gen-fields-holder" rel="tab-tabcontent_2-bem_vindo">
+                                                                                    <xsl:if test="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework">
+                                                                                        <li item-name="como_instalar_igrp_java_framework" class="active gen-fields-holder" rel="tab-tabcontent_3-como_instalar_igrp_java_framework">
                                                                                             <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/bem_vindo/value"/>
+                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework/value"/>
                                                                                             </xsl:call-template>
-                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_2-bem_vindo">
+                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_3-como_instalar_igrp_java_framework">
                                                                                                 <i class="fa fa-hand-o-right"/>
                                                                                                 <span>
-                                                                                                    <xsl:value-of select="rows/content/tabcontent_2/fields/bem_vindo/label"/>
+                                                                                                    <xsl:value-of select="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework/label"/>
                                                                                                 </span>
                                                                                             </a>
                                                                                         </li>
                                                                                     </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/como_instalar_o_igrp">
-                                                                                        <li item-name="como_instalar_o_igrp" class=" gen-fields-holder" rel="tab-tabcontent_2-como_instalar_o_igrp">
+                                                                                    <xsl:if test="rows/content/tabcontent_3/fields/my_first_app">
+                                                                                        <li item-name="my_first_app" class=" gen-fields-holder" rel="tab-tabcontent_3-my_first_app">
                                                                                             <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/como_instalar_o_igrp/value"/>
+                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/my_first_app/value"/>
                                                                                             </xsl:call-template>
-                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_2-como_instalar_o_igrp">
+                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_3-my_first_app">
                                                                                                 <i class="fa fa-hand-o-right"/>
                                                                                                 <span>
-                                                                                                    <xsl:value-of select="rows/content/tabcontent_2/fields/como_instalar_o_igrp/label"/>
-                                                                                                </span>
-                                                                                            </a>
-                                                                                        </li>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/demo_de_um_aplicacao">
-                                                                                        <li item-name="demo_de_um_aplicacao" class=" gen-fields-holder" rel="tab-tabcontent_2-demo_de_um_aplicacao">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/demo_de_um_aplicacao/value"/>
-                                                                                            </xsl:call-template>
-                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_2-demo_de_um_aplicacao">
-                                                                                                <i class="fa fa-hand-o-right"/>
-                                                                                                <span>
-                                                                                                    <xsl:value-of select="rows/content/tabcontent_2/fields/demo_de_um_aplicacao/label"/>
-                                                                                                </span>
-                                                                                            </a>
-                                                                                        </li>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/minha_primeira_aplicacao">
-                                                                                        <li item-name="minha_primeira_aplicacao" class=" gen-fields-holder" rel="tab-tabcontent_2-minha_primeira_aplicacao">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/minha_primeira_aplicacao/value"/>
-                                                                                            </xsl:call-template>
-                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_2-minha_primeira_aplicacao">
-                                                                                                <i class="fa fa-hand-o-right"/>
-                                                                                                <span>
-                                                                                                    <xsl:value-of select="rows/content/tabcontent_2/fields/minha_primeira_aplicacao/label"/>
-                                                                                                </span>
-                                                                                            </a>
-                                                                                        </li>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/como_contribuir">
-                                                                                        <li item-name="como_contribuir" class=" gen-fields-holder" rel="tab-tabcontent_2-como_contribuir">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/como_contribuir/value"/>
-                                                                                            </xsl:call-template>
-                                                                                            <a active-text-color="primary" data-toggle="tab" aria-expanded="true" href="#tab-tabcontent_2-como_contribuir">
-                                                                                                <i class="fa fa-hand-o-right"/>
-                                                                                                <span>
-                                                                                                    <xsl:value-of select="rows/content/tabcontent_2/fields/como_contribuir/label"/>
+                                                                                                    <xsl:value-of select="rows/content/tabcontent_3/fields/my_first_app/label"/>
                                                                                                 </span>
                                                                                             </a>
                                                                                         </li>
                                                                                     </xsl:if>
                                                                                 </ul>
                                                                                 <div class="tab-content">
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/bem_vindo">
-                                                                                        <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_2-bem_vindo" rel="tab-tabcontent_2-bem_vindo">
+                                                                                    <xsl:if test="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework">
+                                                                                        <div class="tab-pane gen-rows-holder active" id="tab-tabcontent_3-como_instalar_igrp_java_framework" rel="tab-tabcontent_3-como_instalar_igrp_java_framework">
                                                                                             <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/bem_vindo/value"/>
+                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework/value"/>
                                                                                                 <xsl:with-param name="class" select="'tab-pane'"/>
                                                                                             </xsl:call-template>
-                                                                                            <div class="row " id="row-8282948b">
+                                                                                            <div class="row " id="row-1add3411">
                                                                                                 <div class="gen-column col-sm-12">
                                                                                                     <div class="gen-inner">
-                                                                                                        <xsl:if test="rows/content/sectionheader_1">
-                                                                                                            <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
-                                                                                                                <h2>
-                                                                                                                    <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
-                                                                                                                </h2>
-                                                                                                            </section>
-                                                                                                        </xsl:if>
-                                                                                                        <xsl:if test="rows/content/paragraph_1">
-                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_1">
+                                                                                                        <xsl:if test="rows/content/paragraph_8">
+                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_8">
                                                                                                                 <xsl:call-template name="box-header">
-                                                                                                                    <xsl:with-param name="title" select="rows/content/paragraph_1/@title"/>
+                                                                                                                    <xsl:with-param name="title" select="rows/content/paragraph_8/@title"/>
                                                                                                                     <xsl:with-param name="collapsible" select="'true'"/>
                                                                                                                     <xsl:with-param name="collapsed" select="'false'"/>
                                                                                                                 </xsl:call-template>
                                                                                                                 <div class="box-body">
                                                                                                                     <p>
-                                                                                                                        <xsl:value-of select="rows/content/paragraph_1/fields/paragraph_1_text/value"/>
+                                                                                                                        <xsl:value-of select="rows/content/paragraph_8/fields/paragraph_8_text/value"/>
                                                                                                                     </p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </xsl:if>
+                                                                                                        <xsl:if test="rows/content/video_6">
+                                                                                                            <div class="box gen-container-item " gen-class="" item-name="video_6">
+                                                                                                                <xsl:call-template name="box-header">
+                                                                                                                    <xsl:with-param name="title" select="rows/content/video_6/@title"/>
+                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                                                </xsl:call-template>
+                                                                                                                <div class="box-body">
+                                                                                                                    <iframe style="height:500px" src="{rows/content/video_6/fields/video_6_text/value}" frameborder="0" allowfullscreen=""/>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </xsl:if>
@@ -180,57 +277,17 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/como_instalar_o_igrp">
-                                                                                        <div class="tab-pane gen-rows-holder " id="tab-tabcontent_2-como_instalar_o_igrp" rel="tab-tabcontent_2-como_instalar_o_igrp">
+                                                                                    <xsl:if test="rows/content/tabcontent_3/fields/my_first_app">
+                                                                                        <div class="tab-pane gen-rows-holder " id="tab-tabcontent_3-my_first_app" rel="tab-tabcontent_3-my_first_app">
                                                                                             <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/como_instalar_o_igrp/value"/>
+                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/my_first_app/value"/>
                                                                                                 <xsl:with-param name="class" select="'tab-pane'"/>
                                                                                             </xsl:call-template>
-                                                                                            <div class="row " id="row-bd1a67f0">
-                                                                                                <div class="gen-column col-sm-12">
-                                                                                                    <div class="gen-inner">
-                                                                                                        <xsl:if test="rows/content/paragraph_3">
-                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_3">
-                                                                                                                <xsl:call-template name="box-header">
-                                                                                                                    <xsl:with-param name="title" select="rows/content/paragraph_3/@title"/>
-                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
-                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
-                                                                                                                </xsl:call-template>
-                                                                                                                <div class="box-body">
-                                                                                                                    <p>
-                                                                                                                        <xsl:value-of select="rows/content/paragraph_3/fields/paragraph_3_text/value"/>
-                                                                                                                    </p>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
-                                                                                                        <xsl:if test="rows/content/video_3">
-                                                                                                            <div class="gen-container-item " gen-class="" item-name="video_3">
-                                                                                                                <xsl:call-template name="box-header">
-                                                                                                                    <xsl:with-param name="title" select="rows/content/video_3/@title"/>
-                                                                                                                    <xsl:with-param name="collapsible" select="'false'"/>
-                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
-                                                                                                                </xsl:call-template>
-                                                                                                                <div class="box-body">
-                                                                                                                    <iframe style="height:400px" src="{rows/content/video_3/fields/video_3_text/value}" frameborder="0" allowfullscreen=""/>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/demo_de_um_aplicacao">
-                                                                                        <div class="tab-pane gen-rows-holder " id="tab-tabcontent_2-demo_de_um_aplicacao" rel="tab-tabcontent_2-demo_de_um_aplicacao">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/demo_de_um_aplicacao/value"/>
-                                                                                                <xsl:with-param name="class" select="'tab-pane'"/>
-                                                                                            </xsl:call-template>
-                                                                                            <div class="row " id="row-e46747e4">
+                                                                                            <div class="row " id="row-4860689c">
                                                                                                 <div class="gen-column col-sm-12">
                                                                                                     <div class="gen-inner">
                                                                                                         <xsl:if test="rows/content/paragraph_5">
-                                                                                                            <div class="gen-container-item " gen-class="" item-name="paragraph_5">
+                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_5">
                                                                                                                 <xsl:call-template name="box-header">
                                                                                                                     <xsl:with-param name="title" select="rows/content/paragraph_5/@title"/>
                                                                                                                     <xsl:with-param name="collapsible" select="'true'"/>
@@ -243,80 +300,15 @@
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </xsl:if>
-                                                                                                        <xsl:if test="rows/content/video_5">
-                                                                                                            <div class="gen-container-item " gen-class="" item-name="video_5">
-                                                                                                                <div class="box-body">
-                                                                                                                    <iframe style="height:400px" src="{rows/content/video_5/fields/video_5_text/value}" frameborder="0" allowfullscreen=""/>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/minha_primeira_aplicacao">
-                                                                                        <div class="tab-pane gen-rows-holder " id="tab-tabcontent_2-minha_primeira_aplicacao" rel="tab-tabcontent_2-minha_primeira_aplicacao">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/minha_primeira_aplicacao/value"/>
-                                                                                                <xsl:with-param name="class" select="'tab-pane'"/>
-                                                                                            </xsl:call-template>
-                                                                                            <div class="row " id="row-c3b7fcd2">
-                                                                                                <div class="gen-column col-sm-12">
-                                                                                                    <div class="gen-inner">
-                                                                                                        <xsl:if test="rows/content/paragraph_4">
-                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_4">
-                                                                                                                <xsl:call-template name="box-header">
-                                                                                                                    <xsl:with-param name="title" select="rows/content/paragraph_4/@title"/>
-                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
-                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
-                                                                                                                </xsl:call-template>
-                                                                                                                <div class="box-body">
-                                                                                                                    <p>
-                                                                                                                        <xsl:value-of select="rows/content/paragraph_4/fields/paragraph_4_text/value"/>
-                                                                                                                    </p>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
-                                                                                                        <xsl:if test="rows/content/video_4">
-                                                                                                            <div class="gen-container-item " gen-class="" item-name="video_4">
-                                                                                                                <div class="box-body">
-                                                                                                                    <iframe style="height:400px" src="{rows/content/video_4/fields/video_4_text/value}" frameborder="0" allowfullscreen=""/>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="rows/content/tabcontent_2/fields/como_contribuir">
-                                                                                        <div class="tab-pane gen-rows-holder " id="tab-tabcontent_2-como_contribuir" rel="tab-tabcontent_2-como_contribuir">
-                                                                                            <xsl:call-template name="get-active-tab">
-                                                                                                <xsl:with-param name="value" select="rows/content/tabcontent_2/fields/como_contribuir/value"/>
-                                                                                                <xsl:with-param name="class" select="'tab-pane'"/>
-                                                                                            </xsl:call-template>
-                                                                                            <div class="row " id="row-09910b3b">
-                                                                                                <div class="gen-column col-sm-12">
-                                                                                                    <div class="gen-inner">
-                                                                                                        <xsl:if test="rows/content/paragraph_2">
-                                                                                                            <div class="box gen-container-item " gen-class="" item-name="paragraph_2">
-                                                                                                                <xsl:call-template name="box-header">
-                                                                                                                    <xsl:with-param name="title" select="rows/content/paragraph_2/@title"/>
-                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
-                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
-                                                                                                                </xsl:call-template>
-                                                                                                                <div class="box-body">
-                                                                                                                    <p>
-                                                                                                                        <xsl:value-of select="rows/content/paragraph_2/fields/paragraph_2_text/value"/>
-                                                                                                                    </p>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </xsl:if>
                                                                                                         <xsl:if test="rows/content/video_1">
-                                                                                                            <div class="gen-container-item " gen-class="" item-name="video_1">
+                                                                                                            <div class="box gen-container-item " gen-class="" item-name="video_1">
+                                                                                                                <xsl:call-template name="box-header">
+                                                                                                                    <xsl:with-param name="title" select="rows/content/video_1/@title"/>
+                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                                                    <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                                                </xsl:call-template>
                                                                                                                 <div class="box-body">
-                                                                                                                    <iframe style="height:400px" src="{rows/content/video_1/fields/video_1_text/value}" frameborder="0" allowfullscreen=""/>
+                                                                                                                    <iframe style="height:500px" src="{rows/content/video_1/fields/video_1_text/value}" frameborder="0" allowfullscreen=""/>
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </xsl:if>
@@ -332,13 +324,53 @@
                                                                 </div>
                                                             </div>
                                                         </xsl:if>
-                                                        <xsl:if test="rows/content/tabcontent_1/fields/documentos">
-                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-documentos" rel="tab-tabcontent_1-documentos">
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/contribuicao">
+                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-contribuicao" rel="tab-tabcontent_1-contribuicao">
                                                                 <xsl:call-template name="get-active-tab">
-                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/documentos/value"/>
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/contribuicao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-80836068">
+                                                                <div class="row " id="row-69a12dd2">
+                                                                    <div class="gen-column col-sm-12">
+                                                                        <div class="gen-inner">
+                                                                            <xsl:if test="rows/content/paragraph_7">
+                                                                                <div class="box gen-container-item " gen-class="" item-name="paragraph_7">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/paragraph_7/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <p>
+                                                                                            <xsl:value-of select="rows/content/paragraph_7/fields/paragraph_7_text/value"/>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                            <xsl:if test="rows/content/video_7">
+                                                                                <div class="box gen-container-item " gen-class="" item-name="video_7">
+                                                                                    <xsl:call-template name="box-header">
+                                                                                        <xsl:with-param name="title" select="rows/content/video_7/@title"/>
+                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsed" select="'false'"/>
+                                                                                    </xsl:call-template>
+                                                                                    <div class="box-body">
+                                                                                        <iframe style="height:500px" src="{rows/content/video_7/fields/video_7_text/value}" frameborder="0" allowfullscreen=""/>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </xsl:if>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </xsl:if>
+                                                        <xsl:if test="rows/content/tabcontent_1/fields/documentos_gerais">
+                                                            <div class="tab-pane gen-rows-holder " id="tab-tabcontent_1-documentos_gerais" rel="tab-tabcontent_1-documentos_gerais">
+                                                                <xsl:call-template name="get-active-tab">
+                                                                    <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/documentos_gerais/value"/>
+                                                                    <xsl:with-param name="class" select="'tab-pane'"/>
+                                                                </xsl:call-template>
+                                                                <div class="row " id="row-a6bcd498">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/paragraph_6">
@@ -453,9 +485,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512056831660"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512056831660"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512056831660"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512056831660"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512056831660"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512740339460"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512740339460"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512740339460"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512740339460"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512740339460"/>
 </xsl:stylesheet>

@@ -29,7 +29,7 @@ public class Config {
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
 		TITLE = "".equals(TITLE)?app.getName():TITLE;
 		XMLWritter xml = new XMLWritter();
-		xml.setElement("tamplate", "");
+		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", TITLE);
 		xml.setElement("version",getVersion());
 		xml.setElement("link",getLink());
@@ -163,7 +163,7 @@ public class Config {
 	
 	public static String getResolveUrl(String app,String page,String action){
 		HttpServletRequest req = Igrp.getInstance().getRequest();
-		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+"/IGRP/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
 		return url;
 	}
 	public static String getRootPaht(){

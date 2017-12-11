@@ -14,9 +14,14 @@ import java.lang.Short;
 import java.lang.annotation.Annotation;
 import java.lang.Long;
 
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
+import nosi.core.webapp.databse.helpers.CRUDOperation;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.CRUD;
+import nosi.webapps.igrp.dao.Config_env;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -165,6 +170,49 @@ public abstract class Model { // IGRP super model
 			 //...
 		}
 		
+	}
+	
+	
+	private boolean save(Model model,boolean isUpdate) throws IllegalArgumentException, IllegalAccessException{	
+		model.load();
+		Class<? extends Model> c = this.getClass();
+		Action ac = new Action().find()
+								.andWhere("page", "=",c.getSimpleName())
+								.andWhere("application.dad", "=",Igrp.getInstance().getCurrentAppName())
+								.one();
+		if(ac.getCrud()!=null){
+			CRUD crud = ac.getCrud();
+			Config_env config = crud.getConfig_env();
+			if(isUpdate)
+				return new CRUDOperation().insert(crud.getSchemaName(), config, crud.getTableName(),model);
+			else
+				return new CRUDOperation().update(crud.getSchemaName(), config, crud.getTableName(),model,id);
+		}
+		return false;
+	}
+	
+	public boolean save(Model model) throws IllegalArgumentException, IllegalAccessException {
+		return this.save(model,!false);
+	}
+	
+	Object id = null;
+	public boolean update(Model model,Object id) throws IllegalArgumentException, IllegalAccessException{
+		this.id = id;
+		return this.save(model,false);
+	}
+	
+	public boolean delete(Object id){
+		Class<? extends Model> c = this.getClass();
+		Action ac = new Action().find()
+								.andWhere("page", "=",c.getSimpleName())
+								.andWhere("application.dad", "=",Igrp.getInstance().getCurrentAppName())
+								.one();
+		if(ac.getCrud()!=null){
+			CRUD crud = ac.getCrud();
+			Config_env config = crud.getConfig_env();
+			return new CRUDOperation().delete(crud.getSchemaName(), config, crud.getTableName(),id);
+		}
+		return false;
 	}
 	
 	/*
