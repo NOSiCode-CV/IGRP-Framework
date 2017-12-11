@@ -493,7 +493,7 @@ var CONTAINER = function(name,params){
 			tempStr = tempStr.replaceAll('xmlns:xsl="http://www.w3.org/1999/XSL/Transform"','');
 			//tempStr = tempStr.replaceAll('item-name','')
 			stylesheet = $.parseXML('<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">'+
-		  						'<xsl:output method="html" encoding="utf-8"/>'+
+		  						'<xsl:output method="html" encoding="utf-8" doctype-system="about:legacy-compat"/>'+
 		  						'<xsl:template match="/">'+tempStr+
 		  						'</xsl:template>'+includes+'</xsl:stylesheet>');
 		}

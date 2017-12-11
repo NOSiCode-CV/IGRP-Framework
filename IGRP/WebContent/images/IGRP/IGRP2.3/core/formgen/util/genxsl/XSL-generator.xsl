@@ -7,7 +7,7 @@
     
     <gen:template match="/">
         <xsl:stylesheet version="1.0">
-                <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" />
+                <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
   				<xsl:template match="/">
                 <gen:variable name="bodyClass" select="'{$bodyClass}'"/>
                 <html>

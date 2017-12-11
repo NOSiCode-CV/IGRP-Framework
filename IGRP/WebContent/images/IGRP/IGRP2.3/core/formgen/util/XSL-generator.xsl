@@ -5,9 +5,9 @@
   
   <gen:template match="/">
     <xsl:stylesheet version="1.0">     
-      <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" />
+      <xsl:output method="html" omit-xml-declaration="yes" doctype-system="about:legacy-compat" encoding="utf-8" indent="yes" />
 	  <xsl:template match="/">
-    <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
+
         <html>
           <head>
             <xsl:call-template name="IGRP-head"/>
