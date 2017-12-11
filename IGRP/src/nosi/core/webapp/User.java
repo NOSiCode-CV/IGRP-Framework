@@ -16,6 +16,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.json.JSONArray;
 
 import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.pages.login.LoginController;
 /**
  * @author Marcel Iekiny
@@ -133,7 +134,7 @@ public class User implements Component{
 		}
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
-				//Route.remember(); // remember the url that was requested by the client ...
+				Route.remember(); // remember the url that was requested by the client ... 
 				this.checkCookieContext();
 				// Anyway, go to login page 
 				LoginController controller = new LoginController();
