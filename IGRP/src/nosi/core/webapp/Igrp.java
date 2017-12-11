@@ -22,7 +22,7 @@ public final class Igrp{ // Not extends
 	
 	private static IgrpFactory<Igrp> appInstance = null;
 
-	private HttpServlet servlet; // Refer to HttpServlet
+	private HttpServlet servlet; // Refer to HttpServlet 
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
@@ -78,7 +78,7 @@ public final class Igrp{ // Not extends
 		this.flashMessage = new FlashMessage(); // Flash Message instance
 		
 		// Config. of RDBMS or others DS ...
-// PersistenceUtils.init();
+		// PersistenceUtils.init();
 		
 		// User component (Identity)
 		this.user = new User();

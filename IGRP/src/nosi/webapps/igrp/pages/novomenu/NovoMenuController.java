@@ -136,6 +136,7 @@ public class NovoMenuController extends Controller {
 			model.setDescr(menu.getDescr());
 			
 			model.load();
+			System.out.println(model.getDescr());
 			
 			if(model.getAction_fk()!=0){
 				menu.setAction(new Action().findOne(model.getAction_fk()));

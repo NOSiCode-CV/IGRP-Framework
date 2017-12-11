@@ -114,7 +114,7 @@ public class Config {
 	}
 	
 	public static String getWorkspace(){
-		return Igrp.getInstance().getServlet().getInitParameter("workspace");
+		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
 	}
 	
 	public static String getAutenticationType(){

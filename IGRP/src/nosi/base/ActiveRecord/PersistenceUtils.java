@@ -1,7 +1,11 @@
 package nosi.base.ActiveRecord;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import nosi.core.config.ConfigDBIGRP;
@@ -12,9 +16,9 @@ import nosi.webapps.igrp.dao.Config_env;
  * 4 Jul 2017
  */
 public class PersistenceUtils {
-
-	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();
 	
+	//public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();
+	/*
 	public static SessionFactory getSessionFactory(String connectionName) {
 	      if (!SESSION_FACTORY.containsKey(connectionName)) {
 	         try {
@@ -95,15 +99,18 @@ public class PersistenceUtils {
 					return "jdbc:oracle:thin:@"+host+":"+port+"/"+db_name;
 			}
 			return "";
-		}
-	/*
-	public static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();	
+		}*/ 
 	
-	public static boolean isSuccessful = false; // For now this field is private
+	private static Map<String,SessionFactory> SESSION_FACTORY = new HashMap<>();	
 	
-	public static void init(){
+	public static boolean isSuccessful = false; // For now this field is private 
+	
+	public static String path = "";
+	
+	public static void init(String path){
 		if(!PersistenceUtils.isSuccessful) {
-			ConfigDBIGRP config = new ConfigDBIGRP();
+			PersistenceUtils.path = path;
+			ConfigDBIGRP config = new ConfigDBIGRP(path);
 			config.load();
 			String url = getUrl(config.getType_db(),config.getHost(),""+config.getPort(), config.getName_db());
 			setConnection(config.getType_db(), config.getName(), url, config.getUsername(), config.getPassword());
@@ -125,17 +132,19 @@ public class PersistenceUtils {
 		Configuration cfg = new Configuration();
     	cfg.configure("/"+connectioName+".cfg.xml");
     	String driver = getDriver(dbmsName);
+    	        
     	cfg.getProperties().setProperty("hibernate.connection.driver_class", driver);
     	cfg.getProperties().setProperty("hibernate.connection.password",password);
     	cfg.getProperties().setProperty("hibernate.connection.username",user);
     	cfg.getProperties().setProperty("hibernate.connection.url",url);
-//    	cfg.getProperties().setProperty("current_session_context_class","thread");
-//    	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
-//    	cfg.getProperties().setProperty("hibernate.c3p0.min_size","5");
-//    	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
-//    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
-//    	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
-//    	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
+    	cfg.getProperties().setProperty("current_session_context_class","thread");
+    	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
+    	cfg.getProperties().setProperty("hibernate.c3p0.min_size","5");
+    	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
+    	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
+    	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
+    	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
+    	
     	boolean isConnected = false;
     	try{
 			SessionFactory sf = cfg.buildSessionFactory();		
@@ -145,6 +154,10 @@ public class PersistenceUtils {
     		isConnected = false;
     	}
     	return isConnected;
+	}
+	
+	public static SessionFactory getSessionFactory(String connectionName) {
+		return SESSION_FACTORY.get(connectionName);
 	}
 	
 	public static String getDriver(String type) {
@@ -174,5 +187,14 @@ public class PersistenceUtils {
 		}
 		return "";
 	}
-	*/
+	
+	public static void destroy() { 
+		Iterator<SessionFactory> i = PersistenceUtils.SESSION_FACTORY.values().iterator();
+		while(i.hasNext()) { 
+			SessionFactory sf = i.next(); 
+			if(sf.isOpen())
+				sf.close();
+		} 
+		PersistenceUtils.SESSION_FACTORY.clear();
+	}
 }
