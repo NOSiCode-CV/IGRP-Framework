@@ -44,7 +44,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	private String img_src;
 	private String description;
 	private int status;
-	
+	private String template;
 	private int external;
 	private String url;
 	
@@ -83,6 +83,13 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		this.description = description;
 		this.status = status;
 		this.action = action;
+	}
+	
+	
+	public Application(String dad, String name, String img_src, String description, int status,
+			Action action,String template) {
+		this(dad, name, img_src, description, status, action);
+		this.template = template;
 	}
 	
 	public int getExternal() {
@@ -143,7 +150,15 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	public void setAction(Action action) {
 		this.action = action;
 	}
-	
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
+	}
+
 	public List<Action> getActions() {
 		return actions;
 	}
