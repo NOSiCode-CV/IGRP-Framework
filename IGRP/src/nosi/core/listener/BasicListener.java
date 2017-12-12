@@ -17,8 +17,7 @@ public class BasicListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent arg0)  {
     	PersistenceUtils.destroy(); 
     }
-
-	public void contextInitialized(ServletContextEvent arg0)  { 
-		PersistenceUtils.init(arg0.getServletContext().getRealPath("/WEB-INF/config/")); 
-    }
+    
+	public void contextInitialized(ServletContextEvent arg0)  {}
+	
 }
