@@ -222,6 +222,7 @@ public class MigrationIGRPInitConfig {
 			
 			
 			//permisao de acesso ao menu
+			profiles.add(new Profile(6, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(7, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(8, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", prof0, user0, org));
@@ -230,10 +231,10 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(12, "MEN", prof0, user0, org));
 			profiles.add(new Profile(13, "MEN", prof0, user0, org));
 			profiles.add(new Profile(14, "MEN", prof0, user0, org));
-			profiles.add(new Profile(15, "MEN", prof0, user0, org));
-			profiles.add(new Profile(16, "MEN", prof0, user0, org));
-			profiles.add(new Profile(17, "MEN", prof0, user0, org));
-			profiles.add(new Profile(18, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(15, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(16, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(17, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(18, "MEN", prof0, user0, org));
 //			profiles.add(new Profile(19, "MEN", prof0, user0, org));
 //			profiles.add(new Profile(20, "MEN", prof0, user0, org));
 //			profiles.add(new Profile(21, "MEN", prof0, user0, org));
@@ -241,6 +242,7 @@ public class MigrationIGRPInitConfig {
 //			profiles.add(new Profile(23, "MEN", prof0, user0, org));
 //			profiles.add(new Profile(24, "MEN", prof0, user0, org));
 			
+			profiles.add(new Profile(6, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(7, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(8, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", prof1, user0, org));
@@ -249,10 +251,10 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
 			profiles.add(new Profile(13, "MEN", prof1, user0, org));
 			profiles.add(new Profile(14, "MEN", prof1, user0, org));
-			profiles.add(new Profile(15, "MEN", prof1, user0, org));
-			profiles.add(new Profile(16, "MEN", prof1, user0, org));
-			profiles.add(new Profile(17, "MEN", prof1, user0, org));
-			profiles.add(new Profile(18, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(15, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(16, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(17, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(18, "MEN", prof1, user0, org));
 //			profiles.add(new Profile(19, "MEN", prof1, user0, org));
 //			profiles.add(new Profile(20, "MEN", prof1, user0, org));
 //			profiles.add(new Profile(21, "MEN", prof1, user0, org));
