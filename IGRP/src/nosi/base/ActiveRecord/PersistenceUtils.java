@@ -1,5 +1,6 @@
 package nosi.base.ActiveRecord;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

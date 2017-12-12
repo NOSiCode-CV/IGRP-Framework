@@ -11,9 +11,9 @@ import nosi.core.webapp.ThreadLocalIgrpFactory;
  * Nov 23, 2017
  */
 @WebListener 
-public class SingletonListener implements ServletRequestListener {
+public class ThreadLocalListener implements ServletRequestListener {
 
-    public SingletonListener() {}
+    public ThreadLocalListener() {}
 
     public void requestDestroyed(ServletRequestEvent arg0)  { 
          // TODO Auto-generated method stub
