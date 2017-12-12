@@ -1,43 +1,27 @@
-#igrp-top-nav{
-	-webkit-box-shadow: 4px 0 5px rgba(0,0,0,0.08);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    background: #337ab7;
-    overflow: visible;
-}
-#igrp-top-nav .navbar-brand{
-	background:#296598;
-}
-#igrp-top-nav .navbar-brand b{
-	font-weight: 400
-}
-#igrp-top-nav #side-bar-ctrl{
-	font-size: 14px;
-}
-#igrp-top-nav #side-bar-ctrl:hover{
-	background:rgba(0,0,0,.1); 
+#igrp-top-nav.navbar{
+	background: #59b017
 }
 
-#igrp-top-nav  #igrp-app-title{
-	line-height: 53px;
-	
-	font-size: 16px;
-	font-weight: 500
+.navbar-brand{
+	background: #319e2a;
 }
-
-#igrp-top-menu>li{
-	border:0;
+.navbar-brand>span{
+	margin: 0 10px;
+    font-size: 20px;
+    color: white;
 }
-
-#igrp-top-nav ul li a{
-	line-height: 55px;
-	padding: 0 15px;
-	border-bottom: 2px solid transparent
+.navbar-brand>img{
+	width: 26px;
 }
-
-#igrp-top-menu>li>a:hover, 
-#igrp-top-menu>li>a:focus{
-	background:none;
-	border-bottom-color: #fff;
-	
+#side-bar-ctrl{
+	-webkit-transition: color .25s;
+	   -moz-transition: color .25s;
+	    -ms-transition: color .25s;
+	     -o-transition: color .25s;
+	        transition: color .25s;
+}
+#side-bar-ctrl:hover{
+	color: #e4e4e4;
+	background: none;
 }
 
