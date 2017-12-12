@@ -24,7 +24,10 @@ public class CRUDOperation {
         int i = 1;
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
-				 query.setParameter(i,model.getFieldValueAsObject(col.getName()).toString());
+				 Object value = model.getFieldValueAsObject(col.getName());
+				 if(value!=null) {
+					query.setParameter(i,col.getType().cast(value.toString()));
+				 }
 				 i++;
 			}
 		}
@@ -72,8 +75,10 @@ public class CRUDOperation {
         int i = 1;
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
-				 query.setParameter(i,model.getFieldValueAsObject(col.getName()).toString());
-				 i++;
+				if(!col.isAutoIncrement()) {
+					 query.setParameter(i,col.getType().cast(model.getFieldValueAsObject(col.getName()).toString()));
+					 i++;
+				}
 			}
 		}
 		query.setParameter(i+1, Integer.parseInt(id.toString()));
@@ -82,7 +87,6 @@ public class CRUDOperation {
 		em.close();
 		return r > 0;
 	}
-
 
 	public boolean delete(String schemaName, Config_env config, String tableName, Object id) {
 		tableName = !schemaName.equals("")?schemaName+"."+tableName:tableName;//Adiciona schema

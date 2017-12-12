@@ -19,8 +19,9 @@ public class PageTestController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
-      	String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		PageTestView view = new PageTestView(model);      
+      	
+		PageTestView view = new PageTestView(model);     
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
         if(id!=null){
           view.btn_gravar.setLink("gravar&p_id="+id);
         }

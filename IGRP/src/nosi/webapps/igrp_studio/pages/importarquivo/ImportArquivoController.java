@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.importarquivo;
+package nosi.webapps.igrp_studio.pages.importarquivo;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
