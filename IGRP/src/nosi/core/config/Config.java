@@ -23,7 +23,8 @@ public class Config {
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
-
+	public static String LINK_HOME ="webapps?r=igrp/home/index";
+	
 	public static String getHeader(){
 		return getHeader(null);
 	}
@@ -85,6 +86,7 @@ public class Config {
 		TITLE = "";
 		type_header = "normal";
 		LINK_MY_APPS = "webapps?r=igrp/env/myApps";
+		LINK_HOME = "webapps?r=igrp/home/index";
 		return xml.toString();
 	}
 	
@@ -136,8 +138,9 @@ public class Config {
 	}
 	
 	public static String getLink(){
-		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
+		return LINK_HOME;
 	}
+	
 	public static String getVersion(){
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"1.0";
 	}

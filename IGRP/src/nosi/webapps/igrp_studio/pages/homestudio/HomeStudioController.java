@@ -45,7 +45,7 @@ public class HomeStudioController extends Controller {
 
 	public Response actionReport_design() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(REPORT_DESIGN)----*/
-		return this.redirect("igrp","WebReport","index");
+		return this.redirect("igrp_studio","WebReport","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

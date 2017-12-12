@@ -1,5 +1,5 @@
 /*---------------------- Create Model ----------------------*/
-package nosi.webapps.igrp.pages.bpmndesigner;
+package nosi.webapps.igrp_studio.pages.bpmndesigner;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
