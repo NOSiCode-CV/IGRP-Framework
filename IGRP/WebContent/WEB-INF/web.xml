@@ -49,6 +49,15 @@
     <servlet-name>igrp</servlet-name>
   </filter-mapping>
   
+  <filter>
+		<filter-name>BasicSecurity</filter-name>
+		<filter-class>nosi.core.filter.BasicSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>BasicSecurity</filter-name>
+		<servlet-name>igrp</servlet-name>
+	</filter-mapping>
+  
   <servlet-mapping>
     <servlet-name>igrp</servlet-name>
     <url-pattern>/</url-pattern>
@@ -102,11 +111,11 @@
   </security-role>
   
   <listener>
-  	<listener-class>nosi.core.listener.DataBase</listener-class>
+  	<listener-class>nosi.core.listener.BasicListener</listener-class>
   </listener>
   
   <listener>
-  	<listener-class>nosi.core.listener.SingletonListener</listener-class>
+  	<listener-class>nosi.core.listener.ThreadLocalListener</listener-class>
   </listener>
   
 </web-app>
