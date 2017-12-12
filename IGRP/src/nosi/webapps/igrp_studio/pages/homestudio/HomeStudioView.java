@@ -22,7 +22,7 @@ public class HomeStudioView extends View {
 		form_1 = new IGRPForm("form_1","Form");
 		
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gestao_de_paginas = new IGRPButton("Gestão de Páginas","igrp_studio","HomeStudio","gestao_de_paginas","_self","success|fa-gears","","");
+		btn_gestao_de_paginas = new IGRPButton("Page Builder","igrp_studio","HomeStudio","gestao_de_paginas","_self","success|fa-gears","","");
 		btn_gestao_de_paginas.propertie.add("type","specific").add("code","").add("rel","gestao_de_paginas");
 		btn_importjar = new IGRPButton("Import.jar","igrp_studio","HomeStudio","importjar","_self","danger|fa-file-archive-o","","");
 		btn_importjar.propertie.add("type","specific").add("code","").add("rel","importjar");
