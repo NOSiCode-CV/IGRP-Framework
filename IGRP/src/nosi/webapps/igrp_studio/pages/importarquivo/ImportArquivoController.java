@@ -30,7 +30,7 @@ public class ImportArquivoController extends Controller {
 			model.load(); 
 		}
 		ImportArquivoView view = new ImportArquivoView(model);
-		view.list_aplicacao.setSqlQuery("SELECT id,name FROM tbl_env");
+		view.list_aplicacao.setValue(new Application().getListApps());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
