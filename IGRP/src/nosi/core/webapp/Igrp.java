@@ -22,7 +22,7 @@ public final class Igrp{ // Not extends
 	
 	private static IgrpFactory<Igrp> appInstance = null;
 
-	private HttpServlet servlet; // Refer to HttpServlet
+	private HttpServlet servlet; // Refer to HttpServlet 
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	
@@ -78,7 +78,7 @@ public final class Igrp{ // Not extends
 		this.flashMessage = new FlashMessage(); // Flash Message instance
 		
 		// Config. of RDBMS or others DS ...
-//		PersistenceUtils.init();
+		// PersistenceUtils.init();
 		
 		// User component (Identity)
 		this.user = new User();
@@ -103,9 +103,10 @@ public final class Igrp{ // Not extends
 	private void exit(){
 		Controller.sendResponse();
 		this.die = false;
-		/*((ThreadLocalIgrpFactory)this.appInstance).cleanUp();
-		this.appInstance = null;
-		System.out.println("Is Null: " + (this.appInstance == null));*/
+	}
+	
+	public static IgrpFactory<Igrp> getAppInstance() {
+		return appInstance;
 	}
 	
 	private void runController() throws IOException{

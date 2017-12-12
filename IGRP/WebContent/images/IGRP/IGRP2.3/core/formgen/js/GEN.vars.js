@@ -151,12 +151,12 @@ var VARS = {
 
 		site:'<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>'+
 				'<site>'+
-		        '<welcome_note>Ola</welcome_note>'+
-		        '<footer_note>2011 - Copyright NOSI</footer_note>'+
-		        '<user_name>red-igrp</user_name>'+
+		        '<welcome_note>Oba</welcome_note>'+
+		        '<footer_note>2017 - Copyright NOSI</footer_note>'+
+		        '<user_name>Hexagon</user_name>'+
 		        '<button type="specific">'+
 		            '<title>Sair</title>'+
-		            '<app>RED</app>'+
+		            '<app>DUA</app>'+
 		            '<page />'+
 		            '<link>#</link>'+
 		            '<target>_self</target>'+

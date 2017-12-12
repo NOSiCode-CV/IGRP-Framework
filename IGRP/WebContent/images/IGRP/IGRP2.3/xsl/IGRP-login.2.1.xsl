@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--DWXMLSource="../xml/IGRP-login.xml"-->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:output method="html" encoding="ISO-8859-1" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+	<xsl:output method="html" encoding="UTF-8" doctype-system="about:legacy-compat" />
 
   <xsl:variable name="path_tmpl" select="concat($path,'/core/login/')"/>
 

@@ -27,7 +27,7 @@ public class ConfigDBIGRP {
 	private String fileName;
 	private String path;
 	
-	//Default configuratio for h2
+	//Default configuration for h2
 	public ConfigDBIGRP() {
 		this.port = 0;
 		this.type_db = "h2";
@@ -38,6 +38,18 @@ public class ConfigDBIGRP {
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
 		this.path = Config.getBasePathConfig()+"db";
+	}
+	
+	public ConfigDBIGRP(String path) {
+		this.port = 0;
+		this.type_db = "h2";
+		this.host = "~";
+		this.name_db = "db_igrp_core";
+		this.username = "root";
+		this.password = "root";
+		this.name = "hibernate-igrp-core";
+		this.fileName = "db_igrp_config.xml";
+		this.path = path;
 	}
 	
 	public void save(){
@@ -195,6 +207,4 @@ public class ConfigDBIGRP {
     	}
     	return isConnected;
 	}
-	
-	
 }

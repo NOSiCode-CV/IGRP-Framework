@@ -19,7 +19,7 @@
 
 	<gen:template match="/">
 		<xsl:stylesheet version="1.0">
-			<xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+			<xsl:output method="html" omit-xml-declaration="yes" encoding="UTF-8" doctype-system="about:legacy-compat"/>
 			
 			<xsl:template match="/">
 				<html>

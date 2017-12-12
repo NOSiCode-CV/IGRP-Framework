@@ -71,11 +71,18 @@ public class IgrpSSO extends HttpServlet {
 	public IgrpSSO() { super(); }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String _url = "";
+		String param = request.getParameter("_url");
+		synchronized (IgrpSSO.igrpPath) {
+			_url = _url + igrpPath;
+		}
+		_url =  (param != null &&  !param.isEmpty() ? _url + "&_url=" + param : _url + "");
+		
 		try {
 			// First check if the session exits 
 			String sessionValue = (String) request.getSession(false).getAttribute("_identity-igrp");
 			if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
-				response.sendRedirect(igrpPath);
+				response.sendRedirect(_url);
 				return;
 			}
 		}catch(Exception e) { // NullPointerException Purpose 
@@ -144,7 +151,7 @@ public class IgrpSSO extends HttpServlet {
 		cookie.setMaxAge(60*60); // 1h
 		cookie.setHttpOnly(true);
 		response.addCookie(cookie);
-		response.sendRedirect(igrpPath);
+		response.sendRedirect(_url);
 	}
 	
 	private Properties load() {
