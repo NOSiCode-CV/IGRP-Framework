@@ -71,9 +71,11 @@ public class Permission {
 		((User)Igrp.getInstance().getUser().getIdentity()).setAplicacao(app);
 		((User)Igrp.getInstance().getUser().getIdentity()).setProfile(profType);
 		((User)Igrp.getInstance().getUser().getIdentity()).setOrganica(org);
-		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
-		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof", profType.getId());
-		Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
+		if(Igrp.getInstance().getRequest().getSession()!=null && app!=null) {
+			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.env", app.getDad());
+			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof", profType.getId());
+			Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org", org.getId());
+		}
 	}
 	
 	public static String getCurrentEnv() {
