@@ -16,7 +16,7 @@ public class IGRPButton {
     private String parameter = "";
     private String type = "form";
     private boolean visible = true;
-    
+    private boolean genReverse = false;
     public FieldProperties propertie;
     
     public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params){
@@ -31,6 +31,11 @@ public class IGRPButton {
     	this.parameter = parameter;
     }
 
+    public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params,boolean genReverse){
+	    this(title, app, page, link, target, img, parameter, params);
+	    this.genReverse = genReverse;
+    }
+    
     public IGRPButton(){
     	this.propertie = new FieldProperties();
     }
@@ -73,8 +78,17 @@ public class IGRPButton {
 		if(Igrp.getInstance().getRequest().getParameter("target")!=null){
 			this.link+="&amp;target="+Igrp.getInstance().getRequest().getParameter("target");
 		}
-		return app+"/"+page+"/"+link;
+		return !isGenReverse()?app+"/"+page+"/"+link:link;
 	}
+	
+	public boolean isGenReverse() {
+		return genReverse;
+	}
+	
+	public void setGenReverse(boolean genReverse) {
+		this.genReverse = genReverse;
+	}
+
 	public void setLink(String link) {
 		this.link = link.replace("&", "&amp;");
 	}

@@ -44,7 +44,7 @@ public class HomeStudioController extends Controller {
 
 	public Response actionImportjar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(IMPORTJAR)----*/
-		return this.redirect("igrp","ImportArquivo","index");
+		return this.redirect("igrp_studio","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

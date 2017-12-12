@@ -1,17 +1,27 @@
 
 package nosi.webapps.igrp_studio.pages.crudgenerator;
-import nosi.core.config.Config;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.config.Config;
+import nosi.core.gui.page.Page;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.*;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.import_export.FileImportAppOrPage;
 import nosi.core.xml.XMLTransform;
+import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.CRUD;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.core.webapp.Igrp;
 /*----#END-PRESERVED-AREA----*/
@@ -89,19 +99,64 @@ public class CRUDGeneratorController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	private void generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException {
-		String path_xsl = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
+	private void generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException {
+		String pageName = Page.resolvePageName(tableName);
+		CRUD crud = new CRUD().find().andWhere("schemaName", "=", schema).andWhere("tableName", "=", tableName).andWhere("config_env", "=", config.getId()).one();
+		if(crud==null) {
+			crud = new CRUD(tableName, schema, config);
+			crud = crud.insert();
+		}
+		Action pageForm = new Action().find().andWhere("page", "=",pageName+"Form").andWhere("application", "=",config.getApplication().getId()).one();
+		Action pageList = new Action().find().andWhere("page", "=",pageName+"List").andWhere("application", "=",config.getApplication().getId()).one();
+		if(pageForm==null) {
+			pageForm = new Action(pageName+"Form", "index", "nosi.webapps."+config.getApplication().getDad().toLowerCase()+".pages."+pageName+"form".toLowerCase(), config.getApplication().getDad().toLowerCase()+"/"+pageName+"form".toLowerCase()+"/"+pageName+"Form.xsl", "Registar "+pageName, "Registar "+pageName, "2.3", 1, config.getApplication(), crud);
+			pageForm = pageForm.insert();
+		}
+		if(pageList==null) {
+			pageList = new Action(pageName+"List", "index", "nosi.webapps."+config.getApplication().getDad().toLowerCase()+".pages."+pageName+"list".toLowerCase(), config.getApplication().getDad().toLowerCase()+"/"+pageName+"List".toLowerCase()+"/"+pageName+"List.xsl", "Registar "+pageName, "Registar "+pageName, "2.3", 1, config.getApplication(), crud);
+			pageList = pageList.insert();
+		}		
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-		String formXML = XMLTransform.genXML(path_xsl, XMLTransform.generateXMLForm(config, tableName, columns));
-		String tableXML = XMLTransform.genXML(path_xsl, XMLTransform.generateXMLTable(config, tableName, columns));
-		String xslFileName = "";
-		String formMVC = XMLTransform.xmlTransformWithXSL(formXML, xslFileName);
-		String tableMVC = XMLTransform.xmlTransformWithXSL(tableXML, xslFileName);
+		String formXML = XMLTransform.genXML("", XMLTransform.generateXMLForm(config, tableName, columns),pageForm);
+		String listXML = XMLTransform.genXML("", XMLTransform.generateXMLTable(config, tableName, columns),pageList);
+		
 		System.out.println(formXML);
-		System.out.println(tableXML);
+		System.out.println(listXML);
+
+		FileHelper.save(Config.getBaseServerPahtXsl(pageForm), pageName+"Form.xml", formXML);
+		FileHelper.save(Config.getBaseServerPahtXsl(pageList), pageName+"List.xml", listXML);		
+		if(FileHelper.fileExists(Config.getWorkspace())){
+			FileHelper.save(Config.getBasePahtXsl(pageForm), pageName+"Form.xml", formXML);
+			FileHelper.save(Config.getBasePahtXsl(pageList), pageName+"List.xml", listXML);	
+		}
+		String xslFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
+		String formMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageName+"Form.xml", xslFileName);
+		String listMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageName+"List.xml", xslFileName);
+		
+		this.generateClassMVC(pageForm, formMVC);
+		this.generateClassMVC(pageList, listMVC);
 	}
 
-	
+	private void generateClassMVC(Action page,String mvc) throws IOException {
+		String[] partsJavaCode = mvc.toString().split(" END ");
+		if(partsJavaCode.length > 2){
+			String model = partsJavaCode[0];
+			String view = partsJavaCode[1];
+			String controller = partsJavaCode[2];
+			String path_class = page.getPackage_name().replace(".",File.separator);
+			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
+			path_class = Config.getBasePathClass()+ path_class;			
+			FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
+			
+			if(FileHelper.fileExists(Config.getWorkspace())){
+				if(!FileHelper.fileExists(path_class_work_space)){//check directory
+					FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+				}
+				FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
+			}
+			
+		}
+	}
 
 	/*----#END-PRESERVED-AREA----*/
 }

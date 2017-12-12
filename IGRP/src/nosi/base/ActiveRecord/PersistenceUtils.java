@@ -67,6 +67,7 @@ public class PersistenceUtils {
 	        	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
 	        	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
 	        	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
+//	        	cfg.getProperties().setProperty("hibernate.show_sql","true");
 	        	return cfg;
 		}
 	   public static String getDriver(String type) {
