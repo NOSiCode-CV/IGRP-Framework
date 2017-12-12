@@ -77,7 +77,7 @@
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Aplicacao</label>
+                    <label>Aplicação</label>
                     <list>
                         <option/>
                         <option>
