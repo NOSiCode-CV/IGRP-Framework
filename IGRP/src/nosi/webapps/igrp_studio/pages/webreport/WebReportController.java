@@ -1,7 +1,7 @@
 /*-------------------------*/
 
 /*Create Controller*/
-package nosi.webapps.igrp.pages.webreport;
+package nosi.webapps.igrp_studio.pages.webreport;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
@@ -72,7 +72,7 @@ public class WebReportController extends Controller {
 		view.link_add_source.setValue("webapps?r=igrp/data-source/index&amp;dad=igrp");
 		view.p_link_source.setValue("webapps?r=igrp/data-source/get-data-source&amp;dad=igrp");
 		view.p_edit_name_report.setValue("webapps?r=igrp/web-report/save-edit-template&amp;dad=igrp");
-		
+		Config.LINK_HOME ="webapps?r=igrp_studio/HomeStudio/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

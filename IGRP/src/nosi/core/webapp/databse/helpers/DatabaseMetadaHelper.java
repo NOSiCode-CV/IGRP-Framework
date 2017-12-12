@@ -42,15 +42,14 @@ public class DatabaseMetadaHelper {
 			ResultSet columns = metaData.getColumns(null, schema, tableName, null);				
 		    while (columns.next()) {
 		    	Column col = new Column();
-		    	Properties p = new Properties();
 		    	Class<?> javaType = SqlJavaType.sqlToJava(columns.getInt( "DATA_TYPE"));
-		    	p.setProperty("size",columns.getString("COLUMN_SIZE"));
-	    		p.setProperty("name", columns.getString("COLUMN_NAME"));
-		    	p.setProperty("isNullable", columns.getString("IS_NULLABLE"));
-		    	p.setProperty("is_autoIncrment", columns.getString("IS_AUTOINCREMENT"));
+		    	col.setSize(columns.getInt("COLUMN_SIZE"));
+		    	col.setNullable(columns.getString("IS_NULLABLE").equalsIgnoreCase("YES"));
+		    	col.setAutoIncrement(columns.getString("IS_AUTOINCREMENT").equalsIgnoreCase("YES"));
 		    	col.setName(columns.getString("COLUMN_NAME"));
+		    	//col.setDefaultValue(columns.getString("COLUMN_DEFAULT"));
 		    	col.setType(javaType);
-		    	col.setProperties(p);
+		    	System.out.println(col);
 		    	list.add(col);
 		    }
 		    columns.close();
@@ -87,8 +86,10 @@ public class DatabaseMetadaHelper {
 		private Class<?> type;
 		private boolean isAutoIncrement;
 		private boolean isPrimaryKey;
-		private boolean isNullable;
-		private Properties properties;		
+		private boolean isNullable;	
+		private int size;
+		private String defaultValue;
+		
 		
 		public String getName() {
 			return name;
@@ -101,12 +102,6 @@ public class DatabaseMetadaHelper {
 		}
 		public void setType(Class<?> type) {
 			this.type = type;
-		}
-		public Properties getProperties() {
-			return properties;
-		}
-		public void setProperties(Properties properties) {
-			this.properties = properties;
 		}
 		public boolean isAutoIncrement() {
 			return isAutoIncrement;
@@ -125,8 +120,24 @@ public class DatabaseMetadaHelper {
 		}
 		public void setNullable(boolean isNullable) {
 			this.isNullable = isNullable;
-		}	
+		}
+		public int getSize() {
+			return size;
+		}
+		public void setSize(int size) {
+			this.size = size;
+		}
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}		
 		
+		@Override
+		public String toString() {
+			return "[name="+name+", type="+type+",isAutoIncremente="+isAutoIncrement+",isNullable="+isNullable+",size="+size+",defaultValue="+defaultValue+"]";
+		}
 	}
 
 }

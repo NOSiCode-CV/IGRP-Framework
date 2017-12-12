@@ -65,7 +65,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		super();
 		this.page = page;
 		this.action = action;
-		this.package_name = package_name;
+		this.package_name = (package_name!=null)?package_name.toLowerCase():package_name;
 		this.xsl_src = xsl_src;
 		this.page_descr = page_descr;
 		this.action_descr = action_descr;

@@ -12,12 +12,12 @@
 	</properties>
 <!-- <properties>
 	<comment>store config igrp database</comment>
-	<entry key="hostname">localhost</entry>
-	<entry key="type_db">mysql</entry>
-	<entry key="port">3306</entry> 
-	<entry key="password"></entry>
+	<entry key="hostname">~</entry>
+	<entry key="type_db">h2</entry>
+	<entry key="port">0</entry>
+	<entry key="password">root</entry>
 	<entry key="connectionName">hibernate-igrp-core</entry>
-	<entry key="dbname">db_igrp</entry>
+	<entry key="dbname">db_igrp_core;AUTO_SERVER=TRUE</entry>
 	<entry key="username">root</entry>
 </properties>-->
 <!-- 
