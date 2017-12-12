@@ -16,10 +16,8 @@ public class ThreadLocalListener implements ServletRequestListener {
     public ThreadLocalListener() {}
 
     public void requestDestroyed(ServletRequestEvent arg0)  { 
-         // TODO Auto-generated method stub
     	 ThreadLocalIgrpFactory app = (ThreadLocalIgrpFactory) Igrp.getInstance().getAppInstance();
     	 app.cleanUp();
-    	 //System.out.println("Listener entrado ...");
     }
 
     public void requestInitialized(ServletRequestEvent arg0)  {}    

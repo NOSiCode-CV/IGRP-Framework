@@ -22,6 +22,16 @@ import javax.xml.bind.DatatypeConverter;
  * Marcel Iekiny
  * Nov 27, 2017
  */
+/** 
+	<filter>
+		<filter-name>BasicSecurity</filter-name>
+		<filter-class>nosi.core.filter.BasicSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>BasicSecurity</filter-name>
+		<servlet-name>igrp</servlet-name>
+	</filter-mapping>
+**/
 @WebFilter
 public class BasicSecurityFilter implements Filter {
 
