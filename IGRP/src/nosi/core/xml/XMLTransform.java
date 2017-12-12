@@ -99,11 +99,8 @@ public class XMLTransform {
 	public static String xmlTransformWithXSL(String xmlFileName,String xslFileName) throws TransformerConfigurationException{
 		StreamSource xlsStreamSource = new StreamSource(Paths.get(xslFileName).toAbsolutePath().toFile());
 	    StreamSource xmlStreamSource = new StreamSource(Paths.get(xmlFileName).toAbsolutePath().toFile());
-	    TransformerFactory transformerFactory = TransformerFactory.newInstance();//("org.apache.xalan.processor.TransformerFactoryImpl", null);
-
-	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    StreamResult result = new StreamResult(baos);
-
+	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    StreamResult result = new StreamResult(new ByteArrayOutputStream());
 	    Transformer transformer;
 		try {
 			transformer = transformerFactory.newTransformer(xlsStreamSource);
