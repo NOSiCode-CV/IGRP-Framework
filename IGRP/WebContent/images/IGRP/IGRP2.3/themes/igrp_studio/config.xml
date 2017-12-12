@@ -1,17 +1,13 @@
 <style>
+	<logo>img/studioLogoBlank.svg</logo>
+	<colors>		
+		<color name="primary">#337ab7</color>
+		<color name="secondary" text-hover="white" bg-hover="#173c5d">#2a699e</color>
+	</colors> 
 
-	<nav>
-
-		<background>#408140</background>
-
-	</nav>
-
-	<colors>
-		
-		<color name="primary" bg-hover="#326532" text-color="white" link="true">#408140</color>
-
-	</colors>
-
-	<logo>img/logo.png</logo>
-
+	<css default="">
+		<file>css/header.css</file>
+		<!-- <file>css/modern/globals.css</file> -->
+		<!-- <file>css/default.style.css</file> -->
+	</css>	
 </style>
