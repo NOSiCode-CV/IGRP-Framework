@@ -40,18 +40,6 @@ public class ConfigDBIGRP {
 		this.path = Config.getBasePathConfig()+"db";
 	}
 	
-	public ConfigDBIGRP(String path) {
-		this.port = 0;
-		this.type_db = "h2";
-		this.host = "~";
-		this.name_db = "db_igrp_core";
-		this.username = "root";
-		this.password = "root";
-		this.name = "hibernate-igrp-core";
-		this.fileName = "db_igrp_config.xml";
-		this.path = path;
-	}
-	
 	public void save(){
 		try {
 			FileHelper.createDiretory(this.path);
@@ -81,7 +69,6 @@ public class ConfigDBIGRP {
 			}
 		}
 	}
-	
 	
 	public void load(){
 		File file = new File(this.path+File.separator+this.fileName);
