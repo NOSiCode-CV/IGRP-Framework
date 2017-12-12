@@ -1,14 +1,27 @@
 package nosi.core.mail;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import nosi.core.webapp.Igrp;
 
 /**
  * Iekiny Marcel
@@ -21,6 +34,9 @@ public final class EmailMessage {
 	private String subject;
 	private String msg;
 	
+	private String charset;
+	private String subType;
+	
 	private Properties settings;
 	
 	private String auth_username;
@@ -30,8 +46,12 @@ public final class EmailMessage {
 	
 	public static EmailMessage newInstance() {
 		EmailMessage msg = new EmailMessage();
-		msg.newSettings(null);
-		msg.authenticate("username", "password");
+		if(!msg.load()) 
+			msg.loadDefaultConfig();
+		else {
+			msg.auth_username = msg.getSettings().getProperty("auth_username");
+			msg.auth_password = msg.getSettings().getProperty("auth_password");
+		}
 		return msg;
 	}
 	
@@ -54,8 +74,38 @@ public final class EmailMessage {
 					new InternetAddress(this.to));
 					// Set Subject: header field
 					message.setSubject(this.subject);
+					
 					// Now set the actual message 
-					message.setText(this.msg, "utf-8", "html");	
+					if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
+						message.setText(this.msg, this.charset, this.subType);
+					else if(this.charset != null && !this.charset.isEmpty())
+						message.setText(this.msg, this.charset);
+					else
+						message.setText(this.msg);
+					
+					
+					 // Create the message part 
+			         BodyPart messageBodyPart = new MimeBodyPart();
+					// Create a multipar message
+			         Multipart multipart = new MimeMultipart();
+			 
+			         // Set text message part
+			         multipart.addBodyPart(messageBodyPart);
+			 
+			         // Part two is attachment
+			         messageBodyPart = new MimeBodyPart();
+			         String filename = "file.txt";
+			         DataSource source = new FileDataSource(filename);
+			         messageBodyPart.setDataHandler(new DataHandler(source));
+			         messageBodyPart.setFileName(filename);
+			         multipart.addBodyPart(messageBodyPart);
+			 
+			         // Send the complete message parts
+			         message.setContent(multipart);
+					
+					
+					
+					
 					// Send message
 					Transport.send(message);
 				}catch (MessagingException mex) {
@@ -74,6 +124,8 @@ public final class EmailMessage {
 		properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.port", "465");
+		this.auth_username = "";
+		this.auth_password = "";
 		this.settings = properties;
 	}
 	
@@ -97,6 +149,23 @@ public final class EmailMessage {
 		return this;
 	}
 	
+	public EmailMessage setMsg(String msg, String charset) {
+		this.msg = msg;
+		this.charset = charset;
+		return this;
+	}
+	
+	public EmailMessage setMsg(String msg, String charset, String subType) {
+		this.msg = msg;
+		this.charset = charset;
+		this.subType = subType;
+		return this;
+	}
+	
+	public EmailMessage attach() {
+		return this;
+	}
+	
 	public EmailMessage newSettings(Properties p) {
 		this.settings = p;
 		return this;
@@ -111,4 +180,36 @@ public final class EmailMessage {
 		this.auth_password = password;
 		return this;
 	}
+	
+	private boolean load() {
+		boolean flag = false;
+		String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/") + "mail";
+		String fileName = "mail.xml";
+		File file = new File(path + File.separator + fileName);
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			fis = null;	
+		}
+		try {
+			this.settings = new Properties();
+			this.settings.loadFromXML(fis);
+			flag = true;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return flag;
+	}
+	
+	private boolean validateEmail() {
+		return false;
+	}
+	
 }
