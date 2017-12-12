@@ -2,7 +2,7 @@
 
 /*Create Controller*/
 
-package nosi.webapps.igrp.pages.bpmndesigner;
+package nosi.webapps.igrp_studio.pages.bpmndesigner;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;

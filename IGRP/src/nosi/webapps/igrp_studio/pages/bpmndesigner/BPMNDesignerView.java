@@ -2,7 +2,7 @@
 
 /*Create View*/
 
-package nosi.webapps.igrp.pages.bpmndesigner;
+package nosi.webapps.igrp_studio.pages.bpmndesigner;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;

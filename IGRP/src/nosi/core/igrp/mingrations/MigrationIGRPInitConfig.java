@@ -143,7 +143,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("TransacaoOrganica", "index", "nosi.webapps.igrp.pages.transacaoorganica", "igrp/transacaoorganica/TransacaoOrganica.xsl", "Associar Transacao a Organica", "Associar Transacao a Organica", "2.3", 1, app));
 			actions.add(new Action("EditarTransacao", "index", "nosi.webapps.igrp.pages.editartransacao", "igrp/editartransacao/EditarTransacao.xsl", "Editar Transacao", "Editar Transacao", "2.3", 1, app));
 			actions.add(new Action("Session", "index", "nosi.webapps.igrp.pages.session", "igrp/session/Session.xsl", "Gestao de Sessao", "Gestao de Sessao", "2.3", 1, app));
-			actions.add(new Action("WebReport", "index", "nosi.webapps.igrp.pages.webreport", "igrp/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.3", 1, app));
+			actions.add(new Action("WebReport", "index", "nosi.webapps.igrp_studio.pages.webreport", "igrp_studio/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.3", 1, igrp_studio));
 			actions.add(new Action("DataSource", "index", "nosi.webapps.igrp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, app));
 			actions.add(new Action("LookupListPage", "index", "nosi.webapps.igrp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, app));
 			actions.add(new Action("Migrate", "index", "nosi.webapps.igrp.pages.migrate", "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, app));
@@ -154,9 +154,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("LookupListUser", "index", "nosi.webapps.igrp.pages.lookuplistuser", "igrp/lookuplistuser/LookupListUser.xsl", "Lookup Lista Utilizador", "Lookup Lista Utilizador", "2.3", 1, app));
 			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.webapps.igrp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, app));
 			actions.add(new Action("Transferir_tarefas", "index", "nosi.webapps.igrp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, app));
-			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp.pages.bpmndesigner", "igrp/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, app));
+			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp_studio.pages.bpmndesigner", "igrp_studio/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, igrp_studio));
 			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, app));
-			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp.pages.importarquivo", "igrp/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, app));
+			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp_studio.pages.importarquivo", "igrp_studio/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, igrp_studio));
 			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, app));
 			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, app));
 			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, app));
@@ -179,7 +179,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
 			menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
-			menus.add(new Menu("Detalhes de Aplicação", 1, 1, 1, "_self", actions.get(2), igrp_studio, menus.get(0)));
+			menus.add(new Menu("Application Builder", 1, 1, 1, "_self", actions.get(2), igrp_studio, menus.get(0)));
 			menus.add(new Menu("Gestão de Pagina", 1, 1, 0, "_self", actions.get(0), igrp_studio, menus.get(3)));
 			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), app, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));
@@ -194,8 +194,8 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 			//menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
 			//menus.add(new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), app, menus.get(3)));
-			menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
-			menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
+//			menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
+//			menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
 			
 			menus.add(new Menu("Pesquisar BI", 1, 1, 0, "_self", actions.get(37), app, menus.get(5)));
 			menus.add(new Menu("Pesquisar NIF", 1, 1, 0, "_self", actions.get(38), app, menus.get(5)));
@@ -234,12 +234,12 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(16, "MEN", prof0, user0, org));
 			profiles.add(new Profile(17, "MEN", prof0, user0, org));
 			profiles.add(new Profile(18, "MEN", prof0, user0, org));
-			profiles.add(new Profile(19, "MEN", prof0, user0, org));
-			profiles.add(new Profile(20, "MEN", prof0, user0, org));
-			profiles.add(new Profile(21, "MEN", prof0, user0, org));
-			profiles.add(new Profile(22, "MEN", prof0, user0, org));
-			profiles.add(new Profile(23, "MEN", prof0, user0, org));
-			profiles.add(new Profile(24, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(19, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(20, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(21, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(22, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(23, "MEN", prof0, user0, org));
+//			profiles.add(new Profile(24, "MEN", prof0, user0, org));
 			
 			profiles.add(new Profile(7, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(8, "MEN", igrp_studio_prof, user0, igrp_studio_org));
@@ -253,12 +253,12 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 			profiles.add(new Profile(17, "MEN", prof1, user0, org));
 			profiles.add(new Profile(18, "MEN", prof1, user0, org));
-			profiles.add(new Profile(19, "MEN", prof1, user0, org));
-			profiles.add(new Profile(20, "MEN", prof1, user0, org));
-			profiles.add(new Profile(21, "MEN", prof1, user0, org));
-			profiles.add(new Profile(22, "MEN", prof1, user0, org));
-			profiles.add(new Profile(23, "MEN", prof1, user0, org));
-			profiles.add(new Profile(24, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(19, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(20, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(21, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(22, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(23, "MEN", prof1, user0, org));
+//			profiles.add(new Profile(24, "MEN", prof1, user0, org));
 			
 			for(Profile p:profiles){
 				p.insert();

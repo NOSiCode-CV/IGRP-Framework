@@ -1,5 +1,5 @@
 /*---------------------- Create Model ----------------------*/
-package nosi.webapps.igrp.pages.webreport;
+package nosi.webapps.igrp_studio.pages.webreport;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;

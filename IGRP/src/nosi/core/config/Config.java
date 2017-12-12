@@ -23,10 +23,15 @@ public class Config {
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
-
+	public static String LINK_HOME ="webapps?r=igrp/home/index";
+	
 	public static String getHeader(){
-		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target
+		return getHeader(null);
+	}
+	
+	public static String getHeader(Action page){
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
+		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target		
 		TITLE = "".equals(TITLE)?app.getName():TITLE;
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("template", app.getTemplate());
@@ -49,8 +54,8 @@ public class Config {
 		xml.setElement("page", "form");
 		xml.startElement("plsql");
 			xml.setElement("action", "1");
-			xml.setElement("package_db", "FORM_DESIGNER_DB");
-			xml.setElement("package_html", "FORM_DESIGNER_HTML");
+			xml.setElement("package_db", page!=null?page.getPackage_name().substring(0, page.getPackage_name().indexOf("."+page.getPage().toLowerCase())):null);
+			xml.setElement("package_html",page!=null?Page.resolvePageName(page.getPage()):null);
 			xml.setElement("package_instance", "");
 			xml.setElement("with_replace", "false");
 			xml.setElement("with_label", "false");
@@ -81,6 +86,7 @@ public class Config {
 		TITLE = "";
 		type_header = "normal";
 		LINK_MY_APPS = "webapps?r=igrp/env/myApps";
+		LINK_HOME = "webapps?r=igrp/home/index";
 		return xml.toString();
 	}
 	
@@ -132,8 +138,9 @@ public class Config {
 	}
 	
 	public static String getLink(){
-		return getConfig().get("link")!=null? getConfig().get("link").toString():"webapps?r=igrp/home/index";
+		return LINK_HOME;
 	}
+	
 	public static String getVersion(){
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"1.0";
 	}
@@ -218,6 +225,10 @@ public class Config {
 	
 	public static String getBasePahtClass(String app){
 		return Config.getWorkspace() + File.separator +  "src"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator) +File.separator;
+	}
+	
+	public static String getBaseServerPahtXsl(Action page){
+		return Config.getBasePathXsl() + "WebContent" + File.separator + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
 	}
 	
 	public static String getBasePahtXsl(Action page){
