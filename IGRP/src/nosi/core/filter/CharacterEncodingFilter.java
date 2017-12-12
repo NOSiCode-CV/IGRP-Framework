@@ -44,10 +44,12 @@ public class CharacterEncodingFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (ignore || (request.getCharacterEncoding() == null) || request.getCharacterEncoding().trim().isEmpty()) {
-        	if (this.encoding != null && !this.encoding.trim().isEmpty())
+        	if (this.encoding != null && !this.encoding.trim().isEmpty()) {
                 request.setCharacterEncoding(this.encoding);
+                response.setCharacterEncoding(this.encoding);
+        	}
         }
-		// pass the request along the filter chain
+		// pass the request along the filter chain 
 		chain.doFilter(request, response);
 	}
 	

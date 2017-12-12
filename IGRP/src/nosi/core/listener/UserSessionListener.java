@@ -8,9 +8,9 @@ import javax.servlet.http.HttpSessionBindingListener;
  * Nov 23, 2017
  */
 @WebListener
-public class UserSessionStorage implements HttpSessionBindingListener {
+public class UserSessionListener implements HttpSessionBindingListener {
 
-	public UserSessionStorage() {}
+	public UserSessionListener() {}
 
 	 public void valueBound(HttpSessionBindingEvent arg0)  { 
         
