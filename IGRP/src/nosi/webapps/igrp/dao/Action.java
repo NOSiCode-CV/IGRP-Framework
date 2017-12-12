@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.core.webapp.helpers.StringHelper;
 
 import static nosi.core.i18n.Translator.gt;
 
@@ -63,7 +64,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	public Action(String page, String action, String package_name, String xsl_src, String page_descr,
 			String action_descr, String version, int status, Application application) {
 		super();
-		this.page = page;
+		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
 		this.action = action;
 		this.package_name = (package_name!=null)?package_name.toLowerCase():package_name;
 		this.xsl_src = xsl_src;
@@ -90,7 +91,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		return page;
 	}
 	public void setPage(String page) {
-		this.page = page;
+		this.page = StringHelper.removeSpecialCharaterAndSpace(page);
 	}
 	public String getAction() {
 		return action;
