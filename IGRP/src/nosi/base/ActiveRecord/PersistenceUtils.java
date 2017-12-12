@@ -103,7 +103,7 @@ public class PersistenceUtils {
 			return "";
 		}
 		
-	public static void destroy() { 
+	public static void destroy() {
 		Iterator<SessionFactory> i = PersistenceUtils.SESSION_FACTORY.values().iterator();
 		while(i.hasNext()) { 
 			SessionFactory sf = i.next(); 

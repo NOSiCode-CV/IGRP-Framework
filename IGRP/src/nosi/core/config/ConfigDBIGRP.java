@@ -67,8 +67,7 @@ public class ConfigDBIGRP {
 	
 	//Save config connection into worksapce
 	public void saveIntoWorkSpace(){
-		//this.path = Config.getWorkspace();
-		this.path = PersistenceUtils.path;
+		this.path = Config.getWorkspace();
 		if(FileHelper.fileExists(this.path)){
 			try {
 				this.path +=File.separator+"WebContent"+File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
