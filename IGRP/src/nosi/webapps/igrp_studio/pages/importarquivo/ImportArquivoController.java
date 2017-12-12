@@ -63,7 +63,7 @@ public class ImportArquivoController extends Controller {
 			}else
 				Core.setMessageError(FlashMessage.ERROR_IMPORT);		
 		}
-		return this.redirect("igrp","ImportArquivo","index");
+		return this.redirect("igrp_studio","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -99,7 +99,7 @@ public class ImportArquivoController extends Controller {
 					Core.setMessageError(FlashMessage.ERROR_IMPORT);
 			}
 		}
-		return this.redirect("igrp","ImportArquivo","index");
+		return this.redirect("igrp_studio","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -121,7 +121,7 @@ public class ImportArquivoController extends Controller {
 			}
 			FileHelper.deletePartFile(parts,p->p.getSubmittedFileName()!=null && p.getSubmittedFileName().endsWith(".jar"));
 		}
-		return this.redirect("igrp","ImportArquivo","index");
+		return this.redirect("igrp_studio","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

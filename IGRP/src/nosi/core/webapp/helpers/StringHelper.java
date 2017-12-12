@@ -37,4 +37,11 @@ public class StringHelper {
 	public static boolean validateClassName(String className){
 		return className.matches("([a-zA-Z_$][a-zA-Z\\d_$]*\\.)*[a-zA-Z_$][a-zA-Z\\d_$]*");
 	}
+	
+	public static String removeSpecialCharaterAndSpace(String string) {
+		string = string.replaceAll("[^a-zA-Z0-9]", "_");
+		string = removeSpace(string);
+		return string;
+	}
+	
 }
