@@ -2,12 +2,12 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>store config igrp database</comment>
-	<entry key="java.net.preferIPv4Stack"></entry>
-	<entry key="mail.smtp.host"></entry>
-	<entry key="mail.smtp.socketFactory.port"></entry>
-	<entry key="mail.smtp.socketFactory.class"></entry>
-	<entry key="mail.smtp.auth"></entry>
-	<entry key="mail.smtp.port"></entry>
-	<entry key="mail.user"></entry>
-	<entry key="mail.password"></entry>
+	<entry key="java.net.preferIPv4Stack">true</entry>
+	<entry key="mail.smtp.host">smtp.gmail.com</entry>
+	<entry key="mail.smtp.socketFactory.port">465</entry>
+	<entry key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</entry>
+	<entry key="mail.smtp.auth">true</entry>
+	<entry key="mail.smtp.port">465</entry>
+	<entry key="mail.user">igrpframeworkjava@gmail.com</entry>
+	<entry key="mail.password">Pa$$w0rd10</entry>
 </properties>
