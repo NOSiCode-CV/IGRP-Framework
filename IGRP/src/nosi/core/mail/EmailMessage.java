@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -27,7 +24,7 @@ import nosi.core.webapp.Igrp;
  * Iekiny Marcel
  * Dec 12, 2017
  */
-public final class EmailMessage {
+public final class EmailMessage { // Not inherit 
 	
 	private String to;
 	private String from;
@@ -39,79 +36,107 @@ public final class EmailMessage {
 	
 	private Properties settings;
 	
+	// credentials 
 	private String auth_username;
 	private String auth_password;
 	
-	private EmailMessage() {}
+	private List<File> attaches;
+	
+	private EmailMessage() { // Not instantiate 
+		if(!this.load()) 
+			this.loadDefaultConfig();
+		else {
+			this.auth_username = this.getSettings().getProperty("mail.user");
+			this.auth_password = this.getSettings().getProperty("mail.password");
+		}
+		this.attaches = new ArrayList<File>();
+	}
 	
 	public static EmailMessage newInstance() {
 		EmailMessage msg = new EmailMessage();
-		if(!msg.load()) 
-			msg.loadDefaultConfig();
-		else {
-			msg.auth_username = msg.getSettings().getProperty("auth_username");
-			msg.auth_password = msg.getSettings().getProperty("auth_password");
-		}
 		return msg;
 	}
 	
-	public void send() {
+	public boolean send() throws IOException {
 		// Get the default Session object.
-				Session session = Session.getDefaultInstance(this.settings,
-						new javax.mail.Authenticator() {
-							protected PasswordAuthentication getPasswordAuthentication() {
-								return new PasswordAuthentication(auth_username, auth_password);
-							}
-						});
-				// Set response content type
-				try{
-					// Create a default MimeMessage object.
-					MimeMessage message = new MimeMessage(session); 
-					// Set From: header field of the header.
-					message.setFrom(new InternetAddress(this.from));
-					// Set To: header field of the header.
-					message.addRecipient(Message.RecipientType.TO,
-					new InternetAddress(this.to));
-					// Set Subject: header field
-					message.setSubject(this.subject);
-					
-					// Now set the actual message 
-					if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
-						message.setText(this.msg, this.charset, this.subType);
-					else if(this.charset != null && !this.charset.isEmpty())
-						message.setText(this.msg, this.charset);
-					else
-						message.setText(this.msg);
-					
-					
-					 // Create the message part 
-			         BodyPart messageBodyPart = new MimeBodyPart();
-					// Create a multipar message
-			         Multipart multipart = new MimeMultipart();
-			 
-			         // Set text message part
-			         multipart.addBodyPart(messageBodyPart);
-			 
-			         // Part two is attachment
-			         messageBodyPart = new MimeBodyPart();
-			         String filename = "file.txt";
-			         DataSource source = new FileDataSource(filename);
-			         messageBodyPart.setDataHandler(new DataHandler(source));
-			         messageBodyPart.setFileName(filename);
-			         multipart.addBodyPart(messageBodyPart);
-			 
-			         // Send the complete message parts
-			         message.setContent(multipart);
-					
-					
-					
-					
-					// Send message
-					Transport.send(message);
-				}catch (MessagingException mex) {
-					System.out.println("Error ... sending email ...");
-					mex.printStackTrace();
+		Session session = Session.getDefaultInstance(this.settings,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(auth_username, auth_password);
 				}
+		});
+		// Set response content type
+		try{
+			// Create a default MimeMessage object.
+			MimeMessage message = new MimeMessage(session); 
+			
+			if(!validateEmail(this.to)) {
+				System.out.println("Email not sent ... Invalid email: <" + this.to + "> ");
+				return false;
+			}
+			if(!validateEmail(this.from)) {
+				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
+				return false;
+			}
+			// Set From: header field of the header.
+			message.setFrom(new InternetAddress(this.from));
+			// Set To: header field of the header.
+			message.addRecipient(Message.RecipientType.TO,
+			new InternetAddress(this.to));
+			// Set Subject: header field
+			message.setSubject(this.subject);
+			
+			// If there is any attach ... 
+			if(this.attaches.size() > 0) {
+				// Create a multipar message 
+		        Multipart multipart = new MimeMultipart();
+		        
+		        MimeBodyPart mbp = new MimeBodyPart();
+			    // Now set the actual message 
+				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
+					mbp.setText(this.msg, this.charset, this.subType);
+				else if(this.charset != null && !this.charset.isEmpty())
+					mbp.setText(this.msg, this.charset);
+				else
+					mbp.setText(this.msg);
+		        
+		        mbp.setContent(this.msg, this.subType);
+		        multipart.addBodyPart(mbp);
+		        
+				for(File attach : this.attaches) {
+					// Create the message part 
+					MimeBodyPart messageBodyPart = new MimeBodyPart();
+					
+			         messageBodyPart.attachFile(attach);
+			         // Set text message part 
+			         multipart.addBodyPart(messageBodyPart);
+			         // Part two is attachment 
+			        /*// For javax.mail <= 1.3 :-) 
+			         messageBodyPart = new MimeBodyPart(); 
+			         DataSource source = new FileDataSource(attach); 
+			         messageBodyPart.setDataHandler(new DataHandler(source));
+			         messageBodyPart.setFileName(attach.getName());
+			         multipart.addBodyPart(messageBodyPart);*/
+				}
+				 // Send the complete message parts 
+		         message.setContent(multipart);
+			}else {
+				// Now set the actual message 
+				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
+					message.setText(this.msg, this.charset, this.subType);
+				else if(this.charset != null && !this.charset.isEmpty())
+					message.setText(this.msg, this.charset);
+				else
+					message.setText(this.msg);
+			}
+			// Send message
+			Transport.send(message);
+		return true;
+		}catch (MessagingException mex) {
+			System.out.println("Error ... sending email ... ");
+			mex.printStackTrace();
+		}
+		return false;
 	}
 	
 	public void loadDefaultConfig() {
@@ -162,7 +187,8 @@ public final class EmailMessage {
 		return this;
 	}
 	
-	public EmailMessage attach() {
+	public EmailMessage attach(File attach) {
+		this.attaches.add(attach);
 		return this;
 	}
 	
@@ -208,8 +234,9 @@ public final class EmailMessage {
 		return flag;
 	}
 	
-	private boolean validateEmail() {
-		return false;
+	public synchronized boolean validateEmail(String email) {
+		String pattern = "[a-zA-Z0-9!#$%&\\\\'*+\\\\/=?^_`{|}~-]+(?:\\\\.[a-zA-Z0-9!#$%&\\'*+\\\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
+		return email != null && !email.isEmpty();
 	}
 	
 }

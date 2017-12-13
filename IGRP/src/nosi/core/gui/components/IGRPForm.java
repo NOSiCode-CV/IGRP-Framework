@@ -37,7 +37,7 @@ public class IGRPForm extends IGRPComponent{
 		this.fields = new ArrayList<>();
 		
 		/** IGRP Csrf Protection **/
-		this.fields.add(new HiddenField("igrp_csrf", Igrp.getInstance().generateCsrfToken()));
+		//this.fields.add(new HiddenField("igrp_csrf", Igrp.getInstance().generateCsrfToken()));
 		/** **/
 		
 		this.buttons = new ArrayList<>();

@@ -4,6 +4,7 @@ import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -34,7 +35,7 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
-		// first
+		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 				StringBuilder oauth2ServerUrl = new StringBuilder();
