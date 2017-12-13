@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -108,14 +109,14 @@
                         </option>
                     </list>
                 </version>
-                <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Código</label>
-                    <value>Deserunt elit sit iste aperiam</value>
-                </page>
                 <action_descr name="p_action_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Adipiscing lorem officia aliqu</value>
+                    <value>Sit officia unde consectetur t</value>
                 </action_descr>
+                <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código</label>
+                    <value>Lorem unde mollit consectetur</value>
+                </page>
                 <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
                 <hidden name="p_table_name" type="hidden" maxlength="80" tag="table_name"/>
                 <hidden name="p_xsl_src" type="hidden" maxlength="2000" tag="xsl_src"/>

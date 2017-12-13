@@ -12,10 +12,10 @@ public class Page extends Model{
 	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
-	@RParam(rParamName = "p_page")
-	private String page;
 	@RParam(rParamName = "p_action_descr")
 	private String action_descr;
+	@RParam(rParamName = "p_page")
+	private String page;
 	@RParam(rParamName = "p_id")
 	private String p_id;
 	@RParam(rParamName = "p_table_name")
@@ -70,18 +70,18 @@ public class Page extends Model{
 		return this.version;
 	}
 	
-	public void setPage(String page){
-		this.page = page;
-	}
-	public String getPage(){
-		return this.page;
-	}
-	
 	public void setAction_descr(String action_descr){
 		this.action_descr = action_descr;
 	}
 	public String getAction_descr(){
 		return this.action_descr;
+	}
+	
+	public void setPage(String page){
+		this.page = page;
+	}
+	public String getPage(){
+		return this.page;
 	}
 	
 	public void setP_id(String p_id){

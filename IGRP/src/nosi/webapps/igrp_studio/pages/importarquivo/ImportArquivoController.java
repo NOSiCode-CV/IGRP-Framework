@@ -17,20 +17,25 @@ import nosi.core.webapp.import_export.ImportPluginIGRP;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 
 /*----#END-PRESERVED-AREA----*/
 
 public class ImportArquivoController extends Controller {		
 
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex(@RParam(rParamName="app") String app) throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
+		System.out.println(app);
 		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load(); 
+			
 		}
+		model.setList_aplicacao(app);
 		ImportArquivoView view = new ImportArquivoView(model);
-		view.list_aplicacao.setValue(new Application().getListApps());
+		view.list_aplicacao.setValue(new Application().getListApps());		
+		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
