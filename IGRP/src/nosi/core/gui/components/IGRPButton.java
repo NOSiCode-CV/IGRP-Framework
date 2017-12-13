@@ -36,6 +36,10 @@ public class IGRPButton {
 	    this.genReverse = genReverse;
     }
     
+    public IGRPButton(){
+    	this.propertie = new FieldProperties();
+    }
+    
     public boolean isVisible() {
 		return visible;
 	}
