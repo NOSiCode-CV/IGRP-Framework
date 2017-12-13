@@ -11,6 +11,7 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -69,16 +70,39 @@ public class MenuOrganicaController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
+		/** **/
+		List<ProfileType> list = null;
+		/** **/
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
 			MenuOrganica model = new MenuOrganica();
 			model.load();
 			Profile profD = new Profile();
 			if(type.equals("org")){
-				profD.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+				Organization organization1 = new Organization().findOne(Integer.parseInt(id));
+				profD.setOrganization(organization1);
 				profD.setType("MEN");
 				profD.setProfileType(new ProfileType().findOne(0));
 				profD.setUser(new User().findOne(0));
 				profD.deleteAllProfile();
+				
+				/** **/
+				list = new ProfileType().find().andWhere("organization.id", "=", organization1.getId()).all();
+				if(list != null && list.size() > 0) {
+					list.sort((o1, o2) -> { 
+						if(o1.getId() > o2.getId()) return 1;
+						else if(o1.getId() < o2.getId()) return -1;
+						return 0;
+					});
+					ProfileType pAux = list.get(0);
+					Profile pAux2 = new Profile();
+					pAux2.setOrganization(organization1);
+					pAux2.setType("MEN");
+					pAux2.setUser(new User().findOne(0));
+					pAux2.setProfileType(pAux);
+					pAux2.deleteAllProfile();
+				}
+				/** **/
+				
 			}else if(type.equals("perfil")){
 				ProfileType pt = new ProfileType().findOne(Integer.parseInt(id));
 				profD.setOrganization(pt.getOrganization());
@@ -96,8 +120,29 @@ public class MenuOrganicaController extends Controller {
 					prof.setType("MEN");
 					prof.setType_fk(Integer.parseInt(x.toString()));
 					if(type.equals("org")){
-						prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
+						Organization aux = new Organization().findOne(Integer.parseInt(id));
+						prof.setOrganization(aux);
 						prof.setProfileType(new ProfileType().findOne(0));
+						
+						/**  **/
+						list = new ProfileType().find().andWhere("organization.id", "=", aux.getId()).all();
+						if(list != null && list.size() > 0) {
+							list.sort((o1, o2) -> { 
+								if(o1.getId() > o2.getId()) return 1;
+								else if(o1.getId() < o2.getId()) return -1;
+								return 0;
+							});
+							ProfileType pAux = list.get(0);
+							Profile pAux2 = new Profile();
+							pAux2.setUser(new User().findOne(0));
+							pAux2.setType("MEN");
+							pAux2.setType_fk(Integer.parseInt(x.toString()));
+							pAux2.setOrganization(aux);
+							pAux2.setProfileType(pAux);
+							pAux2.insert();
+						}
+						/**  **/
+						
 					}else if(type.equals("perfil")){
 						ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
 						prof.setOrganization(p.getOrganization());

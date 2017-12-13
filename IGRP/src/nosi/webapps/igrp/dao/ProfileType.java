@@ -177,5 +177,11 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Permission.getCurrentPerfilId()).all();
 		return profiles.size() > 0;
 	}
+
+	@Override
+	public String toString() {
+		return "ProfileType [id=" + id + ", descr=" + descr + ", code=" + code + ", status=" + status + "]";
+	}
+	
 	
 }
