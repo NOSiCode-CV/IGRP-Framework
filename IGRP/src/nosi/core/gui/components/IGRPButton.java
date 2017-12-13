@@ -32,7 +32,7 @@ public class IGRPButton {
     }
 
     public IGRPButton(String title,String app,String page,String link,String target,String img,String parameter,String params,boolean genReverse){
-	    this(title, app, page, link, target, img, parameter, params);
+    	this(title, app, page, link, target, img, parameter, params);
 	    this.genReverse = genReverse;
     }
     
