@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXB;
 import nosi.core.config.Config;
+import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
@@ -59,7 +60,7 @@ public class Import {
 		String[] partPage = file.getNome().split("/");
 		Action page = new Action().find()
 				  .andWhere("application.dad", "=", app.getDad())
-				  .andWhere("page", "=", partPage[2])
+				  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 				  .one();	
 		String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
 		String content = file.getConteudo();
@@ -120,7 +121,7 @@ public class Import {
 		String[] partPage = file.getNome().split("/");
 		Action page = new Action().find()
 								  .andWhere("application.dad", "=", app.getDad())
-								  .andWhere("page", "=", partPage[2])
+								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
 		String path = Config.getBasePathXsl()+Config.getResolvePathXsl(app.getDad(), page.getPage(), page.getVersion());
 		FileHelper.createDiretory(path);
@@ -181,7 +182,7 @@ public class Import {
 		for(Action page:listPage.getRow()){
 			//Depois validar nome de classe
 			if(type.equals("plsql")){//Se for de psql, assume Page como Action
-				page.setPage(page.getPage()+"_"+page.getAction());
+				page.setPage(Page.resolvePageName(page.getPage()+"_"+page.getAction()));
 				page.setPage_descr(page.getAction_descr());
 			}
 			Action action = new Action();
@@ -195,7 +196,7 @@ public class Import {
 			action.setXsl_src(page.getXsl_src());
 			action.setApplication(app);		
 			Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", app.getDad()).one();
-			
+
 			if(type.equals("java")){
 				if(nosi.core.gui.page.Page.validatePage(page.getPage()) && pageCheck==null){
 					action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
@@ -209,20 +210,19 @@ public class Import {
 					page.getPage()!=null
 					&& !page.getPage().equals("")
 					&& pageCheck ==null 
-					&& page.getVersion_src()!=null 
 					&& nosi.core.gui.page.Page.validatePage(page.getPage())
-					&& page.getImg_src()==null
-					&& page.getVersion_src().equals("IGRP2.3")){
+					&& page.getImg_src()==null){
 						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 						action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
 						action.setVersion("2.3");	
 						action = action.insert();
 						action.setSrc_xsl_plsql(page.getXsl_src());
 						action.setId_plsql(page.getId());
+						action.setVersion_src(page.getVersion_src());
 						pages.add(action);
 				}else if(pageCheck!=null){
 					pageCheck.setId_plsql(page.getId());
-					action.setSrc_xsl_plsql(page.getXsl_src());
+					pageCheck.setSrc_xsl_plsql(page.getXsl_src());
 					pages.add(pageCheck);
 				}
 			}	

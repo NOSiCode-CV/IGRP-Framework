@@ -111,5 +111,6 @@ public class PersistenceUtils {
 				sf.close();
 		} 
 		PersistenceUtils.SESSION_FACTORY.clear();
+		System.out.println("Destroyed  ");
 	}
 }

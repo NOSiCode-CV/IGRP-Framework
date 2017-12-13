@@ -1,6 +1,6 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -24,7 +24,7 @@
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
-                        <img src="{$path}/themes/default/img/logo.png"/>
+                        <img src="{$path}/themes/default/img/studio.logo.svg"/>
                         <span class=""><b>IGRP</b></span>
                     </a>
                     <div id="side-bar-ctrl">
