@@ -7,6 +7,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
@@ -41,13 +42,14 @@ public class ListaPageController extends Controller {
 			if(model.getEnv_fk()!=null && !model.getEnv_fk().equals("")){
 				app.setId(Integer.parseInt(model.getEnv_fk()));
 			}
-			a.setPage(model.getPage());
-			a.setPage_descr(model.getPage_descr());
+//			a.setPage(model.getPage());
+//			a.setPage_descr(model.getPage_descr());
+			
 		}	
 		List<Action> actions = a.find()
 			  .andWhere("application", "=",(model.getEnv_fk()!=null && !model.getEnv_fk().equals(""))?Integer.parseInt(model.getEnv_fk()):-1)
-			  .andWhere("page", "like", model.getPage())
-			  .andWhere("page_descr", "like", model.getPage_descr())
+//			  .andWhere("page", "like", model.getPage())
+//			  .andWhere("page_descr", "like", model.getPage_descr())
 			  .all();
 		for(Action ac:actions){
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
@@ -67,26 +69,40 @@ public class ListaPageController extends Controller {
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		view.nome_page.setLabel(gt("Código"));
+	      view.btn_importar.setLink("igrp_studio","ImportArquivo","index&target=_blank&app="+model.getEnv_fk()+"#tab-tabcontent_1-importar_pagina");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
 
-	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(NOVO)----*/
-		return this.redirect("igrp","Page","index&target=_blank");
+	public Response actionImportar(@RParam(rParamName="app") String app) throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
+		
+		return this.redirect("igrp_studio","ImportArquivo","index&target=_blank&app="+app);
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
-	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
+	public Response actionApp_builder() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(APP_BUILDER)----*/
 		ListaPage model = new ListaPage();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			return this.forward("igrp","ListaPage","index");
+			/*if(/* Your code condition *//*){
+				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
+			 }else{
+				Core.setMessageError(gt("Mesagem de Erro"));
+			 return this.forward("igrp","ListaEnv","index");
+			}*/
 		}
-		return this.redirect("igrp","ListaPage","index");
+		return this.redirect("igrp","ListaEnv","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionNova() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVA)----*/
+			return this.redirect("igrp","Page","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

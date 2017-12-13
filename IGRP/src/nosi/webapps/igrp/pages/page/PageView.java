@@ -11,8 +11,8 @@ public class PageView extends View {
 	public Field sectionheader_1_text;
 	public Field env_fk;
 	public Field version;
-	public Field page;
 	public Field action_descr;
+	public Field page;
 	public Field p_id;
 	public Field p_table_name;
 	public Field p_xsl_src;
@@ -53,14 +53,14 @@ public class PageView extends View {
 		version.setLabel(gt("Versão de Página"));
 		
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","");
-		page = new TextField(model,"page");
-		page.setLabel(gt("Código"));
-		
-		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		action_descr = new TextField(model,"action_descr");
 		action_descr.setLabel(gt("Título"));
 		
 		action_descr.propertie().add("name","p_action_descr").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		page = new TextField(model,"page");
+		page.setLabel(gt("Código"));
+		
+		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		
@@ -142,8 +142,8 @@ public class PageView extends View {
 
 		form_1.addField(env_fk);
 		form_1.addField(version);
-		form_1.addField(page);
 		form_1.addField(action_descr);
+		form_1.addField(page);
 		form_1.addField(p_id);
 		form_1.addField(p_table_name);
 		form_1.addField(p_xsl_src);
