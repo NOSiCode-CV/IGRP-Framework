@@ -32,6 +32,10 @@ import org.json.JSONArray;
  	<servlet>
 	    <servlet-name>igrpsso</servlet-name>
 	    <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
+	    <init-param>
+	      <param-name>role_name</param-name>
+	      <param-value>IGRP_ADMIN</param-value>
+	    </init-param>
   	</servlet>
   	<servlet-mapping>
 	    <servlet-name>igrpsso</servlet-name>

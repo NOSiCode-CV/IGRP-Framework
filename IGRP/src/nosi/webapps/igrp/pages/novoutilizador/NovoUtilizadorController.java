@@ -160,7 +160,8 @@ public class NovoUtilizadorController extends Controller {
 				if(u == null) {
 					u = userLdap.insert();
 					UserRole role = new UserRole();
-					role.setRole_name("IGRP_ADMIN");
+					String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
+					role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
 					role.setUser(u);
 					role = role.insert();
 				}

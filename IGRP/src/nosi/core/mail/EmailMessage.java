@@ -31,6 +31,10 @@ public final class EmailMessage { // Not inherit
 	private String subject;
 	private String msg;
 	
+	private boolean multipleRecipients;
+	
+	private String replyTo; // emails separated by comma 
+	
 	private String charset;
 	private String subType;
 	
@@ -50,93 +54,12 @@ public final class EmailMessage { // Not inherit
 			this.auth_password = this.getSettings().getProperty("mail.password");
 		}
 		this.attaches = new ArrayList<File>();
+		this.multipleRecipients = false;
 	}
 	
 	public static EmailMessage newInstance() {
 		EmailMessage msg = new EmailMessage();
 		return msg;
-	}
-	
-	public boolean send() throws IOException {
-		// Get the default Session object.
-		Session session = Session.getDefaultInstance(this.settings,
-			new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(auth_username, auth_password);
-				}
-		});
-		// Set response content type
-		try{
-			// Create a default MimeMessage object.
-			MimeMessage message = new MimeMessage(session); 
-			
-			if(!validateEmail(this.to)) {
-				System.out.println("Email not sent ... Invalid email: <" + this.to + "> ");
-				return false;
-			}
-			if(!validateEmail(this.from)) {
-				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
-				return false;
-			}
-			// Set From: header field of the header.
-			message.setFrom(new InternetAddress(this.from));
-			// Set To: header field of the header.
-			message.addRecipient(Message.RecipientType.TO,
-			new InternetAddress(this.to));
-			// Set Subject: header field
-			message.setSubject(this.subject);
-			
-			// If there is any attach ... 
-			if(this.attaches.size() > 0) {
-				// Create a multipar message 
-		        Multipart multipart = new MimeMultipart();
-		        
-		        MimeBodyPart mbp = new MimeBodyPart();
-			    // Now set the actual message 
-				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
-					mbp.setText(this.msg, this.charset, this.subType);
-				else if(this.charset != null && !this.charset.isEmpty())
-					mbp.setText(this.msg, this.charset);
-				else
-					mbp.setText(this.msg);
-		        
-		        mbp.setContent(this.msg, this.subType);
-		        multipart.addBodyPart(mbp);
-		        
-				for(File attach : this.attaches) {
-					// Create the message part 
-					MimeBodyPart messageBodyPart = new MimeBodyPart();
-					
-			         messageBodyPart.attachFile(attach);
-			         // Set text message part 
-			         multipart.addBodyPart(messageBodyPart);
-			         // Part two is attachment 
-			        /*// For javax.mail <= 1.3 :-) 
-			         messageBodyPart = new MimeBodyPart(); 
-			         DataSource source = new FileDataSource(attach); 
-			         messageBodyPart.setDataHandler(new DataHandler(source));
-			         messageBodyPart.setFileName(attach.getName());
-			         multipart.addBodyPart(messageBodyPart);*/
-				}
-				 // Send the complete message parts 
-		         message.setContent(multipart);
-			}else {
-				// Now set the actual message 
-				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
-					message.setText(this.msg, this.charset, this.subType);
-				else if(this.charset != null && !this.charset.isEmpty())
-					message.setText(this.msg, this.charset);
-				else
-					message.setText(this.msg);
-			}
-			// Send message
-			Transport.send(message);
-		return true;
-		}catch (MessagingException mex) {
-			System.out.println("Error ... sending email ... ");
-			mex.printStackTrace();
-		}
-		return false;
 	}
 	
 	public void loadDefaultConfig() {
@@ -234,9 +157,118 @@ public final class EmailMessage { // Not inherit
 		return flag;
 	}
 	
-	public synchronized boolean validateEmail(String email) {
-		String pattern = "[a-zA-Z0-9!#$%&\\\\'*+\\\\/=?^_`{|}~-]+(?:\\\\.[a-zA-Z0-9!#$%&\\'*+\\\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
-		return email != null && !email.isEmpty();
+	public boolean send() throws IOException {
+		// Get the default Session object.
+		Session session = Session.getDefaultInstance(this.settings,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(auth_username, auth_password);
+				}
+		});
+		// Set response content type
+		try{
+			// Create a default MimeMessage object.
+			MimeMessage message = new MimeMessage(session); 
+			
+			
+			if(!validateEmail(this.from)) {
+				System.out.println("Email not sent ... Invalid email: <" + this.from + "> ");
+				return false;
+			}
+			// Set From: header field of the header.
+			message.setFrom(new InternetAddress(this.from));
+			
+			// Set To: header field of the header. 
+			if(this.multipleRecipients) {
+				if(!validateEmails(this.to)) {
+					System.out.println("Email not sent ... one of email is invalid: <" + this.to + "> ");
+					return false;
+				}
+				message.addRecipients(Message.RecipientType.CC,InternetAddress.parse(this.to)); // this.to is a string separated by comma 
+			}else {
+				if(!validateEmail(this.to)) {
+					System.out.println("Email not sent ... Invalid email: <" + this.to + "> ");
+					return false;
+				}
+				message.addRecipient(Message.RecipientType.TO,new InternetAddress(this.to));
+			}
+			
+			if(this.replyTo != null && !this.replyTo.isEmpty() && validateEmails(this.replyTo)) {
+				message.setReplyTo(InternetAddress.parse(this.replyTo));
+			}
+			
+			// Set Subject: header field
+			message.setSubject(this.subject);
+			// If there is any attach ... 
+			if(this.attaches.size() > 0) {
+				// Create a multipar message 
+		        Multipart multipart = new MimeMultipart();
+		        MimeBodyPart mbp = new MimeBodyPart();
+			    // Now set the actual message 
+				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
+					mbp.setText(this.msg, this.charset, this.subType);
+				else if(this.charset != null && !this.charset.isEmpty())
+					mbp.setText(this.msg, this.charset);
+				else
+					mbp.setText(this.msg);
+		        mbp.setContent(this.msg, this.subType);
+		        multipart.addBodyPart(mbp);
+				for(File attach : this.attaches) {
+					// Create the message part 
+					MimeBodyPart messageBodyPart = new MimeBodyPart();
+			         messageBodyPart.attachFile(attach);
+			         // Set text message part 
+			         multipart.addBodyPart(messageBodyPart);
+			         // Part two is attachment 
+			        /*// For javax.mail <= 1.3 :-) 
+			         messageBodyPart = new MimeBodyPart(); 
+			         DataSource source = new FileDataSource(attach); 
+			         messageBodyPart.setDataHandler(new DataHandler(source));
+			         messageBodyPart.setFileName(attach.getName());
+			         multipart.addBodyPart(messageBodyPart);*/
+				}
+				 // Send the complete message parts 
+		         message.setContent(multipart);
+			}else {
+				// Now set the actual message 
+				if(this.charset != null && !this.charset.isEmpty() && this.subType != null && !this.subType.isEmpty())
+					message.setText(this.msg, this.charset, this.subType);
+				else if(this.charset != null && !this.charset.isEmpty())
+					message.setText(this.msg, this.charset);
+				else
+					message.setText(this.msg);
+			}
+			// Send message
+			Transport.send(message);
+		return true;
+		}catch (MessagingException mex) {
+			System.out.println("Error ... sending email ... ");
+			mex.printStackTrace();
+		}
+		return false;
+	}
+	
+	public synchronized static boolean validateEmail(String email) {
+		String pattern = "[a-zA-Z0-9!#$%&\\'*+\\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"; 
+		return email != null && !email.isEmpty() && email.matches(pattern);
+	}
+	
+	public synchronized static boolean validateEmails(String emails) {
+		String aux[] = emails.split(",");
+		for(String email : aux)
+			if(!validateEmail(email))
+				return false;
+		return true;
+	}
+
+	public EmailMessage multipleRecipients(boolean flag) {
+		this.multipleRecipients = flag;
+		return this;
+	}
+	
+	public EmailMessage replyTo(String emails) {
+		this.replyTo = emails;
+		return this;
 	}
 	
 }

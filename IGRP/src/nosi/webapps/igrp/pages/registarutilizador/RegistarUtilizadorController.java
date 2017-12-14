@@ -48,7 +48,8 @@ public class RegistarUtilizadorController extends Controller {
 				user.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
 				user = user.insert();
 				UserRole role = new UserRole();
-				role.setRole_name("IGRP_ADMIN");
+				String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
+				role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
 				role.setUser(user);
 				role = role.insert();
 				if(user!=null){

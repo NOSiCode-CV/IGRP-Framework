@@ -6,6 +6,8 @@ package nosi.core.igrp.mingrations;
  */
 import java.util.ArrayList;
 import java.util.List;
+
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.activit.rest.GroupService;
 import nosi.core.webapp.activit.rest.UserService;
 import nosi.webapps.igrp.dao.*;
@@ -67,6 +69,13 @@ public class MigrationIGRPInitConfig {
 			user0 = user0.updateTozero();
 			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "demo",null, null, null, null, null,"123456", 2017, 2017);
 			user1 = user1.insert();
+			/** For SSO tomcat realm  **/
+			UserRole role = new UserRole();
+			String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
+			role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
+			role.setUser(user1);
+			role.insert();
+			/** **/
 			
 			Organization org = new Organization("01.03", "NOSI", 1, app, user0, null);
 			org = org.insert();	
@@ -291,5 +300,24 @@ public class MigrationIGRPInitConfig {
 		//inserindo dados by default na tabela Scope
 		OAuthScope objScope = new OAuthScope("login", 0);
 		objScope.insert();
+		
+		User aux = new User();
+		aux.setAuth_key("123456");
+		aux.setCreated_at(12345);
+		aux.setPass_hash("Pa$$w0rd");
+		aux.setStatus(1);
+		aux.setUpdated_at(133);
+		aux.setUser_name("root");
+		aux.setActivation_key(123456789);
+		aux = aux.insert();
+		
+		if(aux != null)
+			for(String r : new String[] {"admin", "admin-script", "manager-gui", "manager-script", "manager-xml", "manager-status", "admin-gui"}) {
+				UserRole role = new UserRole();
+				role.setRole_name(r);
+				role.setUser(aux);
+				role.insert();
+			}
+		
 	}
 }
