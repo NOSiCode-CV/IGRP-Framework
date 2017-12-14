@@ -25,10 +25,10 @@ public class MigrationIGRPInitConfig {
 		app.setStatus(1);
 		app = app.insertOnly();
 		
-		Application tutorial = new Application("tutorial", "Tutorial IGRP", "default.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
+		Application tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
 		tutorial = tutorial.insertOnly();
 		
-		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "default.png", "IGRP Studio - Software Developer", 1, null,"igrp_studio");
+		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "IGRP Studio - Software Developer", 1, null,"igrp_studio");
 		igrp_studio = igrp_studio.insertOnly();
 		
 		if(app!=null){
