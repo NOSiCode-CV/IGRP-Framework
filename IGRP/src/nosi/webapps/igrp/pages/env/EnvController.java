@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.env;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.DataInputStream;
 import java.io.File;
@@ -37,6 +33,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class EnvController extends Controller {		
 
+
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Env model = new Env();
@@ -51,13 +48,14 @@ public class EnvController extends Controller {
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
-		view.templates.setVisible(false);
+		
 		view.flg_old.setVisible(false);
-		view.flg_external.setVisible(true);
-		view.btn_voltar.setVisible(false);
+	
+
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, URISyntaxException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
@@ -66,13 +64,12 @@ public class EnvController extends Controller {
 			model.load();
 			Application app = new Application();		
 			Action ac = new Action();
-			ac.setId(model.getAction_fk());
+			ac.setId(Integer.getInteger(model.getAction_fk()));
 //			app.setAction_fk(model.getAction_fk());
 //			app.setApache_dad(model.getApache_dad());
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());
-//			app.setFlg_old(model.getFlg_old());
-			
+//			app.setFlg_old(model.getFlg_old());			
 			app.setExternal(model.getFlg_external());
 			if(app.getExternal() == 1 && model.getHost() != null && !model.getHost().isEmpty())
 				app.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
@@ -82,7 +79,7 @@ public class EnvController extends Controller {
 //			app.setLink_menu(model.getLink_menu());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
-//			app.setTemplates(model.getTemplates()); 
+			app.setTemplate(model.getTemplates()); 
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
@@ -101,14 +98,10 @@ public class EnvController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp", "lista-env","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+
 	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		
 		Env model = new Env();		
 		Application aplica_db = new Application();
 		aplica_db = aplica_db.findOne(Integer.parseInt(idAplicacao));
@@ -118,7 +111,7 @@ public class EnvController extends Controller {
 		model.setFlg_external(aplica_db.getExternal());
 		model.setHost(aplica_db.getUrl());
 		if(aplica_db.getAction()!=null){
-			model.setAction_fk(aplica_db.getAction().getId());
+			model.setAction_fk(aplica_db.getAction().getId().toString());
 		}
 //		model.setApache_dad(aplica_db.getApache_dad());
 //		model.setFlg_external(aplica_db.getFlg_external());
@@ -127,7 +120,7 @@ public class EnvController extends Controller {
 //		model.setFlg_old(aplica_db.getFlg_old());
 //		model.setLink_center(aplica_db.getLink_center());
 //		model.setLink_menu(aplica_db.getLink_menu());
-//		model.setTemplates(aplica_db.getTemplates());
+		model.setTemplates(aplica_db.getTemplate());
 //		model.setHost(aplica_db.getHost());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
@@ -151,8 +144,8 @@ public class EnvController extends Controller {
 //			aplica_db.setLink_menu(model.getLink_menu());
 //			aplica_db.setLink_center(model.getLink_center());
 //			aplica_db.setApache_dad(model.getApache_dad());
-//			aplica_db.setTemplates(model.getTemplates());
-//			aplica_db.setHost(model.getHost());
+			aplica_db.setTemplate(model.getTemplates());
+		//	aplica_db.setHost(model.getHost());
 //			aplica_db.setFlg_external(model.getFlg_external());			
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
@@ -163,25 +156,17 @@ public class EnvController extends Controller {
 			}
 		}	
 		EnvView view = new EnvView(model);
-		view.sectionheader_1_text.setValue(gt("Gestão de Aplicação - Actualizar"));
+		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
-		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
-		view.templates.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.flg_external.setVisible(true);
-		view.btn_voltar.setVisible(false);
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
 
-	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-
-	
 	//App list I have access to
 	public Response actionMyApps() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
@@ -301,30 +286,30 @@ public class EnvController extends Controller {
 	 * */
 //	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
 	// Begin
-	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-		try {
-			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
-			URL url = new URL(endpoint);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setDoInput(true);
-			StringBuilder result = new StringBuilder();
-			DataInputStream cin = new DataInputStream(conn.getInputStream());
-			String aux = null;
-			while((aux = cin.readLine()) != null) {
-				result.append(aux);
-			}
-			cin.close();
-			conn.disconnect();
-			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
-			for(IgrpPLSQLApp obj : allApps)
-				if(obj.getAvailable().equals("yes"))
-					allowApps.add(obj);
-				else
-					denyApps.add(obj);
-		}catch(Exception e) {
-			// do nothing yet 
-		}
-	}
+//	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
+//		try {
+//			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
+//			URL url = new URL(endpoint);
+//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//			conn.setDoInput(true);
+//			StringBuilder result = new StringBuilder();
+//			DataInputStream cin = new DataInputStream(conn.getInputStream());
+//			String aux = null;
+//			while((aux = cin.readLine()) != null) {
+//				result.append(aux);
+//			}
+//			cin.close();
+//			conn.disconnect();
+//			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
+//			for(IgrpPLSQLApp obj : allApps)
+//				if(obj.getAvailable().equals("yes"))
+//					allowApps.add(obj);
+//				else
+//					denyApps.add(obj);
+//		}catch(Exception e) {
+//			// do nothing yet 
+//		}
+//	}
 	
 	// For serialization purpose
 	public static class IgrpPLSQLApp {

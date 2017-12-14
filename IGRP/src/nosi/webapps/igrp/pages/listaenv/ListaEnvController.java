@@ -33,17 +33,18 @@ public class ListaEnvController extends Controller {
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
 		Application app = new Application();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();		
-			app.setDad(model.getDad());
-			app.setName(model.getNome());
+			model.load();
+			
+			//app.setDad(model.getDad());
+			//app.setName(model.getNome());
 		}
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		String dad = Permission.getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
 			apps = 	app.find()
-						.andWhere("dad", "like", app.getDad())
-						.andWhere("name", "like", app.getName())
+						//.andWhere("dad", "like", app.getDad())
+						//.andWhere("name", "like", app.getName())
 						.all();
 		}else{
 			apps = app.getListMyApp(user.getId());
@@ -73,21 +74,33 @@ public class ListaEnvController extends Controller {
 	}
 
 
-	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(NOVO)----*/
-		return this.redirect("igrp","Env","index&target=_blank");
+	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
+			return this.redirect("igrp_studio","ImportArquivo","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
-	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
-      	ListaEnv model = new ListaEnv();
+	public Response actionPage_builder() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(PAGE_BUILDER)----*/
+		ListaEnv model = new ListaEnv();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-			return this.forward("igrp","lista-env","index");
+			/*if(/* Your code condition *//*){
+				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
+			 }else{
+				Core.setMessageError(gt("Mesagem de Erro"));
+			 return this.forward("igrp","ListaEnv","index");
+			}*/
 		}
-      	return this.redirect("igrp","lista-env","index");
+		return this.redirect("igrp","ListaPage","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVO)----*/
+		return this.redirect("igrp","Env","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

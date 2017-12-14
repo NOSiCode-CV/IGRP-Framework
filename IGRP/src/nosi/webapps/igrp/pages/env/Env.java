@@ -1,33 +1,33 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.env;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Env extends Model{		
-	@RParam(rParamName = "p_id")
-	private int id;
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_dad")
-	private String dad;
 	@RParam(rParamName = "p_name")
 	private String name;
+	@RParam(rParamName = "p_dad")
+	private String dad;
 	@RParam(rParamName = "p_description")
 	private String description;
 	@RParam(rParamName = "p_img_src")
 	private String img_src;
-	@RParam(rParamName = "p_action_fk")
-	private int action_fk;
+	@RParam(rParamName = "p_templates")
+	private String templates;
 	@RParam(rParamName = "p_host")
 	private String host;
-	@RParam(rParamName = "p_apache_dad")
-	private String apache_dad;
 	@RParam(rParamName = "p_link_menu")
 	private String link_menu;
 	@RParam(rParamName = "p_link_center")
 	private String link_center;
-	@RParam(rParamName = "p_templates")
-	private String templates;
+	@RParam(rParamName = "p_action_fk")
+	private String action_fk;
+	@RParam(rParamName = "p_apache_dad")
+	private String apache_dad;
 	@RParam(rParamName = "p_flg_old")
 	private int flg_old;
 	@RParam(rParamName = "p_flg_external")
@@ -42,18 +42,18 @@ public class Env extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setDad(String dad){
-		this.dad = dad;
-	}
-	public String getDad(){
-		return this.dad;
-	}
-	
 	public void setName(String name){
 		this.name = name;
 	}
 	public String getName(){
 		return this.name;
+	}
+	
+	public void setDad(String dad){
+		this.dad = dad;
+	}
+	public String getDad(){
+		return this.dad;
 	}
 	
 	public void setDescription(String description){
@@ -70,11 +70,11 @@ public class Env extends Model{
 		return this.img_src;
 	}
 	
-	public void setAction_fk(int action_fk){
-		this.action_fk = action_fk;
+	public void setTemplates(String templates){
+		this.templates = templates;
 	}
-	public int getAction_fk(){
-		return this.action_fk;
+	public String getTemplates(){
+		return this.templates;
 	}
 	
 	public void setHost(String host){
@@ -82,13 +82,6 @@ public class Env extends Model{
 	}
 	public String getHost(){
 		return this.host;
-	}
-	
-	public void setApache_dad(String apache_dad){
-		this.apache_dad = apache_dad;
-	}
-	public String getApache_dad(){
-		return this.apache_dad;
 	}
 	
 	public void setLink_menu(String link_menu){
@@ -105,11 +98,18 @@ public class Env extends Model{
 		return this.link_center;
 	}
 	
-	public void setTemplates(String templates){
-		this.templates = templates;
+	public void setAction_fk(String action_fk){
+		this.action_fk = action_fk;
 	}
-	public String getTemplates(){
-		return this.templates;
+	public String getAction_fk(){
+		return this.action_fk;
+	}
+	
+	public void setApache_dad(String apache_dad){
+		this.apache_dad = apache_dad;
+	}
+	public String getApache_dad(){
+		return this.apache_dad;
 	}
 	
 	public void setFlg_old(int flg_old){
@@ -132,13 +132,6 @@ public class Env extends Model{
 	public int getStatus(){
 		return this.status;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 
 
 }
-/*-------------------------*/

@@ -319,16 +319,16 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 			User user = new User();
 			user = user.findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 			Organization org = new Organization();				
-			org.setCode("org.admin." + app.getDad());
-			org.setName("Organica Admin - " + app.getName());
+			org.setCode("Org." + app.getDad());
+			org.setName("IGRP"); //+ app.getName()
 			org.setUser(user);
 			org.setApplication(app);
 			org.setStatus(1);
 			org = org.insert();
 			if(org!=null){	
 				ProfileType proty = new ProfileType();			
-				proty.setCode("perfil." + app.getDad());
-				proty.setDescr("Perfil Admin - " + org.getName());
+				proty.setCode("admin." + app.getDad());
+				proty.setDescr("Admin");
 				proty.setOrganization(org);
 				proty.setApplication(app);
 				proty.setStatus(1);		
@@ -337,8 +337,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 					Profile p1 = new Profile(app.getId(), "ENV", proty, user, org);
 					p1.insert();
 					Profile p2 = new Profile(proty.getId(), "PROF", proty, user, org);
-					p2.insert();
-				}
+					p2.insert();					
+				}			
+				
 			}
 		}
 		return app;

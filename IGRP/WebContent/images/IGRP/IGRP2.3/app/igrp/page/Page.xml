@@ -38,7 +38,7 @@
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
                     <value>
-                        <![CDATA[Gestão de Página - Novo]]>
+                        <![CDATA[Page builder - Novo]]>
                     </value>
                 </sectionheader_1_text>
             </fields>
@@ -111,11 +111,11 @@
                 </version>
                 <action_descr name="p_action_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Sit officia unde consectetur t</value>
+                    <value>Aperiam sit stract lorem ipsum</value>
                 </action_descr>
                 <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Lorem unde mollit consectetur</value>
+                    <value>Lorem mollit laudantium sit al</value>
                 </page>
                 <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
                 <hidden name="p_table_name" type="hidden" maxlength="80" tag="table_name"/>

@@ -85,7 +85,7 @@
                 <app>igrp</app>
                 <page>ListaEnv</page>
                 <link>index</link>
-                <target>_newtab</target>
+                <target>_self</target>
                 <img>info|fa-th</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</parameter>
             </item>
@@ -121,8 +121,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Perspiciatis ut rem perspiciat</descricao_page>
-                        <nome_page name="p_nome_page">Elit accusantium dolor officia</nome_page>
+                        <descricao_page name="p_descricao_page">Mollit ipsum sit adipiscing la</descricao_page>
+                        <nome_page name="p_nome_page">Rem sed iste stract officia</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -132,8 +132,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Perspiciatis elit adipiscing o</descricao_page>
-                        <nome_page name="p_nome_page">Adipiscing voluptatem unde per</nome_page>
+                        <descricao_page name="p_descricao_page">Officia stract iste unde persp</descricao_page>
+                        <nome_page name="p_nome_page">Elit aliqua iste rem deserunt</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -143,8 +143,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Stract aliqua magna consectetu</descricao_page>
-                        <nome_page name="p_nome_page">Ut sit totam rem aperiam</nome_page>
+                        <descricao_page name="p_descricao_page">Ut perspiciatis rem aperiam si</descricao_page>
+                        <nome_page name="p_nome_page">Labore anim aperiam deserunt a</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -154,8 +154,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Laudantium magna sit dolor nat</descricao_page>
-                        <nome_page name="p_nome_page">Consectetur stract unde offici</nome_page>
+                        <descricao_page name="p_descricao_page">Sed ipsum deserunt unde laudan</descricao_page>
+                        <nome_page name="p_nome_page">Labore dolor adipiscing stract</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -165,8 +165,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Adipiscing accusantium elit vo</descricao_page>
-                        <nome_page name="p_nome_page">Anim aperiam accusantium persp</nome_page>
+                        <descricao_page name="p_descricao_page">Lorem perspiciatis stract tota</descricao_page>
+                        <nome_page name="p_nome_page">Totam amet sit ut aliqua</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>

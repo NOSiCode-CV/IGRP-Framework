@@ -43,7 +43,7 @@ public class PageView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
-		sectionheader_1_text.setValue(gt("Gestão de Página - Novo"));
+		sectionheader_1_text.setValue(gt("Page builder - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));

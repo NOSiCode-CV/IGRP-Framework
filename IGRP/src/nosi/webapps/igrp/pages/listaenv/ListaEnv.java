@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaEnv extends Model{		
-	@RParam(rParamName = "p_dad")
-	private String dad;
-	@RParam(rParamName = "p_nome")
-	private String nome;
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -21,41 +19,20 @@ public class ListaEnv extends Model{
 		return this.table_1;
 	}
 	
-	public void setDad(String dad){
-		this.dad = dad;
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
 	}
-	public String getDad(){
-		return this.dad;
-	}
-	
-	public void setNome(String nome){
-		this.nome = nome;
-	}
-	public String getNome(){
-		return this.nome;
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
 	}
 
 
 	public static class Table_1{
-		private String dad;
-		private String name;
 		private int status;
 		private int status_check;
+		private String name;
+		private String dad;
 		private String p_id;
-		public void setDad(String dad){
-			this.dad = dad;
-		}
-		public String getDad(){
-			return this.dad;
-		}
-
-		public void setName(String name){
-			this.name = name;
-		}
-		public String getName(){
-			return this.name;
-		}
-
 		public void setStatus(int status){
 			this.status = status;
 		}
@@ -67,6 +44,20 @@ public class ListaEnv extends Model{
 		}
 		public int getStatus_check(){
 			return this.status_check;
+		}
+
+		public void setName(String name){
+			this.name = name;
+		}
+		public String getName(){
+			return this.name;
+		}
+
+		public void setDad(String dad){
+			this.dad = dad;
+		}
+		public String getDad(){
+			return this.dad;
 		}
 
 		public void setP_id(String p_id){

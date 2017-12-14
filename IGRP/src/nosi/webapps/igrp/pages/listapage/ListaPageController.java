@@ -75,10 +75,9 @@ public class ListaPageController extends Controller {
 	}
 
 
-	public Response actionImportar(@RParam(rParamName="app") String app) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
-		
-		return this.redirect("igrp_studio","ImportArquivo","index&target=_blank&app="+app);
+		return this.redirect("igrp_studio","ImportArquivo","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

@@ -65,7 +65,7 @@ public class ListaPageView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_importar = new IGRPButton("Importar","igrp","ListaPage","importar","modal|refresh","default|fa-upload","","");
 		btn_importar.propertie.add("type","specific").add("code","").add("rel","importar");
-		btn_app_builder = new IGRPButton("App Builder","igrp","ListaPage","app_builder","_newtab","info|fa-th","","");
+		btn_app_builder = new IGRPButton("App Builder","igrp","ListaPage","app_builder","_self","info|fa-th","","");
 		btn_app_builder.propertie.add("type","specific").add("code","").add("rel","app_builder");
 		btn_nova = new IGRPButton("Nova página","igrp","ListaPage","nova","modal|refresh","success|fa-plus-square","","");
 		btn_nova.propertie.add("type","specific").add("code","").add("rel","nova");
