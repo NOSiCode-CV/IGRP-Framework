@@ -30,9 +30,11 @@ import org.apache.log4j.Logger;
  * @author: Emanuel Pereira
  * 13 Nov 2017
  */
-public class Core {	
+public final class Core {	// Not inherit 
 
 	static Logger log = Logger.getLogger(Core.class);
+	
+	private Core() {} // Not instantiate  
 	
 	/**
 	 * log.fatal("fatal message");
