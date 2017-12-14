@@ -41,11 +41,11 @@ public class PesquisarMenuView extends View {
 		sectionheader_1_text.setValue(gt("Gestao Menu"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicacao"));
+		aplicacao.setLabel(gt("Aplicação"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organica"));
+		organica.setLabel(gt("Organização"));
 		
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
 		menu_principal = new ListField(model,"menu_principal");
@@ -53,7 +53,7 @@ public class PesquisarMenuView extends View {
 		
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		descricao = new PlainTextField(model,"descricao");
-		descricao.setLabel(gt("Descricao"));
+		descricao.setLabel(gt("Descrição"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		titulo = new PlainTextField(model,"titulo");
@@ -61,7 +61,7 @@ public class PesquisarMenuView extends View {
 		
 		titulo.propertie().add("name","p_titulo").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		pagina = new PlainTextField(model,"pagina");
-		pagina.setLabel(gt("Pagina"));
+		pagina.setLabel(gt("Página"));
 		
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		ativo = new PlainTextField(model,"ativo");
@@ -69,7 +69,7 @@ public class PesquisarMenuView extends View {
 		
 		ativo.propertie().add("name","p_ativo").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		checkbox = new CheckBoxField(model,"checkbox");
-		checkbox.setLabel(gt("Checkbox"));
+		checkbox.setLabel(gt("Escolha"));
 		
 		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("check","true").add("desc","true");
 		checkbox_check = new CheckBoxField(model,"checkbox_check");

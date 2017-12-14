@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="XSL-plsql.xsl" type="text/xsl"?>
+<rows>
+    <site>
+        <welcome_note>Ola</welcome_note>
+        <footer_note>2011 - Copyright NOSI</footer_note>
+        <user_name>red-igrp</user_name>
+        <button     type="specific">
+            <title>Sair</title>
+            <app>RED</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>BIBLIO</page>
+    <app>RED</app>
+    <plsql>
+        <action>BIB-DET</action>
+        <package_instance></package_instance>
+        <package_db></package_db>
+        <package_html></package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>#</preserve_url>
+    </plsql>
+    <content>
+        <title>Detalhe Lista</title>
+        <sectionheader_1 type="form" structure="text">
+            <fields>
+                <sectionheader_1 maxlength="100">
+                    <value>
+                        <![CDATA[Sectionheader]]>
+                    </value>
+                </sectionheader_1>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" structure="items">
+            <item type="specific" code="" rel="button_2" class="default">
+                <title>Button 2</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-dot-circle-o</img>
+                <params>default|fa-dot-circle-o|www</params>
+            </item>
+            <item type="specific" code="" rel="button_3" class="danger">
+                <title>Button 3</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-bars</img>
+                <params>danger|fa-bars|www</params>
+            </item>
+            <item type="specific" code="" rel="button_1" class="success">
+                <title>Button 1</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>_blank</target>
+                <img>fa-check</img>
+                <params>success|fa-check|www</params>
+                <service code="5003353">
+                    <request>
+                        <map>
+                            <from>date_1</from>
+                            <to>mimetype</to>
+                        </map>
+                        <map>
+                            <from>number_1</from>
+                            <to>link</to>
+                        </map>
+                    </request>
+                    <response>
+                        <map>
+                            <from>status_text</from>
+                            <to>text_1</to>
+                        </map>
+                        <map>
+                            <from>status</from>
+                            <to>number_1</to>
+                        </map>
+                    </response>
+                </service>
+            </item>
+        </toolsbar_1>
+    </content>
+</rows>

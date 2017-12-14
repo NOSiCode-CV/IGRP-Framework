@@ -157,7 +157,7 @@ public class PageController extends Controller {
 		
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
-		view.sectionheader_1_text.setValue("Gestão de Página - Atualizar");
+		view.sectionheader_1_text.setValue("Page builder - Atualizar");
 		view.btn_gravar.setLink("editar&id="+id);
 		view.btn_voltar.setVisible(false);
 		view.version.setVisible(false);
@@ -206,7 +206,7 @@ public class PageController extends Controller {
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 						ac.update();
 						this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
-						return this.renderView("<messages><message type=\"success\">Operacao efectuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
+						return this.renderView("<messages><message type=\"success\">Operacao efetuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 					}
 				}
 			}
