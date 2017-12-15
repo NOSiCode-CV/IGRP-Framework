@@ -41,11 +41,11 @@ package nosi.core.gui.components;
 */
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.DBQuery;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
+import nosi.core.webapp.databse.helpers.Query;
 import nosi.core.webapp.helpers.IgrpHelper;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +63,7 @@ public class IGRPChart extends IGRPComponent{
 	private String url;
 	private ArrayList<String> colors;
 	private String sql;
-	private DBQuery q;
+	private int columnCount;
 	
 	public IGRPChart(String tag_name,String title) {
 		super(tag_name,title);
@@ -152,38 +152,54 @@ public class IGRPChart extends IGRPComponent{
 	
 	//Gera xml de chart a partir de query sql
 	private void genChartWithSql() {
-		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			try {
-					Map<String,Number> labels = new HashMap<>();	
-					List<Item> itens = new ArrayList<>();
-					this.xml.startElement("label");
-						while(q.getResultSet().next()){
-							Item item = null;
-							if(q.getColumns().size() > 2){
-								labels.put(q.getResultSet().getString(2),0);
-								item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(2),(Number) q.getResultSet().getObject(3));
-							}else{
-								labels.put(q.getResultSet().getString(1),0);
-								item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(1),(Number) q.getResultSet().getObject(2));
-							}
-							itens.add(item );
-						}
-						this.xml.emptyTag("col");
-						for(Map.Entry<String, Number> l:labels.entrySet()){
-							this.xml.setElement("col", l.getKey().toString());
-						}
-					this.xml.endElement();//End tag label
-					this.xml.startElement("value");// Start tag value
-						if(q.getColumns().size() > 2){	
-							this.genRowsChart3d(itens,labels);
-						}else{
-							this.genRowsChart2d(itens,labels);
-						}
-					this.xml.endElement();//End tag value
-				} catch (SQLException e) {
-					e.printStackTrace();
+		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			Map<String,Number> labels = new HashMap<>();	
+			List<Item> itens = new ArrayList<>();
+			this.xml.startElement("label");
+			List<Map<String,Object>> list = Query.query(this.getConnectionName(), this.getSqlQuery());
+			for(Map<String, Object> l:list) {
+				Item item = null;
+//				if(this.columnCount > 2){
+//					labels.put(l.get(key),0);
+//					item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(2),(Number) q.getResultSet().getObject(3));
+//				}else{
+//					labels.put(q.getResultSet().getString(1),0);
+//					item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(1),(Number) q.getResultSet().getObject(2));
+//				}
+				itens.add(item );
+				this.xml.startElement("row");
+				for(Field field:this.fields){
+					if(field.isParam()){
+						field.reselveFieldName();
+						this.xml.setElement("param", field.getName()+"="+ l.get(field.getName()).toString());
+					}
+					this.xml.setElement(field.getTagName(), l.get(field.getName()).toString());
 				}
-			q.close();
+				this.xml.endElement();
+			}
+//				while(q.getResultSet().next()){
+//					Item item = null;
+//					if(this.columnCount > 2){
+//						labels.put(q.getResultSet().getString(2),0);
+//						item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(2),(Number) q.getResultSet().getObject(3));
+//					}else{
+//						labels.put(q.getResultSet().getString(1),0);
+//						item = new Item(q.getResultSet().getString(1), q.getResultSet().getString(1),(Number) q.getResultSet().getObject(2));
+//					}
+//					itens.add(item );
+//				}
+				this.xml.emptyTag("col");
+				for(Map.Entry<String, Number> l:labels.entrySet()){
+					this.xml.setElement("col", l.getKey().toString());
+				}
+			this.xml.endElement();//End tag label
+			this.xml.startElement("value");// Start tag value
+				if(this.columnCount > 2){	
+					this.genRowsChart3d(itens,labels);
+				}else{
+					this.genRowsChart2d(itens,labels);
+				}
+			this.xml.endElement();//End tag value
 		}
 	}
 	
@@ -321,15 +337,11 @@ public class IGRPChart extends IGRPComponent{
 	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
-		this.q = new DBQuery();
-		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
-			if(this.q.isError()){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
-				this.sql = null;
-			}
+		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			List<nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(this.getConnectionName(), this.sql);
+			this.columnCount = columns.size();
 		}
-		if(!this.validateSqlChart(q.getColumns().size())){
+		if(!this.validateSqlChart(this.columnCount)){
 			this.sql = null;
 		}
 	}

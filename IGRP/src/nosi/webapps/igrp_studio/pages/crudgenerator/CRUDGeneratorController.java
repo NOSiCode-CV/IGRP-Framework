@@ -3,21 +3,21 @@ package nosi.webapps.igrp_studio.pages.crudgenerator;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.FileHelper;
-import nosi.core.webapp.import_export.FileImportAppOrPage;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -49,22 +49,22 @@ public class CRUDGeneratorController extends Controller {
 			view.schema.setVisible(true);
 			view.schema.setValue(schemasMap);
 			if(model.getSchema()!=null && !model.getSchema().equals("")) {
-				List<String> list = DatabaseMetadaHelper.getTables(model.getSchema(),config);
+				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				for(String table:list) {
 					CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 					t.setCheck_table(i);
-					t.setCheck_table_check(i);
+					t.setCheck_table_check(-1);
 					t.setTable_name(table);
 					data.add(t);
 					i++;
 				}
 			}
 		}else {
-			List<String> list = DatabaseMetadaHelper.getTables(null,config);
+			List<String> list = DatabaseMetadaHelper.getTables(config,null);
 			for(String table:list) {
 				CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();
 				t.setCheck_table(i);
-				t.setCheck_table_check(i);
+				t.setCheck_table_check(-1);
 				t.setTable_name(table);
 				data.add(t);
 				i++;
@@ -76,7 +76,7 @@ public class CRUDGeneratorController extends Controller {
 	}
 
 
-	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException{
+	public Response actionGerar() throws IOException, IllegalArgumentException, IllegalAccessException, TransformerConfigurationException, URISyntaxException{
 		/*----#START-PRESERVED-AREA(GERAR)----*/
 		CRUDGenerator model = new CRUDGenerator();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
@@ -84,12 +84,19 @@ public class CRUDGeneratorController extends Controller {
 			if( model.getData_source()!=null && model.getAplicacao()!=null) {
 				Integer id = Integer.parseInt( model.getData_source());
 				Config_env config = new Config_env().findOne(id);
-				List<String> list = DatabaseMetadaHelper.getTables(model.getSchema(),config);
+				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				String[] tables = Igrp.getInstance().getRequest().getParameterValues("p_check_table");
+				boolean r = false;
 				for(String table:tables) {
-					String tableName = list.get(Integer.parseInt(table)-1);
-					System.out.println("Generate CRUD for Table: "+tableName);					
-					this.generateCRUD(config,model.getSchema(),tableName);
+					String tableName = list.get(Integer.parseInt(table)-1);					
+					r = this.generateCRUD(config,model.getSchema(),tableName);
+				}
+				if(r) {
+					Core.setMessageSuccess();
+				}
+				else {
+					Core.setMessageError();
+					return this.forward("igrp_studio","CRUDGenerator","index");
 				}
 			}
 		}
@@ -99,45 +106,73 @@ public class CRUDGeneratorController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	private void generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException {
-		String pageName = Page.resolvePageName(tableName);
+	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
+		Column primaryKey = DatabaseMetadaHelper.getPrimaryKey(config, schema, tableName);
+		String pageNameForm = Page.resolvePageName(tableName)+"Form";
+		String pageNameList = Page.resolvePageName(tableName)+"List";
 		CRUD crud = new CRUD().find().andWhere("schemaName", "=", schema).andWhere("tableName", "=", tableName).andWhere("config_env", "=", config.getId()).one();
 		if(crud==null) {
 			crud = new CRUD(tableName, schema, config);
 			crud = crud.insert();
 		}
-		Action pageForm = new Action().find().andWhere("page", "=",pageName+"Form").andWhere("application", "=",config.getApplication().getId()).one();
-		Action pageList = new Action().find().andWhere("page", "=",pageName+"List").andWhere("application", "=",config.getApplication().getId()).one();
+		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
+		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();
 		if(pageForm==null) {
-			pageForm = new Action(pageName+"Form", "index", "nosi.webapps."+config.getApplication().getDad().toLowerCase()+".pages."+pageName+"form".toLowerCase(), config.getApplication().getDad().toLowerCase()+"/"+pageName+"form".toLowerCase()+"/"+pageName+"Form.xsl", "Registar "+pageName, "Registar "+pageName, "2.3", 1, config.getApplication(), crud);
+			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameForm).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageForm = pageForm.insert();
 		}
 		if(pageList==null) {
-			pageList = new Action(pageName+"List", "index", "nosi.webapps."+config.getApplication().getDad().toLowerCase()+".pages."+pageName+"list".toLowerCase(), config.getApplication().getDad().toLowerCase()+"/"+pageName+"List".toLowerCase()+"/"+pageName+"List.xsl", "Registar "+pageName, "Registar "+pageName, "2.3", 1, config.getApplication(), crud);
+			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameList).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageList = pageList.insert();
 		}		
-		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-		String formXML = XMLTransform.genXML("", XMLTransform.generateXMLForm(config, tableName, columns),pageForm);
-		String listXML = XMLTransform.genXML("", XMLTransform.generateXMLTable(config, tableName, columns),pageList);
-		
-		System.out.println(formXML);
-		System.out.println(listXML);
-
-		FileHelper.save(Config.getBaseServerPahtXsl(pageForm), pageName+"Form.xml", formXML);
-		FileHelper.save(Config.getBaseServerPahtXsl(pageList), pageName+"List.xml", listXML);		
-		if(FileHelper.fileExists(Config.getWorkspace())){
-			FileHelper.save(Config.getBasePahtXsl(pageForm), pageName+"Form.xml", formXML);
-			FileHelper.save(Config.getBasePahtXsl(pageList), pageName+"List.xml", listXML);	
-		}
-		String xslFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
-		String formMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageName+"Form.xml", xslFileName);
-		String listMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageName+"List.xml", xslFileName);
-		
-		this.generateClassMVC(pageForm, formMVC);
-		this.generateClassMVC(pageList, listMVC);
+		return this.processGenerate(config,tableName,schema,primaryKey,pageForm,pageList);
 	}
 
-	private void generateClassMVC(Action page,String mvc) throws IOException {
+	private boolean processGenerate(Config_env config, String tableName, String schema, Column primaryKey, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
+		boolean r = false;
+		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
+		String formXML = XMLTransform.genXML(XMLTransform.generateXMLForm(config, pageForm, columns,pageList),pageForm,primaryKey,"form");
+		String listXML = XMLTransform.genXML(XMLTransform.generateXMLTable(config, pageList, columns,pageForm,primaryKey),pageList,primaryKey,"table");
+				
+		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
+			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
+		
+		String xslFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
+		String xslFileNameGen = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
+		String jsonFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
+		
+		String formJson = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", jsonFileName);
+		String listJson = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", jsonFileName);
+		
+		String formMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", xslFileName);
+		String listMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", xslFileName);
+		
+		String xslForm = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", xslFileNameGen);
+		String xslList = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", xslFileNameGen);
+
+		r = this.saveFiles(pageForm, pageForm.getPage()+".json",formJson)	
+			&& this.saveFiles(pageList, pageList.getPage()+".json",listJson)
+			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
+			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
+			&& this.generateClassMVC(pageForm, formMVC)
+			&& this.generateClassMVC(pageList, listMVC);
+		return r;
+	}
+
+
+	private boolean saveFiles(Action page,String fileName,String content) throws IOException {
+		boolean r = false;
+		if(content!=null) {
+			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
+			r = FileHelper.save(Config.getBaseServerPahtXsl(page), fileName, content);
+			if(FileHelper.fileExists(Config.getWorkspace())){
+				r = FileHelper.save(Config.getBasePahtXsl(page), fileName, content);
+			}
+		}
+		return r;
+	}
+	
+	private boolean generateClassMVC(Action page,String mvc) throws IOException, URISyntaxException {
 		String[] partsJavaCode = mvc.toString().split(" END ");
 		if(partsJavaCode.length > 2){
 			String model = partsJavaCode[0];
@@ -154,8 +189,10 @@ public class CRUDGeneratorController extends Controller {
 				}
 				FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
 			}
-			
+			String fileJava = path_class + File.separator + page.getPage();
+			return new Compiler().compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
 		}
+		return false;
 	}
 
 	/*----#END-PRESERVED-AREA----*/
