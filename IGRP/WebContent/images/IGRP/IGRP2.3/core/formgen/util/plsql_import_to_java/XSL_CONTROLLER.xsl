@@ -11,7 +11,6 @@
 	 		<xsl:value-of select="$tab2"/>
 	     	<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="actionIndex"/>
-	 		<xsl:call-template name="actionSaveEdit"/>
 	 		<xsl:call-template name="actionEditCalendar"/>
 	 		<xsl:value-of select="$newline"/>
 	 		 <xsl:call-template name="createActions"/>
@@ -116,7 +115,8 @@
      	<xsl:call-template name="begin_reserve_code_action">
      		<xsl:with-param name="type" select="'CUSTOM_ACTIONS'"/>
      		<xsl:with-param name="url" select="''"/>
-     	</xsl:call-template>
+     	</xsl:call-template>     	
+     	<xsl:call-template name="actionSaveEdit"/>
      	<xsl:choose>
      		<xsl:when test="$url !=''">
 				<xsl:value-of select="$your_code"/>	
@@ -233,13 +233,14 @@
 
      	<xsl:variable name="url">
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
-     	</xsl:variable>	   
-
-     	<xsl:call-template name="begin_reserve_code_action">
-     		<xsl:with-param name="type" select="$action"/>
-     		<xsl:with-param name="url" select="$url"/>
-     	</xsl:call-template>
-		
+     	</xsl:variable>   
+     	
+		<xsl:if test="$crud_operation=''">
+		 	<xsl:call-template name="begin_reserve_code_action">
+	     		<xsl:with-param name="type" select="$action"/>
+	     		<xsl:with-param name="url" select="$url"/>
+	     	</xsl:call-template>
+		</xsl:if> 
      	
 		<xsl:variable name="your_code">
 			<xsl:value-of select="document($url)/your_code"/>
@@ -343,11 +344,11 @@
 		<xsl:value-of select="$tab"/>
 
      	<!-- <xsl:value-of select="$end_reserve_code"></xsl:value-of> -->
-
-     	<xsl:call-template name="end_reserve_code_action">
-     		<xsl:with-param name="type" select="$action"/>
-     	</xsl:call-template>
-
+		<xsl:if test="$crud_operation=''">
+		 	<xsl:call-template name="end_reserve_code_action">
+	     		<xsl:with-param name="type" select="$action"/>
+	     	</xsl:call-template>
+		</xsl:if> 
 
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
