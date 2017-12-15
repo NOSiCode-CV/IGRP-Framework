@@ -3974,7 +3974,7 @@ var GENERATOR = function(genparams){
 			value   :false,
 			xslValue:'close="refresh"',
 			onEditionStart : function(o){
-				if(field.GET.target && field.GET.target() == 'modal')
+				if(field.GET.target && field.GET.target() == 'modal' || field.GET.target && field.GET.target() == 'mpsubmit')
 					o.input.show();
 				else
 					o.input.hide();

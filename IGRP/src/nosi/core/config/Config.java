@@ -29,6 +29,7 @@ public class Config {
 		return getHeader(null);
 	}
 	
+	
 	public static String getHeader(Action page){
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
 		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target		
@@ -50,8 +51,8 @@ public class Config {
 			button.addButton(new IGRPButton("Sair", "webapps?r=igrp", "login", "logout", "_self", "exit.png","",""));
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
-		xml.setElement("app", "igrp");
-		xml.setElement("page", "form");
+		xml.setElement("app", page!=null?page.getApplication().getDad():app.getDad());
+		xml.setElement("page", page!=null?page.getPage():"Form");
 		xml.startElement("plsql");
 			xml.setElement("action", "1");
 			xml.setElement("package_db", page!=null?page.getPackage_name().substring(0, page.getPackage_name().indexOf("."+page.getPage().toLowerCase())):null);

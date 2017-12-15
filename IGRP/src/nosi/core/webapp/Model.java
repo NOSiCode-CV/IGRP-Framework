@@ -7,14 +7,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
 import java.lang.Short;
 import java.lang.annotation.Annotation;
 import java.lang.Long;
-
-import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
 import nosi.core.webapp.databse.helpers.CRUDOperation;
@@ -186,7 +185,7 @@ public abstract class Model { // IGRP super model
 			if(isUpdate)
 				return new CRUDOperation().insert(crud.getSchemaName(), config, crud.getTableName(),model);
 			else
-				return new CRUDOperation().update(crud.getSchemaName(), config, crud.getTableName(),model,id);
+				return new CRUDOperation().update( config, crud.getSchemaName(),crud.getTableName(),model,id);
 		}
 		return false;
 	}
@@ -215,6 +214,77 @@ public abstract class Model { // IGRP super model
 		return false;
 	}
 	
+
+	public void select(Object id) {
+		Class<? extends Model> c = this.getClass();
+		Action ac = new Action().find()
+				.andWhere("page", "=",c.getSimpleName())
+				.andWhere("application.dad", "=",Igrp.getInstance().getCurrentAppName())
+				.one();
+			if(ac.getCrud()!=null){
+				CRUD crud = ac.getCrud();
+				Config_env config = crud.getConfig_env();
+				Map<String,Object> list = new CRUDOperation().selectOne(crud.getSchemaName(), config, crud.getTableName(),id);
+				if(list!=null && list.size() > 0) {
+					class GetField{		
+						private int count=0;
+						public Field getField(String name) {
+							Field f = null;
+							try {
+								f = c.getDeclaredField(name.toLowerCase());
+								return f;
+							} catch (NoSuchFieldException e) {
+								if(count==0) {
+									++count;
+									return getField("p_"+name);
+								}
+							} catch (SecurityException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							return null;
+						}
+					}
+					for(Entry<String, Object> data:list.entrySet()) {					
+						Field f = new GetField().getField(data.getKey());
+						if(f !=null) {
+							f.setAccessible(true);
+							try {
+								this.setFieldValue(f, data.getValue().toString());
+							} catch (IllegalArgumentException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+	}
+	
+	private void setFieldValue(Field f,String value) throws NumberFormatException, IllegalArgumentException, IllegalAccessException {
+		String defaultResult = value;
+		value = value == null || value.equals("") || value.isEmpty() ? "0" : value;
+		String typeName = f.getType().getName();
+		switch(typeName){
+			case "int":
+					f.setInt(this, Integer.parseInt(value));
+				break;
+			case "float":
+					f.setFloat(this, Float.parseFloat(value));
+				break;
+			case "double":
+					f.setDouble(this, Double.parseDouble(value));
+				break;
+			case "long":
+					f.setLong(this, Long.parseLong(value));
+				break;
+			case "short":
+					f.setShort(this, Short.parseShort(value));
+				break;
+			default:
+				f.set(this, typeName == "java.lang.String" ? defaultResult : null); // The field could be a Object
+		}
+	}
 	/*
 	 * Load/auto-populate (end)
 	 * */
@@ -296,6 +366,20 @@ public abstract class Model { // IGRP super model
 		Object obj = null;
 		try {
 			Field field = this.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			obj = field.get(this);
+			field.setAccessible(false);
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+		return obj;
+	}
+	
+
+	public Object getFieldValueAsObject(Model model,String fieldName){
+		Object obj = null;
+		try {
+			Field field = model.getClass().getDeclaredField(fieldName);
 			field.setAccessible(true);
 			obj = field.get(this);
 			field.setAccessible(false);

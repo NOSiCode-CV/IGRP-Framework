@@ -9,14 +9,14 @@ package nosi.core.gui.fields;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.webapp.DBQuery;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
+import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.databse.helpers.Query;
 
 public abstract class AbstractField implements Field{
 
@@ -102,32 +102,42 @@ public abstract class AbstractField implements Field{
 		}
 		this.setSqlQuery(sql);
 	}
+
+	public void setSqlQuery(String connectionName, String tableName, String key, String value) {
+		String sql ="";
+		if(connectionName!=null && !connectionName.equals("") && tableName!=null && key!=null && value!=null){
+			this.connectionName = connectionName;
+			sql = "SELECT "+key+", "+value+" FROM "+tableName;
+		}
+		this.setSqlQuery(sql);
+	}
+	
+
+	public void setSqlQuery(String connectionName,String schemaName, String tableName, String key, String value) {
+		if(schemaName!=null && !schemaName.equals("")) {
+			tableName = schemaName+"."+tableName;
+		}
+		this.setSqlQuery(connectionName, tableName, key, value);
+	}
+	
+	public void reselveFieldName(){
+		if(this.name!=null && (this.name.startsWith("p_") || this.name.startsWith("P_"))) {
+			this.name = this.name.substring(this.name.toLowerCase().indexOf("p_")+"p_".length(), this.name.length());
+		}
+	}
 	
 	private void configValueWithSql() {
 		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			DBQuery q = new DBQuery().query(this.getConnectionName(), this.getSqlQuery());
-			if(q.isError()){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
+			List<Column> cols = DatabaseMetadaHelper.getCollumns(this.getConnectionName(), this.getSqlQuery());
+			if(cols.size()!=2){
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,"O seu SQL deve conter apenas 2 campos");
 			}else{
-				if(q.getColumns().size()!=2){
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,"O seu SQL deve conter apenas 2 campos");
-					q.close();
-				}else{
-					try {
-						Map<Object,Object> options = new HashMap<>();
-						while(q.getResultSet().next()){
-							options.put(q.getResultSet().getObject(1), q.getResultSet().getObject(2));
-						}
-						this.value = options;
-					} catch (SQLException e) {
-						q.close();
-						e.printStackTrace();
-					}
-					q.close();
-				}
+				this.value = Query.queryToComboBox(this.getConnectionName(), this.getSqlQuery());
 			}
 		}
 	}
+	
+	
 	public String getSqlQuery(){
 		return this.sql;
 	}

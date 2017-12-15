@@ -274,6 +274,7 @@
 						<xsl:call-template name="setSqlChart"></xsl:call-template>
 						<xsl:call-template name="setSqlTable"></xsl:call-template>
 						<xsl:call-template name="setSqlCombobox"></xsl:call-template>
+						<xsl:call-template name="setParam"></xsl:call-template>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'return this.renderView(view);'"/>
@@ -294,7 +295,7 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>	
-						<xsl:value-of select="concat('/*','if(/* Your code condition *//*){')"/>
+						<xsl:value-of select="concat('','if(model.save(model)){')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab2"/>
@@ -314,14 +315,14 @@
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>				
-						<xsl:value-of select="concat('}','*/')"/>
+						<xsl:value-of select="concat('}','')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="'}'"/>
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,$link__,$double_quotes,');')"/>
+						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
 						<xsl:value-of select="$newline"/>  
 						<xsl:value-of select="$tab"/>
 					</xsl:when>
@@ -429,8 +430,33 @@
 	 			</xsl:for-each>
 	 		</xsl:variable>
  			<xsl:call-template name="generateCommentConnectionName"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),$double_quotes,');')"/>
-	 	</xsl:for-each>
+ 			<xsl:choose>
+ 				<xsl:when test="$crud_list !=''">
+					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQueryCRUD(',$double_quotes,$app_name,$double_quotes,',',$double_quotes,$page_name,$double_quotes,');')"/>
+	 			</xsl:when>
+ 				<xsl:otherwise>
+ 					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),$double_quotes,');')"/>
+	 			</xsl:otherwise>
+ 			</xsl:choose>
+		</xsl:for-each>
+ 	</xsl:template>
+ 	
+ 	<!-- view.pd_id.setParam(true); -->
+ 	<xsl:template name="setParam">
+ 		<xsl:for-each select="//content/*[@type='table']">
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+	 		<xsl:for-each select="fields/*[@iskey='true']">	
+	 			<xsl:choose>
+	 				<xsl:when test="@type='hidden'">
+						<xsl:value-of select="concat('view.',@name,'.setParam(true);')"/>
+	 				</xsl:when>
+	 				<xsl:otherwise>
+						<xsl:value-of select="concat('view.',local-name(),'.setParam(true);')"/>
+	 				</xsl:otherwise>
+	 			</xsl:choose>
+ 			</xsl:for-each>
+		</xsl:for-each>
  	</xsl:template>
  	
  	<!-- view.select1.setSqlQuery("select 'id' as id,'name' as name FROM dual"); -->
@@ -441,8 +467,15 @@
 				<xsl:value-of select="$tab2"/>
 		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 			<xsl:call-template name="generateCommentConnectionName"/>
-				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,');')"/>
-		 	</xsl:for-each>
+		 		<xsl:choose>
+		 			<xsl:when test="@schemaName!='' and @tableName!='' and @keyMap!='' and @conn!=''">
+		 					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(',$double_quotes,@conn,$double_quotes,',',$double_quotes,@schemaName,$double_quotes,',',$double_quotes,@tableName,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,',',$double_quotes,@keyMap,$double_quotes,');')"/>
+		 			</xsl:when>
+		 			<xsl:otherwise>
+		 				<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',$simple_quotes,'id',$simple_quotes,' as ID,',$simple_quotes,'name',$simple_quotes,' as NAME ',$double_quotes,');')"/>
+		 			</xsl:otherwise>
+		 		</xsl:choose>
+			</xsl:for-each>
 	 	</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>
