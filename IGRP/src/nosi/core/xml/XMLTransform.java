@@ -48,7 +48,7 @@ public class XMLTransform {
 	public static String generateXMLForm(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageList) {
 		XMLWritter xml = new XMLWritter();	
 
-		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", ""));
+		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
 		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "info|fa-save","","",true);
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar").add("crud_op", "save").add("action-id", page.getId());
@@ -66,7 +66,7 @@ public class XMLTransform {
 	public static String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm,Column primaryKey) {
 		XMLWritter xml = new XMLWritter();		
 
-		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", ""));
+		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
 		IGRPButton btn_novo = new IGRPButton("Add New", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "info|fa-plus","","",true);
 		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","novo").add("crud_op", "addNew").add("action-id", pageForm.getId());
