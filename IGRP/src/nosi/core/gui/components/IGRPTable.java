@@ -46,17 +46,16 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.sql.SQLException;
-
+import java.util.Map;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
-import nosi.core.webapp.DBQuery;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.databse.helpers.Query;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.webapps.igrp.dao.Action;
 import nosi.core.gui.fields.FieldProperties;
 
  
@@ -69,7 +68,6 @@ public class IGRPTable extends IGRPComponent{
 	protected List<?> data;
 	protected String rows = "";
 	private String sql;
-	private DBQuery q;
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -159,22 +157,30 @@ public class IGRPTable extends IGRPComponent{
 	}
 
 	private void genRowsWithSql() {
-		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			try {
-				while(q.getResultSet().next()){
-					this.xml.startElement("row");
-					for(Field field:this.fields){
-						if(field.isParam()){
-							this.xml.setElement("param", field.getName()+"="+ q.getResultSet().getObject(field.getName()));
-						}
-						this.xml.setElement(field.getTagName(), q.getResultSet().getObject(field.getName()));
+		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
+			List<Map<String,Object>> list = Query.query(this.getConnectionName(), this.getSqlQuery());
+			for(Map<String, Object> l:list) {
+				this.xml.startElement("row");
+				this.xml.startElement("context-menu");
+				for(Field field:this.fields){
+					if(field.isParam()){
+						field.reselveFieldName();
+						Object value= l.get(field.getName().toLowerCase());
+						if(value!=null)
+							this.xml.setElement("param", field.getName()+"="+ value.toString());
 					}
-					this.xml.endElement();
 				}
-			} catch (SQLException e) {
-				q.close();
+				this.xml.endElement();
+				
+				for(Field field:this.fields){
+					Object value= l.get(field.getName().toLowerCase());
+					if(value!=null)
+						this.xml.setElement(field.getTagName(), value.toString());
+					else
+						this.xml.setElement(field.getTagName(), "");
+				}
+				this.xml.endElement();
 			}
-			q.close();
 		}
 	}
 
@@ -249,17 +255,19 @@ public class IGRPTable extends IGRPComponent{
 	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
-		this.q = new DBQuery();
-		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
-			if(this.q.isError()){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
-				this.sql = null;
-			}
-		}
 	}
 	
 	public String getSqlQuery(){
 		return this.sql;
+	}
+
+	public void setSqlQueryCRUD(String app, String page) {
+		Action p = new Action().find().andWhere("application.dad", "=",app)
+										 .andWhere("page", "=",page)
+										 .one();
+		if(p!=null && p.getCrud()!=null) {
+			String table = p.getCrud().getSchemaName()!=null?p.getCrud().getSchemaName()+"."+p.getCrud().getTableName():p.getCrud().getTableName();
+			this.setSqlQuery(p.getCrud().getConfig_env().getName(), "SELECT * FROM "+table);
+		}
 	}
 }

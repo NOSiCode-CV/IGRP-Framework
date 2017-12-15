@@ -119,6 +119,9 @@
     <xsl:variable name="page_name">
         <xsl:value-of select="rows/page"/>
     </xsl:variable>
+     <xsl:variable name="crud_list">
+        <xsl:value-of select="rows/crud_page_list"/>
+    </xsl:variable>
     <xsl:variable name="class_name">
         <xsl:value-of select="rows/plsql/package_html"></xsl:value-of>
     </xsl:variable>
