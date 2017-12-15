@@ -40,7 +40,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	private int status;
 	private String remarks;
 	@Column(nullable = false)
-	private int activation_key;
+	private String activation_key;
 	@Column(unique=true)
 	private String user_name;
 	private String photo_id;
@@ -65,7 +65,7 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	public User(){}
 	
 	public User(String name, String email, String pass_hash, String userProfile, String valid_until,
-			int status, String remarks, int activation_key, String user_name, String photo_id, String signature_id,
+			int status, String remarks, String activation_key, String user_name, String photo_id, String signature_id,
 			String mobile, String phone, String password_reset_token, String auth_key, long created_at,
 			long updated_at) {
 		super();
@@ -135,10 +135,10 @@ public class User extends BaseActiveRecord<User> implements Serializable, Identi
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public int getActivation_key() {
+	public String getActivation_key() {
 		return activation_key;
 	}
-	public void setActivation_key(int activation_key) {
+	public void setActivation_key(String activation_key) {
 		this.activation_key = activation_key;
 	}
 	public String getUser_name() {

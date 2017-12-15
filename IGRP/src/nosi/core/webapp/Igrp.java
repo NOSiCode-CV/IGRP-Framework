@@ -105,7 +105,7 @@ public final class Igrp{ // Not extends
 		this.die = false;
 	}
 	
-	public static IgrpFactory<Igrp> getAppInstance() {
+	public IgrpFactory<Igrp> currentThreadLocal() {
 		return appInstance;
 	}
 	
