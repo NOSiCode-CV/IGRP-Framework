@@ -26,11 +26,11 @@ public class GestaodeacessoController extends Controller {
           	if(ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
               for(Organization org:new Organization().find().andWhere("application","=",Integer.parseInt(model.getAplicacao())).all()){
                 Gestaodeacesso.Org_table table = new Gestaodeacesso.Org_table();
-                table.setP_id(""+org.getId());
+               table.setP_id(""+org.getId());
                 table.setOrg_nome(org.getName());
-                table.setEstado(org.getStatus()==1?"Ativo":"INATIVO");
-                table.setAdicionar_perfil("igrp","NovoPerfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
-                table.setAdicionar_perfil_desc("Adicionar Perfil");
+                table.setEstado(org.getStatus()==1?"Activo":"INATIVO");
+               // table.setAdicionar_perfil("igrp","NovoPerfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
+                //table.setAdicionar_perfil_desc("Adicionar Perfil");
                 table.setMostrar_perfis("igrp","pesquisar-perfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
                 table.setMostrar_perfis_desc("Mostrar Perfil");
                 data.add(table);

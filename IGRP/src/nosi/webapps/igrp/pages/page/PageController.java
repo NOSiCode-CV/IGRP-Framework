@@ -89,7 +89,10 @@ public class PageController extends Controller {
 				return this.forward("igrp", "page", "index");
 			}
 			//action.setStatus(model.getP_status());
-			action.setVersion("2.3");
+			if(model.getVersion()==null)
+				action.setVersion("2.3");
+			else
+				action.setVersion(model.getVersion());
 			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
 			if(idPage!=0){
               	action.setId(idPage);
@@ -138,7 +141,10 @@ public class PageController extends Controller {
 			model.load();
 			Application app = new Application();
 			action.setApplication(app.findOne(model.getEnv_fk()));
-			action.setVersion(model.getVersion());
+			if(model.getVersion()==null)
+				action.setVersion("2.3");
+			else
+				action.setVersion(model.getVersion());
 			action.setPage(model.getPage());
 			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);

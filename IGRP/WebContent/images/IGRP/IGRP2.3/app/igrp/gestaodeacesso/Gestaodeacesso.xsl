@@ -1,6 +1,6 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -26,7 +26,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-ab614564">
+                                    <div class="row " id="row-ac5c72e8">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -40,8 +40,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-280376d1">
-                                        <div class="gen-column col-sm-12">
+                                    <div class="row " id="row-1711b6d5">
+                                        <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
                                                     <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
@@ -49,7 +49,7 @@
                                                             <div role="form">
                                                                 <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
                                                                 <xsl:if test="rows/content/form_1/fields/aplicacao">
-                                                                    <div class="col-sm-6 form-group  gen-fields-holder" item-name="aplicacao" item-type="select">
+                                                                    <div class="col-sm-12 form-group  gen-fields-holder" item-name="aplicacao" item-type="select">
                                                                         <label for="{rows/content/form_1/fields/aplicacao/@name}">
                                                                             <xsl:value-of select="rows/content/form_1/fields/aplicacao/label"/>
                                                                         </label>
@@ -77,13 +77,11 @@
                                                 </xsl:if>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row " id="row-c5798c7d">
-                                        <div class="gen-column col-sm-12">
+                                        <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
-                                                    <div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
-                                                        <div class="btns-holder  btn-group-justified" role="group">
+                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
+                                                        <div class="btns-holder btn-group-lg pull-right" role="group">
                                                             <xsl:apply-templates select="rows/content/toolsbar_1" mode="gen-buttons">
                                                                 <xsl:with-param name="vertical" select="'true'"/>
                                                                 <xsl:with-param name="outline" select="'false'"/>
@@ -91,11 +89,17 @@
                                                         </div>
                                                     </div>
                                                 </xsl:if>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row " id="row-4237d7b7">
+                                        <div class="gen-column col-sm-12">
+                                            <div class="gen-inner">
                                                 <xsl:if test="rows/content/org_table">
                                                     <div class="box box-table-contents gen-container-item " gen-class="" item-name="org_table">
                                                         <xsl:call-template name="box-header">
                                                             <xsl:with-param name="title" select="rows/content/org_table/@title"/>
-                                                            <xsl:with-param name="collapsible" select="'true'"/>
+                                                            <xsl:with-param name="collapsible" select="'false'"/>
                                                             <xsl:with-param name="collapsed" select="'false'"/>
                                                         </xsl:call-template>
                                                         <div class="box-body ">
@@ -119,13 +123,6 @@
                                                                                     <th align="center" class=" gen-fields-holder">
                                                                                         <span>
                                                                                             <xsl:value-of select="rows/content/org_table/fields/org_nome/label"/>
-                                                                                        </span>
-                                                                                    </th>
-                                                                                </xsl:if>
-                                                                                <xsl:if test="rows/content/org_table/fields/adicionar_perfil">
-                                                                                    <th align="right" class=" gen-fields-holder" style="width:110px">
-                                                                                        <span>
-                                                                                            <xsl:value-of select="rows/content/org_table/fields/adicionar_perfil/label"/>
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
@@ -157,25 +154,6 @@
                                                                                             <span class="">
                                                                                                 <xsl:value-of select="org_nome"/>
                                                                                             </span>
-                                                                                        </td>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="adicionar_perfil">
-                                                                                        <td align="right" data-row="{position()}" data-title="{../../label/adicionar_perfil}" class="link" item-name="adicionar_perfil" style="width:110px">
-                                                                                            <xsl:choose>
-                                                                                                <xsl:when test="adicionar_perfil != ''">
-                                                                                                    <a href="{adicionar_perfil}" class="link bClick btn btn-success btn-xs" target-fields="" target="modal" name="adicionar_perfil">
-                                                                                                        <i class="fa fa-plus-square"/>
-                                                                                                        <span>
-                                                                                                            <xsl:value-of select="adicionar_perfil_desc"/>
-                                                                                                        </span>
-                                                                                                    </a>
-                                                                                                </xsl:when>
-                                                                                                <xsl:otherwise>
-                                                                                                    <span>
-                                                                                                        <xsl:value-of select="adicionar_perfil_desc"/>
-                                                                                                    </span>
-                                                                                                </xsl:otherwise>
-                                                                                            </xsl:choose>
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <xsl:if test="mostrar_perfis">
@@ -237,14 +215,14 @@
                 <!-- RULES -->
                 <script src="{$path}/core/igrp/IGRP.rules.class.js"/>
                 <script>
-$.IGRP.rules.set({"p_aplicacao":[{"name":"show","events":"change","isTable":false,"conditions":{"rules":[{"condition":"diff","value":"'0'","value2":"","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"show","targets":"toolsbar_1,org_table","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
+$.IGRP.rules.set({"p_aplicacao":[{"name":"show table","events":"load,change","isTable":false,"conditions":{"rules":[{"condition":"less","value":"1","value2":"","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"hide","targets":"org_table","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512385730609"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512385730609"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512385730609"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512385730609"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1512385730609"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512385730610"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1513349224916"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1513349224916"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1513349224916"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1513349224916"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1513349224916"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1513349224917"/>
 </xsl:stylesheet>

@@ -339,7 +339,18 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 					Profile p2 = new Profile(proty.getId(), "PROF", proty, user, org);
 					p2.insert();					
 				}			
-				
+				ProfileType proty2 = new ProfileType();			
+				proty2.setCode("user." + app.getDad());
+				proty2.setDescr("User");
+				proty2.setOrganization(org);
+				proty2.setApplication(app);
+				proty2.setStatus(1);		
+				proty2 = proty2.insert();		
+				if(proty2!=null){					
+					Profile p2 = new Profile(proty2.getId(), "PROF", proty2, user, org);
+					p2.insert();					
+				}			
+//				
 			}
 		}
 		return app;
