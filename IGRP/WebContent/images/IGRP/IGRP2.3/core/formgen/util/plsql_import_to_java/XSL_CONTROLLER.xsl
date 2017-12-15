@@ -235,7 +235,7 @@
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_on_action&amp;ac=',$action,'&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>   
      	
-		<xsl:if test="$crud_operation=''">
+		<xsl:if test="$crud_operation!='saveEdit'">
 		 	<xsl:call-template name="begin_reserve_code_action">
 	     		<xsl:with-param name="type" select="$action"/>
 	     		<xsl:with-param name="url" select="$url"/>
@@ -344,7 +344,7 @@
 		<xsl:value-of select="$tab"/>
 
      	<!-- <xsl:value-of select="$end_reserve_code"></xsl:value-of> -->
-		<xsl:if test="$crud_operation=''">
+		<xsl:if test="$crud_operation!='saveEdit'">
 		 	<xsl:call-template name="end_reserve_code_action">
 	     		<xsl:with-param name="type" select="$action"/>
 	     	</xsl:call-template>
