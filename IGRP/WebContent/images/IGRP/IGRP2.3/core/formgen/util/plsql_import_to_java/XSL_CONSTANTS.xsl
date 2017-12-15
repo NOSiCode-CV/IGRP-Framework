@@ -304,9 +304,6 @@
         <xsl:text>/*----#START-PRESERVED-AREA(</xsl:text>
         <xsl:value-of select="$typeUpper"/>
         <xsl:text>)----*/</xsl:text>
-        <xsl:text>/*----#gen(preserve_code,</xsl:text>
-        <xsl:value-of select="$url"/>
-        <xsl:text>)/#----*/</xsl:text>
     </xsl:template>
     <!-- end reserve_code tmpl -->
     <xsl:template name="end_reserve_code_action">

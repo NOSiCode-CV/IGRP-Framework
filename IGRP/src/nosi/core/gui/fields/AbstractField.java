@@ -111,6 +111,7 @@ public abstract class AbstractField implements Field{
 		}
 		this.setSqlQuery(sql);
 	}
+	
 
 	public void setSqlQuery(String connectionName,String schemaName, String tableName, String key, String value) {
 		if(schemaName!=null && !schemaName.equals("")) {

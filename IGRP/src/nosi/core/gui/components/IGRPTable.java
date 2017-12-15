@@ -61,6 +61,7 @@ import nosi.core.gui.fields.FieldProperties;
  
 public class IGRPTable extends IGRPComponent{
 
+	
 	protected ArrayList<Field> fields;
 	private IGRPContextMenu contextmenu;
 	protected float version = (float) 2.3;
