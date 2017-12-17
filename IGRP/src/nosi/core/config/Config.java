@@ -29,6 +29,7 @@ public class Config {
 		return getHeader(null);
 	}
 	
+	
 	public static String getHeader(Action page){
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
 		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target		

@@ -59,6 +59,7 @@ public class Query {
 		}
 		return list;
 	}
+
 	
 	public static Map<Object,Object> queryToComboBox(String connectionName,String sql){
 		Map<Object,Object> comboBox = new HashMap<>();
