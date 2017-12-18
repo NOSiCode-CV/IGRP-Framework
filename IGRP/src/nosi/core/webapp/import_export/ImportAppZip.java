@@ -139,7 +139,6 @@ public class ImportAppZip extends ImportAppJar{
 	}
 	
 	private void saveConfigFilesPlsql2_3(Action page,String content) {
-		System.out.println("Page:"+page.getPage());
 		//Verifica se o xml possui package_html que será o nome da classe
 		//Caso não exista, assumi o nome do ficheiro como nome da classe
 		content = this.addClassAndPackage(content,page);
