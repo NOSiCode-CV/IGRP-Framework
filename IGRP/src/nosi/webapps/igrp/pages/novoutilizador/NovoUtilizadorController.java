@@ -10,6 +10,7 @@ import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
+import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -155,6 +156,7 @@ public class NovoUtilizadorController extends Controller {
 				userLdap.setCreated_at(System.currentTimeMillis());
 				userLdap.setUpdated_at(System.currentTimeMillis());
 				userLdap.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+				userLdap.setActivation_key(nosi.core.webapp.User.generateActivationKey());
 			}
 			if(userLdap != null) {
 				User u = new User().find().andWhere("email", "=", model.getEmail()).one();
@@ -165,6 +167,21 @@ public class NovoUtilizadorController extends Controller {
 					role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
 					role.setUser(u);
 					role = role.insert();
+					
+					String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key=" + u.getActivation_key();
+					Organization orgEmail = new Organization().findOne(model.getOrganica());
+					String msg = ""
+							+ "<p><b>Aplicação:</b> " + orgEmail.getApplication().getDescription() + "</p>" + 
+							"			 <p><b>Orgânica:</b> " + orgEmail.getName() + "</p>" + 
+							"			 <p><b>Link Activação:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
+							"			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
+					try {
+						EmailMessage.newInstance().setTo(u.getEmail()).setFrom("igrpframeworkjava@gmail.com").setSubject("IGRP - User activation")
+						.setMsg(msg, "utf-8", "html").send();
+					} catch (IOException e) {
+						System.out.println("Email não foi enviado ...");
+						e.printStackTrace();
+					}
 				}
 				p.setUser(u);
 				p.setType_fk(model.getPerfil());
@@ -250,5 +267,5 @@ public class NovoUtilizadorController extends Controller {
 		}
 		return this.redirectError();
 	}
-	/*----#END-PRESERVED-AREA----*/
+	/*----#END-PRESERVED-AREA----*/ 
 }
