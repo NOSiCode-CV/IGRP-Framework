@@ -209,6 +209,8 @@ public final class EmailMessage { // Not inherit
 					mbp.setText(this.msg, this.charset, this.subType);
 				else if(this.charset != null && !this.charset.isEmpty())
 					mbp.setText(this.msg, this.charset);
+				else if(this.subType != null && !this.subType.isEmpty())
+					message.setText(this.msg, null, this.subType);
 				else
 					mbp.setText(this.msg);
 		        mbp.setContent(this.msg, this.subType);
@@ -235,6 +237,8 @@ public final class EmailMessage { // Not inherit
 					message.setText(this.msg, this.charset, this.subType);
 				else if(this.charset != null && !this.charset.isEmpty())
 					message.setText(this.msg, this.charset);
+				else if(this.subType != null && !this.subType.isEmpty())
+					message.setText(this.msg, null, this.subType);
 				else
 					message.setText(this.msg);
 			}

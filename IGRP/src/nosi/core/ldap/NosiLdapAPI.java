@@ -12,6 +12,8 @@ import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
+import javax.naming.directory.BasicAttribute;
+import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
@@ -108,7 +110,7 @@ public class NosiLdapAPI {
 
 			NamingEnumeration<javax.naming.directory.SearchResult> answers = context.search(this.getL_ldap_base(),
 					"(&(objectclass=USER)(SAMAccountName=" + pUsername + "))", ctrls);
-
+			
 			if (answers.hasMore()) {
 				javax.naming.directory.SearchResult result = answers.nextElement();
 				distinguishedName = result.getNameInNamespace();
@@ -203,24 +205,21 @@ public class NosiLdapAPI {
 						break;
 					}
 				}
-
-				p.name = p.name != null ? p.name : (p.givenName != null ? p.givenName : p.sn);
-
+				p.setName(p.getName() != null ? p.getName() : (p.getGivenName() != null ? p.getGivenName() : p.getSn()));
 				personArray.add(p);
-
 			}
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			this.setError(e.getMessage());
 			//e.printStackTrace();
-
 		}
 
 		return personArray;
 	}
 
 	public boolean validateLogin(String pUsername, String pPassword) {
-		String user = this.getDistinguishedName(pUsername);
+		String user = pUsername;//this.getDistinguishedName(pUsername);
+		//System.out.println("Utilizador: " + user);
 		InitialDirContext context;
 		boolean validate = false;
 		if (user != "") {
@@ -266,5 +265,45 @@ public class NosiLdapAPI {
 		}
 		return p;
 	}
-
+	
+	 public void createUser(LdapPerson person) {
+		 // get a handle to an Initial DirContext
+         InitialDirContext ctx = null;
+         try {
+              ctx = ldapContext(l_ldap_username, l_ldap_password);
+              } 
+         catch (NamingException e1) {
+	          e1.printStackTrace();
+	          this.setError(e1.getMessage());
+	          return;
+         }
+         // entry's DN
+         String entryDN = "uid=" + person.getUid() + ",dc=example,dc=com";
+         // entry's attributes
+         Attribute cn = new BasicAttribute("cn", person.getCn());
+         Attribute sn = new BasicAttribute("sn", person.getSn());
+         Attribute uid = new BasicAttribute("uid", person.getSn());
+         Attribute mail = new BasicAttribute("mail", person.getMail());
+         Attribute pass =  new BasicAttribute("userPassword","Pa$$w0rd");
+         Attribute oc = new BasicAttribute("objectClass");
+         oc.add("organizationalPerson");
+         oc.add("inetOrgPerson");
+         oc.add("person");
+         oc.add("top");
+         try {
+        	 // build the entry
+        	 BasicAttributes entry = new BasicAttributes();
+        	 entry.put(cn);
+        	 entry.put(sn);
+        	 entry.put(mail);
+        	 entry.put(pass);
+        	 entry.put(uid);
+        	 entry.put(oc);
+        	 // Add the entry
+        	 ctx.createSubcontext(entryDN, entry);
+        	 } catch (NamingException e) {
+        		 this.setError(e.getMessage());
+        		 nosi.core.webapp.Core.setMessageError(e.getMessage());
+        	}
+         }
 }

@@ -64,10 +64,10 @@ public class MigrationIGRPInitConfig {
 			config.insert();
 			
 			
-			User user0 = new User("IGRP", "igrp@nosi.cv", " ", "ADMIN", null, 1, null, 123456789, "admin",null, null, null, null, null,"123456789", 2017, 2017);
+			User user0 = new User("IGRP", "igrp@nosi.cv", " ", "ADMIN", null, 1, null, "123456789", "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
-			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, 123456789, "demo",null, null, null, null, null,"123456", 2017, 2017);
+			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, "123456789", "demo",null, null, null, null, null,"123456", 2017, 2017);
 			user1 = user1.insert();
 			/** For SSO tomcat realm  **/
 			UserRole role = new UserRole();
@@ -308,7 +308,7 @@ public class MigrationIGRPInitConfig {
 		aux.setStatus(1);
 		aux.setUpdated_at(133);
 		aux.setUser_name("root");
-		aux.setActivation_key(123456789);
+		aux.setActivation_key("123456789");
 		aux = aux.insert();
 		
 		if(aux != null)

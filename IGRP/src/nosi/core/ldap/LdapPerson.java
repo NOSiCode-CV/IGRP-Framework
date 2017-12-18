@@ -6,24 +6,24 @@ package nosi.core.ldap;
 
 public class LdapPerson {
 
-	String uid;
-	String sn;
-	String mail;;
-	String proxyAddresses;
-	String name;
-	String accountExpires;
-	String lastLogon;
-	String lastLogoff;
-	String cn;
-	String sAMAccountType;
-	String givenName;
-	String displayName;
-	String userPrincipalName;
-	String pwdLastSet;
-	String lastLogonTimestamp;
-	String mailNickname;
-	String distinguishedName;
-	String sAMAccountName;
+	private String uid;
+	private String sn;
+	private String mail;;
+	private String proxyAddresses;
+	private String name;
+	private String accountExpires;
+	private String lastLogon;
+	private String lastLogoff;
+	private String cn;
+	private String sAMAccountType;
+	private String givenName;
+	private String displayName;
+	private String userPrincipalName;
+	private String pwdLastSet;
+	private String lastLogonTimestamp;
+	private String mailNickname;
+	private String distinguishedName;
+	private String sAMAccountName;
 
 	public String getMail() {
 		return mail;
