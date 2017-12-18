@@ -60,7 +60,8 @@ public class NovoUtilizadorController extends Controller {
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		if(Igrp.getInstance().getMethod().equalsIgnoreCase("post")) {
+		Igrp.getInstance();
+		if(Igrp.getMethod().equalsIgnoreCase("post")) {
 			switch(Config.getAutenticationType()) {
 				case "ldap":
 					this.ldap();

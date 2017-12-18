@@ -163,8 +163,12 @@ public class User implements Component{
 		return result;
 	}
 	
-	public static String generateAuthenticationKey() {
+	public synchronized static String generateAuthenticationKey() {
 		return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
+	}
+	
+	public synchronized static String generateActivationKey() {
+		return ""; // Deprecated ! 
 	}
 	
 }

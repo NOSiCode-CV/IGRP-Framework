@@ -16,8 +16,7 @@ public class ThreadLocalListener implements ServletRequestListener {
     public ThreadLocalListener() {}
 
     public void requestDestroyed(ServletRequestEvent arg0)  { 
-    	 ThreadLocalIgrpFactory app = (ThreadLocalIgrpFactory) Igrp.getInstance().getAppInstance();
-    	 app.cleanUp();
+    	 ((ThreadLocalIgrpFactory<?>) Igrp.getInstance().currentThreadLocal()).cleanUp();
     }
 
     public void requestInitialized(ServletRequestEvent arg0)  {}    

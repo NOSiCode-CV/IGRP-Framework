@@ -3,6 +3,7 @@ package nosi.webapps.igrp.pages.login;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
+import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
@@ -18,6 +19,8 @@ import nosi.webapps.igrp.dao.Session;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Base64;
 
 import javax.xml.bind.JAXB;
 
@@ -29,11 +32,39 @@ import static nosi.core.i18n.Translator.gt;
 public class LoginController extends Controller {
 
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
 		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
-		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri");
+		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri"); 
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
+		
+		/** Begin ldap AD logic here **/ 
+		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
+		//ArrayList<LdapPerson> personArray = ldap.getUser("iekiny.marcel@example.com");
+		//System.out.println(ldap.validateLogin("uid=iekiny.marcel, ou=system, o=nosi", "Pa$$w0rd")); 
+		//System.out.println(ldap.validateLogin("cn=iekiny.marcel,dc=example,dc=com", ""));
+		//System.out.println(ldap.validateLogin("cn=iekiny.marcel, ou=nosi, o=nosi", "Pa$$w0rd"));
+		//System.out.println(ldap.validateLogin("uid=admin,ou=system", "Pa$$w0rd"));
+		/*LdapPerson person = new LdapPerson();
+		person.setCn("iekiny.marcel"); 
+		person.setSn("iekiny.marcel"); 
+		person.setUid("iekiny.marcel");
+		person.setMail("iekiny.marcel@example.com");
+		ldap.createUser(person); 
+		System.out.println(ldap.getError());*/
+		/** End **/ 
+		
+		// Activation key 
+		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
+		if(activation_key != null && !activation_key.trim().isEmpty()) {
+			activation_key = new String(Base64.getDecoder().decode(activation_key));
+			System.out.println(activation_key);
+			User user = new User().find().andWhere("activation_key", "=", activation_key).one();
+			
+		}
 		
 		// first 
 		if(Igrp.getInstance().getUser().isAuthenticated()){

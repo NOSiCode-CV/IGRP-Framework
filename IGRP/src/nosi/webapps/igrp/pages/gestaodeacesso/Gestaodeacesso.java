@@ -39,8 +39,6 @@ public class Gestaodeacesso extends Model{
 	public static class Org_table{
 		private String estado;
 		private String org_nome;
-		private String adicionar_perfil;
-		private String adicionar_perfil_desc;
 		private String mostrar_perfis;
 		private String mostrar_perfis_desc;
 		private String p_id;
@@ -56,19 +54,6 @@ public class Gestaodeacesso extends Model{
 		}
 		public String getOrg_nome(){
 			return this.org_nome;
-		}
-
-		public void setAdicionar_perfil(String app,String page,String action){
-			this.adicionar_perfil = Config.getResolveUrl(app, page, action);
-		}
-		public String getAdicionar_perfil(){
-			return this.adicionar_perfil;
-		}
-		public void setAdicionar_perfil_desc(String adicionar_perfil_desc){
-			this.adicionar_perfil_desc = adicionar_perfil_desc;
-		}
-		public String getAdicionar_perfil_desc(){
-			return this.adicionar_perfil_desc;
 		}
 
 		public void setMostrar_perfis(String app,String page,String action){
