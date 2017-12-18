@@ -110,7 +110,7 @@ public class NosiLdapAPI {
 
 			NamingEnumeration<javax.naming.directory.SearchResult> answers = context.search(this.getL_ldap_base(),
 					"(&(objectclass=USER)(SAMAccountName=" + pUsername + "))", ctrls);
-
+			
 			if (answers.hasMore()) {
 				javax.naming.directory.SearchResult result = answers.nextElement();
 				distinguishedName = result.getNameInNamespace();
@@ -218,8 +218,8 @@ public class NosiLdapAPI {
 	}
 
 	public boolean validateLogin(String pUsername, String pPassword) {
-		String user = this.getDistinguishedName(pUsername);
-		System.out.println("Utilizador: " + user);
+		String user = pUsername;//this.getDistinguishedName(pUsername);
+		//System.out.println("Utilizador: " + user);
 		InitialDirContext context;
 		boolean validate = false;
 		if (user != "") {
