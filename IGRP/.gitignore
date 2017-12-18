@@ -1,7 +1,5 @@
-target
 target/
 .settings/
-bin
 bin/
 .project
 WebContent/WEB-INF/config/app/

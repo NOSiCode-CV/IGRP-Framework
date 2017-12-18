@@ -204,6 +204,7 @@ public class XMLTransform {
 				f.propertie().add("iskey", "true");
 			}
 			f.propertie().add("maxlength", column.getSize());
+			f.propertie().add("java-type", column.getType().toString().replaceAll("class ", ""));
 		}
 	}
 
