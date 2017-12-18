@@ -337,9 +337,9 @@ package nosi.core.gui.components;
 */
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.TextField;
-import nosi.core.webapp.DBQuery;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.databse.helpers.Query;
 import nosi.core.webapp.helpers.IgrpHelper;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -359,7 +359,7 @@ public class IGRPChart extends IGRPComponent{
 	private String url;
 	private ArrayList<String> colors;
 	private String sql;
-	private DBQuery q;
+	private Query q;
 	
 	public IGRPChart(String tag_name,String title) {
 		super(tag_name,title);
@@ -618,9 +618,9 @@ public class IGRPChart extends IGRPComponent{
 	
 	public void setSqlQuery(String sql){
 		this.sql = sql;
-		this.q = new DBQuery();
+		this.q = new Query();
 		if(this.q!=null && this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			this.q = this.q.query(this.getConnectionName(),this.getSqlQuery());
+			this.q = this.q.queryChart(this.getConnectionName(),this.getSqlQuery());
 			if(this.q.isError()){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,q.getError());
 				this.sql = null;
