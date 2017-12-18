@@ -21,9 +21,9 @@ public class HomeStudioController extends Controller {
 			String username = user.getUser_name();
 			String password = user.getPass_hash();
 			//String url = "http://" + username + ":" + password + "@" + "10.4.2.93/IGRP/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
-			String url = "https://" + username + ":" + password + "@" + "apps.igrp.cv/IGRPDEV/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
-			return this.redirectToUrl(url);
-		/*}/*
+			//String url = "https://" + username + ":" + password + "@" + "apps.igrp.cv/IGRPDEV/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
+			//return this.redirectToUrl(url);
+		//}
 		HomeStudio model = new HomeStudio();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load(); 
@@ -32,7 +32,7 @@ public class HomeStudioController extends Controller {
 		Config.type_header = "home";
 		Config.LINK_MY_APPS = "webapps?r=igrp/env/myApps&amp;type=dev";
 		view.form_1.setTitle("Minhas Aplicações");
-		return this.renderView(view);*/
+		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
