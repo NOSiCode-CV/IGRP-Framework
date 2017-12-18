@@ -205,7 +205,7 @@ public class PageController extends Controller {
 							if(!FileHelper.fileExists(path_class_work_space)){//check directory
 								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 							}
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController},FileHelper.ENCODE_CP1252);//ENCODE_CP1252 for default encode eclipse
+							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController},FileHelper.ENCODE_UTF8,FileHelper.ENCODE_CP1252);//ENCODE_CP1252 for default encode eclipse
 							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson});
 						}
 						ac.setId(Integer.parseInt(p_id));
