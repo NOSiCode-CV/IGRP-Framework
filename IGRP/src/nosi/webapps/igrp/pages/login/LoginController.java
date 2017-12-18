@@ -40,7 +40,7 @@ public class LoginController extends Controller {
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
 		/** Begin ldap AD logic here **/ 
-		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+	/*	File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
 		//ArrayList<LdapPerson> personArray = ldap.getUser("iekiny.marcel@example.com");
@@ -60,10 +60,20 @@ public class LoginController extends Controller {
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
 		if(activation_key != null && !activation_key.trim().isEmpty()) {
-			activation_key = new String(Base64.getDecoder().decode(activation_key));
-			System.out.println(activation_key);
+			try {
+				activation_key = new String(Base64.getDecoder().decode(activation_key));
+			}catch(Exception e) {
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+			}
 			User user = new User().find().andWhere("activation_key", "=", activation_key).one();
-			
+			if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
+				user.setStatus(1);
+				user = user.update();
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
+			}else {
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+			}
+			return redirect("igrp", "login", "login");
 		}
 		
 		// first 

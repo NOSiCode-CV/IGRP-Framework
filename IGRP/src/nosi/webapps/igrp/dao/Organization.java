@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +41,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	@Column(nullable=false)
 	private String name;
 	private int status;
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
 	@JoinColumn(name="env_fk",foreignKey=@ForeignKey(name="ORGANIZATION_ENV_FK"),nullable=false)
 	private Application application;
 	@ManyToOne
