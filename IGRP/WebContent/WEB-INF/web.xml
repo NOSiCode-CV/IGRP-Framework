@@ -8,11 +8,11 @@
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>workspace</param-name>
-      <param-value>C:\git\IGRP-Framework\IGRP</param-value>
+      <param-value></param-value>
     </init-param>
     <init-param>
       <param-name>authentication_type</param-name>
-      <param-value>db</param-value>
+      <param-value>ldap</param-value>
     </init-param>
     <multipart-config>
       <max-file-size>52428800</max-file-size>
@@ -118,4 +118,3 @@
   </listener>
   
 </web-app>
-
