@@ -194,15 +194,22 @@ public abstract class Controller {
 		String auxPageName = "";
 		String  auxcontrollerPath="";
 		String auxActionName = "";
-		for(String aux : app.getCurrentAppName().split("-"))
-			auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		for(String aux : app.getCurrentActionName().split("-"))
-			auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
-		for(String aux : app.getCurrentPageName().split("-")){
-			auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+		if(app!=null && app.getCurrentAppName()!=null && app.getCurrentActionName()!=null && app.getCurrentPageName()!=null ){
+			for(String aux : app.getCurrentAppName().split("-"))
+				auxAppName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			for(String aux : app.getCurrentActionName().split("-"))
+				auxActionName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			for(String aux : app.getCurrentPageName().split("-")){
+				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
+			}
+			auxActionName = "action" + auxActionName;
+			auxcontrollerPath = Config.getPackage(auxAppName,auxPageName,auxActionName);
+		}else {
+			auxActionName = "actionIndex";
+			auxcontrollerPath = Config.getPackage("igrp","Home",auxActionName);
+			System.out.println("path:"+auxcontrollerPath+";ac:"+auxActionName);
 		}
-		auxActionName = "action" + auxActionName;
-		auxcontrollerPath = Config.getPackage(auxAppName,auxPageName,auxActionName);
+		
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
 	
