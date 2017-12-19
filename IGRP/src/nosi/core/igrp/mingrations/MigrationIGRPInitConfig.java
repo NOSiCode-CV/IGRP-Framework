@@ -77,7 +77,7 @@ public class MigrationIGRPInitConfig {
 			role.insert();
 			/** **/
 			
-			Organization org = new Organization("01.03", "NOSI", 1, app, user0, null);
+			Organization org = new Organization("01.03", "Ebau", 1, app, user0, null);
 			org = org.insert();	
 
 			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, app, null);
@@ -197,7 +197,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), app, menus.get(1)));
 			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), app, menus.get(1)));
 			menus.add(new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
-			menus.add(new Menu("Gestão de Sessão", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
+			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
 
 			//menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));

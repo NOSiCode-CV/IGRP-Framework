@@ -40,6 +40,8 @@ public class FileHelper {
 	public static final String ENCODE_UTF8 = "UTF-8";
 	public static final String ENCODE_ISO = "ISO-8859-1";
 	public static final String ENCODE_CP1252 = "Cp1252";
+	
+	
 	public Map<String,String> listFilesDirectory(String path) {
 		if(FileHelper.fileExists(path)){
 			File folder = new File(path);
@@ -132,25 +134,25 @@ public class FileHelper {
 		return false;
 	}
 	
-	//Write data using default encode ISO
+	//Write data using default encode UTF-8
 	public static boolean save(String path,String filename,Part file) throws IOException{
 		return save(path,filename,convertToString(file));
 	}
 	
-	//Write data using default encode ISO
+	//Write data using default encode UTF-8
 	public static boolean saveFile(String path,String filename,Part file) throws IOException{
-		return saveFile(path, filename, file, ENCODE_UTF8);
+		return saveFile(path, filename, file, ENCODE_UTF8,ENCODE_UTF8);
 	}
 	
-	public static boolean saveFile(String path,String filename,Part file,String encode) throws IOException{
+	public static boolean saveFile(String path,String filename,Part file,String encode_in,String encode_out) throws IOException{
 		createDiretory(path);
 		OutputStream out = null;
 		InputStream filecontent = file.getInputStream();
 		boolean isSaved = false;
 		try {
 	        out = new FileOutputStream(new File(path + File.separator+ filename));
-			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,ENCODE_UTF8));
-			Writer       outputStreamWriter = new OutputStreamWriter(out, encode);
+			BufferedReader d = new BufferedReader(new InputStreamReader(filecontent,encode_in));
+			Writer       outputStreamWriter = new OutputStreamWriter(out, encode_out);
 			StringBuilder  code = new StringBuilder();
 			String         ls = System.getProperty("line.separator");
 		    String         line = null;
@@ -291,10 +293,10 @@ public class FileHelper {
 		}
 	}
 
-	public static boolean saveFilesJava(String path, String page, Part[] content, String encode) throws IOException {
-		boolean r = FileHelper.saveFile(path,page+".java",content[0],encode) && // Save Model;
-				   FileHelper.saveFile(path,page+"View.java",content[1],encode) && //Save View
-				   FileHelper.saveFile(path,page+"Controller.java",content[2],encode); // save controller
+	public static boolean saveFilesJava(String path, String page, Part[] content, String encode_in,String encode_out) throws IOException {
+		boolean r = FileHelper.saveFile(path,page+".java",content[0],encode_in,encode_out) && // Save Model;
+				   FileHelper.saveFile(path,page+"View.java",content[1],encode_in,encode_out) && //Save View
+				   FileHelper.saveFile(path,page+"Controller.java",content[2],encode_in,encode_out); // save controller
 			return r;
 	}
 }

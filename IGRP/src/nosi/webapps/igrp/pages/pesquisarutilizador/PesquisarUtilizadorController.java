@@ -13,6 +13,8 @@ import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,7 @@ public class PesquisarUtilizadorController extends Controller {
 		}		
 		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
+		view.setPageTitle("Gestão de Utilizador");
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp,idOrg));		
