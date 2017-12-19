@@ -22,7 +22,7 @@ public class Report extends Controller{
 			}
 		}
 		try {
-			return this.redirect("igrp", "web-report", "get-link-report"+params);
+			return this.redirect("igrp_studio", "web-report", "get-link-report"+params);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

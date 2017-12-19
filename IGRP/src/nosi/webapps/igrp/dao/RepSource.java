@@ -38,6 +38,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
+import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
@@ -83,11 +84,17 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	private User user_updated;
 	@Transient
 	private XMLWritter xmlRows = new XMLWritter();
+	@ManyToOne
+	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_CONFIG_ENV_FK"),nullable=false)
+	private Config_env config_env;
+	
+	
 	public RepSource(){}
+	
 	
 	public RepSource(String name, String type, Integer type_fk, String type_name, String type_query,
 			int status, Date dt_created, Date dt_updated, Application application, Application application_source,
-			User user_created, User user_updated) {
+			User user_created, User user_updated,Config_env config_env) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -101,6 +108,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		this.application_source = application_source;
 		this.user_created = user_created;
 		this.user_updated = user_updated;
+		this.config_env = config_env;
 	}
 
 	public Integer getId() {
@@ -206,7 +214,13 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	public void setUser_updated(User user_updated) {
 		this.user_updated = user_updated;
 	}
-
+	public Config_env getConfig_env() {
+		return config_env;
+	}
+	public void setConfig_env(Config_env config_env) {
+		this.config_env = config_env;
+	}
+	
 	public HashMap<Integer,String> getListSources(Integer id){
 		HashMap<Integer,String> lista = new HashMap<>();
 		//lista.put(null, "--- Selecionar Aplicação ---");
@@ -216,27 +230,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		return lista;
 	}
 	
-	//Validate sql query
-	public boolean validateQuery(String query) {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		boolean x = false;
-		try{
-			Query q = em.createNativeQuery(query);
-			for(Parameter<?> param:q.getParameters()){
-				q.setParameter(param.getName(), null);
-			}
-			q.getResultList();
-			x = true;
-			t.commit();
-		}catch(Exception e){
-			x = false;
-		}finally{
-			em.close();
-		}
-		return x;
-	}
+
 
 	/*Extract columns in Query Select and Check if the column is a parameter
 	 * 
@@ -245,12 +239,12 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 * The columns extracted is: id, name, email
 	 * 
 	 */
-	public Set<Properties> getColumns(int template_id,String query) {
+	public Set<Properties> getColumns(Config_env config,int template_id,String query) {
 		Set<Properties> columns = new LinkedHashSet<>();
-		Connection con = nosi.core.config.Connection.getConnection(this.getConnectionName());
+		Connection con = nosi.core.config.Connection.getConnection(config.getName());
 		try {
 			Statement s = con.createStatement();
-			Set<String> keys = getParamsQuery(template_id,query);
+			Set<String> keys = getParamsQuery(config,template_id,query);
 			query =query.replaceAll(":\\w+", "null");
 			ResultSetMetaData rsd =s.executeQuery(query).getMetaData();
 			for(int i=1;i<=rsd.getColumnCount();i++){
@@ -261,6 +255,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 				p.put("tag",rsd.getColumnName(i).toLowerCase());
 				columns.add(p);
 			}
+			s.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -278,9 +273,9 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 * 
 	 * The "p_id" is parameter
 	 */
-	public Set<String> getParamsQuery(int template_id,String query){
+	public Set<String> getParamsQuery(Config_env config,int template_id,String query){
 		Set<String> params = new HashSet<String>();
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
+		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -328,7 +323,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	 *  <table>
 	 */
 	public String getSqlQueryToXml(String query,String[]name_array,String[]value_array,RepTemplate rt,RepSource rs){
-		Set<Properties> columns = this.getColumns(rt.getId(), query);
+		Set<Properties> columns = this.getColumns(rs.getConfig_env(),rt.getId(), query);
 		//Reomve filtro caso nao existir
 		if(value_array==null || value_array.length<=0){
 			query =rs.getType().equalsIgnoreCase("query")?query.replaceAll("\\w+=:\\w+", "1=1"):query;
@@ -345,7 +340,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 			}
 		}
 		String xml = null;
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
+		EntityManager em = PersistenceUtils.getSessionFactory(rs.getConfig_env().getName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		try{
@@ -420,8 +415,8 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 		return "RepSource [id=" + id + ", name=" + name + ", type=" + type + ", type_fk=" + type_fk + ", type_name="
 				+ type_name + ", type_query=" + type_query + ", status=" + status + ", dt_created=" + dt_created
 				+ ", dt_updated=" + dt_updated + ", application=" + application + ", application_source="
-				+ application_source + ", user_created=" + user_created + ", user_updated=" + user_updated + "]";
+				+ application_source + ", user_created=" + user_created + ", user_updated=" + user_updated
+				+ ", xmlRows=" + xmlRows + ", config_env=" + config_env + "]";
 	}
-
 	
 }

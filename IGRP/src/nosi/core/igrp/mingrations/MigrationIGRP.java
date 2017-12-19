@@ -195,7 +195,7 @@ public class MigrationIGRP {
 		}
 		if(rep_sources.size() > 0){
 			for(RepSource rs:rep_sources){
-				RepSource rsource = new RepSource(rs.getName(), rs.getType(), rs.getType_fk(), rs.getType_name(), rs.getType_query(), rs.getStatus(), rs.getDt_created(), rs.getDt_updated(), rs.getApplication(), rs.getApplication_source(), rs.getUser_created(), rs.getUser_updated());
+				RepSource rsource = new RepSource(rs.getName(), rs.getType(), rs.getType_fk(), rs.getType_name(), rs.getType_query(), rs.getStatus(), rs.getDt_created(), rs.getDt_updated(), rs.getApplication(), rs.getApplication_source(), rs.getUser_created(), rs.getUser_updated(),rs.getConfig_env());
 				rsource.insert();
 			}
 		}

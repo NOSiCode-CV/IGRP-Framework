@@ -296,6 +296,10 @@ public final class Core {	// Not inherit
 		return EncrypDecrypt.decrypt(content);
 	}
 	
+	public static boolean isNotNull(String string) {
+		return string!=null && !string.equals("");
+	}
+	
 	public static void main(String[] args){
 		nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento("ANGELO BENJAMIM CARDOSO CORREIA", null, null);
 		if(p!=null){
