@@ -5,8 +5,11 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class PesquisarUtilizadorView extends View {
 	
+	public String title = gt("Gestão De Utilizador");
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -38,7 +41,7 @@ public class PesquisarUtilizadorView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
-		sectionheader_1_text.setValue(gt("Gestao de utilizador"));
+		sectionheader_1_text.setValue(gt("Pesquisa de utilizador"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicacao"));
@@ -93,7 +96,7 @@ public class PesquisarUtilizadorView extends View {
 		
 	@Override
 	public void render(){
-		
+		Config.TITLE = this.title;
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);

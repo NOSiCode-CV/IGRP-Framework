@@ -5,8 +5,11 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class GestaodeacessoView extends View {
 	
+	public String title = gt("Gestão De Acesso");
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -15,6 +18,7 @@ public class GestaodeacessoView extends View {
 	public Field mostrar_perfis;
 	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
+	
 	public IGRPForm form_1;
 	public IGRPTable org_table;
 
@@ -30,12 +34,13 @@ public class GestaodeacessoView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
-		org_table = new IGRPTable("org_table","Organizações");
+		org_table = new IGRPTable("org_table","Organização");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
 		sectionheader_1_text.setValue(gt("Gestão de Acesso"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		
@@ -75,9 +80,9 @@ public class GestaodeacessoView extends View {
 		
 	@Override
 	public void render(){
-		
+		Config.TITLE = this.title;
 		sectionheader_1.addField(sectionheader_1_text);
-
+		
 		form_1.addField(aplicacao);
 
 
@@ -85,7 +90,7 @@ public class GestaodeacessoView extends View {
 		org_table.addField(org_nome);
 		org_table.addField(mostrar_perfis);
 		org_table.addField(p_id);
-
+		
 		toolsbar_1.addButton(btn_gestao_de_utilizadores);
 		toolsbar_1.addButton(btn_adicionar_organica);
 		org_table.addButton(btn_editar);

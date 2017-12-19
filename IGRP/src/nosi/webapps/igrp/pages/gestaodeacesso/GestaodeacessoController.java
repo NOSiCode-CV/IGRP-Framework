@@ -41,6 +41,7 @@ public class GestaodeacessoController extends Controller {
       	view.p_id.setParam(true);;
       	view.aplicacao.setValue(new Application().getListApps());
         view.org_table.addData(data);
+        view.setPageTitle("Gestão de Acesso");
       	if(ichange!=null && ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
           view.btn_adicionar_organica.setPage("NovaOrganica");
           view.btn_adicionar_organica.setLink("index&target=_blank&id_app="+model.getAplicacao());
