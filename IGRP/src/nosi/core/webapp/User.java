@@ -168,7 +168,7 @@ public class User implements Component{
 	}
 	
 	public synchronized static String generateActivationKey() {
-		return ""; // Deprecated ! 
+		return Base64.getUrlEncoder().encodeToString(((System.currentTimeMillis() + 1000*3600) + "").getBytes()); // 1h 
 	}
 	
 }

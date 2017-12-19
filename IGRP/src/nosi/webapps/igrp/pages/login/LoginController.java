@@ -46,11 +46,11 @@ public class LoginController extends Controller {
 		//ArrayList<LdapPerson> personArray = ldap.getUser("iekiny.marcel@example.com");
 		//System.out.println(ldap.validateLogin("uid=iekiny.marcel, ou=system, o=nosi", "Pa$$w0rd")); 
 		//System.out.println(ldap.validateLogin("cn=iekiny.marcel,dc=example,dc=com", ""));
-		//System.out.println(ldap.validateLogin("cn=iekiny.marcel, ou=nosi, o=nosi", "Pa$$w0rd"));
-		//System.out.println(ldap.validateLogin("uid=admin,ou=system", "Pa$$w0rd"));
-		/*LdapPerson person = new LdapPerson();
+		//System.out.println(ldap.validateLogin("cn=iekiny.marcel, ou=nosi, o=nosi", "Pa$$w0rd")); 
+		//System.out.println(ldap.validateLogin("cn=iekiny.marcel,ou=nosi,dc=example,dc=com", "Pa$$w0rd"));
+		/*LdapPerson person = new LdapPerson(); 
 		person.setCn("iekiny.marcel"); 
-		person.setSn("iekiny.marcel"); 
+		person.setSn("iekiny.marcel");
 		person.setUid("iekiny.marcel");
 		person.setMail("iekiny.marcel@example.com");
 		ldap.createUser(person); 
@@ -60,10 +60,20 @@ public class LoginController extends Controller {
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
 		if(activation_key != null && !activation_key.trim().isEmpty()) {
-			activation_key = new String(Base64.getDecoder().decode(activation_key));
-			System.out.println(activation_key);
-			User user = new User().find().andWhere("activation_key", "=", activation_key).one();
-			
+			try {
+				User user = new User().find().andWhere("activation_key", "=", activation_key).one();
+				activation_key = new String(Base64.getUrlDecoder().decode(activation_key));
+				if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
+					user.setStatus(1);
+					user = user.update();
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
+				}else {
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+				}
+			}catch(Exception e) {
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+			}
+			return redirect("igrp", "login", "login");
 		}
 		
 		// first 
@@ -76,18 +86,6 @@ public class LoginController extends Controller {
 				else
 					;// Go to error page
 			}
-			
-			/*String destination = Igrp.getInstance().getRequest().getParameter("_url");
-			if(destination != null ) {
-				try {
-					String []aux = destination.split("/");
-					if(aux.length != 3)
-						throw new ServerErrorHttpException();
-				return redirect(aux[0], aux[1], aux[2]);
-				}catch(Exception e) {
-					
-				}
-			}*/
 			
 			String destination = Route.previous();
 			if(destination != null) {
@@ -168,11 +166,7 @@ public class LoginController extends Controller {
 	
 	// Dont delete this method 
 	public Response actionGoToLogin() throws IOException {
-		/*String aux = Igrp.getInstance().getRequest().getParameter("_url");
-		if(aux != null && !aux.isEmpty())
-			return this.redirect("igrp", "login", "login", new String[] {"_url"}, new String[] {aux});
-		else*/
-			return this.redirect("igrp", "login", "login");
+		return this.redirect("igrp", "login", "login");
 	}
 	
 	/*
