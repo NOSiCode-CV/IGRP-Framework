@@ -5,8 +5,11 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
+import nosi.core.config.Config;
+
 public class PesquisarMenuView extends View {
 	
+	public String title = gt("Gestão De Menu");
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -95,7 +98,7 @@ public class PesquisarMenuView extends View {
 		
 	@Override
 	public void render(){
-		
+		Config.TITLE = this.title;
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);

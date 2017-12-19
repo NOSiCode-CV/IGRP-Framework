@@ -54,7 +54,7 @@ public class SettingsController extends Controller {
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());
-		view.sectionheader_1_text.setValue(gt("Minha Área Pessoal") + ": " + user.getName());
+		view.sectionheader_1_text.setValue(gt("Área Pessoal") + ": " + user.getName());
 		/*view.telefone.setValue(user.getPhone());
 		view.telemovel.setValue(user.getMobile());
 		view.password_expira_em.setValue(user.getValid_until());
