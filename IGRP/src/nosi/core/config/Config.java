@@ -162,7 +162,7 @@ public class Config {
 		String app = Igrp.getInstance().getCurrentAppName();
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
-		System.out.println("app:"+app);
+	
 		if(app!=null && page!=null && action!=null && !app.equals("") && !page.equals("") && !action.equals("")){
 			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 			return ac!=null?ac.getVersion():"2.3";		
