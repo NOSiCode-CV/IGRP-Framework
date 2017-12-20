@@ -233,7 +233,7 @@ public class Config {
 	}
 	
 	public static String getBaseServerPahtXsl(Action page){
-		return Config.getBasePathXsl() + "WebContent" + File.separator + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
+		return Config.getBasePathXsl() + Config.getResolvePathXsl(page);
 	}
 	
 	public static String getBasePahtXsl(Action page){
