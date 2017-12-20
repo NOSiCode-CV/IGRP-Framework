@@ -204,8 +204,27 @@ public class XMLTransform {
 				f.propertie().add("iskey", "true");
 			}
 			f.propertie().add("maxlength", column.getSize());
-			f.propertie().add("java-type", column.getType().toString().replaceAll("class ", ""));
+			f.propertie().add("java-type",getTypePrimitive(column.getType().toString()));
 		}
+	}
+
+	private static Object getTypePrimitive(String javaType) {
+		javaType = javaType.replaceAll("class ", "");
+		switch (javaType) {
+			case "java.lang.Integer":
+				javaType = "int";
+				break;
+			case "java.lang.Double":
+				javaType = "double";
+				break;
+			case "java.lang.Float":
+				javaType = "float";
+				break;
+	
+			default:
+				javaType = "String";
+		}
+		return javaType;
 	}
 
 	//Transform XML to Output content using an XSL File Transformation

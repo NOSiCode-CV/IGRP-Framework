@@ -133,23 +133,25 @@ public class CRUDGeneratorController extends Controller {
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 		String formXML = XMLTransform.genXML(XMLTransform.generateXMLForm(config, pageForm, columns,pageList),pageForm,primaryKey,"form");
 		String listXML = XMLTransform.genXML(XMLTransform.generateXMLTable(config, pageList, columns,pageForm,primaryKey),pageList,primaryKey,"table");
-				
+		
 		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
 			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
 		
 		String xslFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
 		String xslFileNameGen = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
 		String jsonFileName = Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
+		String pathXslForm = Config.getBasePathXsl()+Config.getResolvePathXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
+		String pathXslList = Config.getBasePathXsl()+Config.getResolvePathXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
-		String formJson = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", jsonFileName);
-		String listJson = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", jsonFileName);
+		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
+		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
 		
-		String formMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", xslFileName);
-		String listMVC = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", xslFileName);
+		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileName);
+		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileName);
+	
+		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
+		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
 		
-		String xslForm = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml", xslFileNameGen);
-		String xslList = XMLTransform.xmlTransformWithXSL(Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml", xslFileNameGen);
-
 		r = this.saveFiles(pageForm, pageForm.getPage()+".json",formJson)	
 			&& this.saveFiles(pageList, pageList.getPage()+".json",listJson)
 			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
@@ -164,7 +166,8 @@ public class CRUDGeneratorController extends Controller {
 		boolean r = false;
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
-			r = FileHelper.save(Config.getBaseServerPahtXsl(page), fileName, content);
+			String pathXsl = Config.getBasePathXsl()+Config.getResolvePathXsl(page);
+			r = FileHelper.save(pathXsl, fileName, content);
 			if(FileHelper.fileExists(Config.getWorkspace())){
 				r = FileHelper.save(Config.getBasePahtXsl(page), fileName, content);
 			}
