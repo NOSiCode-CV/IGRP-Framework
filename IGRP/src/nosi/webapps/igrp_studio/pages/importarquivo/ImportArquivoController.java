@@ -26,7 +26,6 @@ public class ImportArquivoController extends Controller {
 
 	public Response actionIndex(@RParam(rParamName="app") String app) throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		System.out.println(app);
 		ImportArquivo model = new ImportArquivo();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load(); 
@@ -59,7 +58,7 @@ public class ImportArquivoController extends Controller {
 				FileHelper.deletePartFile(file);
 			} catch (ServletException e) {
 				Core.setMessageError(e.getMessage());
-				return this.forward("igrp", "ImportArquivo", "index");
+				return this.forward("igrp_studio", "ImportArquivo", "index");
 			}	
 			if(result){
 				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
@@ -94,7 +93,7 @@ public class ImportArquivoController extends Controller {
 					FileHelper.deletePartFile(file);
 				} catch (ServletException e) {
 					Core.setMessageError(e.getMessage());;
-					return this.forward("igrp", "ImportArquivo", "index");
+					return this.forward("igrp_studio", "ImportArquivo", "index");
 				}
 				if(result){
 					ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");

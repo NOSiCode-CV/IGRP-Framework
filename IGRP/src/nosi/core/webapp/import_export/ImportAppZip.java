@@ -119,7 +119,8 @@ public class ImportAppZip extends ImportAppJar{
 	private void saveConfigFilesPlsql2_1(Action page,String content){
 		try {
 			content = this.addClassAndPackage(content,page);
-			String pathServer = Config.getBaseServerPahtXsl(page);			
+			String pathServer = Config.getBaseServerPahtXsl(page);
+			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
 			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl");
 			FileHelper.save(pathServer, page.getPage()+".json", json);
