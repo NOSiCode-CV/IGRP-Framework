@@ -207,7 +207,6 @@ public abstract class Controller {
 		}else {
 			auxActionName = "actionIndex";
 			auxcontrollerPath = Config.getPackage("igrp","Home",auxActionName);
-			System.out.println("path:"+auxcontrollerPath+";ac:"+auxActionName);
 		}
 		
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)

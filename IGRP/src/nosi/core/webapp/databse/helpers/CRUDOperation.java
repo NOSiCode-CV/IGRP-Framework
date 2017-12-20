@@ -27,7 +27,7 @@ public class CRUDOperation {
         int i = 1;
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
-				 Object value = model.getFieldValueAsObject(model,col.getName());
+				 Object value = model.getFieldValueAsObject(model,col.getName());			 
 				 if(value!=null) {
 					 this.setParameter(query,value,col,i);					
 				 }else {
@@ -36,7 +36,6 @@ public class CRUDOperation {
 				 i++;
 			}
 		}
-		System.out.println("Executing");
 		int r = query.executeUpdate();
 		t.commit();
 		em.close();

@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Parameter;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
+import nosi.webapps.igrp.dao.Config_env;
 
 /**
  * Emanuel
@@ -131,6 +134,30 @@ public class Query {
 		}
 		return null;
 	}
+	
+	
+	//Validate sql query
+	public static boolean validateQuery(Config_env config,String query) {
+		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		boolean x = false;
+		try{
+			javax.persistence.Query q = em.createNativeQuery(query);
+			for(Parameter<?> param:q.getParameters()){
+				q.setParameter(param.getName(), null);
+			}
+			q.getResultList();
+			x = true;
+			t.commit();
+		}catch(Exception e){
+			x = false;
+		}finally{
+			em.close();
+		}
+		return x;
+	}
+	
 	
 	public void close(){
 		try {

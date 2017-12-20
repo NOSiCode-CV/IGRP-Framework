@@ -32,7 +32,10 @@ public class Config {
 	
 	public static String getHeader(Action page){
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
-		target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target		
+		
+		if(Igrp.getInstance()!=null && Igrp.getInstance().getRequest()!=null) {
+			target = target.equals("")?Igrp.getInstance().getRequest().getParameter("target"):target;//Get Target
+		}	
 		TITLE = "".equals(TITLE)?app.getName():TITLE;
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("template", app.getTemplate());
@@ -162,7 +165,7 @@ public class Config {
 		String app = Igrp.getInstance().getCurrentAppName();
 		String page = Igrp.getInstance().getCurrentPageName();
 		String action = Igrp.getInstance().getCurrentActionName();
-		System.out.println("app:"+app);
+	
 		if(app!=null && page!=null && action!=null && !app.equals("") && !page.equals("") && !action.equals("")){
 			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("page", "=", Page.resolvePageName(page)).one();
 			return ac!=null?ac.getVersion():"2.3";		
@@ -192,7 +195,7 @@ public class Config {
 	}
 	
 	public static String getResolvePathXsl(Action page){
-		return "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
+		return getResolvePathXsl(page.getApplication().getDad(),page.getPage(),page.getVersion());
 	}
 	
 	public static String getResolvePathClass(String app,String page,String version){

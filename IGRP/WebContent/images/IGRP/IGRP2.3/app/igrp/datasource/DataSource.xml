@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/datasource/DataSource.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=24</preserve_url>
     </plsql>
     <content>
         <title>Registar Data Source</title>
@@ -55,6 +56,28 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
+                <data_source name="p_data_source" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                    <label>Data Source</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </data_source>
                 <tipo name="p_tipo" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
                     <label>Tipo</label>
                     <list>
@@ -80,30 +103,8 @@
                 </tipo>
                 <nome name="p_nome" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Iste lorem sit accusantium stract</value>
+                    <value>Anim doloremque sit lorem laudantium</value>
                 </nome>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
-                    <label>Aplicacao</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </aplicacao>
                 <area name="p_area" type="select" multiple="false" maxlength="100" required="false" change="false" disabled="false" right="false" domain="">
                     <label>Area</label>
                     <list>
@@ -172,7 +173,7 @@
                 </etapa>
                 <objecto name="p_objecto" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Objecto</label>
-                    <value>Officia rem magna perspiciatis sed</value>
+                    <value>Perspiciatis labore laudantium natus voluptatem</value>
                 </objecto>
                 <pagina name="p_pagina" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Pagina</label>
@@ -181,7 +182,7 @@
                 </pagina>
                 <query name="p_query" type="textarea" maxlength="4000" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Query</label>
-                    <value>Sit aliqua voluptatem adipiscing mollit consectetur labore dolor rem dolor magna sed omnis elit ipsum</value>
+                    <value>Natus mollit omnis totam labore mollit iste ipsum sit elit ut mollit laudantium sit aliqua</value>
                 </query>
                 <servico name="p_servico" type="lookup" action="index" page="DataSource" app="igrp" lookup_type="LOOKUP" class="default" maxlength="200" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Servico</label>
@@ -191,6 +192,7 @@
                 <hidden name="p_id_pagina" type="hidden" maxlength="30" tag="id_pagina"/>
                 <hidden name="p_id_servico" type="hidden" maxlength="30" tag="id_servico"/>
                 <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <hidden name="p_id_env" type="hidden" maxlength="30" tag="id_env"/>
             </fields>
         </form_1>
     </content>

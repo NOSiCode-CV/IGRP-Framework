@@ -31,6 +31,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
 
@@ -193,8 +195,11 @@ public class FileHelper {
 	}	
 	
 	public static boolean fileExists(String fileName){
-		Path dir = Paths.get(fileName);
-		return Files.exists(dir);
+		if(Core.isNotNull(fileName)) {
+			Path dir = Paths.get(fileName);
+			return Files.exists(dir);
+		}
+		return false;
 	}
 
 	public static boolean dirExists(String dirName){

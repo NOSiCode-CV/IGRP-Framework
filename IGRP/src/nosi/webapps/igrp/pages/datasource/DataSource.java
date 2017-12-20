@@ -1,15 +1,17 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.datasource;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class DataSource extends Model{		
+	@RParam(rParamName = "p_data_source")
+	private String data_source;
 	@RParam(rParamName = "p_tipo")
 	private String tipo;
 	@RParam(rParamName = "p_nome")
 	private String nome;
-	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
 	@RParam(rParamName = "p_area")
 	private String area;
 	@RParam(rParamName = "p_processo")
@@ -30,6 +32,15 @@ public class DataSource extends Model{
 	private String p_id_servico;
 	@RParam(rParamName = "p_id")
 	private String p_id;
+	@RParam(rParamName = "p_id_env")
+	private String p_id_env;
+	
+	public void setData_source(String data_source){
+		this.data_source = data_source;
+	}
+	public String getData_source(){
+		return this.data_source;
+	}
 	
 	public void setTipo(String tipo){
 		this.tipo = tipo;
@@ -43,13 +54,6 @@ public class DataSource extends Model{
 	}
 	public String getNome(){
 		return this.nome;
-	}
-	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
-	}
-	public String getAplicacao(){
-		return this.aplicacao;
 	}
 	
 	public void setArea(String area){
@@ -121,7 +125,13 @@ public class DataSource extends Model{
 	public String getP_id(){
 		return this.p_id;
 	}
+	
+	public void setP_id_env(String p_id_env){
+		this.p_id_env = p_id_env;
+	}
+	public String getP_id_env(){
+		return this.p_id_env;
+	}
 
 
 }
-/*-------------------------*/

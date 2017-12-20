@@ -163,4 +163,10 @@ public abstract class AbstractField implements Field{
 		    }
 		}
 	}
+	
+	@Override
+	public void addParam(String string, String string2) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -18,7 +18,8 @@ public class LookupField extends TextField {
 		this.propertie.put("type", "lookup");
 		this.params = new HashMap<>();
 	}
-
+	
+	@Override
 	public void addParam(String key,String value){
 		this.params.put(key, value);
 	}
