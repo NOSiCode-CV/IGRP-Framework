@@ -96,6 +96,7 @@
                                                                         </span>
                                                                     </div>
                                                                 </xsl:if>
+                                                                 
                                                                 <xsl:if test="rows/content/view_1/fields/ultimo_acesso_igrp">
                                                                     <div class="view-item gen-fields-holder" item-name="ultimo_acesso_igrp">
                                                                         <span class="view-label">
@@ -140,6 +141,13 @@
                                                         </div>
                                                     </div>
                                                 </xsl:if>
+                                                 <xsl:if test="rows/content/sectionheader_2">
+								                          <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_2">
+								                            <h2>
+								                              <xsl:value-of select="rows/content/sectionheader_2/fields/sectionheader_2_text/value"/>
+								                            </h2>
+								                          </section>
+						                         </xsl:if>
                                                 <xsl:if test="rows/content/form_1">
                                                     <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
                                                         <xsl:call-template name="box-header">
