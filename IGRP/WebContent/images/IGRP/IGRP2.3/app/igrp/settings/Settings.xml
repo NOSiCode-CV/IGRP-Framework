@@ -203,5 +203,14 @@
                 </telemovel>
             </fields>
         </form_1>
+         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[Configuração de Parametros:]]>
+                    </value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
     </content>
 </rows>

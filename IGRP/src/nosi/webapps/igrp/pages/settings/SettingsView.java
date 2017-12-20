@@ -39,6 +39,7 @@ public class SettingsView extends View {
 	
 	public SettingsView(Settings model){			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1");
+		sectionheader_2 = new IGRPSectionHeader("sectionheader_2");
 		view_1 = new IGRPView("view_1");
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
@@ -47,10 +48,10 @@ public class SettingsView extends View {
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		
 
-		//sectionheader_2_text = new TextField(model,"sectionheader_2_text");
-		//sectionheader_2_text.setLabel(gt(""));
-		//sectionheader_2_text.setValue(gt("Configuração de Parametros:"));
-		//sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("persist","true").add("maxlength","4000");
+		sectionheader_2_text = new TextField(model,"sectionheader_2_text");
+		sectionheader_2_text.setLabel(gt(""));
+		sectionheader_2_text.setValue(gt("Configuração de Parametros:"));
+		sectionheader_2_text.propertie().add("type","text").add("name","p_sectionheader_2_text").add("persist","true").add("maxlength","4000");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -112,7 +113,7 @@ public class SettingsView extends View {
 		Config.TITLE = this.title;
 
 		sectionheader_1.addField(sectionheader_1_text);
-		//sectionheader_2.addField(sectionheader_2_text);
+		sectionheader_2.addField(sectionheader_2_text);
 		view_1.addField(nome);
 		view_1.addField(email);
 		view_1.addField(username);
@@ -137,7 +138,7 @@ public class SettingsView extends View {
 		toolsbar_1.addButton(btn_aplicar);
 		
 		this.addToPage(sectionheader_1);
-		//this.addToPage(sectionheader_2);
+		this.addToPage(sectionheader_2);
 		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
