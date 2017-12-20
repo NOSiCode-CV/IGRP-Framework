@@ -52,6 +52,10 @@ public class CRUDOperation {
 			query.setParameter(i, Float.parseFloat(value.toString()));
 		}else if(col.getType().equals(java.lang.Character.class)){
 			query.setParameter(i, (Character)value);
+		}else if(col.getType().equals(java.lang.Long.class)){
+			query.setParameter(i, (Long)value);
+		}else if(col.getType().equals(java.lang.Short.class)){
+			query.setParameter(i, (Short)value);
 		}else {
 			query.setParameter(i,value);
 		}

@@ -220,6 +220,12 @@ public class XMLTransform {
 			case "java.lang.Float":
 				javaType = "float";
 				break;
+			case "java.lang.Long":
+				javaType = "long";
+				break;
+			case "java.lang.Short":
+				javaType = "short";
+				break;
 	
 			default:
 				javaType = "String";
