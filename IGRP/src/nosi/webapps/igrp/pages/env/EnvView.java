@@ -25,6 +25,8 @@ public class EnvView extends View {
 	public Field flg_external_check;
 	public Field status;
 	public Field status_check;
+	public Field gen_auto_code;
+	public Field gen_auto_code_check;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
@@ -92,6 +94,10 @@ public class EnvView extends View {
 		status.setLabel(gt("Ativo?"));
 		
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
+		gen_auto_code.setLabel(gt("Generate Auto Code"));
+		
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","2").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","Env","gravar","submit","primary|fa-floppy-o","","");
@@ -118,6 +124,7 @@ public class EnvView extends View {
 		form_1.addField(flg_old);
 		form_1.addField(flg_external);
 		form_1.addField(status);
+		form_1.addField(gen_auto_code);
 
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(sectionheader_1);

@@ -34,6 +34,8 @@ public class Env extends Model{
 	private int flg_external;
 	@RParam(rParamName = "p_status")
 	private int status;
+	@RParam(rParamName = "p_gen_auto_code")
+	private int gen_auto_code;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -131,6 +133,13 @@ public class Env extends Model{
 	}
 	public int getStatus(){
 		return this.status;
+	}
+	
+	public void setGen_auto_code(int gen_auto_code){
+		this.gen_auto_code = gen_auto_code;
+	}
+	public int getGen_auto_code(){
+		return this.gen_auto_code;
 	}
 
 
