@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
+   
+      <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
+   
     
     <title><xsl:value-of select="rows/title"/></title>
     <!-- Normalize -->
