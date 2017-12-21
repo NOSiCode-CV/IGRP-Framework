@@ -277,7 +277,7 @@ public class NosiLdapAPI {
 	          return;
          }
          // entry's DN
-         String entryDN = "uid=" + person.getUid() + ",dc=example,dc=com";
+         String entryDN = "uid=" + person.getUid() + ",dc=example,dc=com"; 
          // entry's attributes
          Attribute cn = new BasicAttribute("cn", person.getCn());
          Attribute sn = new BasicAttribute("sn", person.getSn());

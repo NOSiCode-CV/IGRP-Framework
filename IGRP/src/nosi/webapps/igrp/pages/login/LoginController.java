@@ -40,22 +40,22 @@ public class LoginController extends Controller {
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
 		/** Begin ldap AD logic here **/ 
-	/*	File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
+		/*File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
 		//ArrayList<LdapPerson> personArray = ldap.getUser("iekiny.marcel@example.com");
-		//System.out.println(ldap.validateLogin("uid=iekiny.marcel, ou=system, o=nosi", "Pa$$w0rd")); 
+		//System.out.println(ldap.validateLogin("uid=iekiny.marcel, ou=system, o=nosi", "Pa$$w0rd"));
 		//System.out.println(ldap.validateLogin("cn=iekiny.marcel,dc=example,dc=com", ""));
 		//System.out.println(ldap.validateLogin("cn=iekiny.marcel, ou=nosi, o=nosi", "Pa$$w0rd"));
 		//System.out.println(ldap.validateLogin("uid=admin, ou=system", "secret")); 
-		/*LdapPerson person = new LdapPerson(); 
+		LdapPerson person = new LdapPerson(); 
 		person.setCn("iekiny.marcel"); 
 		person.setSn("iekiny.marcel");
 		person.setUid("iekiny.marcel");
 		person.setMail("iekiny.marcel@example.com");
 		ldap.createUser(person); 
-		System.out.println(ldap.getError());*/
-		/** End **/ 
+		System.out.println(ldap.getError());
+		/** End **/
 		
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");

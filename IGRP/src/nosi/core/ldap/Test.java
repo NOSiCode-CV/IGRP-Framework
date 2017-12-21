@@ -20,6 +20,10 @@ public class Test {
 
 	public static void main(String[] args) {
 		
+		System.out.println("Executado");
+		
+		System.exit(0);
+		
 		// TODO Auto-generated method stub
 				//Teste LDAP
 		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml");
