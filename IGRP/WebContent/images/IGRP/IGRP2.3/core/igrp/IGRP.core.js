@@ -361,6 +361,37 @@
 				    }
 				    
 				    return indices;
+				},
+				replaceSpecialChars : function(label){
+					var chars = ['[',']','€','«','»',';','='];
+					var accents = [
+						{ base:'a', accents:['\u00c4' ,'\u00c3','\u00e1','\u00e0','\u00e2','\u00e3','\u00e4','\u00c1','\u00c0','\u00c2'] },
+						{ base:'e', accents:['\u00e9','\u00e8','\u00ea','\u00ea','\u00c9','\u00c8','\u00ca','\u00cb'] },
+						{ base:'i', accents:['\u00ed','\u00ec','\u00ee','\u00ef','\u00cd','\u00cc','\u00ce','\u00cf'] },
+						{ base:'o', accents:['\u00d6','\u00d5','\u00f3','\u00f2','\u00f4','\u00f5','\u00f6','\u00d3','\u00d2','\u00d4'] },
+						{ base:'u', accents:['\u00fa','\u00f9','\u00fb','\u00fc','\u00da','\u00d9','\u00db'] },
+						{ base:'c', accents:['\u00e7','\u00c7'] },
+						{ base:'n', accents:['\u00f1','\u00d1'] }
+					];
+
+					//replace white spaces to _
+					var str = label.replaceAll(' ','_');
+					//replace - to _
+					str = str.replaceAll('-','_');
+					//replace special characters
+					str = str.replace(/[&\/\\#,+()$~%.'":*?<>!?@´ªº^|£§{}]/g,'');
+					//replace symbols
+					chars.forEach(function(c){
+						str = str.replaceAll(c,'');
+					});
+					//replace accents
+					accents.forEach(function(aObj){
+						aObj.accents.forEach(function(a){
+							str = str.replaceAll(a,aObj.base);
+						});
+					});
+
+					return str.toLowerCase();
 				}
 			}
 		}

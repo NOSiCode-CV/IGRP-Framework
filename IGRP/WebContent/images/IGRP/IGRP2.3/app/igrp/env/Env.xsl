@@ -10,7 +10,7 @@
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
-                <style/>
+                <style>#gen_auto_cod{  position:absolute;  top:34px;  right:20px;}</style>
             </head>
             <body class="{$bodyClass} sidebar-off">
                 <xsl:call-template name="IGRP-topmenu"/>
@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-dabf877e">
+                                    <div class="row " id="row-51448be4">
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-ab762077">
+                                    <div class="row " id="row-81543f84">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -87,6 +87,12 @@
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/dad"/>
                                                                             </xsl:call-template>
+                                                                        </input>
+                                                                        <input type="checkbox" name="p_gen_auto_code" value="1" class="checkbox" id="gen_auto_cod">
+                                                                            <xsl:if test="rows/content/form_1/fields/gen_auto_code/value = '1'">
+                                                                                <xsl:attribute name="checked">checked
+      </xsl:attribute>
+                                                                            </xsl:if>
                                                                         </input>
                                                                     </div>
                                                                 </xsl:if>
@@ -286,6 +292,7 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
+                <script>(function(){var isChecked = function() {    return $('[name="p_gen_auto_code"]').is(':checked');    };     var enableAutoCod = function(){            $('[name="p_dad"]').attr('readonly','readonly');            };        var disableAutoCod = function(){            $('[name="p_dad"]').removeAttr('readonly');            };         var checkAutoCod = function(){            if( isChecked )                enableAutoCod();                else                disableAutoCod();            };         $('[name="p_gen_auto_code"]').on('change',checkAutoCod);        checkAutoCod();        $('[name="p_name"]').on('keyup',function(){        if(isChecked()){                var val = $(this).val();                    $('[name="p_dad"]').val($.IGRP.utils.string.replaceSpecialChars(val));                    }        });   })();</script>
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- SELECT JS INCLUDES -->
@@ -294,9 +301,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1513213126377"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1513213126377"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1513213126377"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1513213126377"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1513213126377"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1513855213677"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1513855213677"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1513855213677"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1513855213677"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1513855213677"/>
 </xsl:stylesheet>

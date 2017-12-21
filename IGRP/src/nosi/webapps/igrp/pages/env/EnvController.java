@@ -38,6 +38,8 @@ public class EnvController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Env model = new Env();
 		model.setStatus(1);
+      	model.setGen_auto_code(1);
+      
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
