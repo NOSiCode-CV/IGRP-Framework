@@ -168,7 +168,7 @@ public class NovoUtilizadorController extends Controller {
 					role.setUser(u);
 					role = role.insert();
 					
-					String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/activation&activation_key=" + u.getActivation_key();
+					String url_ = Igrp.getInstance().getRequest().getRequestURL() + "?r=igrp/login/login&activation_key=" + u.getActivation_key();
 					//System.out.println(url_);
 					Organization orgEmail = new Organization().findOne(model.getOrganica());
 					String msg = ""
