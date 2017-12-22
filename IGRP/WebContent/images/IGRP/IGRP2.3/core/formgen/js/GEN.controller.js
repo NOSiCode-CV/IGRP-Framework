@@ -4140,6 +4140,24 @@ var GENERATOR = function(genparams){
 		}else{
 			//field.xml.tag = 'hidden';
 		}
+		
+		if(field.type == 'hidden' || field.type == 'select' || field.type == 'number')
+			field.setPropriety({
+				name:'java-type',
+				label : 'Java Type',
+				value : {
+					value : '',
+						options : [
+										{ value : '', label : '' },
+										{ value : 'int', label : 'Integer' },
+										{ value : 'double', label : 'Double' },
+										{ value : 'float', label : 'Float' },
+										{ value : 'short', label : 'Short' },
+										{ value : 'long', label : 'Long' },
+										{ value : 'String', label : 'String' }
+									]
+						}
+				})
 	}
 
 	GEN.setImgAttr = function(field,p){

@@ -1,17 +1,14 @@
 package nosi.base.ActiveRecord;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
+
 /**
  * @author Emanuel Pereira
  * 4 Jul 2017
