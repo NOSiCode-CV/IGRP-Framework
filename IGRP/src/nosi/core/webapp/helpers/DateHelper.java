@@ -50,4 +50,14 @@ public class DateHelper {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 		return dateFormat.format(new Date());
 	}
+	
+
+	public static String convertDateToString(java.sql.Date date,String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format); 
+		return dateFormat.format(date);
+	}
+	
+	public static java.sql.Date convertStringToDate(String date,String format) {
+		return formatDate(date,"dd-mm-yyyy",format);
+	}
 }
