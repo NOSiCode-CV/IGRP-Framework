@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
@@ -37,18 +38,12 @@ public class QuerySelect extends QueryHelper {
 		return this;
 	}
 	
-	public List<?> getResultList() {
+	public List<Tuple> getResultList() {
 		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
-		Query query = null;
-		if(this.className!=null) {
-			TypedQuery<?> q = em.createQuery(this.sql,this.className);
-			query = q;
-		}else {
-			query = em.createNativeQuery(this.sql);
-		}
+		Query query = em.createNativeQuery(this.sql,Tuple.class);	
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
 				 this.setParameter(query,col.getDefaultValue(),col);					
@@ -56,7 +51,8 @@ public class QuerySelect extends QueryHelper {
 				 query.setParameter(col.getName(), null);
 			 }
 		}		
-		List<?> list = query.getResultList();
+		
+		List<Tuple> list = query.getResultList();
 		t.commit();
 		em.close();
 		return list;
@@ -80,5 +76,23 @@ public class QuerySelect extends QueryHelper {
 		t.commit();
 		em.close();
 		return list;
+	}
+	
+	public TypedQuery<?> getSingleResult(){
+		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
+		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		TypedQuery<?> query = em.createQuery(this.sql, this.className);
+		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+			 if(col.getDefaultValue()!=null) {
+				 this.setParameter(query,col.getDefaultValue(),col);					
+			 }else {
+				 query.setParameter(col.getName(), null);
+			 }
+		}		
+		t.commit();
+		em.close();
+		return query;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
+import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
@@ -238,11 +240,15 @@ public abstract class QueryHelper implements IFQuery{
 		return r;
 	}
 	
-	public List<?> getResultList() {
+	public List<Tuple> getResultList() {
 		return null;
 	}
 	
 	public Object getSigleResult() {
+		return null;
+	}
+	
+	public TypedQuery<?> getSingleResult(){
 		return null;
 	}
 }
