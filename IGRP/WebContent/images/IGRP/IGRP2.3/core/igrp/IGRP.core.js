@@ -444,7 +444,7 @@
 				response    = null,
 				message 	= '';
 
-			form.attr('accept-charset','ISO-8859-1');
+			form.attr('accept-charset','UTF-8');
 			
 
 			//console.log(document.charset);
@@ -452,13 +452,13 @@
 		    vRequest.open("POST",p.pUrl,true);
 		    vRequest.timeout = 600000; // time in milliseconds
 
-		    vRequest.setRequestHeader('Encoding','ISO-8859-1');
-			vRequest.setRequestHeader('Charset','ISO-8859-1');
+		    vRequest.setRequestHeader('Encoding','UTF-8');
+			vRequest.setRequestHeader('Charset','UTF-8');
 			//vRequest.setRequestHeader("Content-Type", "multipart/form-data;charset=ISO-8859-1");
 			vRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 			if(vRequest.overrideMimeType)
-		    	vRequest.overrideMimeType('text/xml; charset=ISO-8859-1');
+		    	vRequest.overrideMimeType('text/xml; charset=UTF-8');
 
 		    vRequest.ontimeout = function (e) {
 				$.IGRP.utils.loading.hide();
@@ -568,7 +568,7 @@
 				var obj  = [],
 					xml  = p.serialize.find('*').not(p.notSerialize).serializeArray();
 
-				xml = '<?xml version="1.0" encoding="ISO-8859-1"?><content>'+
+				xml = '<?xml version="1.0" encoding="UTF-8"?><content>'+
 					$.IGRP.utils.submitPage2File.json2xml(xml)+'</content>';
 
 				obj.push({name:p.fileName,value:xml});
@@ -688,7 +688,7 @@
 		    if(xstr){
 		    	var beginExp = '<?xml-stylesheet href="';
 
-				var endExp   = '" type="text/xsl"?>';
+				var endExp   = '" type="text/xml"?>';
 				
 				var begin = $.IGRP.utils.string.getIndices(beginExp, xstr,false)[0] + beginExp.length;
 

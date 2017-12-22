@@ -175,7 +175,9 @@ public class Config {
 	
 	public static String getResolveUrl(String app,String page,String action){
 		HttpServletRequest req = Igrp.getInstance().getRequest();
-		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+		String url = "webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+//		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+
 		return url;
 	}
 	public static String getRootPaht(){

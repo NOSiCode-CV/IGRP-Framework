@@ -123,7 +123,7 @@ var GEN_LAYOUT = function(viewer){
 
 			setZindex();
 			
-			console.log('dsadsa')
+//			console.log('dsadsa')
 
 			row.addClass('gen-row');
 			

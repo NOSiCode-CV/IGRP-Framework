@@ -149,7 +149,7 @@ var VARS = {
 			    	'</'+VARS.tags.plsql+'>';
 		},
 
-		site:'<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>'+
+		site:'<link_img>images/IGRP/IGRP2.3</link_img>'+
 				'<site>'+
 		        '<welcome_note>Oba</welcome_note>'+
 		        '<footer_note>2017 - Copyright NOSI</footer_note>'+
