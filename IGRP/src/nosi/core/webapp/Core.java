@@ -3,10 +3,13 @@ package nosi.core.webapp;
 import java.io.StringReader;
 import java.rmi.RemoteException;
 import javax.xml.bind.JAXB;
-
 import org.apache.log4j.Logger;
-
 import nosi.core.config.Config;
+import nosi.core.webapp.databse.helpers.QueryDelete;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.databse.helpers.QueryInsert;
+import nosi.core.webapp.databse.helpers.QuerySelect;
+import nosi.core.webapp.databse.helpers.QueryUpdate;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
@@ -25,7 +28,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
-import org.apache.log4j.Logger;
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
@@ -298,6 +300,48 @@ public final class Core {	// Not inherit
 	
 	public static boolean isNotNull(String string) {
 		return string!=null && !string.equals("");
+	}
+	
+	public static QueryHelper insert(String connectionName,String tableName) {
+		return new QueryInsert(connectionName).insert(tableName);
+	}
+	
+	public static QueryHelper insert(String connectionName,String schemaName,String tableName) {
+		return new QueryInsert(connectionName).insert(schemaName,tableName);
+	}
+	
+	public static QueryHelper update(String connectionName,String tableName) {
+		return new QueryUpdate(connectionName).update(tableName);
+	}
+	
+	public static QueryHelper update(String connectionName,String schemaName,String tableName) {
+		return new QueryUpdate(connectionName).update(schemaName,tableName);
+	}
+	
+	public static QueryHelper delete(String connectionName,String tableName) {
+		return new QueryDelete(connectionName).delete(tableName);
+	}
+	
+	public static QueryHelper delete(String connectionName,String schemaName,String tableName) {
+		return new QueryDelete(connectionName).delete(schemaName,tableName);
+	}
+	
+	public static QueryHelper query(String connectionName,String sql) {
+		return new QuerySelect(connectionName).select(sql);
+	}
+	public static QueryHelper query(String connectionName,String sql,Class<?> className) {
+		return new QuerySelect(connectionName).select(sql,className);
+	}
+	public static QueryHelper query(String sql) {
+		return new QuerySelect().select(sql);
+	}
+	
+	public static java.sql.Date ToDate(String date,String format){
+		return DateHelper.convertStringToDate(date, format);
+	}
+	
+	public static String ToChar(java.sql.Date date,String format) {
+		return DateHelper.convertDateToString(date, format);
 	}
 	
 	public static void main(String[] args){

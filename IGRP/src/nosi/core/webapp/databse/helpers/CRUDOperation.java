@@ -19,21 +19,19 @@ public class CRUDOperation {
 
 	public boolean insert(String schemaName, Config_env config, String tableName,Model model) {
 		List<DatabaseMetadaHelper.Column> colmns = DatabaseMetadaHelper.getCollumns(config,schemaName,  tableName);
-		String sql = this.getSqlInsert(schemaName, colmns, tableName);
+		String sql = new QueryInsert().getSqlInsert(schemaName, colmns, tableName);
 		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query query = em.createNativeQuery(sql);
-        int i = 1;
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
 				 Object value = model.getFieldValueAsObject(model,col.getName());			 
 				 if(value!=null) {
-					 this.setParameter(query,value,col,i);					
+					 new QueryInsert().setParameter(query,value,col);					
 				 }else {
-					 query.setParameter(i, null);
+					 query.setParameter(col.getName(), null);
 				 }
-				 i++;
 			}
 		}
 		int r = query.executeUpdate();
@@ -42,78 +40,29 @@ public class CRUDOperation {
 		return r > 0;
 	}
 
-
-	private void setParameter(Query query, Object value, Column col, int i) {
-		if(col.getType().equals(java.lang.Integer.class)) {
-			query.setParameter(i,Integer.parseInt(value.toString()));
-		}else if(col.getType().equals(java.lang.Double.class)){
-			query.setParameter(i, Double.parseDouble(value.toString()));
-		}else if(col.getType().equals(java.lang.Float.class)){
-			query.setParameter(i, Float.parseFloat(value.toString()));
-		}else if(col.getType().equals(java.lang.Character.class)){
-			query.setParameter(i, (Character)value);
-		}else if(col.getType().equals(java.lang.Long.class)){
-			query.setParameter(i, (Long)value);
-		}else if(col.getType().equals(java.lang.Short.class)){
-			query.setParameter(i, (Short)value);
-		}else {
-			query.setParameter(i,value);
-		}
-	}
-
-
-	private String getSqlInsert(String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		tableName = !schemaName.equals("")?schemaName+"."+tableName:tableName;//Adiciona schema
-		String inserts = "";
-		String values = "";
-		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
-				inserts += col.getName()+",";
-				values += "?,";
-			}
-		}	
-		inserts = inserts.substring(0, inserts.length()-1);
-		values = values.substring(0, values.length()-1);
-		return "INSERT INTO "+tableName+" ("+inserts+") VALUES ("+values+")";
-	}
-
-	private String getSqlUpdate(Config_env config,String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		Column pkey = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
-		tableName = !schemaName.equals("")?schemaName+"."+tableName:tableName;//Adiciona schema
-		String updates = "";
-		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
-				updates += col.getName()+"=?,";
-			}
-		}	
-		updates = updates.substring(0, updates.length()-1);
-		return "UPDATE "+tableName +" SET "+updates+" WHERE "+pkey.getName()+"=?";
-	}
-	
 	public boolean update(Config_env config,String schemaName,  String tableName,Model model, Object id) {
 		List<DatabaseMetadaHelper.Column> colmns = DatabaseMetadaHelper.getCollumns(config,schemaName, tableName);
-		String sql = this.getSqlUpdate(config,schemaName, colmns, tableName);
+		String sql = new QueryUpdate().getSqlUpdate(config,schemaName, colmns, tableName);
 		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		Query query = em.createNativeQuery(sql);
-        int i = 1;
 		for(DatabaseMetadaHelper.Column col:colmns) {
 			if(!col.isAutoIncrement()) {
 				if(!col.isAutoIncrement()) {
 					 if(!col.isAutoIncrement()) {
 						 Object value = model.getFieldValueAsObject(model,col.getName());
 						 if(value!=null) {
-							 this.setParameter(query,value,col,i);					
+							 new QueryUpdate().setParameter(query,value,col);					
 						 }else {
-							 query.setParameter(i, null);
+							 query.setParameter(col.getName(), null);
 						 }
-						 i++;
 					}
 				}
 			}
 		}
-		query.setParameter(i, Integer.parseInt(id.toString()));
+		Column pkey = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
+		query.setParameter(pkey.getName().toLowerCase(), Integer.parseInt(id.toString()));
 		int r = query.executeUpdate();
 		t.commit();
 		em.close();
@@ -127,7 +76,7 @@ public class CRUDOperation {
 		Column col = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
 		tableName = !schemaName.equals("")?schemaName+"."+tableName:tableName;//Adiciona schema
 		Query query = em.createNativeQuery("DELETE FROM "+tableName+" WHERE "+col.getName()+"=?");
-		this.setParameter(query, value, col, 1);
+		new QueryDelete().setParameter(query, value, col);
 	    int r = query.executeUpdate();
 	    t.commit();
 	    em.close();

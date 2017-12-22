@@ -265,10 +265,12 @@ public class DatabaseMetadaHelper {
 		private boolean isNullable;	
 		private boolean isForeignKey;
 		private int size;
-		private String defaultValue;
+		private Object defaultValue;
 		private String tableRelation;
 		private String columnMap;
 		private String connectionName;
+		private String format ="yyyy-mm-dd";
+		
 		
 		public String getSchemaName() {
 			return schemaName;
@@ -318,10 +320,10 @@ public class DatabaseMetadaHelper {
 		public void setSize(int size) {
 			this.size = size;
 		}
-		public String getDefaultValue() {
+		public Object getDefaultValue() {
 			return defaultValue;
 		}
-		public void setDefaultValue(String defaultValue) {
+		public void setDefaultValue(Object defaultValue) {
 			this.defaultValue = defaultValue;
 		}	
 		public boolean isForeignKey() {
@@ -349,7 +351,15 @@ public class DatabaseMetadaHelper {
 		}
 		public void setConnectionName(String connectionName) {
 			this.connectionName = connectionName;
+		}		
+		
+		public String getFormat() {
+			return format;
 		}
+		public void setFormat(String format) {
+			this.format = format;
+		}
+		
 		@Override
 		public String toString() {
 			return "Column [schemaName=" + schemaName + ", name=" + name + ", type=" + type + ", typeSql=" + typeSql
