@@ -23,6 +23,7 @@ import nosi.core.webapp.compiler.helpers.Compiler;
  */
 public class Import {
 
+	protected String encode = FileHelper.ENCODE_ISO;
 	public boolean importApp(IFImportExport ie) {
 		return ie.importApp();
 	}
@@ -143,9 +144,9 @@ public class Import {
 			//Guarda ficheiros no workspace caso existe
 			if(FileHelper.fileExists(Config.getWorkspace())){
 				String path_xsl_work_space = Config.getBasePahtXsl(page);		
-				result = FileHelper.save(path_xsl_work_space,partPage[4], content);
+				result = FileHelper.save(path_xsl_work_space,partPage[4], content,FileHelper.ENCODE_ISO);
 			}
-			result = FileHelper.save(path, partPage[4], content);
+			result = FileHelper.save(path, partPage[4], content,FileHelper.ENCODE_ISO);
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,9 +157,7 @@ public class Import {
 	protected Application saveApp(FileImportAppOrPage file){
 		InputStream is;
 		try {
-			System.out.println("---");
-			System.out.println(file.getConteudo());
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_UTF8));
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));
 			XMLApplicationReader listApp = JAXB.unmarshal(is, XMLApplicationReader.class);
 			for(Application app:listApp.getRow()){
 				if(new Application().find().andWhere("dad", "=", app.getDad()).one()==null){
@@ -187,7 +186,7 @@ public class Import {
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
 		InputStream is;
 		try {
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_UTF8));			
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));			
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
 			List<Action> pages = new ArrayList<>();
 			for(Action page:listPage.getRow()){

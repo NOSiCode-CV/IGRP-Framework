@@ -214,13 +214,13 @@ public class PageController extends Controller {
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase()+"/"+ac.getPage().toLowerCase()+"/"+ac.getPage()+".xsl");
 						ac.update();
 						this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
-						return this.renderView("<messages><message type=\"success\">Operacao efetuada com sucesso: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
+						return this.renderView("<messages><message type=\"success\">"+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 					}
 				}
 			}
 			this.deleteFilesInMemory(new Part[]{fileModel,fileView,fileController});
 		}
-		return this.renderView("<messages><message type=\"error\">Operacao falhada: "+StringEscapeUtils.escapeXml(error)+"</message></messages>");
+		return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 	}
 	
 	

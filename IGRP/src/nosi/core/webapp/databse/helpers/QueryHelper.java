@@ -8,9 +8,9 @@ import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import nosi.base.ActiveRecord.PersistenceUtils;
+import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
-import nosi.webapps.igrp.dao.Config_env;
 
 
 /**
@@ -28,7 +28,7 @@ public abstract class QueryHelper implements IFQuery{
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
-		this.connectionName = connectionName;
+		this.connectionName = Core.isNotNull(connectionName)?connectionName:Config.getBaseConnection();
 	}	
 	
 	public QueryHelper where(String condition) {
@@ -151,20 +151,6 @@ public abstract class QueryHelper implements IFQuery{
 		inserts = inserts.substring(0, inserts.length()-1);
 		values = values.substring(0, values.length()-1);
 		this.sql = "INSERT INTO "+tableName+" ("+inserts+") VALUES ("+values+")";
-		return this.sql;
-	}
-	
-	public String getSqlUpdate(Config_env config,String schemaName, List<DatabaseMetadaHelper.Column> colmns, String tableName) {
-		Column pkey = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
-		tableName = (schemaName!=null && !schemaName.equals(""))?schemaName+"."+tableName:tableName;//Adiciona schema
-		String updates = "";
-		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
-				updates += col.getName().toLowerCase()+"=:"+col.getName().toLowerCase()+",";
-			}
-		}	
-		updates = updates.substring(0, updates.length()-1);
-		this.sql = "UPDATE "+tableName +" SET "+updates+" WHERE "+pkey.getName().toLowerCase()+"=:"+pkey.getName().toLowerCase();
 		return this.sql;
 	}
 	
