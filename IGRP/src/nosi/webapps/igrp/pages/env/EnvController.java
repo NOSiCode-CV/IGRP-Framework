@@ -44,7 +44,7 @@ public class EnvController extends Controller {
 			model.load();
 		}
 		EnvView view = new EnvView(model);
-		//view.action_fk.setValue(new Action().getListActions());
+	
 		view.img_src.setValue("default.svg");
 		view.host.setVisible(true);
 		view.apache_dad.setVisible(false); 
