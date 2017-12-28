@@ -63,7 +63,7 @@ public class ListaEnvView extends View {
 		btn_importar.propertie.add("type","specific").add("code","").add("rel","importar");
 		btn_novo = new IGRPButton("Nova aplicação","igrp","ListaEnv","novo","modal|refresh","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
-		btn_editar = new IGRPButton("Editar","igrp","ListaEnv","editar","mpsubmit","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp","ListaEnv","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","ListaEnv","eliminar","confirm","danger|fa-trash-o","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");

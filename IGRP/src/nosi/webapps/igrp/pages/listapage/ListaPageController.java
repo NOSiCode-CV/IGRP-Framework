@@ -28,9 +28,10 @@ import static nosi.core.i18n.Translator.gt;
 
 /*----#END-PRESERVED-AREA----*/
 
-public class ListaPageController extends Controller {
+public class ListaPageController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ListaPage model = new ListaPage();
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
@@ -71,14 +72,16 @@ public class ListaPageController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
 		// NOT IN USE. view.btn_importar.setLINK in actionIndex()
 		return this.redirect("igrp_studio", "ImportArquivo", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionApp_builder() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionApp_builder() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(APP_BUILDER)----*/
 		ListaPage model = new ListaPage();
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
@@ -92,15 +95,17 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "ListaEnv", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionNova() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionNova() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVA)----*/
 		// NOT IN USE. setLINK in actionIndex
 		return this.redirect("igrp", "Page", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -110,8 +115,9 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "Page", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(VISUALIZAR)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -120,8 +126,9 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "Page", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -130,8 +137,9 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "ListaPage", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GERAR_CODIGO)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
@@ -140,8 +148,9 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "Page", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(DOWNLOAD)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
@@ -167,7 +176,7 @@ public class ListaPageController extends Controller {
 		return this.redirect("igrp", "ListaPage", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	/*----#END-PRESERVED-AREA----*/

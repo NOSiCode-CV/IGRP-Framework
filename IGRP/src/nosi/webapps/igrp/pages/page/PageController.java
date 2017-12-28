@@ -437,11 +437,13 @@ public class PageController extends Controller {
 	
 	//View page with xml
 	public Response actionVisualizar() throws IOException{
-		String p_id = Igrp.getInstance().getRequest().getParameter("id");
+		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		if(p_id!=null && !p_id.equals("") ) {
 		Action ac = new Action().findOne(Integer.parseInt(p_id));	
 		if(ac!=null){			
 			String content = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac),ac.getPage()+".xml");
 			return this.renderView(content);
+		}
 		}
 		return null;
 	}

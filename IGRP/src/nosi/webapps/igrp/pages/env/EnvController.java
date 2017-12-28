@@ -66,7 +66,9 @@ public class EnvController extends Controller {
 			model.load();
 			Application app = new Application();		
 			Action ac = new Action();
+			if(model.getAction_fk()!=null && !model.getAction_fk().equals("")){
 			ac.setId(Integer.getInteger(model.getAction_fk()));
+			}
 //			app.setAction_fk(model.getAction_fk());
 //			app.setApache_dad(model.getApache_dad());
 			app.setDad(model.getDad());
@@ -112,7 +114,7 @@ public class EnvController extends Controller {
 		model.setDescription(aplica_db.getDescription());
 		model.setFlg_external(aplica_db.getExternal());
 		model.setHost(aplica_db.getUrl());
-		if(aplica_db.getAction()!=null){
+		if(aplica_db.getAction()!=null && !aplica_db.getAction().equals("")){
 			model.setAction_fk(aplica_db.getAction().getId().toString());
 		}
 //		model.setApache_dad(aplica_db.getApache_dad());
@@ -128,8 +130,7 @@ public class EnvController extends Controller {
 			model.load();			
 			aplica_db.setDad(model.getDad());
 			aplica_db.setName(model.getName());
-			aplica_db.setImg_src(model.getImg_src());
-			
+			aplica_db.setImg_src(model.getImg_src());	
 			
 			aplica_db.setExternal(model.getFlg_external());
 			
@@ -138,8 +139,10 @@ public class EnvController extends Controller {
 			}
 			
 			aplica_db.setDescription(model.getDescription());
+			if(aplica_db.getAction()!=null && !aplica_db.getAction().equals("") ){
 			Action ac = new Action().findOne(model.getAction_fk());
 			aplica_db.setAction(ac);
+			}
 			aplica_db.setStatus(model.getStatus());
 //			aplica_db.setFlg_old(model.getFlg_old());
 //			aplica_db.setLink_menu(model.getLink_menu());
