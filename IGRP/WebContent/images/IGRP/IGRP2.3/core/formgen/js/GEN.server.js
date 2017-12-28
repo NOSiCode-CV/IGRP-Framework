@@ -422,10 +422,10 @@ $(function(){
 
 		var editorsWrapper  = $('#gen-'+mode+' .gen-editors-wrapper'),
 
-			partEditor 		= $('<div class="gen-code-mirror server-editor '+mode+'-editor '+name+' col-sm-10 custom-size "></div>');
+			partEditor 		= $('<div class="gen-code-mirror server-editor '+mode+'-editor '+name+' col-sm-10 custom-size " editor-part="'+name.toLowerCase()+'"></div>');
 
 		editorsWrapper.append( partEditor );
-
+	
 		switch(mode){
 
 			case 'java':
@@ -631,6 +631,29 @@ $(function(){
 				}	
 
 			}
+			
+			var lineNum = change.from.line+1,
+			
+				line	= $(editor.display.wrapper).find('.CodeMirror-linenumber:contains('+lineNum+')');
+			
+			if(line.hasClass('has-error')){
+				
+				line.removeClass('has-error');
+				
+				$('.gen-editor-errors table tr[line="'+lineNum+'"]').remove();
+				
+				setTimeout(function(){
+					
+					if(!$('.gen-editor-errors table tr')[0] || !$('.CodeMirror-linenumber.has-error')[0])
+						GEN.removeEditorsErrors(true);
+					
+				},100)
+				
+			
+				
+				
+			}
+
 
 		});
 
@@ -661,10 +684,12 @@ $(function(){
 			server.editors[mode] = {};
 
 		options.codes.forEach(function(c){
+			
+			var fileName = packName+capitalizeFirstLetter(c.name.toLowerCase());
 
 			list.append(
 
-				'<div base-path="'+options.basePath+'" mode="'+mode+'" part="'+c.name.toLowerCase()+'" class="list-group-item server-transform" xslt-path="'+c.xsl+'">'+packName+capitalizeFirstLetter(c.name.toLowerCase())+'</div>'
+				'<div file-name="'+fileName+'.java" base-path="'+options.basePath+'" mode="'+mode+'" part="'+c.name.toLowerCase()+'" class="list-group-item server-transform" xslt-path="'+c.xsl+'">'+fileName+'</div>'
 			
 			);
 

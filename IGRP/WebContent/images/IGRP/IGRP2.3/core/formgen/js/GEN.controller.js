@@ -2566,7 +2566,7 @@ var GENERATOR = function(genparams){
 					//{ name:'p_page_java',value:javaStr},//java
 					//{ name:'p_package', value: GEN.SETTINGS.package}//pacote
 				];
-
+				
 				GEN.server.compile({
 
 					mode : 'java',
@@ -2592,10 +2592,21 @@ var GENERATOR = function(genparams){
 						
 						try{
 							
+							var notifyOptions = {
+								delay: 12000,
+								placement: {
+									from: "top",
+									align: "right"
+								},
+								offset:{
+									y : 60
+								}
+							};
+							
 							$.IGRP.utils.submitStringAsFile({
 								//pUrl        : 'test.save.xml',
 								pUrl        : vUrl,
-								pMessage    : false,
+								pNotify     : false,
 								pLoading    : true,
 					         	pParam      : {
 					          		pArrayFiles : vParam,
@@ -2606,35 +2617,77 @@ var GENERATOR = function(genparams){
 						           		{name:'p_package', value: GEN.SETTINGS.package}
 						           	]
 						        },
-								pComplete   :function(xml,text,status){
+								pComplete   :function(req,text,status){
+									
+									GEN.removeEditorsErrors(true);
+									
 									//:not(')
-									var msgs = $(xml).find("message[type!='confirm'][type!='debug']");
-
+									var msgs = $($.parseXML(req.response)).find("message[type!='confirm'][type!='debug']");
+									
 									$.each(msgs,function(i,msg){
-										var type = $(msg).attr('type');
-										var text = $(msg).text();
+										
+										var mtype  	 = $(msg).attr('type'),
+											vtype    = mtype == 'error' ? 'danger' : mtype,
+											jsonStr  = $(msg).text(),
+											jsonRes  = JSON.parse(jsonStr),
+											
+											text     = jsonRes.msg;
+											
+										
+										notifyOptions.type = vtype;
 
-										$.notify({
-											icon: 'fa fa-times',
+										$.notify({											
 											message: text,
-
-										},{
-											type:'success',
-											delay: 8000,
-										});
+										},notifyOptions);
+										
+										
+										if(jsonRes.errors){
+											
+											for(var file in jsonRes.errors){
+												
+												var partErrors = jsonRes.errors[file],
+												
+													part 	   = file.split('.java').join(''),
+													
+													menu 	   = $('.list-group-item.server-transform[file-name="'+file+'"]'),
+													
+													menuType   = menu.attr('part'),
+													
+													editor 	   = $('.server-editor[editor-part="'+menuType+'"]'),
+													
+													errorsW    = $('<div class="gen-editor-errors col-sm-10"><table><tbody/></table></div>');
+												
+												editor.addClass('has-error');
+												
+												menu.addClass('has-error');
+												
+												partErrors.forEach(function(err){
+													
+													editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
+													
+													errorsW.find('tbody').append(
+															
+														'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
+													)
+													
+												});
+												
+												editor.append(errorsW)
+											}
+										}
+										
+										GEN.resizeCodeMirrorArea();
 
 									});
 								},
 								pError:function(request){
 									
+									notifyOptions.type = 'danger';
+									
 									$.notify({
-										icon: 'fa fa-times',
 										message: request.statusText,
-
-									},{
-										type:'warning',
-										delay: 8000,
-									});
+									},notifyOptions);
+									
 								}
 					        });
 						}catch(err){
@@ -2860,6 +2913,20 @@ var GENERATOR = function(genparams){
 
 		/*sort containers*/
 		//GEN.configSortable($(VARS.html.containersPlaceHolder));
+	}
+	
+	GEN.removeEditorsErrors = function(resize){
+		
+		$('.gen-editor-errors').remove();
+		
+		$('.server-editor').removeClass('has-error');
+		
+		$('.server-transform').removeClass('has-error');
+		
+		$('.CodeMirror-linenumber').removeClass('has-error');
+		
+		if(resize)
+			GEN.resizeCodeMirrorArea();
 	}
 
 	GEN.getItemBeforeDrop = function(type,genType){
@@ -3222,7 +3289,25 @@ var GENERATOR = function(genparams){
 	}
 
 	GEN.resizeCodeMirrorArea = function(){
-		$('.gen-viewers .cm-s-default, .gen-editor-toolsbar').height( $(window).height()-86);	
+		
+		var h = $(window).height()-86;
+		
+		$('.gen-viewers .cm-s-default').each(function(i,cm){
+			
+			if( $(cm).parent().hasClass('has-error') ){
+					
+				$(cm).height(h-160);
+				
+			}else{
+				
+				$(cm).height(h);
+				
+			}
+			
+		})
+		
+		//$('.gen-viewers .cm-s-default').height( h );
+		$('.gen-editor-toolsbar').height( h );
 	}
 
 	var codeEditorView = function(o){
@@ -3671,7 +3756,8 @@ var GENERATOR = function(genparams){
 	   		 	"Ctrl-Space": "autocomplete"
 	   		 },
 	   		 autohint: true,
-			 lineWrapping: true
+			 lineWrapping: true,
+			 //lint:true
         });
        
         GEN.javaEditor.refresh();

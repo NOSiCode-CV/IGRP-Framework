@@ -1183,3 +1183,47 @@ new rows / columns style
 	top:-800%;
 	left:-800%;
 }
+
+.gen-editor-errors{
+	position:fixed;
+	bottom:0;
+	height:160px;
+	background:white;
+	z-index:10;
+	padding:10px 30px;
+}
+.gen-editor-errors table{
+	width:100%;
+}
+
+.gen-editor-errors table tr{
+	cursor:pointer;
+}
+
+.gen-editor-errors table td{
+	padding:5px;
+}
+
+.gen-editor-errors table td.gen-editor-err-line{
+	width:30px;
+	color:#fa0000;
+}
+
+.gen-editor-errors table tbody tr:hover{
+	background-color:none!important;
+}
+.CodeMirror-linenumber.has-error{
+	background:#fa0000;
+	color:white;
+}
+/*.CodeMirror-linenumber.has-error:after{
+	content:"";
+	position:absolute;
+	height:4px;
+	width:4px;
+	left:2px;
+	top:50%;
+	margin-top:-2px;
+	background:#fa0000;
+	
+}*/
