@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
 <rows>
-    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -65,29 +65,7 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="">
-                    <label>Aplicação</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </env_fk>
-                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="">
+                <version name="p_version" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Versão de Página</label>
                     <list>
                         <option/>
@@ -111,28 +89,50 @@
                 </version>
                 <action_descr name="p_action_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Aperiam sit stract lorem ipsum</value>
+                    <value>Aliqua unde iste amet magna</value>
                 </action_descr>
                 <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Lorem mollit laudantium sit al</value>
+                    <value>Doloremque consectetur totam l</value>
                 </page>
-                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
-                <hidden name="p_table_name" type="hidden" maxlength="80" tag="table_name"/>
-                <hidden name="p_xsl_src" type="hidden" maxlength="2000" tag="xsl_src"/>
-                <hidden name="p_img_src" type="hidden" maxlength="2000" tag="img_src"/>
-                <hidden name="p_action" type="hidden" maxlength="30" tag="action"/>
-                <hidden name="p_page_type" type="hidden" maxlength="30" tag="page_type"/>
-                <hidden name="p_page_descr" type="hidden" maxlength="30" tag="page_descr"/>
-                <hidden name="p_flg_menu" type="hidden" maxlength="30" tag="flg_menu"/>
-                <hidden name="p_flg_transaction" type="hidden" maxlength="30" tag="flg_transaction"/>
-                <hidden name="p_self_id" type="hidden" maxlength="30" tag="self_id"/>
-                <hidden name="p_self_fw_id" type="hidden" maxlength="30" tag="self_fw_id"/>
-                <hidden name="p_db_connection" type="hidden" maxlength="30" tag="db_connection"/>
-                <hidden name="p_flg_offline" type="hidden" maxlength="30" tag="flg_offline"/>
-                <hidden name="p_flg_internet" type="hidden" maxlength="30" tag="flg_internet"/>
-                <hidden name="p_status" type="hidden" maxlength="30" tag="status"/>
-                <hidden name="p_proc_name" type="hidden" maxlength="30" tag="proc_name"/>
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="">
+                    <label>Aplicação</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </env_fk>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
+                <hidden name="p_table_name" type="hidden" maxlength="80" java-type="" tag="table_name"/>
+                <hidden name="p_xsl_src" type="hidden" maxlength="2000" java-type="" tag="xsl_src"/>
+                <hidden name="p_img_src" type="hidden" maxlength="2000" java-type="" tag="img_src"/>
+                <hidden name="p_action" type="hidden" maxlength="30" java-type="" tag="action"/>
+                <hidden name="p_page_type" type="hidden" maxlength="30" java-type="" tag="page_type"/>
+                <hidden name="p_page_descr" type="hidden" maxlength="30" java-type="" tag="page_descr"/>
+                <hidden name="p_flg_menu" type="hidden" maxlength="30" java-type="" tag="flg_menu"/>
+                <hidden name="p_flg_transaction" type="hidden" maxlength="30" java-type="" tag="flg_transaction"/>
+                <hidden name="p_self_id" type="hidden" maxlength="30" java-type="" tag="self_id"/>
+                <hidden name="p_self_fw_id" type="hidden" maxlength="30" java-type="" tag="self_fw_id"/>
+                <hidden name="p_db_connection" type="hidden" maxlength="30" java-type="" tag="db_connection"/>
+                <hidden name="p_flg_offline" type="hidden" maxlength="30" java-type="" tag="flg_offline"/>
+                <hidden name="p_flg_internet" type="hidden" maxlength="30" java-type="" tag="flg_internet"/>
+                <hidden name="p_status" type="hidden" maxlength="30" java-type="" tag="status"/>
+                <hidden name="p_proc_name" type="hidden" maxlength="30" java-type="" tag="proc_name"/>
             </fields>
         </form_1>
     </content>

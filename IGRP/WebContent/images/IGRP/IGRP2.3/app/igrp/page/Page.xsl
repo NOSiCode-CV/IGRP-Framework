@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-1643f183">
+                                    <div class="row " id="row-de3a5777">
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-d6cd702d">
+                                    <div class="row " id="row-de07dc4c">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -62,28 +62,6 @@
                                                         <div class="box-body">
                                                             <div role="form">
                                                                 <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
-                                                                <xsl:if test="rows/content/form_1/fields/env_fk">
-                                                                    <div class="col-sm-4 form-group  gen-fields-holder" item-name="env_fk" item-type="select" required="required">
-                                                                        <label for="{rows/content/form_1/fields/env_fk/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 " id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}" required="required">
-                                                                            <xsl:call-template name="setAttributes">
-                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/env_fk"/>
-                                                                            </xsl:call-template>
-                                                                            <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
-                                                                    </div>
-                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/version">
                                                                     <div class="col-sm-4 form-group  gen-fields-holder" item-name="version" item-type="select" required="required">
                                                                         <label for="{rows/content/form_1/fields/version/@name}">
@@ -134,6 +112,28 @@
                                                                         </input>
                                                                     </div>
                                                                 </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/env_fk">
+                                                                    <div class="col-sm-4 form-group  gen-fields-holder" item-name="env_fk" item-type="select" required="required">
+                                                                        <label for="{rows/content/form_1/fields/env_fk/@name}">
+                                                                            <xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>
+                                                                        </label>
+                                                                        <select class="form-control select2 " id="form_1_env_fk" name="{rows/content/form_1/fields/env_fk/@name}" required="required">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/env_fk"/>
+                                                                            </xsl:call-template>
+                                                                            <xsl:for-each select="rows/content/form_1/fields/env_fk/list/option">
+                                                                                <option value="{value}" label="{text}">
+                                                                                    <xsl:if test="@selected='true'">
+                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                                    </xsl:if>
+                                                                                    <span>
+                                                                                        <xsl:value-of select="text"/>
+                                                                                    </span>
+                                                                                </option>
+                                                                            </xsl:for-each>
+                                                                        </select>
+                                                                    </div>
+                                                                </xsl:if>
                                                             </div>
                                                         </div>
                                                         <xsl:apply-templates select="rows/content/form_1/tools-bar" mode="form-buttons"/>
@@ -156,9 +156,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1513200681121"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1513200681121"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1513200681121"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1513200681121"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1513200681121"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514463615799"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514463615799"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514463615799"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514463615799"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514463615800"/>
 </xsl:stylesheet>

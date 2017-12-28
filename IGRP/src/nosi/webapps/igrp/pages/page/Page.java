@@ -8,14 +8,14 @@ import nosi.core.webapp.SeparatorList;
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_env_fk")
-	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
 	@RParam(rParamName = "p_action_descr")
 	private String action_descr;
 	@RParam(rParamName = "p_page")
 	private String page;
+	@RParam(rParamName = "p_env_fk")
+	private String env_fk;
 	@RParam(rParamName = "p_id")
 	private String p_id;
 	@RParam(rParamName = "p_table_name")
@@ -56,13 +56,6 @@ public class Page extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setEnv_fk(String env_fk){
-		this.env_fk = env_fk;
-	}
-	public String getEnv_fk(){
-		return this.env_fk;
-	}
-	
 	public void setVersion(String version){
 		this.version = version;
 	}
@@ -82,6 +75,13 @@ public class Page extends Model{
 	}
 	public String getPage(){
 		return this.page;
+	}
+	
+	public void setEnv_fk(String env_fk){
+		this.env_fk = env_fk;
+	}
+	public String getEnv_fk(){
+		return this.env_fk;
 	}
 	
 	public void setP_id(String p_id){

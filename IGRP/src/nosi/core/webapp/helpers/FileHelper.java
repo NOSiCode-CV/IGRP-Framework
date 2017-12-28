@@ -218,6 +218,7 @@ public class FileHelper {
 			    DataInputStream in = new DataInputStream(is);   
 			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
 			    while((line=d.readLine())!=null){
+//			    	code.append(new String(line.getBytes(),"UTF-8"));
 			    	code.append(line);
 			    	code.append(ls);
 			    }
@@ -242,7 +243,8 @@ public class FileHelper {
 		    DataInputStream in = new DataInputStream(is);   
 		    BufferedReader d = new BufferedReader(new InputStreamReader(in));
 		    while((line=d.readLine())!=null){
-		    	code.append(line);
+		    	
+		    	code.append(new String(line.getBytes(),"UTF-8"));		
 		    	code.append(ls);
 		    }
 		    is.close();

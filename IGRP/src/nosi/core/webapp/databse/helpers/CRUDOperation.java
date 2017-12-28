@@ -1,11 +1,11 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
@@ -19,67 +19,43 @@ public class CRUDOperation {
 
 	public boolean insert(String schemaName, Config_env config, String tableName,Model model) {
 		List<DatabaseMetadaHelper.Column> colmns = DatabaseMetadaHelper.getCollumns(config,schemaName,  tableName);
-		String sql = new QueryInsert().getSqlInsert(schemaName, colmns, tableName);
-		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query query = em.createNativeQuery(sql);
-		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
-				 Object value = model.getFieldValueAsObject(model,col.getName());			 
-				 if(value!=null) {
-					 new QueryInsert().setParameter(query,value,col);					
-				 }else {
-					 query.setParameter(col.getName(), null);
-				 }
-			}
-		}
-		int r = query.executeUpdate();
-		t.commit();
-		em.close();
+		QueryHelper query = new QueryInsert(config.getName()).insert(schemaName, tableName);
+		colmns = colmns.stream().filter(col->!col.isAutoIncrement()).peek(col->{
+			Object value = model.getFieldValueAsObject(model,col.getName());			 
+			 if(value!=null) {
+				 col.setDefaultValue(value);					
+			 }	
+		}).collect(Collectors.toList());
+		query.setColumnsValue(colmns);
+		int r = query.execute();
 		return r > 0;
 	}
 
-	public boolean update(Config_env config,String schemaName,  String tableName,Model model, Object id) {
-		List<DatabaseMetadaHelper.Column> colmns = DatabaseMetadaHelper.getCollumns(config,schemaName, tableName);
-		String sql = new QueryUpdate().getSqlUpdate(config,schemaName, colmns, tableName);
-		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Query query = em.createNativeQuery(sql);
-		for(DatabaseMetadaHelper.Column col:colmns) {
-			if(!col.isAutoIncrement()) {
-				if(!col.isAutoIncrement()) {
-					 if(!col.isAutoIncrement()) {
-						 Object value = model.getFieldValueAsObject(model,col.getName());
-						 if(value!=null) {
-							 new QueryUpdate().setParameter(query,value,col);					
-						 }else {
-							 query.setParameter(col.getName(), null);
-						 }
-					}
-				}
-			}
-		}
+	public boolean update(Config_env config,String schemaName,  String tableName,Model model, Object idValue) {		
+		List<DatabaseMetadaHelper.Column> colmns = DatabaseMetadaHelper.getCollumns(config,schemaName,  tableName);
+		colmns = colmns.stream().filter(col->!col.isAutoIncrement()).peek(col->{
+			Object value = model.getFieldValueAsObject(model,col.getName());			 
+			 if(value!=null) {
+				 col.setDefaultValue(value);					
+			 }	
+		}).collect(Collectors.toList());		
 		Column pkey = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
-		query.setParameter(pkey.getName().toLowerCase(), Integer.parseInt(id.toString()));
-		int r = query.executeUpdate();
-		t.commit();
-		em.close();
+		pkey.setDefaultValue(idValue);
+		colmns.add(pkey);
+		QueryHelper query = new QueryUpdate(config.getName()).update(schemaName, tableName).where(pkey.getName().toLowerCase()+"=:"+pkey.getName().toLowerCase());
+		query.setColumnsValue(colmns);
+		int r = query.execute();
 		return r > 0;
 	}
 
 	public boolean delete(String schemaName, Config_env config, String tableName, Object value) {
-		EntityManager em = PersistenceUtils.getSessionFactory(config.getName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		Column col = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
-		tableName = !schemaName.equals("")?schemaName+"."+tableName:tableName;//Adiciona schema
-		Query query = em.createNativeQuery("DELETE FROM "+tableName+" WHERE "+col.getName()+"=?");
-		new QueryDelete().setParameter(query, value, col);
-	    int r = query.executeUpdate();
-	    t.commit();
-	    em.close();
+		Column pkey = DatabaseMetadaHelper.getPrimaryKey(config, schemaName, tableName);
+		pkey.setDefaultValue(value);
+		List<DatabaseMetadaHelper.Column> colmns = new ArrayList<>();
+		colmns.add(pkey);
+		QueryHelper query = new QueryDelete(config.getName()).delete(schemaName, tableName).where(pkey.getName().toLowerCase()+"=:"+pkey.getName().toLowerCase());
+		query.setColumnsValue(colmns);
+		int r = query.execute();
 	    return r > 0;
 	}
 
