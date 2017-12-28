@@ -1,8 +1,10 @@
 package nosi.core.webapp.import_export;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,20 +154,25 @@ public class Import {
 	}
 	
 	protected Application saveApp(FileImportAppOrPage file){
-		StringReader input = new StringReader(file.getConteudo());
-		XMLApplicationReader listApp = JAXB.unmarshal(input, XMLApplicationReader.class);
-		for(Application app:listApp.getRow()){
-			if(new Application().find().andWhere("dad", "=", app.getDad()).one()==null){
-				app.setAction(null);
-				app.setId(null);
-				app = app.insert();
-				return app;
-			}else{
-				return new Application().find().andWhere("dad", "=", app.getDad()).one();
+		InputStream is;
+		try {
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_ISO));
+			XMLApplicationReader listApp = JAXB.unmarshal(is, XMLApplicationReader.class);
+			for(Application app:listApp.getRow()){
+				if(new Application().find().andWhere("dad", "=", app.getDad()).one()==null){
+					app.setAction(null);
+					app.setId(null);
+					app = app.insert();
+					return app;
+				}else{
+					return new Application().find().andWhere("dad", "=", app.getDad()).one();
+				}
 			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 		return null;
-	}
+	}	
 	
 	protected List<Action> savePageJava(FileImportAppOrPage file,Application app){
 		return this.savePage(file, app, "java");
@@ -176,57 +183,63 @@ public class Import {
 	}
 	
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
-		StringReader input = new StringReader(file.getConteudo());
-		XMLPageReader listPage = JAXB.unmarshal(input, XMLPageReader.class);
-		List<Action> pages = new ArrayList<>();
-		for(Action page:listPage.getRow()){
-			//Depois validar nome de classe
-			if(type.equals("plsql")){//Se for de psql, assume Page como Action
-				page.setPage(Page.resolvePageName(page.getPage()+"_"+page.getAction()));
-				page.setPage_descr(page.getAction_descr());
-			}
-			Action action = new Action();
-			action.setId(null);
-			action.setAction("index");
-			action.setPage(page.getPage());
-			action.setVersion(page.getVersion());
-			action.setAction_descr(page.getAction_descr());
-			action.setPage_descr(page.getPage_descr());
-			action.setStatus(page.getStatus());
-			action.setXsl_src(page.getXsl_src());
-			action.setApplication(app);		
-			Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", app.getDad()).one();
-
-			if(type.equals("java")){
-				if(nosi.core.gui.page.Page.validatePage(page.getPage()) && pageCheck==null){
-					action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
-					action = action.insert();
-					pages.add(action);
-				}else if(pageCheck!=null){
-					pages.add(pageCheck);
+		InputStream is;
+		try {
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_ISO));			
+			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
+			List<Action> pages = new ArrayList<>();
+			for(Action page:listPage.getRow()){
+				//Depois validar nome de classe
+				if(type.equals("plsql")){//Se for de psql, assume Page como Action
+					page.setPage(Page.resolvePageName(page.getPage()+"_"+page.getAction()));
+					page.setPage_descr(page.getAction_descr());
 				}
-			}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
-				if(
-					page.getPage()!=null
-					&& !page.getPage().equals("")
-					&& pageCheck ==null 
-					&& nosi.core.gui.page.Page.validatePage(page.getPage())
-					&& page.getImg_src()==null){
+				Action action = new Action();
+				action.setId(null);
+				action.setAction("index");
+				action.setPage(page.getPage());
+				action.setVersion(page.getVersion());
+				action.setAction_descr(page.getAction_descr());
+				action.setPage_descr(page.getPage_descr());
+				action.setStatus(page.getStatus());
+				action.setXsl_src(page.getXsl_src());
+				action.setApplication(app);		
+				Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", app.getDad()).one();
+	
+				if(type.equals("java")){
+					if(nosi.core.gui.page.Page.validatePage(page.getPage()) && pageCheck==null){
 						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
-						action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
-						action.setVersion("2.3");	
 						action = action.insert();
-						action.setSrc_xsl_plsql(page.getXsl_src());
-						action.setId_plsql(page.getId());
-						action.setVersion_src(page.getVersion_src());
 						pages.add(action);
-				}else if(pageCheck!=null){
-					pageCheck.setId_plsql(page.getId());
-					pageCheck.setSrc_xsl_plsql(page.getXsl_src());
-					pages.add(pageCheck);
-				}
-			}	
+					}else if(pageCheck!=null){
+						pages.add(pageCheck);
+					}
+				}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
+					if(
+						page.getPage()!=null
+						&& !page.getPage().equals("")
+						&& pageCheck ==null 
+						&& nosi.core.gui.page.Page.validatePage(page.getPage())
+						&& page.getImg_src()==null){
+							action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
+							action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
+							action.setVersion("2.3");	
+							action = action.insert();
+							action.setSrc_xsl_plsql(page.getXsl_src());
+							action.setId_plsql(page.getId());
+							action.setVersion_src(page.getVersion_src());
+							pages.add(action);
+					}else if(pageCheck!=null){
+						pageCheck.setId_plsql(page.getId());
+						pageCheck.setSrc_xsl_plsql(page.getXsl_src());
+						pages.add(pageCheck);
+					}
+				}	
+			}
+			return pages;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-		return pages;
+		return null;
 	}
 }
