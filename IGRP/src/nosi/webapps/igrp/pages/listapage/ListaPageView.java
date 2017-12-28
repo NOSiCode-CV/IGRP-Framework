@@ -23,7 +23,7 @@ public class ListaPageView extends View {
 	public IGRPButton btn_importar;
 	public IGRPButton btn_app_builder;
 	public IGRPButton btn_nova;
-	public IGRPButton btn_eidtar;
+	public IGRPButton btn_editar;
 	public IGRPButton btn_visualizar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_gerar_codigo;
@@ -42,7 +42,7 @@ public class ListaPageView extends View {
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
 		
-		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
+		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Ativo?"));
 		
@@ -69,8 +69,8 @@ public class ListaPageView extends View {
 		btn_app_builder.propertie.add("type","specific").add("code","").add("rel","app_builder");
 		btn_nova = new IGRPButton("Nova página","igrp","ListaPage","nova","modal|refresh","success|fa-plus-square","","");
 		btn_nova.propertie.add("type","specific").add("code","").add("rel","nova");
-		btn_eidtar = new IGRPButton("Eidtar","igrp","ListaPage","eidtar","modal","warning|fa-pencil","","");
-		btn_eidtar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","eidtar");
+		btn_editar = new IGRPButton("Editar","igrp","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
+		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_visualizar = new IGRPButton("Visualizar","igrp","ListaPage","visualizar","submit_popup","primary|fa-eye","","");
 		btn_visualizar.propertie.add("type","specific").add("code","").add("class","primary").add("rel","visualizar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","ListaPage","eliminar","confirm","danger|fa-trash","","");
@@ -99,7 +99,7 @@ public class ListaPageView extends View {
 		toolsbar_1.addButton(btn_importar);
 		toolsbar_1.addButton(btn_app_builder);
 		toolsbar_1.addButton(btn_nova);
-		table_1.addButton(btn_eidtar);
+		table_1.addButton(btn_editar);
 		table_1.addButton(btn_visualizar);
 		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_gerar_codigo);

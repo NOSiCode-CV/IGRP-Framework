@@ -1,31 +1,35 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.novomenu;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
- 
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
+
 public class NovoMenu extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_code")
-	private String code;
-	@RParam(rParamName = "p_descr")
-	private String descr;
-	@RParam(rParamName = "p_self_id")
-	private int self_id;
 	@RParam(rParamName = "p_env_fk")
 	private int env_fk;
 	@RParam(rParamName = "p_action_fk")
 	private int action_fk;
-	@RParam(rParamName = "p_target")
-	private String target;
+	@RParam(rParamName = "p_detalhes")
+	private String detalhes;
+	@RParam(rParamName = "p_descr")
+	private String descr;
 	@RParam(rParamName = "p_orderby")
 	private int orderby;
+	@RParam(rParamName = "p_self_id")
+	private int self_id;
 	@RParam(rParamName = "p_status")
 	private int status;
-	@RParam(rParamName = "p_flg_base")
-	private int flg_base;
+	@RParam(rParamName = "p_extra")
+	private String extra;
+	@RParam(rParamName = "p_target")
+	private String target;
 	@RParam(rParamName = "p_link")
 	private String link;
+	@RParam(rParamName = "p_flg_base")
+	private int flg_base;
 	@RParam(rParamName = "p_area")
 	private String p_area;
 	@RParam(rParamName = "p_img_src")
@@ -34,31 +38,10 @@ public class NovoMenu extends Model{
 	private int p_id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text; 
+		this.sectionheader_1_text = sectionheader_1_text;
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
-	}
-	
-	public void setCode(String code){
-		this.code = code; 
-	}
-	public String getCode(){
-		return this.code;
-	}
-	
-	public void setDescr(String descr){
-		this.descr = descr;
-	}
-	public String getDescr(){
-		return this.descr;
-	}
-	
-	public void setSelf_id(int self_id){
-		this.self_id = self_id;
-	}
-	public int getSelf_id(){
-		return this.self_id;
 	}
 	
 	public void setEnv_fk(int env_fk){
@@ -70,16 +53,23 @@ public class NovoMenu extends Model{
 	
 	public void setAction_fk(int action_fk){
 		this.action_fk = action_fk;
-	} 
+	}
 	public int getAction_fk(){
 		return this.action_fk;
 	}
 	
-	public void setTarget(String target){
-		this.target = target;
+	public void setDetalhes(String detalhes){
+		this.detalhes = detalhes;
 	}
-	public String getTarget(){
-		return this.target;
+	public String getDetalhes(){
+		return this.detalhes;
+	}
+	
+	public void setDescr(String descr){
+		this.descr = descr;
+	}
+	public String getDescr(){
+		return this.descr;
 	}
 	
 	public void setOrderby(int orderby){
@@ -89,6 +79,13 @@ public class NovoMenu extends Model{
 		return this.orderby;
 	}
 	
+	public void setSelf_id(int self_id){
+		this.self_id = self_id;
+	}
+	public int getSelf_id(){
+		return this.self_id;
+	}
+	
 	public void setStatus(int status){
 		this.status = status;
 	}
@@ -96,11 +93,18 @@ public class NovoMenu extends Model{
 		return this.status;
 	}
 	
-	public void setFlg_base(int flg_base){
-		this.flg_base = flg_base;
+	public void setExtra(String extra){
+		this.extra = extra;
 	}
-	public int getFlg_base(){
-		return this.flg_base;
+	public String getExtra(){
+		return this.extra;
+	}
+	
+	public void setTarget(String target){
+		this.target = target;
+	}
+	public String getTarget(){
+		return this.target;
 	}
 	
 	public void setLink(String link){
@@ -108,6 +112,13 @@ public class NovoMenu extends Model{
 	}
 	public String getLink(){
 		return this.link;
+	}
+	
+	public void setFlg_base(int flg_base){
+		this.flg_base = flg_base;
+	}
+	public int getFlg_base(){
+		return this.flg_base;
 	}
 	
 	public void setP_area(String p_area){
@@ -130,5 +141,6 @@ public class NovoMenu extends Model{
 	public int getP_id(){
 		return this.p_id;
 	}
+
+
 }
-/*-------------------------*/

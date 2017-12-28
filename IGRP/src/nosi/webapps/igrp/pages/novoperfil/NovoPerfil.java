@@ -12,10 +12,10 @@ public class NovoPerfil extends Model{
 	private String aplicacao;
 	@RParam(rParamName = "p_organica")
 	private String organica;
+	@RParam(rParamName = "p_nome")
+	private String nome;
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
-	@RParam(rParamName = "p_descricao")
-	private String descricao;
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
 	@RParam(rParamName = "p_activo")
@@ -42,18 +42,18 @@ public class NovoPerfil extends Model{
 		return this.organica;
 	}
 	
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+	public String getNome(){
+		return this.nome;
+	}
+	
 	public void setCodigo(String codigo){
 		this.codigo = codigo;
 	}
 	public String getCodigo(){
 		return this.codigo;
-	}
-	
-	public void setDescricao(String descricao){
-		this.descricao = descricao;
-	}
-	public String getDescricao(){
-		return this.descricao;
 	}
 	
 	public void setPerfil(String perfil){

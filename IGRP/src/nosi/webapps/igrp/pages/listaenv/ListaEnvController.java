@@ -60,6 +60,8 @@ public class ListaEnvController extends Controller {
 					table.setStatus_check(a.getStatus());
 				}
 				table.setP_id(""+a.getId());
+               table.setT_page_builder("igrp","ListaPage","index&amp;app="+a.getId());
+                table.setT_page_builder_desc("Page builder");
 				lista.add(table);
 			}
 		}
@@ -69,6 +71,7 @@ public class ListaEnvController extends Controller {
 		view.table_1.addData(model.getTable_1());
 		//view.title = gt("Lista Aplicação");
 		view.p_id.setParam(true);
+       view.btn_eliminar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -77,23 +80,6 @@ public class ListaEnvController extends Controller {
 	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
 			return this.redirect("igrp_studio","ImportArquivo","index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionPage_builder() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(PAGE_BUILDER)----*/
-		ListaEnv model = new ListaEnv();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			/*if(/* Your code condition *//*){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","ListaEnv","index");
-			}*/
-		}
-		return this.redirect("igrp","ListaPage","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

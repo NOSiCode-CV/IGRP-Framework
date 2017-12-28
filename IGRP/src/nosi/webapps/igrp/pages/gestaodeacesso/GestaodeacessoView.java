@@ -5,11 +5,8 @@ import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 
-import nosi.core.config.Config;
-
 public class GestaodeacessoView extends View {
 	
-	public String title = gt("Gestão De Acesso");
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
@@ -18,7 +15,6 @@ public class GestaodeacessoView extends View {
 	public Field mostrar_perfis;
 	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
-	
 	public IGRPForm form_1;
 	public IGRPTable org_table;
 
@@ -34,17 +30,16 @@ public class GestaodeacessoView extends View {
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
-		org_table = new IGRPTable("org_table","Organização");
+		org_table = new IGRPTable("org_table","Organizações");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
 		sectionheader_1_text.setValue(gt("Gestão de Acesso"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("java-type","");
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
 		
@@ -56,7 +51,7 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","primary").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","_blank").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","primary").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		
@@ -80,9 +75,9 @@ public class GestaodeacessoView extends View {
 		
 	@Override
 	public void render(){
-		Config.TITLE = this.title;
-		sectionheader_1.addField(sectionheader_1_text);
 		
+		sectionheader_1.addField(sectionheader_1_text);
+
 		form_1.addField(aplicacao);
 
 
@@ -90,7 +85,7 @@ public class GestaodeacessoView extends View {
 		org_table.addField(org_nome);
 		org_table.addField(mostrar_perfis);
 		org_table.addField(p_id);
-		
+
 		toolsbar_1.addButton(btn_gestao_de_utilizadores);
 		toolsbar_1.addButton(btn_adicionar_organica);
 		org_table.addButton(btn_editar);

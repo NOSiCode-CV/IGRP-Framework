@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,10 +30,10 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=8</preserve_url>
     </plsql>
     <content>
-        <title>Teste bnovo</title>
+        <title>Registar Menu</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -47,29 +47,28 @@
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>NovoMenu</page>
+                <page>ListaPage</page>
                 <link>index</link>
-                <target>_self</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl</parameter>
-                <params>default||fa-save|www</params>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
             <item type="specific" code="" rel="voltar">
                 <title>Voltar</title>
-                <app>igrp</app>
-                <page>ListaEnv</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>_back</target>
                 <img>default|fa-arrow-left</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</parameter>
-                <params>default||fa-arrow-left|www</params>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-            	<env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
                     <label>Aplicação</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -87,39 +86,12 @@
                             <value>4</value>
                         </option>
                     </list>
+                    <rules/>
                 </env_fk>
-                <code name="p_code" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Código</label>
-                    <value>Aperiam iste sit natus doloremque</value>
-                </code>
-                <descr name="p_descr" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Título</label>
-                    <value>Iste doloremque officia aliqua consectetur</value>
-                </descr>
-                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Menu Principal</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </self_id>
-                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Página</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -138,9 +110,50 @@
                         </option>
                     </list>
                 </action_fk>
-                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <detalhes name="p_detalhes" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Detalhes</label>
+                </detalhes>
+                <descr name="p_descr" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Título</label>
+                    <value>Unde deserunt totam accusantium lorem</value>
+                </descr>
+                <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
+                    <label>Ordem</label>
+                    <value>1</value>
+                </orderby>
+                <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
+                    <label>Menu pai</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </self_id>
+                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Ativo?</label>
+                    <value>1</value>
+                </status>
+                <extra name="p_extra" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Extra</label>
+                </extra>
+                <target name="p_target" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Target</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -159,25 +172,17 @@
                         </option>
                     </list>
                 </target>
-                <orderby name="p_orderby" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Ordem</label>
-                    <value>Officia aliqua adipiscing magna sit</value>
-                </orderby>
-                <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Activo?</label>
-                    <value>1</value>
-                </status>
-                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Menu Base?</label>
-                    <value>1</value>
-                </flg_base>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Officia voluptatem sed adipiscing voluptatem</value>
+                    <value>Rem magna sed sit stract</value>
                 </link>
-                <hidden name="p_area" type="hidden" maxlength="30" tag="area"/>
-                <hidden name="p_img_src" type="hidden" maxlength="30" tag="img_src"/>
-                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Público?</label>
+                    <value>1</value>
+                </flg_base>
+                <hidden name="p_area" type="hidden" maxlength="30" java-type="" tag="area"/>
+                <hidden name="p_img_src" type="hidden" maxlength="30" java-type="" tag="img_src"/>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
             </fields>
         </form_1>
     </content>

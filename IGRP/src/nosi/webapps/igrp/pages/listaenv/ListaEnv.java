@@ -32,6 +32,8 @@ public class ListaEnv extends Model{
 		private int status_check;
 		private String name;
 		private String dad;
+		private String t_page_builder;
+		private String t_page_builder_desc;
 		private String p_id;
 		public void setStatus(int status){
 			this.status = status;
@@ -58,6 +60,19 @@ public class ListaEnv extends Model{
 		}
 		public String getDad(){
 			return this.dad;
+		}
+
+		public void setT_page_builder(String app,String page,String action){
+			this.t_page_builder = Config.getResolveUrl(app, page, action);
+		}
+		public String getT_page_builder(){
+			return this.t_page_builder;
+		}
+		public void setT_page_builder_desc(String t_page_builder_desc){
+			this.t_page_builder_desc = t_page_builder_desc;
+		}
+		public String getT_page_builder_desc(){
+			return this.t_page_builder_desc;
 		}
 
 		public void setP_id(String p_id){

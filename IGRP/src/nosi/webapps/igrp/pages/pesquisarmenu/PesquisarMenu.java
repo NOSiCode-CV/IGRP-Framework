@@ -55,34 +55,13 @@ public class PesquisarMenu extends Model{
 
 
 	public static class Table_1{
-		private String descricao;
-		private String titulo;
-		private String pagina;
 		private String ativo;
 		private int checkbox;
 		private int checkbox_check;
+		private String t1_menu_principal;
+		private String table_titulo;
+		private String pagina;
 		private String p_id;
-		public void setDescricao(String descricao){
-			this.descricao = descricao;
-		}
-		public String getDescricao(){
-			return this.descricao;
-		}
-
-		public void setTitulo(String titulo){
-			this.titulo = titulo;
-		}
-		public String getTitulo(){
-			return this.titulo;
-		}
-
-		public void setPagina(String pagina){
-			this.pagina = pagina;
-		}
-		public String getPagina(){
-			return this.pagina;
-		}
-
 		public void setAtivo(String ativo){
 			this.ativo = ativo;
 		}
@@ -101,6 +80,27 @@ public class PesquisarMenu extends Model{
 		}
 		public int getCheckbox_check(){
 			return this.checkbox_check;
+		}
+
+		public void setT1_menu_principal(String t1_menu_principal){
+			this.t1_menu_principal = t1_menu_principal;
+		}
+		public String getT1_menu_principal(){
+			return this.t1_menu_principal;
+		}
+
+		public void setTable_titulo(String table_titulo){
+			this.table_titulo = table_titulo;
+		}
+		public String getTable_titulo(){
+			return this.table_titulo;
+		}
+
+		public void setPagina(String pagina){
+			this.pagina = pagina;
+		}
+		public String getPagina(){
+			return this.pagina;
 		}
 
 		public void setP_id(String p_id){

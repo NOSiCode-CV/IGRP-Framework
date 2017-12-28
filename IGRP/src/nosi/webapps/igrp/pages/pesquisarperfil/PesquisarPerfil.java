@@ -28,23 +28,23 @@ public class PesquisarPerfil extends Model{
 
 
 	public static class Table_1{
-		private String codigo;
 		private String descricao;
+		private String codigo;
 		private String organica;
 		private String estado;
 		private String p_id;
-		public void setCodigo(String codigo){
-			this.codigo = codigo;
-		}
-		public String getCodigo(){
-			return this.codigo;
-		}
-
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
 		public String getDescricao(){
 			return this.descricao;
+		}
+
+		public void setCodigo(String codigo){
+			this.codigo = codigo;
+		}
+		public String getCodigo(){
+			return this.codigo;
 		}
 
 		public void setOrganica(String organica){

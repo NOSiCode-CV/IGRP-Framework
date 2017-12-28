@@ -190,16 +190,18 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		for(Object[] o: q.getResultList()){
 			if(o instanceof Object[]){
 				Menu m = new Menu();
-				m.setId(Integer.parseInt(o[0].toString()));
+				m.setId(Integer.parseInt(o[5].toString()));
 				m.setDescr(o[1].toString());
+//				m.setOrderby((int) o[]);
 				Menu selfM = new Menu();
-				selfM.setId(Integer.parseInt(o[5].toString()));
+				selfM.setId(Integer.parseInt(o[0].toString()));
 				selfM.setDescr(o[2].toString());
 				selfM.setOrderby(Integer.parseInt(o[3].toString()));
 				Action ac = new Action();
 				Application ap = new Application();
 				ap = ap.findOne(Integer.parseInt(o[4].toString()));
 				ac = ac.findOne(Integer.parseInt(o[6].toString()));
+				m.setAction(ac);
 				selfM.setAction(ac);
 				selfM.setApplication(ap);
 				selfM.setStatus(Integer.parseInt(o[12].toString()));
@@ -232,7 +234,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 
 	public HashMap<Integer, String> getListPrincipalMenus() {
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Menu Principal --"));
+		lista.put(null, gt("-- Selecionar Menu pai --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
 			lista.put(m.getId(),m.getDescr());
 		}
@@ -241,7 +243,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	
 	public HashMap<Integer, String> getListPrincipalMenus(int app) {
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Menu Principal --"));
+		lista.put(null, gt("-- Selecionar Menu pai --"));
 		List<Menu> aux = this.getEntityManagerFactory().createEntityManager().createQuery("select t from Menu t where t.application.id = :_a and t.menu is null ")
 				.setParameter("_a", app)
 				.getResultList();
@@ -270,10 +272,10 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			Menu sm = new Menu();
 			m.setDescr(obj[0].toString());
 			sm.setDescr(obj[1].toString());
-			sm.setId(Integer.parseInt(obj[2].toString()));
+			sm.setId(Integer.parseInt(obj[5].toString()));
 			m.setStatus(Integer.parseInt(obj[3].toString()));
 			m.setFlg_base(Integer.parseInt(obj[4].toString()));
-			m.setId(Integer.parseInt(obj[5].toString()));
+			m.setId(Integer.parseInt(obj[2].toString()));
 			Action ac = new Action();
 			ac.setPage(obj[6].toString());
 			m.setAction(ac);

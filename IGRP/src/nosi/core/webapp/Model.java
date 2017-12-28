@@ -136,7 +136,7 @@ public abstract class Model { // IGRP super model
 					m.setAccessible(false);
 			 }
 			 
-			 ArrayList auxResults = new ArrayList<>();
+			 ArrayList<Object> auxResults = new ArrayList<>();
 			 
 			 obj.setAccessible(true);
 			 obj.set(this, auxResults);

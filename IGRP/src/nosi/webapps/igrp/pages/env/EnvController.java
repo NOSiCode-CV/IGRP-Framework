@@ -50,7 +50,7 @@ public class EnvController extends Controller {
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
-		
+		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
 	
 
@@ -123,7 +123,6 @@ public class EnvController extends Controller {
 //		model.setLink_center(aplica_db.getLink_center());
 //		model.setLink_menu(aplica_db.getLink_menu());
 		model.setTemplates(aplica_db.getTemplate());
-//		model.setHost(aplica_db.getHost());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
 			model.load();			

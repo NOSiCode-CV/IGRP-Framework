@@ -14,10 +14,14 @@ public class Env extends Model{
 	private String dad;
 	@RParam(rParamName = "p_description")
 	private String description;
+	@RParam(rParamName = "p_personalizacoes")
+	private String personalizacoes;
 	@RParam(rParamName = "p_img_src")
 	private String img_src;
 	@RParam(rParamName = "p_templates")
 	private String templates;
+	@RParam(rParamName = "p_extras")
+	private String extras;
 	@RParam(rParamName = "p_host")
 	private String host;
 	@RParam(rParamName = "p_link_menu")
@@ -65,6 +69,13 @@ public class Env extends Model{
 		return this.description;
 	}
 	
+	public void setPersonalizacoes(String personalizacoes){
+		this.personalizacoes = personalizacoes;
+	}
+	public String getPersonalizacoes(){
+		return this.personalizacoes;
+	}
+	
 	public void setImg_src(String img_src){
 		this.img_src = img_src;
 	}
@@ -77,6 +88,13 @@ public class Env extends Model{
 	}
 	public String getTemplates(){
 		return this.templates;
+	}
+	
+	public void setExtras(String extras){
+		this.extras = extras;
+	}
+	public String getExtras(){
+		return this.extras;
 	}
 	
 	public void setHost(String host){

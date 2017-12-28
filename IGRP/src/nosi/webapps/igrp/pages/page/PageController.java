@@ -42,13 +42,12 @@ public class PageController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/ 
 		Page model = new Page();
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-		}
-		if(id!=null){
+//		String id = Igrp.getInstance().getRequest().getParameter("id");
+		model.load();
+		Boolean isEdit=false;
+		if(model.getP_id()!=null && !model.getP_id().equals("")){
 			Action a = new Action();
-			a = a.findOne(Integer.parseInt(id));
+			a = a.findOne(Integer.parseInt(model.getP_id()));
 			if(a!=null){
 				model.setAction_descr(a.getAction_descr());
 				model.setEnv_fk(""+a.getApplication().getId());
@@ -60,12 +59,15 @@ public class PageController extends Controller {
 				model.setP_xsl_src(a.getXsl_src());
 				model.setP_status(""+a.getStatus());
 			}
+			isEdit=true;
 		}
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		view.version.setValue(Config.getVersions());
 		view.version.setVisible(false);
 		view.btn_voltar.setVisible(false);
+		if(isEdit)
+		view.sectionheader_1_text.setValue("Page builder - Atualizar");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -126,52 +128,52 @@ public class PageController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-		Page model = new Page();
-		
-		Action action = new Action();
-		action = action.findOne(Integer.parseInt(id));
-		
-		model.setEnv_fk(""+action.getApplication().getId());
-		model.setVersion(action.getVersion());
-		model.setPage(action.getPage());
-		model.setAction_descr(action.getPage_descr());
-		
-		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-			model.load();
-			Application app = new Application();
-			action.setApplication(app.findOne(model.getEnv_fk()));
-			if(model.getVersion()==null)
-				action.setVersion("2.3");
-			else
-				action.setVersion(model.getVersion());
-			action.setPage(model.getPage());
-			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
-				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{action.getId() + ""});
-			}
-			action.setPage_descr(model.getAction_descr());
-			action = action.update();
-			if(action!=null)
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-			else
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
-		}
-		
-		PageView view = new PageView(model);
-		
-		view.env_fk.setValue(new Application().getListApps());
-		view.version.setValue(Config.getVersions());
-		view.sectionheader_1_text.setValue("Page builder - Atualizar");
-		view.btn_gravar.setLink("editar&id="+id);
-		view.btn_voltar.setVisible(false);
-		view.version.setVisible(false);
-		view.page.setLabel(gt("Código"));
-		
-		return this.renderView(view);
-	}
-	
+//	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
+//		Page model = new Page();
+//		
+//		Action action = new Action();
+//		action = action.findOne(Integer.parseInt(id));
+//		
+//		model.setEnv_fk(""+action.getApplication().getId());
+//		model.setVersion(action.getVersion());
+//		model.setPage(action.getPage());
+//		model.setAction_descr(action.getPage_descr());
+//		
+//		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
+//			model.load();
+//			Application app = new Application();
+//			action.setApplication(app.findOne(model.getEnv_fk()));
+//			if(model.getVersion()==null)
+//				action.setVersion("2.3");
+//			else
+//				action.setVersion(model.getVersion());
+//			action.setPage(model.getPage());
+//			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
+//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
+//				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{action.getId() + ""});
+//			}
+//			action.setPage_descr(model.getAction_descr());
+//			action = action.update();
+//			if(action!=null)
+//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+//			else
+//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
+//			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
+//		}
+//		
+//		PageView view = new PageView(model);
+//		
+//		view.env_fk.setValue(new Application().getListApps());
+//		view.version.setValue(Config.getVersions());
+//		view.sectionheader_1_text.setValue("Page builder - Atualizar");
+//		view.btn_gravar.setLink("editar&id="+id);
+//		view.btn_voltar.setVisible(false);
+//		view.version.setVisible(false);
+//		view.page.setLabel(gt("Código"));
+//		
+//		return this.renderView(view);
+//	}
+//	
 	//Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");

@@ -12,8 +12,10 @@ public class EnvView extends View {
 	public Field name;
 	public Field dad;
 	public Field description;
+	public Field personalizacoes;
 	public Field img_src;
 	public Field templates;
+	public Field extras;
 	public Field host;
 	public Field link_menu;
 	public Field link_center;
@@ -54,6 +56,10 @@ public class EnvView extends View {
 		description.setLabel(gt("Descrição"));
 		
 		description.propertie().add("name","p_description").add("type","textarea").add("maxlength","500").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		personalizacoes = new SeparatorField(model,"personalizacoes");
+		personalizacoes.setLabel(gt("Personalizações"));
+		
+		personalizacoes.propertie().add("name","p_personalizacoes").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		img_src = new TextField(model,"img_src");
 		img_src.setLabel(gt("Logotipo"));
 		
@@ -62,6 +68,10 @@ public class EnvView extends View {
 		templates.setLabel(gt("Template (theme)"));
 		
 		templates.propertie().add("name","p_templates").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		extras = new SeparatorField(model,"extras");
+		extras.setLabel(gt("Extras"));
+		
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		host = new TextField(model,"host");
 		host.setLabel(gt("Host"));
 		
@@ -77,7 +87,7 @@ public class EnvView extends View {
 		action_fk = new ListField(model,"action_fk");
 		action_fk.setLabel(gt("Primeira Página"));
 		
-		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","true").add("domain","");
+		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","true").add("domain","").add("java-type","");
 		apache_dad = new TextField(model,"apache_dad");
 		apache_dad.setLabel(gt("DAD"));
 		
@@ -114,8 +124,10 @@ public class EnvView extends View {
 		form_1.addField(name);
 		form_1.addField(dad);
 		form_1.addField(description);
+		form_1.addField(personalizacoes);
 		form_1.addField(img_src);
 		form_1.addField(templates);
+		form_1.addField(extras);
 		form_1.addField(host);
 		form_1.addField(link_menu);
 		form_1.addField(link_center);

@@ -11,8 +11,8 @@ public class NovoPerfilView extends View {
 	public Field sectionheader_1_text;
 	public Field aplicacao;
 	public Field organica;
+	public Field nome;
 	public Field codigo;
-	public Field descricao;
 	public Field perfil;
 	public Field activo;
 	public Field activo_check;
@@ -34,30 +34,30 @@ public class NovoPerfilView extends View {
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		organica = new ListField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
 		
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","");
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		nome = new TextField(model,"nome");
+		nome.setLabel(gt("Nome"));
+		
+		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		codigo = new TextField(model,"codigo");
 		codigo.setLabel(gt("Código"));
 		
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
-		
-		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		perfil = new ListField(model,"perfil");
-		perfil.setLabel(gt("Perfil"));
+		perfil.setLabel(gt("Perfil pai"));
 		
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		activo = new CheckBoxField(model,"activo");
-		activo.setLabel(gt("Activo?"));
+		activo.setLabel(gt("Ativo?"));
 		
 		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","info|fa-save","","");
+		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		
 	}
@@ -70,8 +70,8 @@ public class NovoPerfilView extends View {
 
 		form_1.addField(aplicacao);
 		form_1.addField(organica);
+		form_1.addField(nome);
 		form_1.addField(codigo);
-		form_1.addField(descricao);
 		form_1.addField(perfil);
 		form_1.addField(activo);
 

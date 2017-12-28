@@ -9,8 +9,8 @@ public class PesquisarPerfilView extends View {
 	
 	
 	public Field sectionheader_1_text;
-	public Field codigo;
 	public Field descricao;
+	public Field codigo;
 	public Field organica;
 	public Field estado;
 	public Field p_id;
@@ -34,14 +34,14 @@ public class PesquisarPerfilView extends View {
 		
 		sectionheader_1_text.setValue(gt("Gestão de Perfil"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("Código"));
-		
-		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Descrição"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		codigo = new TextField(model,"codigo");
+		codigo.setLabel(gt("Código"));
+		
+		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		organica = new TextField(model,"organica");
 		organica.setLabel(gt("Orgânica"));
 		
@@ -62,7 +62,7 @@ public class PesquisarPerfilView extends View {
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarPerfil","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","_self","primary|fa-list","","");
+		btn_menu = new IGRPButton("Menu","igrp","PesquisarPerfil","menu","_self","primary|fa-align-justify","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","primary").add("rel","menu");
 		btn_transacao = new IGRPButton("Transacao","igrp","PesquisarPerfil","transacao","_self","black|fa-exchange","","");
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","black").add("rel","transacao");
@@ -77,8 +77,8 @@ public class PesquisarPerfilView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
-		table_1.addField(codigo);
 		table_1.addField(descricao);
+		table_1.addField(codigo);
 		table_1.addField(organica);
 		table_1.addField(estado);
 		table_1.addField(p_id);

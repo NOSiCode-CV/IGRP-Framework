@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl" type="text/xsl"?>
 <rows>
-    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -45,7 +45,7 @@
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -121,8 +121,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Mollit ipsum sit adipiscing la</descricao_page>
-                        <nome_page name="p_nome_page">Rem sed iste stract officia</nome_page>
+                        <descricao_page name="p_descricao_page">Lorem labore amet doloremque t</descricao_page>
+                        <nome_page name="p_nome_page">Elit consectetur magna iste of</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -132,8 +132,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Officia stract iste unde persp</descricao_page>
-                        <nome_page name="p_nome_page">Elit aliqua iste rem deserunt</nome_page>
+                        <descricao_page name="p_descricao_page">Totam lorem sit ipsum adipisci</descricao_page>
+                        <nome_page name="p_nome_page">Anim sed magna ut aliqua</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -143,8 +143,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ut perspiciatis rem aperiam si</descricao_page>
-                        <nome_page name="p_nome_page">Labore anim aperiam deserunt a</nome_page>
+                        <descricao_page name="p_descricao_page">Omnis lorem ipsum magna ut</descricao_page>
+                        <nome_page name="p_nome_page">Iste ut totam unde sit</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -154,8 +154,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sed ipsum deserunt unde laudan</descricao_page>
-                        <nome_page name="p_nome_page">Labore dolor adipiscing stract</nome_page>
+                        <descricao_page name="p_descricao_page">Adipiscing officia laudantium</descricao_page>
+                        <nome_page name="p_nome_page">Voluptatem deserunt doloremque</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -165,19 +165,19 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Lorem perspiciatis stract tota</descricao_page>
-                        <nome_page name="p_nome_page">Totam amet sit ut aliqua</nome_page>
+                        <descricao_page name="p_descricao_page">Ut adipiscing ut sit amet</descricao_page>
+                        <nome_page name="p_nome_page">Consectetur dolor amet consect</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="warning" rel="eidtar">
-                        <title>Eidtar</title>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
-                        <target>modal</target>
+                        <target>modal|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="primary" rel="visualizar">

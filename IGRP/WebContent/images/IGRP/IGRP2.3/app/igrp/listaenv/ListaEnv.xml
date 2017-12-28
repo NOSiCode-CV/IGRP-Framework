@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl" type="text/xsl"?>
 <rows>
-    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -34,6 +34,15 @@
     </plsql>
     <content>
         <title>Lista de Aplicacao</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[App builder]]>
+                    </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="importar">
                 <title>Importar</title>
@@ -43,15 +52,6 @@
                 <target>modal|refresh</target>
                 <img>default|fa-upload</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</parameter>
-            </item>
-            <item type="specific" code="" rel="page_builder">
-                <title>Page builder</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
-                <target>_self|refresh</target>
-                <img>warning|fa-file-code-o</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
             <item type="specific" code="" rel="novo">
                 <title>Nova aplicação</title>
@@ -74,6 +74,9 @@
                 <dad name="p_dad" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </dad>
+                <t_page_builder name="p_t_page_builder" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-file-code-o" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Page builder</label>
+                </t_page_builder>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
@@ -85,8 +88,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Accusantium officia consectetu</name>
-                        <dad name="p_dad">Amet labore accusantium unde u</dad>
+                        <name name="p_name">Lorem rem iste accusantium ani</name>
+                        <dad name="p_dad">Voluptatem mollit aliqua deser</dad>
+                        <t_page_builder name="p_t_page_builder" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
+                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -96,8 +101,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Elit adipiscing laudantium ist</name>
-                        <dad name="p_dad">Natus ut doloremque consectetu</dad>
+                        <name name="p_name">Doloremque aperiam ut aliqua t</name>
+                        <dad name="p_dad">Mollit rem magna consectetur t</dad>
+                        <t_page_builder name="p_t_page_builder" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
+                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -107,8 +114,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Officia sit amet magna omnis</name>
-                        <dad name="p_dad">Unde stract dolor stract lauda</dad>
+                        <name name="p_name">Adipiscing magna rem dolor acc</name>
+                        <dad name="p_dad">Rem natus magna adipiscing ali</dad>
+                        <t_page_builder name="p_t_page_builder" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
+                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -118,8 +127,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Labore officia deserunt iste l</name>
-                        <dad name="p_dad">Doloremque rem magna sit dolor</dad>
+                        <name name="p_name">Dolor officia lorem totam moll</name>
+                        <dad name="p_dad">Deserunt mollit consectetur al</dad>
+                        <t_page_builder name="p_t_page_builder" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
+                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -129,8 +140,10 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Aliqua omnis ipsum amet stract</name>
-                        <dad name="p_dad">Officia lorem stract voluptate</dad>
+                        <name name="p_name">Sed totam aliqua aliqua iste</name>
+                        <dad name="p_dad">Magna adipiscing ipsum ut dolo</dad>
+                        <t_page_builder name="p_t_page_builder" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
+                        <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -142,7 +155,7 @@
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
                         <target>mpsubmit</target>
-                        <img>warning|fa-edit</img>
+                        <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
@@ -162,26 +175,17 @@
                         <target>mpsubmit</target>
                         <img>grey|fa-database</img>
                     </item>
-                    <item type="specific" code="" class="grey" rel="exportar">
+                    <item type="specific" code="" class="default" rel="exportar">
                         <title>Export</title>
                         <app>igrp</app>
                         <page>ListaEnv</page>
                         <link>index</link>
                         <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl?</parameter>
                         <target>confirm</target>
-                        <img>grey|fa-download</img>
+                        <img>default|fa-download</img>
                     </item>
                 </context-menu>
             </table>
         </table_1>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[App builder]]>
-                    </value>
-                </sectionheader_1_text>
-            </fields>
-        </sectionheader_1>
     </content>
 </rows>
