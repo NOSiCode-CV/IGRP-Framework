@@ -144,9 +144,9 @@ public class Import {
 			//Guarda ficheiros no workspace caso existe
 			if(FileHelper.fileExists(Config.getWorkspace())){
 				String path_xsl_work_space = Config.getBasePahtXsl(page);		
-				result = FileHelper.save(path_xsl_work_space,partPage[4], content,FileHelper.ENCODE_ISO);
+				result = FileHelper.save(path_xsl_work_space,partPage[4], content);
 			}
-			result = FileHelper.save(path, partPage[4], content,FileHelper.ENCODE_ISO);
+			result = FileHelper.save(path, partPage[4], content);
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
