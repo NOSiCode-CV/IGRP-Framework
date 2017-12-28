@@ -34,7 +34,7 @@ public class CRUD extends BaseActiveRecord<CRUD> implements Serializable{
 	@Column(nullable=false)
 	private String schemaName;
 	@ManyToOne
-	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_CONFIG_ENV_FK1"),nullable=true)
+	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_CONFIG_ENV_FK"),nullable=true)
 	private Config_env config_env;
 	
 	public CRUD() {

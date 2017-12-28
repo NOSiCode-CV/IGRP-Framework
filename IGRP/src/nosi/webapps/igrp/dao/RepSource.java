@@ -85,7 +85,7 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 	@Transient
 	private XMLWritter xmlRows = new XMLWritter();
 	@ManyToOne
-	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_CONFIG_ENV_FK"),nullable=false)
+	@JoinColumn(name="config_env_fk",foreignKey=@ForeignKey(name="CRUD_REP_SOURCE_ENV_FK"),nullable=false)
 	private Config_env config_env;
 	
 	
