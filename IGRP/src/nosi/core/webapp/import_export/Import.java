@@ -156,7 +156,9 @@ public class Import {
 	protected Application saveApp(FileImportAppOrPage file){
 		InputStream is;
 		try {
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_ISO));
+			System.out.println("---");
+			System.out.println(file.getConteudo());
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_UTF8));
 			XMLApplicationReader listApp = JAXB.unmarshal(is, XMLApplicationReader.class);
 			for(Application app:listApp.getRow()){
 				if(new Application().find().andWhere("dad", "=", app.getDad()).one()==null){
@@ -185,7 +187,7 @@ public class Import {
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
 		InputStream is;
 		try {
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_ISO));			
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(FileHelper.ENCODE_UTF8));			
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
 			List<Action> pages = new ArrayList<>();
 			for(Action page:listPage.getRow()){
