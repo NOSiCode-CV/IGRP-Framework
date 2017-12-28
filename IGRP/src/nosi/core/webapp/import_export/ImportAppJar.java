@@ -27,6 +27,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 	
 	public ImportAppJar(Part fileName){
 		this.app = new Application();
+		//this.encode = FileHelper.ENCODE_UTF8;
 		if(fileName!=null){
 			this.un_jar_files = JarUnJarFile.getJarFiles(fileName);
 		}

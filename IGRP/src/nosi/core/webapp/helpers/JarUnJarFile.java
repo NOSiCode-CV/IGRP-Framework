@@ -34,7 +34,8 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
 
 
 public class JarUnJarFile {
-	
+
+	public static String encode = FileHelper.ENCODE_UTF8;
 	//save data to jar format
 	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
 		boolean result = false;
@@ -74,7 +75,7 @@ public class JarUnJarFile {
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);
@@ -102,7 +103,7 @@ public class JarUnJarFile {
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(jis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
 				   while((line=d.readLine())!=null){
 				   	content.append(line);
 				   	content.append(ls);

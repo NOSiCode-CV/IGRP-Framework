@@ -23,6 +23,8 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
  */
 public class ZipUnzipFile {
 
+	public static String encode = FileHelper.ENCODE_ISO;
+	
 	public static Map<String,String> readZipFile(Part file){
 		Map<String,String> files = new HashMap<>();
 		try{
@@ -34,12 +36,10 @@ public class ZipUnzipFile {
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in, FileHelper.ENCODE_UTF8));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
 				   while((line=d.readLine())!=null){
-					   content.append(new String(line.getBytes(FileHelper.ENCODE_UTF8)));		
-					   content.append(ls);
-//				   	content.append(line);
-//				   	content.append(ls);
+					   	content.append(line);
+					   	content.append(ls);
 				   } 
 				   files.put(entry.getName(), content.toString());
 				zis.closeEntry();
@@ -64,12 +64,10 @@ public class ZipUnzipFile {
 				   String         line = null;
 				   DataInputStream in = new DataInputStream(zis); 
 				   StringBuilder content = new StringBuilder();  
-				   BufferedReader d = new BufferedReader(new InputStreamReader(in,FileHelper.ENCODE_UTF8));
+				   BufferedReader d = new BufferedReader(new InputStreamReader(in,encode));
 				   while((line=d.readLine())!=null){
-					   content.append(new String(line.getBytes(FileHelper.ENCODE_UTF8)));		
-					   content.append(ls);
-//				   	content.append(line);
-//				   	content.append(ls);
+				   	content.append(line);
+				   	content.append(ls);
 				   } 
 				   
 				   int order = 3;
