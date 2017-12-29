@@ -41,6 +41,11 @@ public class ErrorCompile  implements Serializable{
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
+
+
+	@Override
+	public String toString() {
+		return "ErrorCompile [error=" + error + ", line=" + line + ", fileName=" + fileName + "]";
+	}	
 	
 }
