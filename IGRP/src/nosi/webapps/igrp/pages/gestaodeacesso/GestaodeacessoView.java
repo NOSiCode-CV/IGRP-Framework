@@ -51,11 +51,11 @@ public class GestaodeacessoView extends View {
 		mostrar_perfis = new LinkField(model,"mostrar_perfis");
 		mostrar_perfis.setLabel(gt("Mostrar perfis"));
 		
-		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","_blank").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaPage").add("app","igrp").add("class","primary").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
+		mostrar_perfis.propertie().add("name","p_mostrar_perfis").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","PesquisarMenu").add("app","igrp").add("class","primary").add("btnSize","btn-xs").add("iconColor","#333").add("iconClass","").add("img","fa-address-card").add("maxlength","30").add("align","right").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","true").add("tag","id");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gestao_de_utilizadores = new IGRPButton("Gestão de Utilizadores","igrp","Gestaodeacesso","gestao_de_utilizadores","_self","success|fa-users","","");

@@ -56,7 +56,22 @@
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
+                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Aperiam rem sed adipiscing lau</value>
+                </nome>
+                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código</label>
+                    <value>Aperiam lorem natus labore rem</value>
+                </codigo>
+                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Ativo?</label>
+                    <value>1</value>
+                </activo>
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                    <label></label>
+                </nada>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -78,8 +93,8 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
-                    <label>Orgânica</label>
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                    <label>Organização</label>
                     <list>
                         <option/>
                         <option>
@@ -100,14 +115,6 @@
                         </option>
                     </list>
                 </organica>
-                <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome</label>
-                    <value>Stract voluptatem dolor labore</value>
-                </nome>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Código</label>
-                    <value>Lorem ipsum ut deserunt aliqua</value>
-                </codigo>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Perfil pai</label>
                     <list>
@@ -130,11 +137,18 @@
                         </option>
                     </list>
                 </perfil>
-                <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Ativo?</label>
-                    <value>1</value>
-                </activo>
             </fields>
         </form_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>igrp</app>
+                <page>NovoPerfil</page>
+                <link>index</link>
+                <target>_back</target>
+                <img>warning|fa-arrow-left</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
+            </item>
+        </toolsbar_2>
     </content>
 </rows>

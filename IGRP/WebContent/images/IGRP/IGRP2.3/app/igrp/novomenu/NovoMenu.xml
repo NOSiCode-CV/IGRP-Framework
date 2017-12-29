@@ -86,7 +86,6 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules/>
                 </env_fk>
                 <action_fk name="p_action_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Página</label>
@@ -115,11 +114,11 @@
                 </detalhes>
                 <descr name="p_descr" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Unde deserunt totam accusantium lorem</value>
+                    <value>Totam accusantium omnis voluptatem iste</value>
                 </descr>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Ordem</label>
-                    <value>1</value>
+                    <value>20</value>
                 </orderby>
                 <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Menu pai</label>
@@ -174,7 +173,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Rem magna sed sit stract</value>
+                    <value>Voluptatem ut unde accusantium</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Público?</label>

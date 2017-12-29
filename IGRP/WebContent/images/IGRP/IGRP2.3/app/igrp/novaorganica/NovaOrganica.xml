@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl" type="text/xsl"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -49,14 +50,29 @@
                 <page>NovaOrganica</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>info|fa-save</img>
+                <img>primary|fa-save</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="">
-                    <label>Aplicacao</label>
+                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome</label>
+                    <value>Adipiscing aperiam perspiciatis anim stract</value>
+                </nome>
+                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Código</label>
+                    <value>Totam lorem sit natus consecte</value>
+                </codigo>
+                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Ativo</label>
+                    <value>1</value>
+                </ativo>
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                    <label></label>
+                </nada>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="">
+                    <label>Aplicação</label>
                     <list>
                         <option/>
                         <option>
@@ -77,20 +93,8 @@
                         </option>
                     </list>
                 </aplicacao>
-                <nome name="p_nome" type="text" maxlength="60" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome</label>
-                    <value>Deserunt dolor sed sit anim</value>
-                </nome>
-                <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Codigo</label>
-                    <value>Dolor consectetur aperiam adip</value>
-                </codigo>
-                <ativo name="p_ativo" type="checkbox" maxlength="50" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Ativo</label>
-                    <value>1</value>
-                </ativo>
-                <organica_pai name="p_organica_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
-                    <label>Organica Pai</label>
+                <organizacao_pai name="p_organizacao_pai" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                    <label>Organização pai</label>
                     <list>
                         <option/>
                         <option>
@@ -110,7 +114,7 @@
                             <value>4</value>
                         </option>
                     </list>
-                </organica_pai>
+                </organizacao_pai>
             </fields>
         </form_1>
     </content>

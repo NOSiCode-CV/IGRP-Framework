@@ -47,6 +47,8 @@ public class PesquisarPerfilController extends Controller {
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);
+        view.btn_eliminar.setVisible(false);
+        view.btn_novo.setLink("igrp","NovoPerfil","index&id_app="+idApp+"&id_org="+idOrg);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -54,6 +56,7 @@ public class PesquisarPerfilController extends Controller {
 
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVO)----*/
+//NOT IN USE. SET link in index
 		return this.redirect("igrp","NovoPerfil","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -89,8 +92,11 @@ public class PesquisarPerfilController extends Controller {
 	public Response actionMenu() throws IOException{
 		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		System.out.println("Id:"+id);
+		 if(id!=null){
+			 System.out.println("Id:"+id);
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
+		 }
+		 return this.redirectError();		
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

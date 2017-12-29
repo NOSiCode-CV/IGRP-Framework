@@ -12,7 +12,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import static nosi.core.i18n.Translator.gt;
-
 /*----#END-PRESERVED-AREA----*/
 
 public class NovaOrganicaController extends Controller {		
@@ -21,17 +20,18 @@ public class NovaOrganicaController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovaOrganica model = new NovaOrganica();
-		model.setAtivo(1);
+		
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 		}
-		/*if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
-			model.setAplicacao(Integer.parseInt(Igrp.getInstance().getRequest().getParameter("id_app")));
-		}*/
+		if(Igrp.getInstance().getRequest().getParameter("id_app")!=null){
+			model.setAplicacao(Igrp.getInstance().getRequest().getParameter("id_app"));
+		}
+		model.setAtivo(1);
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 //		Organization organization = new Organization();
 		view.aplicacao.setValue(new Application().getListApps());		
-		view.organica_pai.setVisible(false);
+		view.organizacao_pai.setVisible(false);
 //		view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations(model.getAplicacao()) : null);		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -74,6 +74,7 @@ public class NovaOrganicaController extends Controller {
 		model.setCodigo(organization.getCode());
 		model.setNome(organization.getName());
 		model.setAplicacao(""+organization.getApplication().getId());
+		
 		/*if(organization.getOrganization()!=null){
 			model.setOrganica_pai(organization.getOrganization().getId());
 		}*/
@@ -82,7 +83,8 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		view.aplicacao.setValue(new Application().getListApps());		
 		//view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations() : null);		
-		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));		
+		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));	
+		view.organizacao_pai.setVisible(false);
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);	
 		return this.renderView(view);
 	}

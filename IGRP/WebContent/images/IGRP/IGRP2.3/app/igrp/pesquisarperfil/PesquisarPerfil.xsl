@@ -27,11 +27,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-dfa39062">
+                                    <div class="row " id="row-69debb9f">
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
-                                                    <section class="content-header gen-container-item " data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-105" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/sectionheader/sectionheader.html" gen-class="" item-name="sectionheader_1">
+                                                    <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
                                                         <h2>
                                                             <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
                                                         </h2>
@@ -42,7 +42,7 @@
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
-                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-121" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/toolsbar/toolsbar.html" gen-class="" item-name="toolsbar_1">
+                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
                                                         <div class="btns-holder  pull-right" role="group">
                                                             <xsl:apply-templates select="rows/content/toolsbar_1" mode="gen-buttons">
                                                                 <xsl:with-param name="vertical" select="'true'"/>
@@ -54,11 +54,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-3092133a">
+                                    <div class="row " id="row-943a07c7">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
-                                                    <div class="box box-table-contents gen-container-item " data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-116" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/table.html" gen-class="" item-name="table_1">
+                                                    <div class="box box-table-contents gen-container-item " gen-class="" item-name="table_1">
                                                         <div class="box-body ">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/table_1/fields"/>
                                                             <div class="table-contents-head">
@@ -69,31 +69,31 @@
                                                                     <table id="table_1" class="table table-striped  IGRP_contextmenu " exports="null">
                                                                         <thead>
                                                                             <tr>
+                                                                                <xsl:if test="rows/content/table_1/fields/estado">
+                                                                                    <th align="left" class=" gen-fields-holder">
+                                                                                        <span>
+                                                                                            <xsl:value-of select="rows/content/table_1/fields/estado/label"/>
+                                                                                        </span>
+                                                                                    </th>
+                                                                                </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/descricao">
-                                                                                    <th align="left" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-118" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/th.html" class=" gen-fields-holder">
+                                                                                    <th align="left" class=" gen-fields-holder">
                                                                                         <span>
                                                                                             <xsl:value-of select="rows/content/table_1/fields/descricao/label"/>
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/codigo">
-                                                                                    <th align="left" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-118" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/th.html" class=" gen-fields-holder">
+                                                                                    <th align="left" class=" gen-fields-holder">
                                                                                         <span>
                                                                                             <xsl:value-of select="rows/content/table_1/fields/codigo/label"/>
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/organica">
-                                                                                    <th align="left" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-118" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/th.html" class=" gen-fields-holder">
+                                                                                    <th align="left" class=" gen-fields-holder">
                                                                                         <span>
                                                                                             <xsl:value-of select="rows/content/table_1/fields/organica/label"/>
-                                                                                        </span>
-                                                                                    </th>
-                                                                                </xsl:if>
-                                                                                <xsl:if test="rows/content/table_1/fields/estado">
-                                                                                    <th align="left" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-118" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/th.html" class=" gen-fields-holder">
-                                                                                        <span>
-                                                                                            <xsl:value-of select="rows/content/table_1/fields/estado/label"/>
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
@@ -106,31 +106,31 @@
                                                                                     <xsl:apply-templates mode="context-param" select="context-menu"/>
                                                                                     <input type="hidden" name="p_id_fk" value="{id}"/>
                                                                                     <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
+                                                                                    <xsl:if test="estado">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/estado/label}" class="text" item-name="estado">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="estado"/>
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </xsl:if>
                                                                                     <xsl:if test="descricao">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/descricao/label}" class="text" item-name="descricao" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-115" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/field.html">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/descricao/label}" class="text" item-name="descricao">
                                                                                             <span class="">
                                                                                                 <xsl:value-of select="descricao"/>
                                                                                             </span>
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <xsl:if test="codigo">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/codigo/label}" class="text" item-name="codigo" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-115" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/field.html">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/codigo/label}" class="text" item-name="codigo">
                                                                                             <span class="">
                                                                                                 <xsl:value-of select="codigo"/>
                                                                                             </span>
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <xsl:if test="organica">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/organica/label}" class="text" item-name="organica" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-115" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/field.html">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/organica/label}" class="text" item-name="organica">
                                                                                             <span class="">
                                                                                                 <xsl:value-of select="organica"/>
-                                                                                            </span>
-                                                                                        </td>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="estado">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/estado/label}" class="text" item-name="estado" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-115" data-genuitec-path="/IGRP/WebContent/images/IGRP/IGRP2.3/core/formgen/types/containers/table/field.html">
-                                                                                            <span class="">
-                                                                                                <xsl:value-of select="estado"/>
                                                                                             </span>
                                                                                         </td>
                                                                                     </xsl:if>
@@ -166,9 +166,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514251466436"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514251466436"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514251466436"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514251466436"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1514251466436"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514548723655"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514548723655"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514548723655"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514548723655"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1514548723655"/>
 </xsl:stylesheet>

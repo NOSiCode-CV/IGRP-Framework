@@ -28,7 +28,7 @@ public class GestaodeacessoController extends Controller {
                 Gestaodeacesso.Org_table table = new Gestaodeacesso.Org_table();
                table.setP_id(""+org.getId());
                 table.setOrg_nome(org.getName());
-                table.setEstado(org.getStatus()==1?"Activo":"INATIVO");
+                table.setEstado(org.getStatus()==1?"Ativo":"INATIVO");
                // table.setAdicionar_perfil("igrp","NovoPerfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
                 //table.setAdicionar_perfil_desc("Adicionar Perfil");
                 table.setMostrar_perfis("igrp","pesquisar-perfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
@@ -38,7 +38,7 @@ public class GestaodeacessoController extends Controller {
             }
 		}
 		GestaodeacessoView view = new GestaodeacessoView(model);
-      	view.p_id.setParam(true);;
+      	view.p_id.setParam(true);
       	view.aplicacao.setValue(new Application().getListApps());
         view.org_table.addData(data);
         view.setPageTitle("Gestão de Acesso");
@@ -46,6 +46,7 @@ public class GestaodeacessoController extends Controller {
           view.btn_adicionar_organica.setPage("NovaOrganica");
           view.btn_adicionar_organica.setLink("index&target=_blank&id_app="+model.getAplicacao());
       	}
+      view.btn_eliminar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

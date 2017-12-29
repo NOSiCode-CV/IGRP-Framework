@@ -1,5 +1,5 @@
-package nosi.webapps.igrp.pages.menuorganica;
 
+package nosi.webapps.igrp.pages.menuorganica;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -18,26 +18,29 @@ import static nosi.core.i18n.Translator.gt;
 
 public class MenuOrganicaController extends Controller {		
 
+
 	public Response actionIndex() throws IOException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		MenuOrganica model = new MenuOrganica();	
 		MenuOrganicaView view = null;
-		if(id!=null && type!=null){
-			model.setId(id);
-			model.setType(type);		
+		if(id!=null && type!=null && !id.equals("null")){
+			model.setP_id(Integer.parseInt(id));
+			model.setP_type(type);		
+			view = new MenuOrganicaView(model);	
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 			List<Menu> menus = new ArrayList<>();
 			if(type.equals("org")){
-				menus = new Organization().getOrgMenu();
+				menus = new Organization().getOrgMenu();	
+				view.btn_voltar.setVisible(false);
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
 				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
 			}
 			for(Menu m:menus){
 				if(m!=null){
-					MenuOrganica.Table_1 table = new MenuOrganica().new Table_1();
+					MenuOrganica.Table_1 table = new MenuOrganica.Table_1();
 					table.setMenu(m.getId());
 					Profile prof = new Profile();
 					prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
@@ -58,13 +61,24 @@ public class MenuOrganicaController extends Controller {
 					data.add(table);
 				}
 			}		
-			view = new MenuOrganicaView(model);	
+			
 			view.table_1.addData(data);
-		}
-		view.descricao.setLabel(gt("Menu"));
+		
+			
+		}else
+			view = new MenuOrganicaView(model);	
+		view.btn_gravar.setLink("gravar&id="+model.getP_id()+"&type="+model.getP_type());		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
+	public Response actionVoltar() throws IOException{
+		/*----#START-PRESERVED-AREA(VOLTAR)----*/
+		return this.redirect("igrp","MenuOrganica","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
@@ -157,15 +171,7 @@ public class MenuOrganicaController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp","MenuOrganica","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/
-	
 }

@@ -9,10 +9,10 @@ public class PesquisarPerfilView extends View {
 	
 	
 	public Field sectionheader_1_text;
+	public Field estado;
 	public Field descricao;
 	public Field codigo;
 	public Field organica;
-	public Field estado;
 	public Field p_id;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPTable table_1;
@@ -34,8 +34,12 @@ public class PesquisarPerfilView extends View {
 		
 		sectionheader_1_text.setValue(gt("Gestão de Perfil"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		estado = new TextField(model,"estado");
+		estado.setLabel(gt("Estado"));
+		
+		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("Nome"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		codigo = new TextField(model,"codigo");
@@ -46,10 +50,6 @@ public class PesquisarPerfilView extends View {
 		organica.setLabel(gt("Orgânica"));
 		
 		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
-		estado = new TextField(model,"estado");
-		estado.setLabel(gt("Estado"));
-		
-		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		
@@ -77,10 +77,10 @@ public class PesquisarPerfilView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
+		table_1.addField(estado);
 		table_1.addField(descricao);
 		table_1.addField(codigo);
 		table_1.addField(organica);
-		table_1.addField(estado);
 		table_1.addField(p_id);
 
 		toolsbar_1.addButton(btn_novo);

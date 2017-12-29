@@ -9,18 +9,21 @@ public class NovoPerfilView extends View {
 	
 	
 	public Field sectionheader_1_text;
-	public Field aplicacao;
-	public Field organica;
 	public Field nome;
 	public Field codigo;
-	public Field perfil;
 	public Field activo;
 	public Field activo_check;
+	public Field nada;
+	public Field aplicacao;
+	public Field organica;
+	public Field perfil;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_voltar;
 	public NovoPerfilView(NovoPerfil model){
 		this.setPageTitle("Registar Perfil");
 			
@@ -31,14 +34,6 @@ public class NovoPerfilView extends View {
 		
 		sectionheader_1_text.setValue(gt("Gestão de Perfil - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicação"));
-		
-		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Orgânica"));
-		
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
 		
@@ -47,18 +42,33 @@ public class NovoPerfilView extends View {
 		codigo.setLabel(gt("Código"));
 		
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		perfil = new ListField(model,"perfil");
-		perfil.setLabel(gt("Perfil pai"));
-		
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
 		
 		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		nada = new SeparatorField(model,"nada");
+		nada.setLabel(gt(" "));
+		
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
+		aplicacao = new ListField(model,"aplicacao");
+		aplicacao.setLabel(gt("Aplicação"));
+		
+		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		organica = new ListField(model,"organica");
+		organica.setLabel(gt("Organização"));
+		
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		perfil = new ListField(model,"perfil");
+		perfil.setLabel(gt("Perfil pai"));
+		
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
+		btn_voltar = new IGRPButton("Voltar","igrp","NovoPerfil","voltar","_back","warning|fa-arrow-left","","");
+		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -68,16 +78,20 @@ public class NovoPerfilView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
-		form_1.addField(aplicacao);
-		form_1.addField(organica);
 		form_1.addField(nome);
 		form_1.addField(codigo);
-		form_1.addField(perfil);
 		form_1.addField(activo);
+		form_1.addField(nada);
+		form_1.addField(aplicacao);
+		form_1.addField(organica);
+		form_1.addField(perfil);
+
 
 		toolsbar_1.addButton(btn_gravar);
+		toolsbar_2.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 }

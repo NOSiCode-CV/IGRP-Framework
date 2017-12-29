@@ -60,10 +60,10 @@ public class ListaPageController extends Controller {
 
 		ListaPageView view = new ListaPageView(model);
 		view.p_id_page.setParam(true);
-		view.env_fk.setLabel(gt("Aplicação"));
+	
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
-		view.nome_page.setLabel(gt("Código"));
+
 		view.btn_importar.setLink("igrp_studio", "ImportArquivo",
 				"index&target=_blank&app=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
 		view.btn_nova.setLink("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());

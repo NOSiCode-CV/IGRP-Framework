@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="http://localhost:8080/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl" type="text/xsl"?>
+<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,10 +30,21 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=18</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Associar Menu a Organica</title>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="voltar">
+                <title>Voltar</title>
+                <app>igrp</app>
+                <page>MenuOrganica</page>
+                <link>index</link>
+                <target>_back</target>
+                <img>warning|fa-arrow-left</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl</parameter>
+            </item>
+        </toolsbar_2>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
@@ -41,28 +52,17 @@
                 <page>MenuOrganica</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl</parameter>
-                <params>default||fa-angle-right|www</params>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>igrp</app>
-                <page>MenuOrganica</page>
-                <link>index</link>
-                <target>_back</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl</parameter>
-                <params>default||fa-angle-right|www</params>
+                <img>primary|fa-save</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
                     <label>Menu</label>
                 </menu>
-                <descricao name="p_descricao" type="text" maxlength="100" align="left" lookup_parser="false">
-                    <label>Descricao</label>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
                 </descricao>
             </fields>
             <table>
@@ -70,26 +70,36 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Accusantium lorem omnis anim dolor</descricao>
-                    </row>
-                    <row>
-                        <menu name="p_menu" check="true" desc="true">1</menu>
-                        <menu_check>1</menu_check>
-                        <menu_desc name="p_menu_desc">hhsdjjdshsd</menu_desc>
-                        <descricao name="p_descricao">Perspiciatis officia lorem stract sed</descricao>
+                        <descricao name="p_descricao">Ut sed perspiciatis consectetu</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Amet voluptatem lorem consectetur rem</descricao>
+                        <descricao name="p_descricao">Magna anim mollit iste dolor</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sed accusantium consectetur sit magna</descricao>
+                        <descricao name="p_descricao">Totam aperiam ipsum adipiscing</descricao>
+                    </row>
+                    <row>
+                        <menu name="p_menu" check="true" desc="true">1</menu>
+                        <menu_desc name="p_menu_desc">1</menu_desc>
+                        <descricao name="p_descricao">Elit aliqua sit doloremque mol</descricao>
+                    </row>
+                    <row>
+                        <menu name="p_menu" check="true" desc="true">1</menu>
+                        <menu_desc name="p_menu_desc">1</menu_desc>
+                        <descricao name="p_descricao">Accusantium omnis ipsum perspi</descricao>
                     </row>
                 </value>
             </table>
         </table_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
+                <hidden name="p_type" type="hidden" maxlength="30" java-type="" tag="type"/>
+            </fields>
+        </form_1>
     </content>
 </rows>

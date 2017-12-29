@@ -8,29 +8,24 @@ import nosi.core.webapp.SeparatorList;
 public class NovaOrganica extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_aplicacao")
-	private String aplicacao;
 	@RParam(rParamName = "p_nome")
 	private String nome;
 	@RParam(rParamName = "p_codigo")
 	private String codigo;
 	@RParam(rParamName = "p_ativo")
 	private int ativo;
-	@RParam(rParamName = "p_organica_pai")
-	private String organica_pai;
+	@RParam(rParamName = "p_nada")
+	private String nada;
+	@RParam(rParamName = "p_aplicacao")
+	private String aplicacao;
+	@RParam(rParamName = "p_organizacao_pai")
+	private String organizacao_pai;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
-	}
-	
-	public void setAplicacao(String aplicacao){
-		this.aplicacao = aplicacao;
-	}
-	public String getAplicacao(){
-		return this.aplicacao;
 	}
 	
 	public void setNome(String nome){
@@ -54,11 +49,25 @@ public class NovaOrganica extends Model{
 		return this.ativo;
 	}
 	
-	public void setOrganica_pai(String organica_pai){
-		this.organica_pai = organica_pai;
+	public void setNada(String nada){
+		this.nada = nada;
 	}
-	public String getOrganica_pai(){
-		return this.organica_pai;
+	public String getNada(){
+		return this.nada;
+	}
+	
+	public void setAplicacao(String aplicacao){
+		this.aplicacao = aplicacao;
+	}
+	public String getAplicacao(){
+		return this.aplicacao;
+	}
+	
+	public void setOrganizacao_pai(String organizacao_pai){
+		this.organizacao_pai = organizacao_pai;
+	}
+	public String getOrganizacao_pai(){
+		return this.organizacao_pai;
 	}
 
 

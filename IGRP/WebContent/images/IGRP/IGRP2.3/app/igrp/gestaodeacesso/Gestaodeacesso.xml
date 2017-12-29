@@ -98,10 +98,10 @@
                 <org_nome name="p_org_nome" type="text" maxlength="30" align="center" lookup_parser="false" iskey="false">
                     <label>Nome</label>
                 </org_nome>
-                <mostrar_perfis name="p_mostrar_perfis" type="link" target="_blank" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
+                <mostrar_perfis name="p_mostrar_perfis" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="PesquisarMenu" app="igrp" class="primary" btnSize="btn-xs" iconColor="#333" iconClass="" img="fa-address-card" maxlength="30" align="right" lookup_parser="false" iskey="false" desc="true">
                     <label>Mostrar perfis</label>
                 </mostrar_perfis>
-                <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
             </fields>
             <table>
                 <value>
@@ -110,9 +110,9 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <org_nome name="p_org_nome">Laudantium deserunt aperiam ma</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <estado name="p_estado">3</estado>
+                        <org_nome name="p_org_nome">Dolor natus deserunt mollit el</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -121,9 +121,9 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">5</estado>
-                        <org_nome name="p_org_nome">Perspiciatis elit totam offici</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <estado name="p_estado">7</estado>
+                        <org_nome name="p_org_nome">Labore laudantium adipiscing v</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -132,9 +132,20 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">1</estado>
-                        <org_nome name="p_org_nome">Ut consectetur adipiscing volu</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <estado name="p_estado">7</estado>
+                        <org_nome name="p_org_nome">Omnis lorem consectetur aperia</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
+                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <estado name="p_estado">3</estado>
+                        <org_nome name="p_org_nome">Deserunt lorem mollit elit nat</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -144,19 +155,8 @@
                             <param>p2=linha1</param>
                         </context-menu>
                         <estado name="p_estado">6</estado>
-                        <org_nome name="p_org_nome">Officia consectetur iste strac</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
-                        <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
-                        <id name="p_id" tag="id">1</id>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <estado name="p_estado">2</estado>
-                        <org_nome name="p_org_nome">Ut ipsum dolor sit accusantium</org_nome>
-                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</mostrar_perfis>
+                        <org_nome name="p_org_nome">Adipiscing officia adipiscing</org_nome>
+                        <mostrar_perfis name="p_mostrar_perfis" desc="true">undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
@@ -213,9 +213,9 @@
                     <item type="specific" code="" class="info" rel="menu">
                         <title>Menu</title>
                         <app>igrp</app>
-                        <page>ListaPage</page>
+                        <page>MenuOrganica</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
+                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xsl?</parameter>
                         <target>mpsubmit|refresh</target>
                         <img>info|fa-bars</img>
                     </item>

@@ -28,11 +28,18 @@ public class PesquisarPerfil extends Model{
 
 
 	public static class Table_1{
+		private String estado;
 		private String descricao;
 		private String codigo;
 		private String organica;
-		private String estado;
 		private String p_id;
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
+		}
+
 		public void setDescricao(String descricao){
 			this.descricao = descricao;
 		}
@@ -52,13 +59,6 @@ public class PesquisarPerfil extends Model{
 		}
 		public String getOrganica(){
 			return this.organica;
-		}
-
-		public void setEstado(String estado){
-			this.estado = estado;
-		}
-		public String getEstado(){
-			return this.estado;
 		}
 
 		public void setP_id(String p_id){

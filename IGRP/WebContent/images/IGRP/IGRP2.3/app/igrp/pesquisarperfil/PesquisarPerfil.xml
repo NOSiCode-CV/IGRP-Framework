@@ -56,8 +56,11 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </estado>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Descrição</label>
+                    <label>Nome</label>
                 </descricao>
                 <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
@@ -65,9 +68,6 @@
                 <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Orgânica</label>
                 </organica>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Estado</label>
-                </estado>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
@@ -77,10 +77,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Dolor doloremque amet rem dolo</descricao>
-                        <codigo name="p_codigo">Rem consectetur elit consectet</codigo>
-                        <organica name="p_organica">Lorem perspiciatis sit iste to</organica>
-                        <estado name="p_estado">Unde consectetur laudantium co</estado>
+                        <estado name="p_estado">Magna dolor laudantium anim pe</estado>
+                        <descricao name="p_descricao">Perspiciatis accusantium dolor</descricao>
+                        <codigo name="p_codigo">Dolor doloremque omnis elit ut</codigo>
+                        <organica name="p_organica">Aliqua aperiam accusantium ut</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -88,10 +88,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Lorem omnis sit omnis aperiam</descricao>
-                        <codigo name="p_codigo">Magna voluptatem ut dolor sit</codigo>
-                        <organica name="p_organica">Consectetur deserunt sit adipi</organica>
-                        <estado name="p_estado">Stract labore dolor voluptatem</estado>
+                        <estado name="p_estado">Anim stract sit rem mollit</estado>
+                        <descricao name="p_descricao">Iste mollit consectetur aperia</descricao>
+                        <codigo name="p_codigo">Natus aperiam unde sit deserun</codigo>
+                        <organica name="p_organica">Unde amet sit amet labore</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,10 +99,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Ut officia doloremque unde ut</descricao>
-                        <codigo name="p_codigo">Magna ipsum accusantium anim m</codigo>
-                        <organica name="p_organica">Officia adipiscing perspiciati</organica>
-                        <estado name="p_estado">Adipiscing officia voluptatem</estado>
+                        <estado name="p_estado">Sit officia ipsum consectetur</estado>
+                        <descricao name="p_descricao">Aperiam anim elit stract molli</descricao>
+                        <codigo name="p_codigo">Perspiciatis totam omnis persp</codigo>
+                        <organica name="p_organica">Laudantium accusantium sit dol</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -110,10 +110,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Anim omnis amet deserunt rem</descricao>
-                        <codigo name="p_codigo">Natus perspiciatis natus offic</codigo>
-                        <organica name="p_organica">Natus magna sed iste elit</organica>
-                        <estado name="p_estado">Elit labore omnis sit omnis</estado>
+                        <estado name="p_estado">Unde laudantium magna natus ac</estado>
+                        <descricao name="p_descricao">Accusantium ut voluptatem omni</descricao>
+                        <codigo name="p_codigo">Ipsum rem lorem officia lorem</codigo>
+                        <organica name="p_organica">Doloremque laudantium magna ac</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -121,10 +121,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao name="p_descricao">Sit lorem magna elit accusanti</descricao>
-                        <codigo name="p_codigo">Ipsum stract aperiam anim sit</codigo>
-                        <organica name="p_organica">Totam aperiam mollit deserunt</organica>
-                        <estado name="p_estado">Laudantium iste aliqua aperiam</estado>
+                        <estado name="p_estado">Labore perspiciatis adipiscing</estado>
+                        <descricao name="p_descricao">Sit aliqua unde dolor anim</descricao>
+                        <codigo name="p_codigo">Sit doloremque labore dolor re</codigo>
+                        <organica name="p_organica">Laudantium omnis officia accus</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
