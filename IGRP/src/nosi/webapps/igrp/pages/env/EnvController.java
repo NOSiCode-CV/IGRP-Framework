@@ -1,19 +1,14 @@
 
 package nosi.webapps.igrp.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -66,21 +61,16 @@ public class EnvController extends Controller {
 			model.load();
 			Application app = new Application();		
 			Action ac = new Action();
-			if(model.getAction_fk()!=null && !model.getAction_fk().equals("")){
-			ac.setId(Integer.getInteger(model.getAction_fk()));
+			if(Core.isNotNull(model.getAction_fk())){
+				ac.setId(Integer.getInteger(model.getAction_fk()));
 			}
-//			app.setAction_fk(model.getAction_fk());
-//			app.setApache_dad(model.getApache_dad());
 			app.setDad(model.getDad());
-			app.setDescription(model.getDescription());
-//			app.setFlg_old(model.getFlg_old());			
+			app.setDescription(model.getDescription());	
 			app.setExternal(model.getFlg_external());
-			if(app.getExternal() == 1 && model.getHost() != null && !model.getHost().isEmpty())
+			if(app.getExternal() == 1 && Core.isNotNull(model.getHost())) {
 				app.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
-			
+			}
 			app.setImg_src(model.getImg_src());
-//			app.setLink_center(model.getLink_center());
-//			app.setLink_menu(model.getLink_menu());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
 			app.setTemplate(model.getTemplates()); 
@@ -117,13 +107,8 @@ public class EnvController extends Controller {
 		if(aplica_db.getAction()!=null && !aplica_db.getAction().equals("")){
 			model.setAction_fk(aplica_db.getAction().getId().toString());
 		}
-//		model.setApache_dad(aplica_db.getApache_dad());
-//		model.setFlg_external(aplica_db.getFlg_external());
 		model.setImg_src(aplica_db.getImg_src());
 		model.setStatus(aplica_db.getStatus());
-//		model.setFlg_old(aplica_db.getFlg_old());
-//		model.setLink_center(aplica_db.getLink_center());
-//		model.setLink_menu(aplica_db.getLink_menu());
 		model.setTemplates(aplica_db.getTemplate());
 		
 		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
@@ -134,23 +119,17 @@ public class EnvController extends Controller {
 			
 			aplica_db.setExternal(model.getFlg_external());
 			
-			if(aplica_db.getExternal() == 1 && model.getHost() != null && !model.getHost().isEmpty()) {
+			if(aplica_db.getExternal() == 1 && Core.isNotNull(model.getHost())) {
 				aplica_db.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
 			}
 			
 			aplica_db.setDescription(model.getDescription());
-			if(aplica_db.getAction()!=null && !aplica_db.getAction().equals("") ){
-			Action ac = new Action().findOne(model.getAction_fk());
-			aplica_db.setAction(ac);
+			if(Core.isNotNull(model.getAction_fk())){
+				Action ac = new Action().findOne(Integer.parseInt(model.getAction_fk()));
+				aplica_db.setAction(ac);
 			}
 			aplica_db.setStatus(model.getStatus());
-//			aplica_db.setFlg_old(model.getFlg_old());
-//			aplica_db.setLink_menu(model.getLink_menu());
-//			aplica_db.setLink_center(model.getLink_center());
-//			aplica_db.setApache_dad(model.getApache_dad());
-			aplica_db.setTemplate(model.getTemplates());
-		//	aplica_db.setHost(model.getHost());
-//			aplica_db.setFlg_external(model.getFlg_external());			
+			aplica_db.setTemplate(model.getTemplates());	
 			aplica_db = aplica_db.update();
 			if(aplica_db!=null){
 				Core.setMessageSuccess();

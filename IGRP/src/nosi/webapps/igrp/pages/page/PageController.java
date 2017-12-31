@@ -24,7 +24,6 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
@@ -33,7 +32,6 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class PageController extends Controller {		
@@ -201,7 +199,8 @@ public class PageController extends Controller {
 						FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson})
 				){
 					error += this.processCompile(path_class,ac.getPage());
-					if(error.equals("")){//Check if not error on the compilation class
+					
+					if(error.equals("") || error==null){//Check if not error on the compilation class
 						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
 						if(FileHelper.fileExists(Config.getWorkspace())){
 							if(!FileHelper.fileExists(path_class_work_space)){//check directory
