@@ -67,6 +67,22 @@
 					<xsl:value-of select="$tab"/>
 					<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,';')"/>				
 					<xsl:value-of select="$newline"/>
+					<xsl:if test="@type='link'">	
+						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,@name,'_desc',$double_quotes,')')"/>			
+						<xsl:value-of select="$newline"/>			
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_desc;')"/>				
+						<xsl:value-of select="$newline"/>
+					</xsl:if>
+					<xsl:if test="(@type='checkbox' or @type='radio')">	 						
+						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="concat('@RParam(rParamName = ',$double_quotes,@name,'_check',$double_quotes,')')"/>			
+						<xsl:value-of select="$newline"/>			
+						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="concat('private ',$type_field,' ',$tag_name,'_check;')"/>				
+						<xsl:value-of select="$newline"/>
+					</xsl:if>
 				</xsl:if>
 			</xsl:for-each>
     	</xsl:for-each> 

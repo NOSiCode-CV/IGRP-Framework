@@ -387,9 +387,9 @@
    			
    			<!-- End Method Get -->
    			
-			<xsl:if test="$type_content='table' and $type='link'">	    			
+			<xsl:if test="$type='link'">	    			
    				<xsl:call-template name="genMethod-Get-Set">
-    				<xsl:with-param name="type" select="$type"/>
+    				<xsl:with-param name="type" select="'as'"/>
     				<xsl:with-param name="type_content" select="''"/>
     				<xsl:with-param name="name" select="concat($name,'_desc')"/>
     				<xsl:with-param name="tab_" select="$tab_"/>
@@ -399,9 +399,9 @@
    			</xsl:if>
    			
    			
-			<xsl:if test="$type_content='table' and ($type='checkbox' or $type='radio')">	    			
+			<xsl:if test="($type='checkbox' or $type='radio')">	    			
    				<xsl:call-template name="genMethod-Get-Set">
-    				<xsl:with-param name="type" select="$type"/>
+    				<xsl:with-param name="type" select="'as'"/>
     				<xsl:with-param name="type_content" select="''"/>
     				<xsl:with-param name="name" select="concat($name,'_check')"/>
     				<xsl:with-param name="tab_" select="$tab_"/>
