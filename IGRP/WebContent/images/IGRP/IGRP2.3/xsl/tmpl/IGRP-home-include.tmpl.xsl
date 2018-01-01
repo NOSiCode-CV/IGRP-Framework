@@ -204,7 +204,7 @@
 									<!-- </a> -->
 
 									<xsl:attribute name="class">treeview</xsl:attribute>
-										<a href="{link}" item-id="{$parentId}-{position()}">
+										<a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
 											
 											<span>
 												<xsl:value-of select="title" />
@@ -228,7 +228,7 @@
 											<xsl:for-each select="submenu">
 											 <xsl:sort select="order"/>
 												<li>													
-													<a href="{link}" item-id="{$parentId}-{position()}">
+													<a href="{link}"  target="{target}" item-id="{$parentId}-{position()}">
 <!-- 													<i class="fa fa-circle"></i> -->
 														<span>
 															<xsl:value-of select="title" />

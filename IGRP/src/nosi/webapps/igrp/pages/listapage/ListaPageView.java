@@ -10,6 +10,9 @@ public class ListaPageView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field env_fk;
+	public Field link_btn_nova_pagina;
+	public Field link_btn_ab;
+	public Field btn_import;
 	public Field status_page;
 	public Field status_page_check;
 	public Field descricao_page;
@@ -19,10 +22,6 @@ public class ListaPageView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_importar;
-	public IGRPButton btn_app_builder;
-	public IGRPButton btn_nova;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_visualizar;
 	public IGRPButton btn_eliminar;
@@ -43,6 +42,18 @@ public class ListaPageView extends View {
 		env_fk.setLabel(gt("Aplicação"));
 		
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		link_btn_nova_pagina = new LinkField(model,"link_btn_nova_pagina");
+		link_btn_nova_pagina.setLabel(gt("Nova página"));
+		
+		link_btn_nova_pagina.propertie().add("name","p_link_btn_nova_pagina").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","ListaEnv").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
+		link_btn_ab = new LinkField(model,"link_btn_ab");
+		link_btn_ab.setLabel(gt("App builder"));
+		
+		link_btn_ab.propertie().add("name","p_link_btn_ab").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaEnv").add("app","igrp").add("class","info").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-th").add("maxlength","30").add("placeholder","").add("right","true");
+		btn_import = new LinkField(model,"btn_import");
+		btn_import.setLabel(gt("Importar"));
+		
+		btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","Import_export").add("app","igrp").add("class","default").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-upload").add("maxlength","30").add("placeholder","").add("right","true");
 		status_page = new CheckBoxField(model,"status_page");
 		status_page.setLabel(gt("Ativo?"));
 		
@@ -62,13 +73,6 @@ public class ListaPageView extends View {
 		
 		p_id_page.propertie().add("name","p_id_page").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id_page");
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_importar = new IGRPButton("Importar","igrp","ListaPage","importar","modal|refresh","default|fa-upload","","");
-		btn_importar.propertie.add("type","specific").add("code","").add("rel","importar");
-		btn_app_builder = new IGRPButton("App Builder","igrp","ListaPage","app_builder","_self","info|fa-th","","");
-		btn_app_builder.propertie.add("type","specific").add("code","").add("rel","app_builder");
-		btn_nova = new IGRPButton("Nova página","igrp","ListaPage","nova","modal|refresh","success|fa-plus-square","","");
-		btn_nova.propertie.add("type","specific").add("code","").add("rel","nova");
 		btn_editar = new IGRPButton("Editar","igrp","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_visualizar = new IGRPButton("Visualizar","igrp","ListaPage","visualizar","submit_popup","primary|fa-eye","","");
@@ -88,7 +92,9 @@ public class ListaPageView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(env_fk);
-
+		form_1.addField(link_btn_nova_pagina);
+		form_1.addField(link_btn_ab);
+		form_1.addField(btn_import);
 
 		table_1.addField(status_page);
 		table_1.addField(status_page_check);
@@ -96,9 +102,6 @@ public class ListaPageView extends View {
 		table_1.addField(nome_page);
 		table_1.addField(p_id_page);
 
-		toolsbar_1.addButton(btn_importar);
-		toolsbar_1.addButton(btn_app_builder);
-		toolsbar_1.addButton(btn_nova);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_visualizar);
 		table_1.addButton(btn_eliminar);
@@ -107,6 +110,5 @@ public class ListaPageView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(toolsbar_1);
 	}
 }

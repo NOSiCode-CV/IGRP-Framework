@@ -97,8 +97,8 @@ public class IGRPButton {
 		this.genReverse = genReverse;
 	}
 
-	public void setLink(String link) {
-		this.link = link.replace("&", "&amp;");
+	public void setLink(String link) {		
+		this.link = link.contains("&amp;")?link:link.replace("&", "&amp;");
 	}
 
 	public void setLink(String app, String page, String action) {

@@ -20,7 +20,7 @@ public class NovoMenuController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoMenu model = new NovoMenu();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (id != null && !id.equals("") && !id.equals("0")) {
+		if (isDigit(id)  && !id.equals("0")) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
@@ -40,8 +40,7 @@ public class NovoMenuController extends Controller {
 		} else {
 			model.load();
 			String app = Igrp.getInstance().getRequest().getParameter("app");
-			if (app != null && !app.equals("")
-					&& Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET"))
+			if (isDigit(app) && Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET"))
 				model.setEnv_fk(Integer.parseInt(app));
 		}
 
@@ -50,6 +49,7 @@ public class NovoMenuController extends Controller {
 		targets.put(null, gt("-- Selecionar Target --"));
 		targets.put("_self", gt("Mesma página"));
 		targets.put("_blank", gt("Popup"));
+		targets.put("_newtab", gt("New tab"));
 		targets.put("modal", gt("Modal"));
 		targets.put("submit", gt("Submit"));
 		targets.put("confirm", gt("Confirm"));
@@ -77,7 +77,8 @@ public class NovoMenuController extends Controller {
 		Menu menu;
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			if (id != null && !id.equals("") && !id.equals("0")) {
+			//Update menu will enter here
+			if (isDigit(id) && !id.equals("0")) {
 				menu = new Menu().findOne(Integer.parseInt(id));
 				if (menu.getMenu() != null) {
 					model.setSelf_id(menu.getMenu().getId());
@@ -109,10 +110,10 @@ public class NovoMenuController extends Controller {
 			menu.setTarget(model.getTarget());
 			if (model.getSelf_id() != 0) {
 				menu.setMenu(new Menu().findOne(model.getSelf_id()));
-				// else if for the case the son has no parent, to set the parent itself
+				// else if for the case the son has no parent, to set the parent itself. A son has a page/action
 			} else if (model.getAction_fk() != 0)
 				menu.setMenu(menu);
-			if (id != null && !id.equals("") && !id.equals("0")) {
+			if (isDigit(id) && !id.equals("0")) {
 				menu = menu.update();
 				if (menu != null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
@@ -122,7 +123,6 @@ public class NovoMenuController extends Controller {
 					return this.redirect("igrp", "novo-menu", "index", new String[] { "p_id" },
 							new String[] { id + "" });
 				}
-
 			} else {
 				menu = menu.insert();
 				if (menu != null) {
@@ -133,7 +133,7 @@ public class NovoMenuController extends Controller {
 			}
 
 		}
-		if (id != null && !id.equals("") && !id.equals("0")) {
+		if (isDigit(id)  && !id.equals("0")) {
 			// Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Invalid
 			// request ...");
 			return this.redirect("igrp", "novo-menu", "index", new String[] { "p_id" }, new String[] { id + "" });
@@ -152,5 +152,19 @@ public class NovoMenuController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
+	private Boolean isDigit(String digit) {
+		
+		try {
+			Integer.parseInt(digit);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	
 	/*----#END-PRESERVED-AREA----*/
 }

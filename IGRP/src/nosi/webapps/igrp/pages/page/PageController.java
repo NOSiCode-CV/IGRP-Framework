@@ -85,8 +85,16 @@ public class PageController extends Controller {
 			action.setPage_descr(model.getAction_descr());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
+				if(idPage!=0){
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
+				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{idPage + ""});
+				}else {
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
 				return this.forward("igrp", "page", "index");
+				}
+			
+				
+			
 			}
 			//action.setStatus(model.getP_status());
 			if(model.getVersion()==null)
@@ -97,21 +105,27 @@ public class PageController extends Controller {
 			if(idPage!=0){
               	action.setId(idPage);
 				action = action.update();
+				if(action!=null)
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+				else
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
+				return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{idPage + ""});
 			}else{
 				action = action.insert();
-			}
-			if(action!=null){
-				String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-				String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
-				FileHelper.save(path_xsl, action.getPage()+".json", json);
-				if(FileHelper.fileExists(Config.getWorkspace())){
-					FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				if(action!=null){
+					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+					String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
+					FileHelper.save(path_xsl, action.getPage()+".json", json);
+					if(FileHelper.fileExists(Config.getWorkspace())){
+						FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+					}
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
+				}else{
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
+					return this.forward("igrp", "page", "index");
 				}
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
-				return this.forward("igrp", "page", "index");
 			}
+			
 		}
 		return this.redirect("igrp", "page", "index");
 		/*----#END-PRESERVED-AREA----*/
@@ -126,52 +140,7 @@ public class PageController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-//	public Response actionEditar(@RParam(rParamName = "id")String id) throws IOException, IllegalArgumentException, IllegalAccessException{
-//		Page model = new Page();
-//		
-//		Action action = new Action();
-//		action = action.findOne(Integer.parseInt(id));
-//		
-//		model.setEnv_fk(""+action.getApplication().getId());
-//		model.setVersion(action.getVersion());
-//		model.setPage(action.getPage());
-//		model.setAction_descr(action.getPage_descr());
-//		
-//		if(Igrp.getInstance().getRequest().getMethod().equals("POST")){
-//			model.load();
-//			Application app = new Application();
-//			action.setApplication(app.findOne(model.getEnv_fk()));
-//			if(model.getVersion()==null)
-//				action.setVersion("2.3");
-//			else
-//				action.setVersion(model.getVersion());
-//			action.setPage(model.getPage());
-//			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
-//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
-//				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{action.getId() + ""});
-//			}
-//			action.setPage_descr(model.getAction_descr());
-//			action = action.update();
-//			if(action!=null)
-//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-//			else
-//				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-//			return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{action.getId() + ""});
-//		}
-//		
-//		PageView view = new PageView(model);
-//		
-//		view.env_fk.setValue(new Application().getListApps());
-//		view.version.setValue(Config.getVersions());
-//		view.sectionheader_1_text.setValue("Page builder - Atualizar");
-//		view.btn_gravar.setLink("editar&id="+id);
-//		view.btn_voltar.setVisible(false);
-//		view.version.setVisible(false);
-//		view.page.setLabel(gt("Código"));
-//		
-//		return this.renderView(view);
-//	}
-//	
+
 	//Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
