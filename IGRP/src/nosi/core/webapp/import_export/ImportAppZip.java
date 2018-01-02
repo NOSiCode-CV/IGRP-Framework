@@ -146,7 +146,7 @@ public class ImportAppZip extends ImportAppJar{
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);
 		try {
-			String path = Config.getBasePathXsl()+Config.getResolvePathXsl(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
+			String path = Config.getBasePathXsl()+Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
 			String modelViewController = XMLTransform.xmlTransformWithXSL(path, Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl");
 			String[] partsJavaCode = modelViewController.toString().split(" END ");
