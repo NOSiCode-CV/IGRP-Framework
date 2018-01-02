@@ -153,7 +153,7 @@
 	 			</xsl:with-param>
 	 		</xsl:call-template>
 	 	</xsl:variable>
-		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)">
+		 <xsl:if test="(count(/rows/content/*[@type = 'toolsbar']) &gt; 0) or (count(/rows/content/*[@type = 'verticalmenu']) &gt; 0) or (count(/rows/content//tools-bar) &gt; 0)  or (count(/rows/content//context-menu) &gt; 0)">
            <xsl:for-each select="/rows/content/*[@type = 'toolsbar' or @type = 'verticalmenu']/item"><!-- add button on toolsbar --> 
            	<xsl:if test="not(@rel=preceding::node()/@rel)">    		
 			 	<xsl:variable name="toolsbar">
@@ -190,12 +190,11 @@
 					</xsl:if>
 				</xsl:for-each>
            </xsl:for-each>
-           <xsl:for-each select="/rows/content/*[@type = 'table' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]/table"><!-- add button on table --> 
+           <xsl:for-each select="/rows/content/*[@type = 'table']"><!-- add button on table --> 
 			 	<xsl:variable name="form_">
-			 		<xsl:value-of select="local-name(parent::*)"/>
+			 		<xsl:value-of select="local-name()"/>
 			 	</xsl:variable>
-           		<xsl:for-each select="context-menu/item">
-	           		<xsl:if test="not(@rel=preceding::node()/@rel)">           		
+           		<xsl:for-each select="//context-menu/item">         		
 					 	<xsl:variable name="button_name">
 							<xsl:value-of select="'btn_'"/>
 							<xsl:value-of select="@rel"/>
@@ -203,10 +202,9 @@
 								<xsl:value-of select="@code"/>
 				        	</xsl:if>
 				        </xsl:variable>
-							<xsl:value-of select="$tab2"/>
-			           		<xsl:value-of select="concat($form_,'.addButton(',$button_name,');')"/>
-							<xsl:value-of select="$newline"/>
-					</xsl:if>
+						<xsl:value-of select="$tab2"/>
+		           		<xsl:value-of select="concat($form_,'.addButton(',$button_name,');')"/>
+						<xsl:value-of select="$newline"/>
 				</xsl:for-each>
            </xsl:for-each>
           </xsl:if>
