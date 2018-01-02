@@ -193,16 +193,16 @@ public class Config {
 		return versions;
 	}
 	
-	public static String getResolvePathXsl(String app,String page,String version){
+	public static String getResolvePathPage(String app,String page,String version){
 		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
 	}
 	
 	public static String getResolvePathXsl(Action page){
-		return getResolvePathXsl(page.getApplication().getDad(),page.getPage(),page.getVersion());
+		return getResolvePathPage(page.getApplication().getDad(),page.getPage(),page.getVersion());
 	}
 	
 	public static String getResolvePathClass(String app,String page,String version){
-		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+		return getResolvePathPage(app, page, version);
 	}
 	
 	public static String getDefaultPageController(String app,String title){
@@ -240,7 +240,7 @@ public class Config {
 	}
 	
 	public static String getBasePahtXsl(Action page){
-		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getResolvePathXsl(page.getApplication().getDad(), page.getPage(), page.getVersion());
+		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getResolvePathPage(page.getApplication().getDad(), page.getPage(), page.getVersion());
 	}
 	
 	public static String getPackage(String app, String page,String action) {

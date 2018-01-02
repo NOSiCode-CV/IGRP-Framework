@@ -114,7 +114,7 @@ public class PageController extends Controller {
 				action = action.insert();
 				if(action!=null){
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(action.getApplication().getDad(), action.getPage(), action.getVersion());		
+					String path_xsl = Config.getBasePathXsl()+Config.getResolvePathPage(action.getApplication().getDad(), action.getPage(), action.getVersion());		
 					FileHelper.save(path_xsl, action.getPage()+".json", json);
 					if(FileHelper.fileExists(Config.getWorkspace())){
 						FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
@@ -157,7 +157,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
+			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
 			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
@@ -306,7 +306,7 @@ public class PageController extends Controller {
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
 				json += "\"description\":\""+(ac.getPage_descr()!=null?ac.getPage_descr():ac.getPage()) +"\",";
-				json += "\"link\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
+				json += "\"link\":\""+Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\"";
 				json += "},";
 			}
 		}
@@ -327,7 +327,7 @@ public class PageController extends Controller {
 				json += "\"app\":\""+ac.getApplication().getDad() +"\",";
 				json += "\"page\":\""+ac.getPage() +"\",";
 				json += "\"id\":\""+ac.getId() +"\",";
-				json += "\"filename\":\""+Config.getResolvePathXsl(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
+				json += "\"filename\":\""+Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xsl\",";
 				json += "\"page_descr\":\""+ac.getPage_descr() +"\"";
 			}
 		json += "}";
