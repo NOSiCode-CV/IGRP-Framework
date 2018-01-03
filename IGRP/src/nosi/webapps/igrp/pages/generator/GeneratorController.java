@@ -21,13 +21,15 @@ public class GeneratorController extends Controller{
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(id));	
 				if(ac!=null){
-					model.setGen_elements("images/IGRP/Config/formgen.config.txt?id=");
+					model.setGen_elements(Config.getLinkImgBase()+"images/IGRP/Config/formgen.config.txt?id=");
 					model.setId_objeto(Integer.parseInt(id));
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
-					model.setLink_image("images/IGRP/Config/img.list.php?name=");	
-					String json = Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
-					if(ac!=null && FileHelper.fileExists(Config.getBasePathXsl()+json)){
+					model.setLink_image(Config.getLinkImgBase()+"images/IGRP/Config/img.list.php?name=");	
+					String json = Config.getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
+					if(ac!=null && FileHelper.fileExists(json)){
+						json = Config.getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".json";
+						System.out.println(json);
 						model.setPage_form(json);
 					}
 					model.setPackage_(Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));

@@ -15,7 +15,7 @@ public class Generator2_3 {
 	private XMLWritter xml;
 	
 	public Generator2_3(String xml) {
-		this.xml = new XMLWritter("rows","images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl", "dash");
+		this.xml = new XMLWritter("rows",Config.LINK_XSL_GENERATOR, "dash");
 		Config.TITLE = "API Generator";
 		Config.target = "_blank";
 		this.xml.addXml(Config.getHeader());

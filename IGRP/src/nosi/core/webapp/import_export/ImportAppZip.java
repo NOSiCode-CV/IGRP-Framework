@@ -122,10 +122,10 @@ public class ImportAppZip extends ImportAppJar{
 			String pathServer = Config.getBaseServerPahtXsl(page);
 			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
-			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl");
+			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl");
 			FileHelper.save(pathServer, page.getPage()+".json", json);
 			if(FileHelper.fileExists(Config.getWorkspace())) {
-				String pathWorkSpace = Config.getBasePahtXsl(page);
+				String pathWorkSpace = Config.getBasePahtXslWorkspace(page);
 				FileHelper.save(pathWorkSpace, page.getPage()+".xml", content);
 				FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
 			}	
@@ -146,9 +146,9 @@ public class ImportAppZip extends ImportAppJar{
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);
 		try {
-			String path = Config.getBasePathXsl()+Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
+			String path = Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
-			String modelViewController = XMLTransform.xmlTransformWithXSL(path, Config.getBasePathXsl()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl");
+			String modelViewController = XMLTransform.xmlTransformWithXSL(path, Config.LINK_XSL_GENERATOR_MCV);
 			String[] partsJavaCode = modelViewController.toString().split(" END ");
 			if(partsJavaCode.length > 2){
 				String model = partsJavaCode[0]+"*/";

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import javax.servlet.http.HttpServletRequest;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -19,16 +18,24 @@ import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 	
+	public static final String LINK_XSL_GENERATOR = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
+	public static final String LINK_XSL_HOME_STUDIO = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
+	public static final String LINK_XSL_HOME_APP = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
+	public static final String LINK_XSL_HOME = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
+	public static final String LINK_XSL_LOGIN = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
+	public static final String LINK_XSL_GENERATOR_MCV = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
+	public static final String LINK_XSL_GENERATOR_CRUD = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
+	public static final String LINK_XSL_JSON_GENERATOR = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";;
 	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
 	public static String LINK_HOME ="webapps?r=igrp/home/index";
+	private static final String APP_LINK_IMAGE = null;///*getRootPaht();*/"/FrontIGRP/";
 	
 	public static String getHeader(){
 		return getHeader(null);
-	}
-	
+	}	
 	
 	public static String getHeader(Action page){
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
@@ -130,13 +137,15 @@ public class Config {
 	public static String getAutenticationType(){
 		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
 	}
+
+	public static String getLinkImgBase() {
+		return APP_LINK_IMAGE!=null?APP_LINK_IMAGE:getRootPaht();
+	}
 	
-	public static String getBasePathXsl(){
-		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
-	}
 	public static String getLinkImg(){
-		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
+		return getLinkImgBase()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
 	}
+	
 	public static String getLinkImg2_2(){
 		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP2.2/");
 	}
@@ -187,14 +196,16 @@ public class Config {
 
 	public static HashMap<String,String> getVersions() {
 		HashMap<String,String> versions = new HashMap<>();
-//		versions.put("", "--- Version ---");
-//		versions.put("2.2", "2.2");
 		versions.put("2.3", "2.3");
 		return versions;
 	}
 	
+	public static String getLinkPageXsl(Action ac) {
+		return Config.getLinkImgBase()+"images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getXsl_src();
+	}
+	
 	public static String getResolvePathPage(String app,String page,String version){
-		return "images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
+		return Config.getLinkImgBase()+"images"+"/"+"IGRP"+"/"+"IGRP"+version+"/"+"app"+"/"+app.toLowerCase()+"/"+page.toLowerCase();
 	}
 	
 	public static String getResolvePathXsl(Action page){
@@ -231,15 +242,36 @@ public class Config {
 		return "nosi.webapps.igrp.pages";
 	}
 	
-	public static String getBasePahtClass(String app){
+	public static String getBasePahtClassWorkspace(String app){
 		return Config.getWorkspace() + File.separator +  "src"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator) +File.separator;
 	}
 	
-	public static String getBaseServerPahtXsl(Action page){
-		return Config.getBasePathXsl() + Config.getResolvePathXsl(page);
+
+	public static String getBasePathServerXsl(){
+		if(APP_LINK_IMAGE!=null) {
+			String root = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
+			System.out.println(root);
+			root = root.replaceAll("/IGRP/", APP_LINK_IMAGE);
+			root = root.replaceAll("\\IGRP\\", APP_LINK_IMAGE);
+			System.out.println(root);
+			return root;
+		}
+		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	
-	public static String getBasePahtXsl(Action page){
+	public static String getBaseServerPahtXsl(Action page){
+		return Config.getBasePathServerXsl() + "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
+	}
+	
+
+	public static String getBaseHttpServerPahtXsl(Action page){
+		if(APP_LINK_IMAGE!=null) {
+			return "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
+		}
+		return getBaseServerPahtXsl(page);
+	}
+	
+	public static String getBasePahtXslWorkspace(Action page){
 		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getResolvePathPage(page.getApplication().getDad(), page.getPage(), page.getVersion());
 	}
 	

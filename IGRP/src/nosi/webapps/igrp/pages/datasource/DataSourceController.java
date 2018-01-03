@@ -198,7 +198,7 @@ public class DataSourceController extends Controller {
 				Action ac = new Action();
 				ac = ac.findOne(rep.getType_fk());
 				String fileName = ac.getPage()+".xml";
-				String basePath =Config.getBasePathXsl()+Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());
+				String basePath = Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());
 				String content = FileHelper.readFile(basePath, fileName);
 				int start = content.indexOf("<content");
 				int end = content.indexOf("</rows>");
