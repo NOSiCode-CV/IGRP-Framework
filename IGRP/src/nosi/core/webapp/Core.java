@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.rmi.RemoteException;
 import javax.xml.bind.JAXB;
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Restrictions;
 import nosi.core.config.Config;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryHelper;
@@ -298,8 +299,20 @@ public final class Core {	// Not inherit
 		return EncrypDecrypt.decrypt(content);
 	}
 	
-	public static boolean isNotNull(String string) {
+	public static boolean isNotNull(Object string) {
 		return string!=null && !string.equals("");
+	}
+	
+	public static boolean isInteger(Object value) {
+		if(isNotNull(value)) {
+			try {
+				Integer.parseInt(value.toString());
+				return true;
+			}catch(Exception e) {
+				return false;
+			}
+		}
+		return false;
 	}
 	
 	public static QueryHelper insert(String connectionName,String tableName) {
@@ -342,6 +355,11 @@ public final class Core {	// Not inherit
 	
 	public static String ToChar(java.sql.Date date,String format) {
 		return DateHelper.convertDateToString(date, format);
+	}
+	
+	
+	public static class Restriction extends Restrictions{
+		
 	}
 	
 	public static void main(String[] args){
