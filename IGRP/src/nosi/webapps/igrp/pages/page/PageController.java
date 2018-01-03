@@ -114,7 +114,7 @@ public class PageController extends Controller {
 				action = action.insert();
 				if(action!=null){
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = Config.getBasePathXsl()+Config.getResolvePathPage(action.getApplication().getDad(), action.getPage(), action.getVersion());		
+					String path_xsl = Config.getBaseServerPahtXsl(action);		
 					FileHelper.save(path_xsl, action.getPage()+".json", json);
 					if(FileHelper.fileExists(Config.getWorkspace())){
 						FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
@@ -157,7 +157,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getBasePathXsl()+Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
+			String path_xsl = Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
 			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;

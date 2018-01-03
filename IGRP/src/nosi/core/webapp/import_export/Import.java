@@ -73,7 +73,7 @@ public class Import {
 		try {
 			FileHelper.save(path_class,partPage[3],content);
 			if(FileHelper.fileExists(Config.getWorkspace())){
-				String path_class_work_space = Config.getBasePahtClass(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
+				String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
 				FileHelper.save(path_class_work_space,partPage[3],content);
 			}
 			return new File(path_class+"/"+partPage[3]);
@@ -126,7 +126,7 @@ public class Import {
 								  .andWhere("application.dad", "=", app.getDad())
 								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
-		String path = Config.getBasePathXsl()+Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion());
+		String path = Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion());
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
 		
@@ -143,7 +143,7 @@ public class Import {
 			boolean result = false;
 			//Guarda ficheiros no workspace caso existe
 			if(FileHelper.fileExists(Config.getWorkspace())){
-				String path_xsl_work_space = Config.getBasePahtXsl(page);		
+				String path_xsl_work_space = Config.getBasePahtXslWorkspace(page);		
 				result = FileHelper.save(path_xsl_work_space,partPage[4], content);
 			}
 			result = FileHelper.save(path, partPage[4], content);

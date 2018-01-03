@@ -22,12 +22,12 @@ public class IGRPHome{
 	}
 	
 	public String toString(){
-		String path = "images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
+		String path = Config.LINK_XSL_HOME;
 		if(this.type_home.equals("home-app")){
-			path = "images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
+			path = Config.LINK_XSL_HOME_APP;
 		}
 		else if(this.type_home.equals("home-app-studio")){
-			path = "images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
+			path = Config.LINK_XSL_HOME_STUDIO;
 		}
 		 this.xml = new XMLWritter("rows", path, "dash");
 		 Config.type_header = "home";

@@ -19,7 +19,7 @@ public class IGRPLogin extends IGRPForm{
 	public IGRPLogin(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties = null;//No properties
-		this.xml = new XMLWritter("rows", "images/IGRP/IGRP2.3/xsl/IGRP-login.xsl", "");
+		this.xml = new XMLWritter("rows", Config.LINK_XSL_LOGIN, "");
 		this.xml.setElement("link_img", Config.getLinkImg());
 		this.xml.startElement("content");
 		this.xml.text(":_message_reseved");
