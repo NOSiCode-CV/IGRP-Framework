@@ -21,9 +21,7 @@ public class NovoPerfilView extends View {
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gravar;
-	public IGRPButton btn_voltar;
 	public NovoPerfilView(NovoPerfil model){
 		this.setPageTitle("Registar Perfil");
 			
@@ -64,11 +62,8 @@ public class NovoPerfilView extends View {
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","NovoPerfil","voltar","_back","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -86,12 +81,9 @@ public class NovoPerfilView extends View {
 		form_1.addField(organica);
 		form_1.addField(perfil);
 
-
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_2.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
-		this.addToPage(toolsbar_2);
 	}
 }

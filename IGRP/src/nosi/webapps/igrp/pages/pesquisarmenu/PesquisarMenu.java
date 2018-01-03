@@ -16,6 +16,10 @@ public class PesquisarMenu extends Model{
 	private String organica;
 	@RParam(rParamName = "p_menu_principal")
 	private String menu_principal;
+	@RParam(rParamName = "p_novo")
+	private String novo;
+	@RParam(rParamName = "p_novo_desc")
+	private String novo_desc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -51,6 +55,19 @@ public class PesquisarMenu extends Model{
 	}
 	public String getMenu_principal(){
 		return this.menu_principal;
+	}
+	
+	public void setNovo(String app,String page,String action){
+		this.novo = Config.getResolveUrl(app, page, action);
+	}
+	public String getNovo(){
+		return this.novo;
+	}
+	public void setNovo_desc(String novo_desc){
+		this.novo_desc = novo_desc;
+	}
+	public String getNovo_desc(){
+		return this.novo_desc;
 	}
 
 

@@ -20,8 +20,15 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-2a3b8302">
-                                        <div class="gen-column col-sm-12">
+                                    <div class="row row-msg">
+                                        <div class="gen-column col-md-12">
+                                            <div class="gen-inner">
+                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row " id="row-b0b983bf">
+                                        <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
                                                     <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
@@ -29,23 +36,6 @@
                                                             <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
                                                         </h2>
                                                     </section>
-                                                </xsl:if>
-                                                <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row " id="row-12654a17">
-                                        <div class="gen-column col-sm-6">
-                                            <div class="gen-inner">
-                                                <xsl:if test="rows/content/toolsbar_2">
-                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_2">
-                                                        <div class="btns-holder  pull-left" role="group">
-                                                            <xsl:apply-templates select="rows/content/toolsbar_2" mode="gen-buttons">
-                                                                <xsl:with-param name="vertical" select="'true'"/>
-                                                                <xsl:with-param name="outline" select="'false'"/>
-                                                            </xsl:apply-templates>
-                                                        </div>
-                                                    </div>
                                                 </xsl:if>
                                             </div>
                                         </div>
@@ -64,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-69cae0ec">
+                                    <div class="row " id="row-ac45e742">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -216,9 +206,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514567138326"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514567138326"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514567138326"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514567138326"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514567138326"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514994179696"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514994179696"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514994179696"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514994179696"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514994179697"/>
 </xsl:stylesheet>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,65 +30,65 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=20</preserve_url>
     </plsql>
     <content>
-        <title>Pagina para atribuir permissao sobre transacoes</title>
+        <title>Associar Transacao a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>TransacaoOrganica</page>
+                <page>ListaPage</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl</parameter>
-                <params>default||fa-save|www</params>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>igrp</app>
-                <page>TransacaoOrganica</page>
-                <link>index</link>
-                <target>_back</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl</parameter>
-                <params>default||fa-angle-right|www</params>
+                <img>primary|fa-save</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" check="true" desc="true">
+                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
                     <label>Transacao</label>
                 </transacao>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false">
-                    <label>Descricao</label>
-                </descricao>
+                <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </nome>
             </fields>
             <table>
                 <value>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <descricao name="p_descricao">Aliqua stract magna voluptatem lorem</descricao>
+                        <nome name="p_nome">Aliqua officia consectetur lor</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <descricao name="p_descricao">Unde natus ipsum deserunt voluptatem</descricao>
+                        <nome name="p_nome">Unde aperiam perspiciatis anim</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <descricao name="p_descricao">Natus aliqua amet deserunt consectetur</descricao>
+                        <nome name="p_nome">Deserunt voluptatem ut amet do</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <descricao name="p_descricao">Perspiciatis ut unde totam lorem</descricao>
+                        <nome name="p_nome">Labore adipiscing ut lorem str</nome>
+                    </row>
+                    <row>
+                        <transacao name="p_transacao" check="true" desc="true">1</transacao>
+                        <transacao_desc name="p_transacao_desc">1</transacao_desc>
+                        <nome name="p_nome">Adipiscing officia amet dolor</nome>
                     </row>
                 </value>
             </table>
         </table_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
+                <hidden name="p_type" type="hidden" maxlength="30" java-type="String" tag="type"/>
+            </fields>
+        </form_1>
     </content>
 </rows>

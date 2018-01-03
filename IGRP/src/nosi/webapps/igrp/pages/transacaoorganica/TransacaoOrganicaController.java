@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.transacaoorganica;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -21,6 +17,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class TransacaoOrganicaController extends Controller {		
 
+
 	public Response actionIndex() throws IOException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String type = Igrp.getInstance().getRequest().getParameter("type");
@@ -28,8 +25,8 @@ public class TransacaoOrganicaController extends Controller {
 		TransacaoOrganicaView view = null;
 		if(id!=null && type!=null){
 			TransacaoOrganica model = new TransacaoOrganica();
-			model.setId(Integer.parseInt(id));
-			model.setType(type);
+			model.setP_id(Integer.parseInt(id));
+			model.setP_type(type);
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
 			List<Transaction> transactions = null;
 			if(type.equals("org")){
@@ -39,9 +36,9 @@ public class TransacaoOrganicaController extends Controller {
 				transactions = new Organization().getPerfilTransaction(p.getOrganization()!=null?p.getOrganization().getId():1);
 			}
 			for(Transaction t:transactions){
-				TransacaoOrganica.Table_1 table = new TransacaoOrganica().new Table_1();
+				TransacaoOrganica.Table_1 table =new TransacaoOrganica.Table_1();
 				table.setTransacao(t.getId());
-				table.setDescricao(t.getDescr());
+				table.setNome(t.getDescr());
 				Profile prof = new Profile();
 				prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
 				prof.setProfileType(new ProfileType().findOne(0));
@@ -65,6 +62,7 @@ public class TransacaoOrganicaController extends Controller {
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
@@ -112,13 +110,6 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp","TransacaoOrganica","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/

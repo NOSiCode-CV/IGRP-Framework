@@ -12,6 +12,7 @@ public class PesquisarMenuView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field menu_principal;
+	public Field novo;
 	public Field ativo;
 	public Field checkbox;
 	public Field checkbox_check;
@@ -23,8 +24,6 @@ public class PesquisarMenuView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_novo;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public PesquisarMenuView(PesquisarMenu model){
@@ -50,6 +49,10 @@ public class PesquisarMenuView extends View {
 		menu_principal.setLabel(gt("Menu pai"));
 		
 		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		novo = new LinkField(model,"novo");
+		novo.setLabel(gt("Novo"));
+		
+		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","NovoMenu").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
 		ativo = new PlainTextField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
 		
@@ -77,9 +80,6 @@ public class PesquisarMenuView extends View {
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","novo","modal|refresh","success|fa-plus-square","","");
-		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","PesquisarMenu","eliminar","confirm","danger|fa-trash","","");
@@ -95,7 +95,7 @@ public class PesquisarMenuView extends View {
 		form_1.addField(aplicacao);
 		form_1.addField(organica);
 		form_1.addField(menu_principal);
-
+		form_1.addField(novo);
 
 		table_1.addField(ativo);
 		table_1.addField(checkbox);
@@ -105,12 +105,10 @@ public class PesquisarMenuView extends View {
 		table_1.addField(pagina);
 		table_1.addField(p_id);
 
-		toolsbar_1.addButton(btn_novo);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
-		this.addToPage(toolsbar_1);
 	}
 }

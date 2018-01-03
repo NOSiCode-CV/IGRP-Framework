@@ -24,6 +24,8 @@ public class GestaodeacessoController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
           	if(ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
+              model.setAdicionar_organica1("igrp","NovaOrganica","index&target=_blank&id_app="+model.getAplicacao());
+              model.setGestao_de_utilizadores1("igrp","PesquisarUtilizador","index");
               for(Organization org:new Organization().find().andWhere("application","=",Integer.parseInt(model.getAplicacao())).all()){
                 Gestaodeacesso.Org_table table = new Gestaodeacesso.Org_table();
                table.setP_id(""+org.getId());
@@ -42,35 +44,15 @@ public class GestaodeacessoController extends Controller {
       	view.aplicacao.setValue(new Application().getListApps());
         view.org_table.addData(data);
         view.setPageTitle("Gestão de Acesso");
-      	if(ichange!=null && ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
-          view.btn_adicionar_organica.setPage("NovaOrganica");
-          view.btn_adicionar_organica.setLink("index&target=_blank&id_app="+model.getAplicacao());
-      	}
+      //	if(ichange!=null && ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
+        //  view.btn_adicionar_organica.setPage("NovaOrganica");
+          //view.btn_adicionar_organica.setLink("index&target=_blank&id_app="+model.getAplicacao());
+      	//}
       view.btn_eliminar.setVisible(false);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionGestao_de_utilizadores() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GESTAO_DE_UTILIZADORES)----*/
-		return this.redirect("igrp","PesquisarUtilizador","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionAdicionar_organica() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ADICIONAR_ORGANICA)----*/
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_application");
-		if(p_id!=null){
-			Application app = new Application().findOne(Integer.parseInt(p_id));
-			if(app!=null)
-				return this.redirect("igrp","NovaOrganica","index&target=_blank&id_app="+p_id);
-		}
-      	return this.redirect("igrp","NovaOrganica","index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/

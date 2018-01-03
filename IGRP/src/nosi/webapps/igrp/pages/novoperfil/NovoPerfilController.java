@@ -45,8 +45,7 @@ public class NovoPerfilController extends Controller {
 				: null);
 		// Perfil pai/Parent profile ocult (not in use)
 		view.perfil.setVisible(false);
-
-		return this.renderView(view);
+			return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
@@ -86,23 +85,6 @@ public class NovoPerfilController extends Controller {
 		}
 		Core.setMessageError(gt("Invalid Request ..."));
 		return this.redirect("igrp", "novo-perfil", "index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		NovoPerfil model = new NovoPerfil();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(model.save(model)){
-				Core.setMessageSuccess(gt("Mensagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mensagem de Erro"));
-			 return this.forward("igrp","NovoPerfil","index");
-			}
-		}
-		return this.redirect("igrp","NovoPerfil","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

@@ -27,21 +27,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-ae890095">
+                                    <div class="row " id="row-51391c52">
                                         <div class="gen-column col-sm-6">
-                                            <div class="gen-inner">
-                                                <xsl:if test="rows/content/toolsbar_2">
-                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_2">
-                                                        <div class="btns-holder  pull-left" role="group">
-                                                            <xsl:apply-templates select="rows/content/toolsbar_2" mode="gen-buttons">
-                                                                <xsl:with-param name="vertical" select="'true'"/>
-                                                                <xsl:with-param name="outline" select="'false'"/>
-                                                            </xsl:apply-templates>
-                                                        </div>
-                                                    </div>
-                                                </xsl:if>
-                                            </div>
-                                        </div>
+                                            <div class="gen-inner"/></div>
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/toolsbar_1">
@@ -57,7 +45,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-58f2f866">
+                                    <div class="row " id="row-ee0fb4f6">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
@@ -146,10 +134,10 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514553509151"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514553509151"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514553509151"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514553509151"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1514553509151"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514553509151"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514998490160"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514998490160"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514998490160"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514998490160"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1514998490160"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514998490160"/>
 </xsl:stylesheet>

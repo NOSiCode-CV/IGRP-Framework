@@ -16,9 +16,7 @@ public class MenuOrganicaView extends View {
 	public IGRPTable table_1;
 	public IGRPForm form_1;
 
-	public IGRPToolsBar toolsbar_2;
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_voltar;
 	public IGRPButton btn_gravar;
 	public MenuOrganicaView(MenuOrganica model){
 		this.setPageTitle("Associar Menu a Organica");
@@ -44,10 +42,7 @@ public class MenuOrganicaView extends View {
 		
 		p_type.propertie().add("name","p_type").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","type");
 
-		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_voltar = new IGRPButton("Voltar","igrp","MenuOrganica","voltar","_back","warning|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		
@@ -57,7 +52,6 @@ public class MenuOrganicaView extends View {
 	public void render(){
 		
 
-
 		table_1.addField(menu);
 		table_1.addField(menu_check);
 		table_1.addField(descricao);
@@ -65,11 +59,9 @@ public class MenuOrganicaView extends View {
 		form_1.addField(p_id);
 		form_1.addField(p_type);
 
-		toolsbar_2.addButton(btn_voltar);
 		toolsbar_1.addButton(btn_gravar);
 		this.addToPage(table_1);
 		this.addToPage(form_1);
-		this.addToPage(toolsbar_2);
 		this.addToPage(toolsbar_1);
 	}
 }

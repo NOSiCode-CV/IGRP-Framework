@@ -1,6 +1,5 @@
 
 package nosi.webapps.igrp.pages.pesquisarmenu;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +20,10 @@ import nosi.webapps.igrp.dao.ProfileType;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
-public class PesquisarMenuController extends Controller {
+public class PesquisarMenuController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		PesquisarMenu model = new PesquisarMenu();
 		Menu menu = new Menu();
@@ -86,6 +86,8 @@ public class PesquisarMenuController extends Controller {
 			}
 			lista.add(table1);
 		}
+      if (model.getAplicacao() != null && !model.getAplicacao().equals(""))
+   		   model.setNovo("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao());
 		PesquisarMenuView view = new PesquisarMenuView(model);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
@@ -99,23 +101,14 @@ public class PesquisarMenuController extends Controller {
 
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
-		view.table_1.addData(lista);
-		view.setPageTitle(gt("Gestão Menu"));
-		if (model.getAplicacao() != null && !model.getAplicacao().equals(""))
-			view.btn_novo.setLink("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao());
+		view.table_1.addData(lista);	
 
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException {
-		/*----#START-PRESERVED-AREA(NOVO)----*/
-		// NOT IN USE. view.btn_importar.setLINK in actionIndex()
-		return this.redirect("igrp", "NovoMenu", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
 
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (id != null && !id.equals("")) {
@@ -125,8 +118,9 @@ public class PesquisarMenuController extends Controller {
 		return this.redirect("igrp", "PesquisarMenu", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
@@ -138,7 +132,7 @@ public class PesquisarMenuController extends Controller {
 		return this.redirect("igrp", "PesquisarMenu", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	// Menu list I have access to

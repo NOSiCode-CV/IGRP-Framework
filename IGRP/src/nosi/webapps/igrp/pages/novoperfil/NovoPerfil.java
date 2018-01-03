@@ -14,6 +14,8 @@ public class NovoPerfil extends Model{
 	private String codigo;
 	@RParam(rParamName = "p_activo")
 	private int activo;
+	@RParam(rParamName = "p_activo_check")
+	private int activo_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_aplicacao")
@@ -49,6 +51,12 @@ public class NovoPerfil extends Model{
 	}
 	public int getActivo(){
 		return this.activo;
+	}
+	public void setActivo_check(int activo_check){
+		this.activo_check = activo_check;
+	}
+	public int getActivo_check(){
+		return this.activo_check;
 	}
 	
 	public void setNada(String nada){

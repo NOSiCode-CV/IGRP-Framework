@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -51,18 +51,18 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Aperiam rem sed adipiscing lau</value>
+                    <value>Dolor laudantium aliqua natus</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Aperiam lorem natus labore rem</value>
+                    <value>Sed dolor labore magna dolorem</value>
                 </codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo?</label>
@@ -139,16 +139,5 @@
                 </perfil>
             </fields>
         </form_1>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>igrp</app>
-                <page>NovoPerfil</page>
-                <link>index</link>
-                <target>_back</target>
-                <img>warning|fa-arrow-left</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xsl</parameter>
-            </item>
-        </toolsbar_2>
     </content>
 </rows>

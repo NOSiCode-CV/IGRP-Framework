@@ -10,6 +10,8 @@ public class GestaodeacessoView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
+	public Field adicionar_organica1;
+	public Field gestao_de_utilizadores1;
 	public Field estado;
 	public Field org_nome;
 	public Field mostrar_perfis;
@@ -18,9 +20,6 @@ public class GestaodeacessoView extends View {
 	public IGRPForm form_1;
 	public IGRPTable org_table;
 
-	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_gestao_de_utilizadores;
-	public IGRPButton btn_adicionar_organica;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transaction;
@@ -40,6 +39,14 @@ public class GestaodeacessoView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("java-type","");
+		adicionar_organica1 = new LinkField(model,"adicionar_organica1");
+		adicionar_organica1.setLabel(gt("Adicionar Orgânica"));
+		
+		adicionar_organica1.propertie().add("name","p_adicionar_organica1").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","NovaOrganica").add("app","igrp").add("class","primary").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
+		gestao_de_utilizadores1 = new LinkField(model,"gestao_de_utilizadores1");
+		gestao_de_utilizadores1.setLabel(gt("Gestão de utilizadores"));
+		
+		gestao_de_utilizadores1.propertie().add("name","p_gestao_de_utilizadores1").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","PesquisarUtilizador").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-users").add("maxlength","30").add("placeholder","").add("right","true");
 		estado = new ColorField(model,"estado");
 		estado.setLabel(gt("Estado"));
 		
@@ -57,11 +64,6 @@ public class GestaodeacessoView extends View {
 		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","true").add("tag","id");
 
-		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gestao_de_utilizadores = new IGRPButton("Gestão de Utilizadores","igrp","Gestaodeacesso","gestao_de_utilizadores","_self","success|fa-users","","");
-		btn_gestao_de_utilizadores.propertie.add("type","specific").add("code","").add("rel","gestao_de_utilizadores");
-		btn_adicionar_organica = new IGRPButton("Adicionar Orgânica","igrp","Gestaodeacesso","adicionar_organica","modal","primary|fa-plus-square","","");
-		btn_adicionar_organica.propertie.add("type","specific").add("code","").add("rel","adicionar_organica");
 		btn_editar = new IGRPButton("Editar","igrp","Gestaodeacesso","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_menu = new IGRPButton("Menu","igrp","Gestaodeacesso","menu","mpsubmit|refresh","info|fa-bars","","");
@@ -79,15 +81,14 @@ public class GestaodeacessoView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);
-
+		form_1.addField(adicionar_organica1);
+		form_1.addField(gestao_de_utilizadores1);
 
 		org_table.addField(estado);
 		org_table.addField(org_nome);
 		org_table.addField(mostrar_perfis);
 		org_table.addField(p_id);
 
-		toolsbar_1.addButton(btn_gestao_de_utilizadores);
-		toolsbar_1.addButton(btn_adicionar_organica);
 		org_table.addButton(btn_editar);
 		org_table.addButton(btn_menu);
 		org_table.addButton(btn_transaction);
@@ -95,6 +96,5 @@ public class GestaodeacessoView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(org_table);
-		this.addToPage(toolsbar_1);
 	}
 }

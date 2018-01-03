@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -51,7 +51,7 @@
                 <link>index</link>
                 <target>_self</target>
                 <img>success|fa-plus-square</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -66,7 +66,7 @@
                     <label>Código</label>
                 </codigo>
                 <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Orgânica</label>
+                    <label>Organização</label>
                 </organica>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
@@ -77,10 +77,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Magna dolor laudantium anim pe</estado>
-                        <descricao name="p_descricao">Perspiciatis accusantium dolor</descricao>
-                        <codigo name="p_codigo">Dolor doloremque omnis elit ut</codigo>
-                        <organica name="p_organica">Aliqua aperiam accusantium ut</organica>
+                        <estado name="p_estado">Rem perspiciatis ut sit lorem</estado>
+                        <descricao name="p_descricao">Magna aperiam sed voluptatem i</descricao>
+                        <codigo name="p_codigo">Officia totam laudantium anim</codigo>
+                        <organica name="p_organica">Consectetur anim magna iste co</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -88,10 +88,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Anim stract sit rem mollit</estado>
-                        <descricao name="p_descricao">Iste mollit consectetur aperia</descricao>
-                        <codigo name="p_codigo">Natus aperiam unde sit deserun</codigo>
-                        <organica name="p_organica">Unde amet sit amet labore</organica>
+                        <estado name="p_estado">Labore sit totam natus totam</estado>
+                        <descricao name="p_descricao">Stract laudantium sit sit moll</descricao>
+                        <codigo name="p_codigo">Adipiscing anim perspiciatis e</codigo>
+                        <organica name="p_organica">Sit adipiscing unde aperiam is</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,10 +99,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Sit officia ipsum consectetur</estado>
-                        <descricao name="p_descricao">Aperiam anim elit stract molli</descricao>
-                        <codigo name="p_codigo">Perspiciatis totam omnis persp</codigo>
-                        <organica name="p_organica">Laudantium accusantium sit dol</organica>
+                        <estado name="p_estado">Iste omnis natus consectetur u</estado>
+                        <descricao name="p_descricao">Lorem laudantium omnis lorem a</descricao>
+                        <codigo name="p_codigo">Voluptatem rem omnis adipiscin</codigo>
+                        <organica name="p_organica">Consectetur elit mollit consec</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -110,10 +110,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Unde laudantium magna natus ac</estado>
-                        <descricao name="p_descricao">Accusantium ut voluptatem omni</descricao>
-                        <codigo name="p_codigo">Ipsum rem lorem officia lorem</codigo>
-                        <organica name="p_organica">Doloremque laudantium magna ac</organica>
+                        <estado name="p_estado">Natus sed perspiciatis sed tot</estado>
+                        <descricao name="p_descricao">Amet magna voluptatem ipsum st</descricao>
+                        <codigo name="p_codigo">Anim stract ipsum adipiscing l</codigo>
+                        <organica name="p_organica">Sit consectetur dolor voluptat</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -121,10 +121,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Labore perspiciatis adipiscing</estado>
-                        <descricao name="p_descricao">Sit aliqua unde dolor anim</descricao>
-                        <codigo name="p_codigo">Sit doloremque labore dolor re</codigo>
-                        <organica name="p_organica">Laudantium omnis officia accus</organica>
+                        <estado name="p_estado">Adipiscing perspiciatis sit to</estado>
+                        <descricao name="p_descricao">Omnis lorem laudantium omnis r</descricao>
+                        <codigo name="p_codigo">Elit aliqua stract adipiscing</codigo>
+                        <organica name="p_organica">Ipsum adipiscing deserunt natu</organica>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -134,8 +134,8 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>_self</target>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>mpsubmit</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
@@ -143,7 +143,7 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
@@ -152,8 +152,8 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>_self</target>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>mpsubmit</target>
                         <img>primary|fa-align-justify</img>
                     </item>
                     <item type="specific" code="" class="black" rel="transacao">
@@ -161,8 +161,8 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>_self</target>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <target>mpsubmit</target>
                         <img>black|fa-exchange</img>
                     </item>
                     <item type="specific" code="" class="warning" rel="convidar">
@@ -170,8 +170,8 @@
                         <app>igrp</app>
                         <page>NovoUtilizador</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl?</parameter>
-                        <target>_self</target>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl?</parameter>
+                        <target>mpsubmit</target>
                         <img>warning|fa-send</img>
                     </item>
                 </context-menu>

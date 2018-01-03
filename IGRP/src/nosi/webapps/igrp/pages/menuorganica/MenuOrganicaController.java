@@ -33,7 +33,7 @@ public class MenuOrganicaController extends Controller {
 			List<Menu> menus = new ArrayList<>();
 			if(type.equals("org")){
 				menus = new Organization().getOrgMenu();	
-				view.btn_voltar.setVisible(false);
+		
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
 				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
@@ -72,13 +72,6 @@ public class MenuOrganicaController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp","MenuOrganica","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/

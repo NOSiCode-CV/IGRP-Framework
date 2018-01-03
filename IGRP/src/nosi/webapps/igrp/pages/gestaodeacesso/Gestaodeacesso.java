@@ -12,6 +12,14 @@ public class Gestaodeacesso extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
+	@RParam(rParamName = "p_adicionar_organica1")
+	private String adicionar_organica1;
+	@RParam(rParamName = "p_adicionar_organica1_desc")
+	private String adicionar_organica1_desc;
+	@RParam(rParamName = "p_gestao_de_utilizadores1")
+	private String gestao_de_utilizadores1;
+	@RParam(rParamName = "p_gestao_de_utilizadores1_desc")
+	private String gestao_de_utilizadores1_desc;
 	
 	private List<Org_table> org_table = new ArrayList<>();	
 	public void setOrg_table(List<Org_table> org_table){
@@ -33,6 +41,32 @@ public class Gestaodeacesso extends Model{
 	}
 	public String getAplicacao(){
 		return this.aplicacao;
+	}
+	
+	public void setAdicionar_organica1(String app,String page,String action){
+		this.adicionar_organica1 = Config.getResolveUrl(app, page, action);
+	}
+	public String getAdicionar_organica1(){
+		return this.adicionar_organica1;
+	}
+	public void setAdicionar_organica1_desc(String adicionar_organica1_desc){
+		this.adicionar_organica1_desc = adicionar_organica1_desc;
+	}
+	public String getAdicionar_organica1_desc(){
+		return this.adicionar_organica1_desc;
+	}
+	
+	public void setGestao_de_utilizadores1(String app,String page,String action){
+		this.gestao_de_utilizadores1 = Config.getResolveUrl(app, page, action);
+	}
+	public String getGestao_de_utilizadores1(){
+		return this.gestao_de_utilizadores1;
+	}
+	public void setGestao_de_utilizadores1_desc(String gestao_de_utilizadores1_desc){
+		this.gestao_de_utilizadores1_desc = gestao_de_utilizadores1_desc;
+	}
+	public String getGestao_de_utilizadores1_desc(){
+		return this.gestao_de_utilizadores1_desc;
 	}
 
 
