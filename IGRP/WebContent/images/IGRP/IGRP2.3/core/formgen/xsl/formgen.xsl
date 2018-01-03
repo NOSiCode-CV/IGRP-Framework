@@ -530,8 +530,8 @@
         <script src="{$path}/core/codemirror/js/clike.js"></script>
 
         <!-- ACE EDITOR -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.8/beautify.js"></script>
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script> -->
+<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.6.8/beautify.js"></script> -->
         <!-- /ACE EDITOR -->
 
         <!--gen-->
