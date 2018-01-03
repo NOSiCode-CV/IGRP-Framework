@@ -5,16 +5,12 @@ package nosi.core.webapp;
  */
 import java.io.IOException;
 import java.security.SecureRandom;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
-
-import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
-import nosi.core.i18n.I18n;
 import nosi.core.i18n.I18nManager;
 import nosi.core.servlet.IgrpServlet;
 
@@ -159,7 +155,7 @@ public final class Igrp{ // Not extends
 
 	
 	public String getCurrentAppName() {
-		return currentAppName;
+		return Core.isNotNull(currentAppName)?currentAppName:"igrp";
 	}
 
 	public void setCurrentAppName(String currentAppName) {
@@ -167,7 +163,7 @@ public final class Igrp{ // Not extends
 	}
 
 	public String getCurrentPageName() {
-		return currentPageName;
+		return Core.isNotNull(currentPageName)?currentPageName:"home";
 	}
 
 	public void setCurrentPageName(String currentPageName) {
@@ -175,7 +171,7 @@ public final class Igrp{ // Not extends
 	}
 
 	public String getCurrentActionName() {
-		return currentActionName;
+		return Core.isNotNull(currentActionName)?currentActionName:"index";
 	}
 
 	public void setCurrentActionName(String currentActionName) {

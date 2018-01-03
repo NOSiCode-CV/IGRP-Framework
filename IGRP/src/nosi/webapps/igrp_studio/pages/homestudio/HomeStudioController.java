@@ -16,14 +16,14 @@ public class HomeStudioController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		if(Igrp.getInstance().getRequest().getServerName().equalsIgnoreCase("10.4.2.94")) {
-			User user = (User)Igrp.getInstance().getUser().getIdentity();
-			String username = user.getUser_name();
-			String password = user.getPass_hash();
-			String url = "http://" + username + ":" + password + "@" + "10.4.2.93/IGRP/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
-			//String url = "https://" + username + ":" + password + "@" + "apps.igrp.cv/IGRPDEV/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
-			return this.redirectToUrl(url);
-		}
+		//if(Igrp.getInstance().getRequest().getServerName().equalsIgnoreCase("10.4.2.94")) {
+//			User user = (User)Igrp.getInstance().getUser().getIdentity();
+//			String username = user.getUser_name();
+//			String password = user.getPass_hash();
+//			//String url = "http://" + username + ":" + password + "@" + "10.4.2.93/IGRP/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
+//			String url = "https://" + username + ":" + password + "@" + "apps.igrp.cv/IGRPDEV/igrpsso" + "?_url=igrp_studio/HomeStudio/index";
+//			return this.redirectToUrl(url);
+		/*}*/
 		HomeStudio model = new HomeStudio();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load(); 

@@ -256,13 +256,18 @@ public class EnvController extends Controller {
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
-		Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+		
 		String[] p = page.split("/");
-		Application env = new Application().find().andWhere("dad", "=", app).one();
-		//System.out.println(env.getExternal() + " - " + env.getUrl());
-		if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty())
-			return this.redirectToUrl(URLDecoder.decode(URLDecoder.decode(env.getUrl(), "utf-8"), "utf-8"));
-		return this.redirect(app, p[1], p[2]);
+		if(Permission.isPermition(app, p[1], p[2])) {
+			Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+			Application env = new Application().find().andWhere("dad", "=", app).one();
+			//System.out.println(env.getExternal() + " - " + env.getUrl());
+			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
+				return this.redirectToUrl(URLDecoder.decode(URLDecoder.decode(env.getUrl(), "utf-8"), "utf-8"));
+			}
+			return this.redirect(app, p[1], p[2]);
+		}
+		return this.redirectError();
 	}
 	
 	/** Integration with IGRP-PLSQL Apps **

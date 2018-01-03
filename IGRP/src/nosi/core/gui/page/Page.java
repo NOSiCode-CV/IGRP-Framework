@@ -58,7 +58,7 @@ public class Page {
 					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
 //					ac.getBuilder().equal(ac.getRoot().get("action"), action),
 					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
-			path_xsl = "images/IGRP/IGRP"+Config.getPageVersion()+"/app/"+ac.getXsl_src();
+			path_xsl = Config.getLinkPageXsl(ac);
 		}
     
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");

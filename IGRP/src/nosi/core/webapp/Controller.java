@@ -166,9 +166,11 @@ public abstract class Controller {
 	private static void prepareResponse() throws IOException{
 		 Object obj = run();
 		 if(obj != null && obj instanceof Response){
-			 Response resp = (Response) obj;
-			 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);
-				//Igrp.getInstance().setResponse(resp);
+			 Igrp app = Igrp.getInstance();
+			 if(app.getCurrentActionName()!=null && app.getCurrentAppName()!=null && app.getCurrentPageName()!=null && Permission.isPermition(app.getCurrentAppName(), app.getCurrentPageName(), app.getCurrentActionName())) {
+				 Response resp = (Response) obj;
+				 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);				 
+			 }
 		 }
 	}
 	
@@ -214,45 +216,47 @@ public abstract class Controller {
 	
 	public static void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
-		try {
-			switch(responseWrapper.getType()) {
-			case 1: // render it 
-					try {
-						if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
-							Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
-						}else {
-							Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					break;
-				case 2: // redirect 
-					boolean isAbsolute = false;
-					try {
-						String url = responseWrapper.getUrl();
+		if(responseWrapper!=null) {
+			try {
+				switch(responseWrapper.getType()) {
+				case 1: // render it 
 						try {
-							java.net.URI uri = java.net.URI.create(url);
-							isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
-						} catch (MalformedURLException e) { // Ensure the url format is perfect ...
-							isAbsolute = false;
+							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
+								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+							}else {
+								Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
-						Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					break;
-				case 3: // forward 
-					try {
-						Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
-					} catch (ServletException | IOException e) {
-						e.printStackTrace();
-					} 
-					break;
-				default:;
+						break;
+					case 2: // redirect 
+						boolean isAbsolute = false;
+						try {
+							String url = responseWrapper.getUrl();
+							try {
+								java.net.URI uri = java.net.URI.create(url);
+								isAbsolute = uri.isAbsolute() && uri.toURL().getProtocol().matches("(?i)(http|https)");
+							} catch (MalformedURLException e) { // Ensure the url format is perfect ...
+								isAbsolute = false;
+							}
+							Igrp.getInstance().getResponse().sendRedirect( isAbsolute == true ? url : "webapps" + url);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						break;
+					case 3: // forward 
+						try {
+							Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+						} catch (ServletException | IOException e) {
+							e.printStackTrace();
+						} 
+						break;
+					default:;
+				}
+			}catch(java.lang.NullPointerException e) {
+				e.printStackTrace();
 			}
-		}catch(java.lang.NullPointerException e) {
-			e.printStackTrace();
 		}
 	}
 	

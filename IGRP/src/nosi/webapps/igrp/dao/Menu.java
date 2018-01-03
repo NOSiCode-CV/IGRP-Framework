@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
@@ -23,9 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Column;
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Permission;
-
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -138,31 +135,37 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	}
 
 	public boolean getPermissionMen(String app) {
-		EntityManager em = this.getEntityManagerFactory().createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
-		String sql =  "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=? "
-					+ "UNION "
-					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE "
-					+ "FROM tbl_MENU M1, tbl_menu M2 "
-					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 "
-					+ " AND M1.ENV_FK=?"
-					+ "ORDER BY orderby";
-		Query q =  em.createNativeQuery(sql);
-		q.setParameter(1,Permission.getCurrentPerfilId());
-		q.setParameter(2,Permission.getCurrentOrganization());
-		q.setParameter(3,Permission.getCurrentOrganization());	
-		Application a = new Application().find().andWhere("dad", "=", app).one();
-		q.setParameter(4,a.getId());	
-		Action ac = new Action().find().andWhere("page", "=", Igrp.getInstance().getCurrentPageName())
-									   .andWhere("action","=",Igrp.getInstance().getCurrentActionName())
-									   .one();
-		q.setParameter(5,ac.getId());		
-		q.setParameter(6,a.getId());	
-		int x = q.getResultList().size();
-		t.commit();
-		em.close();
-		return x > 0;
+		
+		List<Profile> p = new Profile().find()
+				.andWhere("type", "=","MEN")
+				.andWhere("organization", "=",Permission.getCurrentOrganization())
+				.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+				.all();
+//		EntityManager em = this.getEntityManagerFactory().createEntityManager();
+//		EntityTransaction t =  em.getTransaction();
+//		t.begin();
+//		String sql =  "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=? AND ENV_FK=?) AND ACTION_FK=? "
+//					+ "UNION "
+//					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 0 as FLG_BASE "
+//					+ "FROM tbl_MENU M1, tbl_menu M2 "
+//					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 "
+//					+ "AND M1.ENV_FK=? "
+//					+ "ORDER BY orderby ";
+//		Query q =  em.createNativeQuery(sql);
+//		q.setParameter(1,Permission.getCurrentPerfilId());
+//		q.setParameter(2,Permission.getCurrentOrganization());
+//		q.setParameter(3,Permission.getCurrentOrganization());	
+//		Application a = new Application().find().andWhere("dad", "=", app).one();
+//		q.setParameter(4,(a!=null && a.getId()>0)?a.getId():-1);	
+//		Action ac = new Action().find().andWhere("page", "=", Igrp.getInstance().getCurrentPageName())
+//									   .andWhere("action","=",Igrp.getInstance().getCurrentActionName())
+//									   .one();
+//		q.setParameter(5,(ac!=null && ac.getId()>0)?ac.getId():-1);		
+//		q.setParameter(6,(a!=null && a.getId()>0)?a.getId():-1);	
+//		int x = q.getResultList().size();
+//		t.commit();
+//		em.close();
+		return p.size() > 0;
 	}
 
 	@SuppressWarnings("unchecked")
