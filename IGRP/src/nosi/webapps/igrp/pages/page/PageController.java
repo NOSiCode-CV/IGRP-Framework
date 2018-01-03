@@ -157,7 +157,7 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".",File.separator) + File.separator +ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion());			
+			String path_xsl = Config.getBaseServerPahtXsl(ac);			
 			String path_xsl_work_space = Config.getWorkspace()+File.separator+"WebContent"+File.separator+"images"+File.separator+"IGRP"+File.separator+"IGRP"+ac.getVersion()+File.separator+"app"+File.separator+ac.getApplication().getDad()+File.separator+ac.getPage().toLowerCase();			
 			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
 			path_class = Config.getBasePathClass()+ path_class;
