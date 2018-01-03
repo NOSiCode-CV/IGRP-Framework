@@ -17,16 +17,11 @@ public class Test {
 	static String l_ldap_username;
 	static String l_ldap_password;
 	static String l_ldap_base;
+	static String l_ldap_type;
 
 	public static void main(String[] args) {
-		
-		System.out.println("Executado");
-		
-		System.exit(0);
-		
-		// TODO Auto-generated method stub
-				//Teste LDAP
-		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml");
+		//Teste LDAP 
+		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"); 
 		String path="C:\\git\\IGRP-Framework\\IGRP\\WebContent\\WEB-INF\\config\\ldap\\ldap.xml";
 		File file = new File(path);
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
@@ -34,26 +29,23 @@ public class Test {
 		l_ldap_username = ldapinfo.getUsername();
 		l_ldap_password = ldapinfo.getPassword();
 		l_ldap_base = ldapinfo.getBase();
-		//TestePesquisa();
-
+		l_ldap_type = ldapinfo.getType();
+		TestePesquisa();
 	}
 
 	static void TesteLogin() {
-		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
-		if (ldap.validateLogin("iekini.fernandes", ""))
-			System.out.println("User V√°lido");
+		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_type);
+		if (ldap.validateLogin("iekinyfernandes", ""))
+			System.out.println("User V·lido");
 		else {
-			System.out.println("User Inv√°lido: " + ldap.getError());
+			System.out.println("User Inv·lido: " + ldap.getError());
 		}
 	}
 
 	static void TestePesquisa() {
-		String email = "angelo.teste@gov.cv";
-		
-		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base);
-		
+		String email = "pedro.ramos@nosi.cv";
+		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_type);
 		ArrayList<LdapPerson> personArray = ldap.getUser(email);
-
 		if (personArray != null) {
 			for (int i = 0; i < personArray.size(); i++) {
 				LdapPerson p = personArray.get(i);
@@ -69,7 +61,7 @@ public class Test {
 				System.out.println("Username:" + p.getUserPrincipalName());
 			}
 		} else
-			System.out.println("Pesquisa n√£o encontrada: " + ldap.getError());
+			System.out.println("Pesquisa n„o encontrada: " + ldap.getError());
 	}
 
 }

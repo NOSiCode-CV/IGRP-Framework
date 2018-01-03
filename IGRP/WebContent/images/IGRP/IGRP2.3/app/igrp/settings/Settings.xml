@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -46,35 +47,35 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Dolor voluptatem rem aperiam totam</value>
+                    <value>Consectetur amet iste sed elit</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Ut natus labore doloremque magna</value>
+                    <value>Officia ipsum anim dolor stract</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Deserunt aperiam voluptatem pe</value>
+                    <value>Omnis consectetur omnis rem ma</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Stract deserunt dolor lorem re</value>
+                    <value>Labore ipsum laudantium adipis</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Labore sit voluptatem adipisci</value>
+                    <value>Aliqua dolor laudantium perspi</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Ut sed labore natus ut</value>
+                    <value>Laudantium iste adipiscing des</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Consectetur sed laudantium lab</value>
+                    <value>Ipsum adipiscing mollit iste a</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Natus aliqua elit natus omnis</value>
+                    <value>Accusantium laudantium perspic</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
@@ -82,19 +83,28 @@
             </fields>
         </view_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="alterar_senha">
+                <title>Alterar senha</title>
+                <app>igrp</app>
+                <page>Settings</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>warning|fa-lock</img>
+                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
+            </item>
             <item type="specific" code="" rel="aplicar">
                 <title>Aplicar</title>
                 <app>igrp</app>
                 <page>Settings</page>
                 <link>index</link>
-                <target>_self</target>
-                <img>default|fa-check</img>
+                <target>submit_form</target>
+                <img>success|fa-check</img>
                 <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" title="PARAMETROS" gen-type="container" gen-group="">
             <fields>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="">
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Organica</label>
                     <list>
                         <option/>
@@ -116,7 +126,7 @@
                         </option>
                     </list>
                 </organica>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Perfil</label>
                     <list>
                         <option/>
@@ -138,7 +148,7 @@
                         </option>
                     </list>
                 </perfil>
-                <janela_inicil name="p_janela_inicil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
+                <janela_inicil name="p_janela_inicil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Janela Inicil</label>
                     <list>
                         <option/>
@@ -160,7 +170,7 @@
                         </option>
                     </list>
                 </janela_inicil>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Idioma</label>
                     <list>
                         <option/>
@@ -195,22 +205,13 @@
                 </receber_notificacao>
                 <email name="p_email" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>Sit sit accusantium voluptatem</value>
+                    <value>Amet accusantium omnis officia</value>
                 </email>
                 <telemovel name="p_telemovel" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Telemovel</label>
-                    <value>Sed lorem stract deserunt natu</value>
+                    <value>Magna officia voluptatem molli</value>
                 </telemovel>
             </fields>
         </form_1>
-         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Configuração de Parametros:]]>
-                    </value>
-                </sectionheader_2_text>
-            </fields>
-        </sectionheader_2>
     </content>
 </rows>

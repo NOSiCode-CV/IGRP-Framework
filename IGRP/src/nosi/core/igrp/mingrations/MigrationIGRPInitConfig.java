@@ -175,10 +175,12 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, igrp_studio));
 			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, igrp_studio));
 			
+			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, app));
+			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
-			
 			
 			List<Menu> menus = new ArrayList<>();			
 			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app, null));

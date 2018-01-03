@@ -2,6 +2,7 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
+import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -71,8 +72,15 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		
-		//Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
+		
+		switch(Config.getAutenticationType()) {
+			case "ldap": view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index&target=_blank"); break;
+			case "db":
+			default: view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
+		}
+		
 		view.setPageTitle("Gestão de Utilizador");
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
@@ -215,8 +223,19 @@ public class PesquisarUtilizadorController extends Controller {
 		view.btn_eliminar.setLink("eliminarUser");
 		view.btn_eliminar.setTitle("Alterar Estado");
 		view.btn_eliminar.setImg("");
-		view.btn_editar.setLink("editarUser");
-		view.btn_editar.setTarget("submit");
+		
+		switch(Config.getAutenticationType()) {
+			case "ldap": 
+				view.btn_editar.setLink("igrp", "ldap-user", "index_");
+				view.btn_editar.setTarget("_self");
+				break;
+			case "db": 
+			default:{
+				view.btn_editar.setLink("editarUser");
+				view.btn_editar.setTarget("submit");
+			}
+		}
+		
 		view.btn_convidar_user.setTarget("submit");
 		view.perfil.setLabel("Estado");
 		view.nome.setLabel("Username");

@@ -51,6 +51,8 @@ public class SettingsController extends Controller {
 		
 		SettingsView view = new SettingsView(model);
 		
+		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
+		
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());

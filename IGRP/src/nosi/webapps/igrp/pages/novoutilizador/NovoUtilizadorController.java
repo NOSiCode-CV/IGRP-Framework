@@ -76,7 +76,6 @@ public class NovoUtilizadorController extends Controller {
 	/*----#END-PRESERVED-AREA----*/
 	}
 	
-
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	private void db() throws IllegalArgumentException, IllegalAccessException {
@@ -134,7 +133,7 @@ public class NovoUtilizadorController extends Controller {
 		/** Begin ldap AD logic here **/
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getType());
 		
 		User userLdap = null;
 		
@@ -143,12 +142,14 @@ public class NovoUtilizadorController extends Controller {
 			for (int i = 0; i < personArray.size(); i++) {
 				userLdap = new User();
 				LdapPerson person = personArray.get(i);
+				//System.out.println(person);
 				userLdap.setName(person.getName());
 				try {
-					String aux = person.getUserPrincipalName().toLowerCase().split("@")[0];
+					String aux = person.getMail().toLowerCase().split("@")[0];
 					userLdap.setUser_name(aux);
 				}catch(Exception e) {
 					e.printStackTrace();
+					userLdap.setUser_name(person.getMail());
 					Igrp.getInstance().getFlashMessage().addMessage("warning",gt("Something is wrong from LDAP server side."));
 				}
 				userLdap.setEmail(person.getMail());
