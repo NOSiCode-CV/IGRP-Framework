@@ -153,7 +153,7 @@ public class User implements Component{
 		// not set yet
 	}
 	
-	public static String encryptToHash(String target, String algorithm/* MD5 or SHA1 */){
+	public synchronized static String encryptToHash(String target, String algorithm/* MD5 or SHA1 */){
 		String result = "";
 		try {
 			result = new BigInteger(1, MessageDigest.getInstance(algorithm).digest(target.getBytes())).toString(16/*Hexadecimal codification*/);

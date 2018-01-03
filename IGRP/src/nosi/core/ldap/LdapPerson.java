@@ -169,4 +169,13 @@ public class LdapPerson {
 		this.sn = sn;
 	}
 
+	@Override
+	public String toString() {
+		return "LdapPerson [uid=" + uid + ", sn=" + sn + ", mail=" + mail + ", proxyAddresses=" + proxyAddresses
+				+ ", name=" + name + ", accountExpires=" + accountExpires + ", lastLogon=" + lastLogon + ", lastLogoff="
+				+ lastLogoff + ", cn=" + cn + ", sAMAccountType=" + sAMAccountType + ", givenName=" + givenName
+				+ ", displayName=" + displayName + ", userPrincipalName=" + userPrincipalName + ", pwdLastSet="
+				+ pwdLastSet + ", lastLogonTimestamp=" + lastLogonTimestamp + ", mailNickname=" + mailNickname
+				+ ", distinguishedName=" + distinguishedName + ", sAMAccountName=" + sAMAccountName + "]";
+	}
 }

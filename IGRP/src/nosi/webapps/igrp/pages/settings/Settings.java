@@ -36,10 +36,14 @@ public class Settings extends Model{
 	private String idioma;
 	@RParam(rParamName = "p_auto_complete")
 	private int auto_complete;
+	@RParam(rParamName = "p_auto_complete_check")
+	private int auto_complete_check;
 	@RParam(rParamName = "p_notificacao")
 	private String notificacao;
 	@RParam(rParamName = "p_receber_notificacao")
 	private int receber_notificacao;
+	@RParam(rParamName = "p_receber_notificacao_check")
+	private int receber_notificacao_check;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -145,6 +149,12 @@ public class Settings extends Model{
 	public int getAuto_complete(){
 		return this.auto_complete;
 	}
+	public void setAuto_complete_check(int auto_complete_check){
+		this.auto_complete_check = auto_complete_check;
+	}
+	public int getAuto_complete_check(){
+		return this.auto_complete_check;
+	}
 	
 	public void setNotificacao(String notificacao){
 		this.notificacao = notificacao;
@@ -158,6 +168,12 @@ public class Settings extends Model{
 	}
 	public int getReceber_notificacao(){
 		return this.receber_notificacao;
+	}
+	public void setReceber_notificacao_check(int receber_notificacao_check){
+		this.receber_notificacao_check = receber_notificacao_check;
+	}
+	public int getReceber_notificacao_check(){
+		return this.receber_notificacao_check;
 	}
 
 

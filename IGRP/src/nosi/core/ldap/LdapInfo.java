@@ -26,6 +26,9 @@ public class LdapInfo implements Serializable {
 
 	@XmlElement(name = "base")
 	private String base;
+	
+	@XmlElement(name = "type")
+	private String type; // name of ldap server (Ex.: ad, openldap, ... ) 
 
 	public String getUrl() {
 		return url;
@@ -59,9 +62,17 @@ public class LdapInfo implements Serializable {
 		this.base = base;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return "LdapInfo [url=" + url + ", username=" + username + ", password=" + password + ", base=" + base + "]";
+		return "LdapInfo [url=" + url + ", username=" + username + ", password=" + password + ", base=" + base
+				+ ", type=" + type + "]";
 	}
-	
 }

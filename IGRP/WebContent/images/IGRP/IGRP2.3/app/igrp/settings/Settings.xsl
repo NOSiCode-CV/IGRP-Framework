@@ -1,6 +1,6 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -29,7 +29,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-45775396">
+                                    <div class="row " id="row-f7411ffe">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -96,7 +96,6 @@
                                                                         </span>
                                                                     </div>
                                                                 </xsl:if>
-                                                                 
                                                                 <xsl:if test="rows/content/view_1/fields/ultimo_acesso_igrp">
                                                                     <div class="view-item gen-fields-holder" item-name="ultimo_acesso_igrp">
                                                                         <span class="view-label">
@@ -141,13 +140,6 @@
                                                         </div>
                                                     </div>
                                                 </xsl:if>
-                                                 <xsl:if test="rows/content/sectionheader_2">
-								                          <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_2">
-								                            <h2>
-								                              <xsl:value-of select="rows/content/sectionheader_2/fields/sectionheader_2_text/value"/>
-								                            </h2>
-								                          </section>
-						                         </xsl:if>
                                                 <xsl:if test="rows/content/form_1">
                                                     <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
                                                         <xsl:call-template name="box-header">
@@ -345,9 +337,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1511382031507"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1511382031507"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1511382031507"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1511382031507"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1511382031507"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514896382899"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514896382899"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514896382899"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514896382899"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514896382899"/>
 </xsl:stylesheet>

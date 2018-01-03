@@ -14,11 +14,13 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
+import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 
 import java.util.Hashtable;
+import java.util.List;
 
 public class NosiLdapAPI {
 
@@ -26,6 +28,7 @@ public class NosiLdapAPI {
 	private String l_ldap_username;
 	private String l_ldap_password;
 	private String l_ldap_base;
+	private String l_ldap_type;
 
 	private String error;
 
@@ -35,12 +38,13 @@ public class NosiLdapAPI {
 		super();
 	}
 
-	public NosiLdapAPI(String l_ldap_url, String l_ldap_username, String l_ldap_password, String l_ldap_base) {
+	public NosiLdapAPI(String l_ldap_url, String l_ldap_username, String l_ldap_password, String l_ldap_base, String type) {
 		super();
 		this.l_ldap_url = l_ldap_url;
 		this.l_ldap_username = l_ldap_username;
 		this.l_ldap_password = l_ldap_password;
 		this.l_ldap_base = l_ldap_base;
+		this.l_ldap_type = type;
 	}
 
 	public String getL_ldap_url() {
@@ -89,27 +93,30 @@ public class NosiLdapAPI {
 		props.put(Context.PROVIDER_URL, this.getL_ldap_url());
 		props.put(Context.SECURITY_AUTHENTICATION, "simple");
 		props.put(Context.SECURITY_PRINCIPAL, user);
-
 		props.put(Context.SECURITY_CREDENTIALS, password);
-		props.put(Context.REFERRAL, "follow");
-
+		props.put(Context.REFERRAL, "follow"); 
+		
 		InitialDirContext context = new InitialDirContext(props);
 		return context;
 	}
 
 	public String getDistinguishedName(String pUsername) {
-
 		InitialDirContext context;
 		String distinguishedName = "";
 		try {
 			context = this.ldapContext(this.getL_ldap_username(), this.getL_ldap_password());
-
 			SearchControls ctrls = new SearchControls();
 			ctrls.setReturningAttributes(new String[] { "givenName", "sn", "memberOf" });
 			ctrls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-
-			NamingEnumeration<javax.naming.directory.SearchResult> answers = context.search(this.getL_ldap_base(),
-					"(&(objectclass=USER)(SAMAccountName=" + pUsername + "))", ctrls); 
+			
+			String filter = "";
+			switch(this.l_ldap_type) {
+				case "ad": filter = "(&(objectclass=USER)(SAMAccountName=" + pUsername + "))"; break; // MS Active Directory - NOSi 
+				case "openldap":
+				case "apacheds":
+				default: filter = "(&(objectclass=inetOrgPerson)(uid=" + pUsername + "))";
+			}
+			NamingEnumeration<javax.naming.directory.SearchResult> answers = context.search(this.getL_ldap_base(), filter, ctrls);
 			
 			if (answers.hasMore()) {
 				javax.naming.directory.SearchResult result = answers.nextElement();
@@ -276,15 +283,24 @@ public class NosiLdapAPI {
 	          this.setError(e1.getMessage());
 	          return;
          }
-         // entry's DN
-         String entryDN = "uid=" + person.getUid() + ",dc=example,dc=com"; 
+         
+        String entryDN = "";
+		switch(this.l_ldap_type) {
+			case "ad": entryDN = "cn=" + person.getUid() + ",ou=Standard Users,ou=Users,ou=NOSi,ou=Organizations,dc=cloud,dc=nosi"; break; // MS Active Directory - NOSi 
+			case "openldap":
+			case "apacheds":
+			default: entryDN = "uid=" + person.getUid() + ",ou=utilizadores,dc=cloud,dc=nosi";
+		}
+         
          // entry's attributes
          Attribute cn = new BasicAttribute("cn", person.getCn());
          Attribute sn = new BasicAttribute("sn", person.getSn());
-         Attribute uid = new BasicAttribute("uid", person.getSn());
+         Attribute uid = new BasicAttribute("uid", person.getUid());
          Attribute mail = new BasicAttribute("mail", person.getMail());
          Attribute pass =  new BasicAttribute("userPassword","Pa$$w0rd");
          Attribute oc = new BasicAttribute("objectClass");
+         Attribute dn = new BasicAttribute("displayName", person.getDisplayName());
+         Attribute gn = new BasicAttribute("givenName", person.getGivenName());
          oc.add("organizationalPerson");
          oc.add("inetOrgPerson");
          oc.add("person");
@@ -298,11 +314,132 @@ public class NosiLdapAPI {
         	 entry.put(pass);
         	 entry.put(uid);
         	 entry.put(oc);
+        	 entry.put(dn);
+        	 entry.put(gn);
         	 // Add the entry
         	 ctx.createSubcontext(entryDN, entry);
         	 } catch (NamingException e) {
         		 this.setError(e.getMessage());
-        		 nosi.core.webapp.Core.setMessageError(e.getMessage());
         	}
          }
+	 
+	 public void updateUser(LdapPerson person, String id) {
+		 // get a handle to an Initial DirContext
+         InitialDirContext ctx = null;
+         try {
+              ctx = ldapContext(l_ldap_username, l_ldap_password);
+              } 
+         catch (NamingException e1) {
+	          e1.printStackTrace();
+	          this.setError(e1.getMessage());
+	          return;
+         }
+         // entry's DN
+         String entryDN = this.getDistinguishedName(id); 
+         
+         // entry's attributes
+         Attribute cn = new BasicAttribute("cn", person.getCn());
+         Attribute sn = new BasicAttribute("sn", person.getSn());
+         //Attribute uid = new BasicAttribute("uid", person.getUid());
+         Attribute mail = new BasicAttribute("mail", person.getMail());
+        // Attribute pass =  new BasicAttribute("userPassword",person.getPwdLastSet());
+         Attribute oc = new BasicAttribute("objectClass");
+         Attribute dn = new BasicAttribute("displayName", person.getDisplayName());
+         Attribute gn = new BasicAttribute("givenName", person.getGivenName());
+         oc.add("organizationalPerson");
+         oc.add("inetOrgPerson");
+         oc.add("person");
+         oc.add("top");
+         try {
+        	 // build the entry
+        	 BasicAttributes entry = new BasicAttributes();
+        	 entry.put(cn);
+        	 entry.put(sn);
+        	 entry.put(mail);
+        	 //entry.put(uid);
+        	 entry.put(oc);
+        	 entry.put(dn);
+        	 entry.put(gn);
+        	// entry.put(pass);
+        	 // Add the entry 
+        	 ctx.modifyAttributes(entryDN, DirContext.REPLACE_ATTRIBUTE, entry);
+        	 } catch (NamingException e) {
+        		 this.setError(e.getMessage());
+        	}
+         }
+	 
+	 public void renameEntry(String oldName, String newName) {
+		 // get a handle to an Initial DirContext
+         InitialDirContext ctx = null;
+         try {
+              ctx = ldapContext(l_ldap_username, l_ldap_password);
+              } 
+         catch (NamingException e1) {
+	          e1.printStackTrace();
+	          this.setError(e1.getMessage());
+	          return;
+         }
+         try {
+			ctx.rename(oldName, newName);
+		} catch (NamingException e) {
+			this.setError(e.getMessage());
+			e.printStackTrace();
+		}
+	 }
+	 
+	 public void changePassword(LdapPerson person) {
+		 // get a handle to an Initial DirContext 
+         InitialDirContext ctx = null;
+         try {
+              ctx = ldapContext(l_ldap_username, l_ldap_password);
+              } 
+         catch (NamingException e1) {
+	          e1.printStackTrace();
+	          this.setError(e1.getMessage());
+	          return;
+         }
+         // entry's DN
+         String entryDN = this.getDistinguishedName(person.getUid()); 
+         // entry's attributes
+         Attribute pass =  new BasicAttribute("userPassword",person.getPwdLastSet());
+         try {
+        	 // build the entry
+        	 BasicAttributes entry = new BasicAttributes();
+        	 entry.put(pass);
+        	 // Add the entry 
+        	 ctx.modifyAttributes(entryDN, DirContext.REPLACE_ATTRIBUTE, entry);
+        	 } catch (NamingException e) {
+        		 this.setError(e.getMessage());
+        	}
+         }
+	 
+	 public void deleteUser(String id) {
+	     InitialDirContext ctx = null;
+	     try {
+	    	 ctx = ldapContext(l_ldap_username, l_ldap_password);
+	    	 String dn = this.getDistinguishedName(id);
+	    	 ctx.destroySubcontext(dn);
+	     } 
+	     catch (NamingException e1) {
+	          e1.printStackTrace();
+	          this.setError(e1.getMessage());
+	     }finally {
+	    	 try {
+				ctx.close();
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+	     }
+	 }
+	 
+	 public LdapPerson getUserLastInfo(String pEmail) {
+		List<LdapPerson> l =  this.getUser(pEmail);
+		try {
+			return l.get(l.size() - 1);
+		}catch(Exception e) { // NullPointerException 
+			// do nothing yet 
+		}
+		return null;
+	 }
+	 
 }

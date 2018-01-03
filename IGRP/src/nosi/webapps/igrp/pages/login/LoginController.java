@@ -39,24 +39,6 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri"); 
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
-		/** Begin ldap AD logic here **/ 
-		/*File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
-		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
-		//ArrayList<LdapPerson> personArray = ldap.getUser("iekiny.marcel@example.com");
-		//System.out.println(ldap.validateLogin("uid=iekiny.marcel, ou=system, o=nosi", "Pa$$w0rd"));
-		//System.out.println(ldap.validateLogin("cn=iekiny.marcel,dc=example,dc=com", ""));
-		//System.out.println(ldap.validateLogin("cn=iekiny.marcel, ou=nosi, o=nosi", "Pa$$w0rd"));
-		//System.out.println(ldap.validateLogin("uid=admin, ou=system", "secret")); 
-		LdapPerson person = new LdapPerson(); 
-		person.setCn("iekiny.marcel"); 
-		person.setSn("iekiny.marcel");
-		person.setUid("iekiny.marcel");
-		person.setMail("iekiny.marcel@example.com");
-		ldap.createUser(person); 
-		System.out.println(ldap.getError());
-		/** End **/
-		
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
 		if(activation_key != null && !activation_key.trim().isEmpty()) {
@@ -84,7 +66,7 @@ public class LoginController extends Controller {
 				if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope))
 					return this.redirectToUrl(oauth2ServerUrl.toString());
 				else
-					;// Go to error page
+					;// Go to error page 
 			}
 			
 			String destination = Route.previous();
@@ -106,12 +88,11 @@ public class LoginController extends Controller {
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				model.load();
-				switch(Config.getAutenticationType()){//generateOauth2Response
+				switch(Config.getAutenticationType()){
 					case "db":
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
-								
 								User user = (User) Igrp.getInstance().getUser().getIdentity();
 								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
 									return this.redirectToUrl(oauth2ServerUrl.toString());
@@ -205,13 +186,15 @@ public class LoginController extends Controller {
 		/** Begin ldap AD logic here **/ 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(),ldapinfo.getType());
 		
 		success = ldap.validateLogin(username, password);
+		
+		//System.out.println(ldap.getError());
 		/** End **/ 
 		
 		if(success) {
-			// Verify if this credentials exist in DB
+			// Verify if this credentials exist in DB 
 			User user = (User) new User().findIdentityByUsername(username);
 			if(user != null) {
 				password = nosi.core.webapp.User.encryptToHash(password, "MD5");
