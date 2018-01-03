@@ -28,7 +28,7 @@ public class GeneratorController extends Controller{
 					model.setLink_image(Config.getLinkImgBase()+"images/IGRP/Config/img.list.php?name=");	
 					String json = Config.getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
 					if(ac!=null && FileHelper.fileExists(json)){
-						json = Config.getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".json";
+						json = Config.getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
 						System.out.println(json);
 						model.setPage_form(json);
 					}

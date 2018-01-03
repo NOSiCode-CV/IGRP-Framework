@@ -252,7 +252,7 @@ public class Config {
 			String root = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 			System.out.println(root);
 			root = root.replaceAll("/IGRP/", APP_LINK_IMAGE);
-			root = root.replaceAll("\\IGRP\\", APP_LINK_IMAGE);
+			root = root.replace("\\IGRP\\", APP_LINK_IMAGE);
 			System.out.println(root);
 			return root;
 		}
