@@ -354,7 +354,7 @@ public class PageController extends Controller {
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 		String ac = Igrp.getInstance().getRequest().getParameter("ac");
 		String your_code = "";
-		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
+		if(Core.isNotNull(type) && Core.isNotNull(page) && Core.isNotNull(app)){
 			String controller = this.getPageController(app,page);
 			if(controller!=null){
 				if(type.equals("c_import")){
@@ -387,12 +387,12 @@ public class PageController extends Controller {
 	private String getPageController(String app,String page) {
 		String workspace = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
 		String controller = null;
-		if(FileHelper.dirExists(workspace)){
+		if(FileHelper.fileExists(workspace+"/"+page+"Controller.java")){
 			controller = FileHelper.readFile(workspace, page+"Controller.java");
 		}
 		else{
 			workspace = Config.getBasePathClass()+"nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
-			if(FileHelper.fileExists(workspace+page+"Controller.java")){
+			if(FileHelper.fileExists(workspace+"/"+page+"Controller.java")){
 				controller = FileHelper.readFile(workspace, page+"Controller.java");
 			}
 		}

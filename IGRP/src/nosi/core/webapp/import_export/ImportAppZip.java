@@ -9,11 +9,11 @@ import java.util.Map;
 import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.helpers.ZipUnzipFile;
 import nosi.core.xml.XMLTransform;
-import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 
@@ -118,13 +118,14 @@ public class ImportAppZip extends ImportAppJar{
 
 	private void saveConfigFilesPlsql2_1(Action page,String content){
 		try {
-			content = this.addClassAndPackage(content,page);
+			content = this.addClassAndPackage(content,page,"xml");
 			String pathServer = Config.getBaseServerPahtXsl(page);
 			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
-			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl");
+			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.LINK_XSL_JSON_CONVERT);			
+			json = this.addClassAndPackage(json,page,"json");
 			FileHelper.save(pathServer, page.getPage()+".json", json);
-			if(FileHelper.fileExists(Config.getWorkspace())) {
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())) {
 				String pathWorkSpace = Config.getBasePahtXslWorkspace(page);
 				FileHelper.save(pathWorkSpace, page.getPage()+".xml", content);
 				FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
@@ -142,11 +143,11 @@ public class ImportAppZip extends ImportAppJar{
 	private void saveConfigFilesPlsql2_3(Action page,String content) {
 		//Verifica se o xml possui package_html que será o nome da classe
 		//Caso não exista, assumi o nome do ficheiro como nome da classe
-		content = this.addClassAndPackage(content,page);
+		content = this.addClassAndPackage(content,page,"xml");
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);
 		try {
-			String path = Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion())+File.separator+page.getPage()+".xml";
+			String path = Config.getBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
 			String modelViewController = XMLTransform.xmlTransformWithXSL(path, Config.LINK_XSL_GENERATOR_MCV);
 			String[] partsJavaCode = modelViewController.toString().split(" END ");
@@ -163,33 +164,6 @@ public class ImportAppZip extends ImportAppJar{
 			}
 		} catch (TransformerConfigurationException e) {
 		}
-	}
-
-
-	//Adiciona Class e Pacote no XML
-	private String addClassAndPackage(String content,Action page) {
-		int index =  content.indexOf("<package_html>");
-		if(index >= 0){
-			content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ page.getPage()+content.substring(content.indexOf("</package_html>"));
-			String package_name = Config.getBasePackage(app.getDad()).contains(".pages")?Config.getBasePackage(app.getDad()):Config.getBasePackage(app.getDad())+".pages";
-			content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+package_name +content.substring(content.indexOf("</package_db>"));
-		}else{
-			content = this.configurePackageAndClass(content,page);
-		}
-		return content;
-	}
-
-
-	private String configurePackageAndClass(String content,Action page) {
-		String aux = content.substring(0,content.indexOf("</app>")+"</app>".length());
-		XMLWritter xml = new XMLWritter();
-		xml.startElement("plsql");
-			xml.setElement("action", page.getPage());
-			xml.setElement("package_db", page.getPackage_name());//PackageName
-			xml.setElement("package_html", page.getPage());//ClassName
-		xml.endElement();
-		aux += xml.toString() + content.substring(content.indexOf("</app>")+"</app>".length());
-		return aux;
 	}
 
 }

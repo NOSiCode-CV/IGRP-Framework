@@ -23,7 +23,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 
 	protected List<FileImportAppOrPage> un_jar_files = null;
 	//Variavel para mapear ficheiros de configuracao de paginas de plsql
-	protected Application app;
+
 	
 	public ImportAppJar(Part fileName){
 		this.app = new Application();
