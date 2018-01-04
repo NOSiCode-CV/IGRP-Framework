@@ -18,7 +18,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 
-	private static final String APP_LINK_IMAGE = File.separator+"FrontIGRP"+File.separator;
+	private static final String APP_LINK_IMAGE = null;//File.separator+"FrontIGRP"+File.separator;
 	public static final String LINK_XSL_GENERATOR = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
 	public static final String LINK_XSL_HOME_STUDIO = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
 	public static final String LINK_XSL_HOME_APP = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
