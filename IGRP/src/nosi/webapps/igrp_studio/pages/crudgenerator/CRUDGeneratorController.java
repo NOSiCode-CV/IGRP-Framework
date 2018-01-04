@@ -140,8 +140,8 @@ public class CRUDGeneratorController extends Controller {
 		String xslFileName = Config.LINK_XSL_GENERATOR_MCV;
 		String xslFileNameGen = Config.LINK_XSL_GENERATOR_CRUD;
 		String jsonFileName = Config.LINK_XSL_JSON_GENERATOR;
-		String pathXslForm = Config.getResolvePathXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
-		String pathXslList = Config.getResolvePathXsl(pageList)+File.separator+pageList.getPage()+".xml";
+		String pathXslForm = Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
+		String pathXslList = Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
 		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
@@ -166,7 +166,7 @@ public class CRUDGeneratorController extends Controller {
 		boolean r = false;
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
-			String pathXsl = Config.getResolvePathXsl(page);
+			String pathXsl = Config.getBaseServerPahtXsl(page);
 			r = FileHelper.save(pathXsl, fileName, content);
 			if(FileHelper.fileExists(Config.getWorkspace())){
 				r = FileHelper.save(Config.getBasePahtXslWorkspace(page), fileName, content);

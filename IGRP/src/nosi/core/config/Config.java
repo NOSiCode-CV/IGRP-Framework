@@ -17,21 +17,22 @@ import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;
 
 public class Config {
-	
-	public static final String LINK_XSL_GENERATOR = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
-	public static final String LINK_XSL_HOME_STUDIO = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
-	public static final String LINK_XSL_HOME_APP = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
-	public static final String LINK_XSL_HOME = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
-	public static final String LINK_XSL_LOGIN = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
-	public static final String LINK_XSL_GENERATOR_MCV = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
-	public static final String LINK_XSL_GENERATOR_CRUD = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
-	public static final String LINK_XSL_JSON_GENERATOR = Config.getLinkImgBase()+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";;
+
+	private static final String APP_LINK_IMAGE = null;//File.separator+"FrontIGRP"+File.separator;
+	public static final String LINK_XSL_GENERATOR = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
+	public static final String LINK_XSL_HOME_STUDIO = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
+	public static final String LINK_XSL_HOME_APP = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
+	public static final String LINK_XSL_HOME = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
+	public static final String LINK_XSL_LOGIN = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
+	public static final String LINK_XSL_GENERATOR_MCV = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
+	public static final String LINK_XSL_GENERATOR_CRUD = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
+	public static final String LINK_XSL_JSON_GENERATOR = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
+	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";;
 	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
 	public static String target = "";
 	public static String type_header = "normal";
 	public static String LINK_HOME ="webapps?r=igrp/home/index";
-	private static final String APP_LINK_IMAGE = null;///*getRootPaht();*/"/FrontIGRP/";
 	
 	public static String getHeader(){
 		return getHeader(null);
@@ -139,15 +140,13 @@ public class Config {
 	}
 
 	public static String getLinkImgBase() {
-		return APP_LINK_IMAGE!=null?APP_LINK_IMAGE:getRootPaht();
+		return APP_LINK_IMAGE!=null?APP_LINK_IMAGE.replace("\\", "/"):getRootPaht();
 	}
 	
 	public static String getLinkImg(){
-		return getLinkImgBase()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
-	}
-	
-	public static String getLinkImg2_2(){
-		return getRootPaht()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP2.2/");
+		String link = getLinkImgBase()+(getConfig().get("link_img")!=null? getConfig().get("link_img").toString()+getPageVersion():"images/IGRP/IGRP"+getPageVersion());
+		link = link.replace("\\", "/");
+		return link;
 	}
 	
 	public static String getLink(){
@@ -250,11 +249,7 @@ public class Config {
 	public static String getBasePathServerXsl(){
 		if(APP_LINK_IMAGE!=null) {
 			String root = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
-			System.out.println(root);
-			root = root.replaceAll("/IGRP/", APP_LINK_IMAGE);
-			root = root.replace("\\IGRP\\", APP_LINK_IMAGE);
-			System.out.println(root);
-			return root;
+			return root.replace(getRootPaht().replace("/", File.separator), APP_LINK_IMAGE);
 		}
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
