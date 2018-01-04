@@ -49,8 +49,8 @@ public class ChangePasswordController extends Controller {
 			}
 			
 			switch(Config.getAutenticationType()) {
-				case "ldap": return ldap(model.getPassword_1());
-				case "db": return db(model.getPassword_1());
+				case "ldap": return ldap(model.getOld_password(), model.getPassword_1());
+				case "db": return db(model.getOld_password(), model.getPassword_1());
 				default:;
 			}
 			
@@ -61,10 +61,14 @@ public class ChangePasswordController extends Controller {
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	private Response db(String password) throws IOException {
+	private Response db(String currentPassword, String newPassword) throws IOException {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		User user = Core.getCurrentUser();
-		user.setPass_hash(nosi.core.webapp.User.encryptToHash(password, "MD5"));
+		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
+			Core.setMessageError(gt("Senha actual inválido. Tente de novo !!! "));
+			return this.forward("igrp","ChangePassword","index");
+		} 
+		user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
 		user.setUpdated_at(System.currentTimeMillis());
 		user = user.update();
 		if(user !=null)
@@ -76,8 +80,14 @@ public class ChangePasswordController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	private Response ldap(String password) throws IOException {
+	private Response ldap(String currentPassword, String newPassword) throws IOException {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		User user = Core.getCurrentUser();
+		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
+			Core.setMessageError(gt("Senha actual inválido. Tente de novo !!! "));
+			return this.forward("igrp","ChangePassword","index");
+		} 
+
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getType());
@@ -86,7 +96,7 @@ public class ChangePasswordController extends Controller {
 		
 		String error = ldap.getError();
 		if(person != null) {
-			person.setPwdLastSet(password);
+			person.setPwdLastSet(newPassword);
 			ldap.changePassword(person);
 			error = ldap.getError();
 			if(error != null) {
