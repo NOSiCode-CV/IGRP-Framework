@@ -20,11 +20,11 @@ public class LdapUserView extends View {
 			
 		form_1 = new IGRPForm("form_1","");
 		common_name = new TextField(model,"common_name");
-		common_name.setLabel(gt("Common Name"));
+		common_name.setLabel(gt("Nome"));
 		
 		common_name.propertie().add("name","p_common_name").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		surname = new TextField(model,"surname");
-		surname.setLabel(gt("Surname"));
+		surname.setLabel(gt("Apelido"));
 		
 		surname.propertie().add("name","p_surname").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		email_1 = new EmailField(model,"email_1");
