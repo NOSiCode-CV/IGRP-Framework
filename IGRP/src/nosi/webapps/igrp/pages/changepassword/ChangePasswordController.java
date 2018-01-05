@@ -48,6 +48,11 @@ public class ChangePasswordController extends Controller {
 				return this.forward("igrp","ChangePassword","index");
 			}
 			
+			if (model.getPassword_1().equals(model.getOld_password())) {
+				Core.setMessageError(gt("A nova senha não pode ser igual a senha anterior ... Tente de novo !"));
+				return this.forward("igrp","ChangePassword","index");
+			}
+			
 			switch(Config.getAutenticationType()) {
 				case "ldap": return ldap(model.getOld_password(), model.getPassword_1());
 				case "db": return db(model.getOld_password(), model.getPassword_1());
@@ -102,8 +107,12 @@ public class ChangePasswordController extends Controller {
 			if(error != null) {
 				Core.setMessageError("Ocorreu um erro. LDAP error: " + error);
 				return this.forward("igrp","ChangePassword","index");
-			}else
+			}else { 
+				user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
+				user.setUpdated_at(System.currentTimeMillis());
+				user = user.update();
 				Core.setMessageSuccess(gt("Password alterado com sucesso."));
+			}
 		}else {
 			Core.setMessageError(gt(error != null ? error : "Ocorreu um erro. Email inválido."));
 			return this.forward("igrp","ChangePassword","index");

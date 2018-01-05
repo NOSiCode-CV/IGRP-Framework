@@ -10,7 +10,7 @@ public class ChangePasswordView extends View {
 	
 	public Field email_1;
 	public Field old_password;
-	public Field password_1;
+	public Field password_1; 
 	public Field confirm_password;
 	public Field sectionheader_1_text;
 	public IGRPForm form_1;
@@ -53,8 +53,6 @@ public class ChangePasswordView extends View {
 		
 	@Override
 	public void render(){
-		
-
 		form_1.addField(email_1);
 		form_1.addField(old_password);
 		form_1.addField(password_1);

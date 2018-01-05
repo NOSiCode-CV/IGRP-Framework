@@ -10,7 +10,7 @@ public class ChangePassword extends Model{
 	private String email_1;
 	@RParam(rParamName = "p_old_password")
 	private String old_password;
-	@RParam(rParamName = "p_password_1")
+	@RParam(rParamName = "p_password_1") 
 	private String password_1;
 	@RParam(rParamName = "p_confirm_password")
 	private String confirm_password;

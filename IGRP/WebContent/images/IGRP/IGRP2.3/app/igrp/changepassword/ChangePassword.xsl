@@ -56,6 +56,20 @@
                                                                         </input>
                                                                     </div>
                                                                 </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/p_old_password">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="p_old_password" item-type="password" required="required">
+                                                                        <label for="{rows/content/form_1/fields/p_old_password/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/p_old_password/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="password" value="{rows/content/form_1/fields/p_old_password/value}" class="form-control " id="{rows/content/form_1/fields/p_old_password/@name}" name="{rows/content/form_1/fields/p_old_password/@name}" required="required" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/p_old_password"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/password_1">
                                                                     <div class="form-group col-sm-3   gen-fields-holder" item-name="password_1" item-type="password" required="required">
                                                                         <label for="{rows/content/form_1/fields/password_1/@name}">
