@@ -24,25 +24,25 @@ public class ChangePasswordController extends Controller {
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		/*----#START-PRESERVED-AREA(INDEX)----*/  
 		ChangePassword model = new ChangePassword();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
-		} 
+		}
 		ChangePasswordView view = new ChangePasswordView(model);
-		view.email_1.setValue(Core.getCurrentUser().getEmail().trim()); 
+		view.email_1.setValue(Core.getCurrentUser().getEmail().trim());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
 
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		ChangePassword model = new ChangePassword();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			
+
 			model.load();
-			
+		
 			if(!model.getPassword_1().equals(model.getConfirm_password())) {
 				Core.setMessageError(gt("Password inconsistentes ... Tente de novo !"));
 				return this.forward("igrp","ChangePassword","index");
@@ -63,7 +63,7 @@ public class ChangePasswordController extends Controller {
 		return this.redirect("igrp","ChangePassword","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	private Response db(String currentPassword, String newPassword) throws IOException {

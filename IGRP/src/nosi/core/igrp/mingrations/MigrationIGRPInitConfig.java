@@ -63,11 +63,10 @@ public class MigrationIGRPInitConfig {
 			config = new Config("SERVICE_ID_BIZTALK_PESQUISA_BI", "your id");
 			config.insert();
 			
-			
 			User user0 = new User("IGRP", "igrp@nosi.cv", " ", "ADMIN", null, 1, null, "123456789", "admin",null, null, null, null, null,"123456789", 2017, 2017);
 			user0 = user0.insert();
 			user0 = user0.updateTozero();
-			User user1 = new User("Nositeste", "nositeste@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, "123456789", "demo",null, null, null, null, null,"123456", 2017, 2017);
+			User user1 = new User("Nositeste", "demo@nosi.cv", "fe01ce2a7fbac8fafaed7c982a04e229", "ADMIN", null, 1, null, "123456789", "demo",null, null, null, null, null,"123456", 2017, 2017);
 			user1 = user1.insert();
 			/** For SSO tomcat realm  **/
 			UserRole role = new UserRole();
