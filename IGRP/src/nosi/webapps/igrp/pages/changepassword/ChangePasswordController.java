@@ -107,7 +107,7 @@ public class ChangePasswordController extends Controller {
 			if(error != null) {
 				Core.setMessageError("Ocorreu um erro. LDAP error: " + error);
 				return this.forward("igrp","ChangePassword","index");
-			}else {
+			}else { 
 				user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
 				user.setUpdated_at(System.currentTimeMillis());
 				user = user.update();
