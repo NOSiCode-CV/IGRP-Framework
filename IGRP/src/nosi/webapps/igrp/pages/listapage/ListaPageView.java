@@ -28,7 +28,7 @@ public class ListaPageView extends View {
 	public IGRPButton btn_gerar_codigo;
 	public IGRPButton btn_download;
 	public ListaPageView(ListaPage model){
-		this.setPageTitle("Lista de Paginas");
+		this.setPageTitle("App builder");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");

@@ -9,10 +9,13 @@ public class PageView extends View {
 	
 	
 	public Field sectionheader_1_text;
-	public Field version;
 	public Field action_descr;
 	public Field page;
+	public Field status;
+	public Field status_check;
+	public Field nada;
 	public Field env_fk;
+	public Field version;
 	public Field p_id;
 	public Field p_table_name;
 	public Field p_xsl_src;
@@ -27,14 +30,12 @@ public class PageView extends View {
 	public Field p_db_connection;
 	public Field p_flg_offline;
 	public Field p_flg_internet;
-	public Field p_status;
 	public Field p_proc_name;
 	public IGRPSectionHeader sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
-	public IGRPButton btn_voltar;
 	public PageView(Page model){
 		this.setPageTitle("Registar Pagina");
 			
@@ -45,10 +46,6 @@ public class PageView extends View {
 		
 		sectionheader_1_text.setValue(gt("Page builder - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
-		version = new ListField(model,"version");
-		version.setLabel(gt("Versão de Página"));
-		
-		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		action_descr = new TextField(model,"action_descr");
 		action_descr.setLabel(gt("Título"));
 		
@@ -57,10 +54,22 @@ public class PageView extends View {
 		page.setLabel(gt("Código"));
 		
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		status = new CheckBoxField(model,"status");
+		status.setLabel(gt("Ativo?"));
+		
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		nada = new SeparatorField(model,"nada");
+		nada.setLabel(gt("  "));
+		
+		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		env_fk = new ListField(model,"env_fk");
 		env_fk.setLabel(gt("Aplicação"));
 		
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		version = new ListField(model,"version");
+		version.setLabel(gt("Versão de Página"));
+		
+		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		
@@ -117,10 +126,6 @@ public class PageView extends View {
 		p_flg_internet.setLabel(gt(""));
 		
 		p_flg_internet.propertie().add("name","p_flg_internet").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","flg_internet");
-		p_status = new HiddenField(model,"p_status");
-		p_status.setLabel(gt(""));
-		
-		p_status.propertie().add("name","p_status").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","status");
 		p_proc_name = new HiddenField(model,"p_proc_name");
 		p_proc_name.setLabel(gt(""));
 		
@@ -129,8 +134,6 @@ public class PageView extends View {
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","Page","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_voltar = new IGRPButton("Voltar","igrp","Page","voltar","_self","default|fa-arrow-left","","");
-		btn_voltar.propertie.add("type","specific").add("code","").add("rel","voltar");
 		
 	}
 		
@@ -140,10 +143,12 @@ public class PageView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 
-		form_1.addField(version);
 		form_1.addField(action_descr);
 		form_1.addField(page);
+		form_1.addField(status);
+		form_1.addField(nada);
 		form_1.addField(env_fk);
+		form_1.addField(version);
 		form_1.addField(p_id);
 		form_1.addField(p_table_name);
 		form_1.addField(p_xsl_src);
@@ -158,11 +163,9 @@ public class PageView extends View {
 		form_1.addField(p_db_connection);
 		form_1.addField(p_flg_offline);
 		form_1.addField(p_flg_internet);
-		form_1.addField(p_status);
 		form_1.addField(p_proc_name);
 
 		toolsbar_1.addButton(btn_gravar);
-		toolsbar_1.addButton(btn_voltar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);

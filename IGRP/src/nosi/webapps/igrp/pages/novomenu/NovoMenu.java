@@ -22,6 +22,8 @@ public class NovoMenu extends Model{
 	private int self_id;
 	@RParam(rParamName = "p_status")
 	private int status;
+	@RParam(rParamName = "p_status_check")
+	private int status_check;
 	@RParam(rParamName = "p_extra")
 	private String extra;
 	@RParam(rParamName = "p_target")
@@ -30,6 +32,8 @@ public class NovoMenu extends Model{
 	private String link;
 	@RParam(rParamName = "p_flg_base")
 	private int flg_base;
+	@RParam(rParamName = "p_flg_base_check")
+	private int flg_base_check;
 	@RParam(rParamName = "p_area")
 	private String p_area;
 	@RParam(rParamName = "p_img_src")
@@ -92,6 +96,12 @@ public class NovoMenu extends Model{
 	public int getStatus(){
 		return this.status;
 	}
+	public void setStatus_check(int status_check){
+		this.status_check = status_check;
+	}
+	public int getStatus_check(){
+		return this.status_check;
+	}
 	
 	public void setExtra(String extra){
 		this.extra = extra;
@@ -119,6 +129,12 @@ public class NovoMenu extends Model{
 	}
 	public int getFlg_base(){
 		return this.flg_base;
+	}
+	public void setFlg_base_check(int flg_base_check){
+		this.flg_base_check = flg_base_check;
+	}
+	public int getFlg_base_check(){
+		return this.flg_base_check;
 	}
 	
 	public void setP_area(String p_area){

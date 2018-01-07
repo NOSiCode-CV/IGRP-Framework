@@ -8,14 +8,20 @@ import nosi.core.webapp.SeparatorList;
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_version")
-	private String version;
 	@RParam(rParamName = "p_action_descr")
 	private String action_descr;
 	@RParam(rParamName = "p_page")
 	private String page;
+	@RParam(rParamName = "p_status")
+	private int status;
+	@RParam(rParamName = "p_status_check")
+	private int status_check;
+	@RParam(rParamName = "p_nada")
+	private String nada;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
+	@RParam(rParamName = "p_version")
+	private String version;
 	@RParam(rParamName = "p_id")
 	private String p_id;
 	@RParam(rParamName = "p_table_name")
@@ -44,8 +50,6 @@ public class Page extends Model{
 	private String p_flg_offline;
 	@RParam(rParamName = "p_flg_internet")
 	private String p_flg_internet;
-	@RParam(rParamName = "p_status")
-	private String p_status;
 	@RParam(rParamName = "p_proc_name")
 	private String p_proc_name;
 	
@@ -54,13 +58,6 @@ public class Page extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
-	}
-	
-	public void setVersion(String version){
-		this.version = version;
-	}
-	public String getVersion(){
-		return this.version;
 	}
 	
 	public void setAction_descr(String action_descr){
@@ -77,11 +74,38 @@ public class Page extends Model{
 		return this.page;
 	}
 	
+	public void setStatus(int status){
+		this.status = status;
+	}
+	public int getStatus(){
+		return this.status;
+	}
+	public void setStatus_check(int status_check){
+		this.status_check = status_check;
+	}
+	public int getStatus_check(){
+		return this.status_check;
+	}
+	
+	public void setNada(String nada){
+		this.nada = nada;
+	}
+	public String getNada(){
+		return this.nada;
+	}
+	
 	public void setEnv_fk(String env_fk){
 		this.env_fk = env_fk;
 	}
 	public String getEnv_fk(){
 		return this.env_fk;
+	}
+	
+	public void setVersion(String version){
+		this.version = version;
+	}
+	public String getVersion(){
+		return this.version;
 	}
 	
 	public void setP_id(String p_id){
@@ -180,13 +204,6 @@ public class Page extends Model{
 	}
 	public String getP_flg_internet(){
 		return this.p_flg_internet;
-	}
-	
-	public void setP_status(String p_status){
-		this.p_status = p_status;
-	}
-	public String getP_status(){
-		return this.p_status;
 	}
 	
 	public void setP_proc_name(String p_proc_name){

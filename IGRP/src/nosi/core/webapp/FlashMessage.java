@@ -16,6 +16,11 @@ import static nosi.core.i18n.Translator.gt;
  */
 public class FlashMessage implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Message msgs;
 	
 	public static final String SUCCESS = "success";
@@ -52,14 +57,14 @@ public class FlashMessage implements Serializable{
 	
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);
-		// actualizar session  /* Sorry we dont need it */
+		// atualizar session  /* Sorry we dont need it */
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 		return this;
 	}
 	
 	public void setMessage(String name, String msg){
 		this.msgs.setMessage(name, msg);
-		// actualizar session /* Sorry we dont need it */
+		// atualizar session /* Sorry we dont need it */
 		//Igrp.getInstance().getRequest().getSession().setAttribute("flash", this.msgs);
 	}
 	
@@ -82,6 +87,10 @@ public class FlashMessage implements Serializable{
 	
 	private class Message implements Serializable{ // inner/internal class for all message
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private Map<String, ArrayList<String>> msg;
 		
 		public Message(){

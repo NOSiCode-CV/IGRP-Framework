@@ -52,7 +52,7 @@ public class PesquisarMenuView extends View {
 		novo = new LinkField(model,"novo");
 		novo.setLabel(gt("Novo"));
 		
-		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","false").add("action","index").add("page","NovoMenu").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
+		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","NovoMenu").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
 		ativo = new PlainTextField(model,"ativo");
 		ativo.setLabel(gt("Ativo"));
 		

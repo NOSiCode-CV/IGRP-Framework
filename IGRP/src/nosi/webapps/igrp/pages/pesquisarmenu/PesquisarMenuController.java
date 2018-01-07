@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -86,7 +87,7 @@ public class PesquisarMenuController extends Controller {
 			}
 			lista.add(table1);
 		}
-      if (model.getAplicacao() != null && !model.getAplicacao().equals(""))
+   
    		   model.setNovo("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao());
 		PesquisarMenuView view = new PesquisarMenuView(model);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novomenu/NovoMenu.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -51,16 +51,7 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app/>
-                <page/>
-                <link/>
-                <target>_back</target>
-                <img>default|fa-arrow-left</img>
-                <parameter>undefined</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -114,11 +105,11 @@
                 </detalhes>
                 <descr name="p_descr" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Totam accusantium omnis voluptatem iste</value>
+                    <value>Doloremque laudantium elit rem anim</value>
                 </descr>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Ordem</label>
-                    <value>20</value>
+                    <value>29</value>
                 </orderby>
                 <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Menu pai</label>
@@ -173,7 +164,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Voluptatem ut unde accusantium</value>
+                    <value>Elit rem sit consectetur accus</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Público?</label>

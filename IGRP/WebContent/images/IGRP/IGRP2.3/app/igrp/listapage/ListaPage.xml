@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=1</preserve_url>
     </plsql>
     <content>
-        <title>Lista de Paginas</title>
+        <title>App builder</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -70,15 +70,15 @@
                 </env_fk>
                 <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ListaEnv" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
                     <label>Nova página</label>
-                    <value>undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
                 </link_btn_nova_pagina>
                 <link_btn_ab name="p_link_btn_ab" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-th" maxlength="30" placeholder="" right="true">
                     <label>App builder</label>
-                    <value>undefinedimages/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
                 </link_btn_ab>
                 <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Import_export" app="igrp" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
                     <label>Importar</label>
-                    <value>undefinedimages/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</value>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</value>
                 </btn_import>
             </fields>
         </form_1>
@@ -104,8 +104,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sed totam omnis doloremque ani</descricao_page>
-                        <nome_page name="p_nome_page">Aperiam perspiciatis labore do</nome_page>
+                        <descricao_page name="p_descricao_page">Amet rem ipsum sed officia</descricao_page>
+                        <nome_page name="p_nome_page">Anim ut officia mollit consect</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -115,8 +115,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Omnis ipsum rem mollit accusan</descricao_page>
-                        <nome_page name="p_nome_page">Rem sed labore sit aliqua</nome_page>
+                        <descricao_page name="p_descricao_page">Amet ipsum amet doloremque sit</descricao_page>
+                        <nome_page name="p_nome_page">Natus dolor anim laudantium se</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -126,8 +126,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ipsum officia perspiciatis acc</descricao_page>
-                        <nome_page name="p_nome_page">Unde stract elit stract aliqua</nome_page>
+                        <descricao_page name="p_descricao_page">Omnis sit voluptatem lorem mag</descricao_page>
+                        <nome_page name="p_nome_page">Labore totam adipiscing aliqua</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -137,8 +137,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Unde sit consectetur laudantiu</descricao_page>
-                        <nome_page name="p_nome_page">Natus perspiciatis accusantium</nome_page>
+                        <descricao_page name="p_descricao_page">Ipsum sit ipsum aliqua unde</descricao_page>
+                        <nome_page name="p_nome_page">Doloremque ipsum perspiciatis</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -148,8 +148,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Stract sed perspiciatis perspi</descricao_page>
-                        <nome_page name="p_nome_page">Magna omnis magna sed perspici</nome_page>
+                        <descricao_page name="p_descricao_page">Laudantium totam perspiciatis</descricao_page>
+                        <nome_page name="p_nome_page">Omnis anim ipsum amet labore</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
@@ -159,7 +159,7 @@
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
                         <target>modal|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
@@ -168,7 +168,7 @@
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
                         <target>submit_popup</target>
                         <img>primary|fa-eye</img>
                     </item>
@@ -177,7 +177,7 @@
                         <app>igrp</app>
                         <page>ListaPage</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
@@ -186,7 +186,7 @@
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
                         <target>_blank</target>
                         <img>info|fa-gears</img>
                     </item>
@@ -195,7 +195,7 @@
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
                         <target>confirm</target>
                         <img>link|fa-download</img>
                     </item>
