@@ -24,9 +24,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-4ec380be">
+                                    <div class="row " id="row-21be2a5d">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
+                                                <xsl:if test="rows/content/sectionheader_1">
+                                                    <section class="content-header gen-container-item " gen-class="" item-name="sectionheader_1">
+                                                        <h2>
+                                                            <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
+                                                        </h2>
+                                                    </section>
+                                                </xsl:if>
                                                 <xsl:if test="rows/content/toolsbar_1">
                                                     <div class="toolsbar-holder boxed gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder&gt;a.btn" gen-class="" item-name="toolsbar_1">
                                                         <div class="btns-holder  pull-right" role="group">
@@ -49,9 +56,23 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/email_1/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="email" value="{rows/content/form_1/fields/email_1/value}" class="form-control " id="{rows/content/form_1/fields/email_1/@name}" name="{rows/content/form_1/fields/email_1/@name}" disabled="disabled" required="required" maxlength="100" placeholder="">
+                                                                        <input type="email" value="{rows/content/form_1/fields/email_1/value}" class="form-control " id="{rows/content/form_1/fields/email_1/@name}" name="{rows/content/form_1/fields/email_1/@name}" readonly="readonly" required="required" maxlength="100" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/email_1"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/old_password">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="old_password" item-type="password" required="required">
+                                                                        <label for="{rows/content/form_1/fields/old_password/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/old_password/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="password" value="{rows/content/form_1/fields/old_password/value}" class="form-control " id="{rows/content/form_1/fields/old_password/@name}" name="{rows/content/form_1/fields/old_password/@name}" required="required" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/old_password"/>
                                                                             </xsl:call-template>
                                                                         </input>
                                                                     </div>
@@ -103,9 +124,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1514565440078"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1514565440078"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1514565440078"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1514565440078"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1514565440078"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515182859204"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515182859204"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515182859204"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515182859204"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1515182859204"/>
 </xsl:stylesheet>

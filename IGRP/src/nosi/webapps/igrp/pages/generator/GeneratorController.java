@@ -14,6 +14,7 @@ public class GeneratorController extends Controller{
 	
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
+		this.isNoChached=true;
 		Generator model = new Generator();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
@@ -21,15 +22,15 @@ public class GeneratorController extends Controller{
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(id));	
 				if(ac!=null){
-					model.setGen_elements(Config.getLinkImgBase()+"images/IGRP/Config/formgen.config.txt?id=");
+					model.setGen_elements(Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
 					model.setId_objeto(Integer.parseInt(id));
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
-					model.setLink_image(Config.getLinkImgBase()+"images/IGRP/Config/img.list.php?name=");	
+					model.setLink_image(Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
 					String json = Config.getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
 					if(ac!=null && FileHelper.fileExists(json)){
 						json = Config.getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
-						model.setPage_form(json);
+						model.setPage_form(json.replace("\\", "/"));
 					}
 					model.setPackage_(Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
 					model.setPage(ac.getPage());

@@ -14,8 +14,10 @@ import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.compiler.helpers.Compiler;
 /**
  * @author: Emanuel Pereira
@@ -24,6 +26,8 @@ import nosi.core.webapp.compiler.helpers.Compiler;
 public class Import {
 
 	protected String encode = FileHelper.ENCODE_ISO;
+	protected Application app;
+	
 	public boolean importApp(IFImportExport ie) {
 		return ie.importApp();
 	}
@@ -72,7 +76,7 @@ public class Import {
 		}
 		try {
 			FileHelper.save(path_class,partPage[3],content);
-			if(FileHelper.fileExists(Config.getWorkspace())){
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())){
 				String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
 				FileHelper.save(path_class_work_space,partPage[3],content);
 			}
@@ -91,7 +95,7 @@ public class Import {
 			FileHelper.createDiretory(dir);
 		try {
 			FileHelper.save(dir, partPage[1],file.getConteudo());
-			if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/dao")){
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/dao")){
 				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
 			}	
 			return new File(dir+"/"+ partPage[1]);
@@ -109,7 +113,7 @@ public class Import {
 		
 		try {
 			FileHelper.save(dir, "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-			if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 			}	
 			return new File(dir+"/"+ "DefaultPageController.java");
@@ -126,7 +130,7 @@ public class Import {
 								  .andWhere("application.dad", "=", app.getDad())
 								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
-		String path = Config.getResolvePathPage(app.getDad(), page.getPage(), page.getVersion());
+		String path = Config.getBaseServerPahtXsl(page);
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
 		
@@ -134,15 +138,12 @@ public class Import {
 		if(file.getNome().endsWith(".xml")){
 			content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+page.getPackage_name() +content.substring(content.indexOf("</package_db>"));
 		}else if(file.getNome().endsWith(".json") && content.indexOf("\"package\":") >=0 ){		
-			String package_name = page.getPackage_name();
-			package_name = package_name.substring(0, package_name.indexOf(".",package_name.indexOf("pages")));
-			content = content.substring(0, content.indexOf("\"html\":")+"\"html\":\"".length())+page.getPage()+"\""+content.substring(content.indexOf(",\"replace\""));
-			content = content.substring(0, content.indexOf("\"package\":")+"\"package\":\"".length())+package_name+"\"" +content.substring(content.indexOf(",\"html\""));
+			content = this.addClassAndPackage(content,page,"json");
 		}
 		try {
 			boolean result = false;
 			//Guarda ficheiros no workspace caso existe
-			if(FileHelper.fileExists(Config.getWorkspace())){
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())){
 				String path_xsl_work_space = Config.getBasePahtXslWorkspace(page);		
 				result = FileHelper.save(path_xsl_work_space,partPage[4], content);
 			}
@@ -242,5 +243,44 @@ public class Import {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+
+
+	//Adiciona Class e Pacote no XML
+	protected String addClassAndPackage(String content,Action page,String type) {
+		if(type.equalsIgnoreCase("xml")) {
+			int index =  content.indexOf("<package_html>");
+			if(index >= 0){
+				content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ page.getPage()+content.substring(content.indexOf("</package_html>"));
+				String package_name = Config.getBasePackage(app.getDad()).contains(".pages")?Config.getBasePackage(app.getDad()):Config.getBasePackage(app.getDad())+".pages";
+				content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+package_name +content.substring(content.indexOf("</package_db>"));
+			}else{
+				content = this.configurePackageAndClass(content,page);
+			}
+		}else if(type.equalsIgnoreCase("json")) {
+			int index =  content.indexOf("\"html\":");
+			if(index >= 0){
+				String package_name = page.getPackage_name();
+				package_name = package_name.substring(0, package_name.indexOf(".",package_name.indexOf("pages")));
+				content = content.substring(0, content.indexOf("\"html\":")+"\"html\":\"".length())+page.getPage()+"\""+content.substring(content.indexOf(",\"replace\""));
+				content = content.substring(0, content.indexOf("\"package\":")+"\"package\":\"".length())+package_name+"\"" +content.substring(content.indexOf(",\"html\""));
+			}
+		}
+		return content;
+	}
+	
+
+
+	private String configurePackageAndClass(String content,Action page) {
+		String aux = content.substring(0,content.indexOf("</app>")+"</app>".length());
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("plsql");
+			xml.setElement("action", page.getPage());
+			xml.setElement("package_db", page.getPackage_name());//PackageName
+			xml.setElement("package_html", page.getPage());//ClassName
+		xml.endElement();
+		aux += xml.toString() + content.substring(content.indexOf("</app>")+"</app>".length());
+		return aux;
 	}
 }

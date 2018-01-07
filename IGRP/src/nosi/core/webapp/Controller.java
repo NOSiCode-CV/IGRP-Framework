@@ -22,6 +22,7 @@ public abstract class Controller {
 	
 	protected String format = Response.FORMAT_XML;
 	protected String encoding = Response.CHARSET_UTF_8;
+	protected boolean isNoChached = false;
 	
 	private Response responseWrapper;
 	
@@ -45,6 +46,11 @@ public abstract class Controller {
 		resp.setCharacterEncoding(Response.CHARSET_UTF_8);
 		resp.setContentType(Response.FORMAT_XML);
 		resp.setHttpStatus(HttpStatus.STATUS_200);
+		if(this.isNoChached){
+			resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+			resp.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+			resp.setDateHeader("Expires", 0); // Proxies.
+		}
 		resp.setContent(result);
 	return resp;
 	}
