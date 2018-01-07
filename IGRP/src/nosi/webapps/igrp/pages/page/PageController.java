@@ -1,7 +1,7 @@
 
 package nosi.webapps.igrp.pages.page;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-
+import static nosi.core.i18n.Translator.gt;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -38,34 +38,35 @@ public class PageController extends Controller {
 
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/ 
+		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Page model = new Page();
-//		String id = Igrp.getInstance().getRequest().getParameter("id");
+		// String id = Igrp.getInstance().getRequest().getParameter("id");
 		model.load();
-		Boolean isEdit=false;
-		if(model.getP_id()!=null && !model.getP_id().equals("")){
+		Boolean isEdit = false;
+		if (Core.isInteger(model.getP_id())) {
 			Action a = new Action();
 			a = a.findOne(Integer.parseInt(model.getP_id()));
-			if(a!=null){
+			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
-				model.setEnv_fk(""+a.getApplication().getId());
+				model.setEnv_fk("" + a.getApplication().getId());
 				model.setP_action(a.getAction());
 				model.setP_page_descr(a.getPage_descr());
 				model.setPage(a.getPage());
-				model.setP_id(""+a.getId());
+				model.setP_id("" + a.getId());
 				model.setVersion(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
-				model.setP_status(""+a.getStatus());
+				model.setStatus(a.getStatus());
 			}
-			isEdit=true;
+			isEdit = true;
 		}
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());
+		view.status.setValue(1);
 		view.version.setValue(Config.getVersions());
 		view.version.setVisible(false);
-		view.btn_voltar.setVisible(false);
-		if(isEdit)
-		view.sectionheader_1_text.setValue("Page builder - Atualizar");
+
+		if (isEdit)
+			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -74,74 +75,70 @@ public class PageController extends Controller {
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Page model = new Page();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();	
-          	int idPage = model.getP_id()!=null && !model.getP_id().equals("")?Integer.parseInt(model.getP_id()):0;
+		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			model.load();
+			int idPage = Core.isInteger(model.getP_id()) ? Integer.parseInt(model.getP_id()) : 0;
 			Application app = new Application();
 			Action action = new Action();
-			action.setAction("index");
+			
 			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
 			action.setAction_descr(model.getAction_descr());
-			action.setPage_descr(model.getAction_descr());
+			action.setPage_descr(model.getAction_descr());			
+			action.setStatus(model.getStatus());
 			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-			if(!nosi.core.gui.page.Page.validatePage(action.getPage())){
-				if(idPage!=0){
+			action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages."+ action.getPage().toLowerCase());	
+			action.setVersion(model.getVersion() == null?"2.3":model.getVersion());
+			
+			if (idPage != 0) {
+				//Edit/update page
+				action.setAction(model.getP_action());
+				action.setXsl_src(model.getP_xsl_src());			
+				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {					
 						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,FlashMessage.MESSAGE_ERROR_VALID_PAGE);
-				return this.redirect("igrp", "page", "index", new String[]{"id"}, new String[]{idPage + ""});
-				}else {
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, FlashMessage.WARNING_PAGE_INVALID);
-				return this.forward("igrp", "page", "index");
+						return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] { idPage +""});
 				}
-			
-				
-			
-			}
-			//action.setStatus(model.getP_status());
-			if(model.getVersion()==null)
-				action.setVersion("2.3");
-			else
-				action.setVersion(model.getVersion());
-			action.setPackage_name("nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages."+action.getPage().toLowerCase());
-			if(idPage!=0){
-              	action.setId(idPage);
+				action.setId(idPage);
 				action = action.update();
-				if(action!=null)
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+				if (action != null)
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Página atualizada com sucesso."));
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-				return this.redirect("igrp", "page", "editar", new String[]{"id"}, new String[]{idPage + ""});
-			}else{
+				return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] {idPage+"" });
+			} else {
+				//Ñew page
+				action.setAction("index");				
+					if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
+								FlashMessage.WARNING_PAGE_INVALID);
+						return this.forward("igrp", "page", "index");					
+				}		
 				action = action.insert();
-				if(action!=null){
-					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."+action.getApplication().getDad().toLowerCase()+".pages\",\"html\":\""+action.getPage()+"\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = Config.getBaseServerPahtXsl(action);		
-					FileHelper.save(path_xsl, action.getPage()+".json", json);
-					if(FileHelper.fileExists(Config.getWorkspace())){
-						FileHelper.save(Config.getWorkspace()+"/WebContent/images"+"/"+"IGRP/IGRP"+action.getVersion()+"/app/"+action.getApplication().getDad().toLowerCase()+"/"+action.getPage().toLowerCase(),action.getPage()+".json",json);
+				if (action != null) {
+					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
+							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
+							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
+					String path_xsl = Config.getBaseServerPahtXsl(action);
+					FileHelper.save(path_xsl, action.getPage() + ".json", json);
+					if (FileHelper.fileExists(Config.getWorkspace())) {
+						FileHelper.save(Config.getWorkspace() + "/WebContent/images" + "/" + "IGRP/IGRP"
+								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
+								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MSG_SUCCESS);
-				}else{
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MSG_ERROR);
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
+				} else {
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MSG_ERROR);
 					return this.forward("igrp", "page", "index");
 				}
 			}
-			
+
 		}
 		return this.redirect("igrp", "page", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-
-	public Response actionVoltar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp","page","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
 
-	//Save page generated
+	// Save page generated
 	public Response actionSaveGenPage() throws IOException, ServletException{		
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
@@ -171,9 +168,9 @@ public class PageController extends Controller {
 					
 					if(error.equals("") || error==null){//Check if not error on the compilation class
 						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
-						if(FileHelper.fileExists(Config.getWorkspace())){
-							if(!FileHelper.fileExists(path_class_work_space)){//check directory
-								FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+						if (FileHelper.fileExists(Config.getWorkspace())) {
+							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
+								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(), new Part[]{fileModel,fileView,fileController},FileHelper.ENCODE_UTF8,FileHelper.ENCODE_CP1252);//ENCODE_CP1252 for default encode eclipse
 							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(), new Part[]{fileXml,fileXsl,fileJson});
@@ -190,8 +187,7 @@ public class PageController extends Controller {
 		}
 		return this.renderView("<messages><message type=\"error\">"+StringEscapeUtils.escapeXml(error)+"</message></messages>");
 	}
-	
-	
+
 	private void deleteFilesInMemory(Part[] content) throws IOException {
 		FileHelper.deletePartFile(content[0]);
 		FileHelper.deletePartFile(content[1]);
@@ -200,13 +196,14 @@ public class PageController extends Controller {
 
 	private String processCompile(String path_class, String page) {
 		String errors = "";
-		path_class = path_class+File.separator;
-		File[] files = new File[]{new File(path_class+page+".java"),new File(path_class+page+"View.java"),new File(path_class+page+"Controller.java")};
+		path_class = path_class + File.separator;
+		File[] files = new File[] { new File(path_class + page + ".java"), new File(path_class + page + "View.java"),
+				new File(path_class + page + "Controller.java") };
 		Compiler compiler = new Compiler();
-    	try {
-			if(!compiler.compile(files)){			
+		try {
+			if (!compiler.compile(files)) {
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
-				        .collect(Collectors.groupingBy(ErrorCompile::getFileName));
+						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
 				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
 			}
 		} catch (IOException | URISyntaxException e) {
@@ -215,58 +212,59 @@ public class PageController extends Controller {
 		return errors;
 	}
 
-	//Read json and extract transactions
-	private void processJson(Part fileJson,Action ac) throws IOException {
-		if(fileJson!=null){
+	// Read json and extract transactions
+	private void processJson(Part fileJson, Action ac) throws IOException {
+		if (fileJson != null) {
 			JSONObject objJson;
 			try {
 				objJson = new JSONObject(FileHelper.convertToString(fileJson));
-				JSONArray rows = objJson.getJSONArray("rows");				
-				for(int i=0;i<rows.length();i++){
+				JSONArray rows = objJson.getJSONArray("rows");
+				for (int i = 0; i < rows.length(); i++) {
 					JSONArray collumns;
-					try{
+					try {
 						collumns = rows.getJSONObject(i).getJSONArray("columns");
-						for(int j=0;j<collumns.length();j++){
+						for (int j = 0; j < collumns.length(); j++) {
 							JSONArray containers;
-							try{
+							try {
 								containers = collumns.getJSONObject(j).getJSONArray("containers");
-								for(int h=0;h<containers.length();h++){
+								for (int h = 0; h < containers.length(); h++) {
 									JSONArray fields;
-									try{
+									try {
 										fields = containers.getJSONObject(h).getJSONArray("fields");
-										this.processTransactions(fields,ac);
-									}catch (JSONException e) {
+										this.processTransactions(fields, ac);
+									} catch (JSONException e) {
 									}
 									JSONArray contextMenu;
-									try{
+									try {
 										contextMenu = containers.getJSONObject(h).getJSONArray("contextMenu");
-										this.processTransactions(contextMenu,ac);
-									}catch (JSONException e) {
+										this.processTransactions(contextMenu, ac);
+									} catch (JSONException e) {
 									}
 								}
-							}catch (JSONException e) {
+							} catch (JSONException e) {
 							}
 						}
-					}catch (JSONException e) {
+					} catch (JSONException e) {
 					}
-				}	
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	//Extract transactions
-	private void processTransactions(JSONArray fields,Action ac) {
-		for(int i=0;i<fields.length();i++){
+
+	// Extract transactions
+	private void processTransactions(JSONArray fields, Action ac) {
+		for (int i = 0; i < fields.length(); i++) {
 			JSONObject p;
-			try{
+			try {
 				p = fields.getJSONObject(i).getJSONObject("properties");
-				try{
-					if(p.get("transaction")!=null && p.get("transaction").toString().equals("true")){
-						this.saveTransaction(p.get("name").toString(),p.get("label").toString(),p.get("action").toString(),p.get("tag").toString(),ac);
+				try {
+					if (p.get("transaction") != null && p.get("transaction").toString().equals("true")) {
+						this.saveTransaction(p.get("name").toString(), p.get("label").toString(),
+								p.get("action").toString(), p.get("tag").toString(), ac);
 					}
-				}catch (JSONException e) {
+				} catch (JSONException e) {
 				}
 			}catch (JSONException e) {
 			}
@@ -354,7 +352,7 @@ public class PageController extends Controller {
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 		String ac = Igrp.getInstance().getRequest().getParameter("ac");
 		String your_code = "";
-		if(type!=null && page!=null && app!=null && !page.equals("") && !app.equals("") && !type.equals("")){
+		if(Core.isNotNull(type) && Core.isNotNull(page) && Core.isNotNull(app)){
 			String controller = this.getPageController(app,page);
 			if(controller!=null){
 				if(type.equals("c_import")){
@@ -387,12 +385,12 @@ public class PageController extends Controller {
 	private String getPageController(String app,String page) {
 		String workspace = Config.getWorkspace()+"/src/nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
 		String controller = null;
-		if(FileHelper.dirExists(workspace)){
+		if(FileHelper.fileExists(workspace+"/"+page+"Controller.java")){
 			controller = FileHelper.readFile(workspace, page+"Controller.java");
 		}
 		else{
 			workspace = Config.getBasePathClass()+"nosi/webapps/"+app.toLowerCase()+"/pages/"+page.toLowerCase();
-			if(FileHelper.fileExists(workspace+page+"Controller.java")){
+			if(FileHelper.fileExists(workspace+"/"+page+"Controller.java")){
 				controller = FileHelper.readFile(workspace, page+"Controller.java");
 			}
 		}
