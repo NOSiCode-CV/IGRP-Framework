@@ -17,13 +17,13 @@ public class MigrationIGRPInitConfig {
 
 	
 	public static void start(){
-		Application app = new Application();
-		app.setDad("igrp");
-		app.setDescription("IGRP");
-		app.setName("IGRP");
-		app.setImg_src("app_casacidadao.png");
-		app.setStatus(1);
-		app = app.insertOnly();
+		Application igrp = new Application();
+		igrp.setDad("igrp");
+		igrp.setDescription("IGRP");
+		igrp.setName("IGRP");
+		igrp.setImg_src("app_casacidadao.png");
+		igrp.setStatus(1);
+		igrp = igrp.insertOnly();
 		
 		Application tutorial = new Application("tutorial", "Tutorial IGRP", "icon_educacao.png", "Mostra o que fazer com o IGRP JAVA Framework", 1, null);
 		tutorial = tutorial.insertOnly();
@@ -31,7 +31,7 @@ public class MigrationIGRPInitConfig {
 		Application igrp_studio = new Application("igrp_studio", "IGRP Studio", "studioSoLogo.svg", "IGRP Studio - Software Developer", 1, null,"igrp_studio");
 		igrp_studio = igrp_studio.insertOnly();
 		
-		if(app!=null){
+		if(igrp!=null){
 			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
 			config.insert();
 			
@@ -76,14 +76,14 @@ public class MigrationIGRPInitConfig {
 			role.insert();
 			/** **/
 			
-			Organization org = new Organization("01.03", "Ebau", 1, app, user0, null);
+			Organization org = new Organization("01.03", "IGRP", 1, igrp, user0, null);
 			org = org.insert();	
 
-			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, app, null);
+			ProfileType prof0 = new ProfileType("ALL PROFILE", "ALL", 1, null, igrp, null);
 			prof0 = prof0.insert();
 			prof0 = prof0.updateToZero();
 			
-			ProfileType prof1 = new ProfileType("Administrador", "ADMIN", 1, org, app, null);
+			ProfileType prof1 = new ProfileType("Administrador", "ADMIN", 1, org, igrp, null);
 			prof1 = prof1.insert();
 			
 			//Organizacao do tutorial
@@ -91,11 +91,11 @@ public class MigrationIGRPInitConfig {
 			tutorial_org = tutorial_org.insert();
 			
 			//Perfil da aplicacao tutorial
-			ProfileType tutrial_prof = new ProfileType("Tutorial", "perfil.tutorial", 1,tutorial_org, tutorial, null);
-			tutrial_prof = tutrial_prof.insert();
+			ProfileType tutorial_prof = new ProfileType("Tutorial", "perfil.tutorial", 1,tutorial_org, tutorial, null);
+			tutorial_prof = tutorial_prof.insert();
 			
 			//Organizacao do IGRP Studio
-			Organization igrp_studio_org = new Organization("org.developer", "Developer", 1, igrp_studio, user0, null);
+			Organization igrp_studio_org = new Organization("org.developer", "Developers", 1, igrp_studio, user0, null);
 			igrp_studio_org = igrp_studio_org.insert();
 			
 			//Perfil da aplicacao IGRP Studio
@@ -129,76 +129,85 @@ public class MigrationIGRPInitConfig {
 			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
-			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp.pages.listapage", "igrp/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, app));
-			actions.add(new Action("Env", "index", "nosi.webapps.igrp.pages.env", "igrp/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, app));
-			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp.pages.listaenv", "igrp/listaenv/ListaEnv.xsl", "Lista de Aplicacao", "Lista de Aplicacao", "2.3", 1, app));
-			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Lista de Dominio", "Lista de Dominio", "2.3", 1, app));
-			actions.add(new Action("NovoDominio", "index", "nosi.webapps.igrp.pages.novodominio", "igrp/novodominio/NovoDominio.xsl", "Registar Dominio", "Registar Dominio", "2.3", 1, app));
-			actions.add(new Action("PesquisarOrganica", "index", "nosi.webapps.igrp.pages.pesquisarorganica", "igrp/pesquisarorganica/PesquisarOrganica.xsl", "Lista de Organica", "Lista de Organica", "2.3", 1, app));
-			actions.add(new Action("NovaOrganica", "index", "nosi.webapps.igrp.pages.novaorganica", "igrp/novaorganica/NovaOrganica.xsl", "Registar Organica", "Registar Organica", "2.3", 1, app));
-			actions.add(new Action("NovoMenu", "index", "nosi.webapps.igrp.pages.novomenu", "igrp/novomenu/NovoMenu.xsl", "Registar Menu", "Registar Menu", "2.3", 1, app));
-			actions.add(new Action("PesquisarMenu", "index", "nosi.webapps.igrp.pages.pesquisarmenu", "igrp/pesquisarmenu/PesquisarMenu.xsl", "Lista de Menu", "Lista de Menu", "2.3", 1, app));
-			actions.add(new Action("NovoPerfil", "index", "nosi.webapps.igrp.pages.novoperfil", "igrp/novoperfil/NovoPerfil.xsl", "Registar Perfil", "Registar Perfil", "2.3", 1, app));
-			actions.add(new Action("PesquisarPerfil", "index", "nosi.webapps.igrp.pages.pesquisarperfil", "igrp/pesquisarperfil/PesquisarPerfil.xsl", "Lista de Perfil", "Lista de Perfil", "2.3", 1, app));
-			actions.add(new Action("PesquisarUtilizador", "index", "nosi.webapps.igrp.pages.pesquisarutilizador", "igrp/pesquisarutilizador/PesquisarUtilizador.xsl", "Lista de Utilizador", "Lista de Utilizador", "2.3", 1, app));
-			actions.add(new Action("NovoUtilizador", "index", "nosi.webapps.igrp.pages.novoutilizador", "igrp/novoutilizador/NovoUtilizador.xsl", "Registar Utilizador", "Registar Utilizador", "2.3", 1, app));
-			actions.add(new Action("Settings", "index", "nosi.webapps.igrp.pages.settings", "igrp/settings/Settings.xsl", "Settings", "Settings", "2.3", 1, app));
-			actions.add(new Action("RegistarUtilizador", "index", "nosi.webapps.igrp.pages.registarutilizador", "igrp/registarutilizador/RegistarUtilizador.xsl", "Registar Utilizador", "Registar Utilizador", "2.3", 1, app));
-			actions.add(new Action("Transaccao", "index", "nosi.webapps.igrp.pages.transaccao", "igrp/transaccao/Transaccao.xsl", "Transaccao", "Transaccao", "2.3", 1, app));
-			actions.add(new Action("Page", "index", "nosi.webapps.igrp.pages.page", "igrp/page/Page.xsl", "Registar Pagina", "Registar Pagina", "2.3", 1, app));
-			actions.add(new Action("MenuOrganica", "index", "nosi.webapps.igrp.pages.menuorganica", "igrp/menuorganica/MenuOrganica.xsl", "Associar Menu a Organica", "Associar Menu a Organica", "2.3", 1, app));
-			actions.add(new Action("ErrorPage", "index", "nosi.webapps.igrp.pages.errorpage", "igrp/errorpage/ErrorPage.xsl", "Pagina de Erro", "Pagina de Erro", "2.3", 1, app));
-			actions.add(new Action("TransacaoOrganica", "index", "nosi.webapps.igrp.pages.transacaoorganica", "igrp/transacaoorganica/TransacaoOrganica.xsl", "Associar Transacao a Organica", "Associar Transacao a Organica", "2.3", 1, app));
-			actions.add(new Action("EditarTransacao", "index", "nosi.webapps.igrp.pages.editartransacao", "igrp/editartransacao/EditarTransacao.xsl", "Editar Transacao", "Editar Transacao", "2.3", 1, app));
-			actions.add(new Action("Session", "index", "nosi.webapps.igrp.pages.session", "igrp/session/Session.xsl", "Gestao de Sessao", "Gestao de Sessao", "2.3", 1, app));
+			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp.pages.listapage", "igrp/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, igrp));
+			actions.add(new Action("Env", "index", "nosi.webapps.igrp.pages.env", "igrp/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, igrp));
+			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp.pages.listaenv", "igrp/listaenv/ListaEnv.xsl", "Lista de Aplicacao", "Lista de Aplicacao", "2.3", 1, igrp));
+			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Lista de Dominio", "Lista de Dominio", "2.3", 1, igrp));
+			actions.add(new Action("NovoDominio", "index", "nosi.webapps.igrp.pages.novodominio", "igrp/novodominio/NovoDominio.xsl", "Registar Dominio", "Registar Dominio", "2.3", 1, igrp));
+			actions.add(new Action("PesquisarOrganica", "index", "nosi.webapps.igrp.pages.pesquisarorganica", "igrp/pesquisarorganica/PesquisarOrganica.xsl", "Lista de Organica", "Lista de Organica", "2.3", 1, igrp));
+			actions.add(new Action("NovaOrganica", "index", "nosi.webapps.igrp.pages.novaorganica", "igrp/novaorganica/NovaOrganica.xsl", "Registar Organica", "Registar Organica", "2.3", 1, igrp));
+			actions.add(new Action("NovoMenu", "index", "nosi.webapps.igrp.pages.novomenu", "igrp/novomenu/NovoMenu.xsl", "Registar Menu", "Registar Menu", "2.3", 1, igrp));
+			actions.add(new Action("PesquisarMenu", "index", "nosi.webapps.igrp.pages.pesquisarmenu", "igrp/pesquisarmenu/PesquisarMenu.xsl", "Lista de Menu", "Lista de Menu", "2.3", 1, igrp));
+			actions.add(new Action("NovoPerfil", "index", "nosi.webapps.igrp.pages.novoperfil", "igrp/novoperfil/NovoPerfil.xsl", "Registar Perfil", "Registar Perfil", "2.3", 1, igrp));
+			actions.add(new Action("PesquisarPerfil", "index", "nosi.webapps.igrp.pages.pesquisarperfil", "igrp/pesquisarperfil/PesquisarPerfil.xsl", "Lista de Perfil", "Lista de Perfil", "2.3", 1, igrp));
+			actions.add(new Action("PesquisarUtilizador", "index", "nosi.webapps.igrp.pages.pesquisarutilizador", "igrp/pesquisarutilizador/PesquisarUtilizador.xsl", "Lista de Utilizador", "Lista de Utilizador", "2.3", 1, igrp));
+			actions.add(new Action("NovoUtilizador", "index", "nosi.webapps.igrp.pages.novoutilizador", "igrp/novoutilizador/NovoUtilizador.xsl", "Registar Utilizador", "Registar Utilizador", "2.3", 1, igrp));
+			actions.add(new Action("Settings", "index", "nosi.webapps.igrp.pages.settings", "igrp/settings/Settings.xsl", "Settings", "Settings", "2.3", 1, igrp));
+			actions.add(new Action("RegistarUtilizador", "index", "nosi.webapps.igrp.pages.registarutilizador", "igrp/registarutilizador/RegistarUtilizador.xsl", "Registar Utilizador", "Registar Utilizador", "2.3", 1, igrp));
+			actions.add(new Action("Transaccao", "index", "nosi.webapps.igrp.pages.transaccao", "igrp/transaccao/Transaccao.xsl", "Transaccao", "Transaccao", "2.3", 1, igrp));
+			actions.add(new Action("Page", "index", "nosi.webapps.igrp.pages.page", "igrp/page/Page.xsl", "Registar Pagina", "Registar Pagina", "2.3", 1, igrp));
+			actions.add(new Action("MenuOrganica", "index", "nosi.webapps.igrp.pages.menuorganica", "igrp/menuorganica/MenuOrganica.xsl", "Associar Menu a Organica", "Associar Menu a Organica", "2.3", 1, igrp));
+			actions.add(new Action("ErrorPage", "index", "nosi.webapps.igrp.pages.errorpage", "igrp/errorpage/ErrorPage.xsl", "Pagina de Erro", "Pagina de Erro", "2.3", 1, igrp));
+			actions.add(new Action("TransacaoOrganica", "index", "nosi.webapps.igrp.pages.transacaoorganica", "igrp/transacaoorganica/TransacaoOrganica.xsl", "Associar Transacao a Organica", "Associar Transacao a Organica", "2.3", 1, igrp));
+			actions.add(new Action("EditarTransacao", "index", "nosi.webapps.igrp.pages.editartransacao", "igrp/editartransacao/EditarTransacao.xsl", "Editar Transacao", "Editar Transacao", "2.3", 1, igrp));
+			actions.add(new Action("Session", "index", "nosi.webapps.igrp.pages.session", "igrp/session/Session.xsl", "Gestao de Sessao", "Gestao de Sessao", "2.3", 1, igrp));
 			actions.add(new Action("WebReport", "index", "nosi.webapps.igrp_studio.pages.webreport", "igrp_studio/webreport/WebReport.xsl", "Report Builder", "Report Builder", "2.3", 1, igrp_studio));
-			actions.add(new Action("DataSource", "index", "nosi.webapps.igrp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, app));
-			actions.add(new Action("LookupListPage", "index", "nosi.webapps.igrp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, app));
-			actions.add(new Action("Migrate", "index", "nosi.webapps.igrp.pages.migrate", "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, app));
-			actions.add(new Action("OAuthClientList", "index", "nosi.webapps.igrp.pages.oauthclientlist", "igrp/oauthclientlist/OAuthClientList.xsl", "pesquisar Dados dos clientes", "pesquisar Dados dos clientes", "2.3", 1, app));
-			actions.add(new Action("OAuthClient", "index", "nosi.webapps.igrp.pages.oauthclient", "igrp/oauthclient/OAuthClient.xsl", "Inserir Dados dos clientes", "Inserir Dados dos clientes", "2.3", 1, app));
-			actions.add(new Action("MapaProcesso", "index", "nosi.webapps.igrp.pages.mapaprocesso", "igrp/mapaprocesso/MapaProcesso.xsl", "Mapa Processo", "Mapa Processo", "2.3", 1, app));
-			actions.add(new Action("ExecucaoTarefas", "index", "nosi.webapps.igrp.pages.execucaotarefas", "igrp/execucaotarefas/ExecucaoTarefas.xsl", "Execucao Tarefas", "Execucao Tarefas", "2.3", 1, app));
-			actions.add(new Action("LookupListUser", "index", "nosi.webapps.igrp.pages.lookuplistuser", "igrp/lookuplistuser/LookupListUser.xsl", "Lookup Lista Utilizador", "Lookup Lista Utilizador", "2.3", 1, app));
-			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.webapps.igrp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, app));
-			actions.add(new Action("Transferir_tarefas", "index", "nosi.webapps.igrp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, app));
+			actions.add(new Action("DataSource", "index", "nosi.webapps.igrp.pages.datasource", "igrp/datasource/DataSource.xsl", "Registar Data Source", "Registar Data Source", "2.3", 1, igrp));
+			actions.add(new Action("LookupListPage", "index", "nosi.webapps.igrp.pages.lookuplistpage", "igrp/lookuplistpage/LookupListPage.xsl", "Lista de Pagina Para Lookup", "Lista de Pagina Para Lookup", "2.3", 1, igrp));
+			actions.add(new Action("Migrate", "index", "nosi.webapps.igrp.pages.migrate", "igrp/migrate/Migrate.xsl", "Migrate IGRP", "Migrate IGRP", "2.3", 1, igrp));
+			actions.add(new Action("OAuthClientList", "index", "nosi.webapps.igrp.pages.oauthclientlist", "igrp/oauthclientlist/OAuthClientList.xsl", "pesquisar Dados dos clientes", "pesquisar Dados dos clientes", "2.3", 1, igrp));
+			actions.add(new Action("OAuthClient", "index", "nosi.webapps.igrp.pages.oauthclient", "igrp/oauthclient/OAuthClient.xsl", "Inserir Dados dos clientes", "Inserir Dados dos clientes", "2.3", 1, igrp));
+			actions.add(new Action("MapaProcesso", "index", "nosi.webapps.igrp.pages.mapaprocesso", "igrp/mapaprocesso/MapaProcesso.xsl", "Mapa Processo", "Mapa Processo", "2.3", 1, igrp));
+			actions.add(new Action("ExecucaoTarefas", "index", "nosi.webapps.igrp.pages.execucaotarefas", "igrp/execucaotarefas/ExecucaoTarefas.xsl", "Execucao Tarefas", "Execucao Tarefas", "2.3", 1, igrp));
+			actions.add(new Action("LookupListUser", "index", "nosi.webapps.igrp.pages.lookuplistuser", "igrp/lookuplistuser/LookupListUser.xsl", "Lookup Lista Utilizador", "Lookup Lista Utilizador", "2.3", 1, igrp));
+			actions.add(new Action("Alter_prioridade_tarefa", "index", "nosi.webapps.igrp.pages.alter_prioridade_tarefa", "igrp/alter_prioridade_tarefa/Alter_prioridade_tarefa.xsl", "Alter prioridade tarefa", "Alter prioridade tarefa", "2.3", 1, igrp));
+			actions.add(new Action("Transferir_tarefas", "index", "nosi.webapps.igrp.pages.transferir_tarefas", "igrp/transferir_tarefas/Transferir_tarefas.xsl", "Transferir tarefas", "Transferir tarefas", "2.3", 1, igrp));
 			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp_studio.pages.bpmndesigner", "igrp_studio/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, igrp_studio));
-			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, app));
+			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, igrp));
 			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp_studio.pages.importarquivo", "igrp_studio/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, igrp_studio));
-			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, app));
-			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, app));
-			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, app));
-			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, app));
-			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app));
+			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, igrp));
+			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, igrp));
+			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, igrp));
+			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, igrp));
+			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, igrp));
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, tutorial));
 			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, igrp_studio));
 			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, igrp_studio));
 			
-			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, app));
-			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app));
+			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, igrp));
+			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, igrp));
 			
 			for(Action ac:actions){
 				ac.insert();
 			}
 			
 			List<Menu> menus = new ArrayList<>();			
-			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, app, null));
-			menus.add(new Menu("Parâmetros Gerais", 1, 1, 0, null, null, app, null));
-			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, app, null));
+			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, igrp, null));
+			menus.add(new Menu("Parâmetros Gerais", 1, 1, 0, null, null, igrp, null));
+			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, igrp, null));
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, igrp_studio, null));
 			//menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
 			//menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
-			menus.add(new Menu("Application Builder", 1, 1, 1, "_self", actions.get(2), igrp_studio, menus.get(0)));
-			menus.add(new Menu("Page Builder", 1, 1, 0, "_self", actions.get(0), igrp_studio, menus.get(3)));
-			menus.add(new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), igrp_studio, menus.get(3)));
+//		Temp menu for making this menu parent less	
+			Menu tempMenuAB = new Menu("Application Builder", 1, 1, 1, "_self", actions.get(2), igrp,null);
+			tempMenuAB.setMenu(tempMenuAB);
+			menus.add(tempMenuAB);
+			Menu tempMenuPB = new Menu("Page Builder", 1, 1, 0, "_self", actions.get(0), igrp, null);
+			tempMenuPB.setMenu(tempMenuPB);
+			menus.add(tempMenuPB);
+			Menu tempMenuRD = new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), igrp_studio, null);
+			tempMenuRD.setMenu(tempMenuRD);
+			menus.add(tempMenuRD);
 			
-			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), app, menus.get(0)));
-			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), app, menus.get(0)));			
-			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), app, menus.get(1)));
-			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), app, menus.get(1)));
-			menus.add(new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), app, menus.get(1)));
-			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), app, menus.get(2)));
+			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
+			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
+			Menu tempMenuAP = new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), igrp,null);
+			tempMenuAP.setMenu(tempMenuAP);
+			menus.add(tempMenuAP);
+//			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), igrp, menus.get(2)));
 
 			//menus.add(new Menu("Gestão de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
@@ -222,15 +231,14 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(2, "PROF", prof1, user1, org));
 			
 			//permisao de acesso a aplicacao tutotrial
-			profiles.add(new Profile(2, "ENV", tutrial_prof, user1, tutorial_org));
+			profiles.add(new Profile(2, "ENV", tutorial_prof, user1, tutorial_org));
 			//permisao de acesso do utilizador a perfil do tutorial
-			profiles.add(new Profile(3, "PROF", tutrial_prof, user1, tutorial_org));
+			profiles.add(new Profile(3, "PROF", tutorial_prof, user1, tutorial_org));
 			
 			//permisao de acesso a aplicacao tutotrial
 			profiles.add(new Profile(3, "ENV", igrp_studio_prof, user1,igrp_studio_org));
 			//permisao de acesso do utilizador a perfil do tutorial
-			profiles.add(new Profile(4, "PROF", igrp_studio_prof, user1, igrp_studio_org));
-			
+			profiles.add(new Profile(4, "PROF", igrp_studio_prof, user1, igrp_studio_org));		
 			
 			//permisao de acesso ao menu
 			profiles.add(new Profile(5, "MEN", prof0, user0, igrp_studio_org));
@@ -284,7 +292,7 @@ public class MigrationIGRPInitConfig {
 				tutorial = tutorial.update();
 			}
 			
-			//colocar a aplicacao tutorial uma outra pagina default
+			//colocar a aplicacao IGRP studio uma outra pagina default
 			if(igrp_studio != null) {
 				Action ac = new Action().find().andWhere("page", "=", "HomeStudio").andWhere("application", "=", igrp_studio.getId()).one();
 				igrp_studio.setAction(ac); 
