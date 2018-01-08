@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ldap> <!-- Just for test :-) ... -->
-	<url>ldap://10.4.2.95:10389</url>
-	<username>uid=admin,ou=system</username>
-	<password>secret</password> 
-	<base>dc=example,dc=com</base>
+<url>ldap://10.4.2.95:389</url>
+<username>cn=admin,dc=cloud,dc=nosi</username>
+<password>Pa$$w0rd</password> 
+<base>dc=cloud,dc=nosi</base>
+<type>openldap</type><!-- ad, apacheds -->
 </ldap>
