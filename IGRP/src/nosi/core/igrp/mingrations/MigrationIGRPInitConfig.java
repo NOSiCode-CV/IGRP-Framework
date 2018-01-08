@@ -204,7 +204,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
 			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
 			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
-			Menu tempMenuAP = new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), igrp,null);
+			Menu tempMenuAP = new Menu("Área Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
 			tempMenuAP.setMenu(tempMenuAP);
 			menus.add(tempMenuAP);
 //			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), igrp, menus.get(2)));

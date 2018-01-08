@@ -2,6 +2,7 @@
 
 	var com;
 
+	var lang = document.cookie.split(';');
 	$.IGRP.component('tableCtrl',{
 
 		dataTable : function(options){
@@ -9,8 +10,7 @@
 			var o = $.extend({
 
 				selector 		: '.igrp-data-table',
-
-				language 		: 'pt'
+				language 		: getCookie("igrp_lang")
 
 			}, options);
 
@@ -21,9 +21,8 @@
 				tables.each(function(i,t){
 					
 					var legendBox = $(t).prev('.box-table-legend');
-
-					$(t).DataTable({
-
+				
+					$(t).DataTable({						
 						language: {
 				            url: path+'/core/igrp/table/datatable/language/'+o.language+'.json'				        
 				        },
@@ -32,8 +31,8 @@
 					      	"targets" 	: 'no-sort',
 					      	"orderable" : false
 					    }],
-				        initComplete:function(){
-				        	
+					    "lengthMenu": [[20, 50, -1], [20, 50, "All"]],
+				        initComplete:function(){				        	
 				        	if(legendBox[0])
 				        		legendBox.prependTo($(t).parent());
 				        
@@ -73,5 +72,19 @@
 
 	},true);
 
-
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var decodedCookie = decodeURIComponent(document.cookie);
+	    var ca = decodedCookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }	    
+	    return "en_US";
+	}
 })();
