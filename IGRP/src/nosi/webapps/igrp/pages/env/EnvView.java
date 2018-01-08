@@ -12,21 +12,21 @@ public class EnvView extends View {
 	public Field name;
 	public Field dad;
 	public Field description;
+	public Field status;
+	public Field status_check;
 	public Field personalizacoes;
 	public Field img_src;
 	public Field templates;
+	public Field action_fk;
 	public Field extras;
 	public Field host;
+	public Field flg_external;
+	public Field flg_external_check;
 	public Field link_menu;
 	public Field link_center;
-	public Field action_fk;
 	public Field apache_dad;
 	public Field flg_old;
 	public Field flg_old_check;
-	public Field flg_external;
-	public Field flg_external_check;
-	public Field status;
-	public Field status_check;
 	public Field gen_auto_code;
 	public Field gen_auto_code_check;
 	public IGRPSectionHeader sectionheader_1;
@@ -56,6 +56,10 @@ public class EnvView extends View {
 		description.setLabel(gt("Descrição"));
 		
 		description.propertie().add("name","p_description").add("type","textarea").add("maxlength","500").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		status = new CheckBoxField(model,"status");
+		status.setLabel(gt("Ativo?"));
+		
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		personalizacoes = new SeparatorField(model,"personalizacoes");
 		personalizacoes.setLabel(gt("Personalizações"));
 		
@@ -68,6 +72,10 @@ public class EnvView extends View {
 		templates.setLabel(gt("Template (theme)"));
 		
 		templates.propertie().add("name","p_templates").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		action_fk = new ListField(model,"action_fk");
+		action_fk.setLabel(gt("Primeira Página"));
+		
+		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
 		
@@ -76,6 +84,10 @@ public class EnvView extends View {
 		host.setLabel(gt("Host"));
 		
 		host.propertie().add("name","p_host").add("type","text").add("maxlength","255").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		flg_external = new CheckBoxField(model,"flg_external");
+		flg_external.setLabel(gt("Externo?"));
+		
+		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		link_menu = new TextField(model,"link_menu");
 		link_menu.setLabel(gt("Link Menu (Antigo)"));
 		
@@ -84,10 +96,6 @@ public class EnvView extends View {
 		link_center.setLabel(gt("Link Centro (Antigo)"));
 		
 		link_center.propertie().add("name","p_link_center").add("type","text").add("maxlength","2000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		action_fk = new ListField(model,"action_fk");
-		action_fk.setLabel(gt("Primeira Página"));
-		
-		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","true").add("domain","").add("java-type","");
 		apache_dad = new TextField(model,"apache_dad");
 		apache_dad.setLabel(gt("DAD"));
 		
@@ -96,14 +104,6 @@ public class EnvView extends View {
 		flg_old.setLabel(gt("Antigo?"));
 		
 		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
-		flg_external = new CheckBoxField(model,"flg_external");
-		flg_external.setLabel(gt("Externo?"));
-		
-		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
-		status = new CheckBoxField(model,"status");
-		status.setLabel(gt("Ativo?"));
-		
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Generate Auto Code"));
 		
@@ -124,18 +124,18 @@ public class EnvView extends View {
 		form_1.addField(name);
 		form_1.addField(dad);
 		form_1.addField(description);
+		form_1.addField(status);
 		form_1.addField(personalizacoes);
 		form_1.addField(img_src);
 		form_1.addField(templates);
+		form_1.addField(action_fk);
 		form_1.addField(extras);
 		form_1.addField(host);
+		form_1.addField(flg_external);
 		form_1.addField(link_menu);
 		form_1.addField(link_center);
-		form_1.addField(action_fk);
 		form_1.addField(apache_dad);
 		form_1.addField(flg_old);
-		form_1.addField(flg_external);
-		form_1.addField(status);
 		form_1.addField(gen_auto_code);
 
 		toolsbar_1.addButton(btn_gravar);

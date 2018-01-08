@@ -14,7 +14,7 @@ public class GeneratorController extends Controller{
 	
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		this.isNoChached=true;
+		this.isNoCached=true;
 		Generator model = new Generator();
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		if(id!=null && !id.equals("")){
