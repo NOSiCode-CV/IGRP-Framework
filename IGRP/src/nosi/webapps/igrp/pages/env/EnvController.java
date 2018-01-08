@@ -186,7 +186,7 @@ public class EnvController extends Controller {
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
 			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page);
-			xml_menu.setElement("img", profile.getOrganization().getApplication().getImg_src());
+			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
 			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
 			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
 			xml_menu.setElement("num_alert", ""+profile.getOrganization().getApplication().getId());
@@ -200,7 +200,7 @@ public class EnvController extends Controller {
 					xml_menu.startElement("application");
 					xml_menu.writeAttribute("available", "no");
 					xml_menu.setElement("link", "");
-					xml_menu.setElement("img", app.getImg_src());
+					xml_menu.setElement("img", Core.isNotNull(app.getImg_src())?app.getImg_src():"default.svg");
 					xml_menu.setElement("title",app.getName());
 					xml_menu.setElement("num_alert", "");
 					xml_menu.setElement("description", app.getDescription());
