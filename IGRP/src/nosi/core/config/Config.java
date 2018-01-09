@@ -143,7 +143,8 @@ public class Config {
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
-		return APP_LINK_IMAGE!=null?((File.separator+APP_LINK_IMAGE+File.separator)).replace("\\", "/"):getRootPaht();
+		APP_LINK_IMAGE = APP_LINK_IMAGE!=null?((File.separator+APP_LINK_IMAGE+File.separator)).replace("\\", "/"):getRootPaht();
+		return APP_LINK_IMAGE;
 	}
 	
 	public static String getLinkImg(){
@@ -254,9 +255,18 @@ public class Config {
 		if(Config.isInstall())
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
 		if(APP_LINK_IMAGE!=null) {
-			APP_LINK_IMAGE = File.separator+APP_LINK_IMAGE+File.separator;
-			String root = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
-			return root.replace(getRootPaht().replace("/", File.separator), APP_LINK_IMAGE);
+			APP_LINK_IMAGE = APP_LINK_IMAGE+File.separator;
+			String root = "";
+			String paths[] = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(File.separator+File.separator);
+			if(paths.length <=1) {
+				paths = Igrp.getInstance().getServlet().getServletContext().getRealPath("/").split(File.separator);
+			}
+			for(int i=0;i<paths.length-1;i++) {
+				root +=paths[i]+File.separator;
+			}
+			root += APP_LINK_IMAGE;
+			System.out.println("Path:"+root);
+			return root;
 		}
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
