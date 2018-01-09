@@ -38,7 +38,10 @@ public class MigrationIGRPInitConfig {
 			config.insert();
 			config = new Config("ativiti_password", "kermit");
 			config.insert();
-			config = new Config("igrp_images", "FrontIGRP");
+//			For local server
+			config = new Config("igrp_images", "IGRP");
+//			For tomcat server
+//			config = new Config("igrp_images", "FrontIGRP");
 			config.insert();
 			
 			//Configuration ClientID, Transaction ID and Service ID for Biztalk
