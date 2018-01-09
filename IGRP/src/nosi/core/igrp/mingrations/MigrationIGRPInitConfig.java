@@ -32,7 +32,7 @@ public class MigrationIGRPInitConfig {
 		igrp_studio = igrp_studio.insertOnly();
 		
 		if(igrp!=null){
-			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
+			Config config = new Config("url_ativiti_connection", "https://igrpdev.gov.cv/activiti-app/api/");
 			config.insert();
 			config = new Config("ativiti_user", "kermit");
 			config.insert();

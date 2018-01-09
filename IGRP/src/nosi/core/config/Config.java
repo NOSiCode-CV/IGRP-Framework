@@ -265,7 +265,6 @@ public class Config {
 				root +=paths[i]+File.separator;
 			}
 			root += APP_LINK_IMAGE;
-			System.out.println("Path:"+root);
 			return root;
 		}
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");

@@ -118,7 +118,6 @@ public class PageController extends Controller {
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
 					String path_xsl = Config.getBaseServerPahtXsl(action);
-					System.out.println("path_xsl:"+path_xsl);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
 					if (FileHelper.fileExists(Config.getWorkspace())) {
 						FileHelper.save(Config.getWorkspace() + "/WebContent/images" + "/" + "IGRP/IGRP"
