@@ -9,4 +9,5 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 public @interface RParam { // Request parameter
 	public String rParamName() default "";
+	public String defaultValue() default "";
 }
