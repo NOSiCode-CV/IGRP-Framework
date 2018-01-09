@@ -42,13 +42,13 @@ public class TaskService extends Activit{
 	
 	public TaskService getTask(String id){
 		TaskService d = new TaskService();
-		ClientResponse response = RestRequest.get("runtime/tasks",id);
+		ClientResponse response = new RestRequest().get("runtime/tasks",id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (TaskService) RestRequest.convertJsonToDao(contentResp, TaskService.class);
+				d = (TaskService) new RestRequest().convertJsonToDao(contentResp, TaskService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -68,19 +68,19 @@ public class TaskService extends Activit{
 	@SuppressWarnings("unchecked")	
 	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
-		ClientResponse response = RestRequest.get("runtime/tasks?"+this.getFilter());
+		ClientResponse response = new RestRequest().get("runtime/tasks?"+this.getFilter());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				TaskService dep = (TaskService) RestRequest.convertJsonToDao(contentResp, this.getClass());
+				TaskService dep = (TaskService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<TaskService>) RestRequest.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskService>>(){}.getType());
+				d = (List<TaskService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -89,13 +89,13 @@ public class TaskService extends Activit{
 	
 	public TaskService create(TaskService task){
 		TaskService d = new TaskService();
-		ClientResponse response = RestRequest.post("runtime/tasks",RestRequest.convertDaoToJson(task));
+		ClientResponse response = new RestRequest().post("runtime/tasks",new RestRequest().convertDaoToJson(task));
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==201){
-				d = (TaskService) RestRequest.convertJsonToDao(contentResp, TaskService.class);
+				d = (TaskService) new RestRequest().convertJsonToDao(contentResp, TaskService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -104,20 +104,20 @@ public class TaskService extends Activit{
 
 	public TaskService update(TaskService task){
 		TaskService d = new TaskService();
-		ClientResponse response = RestRequest.put("runtime/tasks",RestRequest.convertDaoToJson(task),task.getId());
+		ClientResponse response = new RestRequest().put("runtime/tasks",new RestRequest().convertDaoToJson(task),task.getId());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (TaskService) RestRequest.convertJsonToDao(contentResp, TaskService.class);
+				d = (TaskService) new RestRequest().convertJsonToDao(contentResp, TaskService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = RestRequest.delete("runtime/tasks",id);
+		ClientResponse response = new RestRequest().delete("runtime/tasks",id);
 		return response.getStatus()==204;
 	}
 	
@@ -154,10 +154,10 @@ public class TaskService extends Activit{
 			e.printStackTrace();
 		}
 		System.out.println(jobj.toString());
-		ClientResponse response = RestRequest.post("runtime/tasks",jobj.toString(),id);
+		ClientResponse response = new RestRequest().post("runtime/tasks",jobj.toString(),id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
-			this.setError(response.getStatus()!=200?(ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class):null);
+			this.setError(response.getStatus()!=200?(ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class):null);
 			return response.getStatus()==200;
 		}
 		return false;
@@ -185,10 +185,10 @@ public class TaskService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = RestRequest.post("runtime/tasks",jobj.toString(),id);
+		ClientResponse response = new RestRequest().post("runtime/tasks",jobj.toString(),id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
-			this.setError(response.getStatus()!=200?(ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class):null);
+			this.setError(response.getStatus()!=200?(ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class):null);
 			return response.getStatus()==200;
 		}
 		return false;

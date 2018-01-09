@@ -18,7 +18,6 @@ import static nosi.core.i18n.Translator.gt;
 
 public class Config {
 
-	private static final String APP_LINK_IMAGE = null;//File.separator+"FrontIGRP"+File.separator;
 	public static final String LINK_XSL_GENERATOR = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/app/igrp/generator/Generator.xsl";
 	public static final String LINK_XSL_HOME_STUDIO = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-Studio-home.xsl";
 	public static final String LINK_XSL_HOME_APP = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-homeApp.xsl";
@@ -27,7 +26,8 @@ public class Config {
 	public static final String LINK_XSL_GENERATOR_MCV = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
 	public static final String LINK_XSL_GENERATOR_CRUD = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
 	public static final String LINK_XSL_JSON_GENERATOR = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
-	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";;
+	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";
+	public static final String LINK_XSL_MAP_PROCESS = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
 	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
 	public static String target = "";
@@ -140,7 +140,10 @@ public class Config {
 	}
 
 	public static String getLinkImgBase() {
-		return APP_LINK_IMAGE!=null?APP_LINK_IMAGE.replace("\\", "/"):getRootPaht();
+		String APP_LINK_IMAGE = null;
+		if(Config.isInstall())
+			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
+		return APP_LINK_IMAGE!=null?((File.separator+APP_LINK_IMAGE+File.separator)).replace("\\", "/"):getRootPaht();
 	}
 	
 	public static String getLinkImg(){
@@ -247,7 +250,11 @@ public class Config {
 	
 
 	public static String getBasePathServerXsl(){
+		String APP_LINK_IMAGE = null;
+		if(Config.isInstall())
+			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
 		if(APP_LINK_IMAGE!=null) {
+			APP_LINK_IMAGE = File.separator+APP_LINK_IMAGE+File.separator;
 			String root = Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 			return root.replace(getRootPaht().replace("/", File.separator), APP_LINK_IMAGE);
 		}
@@ -260,7 +267,11 @@ public class Config {
 	
 
 	public static String getBaseHttpServerPahtXsl(Action page){
+		String APP_LINK_IMAGE = null;
+		if(Config.isInstall())
+			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
 		if(APP_LINK_IMAGE!=null) {
+			APP_LINK_IMAGE = File.separator+APP_LINK_IMAGE+File.separator;
 			return "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
 		}
 		return getBaseServerPahtXsl(page);

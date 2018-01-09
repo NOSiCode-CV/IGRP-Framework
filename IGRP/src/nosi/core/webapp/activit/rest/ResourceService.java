@@ -30,13 +30,13 @@ public class ResourceService {
 
 	public ResourceService getResource(String id_deployment,String id_resource){
 		ResourceService d = new ResourceService();
-		ClientResponse response = RestRequest.get("repository/deployments/"+id_deployment+"/resources",id_resource);
+		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources",id_resource);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (ResourceService) RestRequest.convertJsonToDao(contentResp, ResourceService.class);
+				d = (ResourceService) new RestRequest().convertJsonToDao(contentResp, ResourceService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -45,13 +45,13 @@ public class ResourceService {
 
 	public ResourceService getResourceData(String id_deployment,String id_resource){
 		ResourceService d = new ResourceService();
-		ClientResponse response = RestRequest.get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
+		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (ResourceService) RestRequest.convertJsonToDao(contentResp, ResourceService.class);
+				d = (ResourceService) new RestRequest().convertJsonToDao(contentResp, ResourceService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -60,13 +60,13 @@ public class ResourceService {
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment){
 		List<ResourceService> d = new ArrayList<>();
-		ClientResponse response = RestRequest.get("repository/deployments/"+id_deployment+"/resources");
+		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources");
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (List<ResourceService>) RestRequest.convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
+				d = (List<ResourceService>) new RestRequest().convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;

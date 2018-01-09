@@ -34,18 +34,18 @@ import com.sun.jersey.api.client.ClientResponse;
 
 public class RestRequest{
 	
-	private static final String BASE_URL = Config.getBaseUrlActiviti();
-	private static final String USERNAME = "kermit";
-	private static final String PASSWORD = "kermit";
-	public static String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
-	public static String CONTENT_TYPE = MediaType.APPLICATION_JSON;
+	private String BASE_URL = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
+	private String USERNAME = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
+	private String PASSWORD = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
+	public String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
+	public String CONTENT_TYPE = MediaType.APPLICATION_JSON;
 	
-	public static ClientResponse get(String url, Object id) {
+	public  ClientResponse get(String url, Object id) {
 		try {
 			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(RestRequest.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));
-	        url = RestRequest.BASE_URL + url;
+	        Client client = Client.create(this.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
+	        url = this.BASE_URL + url;
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
 	        client.destroy();
@@ -55,12 +55,12 @@ public class RestRequest{
 		return null;
 	}
 
-	public static ClientResponse get(String url) {
+	public ClientResponse get(String url) {
 		try {
 			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(RestRequest.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));
-	        url = RestRequest.BASE_URL + url;
+	        Client client = Client.create(this.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
+	        url = this.BASE_URL + url;
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).get(ClientResponse.class);
 		    client.destroy();
@@ -71,12 +71,12 @@ public class RestRequest{
 	}
 	
 
-	public static ClientResponse post(String url, String content) {
+	public ClientResponse post(String url, String content) {
 		try {
 			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequest.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));     
-	        url = RestRequest.BASE_URL + url;	        
+	        Client client = Client.create(this.applySslSecurity(config));	   
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+	        url = this.BASE_URL + url;	        
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	        
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
@@ -87,12 +87,12 @@ public class RestRequest{
 	}
 	
 
-	public static ClientResponse post(String url, String content,Object id) {
+	public ClientResponse post(String url, String content,Object id) {
 		try {
 			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequest.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));     
-	        url = RestRequest.BASE_URL + url;	        
+	        Client client = Client.create(this.applySslSecurity(config));	   
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+	        url = this.BASE_URL + url;	        
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));	        
 	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
 	        client.destroy();
@@ -102,12 +102,12 @@ public class RestRequest{
 	   return null;
 	}
 	
-	public static ClientResponse put(String url,String content){
+	public ClientResponse put(String url,String content){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequest.applySslSecurity(config));	
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));            
-	        url = RestRequest.BASE_URL + url;	               
+	        Client client = Client.create(this.applySslSecurity(config));	
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));            
+	        url = this.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
@@ -118,12 +118,12 @@ public class RestRequest{
 	}
 	
 
-	public static ClientResponse put(String url,String content, Object id){
+	public ClientResponse put(String url,String content, Object id){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequest.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));	            
-	        url = RestRequest.BASE_URL + url;	               
+	        Client client = Client.create(this.applySslSecurity(config));
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));	            
+	        url = this.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
 	 	    client.destroy();
@@ -133,12 +133,12 @@ public class RestRequest{
 	   return null;
 	}
 	
-	public static ClientResponse delete(String url,Object id){
+	public ClientResponse delete(String url,Object id){
 		try{
 		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(RestRequest.applySslSecurity(config));	     
-	        client.addFilter(new HTTPBasicAuthFilter(RestRequest.USERNAME, RestRequest.PASSWORD));       
-	        url = RestRequest.BASE_URL + url;	               
+	        Client client = Client.create(this.applySslSecurity(config));	     
+	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));       
+	        url = this.BASE_URL + url;	               
 	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
 			ClientResponse response = resource.accept(ACCEPT_FORMAT).delete(ClientResponse.class);			
 	 	    client.destroy();
@@ -148,12 +148,12 @@ public class RestRequest{
 	   return null;
 	}
 	
-	public static String convertDaoToJson(Object dao) {
+	public String convertDaoToJson(Object dao) {
 		Gson gson = new Gson();
 		return gson.toJson(dao);
 	}
 	
-	public static Object convertJsonToDao(String jsonResult, Class<?> dao) {
+	public Object convertJsonToDao(String jsonResult, Class<?> dao) {
 		Object response = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
@@ -164,14 +164,14 @@ public class RestRequest{
 		return response;
 	}
 	
-	public static <T> List<? extends Object> convertJsonToListDao(String jsonResult, Type type) {
+	public <T> List<? extends Object> convertJsonToListDao(String jsonResult, Type type) {
 		List<? extends Object> list = null;
 		Gson gson = new Gson();
 		list = gson.fromJson(jsonResult, type);
 		return list;
 	}
 	
-	public static <T> List<? extends Object> convertJsonToListDao(String jsonResult,String keySearch, Type type) {
+	public <T> List<? extends Object> convertJsonToListDao(String jsonResult,String keySearch, Type type) {
 		List<? extends Object> list = null;
 		try {
 			JSONObject jsonObject = new JSONObject(jsonResult);
@@ -184,8 +184,8 @@ public class RestRequest{
 		}
 		return list;
 	}
-	public static ClientConfig applySslSecurity(ClientConfig clientConfig) {
-		SSLContext sslContext = RestRequest.createSslContext();
+	public ClientConfig applySslSecurity(ClientConfig clientConfig) {
+		SSLContext sslContext = this.createSslContext();
 		if(sslContext != null) {
 			clientConfig.getProperties()
 	        .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
@@ -200,17 +200,17 @@ public class RestRequest{
 		return clientConfig;
 	}
 	
-	private static SSLContext createSslContext() {
+	private SSLContext createSslContext() {
 		SSLContext sslContext = null;
 		try {
 			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, RestRequest.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
+			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
 		} catch (NoSuchAlgorithmException | KeyManagementException e) {
 		}
 		return sslContext;
 	}
 	
-	private static TrustManager[] createTrustManager() {
+	private TrustManager[] createTrustManager() {
 		return new TrustManager[]{
                 new X509TrustManager() {
                     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
