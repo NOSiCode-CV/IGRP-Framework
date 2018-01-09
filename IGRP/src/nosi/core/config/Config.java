@@ -262,7 +262,7 @@ public class Config {
 	}
 	
 	public static String getBaseServerPahtXsl(Action page){
-		return Config.getBasePathServerXsl() + "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
+		return Config.getBasePathServerXsl() + "images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage().toLowerCase();
 	}
 	
 
