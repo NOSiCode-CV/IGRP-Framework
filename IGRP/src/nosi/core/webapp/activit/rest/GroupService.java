@@ -22,13 +22,13 @@ public class GroupService extends Activit{
 	
 	public GroupService getGroup(String id){
 		GroupService d = new GroupService();
-		ClientResponse response = RestRequest.get("identity/groups",id);
+		ClientResponse response = new RestRequest().get("identity/groups",id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (GroupService) RestRequest.convertJsonToDao(contentResp, GroupService.class);
+				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -38,19 +38,19 @@ public class GroupService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<GroupService> getGroups(){
 		List<GroupService> d = new ArrayList<>();
-		ClientResponse response = RestRequest.get("identity/groups");
+		ClientResponse response = new RestRequest().get("identity/groups");
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				GroupService dep = (GroupService) RestRequest.convertJsonToDao(contentResp, this.getClass());
+				GroupService dep = (GroupService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<GroupService>) RestRequest.convertJsonToListDao(contentResp,"data", new TypeToken<List<GroupService>>(){}.getType());
+				d = (List<GroupService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<GroupService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -58,13 +58,13 @@ public class GroupService extends Activit{
 	
 	public GroupService create(GroupService group){
 		GroupService d = new GroupService();
-		ClientResponse response = RestRequest.post("identity/groups",RestRequest.convertDaoToJson(group));
+		ClientResponse response = new RestRequest().post("identity/groups",new RestRequest().convertDaoToJson(group));
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==201){
-				d = (GroupService) RestRequest.convertJsonToDao(contentResp, GroupService.class);
+				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -73,13 +73,13 @@ public class GroupService extends Activit{
 
 	public GroupService update(GroupService group){
 		GroupService d = new GroupService();
-		ClientResponse response = RestRequest.put("identity/groups",RestRequest.convertDaoToJson(group),group.getId());
+		ClientResponse response = new RestRequest().put("identity/groups",new RestRequest().convertDaoToJson(group),group.getId());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (GroupService) RestRequest.convertJsonToDao(contentResp, GroupService.class);
+				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -92,7 +92,7 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = RestRequest.post("identity/groups/"+idGroup+"/members",jobj.toString());
+		ClientResponse response = new RestRequest().post("identity/groups/"+idGroup+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
@@ -103,12 +103,12 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = RestRequest.post("identity/groups/"+this.getId()+"/members",jobj.toString());
+		ClientResponse response = new RestRequest().post("identity/groups/"+this.getId()+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = RestRequest.delete("identity/groups",id);
+		ClientResponse response = new RestRequest().delete("identity/groups",id);
 		return response!=null && response.getStatus()==204;
 	}
 	

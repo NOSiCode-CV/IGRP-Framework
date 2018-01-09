@@ -25,13 +25,13 @@ public class UserService extends Activit{
 
 	public UserService getUser(String id){
 		UserService d = new UserService();
-		ClientResponse response = RestRequest.get("identity/users",id);
+		ClientResponse response = new RestRequest().get("identity/users",id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (UserService) RestRequest.convertJsonToDao(contentResp, UserService.class);
+				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -41,19 +41,19 @@ public class UserService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<UserService> getUsers(){
 		List<UserService> d = new ArrayList<>();
-		ClientResponse response = RestRequest.get("identity/users");
+		ClientResponse response = new RestRequest().get("identity/users");
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				UserService dep = (UserService) RestRequest.convertJsonToDao(contentResp, this.getClass());
+				UserService dep = (UserService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<UserService>) RestRequest.convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
+				d = (List<UserService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -61,13 +61,13 @@ public class UserService extends Activit{
 	
 	public UserService create(UserService user){
 		UserService d = new UserService();
-		ClientResponse response = RestRequest.post("identity/users",RestRequest.convertDaoToJson(user));
+		ClientResponse response = new RestRequest().post("identity/users",new RestRequest().convertDaoToJson(user));
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==201){
-				d = (UserService) RestRequest.convertJsonToDao(contentResp, UserService.class);
+				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -76,20 +76,20 @@ public class UserService extends Activit{
 
 	public UserService update(UserService user){
 		UserService d = new UserService();
-		ClientResponse response = RestRequest.put("identity/users",RestRequest.convertDaoToJson(user),user.getId());
+		ClientResponse response = new RestRequest().put("identity/users",new RestRequest().convertDaoToJson(user),user.getId());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (UserService) RestRequest.convertJsonToDao(contentResp, UserService.class);
+				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = RestRequest.delete("identity/users",id);
+		ClientResponse response = new RestRequest().delete("identity/users",id);
 		return response!=null && response.getStatus()==204;
 	}
 

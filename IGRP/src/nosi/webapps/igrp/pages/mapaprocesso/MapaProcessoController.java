@@ -80,7 +80,7 @@ public class MapaProcessoController extends Controller {
 
 
 	private String transformToXmlWorkFlow(String title,FormDataService formData) {
-		String path_xsl = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
+		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
 		xml.addXml(Config.getHeader());
 		xml.startElement("content");

@@ -36,13 +36,13 @@ public class ProcessDefinitionService extends Activit{
 
 	public ProcessDefinitionService getProcessDefinition(String id){
 		ProcessDefinitionService d = new ProcessDefinitionService();
-		ClientResponse response = RestRequest.get("repository/process-definitions/",id);
+		ClientResponse response = new RestRequest().get("repository/process-definitions/",id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (ProcessDefinitionService) RestRequest.convertJsonToDao(contentResp, ProcessDefinitionService.class);
+				d = (ProcessDefinitionService) new RestRequest().convertJsonToDao(contentResp, ProcessDefinitionService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -52,19 +52,19 @@ public class ProcessDefinitionService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<ProcessDefinitionService> getProcessDefinitions(){
 		List<ProcessDefinitionService> d = new ArrayList<>();
-		ClientResponse response = RestRequest.get("repository/process-definitions"+this.getFilter());
+		ClientResponse response = new RestRequest().get("repository/process-definitions"+this.getFilter());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				ProcessDefinitionService dep = (ProcessDefinitionService) RestRequest.convertJsonToDao(contentResp, this.getClass());
+				ProcessDefinitionService dep = (ProcessDefinitionService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<ProcessDefinitionService>) RestRequest.convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
+				d = (List<ProcessDefinitionService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<ProcessDefinitionService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -90,23 +90,23 @@ public class ProcessDefinitionService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = RestRequest.put("repository/process-definitions",jobj.toString(),id);
+		ClientResponse response = new RestRequest().put("repository/process-definitions",jobj.toString(),id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
-			this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+			this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			return response.getStatus()==200;
 		}
 		return false;
 	}
 	public ProcessDefinitionService create(ProcessDefinitionService deploy){
 		ProcessDefinitionService d = new ProcessDefinitionService();
-		ClientResponse response = RestRequest.post("repository/process-definitions",RestRequest.convertDaoToJson(deploy));
+		ClientResponse response = new RestRequest().post("repository/process-definitions",new RestRequest().convertDaoToJson(deploy));
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==201){
-				d = (ProcessDefinitionService) RestRequest.convertJsonToDao(contentResp, ProcessDefinitionService.class);
+				d = (ProcessDefinitionService) new RestRequest().convertJsonToDao(contentResp, ProcessDefinitionService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -115,20 +115,20 @@ public class ProcessDefinitionService extends Activit{
 
 	public ProcessDefinitionService update(ProcessDefinitionService deploy){
 		ProcessDefinitionService d = new ProcessDefinitionService();
-		ClientResponse response = RestRequest.put("repository/process-definitions",RestRequest.convertDaoToJson(deploy),deploy.getId());
+		ClientResponse response = new RestRequest().put("repository/process-definitions",new RestRequest().convertDaoToJson(deploy),deploy.getId());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (ProcessDefinitionService) RestRequest.convertJsonToDao(contentResp, ProcessDefinitionService.class);
+				d = (ProcessDefinitionService) new RestRequest().convertJsonToDao(contentResp, ProcessDefinitionService.class);
 			}else{
-				d.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = RestRequest.delete("repository/process-definitions",id);
+		ClientResponse response = new RestRequest().delete("repository/process-definitions",id);
 		return response!=null && response.getStatus()==204;
 	}
 	

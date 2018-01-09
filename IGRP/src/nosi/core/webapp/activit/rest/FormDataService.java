@@ -46,13 +46,13 @@ public class FormDataService {
 	
 	private FormDataService getFormData(String id, String type) {
 		FormDataService d = new FormDataService();
-		ClientResponse response = RestRequest.get(type.equalsIgnoreCase("taskId")?"form/form-data?taskId="+id:"form/form-data?processDefinitionId="+id);
+		ClientResponse response = new RestRequest().get(type.equalsIgnoreCase("taskId")?"form/form-data?taskId="+id:"form/form-data?processDefinitionId="+id);
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){
-				d = (FormDataService) RestRequest.convertJsonToDao(contentResp,FormDataService.class);
+				d = (FormDataService) new RestRequest().convertJsonToDao(contentResp,FormDataService.class);
 			}else{
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -87,14 +87,14 @@ public class FormDataService {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = RestRequest.post("form/form-data", json.toString());
+		ClientResponse response = new RestRequest().post("form/form-data", json.toString());
 		if(response!=null){
 			if(response.getStatus()==200 || response.getStatus()==204){
 				return true;
 			}else{
 				String contentResp = response.getEntity(String.class);
 				System.err.println(contentResp);
-				this.setError((ResponseError) RestRequest.convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return false;

@@ -34,6 +34,12 @@ public class MigrationIGRPInitConfig {
 		if(igrp!=null){
 			Config config = new Config("url_ativiti_connection", "http://10.4.10.37/activiti-rest/service/");
 			config.insert();
+			config = new Config("ativiti_user", "kermit");
+			config.insert();
+			config = new Config("ativiti_password", "kermit");
+			config.insert();
+			config = new Config("igrp_images", "FrontIGRP");
+			config.insert();
 			
 			//Configuration ClientID, Transaction ID and Service ID for Biztalk
 			config = new Config("CLIENT_ID_BIZTALK", "your id");
