@@ -81,14 +81,18 @@ public abstract class Model { // IGRP super model
 					m.set(this, aux);
 				}
 			}else{
-				// Awesome again !!! We need make casts for all primitive type ... pff
+				// Awesome again !!! We need make casts for all primitive type ... pff 
 				String aux = Igrp.getInstance().getRequest().getParameter(
 							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 									m.getAnnotation(RParam.class).rParamName()
-									: m.getName() // default case use the name of field
+									: m.getName() // default case use the name of field 
 						);
-				String defaultResult = aux;
-				aux = aux == null || aux.equals("") || aux.isEmpty() ? "0" : aux;
+				String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
+				try {
+					aux = (aux == null || aux.equals("") || aux.isEmpty() ? (!m.getAnnotation(RParam.class).defaultValue().equals("") ? m.getAnnotation(RParam.class).defaultValue() : "0") : aux);
+				}catch(Exception e) {
+					aux = "0"; 
+				}
 				switch(typeName){
 					case "int":
 							m.setInt(this, Integer.parseInt(aux));
@@ -106,7 +110,7 @@ public abstract class Model { // IGRP super model
 							m.setShort(this, Short.parseShort(aux));
 						break;
 					default:
-						m.set(this, typeName == "java.lang.String" ? defaultResult : null); // The field could be a Object
+						m.set(this, typeName == "java.lang.String" ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null); // The field could be a Object 
 				}
 			}
 			/* Begin */
