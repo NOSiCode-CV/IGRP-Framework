@@ -121,8 +121,11 @@ public class ImportAppZip extends ImportAppJar{
 			String pathServer = Config.getBaseServerPahtXsl(page);
 			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
+			System.out.println(content);
 			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.LINK_XSL_JSON_CONVERT);			
-			json = this.addClassAndPackage(json,page,"json");
+			System.out.println(json);
+			//json = this.addClassAndPackage(json,page,"json");
+			//System.out.println(json);
 			FileHelper.save(pathServer, page.getPage()+".json", json);
 			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())) {
 				String pathWorkSpace = Config.getBasePahtXslWorkspace(page);
