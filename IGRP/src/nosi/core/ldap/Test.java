@@ -18,6 +18,8 @@ public class Test {
 	static String l_ldap_password;
 	static String l_ldap_base;
 	static String l_ldap_type;
+	static String l_ldap_authentication_filter;
+	static String l_ldap_entryDN;
 
 	public static void main(String[] args) {
 		//Teste LDAP 
@@ -29,12 +31,14 @@ public class Test {
 		l_ldap_username = ldapinfo.getUsername();
 		l_ldap_password = ldapinfo.getPassword();
 		l_ldap_base = ldapinfo.getBase();
-		l_ldap_type = ldapinfo.getType();
+		l_ldap_authentication_filter = ldapinfo.getAuthenticationFilter();
+		l_ldap_entryDN = ldapinfo.getEntryDN();
+		
 		TestePesquisa();
 	}
 
 	static void TesteLogin() {
-		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_type);
+		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_authentication_filter,l_ldap_entryDN);
 		if (ldap.validateLogin("iekinyfernandes", ""))
 			System.out.println("User Válido");
 		else {
@@ -44,7 +48,7 @@ public class Test {
 
 	static void TestePesquisa() {
 		String email = "pedro.ramos@nosi.cv";
-		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_type);
+		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_authentication_filter,l_ldap_entryDN);
 		ArrayList<LdapPerson> personArray = ldap.getUser(email);
 		if (personArray != null) {
 			for (int i = 0; i < personArray.size(); i++) {

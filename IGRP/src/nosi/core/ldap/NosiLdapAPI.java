@@ -28,7 +28,8 @@ public class NosiLdapAPI {
 	private String l_ldap_username;
 	private String l_ldap_password;
 	private String l_ldap_base;
-	private String l_ldap_type;
+	private String l_ldap_authenticationFilter;
+	private String l_ldap_entryDN;
 
 	private String error;
 
@@ -38,13 +39,14 @@ public class NosiLdapAPI {
 		super();
 	}
 
-	public NosiLdapAPI(String l_ldap_url, String l_ldap_username, String l_ldap_password, String l_ldap_base, String type) {
+	public NosiLdapAPI(String l_ldap_url, String l_ldap_username, String l_ldap_password, String l_ldap_base, String l_ldap_authenticationFilter, String l_ldap_entryDN) {
 		super();
 		this.l_ldap_url = l_ldap_url;
 		this.l_ldap_username = l_ldap_username;
 		this.l_ldap_password = l_ldap_password;
 		this.l_ldap_base = l_ldap_base;
-		this.l_ldap_type = type;
+		this.l_ldap_authenticationFilter  = l_ldap_authenticationFilter;
+		this.l_ldap_entryDN = l_ldap_entryDN;
 	}
 
 	public String getL_ldap_url() {
@@ -78,6 +80,22 @@ public class NosiLdapAPI {
 	public void setL_ldap_base(String l_ldap_base) {
 		this.l_ldap_base = l_ldap_base;
 	}
+	
+	public String getL_ldap_authenticationFilter() {
+		return l_ldap_authenticationFilter;
+	}
+
+	public void setL_ldap_authenticationFilter(String l_ldap_authenticationFilter) {
+		this.l_ldap_authenticationFilter = l_ldap_authenticationFilter;
+	}
+
+	public String getL_ldap_entryDN() {
+		return l_ldap_entryDN;
+	}
+
+	public void setL_ldap_entryDN(String l_ldap_entryDN) {
+		this.l_ldap_entryDN = l_ldap_entryDN;
+	}
 
 	private void setError(String error) {
 		this.error = error;
@@ -109,13 +127,8 @@ public class NosiLdapAPI {
 			ctrls.setReturningAttributes(new String[] { "givenName", "sn", "memberOf" });
 			ctrls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 			
-			String filter = "";
-			switch(this.l_ldap_type) {
-				case "ad": filter = "(&(objectclass=USER)(SAMAccountName=" + pUsername + "))"; break; // MS Active Directory - NOSi 
-				case "openldap":
-				case "apacheds":
-				default: filter = "(&(objectclass=inetOrgPerson)(uid=" + pUsername + "))";
-			}
+			String filter = this.l_ldap_authenticationFilter.replaceAll(":_placeholder", pUsername);
+			
 			NamingEnumeration<javax.naming.directory.SearchResult> answers = context.search(this.getL_ldap_base(), filter, ctrls);
 			
 			if (answers.hasMore()) {
@@ -284,13 +297,7 @@ public class NosiLdapAPI {
 	          return;
          }
          
-        String entryDN = "";
-		switch(this.l_ldap_type) {
-			case "ad": entryDN = "cn=" + person.getUid() + ",ou=Standard Users,ou=Users,ou=NOSi,ou=Organizations,dc=cloud,dc=nosi"; break; // MS Active Directory - NOSi 
-			case "openldap":
-			case "apacheds":
-			default: entryDN = "uid=" + person.getUid() + ",ou=utilizadores,dc=cloud,dc=nosi";
-		}
+        String entryDN = this.l_ldap_entryDN.replaceAll(":_placeholder", person.getUid()) + "," + this.l_ldap_base;
          
          // entry's attributes
          Attribute cn = new BasicAttribute("cn", person.getCn());

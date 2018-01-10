@@ -95,13 +95,14 @@ public class ChangePasswordController extends Controller {
 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getType());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		
 		LdapPerson person = ldap.getUserLastInfo(Core.getCurrentUser().getEmail().trim());
 		
 		String error = ldap.getError();
 		if(person != null) {
 			person.setPwdLastSet(newPassword);
+			person.setUid(user.getUser_name());
 			ldap.changePassword(person);
 			error = ldap.getError();
 			if(error != null) {
