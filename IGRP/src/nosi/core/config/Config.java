@@ -28,6 +28,7 @@ public class Config {
 	public static final String LINK_XSL_JSON_GENERATOR = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//For CRUD Generator
 	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	public static final String LINK_XSL_MAP_PROCESS = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
+	public static final String PATTERN_CONTROLLER_NAME = "([a-zA-Z]+([0-9]*({1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
 	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
 	public static String target = "";

@@ -184,7 +184,7 @@ public abstract class Controller {
 		Igrp app = Igrp.getInstance();
 		String r = app.getRequest().getParameter("r");// Catch always the first "r" parameter in query string
 		if(r!=null){
-			String auxPattern = "([a-zA-Z]+([0-9]*(_{1}|-{1})?([a-zA-Z]+|[0-9]+|_))*)+";
+			String auxPattern = Config.PATTERN_CONTROLLER_NAME;
 			if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
 				String []aux = r.split("/");
 				app.setCurrentAppName(aux[0]);
