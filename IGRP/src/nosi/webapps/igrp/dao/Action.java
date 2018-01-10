@@ -124,10 +124,10 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.action_descr = action_descr;
 	}
 	public String getVersion() {
-		return version;
+		return "2.3";
 	}
 	public void setVersion(String version) {
-		this.version = version;
+		this.version = "2.3";
 	}
 
 	@Transient
