@@ -250,8 +250,7 @@ public class Import {
 
 	private String resolveClassName(String page) {
 		if(Core.isNotNull(page)) {
-			String auxPattern = Config.PATTERN_CONTROLLER_NAME;
-			if(!StringHelper.validateClassName(page) && !(page.matches(auxPattern + "/" + auxPattern + "/" + auxPattern))) {
+			if(!StringHelper.validateClassName(page)) {
 				return this.resolveClassName(page.substring(page.length()-(page.length()-1)));
 			}
 			return page;

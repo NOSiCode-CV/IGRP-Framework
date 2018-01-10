@@ -17,7 +17,7 @@
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmn/css/BPMN.css"/>
+                <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/bpmn.css"/>
                 <style/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/app.css"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/bpmnjs/assets/properties.css"/>
@@ -38,6 +38,15 @@
                         <xsl:value-of select="rows/content/page_title/fields/page_title_text/value"/>
                     </div>
                 </nav>
+                <xsl:if test="rows/content/fmn">
+                  <div class="toolsbar-holder default gen-container-item hidden" gen-structure="toolsbar" gen-fields=".btns-holder a.btn" item-name="fmn">
+                    <div class="btns-holder   pull-right" role="group">
+                      <xsl:apply-templates select="rows/content/fmn" mode="gen-buttons">
+                        <xsl:with-param name="vertical" select="'true'"/>
+                      </xsl:apply-templates>
+                    </div>
+                  </div>
+                </xsl:if>
                 <form method="POST" class="IGRP-form" name="formular_default">
                     <div class="container-fluid">
                         <div class="row">
@@ -66,26 +75,24 @@
                                 </xsl:if>
                                 <xsl:if test="rows/content/tabcontent_1/fields/processos">
                                     <div class="col-md-12">
+                                      <div class="row">
                                         <xsl:if test="rows/content/tabcontent_1/fields/processos">
-                                            <div class="box-head subtitle" text-color="1">
-                                                <i class="fa fa-cog"/>
-                                                <span>
-                                                    <xsl:value-of select="rows/content/tabcontent_1/fields/processos/label"/>
-                                                </span>
-                                            </div>
+                                          <div class="box-head subtitle" text-color="1">
+                                            <span>
+                                              <i class="fa fa-cog"/>
+                                              <xsl:value-of select="rows/content/tabcontent_1/fields/processos/label"/>
+                                            </span>
+                                            <a class="addArea" title="{rows/content/form_1/fields/link_add_area/label}">
+                                              <i class="fa fa-plus-circle"/>
+                                            </a>
+                                          </div>
                                         </xsl:if>
                                         <div class="list-processos" id="processos">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                  <a class="addArea" title="{rows/content/form_1/fields/link_add_area/label}">
-                                                    <i class="fa fa-plus-circle"/>
-                                                  </a> 
-                                                </div>
-                                                <div id="tabprocessos">
-                                                    <xsl:apply-templates mode="tree-menu" select="rows/content/gen_table/table"/>
-                                                </div>
-                                            </div>
+                                          <div id="tabprocessos">
+                                              <xsl:apply-templates mode="tree-menu" select="rows/content/gen_table/table"/>
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
                                 </xsl:if>
                             </div>
@@ -112,7 +119,7 @@
                                         <!--[if !IE]><!-->
                                         <ul class="io-export io-control io-control-list io-horizontal">
                                             <li>
-                                                <a id="save" jsaction="click:bio.save" href="" type="save" class="download export" title="Save BPMN diagram">
+                                                <a id="save" _jsaction="click:bio.save" href="" type="save" class="download export" title="Save BPMN diagram">
                                                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                                 </a>
                                             </li>
@@ -300,13 +307,14 @@
                 <!-- SELECT JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
-                <script type="text/javascript" src="{$path}/core/bpmnjs/app/jsmdd.js"></script>
+                <script type="text/javascript" src="{$path}/core/bpmnjs/app/globalbpmn.min.js"></script>
 
                 <script type="text/javascript">
-                  var vUrlGlob = '<xsl:value-of select="//rows/content/form/form_1/fields/extra_link/value"/>';
+                  var vUrlGlob     = '<xsl:value-of select="//rows/content/form/form_1/fields/extra_link/value"/>';
                   var vUrlLinkSave = '<xsl:value-of select="//rows/content/form_1/fields/link_save/value"/>';
-                  var loaddata = '<xsl:value-of select="//rows/content/form_1/fields/data/value"/>';
+                  var loaddata     = '<xsl:value-of select="//rows/content/form_1/fields/data/value"/>';
                 </script>
+                <script type="text/javascript" src="{$path}/core/bpmnjs/app/bpmn.js"></script>
             </body>
         </html>
     </xsl:template>

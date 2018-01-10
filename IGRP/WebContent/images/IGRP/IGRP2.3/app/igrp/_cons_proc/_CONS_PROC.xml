@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xsl" type="text/xsl"?>
+<rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
+    <site>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
+        <button type="specific">
+            <title>Sair</title>
+            <app>DUA</app>
+            <page />
+            <link>#</link>
+            <target>_self</target>
+            <img>exit.png</img>
+        </button>
+    </site>
+    <page>_CONS_PROC</page>
+    <app>igrp</app>
+    <plsql>
+        <action>index</action>
+        <package_instance>null</package_instance>
+        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_html>_CONS_PROC</package_html>
+        <table_name></table_name>
+        <with_replace>false</with_replace>
+        <with_label>false</with_label>
+        <with_biztalk>false</with_biztalk>
+        <dynamic_menu>false</dynamic_menu>
+        <copy_menu>false</copy_menu>
+        <package_copy_db />
+        <package_copy_html />
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=48</preserve_url>
+    </plsql>
+    <content>
+        <title>Consulta Processos</title>
+        <toolsbar type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="item1">
+                <title>Pesquisar</title>
+                <app>igrp</app>
+                <page>_CONS_PROC</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|search.png</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xsl</parameter>
+            </item>
+        </toolsbar>
+        <form type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" change="true" maxlength="30" multiple="false" domain="" required="false" disabled="false" right="false" java-type="">
+                    <label>Modulo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <organica name="p_organica" type="select" change="true" maxlength="30" multiple="false" domain="" required="false" disabled="false" right="false" java-type="">
+                    <label>Organica</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </organica>
+                <area_fk name="p_area_fk" type="select" change="true" maxlength="30" multiple="false" domain="" required="false" disabled="false" right="false" java-type="">
+                    <label>Area</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </area_fk>
+                <proc_tp_fk name="p_proc_tp_fk" type="select" change="true" maxlength="30" multiple="false" domain="" required="false" disabled="false" right="false" java-type="">
+                    <label>Tipo Processo</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </proc_tp_fk>
+                <user_fk name="p_user_fk" type="select" maxlength="30" multiple="false" domain="" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Utilizador</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </user_fk>
+                <status name="p_status" type="select" maxlength="30" multiple="false" domain="" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Estado</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </status>
+                <referencia_pedido type="separator" name="p_referencia_pedido" maxlength="30" placeholder="" right="false">
+                    <label>Referencia Pedido</label>
+                </referencia_pedido>
+                <requerente name="p_requerente" type="text" maxlength="250" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Requerente</label>
+                    <value>Labore sit ipsum sed labore</value>
+                </requerente>
+                <num name="p_num" type="text" maxlength="150" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>N   Processo</label>
+                    <value>Magna sed laudantium amet mollit</value>
+                </num>
+                <intervalo_entrada type="separator" name="p_intervalo_entrada" maxlength="30" placeholder="" right="false">
+                    <label>Intervalo Entrada</label>
+                </intervalo_entrada>
+                <dt_ini name="p_dt_ini" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Inicio</label>
+                    <value/>
+                </dt_ini>
+                <dt_fim name="p_dt_fim" type="date" maxlength="30" range="false" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                    <label>Data Fim</label>
+                    <value/>
+                </dt_fim>
+            </fields>
+        </form>
+    </content>
+</rows>
