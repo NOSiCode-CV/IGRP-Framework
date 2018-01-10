@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>bpmn</title>
+
+  <style type="text/css">
+    html, body, #canvas {
+      height: 100%;
+      padding: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="http://localhost/images/IGRP2.3/core/fontawesome/4.7/css/font-awesome.css"/>
+  <link rel="stylesheet" href="../assets/app.css">
+  <link rel="stylesheet" href="../assets/properties.css">
+  <link rel="stylesheet" href="../assets/diagram-js.css">
+  <link rel="stylesheet" href="../assets/bpmn-font/css/bpmn-embedded.css">
+</head>
+<body>
+  <!-- element to draw bpmn diagram in -->
+  <div class="content" id="js-drop-zone">
+    <div id="js-canvas"></div>
+    <div id="js-properties-panel"></div>
+  </div>
+  
+  <div class="io-import-export">
+
+    <ul class="io-import io-control io-control-list io-horizontal">
+      <li>
+        <button title="open BPMN diagram from local file system" jsaction="click:openLocal">
+          <i class="fa fa-folder-open"></i>
+        </button>
+      </li>
+      <li class="vr" style="margin-left: 2px"></li>
+      <li>
+        <button title="create new BPMN diagram" jsaction="click:new">
+          <i class="fa fa-plus-circle"></i>
+        </button>
+      </li>
+    </ul>
+
+    <!--[if !IE]><!-->
+    <ul class="io-export io-control io-control-list io-horizontal">
+      <li>
+        <a target="_blank" id="save"  jsaction="click:save" href="" type="save" class="download export" title="Save BPMN diagram">
+          <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li>
+        <a target="_blank" href="" jsaction="click:download" type="xml" class="download export" title="download BPMN diagram" jswidget="downloadBPMN" data-track="diagram:download-bpmn" download="diagram.bpmn">
+          <i class="fa fa-download"></i>
+        </a>
+      </li>
+      <li>
+        <a target="_blank" href="" jsaction="click:download" type="svg" class="download export" title="download as SVG image" jswidget="downloadSVG" data-track="diagram:download-svg" download="diagram.svg">
+          <i class="fa fa-picture-o"></i>
+        </a>
+      </li>
+    </ul>
+    <!--<![endif]-->
+  </div>
+
+  <div class="io-alerts">
+
+    <div class="io-control alert" jswidget="import-warnings-alert">
+      <a href="" class="close" aria-hidden="true" jsaction="click:bio.clearImportDetails">×</a>
+      Diagram may not render correctly due to import warnings.
+
+      <a href="" jsaction="click:bio.showImportDetails">Show details</a>.
+    </div>
+
+    <div class="io-control alert" jswidget="undo-redo-alert">
+      You edited the diagram.
+
+      <a href="" jsaction="click:bio.undo">Undo last change</a>.
+
+      <a href="" class="close" aria-hidden="true" jsaction="click:bio.hideUndoAlert">×</a>
+    </div>
+
+  </div>
+  <!--<div class="io-help">
+
+    <ul class="io-control-list io-horizontal">
+      <li>
+        <a href="https://forum.bpmn.io/t/8" title="report an issue or suggest improvements" target="_blank" data-track="help:open-report">
+          <i class="fa fa-comments"></i>
+        </a>
+      </li>
+      <li>
+        <button title="more information about this demo" jsaction="click:bio.showAbout" data-track="help:open-about">
+          <span class="fa fa-info"></span>
+        </button>
+      </li>
+    </ul>
+  </div>-->
+
+  <div class="io-editing-tools" jswidget="editing-tools" style="display: block;">
+    <ul class="io-control-list io-horizontal">
+      <li class="io-control">
+        <button title="Toggle keyboard shortcuts overlay" jsaction="click:showKeyboard">
+          <i class="fa fa-keyboard-o"> </i>
+        </button>
+      </li>
+      <li class="io-control">
+        <button title="Toggle Fullscreen" jsaction="click:bio.toggleFullscreen">
+          <i class="fa fa-expand" aria-hidden="true"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="io-zoom-controls">
+
+    <ul class="io-zoom-reset io-control io-control-list">
+      <li>
+        <button title="reset zoom" jsaction="click:zoomReset">
+          <i class="fa fa-crosshairs"></i>
+        </button>
+      </li>
+    </ul>
+
+    <ul class="io-zoom io-control io-control-list">
+      <li>
+        <button title="zoom in" jsaction="click:zoomIn">
+          <i class="fa fa-plus"></i>
+        </button>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li>
+        <button href="" title="zoom out" jsaction="click:zoomOut">
+          <i class="fa fa-minus"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="io-dialog keybindings-dialog" id="keybindings-dialog" jsaction="click:showKeyboard">
+
+    <div class="content bindings-default">
+      <h1>Keyboard Shortcuts</h1>
+      <table>
+        <tbody>
+          <tr>
+            <td>Undo</td>
+            <td class="binding"><code>ctrl + Z</code></td>
+          </tr>
+          <tr>
+            <td>Redo</td>
+            <td class="binding"><code>ctrl + ⇧ + Z</code></td>
+          </tr>
+          <tr>
+            <td>Select All</td>
+            <td class="binding"><code>ctrl + A</code></td>
+          </tr>
+          <tr>
+            <td>Scrolling (Vertical)</td>
+            <td class="binding">ctrl + Scrolling</td>
+          </tr>
+          <tr>
+            <td>Scrolling (Horizontal)</td>
+            <td class="binding">ctrl + ⇧ + Scrolling</td>
+          </tr>
+          <tr>
+            <td>Direct Editing</td>
+            <td class="binding">E</td>
+          </tr>
+          <tr>
+            <td>Hand Tool</td>
+            <td class="binding">H</td>
+          </tr>
+          <tr>
+            <td>Lasso Tool</td>
+            <td class="binding">L</td>
+          </tr>
+          <tr>
+            <td>Space Tool</td>
+            <td class="binding">S</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- scripts -->
+  <script src="jquery-3.2.1.min.js"></script>
+  <!-- bpmn-js modeler -->
+  <script src="bundlem.js"></script>
+</body>
+</html>
