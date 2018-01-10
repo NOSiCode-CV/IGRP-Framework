@@ -199,7 +199,7 @@ public class MapaProcessoController extends Controller {
 			case "enum":
 				return new ListField(null, name);
 			case "hidden":
-				return new HiddenField(null, name);
+				return new HiddenField(name, null);
 		}
 		return new TextField(null, name);
 	}

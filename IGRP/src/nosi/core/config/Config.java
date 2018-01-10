@@ -24,9 +24,9 @@ public class Config {
 	public static final String LINK_XSL_HOME = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
 	public static final String LINK_XSL_LOGIN = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
 	public static final String LINK_XSL_GENERATOR_MCV = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";
-	public static final String LINK_XSL_GENERATOR_CRUD = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";
-	public static final String LINK_XSL_JSON_GENERATOR = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";
-	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";
+	public static final String LINK_XSL_GENERATOR_CRUD = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";//Generator XSL CRUD
+	public static final String LINK_XSL_JSON_GENERATOR = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//For CRUD Generator
+	public static final String LINK_XSL_JSON_CONVERT = Config.getBasePathServerXsl().replace("\\", "/")+"images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
 	public static final String LINK_XSL_MAP_PROCESS = Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";
 	public static String LINK_MY_APPS = "webapps?r=igrp/env/myApps";
 	public static String TITLE = "";
@@ -287,7 +287,7 @@ public class Config {
 	}
 	
 	public static String getBasePahtXslWorkspace(Action page){
-		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getResolvePathPage(page.getApplication().getDad(), page.getPage(), page.getVersion());
+		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getBaseHttpServerPahtXsl(page);
 	}
 	
 	public static String getPackage(String app, String page,String action) {

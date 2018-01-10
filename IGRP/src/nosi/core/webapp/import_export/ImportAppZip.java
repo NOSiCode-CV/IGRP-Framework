@@ -94,8 +94,7 @@ public class ImportAppZip extends ImportAppJar{
 						FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xsl", content, 1);
 						result = this.saveFiles(file , app);	
 					}
-				}
-				
+				}				
 				if(this.filesConfigPagePlsql.get(json)!=null){
 					String content = this.filesConfigPagePlsql.get(json).getConteudo();
 					if(content!=null){
