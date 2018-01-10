@@ -12,6 +12,7 @@ import javax.xml.bind.JAXB;
 import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLApplicationReader;
 import nosi.core.xml.XMLPageReader;
 import nosi.core.xml.XMLWritter;
@@ -193,7 +194,7 @@ public class Import {
 			for(Action page:listPage.getRow()){
 				//Depois validar nome de classe
 				if(type.equals("plsql")){//Se for de psql, assume Page como Action
-					page.setPage(Page.resolvePageName(page.getPage()+"_"+page.getAction()));
+					page.setPage(Page.resolvePageName(this.resolveClassName(page.getPage())+"_"+page.getAction()));
 					page.setPage_descr(page.getAction_descr());
 				}
 				Action action = new Action();
@@ -246,6 +247,16 @@ public class Import {
 	}
 	
 
+
+	private String resolveClassName(String page) {
+		if(Core.isNotNull(page)) {
+			if(!StringHelper.validateClassName(page)) {
+				return this.resolveClassName(page.substring(page.length()-(page.length()-1)));
+			}
+			return page;
+		}
+		return "";
+	}
 
 	//Adiciona Class e Pacote no XML
 	protected String addClassAndPackage(String content,Action page,String type) {

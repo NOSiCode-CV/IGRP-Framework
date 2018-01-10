@@ -203,7 +203,9 @@ public class XMLTransform {
 			if(column.isPrimaryKey()) {
 				f.propertie().add("iskey", "true");
 			}
-			f.propertie().add("maxlength", column.getSize());
+			if(!(f instanceof DateField)) {
+				f.propertie().add("maxlength", column.getSize());
+			}
 			f.propertie().add("java-type",getTypePrimitive(column.getType().toString()));
 		}
 	}
