@@ -189,7 +189,7 @@ public abstract class QueryHelper implements IFQuery{
 		}else if(col.getType().equals(java.lang.Short.class)){
 			query.setParameter(col.getName(), (Short)value);
 		}else if(col.getType().equals(java.sql.Date.class)){
-			if(value instanceof String)
+			if((value instanceof String) && Core.isNotNull(value))
 				query.setParameter(col.getName(),Core.ToDate(value.toString(), col.getFormat()));
 			else
 				query.setParameter(col.getName(),value);

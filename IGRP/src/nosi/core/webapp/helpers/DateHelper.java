@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 14 Aug 2017
@@ -13,28 +15,32 @@ public class DateHelper {
 
 	public static String convertDate(String date, String formatIn, String outputFormat) {
 		String myDateString = null;
-		try {
-			SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
-			Date myDate = newDateFormat.parse(date);
-			newDateFormat.applyPattern(outputFormat);
-			myDateString = newDateFormat.format(myDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(Core.isNotNull(date) && Core.isNotNull(outputFormat) && Core.isNotNull(formatIn)) {
+			try {
+				SimpleDateFormat newDateFormat = new SimpleDateFormat(formatIn);
+				Date myDate = newDateFormat.parse(date);
+				newDateFormat.applyPattern(outputFormat);
+				myDateString = newDateFormat.format(myDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return myDateString;
 	}
 	
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
-		DateFormat formatter = new SimpleDateFormat(inputFormat); 
-		Date date;
-		try {
-			date = (Date)formatter.parse(data);
-			SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
-			String finalDate = newFormat.format(date);
-			return java.sql.Date.valueOf(finalDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {
+			DateFormat formatter = new SimpleDateFormat(inputFormat); 
+			Date date;
+			try {
+				date = (Date)formatter.parse(data);
+				SimpleDateFormat newFormat = new SimpleDateFormat(outputFormat);
+				String finalDate = newFormat.format(date);
+				return java.sql.Date.valueOf(finalDate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
