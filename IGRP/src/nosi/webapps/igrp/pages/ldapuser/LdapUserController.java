@@ -45,7 +45,7 @@ public class LdapUserController extends Controller {
 			
 			File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 			LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getType());
+			NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 			LdapPerson person = new LdapPerson(); 
 			person.setCn(model.getCommon_name().trim()); 
 			person.setSn(model.getSurname().trim());
@@ -88,7 +88,7 @@ public class LdapUserController extends Controller {
 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getType());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		
 		LdapPerson person = ldap.getUserLastInfo(email.trim());
 		String uid = "";
@@ -118,20 +118,9 @@ public class LdapUserController extends Controller {
 			if(error != null) {
 				Core.setMessageError(gt("Ocorreu um erro. LDAP error: ") + error);
 			}else {
-				String oldName = "";
-				String newName = "";
-				switch(ldapinfo.getType()) {
-					case "ad": 
-						oldName = "cn=" + uid + ",ou=Standard Users,ou=Users,ou=NOSi,ou=Organizations,dc=cloud,dc=nosi";
-						newName = "cn=" + person.getUid() + ",ou=Standard Users,ou=Users,ou=NOSi,ou=Organizations,dc=cloud,dc=nosi"; 
-					break; // MS Active Directory - NOSi 
-					case "openldap":
-					case "apacheds":
-					default:{ 
-						oldName = "uid=" + uid + ",ou=utilizadores,dc=cloud,dc=nosi";
-						newName = "uid=" + person.getUid() + ",ou=utilizadores,dc=cloud,dc=nosi";
-					}
-				}
+				String oldName = ldapinfo.getEntryDN().replaceAll(":_placeholder", uid);
+				String newName = ldapinfo.getEntryDN().replaceAll(":_placeholder", person.getUid());
+				
 				ldap.renameEntry(oldName, newName);
 				error = ldap.getError();
 				

@@ -82,9 +82,6 @@ public class LoginController extends Controller {
 		}
 		Login model = new Login();
 		LoginView view = new LoginView(model);
-		//Set user and password for demo
-		view.user.setValue("demo");
-		view.password.setValue("demo");
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				model.load();
@@ -186,7 +183,7 @@ public class LoginController extends Controller {
 		/** Begin ldap AD logic here **/ 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
-		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(),ldapinfo.getType());
+		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
 		
 		success = ldap.validateLogin(username, password);
 		
@@ -228,7 +225,7 @@ public class LoginController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
 			}
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Comunicação LDAP falhada ou a sua conta ou palavra-passe está incorreta."));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
 		
 		return success;
 	}

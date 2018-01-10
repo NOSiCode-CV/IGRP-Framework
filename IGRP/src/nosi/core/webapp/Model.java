@@ -175,7 +175,6 @@ public abstract class Model { // IGRP super model
 		
 	}
 	
-	
 	private boolean save(Model model,boolean isUpdate) throws IllegalArgumentException, IllegalAccessException{	
 		model.load();
 		Class<? extends Model> c = this.getClass();

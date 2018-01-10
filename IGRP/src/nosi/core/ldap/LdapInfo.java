@@ -27,8 +27,11 @@ public class LdapInfo implements Serializable {
 	@XmlElement(name = "base")
 	private String base;
 	
-	@XmlElement(name = "type")
-	private String type; // name of ldap server (Ex.: ad, openldap, ... ) 
+	@XmlElement(name = "authentication_filter")
+	private String authenticationFilter;
+	
+	@XmlElement(name = "entryDN")
+	private String entryDN;
 
 	public String getUrl() {
 		return url;
@@ -62,17 +65,25 @@ public class LdapInfo implements Serializable {
 		this.base = base;
 	}
 
-	public String getType() {
-		return type;
+	public String getAuthenticationFilter() {
+		return authenticationFilter;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setAuthenticationFilter(String authenticationFilter) {
+		this.authenticationFilter = authenticationFilter;
+	}
+
+	public String getEntryDN() {
+		return entryDN;
+	}
+
+	public void setEntryDN(String entryDN) {
+		this.entryDN = entryDN;
 	}
 
 	@Override
 	public String toString() {
 		return "LdapInfo [url=" + url + ", username=" + username + ", password=" + password + ", base=" + base
-				+ ", type=" + type + "]";
+				+ ", authenticationFilter=" + authenticationFilter + ", entryDN=" + entryDN + "]";
 	}
 }
