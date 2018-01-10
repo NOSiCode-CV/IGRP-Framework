@@ -128,11 +128,11 @@ public class BPMNDesignerView extends View {
 		bpmn.propertie().add("name","p_bpmn").add("type","button").add("target_fields","").add("closerefresh","false").add("iconColor","#333").add("iconClass","").add("img","fa-cogs").add("maxlength","50");
 
 		fmn = new IGRPToolsBar("fmn");
-		btn_gravar = new IGRPButton(gt("Gravar"),"igrp","BPMNDesigner","gravar","submit","info|fa-floppy-o","","");
+		btn_gravar = new IGRPButton(gt("Gravar"),"igrp_studio","BPMNDesigner","gravar","submit","info|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
-		btn_publicar = new IGRPButton(gt("Publicar"),"igrp","BPMNDesigner","publicar","alert_submit","primary|fa-check-square-o","","");
+		btn_publicar = new IGRPButton(gt("Publicar"),"igrp_studio","BPMNDesigner","publicar","alert_submit","primary|fa-check-square-o","","");
 		btn_publicar.propertie.add("type","specific").add("code","").add("rel","publicar");
-		btn_exporar_imagem = new IGRPButton(gt("Exportar Imagem"),"igrp","BPMNDesigner","exporar_imagem","_link","warning|fa-picture-o","","");
+		btn_exporar_imagem = new IGRPButton(gt("Exportar Imagem"),"igrp_studio","BPMNDesigner","exporar_imagem","_link","warning|fa-picture-o","","");
 		btn_exporar_imagem.propertie.add("type","specific").add("code","").add("rel","exporar_imagem");
 		
 	}
