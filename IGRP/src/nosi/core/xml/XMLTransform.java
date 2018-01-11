@@ -253,4 +253,20 @@ public class XMLTransform {
 		}
 		return null;
 	}
+	
+	public static Field getField(String name,String type){
+		switch (type) {
+			case "date":
+				return new DateField(null, name);
+			case "long":
+				return new NumberField(null, name);
+			case "boolean":
+				return new CheckBoxField(null, name);
+			case "enum":
+				return new ListField(null, name);
+			case "hidden":
+				return new HiddenField(name, null);
+		}
+		return new TextField(null, name);
+	}
 }

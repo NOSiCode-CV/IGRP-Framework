@@ -1,6 +1,3 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.detalhesprocesso;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/

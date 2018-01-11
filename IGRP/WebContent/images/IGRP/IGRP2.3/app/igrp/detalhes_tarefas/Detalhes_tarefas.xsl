@@ -1,14 +1,10 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
-                <!-- TOOLSBAR CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
-                <!-- DATE CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/datetimepicker/css/datetimepicker.css?v={$version}"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -26,7 +22,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-70de7ebb">
+                                    <div class="row " id="row-97108755">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -35,16 +31,6 @@
                                                             <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
                                                         </h2>
                                                     </section>
-                                                </xsl:if>
-                                                <xsl:if test="rows/content/fechar">
-                                                    <div class="toolsbar-holder default gen-container-item " gen-structure="toolsbar" gen-fields=".btns-holder a.btn" gen-class="" item-name="fechar">
-                                                        <div class="btns-holder  pull-right" role="group">
-                                                            <xsl:apply-templates select="rows/content/fechar" mode="gen-buttons">
-                                                                <xsl:with-param name="vertical" select="'true'"/>
-                                                                <xsl:with-param name="outline" select="'false'"/>
-                                                            </xsl:apply-templates>
-                                                        </div>
-                                                    </div>
                                                 </xsl:if>
                                                 <xsl:if test="rows/content/form_1">
                                                     <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
@@ -58,7 +44,7 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/tipo_da_tarefa/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/tipo_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/tipo_da_tarefa/@name}" name="{rows/content/form_1/fields/tipo_da_tarefa/@name}" maxlength="30" placeholder="">
+                                                                        <input type="text" value="{rows/content/form_1/fields/tipo_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/tipo_da_tarefa/@name}" name="{rows/content/form_1/fields/tipo_da_tarefa/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/tipo_da_tarefa"/>
                                                                             </xsl:call-template>
@@ -66,76 +52,55 @@
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_criacao_da_tarefa">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_criacao_da_tarefa" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_criacao_da_tarefa" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_criacao_da_tarefa/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_criacao_da_tarefa/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_criacao_da_tarefa/value}" class="form-control gen-date " id="form_1-data_criacao_da_tarefa" name="{rows/content/form_1/fields/data_criacao_da_tarefa/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_criacao_da_tarefa"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_criacao_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/data_criacao_da_tarefa/@name}" name="{rows/content/form_1/fields/data_criacao_da_tarefa/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_criacao_da_tarefa"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_inicio_da_tarefa">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_inicio_da_tarefa" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_inicio_da_tarefa" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_inicio_da_tarefa/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_inicio_da_tarefa/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_inicio_da_tarefa/value}" class="form-control gen-date " id="form_1-data_inicio_da_tarefa" name="{rows/content/form_1/fields/data_inicio_da_tarefa/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_inicio_da_tarefa"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_inicio_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/data_inicio_da_tarefa/@name}" name="{rows/content/form_1/fields/data_inicio_da_tarefa/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_inicio_da_tarefa"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_fim_da_tarefa">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_fim_da_tarefa" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_fim_da_tarefa" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_fim_da_tarefa/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_fim_da_tarefa/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_fim_da_tarefa/value}" class="form-control gen-date " id="form_1-data_fim_da_tarefa" name="{rows/content/form_1/fields/data_fim_da_tarefa/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_fim_da_tarefa"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_fim_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/data_fim_da_tarefa/@name}" name="{rows/content/form_1/fields/data_fim_da_tarefa/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_fim_da_tarefa"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/prioridade_da_tarefa">
-                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="prioridade_da_tarefa" item-type="number">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="prioridade_da_tarefa" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/prioridade_da_tarefa/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/prioridade_da_tarefa/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="number" value="{rows/content/form_1/fields/prioridade_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/prioridade_da_tarefa/@name}" name="{rows/content/form_1/fields/prioridade_da_tarefa/@name}" min="" max="" maxlength="30" placeholder="">
+                                                                        <input type="text" value="{rows/content/form_1/fields/prioridade_da_tarefa/value}" class="form-control " id="{rows/content/form_1/fields/prioridade_da_tarefa/@name}" name="{rows/content/form_1/fields/prioridade_da_tarefa/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/prioridade_da_tarefa"/>
                                                                             </xsl:call-template>
@@ -149,7 +114,7 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/tarefa_atribuida_por/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/tarefa_atribuida_por/value}" class="form-control " id="{rows/content/form_1/fields/tarefa_atribuida_por/@name}" name="{rows/content/form_1/fields/tarefa_atribuida_por/@name}" maxlength="30" placeholder="">
+                                                                        <input type="text" value="{rows/content/form_1/fields/tarefa_atribuida_por/value}" class="form-control " id="{rows/content/form_1/fields/tarefa_atribuida_por/@name}" name="{rows/content/form_1/fields/tarefa_atribuida_por/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/tarefa_atribuida_por"/>
                                                                             </xsl:call-template>
@@ -163,23 +128,9 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/tarefa_atribuida_a/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/tarefa_atribuida_a/value}" class="form-control " id="{rows/content/form_1/fields/tarefa_atribuida_a/@name}" name="{rows/content/form_1/fields/tarefa_atribuida_a/@name}" maxlength="30" placeholder="">
+                                                                        <input type="text" value="{rows/content/form_1/fields/tarefa_atribuida_a/value}" class="form-control " id="{rows/content/form_1/fields/tarefa_atribuida_a/@name}" name="{rows/content/form_1/fields/tarefa_atribuida_a/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/tarefa_atribuida_a"/>
-                                                                            </xsl:call-template>
-                                                                        </input>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/numero_de_processo">
-                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="numero_de_processo" item-type="number">
-                                                                        <label for="{rows/content/form_1/fields/numero_de_processo/@name}">
-                                                                            <span>
-                                                                                <xsl:value-of select="rows/content/form_1/fields/numero_de_processo/label"/>
-                                                                            </span>
-                                                                        </label>
-                                                                        <input type="number" value="{rows/content/form_1/fields/numero_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/numero_de_processo/@name}" name="{rows/content/form_1/fields/numero_de_processo/@name}" min="" max="" maxlength="30" placeholder="">
-                                                                            <xsl:call-template name="setAttributes">
-                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/numero_de_processo"/>
                                                                             </xsl:call-template>
                                                                         </input>
                                                                     </div>
@@ -191,74 +142,67 @@
                                                                                 <xsl:value-of select="rows/content/form_1/fields/tipo_de_processo/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <input type="text" value="{rows/content/form_1/fields/tipo_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/tipo_de_processo/@name}" name="{rows/content/form_1/fields/tipo_de_processo/@name}" maxlength="30" placeholder="">
+                                                                        <input type="text" value="{rows/content/form_1/fields/tipo_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/tipo_de_processo/@name}" name="{rows/content/form_1/fields/tipo_de_processo/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
                                                                             <xsl:call-template name="setAttributes">
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/tipo_de_processo"/>
                                                                             </xsl:call-template>
                                                                         </input>
                                                                     </div>
                                                                 </xsl:if>
+                                                                <xsl:if test="rows/content/form_1/fields/numero_de_processo">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="numero_de_processo" item-type="text">
+                                                                        <label for="{rows/content/form_1/fields/numero_de_processo/@name}">
+                                                                            <span>
+                                                                                <xsl:value-of select="rows/content/form_1/fields/numero_de_processo/label"/>
+                                                                            </span>
+                                                                        </label>
+                                                                        <input type="text" value="{rows/content/form_1/fields/numero_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/numero_de_processo/@name}" name="{rows/content/form_1/fields/numero_de_processo/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/numero_de_processo"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
+                                                                    </div>
+                                                                </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_criacao_de_processo">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_criacao_de_processo" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_criacao_de_processo" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_criacao_de_processo/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_criacao_de_processo/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_criacao_de_processo/value}" class="form-control gen-date " id="form_1-data_criacao_de_processo" name="{rows/content/form_1/fields/data_criacao_de_processo/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_criacao_de_processo"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_criacao_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/data_criacao_de_processo/@name}" name="{rows/content/form_1/fields/data_criacao_de_processo/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_criacao_de_processo"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_inicio_de_processo">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_inicio_de_processo" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_inicio_de_processo" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_inicio_de_processo/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_inicio_de_processo/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_inicio_de_processo/value}" class="form-control gen-date " id="form_1-data_inicio_de_processo" name="{rows/content/form_1/fields/data_inicio_de_processo/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_inicio_de_processo"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_inicio_de_processo/value}" class="form-control " id="{rows/content/form_1/fields/data_inicio_de_processo/@name}" name="{rows/content/form_1/fields/data_inicio_de_processo/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_inicio_de_processo"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/data_fim_processo">
-                                                                    <div class="form-group col-sm-3  gen-fields-holder" item-name="data_fim_processo" item-type="date">
+                                                                    <div class="form-group col-sm-3   gen-fields-holder" item-name="data_fim_processo" item-type="text">
                                                                         <label for="{rows/content/form_1/fields/data_fim_processo/@name}">
                                                                             <span>
                                                                                 <xsl:value-of select="rows/content/form_1/fields/data_fim_processo/label"/>
                                                                             </span>
                                                                         </label>
-                                                                        <div class="input-group">
-                                                                            <input type="text" value="{rows/content/form_1/fields/data_fim_processo/value}" class="form-control gen-date " id="form_1-data_fim_processo" name="{rows/content/form_1/fields/data_fim_processo/@name}" format="IGRP_datePicker" maxlength="30">
-                                                                                <xsl:call-template name="setAttributes">
-                                                                                    <xsl:with-param name="field" select="rows/content/form_1/fields/data_fim_processo"/>
-                                                                                </xsl:call-template>
-                                                                            </input>
-                                                                            <span class="input-group-btn gen-date-icon">
-                                                                                <span class="btn btn-default">
-                                                                                    <i class="fa fa-calendar"/>
-                                                                                </span>
-                                                                            </span>
-                                                                        </div>
+                                                                        <input type="text" value="{rows/content/form_1/fields/data_fim_processo/value}" class="form-control " id="{rows/content/form_1/fields/data_fim_processo/@name}" name="{rows/content/form_1/fields/data_fim_processo/@name}" readonly="readonly" disabled="disabled" maxlength="30" placeholder="">
+                                                                            <xsl:call-template name="setAttributes">
+                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/data_fim_processo"/>
+                                                                            </xsl:call-template>
+                                                                        </input>
                                                                     </div>
                                                                 </xsl:if>
                                                                 <xsl:if test="rows/content/form_1/fields/descricao_da_tarefa">
@@ -290,15 +234,12 @@
                 </form>
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
-                <!-- DATE JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/datetimepicker/js/datetimepicker.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/datetimepicker/js/dtp.init.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1506960885976"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1506960885976"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1506960885976"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1506960885976"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1506960885976"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515664208567"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515664208567"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515664208567"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515664208567"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1515664208567"/>
 </xsl:stylesheet>

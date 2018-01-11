@@ -6,6 +6,7 @@ package nosi.webapps.igrp.pages.mapaprocesso;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPButton;
@@ -13,14 +14,8 @@ import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPMenu;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.gui.components.IGRPTable;
-import nosi.core.gui.fields.CheckBoxField;
-import nosi.core.gui.fields.DateField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FileField;
-import nosi.core.gui.fields.HiddenField;
-import nosi.core.gui.fields.ListField;
-import nosi.core.gui.fields.NumberField;
-import nosi.core.gui.fields.SeparatorField;
 import nosi.core.gui.fields.TextAreaField;
 import nosi.core.gui.fields.TextField;
 import java.io.IOException;
@@ -30,6 +25,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
@@ -62,6 +58,7 @@ public class MapaProcessoController extends Controller {
 	public Response actionOpenProcess(){
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
+		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
 		FormDataService formData = null;
 		String title = "";
 		if(p_processId!=null){
@@ -74,12 +71,12 @@ public class MapaProcessoController extends Controller {
 			title = task!=null?task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
-		String content = this.transformToXmlWorkFlow(title,formData);
+		String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
 		return this.renderView(content);
 	}
 
 
-	private String transformToXmlWorkFlow(String title,FormDataService formData) {
+	private String transformToXmlWorkFlow(String title,FormDataService formData,boolean withButton) {
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
 		xml.addXml(Config.getHeader());
@@ -122,10 +119,6 @@ public class MapaProcessoController extends Controller {
 		table_form.addField(prm_file_desc);
 		table_form.addField(prm_doc_list_id);
 		
-		Field separatoradd_document1 = new SeparatorField(null, "separatoradd_document1");
-		separatoradd_document1.propertie().add("start", "add_document");
-		separatoradd_document1.setLabel(gt("Adicionar Documento"));
-		
 		Field prm_doc_list = new TextField(null,"prm_doc_list");
 		prm_doc_list.propertie().add("type", "separatordialog");
 		prm_doc_list.propertie().add("container", "true");
@@ -144,16 +137,16 @@ public class MapaProcessoController extends Controller {
 
 		
 		if(formData!=null){
-			Field prm_taskid = getField("prm_taskid", "hidden");
+			Field prm_taskid = XMLTransform.getField("prm_taskid", "hidden");
 			prm_taskid.setValue(formData.getTaskId()!=null?formData.getTaskId():"");
 
-			Field prm_definitionid = getField("prm_definitionid", "hidden");
+			Field prm_definitionid = XMLTransform.getField("prm_definitionid", "hidden");
 			prm_definitionid.setValue(formData.getProcessDefinitionId()!=null?formData.getProcessDefinitionId():"");
 			form.addField(prm_taskid);
 			form.addField(prm_definitionid);
 			if(formData.getFormProperties()!=null){
 				for(FormProperties prop:formData.getFormProperties()){
-					Field field = getField(prop.getId().toLowerCase(), prop.getType());
+					Field field = XMLTransform.getField(prop.getId().toLowerCase(), prop.getType());
 					field.setLabel(prop.getName());
 					if(prop.getValue()!=null && !prop.getValue().equals("null"))
 						field.setValue(prop.getValue());
@@ -170,7 +163,6 @@ public class MapaProcessoController extends Controller {
 				}
 			}
 		}
-		form.addField(separatoradd_document1);
 		form.addField(prm_doc_list);
 		form.addField(p_fwl_tab_menu);
 		form.addField(p_fwl_relbox);
@@ -180,28 +172,15 @@ public class MapaProcessoController extends Controller {
 		form.addField(prm_file_name);
 		form.addField(prm_file_description);
 		form.addField(prm_file);
-		
-		form.addButton(btn_next);
+		if(withButton) {
+			form.addButton(btn_next);
+		}
 		form.setTable(table_form);
 		xml.addXml(form.toString());
 		xml.addXml(table.toString());
 		return xml.toString();
 	}
 	
-	private Field getField(String name,String type){
-		switch (type) {
-			case "date":
-				return new DateField(null, name);
-			case "long":
-				return new NumberField(null, name);
-			case "boolean":
-				return new CheckBoxField(null, name);
-			case "enum":
-				return new ListField(null, name);
-			case "hidden":
-				return new HiddenField(name, null);
-		}
-		return new TextField(null, name);
-	}
+	
 	/*----#END-PRESERVED-AREA----*/
 }
