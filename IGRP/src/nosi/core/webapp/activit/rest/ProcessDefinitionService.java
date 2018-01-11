@@ -2,7 +2,11 @@ package nosi.core.webapp.activit.rest;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
@@ -71,7 +75,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(){
-		this.setFilter("?suspended=false");
+		this.setFilter("?suspended=false&latest=true");
 		return this.getProcessDefinitions();
 	}
 	
@@ -220,6 +224,11 @@ public class ProcessDefinitionService extends Activit{
 
 	public void setStartFormDefined(Boolean startFormDefined) {
 		this.startFormDefined = startFormDefined;
+	}
+
+	public Map<String,String> mapToComboBox() {
+		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivos();
+		return list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName));
 	}
 
 }
