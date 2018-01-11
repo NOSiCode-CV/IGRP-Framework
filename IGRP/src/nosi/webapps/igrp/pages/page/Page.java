@@ -16,6 +16,10 @@ public class Page extends Model{
 	private int status;
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
+	@RParam(rParamName = "p_gen_auto_code")
+	private int gen_auto_code;
+	@RParam(rParamName = "p_gen_auto_code_check")
+	private int gen_auto_code_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_env_fk")
@@ -85,6 +89,19 @@ public class Page extends Model{
 	}
 	public int getStatus_check(){
 		return this.status_check;
+	}
+	
+	public void setGen_auto_code(int gen_auto_code){
+		this.gen_auto_code = gen_auto_code;
+	}
+	public int getGen_auto_code(){
+		return this.gen_auto_code;
+	}
+	public void setGen_auto_code_check(int gen_auto_code_check){
+		this.gen_auto_code_check = gen_auto_code_check;
+	}
+	public int getGen_auto_code_check(){
+		return this.gen_auto_code_check;
 	}
 	
 	public void setNada(String nada){
