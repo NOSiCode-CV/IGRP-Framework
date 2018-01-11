@@ -1,15 +1,27 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<xsl:template name="GEN-view">
+		
 		<xsl:variable name="hasImg">
 			<xsl:if test="rows/content/view/label/view_foto != ''">true</xsl:if>
 		</xsl:variable>
+		
 		<div class="box clearfix view-block gen-container-item " has-img="{$hasImg}" item-name="view">
+			
+			<xsl:if test="rows/content/view/@title">
+				<xsl:call-template name="box-header">
+               		<xsl:with-param name="title" select="rows/content/view/@title"/>
+               		<xsl:with-param name="collapsible" select="'false'"/>
+               		<xsl:with-param name="collapsed" select="'false'"/>
+             	</xsl:call-template>
+			</xsl:if>
+			
            <div class="box-body">
 
              <xsl:if test="$hasImg = 'true'">
                <img src="{rows/content/view/value/view_foto}"/>
              </xsl:if>
+             
              <div class="view-body clearfix ">
              	<xsl:for-each select="rows/content/view/label/*[ not( name()='view_foto' ) ]">
              		<xsl:variable name="tag" select="name()"/>
