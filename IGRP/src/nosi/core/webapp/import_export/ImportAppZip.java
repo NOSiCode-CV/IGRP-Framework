@@ -104,8 +104,11 @@ public class ImportAppZip extends ImportAppJar{
 				}
 			}
 			if(this.filesConfigPagePlsql.get(xml)!=null){
+				
 				String content = this.filesConfigPagePlsql.get(xml).getConteudo();
+				
 				if(content!=null && page.getVersion_src()!=null && page.getVersion_src().equalsIgnoreCase("IGRP2.3")){
+					
 					this.saveConfigFilesPlsql2_3(page,content);
 				}else {
 					this.saveConfigFilesPlsql2_1(page,content);
@@ -121,7 +124,7 @@ public class ImportAppZip extends ImportAppJar{
 			String pathServer = Config.getBaseServerPahtXsl(page);
 			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
-			System.out.println(content);
+			//System.out.println(content);
 			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.LINK_XSL_JSON_CONVERT);			
 			System.out.println(json);
 			//json = this.addClassAndPackage(json,page,"json");
