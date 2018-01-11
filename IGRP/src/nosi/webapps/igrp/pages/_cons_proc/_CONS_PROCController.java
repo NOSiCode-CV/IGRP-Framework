@@ -99,17 +99,8 @@ public class _CONS_PROCController extends Controller {
 
 	public Response actionVer_processo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(VER_PROCESSO)----*/
-		_CONS_PROC model = new _CONS_PROC();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(model.save(model)){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","_CONS_PROC","index");
-			}
-		}
-		return this.redirect("igrp","_CONS_PROC","index");
+		String p_id_task = Igrp.getInstance().getRequest().getParameter("p_id_task");
+		return this.redirect("igrp","DetalhesProcesso","index&target=_blank&taskId="+p_id_task);
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

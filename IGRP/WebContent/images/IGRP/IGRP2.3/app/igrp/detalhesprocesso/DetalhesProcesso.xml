@@ -43,51 +43,32 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
             <fields>
-                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
-                    <label>Tipo da Tarefa</label>
-                    <value>Deserunt ipsum omnis natus eli</value>
-                </tipo_da_tarefa>
-                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
-                    <label>Prioridade da Tarefa</label>
-                    <value>Aliqua voluptatem mollit totam</value>
-                </prioridade_da_tarefa>
-                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
-                    <label>Tarefa Atribuída Por</label>
-                    <value>Mollit sit sed lorem amet</value>
-                </tarefa_atribuida_por>
-                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
-                    <label>Tarefa Atribuída A</label>
-                    <value>Unde ut natus magna deserunt</value>
-                </tarefa_atribuida_a>
-                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
-                    <label>Tipo de Processo</label>
-                    <value>Adipiscing doloremque sed omni</value>
-                </tipo_de_processo>
-                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30">
                     <label>Número De Processo</label>
-                    <value>Labore omnis amet natus offici</value>
+                    <value>Rem anim aliqua sit ipsum</value>
                 </numero_de_processo>
-                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                <descricao name="p_descricao" type="text" maxlength="30">
+                    <label>Descrição</label>
+                    <value>Laudantium elit adipiscing mol</value>
+                </descricao>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30">
                     <label>Data Criação de Processo</label>
-                    <value>Deserunt unde sit labore rem</value>
+                    <value>Officia adipiscing anim lorem</value>
                 </data_criacao_de_processo>
-                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30">
                     <label>Data Início de Processo</label>
-                    <value>Accusantium laudantium lorem l</value>
+                    <value>Voluptatem ut unde omnis strac</value>
                 </data_inicio_de_processo>
-                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30">
                     <label>Data Fim Processo</label>
-                    <value>Ut unde elit accusantium labor</value>
+                    <value>Voluptatem magna elit ut adipi</value>
                 </data_fim_processo>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                </view_1_img>
             </fields>
-        </form_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields/>
-            <table>
-                <value/>
-            </table>
-        </table_1>
+        </view_1>
     </content>
 </rows>
