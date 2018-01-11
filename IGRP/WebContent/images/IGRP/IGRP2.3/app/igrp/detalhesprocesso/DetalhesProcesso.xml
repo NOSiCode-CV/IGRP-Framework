@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=62</preserve_url>
     </plsql>
     <content>
         <title>Detalhes Processo</title>
@@ -42,5 +43,51 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tipo da Tarefa</label>
+                    <value>Deserunt ipsum omnis natus eli</value>
+                </tipo_da_tarefa>
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Prioridade da Tarefa</label>
+                    <value>Aliqua voluptatem mollit totam</value>
+                </prioridade_da_tarefa>
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tarefa Atribuída Por</label>
+                    <value>Mollit sit sed lorem amet</value>
+                </tarefa_atribuida_por>
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tarefa Atribuída A</label>
+                    <value>Unde ut natus magna deserunt</value>
+                </tarefa_atribuida_a>
+                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Tipo de Processo</label>
+                    <value>Adipiscing doloremque sed omni</value>
+                </tipo_de_processo>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Número De Processo</label>
+                    <value>Labore omnis amet natus offici</value>
+                </numero_de_processo>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Criação de Processo</label>
+                    <value>Deserunt unde sit labore rem</value>
+                </data_criacao_de_processo>
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Início de Processo</label>
+                    <value>Accusantium laudantium lorem l</value>
+                </data_inicio_de_processo>
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Data Fim Processo</label>
+                    <value>Ut unde elit accusantium labor</value>
+                </data_fim_processo>
+            </fields>
+        </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields/>
+            <table>
+                <value/>
+            </table>
+        </table_1>
     </content>
 </rows>

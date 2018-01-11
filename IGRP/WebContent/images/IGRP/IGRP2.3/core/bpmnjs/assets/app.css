@@ -371,6 +371,7 @@ ul {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    position: absolute;
 }
 .content>.screen {
     text-align: center;
@@ -567,7 +568,7 @@ body.shown .io-help {
 }
 
 body:not(.sidebar-off) #igrp-contents .io-import-export{
-    left:calc(25% + 40px);
+    left:calc(25% + 35px);
 }
 
 .io-import {

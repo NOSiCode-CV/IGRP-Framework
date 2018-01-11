@@ -349,14 +349,25 @@ public final class Core {	// Not inherit
 		return new QuerySelect().select(sql);
 	}
 	
-	public static java.sql.Date ToDate(String date,String format){
-		return DateHelper.convertStringToDate(date, format);
+	public static java.sql.Date ToDate(String date,String formatIn){
+		return DateHelper.convertStringToDate(date, formatIn);
 	}
 	
-	public static String ToChar(java.sql.Date date,String format) {
-		return DateHelper.convertDateToString(date, format);
+	public static java.sql.Date ToDate(String date,String formatIn,String formatOut){
+		return DateHelper.formatDate(date, formatIn,formatOut);
 	}
 	
+	public static String ToChar(java.sql.Date date,String formatIn) {
+		return DateHelper.convertDateToString(date, formatIn);
+	}
+
+	public static String ToChar(String date, String formatIn, String formatOut) {
+		return DateHelper.convertDate(date, formatIn, formatOut);
+	}
+	
+	public static String ToChar(String date,String formatOut) {
+		return DateHelper.convertDate(date, "yyyy-MM-dd", formatOut);
+	}
 	
 	public static class Restriction extends Restrictions{
 		
@@ -368,4 +379,5 @@ public final class Core {	// Not inherit
 			System.out.println(p.getRowList());
 		}
 	}
+
 }

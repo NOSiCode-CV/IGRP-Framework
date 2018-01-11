@@ -57,7 +57,7 @@ public class ExecucaoTarefasController extends Controller {
 				t.setDesc_tarefa(task.getDescription()!=null?task.getDescription():task.getName());
 				t.setNumero_processo_tabela(task.getProcessDefinitionId());
 				t.setP_id(task.getId());
-				t.setN_tarefa_g(task.getId());
+				t.setN_tarefa_g(task.getProcessInstanceId());
 				t.setTipo(task.getCategory());
 				t.setData_fim_g(task.getDueDate()!=null?task.getDueDate().toString():"");
 				taskManage.add(t);
@@ -75,7 +75,7 @@ public class ExecucaoTarefasController extends Controller {
 			t.setDesc_tarefa_tabela_minhas_tarefas(task.getDescription()!=null?task.getDescription():task.getName());
 			t.setTipo_tabela_minhas_tarefas(task.getCategory());
 			t.setP_id(task.getId());
-			t.setN_tarefa_m(task.getId());
+			t.setN_tarefa_m(task.getProcessInstanceId());
 			t.setData_fim_m(task.getDueDate()!=null?task.getDueDate().toString():"");
 			myTasks.add(t);
 		}
@@ -86,7 +86,7 @@ public class ExecucaoTarefasController extends Controller {
 			t.setCategorias_processo_tabela_disponiveis(task.getCategory());
 			t.setData_entrada_tabela_disponiveis(task.getCreateTime().toString());
 			t.setP_id(task.getId());
-			t.setN_tarefa_d(task.getId());
+			t.setN_tarefa_d(task.getProcessInstanceId());
 			t.setData_fim_d(task.getDueDate()!=null?task.getDueDate().toString():"");
 			t.setTarefas_tabela_disponiveis(task.getDescription()!=null?task.getDescription():task.getName());
 			tasksDisponiveis.add(t);
@@ -124,6 +124,9 @@ public class ExecucaoTarefasController extends Controller {
 		view.btn_detalhes_tarefa.setPage("Alter_prioridade_tarefa");
 		view.btn_transferir_tarefa.setLink("index");
 		view.btn_transferir_tarefa.setPage("Transferir_tarefas");
+		view.n_tarefa_d.setLabel("Número Processo");
+		view.n_tarefa_g.setLabel("Número Processo");
+		view.n_tarefa_m.setLabel("Número Processo");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
