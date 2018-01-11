@@ -13,7 +13,11 @@
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>authentication_type</param-name>
-      <param-value>ldap</param-value>
+      <param-value>db</param-value>
+    </init-param>
+     <init-param>
+      <param-name>env</param-name>
+      <param-value>dev</param-value> 
     </init-param>
     <multipart-config>
       <max-file-size>52428800</max-file-size>
