@@ -70,7 +70,9 @@ public class Import {
 				  .andWhere("application.dad", "=", app.getDad())
 				  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 				  .one();	
-		String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+		//System.out.println(page);
+		String path_class = Config.getBasePathClass() + 
+				page.getPackage_name().replace(".",File.separator);
 		String content = file.getConteudo();
 		if(file.getNome().endsWith(".java")){
 			content = content.substring(0, content.indexOf("package")+"package".length())+" "+page.getPackage_name() +content.substring(content.indexOf(";", content.indexOf("package")));
@@ -131,6 +133,9 @@ public class Import {
 								  .andWhere("application.dad", "=", app.getDad())
 								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
+		
+	//	System.out.println(Page.resolvePageName(partPage[2]));
+		
 		String path = Config.getBaseServerPahtXsl(page);
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
@@ -190,6 +195,7 @@ public class Import {
 		try {
 			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));			
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
+			//System.out.println("Tamanho de listaPage: " + listPage.getRow().size());
 			List<Action> pages = new ArrayList<>();
 			for(Action page:listPage.getRow()){
 				//Depois validar nome de classe

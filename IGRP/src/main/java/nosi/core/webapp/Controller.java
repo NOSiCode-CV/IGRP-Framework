@@ -194,6 +194,14 @@ public abstract class Controller {
 				throw new ServerErrorHttpException("The route format is invalid");
 			}
 		}
+		String application = "Application: " + app.getCurrentAppName();
+		String page = "Page: " + app.getCurrentPageName();
+		String action = "Action: " + app.getCurrentActionName();
+		String controllerName = "Controller Name: " + page + "Controller";
+		app.getLog().addMessage(application);
+		app.getLog().addMessage(page);
+		app.getLog().addMessage(action);
+		app.getLog().addMessage(controllerName);
 	}
 	
 	private static Object run(){ 

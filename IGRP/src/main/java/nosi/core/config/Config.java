@@ -136,6 +136,11 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
 	}
 	
+	public synchronized static String getEnvironment() {
+		String env = Igrp.getInstance().getServlet().getInitParameter("env");
+		return env;
+	}
+	
 	public static String getAutenticationType(){
 		return Igrp.getInstance().getServlet().getInitParameter("authentication_type");
 	}

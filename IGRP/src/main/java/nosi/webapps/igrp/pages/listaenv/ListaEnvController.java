@@ -82,7 +82,6 @@ public class ListaEnvController extends Controller {
 			return this.redirect("igrp_studio","ImportArquivo","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVO)----*/

@@ -41,7 +41,10 @@ public final class Igrp{ // Not extends
 	private User user;
 	
 	// For i18n
-	I18nManager i18nManager;
+	private I18nManager i18nManager;
+	
+	// For Igrp log toolbar 
+	private IgrpLog log;
 	
 	private Igrp(){} // Private and empty default constructor ... allow Singleton class 
 	/**
@@ -84,12 +87,17 @@ public final class Igrp{ // Not extends
 		this.i18nManager = new I18nManager();
 		this.i18nManager.init();
 		
+		// For Igrp log toolbar 
+		this.log = new IgrpLog();
+		this.log.init();
+		
 		return this;
 	}
 	
-	public void run() throws IOException{ // run the web app 	
+	public void run() throws IOException{ // run the web app 
 		Config.configurationApp();
 		if(!this.die){
+			this.log.func1();
 			this.runController();
 		}
 		this.exit();
@@ -192,6 +200,10 @@ public final class Igrp{ // Not extends
 
 	public static String getMethod() {
 		return Igrp.getInstance().getRequest().getMethod();
+	}
+	
+	public IgrpLog getLog() {
+		return log;
 	}
 	
 	public String generateCsrfToken() {

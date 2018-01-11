@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXB;
 
+import nosi.core.gui.components.IGRPLogBar;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
 public class Test {
@@ -22,6 +24,8 @@ public class Test {
 	static String l_ldap_entryDN;
 
 	public static void main(String[] args) {
+		System.out.println(new IGRPLogBar());
+		System.exit(0);
 		//Teste LDAP 
 		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"); 
 		String path="C:\\git\\IGRP-Framework\\IGRP\\WebContent\\WEB-INF\\config\\ldap\\ldap.xml";

@@ -30,7 +30,6 @@ public class Log4JInitServlet extends HttpServlet {
 			String log4jProp = webAppPath + log4jLocation;
 			File newlogfile = new File(log4jProp);
 			if (newlogfile.exists()) {
-
 				PropertyConfigurator.configure(log4jProp);
 			} else {
 				System.err.println(" " + log4jProp + " file not found, so initializing log4j with BasicConfigurator");

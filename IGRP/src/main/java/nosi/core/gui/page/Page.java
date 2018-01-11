@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.config.Config;
 import nosi.core.exception.NotFoundHttpException;
+import nosi.core.gui.components.IGRPLogBar;
 import nosi.core.gui.components.IGRPMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -68,6 +69,10 @@ public class Page {
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
 		xml.text(":_content");
+		
+		//new IGRPLogBar()
+		xml.text(":_logBar");
+		
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		if(m!=null){
@@ -79,13 +84,22 @@ public class Page {
 	
 	public String renderContent(boolean layout){
 		if(layout){
-			// Create a standard template of IGRP
+			// Create a standard template of IGRP 
 			this.createTemplate();
+			if(Config.getEnvironment().equalsIgnoreCase("dev") || Config.getEnvironment().equalsIgnoreCase("sta"))
+				this.template = this.template.replace(":_logBar", new IGRPLogBar().toString());
+			else
+				this.template = this.template.replace(":_logBar", "");
 			return this.template.replace(":_content", this.convertContentToXml());
 		}
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
-		return this.convertContentToXml().replace(":_message_reseved", m);
+		String aux = this.convertContentToXml().replace(":_message_reseved", m);
+		if(Config.getEnvironment().equalsIgnoreCase("dev") || Config.getEnvironment().equalsIgnoreCase("sta"))
+			aux = aux.replace(":_logBar", new IGRPLogBar().toString());
+		else
+			aux = aux.replace(":_logBar", "");
+		return aux;
 	}
 	
 	public static String getPageName(String page){

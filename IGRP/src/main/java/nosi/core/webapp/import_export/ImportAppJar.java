@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.Part;
 import javax.xml.bind.JAXB;
 import nosi.core.config.Config;
@@ -39,6 +41,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 		boolean result = true;
 		List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
 		for(FileImportAppOrPage file:this.un_jar_files){
+			//System.out.println(file.getNome()); 
 			if(file.getNome().endsWith(".java") && this.app!=null){
 				filesToCompile.add(file);
 			}else if(file.getNome().startsWith("configApp")){
@@ -82,13 +85,16 @@ public class ImportAppJar extends Import implements IFImportExport{
 	private boolean saveConfigDB(String conteudo,Application app) {
 		StringReader input = new StringReader(conteudo);
 		XMLConfigDBReader listConfig = JAXB.unmarshal(input, XMLConfigDBReader.class);
+		
 		boolean result = false;
-		for(Config_env config:listConfig.getRow()){
-			config.setApplication(app);
-			config.setCharset("utf-8");
-			if(new Config_env().find().andWhere("name", "=", config.getName()).one()==null)
-				result = config.insert()!=null;
-		}
+		if(listConfig.getRow() != null)
+			for(Config_env config:listConfig.getRow()){
+				config.setApplication(app);
+				config.setCharset("utf-8");
+				if(new Config_env().find().andWhere("name", "=", config.getName()).one()==null)
+					result = config.insert()!=null;
+			}
+		
 		return result;
 	}
 
