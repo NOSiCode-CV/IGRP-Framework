@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ldap> <!-- Just for test :-) ... -->
-<url>ldap://10.4.2.95:389</url>
-<username>cn=admin,dc=cloud,dc=nosi</username>
-<password>Pa$$w0rd</password> 
-<base>dc=cloud,dc=nosi</base>
-<type>openldap</type><!-- ad, apacheds -->
+	<url>ldap://gov.cv:389</url>
+	<username>CN= SELECTLDAP,OU= Service Accounts,DC=gov,DC=cv</username>
+	<password>Cr3d4query1dap</password>
+	<base>DC=gov,DC=cv</base>
+	<authentication_filter>(&amp;(objectclass=USER)(SAMAccountName=:_placeholder))</authentication_filter>
+	<entryDN>cn=:_placeholder,ou=Standard Users,ou=Users,ou=NOSi,ou=Organizations</entryDN>
 </ldap>

@@ -45,14 +45,23 @@
 
 			    //opens	  		 : "left"
 
-			},function(date,date2){
-				var locale = com.locale,
+			}).attr('date-picker-set',true).val(value);
+
+			element.on('apply.daterangepicker', function(ev, picker) {
+
+				var date   = picker.startDate,
+
+					date2  = picker.endDate,
+
+					locale = com.locale,
+
 					value  = singleDatePicker ? date.format(locale.format) : 
+
 											   date.format(locale.format)+locale.separator+date2.format(locale.format)
 
 				el.val( value ).change();
-
-			}).attr('date-picker-set',true).val(value);
+				
+			});
 
 			if( formlist && formlist.events)
 

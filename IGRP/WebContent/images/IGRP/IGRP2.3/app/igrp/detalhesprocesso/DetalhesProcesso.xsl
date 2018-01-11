@@ -1,10 +1,12 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="ISO-8859-1" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
+                <!-- VIEW CSS INCLUDES -->
+                <link rel="stylesheet" type="text/css" href="{$path}/plugins/view/igrp.view.css?v={$version}"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -22,7 +24,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-60612724">
+                                    <div class="row " id="row-c82b870f">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -31,6 +33,67 @@
                                                             <xsl:value-of select="rows/content/sectionheader_1/fields/sectionheader_1_text/value"/>
                                                         </h2>
                                                     </section>
+                                                </xsl:if>
+                                                <xsl:if test="rows/content/view_1">
+                                                    <div class="box clearfix view-block gen-container-item " has-img="true" gen-class="" item-name="view_1">
+                                                        <div class="box-body">
+                                                            <xsl:if test="rows/content/view_1/fields/view_1_img">
+                                                                <img src="{rows/content/view_1/fields/view_1_img/value}"/>
+                                                            </xsl:if>
+                                                            <div class="view-body clearfix ">
+                                                                <xsl:if test="rows/content/view_1/fields/numero_de_processo">
+                                                                    <div class="view-item gen-fields-holder" item-name="numero_de_processo">
+                                                                        <span class="view-label">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/numero_de_processo/label"/>
+                                                                        </span>
+                                                                        <span class="view-value">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/numero_de_processo/value"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/view_1/fields/descricao">
+                                                                    <div class="view-item gen-fields-holder" item-name="descricao">
+                                                                        <span class="view-label">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/descricao/label"/>
+                                                                        </span>
+                                                                        <span class="view-value">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/descricao/value"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/view_1/fields/data_criacao_de_processo">
+                                                                    <div class="view-item gen-fields-holder" item-name="data_criacao_de_processo">
+                                                                        <span class="view-label">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_criacao_de_processo/label"/>
+                                                                        </span>
+                                                                        <span class="view-value">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_criacao_de_processo/value"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/view_1/fields/data_inicio_de_processo">
+                                                                    <div class="view-item gen-fields-holder" item-name="data_inicio_de_processo">
+                                                                        <span class="view-label">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_inicio_de_processo/label"/>
+                                                                        </span>
+                                                                        <span class="view-value">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_inicio_de_processo/value"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </xsl:if>
+                                                                <xsl:if test="rows/content/view_1/fields/data_fim_processo">
+                                                                    <div class="view-item gen-fields-holder" item-name="data_fim_processo">
+                                                                        <span class="view-label">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_fim_processo/label"/>
+                                                                        </span>
+                                                                        <span class="view-value">
+                                                                            <xsl:value-of select="rows/content/view_1/fields/data_fim_processo/value"/>
+                                                                        </span>
+                                                                    </div>
+                                                                </xsl:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </xsl:if>
                                             </div>
                                         </div>
@@ -44,8 +107,8 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1509015880395"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1509015880395"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1509015880395"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1509015880395"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515683413935"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515683413936"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515683413936"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515683413936"/>
 </xsl:stylesheet>
