@@ -47,28 +47,36 @@
             <fields>
                 <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30">
                     <label>Número De Processo</label>
-                    <value>Rem anim aliqua sit ipsum</value>
+                    <value>Sit laudantium sit adipiscing</value>
                 </numero_de_processo>
                 <descricao name="p_descricao" type="text" maxlength="30">
                     <label>Descrição</label>
-                    <value>Laudantium elit adipiscing mol</value>
+                    <value>Ut voluptatem rem magna natus</value>
                 </descricao>
                 <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30">
                     <label>Data Criação de Processo</label>
-                    <value>Officia adipiscing anim lorem</value>
+                    <value>Amet sit labore mollit aliqua</value>
                 </data_criacao_de_processo>
                 <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30">
                     <label>Data Início de Processo</label>
-                    <value>Voluptatem ut unde omnis strac</value>
+                    <value>Accusantium sit stract volupta</value>
                 </data_inicio_de_processo>
                 <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30">
                     <label>Data Fim Processo</label>
-                    <value>Voluptatem magna elit ut adipi</value>
+                    <value>Omnis mollit lorem amet labore</value>
                 </data_fim_processo>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
                 </view_1_img>
             </fields>
         </view_1>
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <img_1 name="p_img_1" type="img" persist="true" img="" width="" height="" croppie="false" rounded="false" maxlength="30" placeholder="" right="false">
+                    <label>Img</label>
+                    <value/>
+                </img_1>
+            </fields>
+        </form_1>
     </content>
 </rows>

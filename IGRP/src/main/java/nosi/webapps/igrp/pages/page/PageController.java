@@ -167,7 +167,7 @@ public class PageController extends Controller {
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
-			String path_class_work_space = Config.getWorkspace() + File.separator + "src" + File.separator + path_class;
+			String path_class_work_space = Config.getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
 			path_class = Config.getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
@@ -196,15 +196,13 @@ public class PageController extends Controller {
 								+ "/" + ac.getPage() + ".xsl");
 						ac.update();
 						this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-						return this.renderView("<messages><message type=\"success\">"
-								+ StringEscapeUtils.escapeXml(error) + "</message></messages>");
+						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml(error) + "</message></messages>");
 					}
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView(
-				"<messages><message type=\"error\">" + StringEscapeUtils.escapeXml(error) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
@@ -415,14 +413,12 @@ public class PageController extends Controller {
 	}
 
 	private String getPageController(String app, String page) {
-		String workspace = Config.getWorkspace() + "/src/nosi/webapps/" + app.toLowerCase() + "/pages/"
-				+ page.toLowerCase();
+		String workspace = Config.getBasePahtClassWorkspace(app,page);
 		String controller = null;
-		if (FileHelper.fileExists(workspace + "/" + page + "Controller.java")) {
+		if (FileHelper.fileExists(workspace + File.separator + page + "Controller.java")) {
 			controller = FileHelper.readFile(workspace, page + "Controller.java");
 		} else {
-			workspace = Config.getBasePathClass() + "nosi/webapps/" + app.toLowerCase() + "/pages/"
-					+ page.toLowerCase();
+			workspace = Config.getBasePathClass() + "nosi/webapps/" + app.toLowerCase() + "/pages/"+ page.toLowerCase();
 			if (FileHelper.fileExists(workspace + "/" + page + "Controller.java")) {
 				controller = FileHelper.readFile(workspace, page + "Controller.java");
 			}

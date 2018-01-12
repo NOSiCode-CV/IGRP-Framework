@@ -85,7 +85,7 @@ public class ImportExportApp {
 	
 	public boolean validateExportPage(Action page){
 		FileHelper fileH = new FileHelper();
-		String pathPageClass = Config.getBasePahtClassWorkspace(page.getApplication().getDad().toLowerCase())+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
+		String pathPageClass = Config.getBasePahtClassWorkspace(page.getApplication().getDad().toLowerCase())+File.separator+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
 		this.filesPageClasses = fileH.listFilesDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
@@ -99,7 +99,7 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportApp(Application app){
-		String pathPageClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+"pages"+File.separator;
+		String pathPageClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"pages"+File.separator;
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
@@ -109,7 +109,7 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		String pathDaoClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+"dao"+File.separator;
+		String pathDaoClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"dao"+File.separator;
 		this.filesDaoClasses = new FileHelper().listFilesDirectory(pathDaoClass);		
 		Map<String,String> newFilesDao = new HashMap<>();
 		if(this.filesDaoClasses!=null){

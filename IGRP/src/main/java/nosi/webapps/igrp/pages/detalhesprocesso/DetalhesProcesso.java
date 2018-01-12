@@ -20,6 +20,8 @@ public class DetalhesProcesso extends Model{
 	private String data_fim_processo;
 	@RParam(rParamName = "p_view_1_img")
 	private String view_1_img;
+	@RParam(rParamName = "p_img_1")
+	private String img_1;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -68,6 +70,13 @@ public class DetalhesProcesso extends Model{
 	}
 	public String getView_1_img(){
 		return this.view_1_img;
+	}
+	
+	public void setImg_1(String img_1){
+		this.img_1 = img_1;
+	}
+	public String getImg_1(){
+		return this.img_1;
 	}
 
 

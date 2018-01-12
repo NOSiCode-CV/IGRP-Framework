@@ -24,7 +24,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-c82b870f">
+                                    <div class="row " id="row-c019883e">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -95,6 +95,23 @@
                                                         </div>
                                                     </div>
                                                 </xsl:if>
+                                                <xsl:if test="rows/content/form_1">
+                                                    <div class="box igrp-forms gen-container-item " gen-class="" item-name="form_1">
+                                                        <div class="box-body">
+                                                            <div role="form">
+                                                                <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                                                                <xsl:if test="rows/content/form_1/fields/img_1">
+                                                                    <div class="col-sm-12  holder- gen-fields-holder" item-name="img_1">
+                                                                        <div class="row">
+                                                                            <img src="{rows/content/form_1/fields/img_1/value}" data-label="{rows/content/form_1/fields/img_1/label}" name="img_1" id="id-img_1" width="" height="" class=" "/>
+                                                                        </div>
+                                                                    </div>
+                                                                </xsl:if>
+                                                            </div>
+                                                        </div>
+                                                        <xsl:apply-templates select="rows/content/form_1/tools-bar" mode="form-buttons"/>
+                                                    </div>
+                                                </xsl:if>
                                             </div>
                                         </div>
                                     </div>
@@ -104,11 +121,14 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
+                <!-- FORM JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515683413935"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515683413936"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515683413936"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515683413936"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515761822549"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515761822549"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515761822549"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515761822549"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1515761822550"/>
 </xsl:stylesheet>

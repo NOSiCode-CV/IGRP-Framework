@@ -78,7 +78,7 @@ public class Import {
 		try {
 			FileHelper.save(path_class,partPage[3],content);
 			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())){
-				String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad())+"pages"+File.separator+page.getPage().toLowerCase();
+				String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad())+File.separator+"pages"+File.separator+page.getPage().toLowerCase();
 				FileHelper.save(path_class_work_space,partPage[3],content);
 			}
 			return new File(path_class+"/"+partPage[3]);

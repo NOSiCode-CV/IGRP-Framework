@@ -252,9 +252,15 @@ public class Config {
 	}
 	
 	public static String getBasePahtClassWorkspace(String app){
-		return Config.getWorkspace() + File.separator +  "src"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator) +File.separator;
+		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator);
 	}
-	
+	public static String getBasePahtClassWorkspace(String app,String page){
+		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app,page).replace(".", File.separator);
+	}
+
+	private static String getBasePackage(String app,String page) {
+		return "nosi.webapps."+app.toLowerCase()+".pages."+page.toLowerCase();
+	}
 
 	public static String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
