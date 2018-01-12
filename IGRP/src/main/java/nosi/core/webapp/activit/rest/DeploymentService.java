@@ -41,7 +41,7 @@ public class DeploymentService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<DeploymentService> getDeployments(){
 		List<DeploymentService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("repository/deployments");
+		ClientResponse response = new RestRequest().get("repository/deployments?&size=100000000");
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){

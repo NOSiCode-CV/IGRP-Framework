@@ -81,6 +81,35 @@ public class TaskServiceQuery extends TaskService {
 		return d;
 	}
 	
+
+	public List<TaskServiceQuery> queryHistoryProcessInstance(){		
+		List<TaskServiceQuery> d = new ArrayList<>();
+		
+		if(paramsQuery!=null && paramsQuery.size() > 0) {
+			try {
+				json_Variables.put("processVariables", paramsQuery);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		ClientResponse response = new RestRequest().post("historic-process-instances?size=100000000",json_Variables.toString());
+		if(response!=null){
+			String contentResp = response.getEntity(String.class);
+			if(response.getStatus()==200){
+				TaskService dep = (TaskService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				this.setTotal(dep.getTotal());
+				this.setSize(dep.getSize());
+				this.setSort(dep.getSort());
+				this.setOrder(dep.getOrder());
+				this.setStart(dep.getStart());
+				d = (List<TaskServiceQuery>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+			}else{
+				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return d;
+	}
+	
 	public String getStartTime() {
 		return startTime;
 	}

@@ -7,8 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
-
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
@@ -59,20 +57,20 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.setFilter("assignee="+user);
+		this.setFilter("size=100000000&assignee="+user);
 		return this.getTasks();
 	}
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		this.setFilter("unassigned=true?&size=100000000&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
 	@SuppressWarnings("unchecked")	
 	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("runtime/tasks?"+this.getFilter());
+		ClientResponse response = new RestRequest().get("runtime/tasks?size=100000000&"+this.getFilter());
 		if(response!=null){
 			String contentResp = response.getEntity(String.class);
 			if(response.getStatus()==200){

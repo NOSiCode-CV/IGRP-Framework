@@ -1,17 +1,18 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import javax.ws.rs.core.MediaType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
-
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -52,7 +53,28 @@ public class ProcessDefinitionService extends Activit{
 		return d;
 	}
 	
-
+	public String getDiagram(String id){
+		String d = null;
+		RestRequest request = new RestRequest();
+		request.ACCEPT_FORMAT = MediaType.APPLICATION_OCTET_STREAM;
+		ClientResponse response = request.get("runtime/process-instances/"+id+"/diagram");		
+		if(response!=null){
+			if(response.getStatus()==200) {
+				InputStream finput =response.getEntity(InputStream.class);
+				byte[] imageBytes = new byte[response.getLength()];
+				try {
+					finput.read(imageBytes, 0, imageBytes.length);
+					finput.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+				return imageStr;
+			}
+		}
+		return d;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<ProcessDefinitionService> getProcessDefinitions(){
 		List<ProcessDefinitionService> d = new ArrayList<>();
@@ -75,7 +97,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(){
-		this.setFilter("?suspended=false&latest=true");
+		this.setFilter("?suspended=false&latest=true&size=100000000");
 		return this.getProcessDefinitions();
 	}
 	
