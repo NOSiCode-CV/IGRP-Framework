@@ -2084,6 +2084,17 @@ var GENERATOR = function(genparams){
 	}
 
 	var setEvents = function(){
+		
+		$(document).keydown(function(event) {
+		    if((event.ctrlKey || event.metaKey) && event.which == 83) {
+
+		    	$('.form-gen-save').click();
+		    	
+		        event.preventDefault();
+		        
+		        return false;
+		    }
+		});
 
 		$('.gen-download-content').on('click',function(e){
 

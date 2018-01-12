@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhesprocesso/DetalhesProcesso.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=62</preserve_url>
     </plsql>
     <content>
         <title>Detalhes Processo</title>
@@ -42,5 +43,32 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <view_1 type="view" xml-type="view" gen-type="container" gen-group="">
+            <fields>
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30">
+                    <label>Número De Processo</label>
+                    <value>Rem anim aliqua sit ipsum</value>
+                </numero_de_processo>
+                <descricao name="p_descricao" type="text" maxlength="30">
+                    <label>Descrição</label>
+                    <value>Laudantium elit adipiscing mol</value>
+                </descricao>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30">
+                    <label>Data Criação de Processo</label>
+                    <value>Officia adipiscing anim lorem</value>
+                </data_criacao_de_processo>
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30">
+                    <label>Data Início de Processo</label>
+                    <value>Voluptatem ut unde omnis strac</value>
+                </data_inicio_de_processo>
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30">
+                    <label>Data Fim Processo</label>
+                    <value>Voluptatem magna elit ut adipi</value>
+                </data_fim_processo>
+                <view_1_img type="text" name="p_view_1_img" maxlength="300">
+                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                </view_1_img>
+            </fields>
+        </view_1>
     </content>
 </rows>

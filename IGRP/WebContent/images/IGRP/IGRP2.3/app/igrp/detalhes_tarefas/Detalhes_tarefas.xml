@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/detalhes_tarefas/Detalhes_tarefas.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/detalhes_tarefas/Detalhes_tarefas.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
     </plsql>
     <content>
         <title>Detalhes Tarefas</title>
@@ -42,70 +43,59 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <fechar type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="fechar">
-                <title>Fechar</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
-                <target>_close</target>
-                <img>danger|fa-close</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
-            </item>
-        </fechar>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <tipo_da_tarefa name="p_tipo_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Tipo da Tarefa</label>
-                    <value>Aperiam dolor laudantium lorem</value>
+                    <value>Aperiam stract consectetur dol</value>
                 </tipo_da_tarefa>
-                <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <data_criacao_da_tarefa name="p_data_criacao_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Criação da Tarefa</label>
-                    <value/>
+                    <value>Rem elit unde ipsum unde</value>
                 </data_criacao_da_tarefa>
-                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <data_inicio_da_tarefa name="p_data_inicio_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Início da Tarefa</label>
-                    <value/>
+                    <value>Labore iste officia adipiscing</value>
                 </data_inicio_da_tarefa>
-                <data_fim_da_tarefa name="p_data_fim_da_tarefa" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <data_fim_da_tarefa name="p_data_fim_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Fim da Tarefa</label>
-                    <value/>
+                    <value>Sit stract labore anim ipsum</value>
                 </data_fim_da_tarefa>
-                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="number" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <prioridade_da_tarefa name="p_prioridade_da_tarefa" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Prioridade da Tarefa</label>
-                    <value>13</value>
+                    <value>Perspiciatis accusantium totam</value>
                 </prioridade_da_tarefa>
-                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <tarefa_atribuida_por name="p_tarefa_atribuida_por" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Tarefa Atribuída Por</label>
-                    <value>Accusantium adipiscing unde ma</value>
+                    <value>Lorem deserunt ipsum rem unde</value>
                 </tarefa_atribuida_por>
-                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <tarefa_atribuida_a name="p_tarefa_atribuida_a" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Tarefa Atribuída A</label>
-                    <value>Deserunt stract aliqua unde pe</value>
+                    <value>Elit lorem deserunt aperiam om</value>
                 </tarefa_atribuida_a>
-                <numero_de_processo name="p_numero_de_processo" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Número De Processo</label>
-                    <value>28</value>
-                </numero_de_processo>
-                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <tipo_de_processo name="p_tipo_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Tipo de Processo</label>
-                    <value>Adipiscing ipsum omnis rem mol</value>
+                    <value>Iste aperiam aliqua mollit sit</value>
                 </tipo_de_processo>
-                <data_criacao_de_processo name="p_data_criacao_de_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <numero_de_processo name="p_numero_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
+                    <label>Número De Processo</label>
+                    <value>Mollit aperiam iste unde natus</value>
+                </numero_de_processo>
+                <data_criacao_de_processo name="p_data_criacao_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Criação de Processo</label>
-                    <value/>
+                    <value>Iste voluptatem dolor ipsum ad</value>
                 </data_criacao_de_processo>
-                <data_inicio_de_processo name="p_data_inicio_de_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <data_inicio_de_processo name="p_data_inicio_de_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Início de Processo</label>
-                    <value/>
+                    <value>Deserunt unde totam doloremque</value>
                 </data_inicio_de_processo>
-                <data_fim_processo name="p_data_fim_processo" type="date" format="IGRP_datePicker" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" class="default">
+                <data_fim_processo name="p_data_fim_processo" type="text" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Data Fim Processo</label>
-                    <value/>
+                    <value>Aperiam sit ipsum officia adip</value>
                 </data_fim_processo>
-                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <descricao_da_tarefa name="p_descricao_da_tarefa" type="textarea" maxlength="30" required="false" change="false" readonly="true" disabled="true" placeholder="" right="false">
                     <label>Descrição da Tarefa</label>
-                    <value>Ipsum lorem deserunt consectet</value>
+                    <value>Ipsum rem elit voluptatem rem</value>
                 </descricao_da_tarefa>
             </fields>
         </form_1>

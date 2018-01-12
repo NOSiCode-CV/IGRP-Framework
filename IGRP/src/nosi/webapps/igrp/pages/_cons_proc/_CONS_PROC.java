@@ -4,6 +4,8 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class _CONS_PROC extends Model{		
 	@RParam(rParamName = "p_aplicacao")
@@ -30,6 +32,14 @@ public class _CONS_PROC extends Model{
 	private String dt_ini;
 	@RParam(rParamName = "p_dt_fim")
 	private String dt_fim;
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
+		this.table_1 = table_1;
+	}
+	public List<Table_1> getTable_1(){
+		return this.table_1;
+	}
 	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
@@ -116,4 +126,78 @@ public class _CONS_PROC extends Model{
 	}
 
 
+	public static class Table_1{
+		private String num_processo;
+		private String processo;
+		private String eatapa;
+		private String dt_inicio_proc;
+		private String dt_inicio_etapa;
+		private String dt_fim_etapa;
+		private String estado;
+		private String utilizador;
+		private String p_id_task;
+		public void setNum_processo(String num_processo){
+			this.num_processo = num_processo;
+		}
+		public String getNum_processo(){
+			return this.num_processo;
+		}
+
+		public void setProcesso(String processo){
+			this.processo = processo;
+		}
+		public String getProcesso(){
+			return this.processo;
+		}
+
+		public void setEatapa(String eatapa){
+			this.eatapa = eatapa;
+		}
+		public String getEatapa(){
+			return this.eatapa;
+		}
+
+		public void setDt_inicio_proc(String dt_inicio_proc){
+			this.dt_inicio_proc = dt_inicio_proc;
+		}
+		public String getDt_inicio_proc(){
+			return this.dt_inicio_proc;
+		}
+
+		public void setDt_inicio_etapa(String dt_inicio_etapa){
+			this.dt_inicio_etapa = dt_inicio_etapa;
+		}
+		public String getDt_inicio_etapa(){
+			return this.dt_inicio_etapa;
+		}
+
+		public void setDt_fim_etapa(String dt_fim_etapa){
+			this.dt_fim_etapa = dt_fim_etapa;
+		}
+		public String getDt_fim_etapa(){
+			return this.dt_fim_etapa;
+		}
+
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
+		}
+
+		public void setUtilizador(String utilizador){
+			this.utilizador = utilizador;
+		}
+		public String getUtilizador(){
+			return this.utilizador;
+		}
+
+		public void setP_id_task(String p_id_task){
+			this.p_id_task = p_id_task;
+		}
+		public String getP_id_task(){
+			return this.p_id_task;
+		}
+
+	}
 }

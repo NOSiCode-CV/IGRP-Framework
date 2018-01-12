@@ -28,7 +28,6 @@ public class NovoMenuController extends Controller {
 				model.setSelf_id(menu.getMenu().getId());
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
-
 			// Sets the Application combo
 			model.setEnv_fk(menu.getApplication().getId());
 			// Sets the target, Self_, other page, popup...
@@ -42,7 +41,9 @@ public class NovoMenuController extends Controller {
 			model.load();
 			String app = Igrp.getInstance().getRequest().getParameter("app");
 			if (Core.isInteger(app))
-				model.setEnv_fk(Integer.parseInt(app));
+				model.setEnv_fk(Integer.parseInt(app));			
+			// New menu by default opens in the same window
+			model.setTarget("_self");
 		}
 
 		NovoMenuView view = new NovoMenuView(model);

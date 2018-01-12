@@ -23,6 +23,13 @@
 													<xsl:value-of select="rows/content/title"/>
 												</h2>
 											</section>
+											
+											<xsl:if test="rows/content/*[@type='paragraph']">
+												<div class="gen-container-item " gen-class="" item-name="">
+					                              <p style="font-weight:400; font-size:16px;"><xsl:value-of select="rows/content/*[@type='paragraph']/fields/*/value"/></p>
+						                         </div>
+											</xsl:if>
+											
 											<xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
 										</div>
 									</div>
@@ -30,6 +37,11 @@
 										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 											
 											<xsl:apply-templates mode="process-flow" select="rows/content/table" />
+												
+											<xsl:if test="rows/content/view">
+												<xsl:call-template name="GEN-view"/>
+											</xsl:if>
+											
 											<xsl:if test="rows/content/form/tools-bar">
 												<div class="toolsbar-holder boxed gen-container-item block-icons" gen-structure="toolsbar" gen-class="">
 													<div class="btns-holder pull-right" role="group">
@@ -62,6 +74,11 @@
 		<link rel="stylesheet" type="text/css" href="{$path}/core/igrp/toolsbar/toolsbar.css?v={$version}"/>
 		<link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
 		<link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/dataTables.bootstrap.css?v={$version}"/>
+		
+		<xsl:if test="rows/content/view">
+			<link rel="stylesheet" type="text/css" href="{$path}/plugins/view/igrp.view.css?v={$version}"/>
+		</xsl:if>
+		
 		<!-- separatorlist includes -->
 		<xsl:if test="rows/content/*/label/*[@type='separatorlist' or @type='separatordialog']">
 			<link rel="stylesheet" type="text/css" href="{$path}/plugins/separatorlist/igrp.separatorlist.css?v={$version}"/>

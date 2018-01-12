@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.detalhes_tarefas;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
@@ -18,15 +17,15 @@ public class Detalhes_tarefas extends Model{
 	@RParam(rParamName = "p_data_fim_da_tarefa")
 	private String data_fim_da_tarefa;
 	@RParam(rParamName = "p_prioridade_da_tarefa")
-	private float prioridade_da_tarefa;
+	private String prioridade_da_tarefa;
 	@RParam(rParamName = "p_tarefa_atribuida_por")
 	private String tarefa_atribuida_por;
 	@RParam(rParamName = "p_tarefa_atribuida_a")
 	private String tarefa_atribuida_a;
-	@RParam(rParamName = "p_numero_de_processo")
-	private float numero_de_processo;
 	@RParam(rParamName = "p_tipo_de_processo")
 	private String tipo_de_processo;
+	@RParam(rParamName = "p_numero_de_processo")
+	private String numero_de_processo;
 	@RParam(rParamName = "p_data_criacao_de_processo")
 	private String data_criacao_de_processo;
 	@RParam(rParamName = "p_data_inicio_de_processo")
@@ -71,10 +70,10 @@ public class Detalhes_tarefas extends Model{
 		return this.data_fim_da_tarefa;
 	}
 	
-	public void setPrioridade_da_tarefa(float prioridade_da_tarefa){
+	public void setPrioridade_da_tarefa(String prioridade_da_tarefa){
 		this.prioridade_da_tarefa = prioridade_da_tarefa;
 	}
-	public float getPrioridade_da_tarefa(){
+	public String getPrioridade_da_tarefa(){
 		return this.prioridade_da_tarefa;
 	}
 	
@@ -92,18 +91,18 @@ public class Detalhes_tarefas extends Model{
 		return this.tarefa_atribuida_a;
 	}
 	
-	public void setNumero_de_processo(float numero_de_processo){
-		this.numero_de_processo = numero_de_processo;
-	}
-	public float getNumero_de_processo(){
-		return this.numero_de_processo;
-	}
-	
 	public void setTipo_de_processo(String tipo_de_processo){
 		this.tipo_de_processo = tipo_de_processo;
 	}
 	public String getTipo_de_processo(){
 		return this.tipo_de_processo;
+	}
+	
+	public void setNumero_de_processo(String numero_de_processo){
+		this.numero_de_processo = numero_de_processo;
+	}
+	public String getNumero_de_processo(){
+		return this.numero_de_processo;
 	}
 	
 	public void setData_criacao_de_processo(String data_criacao_de_processo){
@@ -136,4 +135,3 @@ public class Detalhes_tarefas extends Model{
 
 
 }
-/*-------------------------*/

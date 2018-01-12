@@ -26,7 +26,7 @@ import nosi.core.webapp.compiler.helpers.Compiler;
  */
 public class Import {
 
-	protected String encode = FileHelper.ENCODE_ISO;
+	protected String encode = FileHelper.ENCODE_UTF8;
 	protected Application app;
 	
 	public boolean importApp(IFImportExport ie) {
@@ -235,6 +235,7 @@ public class Import {
 					}else if(pageCheck!=null){
 						pageCheck.setId_plsql(page.getId());
 						pageCheck.setSrc_xsl_plsql(page.getXsl_src());
+						pageCheck.setVersion_src(page.getVersion_src());
 						pages.add(pageCheck);
 					}
 				}	

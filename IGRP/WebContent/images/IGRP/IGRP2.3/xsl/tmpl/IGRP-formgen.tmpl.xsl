@@ -81,6 +81,8 @@
   <xsl:include href="components/2.1/GEN-formlist.tmpl.xsl?v=1463090556312"/>
 
   <xsl:include href="components/2.1/GEN-biometric.tmpl.xsl?v=1463090556312"/>
+  
+  <xsl:include href="components/2.1/GEN-view.tmpl.xsl?v=1463090556312"/>
 
 
 </xsl:stylesheet>
