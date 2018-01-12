@@ -20,16 +20,28 @@ public class _CONS_PROCView extends View {
 	public Field intervalo_entrada;
 	public Field dt_ini;
 	public Field dt_fim;
+	public Field num_processo;
+	public Field processo;
+	public Field eatapa;
+	public Field dt_inicio_proc;
+	public Field dt_inicio_etapa;
+	public Field dt_fim_etapa;
+	public Field estado;
+	public Field utilizador;
+	public Field p_id_task;
 	public IGRPForm form;
+	public IGRPTable table_1;
 
-	public IGRPToolsBar toolsbar;
-	public IGRPButton btn_item1;
+	public IGRPButton btn_pesquisar;
+	public IGRPButton btn_ver_etapa;
+	public IGRPButton btn_ver_processo;
 	public _CONS_PROCView(_CONS_PROC model){
 		this.setPageTitle("Consulta Processos");
 			
 		form = new IGRPForm("form","");
+		table_1 = new IGRPTable("table_1","");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Modulo"));
+		aplicacao.setLabel(gt("Aplicação"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("change","true").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("disabled","false").add("right","false").add("java-type","");
 		organica = new ListField(model,"organica");
@@ -76,17 +88,55 @@ public class _CONS_PROCView extends View {
 		dt_fim.setLabel(gt("Data Fim"));
 		
 		dt_fim.propertie().add("name","p_dt_fim").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
+		num_processo = new TextField(model,"num_processo");
+		num_processo.setLabel(gt("Nº"));
+		
+		num_processo.propertie().add("name","p_num_processo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		processo = new TextField(model,"processo");
+		processo.setLabel(gt("Processo"));
+		
+		processo.propertie().add("name","p_processo").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
+		eatapa = new TextField(model,"eatapa");
+		eatapa.setLabel(gt("Eatapa"));
+		
+		eatapa.propertie().add("name","p_eatapa").add("type","text").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
+		dt_inicio_proc = new TextField(model,"dt_inicio_proc");
+		dt_inicio_proc.setLabel(gt("Dt. Inicio Proc"));
+		
+		dt_inicio_proc.propertie().add("name","p_dt_inicio_proc").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		dt_inicio_etapa = new TextField(model,"dt_inicio_etapa");
+		dt_inicio_etapa.setLabel(gt("Dt. Inicio Etapa"));
+		
+		dt_inicio_etapa.propertie().add("name","p_dt_inicio_etapa").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		dt_fim_etapa = new TextField(model,"dt_fim_etapa");
+		dt_fim_etapa.setLabel(gt("Dt. Fim Etapa"));
+		
+		dt_fim_etapa.propertie().add("name","p_dt_fim_etapa").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		estado = new TextField(model,"estado");
+		estado.setLabel(gt("Estado"));
+		
+		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		utilizador = new TextField(model,"utilizador");
+		utilizador.setLabel(gt("Utilizador"));
+		
+		utilizador.propertie().add("name","p_utilizador").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		p_id_task = new HiddenField(model,"p_id_task");
+		p_id_task.setLabel(gt(""));
+		
+		p_id_task.propertie().add("name","p_id_task").add("type","hidden").add("maxlength","100").add("iskey","false").add("tag","id_task");
 
-		toolsbar = new IGRPToolsBar("toolsbar");
-		btn_item1 = new IGRPButton("Pesquisar","igrp","_CONS_PROC","item1","_self","default|search.png","","");
-		btn_item1.propertie.add("type","specific").add("code","").add("rel","item1");
+		btn_pesquisar = new IGRPButton("Pesquisar","igrp","_CONS_PROC","pesquisar","submit_form","primary|fa-search","","");
+		btn_pesquisar.propertie.add("type","form").add("code","").add("class","primary").add("rel","pesquisar");
+		btn_ver_etapa = new IGRPButton("Ver Etapa","igrp","_CONS_PROC","ver_etapa","mpsubmit","default|fa-list-ol","","");
+		btn_ver_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_etapa");
+		btn_ver_processo = new IGRPButton("Ver Processo","igrp","_CONS_PROC","ver_processo","mpsubmit","default|fa-sitemap","","");
+		btn_ver_processo.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_processo");
 		
 	}
 		
 	@Override
 	public void render(){
 		
-
 		form.addField(aplicacao);
 		form.addField(organica);
 		form.addField(area_fk);
@@ -100,8 +150,20 @@ public class _CONS_PROCView extends View {
 		form.addField(dt_ini);
 		form.addField(dt_fim);
 
-		toolsbar.addButton(btn_item1);
+		table_1.addField(num_processo);
+		table_1.addField(processo);
+		table_1.addField(eatapa);
+		table_1.addField(dt_inicio_proc);
+		table_1.addField(dt_inicio_etapa);
+		table_1.addField(dt_fim_etapa);
+		table_1.addField(estado);
+		table_1.addField(utilizador);
+		table_1.addField(p_id_task);
+
+		form.addButton(btn_pesquisar);
+		table_1.addButton(btn_ver_etapa);
+		table_1.addButton(btn_ver_processo);
 		this.addToPage(form);
-		this.addToPage(toolsbar);
+		this.addToPage(table_1);
 	}
 }

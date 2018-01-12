@@ -33,4 +33,9 @@ public class IGRPView extends IGRPForm {
 	public IGRPView(String tag_name){
 		this(tag_name,"");
 	}
+	
+	public IGRPView(String tag_name,String title,float version){
+		this(tag_name,title);
+		this.version = version;
+	}
 }

@@ -8,8 +8,11 @@ import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
 
+import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.webapps.igrp.dao.User;
 
 /**
  * @author: Emanuel Pereira
@@ -34,6 +37,7 @@ public class TaskService extends Activit{
 	private String executionUrl;
 	private String processDefinitionId;
 	private String processDefinitionUrl;
+	private String processInstanceId;
 	private List<TaskVariables> variables;
 	
 	public TaskService() {
@@ -61,7 +65,7 @@ public class TaskService extends Activit{
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.setFilter("unassigned=true");
+		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
@@ -115,6 +119,8 @@ public class TaskService extends Activit{
 		}
 		return d;
 	}
+	
+	
 	
 	public boolean delete(String id){
 		ClientResponse response = new RestRequest().delete("runtime/tasks",id);
@@ -337,6 +343,16 @@ public class TaskService extends Activit{
 	public void setVariables(List<TaskVariables> variables) {
 		this.variables = variables;
 	}
+	
+	
+	public String getProcessInstanceId() {
+		return processInstanceId;
+	}
+
+	public void setProcessInstanceId(String processInstanceId) {
+		this.processInstanceId = processInstanceId;
+	}
+
 	@Override
 	public String toString() {
 		return "Task [owner=" + owner + ", assignee=" + assignee + ", delegationState=" + delegationState

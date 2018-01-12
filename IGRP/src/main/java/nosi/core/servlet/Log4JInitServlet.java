@@ -18,9 +18,7 @@ public class Log4JInitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        //ffd
 	public void init(ServletConfig config) throws ServletException {
-		
 		String log4jLocation = config.getInitParameter("log4j-properties-location");
-
 		ServletContext sc = config.getServletContext();
 		if (log4jLocation == null) {
 			System.err.println("No log4j-properties-location init param, so initializing log4j with BasicConfigurator");

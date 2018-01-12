@@ -13,6 +13,8 @@ public class PageView extends View {
 	public Field page;
 	public Field status;
 	public Field status_check;
+	public Field gen_auto_code;
+	public Field gen_auto_code_check;
 	public Field nada;
 	public Field env_fk;
 	public Field version;
@@ -58,6 +60,10 @@ public class PageView extends View {
 		status.setLabel(gt("Ativo?"));
 		
 		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
+		gen_auto_code.setLabel(gt("Gen Auto Code"));
+		
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt("  "));
 		
@@ -146,6 +152,7 @@ public class PageView extends View {
 		form_1.addField(action_descr);
 		form_1.addField(page);
 		form_1.addField(status);
+		form_1.addField(gen_auto_code);
 		form_1.addField(nada);
 		form_1.addField(env_fk);
 		form_1.addField(version);
