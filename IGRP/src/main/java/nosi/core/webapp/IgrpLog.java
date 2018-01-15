@@ -32,9 +32,8 @@ public final class IgrpLog implements Component { // Not inherited
 		//this.func1();
 	}
 	
-	public void func1() {
+	public void run() {
 		Set<String> paramNames = Igrp.getInstance().getRequest().getParameterMap().keySet();
-		//List<String[]> paramValues = (List<String[]>) Igrp.getInstance().getRequest().getParameterMap().values();
 		Map<String, String[]> params =  Igrp.getInstance().getRequest().getParameterMap();
 		Iterator<String> i = paramNames.iterator();
 		while(i.hasNext()) {

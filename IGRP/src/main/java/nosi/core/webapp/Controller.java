@@ -197,12 +197,18 @@ public abstract class Controller {
 		String application = "Application: " + app.getCurrentAppName();
 		String page = "Page: " + app.getCurrentPageName();
 		String action = "Action: " + app.getCurrentActionName();
-		String controllerName = "Controller Name: " + page + "Controller";
+		String controllerName = "Controller: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + "Controller.java";
+		String viewName = "View: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + "View.java";
+		String modelName = "Model: " + "nosi.webapps."  + app.getCurrentAppName().trim().toLowerCase() + ".pages." + app.getCurrentPageName() + ".java";
+		String xsl = "xsl: " + Igrp.getInstance().getServlet().getServletContext().getContextPath() + "/images/IGRP/IGRP2.3/app/" + app.getCurrentAppName().trim().toLowerCase() + "/" + app.getCurrentPageName().toLowerCase() + "/" + app.getCurrentPageName() + ".xsl";
 		app.getLog().addMessage(application);
 		app.getLog().addMessage(page);
 		app.getLog().addMessage(action);
 		app.getLog().addMessage(controllerName);
-	}
+		app.getLog().addMessage(viewName);
+		app.getLog().addMessage(modelName);
+		app.getLog().addMessage(xsl);
+		}
 	
 	private static Object run(){ 
 		Igrp app = Igrp.getInstance();
