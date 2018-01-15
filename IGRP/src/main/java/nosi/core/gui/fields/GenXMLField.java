@@ -6,8 +6,8 @@ package nosi.core.gui.fields;
  *
  * Description: class to generate xml of fields
  */
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.xml.XMLWritter;
 
@@ -22,7 +22,7 @@ public class GenXMLField {
             </text_1>
         </fields>
 	 */
-	public static void toXml(XMLWritter xml, ArrayList<Field> fields){
+	public static void toXml(XMLWritter xml, List<Field> fields){
 		if(fields.size() > 0){
 			xml.startElement("fields");
 				for(Field field:fields){
@@ -83,7 +83,7 @@ public class GenXMLField {
         </list>
         ...
 	 */
-	public static void toXmlV21(XMLWritter xml, ArrayList<Field> fields){
+	public static void toXmlV21(XMLWritter xml, List<Field> fields){
 		if(fields.size() > 0){
 			xml.startElement("label");
 				for(Field field:fields){

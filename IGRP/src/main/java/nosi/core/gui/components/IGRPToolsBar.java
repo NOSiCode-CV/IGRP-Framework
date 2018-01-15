@@ -7,6 +7,7 @@ package nosi.core.gui.components;
  * Description: class to generate xml of tools-bar 
  */
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
@@ -16,7 +17,7 @@ import nosi.core.xml.XMLWritter;
 public class IGRPToolsBar {
 	
 	protected String tag_name;
-	protected ArrayList<IGRPButton> buttons;
+	protected List<IGRPButton> buttons;
 	protected Object class_name = this;
 	protected XMLWritter xml;
 	protected String type = "toolsbar";
@@ -137,7 +138,7 @@ public class IGRPToolsBar {
 		}
 	}
 	
-	public void setButtons(ArrayList<IGRPButton> buttons){
+	public void setButtons(List<IGRPButton> buttons){
 		if(this.buttons!=null)
 			this.buttons = buttons;
 	}

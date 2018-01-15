@@ -9,9 +9,11 @@ import javax.servlet.ServletException;
 
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
+import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
+import nosi.core.webapp.helpers.StringHelper;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -204,7 +206,7 @@ public abstract class Controller {
 		app.getLog().addMessage(controllerName);
 	}
 	
-	private static Object run(){ 
+	protected static Object run(){ 
 		Igrp app = Igrp.getInstance();
 		String auxAppName = "";
 		String auxPageName = "";
@@ -228,6 +230,16 @@ public abstract class Controller {
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
 	
+
+	protected Response call(String app, String page, String action) {
+		String auxcontrollerPath = Config.getPackage(app,page,action);
+		Igrp.getInstance().setCurrentAppName(app);
+		Igrp.getInstance().setCurrentPageName(page);
+		Igrp.getInstance().setCurrentActionName(action);
+		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
+		return (Response) obj;
+	}
+
 	public static void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
 		if(responseWrapper!=null) {

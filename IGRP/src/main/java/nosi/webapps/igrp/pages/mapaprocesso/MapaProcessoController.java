@@ -28,6 +28,7 @@ import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import static nosi.core.i18n.Translator.gt;
@@ -56,7 +57,7 @@ public class MapaProcessoController extends Controller {
 	}
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	public Response actionOpenProcess(){
+	public Response actionOpenProcess() throws IOException{
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
@@ -72,8 +73,17 @@ public class MapaProcessoController extends Controller {
 			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
-		String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
-		return this.renderView(content);
+		if(formData!=null && formData.getFormProperties()!=null && formData.getFormProperties().size() > 0) {
+			String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
+			return this.renderView(content);
+		}else {
+			Core.addHiddenField("processId", p_processId);
+			Config.TITLE = title;
+			Action action = new Action().find().andWhere("page", "=",StringHelper.camelCaseFirst(formData.getFormKey())).one();
+			Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
+			
+			return this.renderView(resp.getContent());
+		}		
 	}
 
 
