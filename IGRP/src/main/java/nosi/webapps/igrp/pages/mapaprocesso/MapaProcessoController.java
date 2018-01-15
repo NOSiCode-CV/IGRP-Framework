@@ -25,6 +25,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -63,12 +64,12 @@ public class MapaProcessoController extends Controller {
 		String title = "";
 		if(p_processId!=null){
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
-			title = process!=null? process.getName()+" -  Nº "+process.getDeploymentId():"";
+			title = process!=null?process.getName():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?task.getName()+" - Nº "+task.getId():"";
+			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
 		String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
@@ -159,6 +160,7 @@ public class MapaProcessoController extends Controller {
 					if(prop.getType().endsWith("enum")){
 						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opção ---")));
 					}
+					field.setLabel(gt(StringHelper.camelCase(prop.getName())));
 					form.addField(field);
 				}
 			}
