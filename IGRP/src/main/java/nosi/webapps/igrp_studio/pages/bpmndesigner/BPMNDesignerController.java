@@ -6,10 +6,14 @@ package nosi.webapps.igrp_studio.pages.bpmndesigner;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
@@ -39,9 +43,12 @@ public class BPMNDesignerController extends Controller {
 	}
 
 
-	public Response actionGravar() throws IOException{
+	public Response actionGravar() throws IOException, ServletException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		Core.setMessageInfo(" Botão Gravar"); 
+		Core.setMessageInfo("Botão Gravar"); 
+		Core.setMessageSuccess();
+		Part data = Igrp.getInstance().getRequest().getPart("p_data");
+		System.out.println(data);
 		
 		return this.redirect("igrp_studio","BPMNDesigner","index");
 		/*----#END-PRESERVED-AREA----*/
