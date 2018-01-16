@@ -90,7 +90,7 @@ public class IGRPTable extends IGRPComponent{
 				if(!param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
 					String name = Igrp.getInstance().getRequest().getParameter(param);
 					if(name!=null && !name.equals("")){
-						Field f = new HiddenField(null, param);
+						Field f = new HiddenField(null, name);
 						f.setValue(name);
 						f.setParam(true);
 						this.fields.add(f);

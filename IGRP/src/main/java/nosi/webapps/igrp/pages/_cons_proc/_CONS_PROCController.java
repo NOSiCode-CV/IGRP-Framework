@@ -34,9 +34,11 @@ public class _CONS_PROCController extends Controller {
 				taskS.addFilter("processInstanceId", model.getNum());
 			}
 			if(Core.isNotNull(model.getUser_fk())){
-				taskS.addFilter("nome", model.getUser_fk(), "string", "equals");
+				taskS.addFilter("taskAssignee", model.getUser_fk());
 			}
-			
+			if(Core.isNotNull(model.getStatus())) {
+				taskS.addFilter("processFinished", model.getStatus());
+			}
 			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
 				_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
 				t.setNum_processo(task.getProcessInstanceId());
@@ -106,8 +108,9 @@ public class _CONS_PROCController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private Map<String,String> getStatus() {
 		Map<String,String> status = new HashMap<String,String>();
-        status.put("ative","Ativo");
-        status.put("suspensed","Suspenso");
+		status.put(null, "--- Selecionar Estado ---");
+        status.put("false","Ativo");
+        status.put("true","Terminado");
 		return status;
 	}
   	private String getStatusTask(TaskServiceQuery task) {

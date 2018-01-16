@@ -322,6 +322,7 @@ public class ExecucaoTarefasController extends Controller {
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
 					formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
+					
 				}
 			}
 		}

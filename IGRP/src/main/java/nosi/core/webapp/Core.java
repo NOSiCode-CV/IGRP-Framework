@@ -6,6 +6,9 @@ import javax.xml.bind.JAXB;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
 import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPForm;
+import nosi.core.gui.fields.Field;
+import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.QueryInsert;
@@ -47,18 +50,15 @@ public final class Core {	// Not inherit
 	public static void setMessageError(String msg){
 		log.error(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
-		
-		
-		
 	}	
+
 	public static void setMessageError(){
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
 	}	
 
 	//Add Message Success
 	public static void setMessageSuccess(String msg){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, msg);
-		
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, msg);	
 	}
 	
 	//Add Message Success
@@ -70,15 +70,11 @@ public final class Core {	// Not inherit
 	public static void setMessageInfo(String msg){
 		log.info(msg);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, msg);
-		
-		
-		
 	}
 
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String link){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+link);
-		
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+link);		
 	}
 	
 	//Add Message Info With Link
@@ -89,10 +85,7 @@ public final class Core {	// Not inherit
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
 		log.warn(msg);
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);
-		
-		
-		
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);		
 	}	
 	
 	//Get Config Property
@@ -380,4 +373,9 @@ public final class Core {	// Not inherit
 		}
 	}
 
+	public static void addHiddenField(String name,Object value) {
+		Field f = new HiddenField(name, value!=null?value.toString():"");
+		f.setValue(value);
+		IGRPForm.hiddenFields.add(f);
+	}
 }

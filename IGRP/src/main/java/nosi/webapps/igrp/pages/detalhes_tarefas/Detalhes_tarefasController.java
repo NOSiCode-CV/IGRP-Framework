@@ -18,6 +18,7 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
+import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 
@@ -121,11 +122,11 @@ public class Detalhes_tarefasController extends Controller {
 		if(task!=null && task.getVariables().size()>0) {
 			for(TaskVariables prop:task.getVariables()){
 				Field field = XMLTransform.getField(prop.getName(),prop.getType());
-				field.setLabel(prop.getName());
 				if(Core.isNotNull(prop.getValue()))
 					field.setValue(prop.getValue());
 				field.propertie().add("readonly", "true");
 				field.propertie().add("disabled", "true");
+				field.setLabel(gt(StringHelper.camelCase(prop.getName())));
 				form.addField(field);
 			}
 		}
