@@ -116,7 +116,7 @@ public class ListaPage extends Model{
 		}
 
 		public void setAplicacao(String app,String page,String action){
-			this.aplicacao = Config.getResolveUrl(app, page, action);
+			this.aplicacao = "webapps?r="+app+"/"+page+"/"+action;
 		}
 		public String getAplicacao(){
 			return this.aplicacao;
