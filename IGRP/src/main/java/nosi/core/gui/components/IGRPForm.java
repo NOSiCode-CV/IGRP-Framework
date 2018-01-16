@@ -18,19 +18,18 @@ package nosi.core.gui.components;
    </form_1>
  */
 import java.util.ArrayList;
-
+import java.util.List;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.gui.fields.GenXMLField;
-import nosi.core.gui.fields.HiddenField;
-import nosi.core.webapp.Igrp;
 
 public class IGRPForm extends IGRPComponent{
-	protected ArrayList<Field> fields;
-	protected ArrayList<IGRPButton> buttons;
+	protected List<Field> fields;
+	protected List<IGRPButton> buttons;
 	protected IGRPToolsBar toolsbar;
 	protected float version = (float) 2.3;
 	private IGRPTable table;
+	public static List<Field> hiddenFields = new ArrayList<>();
 	
 	public IGRPForm(String tag_name,String title) {
 		super(tag_name,title);
@@ -80,9 +79,11 @@ public class IGRPForm extends IGRPComponent{
 	public String toString(){
 		this.xml.startElement(this.tag_name);
 		GenXMLField.writteAttributes(this.xml, properties);
-		if(this.version > (float) 2.1)
+		this.fields.addAll(hiddenFields);
+		this.resetHiddenField();
+		if(this.version > (float) 2.1) {
 			GenXMLField.toXml(this.xml,this.fields);
-		else if(this.version == (float) 2.1){
+		}else if(this.version == (float) 2.1){
 			GenXMLField.toXmlV21(this.xml,this.fields);
 		}
 		if(this.table!=null){
@@ -95,6 +96,10 @@ public class IGRPForm extends IGRPComponent{
 		}
 		this.xml.endElement();
 		return this.xml.toString();
+	}
+
+	private void resetHiddenField() {
+		hiddenFields = new ArrayList<>();		
 	}
 	
 }

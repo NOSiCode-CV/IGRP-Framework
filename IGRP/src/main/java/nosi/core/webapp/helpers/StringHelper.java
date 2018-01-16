@@ -13,6 +13,10 @@ public class StringHelper {
 		return string.substring(0, 1).toUpperCase() + string.substring(1);
 	}
 	
+	public static String camelCase(String string,String regex,String replacement) {
+		return camelCase(string.replace(regex, replacement));
+	}
+	
 	/*Removel all space of string
 	 * List page => Listpage
 	 */

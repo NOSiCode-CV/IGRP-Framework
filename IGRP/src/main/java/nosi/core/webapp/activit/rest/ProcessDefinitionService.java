@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -250,7 +251,10 @@ public class ProcessDefinitionService extends Activit{
 
 	public Map<String,String> mapToComboBox() {
 		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivos();
-		return list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName));
+		Map<String,String> map = new HashMap<>();
+		map.put(null, "--- Selecionar Processo ----");
+		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
+		return map;
 	}
 
 }
