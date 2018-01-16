@@ -16,10 +16,6 @@ public class ListaPage extends Model{
 	private String link_btn_nova_pagina;
 	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
 	private String link_btn_nova_pagina_desc;
-	@RParam(rParamName = "p_link_btn_ab")
-	private String link_btn_ab;
-	@RParam(rParamName = "p_link_btn_ab_desc")
-	private String link_btn_ab_desc;
 	@RParam(rParamName = "p_btn_import")
 	private String btn_import;
 	@RParam(rParamName = "p_btn_import_desc")
@@ -31,6 +27,14 @@ public class ListaPage extends Model{
 	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	
+	private List<Myapps_list> myapps_list = new ArrayList<>();	
+	public void setMyapps_list(List<Myapps_list> myapps_list){
+		this.myapps_list = myapps_list;
+	}
+	public List<Myapps_list> getMyapps_list(){
+		return this.myapps_list;
 	}
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
@@ -60,19 +64,6 @@ public class ListaPage extends Model{
 		return this.link_btn_nova_pagina_desc;
 	}
 	
-	public void setLink_btn_ab(String app,String page,String action){
-		this.link_btn_ab = Config.getResolveUrl(app, page, action);
-	}
-	public String getLink_btn_ab(){
-		return this.link_btn_ab;
-	}
-	public void setLink_btn_ab_desc(String link_btn_ab_desc){
-		this.link_btn_ab_desc = link_btn_ab_desc;
-	}
-	public String getLink_btn_ab_desc(){
-		return this.link_btn_ab_desc;
-	}
-	
 	public void setBtn_import(String app,String page,String action){
 		this.btn_import = Config.getResolveUrl(app, page, action);
 	}
@@ -88,24 +79,9 @@ public class ListaPage extends Model{
 
 
 	public static class Table_1{
-		private int status_page;
-		private int status_page_check;
 		private String descricao_page;
 		private String nome_page;
 		private String p_id_page;
-		public void setStatus_page(int status_page){
-			this.status_page = status_page;
-		}
-		public int getStatus_page(){
-			return this.status_page;
-		}
-		public void setStatus_page_check(int status_page_check){
-			this.status_page_check = status_page_check;
-		}
-		public int getStatus_page_check(){
-			return this.status_page_check;
-		}
-
 		public void setDescricao_page(String descricao_page){
 			this.descricao_page = descricao_page;
 		}
@@ -125,6 +101,31 @@ public class ListaPage extends Model{
 		}
 		public String getP_id_page(){
 			return this.p_id_page;
+		}
+
+	}
+	public static class Myapps_list{
+		private String icon;
+		private String aplicacao;
+		private String aplicacao_desc;
+		public void setIcon(String icon){
+			this.icon = icon;
+		}
+		public String getIcon(){
+			return this.icon;
+		}
+
+		public void setAplicacao(String app,String page,String action){
+			this.aplicacao = "webapps?r="+app+"/"+page+"/"+action;
+		}
+		public String getAplicacao(){
+			return this.aplicacao;
+		}
+		public void setAplicacao_desc(String aplicacao_desc){
+			this.aplicacao_desc = aplicacao_desc;
+		}
+		public String getAplicacao_desc(){
+			return this.aplicacao_desc;
 		}
 
 	}

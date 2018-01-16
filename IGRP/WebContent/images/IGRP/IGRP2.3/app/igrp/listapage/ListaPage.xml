@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=1</preserve_url>
     </plsql>
     <content>
-        <title>App builder</title>
+        <title>Lista de Paginas</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -43,6 +43,35 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="report_design">
+                <title>Report Design</title>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>black|fa-file-text-o</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="crud_generator">
+                <title>CRUD Generator</title>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>success|fa-cogs</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="app_builder">
+                <title>App Builder</title>
+                <app>igrp</app>
+                <page>ListaPage</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>info|fa-th-large</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+            </item>
+        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
@@ -72,11 +101,7 @@
                     <label>Nova página</label>
                     <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
                 </link_btn_nova_pagina>
-                <link_btn_ab name="p_link_btn_ab" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp" class="info" btnSize="" iconColor="#333" iconClass="" img="fa-th" maxlength="30" placeholder="" right="true">
-                    <label>App builder</label>
-                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
-                </link_btn_ab>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Import_export" app="igrp" class="default" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Import_export" app="igrp" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
                     <label>Importar</label>
                     <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</value>
                 </btn_import>
@@ -84,9 +109,6 @@
         </form_1>
         <table_1 type="table" xml-type="table" title="Lista de Páginas" gen-type="container" gen-group="true">
             <fields>
-                <status_page name="p_status_page" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
-                    <label>Ativo?</label>
-                </status_page>
                 <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Título</label>
                 </descricao_page>
@@ -102,10 +124,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <status_page name="p_status_page" check="true" desc="true">1</status_page>
-                        <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Amet rem ipsum sed officia</descricao_page>
-                        <nome_page name="p_nome_page">Anim ut officia mollit consect</nome_page>
+                        <descricao_page name="p_descricao_page">Unde lorem voluptatem adipisci</descricao_page>
+                        <nome_page name="p_nome_page">Ut aliqua lorem deserunt sit</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -113,10 +133,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <status_page name="p_status_page" check="true" desc="true">1</status_page>
-                        <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Amet ipsum amet doloremque sit</descricao_page>
-                        <nome_page name="p_nome_page">Natus dolor anim laudantium se</nome_page>
+                        <descricao_page name="p_descricao_page">Natus magna sit voluptatem con</descricao_page>
+                        <nome_page name="p_nome_page">Dolor elit deserunt rem elit</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -124,10 +142,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <status_page name="p_status_page" check="true" desc="true">1</status_page>
-                        <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Omnis sit voluptatem lorem mag</descricao_page>
-                        <nome_page name="p_nome_page">Labore totam adipiscing aliqua</nome_page>
+                        <descricao_page name="p_descricao_page">Accusantium omnis ipsum stract</descricao_page>
+                        <nome_page name="p_nome_page">Iste natus iste voluptatem ist</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -135,10 +151,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <status_page name="p_status_page" check="true" desc="true">1</status_page>
-                        <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Ipsum sit ipsum aliqua unde</descricao_page>
-                        <nome_page name="p_nome_page">Doloremque ipsum perspiciatis</nome_page>
+                        <descricao_page name="p_descricao_page">Magna elit consectetur labore</descricao_page>
+                        <nome_page name="p_nome_page">Mollit lorem consectetur deser</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -146,10 +160,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <status_page name="p_status_page" check="true" desc="true">1</status_page>
-                        <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Laudantium totam perspiciatis</descricao_page>
-                        <nome_page name="p_nome_page">Omnis anim ipsum amet labore</nome_page>
+                        <descricao_page name="p_descricao_page">Dolor sit totam dolor iste</descricao_page>
+                        <nome_page name="p_nome_page">Unde natus anim sed anim</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
@@ -190,17 +202,67 @@
                         <target>_blank</target>
                         <img>info|fa-gears</img>
                     </item>
-                    <item type="specific" code="" class="link" rel="download">
+                    <item type="specific" code="" class="grey" rel="download">
                         <title>Download</title>
                         <app>igrp</app>
                         <page>Page</page>
                         <link>index</link>
                         <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
                         <target>confirm</target>
-                        <img>link|fa-download</img>
+                        <img>grey|fa-download</img>
                     </item>
                 </context-menu>
             </table>
         </table_1>
+        <myapps_list type="table" xml-type="table" title="Minhas Aplicações" gen-type="container" gen-group="true">
+            <fields>
+                <icon name="p_icon" type="img" persist="true" img="http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Icon</label>
+                </icon>
+                <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                    <label>Aplicação</label>
+                </aplicacao>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
+                    </row>
+                    <row>
+                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
+                    </row>
+                    <row>
+                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
+                    </row>
+                    <row>
+                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
+                    </row>
+                    <row>
+                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
+                    </row>
+                </value>
+            </table>
+        </myapps_list>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="nova_aplicacao">
+                <title>Nova Aplicação</title>
+                <app>igrp</app>
+                <page>Env</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>primary|fa-plus</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/env/Env.xsl</parameter>
+            </item>
+        </toolsbar_2>
     </content>
 </rows>
