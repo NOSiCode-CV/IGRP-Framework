@@ -86,7 +86,7 @@ public class ListaPageView extends View {
 		btn_crud_generator.propertie.add("type","specific").add("code","").add("rel","crud_generator");
 		btn_app_builder = new IGRPButton("App Builder","igrp","ListaPage","app_builder","_self","info|fa-th-large","","");
 		btn_app_builder.propertie.add("type","specific").add("code","").add("rel","app_builder");
-		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp","ListaPage","nova_aplicacao","modal","primary|fa-plus","","");
+		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
 		btn_nova_aplicacao.propertie.add("type","specific").add("code","").add("rel","nova_aplicacao");
 		btn_editar = new IGRPButton("Editar","igrp","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
