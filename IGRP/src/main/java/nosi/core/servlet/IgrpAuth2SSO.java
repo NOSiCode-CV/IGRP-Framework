@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -84,7 +85,7 @@ public class IgrpAuth2SSO extends HttpServlet {
 					// make the oauth2 request grant_type=password 
 					
 					
-					// if success create the cookie information
+					// if success create the cookie information 
 					int userId = 2;
 					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
@@ -125,9 +126,40 @@ public class IgrpAuth2SSO extends HttpServlet {
 						PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
 						ps.setString(1, username);
 						ResultSet rs = ps.executeQuery();
-						rs.next();
-						userId = rs.getInt("id");
-						authenticationKey = rs.getString("auth_key");
+						
+						if(!rs.next()) { // insert the user to the current igrp database 
+							PreparedStatement ps2 = conn.prepareStatement(
+									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, userprofile, user_name) "
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+							ps2.setString(1, "");
+							ps2.setString(2, "");
+							ps2.setLong(3, 0);
+							ps2.setString(4, "");
+							ps2.setString(5, "");
+							ps2.setInt(6, 1);
+							ps2.setLong(7, 0);
+							ps2.setString(8, "");
+							ps2.setString(9, "");
+							
+							int affectedRows = ps2.executeUpdate();
+							
+							if(affectedRows > 0) {
+								int lastInsertedId = 0;			
+								try (ResultSet rs2 = ps2.getGeneratedKeys()) {
+							        if (rs.next()) {
+							        	lastInsertedId = rs2.getInt(1);
+							        }
+								}
+							}else {
+								// error
+								return;
+							}
+							
+							return;
+						}else {
+							userId = rs.getInt("id");
+							authenticationKey = rs.getString("auth_key");
+						}
 						rs.close();
 						ps.close();
 						conn.close();

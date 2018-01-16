@@ -85,7 +85,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp,idOrg));		
-
+		
 		view.nome.setLabel("Username");
 		view.nominho.setLabel("Nome");
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view

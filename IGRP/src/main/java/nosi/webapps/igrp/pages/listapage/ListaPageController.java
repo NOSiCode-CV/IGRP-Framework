@@ -86,9 +86,6 @@ public class ListaPageController extends Controller {
 		}
       
       	List<Profile> myApp = new Application().getMyApp();
-      	
-      	String type = Igrp.getInstance().getRequest().getParameter("type");
-      
 		myApp = myApp.stream()
           .filter(profile->!profile.getOrganization()
           .getApplication()
@@ -97,42 +94,26 @@ public class ListaPageController extends Controller {
           .equals("tutorial"))
           .filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
           .collect(Collectors.toList());
-      
       	for(Profile p : myApp){
-          
           	ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
-          		
-          	String page = "/default-page/index&amp;title="+p.getOrganization().getApplication().getName();
-			
+          	String page = "default-page";
           	if(p.getOrganization().getApplication().getAction()!=null){
 				Action ac = p.getOrganization().getApplication().getAction();
-				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
+				page = (ac!=null && ac.getPage()!=null)? ac.getPage():page;
 			}
-          
           	myapps.setIcon( Config.getLinkImg()+"/assets/img/iconApp/"+p.getOrganization().getApplication().getImg_src() );
-          
-          	myapps.setAplicacao_desc( p.getOrganization().getApplication().getName() );
-          
-          	myapps.setAplicacao( p.getOrganization().getApplication().getName(), page, "index" );
-          
-          	//myapps.setAplicacao( "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page );
-          
+          	myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
+          	myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
           	apps.add(myapps);
-          
         }
 
 		ListaPageView view = new ListaPageView(model);
-      
 		view.p_id_page.setParam(true);
-
 		view.env_fk.setValue(new Application().getListApps());
-      
 		view.table_1.addData(lista);
-      
       	view.myapps_list.addData(apps);
-				
 		view.btn_eliminar.setVisible(false);
-      
+		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

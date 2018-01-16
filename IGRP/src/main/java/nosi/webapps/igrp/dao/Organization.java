@@ -178,9 +178,11 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 						}
 				}
 			}
-			myMenu.addAll(m.find().andWhere("action", "notnull").andWhere("application", "=",app.getId()).all());
-			myMenu.addAll(m.find().andWhere("action", "notnull").andWhere("flg_base", "=", 1).andWhere("application", "=",app.getId()).all());
-			return myMenu;
+			
+			//System.out.println("Menu1 " + myMenu.size());
+			
+			
+			return myMenu; 
 		}
 	}
 

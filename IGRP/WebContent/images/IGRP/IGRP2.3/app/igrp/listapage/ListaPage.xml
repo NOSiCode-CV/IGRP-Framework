@@ -124,8 +124,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Sit magna ut sit deserunt</descricao_page>
-                        <nome_page name="p_nome_page">Accusantium aperiam officia vo</nome_page>
+                        <descricao_page name="p_descricao_page">Unde lorem voluptatem adipisci</descricao_page>
+                        <nome_page name="p_nome_page">Ut aliqua lorem deserunt sit</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -133,8 +133,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Laudantium accusantium sed ali</descricao_page>
-                        <nome_page name="p_nome_page">Omnis unde laudantium lorem si</nome_page>
+                        <descricao_page name="p_descricao_page">Natus magna sit voluptatem con</descricao_page>
+                        <nome_page name="p_nome_page">Dolor elit deserunt rem elit</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -142,8 +142,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Unde doloremque aperiam magna</descricao_page>
-                        <nome_page name="p_nome_page">Accusantium voluptatem anim ma</nome_page>
+                        <descricao_page name="p_descricao_page">Accusantium omnis ipsum stract</descricao_page>
+                        <nome_page name="p_nome_page">Iste natus iste voluptatem ist</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -151,8 +151,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Totam aperiam lorem unde elit</descricao_page>
-                        <nome_page name="p_nome_page">Aperiam rem labore natus molli</nome_page>
+                        <descricao_page name="p_descricao_page">Magna elit consectetur labore</descricao_page>
+                        <nome_page name="p_nome_page">Mollit lorem consectetur deser</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -160,8 +160,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Lorem aperiam deserunt aliqua</descricao_page>
-                        <nome_page name="p_nome_page">Magna lorem magna iste amet</nome_page>
+                        <descricao_page name="p_descricao_page">Dolor sit totam dolor iste</descricao_page>
+                        <nome_page name="p_nome_page">Unde natus anim sed anim</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
@@ -259,7 +259,7 @@
                 <app>igrp</app>
                 <page>Env</page>
                 <link>index</link>
-                <target>modal</target>
+                <target>modal|refresh</target>
                 <img>primary|fa-plus</img>
                 <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/env/Env.xsl</parameter>
             </item>

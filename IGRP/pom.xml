@@ -166,7 +166,7 @@
                      </execution>
                  </executions>
           <configuration>
-           <configFile>${project.basedir}/src/resources/database.properties</configFile>
+           <configFile>${project.basedir}/src/main/resources/database.properties</configFile>
            <environments>${environments}</environments>
               <!-- <username>root</username>
               <password>root</password>

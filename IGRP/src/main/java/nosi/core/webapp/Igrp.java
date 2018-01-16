@@ -96,8 +96,8 @@ public final class Igrp{ // Not extends
 	
 	public void run() throws IOException{ // run the web app 
 		Config.configurationApp();
+		this.log.run();
 		if(!this.die){
-			this.log.func1();
 			this.runController();
 		}
 		this.exit();
