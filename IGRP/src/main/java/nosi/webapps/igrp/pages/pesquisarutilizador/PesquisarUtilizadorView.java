@@ -32,6 +32,7 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_convidar_user;
+	
 	public PesquisarUtilizadorView(PesquisarUtilizador model){
 		this.setPageTitle("Lista de Utilizador");
 			

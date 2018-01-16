@@ -1,0 +1,1 @@
+create table people ( name varchar (10));

@@ -13,32 +13,28 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 
+import org.apache.log4j.Logger;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class ErrorPageController extends Controller {		
+	
+	private Logger logger = Logger.getLogger(ErrorPageController.class);
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
-	/*public Response actionNotFound() throws IOException{
-		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha na execução da operação");
-			ErrorPage model = new ErrorPage();
-			ErrorPageView view = new ErrorPageView(model);
-			return this.renderView(view);
-		}
-		else
-			return this.redirect("igrp", "login", "login");
-	}
-	*/
 	public Response actionException() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Core.query("", "").getResultList().size();
-			System.out.println(RequestDispatcher.ERROR_EXCEPTION);
-			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-			e.printStackTrace();
 			
-			Igrp.getInstance().getFlashMessage().addMessage("error", ""+Igrp.getInstance().getRequest().getAttribute("javax.servlet.error.message"));
+			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+			//e.printStackTrace();
+			
+			String errorMsg = Igrp.getInstance().getRequest().getAttribute("javax.servlet.error.message") + ""; 
+			
+			logger.error(errorMsg);
+			
+			Igrp.getInstance().getFlashMessage().addMessage("error", errorMsg );
 			Igrp.getInstance().getFlashMessage().addMessage("info", gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
 			ErrorPage model = new ErrorPage();
 			ErrorPageView view = new ErrorPageView(model);
@@ -48,15 +44,6 @@ public class ErrorPageController extends Controller {
 			return this.redirect("igrp", "login", "login");
 	}
 	
-	/*public Response actionPermission() throws IOException{
-		if(Igrp.getInstance().getUser().isAuthenticated()){
-			Igrp.getInstance().getFlashMessage().addMessage("error", "Falha na execução da operação");
-			ErrorPage model = new ErrorPage();
-			ErrorPageView view = new ErrorPageView(model);
-			return this.renderView(view);
-		}
-		else
-			return this.redirect("igrp", "login", "login");
-	}*/	
+	
 	/*----#END-PRESERVED-AREA----*/
 }
