@@ -1,7 +1,16 @@
 var CHECKBOXFIELD = function(type,params){
 	Field.call(this,type,params);
 
-	this.xml.check = true;
+	var field = this;
+	
+	field.xml.check = true;
+	
+	field.ready = function(){
+		
+		
+		
+	}
+	
 }
 this[VARS.name].declareField({
 	type:'checkbox',

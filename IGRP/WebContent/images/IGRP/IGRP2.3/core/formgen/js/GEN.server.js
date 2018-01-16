@@ -438,6 +438,7 @@ $(function(){
 			   		extraKeys: {
 			   		 	"Ctrl-Space": "autocomplete"
 			   		},
+			   		//themes
 			   		autohint: true,
 					lineWrapping: true
 		        });

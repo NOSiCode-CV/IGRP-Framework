@@ -340,6 +340,15 @@ var GENTABLE = function(name,params){
 			});
 		}
 	}
+	
+	container.onCheckboxFieldSet = function(f){
+		f.setProperty({
+			name  	 : 'switch',
+			label 	 : 'Switch',
+			value    : false,
+			xslValue : 'checkbox-switch switch'
+		});
+	}
 
 	container.onLinkFieldSet = function(f){
 		//console.log(f.proprieties.btnSize.value);

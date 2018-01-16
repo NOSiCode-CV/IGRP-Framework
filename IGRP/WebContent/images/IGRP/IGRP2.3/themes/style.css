@@ -912,12 +912,12 @@ body[has-menu="true"] .content>.row:first-child{
     padding: 0 5px;
     font-size: 12px;
     background: transparent;
-    /*color:#333;*/
+    color:inherit;
 }
 
 
 .box .box-header .box-title {
-    /*color:#333;*/
+    color:inherit;
     display: inline-block;
     font-size: 18px;
     margin: 0;
@@ -1106,7 +1106,6 @@ a.btn item.fa{
 }
 
 .btn{
-    border-radius: 2px;
     outline: none !important;
     -webkit-transition: 0.15s linear;
     transition: 0.15s linear;

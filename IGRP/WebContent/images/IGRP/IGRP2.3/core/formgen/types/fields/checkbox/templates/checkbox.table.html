@@ -1,9 +1,12 @@
 <td align="" data-row="{position()}" data-title="{../../label/#tag#}" class="bs-checkbox" item-name="#[tag]#">
     <xsl:if test="#tag# != '-0'">
-        <input type="checkbox" name="p_#tag#" value="{#tag#}" check-rel="#tag#">
-            <xsl:if test="#tag#_check=#tag#">
-                <xsl:attribute name="checked">checked</xsl:attribute>
-            </xsl:if>
-        </input>
+    	<label class="#[switch]#">
+	        <input type="checkbox" name="p_#tag#" value="{#tag#}" check-rel="#tag#">
+	            <xsl:if test="#tag#_check=#tag#">
+	                <xsl:attribute name="checked">checked</xsl:attribute>
+	            </xsl:if>
+	        </input>
+	        <span class="slider round"></span>
+        </label>
     </xsl:if>
 </td>

@@ -631,6 +631,13 @@
             </xsl:if>
 
           </xsl:for-each>
+          
+          <xsl:if test="colors/color[@name='primary']">
+          .checkbox-switch input:checked + .slider{
+            background-color: <xsl:value-of select="colors/color[@name='primary']"/>!important;
+          }
+          </xsl:if>
+          
         </xsl:if>
 
     </style>
