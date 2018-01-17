@@ -3,6 +3,7 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
+import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -38,7 +39,9 @@ public class BPMNDesignerController extends Controller {
 			data.add(processo);
 		}
 		view.gen_table.addData(data);
+		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
+		
 		/*----#END-PRESERVED-AREA----*/
 	}
 

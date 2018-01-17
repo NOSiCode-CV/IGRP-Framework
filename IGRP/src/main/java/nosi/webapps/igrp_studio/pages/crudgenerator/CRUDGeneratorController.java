@@ -71,6 +71,7 @@ public class CRUDGeneratorController extends Controller {
 			}
 		}
 		view.table_1.addData(data);
+		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
