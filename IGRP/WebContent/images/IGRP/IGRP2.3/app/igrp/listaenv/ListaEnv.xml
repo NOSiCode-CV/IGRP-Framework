@@ -88,8 +88,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Consectetur laudantium totam u</name>
-                        <dad name="p_dad">Sed mollit anim magna aperiam</dad>
+                        <name name="p_name">Perspiciatis doloremque volupt</name>
+                        <dad name="p_dad">Natus sit omnis stract deserun</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -101,8 +101,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Iste ut ipsum omnis anim</name>
-                        <dad name="p_dad">Perspiciatis doloremque stract</dad>
+                        <name name="p_name">Perspiciatis anim amet magna m</name>
+                        <dad name="p_dad">Laudantium ut unde sed natus</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -114,8 +114,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Officia sed aliqua officia sed</name>
-                        <dad name="p_dad">Dolor anim voluptatem amet off</dad>
+                        <name name="p_name">Accusantium sed totam magna ip</name>
+                        <dad name="p_dad">Voluptatem ipsum sed adipiscin</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -127,8 +127,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Consectetur ut magna rem conse</name>
-                        <dad name="p_dad">Sit aperiam perspiciatis sit i</dad>
+                        <name name="p_name">Accusantium sit officia iste l</name>
+                        <dad name="p_dad">Lorem officia consectetur sed</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -140,8 +140,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <name name="p_name">Adipiscing accusantium amet un</name>
-                        <dad name="p_dad">Aliqua adipiscing magna dolore</dad>
+                        <name name="p_name">Iste officia labore ut iste</name>
+                        <dad name="p_dad">Voluptatem elit rem magna ut</dad>
                         <t_page_builder name="p_t_page_builder" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</t_page_builder>
                         <t_page_builder_desc name="p_t_page_builder_desc">Page builder</t_page_builder_desc>
                         <id name="p_id" tag="id">1</id>
@@ -172,7 +172,7 @@
                         <page>ListaEnv</page>
                         <link>index</link>
                         <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl?</parameter>
-                        <target>mpsubmit</target>
+                        <target>modal</target>
                         <img>grey|fa-database</img>
                     </item>
                     <item type="specific" code="" class="default" rel="exportar">

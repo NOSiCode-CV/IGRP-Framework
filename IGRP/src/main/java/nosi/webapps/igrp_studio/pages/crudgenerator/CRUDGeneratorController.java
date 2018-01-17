@@ -1,6 +1,5 @@
 
 package nosi.webapps.igrp_studio.pages.crudgenerator;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -88,18 +87,25 @@ public class CRUDGeneratorController extends Controller {
 				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				String[] tables = Igrp.getInstance().getRequest().getParameterValues("p_check_table");
 				boolean r = false;
-				for(String table:tables) {
-					String tableName = list.get(Integer.parseInt(table)-1);					
-					r = this.generateCRUD(config,model.getSchema(),tableName);
+				if(tables!=null) {
+					for(String table:tables) {
+						String tableName = list.get(Integer.parseInt(table)-1);					
+						r = this.generateCRUD(config,model.getSchema(),tableName);
+					}
+					if(r) {
+						Core.setMessageSuccess();
+					}
+					else {
+						Core.setMessageError();
+						return this.forward("igrp_studio","CRUDGenerator","index");
+					}
+					}
+					else
+					{
+						Core.setMessageError("Escolha uma tabela.");
+						
+					}
 				}
-				if(r) {
-					Core.setMessageSuccess();
-				}
-				else {
-					Core.setMessageError();
-					return this.forward("igrp_studio","CRUDGenerator","index");
-				}
-			}
 		}
 		return this.redirect("igrp_studio","CRUDGenerator","index");
 		/*----#END-PRESERVED-AREA----*/
