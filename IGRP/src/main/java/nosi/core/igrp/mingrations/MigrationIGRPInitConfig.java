@@ -138,7 +138,7 @@ public class MigrationIGRPInitConfig {
 			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
-			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp.pages.listapage", "igrp/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, igrp));
+			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, igrp_studio));
 			actions.add(new Action("Env", "index", "nosi.webapps.igrp.pages.env", "igrp/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, igrp));
 			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp.pages.listaenv", "igrp/listaenv/ListaEnv.xsl", "Lista de Aplicacao", "Lista de Aplicacao", "2.3", 1, igrp));
 			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Lista de Dominio", "Lista de Dominio", "2.3", 1, igrp));
@@ -303,7 +303,7 @@ public class MigrationIGRPInitConfig {
 			
 			//colocar a aplicacao IGRP studio uma outra pagina default
 			if(igrp_studio != null) {
-				Action ac = new Action().find().andWhere("page", "=", "HomeStudio").andWhere("application", "=", igrp_studio.getId()).one();
+				Action ac = new Action().find().andWhere("page", "=", "ListaPage").andWhere("application", "=", igrp_studio.getId()).one();
 				igrp_studio.setAction(ac); 
 				igrp_studio = igrp_studio.update();
 			}

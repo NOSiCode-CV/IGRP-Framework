@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.listapage;
+package nosi.webapps.igrp_studio.pages.listapage;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.config.Config;
@@ -180,7 +180,7 @@ public class ListaPageController extends Controller {
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.forward("igrp", "Page", "eliminar&id=" + p_id_page);
 		}
-		return this.redirect("igrp", "ListaPage", "index");
+		return this.redirect("igrp_studio", "ListaPage", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -219,7 +219,7 @@ public class ListaPageController extends Controller {
 		} else {
 			Core.setMessageError();
 		}
-		return this.redirect("igrp", "ListaPage", "index");
+		return this.redirect("igrp_studio", "ListaPage", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

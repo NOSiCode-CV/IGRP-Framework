@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.listapage;
+package nosi.webapps.igrp_studio.pages.listapage;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
@@ -80,23 +80,23 @@ public class ListaPageView extends View {
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
-		btn_report_design = new IGRPButton("Report Design","igrp","ListaPage","report_design","_self","black|fa-file-text-o","","");
+		btn_report_design = new IGRPButton("Report Design","igrp_studio","ListaPage","report_design","_self","black|fa-file-text-o","","");
 		btn_report_design.propertie.add("type","specific").add("code","").add("rel","report_design");
-		btn_crud_generator = new IGRPButton("CRUD Generator","igrp","ListaPage","crud_generator","_self","success|fa-cogs","","");
+		btn_crud_generator = new IGRPButton("CRUD Generator","igrp_studio","ListaPage","crud_generator","_self","success|fa-cogs","","");
 		btn_crud_generator.propertie.add("type","specific").add("code","").add("rel","crud_generator");
-		btn_app_builder = new IGRPButton("App Builder","igrp","ListaPage","app_builder","_self","info|fa-th-large","","");
+		btn_app_builder = new IGRPButton("App Builder","igrp_studio","ListaPage","app_builder","_self","info|fa-th-large","","");
 		btn_app_builder.propertie.add("type","specific").add("code","").add("rel","app_builder");
-		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
+		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp_studio","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
 		btn_nova_aplicacao.propertie.add("type","specific").add("code","").add("rel","nova_aplicacao");
-		btn_editar = new IGRPButton("Editar","igrp","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
+		btn_editar = new IGRPButton("Editar","igrp_studio","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
-		btn_visualizar = new IGRPButton("Visualizar","igrp","ListaPage","visualizar","submit_popup","primary|fa-eye","","");
+		btn_visualizar = new IGRPButton("Visualizar","igrp_studio","ListaPage","visualizar","submit_popup","primary|fa-eye","","");
 		btn_visualizar.propertie.add("type","specific").add("code","").add("class","primary").add("rel","visualizar");
-		btn_eliminar = new IGRPButton("Eliminar","igrp","ListaPage","eliminar","confirm","danger|fa-trash","","");
+		btn_eliminar = new IGRPButton("Eliminar","igrp_studio","ListaPage","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
+		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
 		btn_gerar_codigo.propertie.add("type","specific").add("code","").add("class","info").add("rel","gerar_codigo");
-		btn_download = new IGRPButton("Download","igrp","ListaPage","download","confirm","grey|fa-download","","");
+		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","confirm","grey|fa-download","","");
 		btn_download.propertie.add("type","specific").add("code","").add("class","grey").add("rel","download");
 		
 	}
