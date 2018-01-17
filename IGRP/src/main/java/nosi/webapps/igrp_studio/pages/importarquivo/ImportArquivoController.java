@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp_studio.pages.importarquivo;
+import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ImportArquivoController extends Controller {
 		model.setList_aplicacao(app);
 		ImportArquivoView view = new ImportArquivoView(model);
 		view.list_aplicacao.setValue(new Application().getListApps());		
-		
+		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
