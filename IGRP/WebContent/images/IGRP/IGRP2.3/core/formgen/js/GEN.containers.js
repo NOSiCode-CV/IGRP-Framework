@@ -912,7 +912,7 @@ var CONTAINER = function(name,params){
 				over:function(e,ui){
 					console.log(ui)
 					var name     	  = ui.item.attr('name') ? ui.item.attr('name') : ui.item.attr('gen-field-type'),
-						isValid       = validField(name),
+						isValid       = container.validField(name),
 						isHidden      = name == 'hidden',
 						_isContextMenu = isContextMenu(name);//container.contextMenu ? name == container.contextMenu.type : false;
 
@@ -941,7 +941,7 @@ var CONTAINER = function(name,params){
 						var item      = ui.item;
 						var name      = item.attr('gen-field-type');
 
-						if(validField(name)){
+						if(container.validField(name)){
 							var iid       = ui.item.attr('gen-field-id');
 							var iparentid = item.attr('parent-id');
 							var _from     = GEN.getContainer(iparentid);
@@ -1013,7 +1013,7 @@ var CONTAINER = function(name,params){
 					var name  = ui.helper.attr('name') ? ui.helper.attr('name') : ui.helper.attr('gen-field-type');
 					var type  = ui.helper.attr('type');
 					//container.holder.addClass('fields-sorting');
-					canDrop   = name ? validField(name) : true;
+					canDrop   = name ? container.validField(name) : true;
 				},
 				out:function(e,ui){
 					container.holder.removeClass('sorting');
@@ -1120,7 +1120,7 @@ var CONTAINER = function(name,params){
 						}
 					}
 
-					if(validField(name)){
+					if(container.validField(name)){
 						var f = GEN.getDeclaredField(name);
 						var field = new f.field(type,{
 							properties:null
@@ -1785,7 +1785,7 @@ var CONTAINER = function(name,params){
 
 				field.parent = container;
 
-				field.order  = FIELDS.length;
+				field.order  = field.order || FIELDS.length;
 
 				if(container.groups) 
 					container.groups.setFieldGroup(field);
@@ -2310,7 +2310,7 @@ var CONTAINER = function(name,params){
 		
 	}
 
-	var validField = function(name){
+	container.validField = function(name){
 		var valid = true;
 
 		if(container.reject[0]){
@@ -2384,7 +2384,7 @@ var CONTAINER = function(name,params){
 
 		//set drawable options
 		GEN.getDeclaredFields().forEach(function(f){
-			var _isValid = (!validField(f.type) || f.type == 'hidden') ? false : true;
+			var _isValid = (!container.validField(f.type) || f.type == 'hidden') ? false : true;
 			container.options.draw[f.type] = _isValid;
 		});
 

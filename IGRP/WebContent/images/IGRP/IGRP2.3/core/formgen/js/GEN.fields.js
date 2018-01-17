@@ -319,11 +319,18 @@ var Field = function(type,params){
 				field.proprieties[p.name].value = _value;
 			else
 				field.proprieties[p.name] = _value;
-
-			if(!hasChangeEvent && (p.onChange || field.proprieties[p.name].onChange) ){
-				if(p.onChange) p.onChange(_value,_params);
-				if(field.proprieties[p.name].onChange) field.proprieties[p.name].onChange(_value,_params);
+			
+			try{
+				
+				if(!hasChangeEvent && (p.onChange || field.proprieties[p.name].onChange) ){
+					if(p.onChange) p.onChange(_value,_params);
+					if(field.proprieties[p.name].onChange) field.proprieties[p.name].onChange(_value,_params);
+				}
+				
+			}catch(err){
+				
 			}
+			
 
 			if(p.transform && transform) 
 				field.parent.Transform();

@@ -1227,3 +1227,31 @@ new rows / columns style
 	background:#fa0000;
 	
 }*/
+
+/* type changer */
+
+.modal-footer [rel="type_changer"]{
+	float: right;
+    width: 130px;
+    margin: 0;
+    padding: 0 5px;
+    top: -2px;
+}
+
+.modal-footer [rel="type_changer"] .select2-container--default .select2-selection--single, 
+.modal-footer [rel="type_changer"] .select2-selection .select2-selection--single{
+	padding: 2px 10px;
+    height: 24px;
+    box-shadow: none;
+	border:0;
+}
+
+.modal-footer [rel="type_changer"] .select2-container--default .select2-selection--single .select2-selection__arrow{
+	height: 20px;
+	right: 1px;
+}
+
+.modal-footer [rel="type_changer"] .select2-container{
+	
+
+}
