@@ -1207,9 +1207,7 @@ if(input) {
 					}()
 				},
 				onChange:function(v){
-					
-					console.log(v);
-					
+	
 					if(v != object.type){
 						
 						var dfield = GEN.getDeclaredField(v),
@@ -1224,26 +1222,21 @@ if(input) {
 
 							nprop  = {};
 
-						for(var p in nfield.proprieties){
-
-							if(p in object.proprieties)
-
-								nfield.proprieties[p] = object.proprieties[p];
-							
-						}
-						
-						console.log(object)
-
-						nfield.order = object.order;
+						nfield.order = object.position;
 
 						object.parent.SET.field(nfield,function(){
-						
+							
+							for(var p in nfield.proprieties)
+								
+								if(p in object.proprieties)
+
+									nfield.proprieties[p] = object.proprieties[p];
+
 							object.parent.removeField( object.id, false,true,function(){});
 						
 						});
 					
-					}
-						
+					}	
 					
 				}
 			});

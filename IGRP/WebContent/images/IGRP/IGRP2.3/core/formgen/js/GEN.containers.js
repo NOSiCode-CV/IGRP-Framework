@@ -1784,10 +1784,11 @@ var CONTAINER = function(name,params){
 				container.receiving = true; 
 
 				field.parent = container;
-
-				field.order  = field.order || FIELDS.length;
+				
+				field.order  = field.order>=0 ? field.order: FIELDS.length;
 
 				if(container.groups) 
+					
 					container.groups.setFieldGroup(field);
 				
 				field.init();
@@ -1818,7 +1819,9 @@ var CONTAINER = function(name,params){
 					}else{
 
 						getDropZonesFieldsTemplate({
+							
 							field:field,
+							
 							callback:function(){
 								
 								container.onFieldSet(field);
