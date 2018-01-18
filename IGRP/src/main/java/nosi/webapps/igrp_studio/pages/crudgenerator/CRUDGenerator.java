@@ -14,8 +14,6 @@ public class CRUDGenerator extends Model{
 	private String data_source;
 	@RParam(rParamName = "p_schema")
 	private String schema;
-	@RParam(rParamName = "p_is_schema")
-	private String p_is_schema;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -44,13 +42,6 @@ public class CRUDGenerator extends Model{
 	}
 	public String getSchema(){
 		return this.schema;
-	}
-	
-	public void setP_is_schema(String p_is_schema){
-		this.p_is_schema = p_is_schema;
-	}
-	public String getP_is_schema(){
-		return this.p_is_schema;
 	}
 
 

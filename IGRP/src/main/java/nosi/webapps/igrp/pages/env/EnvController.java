@@ -158,8 +158,13 @@ public class EnvController extends Controller {
 	//	Igrp.getInstance().getResponse().getWriter().append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
 
 		List<Profile> myApp = new Application().getMyApp();
+		myApp = myApp.stream()
+				  .filter(profile->profile.getOrganization().getApplication().getStatus()==1).collect(Collectors.toList());
 		if(type!=null && type.equalsIgnoreCase("dev")) {
-			myApp = myApp.stream().filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial")).filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio")).collect(Collectors.toList());
+			myApp = myApp.stream()					 
+					.filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
+					.filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
+					.collect(Collectors.toList());
 		}
 		List<Application> otherApp = new Application().getOtherApp();
 		List<Integer> aux = new ArrayList<>();

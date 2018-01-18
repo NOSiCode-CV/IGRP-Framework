@@ -60,7 +60,7 @@ public class ListaEnvController extends Controller {
 					table.setStatus_check(a.getStatus());
 				}
 				table.setP_id(""+a.getId());
-               table.setT_page_builder("igrp","ListaPage","index&amp;app="+a.getId());
+               table.setT_page_builder("igrp_studio","ListaPage","index&amp;app="+a.getId());
                 table.setT_page_builder_desc("Page builder");
 				lista.add(table);
 			}
@@ -83,6 +83,7 @@ public class ListaEnvController extends Controller {
 			return this.redirect("igrp_studio","ImportArquivo","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVO)----*/
@@ -119,7 +120,7 @@ public class ListaEnvController extends Controller {
 		/*----#START-PRESERVED-AREA(CONFIGURAR_BASE_DADOS)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null){
-			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&id="+id);
+			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+id);
 		}
 		return this.forward("igrp", "ListaEnv", "index");
 		/*----#END-PRESERVED-AREA----*/

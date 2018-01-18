@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp.pages.novomenu;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -14,14 +15,14 @@ import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
 /*----#END-PRESERVED-AREA----*/
 
-public class NovoMenuController extends Controller {		
+public class NovoMenuController extends Controller {
 
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoMenu model = new NovoMenu();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (Core.isInteger(id)  && !id.equals("0")) {
+		model.load();
+		if (Core.isInteger(id) && !id.equals("0")) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
@@ -29,19 +30,26 @@ public class NovoMenuController extends Controller {
 			model.setStatus(menu.getStatus());
 			model.setFlg_base(menu.getFlg_base());
 			// Sets the Application combo
-			model.setEnv_fk(menu.getApplication().getId());
+
 			// Sets the target, Self_, other page, popup...
 			model.setTarget(menu.getTarget());
 			// Sets the page to open
-			if (menu.getAction() != null)
-				model.setAction_fk(menu.getAction().getId());
+
 			model.setOrderby(menu.getOrderby());
 			model.setDescr(menu.getDescr());
+			if (Core.isNotNull(Igrp.getInstance().getRequest().getParameter("ichange"))) {
+				
+				model.setEnv_fk(model.getEnv_fk());
+			} else {
+				model.setEnv_fk(menu.getApplication().getId());
+				if (menu.getAction() != null)
+					model.setAction_fk(menu.getAction().getId());
+			}
 		} else {
 			model.load();
 			String app = Igrp.getInstance().getRequest().getParameter("app");
 			if (Core.isInteger(app))
-				model.setEnv_fk(Integer.parseInt(app));			
+				model.setEnv_fk(Integer.parseInt(app));
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 		}
@@ -58,7 +66,7 @@ public class NovoMenuController extends Controller {
 		view.env_fk.setValue(new Application().getListApps()); // Prompt
 		view.action_fk.setValue(new Action().getListActions(model.getEnv_fk()));
 		view.self_id.setValue(new Menu().getListPrincipalMenus(model.getEnv_fk()));
-		view.target.setValue(targets); // prompt	
+		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
 
 		if (Core.isInteger(id) && !id.equals("0")) {
@@ -72,14 +80,13 @@ public class NovoMenuController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoMenu model = new NovoMenu();
 		Menu menu;
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
-			//Update menu will enter here
+			// Update menu will enter here
 			if (Core.isInteger(id) && !id.equals("0")) {
 				menu = new Menu().findOne(Integer.parseInt(id));
 				if (menu.getMenu() != null) {
@@ -112,7 +119,8 @@ public class NovoMenuController extends Controller {
 			menu.setTarget(model.getTarget());
 			if (model.getSelf_id() != 0) {
 				menu.setMenu(new Menu().findOne(model.getSelf_id()));
-				// else if for the case the son has no parent, to set the parent itself. A son has a page/action
+				// else if for the case the son has no parent, to set the parent itself. A son
+				// has a page/action
 			} else if (model.getAction_fk() != 0)
 				menu.setMenu(menu);
 			if (Core.isInteger(id) && !id.equals("0")) {
@@ -145,8 +153,8 @@ public class NovoMenuController extends Controller {
 
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-		
+
 	/*----#END-PRESERVED-AREA----*/
 }

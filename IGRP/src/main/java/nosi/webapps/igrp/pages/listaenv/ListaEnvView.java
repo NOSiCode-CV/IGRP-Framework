@@ -67,7 +67,7 @@ public class ListaEnvView extends View {
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","ListaEnv","eliminar","confirm","danger|fa-trash-o","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_configurar_base_dados = new IGRPButton("Configurar Base Dados","igrp","ListaEnv","configurar_base_dados","mpsubmit","grey|fa-database","","");
+		btn_configurar_base_dados = new IGRPButton("Configurar Base Dados","igrp","ListaEnv","configurar_base_dados","modal","grey|fa-database","","");
 		btn_configurar_base_dados.propertie.add("type","specific").add("code","").add("class","grey").add("rel","configurar_base_dados");
 		btn_exportar = new IGRPButton("Export","igrp","ListaEnv","exportar","confirm","default|fa-download","","");
 		btn_exportar.propertie.add("type","specific").add("code","").add("class","default").add("rel","exportar");

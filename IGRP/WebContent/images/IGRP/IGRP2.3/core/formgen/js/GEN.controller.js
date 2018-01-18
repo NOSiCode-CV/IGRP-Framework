@@ -1117,7 +1117,7 @@ var GENERATOR = function(genparams){
 					object    : object
 				});
 
-				if(input) {
+if(input) {
 					
 					if(p == 'tag') {
 						
@@ -1134,13 +1134,22 @@ var GENERATOR = function(genparams){
 						checkers.push(input);
 
 					}else{
-		
-						if(objectProperties && objectProperties.order>=0)
-							formHolder.insertAt(input,objectProperties.order)
-						else
-							formHolder.append(input);
-					}
 
+						if(p == 'type_changer'){
+
+							input.find('label').remove();
+
+							$('#gen-edition-modal .modal-footer .info.type').html( input );
+
+						}else{
+
+							if(objectProperties && objectProperties.order>=0)
+								formHolder.insertAt(input,objectProperties.order)
+							else
+								formHolder.append(input);
+						}
+
+					}
 
 					if(object.propertiesOptions[p] && object.propertiesOptions[p].onEditionStart)
 						object.propertiesOptions[p].onEditionStart( {
@@ -1178,6 +1187,59 @@ var GENERATOR = function(genparams){
 			object.customStyle.id = '';
 			$('.style-setter[rel="id"]',modal).attr('disabled',true);
 		}
+		
+		//fields type change
+		if(genType == 'field' && isTypeChangeble(object.type))
+			object.setPropriety({
+				name : 'type_changer',
+				label : 'Type',
+				value:{
+					value : object.type,
+					options : function(){
+						var rtn =  [];
+
+						GEN.getDeclaredFields().forEach(function(_f){
+							if(object.parent.validField(_f.type))
+								rtn.push({ value : _f.type, label:capitalizeFirstLetter(_f.type) })
+						});
+
+						return rtn;
+					}()
+				},
+				onChange:function(v){
+	
+					if(v != object.type){
+						
+						var dfield = GEN.getDeclaredField(v),
+
+							nfield = new dfield.field(v,{
+								properties : null,
+								style      : object.customStyle,
+								options    : {
+									rules  : object.rules || null
+								}
+							}),
+
+							nprop  = {};
+
+						nfield.order = object.position;
+
+						object.parent.SET.field(nfield,function(){
+							
+							for(var p in nfield.proprieties)
+								
+								if(p in object.proprieties)
+
+									nfield.proprieties[p] = object.proprieties[p];
+
+							object.parent.removeField( object.id, false,true,function(){});
+						
+						});
+					
+					}	
+					
+				}
+			});
 
 		modal.attr('gen-type',genType);
 		
@@ -1271,16 +1333,23 @@ var GENERATOR = function(genparams){
 	});
 
 	GEN.edit.checkXSLChanges = function(){
+		
 		var object    = GEN.edit.object;
-		var template  = object.template ? object.template : object.templates;
-		var isChecked = $('#use-default-xsl').is(':checked');
+		
+		
+		
+		if(object){
+			var template  = object.template ? object.template : object.templates;
+			var isChecked = $('#use-default-xsl').is(':checked');
 
-		object.xslOptions.useDefault = isChecked;
+			object.xslOptions.useDefault = isChecked;
 
-		if(!isChecked)
-			object.xslOptions.template = GEN.edit.XSLEditor.getValue();
-		else
-			object.xslOptions.template = false;
+			if(!isChecked)
+				object.xslOptions.template = GEN.edit.XSLEditor.getValue();
+			else
+				object.xslOptions.template = false;
+		}
+		
 
 
 	};
@@ -1404,8 +1473,20 @@ var GENERATOR = function(genparams){
 		GEN.edit.copyData = null;
 
 		xslEditing = false;
+		
+		if(GEN.edit.object){
 
-		GEN.edit.object = null;
+			if(GEN.edit.object.proprieties && GEN.edit.object.proprieties.type_changer)
+			
+				delete GEN.edit.object.proprieties.type_changer;
+
+		}
+
+		setTimeout(function(){
+			
+			GEN.edit.object = null;
+			
+		},150);
 
 	}
 
@@ -2348,7 +2429,7 @@ var GENERATOR = function(genparams){
 		/*edition confirm*/
 		$('#gen-edit-confirm').on('click',function(){
 
-			var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter);
+			var setters      = $(VARS.edition.modal+' [rel="properties"] .'+VARS.edition.class.propSetter+', '+VARS.edition.modal+' .modal-footer .propriety-setter');
 			var __tag        = setters.filter('[rel="tag"]');
 			
 			$('.gen-tag-exist-err').remove();
@@ -4788,7 +4869,18 @@ var GENERATOR = function(genparams){
 
 		return rtn;
 	}
+	
+	var isTypeChangeble = function(type){
 
+		var rtn = true;
+
+		if(type == 'button')
+			rtn = false;
+
+		return rtn;
+
+	}
+	
 	var containersNameMask = function(name){
 		var rName = name;
 		

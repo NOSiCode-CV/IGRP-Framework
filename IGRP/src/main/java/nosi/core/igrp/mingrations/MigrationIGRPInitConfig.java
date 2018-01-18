@@ -21,7 +21,7 @@ public class MigrationIGRPInitConfig {
 		igrp.setDad("igrp");
 		igrp.setDescription("IGRP");
 		igrp.setName("IGRP");
-		igrp.setImg_src("app_casacidadao.png");
+		igrp.setImg_src("igrp.svg");
 		igrp.setStatus(1);
 		igrp = igrp.insertOnly();
 		
@@ -199,20 +199,20 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Pesquisas Gerais", 1, 1, 0, null, null, app, null)); 
 			
 //		Temp menu for making this menu parent less	
-			Menu tempMenuAB = new Menu("Application Builder", 1, 1, 1, "_self", actions.get(2), igrp,null);
+			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), igrp,null);
 			tempMenuAB.setMenu(tempMenuAB);
 			menus.add(tempMenuAB);
-			Menu tempMenuPB = new Menu("Page Builder", 1, 1, 0, "_self", actions.get(0), igrp, null);
+			Menu tempMenuPB = new Menu("Page Builder", 3, 1, 0, "_self", actions.get(0), igrp_studio, null);
 			tempMenuPB.setMenu(tempMenuPB);
 			menus.add(tempMenuPB);
-			Menu tempMenuRD = new Menu("Report Designer", 1, 1, 0, "_self", actions.get(22), igrp_studio, null);
+			Menu tempMenuRD = new Menu("Report Designer", 4, 1, 0, "_self", actions.get(22), igrp_studio, null);
 			tempMenuRD.setMenu(tempMenuRD);
 			menus.add(tempMenuRD);
 			
-			menus.add(new Menu("Gestão de Menu", 1, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
-			menus.add(new Menu("Gestão de Transação", 1, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
-			menus.add(new Menu("Gestão de Acesso", 1, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
-			menus.add(new Menu("Gestão de Utilizador", 1, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Menu", 9, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Transação", 9, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
+			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Utilizador", 9, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
 			Menu tempMenuAP = new Menu("Área Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
 			tempMenuAP.setMenu(tempMenuAP);
 			menus.add(tempMenuAP);
@@ -297,7 +297,7 @@ public class MigrationIGRPInitConfig {
 			//colocar a aplicacao tutorial uma outra pagina default
 			tutorial = tutorial.findOne(2);
 			if(tutorial != null) {
-				tutorial.setAction(new Action().find().andWhere("page", "=", "GeralApresentacao").andWhere("application", "=", 2).one()); 
+				tutorial.setAction(new Action().find().andWhere("page", "=", "GeralApresentacao").andWhere("application", "=", tutorial.getId()).one()); 
 				tutorial = tutorial.update();
 			}
 			

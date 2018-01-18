@@ -156,9 +156,10 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.setElement("link", "webapps?r=" + link1Menu.getMenu().getLink());
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 						} else
-							xml_menu.setElement("order", "" + x.getOrderby());
+							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
+						
 					} else
-						xml_menu.setElement("order", "" + x.getOrderby());
+						xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 
 					for (Menu main : m.getValue()) {
 						if (main.getMenu() != null) {

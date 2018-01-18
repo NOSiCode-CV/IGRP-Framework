@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=37</preserve_url>
     </plsql>
     <content>
         <title>Configurar Base de Dados de uma aplicação</title>
@@ -43,6 +44,15 @@
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="testar_conexao">
+                <title>Testar conexão</title>
+                <app>igrp</app>
+                <page>ConfigDatabase</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>success|fa-check</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl</parameter>
+            </item>
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app>igrp</app>
@@ -50,13 +60,17 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Aplicacao</label>
+                <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: DEVNOSI" right="false">
+                    <label>Nome de conexão</label>
+                    <value>Adipiscing aliqua lorem stract</value>
+                </nome_de_conexao>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicação</label>
                     <list>
                         <option/>
                         <option>
@@ -77,7 +91,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <tipo_base_dados name="p_tipo_base_dados" type="select" multiple="false" maxlength="20" required="true" change="false" disabled="false" right="false" domain="">
+                <tipo_base_dados name="p_tipo_base_dados" type="select" multiple="false" maxlength="20" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Tipo Base Dados</label>
                     <list>
                         <option/>
@@ -99,31 +113,46 @@
                         </option>
                     </list>
                 </tipo_base_dados>
-                <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Config</label>
+                </config>
+                <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: nosidev02.gov.cv" right="false">
                     <label>Hostname</label>
-                    <value>Adipiscing consectetur anim dolor voluptatem</value>
+                    <value>Aperiam sit labore consectetur aliqua</value>
                 </hostname>
-                <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="">
+                <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="" java-type="">
                     <label>Porta</label>
-                    <value>13</value>
+                    <value>14</value>
                 </port>
-                <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome de Bade Dados</label>
-                    <value>Consectetur sit stract omnis sed</value>
-                </nome_de_bade_dados>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Unde officia sit labore deserunt</value>
+                    <value>Iste lorem ipsum rem dolor</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
                     <value>******</value>
                 </password>
-                <nome_de_conxeao name="p_nome_de_conxeao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Nome de Conxeão</label>
-                    <value>Ipsum perspiciatis anim volupt</value>
-                </nome_de_conxeao>
+                <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: devnosi.gov.cv" right="false">
+                    <label>Nome de Bade Dados</label>
+                    <value>Voluptatem rem doloremque ipsum amet</value>
+                </nome_de_bade_dados>
             </fields>
         </form_1>
+        <paragraph_1 type="paragraph" xml-type="form" title="Example" gen-type="container" gen-group="">
+            <fields>
+                <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
+                    <value>
+                        <![CDATA[DEVNOSI =
+ (DESCRIPTION = 
+ (ADDRESS = (PROTOCOL = TCP) (HOST = nosidev02.gov.cv) (PORT=1521))
+(CONNECT_DATA =
+     (SERVER = DEDICATED)
+     SERVICE_NAME = devnosi.gov.cv)
+   )
+)]]>
+                    </value>
+                </paragraph_1_text>
+            </fields>
+        </paragraph_1>
     </content>
 </rows>
