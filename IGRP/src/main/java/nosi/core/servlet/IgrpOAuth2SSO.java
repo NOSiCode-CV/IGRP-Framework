@@ -40,31 +40,19 @@ import java.util.Properties;
  	 
 	 <servlet>
 		    <servlet-name>igrpsso</servlet-name>
-		    <servlet-class>nosi.core.servlet.IgrpAuth2SSO</servlet-class>
-		    <init-param>
-			    <param-name>oauth2.client_id</param-name>
-			    <param-value>YOUR_CLIENT_ID</param-value>
-		    </init-param>
-		    <init-param>
-			    <param-name>oauth2.client_secret</param-name>
-			    <param-value>YOUR_CLIENT_SECRET</param-value>
-		    </init-param>
-		    <init-param>
-			    <param-name>oauth2.endpoint</param-name>
-			    <param-value>IGRP_OAUTH2_ENDPOINT</param-value>
-		    </init-param>
-	  	</servlet>
+		    <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
+	  </servlet>
 	  	
  	For more information go to: <www.nosicode.cv>	
  **/
-@WebServlet(name = "igrpauth2sso", urlPatterns = "/igrpauth2sso") 
-public class IgrpAuth2SSO extends HttpServlet {
+@WebServlet(name = "igrpoauth2sso", urlPatterns = "/igrpoauth2sso") 
+public class IgrpOAuth2SSO extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private static final String igrpPath = "webapps?r=igrp/home/index";
    
-	public IgrpAuth2SSO() {
+	public IgrpOAuth2SSO() {
         super();
     }
     

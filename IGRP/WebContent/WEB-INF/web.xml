@@ -5,7 +5,7 @@
 
   <context-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value>
+      <param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value> 
   </context-param>
   
   <servlet>
@@ -13,7 +13,7 @@
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param>
       <param-name>authentication_type</param-name>
-      <param-value>db</param-value>
+      <param-value>ldap</param-value>
     </init-param>
      <init-param>
       <param-name>env</param-name>
@@ -79,7 +79,7 @@
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
-  
+  <!-- 
   <servlet>
     <servlet-name>igrpsso</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpSSO</servlet-class>
@@ -113,7 +113,7 @@
     <description>Non-Existent Role - this prevents direct access to JSPs</description>
     <role-name>IGRP_ADMIN</role-name>
   </security-role>
-  
+   -->
   <listener>
   	<listener-class>nosi.core.listener.BasicListener</listener-class>
   </listener>
