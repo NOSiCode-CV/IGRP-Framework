@@ -38,33 +38,33 @@ public class ListaPageController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		
-      	ListaPage model = new ListaPage();
-      
+
+		ListaPage model = new ListaPage();
+
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
-      
-      	ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
-      
+
+		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
+
 		Action a = new Action();
-      
+
 		model.load();
-      
-		model.setBtn_import("igrp_studio", "ImportArquivo","index&target=_blank");
-    
-       	model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank");
-      
+
+		model.setBtn_import("igrp_studio", "ImportArquivo", "index&target=_blank");
+
+		model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank");
+
 		String app = Igrp.getInstance().getRequest().getParameter("app");
-      
-		if (app != null && !app.equals("") ) {
-			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
+
+		if (Core.isNotNull(app)) {
+			if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("GET")) {
 				model.setEnv_fk(app);
 			}
 		}
-      
-		if (model.getEnv_fk() != null && !model.getEnv_fk().equals("") ) {
+
+		if (Core.isNotNull(model.getEnv_fk())) {
 			model.setBtn_import("igrp_studio", "ImportArquivo",
-				"index&target=_blank&app=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
-			   model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());
+					"index&target=_blank&app=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
+			model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());
 		}
 
 		List<Action> actions = a.find().andWhere("application", "=",
@@ -72,81 +72,56 @@ public class ListaPageController extends Controller {
 				// .andWhere("page", "like", model.getPage())
 				// .andWhere("page_descr", "like", model.getPage_descr())
 				.all();
-      
+
 		for (Action ac : actions) {
 			ListaPage.Table_1 table1 = new ListaPage.Table_1();
 			table1.setP_id_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
 			table1.setDescricao_page(ac.getPage_descr());
 			if (ac.getStatus() == 1) {
-				//table1.setStatus_page_check(ac.getStatus());
-				//table1.setStatus_page(ac.getStatus());
+				// table1.setStatus_page_check(ac.getStatus());
+				// table1.setStatus_page(ac.getStatus());
 			}
 			lista.add(table1);
 		}
-      
-      	List<Profile> myApp = new Application().getMyApp();
-		myApp = myApp.stream()
-          .filter(profile->!profile.getOrganization()
-          .getApplication()
-          .getDad()
-          .toLowerCase()
-          .equals("tutorial"))
-          .filter(profile->!profile.getOrganization().getApplication().getDad().toLowerCase().equals("igrp_studio"))
-          .collect(Collectors.toList());
-      	for(Profile p : myApp){
-          	ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
-          	String page = "default-page";
-          	if(p.getOrganization().getApplication().getAction()!=null){
+
+		List<Profile> myApp = new Application().getMyApp();
+
+		myApp = myApp.stream().filter(profile -> profile.getOrganization().getApplication().getStatus() == 1).filter(
+				profile -> !profile.getOrganization().getApplication().getDad().toLowerCase().equals("tutorial"))
+				.filter(profile -> !profile.getOrganization().getApplication().getDad().toLowerCase()
+						.equals("igrp_studio"))
+				.collect(Collectors.toList());
+		for (Profile p : myApp) {
+			ListaPage.Myapps_list myapps = new ListaPage.Myapps_list();
+			String page = "default-page";
+			if (p.getOrganization().getApplication().getAction() != null) {
 				Action ac = p.getOrganization().getApplication().getAction();
-				page = (ac!=null && ac.getPage()!=null)? ac.getPage():page;
+				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
-          	myapps.setIcon( Config.getLinkImg()+"/assets/img/iconApp/"+p.getOrganization().getApplication().getImg_src() );
-          	myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
-          	myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
-          	apps.add(myapps);
-        }
+			myapps.setIcon(
+					Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
+			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
+			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
+			apps.add(myapps);
+		}
 
 		ListaPageView view = new ListaPageView(model);
 		view.p_id_page.setParam(true);
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
-      	view.myapps_list.addData(apps);
+		view.myapps_list.addData(apps);
 		view.btn_eliminar.setVisible(false);
-		
+
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
 
-	public Response actionReport_design() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(REPORT_DESIGN)----*/
-
-		return this.redirect("igrp_studio","WebReport","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionCrud_generator() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(CRUD_GENERATOR)----*/
-		
-		return this.redirect("igrp_studio","CRUDGenerator","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionApp_builder() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(APP_BUILDER)----*/
-		
-		return this.redirect("igrp","ListaEnv","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
 	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVA_APLICACAO)----*/
-		
-		return this.redirect("igrp","Env","index&target=_blank");
+
+		return this.redirect("igrp", "Env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

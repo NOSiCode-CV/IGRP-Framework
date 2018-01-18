@@ -138,9 +138,9 @@ public class MigrationIGRPInitConfig {
 			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
-			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Lista de Paginas", "Lista de Paginas", "2.3", 1, igrp_studio));
+			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, igrp_studio));
 			actions.add(new Action("Env", "index", "nosi.webapps.igrp.pages.env", "igrp/env/Env.xsl", "Registar Aplicacao", "Registar Aplicacao", "2.3", 1, igrp));
-			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp.pages.listaenv", "igrp/listaenv/ListaEnv.xsl", "Lista de Aplicacao", "Lista de Aplicacao", "2.3", 1, igrp));
+			actions.add(new Action("ListaEnv", "index", "nosi.webapps.igrp.pages.listaenv", "igrp/listaenv/ListaEnv.xsl", "Application builder", "Application builder", "2.3", 1, igrp));
 			actions.add(new Action("Dominio", "index", "nosi.webapps.igrp.pages.dominio", "igrp/dominio/Dominio.xsl", "Lista de Dominio", "Lista de Dominio", "2.3", 1, igrp));
 			actions.add(new Action("NovoDominio", "index", "nosi.webapps.igrp.pages.novodominio", "igrp/novodominio/NovoDominio.xsl", "Registar Dominio", "Registar Dominio", "2.3", 1, igrp));
 			actions.add(new Action("PesquisarOrganica", "index", "nosi.webapps.igrp.pages.pesquisarorganica", "igrp/pesquisarorganica/PesquisarOrganica.xsl", "Lista de Organica", "Lista de Organica", "2.3", 1, igrp));

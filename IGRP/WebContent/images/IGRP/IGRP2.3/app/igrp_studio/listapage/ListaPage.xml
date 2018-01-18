@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -16,11 +16,11 @@
         </button>
     </site>
     <page>ListaPage</page>
-    <app>igrp</app>
+    <app>igrp_studio</app>
     <plsql>
         <action>index</action>
         <package_instance></package_instance>
-        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
         <package_html>ListaPage</package_html>
         <table_name></table_name>
         <with_replace>false</with_replace>
@@ -33,46 +33,80 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=1</preserve_url>
     </plsql>
     <content>
-        <title>Lista de Paginas</title>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+        <title>Page builder</title>
+        <quickbuttonbox_1 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Page Builder]]>
-                    </value>
-                </sectionheader_1_text>
+                <quickbuttonbox_1_tit name="p_quickbuttonbox_1_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Report Designer</value>
+                </quickbuttonbox_1_tit>
+                <quickbuttonbox_1_val name="p_quickbuttonbox_1_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value></value>
+                </quickbuttonbox_1_val>
+                <quickbuttonbox_1_url name="p_quickbuttonbox_1_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>webapps?r=igrp_studio/WebReport/index</value>
+                </quickbuttonbox_1_url>
+                <quickbuttonbox_1_bg name="p_quickbuttonbox_1_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-black</value>
+                </quickbuttonbox_1_bg>
+                <quickbuttonbox_1_icn name="p_quickbuttonbox_1_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-file-text</value>
+                </quickbuttonbox_1_icn>
             </fields>
-        </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="report_design">
-                <title>Report Design</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>black|fa-file-text-o</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
-            </item>
-            <item type="specific" code="" rel="crud_generator">
-                <title>CRUD Generator</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>success|fa-cogs</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
-            </item>
-            <item type="specific" code="" rel="app_builder">
-                <title>App Builder</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>info|fa-th-large</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
-            </item>
-        </toolsbar_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
+        </quickbuttonbox_1>
+        <quickbuttonbox_2 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_2_tit name="p_quickbuttonbox_2_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>CRUD generator</value>
+                </quickbuttonbox_2_tit>
+                <quickbuttonbox_2_val name="p_quickbuttonbox_2_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value></value>
+                </quickbuttonbox_2_val>
+                <quickbuttonbox_2_url name="p_quickbuttonbox_2_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>webapps?r=igrp_studio/CRUDGenerator/index</value>
+                </quickbuttonbox_2_url>
+                <quickbuttonbox_2_bg name="p_quickbuttonbox_2_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-irises</value>
+                </quickbuttonbox_2_bg>
+                <quickbuttonbox_2_icn name="p_quickbuttonbox_2_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-gears</value>
+                </quickbuttonbox_2_icn>
+            </fields>
+        </quickbuttonbox_2>
+        <quickbuttonbox_3 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <quickbuttonbox_3_tit name="p_quickbuttonbox_3_tit" type="text" maxlength="4000" persist="true">
+                    <label>Title</label>
+                    <value>Application builder</value>
+                </quickbuttonbox_3_tit>
+                <quickbuttonbox_3_val name="p_quickbuttonbox_3_val" type="text" maxlength="4000">
+                    <label>Value</label>
+                    <value></value>
+                </quickbuttonbox_3_val>
+                <quickbuttonbox_3_url name="p_quickbuttonbox_3_url" type="text" maxlength="4000">
+                    <label>Url</label>
+                    <value>webapps?r=igrp/ListaEnv/index</value>
+                </quickbuttonbox_3_url>
+                <quickbuttonbox_3_bg name="p_quickbuttonbox_3_bg" type="text" maxlength="4000" persist="true">
+                    <label>Background</label>
+                    <value>cp-cyan</value>
+                </quickbuttonbox_3_bg>
+                <quickbuttonbox_3_icn name="p_quickbuttonbox_3_icn" type="text" maxlength="4000" persist="true">
+                    <label>Icon</label>
+                    <value>fa-th-large</value>
+                </quickbuttonbox_3_icn>
+            </fields>
+        </quickbuttonbox_3>
+        <form_1 type="form" xml-type="form" title="Page builder" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
@@ -97,13 +131,13 @@
                     </list>
                     <rules/>
                 </env_fk>
-                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ListaEnv" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
+                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
                     <label>Nova página</label>
-                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listaenv/ListaEnv.xsl</value>
+                    <value>http://ned.net/geinevit</value>
                 </link_btn_nova_pagina>
-                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="Import_export" app="igrp" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
+                <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
                     <label>Importar</label>
-                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/import_export/Import_export.xsl</value>
+                    <value>http://zoihu.net/mawod</value>
                 </btn_import>
             </fields>
         </form_1>
@@ -124,8 +158,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Unde lorem voluptatem adipisci</descricao_page>
-                        <nome_page name="p_nome_page">Ut aliqua lorem deserunt sit</nome_page>
+                        <descricao_page name="p_descricao_page">Accusantium sed natus dolor do</descricao_page>
+                        <nome_page name="p_nome_page">Sed anim sit unde dolor</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -133,8 +167,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Natus magna sit voluptatem con</descricao_page>
-                        <nome_page name="p_nome_page">Dolor elit deserunt rem elit</nome_page>
+                        <descricao_page name="p_descricao_page">Ut natus aliqua elit unde</descricao_page>
+                        <nome_page name="p_nome_page">Perspiciatis amet aperiam adip</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -142,8 +176,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Accusantium omnis ipsum stract</descricao_page>
-                        <nome_page name="p_nome_page">Iste natus iste voluptatem ist</nome_page>
+                        <descricao_page name="p_descricao_page">Sed aperiam ipsum voluptatem s</descricao_page>
+                        <nome_page name="p_nome_page">Perspiciatis consectetur labor</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -151,8 +185,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Magna elit consectetur labore</descricao_page>
-                        <nome_page name="p_nome_page">Mollit lorem consectetur deser</nome_page>
+                        <descricao_page name="p_descricao_page">Natus adipiscing deserunt tota</descricao_page>
+                        <nome_page name="p_nome_page">Lorem ut amet dolor accusantiu</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -160,54 +194,54 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Dolor sit totam dolor iste</descricao_page>
-                        <nome_page name="p_nome_page">Unde natus anim sed anim</nome_page>
+                        <descricao_page name="p_descricao_page">Aliqua natus adipiscing natus</descricao_page>
+                        <nome_page name="p_nome_page">Omnis mollit unde amet rem</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
-                        <app>igrp</app>
-                        <page>Page</page>
-                        <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
                         <target>modal|refresh</target>
                         <img>warning|fa-pencil</img>
                     </item>
                     <item type="specific" code="" class="primary" rel="visualizar">
                         <title>Visualizar</title>
-                        <app>igrp</app>
-                        <page>Page</page>
+                        <app>igrp_studio</app>
+                        <page>ListaPage</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
-                        <target>submit_popup</target>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl?</parameter>
+                        <target>_blank</target>
                         <img>primary|fa-eye</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="eliminar">
                         <title>Eliminar</title>
-                        <app>igrp</app>
+                        <app>igrp_studio</app>
                         <page>ListaPage</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
                     <item type="specific" code="" class="info" rel="gerar_codigo">
                         <title>Gerar Código</title>
-                        <app>igrp</app>
-                        <page>Page</page>
-                        <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
                         <target>_blank</target>
                         <img>info|fa-gears</img>
                     </item>
                     <item type="specific" code="" class="grey" rel="download">
                         <title>Download</title>
-                        <app>igrp</app>
-                        <page>Page</page>
-                        <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl?</parameter>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
                         <target>confirm</target>
                         <img>grey|fa-download</img>
                     </item>
@@ -219,7 +253,7 @@
                 <icon name="p_icon" type="img" persist="true" img="http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Icon</label>
                 </icon>
-                <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
+                <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
                     <label>Aplicação</label>
                 </aplicacao>
             </fields>
@@ -227,27 +261,27 @@
                 <value>
                     <row>
                         <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
-                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
                         <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
-                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
                         <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
-                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
                         <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
-                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
                         <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
-                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</aplicacao>
+                        <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                 </value>
@@ -256,12 +290,12 @@
         <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="nova_aplicacao">
                 <title>Nova Aplicação</title>
-                <app>igrp</app>
-                <page>Env</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>modal|refresh</target>
                 <img>primary|fa-plus</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/env/Env.xsl</parameter>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_2>
     </content>
