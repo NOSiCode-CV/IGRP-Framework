@@ -21,7 +21,6 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.client.urlconnection.HTTPSProperties;
-
 import nosi.core.webapp.helpers.UrlHelper;
 import nosi.webapps.igrp.dao.Config;
 import com.sun.jersey.api.client.ClientResponse;
@@ -34,9 +33,9 @@ import com.sun.jersey.api.client.ClientResponse;
 
 public class RestRequest{
 	
-	private String BASE_URL = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
-	private String USERNAME = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
-	private String PASSWORD = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
+	public String BASE_URL = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
+	public String USERNAME = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
+	public String PASSWORD = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
 	public String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
 	public String CONTENT_TYPE = MediaType.APPLICATION_JSON;
 	

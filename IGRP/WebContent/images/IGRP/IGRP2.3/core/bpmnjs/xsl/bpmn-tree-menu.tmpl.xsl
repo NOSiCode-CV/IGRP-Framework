@@ -86,7 +86,7 @@
                         </xsl:when>
                         <xsl:otherwise>
                           <xsl:attribute name="type">line</xsl:attribute>
-                          <xsl:if test="../link != '' and ../id_pai != ''">
+                          <xsl:if test="../link != ''">
                               <xsl:attribute name="href">
                                 <xsl:value-of select="../link"/>
                               </xsl:attribute>
@@ -209,7 +209,7 @@
                         </xsl:when>
                         <xsl:otherwise>
                           <xsl:attribute name="type">line</xsl:attribute>
-                          <xsl:if test="../link != '' and ../id_pai != ''">
+                          <xsl:if test="../link != ''">
                               <xsl:attribute name="href">
                                 <xsl:value-of select="../link"/>
                               </xsl:attribute>

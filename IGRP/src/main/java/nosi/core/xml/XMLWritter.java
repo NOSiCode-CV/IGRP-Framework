@@ -15,8 +15,8 @@ public class XMLWritter {
 		protected ArrayList<String> listXml;
 		private HashMap<String, Boolean> countAttr;
 		private StringBuilder xmlConstruct;
-	    private static String lineSeparator=System.getProperty("line.separator", "\n");
-	    private String identityString="	";
+	    private static String lineSeparator="";//System.getProperty("line.separator", "\n");
+	    private String identityString="";
 	    
 		public XMLWritter(String rootElement, String xslPath, String contentType){
 			this();
