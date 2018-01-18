@@ -8,8 +8,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaPage extends Model{		
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
+	@RParam(rParamName = "p_quickbuttonbox_1_tit")
+	private String quickbuttonbox_1_tit;
+	@RParam(rParamName = "p_quickbuttonbox_1_val")
+	private String quickbuttonbox_1_val;
+	@RParam(rParamName = "p_quickbuttonbox_1_url")
+	private String quickbuttonbox_1_url;
+	@RParam(rParamName = "p_quickbuttonbox_1_bg")
+	private String quickbuttonbox_1_bg;
+	@RParam(rParamName = "p_quickbuttonbox_1_icn")
+	private String quickbuttonbox_1_icn;
+	@RParam(rParamName = "p_quickbuttonbox_2_tit")
+	private String quickbuttonbox_2_tit;
+	@RParam(rParamName = "p_quickbuttonbox_2_val")
+	private String quickbuttonbox_2_val;
+	@RParam(rParamName = "p_quickbuttonbox_2_url")
+	private String quickbuttonbox_2_url;
+	@RParam(rParamName = "p_quickbuttonbox_2_bg")
+	private String quickbuttonbox_2_bg;
+	@RParam(rParamName = "p_quickbuttonbox_2_icn")
+	private String quickbuttonbox_2_icn;
+	@RParam(rParamName = "p_quickbuttonbox_3_tit")
+	private String quickbuttonbox_3_tit;
+	@RParam(rParamName = "p_quickbuttonbox_3_val")
+	private String quickbuttonbox_3_val;
+	@RParam(rParamName = "p_quickbuttonbox_3_url")
+	private String quickbuttonbox_3_url;
+	@RParam(rParamName = "p_quickbuttonbox_3_bg")
+	private String quickbuttonbox_3_bg;
+	@RParam(rParamName = "p_quickbuttonbox_3_icn")
+	private String quickbuttonbox_3_icn;
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
@@ -37,11 +65,109 @@ public class ListaPage extends Model{
 		return this.myapps_list;
 	}
 	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
+	public void setQuickbuttonbox_1_tit(String quickbuttonbox_1_tit){
+		this.quickbuttonbox_1_tit = quickbuttonbox_1_tit;
 	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
+	public String getQuickbuttonbox_1_tit(){
+		return this.quickbuttonbox_1_tit;
+	}
+	
+	public void setQuickbuttonbox_1_val(String quickbuttonbox_1_val){
+		this.quickbuttonbox_1_val = quickbuttonbox_1_val;
+	}
+	public String getQuickbuttonbox_1_val(){
+		return this.quickbuttonbox_1_val;
+	}
+	
+	public void setQuickbuttonbox_1_url(String quickbuttonbox_1_url){
+		this.quickbuttonbox_1_url = quickbuttonbox_1_url;
+	}
+	public String getQuickbuttonbox_1_url(){
+		return this.quickbuttonbox_1_url;
+	}
+	
+	public void setQuickbuttonbox_1_bg(String quickbuttonbox_1_bg){
+		this.quickbuttonbox_1_bg = quickbuttonbox_1_bg;
+	}
+	public String getQuickbuttonbox_1_bg(){
+		return this.quickbuttonbox_1_bg;
+	}
+	
+	public void setQuickbuttonbox_1_icn(String quickbuttonbox_1_icn){
+		this.quickbuttonbox_1_icn = quickbuttonbox_1_icn;
+	}
+	public String getQuickbuttonbox_1_icn(){
+		return this.quickbuttonbox_1_icn;
+	}
+	
+	public void setQuickbuttonbox_2_tit(String quickbuttonbox_2_tit){
+		this.quickbuttonbox_2_tit = quickbuttonbox_2_tit;
+	}
+	public String getQuickbuttonbox_2_tit(){
+		return this.quickbuttonbox_2_tit;
+	}
+	
+	public void setQuickbuttonbox_2_val(String quickbuttonbox_2_val){
+		this.quickbuttonbox_2_val = quickbuttonbox_2_val;
+	}
+	public String getQuickbuttonbox_2_val(){
+		return this.quickbuttonbox_2_val;
+	}
+	
+	public void setQuickbuttonbox_2_url(String quickbuttonbox_2_url){
+		this.quickbuttonbox_2_url = quickbuttonbox_2_url;
+	}
+	public String getQuickbuttonbox_2_url(){
+		return this.quickbuttonbox_2_url;
+	}
+	
+	public void setQuickbuttonbox_2_bg(String quickbuttonbox_2_bg){
+		this.quickbuttonbox_2_bg = quickbuttonbox_2_bg;
+	}
+	public String getQuickbuttonbox_2_bg(){
+		return this.quickbuttonbox_2_bg;
+	}
+	
+	public void setQuickbuttonbox_2_icn(String quickbuttonbox_2_icn){
+		this.quickbuttonbox_2_icn = quickbuttonbox_2_icn;
+	}
+	public String getQuickbuttonbox_2_icn(){
+		return this.quickbuttonbox_2_icn;
+	}
+	
+	public void setQuickbuttonbox_3_tit(String quickbuttonbox_3_tit){
+		this.quickbuttonbox_3_tit = quickbuttonbox_3_tit;
+	}
+	public String getQuickbuttonbox_3_tit(){
+		return this.quickbuttonbox_3_tit;
+	}
+	
+	public void setQuickbuttonbox_3_val(String quickbuttonbox_3_val){
+		this.quickbuttonbox_3_val = quickbuttonbox_3_val;
+	}
+	public String getQuickbuttonbox_3_val(){
+		return this.quickbuttonbox_3_val;
+	}
+	
+	public void setQuickbuttonbox_3_url(String quickbuttonbox_3_url){
+		this.quickbuttonbox_3_url = quickbuttonbox_3_url;
+	}
+	public String getQuickbuttonbox_3_url(){
+		return this.quickbuttonbox_3_url;
+	}
+	
+	public void setQuickbuttonbox_3_bg(String quickbuttonbox_3_bg){
+		this.quickbuttonbox_3_bg = quickbuttonbox_3_bg;
+	}
+	public String getQuickbuttonbox_3_bg(){
+		return this.quickbuttonbox_3_bg;
+	}
+	
+	public void setQuickbuttonbox_3_icn(String quickbuttonbox_3_icn){
+		this.quickbuttonbox_3_icn = quickbuttonbox_3_icn;
+	}
+	public String getQuickbuttonbox_3_icn(){
+		return this.quickbuttonbox_3_icn;
 	}
 	
 	public void setEnv_fk(String env_fk){
@@ -116,7 +242,7 @@ public class ListaPage extends Model{
 		}
 
 		public void setAplicacao(String app,String page,String action){
-			this.aplicacao = "webapps?r="+app+"/"+page+"/"+action;
+			this.aplicacao = Config.getResolveUrl(app, page, action);
 		}
 		public String getAplicacao(){
 			return this.aplicacao;

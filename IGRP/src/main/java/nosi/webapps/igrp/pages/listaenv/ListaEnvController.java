@@ -56,9 +56,9 @@ public class ListaEnvController extends Controller {
 				table.setDad(a.getDad());
 				table.setName(""+a.getName());
 				table.setStatus(a.getStatus());
-				if(a.getStatus()==1){
-					table.setStatus_check(a.getStatus());
-				}
+//				if(a.getStatus()==1){
+//					table.setStatus_check(a.getStatus());
+//				}
 				table.setP_id(""+a.getId());
                table.setT_page_builder("igrp_studio","ListaPage","index&amp;app="+a.getId());
                 table.setT_page_builder_desc("Page builder");
