@@ -72,6 +72,7 @@ public class ListaEnvController extends Controller {
 		//view.title = gt("Lista Aplicação");
 		view.p_id.setParam(true);
        view.btn_eliminar.setVisible(false);
+       Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
