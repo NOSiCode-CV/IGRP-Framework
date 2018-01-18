@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.webapps.igrp.dao.Application;
 
 /*----#END-PRESERVED-AREA----*/
@@ -36,6 +37,8 @@ public class BPMNDesignerController extends Controller {
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
 			processo.setId(process.getId());
 			processo.setTitle(process.getName());
+			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&amp;p_id="+process.getId());
+			processo.setId(process.getId());
 			data.add(processo);
 		}
 		view.gen_table.addData(data);
@@ -73,6 +76,16 @@ public class BPMNDesignerController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	public Response actionGetBpmnDesign() {
+		String id = Core.get("p_id");
+		ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(id);
+		String link = process.getResource().replace("/resources/", "/resourcedata/");
+		String resource = new ResourceService().getResourceData(link);
+		resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
+		System.out.println(resource);
+		return this.renderView(resource);
+	}
 	
 	/*----#END-PRESERVED-AREA----*/
 }

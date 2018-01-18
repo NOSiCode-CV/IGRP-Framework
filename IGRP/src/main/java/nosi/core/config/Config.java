@@ -201,7 +201,6 @@ public class Config {
 //		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
 		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
 
-
 		return url;
 	}
 	public static String getRootPaht(){
