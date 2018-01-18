@@ -15,13 +15,16 @@ import nosi.core.gui.fields.FileField;
 import nosi.core.gui.fields.TextAreaField;
 import nosi.core.gui.fields.TextField;
 import java.io.IOException;
+import java.util.List;
+import com.google.gson.Gson;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
-
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
@@ -34,14 +37,14 @@ public class Detalhes_tarefasController extends Controller {
 		taskS.addFilter("taskId", taskId);
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
-			content = generateSubmittedFormTask(task);
+			content = generateSubmittedFormTask(task,task.getVariables());
 		}
 		return this.renderView(content);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	private String generateSubmittedFormTask(TaskServiceQuery task) {
+	private String generateSubmittedFormTask(TaskServiceQuery task,List<TaskVariables> variables) {
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
 		xml.addXml(Config.getHeader());
@@ -119,8 +122,11 @@ public class Detalhes_tarefasController extends Controller {
 		Field p_fwl_tab_menu = new TextField(null,"p_fwl_tab_menu");
 		p_fwl_tab_menu.propertie().add("type", "hidden");
 
-		if(task!=null && task.getVariables().size()>0) {
-			for(TaskVariables prop:task.getVariables()){
+		if(task!=null && variables.size()>0) {
+			for(TaskVariables prop:variables){
+				if(prop.getName().equalsIgnoreCase("CustomVariableIGRP")) {
+					return this.generateIGRPFormTask(prop);
+				}
 				Field field = XMLTransform.getField(prop.getName(),prop.getType());
 				if(Core.isNotNull(prop.getValue()))
 					field.setValue(prop.getValue());
@@ -146,5 +152,34 @@ public class Detalhes_tarefasController extends Controller {
 		xml.addXml(table.toString());
 		return xml.toString();
 	}
+	
+	private String generateIGRPFormTask(TaskVariables prop) {
+		Gson gson = new Gson();
+		String app = "";
+		String page ="";
+		String action = "index";
+		CustomVariableIGRP custom = gson.fromJson(prop.getValue().toString(), CustomVariableIGRP.class);
+		if(custom!=null){
+			for(Rows rows:custom.getRows()) {
+				if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
+					page = rows.getValue()[0].toString();
+				}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
+					app = rows.getValue()[0].toString();
+				}
+//				if(rows.getName().equalsIgnoreCase("p_prm_definitionid")) {
+//					app = "index&p_prm_definitionid="+rows.getValue()[0].toString();
+//				}if(rows.getName().equalsIgnoreCase("p_prm_taskid")) {
+//					app = "index&p_prm_taskid="+rows.getValue()[0].toString();
+//				}					
+//				for(Object o:rows.getValue()) {
+//					
+//				}
+			}
+			Response resp = this.call(app, page, action);
+			return resp.getContent();
+		}
+		return null;
+	}
+	
 	/*----#END-PRESERVED-AREA----*/
 }

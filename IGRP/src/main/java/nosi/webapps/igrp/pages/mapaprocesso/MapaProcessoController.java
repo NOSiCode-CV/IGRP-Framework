@@ -77,11 +77,29 @@ public class MapaProcessoController extends Controller {
 			String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
 			return this.renderView(content);
 		}else {
-			Core.addHiddenField("processId", p_processId);
-			Config.TITLE = title;
+			Config.TITLE = title;			
 			Action action = new Action().find().andWhere("page", "=",StringHelper.camelCaseFirst(formData.getFormKey())).one();
 			Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
-			
+			String content = resp.getContent();
+			if(content.indexOf("xml-type=\"toolsbar\"") > 0) {
+				String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
+				XMLWritter xml = new XMLWritter();
+				xml.startElement("item");
+				xml.writeAttribute("rel","iniciar_processo");
+				xml.writeAttribute("type","specific");
+				xml.writeAttribute("code", "");
+				xml.setElement("title","Iniciar Processo");
+				xml.setElement("app","igrp");
+				xml.setElement("page","ExecucaoTarefas");
+				String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
+				xml.setElement("link","igrp/ExecucaoTarefas/process-task&amp;"+id+"&amp;customForm=true&amp;page_igrp_ativiti="+action.getPage()+"&amp;app_igrp_ativiti="+action.getApplication().getDad());
+				xml.setElement("target","submit");
+				xml.setElement("img", "primary|fa-arrow-right");
+				xml.endElement();
+				result += xml.toString();
+				result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
+				return this.renderView(result);
+			}
 			return this.renderView(resp.getContent());
 		}		
 	}

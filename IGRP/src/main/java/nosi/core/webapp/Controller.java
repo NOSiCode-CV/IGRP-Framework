@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import javax.servlet.ServletException;
-
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
-import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
@@ -239,13 +236,16 @@ public abstract class Controller {
 
 	protected Response call(String app, String page, String action) {
 		String auxcontrollerPath = Config.getPackage(app,page,action);
+//		HttpServletRequest request = Igrp.getInstance().getRequest();
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
+//		System.out.println("Setting..");
+//		request.getParameterMap().put("p_descricao", new String[] {"Teste"});
 		Object obj = Page.loadPage(auxcontrollerPath, "action"+StringHelper.camelCaseFirst(action));
 		return (Response) obj;
 	}
-
+	
 	public static void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
 		if(responseWrapper!=null) {

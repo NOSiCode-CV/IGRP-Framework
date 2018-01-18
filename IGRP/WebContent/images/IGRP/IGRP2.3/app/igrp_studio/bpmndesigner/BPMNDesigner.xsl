@@ -324,5 +324,5 @@
     <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1482941622041"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1482941622041"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1482941622041"/>
-    <xsl:include href="../../../core/bpmn/xsl/bpmn-tree-menu.tmpl.xsl?v=1482941622041"/>
+    <xsl:include href="../../../core/bpmnjs/xsl/bpmn-tree-menu.tmpl.xsl?v=1482941622041"/>  
 </xsl:stylesheet>
