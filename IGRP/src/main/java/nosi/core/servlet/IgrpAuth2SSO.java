@@ -17,8 +17,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
+
+import nosi.core.webapp.User;
+
 import java.util.Base64;
 import java.util.Properties;
 /**
@@ -70,26 +78,43 @@ public class IgrpAuth2SSO extends HttpServlet {
 			}else {
 				String username = aux[0];
 				String password = aux[1];
-				String client_id = this.getInitParameter("oauth2.client_id");
-				String client_secret = this.getInitParameter("oauth2.client_secret");
-				if(client_id == null || client_id.isEmpty() || client_secret == null || client_secret.isEmpty())
+				
+				Properties properties = this.load("sso", "oauth2.xml");
+				String client_id = properties.getProperty("oauth2.client_id");
+				String client_secret = properties.getProperty("oauth2.client_secret");
+				String endpoint = properties.getProperty("oauth2.endpoint");
+				
+				if(client_id == null || client_id.isEmpty() || client_secret == null || client_secret.isEmpty() || endpoint == null || endpoint.isEmpty()) {
 					response.sendError(500, "Bad configuration ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
-				else {
+				}else {
 					// First check if the session exits 
-					String sessionValue = (String) request.getSession(false).getAttribute("_identity-igrp");
+					String sessionValue = (String) request.getSession(true).getAttribute("_identity-igrp");
 					if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
 						response.sendRedirect(igrpPath);
 						return;
 					}
 					
 					// make the oauth2 request grant_type=password 
+					String postData = "{\"grant_type\":\"password\",\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"client_id\":\"" + client_id + "\",\"client_secret\":\"" + client_secret + "\"}";
+					System.out.println(postData);
+					System.out.println(endpoint);
+					String result = "";
+					Client client = ClientBuilder.newClient();
+					Response r = client.target(endpoint).request(MediaType.APPLICATION_JSON).post(Entity.json(postData));
 					
+					if(r.getStatus() != 200) { // send error 
+						result = r.getEntity().toString();
+						response.sendError(r.getStatus(), "An error has occurred ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
+						return;
+					}
 					
 					// if success create the cookie information 
 					int userId = 2;
 					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
-					Properties p = this.load();
+					client.close();
+					
+					Properties p = this.load("db", "db_igrp_config.xml");
 					String driverName = "";
 					String dns = "";
 					switch(p.getProperty("type_db")) {
@@ -119,37 +144,64 @@ public class IgrpAuth2SSO extends HttpServlet {
 						}
 					}
 					
+					Connection conn = null;
 					
 					try {
 						Class.forName(driverName);
-						Connection conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
+						conn = DriverManager.getConnection(dns, p.getProperty("username"), p.getProperty("password"));
+						conn.setAutoCommit(false);
 						PreparedStatement ps = conn.prepareStatement("select * from tbl_user where user_name = ?");
 						ps.setString(1, username);
 						ResultSet rs = ps.executeQuery();
 						
 						if(!rs.next()) { // insert the user to the current igrp database 
 							PreparedStatement ps2 = conn.prepareStatement(
-									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, userprofile, user_name) "
-									+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-							ps2.setString(1, "");
-							ps2.setString(2, "");
-							ps2.setLong(3, 0);
+									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, user_name) "
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+							authenticationKey = User.generateAuthenticationKey();
+							ps2.setString(1, User.generateActivationKey());
+							ps2.setString(2, authenticationKey);
+							ps2.setLong(3, System.currentTimeMillis());
 							ps2.setString(4, "");
 							ps2.setString(5, "");
 							ps2.setInt(6, 1);
-							ps2.setLong(7, 0);
+							ps2.setLong(7, System.currentTimeMillis());
 							ps2.setString(8, "");
-							ps2.setString(9, "");
 							
 							int affectedRows = ps2.executeUpdate();
 							
 							if(affectedRows > 0) {
-								int lastInsertedId = 0;			
+								int lastInsertedId = -1;			
 								try (ResultSet rs2 = ps2.getGeneratedKeys()) {
 							        if (rs.next()) {
 							        	lastInsertedId = rs2.getInt(1);
 							        }
+							        userId = lastInsertedId;
 								}
+								
+								PreparedStatement ps3 = conn.prepareStatement("insert into tbl_profile(type, type_fk, org_fk, prof_type_fk, user_fk) values(?, ?, ?, ?, ?)");
+								
+								ps3.setString(1, "PROF");
+								ps3.setInt(2, 4);
+								ps3.setInt(3, 3);
+								ps3.setInt(4, 4); // For Igrp studio 
+								ps3.setInt(5, lastInsertedId);
+								
+								ps3.addBatch();
+								
+								ps3.setString(1, "ENV");
+								ps3.setInt(2, 3);
+								ps3.setInt(3, 3);
+								ps3.setInt(4, 4); // For Igrp studio 
+								ps3.setInt(5, lastInsertedId);
+								
+								ps3.addBatch();
+								
+								int result1[] = ps3.executeBatch();
+								
+								if(result1.length == 2)
+									conn.commit();
+								
 							}else {
 								// error
 								return;
@@ -164,6 +216,11 @@ public class IgrpAuth2SSO extends HttpServlet {
 						ps.close();
 						conn.close();
 					} catch (SQLException e) {
+						try {
+							conn.rollback();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
 						e.printStackTrace();
 						response.sendError(500, "A SQLException occurred ... so we block the request !");
 						return;
@@ -211,9 +268,8 @@ public class IgrpAuth2SSO extends HttpServlet {
 			response.sendError(400, "Bad request ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 	}
 	
-	private Properties load() {
-		String path = this.getServletContext().getRealPath("/WEB-INF/config/") + "db";
-		String fileName = "db_igrp_config.xml";
+	private Properties load(String filePath, String fileName) {
+		String path = this.getServletContext().getRealPath("/WEB-INF/config/") + filePath;
 		File file = new File(path + File.separator + fileName);
 		FileInputStream fis = null;
 		Properties props = new Properties();
