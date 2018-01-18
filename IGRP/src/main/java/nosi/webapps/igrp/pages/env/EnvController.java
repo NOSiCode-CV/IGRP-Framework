@@ -185,12 +185,12 @@ public class EnvController extends Controller {
 		for(Profile profile:myApp){
 			xml_menu.startElement("application");
 			xml_menu.writeAttribute("available", "yes");
-			String page = "/default-page/index&amp;title="+profile.getOrganization().getApplication().getName();
+			String page = "/default-page/index&title="+profile.getOrganization().getApplication().getName();
 			if(profile.getOrganization().getApplication().getAction()!=null){
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&amp;app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&amp;page="+page);
+			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
 			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
 			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
 			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
@@ -261,6 +261,8 @@ public class EnvController extends Controller {
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
+		
+		System.out.println(page);
 		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {
