@@ -13,7 +13,10 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.User;
+import nosi.webapps.igrp.dao.UserRole;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
 
 import java.io.File;
@@ -35,7 +38,7 @@ public class LoginController extends Controller {
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
 		String response_type = Igrp.getInstance().getRequest().getParameter("response_type");
-		String client_id = Igrp.getInstance().getRequest().getParameter("client_id");
+		String client_id = Igrp.getInstance().getRequest().getParameter("client_id"); 
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri"); 
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
@@ -218,11 +221,63 @@ public class LoginController extends Controller {
 					success = false;
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
 				}
-				/** End create user session **/
+				/** End create user session **/ 
 				
 			}else {
-				success = false;
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
+				
+				if(ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
+					
+					User newUser = new User();
+					newUser.setUser_name(username);
+					
+					ArrayList<LdapPerson> personArray = ldap.getUser(username + "@nosi.cv");
+					if (personArray != null && personArray.size() > 0) 
+						for(int i = 0; i < personArray.size(); i++) {
+							LdapPerson p = personArray.get(i);
+							newUser.setName(p.getName());
+							newUser.setEmail(p.getMail().toLowerCase());
+						}
+					
+					newUser.setStatus(1);
+					newUser.setPass_hash(nosi.core.webapp.User.encryptToHash(password, "MD5"));
+					newUser.setCreated_at(System.currentTimeMillis());
+					newUser.setUpdated_at(System.currentTimeMillis());
+					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
+					newUser.setActivation_key(nosi.core.webapp.User.generateActivationKey());
+					newUser = newUser.insert();
+					
+					if(newUser != null) {
+						
+						Profile p1 = new Profile();
+						p1.setUser(newUser);
+						p1.setOrganization(new Organization().findOne(3));
+						p1.setProfileType(new ProfileType().findOne(4));
+						p1.setType("PROF");
+						p1.setType_fk(4);
+						
+						Profile p2 = new Profile();
+						p2.setUser(newUser);
+						p2.setOrganization(new Organization().findOne(3));
+						p2.setProfileType(new ProfileType().findOne(4));
+						p2.setType("ENV");
+						p2.setType_fk(3);
+						
+						if(p1.insert() != null && p2.insert() != null) {
+							UserRole role = new UserRole(); // For SSO via ApacheRealm 
+							String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
+							role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
+							role.setUser(newUser);
+							role = role.insert();
+							return loginWithLdap(username, password);
+						}
+						
+					}
+					
+				}else {
+					success = false;
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
+				}
+				
 			}
 		}else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));

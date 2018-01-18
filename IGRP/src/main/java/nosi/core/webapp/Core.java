@@ -378,4 +378,8 @@ public final class Core {	// Not inherit
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
 	}
+	
+	public static void log(String msg) {
+		Igrp.getInstance().getLog().addMessage(msg);
+	}
 }
