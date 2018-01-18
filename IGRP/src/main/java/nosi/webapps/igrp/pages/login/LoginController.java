@@ -225,7 +225,7 @@ public class LoginController extends Controller {
 				
 			}else {
 				
-				if(ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
+				if(Config.getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
 					
 					User newUser = new User();
 					newUser.setUser_name(username);
