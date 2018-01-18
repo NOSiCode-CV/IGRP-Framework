@@ -50,12 +50,13 @@ public class XMLTransform {
 
 		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
-		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "info|fa-save","","",true);
-		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar").add("crud_op", "save").add("action-id", page.getId());
+		
 		IGRPButton btn_list = new IGRPButton("List", config.getApplication().getDad().toLowerCase(), pageList.getPage(), "list", "_self", "default|fa-list","","",true);
 		btn_list.propertie.add("type","specific").add("code","list").add("rel","list").add("crud_op", "list").add("action-id", pageList.getId());
-		tools.addButton(btn_gravar);	
+		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "primary|fa-save","","",true);
+		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar").add("crud_op", "save").add("action-id", page.getId());		
 		tools.addButton(btn_list);
+		tools.addButton(btn_gravar);	
 		addField(form, columns);
 		xml.addXml(tools.toString());
 		xml.addXml(form.toString());
@@ -68,11 +69,11 @@ public class XMLTransform {
 
 		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
-		IGRPButton btn_novo = new IGRPButton("Add New", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "info|fa-plus","","",true);
+		IGRPButton btn_novo = new IGRPButton("Novo", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "success|fa-plus","","",true);
 		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","novo").add("crud_op", "addNew").add("action-id", pageForm.getId());
 		tools.addButton(btn_novo);
 		
-		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "editar", "mpsubmit|refresh", "warning|fa-edit","","",true);
+		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
 		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","editar").add("crud_op", "edit").add("primaryKey", primaryKey.getName()).add("action-id", page.getId());
 		IGRPButton btn_eliminar = new IGRPButton("Eliminar", config.getApplication().getDad().toLowerCase(), page.getPage(), "eliminar", "confirm", "danger|fa-trash","","",true);
 		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","eliminar").add("crud_op", "delete").add("primaryKey", primaryKey.getName()).add("action-id", page.getId());
