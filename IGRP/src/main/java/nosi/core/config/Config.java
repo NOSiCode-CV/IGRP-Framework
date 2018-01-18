@@ -194,7 +194,7 @@ public class Config {
 	public static String getResolveUrl(String app,String page,String action){
 //		HttpServletRequest req = Igrp.getInstance().getRequest();
 		
-		String url = "webapps?r="+app+"/"+page+"/"+action+"dad="+Permission.getCurrentEnv();
+		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
 
 		return url;
 	}
