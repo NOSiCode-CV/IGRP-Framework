@@ -142,7 +142,7 @@ public class ListaPageController extends Controller {
 		/*----#START-PRESERVED-AREA(VISUALIZAR)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
-			return this.forward("igrp", "Page", "visualizar&target=_blank&p_id=" + p_id_page);
+			return this.redirect("igrp", "Page", "visualizar&target=_blank&p_id=" + p_id_page);
 		}
 		return this.redirect("igrp", "Page", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/

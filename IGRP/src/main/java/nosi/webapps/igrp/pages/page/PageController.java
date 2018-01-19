@@ -167,18 +167,18 @@ public class PageController extends Controller {
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
+			
 			String path_class_work_space = Config.getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
 			path_class = Config.getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
-				if (FileHelper.saveFilesJava(path_class, ac.getPage(),
-						new Part[] { fileModel, fileView, fileController })
-						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
-								new Part[] { fileXml, fileXsl, fileJson })) {
+				FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
+				if (FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController })
+						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })) {
 					error += this.processCompile(path_class, ac.getPage());
-
+					
 					if (error.equals("") || error == null) {// Check if not error on the compilation class
 						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
 						if (FileHelper.fileExists(Config.getWorkspace())) {
@@ -188,8 +188,6 @@ public class PageController extends Controller {
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
 									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
 									FileHelper.ENCODE_CP1252);// ENCODE_CP1252 for default encode eclipse
-							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
-									new Part[] { fileXml, fileXsl, fileJson });
 						}
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
@@ -433,10 +431,20 @@ public class PageController extends Controller {
 	// View page with xml
 	public Response actionVisualizar() throws IOException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (p_id != null && !p_id.equals("")) {
+		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac), ac.getPage() + ".xml");
+				String content = FileHelper.readFile(Config.getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+				int index1 = content.indexOf("?>");
+				int index2 = content.indexOf("<site>");
+				if(index1 > 0 && index2 > 0){
+					String xsl_src = Config.getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
+					String c = content.substring(0,index1+"?>".length());
+					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
+					c += "<rows><link_img>"+Config.getLinkImg()+"</link_img>";
+					c += content.substring(index2);
+					return this.renderView(c);
+				}
 				return this.renderView(content);
 			}
 		}
