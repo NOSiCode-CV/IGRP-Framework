@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.9-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<!-- Database migrations properties -->
 	<properties>
 		<activejdbc.version>1.4.13</activejdbc.version>
 		<environments>development.test,development</environments>
-		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-			<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding> -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 
