@@ -326,8 +326,15 @@
 
 		//blank (popup)
 		var modal       = function(p){
+			var url = p.url;
+			
+			if(url.indexOf('&target=_blank') == -1)
+				url+='&target=_blank';
+			
+			console.log(url);
+			
 			$.IGRP.components.iframeNav.set({
-				url    :p.url,
+				url    :url,
 				clicked:p.clicked
 			});
 			return false;
