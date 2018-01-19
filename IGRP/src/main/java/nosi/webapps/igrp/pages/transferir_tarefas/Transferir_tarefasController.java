@@ -42,7 +42,7 @@ public class Transferir_tarefasController extends Controller {
 		Transferir_tarefasView view = new Transferir_tarefasView(model);
 		view.btn_gravar.setLink("index");
 
-		view.novo_utilizador.setLookup("r=igrp/LookupListUser/index&amp;dad=igrp");
+		view.novo_utilizador.setLookup("r=igrp/LookupListUser/index&dad=igrp");
 		view.novo_utilizador.addParam("p_prm_target","_blank");
 		view.novo_utilizador.addParam("p_id_utilizador", "p_id");
 		view.novo_utilizador.addParam("p_novo_utilizador", "nome_1");

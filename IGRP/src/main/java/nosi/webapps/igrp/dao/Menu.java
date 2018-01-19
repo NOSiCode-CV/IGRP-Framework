@@ -230,7 +230,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 			String dad = this.getAction().getApplication().getDad().toLowerCase();
 			return dad+"/"+
 				   this.getAction().getPage()+"/"+
-				   this.getAction().getAction()+"&amp;dad="+dad;
+				   this.getAction().getAction()+"&dad="+dad;
 		}
 		return null;
 	}

@@ -41,10 +41,10 @@ public class GenXMLField {
 							getXmlValue(xml,field);
 						}
 						if(field instanceof LookupField){
-							String link = field.getLookup()+"&amp;forLookup=true";
+							String link = field.getLookup()+"&forLookup=true";
 							
 							for(Entry<String, Object> param:((LookupField) field).getParams().entrySet()){
-								link+= "&amp;"+param.getKey()+"="+param.getValue();
+								link+= "&"+param.getKey()+"="+param.getValue();
 							}
 							xml.setElement("lookup", link);
 						}

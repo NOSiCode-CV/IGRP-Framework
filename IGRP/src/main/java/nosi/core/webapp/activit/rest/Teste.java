@@ -133,7 +133,7 @@ public class Teste{
 //		IGRPMenu menus = new IGRPMenu("Activiti REST","");
 //		IGRPMenu.Menu menu = new IGRPMenu.Menu("Deployed");
 //		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos()){
-//			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "/igrp/MapaProcesso/openProcess&amp;p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
+//			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "/igrp/MapaProcesso/openProcess&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 //			menu.addSubMenu(submenu);
 //			menus.addMenu(menu);
 //		}

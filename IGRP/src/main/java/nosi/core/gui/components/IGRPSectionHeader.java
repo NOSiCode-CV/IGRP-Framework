@@ -40,7 +40,7 @@ public class IGRPSectionHeader extends IGRPComponent{
 	}
 	
 	public void addField(Field field){
-		field.setValue("<![CDATA["+field.getValue()+"]]>");
+		field.setValue(field.getValue());
 		this.fields.add(field);
 	}
 	

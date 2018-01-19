@@ -2,10 +2,10 @@ package nosi.core.webapp.activit.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.MediaType;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.ClientResponse;
-
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -43,18 +43,44 @@ public class ResourceService {
 	}
 	
 
-	public ResourceService getResourceData(String id_deployment,String id_resource){
-		ResourceService d = new ResourceService();
+	public String getResourceData(String id_deployment,String id_resource){
+		RestRequest request = new RestRequest();
+		request.ACCEPT_FORMAT = MediaType.APPLICATION_XML;
 		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==200){
-				d = (ResourceService) new RestRequest().convertJsonToDao(contentResp, ResourceService.class);
-			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+			if(response.getStatus()==200) {
+				return response.getEntity(String.class);
 			}
 		}
-		return d;
+		return "";
+	}
+	
+	public String getResourceData(String link){
+		RestRequest request = new RestRequest();
+		request.ACCEPT_FORMAT = MediaType.APPLICATION_XML;
+		request.BASE_URL = "";
+		ClientResponse response = request.get(link);
+		if(response!=null){
+			if(response.getStatus()==200) {
+				return response.getEntity(String.class);
+			}
+		}
+		return "";
+	}
+	
+	public String getResourceData(String link,String format,String username,String password){
+		RestRequest request = new RestRequest();
+		request.ACCEPT_FORMAT = format;
+		request.USERNAME = username;
+		request.PASSWORD = password;
+		request.BASE_URL = "";
+		ClientResponse response = request.get(link);
+		if(response!=null){
+			if(response.getStatus()==200) {
+				return response.getEntity(String.class);
+			}
+		}
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -167,7 +170,7 @@ public class Config {
 		return getConfig().get("version")!=null? getConfig().get("version").toString():"1.0";
 	}
 	public static String getLinkSileMenu(){
-		return "webapps?r=igrp/pesquisar-menu/myMenu&amp;dad="+Permission.getCurrentEnv();
+		return "webapps?r=igrp/pesquisar-menu/myMenu&dad="+Permission.getCurrentEnv();
 	}
 	public static String getLinkTopMenu(){
 		return "webapps?r=igrp/pesquisar-menu/topMenu";//getConfig().get("link_top_menu")!=null? getConfig().get("link_top_menu").toString():"";
@@ -192,10 +195,11 @@ public class Config {
 	}
 	
 	public static String getResolveUrl(String app,String page,String action){
-//		HttpServletRequest req = Igrp.getInstance().getRequest();
+		HttpServletRequest req = Igrp.getInstance().getRequest();
 		
-		String url = "webapps?r="+app+"/"+page+"/"+(action.contains("&amp;")?action:action.replace("&", "&amp;"))+"&amp;dad="+Permission.getCurrentEnv();
-//		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&amp;dad="+Permission.getCurrentEnv();
+
+//		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
+		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
 
 		return url;
 	}

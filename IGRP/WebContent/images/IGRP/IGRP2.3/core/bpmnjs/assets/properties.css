@@ -189,7 +189,7 @@
 }
 .bpp-radios-group input,
 .bpp-checkbox input {
-  margin-left: 0;
+  margin:-2px 3px 0 0;
 }
 .bpp-radios-group label:after,
 .bpp-checkbox label:after {

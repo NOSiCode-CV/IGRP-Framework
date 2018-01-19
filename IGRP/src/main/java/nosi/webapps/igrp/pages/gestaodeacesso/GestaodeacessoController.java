@@ -31,9 +31,9 @@ public class GestaodeacessoController extends Controller {
                table.setP_id(""+org.getId());
                 table.setOrg_nome(org.getName());
                 table.setEstado(org.getStatus()==1?"Ativo":"INATIVO");
-               // table.setAdicionar_perfil("igrp","NovoPerfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
+               // table.setAdicionar_perfil("igrp","NovoPerfil","index&id_app="+org.getApplication().getId()+"&id_org="+org.getId()+"&target=_blank");
                 //table.setAdicionar_perfil_desc("Adicionar Perfil");
-                table.setMostrar_perfis("igrp","pesquisar-perfil","index&amp;id_app="+org.getApplication().getId()+"&amp;id_org="+org.getId()+"&amp;target=_blank");
+                table.setMostrar_perfis("igrp","pesquisar-perfil","index&id_app="+org.getApplication().getId()+"&id_org="+org.getId()+"&target=_blank");
                 table.setMostrar_perfis_desc("Mostrar Perfil");
                 data.add(table);
               }

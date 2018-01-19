@@ -187,5 +187,6 @@ public class Page {
 			throw new NotFoundHttpException("Página não encontrada.");
 		}
 	}
+
 }
 

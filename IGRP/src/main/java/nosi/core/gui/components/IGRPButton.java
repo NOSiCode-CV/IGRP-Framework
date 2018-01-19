@@ -84,7 +84,7 @@ public class IGRPButton {
 
 	public String getLink() {
 		if (Igrp.getInstance().getRequest().getParameter("target") != null) {
-			this.link += "&amp;target=" + Igrp.getInstance().getRequest().getParameter("target");
+			this.link += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
 		}
 		return !isGenReverse() ? app + "/" + page + "/" + link : link;
 	}
@@ -98,7 +98,7 @@ public class IGRPButton {
 	}
 
 	public void setLink(String link) {		
-		this.link = link.contains("&amp;")?link:link.replace("&", "&amp;");
+		this.link = link;
 	}
 
 	public void setLink(String app, String page, String action) {

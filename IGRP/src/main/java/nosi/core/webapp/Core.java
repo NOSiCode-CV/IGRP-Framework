@@ -2,13 +2,22 @@ package nosi.core.webapp;
 
 import java.io.StringReader;
 import java.rmi.RemoteException;
+import java.util.Map;
+
 import javax.xml.bind.JAXB;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.QueryInsert;
@@ -28,6 +37,7 @@ import nosi.core.webapp.webservices.biztalk.dao.Request;
 import nosi.core.webapp.webservices.biztalk.dao.ServiceSerach;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
+import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -377,5 +387,49 @@ public final class Core {	// Not inherit
 		Field f = new HiddenField(name, value!=null?value.toString():"");
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
+	}
+		
+	public static String get(String paramName) {
+		return Igrp.getInstance().getRequest().getParameter(paramName);
+	}
+
+	public static String getXMLParams() {
+		Map<String,String[]> params = Igrp.getInstance().getRequest().getParameterMap();
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("rows");
+		params.entrySet().stream()
+						 .filter(p->!p.getKey().equalsIgnoreCase("r"))
+						 .filter(p->!p.getKey().equalsIgnoreCase("prm_app"))
+						 .filter(p->!p.getKey().equalsIgnoreCase("prm_page"))
+						 .forEach(
+								p->{									
+									for(String v:p.getValue()) {
+										xml.setElement(p.getKey(), v);
+									}
+								}
+						  );
+		xml.endElement();
+		return xml.toString();
+	}
+	
+	public static String getJsonParams() {
+		Map<String,String[]> params = Igrp.getInstance().getRequest().getParameterMap();
+		CustomVariableIGRP customV = new CustomVariableIGRP();
+		Gson gson = new Gson();		
+		params.entrySet().stream()
+						 .filter(p->!p.getKey().equalsIgnoreCase("r"))
+						 .filter(p->!p.getKey().equalsIgnoreCase("prm_app"))
+						 .filter(p->!p.getKey().equalsIgnoreCase("prm_page"))
+						 .forEach(
+								p->{
+									Rows row = new Rows();
+									row.setName(p.getKey());
+									row.setValue(p.getValue());
+									customV.add(row);
+								}
+						  );
+		String json = gson.toJson(customV);
+		System.out.println(json);
+		return json;
 	}
 }

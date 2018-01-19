@@ -105,6 +105,32 @@ public class FileHelper {
 		return null;
 	}
 
+	//Converte InputStream to String
+	public static String convertToString(InputStream file) throws IOException{
+		if(file!=null){   
+		    StringBuilder  code = new StringBuilder();
+		    
+		    String         ls = System.getProperty("line.separator");
+		    String         line = null;
+		    DataInputStream in = new DataInputStream(file);   
+		    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+		   try {
+		        while((line = d.readLine()) != null) {
+		            code.append(line);
+		            code.append(ls);
+		        }
+		        file.close();
+		        in.close();
+		        d.close();
+		    } finally {
+		    	file.close();
+		        in.close();
+		        d.close();
+		    }
+		   return code.toString();
+		}
+		return null;
+	}
 	//Save file in a specific directory
 	public static boolean save(String path,String file_name,String data) throws IOException{	
 		createDiretory(path);

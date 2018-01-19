@@ -58,7 +58,7 @@ a.addArea{
   right: 10px;
   bottom: 5px;
 }
-a.addArea.active{display: block;}
+/*a.addArea.active{display: block;}*/
 
 
 #sideBar {
@@ -158,9 +158,10 @@ ul .tree-menu-options{
 ul .tree-menu-options .btn{
   padding: 6px 5px;
 }
-ul li a:hover .tree-menu-options {
+
+/*ul li a:hover .tree-menu-options {
   display: block
-}
+}*/
 
 .box-head.subtitle{
   padding-top:20px; 
