@@ -117,7 +117,7 @@ public class ListaPageView extends View {
 		quickbuttonbox_3_url = new TextField(model,"quickbuttonbox_3_url");
 		quickbuttonbox_3_url.setLabel(gt("Url"));
 		
-		quickbuttonbox_3_url.setValue(gt("webapps?r=igrp/ListaEnv/index"));
+		quickbuttonbox_3_url.setValue(gt("webapps?r=igrp_studio/ListaEnv/index"));
 		quickbuttonbox_3_url.propertie().add("name","p_quickbuttonbox_3_url").add("type","text").add("maxlength","4000");
 		quickbuttonbox_3_bg = new TextField(model,"quickbuttonbox_3_bg");
 		quickbuttonbox_3_bg.setLabel(gt("Background"));

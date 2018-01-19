@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.listaenv;
+package nosi.webapps.igrp_studio.pages.listaenv;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,6 @@ import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 /*----#END-PRESERVED-AREA----*/
 
@@ -98,7 +97,7 @@ public class ListaEnvController extends Controller {
 		if(p_id!=null && !p_id.equals("")){
 			return this.forward("igrp","Env","editar&target=_blank&id="+p_id);
 		}
-      return this.redirect("igrp","lista-env","index&target=_blank");
+      return this.redirect("igrp_studio","lista-env","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -111,7 +110,7 @@ public class ListaEnvController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
 		else
 			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
-		return this.redirect("igrp","lista-env","index");
+		return this.redirect("igrp_studio","lista-env","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -122,7 +121,7 @@ public class ListaEnvController extends Controller {
 		if(id!=null){
 			return this.redirect("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+id);
 		}
-		return this.forward("igrp", "ListaEnv", "index");
+		return this.forward("igrp_studio", "ListaEnv", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -147,7 +146,7 @@ public class ListaEnvController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.ERROR);
 			}
 		}
-		return this.redirect("igrp","ListaEnv","index");
+		return this.redirect("igrp_studio","ListaEnv","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

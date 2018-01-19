@@ -1,4 +1,4 @@
-package nosi.webapps.igrp.pages.listaenv;
+package nosi.webapps.igrp_studio.pages.listaenv;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
