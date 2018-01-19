@@ -429,7 +429,6 @@ public final class Core {	// Not inherit
 								}
 						  );
 		String json = gson.toJson(customV);
-		System.out.println(json);
 		return json;
 	}
 }

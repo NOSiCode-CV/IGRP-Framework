@@ -296,8 +296,8 @@ public class Config {
 		if(Config.isInstall())
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
 		if(APP_LINK_IMAGE!=null) {
-			APP_LINK_IMAGE = File.separator+APP_LINK_IMAGE+File.separator;
-			return "images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
+			APP_LINK_IMAGE = "/"+APP_LINK_IMAGE+"/";
+			return APP_LINK_IMAGE+"images"+"/"+"IGRP"+"/"+"IGRP"+page.getVersion()+"/"+"app"+"/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage().toLowerCase();
 		}
 		return getBaseServerPahtXsl(page);
 	}
