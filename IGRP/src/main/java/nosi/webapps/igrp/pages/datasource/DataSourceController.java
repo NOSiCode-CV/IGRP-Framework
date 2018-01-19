@@ -69,7 +69,7 @@ public class DataSourceController extends Controller {
 			
 			view.tipo.setValue(tipo);
 			
-			view.pagina.setLookup("r=igrp/LookupListPage/index&amp;dad=igrp");
+			view.pagina.setLookup("r=igrp/LookupListPage/index&dad=igrp");
 			view.pagina.addParam("p_prm_target","_blank");
 			view.pagina.addParam("p_id_pagina", "p_id");
 			view.pagina.addParam("p_pagina", "descricao");

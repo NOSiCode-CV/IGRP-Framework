@@ -46,7 +46,7 @@ public class MapaProcessoController extends Controller {
 		IGRPMenu menus = new IGRPMenu(gt("Lista de Processos"),"webapps?r=");
 		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
 		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos()){
-			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&amp;p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
+			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
 		}
 		menus.addMenu(menu);
@@ -92,7 +92,7 @@ public class MapaProcessoController extends Controller {
 				xml.setElement("app","igrp");
 				xml.setElement("page","ExecucaoTarefas");
 				String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
-				xml.setElement("link","igrp/ExecucaoTarefas/process-task&amp;"+id+"&amp;customForm=true&amp;page_igrp_ativiti="+action.getPage()+"&amp;app_igrp_ativiti="+action.getApplication().getDad());
+				xml.setElement("link","igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
 				xml.setElement("target","submit");
 				xml.setElement("img", "primary|fa-arrow-right");
 				xml.endElement();

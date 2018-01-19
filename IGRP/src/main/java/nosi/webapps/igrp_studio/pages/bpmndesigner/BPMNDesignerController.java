@@ -37,7 +37,7 @@ public class BPMNDesignerController extends Controller {
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
 			processo.setId(process.getId());
 			processo.setTitle(process.getName());
-			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&amp;p_id="+process.getId());
+			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
 			processo.setId(process.getId());
 			data.add(processo);
 		}
