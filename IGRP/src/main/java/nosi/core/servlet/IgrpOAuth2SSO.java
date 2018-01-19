@@ -17,13 +17,14 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import nosi.core.webapp.User;
 
@@ -58,6 +59,14 @@ public class IgrpOAuth2SSO extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String _u = request.getParameter("_u");
+		
+		String _url = "";
+		String param = request.getParameter("_url");
+		synchronized (igrpPath) {
+			_url = _url + igrpPath;
+		}
+		_url =  (param != null &&  !param.isEmpty() ? _url + "&_url=" + param : _url + "");
+		
 		if(_u != null && !_u.isEmpty()) {
 			_u = new String(Base64.getDecoder().decode(_u));
 			String []aux = _u.split(":");
@@ -78,29 +87,49 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					// First check if the session exits 
 					String sessionValue = (String) request.getSession(true).getAttribute("_identity-igrp");
 					if(sessionValue != null && !sessionValue.isEmpty()) { // Anyway go to IGRP login page 
-						response.sendRedirect(igrpPath);
+						response.sendRedirect(_url);
 						return;
 					}
 					
 					// make the oauth2 request grant_type=password 
 					String postData = "{\"grant_type\":\"password\",\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"client_id\":\"" + client_id + "\",\"client_secret\":\"" + client_secret + "\"}";
-					System.out.println(postData);
-					System.out.println(endpoint);
-					String result = "";
-					Client client = ClientBuilder.newClient();
-					Response r = client.target(endpoint).request(MediaType.APPLICATION_JSON).post(Entity.json(postData));
 					
-					if(r.getStatus() != 200) { // send error 
-						result = r.getEntity().toString();
-						response.sendError(r.getStatus(), "An error has occurred ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
+					String result = "";
+					String token = null;
+					
+					// Jersey Client 1.0 -> Deprecated 
+					Client client = Client.create();
+					WebResource webResource = client.resource(endpoint);
+					ClientResponse r = webResource.type("application/json").post(ClientResponse.class, postData);
+					result = r.getEntity(String.class);
+					if(r.getStatus() != 200) {
+						System.out.println("Error: " + result);
+						response.sendError(r.getStatus(), "An error occured ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 						return;
 					}
 					
-					// if success create the cookie information 
-					int userId = 2;
-					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
+					try {
+						JSONObject jToken = new JSONObject(result);
+						token = (String) jToken.get("access_token");
+					} catch (JSONException e2) {
+						e2.printStackTrace();
+					}
 					
-					client.close();
+					String userEndpoint = endpoint.replace("oauth2/token", "user/" + username);
+					ClientResponse r2 = client.resource(userEndpoint).get(ClientResponse.class);
+					
+					if(r2.getStatus() != 200) {
+						System.out.println("Error (2): " + result);
+						response.sendError(r.getStatus(), "An error occured ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
+						return;
+					}
+					result = r2.getEntity(String.class);
+					
+					System.out.println(result);
+					
+					// if success create the cookie information 
+					int userId = -1;
+					String authenticationKey = "RN67eqhUUgKUxYJm_wwJOqoEgl5zQugm";
 					
 					Properties p = this.load("db", "db_igrp_config.xml");
 					String driverName = "";
@@ -144,17 +173,27 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						
 						if(!rs.next()) { // insert the user to the current igrp database 
 							PreparedStatement ps2 = conn.prepareStatement(
-									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, user_name) "
-									+ "values(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, user_name, name) "
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
 							authenticationKey = User.generateAuthenticationKey();
+							
+							try {
+								JSONObject jsonUser = new JSONObject(result);
+								ps2.setString(9, jsonUser.getJSONObject("data").getString("name")); // name  
+								ps2.setString(4, jsonUser.getJSONObject("data").getString("email")); // email 
+							} catch (JSONException e2) {
+								e2.printStackTrace();
+								ps2.setString(4, ""); // email 
+								ps2.setString(9, ""); // name  
+							}
+							
 							ps2.setString(1, User.generateActivationKey());
 							ps2.setString(2, authenticationKey);
 							ps2.setLong(3, System.currentTimeMillis());
-							ps2.setString(4, "");
-							ps2.setString(5, "");
+							ps2.setString(5, password); // password 
 							ps2.setInt(6, 1);
 							ps2.setLong(7, System.currentTimeMillis());
-							ps2.setString(8, "");
+							ps2.setString(8, username); // user_name 
 							
 							int affectedRows = ps2.executeUpdate();
 							
@@ -242,7 +281,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						cookie.setMaxAge(60*60); // 1h
 						cookie.setHttpOnly(true);
 						response.addCookie(cookie);
-						response.sendRedirect(igrpPath); 
+						response.sendRedirect(_url); 
 						return;
 					}
 					}catch(Exception e) {
