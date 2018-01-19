@@ -10,7 +10,7 @@ package nosi.core.xml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class XMLWritter {
 		protected ArrayList<String> listXml;
@@ -50,7 +50,7 @@ public class XMLWritter {
 		public void text(String text){
 			this.closeLarger();
 		
-			this.xmlConstruct.append(StringEscapeUtils.escapeXml(text));
+			this.xmlConstruct.append(StringEscapeUtils.escapeXml10(text));
 		}
 		
 		public void emptyTag (String tag) {
@@ -59,7 +59,7 @@ public class XMLWritter {
 		}
 
 		public void writeAttribute(String key,String value){
-			this.xmlConstruct.append(" "+key+"=\""+StringEscapeUtils.escapeXml(value)+"\"");
+			this.xmlConstruct.append(" "+key+"=\""+StringEscapeUtils.escapeXml10(value)+"\"");
 		}
 
 		public void setElement(String tag,String value){

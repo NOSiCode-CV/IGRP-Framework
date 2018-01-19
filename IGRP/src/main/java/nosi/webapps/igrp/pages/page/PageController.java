@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -194,13 +194,13 @@ public class PageController extends Controller {
 								+ "/" + ac.getPage() + ".xsl");
 						ac.update();
 						this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml(error) + "</message></messages>");
+						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 					}
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml(error) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
@@ -406,7 +406,7 @@ public class PageController extends Controller {
 				}
 			}
 		}
-		your_code = StringEscapeUtils.escapeXml(your_code);
+		your_code = StringEscapeUtils.escapeXml10(your_code);
 		return this.renderView("<your_code>" + your_code + "</your_code>");
 	}
 

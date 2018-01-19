@@ -8,7 +8,7 @@ package nosi.webapps.igrp.pages.oauthclient;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthScope;
 import static nosi.core.i18n.Translator.gt;
