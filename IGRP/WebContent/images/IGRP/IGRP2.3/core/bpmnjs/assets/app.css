@@ -748,7 +748,6 @@ textarea.error-log:hover {
 
 #igrp-contents #js-properties-panel{
     height:100%;
-    display: table;
 }
 
 #js-properties-panel:empty {

@@ -250,6 +250,10 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	}
 	
 	public List<Application> getListMyApp(int idUser){
+		return getListMyApp(idUser,false);
+	}
+	
+	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
 		String dad = Permission.getCurrentEnv();
 		List<Profile> list = new ArrayList<>();
@@ -261,6 +265,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 					 .andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
 					 .andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
 					.all();
+			allInative=true;
 		}else {
 			list = new Profile().find()
 						.andWhere("type", "=", "ENV")
@@ -273,11 +278,18 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 						.andWhere("profileType", "=",Permission.getCurrentPerfilId())
 						.all();
 		}
-		if(!list.isEmpty()){				
-			list.stream().peek(e->listApp.add(e.getProfileType().getApplication())).collect(Collectors.toList());
+		if(!list.isEmpty()){	
+			if(allInative)
+			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
+			.collect(Collectors.toList());
+		}else {
+			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
+			.peek(e->listApp.add(e.getProfileType().getApplication()))
+			.collect(Collectors.toList());
 		}
 		return listApp;
 	}
+	
 	
 	public boolean getPermissionApp(String dad) {
 		 User u = (User) Igrp.getInstance().getUser().getIdentity();

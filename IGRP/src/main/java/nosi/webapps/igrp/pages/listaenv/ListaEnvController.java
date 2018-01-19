@@ -47,7 +47,7 @@ public class ListaEnvController extends Controller {
 						//.andWhere("name", "like", app.getName())
 						.all();
 		}else{
-			apps = app.getListMyApp(user.getId());
+			apps = app.getListMyApp(user.getId(),true);
 		}
 		
 		for(Application a:apps){
@@ -60,7 +60,7 @@ public class ListaEnvController extends Controller {
 //					table.setStatus_check(a.getStatus());
 //				}
 				table.setP_id(""+a.getId());
-               table.setT_page_builder("igrp_studio","ListaPage","index&amp;app="+a.getId());
+               table.setT_page_builder("igrp_studio","ListaPage","index&app="+a.getId());
                 table.setT_page_builder_desc("Page builder");
 				lista.add(table);
 			}

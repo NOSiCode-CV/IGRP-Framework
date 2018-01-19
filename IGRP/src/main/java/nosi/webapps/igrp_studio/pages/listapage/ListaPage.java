@@ -4,6 +4,8 @@ import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
+import nosi.core.webapp.helpers.Permission;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -242,7 +244,7 @@ public class ListaPage extends Model{
 		}
 
 		public void setAplicacao(String app,String page,String action){
-			this.aplicacao = Config.getResolveUrl(app, page, action);
+			this.aplicacao = "webapps?r="+app+"/"+page+"/"+(action.contains("&amp;")?action:action.replace("&", "&amp;"))+"&amp;dad="+app;
 		}
 		public String getAplicacao(){
 			return this.aplicacao;

@@ -6,6 +6,7 @@ package nosi.webapps.igrp.pages.execucaotarefas;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
@@ -273,9 +274,11 @@ public class ExecucaoTarefasController extends Controller {
 	public Response actionProcessTask() throws IOException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
+		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
+		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		boolean result = false;
 		if(taskId!=null && !taskId.equals("")){
-			result = this.processTask(taskId);
+			result = this.processTask(taskId,customForm,content);
 			if(result){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
 				return this.redirect("igrp","ExecucaoTarefas", "index");
@@ -285,7 +288,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
-			result = this.processStartEvent(processDefinitionId);
+			result = this.processStartEvent(processDefinitionId,customForm,content);
 			if(result){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
 			}else{
@@ -313,7 +316,7 @@ public class ExecucaoTarefasController extends Controller {
 	}
 	
 	//Executa uma tarefa
-	private boolean processTask(String p_prm_taskid){
+	private boolean processTask(String p_prm_taskid,String customForm,String content){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
@@ -322,15 +325,17 @@ public class ExecucaoTarefasController extends Controller {
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
 					formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
-					
 				}
+			}
+			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+				formData.addVariable("customVariableIGRP",content);
 			}
 		}
 		return (p_prm_taskid!=null && !p_prm_taskid.equals(""))?formData.submitFormByTask():false;
 	}
 	
 	//Inicia tarefa de um processo
-	private boolean processStartEvent(String processDefinitionId){
+	private boolean processStartEvent(String processDefinitionId,String customForm,String content){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
@@ -341,6 +346,9 @@ public class ExecucaoTarefasController extends Controller {
 					formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
 				}
 			}
+		}
+		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+			formData.addVariable("customVariableIGRP",content);
 		}
 		return (processDefinitionId!=null && !processDefinitionId.equals(""))?formData.submitFormByProcessDenifition():false;
 	}
