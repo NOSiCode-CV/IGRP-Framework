@@ -226,6 +226,7 @@ public class DatabaseMetadaHelper {
 	//Get Schemas of connection datasource
 	public static Map<String,String> getSchemas(Config_env config) {
 		Map<String,String> schemasMap = new HashMap<>();
+		schemasMap.put(null, "-- Escolha o Schema --");
 		if(config!=null) {
 			java.sql.Connection con = Connection.getConnection(config.getName());
 			ResultSet schemas = null;
