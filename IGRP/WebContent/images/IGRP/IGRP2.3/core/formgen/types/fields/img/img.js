@@ -29,7 +29,7 @@ var IMGFIELD = function(type,params){
 		field.setPropriety({
 			name:'img',
 			label:'Image',
-			value:'',
+			value:'images/IGRP/IGRP2.3/assets/img/jon_doe.jpg',
 			size:'12',
 			valuePersist : true,
 			onChange:function(v){
