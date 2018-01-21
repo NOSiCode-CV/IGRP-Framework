@@ -1,7 +1,11 @@
 package nosi.webapps.igrp.pages.transaccao;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Transaccao extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -12,12 +16,12 @@ public class Transaccao extends Model{
 	private String aplicacao;
 	@RParam(rParamName = "p_organica")
 	private String organica;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
@@ -50,7 +54,7 @@ public class Transaccao extends Model{
 	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String codigo;
 		private String descricao;
 		private String estado;
@@ -75,8 +79,5 @@ public class Transaccao extends Model{
 			return this.estado;
 		}
 
-		public String toString(){
-			return "codigo: "+this.codigo+" | descricao: "+this.descricao;
-		}
 	}
 }

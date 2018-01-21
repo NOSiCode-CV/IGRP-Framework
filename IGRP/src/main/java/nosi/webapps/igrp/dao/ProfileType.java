@@ -147,7 +147,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public HashMap<String, String> getListMyProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put("", gt("-- Selecionar Perfil --"));
+		lista.put("", gt("-- Selecionar --"));
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " - "+ p.getProfileType().getDescr());
 		}
@@ -156,7 +156,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	public HashMap<String, String> getListProfiles() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Perfil --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(ProfileType p: this.findAll()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
@@ -165,14 +165,14 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	
 	public HashMap<String, String> getListProfiles(int app, int organic) {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Perfil --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(ProfileType p: this.find().andWhere("application.id", "=", "" + app).andWhere("organization.id", "=", "" + organic).all()){
 			lista.put(p.getId()+"", p.getDescr());
 		}
 		return lista;
 	}
 
-	//Verifica se é perfil pai
+	//Verifica se ï¿½ perfil pai
 	public static boolean isPerfilPai(){
 		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Permission.getCurrentPerfilId()).all();
 		return profiles.size() > 0;

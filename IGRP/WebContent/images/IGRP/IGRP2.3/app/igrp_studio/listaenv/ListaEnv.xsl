@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-947a9bed">
+                                    <div class="row " id="row-a64aa5a8">
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-1b4c0422">
+                                    <div class="row " id="row-8c795ab0">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
@@ -108,7 +108,7 @@
                                                                                     <xsl:if test="status">
                                                                                         <td align="" data-row="{position()}" data-title="{../../label/status}" class="bs-checkbox" item-name="status">
                                                                                             <xsl:if test="status != '-0'">
-                                                                                                <label class="">
+                                                                                                <label class="checkbox-switch switch">
                                                                                                     <input type="checkbox" name="p_status" value="{status}" check-rel="status">
                                                                                                         <xsl:if test="status_check=status">
                                                                                                             <xsl:attribute name="checked">checked</xsl:attribute>
@@ -184,9 +184,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516545310977"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516545310977"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516545310977"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516545310977"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516545310977"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516551588374"/>
 </xsl:stylesheet>

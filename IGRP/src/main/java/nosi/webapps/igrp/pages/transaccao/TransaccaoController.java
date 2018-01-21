@@ -1,12 +1,12 @@
 
 package nosi.webapps.igrp.pages.transaccao;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class TransaccaoController extends Controller {		
+
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
@@ -30,7 +31,7 @@ public class TransaccaoController extends Controller {
 				.andWhere("code", "=", model.getCodigo())
 				.all();
 		for(Transaction t:list){
-			Transaccao.Table_1 table = new Transaccao().new Table_1();
+			Transaccao.Table_1 table = new Transaccao.Table_1();
 			table.setCodigo(t.getCode());
 			table.setDescricao(t.getDescr());
 			table.setEstado(t.getStatus()==1?"Ativo":"Inativo");
@@ -38,7 +39,6 @@ public class TransaccaoController extends Controller {
 		}		
 		
 		TransaccaoView view = new TransaccaoView(model);
-		view.title = gt("Gestão de Transação");
 		view.aplicacao.setValue(new Application().getListApps());
 //		view.organica.setValue(new Organization().getListMyOrganizations());
 		view.table_1.addData(table_1);
@@ -46,31 +46,26 @@ public class TransaccaoController extends Controller {
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
-	public Response actionEditar(@RParam(rParamName = "codigo")String codigo) throws IOException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
-		if(codigo!=null && !codigo.equals(""))
-			return this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
-		else
-			return this.redirect("igrp", "error-page", "permission");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-	public Response actionEliminar() throws IOException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
-		String code = Igrp.getInstance().getRequest().getParameter("codigo");
-		Transaction t = new Transaction();
-		t = t.find().andWhere("code", "=", code).one();
-		if(t.delete(t.getId()))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
-		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+
+
+	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
+		Transaccao model = new Transaccao();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			if(model.save(model)){
+				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
+			 }else{
+				Core.setMessageError(gt("Mesagem de Erro"));
+			 return this.forward("igrp","Transaccao","index");
+			}
+		}
 		return this.redirect("igrp","Transaccao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	
-	public void actionAlterar_estado() throws IOException{
+
+	public Response actionAlterar_estado() throws IOException{
 		/*----#START-PRESERVED-AREA(ALTERAR_ESTADO)----*/
 		String code = Igrp.getInstance().getRequest().getParameter("codigo");
 		Transaction t = new Transaction();
@@ -84,16 +79,40 @@ public class TransaccaoController extends Controller {
 			}
 			t = t.update();
 			if(t!=null)	
-				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("OperaÃ§Ã£o efetuada com sucesso"));
 			else
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaÃ§Ã£o"));
 		}
-		this.redirect("igrp","Transaccao","index");
+		return this.redirect("igrp","Transaccao","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEditar() throws IOException{
+		/*----#START-PRESERVED-AREA(EDITAR)----*/
+    String codigo = Igrp.getInstance().getRequest().getParameter("codigo");
+      if(codigo!=null && !codigo.equals(""))
+			return this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
+		else
+			return this.redirect("igrp", "error-page", "permission");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionEliminar() throws IOException{
+		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
+		String code = Igrp.getInstance().getRequest().getParameter("codigo");
+		Transaction t = new Transaction();
+		t = t.find().andWhere("code", "=", code).one();
+		if(t.delete(t.getId()))
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+		else
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+		return this.redirect("igrp","Transaccao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/
-	
 }

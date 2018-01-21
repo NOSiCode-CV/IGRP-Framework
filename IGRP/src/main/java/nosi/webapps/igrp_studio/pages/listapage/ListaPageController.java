@@ -79,10 +79,8 @@ public class ListaPageController extends Controller {
 			table1.setP_id_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
 			table1.setDescricao_page(ac.getPage_descr());
-			if (ac.getStatus() == 1) {
-				// table1.setStatus_page_check(ac.getStatus());
-				// table1.setStatus_page(ac.getStatus());
-			}
+          	 table1.setStatus_page_check(1);
+			 table1.setStatus_page(ac.getStatus());
 			lista.add(table1);
 		}
 

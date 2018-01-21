@@ -222,9 +222,24 @@ public class ListaPage extends Model{
 
 
 	public static class Table_1{
+		private int status_page;
+		private int status_page_check;
 		private String descricao_page;
 		private String nome_page;
 		private String p_id_page;
+		public void setStatus_page(int status_page){
+			this.status_page = status_page;
+		}
+		public int getStatus_page(){
+			return this.status_page;
+		}
+		public void setStatus_page_check(int status_page_check){
+			this.status_page_check = status_page_check;
+		}
+		public int getStatus_page_check(){
+			return this.status_page_check;
+		}
+
 		public void setDescricao_page(String descricao_page){
 			this.descricao_page = descricao_page;
 		}

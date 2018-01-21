@@ -37,11 +37,11 @@ public class ListaEnvView extends View {
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
 		
 		status_check = new CheckBoxField
 		(model,"status_check");
-		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
+		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
 		name = new TextField(model,"name");
 		name.setLabel(gt("Nome"));
 		name.propertie().add("name","p_name").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");

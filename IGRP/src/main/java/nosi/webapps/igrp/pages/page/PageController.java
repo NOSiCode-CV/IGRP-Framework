@@ -58,11 +58,11 @@ public class PageController extends Controller {
 				model.setStatus(a.getStatus());
 			}
 			isEdit = true;
-		}
+		}else
+			model.setStatus(1);
 		PageView view = new PageView(model);
-		view.env_fk.setValue(new Application().getListApps());
-		view.status.setValue(1);
-      view.gen_auto_code.setValue(1);
+		view.env_fk.setValue(new Application().getListApps());	
+		view.gen_auto_code.setValue(1);
 		view.version.setValue(Config.getVersions());
 		view.version.setVisible(false);
 
@@ -109,6 +109,7 @@ public class PageController extends Controller {
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
 				return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] { idPage + "" });
+//				_________________________________________________
 			} else {
 				// New page
 				action.setAction("index");

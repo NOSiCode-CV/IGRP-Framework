@@ -81,7 +81,7 @@ public class PesquisarUtilizadorController extends Controller {
 			default: view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 		
-		view.setPageTitle("Gest„o de Utilizador");
+		view.setPageTitle("Gest√£o de Utilizador");
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp,idOrg));		
@@ -98,16 +98,16 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 
 
-	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
-      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
+	public Response actionLista_geral() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(LISTA_GERAL)----*/
+		return this.redirect("igrp","PesquisarUtilizador","listaGeral&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
-	public Response actionLista_geral() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(LISTA_GERAL)----*/
-		return this.redirect("igrp","PesquisarUtilizador","listaGeral&target=_blank");
+	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
+      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -247,7 +247,7 @@ public class PesquisarUtilizadorController extends Controller {
     }
 	
 	public Response actionEditarUser() throws IOException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+	
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			if(id!=null){
@@ -258,11 +258,11 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
 	
 	public Response actionEliminarUser()throws IOException{
-		/*----#START-PRESERVED-AREA(ELIMINAR_USER)----*/
+	
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null){
 			User p = new User().findOne(Integer.parseInt(id));
@@ -277,7 +277,7 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

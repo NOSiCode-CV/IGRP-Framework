@@ -27,6 +27,8 @@ public class ListaPageView extends View {
 	public Field link_btn_nova_pagina;
 	public Field crud_generator;
 	public Field btn_import;
+	public Field status_page;
+	public Field status_page_check;
 	public Field descricao_page;
 	public Field nome_page;
 	public Field p_id_page;
@@ -147,6 +149,13 @@ public class ListaPageView extends View {
 		btn_import.setLabel(gt("Importar"));
 		btn_import.propertie().add("name","p_btn_import").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","undefined").add("page","undefined").add("app","undefined").add("class","danger").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-upload").add("maxlength","30").add("placeholder","").add("right","true");
 		
+		status_page = new CheckBoxField(model,"status_page");
+		status_page.setLabel(gt("Estado"));
+		status_page.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
+		
+		status_page_check = new CheckBoxField
+		(model,"status_page_check");
+		status_page_check.propertie().add("name","p_status_page").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
 		descricao_page = new TextField(model,"descricao_page");
 		descricao_page.setLabel(gt("Título"));
 		descricao_page.propertie().add("name","p_descricao_page").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
@@ -213,6 +222,8 @@ public class ListaPageView extends View {
 		form_1.addField(btn_import);
 
 
+		table_1.addField(status_page);
+		table_1.addField(status_page_check);
 		table_1.addField(descricao_page);
 		table_1.addField(nome_page);
 		table_1.addField(p_id_page);

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>NovoUtilizador</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
+        <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>NovoUtilizador</package_html>
@@ -30,50 +30,41 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=13</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Registar Utilizador</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Convite - Novo]]>
-                    </value>
+                    <value>Convite - Novo</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_blank</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-save|www</params>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_back</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-angle-right|www</params>
+                <app>igrp</app>
+                <page>Env</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/env/Env.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <email name="p_email" type="email" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>ehowin@example.com</value>
+                    <value>mikecnij@example.com</value>
                 </email>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false">
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                    <label></label>
+                </nada>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
                     <label>Aplicacao</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -92,9 +83,10 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="true" change="true" disabled="false" right="false" domain="" java-type="int">
                     <label>Organica</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -113,9 +105,10 @@
                         </option>
                     </list>
                 </organica>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="100" required="true" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Perfil</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -134,10 +127,6 @@
                         </option>
                     </list>
                 </perfil>
-                <portal name="p_portal" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Portal</label>
-                    <value>1</value>
-                </portal>
             </fields>
         </form_1>
     </content>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -36,15 +37,24 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestao de utilizador]]>
-                    </value>
+                    <value>Gestão de utilizador</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="50" required="false" change="true" disabled="false" right="false" domain="">
+                <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Username</label>
+                    <value>Natus voluptatem labore stract voluptatem</value>
+                </username>
+                <email name="p_email" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Email</label>
+                    <value>Amet laudantium rem accusantium ipsum</value>
+                </email>
+                <nada name="p_nada" type="separator" maxlength="30" placeholder="" right="false">
+                    <label></label>
+                </nada>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="50" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicacao</label>
                     <list>
                         <option/>
@@ -66,7 +76,7 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="">
+                <organica name="p_organica" type="select" multiple="false" maxlength="100" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Organica</label>
                     <list>
                         <option/>
@@ -88,7 +98,7 @@
                         </option>
                     </list>
                 </organica>
-                <perfil name="p_perfil" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" domain="">
+                <perfil name="p_perfil" type="select" multiple="false" maxlength="50" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Perfil</label>
                     <list>
                         <option/>
@@ -110,14 +120,6 @@
                         </option>
                     </list>
                 </perfil>
-                <username name="p_username" type="text" maxlength="50" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Username</label>
-                    <value>Natus magna adipiscing ipsum magna</value>
-                </username>
-                <email name="p_email" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Email</label>
-                    <value>Laudantium magna mollit officia labore</value>
-                </email>
             </fields>
             <tools-bar>
                 <item type="form" code="" class="primary" rel="pesquisar">
@@ -125,22 +127,13 @@
                     <app>igrp</app>
                     <page>PesquisarOrganica</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl?</parameter>
+                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarorganica/PesquisarOrganica.xsl?</parameter>
                     <target>submit</target>
                     <img>primary|fa-search</img>
                 </item>
             </tools-bar>
         </form_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="adicionar_utilizador">
-                <title>Adicionar Utilizador</title>
-                <app>igrp</app>
-                <page>NovoUtilizador</page>
-                <link>index</link>
-                <target>modal</target>
-                <img>success|fa-plus-square</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
-            </item>
             <item type="specific" code="" rel="lista_geral">
                 <title>Lista Geral</title>
                 <app>igrp</app>
@@ -148,7 +141,16 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>default|fa-list</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl</parameter>
+            </item>
+            <item type="specific" code="" rel="adicionar_utilizador">
+                <title>Adicionar Utilizador</title>
+                <app>igrp</app>
+                <page>NovoUtilizador</page>
+                <link>index</link>
+                <target>modal</target>
+                <img>success|fa-plus-square</img>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
             </item>
             <item type="specific" code="" rel="convidar">
                 <title>Convidar</title>
@@ -157,16 +159,16 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>warning|fa-send</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl</parameter>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" title="Utilizadores Convidados" gen-type="container" gen-group="true">
             <fields>
                 <nome name="p_nome" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
-                    <label>Nome</label>
+                    <label>Username</label>
                 </nome>
                 <nominho name="p_nominho" type="plaintext" maxlength="50" align="left" lookup_parser="false" iskey="false">
-                    <label>Nominho</label>
+                    <label>Nome</label>
                 </nominho>
                 <email name="p_email" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Email</label>
@@ -183,10 +185,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Ut stract sed sit perspiciatis anim sit sed officia unde iste perspiciatis dolor perspiciatis elit</nome>
-                        <nominho name="p_nominho">Sed labore stract deserunt labore omnis doloremque</nominho>
-                        <email name="p_email">Omnis accusantium ut amet labore aperiam adipiscing doloremque ut amet officia elit officia doloremq</email>
-                        <perfil name="p_perfil">Doloremque accusantium deserunt aliqua officia mol</perfil>
+                        <nome name="p_nome">Dolor omnis unde aliqua sed voluptatem consectetur iste sit ut magna iste deserunt doloremque ipsum</nome>
+                        <nominho name="p_nominho">Ipsum adipiscing sit magna totam deserunt sit ipsu</nominho>
+                        <email name="p_email">Elit aperiam amet sed officia natus mollit ipsum dolor perspiciatis amet sed laudantium amet rem</email>
+                        <perfil name="p_perfil">Aperiam omnis mollit voluptatem natus voluptatem s</perfil>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -194,10 +196,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Aperiam labore stract sed totam lorem dolor labore aperiam stract lorem laudantium rem sed rem</nome>
-                        <nominho name="p_nominho">Unde iste sed accusantium sit iste sit aliqua dolo</nominho>
-                        <email name="p_email">Stract dolor amet omnis perspiciatis aperiam stract amet perspiciatis accusantium doloremque accusan</email>
-                        <perfil name="p_perfil">Iste sit iste doloremque anim dolor aliqua omnis l</perfil>
+                        <nome name="p_nome">Mollit magna labore mollit sit aliqua deserunt perspiciatis ut natus stract deserunt consectetur sit</nome>
+                        <nominho name="p_nominho">Magna rem sed lorem unde iste unde deserunt unde s</nominho>
+                        <email name="p_email">Doloremque amet unde ipsum adipiscing amet omnis totam voluptatem natus lorem dolor elit aliqua aliq</email>
+                        <perfil name="p_perfil">Officia elit sed labore dolor laudantium aperiam i</perfil>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -205,10 +207,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Unde magna sit amet sit unde doloremque unde sit magna sit lorem doloremque omnis ipsum</nome>
-                        <nominho name="p_nominho">Iste voluptatem laudantium deserunt aliqua ut dese</nominho>
-                        <email name="p_email">Amet perspiciatis ut sit aliqua lorem adipiscing iste ipsum doloremque aliqua sed voluptatem sit vol</email>
-                        <perfil name="p_perfil">Stract rem deserunt dolor deserunt sed consectetur</perfil>
+                        <nome name="p_nome">Labore voluptatem magna aperiam voluptatem ut voluptatem omnis aliqua unde ut labore natus aperiam a</nome>
+                        <nominho name="p_nominho">Perspiciatis sit aperiam voluptatem sed iste natus</nominho>
+                        <email name="p_email">Mollit sed officia mollit sed elit mollit sed voluptatem accusantium sit ut adipiscing mollit aperia</email>
+                        <perfil name="p_perfil">Magna sed sit dolor laudantium amet lorem omnis na</perfil>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -216,10 +218,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Stract elit sit anim iste perspiciatis aperiam ipsum aliqua dolor sit sed lorem consectetur sit</nome>
-                        <nominho name="p_nominho">Accusantium aliqua voluptatem natus totam officia</nominho>
-                        <email name="p_email">Laudantium ipsum ut doloremque sed consectetur lorem stract unde consectetur lorem doloremque labore</email>
-                        <perfil name="p_perfil">Aliqua labore stract unde amet magna aperiam volup</perfil>
+                        <nome name="p_nome">Ut sit sit labore sit elit deserunt aperiam adipiscing mollit doloremque amet lorem magna sed</nome>
+                        <nominho name="p_nominho">Ipsum doloremque anim perspiciatis officia aliqua</nominho>
+                        <email name="p_email">Officia anim totam labore totam rem iste rem stract unde aperiam mollit voluptatem officia natus</email>
+                        <perfil name="p_perfil">Iste labore sed voluptatem mollit labore amet natu</perfil>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -227,10 +229,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <nome name="p_nome">Omnis deserunt stract sit amet elit labore aliqua omnis officia magna aperiam laudantium anim aperia</nome>
-                        <nominho name="p_nominho">Aperiam stract doloremque dolor amet aperiam sit o</nominho>
-                        <email name="p_email">Officia iste officia adipiscing laudantium adipiscing sit lorem dolor anim natus amet aperiam volupt</email>
-                        <perfil name="p_perfil">Rem aliqua stract anim mollit dolor deserunt aliqu</perfil>
+                        <nome name="p_nome">Rem unde totam elit doloremque lorem aliqua deserunt sed ut doloremque amet totam doloremque laudant</nome>
+                        <nominho name="p_nominho">Sit sed rem omnis laudantium sit laudantium totam</nominho>
+                        <email name="p_email">Anim labore accusantium dolor magna mollit aperiam elit voluptatem amet stract laudantium mollit ape</email>
+                        <perfil name="p_perfil">Sit mollit perspiciatis amet doloremque amet totam</perfil>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -240,7 +242,7 @@
                         <app>igrp</app>
                         <page>PesquisarUtilizador</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
                         <target>mpsubmit</target>
                         <img>warning|fa-pencil</img>
                     </item>
@@ -249,7 +251,7 @@
                         <app>igrp</app>
                         <page>PesquisarUtilizador</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
@@ -258,7 +260,7 @@
                         <app>igrp</app>
                         <page>PesquisarUtilizador</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarutilizador/PesquisarUtilizador.xsl?</parameter>
                         <target>mpsubmit</target>
                         <img>warning|fa-send</img>
                     </item>

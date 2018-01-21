@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,16 +30,14 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=16</preserve_url>
     </plsql>
     <content>
-        <title>null</title>
+        <title>Transaccao</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestão de Transações]]>
-                    </value>
+                    <value>Gestão de Transações</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -47,11 +45,12 @@
             <fields>
                 <codigo name="p_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Aliqua stract lorem amet sit</value>
+                    <value>Unde sit iste sit consectetur</value>
                 </codigo>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -70,9 +69,10 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
+                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Orgânica</label>
                     <list>
+                        <option/>
                         <option>
                             <text>Option 1</text>
                             <value>1</value>
@@ -92,28 +92,27 @@
                     </list>
                 </organica>
             </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>Transaccao</page>
+                    <link>index</link>
+                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
         </form_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="pesquisar">
-                <title>Pesquisar</title>
-                <app>igrp</app>
-                <page>Transaccao</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>default|fa-search</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl</parameter>
-                <params>default||fa-search|www</params>
-            </item>
-        </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false">
+                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </codigo>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false">
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
                 </descricao>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false">
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Estado</label>
                 </estado>
             </fields>
@@ -124,65 +123,74 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Anim laudantium ipsum accusantium magna</codigo>
-                        <descricao name="p_descricao">Rem adipiscing iste dolor anim</descricao>
-                        <estado name="p_estado">Omnis sed stract rem mollit</estado>
+                        <codigo name="p_codigo">Perspiciatis aperiam natus rem</codigo>
+                        <descricao name="p_descricao">Totam mollit consectetur aperi</descricao>
+                        <estado name="p_estado">Perspiciatis lorem consectetur</estado>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Unde anim deserunt sed aperiam</codigo>
-                        <descricao name="p_descricao">Amet doloremque aperiam iste adipiscing</descricao>
-                        <estado name="p_estado">Mollit sit elit laudantium mollit</estado>
+                        <codigo name="p_codigo">Ipsum perspiciatis sed volupta</codigo>
+                        <descricao name="p_descricao">Amet labore mollit ipsum elit</descricao>
+                        <estado name="p_estado">Stract iste mollit stract labo</estado>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Magna omnis totam aperiam aliqua</codigo>
-                        <descricao name="p_descricao">Unde amet ipsum perspiciatis unde</descricao>
-                        <estado name="p_estado">Rem totam natus voluptatem unde</estado>
+                        <codigo name="p_codigo">Lorem deserunt elit totam natu</codigo>
+                        <descricao name="p_descricao">Mollit iste voluptatem elit se</descricao>
+                        <estado name="p_estado">Sit lorem mollit anim totam</estado>
                     </row>
                     <row>
                         <context-menu>
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <codigo name="p_codigo">Officia rem ut stract mollit</codigo>
-                        <descricao name="p_descricao">Sit officia stract aperiam rem</descricao>
-                        <estado name="p_estado">Mollit laudantium aperiam deserunt stract</estado>
+                        <codigo name="p_codigo">Laudantium sit elit natus rem</codigo>
+                        <descricao name="p_descricao">Sit totam amet magna ipsum</descricao>
+                        <estado name="p_estado">Accusantium omnis magna stract</estado>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <codigo name="p_codigo">Mollit deserunt sed lorem adip</codigo>
+                        <descricao name="p_descricao">Ut consectetur perspiciatis co</descricao>
+                        <estado name="p_estado">Sed perspiciatis natus aperiam</estado>
                     </row>
                 </value>
                 <context-menu>
-                    <item type="specific" code="" class="default" rel="editar">
-                        <title>Editar</title>
-                        <app>igrp</app>
-                        <page>Transaccao</page>
-                        <link>index</link>
-                        <parameter/>
-                        <target>submit</target>
-                        <img>default|fa-pencil</img>
-                    </item>
-                    <item type="specific" code="" class="default" rel="eliminar">
-                        <title>Eliminar</title>
-                        <app>igrp</app>
-                        <page>Transaccao</page>
-                        <link>index</link>
-                        <parameter/>
-                        <target>confirm</target>
-                        <img>default|fa-trash</img>
-                    </item>
-                    <item type="specific" code="" class="default" rel="alterar_estado">
+                    <item type="specific" code="" class="success" rel="alterar_estado">
                         <title>Alterar Estado</title>
                         <app>igrp</app>
                         <page>Transaccao</page>
                         <link>index</link>
-                        <parameter/>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl?</parameter>
                         <target>confirm</target>
-                        <img>default|fa-angle-right</img>
+                        <img>success|fa-check-square-o</img>
+                    </item>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl?</parameter>
+                        <target>submit</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
                     </item>
                 </context-menu>
             </table>
