@@ -198,7 +198,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 
 	public HashMap<Integer,String> getListActions(){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Página --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Action ac:this.findAll()){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
@@ -210,7 +210,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	
 	public HashMap<Integer,String> getListActions(int app){
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Página --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Action ac:this.find().andWhere("application.id", "=", "" + app).all()){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());

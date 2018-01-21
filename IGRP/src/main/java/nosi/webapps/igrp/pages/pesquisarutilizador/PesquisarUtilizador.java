@@ -84,8 +84,8 @@ public class PesquisarUtilizador extends Model{
 	public static class Table_1{
 		private String nome;
 		private String nominho;
-		private String email;
-		private String perfil;
+		private String tb_email;
+		private String perfile;
 		private String p_id;
 		public void setNome(String nome){
 			this.nome = nome;
@@ -101,18 +101,18 @@ public class PesquisarUtilizador extends Model{
 			return this.nominho;
 		}
 
-		public void setEmail(String email){
-			this.email = email;
+		public void setTb_email(String tb_email){
+			this.tb_email = tb_email;
 		}
-		public String getEmail(){
-			return this.email;
+		public String getTb_email(){
+			return this.tb_email;
 		}
 
-		public void setPerfil(String perfil){
-			this.perfil = perfil;
+		public void setPerfile(String perfile){
+			this.perfile = perfile;
 		}
-		public String getPerfil(){
-			return this.perfil;
+		public String getPerfile(){
+			return this.perfile;
 		}
 
 		public void setP_id(String p_id){

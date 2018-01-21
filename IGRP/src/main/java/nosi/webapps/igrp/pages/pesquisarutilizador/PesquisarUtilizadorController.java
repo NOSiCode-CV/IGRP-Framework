@@ -65,10 +65,10 @@ public class PesquisarUtilizadorController extends Controller {
 		//Preenchendo a tabela 
 		for(Profile p:profiles){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			table1.setEmail(p.getUser().getEmail());
+			table1.setTb_email(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
 			table1.setNominho(p.getUser().getName());
-			table1.setPerfil(p.getProfileType().getDescr());
+			table1.setPerfile(p.getProfileType().getDescr());
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		
@@ -189,7 +189,7 @@ public class PesquisarUtilizadorController extends Controller {
 			model.load();
 		} 
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();			
-		//condiccao para pesquisar com filtros
+		//condicao para pesquisar com filtros
 		List<User> users = new ArrayList<>();
 
 		int idProfC = Permission.getCurrentPerfilId();
@@ -203,10 +203,10 @@ public class PesquisarUtilizadorController extends Controller {
 		//Preenchendo a tabela 
 		for(User p:users){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			table1.setEmail(p.getEmail());
+			table1.setTb_email(p.getEmail());
 			table1.setNome(p.getUser_name());
 			table1.setNominho(p.getName());
-			table1.setPerfil(p.getStatus()==1?"ATIVO":"INATIVO");
+			table1.setPerfile(p.getStatus()==1?"ATIVO":"INATIVO");
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		

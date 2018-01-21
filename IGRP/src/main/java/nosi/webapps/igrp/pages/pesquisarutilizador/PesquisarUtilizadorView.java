@@ -17,6 +17,8 @@ public class PesquisarUtilizadorView extends View {
 	public Field perfil;
 	public Field nome;
 	public Field nominho;
+	public Field tb_email;
+	public Field perfile;
 	public Field p_id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
@@ -34,7 +36,7 @@ public class PesquisarUtilizadorView extends View {
 		this.setPageTitle("Lista de Utilizador");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
-		form_1 = new IGRPForm("form_1","");
+		form_1 = new IGRPForm("form_1","Filtro");
 		table_1 = new IGRPTable("table_1","Utilizadores Convidados");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
@@ -45,20 +47,20 @@ public class PesquisarUtilizadorView extends View {
 		username.setLabel(gt("Username"));
 		username.propertie().add("name","p_username").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		
-		email = new TextField(model,"email");
+		email = new EmailField(model,"email");
 		email.setLabel(gt("Email"));
-		email.propertie().add("name","p_email").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		email.propertie().add("name","p_email").add("type","email").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicacao"));
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","50").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		
 		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organica"));
+		organica.setLabel(gt("Orgânica"));
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		
 		perfil = new ListField(model,"perfil");
@@ -72,6 +74,14 @@ public class PesquisarUtilizadorView extends View {
 		nominho = new PlainTextField(model,"nominho");
 		nominho.setLabel(gt("Nome"));
 		nominho.propertie().add("name","p_nominho").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
+		tb_email = new PlainTextField(model,"tb_email");
+		tb_email.setLabel(gt("Email"));
+		tb_email.propertie().add("name","p_tb_email").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
+		perfile = new PlainTextField(model,"perfile");
+		perfile.setLabel(gt("Perfil"));
+		perfile.propertie().add("name","p_perfile").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false").add("iskey","false");
 		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
@@ -111,8 +121,8 @@ public class PesquisarUtilizadorView extends View {
 
 		table_1.addField(nome);
 		table_1.addField(nominho);
-		table_1.addField(email);
-		table_1.addField(perfil);
+		table_1.addField(tb_email);
+		table_1.addField(perfile);
 		table_1.addField(p_id);
 
 		toolsbar_1.addButton(btn_lista_geral);
