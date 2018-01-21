@@ -20,7 +20,7 @@ var GENSTRUCTURES = function(GEN){
 			}
 		}
 
-		return xml.replaceAll('&','&amp;');
+		return xml;
 	}
 
 	var genContainerStruc = function(p){
@@ -121,7 +121,7 @@ var GENSTRUCTURES = function(GEN){
 
 					if(container.xml.type == 'text'){
 						var value   = container.GET.text ? container.GET.text() : '';
-						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value><![CDATA['+value+']]></value></'+tag+'_text></fields>';
+						rtn+='<fields><'+tag+'_text type="text" name="p_'+tag+'_text" persist="true" maxlength="'+container.GET.maxlength()+'"><value>'+value+'</value></'+tag+'_text></fields>';
 					}
 
 					if(container.xml.type == 'map')

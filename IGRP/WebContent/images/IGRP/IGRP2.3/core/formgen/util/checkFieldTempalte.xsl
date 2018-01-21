@@ -9,6 +9,6 @@
   </xsl:template>
 
 
-  <xsl:include href="http://igrp.teste.gov.cv/images/IGRP2.2/xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1"/>
+  <xsl:include href="simages/IGRP/IGRP2.3/xsl/tmpl/IGRP-home-include.tmpl.xsl"/>
 
  </xsl:stylesheet>

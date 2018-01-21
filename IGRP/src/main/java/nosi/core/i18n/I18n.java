@@ -33,8 +33,10 @@ public final class I18n implements Serializable {
 		if (bundle == null)
 			return text;
 		String result = GettextResource.gettext(bundle, StringUtils.stripAccents(text));
-		if (result == StringUtils.stripAccents(text))
-			return text;
+//		«If the result is the normalize text, 
+//		    return the result of text with special character»
+		if (result.equals(StringUtils.stripAccents(text)))			
+			return GettextResource.gettext(bundle, text);		
 		return result;
 	}
 
