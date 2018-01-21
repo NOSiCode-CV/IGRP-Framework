@@ -3,17 +3,17 @@
 <rows>
     <title>GENERATOR</title>
     <version>122</version>
-    <link>https://nosiodb01.gov.cv/redglobaldep01/!REDGLOBAL.GLB_DISPATCHER.main?p_env_procedure=//27103108098095104111109101046104111109101&amp;igrpbccaaeeffe=359763040007010045&amp;p_env_dad=//86049</link>
+    <link></link>
     <link_img>/images/IGRP.bootstrap</link_img>
     <site>
-        <welcome_note>Olá</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
         <user_name>milton.cabral</user_name>
         <button   type="specific">
             <title>Sair</title>
             <app>CADASTRO_V02</app>
             <page />
-            <link>https://nosiodb01.gov.cv/redglobaldep01/redglobal.glb_dispatcher.logout</link>
+            <link></link>
             <target>_self</target>
             <img>exit.png</img>
         </button>
@@ -47,8 +47,8 @@
             <value>
                 <nome>William</nome>
 
-                <link>www.google.com</link>
-                <view_foto>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</view_foto>
+                <link>www.nosi.cv</link>
+                <view_foto>images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</view_foto>
             </value>
         </view>
         <form>

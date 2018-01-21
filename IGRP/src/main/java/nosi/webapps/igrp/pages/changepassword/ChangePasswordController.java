@@ -49,7 +49,7 @@ public class ChangePasswordController extends Controller {
 			}
 			
 			if (model.getPassword_1().equals(model.getOld_password())) {
-				Core.setMessageError(gt("A nova senha n„o pode ser igual a senha anterior ... Tente de novo !"));
+				Core.setMessageError(gt("A nova senha n√£o pode ser igual a senha anterior ... Tente de novo !"));
 				return this.forward("igrp","ChangePassword","index");
 			}
 			
@@ -70,7 +70,7 @@ public class ChangePasswordController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		User user = Core.getCurrentUser();
 		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
-			Core.setMessageError(gt("Senha actual inv·lido. Tente de novo !!! "));
+			Core.setMessageError(gt("Senha atual inv√°lida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
 		user.setPass_hash(nosi.core.webapp.User.encryptToHash(newPassword, "MD5"));
@@ -89,7 +89,7 @@ public class ChangePasswordController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		User user = Core.getCurrentUser();
 		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
-			Core.setMessageError(gt("Senha actual inv·lido. Tente de novo !!! "));
+			Core.setMessageError(gt("Senha atual inv√°lida. Tente de novo !!! "));
 			return this.forward("igrp","ChangePassword","index");
 		} 
 
@@ -115,7 +115,7 @@ public class ChangePasswordController extends Controller {
 				Core.setMessageSuccess(gt("Password alterado com sucesso."));
 			}
 		}else {
-			Core.setMessageError(gt(error != null ? error : "Ocorreu um erro. Email inv·lido."));
+			Core.setMessageError(gt(error != null ? error : "Ocorreu um erro. Email inv√°lido."));
 			return this.forward("igrp","ChangePassword","index");
 		}
 		return this.redirect("igrp","ChangePassword","index");

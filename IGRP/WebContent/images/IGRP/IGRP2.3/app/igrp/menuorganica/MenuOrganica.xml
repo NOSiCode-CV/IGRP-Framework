@@ -47,7 +47,7 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
+                <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
                     <label>Menu</label>
                 </menu>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -59,27 +59,27 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Mollit elit consectetur elit u</descricao>
+                        <descricao name="p_descricao">Sit dolor mollit elit officia</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sit mollit unde labore accusan</descricao>
+                        <descricao name="p_descricao">Elit rem unde stract sit</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Lorem accusantium laudantium c</descricao>
+                        <descricao name="p_descricao">Ut totam natus magna sit</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Totam labore dolor totam rem</descricao>
+                        <descricao name="p_descricao">Ut mollit ipsum ut unde</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Adipiscing deserunt ut aliqua</descricao>
+                        <descricao name="p_descricao">Accusantium totam omnis mollit</descricao>
                     </row>
                 </value>
             </table>

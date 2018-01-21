@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.oauthclient;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;

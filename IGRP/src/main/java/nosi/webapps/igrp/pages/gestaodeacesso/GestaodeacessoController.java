@@ -20,9 +20,10 @@ public class GestaodeacessoController extends Controller {
       Gestaodeacesso model = new Gestaodeacesso();
 
       	List<Gestaodeacesso.Org_table> data = new ArrayList<>();
-      	String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
+      	String ichange = Igrp.getInstance().getRequest().getParameter("ichange");	
+      model.load();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
+		
           	if(ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
               model.setAdicionar_organica1("igrp","NovaOrganica","index&target=_blank&id_app="+model.getAplicacao());
               model.setGestao_de_utilizadores1("igrp","PesquisarUtilizador","index");
@@ -37,13 +38,14 @@ public class GestaodeacessoController extends Controller {
                 table.setMostrar_perfis_desc("Mostrar Perfil");
                 data.add(table);
               }
-            }
+            }else
+               model.setAdicionar_organica1("igrp","NovaOrganica","index&target=_blank");
 		}
 		GestaodeacessoView view = new GestaodeacessoView(model);
       	view.p_id.setParam(true);
       	view.aplicacao.setValue(new Application().getListApps());
         view.org_table.addData(data);
-        view.setPageTitle("Gest„o de Acesso");
+        view.setPageTitle("Gest√£o de Acesso");
       //	if(ichange!=null && ichange.equalsIgnoreCase("p_aplicacao") && model.getAplicacao()!=null && !model.getAplicacao().equals("")){
         //  view.btn_adicionar_organica.setPage("NovaOrganica");
           //view.btn_adicionar_organica.setLink("index&target=_blank&id_app="+model.getAplicacao());

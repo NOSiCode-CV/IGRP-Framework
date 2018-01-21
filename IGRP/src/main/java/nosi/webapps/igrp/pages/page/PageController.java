@@ -105,7 +105,7 @@ public class PageController extends Controller {
 				action = action.update();
 				if (action != null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-							gt("Página atualizada com sucesso."));
+							gt("PÃ¡gina atualizada com sucesso."));
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
 				return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] { idPage + "" });
@@ -180,14 +180,14 @@ public class PageController extends Controller {
 					error += this.processCompile(path_class, ac.getPage());
 					
 					if (error.equals("") || error == null) {// Check if not error on the compilation class
-						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
+						error = new Gson().toJson(new MapErrorCompile("CompilaÃ§Ã£o efetuada com sucesso", null));
 						if (FileHelper.fileExists(Config.getWorkspace())) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
 									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-									FileHelper.ENCODE_CP1252);// ENCODE_CP1252 for default encode eclipse
+									FileHelper.ENCODE_UTF8);// ENCODE_CP1252 for default encode eclipse
 						}
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
@@ -219,7 +219,7 @@ public class PageController extends Controller {
 			if (!compiler.compile(files)) {
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
 						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilaÃ§Ã£o", er));
 			}
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();

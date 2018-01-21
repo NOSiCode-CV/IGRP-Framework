@@ -1,6 +1,5 @@
 
 package nosi.webapps.igrp_studio.pages.importarquivo;
-import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
@@ -19,20 +18,20 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.RParam;
-
+import nosi.core.config.Config;
 /*----#END-PRESERVED-AREA----*/
 
 public class ImportArquivoController extends Controller {		
 
 
-	public Response actionIndex(@RParam(rParamName="app") String app) throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ImportArquivo model = new ImportArquivo();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+//		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load(); 
 			
-		}
-		model.setList_aplicacao(app);
+//		}
+//		model.setList_aplicacao(app);
 		ImportArquivoView view = new ImportArquivoView(model);
 		view.list_aplicacao.setValue(new Application().getListApps());		
 		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";

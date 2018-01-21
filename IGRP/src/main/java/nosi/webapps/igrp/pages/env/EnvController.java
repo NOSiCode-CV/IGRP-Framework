@@ -142,7 +142,7 @@ public class EnvController extends Controller {
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar PÃ¡gina ---"));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
@@ -244,10 +244,10 @@ public class EnvController extends Controller {
 //		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", gt("Minhas Aplicações"));
+			xml_menu.setElement("title", gt("Minhas AplicaÃ§Ãµes"));
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", gt("Outras Aplicações"));
+			xml_menu.setElement("subtitle", gt("Outras AplicaÃ§Ãµes"));
 		}
 		xml_menu.endElement();
 

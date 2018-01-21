@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.oauthclient;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
@@ -37,4 +36,3 @@ public class OAuthClient extends Model{
 
 
 }
-/*-------------------------*/

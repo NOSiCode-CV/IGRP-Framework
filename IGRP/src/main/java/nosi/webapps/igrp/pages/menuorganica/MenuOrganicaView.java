@@ -25,22 +25,23 @@ public class MenuOrganicaView extends View {
 		form_1 = new IGRPForm("form_1","");
 		menu = new CheckBoxField(model,"menu");
 		menu.setLabel(gt("Menu"));
+		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		
-		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("check","true").add("desc","true");
-		menu_check = new CheckBoxField(model,"menu_check");
-		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("check","true").add("desc","true");
+		menu_check = new CheckBoxField
+		(model,"menu_check");
+		menu_check.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
-		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("java-type","int").add("tag","id");
+		
 		p_type = new HiddenField(model,"p_type");
 		p_type.setLabel(gt(""));
-		
 		p_type.propertie().add("name","p_type").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","type");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","MenuOrganica","gravar","submit","primary|fa-save","","");

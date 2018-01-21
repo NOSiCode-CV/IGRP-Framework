@@ -50,7 +50,7 @@ public class ListaPageController extends Controller {
 		model.load();
 
 		model.setBtn_import("igrp_studio", "ImportArquivo", "index&target=_blank");
-
+		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank");
 		model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank");
 
 		String app = Igrp.getInstance().getRequest().getParameter("app");
@@ -63,8 +63,9 @@ public class ListaPageController extends Controller {
 
 		if (Core.isNotNull(model.getEnv_fk())) {
 			model.setBtn_import("igrp_studio", "ImportArquivo",
-					"index&target=_blank&app=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
+					"index&target=_blank&p_list_aplicacao=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
 			model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());
+          	model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank&p_aplicacao=" + model.getEnv_fk());
 		}
 
 		List<Action> actions = a.find().andWhere("application", "=",
@@ -99,13 +100,12 @@ public class ListaPageController extends Controller {
 				Action ac = p.getOrganization().getApplication().getAction();
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
-			myapps.setIcon(
-					Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
+			myapps.setIcon(Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
 			apps.add(myapps);
 		}
-
+		//model.setInfopanel_3_val(""+apps.size());
 		ListaPageView view = new ListaPageView(model);
 		view.p_id_page.setParam(true);
 		view.env_fk.setValue(new Application().getListApps());

@@ -126,9 +126,9 @@ public class PesquisarMenuController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("OperaÃ§Ã£o efetuada com sucesso"));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao tentar efetuar esta operação"));
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao tentar efetuar esta operaÃ§Ã£o"));
 
 		return this.redirect("igrp", "PesquisarMenu", "index");
 		/*----#END-PRESERVED-AREA----*/

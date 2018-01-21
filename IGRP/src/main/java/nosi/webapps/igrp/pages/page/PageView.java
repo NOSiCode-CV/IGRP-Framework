@@ -33,7 +33,7 @@ public class PageView extends View {
 	public Field p_flg_offline;
 	public Field p_flg_internet;
 	public Field p_proc_name;
-	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -41,19 +41,19 @@ public class PageView extends View {
 	public PageView(Page model){
 		this.setPageTitle("Registar Pagina");
 			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		
 		sectionheader_1_text.setValue(gt("Page builder - Novo"));
+		
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		action_descr = new TextField(model,"action_descr");
-		action_descr.setLabel(gt("TÌtulo"));
+		action_descr.setLabel(gt("T√≠tulo"));
 		
 		action_descr.propertie().add("name","p_action_descr").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		page = new TextField(model,"page");
-		page.setLabel(gt("CÛdigo"));
+		page.setLabel(gt("C√≥digo"));
 		
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		status = new CheckBoxField(model,"status");
@@ -69,11 +69,11 @@ public class PageView extends View {
 		
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel(gt("AplicaÁ„o"));
+		env_fk.setLabel(gt("Aplica√ß√£o"));
 		
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		version = new ListField(model,"version");
-		version.setLabel(gt("Vers„o de P·gina"));
+		version.setLabel(gt("Vers√£o de P√°gina"));
 		
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		p_id = new HiddenField(model,"p_id");

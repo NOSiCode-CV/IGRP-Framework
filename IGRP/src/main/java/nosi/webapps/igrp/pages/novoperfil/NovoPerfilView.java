@@ -17,7 +17,7 @@ public class NovoPerfilView extends View {
 	public Field aplicacao;
 	public Field organica;
 	public Field perfil;
-	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -25,41 +25,41 @@ public class NovoPerfilView extends View {
 	public NovoPerfilView(NovoPerfil model){
 		this.setPageTitle("Registar Perfil");
 			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		
-		sectionheader_1_text.setValue(gt("Gest„o de Perfil - Novo"));
+		sectionheader_1_text.setValue(gt("Gest√£o de Perfil - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
-		
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
-		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("CÛdigo"));
 		
+		codigo = new TextField(model,"codigo");
+		codigo.setLabel(gt("C√≥digo"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		
 		activo = new CheckBoxField(model,"activo");
 		activo.setLabel(gt("Ativo?"));
-		
 		activo.propertie().add("name","p_activo").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		
 		nada = new SeparatorField(model,"nada");
 		nada.setLabel(gt(" "));
-		
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
+		
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
-		
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("OrganizaÁ„o"));
 		
+		organica = new ListField(model,"organica");
+		organica.setLabel(gt("Organiza√ß√£o"));
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil pai"));
-		
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_gravar = new IGRPButton("Gravar","igrp","NovoPerfil","gravar","submit","primary|fa-save","","");

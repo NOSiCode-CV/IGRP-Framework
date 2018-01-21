@@ -34,78 +34,81 @@
     </plsql>
     <content>
         <title>Page builder</title>
-        <quickbuttonbox_1 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+        <infopanel_1 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox_1_tit name="p_quickbuttonbox_1_tit" type="text" maxlength="4000" persist="true">
+                <infopanel_1_title name="p_infopanel_1_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>Report Designer</value>
-                </quickbuttonbox_1_tit>
-                <quickbuttonbox_1_val name="p_quickbuttonbox_1_val" type="text" maxlength="4000">
+                    <value>Report designer</value>
+                </infopanel_1_title>
+                <infopanel_1_val name="p_infopanel_1_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value></value>
-                </quickbuttonbox_1_val>
-                <quickbuttonbox_1_url name="p_quickbuttonbox_1_url" type="text" maxlength="4000">
-                    <label>Url</label>
+                </infopanel_1_val>
+                <infopanel_1_url name="p_infopanel_1_url" type="text" maxlength="4000" persist="true">
+                    <label>URL</label>
                     <value>webapps?r=igrp_studio/WebReport/index</value>
-                </quickbuttonbox_1_url>
-                <quickbuttonbox_1_bg name="p_quickbuttonbox_1_bg" type="text" maxlength="4000" persist="true">
+                </infopanel_1_url>
+                <infopanel_1_bg name="p_infopanel_1_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
                     <value>cp-black</value>
-                </quickbuttonbox_1_bg>
-                <quickbuttonbox_1_icn name="p_quickbuttonbox_1_icn" type="text" maxlength="4000" persist="true">
+                </infopanel_1_bg>
+                <infopanel_1_icn name="p_infopanel_1_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
                     <value>fa-file-text</value>
-                </quickbuttonbox_1_icn>
+                </infopanel_1_icn>
             </fields>
-        </quickbuttonbox_1>
-        <quickbuttonbox_2 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+        </infopanel_1>
+        <infopanel_2 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox_2_tit name="p_quickbuttonbox_2_tit" type="text" maxlength="4000" persist="true">
+                <infopanel_2_title name="p_infopanel_2_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
-                    <value>CRUD generator</value>
-                </quickbuttonbox_2_tit>
-                <quickbuttonbox_2_val name="p_quickbuttonbox_2_val" type="text" maxlength="4000">
+                    <value>BPMN designer</value>
+                </infopanel_2_title>
+                <infopanel_2_val name="p_infopanel_2_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value></value>
-                </quickbuttonbox_2_val>
-                <quickbuttonbox_2_url name="p_quickbuttonbox_2_url" type="text" maxlength="4000">
-                    <label>Url</label>
-                    <value>webapps?r=igrp_studio/CRUDGenerator/index</value>
-                </quickbuttonbox_2_url>
-                <quickbuttonbox_2_bg name="p_quickbuttonbox_2_bg" type="text" maxlength="4000" persist="true">
+                </infopanel_2_val>
+                <infopanel_2_url name="p_infopanel_2_url" type="text" maxlength="4000" persist="true">
+                    <label>URL</label>
+                    <value>webapps?r=igrp_studio/BPMNDesigner/index</value>
+                </infopanel_2_url>
+                <infopanel_2_bg name="p_infopanel_2_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
-                    <value>cp-irises</value>
-                </quickbuttonbox_2_bg>
-                <quickbuttonbox_2_icn name="p_quickbuttonbox_2_icn" type="text" maxlength="4000" persist="true">
+                    <value>cp-lavendar</value>
+                </infopanel_2_bg>
+                <infopanel_2_icn name="p_infopanel_2_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
-                    <value>fa-gears</value>
-                </quickbuttonbox_2_icn>
+                    <value>fa-sitemap</value>
+                </infopanel_2_icn>
             </fields>
-        </quickbuttonbox_2>
-        <quickbuttonbox_3 type="quickbuttonbox" xml-type="form" gen-type="container" gen-group="">
+        </infopanel_2>
+        <infopanel_3 type="infopanel" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <quickbuttonbox_3_tit name="p_quickbuttonbox_3_tit" type="text" maxlength="4000" persist="true">
+                <infopanel_3_title name="p_infopanel_3_title" type="text" maxlength="4000" persist="true">
                     <label>Title</label>
                     <value>Application builder</value>
-                </quickbuttonbox_3_tit>
-                <quickbuttonbox_3_val name="p_quickbuttonbox_3_val" type="text" maxlength="4000">
+                </infopanel_3_title>
+                <infopanel_3_val name="p_infopanel_3_val" type="text" maxlength="4000">
                     <label>Value</label>
                     <value></value>
-                </quickbuttonbox_3_val>
-                <quickbuttonbox_3_url name="p_quickbuttonbox_3_url" type="text" maxlength="4000">
-                    <label>Url</label>
-                    <value>webapps?r=igrp/ListaEnv/index</value>
-                </quickbuttonbox_3_url>
-                <quickbuttonbox_3_bg name="p_quickbuttonbox_3_bg" type="text" maxlength="4000" persist="true">
+                </infopanel_3_val>
+                <infopanel_3_url name="p_infopanel_3_url" type="text" maxlength="4000" persist="true">
+                    <label>URL</label>
+                    <value>webapps?r=igrp_studio/ListaEnv/index</value>
+                </infopanel_3_url>
+                <infopanel_3_bg name="p_infopanel_3_bg" type="text" maxlength="4000" persist="true">
                     <label>Background</label>
-                    <value>cp-cyan</value>
-                </quickbuttonbox_3_bg>
-                <quickbuttonbox_3_icn name="p_quickbuttonbox_3_icn" type="text" maxlength="4000" persist="true">
+                    <value>cp-starrynight</value>
+                </infopanel_3_bg>
+                <infopanel_3_icn name="p_infopanel_3_icn" type="text" maxlength="4000" persist="true">
                     <label>Icon</label>
-                    <value>fa-th-large</value>
-                </quickbuttonbox_3_icn>
+                    <value>fa-folder-open</value>
+                </infopanel_3_icn>
             </fields>
-        </quickbuttonbox_3>
+        </infopanel_3>
+        <box_2 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_2>
         <form_1 type="form" xml-type="form" title="Page builder" gen-type="container" gen-group="">
             <fields>
                 <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
@@ -131,17 +134,24 @@
                     </list>
                     <rules/>
                 </env_fk>
-                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
+                <link_btn_nova_pagina name="p_link_btn_nova_pagina" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="ListaEnv" app="igrp_studio" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
                     <label>Nova página</label>
-                    <value>http://ned.net/geinevit</value>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xsl</value>
                 </link_btn_nova_pagina>
+                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true">
+                    <label>CRUD generator</label>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl</value>
+                </crud_generator>
                 <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
                     <label>Importar</label>
-                    <value>http://zoihu.net/mawod</value>
+                    <value>http://dovfev.io/dub</value>
                 </btn_import>
             </fields>
         </form_1>
-        <table_1 type="table" xml-type="table" title="Lista de Páginas" gen-type="container" gen-group="true">
+        <box_1 type="box" xml-type="form" gen-type="container" gen-group="">
+            <fields/>
+        </box_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <descricao_page name="p_descricao_page" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Título</label>
@@ -158,8 +168,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Accusantium sed natus dolor do</descricao_page>
-                        <nome_page name="p_nome_page">Sed anim sit unde dolor</nome_page>
+                        <descricao_page name="p_descricao_page">Consectetur voluptatem ut volu</descricao_page>
+                        <nome_page name="p_nome_page">Natus amet aperiam unde ut</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -167,8 +177,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Ut natus aliqua elit unde</descricao_page>
-                        <nome_page name="p_nome_page">Perspiciatis amet aperiam adip</nome_page>
+                        <descricao_page name="p_descricao_page">Deserunt consectetur totam lau</descricao_page>
+                        <nome_page name="p_nome_page">Consectetur anim rem natus und</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -176,8 +186,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Sed aperiam ipsum voluptatem s</descricao_page>
-                        <nome_page name="p_nome_page">Perspiciatis consectetur labor</nome_page>
+                        <descricao_page name="p_descricao_page">Magna ipsum stract officia ape</descricao_page>
+                        <nome_page name="p_nome_page">Adipiscing officia aliqua labo</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -185,8 +195,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Natus adipiscing deserunt tota</descricao_page>
-                        <nome_page name="p_nome_page">Lorem ut amet dolor accusantiu</nome_page>
+                        <descricao_page name="p_descricao_page">Aperiam labore rem natus unde</descricao_page>
+                        <nome_page name="p_nome_page">Iste mollit omnis laudantium t</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -194,8 +204,8 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <descricao_page name="p_descricao_page">Aliqua natus adipiscing natus</descricao_page>
-                        <nome_page name="p_nome_page">Omnis mollit unde amet rem</nome_page>
+                        <descricao_page name="p_descricao_page">Voluptatem laudantium aperiam</descricao_page>
+                        <nome_page name="p_nome_page">Deserunt ipsum rem stract omni</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
@@ -250,7 +260,7 @@
         </table_1>
         <myapps_list type="table" xml-type="table" title="Minhas Aplicações" gen-type="container" gen-group="true">
             <fields>
-                <icon name="p_icon" type="img" persist="true" img="http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <icon name="p_icon" type="img" persist="true" img="images/IGRP/IGRP2.3/assets/img/jon_doe.jpg" width="" height="" croppie="false" rounded="false" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Icon</label>
                 </icon>
                 <aplicacao name="p_aplicacao" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="ListaPage" app="igrp_studio" class="link" btnSize="" iconColor="#333" iconClass="" img="fa-link" maxlength="30" align="left" lookup_parser="false" iskey="false" desc="true">
@@ -260,27 +270,27 @@
             <table>
                 <value>
                     <row>
-                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
-                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
-                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
-                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>
                     <row>
-                        <icon name="p_icon">http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</icon>
+                        <icon name="p_icon">images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</icon>
                         <aplicacao name="p_aplicacao" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listapage/ListaPage.xsl</aplicacao>
                         <aplicacao_desc name="p_aplicacao_desc">Aplicação</aplicacao_desc>
                     </row>

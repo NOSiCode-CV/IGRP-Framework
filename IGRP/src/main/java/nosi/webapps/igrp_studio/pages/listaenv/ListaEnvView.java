@@ -15,7 +15,7 @@ public class ListaEnvView extends View {
 	public Field dad;
 	public Field t_page_builder;
 	public Field p_id;
-	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -26,42 +26,43 @@ public class ListaEnvView extends View {
 	public IGRPButton btn_configurar_base_dados;
 	public IGRPButton btn_exportar;
 	public ListaEnvView(ListaEnv model){
-		this.setPageTitle("Lista de Aplicacao");
+		this.setPageTitle("App Builder");
 			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		table_1 = new IGRPTable("table_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		
 		sectionheader_1_text.setValue(gt("App builder"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("check","true").add("desc","true");
-		status_check = new CheckBoxField(model,"status_check");
-		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("check","true").add("desc","true");
+		status_check = new CheckBoxField
+		(model,"status_check");
+		status_check.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		name = new TextField(model,"name");
 		name.setLabel(gt("Nome"));
-		
 		name.propertie().add("name","p_name").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
-		dad = new TextField(model,"dad");
-		dad.setLabel(gt("Código"));
 		
+		dad = new TextField(model,"dad");
+		dad.setLabel(gt("CÃ³digo"));
 		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
 		t_page_builder = new LinkField(model,"t_page_builder");
 		t_page_builder.setLabel(gt("Page builder"));
+		t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaEnv").add("app","igrp_studio").add("class","warning").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-file-code-o").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		
-		t_page_builder.propertie().add("name","p_t_page_builder").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","ListaEnv").add("app","igrp").add("class","warning").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-file-code-o").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
-		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_importar = new IGRPButton("Importar","igrp_studio","ListaEnv","importar","modal|refresh","default|fa-upload","","");
 		btn_importar.propertie.add("type","specific").add("code","").add("rel","importar");
-		btn_novo = new IGRPButton("Nova aplicação","igrp_studio","ListaEnv","novo","modal|refresh","success|fa-plus","","");
+		btn_novo = new IGRPButton("Nova aplicaÃ§Ã£o","igrp_studio","ListaEnv","novo","modal|refresh","success|fa-plus","","");
 		btn_novo.propertie.add("type","specific").add("code","").add("rel","novo");
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaEnv","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");

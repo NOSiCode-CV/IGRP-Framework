@@ -21,7 +21,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-e0a1ae01">
+                                    <div class="row " id="row-d0a7d39b">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-7631bd8b">
+                                    <div class="row " id="row-9333d1ca">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -129,7 +129,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-60a50f28">
+                                    <div class="row " id="row-aab82683">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
@@ -154,7 +154,7 @@
                                                                                 <xsl:if test="rows/content/table_1/fields/checkbox">
                                                                                     <th class="bs-checkbox gen-fields-holder" align="center">
                                                                                         <span>Público</span>
-                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="checkbox" title="Público" data-toggle="tooltip"/>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="checkbox" data-title="Público" data-toggle="tooltip"/>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/t1_menu_principal">
@@ -197,11 +197,14 @@
                                                                                     <xsl:if test="checkbox">
                                                                                         <td align="" data-row="{position()}" data-title="{../../label/checkbox}" class="bs-checkbox" item-name="checkbox">
                                                                                             <xsl:if test="checkbox != '-0'">
-                                                                                                <input type="checkbox" name="p_checkbox" value="{checkbox}" check-rel="checkbox">
-                                                                                                    <xsl:if test="checkbox_check=checkbox">
-                                                                                                        <xsl:attribute name="checked">checked</xsl:attribute>
-                                                                                                    </xsl:if>
-                                                                                                </input>
+                                                                                                <label class="">
+                                                                                                    <input type="checkbox" name="p_checkbox" value="{checkbox}" check-rel="checkbox">
+                                                                                                        <xsl:if test="checkbox_check=checkbox">
+                                                                                                            <xsl:attribute name="checked">checked</xsl:attribute>
+                                                                                                        </xsl:if>
+                                                                                                    </input>
+                                                                                                    <span class="slider round"/>
+                                                                                                </label>
                                                                                             </xsl:if>
                                                                                         </td>
                                                                                     </xsl:if>
@@ -267,10 +270,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"Show org e menu pai","events":"load,ch
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1515323642397"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1515323642397"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1515323642397"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1515323642397"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1515323642397"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1515323642397"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516529147178"/>
 </xsl:stylesheet>

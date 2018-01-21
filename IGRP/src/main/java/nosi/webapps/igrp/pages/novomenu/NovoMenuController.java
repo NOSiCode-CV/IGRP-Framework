@@ -1,6 +1,5 @@
 
 package nosi.webapps.igrp.pages.novomenu;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -15,9 +14,10 @@ import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
 /*----#END-PRESERVED-AREA----*/
 
-public class NovoMenuController extends Controller {
+public class NovoMenuController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoMenu model = new NovoMenu();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -57,7 +57,7 @@ public class NovoMenuController extends Controller {
 		NovoMenuView view = new NovoMenuView(model);
 		HashMap<String, String> targets = new HashMap<>();
 		targets.put(null, gt("-- Selecionar Target --"));
-		targets.put("_self", gt("Mesma p·gina"));
+		targets.put("_self", gt("Mesma p√°gina"));
 		targets.put("_blank", gt("Popup"));
 		targets.put("_newtab", gt("New tab"));
 		targets.put("modal", gt("Modal"));
@@ -71,7 +71,7 @@ public class NovoMenuController extends Controller {
 
 		if (Core.isInteger(id) && !id.equals("0")) {
 			view.btn_gravar.setLink("gravar&p_id=" + id);
-			view.sectionheader_1_text.setValue("Gest„o Menu - Atualizar");
+			view.sectionheader_1_text.setValue("Gest√£o Menu - Atualizar");
 		}
 
 		else
@@ -80,7 +80,8 @@ public class NovoMenuController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoMenu model = new NovoMenu();
 		Menu menu;
@@ -136,9 +137,9 @@ public class NovoMenuController extends Controller {
 			} else {
 				menu = menu.insert();
 				if (menu != null) {
-					Igrp.getInstance().getFlashMessage().addMessage("success", gt("OperaÁ„o efetuada com sucesso"));
+					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Opera√ß√£o efetuada com sucesso"));
 				} else {
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao tentar efetuar esta operaÁ„o");
+					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao tentar efetuar esta opera√ß√£o");
 				}
 			}
 
@@ -153,7 +154,7 @@ public class NovoMenuController extends Controller {
 
 		/*----#END-PRESERVED-AREA----*/
 	}
-
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	/*----#END-PRESERVED-AREA----*/

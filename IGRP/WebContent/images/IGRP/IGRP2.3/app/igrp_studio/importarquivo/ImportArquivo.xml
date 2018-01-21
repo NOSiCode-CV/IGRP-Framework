@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl" type="text/xsl"?>
 <rows>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -15,11 +16,11 @@
         </button>
     </site>
     <page>ImportArquivo</page>
-    <app>igrp</app>
+    <app>igrp_studio</app>
     <plsql>
         <action>index</action>
         <package_instance>null</package_instance>
-        <package_db>nosi.webapps.igrp.pages</package_db>
+        <package_db>nosi.webapps.igrp_studio.pages</package_db>
         <package_html>ImportArquivo</package_html>
         <table_name></table_name>
         <with_replace>false</with_replace>
@@ -36,9 +37,7 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Importar Arquivos]]>
-                    </value>
+                    <value>Importar Arquivos</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -61,33 +60,27 @@
         <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Imporar Aplicação (.app.jar/.zip)]]>
-                    </value>
+                    <value>Imporar Aplicação (.app.jar/.zip)</value>
                 </sectionheader_2_text>
             </fields>
         </sectionheader_2>
         <sectionheader_3 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_3_text type="text" name="p_sectionheader_3_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Importar Página (.page.jar/.zip)]]>
-                    </value>
+                    <value>Importar Página (.page.jar/.zip)</value>
                 </sectionheader_3_text>
             </fields>
         </sectionheader_3>
         <sectionheader_4 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_4_text type="text" name="p_sectionheader_4_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Importar Jar File (.jar)]]>
-                    </value>
+                    <value>Importar Jar File (.jar)</value>
                 </sectionheader_4_text>
             </fields>
         </sectionheader_4>
         <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                <arquivo_aplicacao name="p_arquivo_aplicacao" type="file" maxlength="30" required="true" disabled="false" right="false" class="primary" accept="" targetrend="" multiple="false" rendvalue="false">
                     <label>Aplicação</label>
                     <value/>
                 </arquivo_aplicacao>
@@ -95,10 +88,10 @@
             <tools-bar>
                 <item type="form" code="" class="success" rel="btm_import_aplicacao">
                     <title>Import</title>
-                    <app>igrp</app>
+                    <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
                     <target>submit</target>
                     <img>success|fa-upload</img>
                 </item>
@@ -106,7 +99,7 @@
         </form_2>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false">
+                <list_aplicacao name="p_list_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -136,10 +129,10 @@
             <tools-bar>
                 <item type="form" code="" class="success" rel="btm_importar_page">
                     <title>Import</title>
-                    <app>igrp</app>
+                    <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
                     <target>submit</target>
                     <img>success|fa-upload</img>
                 </item>
@@ -155,10 +148,10 @@
             <tools-bar>
                 <item type="form" code="" class="success" rel="importar_jar_file">
                     <title>Importar</title>
-                    <app>igrp</app>
+                    <app>igrp_studio</app>
                     <page>ImportArquivo</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/importarquivo/ImportArquivo.xsl?</parameter>
+                    <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
                     <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>
