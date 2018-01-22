@@ -10,6 +10,10 @@ import java.util.List;
  */
 public class CustomVariableIGRP implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Rows> rows;
 
 	public CustomVariableIGRP() {

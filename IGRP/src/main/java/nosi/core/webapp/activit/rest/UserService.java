@@ -1,10 +1,13 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.Response;
 import com.google.gson.reflect.TypeToken;
-import com.sun.jersey.api.client.ClientResponse;
-
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -24,14 +27,20 @@ public class UserService extends Activit{
 	}
 
 	public UserService getUser(String id){
-		UserService d = new UserService();
-		ClientResponse response = new RestRequest().get("identity/users",id);
+		UserService d = this;
+		Response response = new RestRequest().get("identity/users",id);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
+				d = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -41,55 +50,73 @@ public class UserService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<UserService> getUsers(){
 		List<UserService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("identity/users");
+		Response response = this.request.get("identity/users");
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				UserService dep = (UserService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				UserService dep = (UserService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<UserService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
+				d = (List<UserService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<UserService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
-	public UserService create(UserService user){
-		UserService d = new UserService();
-		ClientResponse response = new RestRequest().post("identity/users",new RestRequest().convertDaoToJson(user));
+	public UserService create(){
+		UserService u = this;
+		Response response = this.request.post("identity/users",ResponseConverter.convertDaoToJson(this));
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==201){
-				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
+				u = (UserService) ResponseConverter.convertJsonToDao(contentResp,UserService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				u.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return u;
 	}
 	
 
-	public UserService update(UserService user){
-		UserService d = new UserService();
-		ClientResponse response = new RestRequest().put("identity/users",new RestRequest().convertDaoToJson(user),user.getId());
+	public UserService update(){
+		UserService u = this;
+		Response response = this.request.put("identity/users",ResponseConverter.convertDaoToJson(this),this.getId());
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (UserService) new RestRequest().convertJsonToDao(contentResp, UserService.class);
+				u = (UserService) ResponseConverter.convertJsonToDao(contentResp,UserService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				u.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return u;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = new RestRequest().delete("identity/users",id);
+		Response response = new RestRequest().delete("identity/users",id);
 		return response!=null && response.getStatus()==204;
 	}
 

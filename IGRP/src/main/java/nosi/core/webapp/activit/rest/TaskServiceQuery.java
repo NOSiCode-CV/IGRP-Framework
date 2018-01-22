@@ -1,12 +1,16 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
-import com.sun.jersey.api.client.ClientResponse;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -63,19 +67,25 @@ public class TaskServiceQuery extends TaskService {
 				e.printStackTrace();
 			}
 		}
-		ClientResponse response = new RestRequest().post("query/historic-task-instances?size=100000000",json_Variables.toString());
+		Response response = new RestRequest().post("query/historic-task-instances?size=100000000",json_Variables.toString());
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				TaskService dep = (TaskService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<TaskServiceQuery>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -92,19 +102,25 @@ public class TaskServiceQuery extends TaskService {
 				e.printStackTrace();
 			}
 		}
-		ClientResponse response = new RestRequest().post("historic-process-instances?size=100000000",json_Variables.toString());
+		Response response = new RestRequest().post("historic-process-instances?size=100000000",json_Variables.toString());
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				TaskService dep = (TaskService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				TaskService dep = (TaskService)ResponseConverter.convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<TaskServiceQuery>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
+				d = (List<TaskServiceQuery>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskServiceQuery>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
