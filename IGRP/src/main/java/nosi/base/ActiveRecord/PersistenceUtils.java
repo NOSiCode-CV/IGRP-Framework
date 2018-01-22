@@ -72,7 +72,7 @@ public class PersistenceUtils {
         	
         	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 
         	// For memory leak prevention and bad clients ... 
-        	cfg.getProperties().setProperty("hibernate.c3p0.unreturnedConnectionTimeout","40"); // 40 seconds 
+        	cfg.getProperties().setProperty("hibernate.c3p0.unreturnedConnectionTimeout","300"); // 300 seconds 
         	cfg.getProperties().setProperty("hibernate.c3p0.debugUnreturnedConnectionStackTraces","true"); 
         	cfg.getProperties().setProperty("hibernate.c3p0.contextClassLoaderSource","library"); 
         	cfg.getProperties().setProperty("hibernate.c3p0.privilegeSpawnedThreads","true"); 
