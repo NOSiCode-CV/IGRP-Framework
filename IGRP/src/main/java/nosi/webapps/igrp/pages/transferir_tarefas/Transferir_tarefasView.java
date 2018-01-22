@@ -37,14 +37,14 @@ public class Transferir_tarefasView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Transferência de Processos"));
+		sectionheader_1_text.setValue(gt("TransferÃªncia de Processos"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		numero_processo = new TextField(model,"numero_processo");
-		numero_processo.setLabel(gt("Número Processo"));
+		numero_processo.setLabel(gt("NÃºmero Processo"));
 		
 		numero_processo.propertie().add("name","p_numero_processo").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		codigo_processo = new TextField(model,"codigo_processo");
-		codigo_processo.setLabel(gt("Código Processo"));
+		codigo_processo.setLabel(gt("CÃ³digo Processo"));
 		
 		codigo_processo.propertie().add("name","p_codigo_processo").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		tipo_processo = new TextField(model,"tipo_processo");
@@ -52,11 +52,11 @@ public class Transferir_tarefasView extends View {
 		
 		tipo_processo.propertie().add("name","p_tipo_processo").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		data_criacao = new DateField(model,"data_criacao");
-		data_criacao.setLabel(gt("Data Criação"));
+		data_criacao.setLabel(gt("Data CriaÃ§Ã£o"));
 		
 		data_criacao.propertie().add("name","p_data_criacao").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_inicio = new DateField(model,"data_inicio");
-		data_inicio.setLabel(gt("Data Início"));
+		data_inicio.setLabel(gt("Data InÃ­cio"));
 		
 		data_inicio.propertie().add("name","p_data_inicio").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_fim = new DateField(model,"data_fim");
@@ -68,7 +68,7 @@ public class Transferir_tarefasView extends View {
 		
 		criado_por_.propertie().add("name","p_criado_por_").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		atribuido_por = new TextField(model,"atribuido_por");
-		atribuido_por.setLabel(gt("Atribuído Por"));
+		atribuido_por.setLabel(gt("AtribuÃ­do Por"));
 		
 		atribuido_por.propertie().add("name","p_atribuido_por").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		utilizador_actual = new TextField(model,"utilizador_actual");
