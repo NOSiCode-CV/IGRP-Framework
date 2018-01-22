@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.errorpage;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import java.io.IOException;

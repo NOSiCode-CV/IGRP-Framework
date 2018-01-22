@@ -13,7 +13,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
