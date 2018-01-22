@@ -174,7 +174,7 @@ public class IgrpOAuth2SSO extends HttpServlet {
 						if(!rs.next()) { // insert the user to the current igrp database 
 							PreparedStatement ps2 = conn.prepareStatement(
 									"insert into tbl_user(activation_key, auth_key, created_at, email, pass_hash, status, updated_at, user_name, name) "
-									+ "values(?, ?, ?, ?, ?, ?, ?, ?,?)", Statement.RETURN_GENERATED_KEYS);
+									+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 							authenticationKey = User.generateAuthenticationKey();
 							
 							try {

@@ -49,12 +49,12 @@ public class LoginController extends Controller {
 				if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
 					user.setStatus(1);
 					user = user.update();
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activa��o bem sucedida. Fa�a o login !!!"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
 				}else {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activa��o."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
 				}
 			}catch(Exception e) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activa��o."));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
 			}
 			return redirect("igrp", "login", "login");
 		}
@@ -168,12 +168,12 @@ public class LoginController extends Controller {
 						success = true;
 					}
 					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inv�lido."));
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido."));
 			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe est� incorreta. Se n�o se lembra da sua palavra-passe, contacte o Administrador."));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador."));
 		return success;
 	}
 	
@@ -212,7 +212,7 @@ public class LoginController extends Controller {
 						}
 						else {
 							success = false;
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inv�lido ..."));
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
 						}
 				}
 				else {
@@ -273,12 +273,12 @@ public class LoginController extends Controller {
 					
 				}else {
 					success = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta n�o tem acesso ao IGRP. Por favor, contacte o Administrador."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
 				}
 				
 			}
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe est� incorreta."));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
 		
 		return success;
 	}
