@@ -26,10 +26,10 @@ public class NovoDominioView extends View {
 		form_1 = new IGRPForm("form_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Gest„o de Dominio - Novo"));
+		sectionheader_1_text.setValue(gt("Gest√£o de Dom√≠nio - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		dominio = new TextField(model,"dominio");
-		dominio.setLabel(gt("DomÌnio"));
+		dominio.setLabel(gt("Dom√≠nio"));
 		dominio.propertie().add("name","p_dominio").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		valor = new TextField(model,"valor");
 		valor.setLabel(gt("Valor"));

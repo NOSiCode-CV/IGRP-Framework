@@ -22,21 +22,21 @@ public class NovaOrganicaView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public NovaOrganicaView(NovaOrganica model){
-		this.setPageTitle("Registar Organica");
+		this.setPageTitle("Registar Org√¢nica");
 			
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		
-		sectionheader_1_text.setValue(gt("Gestao de Organica - Novo"));
+		sectionheader_1_text.setValue(gt("Gest√£o de Org√¢nica - Novo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
 		
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","60").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("CÛdigo"));
+		codigo.setLabel(gt("C√≥digo"));
 		
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		ativo = new CheckBoxField(model,"ativo");
@@ -48,11 +48,11 @@ public class NovaOrganicaView extends View {
 		
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		organizacao_pai = new ListField(model,"organizacao_pai");
-		organizacao_pai.setLabel(gt("OrganizaÁ„o pai"));
+		organizacao_pai.setLabel(gt("Organiza√ß√£o pai"));
 		
 		organizacao_pai.propertie().add("name","p_organizacao_pai").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 

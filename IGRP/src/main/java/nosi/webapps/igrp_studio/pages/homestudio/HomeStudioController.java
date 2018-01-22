@@ -4,11 +4,8 @@ import nosi.core.config.Config;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
-import nosi.webapps.igrp.dao.User;
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -31,7 +28,7 @@ public class HomeStudioController extends Controller {
 		HomeStudioView view = new HomeStudioView(model);
 		Config.type_header = "home";
 		Config.LINK_MY_APPS = "webapps?r=igrp/env/myApps&type=dev";
-		view.form_1.setTitle("Minhas Aplicações");
+		view.form_1.setTitle("Minhas Aplicaï¿½ï¿½es");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

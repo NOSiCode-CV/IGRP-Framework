@@ -38,11 +38,11 @@ public class NovoUtilizadorView extends View {
 		nada.propertie().add("name","p_nada").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
 		
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicacao"));
+		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","int");
 		
 		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organica"));
+		organica.setLabel(gt("Orgânica"));
 		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","int");
 		
 		perfil = new ListField(model,"perfil");

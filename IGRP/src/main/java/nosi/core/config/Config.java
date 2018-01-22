@@ -338,7 +338,7 @@ public class Config {
 		if(config.insert()!=null){
 			System.out.println("IGRP foi instalado com sucesso!");
 		}else{
-			System.err.println("Nao foi possivel concluir a instacao do IGRP!");
+			System.err.println("Nao foi possivel concluir a instação do IGRP!");
 		}
 	}
 

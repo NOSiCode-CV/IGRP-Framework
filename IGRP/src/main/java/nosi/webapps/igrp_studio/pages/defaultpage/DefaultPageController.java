@@ -4,9 +4,7 @@ import nosi.webapps.igrp.pages.home.HomeAppView;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.User;
 
 public class DefaultPageController extends Controller {
 	

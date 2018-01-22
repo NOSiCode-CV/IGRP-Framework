@@ -7,7 +7,6 @@ import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
 /*----#END-PRESERVED-AREA----*/
 

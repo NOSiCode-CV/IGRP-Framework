@@ -2,8 +2,6 @@
 package nosi.webapps.igrp_studio.pages.homestudio;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
-import nosi.core.gui.fields.*;
-import static nosi.core.i18n.Translator.gt;
 
 public class HomeStudioView extends View {
 	
