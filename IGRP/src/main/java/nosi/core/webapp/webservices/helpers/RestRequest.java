@@ -1,29 +1,43 @@
 package nosi.core.webapp.webservices.helpers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.text.ParseException;
+import java.util.Base64;
 import java.util.List;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import javax.servlet.http.Part;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientResponse;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart; 
+import org.glassfish.jersey.media.multipart.MultiPart; 
+import org.glassfish.jersey.media.multipart.MultiPartFeature; 
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart; 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
 import nosi.core.webapp.helpers.UrlHelper;
 import nosi.webapps.igrp.dao.Config;
-import com.sun.jersey.api.client.ClientResponse;
+
 
 /**
  * @author: Emanuel Pereira
@@ -33,83 +47,184 @@ import com.sun.jersey.api.client.ClientResponse;
 
 public class RestRequest{
 	
-	public String BASE_URL = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
-	public String USERNAME = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
-	public String PASSWORD = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
-	public String ACCEPT_FORMAT = MediaType.APPLICATION_JSON;
-	public String CONTENT_TYPE = MediaType.APPLICATION_JSON;
+	private String base_url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
+	private String username = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
+	private String password = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
+	private String accept_format = MediaType.APPLICATION_JSON;
+	private String content_type = MediaType.APPLICATION_JSON;
+	private ConfigurationRequest config;
 	
-	public  ClientResponse get(String url, Object id) {
+	public RestRequest() {
+		config = new ConfigurationRequest(this);
+	}	
+	
+	public  Response get(String url, Object id) {
 		try {
-			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(this.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
-	        url = this.BASE_URL + url;
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
-	        ClientResponse response = resource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);	
-	        client.destroy();
-	   	 	return response;
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+	        Response response = target.request(this.getAccept_format()).get(Response.class);
+	        client.close();
+	        return response;
 		}catch(Exception e){ 
+			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public ClientResponse get(String url) {
+	public Response get(String url) {
 		try {
-			ClientConfig config = new DefaultClientConfig();
-	        Client client = Client.create(this.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
-	        url = this.BASE_URL + url;
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
-	        ClientResponse response = resource.accept(ACCEPT_FORMAT).get(ClientResponse.class);
-		    client.destroy();
-	   	 	return response;
-		}catch(Exception e){
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl());
+	        Response response = target.request(this.getAccept_format()).get(Response.class);
+	        client.close();
+	        return response;
+		}catch(Exception e){ 
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
+	public Response post(String url, Part file) throws IOException {		
+	    StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+	    MultiPart multiPart = new MultiPart().bodyPart(stream,MediaType.APPLICATION_OCTET_STREAM_TYPE);
+//	    if (multiPart instanceof FormDataMultiPart) {
+//	        final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+			WebTarget target = client.target(this.getConfig().getUrl());
+			Response response = target.request().post(Entity.entity(multiPart,multiPart.getMediaType()));
+			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+	            System.out.println(response.ok(response).build().toString());
+	        } else {
+	        	System.err.println(response.serverError().toString());
+	        }
+//	        formDataMultiPart.close();
+//	        dataMultiPart.close();
+//	    }
+//		final StreamDataBodyPart stream = new StreamDataBodyPart(file.getSubmittedFileName(), file.getInputStream());
+//		 WebClient webClient = WebClient.create(this.BASE_URL+url).header("Authorization",new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
+//         webClient.encoding("UTF-8");
+//         webClient.type(MediaType.MULTIPART_FORM_DATA);
+//         try {
+//			ContentDisposition cd = new ContentDisposition("attachment;filename="+file.getName());
+//	         Attachment att = new Attachment("root", file.getInputStream());
+//	         
+//	         javax.ws.rs.core.Response response = webClient.post(new MultipartBody(att));
+//	         System.out.println(response);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		 final FormDataBodyPart p = new FormDataBodyPart(FormDataContentDisposition.name("part").build(), "CONTENT");
+//		final MultiPart multipart = new MultiPart()
+//		        .bodyPart(new BodyPart(stream, MediaType.APPLICATION_OCTET_STREAM_TYPE))
+//		        .bodyPart(p);
+		
+//		final FormDataMultiPart multipart = (FormDataMultiPart) new FormDataMultiPart()
+//			    .field("file bpmn", file.getSubmittedFileName())
+//			    .bodyPart(stream);
+//		javax.ws.rs.client.Client client = javax.ws.rs.client.ClientBuilder.newClient();
+//		client.register(LoggingFilter.class);
+//		WebTarget webTarget = client.target(this.BASE_URL).path(url);
+//		final Response response = webTarget.request().post(Entity.entity(multipart, multipart.getMediaType()));
+//		System.out.println(response);
+//		ClientConfig config = new DefaultClientConfig();			 
+//        Client client = Client.create(this.applySslSecurity(config));	   
+//        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+//        url = this.BASE_URL + url;	        
+//        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	   
+//        ClientResponse response = resource.accept(ACCEPT_FORMAT).post(ClientResponse.class, Entity.entity(multipart, multipart.getMediaType()));
+//        System.out.println(response);
+//        client.destroy();
+//        try {
+//			multiPartEntity.close();
+//	        multiPartEntity.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		final WebTarget target = // Create WebTarget.
+//		final Response response = target
+//		        .request()
+//		        .post(Entity.entity(multiPartEntity, multiPartEntity.getMediaType()));
+//		RestRequest req = new RestRequest();
+//	    final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
+//	    client.addFilter(new HTTPBasicAuthFilter(req.USERNAME, req.PASSWORD));
+//	    
+//	    final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+//        FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+//        final MultiPart multiPart = formDataMultiPart.field("fileName", file.getSubmittedFileName()).bodyPart(stream);
+//        if (multiPart instanceof FormDataMultiPart) {
+//            final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
+//            final WebTarget target = client.target(req.BASE_URL+"repository/deployments");
+//		    final Response response = target.request().post(Entity.entity(dataMultiPart, dataMultiPart.getMediaType()));
+//		    System.out.println(response);
+//            formDataMultiPart.close();
+//            dataMultiPart.close();
+//            file.delete();
+//        }	
+//		try {
+//			ClientConfig config = new DefaultClientConfig();			 
+//	        Client client = Client.create(this.applySslSecurity(config));	   
+//	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+//	        url = this.BASE_URL + url;	        
+//	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	   
+//	        final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+//	        final FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+//	        final MultiPart multiPart = formDataMultiPart.field("fileName", file.getSubmittedFileName()).bodyPart(stream);
+//	        
+//	        if (multiPart instanceof FormDataMultiPart) {
+//	            final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
+//	            ClientResponse response = resource.accept(ACCEPT_FORMAT).post(ClientResponse.class, Entity.entity(dataMultiPart, dataMultiPart.getMediaType()));
+//	            client.destroy();
+//	            formDataMultiPart.close();
+//	            dataMultiPart.close();
+//	            file.delete();
+//		        return response;
+//	        }	
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+	   return null;
+	}
+	
 
-	public ClientResponse post(String url, String content) {
+	public Response post(String url, String content) {
+		
 		try {
-			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(this.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
-	        url = this.BASE_URL + url;	        
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	        
-	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
-	        client.destroy();
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl());
+	        Response response = target.request(this.getAccept_format()).post(Entity.json(content));
+	        client.close();
+	        return response;	      
+		}catch(Exception e){
+		}
+	   return null;
+	}
+	
+	public Response post(String url, String content,Object id) {
+		try {
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+	        Response response = target.request(this.getAccept_format()).post(Entity.json(content));
+	        client.close();
 	        return response;
 		}catch(Exception e){
 		}
 	   return null;
 	}
 	
-
-	public ClientResponse post(String url, String content,Object id) {
-		try {
-			ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(this.applySslSecurity(config));	   
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
-	        url = this.BASE_URL + url;	        
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));	        
-	        ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).post(ClientResponse.class, content);			
-	        client.destroy();
-	        return response;
-		}catch(Exception e){
-		}
-	   return null;
-	}
-	
-	public ClientResponse put(String url,String content){
+	public Response put(String url,String content){
 		try{
-		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(this.applySslSecurity(config));	
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));            
-	        url = this.BASE_URL + url;	               
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));
-			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
-	 	    client.destroy();
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl());
+	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
+	        client.close();
 	        return response;
 		}catch(Exception e){
 		}
@@ -117,116 +232,80 @@ public class RestRequest{
 	}
 	
 
-	public ClientResponse put(String url,String content, Object id){
+	public Response put(String url,String content, Object id){
 		try{
-		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(this.applySslSecurity(config));
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));	            
-	        url = this.BASE_URL + url;	               
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
-			ClientResponse response = resource.accept(ACCEPT_FORMAT).type(CONTENT_TYPE).put(ClientResponse.class, content);			
-	 	    client.destroy();
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+	        Response response = target.request(this.getAccept_format()).put(Entity.json(content));
+	        client.close();
 	        return response;
 		}catch(Exception e){
 		}
 	   return null;
 	}
 	
-	public ClientResponse delete(String url,Object id){
+	public Response delete(String url,Object id){
 		try{
-		    ClientConfig config = new DefaultClientConfig();			 
-	        Client client = Client.create(this.applySslSecurity(config));	     
-	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));       
-	        url = this.BASE_URL + url;	               
-	        WebResource resource = client.resource(UrlHelper.urlEncoding(url)).path(String.valueOf(id));
-			ClientResponse response = resource.accept(ACCEPT_FORMAT).delete(ClientResponse.class);			
-	 	    client.destroy();
+			Client client = this.getConfig().bluidClient();
+			this.addUrl(url);
+	        WebTarget target = client.target(this.getConfig().getUrl()).path(String.valueOf(id));
+	        Response response = target.request(this.getAccept_format()).delete();
+	        client.close();
 	        return response;
 		}catch(Exception e){
 		}
 	   return null;
 	}
 	
-	public String convertDaoToJson(Object dao) {
-		Gson gson = new Gson();
-		return gson.toJson(dao);
+	public void addUrl(String url){
+		this.base_url += url;
 	}
-	
-	public Object convertJsonToDao(String jsonResult, Class<?> dao) {
-		Object response = null;
-		try {
-			JSONObject jsonObject = new JSONObject(jsonResult);
-			Gson gson = new Gson();
-			response = gson.fromJson(jsonObject.toString(), dao);
-		} catch (JSONException e) {
-		}
-		return response;
+	public String getBase_url() {
+		return base_url;
 	}
-	
-	public <T> List<? extends Object> convertJsonToListDao(String jsonResult, Type type) {
-		List<? extends Object> list = null;
-		Gson gson = new Gson();
-		list = gson.fromJson(jsonResult, type);
-		return list;
-	}
-	
-	public <T> List<? extends Object> convertJsonToListDao(String jsonResult,String keySearch, Type type) {
-		List<? extends Object> list = null;
-		try {
-			JSONObject jsonObject = new JSONObject(jsonResult);
-			if(jsonObject.has(keySearch)) {
-				JSONArray aux = jsonObject.getJSONArray(keySearch);
-				Gson gson = new Gson();
-				list = gson.fromJson(aux.toString(), type);
-			}
-		} catch (JSONException e) {
-		}
-		return list;
-	}
-	public ClientConfig applySslSecurity(ClientConfig clientConfig) {
-		SSLContext sslContext = this.createSslContext();
-		if(sslContext != null) {
-			clientConfig.getProperties()
-	        .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
-	                new HTTPSProperties(
-	                        new HostnameVerifier() {
-								public boolean verify(String hostname, SSLSession session) {
-									return true;
-								}
-							},
-	                        sslContext));
-			}
-		return clientConfig;
-	}
-	
-	private SSLContext createSslContext() {
-		SSLContext sslContext = null;
-		try {
-			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, this.createTrustManager(), new java.security.SecureRandom());// new java.security.SecureRandom()
-		} catch (NoSuchAlgorithmException | KeyManagementException e) {
-		}
-		return sslContext;
-	}
-	
-	private TrustManager[] createTrustManager() {
-		return new TrustManager[]{
-                new X509TrustManager() {
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-                    public void checkClientTrusted(
-                            final java.security.cert.X509Certificate[] arg0, final String arg1)
-                            throws CertificateException {
-                        // do nothing and blindly accept the certificate
-                    }
-                    public void checkServerTrusted(
-                            final java.security.cert.X509Certificate[] arg0, final String arg1)
-                            throws CertificateException {
-                        // do nothing and blindly accept the server
-                    }
 
-                }
-        };
+	public void setBase_url(String base_url) {
+		this.base_url = base_url;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getAccept_format() {
+		return accept_format;
+	}
+
+	public void setAccept_format(String accept_format) {
+		this.accept_format = accept_format;
+	}
+
+	public String getContent_type() {
+		return content_type;
+	}
+
+	public void setContent_type(String content_type) {
+		this.content_type = content_type;
+	}
+
+	public ConfigurationRequest getConfig() {
+		return config;
+	}
+
+	public void setConfig(ConfigurationRequest config) {
+		this.config = config;
 	}
 }

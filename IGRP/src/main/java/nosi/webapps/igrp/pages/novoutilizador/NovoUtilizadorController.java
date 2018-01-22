@@ -104,7 +104,7 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setFirstName(u.getName());
 					userActiviti0.setLastName("");
 					userActiviti0.setEmail(u.getEmail());
-					userActiviti0.create(userActiviti0);	
+					userActiviti0.create();	
 					new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
 					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Opera��o efetuada com sucesso"));
 				}else{
@@ -202,7 +202,7 @@ public class NovoUtilizadorController extends Controller {
 						userActiviti0.setFirstName(u.getName());
 						userActiviti0.setLastName("");
 						userActiviti0.setEmail(u.getEmail());
-						userActiviti0.create(userActiviti0);	
+						userActiviti0.create();	
 						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
 						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Opera��o efetuada com sucesso"));
 					}else{

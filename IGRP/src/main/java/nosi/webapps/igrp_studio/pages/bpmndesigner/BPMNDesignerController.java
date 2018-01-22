@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.webapps.igrp.dao.Application;
@@ -55,8 +56,8 @@ public class BPMNDesignerController extends Controller {
 		Core.setMessageInfo("Botão Gravar"); 
 		Core.setMessageSuccess();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
-		System.out.println(data);
-		
+		DeploymentService deploy = new DeploymentService();
+		deploy.create(data);
 		return this.redirect("igrp_studio","BPMNDesigner","index");
 		/*----#END-PRESERVED-AREA----*/
 	}

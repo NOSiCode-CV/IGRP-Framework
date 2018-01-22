@@ -4,30 +4,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-
+import javax.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import nosi.core.webapp.User;
-
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.RestRequest;
 import java.util.Base64;
 import java.util.Properties;
 /**
@@ -98,11 +94,18 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					String token = null;
 					
 					// Jersey Client 1.0 -> Deprecated 
-					Client client = Client.create();
-					WebResource webResource = client.resource(endpoint);
-					ClientResponse r = webResource.type("application/json").post(ClientResponse.class, postData);
-					result = r.getEntity(String.class);
+					RestRequest req = new RestRequest();
+					req.setBase_url("");
+//					Client client = Client.create();
+//					WebResource webResource = client.resource(endpoint);
+					Response r = req.post(endpoint,postData);
 					if(r.getStatus() != 200) {
+						InputStream is = (InputStream) r.getEntity();
+						try {
+							result = FileHelper.convertToString(is);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						System.out.println("Error: " + result);
 						response.sendError(r.getStatus(), "An error occured ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 						return;
@@ -116,14 +119,18 @@ public class IgrpOAuth2SSO extends HttpServlet {
 					}
 					
 					String userEndpoint = endpoint.replace("oauth2/token", "user/" + username);
-					ClientResponse r2 = client.resource(userEndpoint).get(ClientResponse.class);
-					
+					Response r2 = req.post(userEndpoint,postData);
 					if(r2.getStatus() != 200) {
+						InputStream is = (InputStream) r2.getEntity();
+						try {
+							result = FileHelper.convertToString(is);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 						System.out.println("Error (2): " + result);
 						response.sendError(r.getStatus(), "An error occured ! Please contact the Administrator or send mail to <nositeste@nosi.cv>.");
 						return;
 					}
-					result = r2.getEntity(String.class);
 					
 					System.out.println(result);
 					

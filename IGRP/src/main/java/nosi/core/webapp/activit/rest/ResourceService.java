@@ -1,11 +1,15 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
-import com.sun.jersey.api.client.ClientResponse;
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -22,82 +26,104 @@ public class ResourceService {
 	private String type;
 	@Expose(serialize=false,deserialize=false)
 	private ResponseError error;
-	
+	@Expose(serialize=false,deserialize=false)
+	private RestRequest request;
 	public ResourceService() {
-		// TODO Auto-generated constructor stub
+		this.request  = new RestRequest();
 	}
 	
 
 	public ResourceService getResource(String id_deployment,String id_resource){
-		ResourceService d = new ResourceService();
-		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources",id_resource);
+		ResourceService r = this;
+		Response response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources",id_resource);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (ResourceService) new RestRequest().convertJsonToDao(contentResp, ResourceService.class);
+				r = (ResourceService) ResponseConverter.convertJsonToDao(contentResp,ResourceService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				r.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return r;
 	}
 	
 
 	public String getResourceData(String id_deployment,String id_resource){
-		RestRequest request = new RestRequest();
-		request.ACCEPT_FORMAT = MediaType.APPLICATION_XML;
-		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
+		this.request.setAccept_format(MediaType.APPLICATION_XML);
+		Response response = this.request.get("repository/deployments/"+id_deployment+"/resourcedata/",id_resource);
 		if(response!=null){
 			if(response.getStatus()==200) {
-				return response.getEntity(String.class);
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return contentResp;
 			}
 		}
 		return "";
 	}
 	
 	public String getResourceData(String link){
-		RestRequest request = new RestRequest();
-		request.ACCEPT_FORMAT = MediaType.APPLICATION_XML;
-		request.BASE_URL = "";
-		ClientResponse response = request.get(link);
+		this.request.setBase_url(url);
+		Response response = this.request.get(link);
 		if(response!=null){
 			if(response.getStatus()==200) {
-				return response.getEntity(String.class);
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return contentResp;
 			}
 		}
 		return "";
 	}
 	
-	public String getResourceData(String link,String format,String username,String password){
-		RestRequest request = new RestRequest();
-		request.ACCEPT_FORMAT = format;
-		request.USERNAME = username;
-		request.PASSWORD = password;
-		request.BASE_URL = "";
-		ClientResponse response = request.get(link);
-		if(response!=null){
-			if(response.getStatus()==200) {
-				return response.getEntity(String.class);
-			}
-		}
-		return "";
-	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<ResourceService> getResources(String id_deployment){
 		List<ResourceService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources");
+		Response response = new RestRequest().get("repository/deployments/"+id_deployment+"/resources");
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (List<ResourceService>) new RestRequest().convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
+				d = (List<ResourceService>) ResponseConverter.convertJsonToListDao(contentResp, new TypeToken<List<ResourceService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
+	
+	
+	public RestRequest getRequest() {
+		return request;
+	}
+
+
+	public void setRequest(RestRequest request) {
+		this.request = request;
+	}
+
+
 	public String getId() {
 		return id;
 	}

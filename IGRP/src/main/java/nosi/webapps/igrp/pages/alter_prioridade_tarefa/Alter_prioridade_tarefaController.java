@@ -23,7 +23,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("--- Escolher Prioridade ---"));
 		listPrioridade.put("100", "Urgente");
-		listPrioridade.put("50", "Médio");
+		listPrioridade.put("50", "Mï¿½dio");
 		listPrioridade.put("0", "Normal");
 		
 		Alter_prioridade_tarefa model = new Alter_prioridade_tarefa();
@@ -56,14 +56,14 @@ public class Alter_prioridade_tarefaController extends Controller {
 			TaskService task = new TaskService().getTask(model.getP_id());
 			if(task!=null){
 				task.setPriority(Integer.parseInt(model.getNova_prioridade()));
-				task = task.update(task);
+				task = task.update();
 				if(task!=null){
 					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Prioridade da tarefa alterada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));				
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));				
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));				
 			}
 		}
 		if(type!=null && type.equalsIgnoreCase("view")){

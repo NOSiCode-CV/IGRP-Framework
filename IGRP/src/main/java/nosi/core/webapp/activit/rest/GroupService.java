@@ -1,14 +1,16 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
-import com.sun.jersey.api.client.ClientResponse;
-
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
-import nosi.core.webapp.webservices.helpers.RestRequest;
 
 /**
  * @author: Emanuel Pereira
@@ -21,68 +23,92 @@ public class GroupService extends Activit{
 	}
 	
 	public GroupService getGroup(String id){
-		GroupService d = new GroupService();
-		ClientResponse response = new RestRequest().get("identity/groups",id);
+		GroupService g = this;
+		Response response = this.request.get("identity/groups",id);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
+				g = (GroupService) ResponseConverter.convertJsonToDao(contentResp,GroupService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				g.setError((ResponseError)ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return g;
 	}
 
 
 	@SuppressWarnings("unchecked")
 	public List<GroupService> getGroups(){
 		List<GroupService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("identity/groups");
+		Response response = this.request.get("identity/groups");
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				GroupService dep = (GroupService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				GroupService dep = (GroupService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<GroupService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<GroupService>>(){}.getType());
+				d = (List<GroupService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<GroupService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
-	public GroupService create(GroupService group){
-		GroupService d = new GroupService();
-		ClientResponse response = new RestRequest().post("identity/groups",new RestRequest().convertDaoToJson(group));
+	public GroupService create(){
+		GroupService g = this;
+		Response response = this.request.post("identity/groups",ResponseConverter.convertDaoToJson(this));
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==201){
-				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
+				g = (GroupService) ResponseConverter.convertJsonToDao(contentResp,GroupService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				g.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return g;
 	}
 	
 
-	public GroupService update(GroupService group){
-		GroupService d = new GroupService();
-		ClientResponse response = new RestRequest().put("identity/groups",new RestRequest().convertDaoToJson(group),group.getId());
+	public GroupService update(){
+		GroupService g = this;
+		Response response = this.request.put("identity/groups",ResponseConverter.convertDaoToJson(this),this.getId());
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (GroupService) new RestRequest().convertJsonToDao(contentResp, GroupService.class);
+				g  = (GroupService) ResponseConverter.convertJsonToDao(contentResp,GroupService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				g.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return d;
+		return g;
 	}
 	
 	public int addUser(String idGroup,String user){
@@ -92,7 +118,7 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = new RestRequest().post("identity/groups/"+idGroup+"/members",jobj.toString());
+		Response response = this.request.post("identity/groups/"+idGroup+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
@@ -103,15 +129,14 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = new RestRequest().post("identity/groups/"+this.getId()+"/members",jobj.toString());
+		Response response = this.request.post("identity/groups/"+this.getId()+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = new RestRequest().delete("identity/groups",id);
+		Response response = this.request.delete("identity/groups",id);
 		return response!=null && response.getStatus()==204;
-	}
-	
+	}	
 	
 	public String getType() {
 		return type;

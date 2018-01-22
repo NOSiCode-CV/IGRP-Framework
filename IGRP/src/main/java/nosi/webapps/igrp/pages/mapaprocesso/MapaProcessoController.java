@@ -70,38 +70,40 @@ public class MapaProcessoController extends Controller {
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
+			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nï¿½ "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
-		if(formData!=null && formData.getFormProperties()!=null && formData.getFormProperties().size() > 0) {
+		if(formData != null) {
+			Action action = new Action().find().andWhere("page", "=",formData.getFormKey()).one();
+			if(formData.getFormKey() !=null && action !=null) {
+				Config.TITLE = title;			
+				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
+				String content = resp.getContent();
+				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {
+					String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
+					XMLWritter xml = new XMLWritter();
+					xml.startElement("item");
+					xml.writeAttribute("rel","iniciar_processo");
+					xml.writeAttribute("type","specific");
+					xml.writeAttribute("code", "");
+					xml.setElement("title","Iniciar Processo");
+					xml.setElement("app","igrp");
+					xml.setElement("page","ExecucaoTarefas");
+					String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
+					xml.setElement("link","igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
+					xml.setElement("target","submit");
+					xml.setElement("img", "primary|fa-arrow-right");
+					xml.endElement();
+					result += xml.toString();
+					result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
+					return this.renderView(result);
+				}
+				return this.renderView(resp.getContent());	
+			}
 			String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
 			return this.renderView(content);
-		}else {
-			Config.TITLE = title;			
-			Action action = new Action().find().andWhere("page", "=",StringHelper.camelCaseFirst(formData.getFormKey())).one();
-			Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
-			String content = resp.getContent();
-			if(content.indexOf("xml-type=\"toolsbar\"") > 0) {
-				String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
-				XMLWritter xml = new XMLWritter();
-				xml.startElement("item");
-				xml.writeAttribute("rel","iniciar_processo");
-				xml.writeAttribute("type","specific");
-				xml.writeAttribute("code", "");
-				xml.setElement("title","Iniciar Processo");
-				xml.setElement("app","igrp");
-				xml.setElement("page","ExecucaoTarefas");
-				String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
-				xml.setElement("link","igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
-				xml.setElement("target","submit");
-				xml.setElement("img", "primary|fa-arrow-right");
-				xml.endElement();
-				result += xml.toString();
-				result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
-				return this.renderView(result);
-			}
-			return this.renderView(resp.getContent());
-		}		
+		}
+		return null;
 	}
 
 
@@ -126,10 +128,10 @@ public class MapaProcessoController extends Controller {
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel(gt("Nome Ficheiro"));
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel(gt("Descrição"));
+		prm_file_description.setLabel(gt("Descriï¿½ï¿½o"));
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel(gt("Descrição"));
+		prm_file_description_desc.setLabel(gt("Descriï¿½ï¿½o"));
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel(gt("Ficheiro"));
 		prm_file.propertie().add("rel", "prm_doc_list").add("maxlength", 300);
@@ -186,7 +188,7 @@ public class MapaProcessoController extends Controller {
 					if(!prop.getWritable())
 						field.propertie().add("readonly", "true");
 					if(prop.getType().endsWith("enum")){
-						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opção ---")));
+						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opï¿½ï¿½o ---")));
 					}
 					field.setLabel(gt(StringHelper.camelCase(prop.getName())));
 					form.addField(field);

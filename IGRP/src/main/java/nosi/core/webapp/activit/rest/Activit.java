@@ -1,8 +1,8 @@
 package nosi.core.webapp.activit.rest;
 
 import com.google.gson.annotations.Expose;
-
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import nosi.core.webapp.webservices.helpers.RestRequest;
 
 /**
  * Yma
@@ -28,7 +28,11 @@ public class Activit {
 	private Integer size;
 	@Expose(serialize=false,deserialize=false)
 	private String filter;
+	@Expose(serialize=false,deserialize=false)
+	protected RestRequest request;
+	
 	public Activit() {
+		this.request = new RestRequest();
 	}
 
 	public String getId() {

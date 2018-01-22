@@ -1,12 +1,15 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.ws.rs.core.MediaType;
+import javax.servlet.http.Part;
+import javax.ws.rs.core.Response;
 import com.google.gson.reflect.TypeToken;
-import com.sun.jersey.api.client.ClientResponse;
-
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -24,14 +27,20 @@ public class DeploymentService extends Activit{
 	}
 
 	public DeploymentService getDeployment(String id){
-		DeploymentService d = new DeploymentService();
-		ClientResponse response = new RestRequest().get("repository/deployments/",id);
+		DeploymentService d = this;
+		Response response = this.request.get("repository/deployments/",id);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (DeploymentService) new RestRequest().convertJsonToDao(contentResp, DeploymentService.class);
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp,DeploymentService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -41,57 +50,73 @@ public class DeploymentService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<DeploymentService> getDeployments(){
 		List<DeploymentService> d = new ArrayList<>();
-		ClientResponse response = new RestRequest().get("repository/deployments?&size=100000000");
+		Response response = this.request.get("repository/deployments?&size=100000000");
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				DeploymentService dep = (DeploymentService) new RestRequest().convertJsonToDao(contentResp, this.getClass());
+				DeploymentService dep = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
 				this.setOrder(dep.getOrder());
 				this.setStart(dep.getStart());
-				d = (List<DeploymentService>) new RestRequest().convertJsonToListDao(contentResp,"data", new TypeToken<List<DeploymentService>>(){}.getType());
+				d = (List<DeploymentService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<DeploymentService>>(){}.getType());
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
-	
-	public DeploymentService create(DeploymentService deploy){
-		deploy.setId(null);
-		DeploymentService d = new DeploymentService();
-		new RestRequest().CONTENT_TYPE = MediaType.MULTIPART_FORM_DATA;
-		ClientResponse response = new RestRequest().post("repository/deployments",new RestRequest().convertDaoToJson(deploy));
-		if(response!=null){
-			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==201){
-				d = (DeploymentService) new RestRequest().convertJsonToDao(contentResp, DeploymentService.class);
-			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
-			}
-		}
-		return d;
-	}
-	
 
-	public DeploymentService update(DeploymentService deploy){
-		DeploymentService d = new DeploymentService();
-		ClientResponse response = new RestRequest().post("repository/deployments",new RestRequest().convertDaoToJson(deploy));
+	public DeploymentService create(Part file) throws IOException {
+	   DeploymentService d = this;
+       Response response = new RestRequest().post("repository/deployments",file);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
-			if(response.getStatus()==200){
-				d = (DeploymentService) new RestRequest().convertJsonToDao(contentResp, DeploymentService.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==201){
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
 			}else{
-				d.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		file.delete();
+		return d;
+	}
+	
+	public DeploymentService update(){
+		DeploymentService d = this;
+		Response response = new RestRequest().post("repository/deployments",ResponseConverter.convertDaoToJson(this));
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==200){
+				d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp,DeploymentService.class);
+			}else{
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
 	}
 	
 	public boolean delete(String id){
-		ClientResponse response = new RestRequest().delete("repository/deployments",id);
+		Response response = new RestRequest().delete("repository/deployments",id);
 		return response!=null && response.getStatus()==204;
 	}
 
@@ -111,5 +136,6 @@ public class DeploymentService extends Activit{
 	public void setTenantId(String tenantId) {
 		this.tenantId = tenantId;
 	}
+
 
 }

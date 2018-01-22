@@ -1,14 +1,16 @@
 package nosi.core.webapp.activit.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
+import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
-import com.sun.jersey.api.client.ClientResponse;
-
+import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
 
@@ -45,14 +47,20 @@ public class FormDataService {
 	}
 	
 	private FormDataService getFormData(String id, String type) {
-		FormDataService d = new FormDataService();
-		ClientResponse response = new RestRequest().get(type.equalsIgnoreCase("taskId")?"form/form-data?taskId="+id:"form/form-data?processDefinitionId="+id);
+		FormDataService d = this;
+		Response response = new RestRequest().get(type.equalsIgnoreCase("taskId")?"form/form-data?taskId="+id:"form/form-data?processDefinitionId="+id);
 		if(response!=null){
-			String contentResp = response.getEntity(String.class);
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200){
-				d = (FormDataService) new RestRequest().convertJsonToDao(contentResp,FormDataService.class);
+				d = (FormDataService) ResponseConverter.convertJsonToDao(contentResp,FormDataService.class);
 			}else{
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return d;
@@ -87,14 +95,19 @@ public class FormDataService {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ClientResponse response = new RestRequest().post("form/form-data", json.toString());
+		Response response = new RestRequest().post("form/form-data", json.toString());
 		if(response!=null){
 			if(response.getStatus()==200 || response.getStatus()==204){
 				return true;
 			}else{
-				String contentResp = response.getEntity(String.class);
-				System.err.println(contentResp);
-				this.setError((ResponseError) new RestRequest().convertJsonToDao(contentResp, ResponseError.class));
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
 		return false;
