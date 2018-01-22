@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import static nosi.core.i18n.Translator.gt;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.ForeignKey;

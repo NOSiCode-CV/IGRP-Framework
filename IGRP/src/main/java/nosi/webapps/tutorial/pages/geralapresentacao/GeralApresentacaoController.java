@@ -3,8 +3,6 @@ package nosi.webapps.tutorial.pages.geralapresentacao;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import nosi.core.webapp.Core;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
 

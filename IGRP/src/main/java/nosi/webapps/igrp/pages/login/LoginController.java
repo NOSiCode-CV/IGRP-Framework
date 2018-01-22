@@ -1,11 +1,9 @@
 package nosi.webapps.igrp.pages.login;
 
 import nosi.core.config.Config;
-import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
-import nosi.core.mail.EmailMessage;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -51,12 +49,12 @@ public class LoginController extends Controller {
 				if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
 					user.setStatus(1);
 					user = user.update();
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activaï¿½ï¿½o bem sucedida. Faï¿½a o login !!!"));
 				}else {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activaï¿½ï¿½o."));
 				}
 			}catch(Exception e) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activaï¿½ï¿½o."));
 			}
 			return redirect("igrp", "login", "login");
 		}
@@ -170,12 +168,12 @@ public class LoginController extends Controller {
 						success = true;
 					}
 					else
-						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login inválido."));
+						Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um INTERNAL_ERROR ... Login invï¿½lido."));
 			}
 			else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Utilizador desativado. Por favor contacte o Administrador."));
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta. Se não se lembra da sua palavra-passe, contacte o Administrador."));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe estï¿½ incorreta. Se nï¿½o se lembra da sua palavra-passe, contacte o Administrador."));
 		return success;
 	}
 	
@@ -214,7 +212,7 @@ public class LoginController extends Controller {
 						}
 						else {
 							success = false;
-							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login inválido ..."));
+							Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Login invï¿½lido ..."));
 						}
 				}
 				else {
@@ -275,12 +273,12 @@ public class LoginController extends Controller {
 					
 				}else {
 					success = false;
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta não tem acesso ao IGRP. Por favor, contacte o Administrador."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Esta conta nï¿½o tem acesso ao IGRP. Por favor, contacte o Administrador."));
 				}
 				
 			}
 		}else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe estï¿½ incorreta."));
 		
 		return success;
 	}
