@@ -13,7 +13,6 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -62,7 +61,7 @@ public class ConfigDatabaseController extends Controller {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
 			} else {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Falha na Conex„o Com a Base de Dados"));
+						gt("Falha na Conex√£o Com a Base de Dados"));
 			}
 		}
 		return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
@@ -89,7 +88,7 @@ public class ConfigDatabaseController extends Controller {
 			m.load();
 			if (!MigrationIGRP.validate(m)) {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Falha na Conex„o Com a Base de Dados"));
+						gt("Falha na Conex√£o Com a Base de Dados"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 			boolean check = new Config_env().find().andWhere("name", "=", config.getName()).one() == null;
@@ -99,11 +98,11 @@ public class ConfigDatabaseController extends Controller {
 					this.saveConfigHibernateFile(config);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO,
-							gt("Nome da conex„o: ") + config.getName());
+							gt("Nome da conex√£o: ") + config.getName());
 					return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 				}
 			} else {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt("Nome de conxe„o j· existe"));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt("Nome da conex√£o j√° existe"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 		}

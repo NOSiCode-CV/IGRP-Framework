@@ -1,6 +1,6 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="UTF-8" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -10,7 +10,7 @@
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
-                <style/>
+                <style>.box{    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}</style>
             </head>
             <body class="{$bodyClass} sidebar-off">
                 <xsl:call-template name="IGRP-topmenu"/>
@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-45cb5fbc">
+                                    <div class="row " id="row-22afe4de">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -86,7 +86,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_aplicacao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-ac2992b2">
+                                                                <div class="row " id="row-ab4c0b3a">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_2">
@@ -139,7 +139,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_pagina/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-d3a3889c">
+                                                                <div class="row " id="row-aa5ae4a2">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_3">
@@ -214,7 +214,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/importar_jar_file/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-582a6cbb">
+                                                                <div class="row " id="row-af3492f5">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_4">
@@ -282,9 +282,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1510939054362"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1510939054362"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1510939054362"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1510939054362"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1510939054362"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516546348039"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516546348039"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516546348039"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516546348039"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516546348039"/>
 </xsl:stylesheet>

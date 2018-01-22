@@ -37,21 +37,19 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestão Menu - Novo]]>
-                    </value>
+                    <value>Gestão Menu - Novo</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+                <parameter>undefined</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
@@ -105,11 +103,11 @@
                 </detalhes>
                 <descr name="p_descr" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Doloremque laudantium elit rem anim</value>
+                    <value>Consectetur sit elit ipsum anim</value>
                 </descr>
                 <orderby name="p_orderby" type="number" min="" max="" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
                     <label>Ordem</label>
-                    <value>29</value>
+                    <value>1</value>
                 </orderby>
                 <self_id name="p_self_id" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="int">
                     <label>Menu pai</label>
@@ -164,7 +162,7 @@
                 </target>
                 <link name="p_link" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Link (Procedure)</label>
-                    <value>Elit rem sit consectetur accus</value>
+                    <value>Sit sed sit aperiam officia</value>
                 </link>
                 <flg_base name="p_flg_base" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Público?</label>

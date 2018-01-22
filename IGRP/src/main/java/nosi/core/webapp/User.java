@@ -12,7 +12,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
 
 import nosi.core.webapp.helpers.Permission;

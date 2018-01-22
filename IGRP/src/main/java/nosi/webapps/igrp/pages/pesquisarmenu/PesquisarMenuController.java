@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -16,7 +15,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.ProfileType;
 
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -126,9 +124,9 @@ public class PesquisarMenuController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("OperaÃ§Ã£o efetuada com sucesso"));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao tentar efetuar esta operação"));
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao tentar efetuar esta operaÃ§Ã£o"));
 
 		return this.redirect("igrp", "PesquisarMenu", "index");
 		/*----#END-PRESERVED-AREA----*/

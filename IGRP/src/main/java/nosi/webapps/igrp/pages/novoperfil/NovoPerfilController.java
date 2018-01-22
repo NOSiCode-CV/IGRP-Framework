@@ -74,12 +74,12 @@ public class NovoPerfilController extends Controller {
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
 				group.create(group);
-				Core.setMessageSuccess(gt("OperaÁ„o efetuada com sucesso"));
+				Core.setMessageSuccess(gt("Opera√ß√£o efetuada com sucesso"));
 				Core.setMessageInfoLink(gt("Click aqui para atribuir menu para o perfil " + pt.getDescr()), "igrp",
 						"MenuOrganica", "index&target=_blank&id=" + pt.getId() + "&type=perfil");
 				return this.redirect("igrp", "novo-perfil", "index");
 			} else {
-				Core.setMessageError(gt("Falha ao tentar efetuar esta operaÁ„o"));
+				Core.setMessageError(gt("Falha ao tentar efetuar esta opera√ß√£o"));
 			}
 			return this.redirect("igrp", "novo-perfil", "index");
 		}
@@ -107,7 +107,7 @@ public class NovoPerfilController extends Controller {
 		}
 
 		NovoPerfilView view = new NovoPerfilView(model);
-		view.sectionheader_1_text.setValue("Gest„o de Perfil - Atualizar");
+		view.sectionheader_1_text.setValue("Gest√£o de Perfil - Atualizar");
 		view.btn_gravar.setLink("editar_&p_id=" + id);
 		view.aplicacao.setValue(new Application().getListApps());
 		/*

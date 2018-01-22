@@ -37,9 +37,7 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestão Menu]]>
-                    </value>
+                    <value>Gestão Menu</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -123,7 +121,7 @@
                 <ativo name="p_ativo" type="plaintext" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Ativo</label>
                 </ativo>
-                <checkbox name="p_checkbox" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" check="true" desc="true">
+                <checkbox name="p_checkbox" type="checkbox" maxlength="30" align="center" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
                     <label>Público</label>
                 </checkbox>
                 <t1_menu_principal name="p_t1_menu_principal" type="plaintext" maxlength="100" align="left" lookup_parser="false" iskey="false">
@@ -144,12 +142,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <ativo name="p_ativo">Rem ipsum voluptatem amet laud</ativo>
+                        <ativo name="p_ativo">Iste unde magna lorem sit dese</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <t1_menu_principal name="p_t1_menu_principal">Labore totam sit anim unde anim sit rem consectetur accusantium officia magna rem omnis lorem</t1_menu_principal>
-                        <table_titulo name="p_table_titulo">Sit natus adipiscing natus iste perspiciatis aliqua perspiciatis sit natus voluptatem officia unde i</table_titulo>
-                        <pagina name="p_pagina">Aliqua natus accusantium perspiciatis elit stract elit totam magna sed dolor laudantium adipiscing s</pagina>
+                        <t1_menu_principal name="p_t1_menu_principal">Sit iste ipsum elit elit sit sit iste totam sed accusantium omnis doloremque magna rem</t1_menu_principal>
+                        <table_titulo name="p_table_titulo">Magna amet voluptatem accusantium lorem natus consectetur laudantium totam perspiciatis laudantium v</table_titulo>
+                        <pagina name="p_pagina">Adipiscing sed officia omnis deserunt stract mollit doloremque officia adipiscing deserunt totam sit</pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -157,12 +155,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <ativo name="p_ativo">Unde aperiam accusantium adipi</ativo>
+                        <ativo name="p_ativo">Totam officia amet deserunt do</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <t1_menu_principal name="p_t1_menu_principal">Officia stract omnis lorem deserunt magna rem sed stract omnis anim amet perspiciatis ut anim</t1_menu_principal>
-                        <table_titulo name="p_table_titulo">Mollit doloremque aperiam natus totam deserunt magna deserunt mollit ut sit perspiciatis amet omnis</table_titulo>
-                        <pagina name="p_pagina">Laudantium rem stract ut omnis anim perspiciatis lorem unde mollit perspiciatis elit rem accusantium</pagina>
+                        <t1_menu_principal name="p_t1_menu_principal">Ipsum deserunt anim deserunt sit sit accusantium adipiscing laudantium deserunt stract deserunt elit</t1_menu_principal>
+                        <table_titulo name="p_table_titulo">Adipiscing voluptatem aliqua natus doloremque perspiciatis omnis labore iste stract totam dolor ut p</table_titulo>
+                        <pagina name="p_pagina">Elit stract consectetur unde amet aliqua deserunt lorem deserunt omnis lorem sit lorem ut deserunt</pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -170,12 +168,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <ativo name="p_ativo">Doloremque rem labore accusant</ativo>
+                        <ativo name="p_ativo">Natus deserunt totam iste unde</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <t1_menu_principal name="p_t1_menu_principal">Iste voluptatem sit consectetur ut dolor accusantium officia voluptatem aliqua stract magna aliqua i</t1_menu_principal>
-                        <table_titulo name="p_table_titulo">Ipsum sit officia laudantium dolor magna sed perspiciatis accusantium deserunt sed laudantium iste a</table_titulo>
-                        <pagina name="p_pagina">Ut deserunt omnis sed mollit dolor iste totam voluptatem stract doloremque anim natus rem magna</pagina>
+                        <t1_menu_principal name="p_t1_menu_principal">Labore sit ipsum aliqua ut accusantium labore deserunt doloremque accusantium consectetur mollit ame</t1_menu_principal>
+                        <table_titulo name="p_table_titulo">Sed mollit adipiscing deserunt magna dolor magna voluptatem elit adipiscing deserunt sed perspiciati</table_titulo>
+                        <pagina name="p_pagina">Accusantium laudantium rem consectetur aliqua magna unde totam anim ut iste sit amet laudantium anim</pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -183,12 +181,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <ativo name="p_ativo">Magna sit consectetur dolor la</ativo>
+                        <ativo name="p_ativo">Amet anim labore lorem deserun</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <t1_menu_principal name="p_t1_menu_principal">Stract perspiciatis laudantium perspiciatis voluptatem dolor officia aperiam rem labore sit amet off</t1_menu_principal>
-                        <table_titulo name="p_table_titulo">Doloremque lorem laudantium mollit officia ut consectetur mollit laudantium mollit natus accusantium</table_titulo>
-                        <pagina name="p_pagina">Dolor mollit ut totam consectetur adipiscing amet lorem magna laudantium mollit aperiam ipsum elit a</pagina>
+                        <t1_menu_principal name="p_t1_menu_principal">Magna amet omnis mollit officia aliqua sed totam adipiscing lorem natus rem unde mollit labore</t1_menu_principal>
+                        <table_titulo name="p_table_titulo">Voluptatem lorem labore consectetur perspiciatis accusantium aliqua sit officia iste rem accusantium</table_titulo>
+                        <pagina name="p_pagina">Rem deserunt consectetur lorem ipsum ut mollit labore rem unde labore omnis unde dolor mollit</pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -196,12 +194,12 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <ativo name="p_ativo">Amet consectetur labore mollit</ativo>
+                        <ativo name="p_ativo">Consectetur accusantium labore</ativo>
                         <checkbox name="p_checkbox" check="true" desc="true">1</checkbox>
                         <checkbox_desc name="p_checkbox_desc">1</checkbox_desc>
-                        <t1_menu_principal name="p_t1_menu_principal">Anim sit officia mollit consectetur elit mollit unde sit aperiam accusantium deserunt adipiscing und</t1_menu_principal>
-                        <table_titulo name="p_table_titulo">Amet doloremque aperiam sit ut aliqua magna dolor consectetur aperiam dolor mollit aperiam sed labor</table_titulo>
-                        <pagina name="p_pagina">Magna rem ipsum consectetur iste unde ut ipsum unde doloremque stract amet mollit sed deserunt</pagina>
+                        <t1_menu_principal name="p_t1_menu_principal">Officia totam aperiam anim iste natus adipiscing sit consectetur perspiciatis ut accusantium iste se</t1_menu_principal>
+                        <table_titulo name="p_table_titulo">Iste labore iste dolor anim adipiscing mollit sed ipsum sed ut adipiscing aliqua rem perspiciatis</table_titulo>
+                        <pagina name="p_pagina">Stract consectetur natus ut sit unde doloremque sed laudantium natus stract accusantium laudantium a</pagina>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

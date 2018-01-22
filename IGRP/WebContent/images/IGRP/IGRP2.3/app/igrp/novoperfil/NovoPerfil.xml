@@ -37,9 +37,7 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestão de Perfil - Novo]]>
-                    </value>
+                    <value>Gestão de Perfil - Novo</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -58,11 +56,11 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome</label>
-                    <value>Dolor laudantium aliqua natus</value>
+                    <value>Doloremque mollit elit anim om</value>
                 </nome>
                 <codigo name="p_codigo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Sed dolor labore magna dolorem</value>
+                    <value>Adipiscing doloremque dolor do</value>
                 </codigo>
                 <activo name="p_activo" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo?</label>

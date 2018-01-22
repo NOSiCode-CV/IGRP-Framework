@@ -62,7 +62,7 @@ public class WebReportView extends View {
 		data_source.setValue("");
 		data_source.propertie().add("name","p_data_source").add("type","button").add("target_fields","").add("iconColor","#333").add("iconClass","").add("img","fa-database").add("maxlength","50");
 		env_fk = new ListField(model,"env_fk");
-		env_fk.setLabel(gt("Aplicação"));
+		env_fk.setLabel(gt("AplicaÃ§Ã£o"));
 		env_fk.setValue("");
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		datasorce_app = new ListField(model,"datasorce_app");
@@ -114,7 +114,7 @@ public class WebReportView extends View {
 		link.setValue("");
 		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("target_fields","").add("action","index").add("page","WebReport").add("app","igrp").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("DescriÃ§Ã£o"));
 		descricao.setValue("");
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		id = new NumberField(model,"id");

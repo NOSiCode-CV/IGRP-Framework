@@ -14,7 +14,7 @@ package nosi.core.gui.components;
  */
 import nosi.core.xml.XMLWritter;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.LinkField;
@@ -60,7 +60,7 @@ public class IGRPMessage {
 			this.result.startElement("message");
 			this.result.writeAttribute("type", "info");
 			String []m = msg.split("/#RESERVE#/");
-			this.result.text(StringEscapeUtils.escapeXml("<a href=\""+m[1]+"\">"+m[0]+"</a>"));
+			this.result.text(StringEscapeUtils.escapeXml10("<a href=\""+m[1]+"\">"+m[0]+"</a>"));
 			this.result.endElement();
 		}
 		

@@ -1,10 +1,7 @@
 /*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.mapaprocesso;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 
 public class MapaProcesso extends Model{		
 	@RParam(rParamName = "p_mapa_processo_text")

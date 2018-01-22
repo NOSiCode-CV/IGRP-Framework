@@ -55,8 +55,8 @@ public class NovaOrganicaController extends Controller {
 			organization.setName(model.getNome());
 			organization = organization.insert();
 			if(organization!=null){
-				Core.setMessageSuccess(gt("Orgânica registada com sucesso"));
-				Core.setMessageInfoLink(gt("Atribuir menu para Orgânica: "+organization.getName()),"igrp", "MenuOrganica", "index&target=_blank&id="+organization.getId()+"&type=org");
+				Core.setMessageSuccess(gt("OrgÃ¢nica registada com sucesso"));
+				Core.setMessageInfoLink(gt("Atribuir menu para OrgÃ¢nica: "+organization.getName()),"igrp", "MenuOrganica", "index&target=_blank&id="+organization.getId()+"&type=org");
 			}else
 				Core.setMessageError(gt("Ocorreu um erro."));			
 		return this.redirect("igrp", "nova-organica", "index");
@@ -83,7 +83,7 @@ public class NovaOrganicaController extends Controller {
 		NovaOrganicaView view = new NovaOrganicaView(model);		
 		view.aplicacao.setValue(new Application().getListApps());		
 		//view.organica_pai.setValue(model.getAplicacao() != 0 ? organization.getListOrganizations() : null);		
-		view.sectionheader_1_text.setValue(gt("Gestão de Orgânica - Atualizar"));	
+		view.sectionheader_1_text.setValue(gt("GestÃ£o de OrgÃ¢nica - Atualizar"));	
 		view.organizacao_pai.setVisible(false);
 		view.btn_gravar.setLink("editar_&p_id=" + idOrganica);	
 		return this.renderView(view);
@@ -113,7 +113,7 @@ public class NovaOrganicaController extends Controller {
 			organization.setStatus(model.getAtivo());
 			organization = organization.update();
 			if(organization!=null){
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Orgânica actualizada com sucesso."));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OrgÃ¢nica actualizada com sucesso."));
 			}else
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Erro ao atualizar."));
 			return this.redirect("igrp", "nova-organica", "editar", new String[]{"p_id"}, new String[]{organization.getId() + ""});

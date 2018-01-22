@@ -7,21 +7,16 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
 import nosi.core.webapp.helpers.JarUnJarFile;
-import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 
 import nosi.webapps.igrp.dao.Profile;
-import nosi.webapps.igrp.dao.ProfileType;
-
-import nosi.webapps.igrp.dao.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static nosi.core.i18n.Translator.gt;
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -50,7 +44,7 @@ public class ListaPageController extends Controller {
 		model.load();
 
 		model.setBtn_import("igrp_studio", "ImportArquivo", "index&target=_blank");
-
+		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank");
 		model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank");
 
 		String app = Igrp.getInstance().getRequest().getParameter("app");
@@ -63,8 +57,9 @@ public class ListaPageController extends Controller {
 
 		if (Core.isNotNull(model.getEnv_fk())) {
 			model.setBtn_import("igrp_studio", "ImportArquivo",
-					"index&target=_blank&app=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
+					"index&target=_blank&p_list_aplicacao=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
 			model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());
+          	model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank&p_aplicacao=" + model.getEnv_fk());
 		}
 
 		List<Action> actions = a.find().andWhere("application", "=",
@@ -78,10 +73,8 @@ public class ListaPageController extends Controller {
 			table1.setP_id_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
 			table1.setDescricao_page(ac.getPage_descr());
-			if (ac.getStatus() == 1) {
-				// table1.setStatus_page_check(ac.getStatus());
-				// table1.setStatus_page(ac.getStatus());
-			}
+          	 table1.setStatus_page_check(1);
+			 table1.setStatus_page(ac.getStatus());
 			lista.add(table1);
 		}
 
@@ -99,13 +92,12 @@ public class ListaPageController extends Controller {
 				Action ac = p.getOrganization().getApplication().getAction();
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
-			myapps.setIcon(
-					Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
+			myapps.setIcon(Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
 			apps.add(myapps);
 		}
-
+		//model.setInfopanel_3_val(""+apps.size());
 		ListaPageView view = new ListaPageView(model);
 		view.p_id_page.setParam(true);
 		view.env_fk.setValue(new Application().getListApps());
@@ -142,7 +134,7 @@ public class ListaPageController extends Controller {
 		/*----#START-PRESERVED-AREA(VISUALIZAR)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
-			return this.forward("igrp", "Page", "visualizar&target=_blank&p_id=" + p_id_page);
+			return this.redirect("igrp", "Page", "visualizar&target=_blank&p_id=" + p_id_page);
 		}
 		return this.redirect("igrp", "Page", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/

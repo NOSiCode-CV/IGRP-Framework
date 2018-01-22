@@ -37,9 +37,7 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Configuração de base de dados]]>
-                    </value>
+                    <value>Configuração de base de dados</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -67,7 +65,7 @@
             <fields>
                 <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: DEVNOSI" right="false">
                     <label>Nome de conexão</label>
-                    <value>Adipiscing aliqua lorem stract</value>
+                    <value>Perspiciatis voluptatem totam</value>
                 </nome_de_conexao>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Aplicação</label>
@@ -118,15 +116,15 @@
                 </config>
                 <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: nosidev02.gov.cv" right="false">
                     <label>Hostname</label>
-                    <value>Aperiam sit labore consectetur aliqua</value>
+                    <value>Rem lorem perspiciatis lorem stract</value>
                 </hostname>
                 <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="" java-type="">
                     <label>Porta</label>
-                    <value>14</value>
+                    <value>3</value>
                 </port>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Iste lorem ipsum rem dolor</value>
+                    <value>Mollit adipiscing aliqua natus iste</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
@@ -134,23 +132,21 @@
                 </password>
                 <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: devnosi.gov.cv" right="false">
                     <label>Nome de Bade Dados</label>
-                    <value>Voluptatem rem doloremque ipsum amet</value>
+                    <value>Sit accusantium natus sit consectetur</value>
                 </nome_de_bade_dados>
             </fields>
         </form_1>
         <paragraph_1 type="paragraph" xml-type="form" title="Example" gen-type="container" gen-group="">
             <fields>
                 <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[DEVNOSI =
+                    <value>DEVNOSI =
  (DESCRIPTION = 
  (ADDRESS = (PROTOCOL = TCP) (HOST = nosidev02.gov.cv) (PORT=1521))
 (CONNECT_DATA =
      (SERVER = DEDICATED)
      SERVICE_NAME = devnosi.gov.cv)
    )
-)]]>
-                    </value>
+)</value>
                 </paragraph_1_text>
             </fields>
         </paragraph_1>

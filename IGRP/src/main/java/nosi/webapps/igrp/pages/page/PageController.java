@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,11 +58,11 @@ public class PageController extends Controller {
 				model.setStatus(a.getStatus());
 			}
 			isEdit = true;
-		}
+		}else
+			model.setStatus(1);
 		PageView view = new PageView(model);
-		view.env_fk.setValue(new Application().getListApps());
-		view.status.setValue(1);
-      view.gen_auto_code.setValue(1);
+		view.env_fk.setValue(new Application().getListApps());	
+		view.gen_auto_code.setValue(1);
 		view.version.setValue(Config.getVersions());
 		view.version.setVisible(false);
 
@@ -105,10 +105,11 @@ public class PageController extends Controller {
 				action = action.update();
 				if (action != null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-							gt("Página atualizada com sucesso."));
+							gt("PÃ¡gina atualizada com sucesso."));
 				else
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
 				return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] { idPage + "" });
+//				_________________________________________________
 			} else {
 				// New page
 				action.setAction("index");
@@ -167,42 +168,40 @@ public class PageController extends Controller {
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
+			
 			String path_class_work_space = Config.getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
 			path_class = Config.getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
-				if (FileHelper.saveFilesJava(path_class, ac.getPage(),
-						new Part[] { fileModel, fileView, fileController })
-						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),
-								new Part[] { fileXml, fileXsl, fileJson })) {
+				FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
+				if (FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController })
+						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })) {
 					error += this.processCompile(path_class, ac.getPage());
-
+					
 					if (error.equals("") || error == null) {// Check if not error on the compilation class
-						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
+						error = new Gson().toJson(new MapErrorCompile("CompilaÃ§Ã£o efetuada com sucesso", null));
 						if (FileHelper.fileExists(Config.getWorkspace())) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
 									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-									FileHelper.ENCODE_CP1252);// ENCODE_CP1252 for default encode eclipse
-							FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),
-									new Part[] { fileXml, fileXsl, fileJson });
+									FileHelper.ENCODE_UTF8);// ENCODE_CP1252 for default encode eclipse
 						}
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
 								+ "/" + ac.getPage() + ".xsl");
 						ac.update();
 						this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml(error) + "</message></messages>");
+						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 					}
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml(error) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 	}
 
 	private void deleteFilesInMemory(Part[] content) throws IOException {
@@ -221,7 +220,7 @@ public class PageController extends Controller {
 			if (!compiler.compile(files)) {
 				Map<String, List<ErrorCompile>> er = compiler.getErrors().stream()
 						.collect(Collectors.groupingBy(ErrorCompile::getFileName));
-				errors = new Gson().toJson(new MapErrorCompile("Falha na compilação", er));
+				errors = new Gson().toJson(new MapErrorCompile("Falha na compilaÃ§Ã£o", er));
 			}
 		} catch (IOException | URISyntaxException e) {
 			e.printStackTrace();
@@ -408,7 +407,7 @@ public class PageController extends Controller {
 				}
 			}
 		}
-		your_code = StringEscapeUtils.escapeXml(your_code);
+		your_code = StringEscapeUtils.escapeXml10(your_code);
 		return this.renderView("<your_code>" + your_code + "</your_code>");
 	}
 
@@ -433,10 +432,20 @@ public class PageController extends Controller {
 	// View page with xml
 	public Response actionVisualizar() throws IOException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (p_id != null && !p_id.equals("")) {
+		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac), ac.getPage() + ".xml");
+				String content = FileHelper.readFile(Config.getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+				int index1 = content.indexOf("?>");
+				int index2 = content.indexOf("<site>");
+				if(index1 > 0 && index2 > 0){
+					String xsl_src = Config.getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
+					String c = content.substring(0,index1+"?>".length());
+					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
+					c += "<rows><link_img>"+Config.getLinkImg()+"</link_img>";
+					c += content.substring(index2);
+					return this.renderView(c);
+				}
 				return this.renderView(content);
 			}
 		}

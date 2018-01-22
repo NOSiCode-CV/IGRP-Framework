@@ -260,22 +260,25 @@ public class FileHelper {
 	public static String readFileFromServer(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
 		fileName = basePath+File.separator+fileName;
-		try {
-			ServletContext context = Igrp.getInstance().getServlet().getServletContext();
-			InputStream is = context.getResourceAsStream(fileName);			
-		    String         ls = System.getProperty("line.separator");
-		    String         line = null;
-		    DataInputStream in = new DataInputStream(is);   
-		    BufferedReader d = new BufferedReader(new InputStreamReader(in));
-		    while((line=d.readLine())!=null){
-		    	code.append(line);
-		    	code.append(ls);
-		    }
-		    is.close();
-		    in.close();
-		    d.close();
-		} catch (IOException e) {
-			System.err.println(e.getMessage());
+		System.out.println(fileName);
+		if(fileExists(fileName)) {
+			try {
+				ServletContext context = Igrp.getInstance().getServlet().getServletContext();
+				InputStream is = context.getResourceAsStream(fileName);			
+			    String         ls = System.getProperty("line.separator");
+			    String         line = null;
+			    DataInputStream in = new DataInputStream(is);   
+			    BufferedReader d = new BufferedReader(new InputStreamReader(in));
+			    while((line=d.readLine())!=null){
+			    	code.append(line);
+			    	code.append(ls);
+			    }
+			    is.close();
+			    in.close();
+			    d.close();
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
+			}
 		}
 		return code.toString();
 	}

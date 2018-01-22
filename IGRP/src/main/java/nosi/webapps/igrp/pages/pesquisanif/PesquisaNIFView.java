@@ -33,7 +33,7 @@ public class PesquisaNIFView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Pesquisa NIF [DIREÇÃO GERAL DAS CONTRIBUIÇÕES E IMPOSTOS]"));
+		sectionheader_1_text.setValue(gt("Pesquisa NIF [DIREï¿½ï¿½O GERAL DAS CONTRIBUIï¿½ï¿½ES E IMPOSTOS]"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nif = new NumberField(model,"nif");
 		nif.setLabel("NIF");
@@ -44,7 +44,7 @@ public class PesquisaNIFView extends View {
 		
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		n_documento = new NumberField(model,"n_documento");
-		n_documento.setLabel(gt("Nº Documento"));
+		n_documento.setLabel(gt("NÂº Documento"));
 		
 		n_documento.propertie().add("name","p_n_documento").add("type","number").add("min","").add("max","").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		tipo_contribuinte = new ListField(model,"tipo_contribuinte");
@@ -60,7 +60,7 @@ public class PesquisaNIFView extends View {
 		
 		nome_tabela.propertie().add("name","p_nome_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		desig_social = new TextField(model,"desig_social");
-		desig_social.setLabel(gt("Designação Social"));
+		desig_social.setLabel(gt("DesignaÃ§Ã£o Social"));
 		
 		desig_social.propertie().add("name","p_desig_social").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		data_nascimento = new TextField(model,"data_nascimento");
@@ -72,7 +72,7 @@ public class PesquisaNIFView extends View {
 		
 		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nome_mae = new TextField(model,"nome_mae");
-		nome_mae.setLabel(gt("Nome Mãe"));
+		nome_mae.setLabel(gt("Nome MÃ£e"));
 		
 		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		documento = new TextField(model,"documento");

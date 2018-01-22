@@ -1,12 +1,11 @@
 
 package nosi.webapps.igrp.pages.ldapuser;
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -83,7 +82,7 @@ public class LdapUserController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	public Response actionIndex_(@RParam(rParamName = "email") String email) throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+	
 		LdapUser model = new LdapUser();
 
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
@@ -99,9 +98,10 @@ public class LdapUserController extends Controller {
 			model.setEmail_1(person.getMail());
 			uid = person.getUid();
 		}else 
-			throw new ServerErrorHttpException(gt("Ocorreu um erro. TalvÈs o utilizador n„o existe no LDAP."));
+			throw new ServerErrorHttpException(gt("Ocorreu um erro. O utilizador pode n√£o existir."));
 		
-		if(Igrp.getInstance().getMethod().equalsIgnoreCase("post")){
+		Igrp.getInstance();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			person.setCn(model.getCommon_name().trim());
 			person.setSn(model.getSurname().trim());
@@ -150,7 +150,7 @@ public class LdapUserController extends Controller {
 						}else
 							Core.setMessageSuccess(gt("Ocorreu um erro. Favor contactar o administrador. "));
 					}else {
-						Core.setMessageError(gt("Utilizador inv·lido. "));
+						Core.setMessageError(gt("Utilizador inv√°lido. "));
 					}
 				}
 			}
@@ -159,7 +159,7 @@ public class LdapUserController extends Controller {
 		LdapUserView view = new LdapUserView(model);
 		view.btn_gravar.setLink("igrp", "ldap-user", "index_&email=" + email);
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 	
 	/*----#END-PRESERVED-AREA----*/

@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.settings;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
@@ -13,6 +9,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import java.io.IOException;
 import java.util.HashMap;
+import nosi.core.webapp.Core;
 import javax.servlet.http.Cookie;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -22,7 +19,8 @@ import static nosi.core.i18n.Translator.gt;
 
 public class SettingsController extends Controller {		
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		
@@ -56,7 +54,7 @@ public class SettingsController extends Controller {
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());
-		view.sectionheader_1_text.setValue(gt("¡rea Pessoal") + ": " + user.getName());
+		view.sectionheader_1_text.setValue(gt("√Årea Pessoal") + ": " + user.getName());
 		/*view.telefone.setValue(user.getPhone());
 		view.telemovel.setValue(user.getMobile());
 		view.password_expira_em.setValue(user.getValid_until());
@@ -70,15 +68,33 @@ public class SettingsController extends Controller {
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", gt("-- Selecionar Idioma --"));
-		idioma.put("pt_PT", gt("PortuguÍs"));
-		idioma.put("en_US", gt("InglÍs"));
-		idioma.put("fr_FR", gt("FrancÍs"));
+		idioma.put("pt_PT", gt("Portugu√™s"));
+		idioma.put("en_US", gt("Ingl√™s"));
+		idioma.put("fr_FR", gt("Franc√™s"));
 		idioma.put("es_ES", gt("Espanhol"));
 		view.idioma.setValue(idioma);
 		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
+	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ALTERAR_SENHA)----*/
+		Settings model = new Settings();
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();
+			if(model.save(model)){
+				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
+			 }else{
+				Core.setMessageError(gt("Mesagem de Erro"));
+			 return this.forward("igrp","Settings","index");
+			}
+		}
+		return this.redirect("igrp","Settings","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 
 	public Response actionAplicar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(APLICAR)----*/
@@ -95,13 +111,12 @@ public class SettingsController extends Controller {
 				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
 
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] OperaÁ„o efectuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Opera√ß√£o efectuada com sucesso"));
 		
 		}
 		return this.redirect("igrp", "settings", "index");
 		/*----#END-PRESERVED-AREA----*/
-	}	
-	
+	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	

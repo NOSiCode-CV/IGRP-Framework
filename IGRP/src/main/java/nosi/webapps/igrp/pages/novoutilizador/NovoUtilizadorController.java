@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.novoutilizador;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
@@ -34,6 +30,7 @@ import static nosi.core.i18n.Translator.gt;
 
 public class NovoUtilizadorController extends Controller {		
 
+
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoUtilizador model = new NovoUtilizador();
@@ -58,6 +55,7 @@ public class NovoUtilizadorController extends Controller {
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
@@ -108,15 +106,15 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setEmail(u.getEmail());
 					userActiviti0.create(userActiviti0);	
 					new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operaï¿½ï¿½o efetuada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));
 			}
 		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inválido"));
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email invï¿½lido"));
 		}
 	}
 	
@@ -173,15 +171,15 @@ public class NovoUtilizadorController extends Controller {
 					//System.out.println(url_);
 					Organization orgEmail = new Organization().findOne(model.getOrganica());
 					String msg = ""
-							+ "<p><b>Aplicação:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
-							"			 <p><b>Orgânica:</b> " + orgEmail.getName() + "</p>" + 
-							"			 <p><b>Link Activação:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
+							+ "<p><b>Aplicaï¿½ï¿½o:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
+							"			 <p><b>Orgï¿½nica:</b> " + orgEmail.getName() + "</p>" + 
+							"			 <p><b>Link Activaï¿½ï¿½o:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
 							"			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
 					try {
 						EmailMessage.newInstance().setTo(u.getEmail()).setFrom("igrpframeworkjava@gmail.com").setSubject("IGRP - User activation")
 						.setMsg(msg, "utf-8", "html").send();
 					} catch (IOException e) {
-						System.out.println("Email não foi enviado ..."); 
+						System.out.println("Email nï¿½o foi enviado ..."); 
 						e.printStackTrace();
 					}
 				}
@@ -206,19 +204,19 @@ public class NovoUtilizadorController extends Controller {
 						userActiviti0.setEmail(u.getEmail());
 						userActiviti0.create(userActiviti0);	
 						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operaï¿½ï¿½o efetuada com sucesso"));
 					}else{
-						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));
 					}
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaï¿½ï¿½o"));
 				}
 				
 			}else {
-				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe no LDAP. LDAP error !"));
+				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador nï¿½o existe no LDAP. LDAP error !"));
 			}
 		} else {
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe no LDAP."));
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador nï¿½o existe no LDAP."));
 		}
 		
 		/** End **/
@@ -264,10 +262,10 @@ public class NovoUtilizadorController extends Controller {
 					Core.setMessageError();
 				}
 			}else{
-				Core.setMessageError(gt("Email inválido"));
+				Core.setMessageError(gt("Email invï¿½lido"));
 			}
 		}
 		return this.redirectError();
 	}
-	/*----#END-PRESERVED-AREA----*/ 
+	/*----#END-PRESERVED-AREA----*/
 }

@@ -2,8 +2,6 @@ package nosi.core.gui.components;
 
 import java.util.Iterator;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.xml.XMLWritter;
 

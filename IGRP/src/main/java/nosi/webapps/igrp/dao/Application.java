@@ -243,9 +243,9 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
 		String dad = Permission.getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
-			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar Aplicação --"));
+			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
 		}else{
-			return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar Aplicação --"));
+			return IgrpHelper.toMap(getListMyApp(user.getId()), "id", "name", gt("-- Selecionar --"));
 		}
 	}
 	

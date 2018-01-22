@@ -266,7 +266,9 @@
             <xsl:when test="$type='tabmenu'">
                 <xsl:value-of select="'IGRPMenu'" />
             </xsl:when>
-            <xsl:otherwise />
+            <xsl:otherwise>
+            	<xsl:value-of select="'IGRPForm'" />
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template name="replace-all">

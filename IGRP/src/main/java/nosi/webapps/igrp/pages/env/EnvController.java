@@ -77,10 +77,11 @@ public class EnvController extends Controller {
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+				System.out.println("Config.getBasePathClass() -> "+ Config.getBasePathClass());
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				new Compiler().compile(new File[]{new File(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
-				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-					FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+					FileHelper.save(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}		
 				Core.setMessageSuccess();
 				return this.redirect("igrp", "env","index");
@@ -141,7 +142,7 @@ public class EnvController extends Controller {
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar PÃ¡gina ---"));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
@@ -243,10 +244,10 @@ public class EnvController extends Controller {
 //		}
 		/** End **/
 		if(displayTitle){
-			xml_menu.setElement("title", gt("Minhas Aplicações"));
+			xml_menu.setElement("title", gt("Minhas AplicaÃ§Ãµes"));
 		}
 		if(displaySubtitle){
-			xml_menu.setElement("subtitle", gt("Outras Aplicações"));
+			xml_menu.setElement("subtitle", gt("Outras AplicaÃ§Ãµes"));
 		}
 		xml_menu.endElement();
 

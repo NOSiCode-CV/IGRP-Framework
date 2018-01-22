@@ -1,25 +1,24 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PesquisarUtilizador extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
+	@RParam(rParamName = "p_username")
+	private String username;
+	@RParam(rParamName = "p_email")
+	private String email;
+	@RParam(rParamName = "p_nada")
+	private String nada;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 	@RParam(rParamName = "p_organica")
 	private String organica;
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
-	@RParam(rParamName = "p_username")
-	private String username;
-	@RParam(rParamName = "p_email")
-	private String email;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -34,6 +33,27 @@ public class PesquisarUtilizador extends Model{
 	}
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
+	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
+	public String getUsername(){
+		return this.username;
+	}
+	
+	public void setEmail(String email){
+		this.email = email;
+	}
+	public String getEmail(){
+		return this.email;
+	}
+	
+	public void setNada(String nada){
+		this.nada = nada;
+	}
+	public String getNada(){
+		return this.nada;
 	}
 	
 	public void setAplicacao(String aplicacao){
@@ -56,27 +76,13 @@ public class PesquisarUtilizador extends Model{
 	public String getPerfil(){
 		return this.perfil;
 	}
-	
-	public void setUsername(String username){
-		this.username = username;
-	}
-	public String getUsername(){
-		return this.username;
-	}
-	
-	public void setEmail(String email){
-		this.email = email;
-	}
-	public String getEmail(){
-		return this.email;
-	}
 
 
 	public static class Table_1{
 		private String nome;
 		private String nominho;
-		private String email;
-		private String perfil;
+		private String tb_email;
+		private String perfile;
 		private String p_id;
 		public void setNome(String nome){
 			this.nome = nome;
@@ -92,18 +98,18 @@ public class PesquisarUtilizador extends Model{
 			return this.nominho;
 		}
 
-		public void setEmail(String email){
-			this.email = email;
+		public void setTb_email(String tb_email){
+			this.tb_email = tb_email;
 		}
-		public String getEmail(){
-			return this.email;
+		public String getTb_email(){
+			return this.tb_email;
 		}
 
-		public void setPerfil(String perfil){
-			this.perfil = perfil;
+		public void setPerfile(String perfile){
+			this.perfile = perfile;
 		}
-		public String getPerfil(){
-			return this.perfil;
+		public String getPerfile(){
+			return this.perfile;
 		}
 
 		public void setP_id(String p_id){

@@ -32,9 +32,9 @@ public class CRUDGeneratorController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		List<CRUDGenerator.Table_1> data = new ArrayList<>();
 		CRUDGenerator model = new CRUDGenerator();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		
 			model.load();
-		}		
+		
 		CRUDGeneratorView view = new CRUDGeneratorView(model);
 		view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());

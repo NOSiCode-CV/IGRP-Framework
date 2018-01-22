@@ -1,8 +1,7 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
     <xsl:template match="/">
-        <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
@@ -28,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-72406196">
+                                    <div class="row " id="row-da8f9871">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_2">
@@ -113,7 +112,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/welcome/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-86dded59">
+                                                                <div class="row " id="row-aee41e22">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/sectionheader_1">
@@ -149,10 +148,6 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </xsl:if>
-                                                                            <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="accordion" gen-class="" item-name="tabcontent_2">
-                                                                                <ul class="nav nav-tabs"></ul>
-                                                                                <div class="tab-content"></div>
-                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -164,7 +159,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/gestao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-04874ffa">
+                                                                <div class="row " id="row-f0f4358d">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/paragraph_3">
@@ -182,10 +177,10 @@
                                                                                 </div>
                                                                             </xsl:if>
                                                                             <xsl:if test="rows/content/video_3">
-                                                                                <div class="box gen-container-item " gen-class="" item-name="video_3">
+                                                                                <div class="gen-container-item " gen-class="" item-name="video_3">
                                                                                     <xsl:call-template name="box-header">
                                                                                         <xsl:with-param name="title" select="rows/content/video_3/@title"/>
-                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsible" select="'false'"/>
                                                                                         <xsl:with-param name="collapsed" select="'false'"/>
                                                                                     </xsl:call-template>
                                                                                     <div class="box-body">
@@ -204,7 +199,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/desenvolvimento/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-4d1a3497">
+                                                                <div class="row " id="row-84df9d98">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <div class="gen-tab-holder nav-tabs-custom    gen-container-item " tab-template="accordion" gen-class="" item-name="tabcontent_3">
@@ -243,7 +238,7 @@
                                                                                                 <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/como_instalar_igrp_java_framework/value"/>
                                                                                                 <xsl:with-param name="class" select="'tab-pane'"/>
                                                                                             </xsl:call-template>
-                                                                                            <div class="row " id="row-1add3411">
+                                                                                            <div class="row " id="row-6c37894d">
                                                                                                 <div class="gen-column col-sm-12">
                                                                                                     <div class="gen-inner">
                                                                                                         <xsl:if test="rows/content/paragraph_8">
@@ -261,10 +256,10 @@
                                                                                                             </div>
                                                                                                         </xsl:if>
                                                                                                         <xsl:if test="rows/content/video_6">
-                                                                                                            <div class="box gen-container-item " gen-class="" item-name="video_6">
+                                                                                                            <div class="gen-container-item " gen-class="" item-name="video_6">
                                                                                                                 <xsl:call-template name="box-header">
                                                                                                                     <xsl:with-param name="title" select="rows/content/video_6/@title"/>
-                                                                                                                    <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                                                    <xsl:with-param name="collapsible" select="'false'"/>
                                                                                                                     <xsl:with-param name="collapsed" select="'false'"/>
                                                                                                                 </xsl:call-template>
                                                                                                                 <div class="box-body">
@@ -283,7 +278,7 @@
                                                                                                 <xsl:with-param name="value" select="rows/content/tabcontent_3/fields/my_first_app/value"/>
                                                                                                 <xsl:with-param name="class" select="'tab-pane'"/>
                                                                                             </xsl:call-template>
-                                                                                            <div class="row " id="row-4860689c">
+                                                                                            <div class="row " id="row-f32a67be">
                                                                                                 <div class="gen-column col-sm-12">
                                                                                                     <div class="gen-inner">
                                                                                                         <xsl:if test="rows/content/paragraph_5">
@@ -330,7 +325,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/contribuicao/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-69a12dd2">
+                                                                <div class="row " id="row-b238c748">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/paragraph_7">
@@ -348,10 +343,10 @@
                                                                                 </div>
                                                                             </xsl:if>
                                                                             <xsl:if test="rows/content/video_7">
-                                                                                <div class="box gen-container-item " gen-class="" item-name="video_7">
+                                                                                <div class="gen-container-item " gen-class="" item-name="video_7">
                                                                                     <xsl:call-template name="box-header">
                                                                                         <xsl:with-param name="title" select="rows/content/video_7/@title"/>
-                                                                                        <xsl:with-param name="collapsible" select="'true'"/>
+                                                                                        <xsl:with-param name="collapsible" select="'false'"/>
                                                                                         <xsl:with-param name="collapsed" select="'false'"/>
                                                                                     </xsl:call-template>
                                                                                     <div class="box-body">
@@ -370,7 +365,7 @@
                                                                     <xsl:with-param name="value" select="rows/content/tabcontent_1/fields/documentos_gerais/value"/>
                                                                     <xsl:with-param name="class" select="'tab-pane'"/>
                                                                 </xsl:call-template>
-                                                                <div class="row " id="row-a6bcd498">
+                                                                <div class="row " id="row-89fcdb68">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/paragraph_6">
@@ -485,9 +480,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1512740339460"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1512740339460"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1512740339460"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1512740339460"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1512740339460"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516443986600"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516443986600"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516443986600"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516443986600"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516443986601"/>
 </xsl:stylesheet>

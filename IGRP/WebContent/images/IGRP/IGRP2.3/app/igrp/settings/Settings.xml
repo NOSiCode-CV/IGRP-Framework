@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
 <rows>
     <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
@@ -37,9 +37,7 @@
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Settings Aplicação : ]]>
-                    </value>
+                    <value>Settings Aplicação : </value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -47,38 +45,38 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Consectetur amet iste sed elit</value>
+                    <value>Officia perspiciatis omnis accusantium sed</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Officia ipsum anim dolor stract</value>
+                    <value>Aliqua sit labore magna totam</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Omnis consectetur omnis rem ma</value>
+                    <value>Anim aperiam aliqua labore ali</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Labore ipsum laudantium adipis</value>
+                    <value>Ut perspiciatis lorem perspici</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Aliqua dolor laudantium perspi</value>
+                    <value>Anim dolor deserunt omnis sed</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Laudantium iste adipiscing des</value>
+                    <value>Sit consectetur omnis amet str</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Ipsum adipiscing mollit iste a</value>
+                    <value>Anim dolor ut aperiam laudanti</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Accusantium laudantium perspic</value>
+                    <value>Labore elit rem laudantium lor</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
-                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
+                    <value>images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
                 </view_1_img>
             </fields>
         </view_1>
@@ -90,7 +88,7 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>warning|fa-lock</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
             </item>
             <item type="specific" code="" rel="aplicar">
                 <title>Aplicar</title>
@@ -99,7 +97,7 @@
                 <link>index</link>
                 <target>submit_form</target>
                 <img>success|fa-check</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" title="PARAMETROS" gen-type="container" gen-group="">
@@ -205,11 +203,11 @@
                 </receber_notificacao>
                 <email name="p_email" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Email</label>
-                    <value>Amet accusantium omnis officia</value>
+                    <value>Doloremque stract amet consect</value>
                 </email>
                 <telemovel name="p_telemovel" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Telemovel</label>
-                    <value>Magna officia voluptatem molli</value>
+                    <value>Sit iste aperiam sit mollit</value>
                 </telemovel>
             </fields>
         </form_1>

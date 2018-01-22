@@ -131,7 +131,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListMyOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put("", "--- Selecionar Organica ---");
+		lista.put("", "-- Selecionar --");
 		for(Profile p: new Profile().getMyPerfile()){
 			lista.put(p.getOrganization().getId()+"", p.getOrganization().getName());
 		}
@@ -140,7 +140,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 
 	public HashMap<String, String> getListOrganizations() {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Orgânica --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Organization o:this.findAll()){
 			lista.put(o.getId()+"", o.getName());
 		}
@@ -149,7 +149,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 	
 	public HashMap<String, String> getListOrganizations(int app) {
 		HashMap<String,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Orgânica --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Organization o:this.find().andWhere("application.id", "=", app).all()){
 			lista.put(o.getId()+"", o.getName());
 		}

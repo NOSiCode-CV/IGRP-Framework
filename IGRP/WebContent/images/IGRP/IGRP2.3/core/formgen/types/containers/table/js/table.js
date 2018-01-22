@@ -158,9 +158,9 @@ var GENTABLE = function(name,params){
 			name:'ctxType',
 			label:'Context Menu',
 			value:{
-				value:'ctx',
+				value:'inl',
 				options:[
-					{value:'ctx',label:'RIght Click'},
+					{value:'ctx',label:'Right Click'},
 					{value:'inl',label:'Inline'}
 				]
 			},

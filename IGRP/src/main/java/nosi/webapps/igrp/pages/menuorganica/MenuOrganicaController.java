@@ -11,7 +11,6 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -158,7 +157,7 @@ public class MenuOrganicaController extends Controller {
 					prof = prof.insert();
 				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("OperaÃ§Ã£o realizada com sucesso"));
 		}
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type);
 		/*----#END-PRESERVED-AREA----*/

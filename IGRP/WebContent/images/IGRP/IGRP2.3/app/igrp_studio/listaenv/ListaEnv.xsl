@@ -27,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-9dcc67e1">
+                                    <div class="row " id="row-a64aa5a8">
                                         <div class="gen-column col-sm-6">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-12b43f7f">
+                                    <div class="row " id="row-8c795ab0">
                                         <div class="gen-column col-md-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
@@ -72,7 +72,7 @@
                                                                                 <xsl:if test="rows/content/table_1/fields/status">
                                                                                     <th class="bs-checkbox gen-fields-holder" align="center">
                                                                                         <span>Ativo?</span>
-                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="status" title="Ativo?" data-toggle="tooltip"/>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="status" data-title="Ativo?" data-toggle="tooltip"/>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/name">
@@ -108,11 +108,14 @@
                                                                                     <xsl:if test="status">
                                                                                         <td align="" data-row="{position()}" data-title="{../../label/status}" class="bs-checkbox" item-name="status">
                                                                                             <xsl:if test="status != '-0'">
-                                                                                                <input type="checkbox" name="p_status" value="{status}" check-rel="status">
-                                                                                                    <xsl:if test="status_check=status">
-                                                                                                        <xsl:attribute name="checked">checked</xsl:attribute>
-                                                                                                    </xsl:if>
-                                                                                                </input>
+                                                                                                <label class="checkbox-switch switch">
+                                                                                                    <input type="checkbox" name="p_status" value="{status}" check-rel="status">
+                                                                                                        <xsl:if test="status_check=status">
+                                                                                                            <xsl:attribute name="checked">checked</xsl:attribute>
+                                                                                                        </xsl:if>
+                                                                                                    </input>
+                                                                                                    <span class="slider round"/>
+                                                                                                </label>
                                                                                             </xsl:if>
                                                                                         </td>
                                                                                     </xsl:if>
@@ -181,9 +184,9 @@
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516129178796"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516129178796"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516129178796"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516129178796"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516129178797"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516551588373"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516551588374"/>
 </xsl:stylesheet>

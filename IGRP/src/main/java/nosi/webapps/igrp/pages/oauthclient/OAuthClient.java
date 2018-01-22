@@ -1,10 +1,6 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.oauthclient;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 
 public class OAuthClient extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -37,4 +33,3 @@ public class OAuthClient extends Model{
 
 
 }
-/*-------------------------*/

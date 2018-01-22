@@ -16,7 +16,7 @@ public class GestaodeacessoView extends View {
 	public Field org_nome;
 	public Field mostrar_perfis;
 	public Field p_id;
-	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable org_table;
 
@@ -27,24 +27,24 @@ public class GestaodeacessoView extends View {
 	public GestaodeacessoView(Gestaodeacesso model){
 		this.setPageTitle("Gestao de Acesso");
 			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
-		org_table = new IGRPTable("org_table","OrganizaÁıes");
+		org_table = new IGRPTable("org_table","Organiza√ß√µes");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
+		sectionheader_1_text.setValue(gt("Gest√£o de Acesso"));
 		
-		sectionheader_1_text.setValue(gt("Gest„o de Acesso"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("java-type","");
 		adicionar_organica1 = new LinkField(model,"adicionar_organica1");
-		adicionar_organica1.setLabel(gt("Adicionar Org‚nica"));
+		adicionar_organica1.setLabel(gt("Adicionar Org√¢nica"));
 		
 		adicionar_organica1.propertie().add("name","p_adicionar_organica1").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","NovaOrganica").add("app","igrp").add("class","primary").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
 		gestao_de_utilizadores1 = new LinkField(model,"gestao_de_utilizadores1");
-		gestao_de_utilizadores1.setLabel(gt("Gest„o de utilizadores"));
+		gestao_de_utilizadores1.setLabel(gt("Gest√£o de utilizadores"));
 		
 		gestao_de_utilizadores1.propertie().add("name","p_gestao_de_utilizadores1").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","PesquisarUtilizador").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-users").add("maxlength","30").add("placeholder","").add("right","true");
 		estado = new ColorField(model,"estado");

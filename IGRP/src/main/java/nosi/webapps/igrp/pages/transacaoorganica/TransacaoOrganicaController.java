@@ -104,7 +104,7 @@ public class TransacaoOrganicaController extends Controller {
 					prof = prof.insert();
 				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage("success", gt("OperaÃ§Ã£o realizada com sucesso"));
 		}
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
 		/*----#END-PRESERVED-AREA----*/

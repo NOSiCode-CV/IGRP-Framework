@@ -10,7 +10,7 @@ import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthClient;
 import static nosi.core.i18n.Translator.gt;

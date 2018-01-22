@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/errorpage/ErrorPage.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=19</preserve_url>
     </plsql>
     <content>
         <title>Pagina de Erro</title>

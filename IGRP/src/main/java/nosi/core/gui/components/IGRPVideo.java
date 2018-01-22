@@ -34,7 +34,7 @@ public class IGRPVideo extends IGRPForm {
 	
 	@Override
 	public void addField(Field field){
-		field.setValue("<![CDATA["+field.getValue()+"]]>");
+		field.setValue(field.getValue());
 		this.fields.add(field);
 	}
 }

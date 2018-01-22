@@ -14,7 +14,7 @@ public class PesquisarPerfilView extends View {
 	public Field codigo;
 	public Field organica;
 	public Field p_id;
-	public IGRPSectionHeader sectionheader_1;
+	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
@@ -27,33 +27,33 @@ public class PesquisarPerfilView extends View {
 	public PesquisarPerfilView(PesquisarPerfil model){
 		this.setPageTitle("Lista de Perfil");
 			
-		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
+		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		table_1 = new IGRPTable("table_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		
-		sectionheader_1_text.setValue(gt("Gest„o de Perfil"));
+		sectionheader_1_text.setValue(gt("Gest√£o de Perfil"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		
 		estado = new TextField(model,"estado");
 		estado.setLabel(gt("Estado"));
-		
 		estado.propertie().add("name","p_estado").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
 		descricao = new TextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
-		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
 		codigo = new TextField(model,"codigo");
-		codigo.setLabel(gt("CÛdigo"));
-		
+		codigo.setLabel(gt("C√≥digo"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
-		organica = new TextField(model,"organica");
-		organica.setLabel(gt("OrganizaÁ„o"));
 		
+		organica = new TextField(model,"organica");
+		organica.setLabel(gt("Organiza√ß√£o"));
 		organica.propertie().add("name","p_organica").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
+		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
-		
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_novo = new IGRPButton("Novo","igrp","PesquisarPerfil","novo","_self","success|fa-plus-square","","");

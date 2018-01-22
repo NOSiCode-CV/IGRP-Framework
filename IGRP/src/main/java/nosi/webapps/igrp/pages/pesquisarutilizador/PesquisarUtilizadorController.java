@@ -65,10 +65,10 @@ public class PesquisarUtilizadorController extends Controller {
 		//Preenchendo a tabela 
 		for(Profile p:profiles){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			table1.setEmail(p.getUser().getEmail());
+			table1.setTb_email(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
 			table1.setNominho(p.getUser().getName());
-			table1.setPerfil(p.getProfileType().getDescr());
+			table1.setPerfile(p.getProfileType().getDescr());
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		
@@ -81,7 +81,8 @@ public class PesquisarUtilizadorController extends Controller {
 			default: view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 		
-		view.setPageTitle(gt("Gest„o de Utilizador"));
+		view.setPageTitle(gt("Gest√£o de Utilizador"));
+		
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp,idOrg));		
@@ -101,16 +102,16 @@ public class PesquisarUtilizadorController extends Controller {
 	}
 
 
-	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
-      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
+	public Response actionLista_geral() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(LISTA_GERAL)----*/
+		return this.redirect("igrp","PesquisarUtilizador","listaGeral&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 
-	public Response actionLista_geral() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(LISTA_GERAL)----*/
-		return this.redirect("igrp","PesquisarUtilizador","listaGeral&target=_blank");
+	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
+      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -192,7 +193,7 @@ public class PesquisarUtilizadorController extends Controller {
 			model.load();
 		} 
 		ArrayList<PesquisarUtilizador.Table_1> lista = new ArrayList<>();			
-		//condiccao para pesquisar com filtros
+		//condicao para pesquisar com filtros
 		List<User> users = new ArrayList<>();
 
 		int idProfC = Permission.getCurrentPerfilId();
@@ -206,10 +207,10 @@ public class PesquisarUtilizadorController extends Controller {
 		//Preenchendo a tabela 
 		for(User p:users){
 			PesquisarUtilizador.Table_1 table1 = new PesquisarUtilizador.Table_1();
-			table1.setEmail(p.getEmail());
+			table1.setTb_email(p.getEmail());
 			table1.setNome(p.getUser_name());
 			table1.setNominho(p.getName());
-			table1.setPerfil(p.getStatus()==1?"ATIVO":"INATIVO");
+			table1.setPerfile(p.getStatus()==1?"ATIVO":"INATIVO");
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		
@@ -250,7 +251,7 @@ public class PesquisarUtilizadorController extends Controller {
     }
 	
 	public Response actionEditarUser() throws IOException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+	
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			String id = Igrp.getInstance().getRequest().getParameter("p_id");
 			if(id!=null){
@@ -261,11 +262,11 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
 	
 	public Response actionEliminarUser()throws IOException{
-		/*----#START-PRESERVED-AREA(ELIMINAR_USER)----*/
+	
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null){
 			User p = new User().findOne(Integer.parseInt(id));
@@ -280,7 +281,7 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 		}
 		return this.redirectError();
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
 	/*----#END-PRESERVED-AREA----*/
 }
