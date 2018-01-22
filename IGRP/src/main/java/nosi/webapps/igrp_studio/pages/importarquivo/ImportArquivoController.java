@@ -17,7 +17,6 @@ import nosi.core.webapp.import_export.ImportPluginIGRP;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.RParam;
 import nosi.core.config.Config;
 /*----#END-PRESERVED-AREA----*/
 

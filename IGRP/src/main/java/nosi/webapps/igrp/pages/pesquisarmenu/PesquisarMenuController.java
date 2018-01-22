@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -16,7 +15,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
-import nosi.webapps.igrp.dao.ProfileType;
 
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/

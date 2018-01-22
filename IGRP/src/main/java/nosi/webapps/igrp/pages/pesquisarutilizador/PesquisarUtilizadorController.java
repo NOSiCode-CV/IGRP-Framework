@@ -81,7 +81,8 @@ public class PesquisarUtilizadorController extends Controller {
 			default: view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
 		}
 		
-		view.setPageTitle("Gestão de Utilizador");
+		view.setPageTitle(gt("Gestão de Utilizador"));
+		
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(idApp));
 		view.perfil.setValue(new ProfileType().getListProfiles(idApp,idOrg));		
@@ -92,7 +93,10 @@ public class PesquisarUtilizadorController extends Controller {
 		view.p_id.setParam(true);
 		view.email.setParam(true);
 		view.table_1.addData(lista);	
-		view.btn_lista_geral.setTitle("Cadastro Geral");
+		view.btn_lista_geral.setTitle(gt("Cadastro Geral"));
+		
+		//view.username.
+		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

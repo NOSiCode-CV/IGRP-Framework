@@ -175,6 +175,7 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, igrp));
 			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp_studio.pages.importarquivo", "igrp_studio/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, igrp_studio));
 			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplica��o", "2.3", 1, igrp));
+			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, igrp));
 			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, igrp));
 			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, igrp));
 			actions.add(new Action("PesquisaNascimento", "index", "nosi.webapps.igrp.pages.pesquisanascimento", "igrp/pesquisanascimento/PesquisaNascimento.xsl", "Pesquisar Nascimento", "Pesquisar Nascimento", "2.3", 1, igrp));
@@ -191,8 +192,8 @@ public class MigrationIGRPInitConfig {
 			}
 			
 			List<Menu> menus = new ArrayList<>();			
-			menus.add(new Menu("Gest�o de Aplica��o", 1, 1, 0, null, null, igrp, null));
-			menus.add(new Menu("Par�metros Gerais", 1, 1, 0, null, null, igrp, null));
+			menus.add(new Menu("Gestão de Aplicação", 1, 1, 0, null, null, igrp, null));
+			menus.add(new Menu("Parametros Gerais", 1, 1, 0, null, null, igrp, null));
 			menus.add(new Menu("Auditoria", 1, 1, 0, null, null, igrp, null));
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, igrp_studio, null));
 			//menus.add(new Menu("Import/Export", 1, 1, 0, null, null, app, null));
@@ -209,18 +210,19 @@ public class MigrationIGRPInitConfig {
 			tempMenuRD.setMenu(tempMenuRD);
 			menus.add(tempMenuRD);
 			
-			menus.add(new Menu("Gest�o de Menu", 9, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
-			menus.add(new Menu("Gest�o de Transa��o", 9, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
-			menus.add(new Menu("Gest�o de Acesso", 9, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
-			menus.add(new Menu("Gest�o de Utilizador", 9, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
-			Menu tempMenuAP = new Menu("�rea Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
+			menus.add(new Menu("Gestão de Menu", 9, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Transação", 9, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
+			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Utilizador", 9, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
+			Menu tempMenuAP = new Menu("Área Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
 			tempMenuAP.setMenu(tempMenuAP);
 			menus.add(tempMenuAP);
 //			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), igrp, menus.get(2)));
 
-			//menus.add(new Menu("Gest�o de Organica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
-			//menus.add(new Menu("Gest�o de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
-			//menus.add(new Menu("Migra��o IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
+			//menus.add(new Menu("Gestão de Orgânica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
+			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
+			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
+
 			//menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
 			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), igrp_studio, null);
 			tempMenuBD.setMenu(tempMenuBD);
@@ -230,8 +232,8 @@ public class MigrationIGRPInitConfig {
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 			
-			//menus.add(new Menu("Gest�o dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
-			//menus.add(new Menu("Importar Aplica��o/P�gina/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
+			//menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
+			//menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
 	
 			//menus.add(new Menu("Pesquisar BI", 1, 1, 0, "_self", actions.get(37), app, menus.get(5)));
 			//menus.add(new Menu("Pesquisar NIF", 1, 1, 0, "_self", actions.get(38), app, menus.get(5)));

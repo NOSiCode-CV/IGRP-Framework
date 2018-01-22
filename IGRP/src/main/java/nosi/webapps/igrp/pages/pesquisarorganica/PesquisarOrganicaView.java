@@ -32,10 +32,10 @@ public class PesquisarOrganicaView extends View {
 		table_1 = new IGRPTable("table_1");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
-		sectionheader_1_text.setValue(gt("Gest„o Org‚nica"));
+		sectionheader_1_text.setValue(gt("Gest√£o Org√¢nica"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao = new PlainTextField(model,"descricao");
 		descricao.setLabel(gt("Nome"));
@@ -56,7 +56,7 @@ public class PesquisarOrganicaView extends View {
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","default").add("rel","eliminar");
 		btn_menu = new IGRPButton("Menu","igrp","PesquisarOrganica","menu","submit","default|fa-angle-right","","");
 		btn_menu.propertie.add("type","specific").add("code","").add("class","default").add("rel","menu");
-		btn_transacao = new IGRPButton(gt("TransaÁ„o"),"igrp","PesquisarOrganica","transacao","submit","default|fa-angle-right","","");
+		btn_transacao = new IGRPButton(gt("Transa√ß√£o"),"igrp","PesquisarOrganica","transacao","submit","default|fa-angle-right","","");
 		btn_transacao.propertie.add("type","specific").add("code","").add("class","default").add("rel","transacao");
 		btn_etapa = new IGRPButton(gt("Etapa"),"igrp","PesquisarOrganica","etapa","submit","default|fa-angle-right","","");
 		btn_etapa.propertie.add("type","specific").add("code","").add("class","default").add("rel","etapa");

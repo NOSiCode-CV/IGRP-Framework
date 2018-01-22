@@ -11,7 +11,6 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
