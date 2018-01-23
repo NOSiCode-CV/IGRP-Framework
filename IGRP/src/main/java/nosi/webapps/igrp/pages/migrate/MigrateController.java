@@ -29,7 +29,7 @@ public class MigrateController extends Controller {
 		MigrateView view = new MigrateView(model);
 		
 		view.tipo_base_dados.setValue(Config.getDatabaseTypes());
-		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar AplicaÁ„o --")));
+		view.aplicacao.setValue(IgrpHelper.toMap(new Application().findAll(), "id", "name",gt("-- Selecionar Aplica√ß√£o --")));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -43,9 +43,9 @@ public class MigrateController extends Controller {
 			if(model.getAplicacao().equals("1")){
 				if(MigrationIGRP.validate(model)){
 					MigrationIGRP.start(model);
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("MigraÁ„o Efetuada com sucesso"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Migra√£o Efetuada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conex„o Com a Base de Dados"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conex√£o Com a Base de Dados"));
 					return this.forward("igrp","Migrate","index");
 				}
 			}
@@ -62,7 +62,7 @@ public class MigrateController extends Controller {
 			if(MigrationIGRP.validate(model)){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conex„o Com a Base de Dados"));
+				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Falha na Conex√£o Com a Base de Dados"));
 			}
 		}
 		return this.forward("igrp","Migrate","index");
