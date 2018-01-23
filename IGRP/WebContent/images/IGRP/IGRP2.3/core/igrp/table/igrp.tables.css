@@ -327,9 +327,9 @@ table.align .igrp-table-ctx-td>ul>.operationTable{
   height: 24px;
   margin-bottom:0;
 }
-
-.checkbox-switch.switch input {display:none;}
-
+.checkbox-switch.switch input {
+	display:none;
+}
 .checkbox-switch .slider {
   position: absolute;
   cursor: pointer;

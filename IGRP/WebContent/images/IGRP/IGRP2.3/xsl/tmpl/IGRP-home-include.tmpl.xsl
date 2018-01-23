@@ -23,6 +23,9 @@
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
     </xsl:if>
     <!-- BS CSS -->
+    
+    <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css"/>
+    
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
@@ -271,6 +274,20 @@
       </div>
     </div>
     <!--/GLOBAL MODAL -->
+
+    <!-- RIGHT PANEL MODAL -->
+    <div class="modal fade right" id="igrp-right-panel">
+      <div class="modal-dialog">
+        <div class="igrp-right-panel-close" data-dismiss="modal">
+          <i class="fa fa-times"></i>
+        </div>
+        <div class="modal-content">
+          <iframe id="igrp-right-panel-iframe"/>
+        </div>
+        <div class="loader"/>
+      </div>
+    </div>
+    <!--/RIGHT PANEL MODAL -->
 
     <igrp-variables class="hidden invisible">
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
