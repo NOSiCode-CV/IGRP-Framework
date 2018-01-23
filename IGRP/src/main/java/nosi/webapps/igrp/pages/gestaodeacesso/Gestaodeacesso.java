@@ -2,6 +2,8 @@ package nosi.webapps.igrp.pages.gestaodeacesso;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,16 +71,23 @@ public class Gestaodeacesso extends Model{
 
 
 	public static class Org_table{
-		private String estado;
+		private int estado;
+		private int estado_check;
 		private String org_nome;
 		private String mostrar_perfis;
 		private String mostrar_perfis_desc;
 		private String p_id;
-		public void setEstado(String estado){
+		public void setEstado(int estado){
 			this.estado = estado;
 		}
-		public String getEstado(){
+		public int getEstado(){
 			return this.estado;
+		}
+		public void setEstado_check(int estado_check){
+			this.estado_check = estado_check;
+		}
+		public int getEstado_check(){
+			return this.estado_check;
 		}
 
 		public void setOrg_nome(String org_nome){

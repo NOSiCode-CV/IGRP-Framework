@@ -34,7 +34,8 @@ public class PesquisarPerfilController extends Controller {
 			PesquisarPerfil.Table_1 table1 = new PesquisarPerfil.Table_1();
 			table1.setCodigo(p.getCode());
 			table1.setDescricao(p.getDescr());
-			table1.setEstado(p.getStatus()==1?"Ativo":"Inativo");
+			table1.setEstado(p.getStatus());
+          	table1.setEstado_check(1);
 			if(p.getOrganization()!=null){
 				table1.setOrganica(p.getOrganization().getName());
 			}

@@ -12,8 +12,6 @@
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
-                <!-- COLOR CSS INCLUDES -->
-                <link rel="stylesheet" type="text/css" href="{$path}/plugins/colorpicker/css/bootstrap-colorpicker.min.css?v={$version}"/>
                 <style/>
             </head>
             <body class="{$bodyClass} sidebar-off">
@@ -24,7 +22,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-37891c60">
+                                    <div class="row " id="row-229b88b0">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -94,7 +92,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-279b929f">
+                                    <div class="row " id="row-948b3992">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/org_table">
@@ -107,9 +105,7 @@
                                                         <div class="box-body ">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/org_table/fields"/>
                                                             <div class="table-contents-head">
-                                                                <div class="table-contents-inner">
-                                                                    <xsl:apply-templates mode="table-legend" select="rows/content/org_table/table/legend_color"/>
-                                                                </div>
+                                                                <div class="table-contents-inner"></div>
                                                             </div>
                                                             <div class="table-box">
                                                                 <div class="table-box-inner">
@@ -117,8 +113,9 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <xsl:if test="rows/content/org_table/fields/estado">
-                                                                                    <th align="center" class="color-th gen-fields-holder">
-                                                                                        <xsl:value-of select="rows/content/org_table/fields/estado/label"/>
+                                                                                    <th class="bs-checkbox gen-fields-holder" align="center">
+                                                                                        <span>Estado</span>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="estado" data-title="Estado" data-toggle="tooltip"/>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/org_table/fields/org_nome">
@@ -145,10 +142,17 @@
                                                                                     <input type="hidden" name="p_id_fk" value="{id}"/>
                                                                                     <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
                                                                                     <xsl:if test="estado">
-                                                                                        <td align="" data-row="{position()}" data-title="{../../label/estado}" class="color" item-name="estado">
-                                                                                            <xsl:call-template name="tdcolor">
-                                                                                                <xsl:with-param name="color" select="estado"/>
-                                                                                            </xsl:call-template>
+                                                                                        <td align="" data-row="{position()}" data-title="{../../label/estado}" class="bs-checkbox" item-name="estado">
+                                                                                            <xsl:if test="estado != '-0'">
+                                                                                                <label class="checkbox-switch switch">
+                                                                                                    <input type="checkbox" name="p_estado" value="{estado}" check-rel="estado">
+                                                                                                        <xsl:if test="estado_check=estado">
+                                                                                                            <xsl:attribute name="checked">checked</xsl:attribute>
+                                                                                                        </xsl:if>
+                                                                                                    </input>
+                                                                                                    <span class="slider round"/>
+                                                                                                </label>
+                                                                                            </xsl:if>
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <xsl:if test="org_nome">
@@ -211,9 +215,6 @@
                 <!-- SELECT JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
                 <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
-                <!-- COLOR JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/colorpicker/js/bootstrap-colorpicker.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/colorpicker/colorpicker.init.js?v={$version}"/>
                 <!-- RULES -->
                 <script src="{$path}/core/igrp/IGRP.rules.class.js"/>
                 <script>
@@ -221,10 +222,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"show table","events":"load,change","is
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516468972463"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516468972463"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516468972463"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516468972463"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516468972463"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516468972463"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516713188554"/>
 </xsl:stylesheet>

@@ -32,7 +32,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-ef243093">
+                                    <div class="row " id="row-07b56825">
                                         <div class="gen-column col-sm-4">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/infopanel_1">
@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-58a0f6dd">
+                                    <div class="row " id="row-e2a02bd7">
                                         <div class="gen-column col-sm-8">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/box_2">
@@ -105,7 +105,7 @@
                                                         <div class="box-body" gen-preserve-content="true">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/box_2/fields"/>
                                                             <div>
-                                                                <div class="row " id="row-c534c6c3">
+                                                                <div class="row " id="row-8c78676e">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_1">
@@ -280,7 +280,7 @@
                                                         <div class="box-body" gen-preserve-content="true">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/box_1/fields"/>
                                                             <div>
-                                                                <div class="row " id="row-49425d2a">
+                                                                <div class="row " id="row-64f4a0ff">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/myapps_list">
@@ -393,14 +393,14 @@
                 <!-- RULES -->
                 <script src="{$path}/core/igrp/IGRP.rules.class.js"/>
                 <script>
-$.IGRP.rules.set({"p_env_fk":[{"name":"Show table","events":"load,change","isTable":false,"conditions":{"rules":[{"condition":"less","value":"1","value2":"10","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"hide","targets":"table_1","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
+$.IGRP.rules.set({"p_env_fk":[{"name":"Show table and hide","events":"load","isTable":false,"conditions":{"rules":[{"condition":"less","value":"1","value2":"","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"hide","targets":"table_1","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516551038603"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516551038603"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516551038603"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516551038603"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516551038603"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516551038603"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516727699930"/>
 </xsl:stylesheet>

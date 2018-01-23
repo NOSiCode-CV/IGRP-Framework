@@ -54,7 +54,10 @@
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Organização</label>
+                </organica>
+                <estado name="p_estado" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
                     <label>Estado</label>
                 </estado>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -63,9 +66,6 @@
                 <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Código</label>
                 </codigo>
-                <organica name="p_organica" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Organização</label>
-                </organica>
                 <id name="p_id" type="hidden" maxlength="30" iskey="false" tag="id"/>
             </fields>
             <table>
@@ -75,10 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Accusantium consectetur sit al</estado>
-                        <descricao name="p_descricao">Amet doloremque perspiciatis l</descricao>
-                        <codigo name="p_codigo">Adipiscing deserunt stract sed</codigo>
-                        <organica name="p_organica">Ipsum iste natus sed magna</organica>
+                        <organica name="p_organica">Aliqua unde adipiscing dolor s</organica>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Adipiscing sit accusantium ut</descricao>
+                        <codigo name="p_codigo">Sed natus iste deserunt perspi</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -86,10 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Iste ut natus ut perspiciatis</estado>
-                        <descricao name="p_descricao">Laudantium deserunt mollit ist</descricao>
-                        <codigo name="p_codigo">Aperiam aliqua magna iste sit</codigo>
-                        <organica name="p_organica">Sed rem sed ut magna</organica>
+                        <organica name="p_organica">Deserunt omnis rem omnis molli</organica>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Sed natus deserunt elit lorem</descricao>
+                        <codigo name="p_codigo">Sit omnis magna dolor elit</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -97,10 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Iste omnis laudantium lorem st</estado>
-                        <descricao name="p_descricao">Lorem voluptatem elit labore m</descricao>
-                        <codigo name="p_codigo">Laudantium magna labore elit o</codigo>
-                        <organica name="p_organica">Sed dolor rem mollit amet</organica>
+                        <organica name="p_organica">Sit amet elit sed lorem</organica>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Anim dolor iste omnis anim</descricao>
+                        <codigo name="p_codigo">Accusantium aperiam officia ma</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -108,10 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Sit elit dolor accusantium ali</estado>
-                        <descricao name="p_descricao">Aliqua unde consectetur adipis</descricao>
-                        <codigo name="p_codigo">Sed magna anim aliqua sed</codigo>
-                        <organica name="p_organica">Ipsum totam voluptatem mollit</organica>
+                        <organica name="p_organica">Voluptatem unde amet elit ipsu</organica>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Aperiam labore totam ipsum dol</descricao>
+                        <codigo name="p_codigo">Dolor sed doloremque accusanti</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -119,10 +123,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <estado name="p_estado">Perspiciatis laudantium anim n</estado>
-                        <descricao name="p_descricao">Iste stract sed magna dolor</descricao>
-                        <codigo name="p_codigo">Accusantium aliqua magna omnis</codigo>
-                        <organica name="p_organica">Sed anim doloremque dolor sit</organica>
+                        <organica name="p_organica">Doloremque aperiam natus strac</organica>
+                        <estado name="p_estado" check="true" desc="true">1</estado>
+                        <estado_desc name="p_estado_desc">1</estado_desc>
+                        <descricao name="p_descricao">Sed sit accusantium accusantiu</descricao>
+                        <codigo name="p_codigo">Magna laudantium lorem anim ip</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -145,14 +150,14 @@
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
-                    <item type="specific" code="" class="primary" rel="menu">
+                    <item type="specific" code="" class="info" rel="menu">
                         <title>Menu</title>
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>mpsubmit</target>
-                        <img>primary|fa-align-justify</img>
+                        <target>right_panel</target>
+                        <img>info|fa-bars</img>
                     </item>
                     <item type="specific" code="" class="black" rel="transacao">
                         <title>Transacao</title>
@@ -160,7 +165,7 @@
                         <page>PesquisarPerfil</page>
                         <link>index</link>
                         <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
-                        <target>mpsubmit</target>
+                        <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
                     <item type="specific" code="" class="warning" rel="convidar">

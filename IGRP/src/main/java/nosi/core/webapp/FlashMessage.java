@@ -28,21 +28,21 @@ public class FlashMessage implements Serializable{
 	public static final String ERROR = "error";
 	public static final String WARNING = "warning";
 	public static final String INFO = "info";
-	public static final String MSG_ERROR = "<messages><message type=\"error\">Operação falhada</message></messages>";
-	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operação Efetuada com sucesso</message></messages>";
+	public static final String MSG_ERROR = "<messages><message type=\"error\">Operação falhada!</message></messages>";
+	public static final String MSG_SUCCESS = "<messages><message type=\"success\">Operação efetuada com sucesso!</message></messages>";
     public static final String WARNING_EXPORT_APP = "Esta aplicação não possui conteúdo suficiente para ser exportado";
     
-	public static final String MESSAGE_SUCCESS = "Operacao Efetuada com sucesso";
-	public static final String MESSAGE_ERROR = "Falha ao tentar efetuar esta operação";
+	public static final String MESSAGE_SUCCESS = "Operação efetuada com sucesso!";
+	public static final String MESSAGE_ERROR = "Falha ao tentar efetuar esta operação!";
 
-	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteudo suficiente para ser exportado";
-    public static final String WARNING_PAGE_INVALID = "Nome de Página Invalida";
+	public static final String WARNING_EXPORT_PAGE = "Esta página não possui conteúdo suficiente para ser exportado.";
+    public static final String WARNING_PAGE_INVALID = "Nome da página é inválida.";
 
 	public static final String ERROR_IMPORT = "Ocorreu um erro ao importa o ficheiro";
 
 	public static final String ERROR_COMPILED = "Erro de compilação";
 
-	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome de página inválido";
+	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome da página é inválida";
 
 	
     

@@ -2,6 +2,8 @@ package nosi.webapps.igrp.pages.pesquisarmenu;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +12,6 @@ public class PesquisarMenu extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_organica")
-	private String organica;
-	@RParam(rParamName = "p_menu_principal")
-	private String menu_principal;
 	@RParam(rParamName = "p_novo")
 	private String novo;
 	@RParam(rParamName = "p_novo_desc")
@@ -41,20 +39,6 @@ public class PesquisarMenu extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
-		this.organica = organica;
-	}
-	public String getOrganica(){
-		return this.organica;
-	}
-	
-	public void setMenu_principal(String menu_principal){
-		this.menu_principal = menu_principal;
-	}
-	public String getMenu_principal(){
-		return this.menu_principal;
-	}
-	
 	public void setNovo(String app,String page,String action){
 		this.novo = Config.getResolveUrl(app, page, action);
 	}
@@ -70,38 +54,32 @@ public class PesquisarMenu extends Model{
 
 
 	public static class Table_1{
-		private String ativo;
-		private int checkbox;
-		private int checkbox_check;
 		private String t1_menu_principal;
+		private int ativo;
+		private int ativo_check;
 		private String table_titulo;
 		private String pagina;
+		private int checkbox;
+		private int checkbox_check;
 		private String p_id;
-		public void setAtivo(String ativo){
-			this.ativo = ativo;
-		}
-		public String getAtivo(){
-			return this.ativo;
-		}
-
-		public void setCheckbox(int checkbox){
-			this.checkbox = checkbox;
-		}
-		public int getCheckbox(){
-			return this.checkbox;
-		}
-		public void setCheckbox_check(int checkbox_check){
-			this.checkbox_check = checkbox_check;
-		}
-		public int getCheckbox_check(){
-			return this.checkbox_check;
-		}
-
 		public void setT1_menu_principal(String t1_menu_principal){
 			this.t1_menu_principal = t1_menu_principal;
 		}
 		public String getT1_menu_principal(){
 			return this.t1_menu_principal;
+		}
+
+		public void setAtivo(int ativo){
+			this.ativo = ativo;
+		}
+		public int getAtivo(){
+			return this.ativo;
+		}
+		public void setAtivo_check(int ativo_check){
+			this.ativo_check = ativo_check;
+		}
+		public int getAtivo_check(){
+			return this.ativo_check;
 		}
 
 		public void setTable_titulo(String table_titulo){
@@ -116,6 +94,19 @@ public class PesquisarMenu extends Model{
 		}
 		public String getPagina(){
 			return this.pagina;
+		}
+
+		public void setCheckbox(int checkbox){
+			this.checkbox = checkbox;
+		}
+		public int getCheckbox(){
+			return this.checkbox;
+		}
+		public void setCheckbox_check(int checkbox_check){
+			this.checkbox_check = checkbox_check;
+		}
+		public int getCheckbox_check(){
+			return this.checkbox_check;
 		}
 
 		public void setP_id(String p_id){

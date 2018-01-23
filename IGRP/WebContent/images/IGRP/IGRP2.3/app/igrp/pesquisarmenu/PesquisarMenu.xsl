@@ -21,7 +21,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-d0a7d39b">
+                                    <div class="row " id="row-54a92192">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-9333d1ca">
+                                    <div class="row " id="row-a284df23">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/form_1">
@@ -53,50 +53,6 @@
                                                                                 <xsl:with-param name="field" select="rows/content/form_1/fields/aplicacao"/>
                                                                             </xsl:call-template>
                                                                             <xsl:for-each select="rows/content/form_1/fields/aplicacao/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/organica">
-                                                                    <div class="col-sm-3 form-group  gen-fields-holder" item-name="organica" item-type="select">
-                                                                        <label for="{rows/content/form_1/fields/organica/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/organica/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 IGRP_change" id="form_1_organica" name="{rows/content/form_1/fields/organica/@name}">
-                                                                            <xsl:call-template name="setAttributes">
-                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/organica"/>
-                                                                            </xsl:call-template>
-                                                                            <xsl:for-each select="rows/content/form_1/fields/organica/list/option">
-                                                                                <option value="{value}" label="{text}">
-                                                                                    <xsl:if test="@selected='true'">
-                                                                                        <xsl:attribute name="selected">selected</xsl:attribute>
-                                                                                    </xsl:if>
-                                                                                    <span>
-                                                                                        <xsl:value-of select="text"/>
-                                                                                    </span>
-                                                                                </option>
-                                                                            </xsl:for-each>
-                                                                        </select>
-                                                                    </div>
-                                                                </xsl:if>
-                                                                <xsl:if test="rows/content/form_1/fields/menu_principal">
-                                                                    <div class="col-sm-3 form-group  gen-fields-holder" item-name="menu_principal" item-type="select">
-                                                                        <label for="{rows/content/form_1/fields/menu_principal/@name}">
-                                                                            <xsl:value-of select="rows/content/form_1/fields/menu_principal/label"/>
-                                                                        </label>
-                                                                        <select class="form-control select2 IGRP_change" id="form_1_menu_principal" name="{rows/content/form_1/fields/menu_principal/@name}">
-                                                                            <xsl:call-template name="setAttributes">
-                                                                                <xsl:with-param name="field" select="rows/content/form_1/fields/menu_principal"/>
-                                                                            </xsl:call-template>
-                                                                            <xsl:for-each select="rows/content/form_1/fields/menu_principal/list/option">
                                                                                 <option value="{value}" label="{text}">
                                                                                     <xsl:if test="@selected='true'">
                                                                                         <xsl:attribute name="selected">selected</xsl:attribute>
@@ -129,7 +85,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-aab82683">
+                                    <div class="row " id="row-2089661a">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/table_1">
@@ -144,24 +100,17 @@
                                                                     <table id="table_1" class="table table-striped igrp-data-table IGRP_contextmenu " exports="null">
                                                                         <thead>
                                                                             <tr>
-                                                                                <xsl:if test="rows/content/table_1/fields/ativo">
-                                                                                    <th align="left" class=" gen-fields-holder">
-                                                                                        <span>
-                                                                                            <xsl:value-of select="rows/content/table_1/fields/ativo/label"/>
-                                                                                        </span>
-                                                                                    </th>
-                                                                                </xsl:if>
-                                                                                <xsl:if test="rows/content/table_1/fields/checkbox">
-                                                                                    <th class="bs-checkbox gen-fields-holder" align="center">
-                                                                                        <span>Público</span>
-                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="checkbox" data-title="Público" data-toggle="tooltip"/>
-                                                                                    </th>
-                                                                                </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/t1_menu_principal">
                                                                                     <th align="left" class=" gen-fields-holder">
                                                                                         <span>
                                                                                             <xsl:value-of select="rows/content/table_1/fields/t1_menu_principal/label"/>
                                                                                         </span>
+                                                                                    </th>
+                                                                                </xsl:if>
+                                                                                <xsl:if test="rows/content/table_1/fields/ativo">
+                                                                                    <th class="bs-checkbox gen-fields-holder" align="center">
+                                                                                        <span>Ativo</span>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="ativo" data-title="Ativo" data-toggle="tooltip"/>
                                                                                     </th>
                                                                                 </xsl:if>
                                                                                 <xsl:if test="rows/content/table_1/fields/table_titulo">
@@ -178,6 +127,12 @@
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
+                                                                                <xsl:if test="rows/content/table_1/fields/checkbox">
+                                                                                    <th class="bs-checkbox gen-fields-holder" align="center">
+                                                                                        <span>Público</span>
+                                                                                        <input type="checkbox" class="IGRP_checkall" check-rel="checkbox" data-title="Público" data-toggle="tooltip"/>
+                                                                                    </th>
+                                                                                </xsl:if>
                                                                                 <th class="igrp-table-ctx-th"/>
                                                                             </tr>
                                                                         </thead>
@@ -187,10 +142,38 @@
                                                                                     <xsl:apply-templates mode="context-param" select="context-menu"/>
                                                                                     <input type="hidden" name="p_id_fk" value="{id}"/>
                                                                                     <input type="hidden" name="p_id_fk_desc" value="{id_desc}"/>
-                                                                                    <xsl:if test="ativo">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/ativo/label}" class="plaintext" item-name="ativo">
+                                                                                    <xsl:if test="t1_menu_principal">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/t1_menu_principal/label}" class="plaintext" item-name="t1_menu_principal">
                                                                                             <span class="">
-                                                                                                <xsl:value-of select="ativo"/>
+                                                                                                <xsl:value-of select="t1_menu_principal"/>
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="ativo">
+                                                                                        <td align="" data-row="{position()}" data-title="{../../label/ativo}" class="bs-checkbox" item-name="ativo">
+                                                                                            <xsl:if test="ativo != '-0'">
+                                                                                                <label class="checkbox-switch switch">
+                                                                                                    <input type="checkbox" name="p_ativo" value="{ativo}" check-rel="ativo">
+                                                                                                        <xsl:if test="ativo_check=ativo">
+                                                                                                            <xsl:attribute name="checked">checked</xsl:attribute>
+                                                                                                        </xsl:if>
+                                                                                                    </input>
+                                                                                                    <span class="slider round"/>
+                                                                                                </label>
+                                                                                            </xsl:if>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="table_titulo">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/table_titulo/label}" class="plaintext" item-name="table_titulo">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="table_titulo"/>
+                                                                                            </span>
+                                                                                        </td>
+                                                                                    </xsl:if>
+                                                                                    <xsl:if test="pagina">
+                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/pagina/label}" class="plaintext" item-name="pagina">
+                                                                                            <span class="">
+                                                                                                <xsl:value-of select="pagina"/>
                                                                                             </span>
                                                                                         </td>
                                                                                     </xsl:if>
@@ -206,27 +189,6 @@
                                                                                                     <span class="slider round"/>
                                                                                                 </label>
                                                                                             </xsl:if>
-                                                                                        </td>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="t1_menu_principal">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/t1_menu_principal/label}" class="plaintext" item-name="t1_menu_principal">
-                                                                                            <span class="">
-                                                                                                <xsl:value-of select="t1_menu_principal"/>
-                                                                                            </span>
-                                                                                        </td>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="table_titulo">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/table_titulo/label}" class="plaintext" item-name="table_titulo">
-                                                                                            <span class="">
-                                                                                                <xsl:value-of select="table_titulo"/>
-                                                                                            </span>
-                                                                                        </td>
-                                                                                    </xsl:if>
-                                                                                    <xsl:if test="pagina">
-                                                                                        <td align="left" data-row="{position()}" data-title="{../../../fields/pagina/label}" class="plaintext" item-name="pagina">
-                                                                                            <span class="">
-                                                                                                <xsl:value-of select="pagina"/>
-                                                                                            </span>
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <td class="igrp-table-ctx-td">
@@ -266,14 +228,14 @@
                 <!-- RULES -->
                 <script src="{$path}/core/igrp/IGRP.rules.class.js"/>
                 <script>
-$.IGRP.rules.set({"p_aplicacao":[{"name":"Show org e menu pai","events":"load,change","isTable":false,"conditions":{"rules":[{"condition":"less","value":"1","value2":"","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"hide","targets":"organica,menu_principal","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
+$.IGRP.rules.set({"p_aplicacao":[{"name":"Show org e menu pai","events":"load,change","isTable":false,"conditions":{"rules":[{"condition":"less","value":"1","value2":"","patern":"","patern_custom":"","opposite":"1"}],"actions":[{"action":"hide","targets":"table_1","procedure":"","request_fields":"","msg_type":"info","msg":""}]}}]},'actionsList');</script>
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516529147178"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516529147178"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516529147178"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516529147178"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516529147178"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516529147178"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516725812602"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516725812602"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516725812602"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516725812602"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516725812602"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516725812602"/>
 </xsl:stylesheet>

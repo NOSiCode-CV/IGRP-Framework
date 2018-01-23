@@ -68,7 +68,7 @@ public class EnvController extends Controller {
 			app.setDescription(model.getDescription());	
 			app.setExternal(model.getFlg_external());
 			if(app.getExternal() == 1 && Core.isNotNull(model.getHost())) {
-				app.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
+				app.setUrl(model.getHost());
 			}
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
@@ -105,7 +105,7 @@ public class EnvController extends Controller {
 		model.setDescription(aplica_db.getDescription());
 		model.setFlg_external(aplica_db.getExternal());
 		model.setHost(aplica_db.getUrl());
-		if(aplica_db.getAction()!=null && !aplica_db.getAction().equals("")){
+		if(Core.isNotNull(aplica_db.getAction())){
 			model.setAction_fk(aplica_db.getAction().getId().toString());
 		}
 		model.setImg_src(aplica_db.getImg_src());
@@ -121,7 +121,7 @@ public class EnvController extends Controller {
 			aplica_db.setExternal(model.getFlg_external());
 			
 			if(aplica_db.getExternal() == 1 && Core.isNotNull(model.getHost())) {
-				aplica_db.setUrl(URLEncoder.encode(model.getHost(), "utf-8"));
+				aplica_db.setUrl(model.getHost());
 			}
 			
 			aplica_db.setDescription(model.getDescription());
@@ -142,7 +142,7 @@ public class EnvController extends Controller {
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
 		view.btn_gravar.setLink("editar&id=" + idAplicacao);
-		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "--- Selecionar Página ---"));
+		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "-- Selecionar --"));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
 		view.link_center.setVisible(false);
@@ -271,7 +271,7 @@ public class EnvController extends Controller {
 			Application env = new Application().find().andWhere("dad", "=", app).one();
 			//System.out.println(env.getExternal() + " - " + env.getUrl());
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
-				return this.redirectToUrl(URLDecoder.decode(URLDecoder.decode(env.getUrl(), "utf-8"), "utf-8"));
+				return this.redirectToUrl(env.getUrl());
 			}
 			return this.redirect(app, p[1], p[2]);
 		}

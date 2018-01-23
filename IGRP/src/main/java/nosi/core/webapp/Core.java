@@ -42,6 +42,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
+import static nosi.core.i18n.Translator.gt;
 /**
  * @author: Emanuel Pereira
  * 13 Nov 2017
@@ -59,43 +60,43 @@ public final class Core {	// Not inherit
 	//Add Message Error
 	public static void setMessageError(String msg){
 		log.error(msg);
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, msg);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}	
 
 	public static void setMessageError(){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,gt( FlashMessage.MESSAGE_ERROR));
 	}	
 
 	//Add Message Success
 	public static void setMessageSuccess(String msg){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, msg);	
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));	
 	}
 	
 	//Add Message Success
 	public static void setMessageSuccess(){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MESSAGE_SUCCESS);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(FlashMessage.MESSAGE_SUCCESS));
 	}
 	
 	//Add Message Info
 	public static void setMessageInfo(String msg){
 		log.info(msg);
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, msg);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
 	}
 
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String link){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+link);		
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+link);		
 	}
 	
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String app,String page,String action){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, msg+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
 	}
 		
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
 		log.warn(msg);
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, msg);		
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));		
 	}	
 	
 	//Get Config Property

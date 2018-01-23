@@ -10,15 +10,14 @@ public class PesquisarMenuView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
-	public Field organica;
-	public Field menu_principal;
 	public Field novo;
-	public Field ativo;
-	public Field checkbox;
-	public Field checkbox_check;
 	public Field t1_menu_principal;
+	public Field ativo;
+	public Field ativo_check;
 	public Field table_titulo;
 	public Field pagina;
+	public Field checkbox;
+	public Field checkbox_check;
 	public Field p_id;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
@@ -41,33 +40,21 @@ public class PesquisarMenuView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Orgânica"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
-		
-		menu_principal = new ListField(model,"menu_principal");
-		menu_principal.setLabel(gt("Menu pai"));
-		menu_principal.propertie().add("name","p_menu_principal").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
-		
 		novo = new LinkField(model,"novo");
 		novo.setLabel(gt("Novo"));
 		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","NovoMenu").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
 		
-		ativo = new PlainTextField(model,"ativo");
-		ativo.setLabel(gt("Ativo"));
-		ativo.propertie().add("name","p_ativo").add("type","plaintext").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
-		
-		checkbox = new CheckBoxField(model,"checkbox");
-		checkbox.setLabel(gt("Público"));
-		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","center").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
-		
-		checkbox_check = new CheckBoxField
-		(model,"checkbox_check");
-		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","center").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
 		t1_menu_principal.propertie().add("name","p_t1_menu_principal").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		
+		ativo = new CheckBoxField(model,"ativo");
+		ativo.setLabel(gt("Ativo"));
+		ativo.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
+		
+		ativo_check = new CheckBoxField
+		(model,"ativo_check");
+		ativo_check.propertie().add("name","p_ativo").add("type","checkbox").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("switch","true").add("check","true").add("desc","true");
 		table_titulo = new PlainTextField(model,"table_titulo");
 		table_titulo.setLabel(gt("Título"));
 		table_titulo.propertie().add("name","p_table_titulo").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
@@ -76,6 +63,13 @@ public class PesquisarMenuView extends View {
 		pagina.setLabel(gt("Página"));
 		pagina.propertie().add("name","p_pagina").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
 		
+		checkbox = new CheckBoxField(model,"checkbox");
+		checkbox.setLabel(gt("Público"));
+		checkbox.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","center").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
+		
+		checkbox_check = new CheckBoxField
+		(model,"checkbox_check");
+		checkbox_check.propertie().add("name","p_checkbox").add("type","checkbox").add("maxlength","30").add("align","center").add("lookup_parser","false").add("iskey","false").add("switch","false").add("check","true").add("desc","true");
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
@@ -94,16 +88,15 @@ public class PesquisarMenuView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);
-		form_1.addField(organica);
-		form_1.addField(menu_principal);
 		form_1.addField(novo);
 
-		table_1.addField(ativo);
-		table_1.addField(checkbox);
-		table_1.addField(checkbox_check);
 		table_1.addField(t1_menu_principal);
+		table_1.addField(ativo);
+		table_1.addField(ativo_check);
 		table_1.addField(table_titulo);
 		table_1.addField(pagina);
+		table_1.addField(checkbox);
+		table_1.addField(checkbox_check);
 		table_1.addField(p_id);
 
 		table_1.addButton(btn_editar);

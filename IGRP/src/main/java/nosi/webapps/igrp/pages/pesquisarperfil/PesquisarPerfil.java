@@ -1,6 +1,9 @@
 package nosi.webapps.igrp.pages.pesquisarperfil;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,16 +28,30 @@ public class PesquisarPerfil extends Model{
 
 
 	public static class Table_1{
-		private String estado;
+		private String organica;
+		private int estado;
+		private int estado_check;
 		private String descricao;
 		private String codigo;
-		private String organica;
 		private String p_id;
-		public void setEstado(String estado){
+		public void setOrganica(String organica){
+			this.organica = organica;
+		}
+		public String getOrganica(){
+			return this.organica;
+		}
+
+		public void setEstado(int estado){
 			this.estado = estado;
 		}
-		public String getEstado(){
+		public int getEstado(){
 			return this.estado;
+		}
+		public void setEstado_check(int estado_check){
+			this.estado_check = estado_check;
+		}
+		public int getEstado_check(){
+			return this.estado_check;
 		}
 
 		public void setDescricao(String descricao){
@@ -49,13 +66,6 @@ public class PesquisarPerfil extends Model{
 		}
 		public String getCodigo(){
 			return this.codigo;
-		}
-
-		public void setOrganica(String organica){
-			this.organica = organica;
-		}
-		public String getOrganica(){
-			return this.organica;
 		}
 
 		public void setP_id(String p_id){

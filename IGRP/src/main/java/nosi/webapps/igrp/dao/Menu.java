@@ -237,7 +237,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 
 	public HashMap<Integer, String> getListPrincipalMenus() {
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Menu pai --"));
+		lista.put(null, gt("-- Selecionar --"));
 		for(Menu m:this.findAll(this.getCriteria().where(this.getBuilder().isNull(this.getRoot().get("menu"))))){
 			lista.put(m.getId(),m.getDescr());
 		}
@@ -246,7 +246,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	
 	public HashMap<Integer, String> getListPrincipalMenus(int app) {
 		HashMap<Integer,String> lista = new HashMap<>();
-		lista.put(null, gt("-- Selecionar Menu pai --"));
+		lista.put(null, gt("-- Selecionar --"));
 		List<Menu> aux = this.getEntityManagerFactory().createEntityManager().createQuery("select t from Menu t where t.application.id = :_a and t.menu is null ")
 				.setParameter("_a", app)
 				.getResultList();

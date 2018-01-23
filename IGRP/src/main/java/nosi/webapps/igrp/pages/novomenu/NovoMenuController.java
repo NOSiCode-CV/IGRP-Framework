@@ -137,9 +137,9 @@ public class NovoMenuController extends Controller {
 			} else {
 				menu = menu.insert();
 				if (menu != null) {
-					Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
+					Core.setMessageSuccess( gt("Operação efetuada com sucesso"));
 				} else {
-					Igrp.getInstance().getFlashMessage().addMessage("error", "Falha ao tentar efetuar esta operação");
+					Core.setMessageError(gt("Falha ao tentar efetuar esta operação"));
 				}
 			}
 

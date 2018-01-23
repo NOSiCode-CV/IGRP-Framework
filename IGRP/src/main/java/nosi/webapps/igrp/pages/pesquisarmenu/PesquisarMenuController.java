@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.components.IGRPTopMenu;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -28,40 +30,36 @@ public class PesquisarMenuController extends Controller {
 		Menu menu = new Menu();
 		int idApp = 0;
 		int idOrg = 0;
-		int idMen = 0;
+	//	int idMen = 0;
 		model.load();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 
 			idApp = (model.getAplicacao() != null && !model.getAplicacao().equals(""))
 					? Integer.parseInt(model.getAplicacao())
 					: 0;
-			idOrg = (model.getOrganica() != null && !model.getOrganica().equals(""))
-					? Integer.parseInt(model.getOrganica())
-					: 0;
-			idMen = (model.getMenu_principal() != null && !model.getMenu_principal().equals(""))
-					? Integer.parseInt(model.getMenu_principal())
-					: 0;
+
 
 			menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
-			menu.setOrganization(idOrg != 0 ? new Organization().findOne(idOrg) : null);
-			menu.setMenu(idMen != 0 ? new Menu().findOne(idMen) : null);
+
 		}
 		List<Menu> menus = null;
 
 		if (idOrg == 0) {
 			String dad = Permission.getCurrentEnv();
 			if ("igrp".equalsIgnoreCase(dad)) {
-				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null)
-						.andWhere("menu", "=", idMen != 0 ? idMen : null).all();
+				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
+					
 			} else {
 				menus = menu.find()
-						.andWhere("application", "=", new Application().find().andWhere("dad", "=", dad).one().getId())
+						.andWhere("application.id", "=",idApp)
 						.andWhere("application", "<>", 1)// Oculta IGRP Core
 						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
 						.andWhere("application", "<>", 3)// Oculta IGRP Studio
-						.andWhere("menu", "=", idMen != 0 ? idMen : null).all();
+						
+                  .all();
 			}
-		} else {
+		} 
+      else {
 			menus = menu.searchMen();
 		}
 		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
@@ -77,7 +75,9 @@ public class PesquisarMenuController extends Controller {
 				table1.setPagina(menu_db1.getAction().getPage());
 				table1.setTable_titulo(menu_db1.getDescr());
 			}
-			table1.setAtivo(menu_db1.getStatus() == 1 ? "Ativo" : "Inativo");
+		
+			table1.setAtivo(menu_db1.getStatus());
+            table1.setAtivo_check(1);
 			table1.setCheckbox(menu_db1.getId());
 			table1.setP_id("" + menu_db1.getId());
 			if (menu_db1.getFlg_base() == 1) {
@@ -90,14 +90,6 @@ public class PesquisarMenuController extends Controller {
 		PesquisarMenuView view = new PesquisarMenuView(model);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
-		HashMap<String, String> organizations = (!new String(model.getAplicacao() + "").isEmpty()
-				? new Organization().getListOrganizations(idApp)
-				: null);
-		view.organica.setValue(organizations);
-		HashMap<Integer, String> menu_principal = (!new String(model.getAplicacao() + "").isEmpty()
-				&& !new String(model.getAplicacao() + "").isEmpty() ? new Menu().getListPrincipalMenus(idApp) : null);
-		view.menu_principal.setValue(menu_principal);
-
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);	
@@ -124,9 +116,9 @@ public class PesquisarMenuController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação efetuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(FlashMessage.MESSAGE_SUCCESS));
 		else
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Falha ao tentar efetuar esta operação"));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,  gt(FlashMessage.MESSAGE_ERROR));
 
 		return this.redirect("igrp", "PesquisarMenu", "index");
 		/*----#END-PRESERVED-AREA----*/
