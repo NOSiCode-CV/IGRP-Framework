@@ -31,7 +31,7 @@ public class MigrateView extends View {
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1 = new IGRPSectionHeader("sectionheader_1","");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		tipo_base_dados = new ListField(model,"tipo_base_dados");
@@ -61,14 +61,14 @@ public class MigrateView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("MigraÁ„o de base de dados"));
+		sectionheader_1_text.setValue(gt("Migra√ß√£o de base de dados"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 		btn_migrar = new IGRPButton(gt("Migrar"),"igrp","Migrate","migrar","submit","primary|fa-exchange","","");
 		btn_migrar.propertie.add("type","specific").add("code","").add("rel","migrar");
 		
-		btn_testar_conexao = new IGRPButton(gt("Testar Conex„o"),"igrp","Migrate","testar_conexao","submit","success|fa-check","","");
+		btn_testar_conexao = new IGRPButton(gt("Testar Conex√£o"),"igrp","Migrate","testar_conexao","submit","success|fa-check","","");
 		btn_testar_conexao.propertie.add("type","specific").add("code","").add("rel","testar_conexao");
 	}
 		
