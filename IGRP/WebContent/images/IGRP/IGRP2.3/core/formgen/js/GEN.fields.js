@@ -26,7 +26,13 @@ var Field = function(type,params){
 		css : [],
 		xsl:[]
 	};
+	
+	field.server = {
 
+			preserved : { }
+
+		};
+	
 	field.genType = 'field';
 
 	field.autoTag = params.options && params.options.hasOwnProperty('autoTag') ? params.options.autoTag : true;
