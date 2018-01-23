@@ -2066,10 +2066,16 @@ if(input) {
 		var viewInclude = p.type == 'css' ? '<link media="'+media+'" rel="stylesheet" type="text/css" href="'+viewLink+'?v='+_getDate()+'"/>' :
 					      p.type == 'js'  ? '<script '+charset+' type="text/javascript" src="'+viewLink+'?v='+_getDate()+'"></script>' : null;
 
-		//include css to the GEN VIEW
-		if(!GEN.viewFileIncluded(viewLink,p.type)) 
-			$(viewInclude).insertBefore( $('style#custom-css') );
-			//$('html head').append(viewInclude);
+	    //include css to the GEN VIEW
+		if(!GEN.viewFileIncluded(viewLink,p.type)) {
+
+			if(p.type == 'css')
+				$(viewInclude).insertBefore( $('style#custom-css') );
+
+			else
+				$.getScript(viewLink);
+
+		}
 	};
 
 	GEN.includeToHead = function(p){

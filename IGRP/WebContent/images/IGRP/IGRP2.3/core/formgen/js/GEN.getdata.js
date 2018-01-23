@@ -24,7 +24,7 @@ var DATA = {
 	get:function(p){
 		
 		var rtn     = "",
-			mlength = p && p.field && p.field.GET.maxlength ? p.field.GET.maxlength() : 30;
+			mlength = p && p.maxLength ? p.maxLength :  p.field && p.field.GET.maxlength ? p.field.GET.maxlength() : 30;
 
 		switch(p.type){
 			case 'date':
@@ -114,7 +114,7 @@ var DATA = {
 			break;
 
 			case 'plaintext':
-				var chars = 15;
+				var chars = 25;
 				if(p && p.field ){
 					var container = p.field.parent;
 					switch(container.GET.type()){
@@ -127,7 +127,7 @@ var DATA = {
 			break;
 
 			case 'img':
-				rtn = '';
+				rtn = path+'/assets/img/jon_doe.jpg';
 			break;
 
 			case 'hidden':

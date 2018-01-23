@@ -346,11 +346,16 @@
 
 				iframe   = $('iframe',modal),
 
-				n_iframe = iframe.clone();
+				n_iframe = iframe.clone(),
+			
+				url 	 = p.url;
+			
+			if( url.indexOf('&target=_blank') == -1 )
+				url+='&target=_blank';
 
 			modal.addClass('loading');
 
-			n_iframe.attr('src',p.url);
+			n_iframe.attr('src',url);
 
 			n_iframe.bind('load',function(e){
 		

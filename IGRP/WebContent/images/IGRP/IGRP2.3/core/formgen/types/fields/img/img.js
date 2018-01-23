@@ -25,11 +25,11 @@ var IMGFIELD = function(type,params){
 		};
 
 	field.ready = function(){
-
+		
 		field.setPropriety({
 			name:'img',
 			label:'Image',
-			value:'images/IGRP/IGRP2.3/assets/img/jon_doe.jpg',
+			value:'',
 			size:'12',
 			valuePersist : true,
 			onChange:function(v){
@@ -112,6 +112,8 @@ var IMGFIELD = function(type,params){
 			value:false,
 			xslValue:'img-rounded'
 		});
+		
+		console.log(field);
 
 	}
 
