@@ -50,7 +50,7 @@ public class UserService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<UserService> getUsers(){
 		List<UserService> d = new ArrayList<>();
-		Response response = this.request.get("identity/users");
+		Response response = new RestRequest().get("identity/users");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -60,7 +60,7 @@ public class UserService extends Activit{
 				e.printStackTrace();
 			}
 			if(response.getStatus()==200){
-				UserService dep = (UserService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				UserService dep = (UserService) ResponseConverter.convertJsonToDao(contentResp, UserService.class);
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
@@ -74,9 +74,9 @@ public class UserService extends Activit{
 		return d;
 	}
 	
-	public UserService create(){
-		UserService u = this;
-		Response response = this.request.post("identity/users",ResponseConverter.convertDaoToJson(this));
+	public UserService create(UserService user){
+		UserService u = new UserService();
+		Response response = new RestRequest().post("identity/users",ResponseConverter.convertDaoToJson(user));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -95,9 +95,9 @@ public class UserService extends Activit{
 	}
 	
 
-	public UserService update(){
-		UserService u = this;
-		Response response = this.request.put("identity/users",ResponseConverter.convertDaoToJson(this),this.getId());
+	public UserService update(UserService user){
+		UserService u = new UserService();
+		Response response = new RestRequest().put("identity/users",ResponseConverter.convertDaoToJson(user),user.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();

@@ -73,7 +73,7 @@ public class NovoPerfilController extends Controller {
 				group.setId(pt.getOrganization().getCode() + "." + pt.getCode());
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
-				group.create();
+				group.create(group);
 				Core.setMessageSuccess(gt("Operação efetuada com sucesso"));
 				Core.setMessageInfoLink(gt("Click aqui para atribuir menu para o perfil " + pt.getDescr()), "igrp",
 						"MenuOrganica", "index&target=_blank&id=" + pt.getId() + "&type=perfil");

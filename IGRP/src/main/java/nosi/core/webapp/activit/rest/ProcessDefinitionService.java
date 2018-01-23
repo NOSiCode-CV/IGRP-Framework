@@ -39,7 +39,7 @@ public class ProcessDefinitionService extends Activit{
 
 
 	public ProcessDefinitionService getProcessDefinition(String id){
-		Response response = this.request.get("repository/process-definitions/",id);
+		Response response = new RestRequest().get("repository/process-definitions/",id);
 		ProcessDefinitionService process = this;
 		if(response!=null){
 			String contentResp = "";
@@ -60,8 +60,8 @@ public class ProcessDefinitionService extends Activit{
 	
 	public String getDiagram(String id){
 		String d = null;
-		this.request.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		Response response = request.get("runtime/process-instances/"+id+"/diagram");		
+		new RestRequest().setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
+		Response response = new RestRequest().get("runtime/process-instances/"+id+"/diagram");		
 		if(response!=null){
 			if(response.getStatus()==200) {
 				InputStream finput =(InputStream) response.getEntity();
@@ -81,7 +81,7 @@ public class ProcessDefinitionService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<ProcessDefinitionService> getProcessDefinitions(){
 		List<ProcessDefinitionService> d = new ArrayList<>();
-		Response response = this.request.get("repository/process-definitions"+this.getFilter());
+		Response response = new RestRequest().get("repository/process-definitions"+this.getFilter());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -162,7 +162,7 @@ public class ProcessDefinitionService extends Activit{
 
 	public ProcessDefinitionService update(){
 		ProcessDefinitionService d = this;
-		Response response = this.request.put("repository/process-definitions",ResponseConverter.convertDaoToJson(this),this.getId());
+		Response response = new RestRequest().put("repository/process-definitions",ResponseConverter.convertDaoToJson(this),this.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -181,7 +181,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public boolean delete(String id){
-		Response response = this.request.delete("repository/process-definitions",id);
+		Response response = new RestRequest().delete("repository/process-definitions",id);
 		return response!=null && response.getStatus()==204;
 	}	
 

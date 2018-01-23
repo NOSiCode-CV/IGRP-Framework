@@ -73,7 +73,7 @@ public class ResourceService {
 	}
 	
 	public String getResourceData(String link){
-		this.request.setBase_url(url);
+		this.request.setBase_url("");
 		Response response = this.request.get(link);
 		if(response!=null){
 			if(response.getStatus()==200) {
