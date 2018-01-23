@@ -3,25 +3,24 @@
 /*Create Controller*/
 
 package nosi.webapps.igrp_studio.pages.bpmndesigner;
-import nosi.core.config.Config;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
-
+import org.apache.commons.text.StringEscapeUtils;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.webapps.igrp.dao.Application;
-
+import nosi.core.config.Config;
 /*----#END-PRESERVED-AREA----*/
 
 public class BPMNDesignerController extends Controller {		
@@ -53,12 +52,13 @@ public class BPMNDesignerController extends Controller {
 
 	public Response actionGravar() throws IOException, ServletException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
-		Core.setMessageInfo("Botão Gravar"); 
-		Core.setMessageSuccess();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
 		DeploymentService deploy = new DeploymentService();
-		deploy.create(data);
-		return this.redirect("igrp_studio","BPMNDesigner","index");
+		deploy = deploy.create(data);
+		if(deploy!=null && Core.isNotNull(deploy.getId())){
+			return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(FlashMessage.SUCCESS) + "</message></messages>");
+		}
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.getError().getException()) + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
