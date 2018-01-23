@@ -1602,7 +1602,7 @@ body.loading:after{
   margin: 0; 
 }
 
-.loader {
+.modal>.loader {
   border:4px solid #6d6d6d;
   border-radius: 50%;
   border-top:4px solid #bdbdbd;
