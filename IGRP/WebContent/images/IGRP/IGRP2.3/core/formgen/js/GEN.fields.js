@@ -27,12 +27,6 @@ var Field = function(type,params){
 		xsl:[]
 	};
 
-	field.server = {
-
-		preserved : { }
-
-	};
-
 	field.genType = 'field';
 
 	field.autoTag = params.options && params.options.hasOwnProperty('autoTag') ? params.options.autoTag : true;
@@ -67,8 +61,6 @@ var Field = function(type,params){
 			},
 			xsl : field.xslOptions
 		};
-
-
 
 		//console.log(field.proprieties);
 		for(var propriety in field.proprieties){
@@ -169,6 +161,10 @@ var Field = function(type,params){
 			var nameHolder = field.holder ? field.holder.find('[name]') : [];
 			
 			if(nameHolder[0]) nameHolder.attr('name',name);
+		},
+		type : function(type){
+			field.proprieties.type = type;
+			field.type = type;
 		}
 	}
 
@@ -319,20 +315,20 @@ var Field = function(type,params){
 				field.proprieties[p.name].value = _value;
 			else
 				field.proprieties[p.name] = _value;
-			
+
 			try{
 				
 				if(!hasChangeEvent && (p.onChange || field.proprieties[p.name].onChange) ){
-					if(p.onChange) p.onChange(_value,_params);
-					if(field.proprieties[p.name].onChange) field.proprieties[p.name].onChange(_value,_params);
+					if(p.onChange) 
+						p.onChange(_value,_params);
+					if(field.proprieties[p.name].onChange) 
+						field.proprieties[p.name].onChange(_value,_params);
 				}
-				
-			}catch(err){
-				
-			}
-			
+
+			}catch(error){}
 
 			if(p.transform && transform) 
+
 				field.parent.Transform();
 		}
 
@@ -406,7 +402,6 @@ var Field = function(type,params){
 		if(!field.proprieties.tag || $.trim(field.proprieties.tag) == '')
 			field.SET.tag(field.parent.incrementTag('field',type));
 		
-
 		field.onInit();
 
 		field.ready();
@@ -429,7 +424,7 @@ var Field = function(type,params){
 		label     : capitalizeFirstLetter(type),
 		tag       : '',
 		name      : '',
-		type      : type
+		type      : type,
 	}
 
 	var tagChangeEvents = [];
