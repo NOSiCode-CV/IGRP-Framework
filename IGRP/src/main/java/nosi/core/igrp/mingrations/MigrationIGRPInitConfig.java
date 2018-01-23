@@ -32,7 +32,7 @@ public class MigrationIGRPInitConfig {
 		igrp_studio = igrp_studio.insertOnly();
 		
 		if(igrp!=null){
-			Config config = new Config("url_ativiti_connection", "https://igrpdev.gov.cv/activiti-app/api/");
+			Config config = new Config("url_ativiti_connection", "http://localhost:8080/activiti-rest/service/");
 			config.insert();
 			config = new Config("ativiti_user", "kermit");
 			config.insert();
@@ -112,30 +112,30 @@ public class MigrationIGRPInitConfig {
 			igrp_studio_prof = igrp_studio_prof.insert();
 			
 			//Cria grupo e utilizadores no Activiti
-			GroupService group = new GroupService();
-			group.setId(org.getCode()+"."+prof1.getCode());
-			group.setName(org.getName()+" - "+prof1.getDescr());
-			group.setType("assignment");
-			group.create();
-			
-			UserService userActiviti0 = new UserService();
-			userActiviti0.setId(user0.getUser_name());
-			userActiviti0.setPassword("password.igrp");
-			userActiviti0.setFirstName(user0.getName());
-			userActiviti0.setLastName("");
-			userActiviti0.setEmail(user0.getEmail());
-			userActiviti0.create();	
-			
-			UserService userActiviti1 = new UserService();
-			userActiviti1.setId(user1.getUser_name());
-			userActiviti1.setPassword("password.igrp");
-			userActiviti1.setFirstName(user1.getName());
-			userActiviti1.setLastName("");
-			userActiviti1.setEmail(user1.getEmail());
-			userActiviti1.create();	
-			
-			group.addUser(userActiviti0.getId());
-			group.addUser(userActiviti1.getId());
+//			GroupService group = new GroupService();
+//			group.setId(org.getCode()+"."+prof1.getCode());
+//			group.setName(org.getName()+" - "+prof1.getDescr());
+//			group.setType("assignment");
+//			group.create(group);
+//			
+//			UserService userActiviti0 = new UserService();
+//			userActiviti0.setId(user0.getUser_name());
+//			userActiviti0.setPassword("password.igrp");
+//			userActiviti0.setFirstName(user0.getName());
+//			userActiviti0.setLastName("");
+//			userActiviti0.setEmail(user0.getEmail());
+//			userActiviti0.create(userActiviti0);	
+//			
+//			UserService userActiviti1 = new UserService();
+//			userActiviti1.setId(user1.getUser_name());
+//			userActiviti1.setPassword("password.igrp");
+//			userActiviti1.setFirstName(user1.getName());
+//			userActiviti1.setLastName("");
+//			userActiviti1.setEmail(user1.getEmail());
+//			userActiviti1.create(userActiviti1);	
+//			
+//			group.addUser(userActiviti0.getId());
+//			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
 			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, igrp_studio));

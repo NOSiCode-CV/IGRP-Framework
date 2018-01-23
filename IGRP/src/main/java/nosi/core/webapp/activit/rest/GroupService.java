@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import nosi.core.webapp.webservices.helpers.RestRequest;
 
 /**
  * @author: Emanuel Pereira
@@ -18,13 +19,16 @@ import nosi.core.webapp.webservices.helpers.ResponseError;
  */
 public class GroupService extends Activit{
 
+	/**
+	 * 
+	 */
 	private String type;
 	public GroupService() {
 	}
 	
 	public GroupService getGroup(String id){
-		GroupService g = this;
-		Response response = this.request.get("identity/groups",id);
+		GroupService g = new GroupService();
+		Response response = new RestRequest().get("identity/groups",id);
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -46,7 +50,7 @@ public class GroupService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<GroupService> getGroups(){
 		List<GroupService> d = new ArrayList<>();
-		Response response = this.request.get("identity/groups");
+		Response response = new RestRequest().get("identity/groups");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -56,7 +60,7 @@ public class GroupService extends Activit{
 				e.printStackTrace();
 			}
 			if(response.getStatus()==200){
-				GroupService dep = (GroupService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				GroupService dep = (GroupService) ResponseConverter.convertJsonToDao(contentResp,GroupService.class);
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
@@ -70,9 +74,9 @@ public class GroupService extends Activit{
 		return d;
 	}
 	
-	public GroupService create(){
-		GroupService g = this;
-		Response response = this.request.post("identity/groups",ResponseConverter.convertDaoToJson(this));
+	public GroupService create(GroupService group){
+		GroupService g = new GroupService();
+		Response response = new RestRequest().post("identity/groups",ResponseConverter.convertDaoToJson(group));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -91,9 +95,9 @@ public class GroupService extends Activit{
 	}
 	
 
-	public GroupService update(){
-		GroupService g = this;
-		Response response = this.request.put("identity/groups",ResponseConverter.convertDaoToJson(this),this.getId());
+	public GroupService update(GroupService group){
+		GroupService g = new GroupService();
+		Response response = new RestRequest().put("identity/groups",ResponseConverter.convertDaoToJson(group),group.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -118,7 +122,7 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Response response = this.request.post("identity/groups/"+idGroup+"/members",jobj.toString());
+		Response response = new RestRequest().post("identity/groups/"+idGroup+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
@@ -129,12 +133,12 @@ public class GroupService extends Activit{
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		Response response = this.request.post("identity/groups/"+this.getId()+"/members",jobj.toString());
+		Response response = new RestRequest().post("identity/groups/"+this.getId()+"/members",jobj.toString());
 		return response!=null?response.getStatus():-1;
 	}
 	
 	public boolean delete(String id){
-		Response response = this.request.delete("identity/groups",id);
+		Response response = new RestRequest().delete("identity/groups",id);
 		return response!=null && response.getStatus()==204;
 	}	
 	
@@ -143,5 +147,11 @@ public class GroupService extends Activit{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	@Override
+	public String toString() {
+		return "GroupService [type=" + type + ", getId()=" + getId() + ", getCategory()=" + getCategory()
+				+ ", getName()=" + getName() + ", getUrl()=" + getUrl() + "]";
 	}
 }
