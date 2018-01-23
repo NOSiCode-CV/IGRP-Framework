@@ -1,41 +1,16 @@
 package nosi.core.webapp.webservices.helpers;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.text.ParseException;
-import java.util.Base64;
-import java.util.List;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientResponse;
-import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart; 
 import org.glassfish.jersey.media.multipart.MultiPart; 
-import org.glassfish.jersey.media.multipart.MultiPartFeature; 
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart; 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.google.gson.Gson;
-import nosi.core.webapp.helpers.UrlHelper;
 import nosi.webapps.igrp.dao.Config;
 
 

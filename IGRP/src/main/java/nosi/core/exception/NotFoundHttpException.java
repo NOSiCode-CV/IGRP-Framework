@@ -5,6 +5,11 @@ package nosi.core.exception;
  */
 public class NotFoundHttpException extends HttpException{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9019701727400672895L;
+
 	public NotFoundHttpException(){
 		super(404, "Not Found Http Exception");
 	}

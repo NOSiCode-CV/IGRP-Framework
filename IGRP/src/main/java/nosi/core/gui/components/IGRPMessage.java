@@ -16,8 +16,6 @@ import nosi.core.xml.XMLWritter;
 
 import org.apache.commons.text.StringEscapeUtils;
 
-import nosi.core.gui.fields.Field;
-import nosi.core.gui.fields.LinkField;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 

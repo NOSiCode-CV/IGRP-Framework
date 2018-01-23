@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.xml.bind.JAXB;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 

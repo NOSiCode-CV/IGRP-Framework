@@ -1,8 +1,6 @@
 package nosi.core.validator;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
-import java.util.Map;
 
 import nosi.core.webapp.Model;
 /**
