@@ -1,17 +1,22 @@
 package nosi.core.servlet;
 
 import java.io.File;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.PropertyConfigurator;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.DefaultConfiguration;
+
 
 /**
  * Servlet implementation class Log4JInitServlet 
- * Ângelo Correia
+ * ï¿½ngelo Correia
  */
 @WebServlet("/Log4JInitServlet")
 public class Log4JInitServlet extends HttpServlet {
@@ -23,16 +28,18 @@ public class Log4JInitServlet extends HttpServlet {
 		ServletContext sc = config.getServletContext();
 		if (log4jLocation == null) {
 			System.err.println("No log4j-properties-location init param, so initializing log4j with BasicConfigurator");
-			BasicConfigurator.configure();
+			Configurator.initialize(new DefaultConfiguration());
 		} else {
 			String webAppPath = sc.getRealPath("/");
 			String log4jProp = webAppPath + log4jLocation;
 			File newlogfile = new File(log4jProp);
 			if (newlogfile.exists()) {
-				PropertyConfigurator.configure(log4jProp);
+				LoggerContext context = (org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false);
+				context.setConfigLocation(newlogfile.toURI());
+
 			} else {
 				System.err.println(" " + log4jProp + " file not found, so initializing log4j with BasicConfigurator");
-				BasicConfigurator.configure();
+				Configurator.initialize(new DefaultConfiguration());
 			}
 		}
 		super.init(config);
