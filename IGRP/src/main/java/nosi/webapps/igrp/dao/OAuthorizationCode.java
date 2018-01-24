@@ -21,6 +21,11 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name = "oauth_authorization_code")
 public class OAuthorizationCode extends BaseActiveRecord<OAuthorizationCode> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4933596482842032501L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

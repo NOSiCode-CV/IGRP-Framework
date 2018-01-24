@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import nosi.core.webapp.Igrp;
 
-import static nosi.core.i18n.Translator.gt;
 
 /**
  * @author Marcel Iekiny

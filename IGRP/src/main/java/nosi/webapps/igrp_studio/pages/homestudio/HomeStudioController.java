@@ -28,7 +28,7 @@ public class HomeStudioController extends Controller {
 		HomeStudioView view = new HomeStudioView(model);
 		Config.type_header = "home";
 		Config.LINK_MY_APPS = "webapps?r=igrp/env/myApps&type=dev";
-		view.form_1.setTitle("Minhas Aplica��es");
+		view.form_1.setTitle("Minhas Aplicaões");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

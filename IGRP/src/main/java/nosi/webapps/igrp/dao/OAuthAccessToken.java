@@ -20,6 +20,11 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name = "oauth_access_tokens")
 public class OAuthAccessToken extends BaseActiveRecord <OAuthAccessToken> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7180329588761600830L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

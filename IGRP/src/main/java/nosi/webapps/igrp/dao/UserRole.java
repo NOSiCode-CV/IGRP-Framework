@@ -2,7 +2,6 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,6 +20,11 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name="tbl_user_roles")
 public class UserRole extends BaseActiveRecord<UserRole> implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7410478558290485771L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

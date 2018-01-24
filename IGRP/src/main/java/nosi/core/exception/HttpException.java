@@ -5,6 +5,10 @@ package nosi.core.exception;
  */
 public class HttpException extends RuntimeException{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7177517652723189397L;
 	private int statusCode;
 	private String statusText;
 	

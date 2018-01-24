@@ -5,6 +5,11 @@ package nosi.core.exception;
  */
 public class ForbiddenHttpException extends HttpException{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6333395527444064579L;
+
 	public ForbiddenHttpException() {
 		super(403, "Forbidden Http Exception");
 	}

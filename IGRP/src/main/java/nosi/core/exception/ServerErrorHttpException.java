@@ -5,6 +5,11 @@ package nosi.core.exception;
  */
 public class ServerErrorHttpException extends HttpException{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8819720701219942201L;
+
 	public ServerErrorHttpException(){
 		super(500, "Server Error Http Exception.");
 	}

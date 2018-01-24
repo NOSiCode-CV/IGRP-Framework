@@ -1,6 +1,7 @@
 package nosi.core.webapp.webservices.helpers;
 
 import java.io.IOException;
+
 import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -8,14 +9,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.apache.cxf.jaxrs.ext.multipart.ContentDisposition;
-import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
-
-import com.google.gson.annotations.Expose;
-
+import org.glassfish.jersey.media.multipart.MultiPart; 
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart; 
 import nosi.webapps.igrp.dao.Config;
 
 
@@ -26,27 +21,16 @@ import nosi.webapps.igrp.dao.Config;
  */
 
 public class RestRequest{
-
-	@Expose(serialize=false,deserialize=false)
-	private String base_url;
-	@Expose(serialize=false,deserialize=false)
-	private String username;
-	@Expose(serialize=false,deserialize=false)
-	private String password;
-	@Expose(serialize=false,deserialize=false)
-	private String accept_format;
-	@Expose(serialize=false,deserialize=false)
-	private String content_type;
-	@Expose(serialize=false,deserialize=false)
+	
+	private String base_url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
+	private String username = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
+	private String password = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
+	private String accept_format = MediaType.APPLICATION_JSON;
+	private String content_type = MediaType.APPLICATION_JSON;
 	private ConfigurationRequest config;
 	
 	public RestRequest() {
-		this.base_url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue(); 
-		this.username = new Config().find().andWhere("name", "=", "ativiti_user").one().getValue();
-		this.password = new Config().find().andWhere("name", "=", "ativiti_password").one().getValue();
-		this.accept_format = MediaType.APPLICATION_JSON;
-		this.content_type  = MediaType.APPLICATION_JSON;
-		this.config = new ConfigurationRequest(this);
+		config = new ConfigurationRequest(this);
 	}	
 	
 	public  Response get(String url, Object id) {
@@ -78,72 +62,112 @@ public class RestRequest{
 	}
 	
 	public Response post(String url, Part file) throws IOException {		
-//		 	final Client client = this.getConfig().bluidClient(); 
-//	        final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream()); 
-//	        FormDataMultiPart formDataMultiPart = new FormDataMultiPart(); 
-//	        final MultiPart multiPart = formDataMultiPart.field("fileName", file.getSubmittedFileName()).bodyPart(stream); 
-//	        if (multiPart instanceof FormDataMultiPart) { 
-//	            final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart; 
-//	            ContentDisposition cd = new ContentDisposition("attachment;filename="+file.getSubmittedFileName());
-//	            Attachment att = new Attachment(file.getName(), file.getInputStream(),cd);
-//	            dataMultiPart.bodyPart(new MultipartBody(att),MediaType.MULTIPART_FORM_DATA_TYPE);
-//	            final WebTarget target = client.target(this.getConfig().getUrl()); 
-//	            final Response response = target.request().post(Entity.entity(dataMultiPart, dataMultiPart.getMediaType())); 
-//	            formDataMultiPart.close(); 
-//	            dataMultiPart.close();
-//	            client.close();
-//	            return response;
-//	        }
-//	        formDataMultiPart.close(); 
-//            client.close();
+	    StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+	    MultiPart multiPart = new MultiPart().bodyPart(stream,MediaType.APPLICATION_OCTET_STREAM_TYPE);
+//	    if (multiPart instanceof FormDataMultiPart) {
+//	        final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);
 			WebTarget target = client.target(this.getConfig().getUrl());
-		    ContentDisposition cd = new ContentDisposition("attachment;filename="+file.getSubmittedFileName());
-	        Attachment att = new Attachment(file.getName(), file.getInputStream(),cd);
-			Response response = target.request(this.getAccept_format())
-									  .header("Content-Type", "multipart/form-data")
-									  .post(Entity.entity(new MultipartBody(att),MediaType.MULTIPART_FORM_DATA));
-			System.out.println(response.getStatus());
-			client.close();
-			return response;
-//			final FileDataBodyPart filePart = new FileDataBodyPart("my_pom", new File("C:\\Users\\Emanuel\\Desktop\\diagram.xml"));
-//			 
-//			final FormDataMultiPart multipart = (FormDataMultiPart) new FormDataMultiPart()
-//			    .field("foo", "bar")
-//			    .bodyPart(filePart);
-//			Client client = this.getConfig().bluidClientMultiPart();
-//			this.addUrl(url);
-//			WebTarget target = client.target(this.getConfig().getUrl());
-//			final Response response = target.request().post(Entity.entity(multipart, multipart.getMediaType()));
-//			return response;
-//	        return null;
+			Response response = target.request().post(Entity.entity(multiPart,multiPart.getMediaType()));
+			if (Response.Status.OK.getStatusCode() == response.getStatus()) {
+	            System.out.println(response.ok(response).build().toString());
+	        } else {
+	        	System.err.println(response.serverError().toString());
+	        }
+//	        formDataMultiPart.close();
+//	        dataMultiPart.close();
+//	    }
+//		final StreamDataBodyPart stream = new StreamDataBodyPart(file.getSubmittedFileName(), file.getInputStream());
+//		 WebClient webClient = WebClient.create(this.BASE_URL+url).header("Authorization",new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));
+//         webClient.encoding("UTF-8");
+//         webClient.type(MediaType.MULTIPART_FORM_DATA);
+//         try {
+//			ContentDisposition cd = new ContentDisposition("attachment;filename="+file.getName());
+//	         Attachment att = new Attachment("root", file.getInputStream());
+//	         
+//	         javax.ws.rs.core.Response response = webClient.post(new MultipartBody(att));
+//	         System.out.println(response);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		 final FormDataBodyPart p = new FormDataBodyPart(FormDataContentDisposition.name("part").build(), "CONTENT");
+//		final MultiPart multipart = new MultiPart()
+//		        .bodyPart(new BodyPart(stream, MediaType.APPLICATION_OCTET_STREAM_TYPE))
+//		        .bodyPart(p);
 		
-//		StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream()); 
-//		FormDataMultiPart multipart = (FormDataMultiPart) new FormDataMultiPart()
+//		final FormDataMultiPart multipart = (FormDataMultiPart) new FormDataMultiPart()
+//			    .field("file bpmn", file.getSubmittedFileName())
 //			    .bodyPart(stream);
-//		Client client = this.getConfig().bluidClient();
-//		this.addUrl(url);
-//		WebTarget target = client.target(this.getConfig().getUrl());
-//		Response response = target.request(this.getAccept_format()).header("Content-Type", MediaType.MULTIPART_FORM_DATA).post(Entity.entity(multipart,MediaType.MULTIPART_FORM_DATA));
-//		client.close();
-//		return response;
-//		final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream(),file.getSubmittedFileName()); 
-//
-//		Client client = this.getConfig().bluidClientMultiPart();
-//		this.addUrl(url);
-//		WebTarget target = client.target(this.getConfig().getUrl());
-//		StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream()); 
-//		FormDataMultiPart multipart = (FormDataMultiPart) new FormDataMultiPart()
-//			    .bodyPart(stream);
-//		Response response = target.request(this.getAccept_format()).post(Entity.entity(multipart,MediaType.MULTIPART_FORM_DATA));
-//		multipart.close();
-//		client.close();		
-//		return response;
+//		javax.ws.rs.client.Client client = javax.ws.rs.client.ClientBuilder.newClient();
+//		client.register(LoggingFilter.class);
+//		WebTarget webTarget = client.target(this.BASE_URL).path(url);
+//		final Response response = webTarget.request().post(Entity.entity(multipart, multipart.getMediaType()));
+//		System.out.println(response);
+//		ClientConfig config = new DefaultClientConfig();			 
+//        Client client = Client.create(this.applySslSecurity(config));	   
+//        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+//        url = this.BASE_URL + url;	        
+//        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	   
+//        ClientResponse response = resource.accept(ACCEPT_FORMAT).post(ClientResponse.class, Entity.entity(multipart, multipart.getMediaType()));
+//        System.out.println(response);
+//        client.destroy();
+//        try {
+//			multiPartEntity.close();
+//	        multiPartEntity.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		final WebTarget target = // Create WebTarget.
+//		final Response response = target
+//		        .request()
+//		        .post(Entity.entity(multiPartEntity, multiPartEntity.getMediaType()));
+//		RestRequest req = new RestRequest();
+//	    final Client client = ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
+//	    client.addFilter(new HTTPBasicAuthFilter(req.USERNAME, req.PASSWORD));
+//	    
+//	    final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+//        FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+//        final MultiPart multiPart = formDataMultiPart.field("fileName", file.getSubmittedFileName()).bodyPart(stream);
+//        if (multiPart instanceof FormDataMultiPart) {
+//            final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
+//            final WebTarget target = client.target(req.BASE_URL+"repository/deployments");
+//		    final Response response = target.request().post(Entity.entity(dataMultiPart, dataMultiPart.getMediaType()));
+//		    System.out.println(response);
+//            formDataMultiPart.close();
+//            dataMultiPart.close();
+//            file.delete();
+//        }	
+//		try {
+//			ClientConfig config = new DefaultClientConfig();			 
+//	        Client client = Client.create(this.applySslSecurity(config));	   
+//	        client.addFilter(new HTTPBasicAuthFilter(this.USERNAME, this.PASSWORD));     
+//	        url = this.BASE_URL + url;	        
+//	        WebResource resource = client.resource(UrlHelper.urlEncoding(url));	   
+//	        final StreamDataBodyPart stream = new StreamDataBodyPart("file", file.getInputStream());
+//	        final FormDataMultiPart formDataMultiPart = new FormDataMultiPart();
+//	        final MultiPart multiPart = formDataMultiPart.field("fileName", file.getSubmittedFileName()).bodyPart(stream);
+//	        
+//	        if (multiPart instanceof FormDataMultiPart) {
+//	            final FormDataMultiPart dataMultiPart = (FormDataMultiPart) multiPart;
+//	            ClientResponse response = resource.accept(ACCEPT_FORMAT).post(ClientResponse.class, Entity.entity(dataMultiPart, dataMultiPart.getMediaType()));
+//	            client.destroy();
+//	            formDataMultiPart.close();
+//	            dataMultiPart.close();
+//	            file.delete();
+//		        return response;
+//	        }	
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+	   return null;
 	}
 	
 
 	public Response post(String url, String content) {
+		
 		try {
 			Client client = this.getConfig().bluidClient();
 			this.addUrl(url);

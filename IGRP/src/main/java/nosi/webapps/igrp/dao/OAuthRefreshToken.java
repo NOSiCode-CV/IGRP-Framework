@@ -21,6 +21,11 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 @Table(name = "oauth_refresh_tokens")
 public class OAuthRefreshToken extends BaseActiveRecord<OAuthRefreshToken> implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5265529528599800228L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

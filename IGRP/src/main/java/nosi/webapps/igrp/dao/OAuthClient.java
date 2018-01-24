@@ -2,7 +2,6 @@ package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,8 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import nosi.base.ActiveRecord.BaseActiveRecord;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.IgrpHelper;;
 /**
  * Marcel Iekiny
  * Sep 16, 2017
@@ -24,6 +21,11 @@ import nosi.core.webapp.helpers.IgrpHelper;;
 @Entity
 @Table(name = "oauth_clients")
 public class OAuthClient extends BaseActiveRecord<OAuthClient> implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8984680537531403410L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
