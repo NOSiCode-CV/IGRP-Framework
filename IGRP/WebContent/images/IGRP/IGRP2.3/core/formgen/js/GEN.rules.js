@@ -92,10 +92,10 @@
 
           if(a.procedure){
             var app     = GEN.SETTINGS.table ? GEN.SETTINGS.table.split('.')[0] : GEN.DETAILS.app,
-                package = GEN.SETTINGS.package,
+                _package = GEN.SETTINGS.package,
                 proc    = a.procedure;
 
-            a.procedure = app+'.'+package+'.'+proc;
+            a.procedure = app+'.'+_package+'.'+proc;
 
           }
 

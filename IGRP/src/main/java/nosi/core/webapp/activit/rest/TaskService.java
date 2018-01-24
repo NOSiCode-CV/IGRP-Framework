@@ -48,7 +48,7 @@ public class TaskService extends Activit{
 	
 	public TaskService getTask(String id){
 		TaskService t = this;
-		Response response = this.request.get("runtime/tasks",id);
+		Response response = new RestRequest().get("runtime/tasks",id);
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -80,7 +80,7 @@ public class TaskService extends Activit{
 	@SuppressWarnings("unchecked")	
 	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
-		Response response = this.request.get("runtime/tasks?size=100000000&"+this.getFilter());
+		Response response = new RestRequest().get("runtime/tasks?size=100000000&"+this.getFilter());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -107,7 +107,7 @@ public class TaskService extends Activit{
 	
 	public TaskService create(){
 		TaskService t = this;
-		Response response = this.request.post("runtime/tasks",ResponseConverter.convertDaoToJson(this));
+		Response response = new RestRequest().post("runtime/tasks",ResponseConverter.convertDaoToJson(this));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -128,7 +128,7 @@ public class TaskService extends Activit{
 
 	public TaskService update(){
 		TaskService t = this;
-		Response response = this.request.put("runtime/tasks",ResponseConverter.convertDaoToJson(this),this.getId());
+		Response response = new RestRequest().put("runtime/tasks",ResponseConverter.convertDaoToJson(this),this.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();

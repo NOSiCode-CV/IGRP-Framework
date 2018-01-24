@@ -490,7 +490,7 @@ $(function(){
 			
 			var exContent = exceptionsRow.split(startExp)[0].replace('{','');
 
-			if(o.field){
+			if(o.field && o.field.server){
 
 				if(o.field.server.preserved[o.mode][o.part])
 

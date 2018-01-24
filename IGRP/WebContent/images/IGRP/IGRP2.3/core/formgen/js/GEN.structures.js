@@ -583,14 +583,14 @@ var GENSTRUCTURES = function(GEN){
 
 	GEN.getFieldServiceMap = function(service){
 		var GEN 	= VARS.getGen(),
-			package = service.package ? 'package="'+service.package+'"':'';
+			_package = service.package ? 'package="'+service.package+'"':'';
 		var rtn = '<service code="'+service.code+'" proc="'+service.proc+'">';
 			rtn+='<request>';
 			var serviceReq = service.fieldsReq[0] ? service.fieldsReq : service.fieldsRes;
 				rtn+=getFieldsService(service.fieldsReq,'from');
 			rtn+='</request>';
 
-			rtn+='<response '+package+'>';
+			rtn+='<response '+_package+'>';
 			var serviceRes = service.fieldsRes[0] ? service.fieldsRes : service.fieldsReq;
 				rtn+=getFieldsService(service.fieldsRes,'to');
 			rtn+='</response>';

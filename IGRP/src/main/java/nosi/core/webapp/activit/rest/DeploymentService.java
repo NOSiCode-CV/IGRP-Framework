@@ -28,7 +28,7 @@ public class DeploymentService extends Activit{
 
 	public DeploymentService getDeployment(String id){
 		DeploymentService d = this;
-		Response response = this.request.get("repository/deployments/",id);
+		Response response = new RestRequest().get("repository/deployments/",id);
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -50,7 +50,7 @@ public class DeploymentService extends Activit{
 	@SuppressWarnings("unchecked")
 	public List<DeploymentService> getDeployments(){
 		List<DeploymentService> d = new ArrayList<>();
-		Response response = this.request.get("repository/deployments?&size=100000000");
+		Response response = new RestRequest().get("repository/deployments?&size=100000000");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -82,6 +82,7 @@ public class DeploymentService extends Activit{
 			InputStream is = (InputStream) response.getEntity();
 			try {
 				contentResp = FileHelper.convertToString(is);
+				System.out.println("contentResp:"+contentResp);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

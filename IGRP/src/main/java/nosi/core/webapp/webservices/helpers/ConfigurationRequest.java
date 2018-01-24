@@ -76,4 +76,11 @@ public class ConfigurationRequest {
 			    }
         };
 	}
+	public Client bluidClientMultiPart() {
+		return  ClientBuilder.newBuilder()
+				.sslContext(this.createSslContext())
+				.hostnameVerifier(this.getHostNameVerifier())
+				.register(this.getHttpAuthenticationFeature())
+				.build();
+	}
 }
