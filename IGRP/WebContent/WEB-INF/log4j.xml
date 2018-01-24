@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-#Marcos tirou daqui ->>> https://logging.apache.org/log4j/2.x/manual/configuration.html
+<!--Marcos tirou daqui ->>> https://logging.apache.org/log4j/2.x/manual/configuration.html-->
+
 
 <Configuration status="debug" strict="true" name="XMLConfigTest"
                packages="org.apache.logging.log4j.test">
@@ -30,22 +31,22 @@
       </Layout>
     </Appender>
   </Appenders>
+<!--  
+  <Loggers>
+    <Logger name="org.apache.logging.log4j.test1" level="debug" additivity="false">
+      <Filter type="ThreadContextMapFilter">
+        <KeyValuePair key="test" value="123"/>
+      </Filter>
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
  
-#  <Loggers>
-#    <Logger name="org.apache.logging.log4j.test1" level="debug" additivity="false">
-#      <Filter type="ThreadContextMapFilter">
-#        <KeyValuePair key="test" value="123"/>
-#      </Filter>
-#      <AppenderRef ref="STDOUT"/>
-#    </Logger>
-# 
-#    <Logger name="org.apache.logging.log4j.test2" level="debug" additivity="false">
-#      <AppenderRef ref="File"/>
-#    </Logger>
-# 
-#    <Root level="trace">
-#      <AppenderRef ref="STDOUT"/>
-#    </Root>
-#  </Loggers>
+    <Logger name="org.apache.logging.log4j.test2" level="debug" additivity="false">
+      <AppenderRef ref="File"/>
+    </Logger>
  
+    <Root level="trace">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+-->
 </Configuration>
