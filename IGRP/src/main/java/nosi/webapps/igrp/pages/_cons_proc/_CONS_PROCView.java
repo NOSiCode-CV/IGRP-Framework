@@ -41,7 +41,7 @@ public class _CONS_PROCView extends View {
 		form = new IGRPForm("form","");
 		table_1 = new IGRPTable("table_1","");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicação"));
+		aplicacao.setLabel(gt("AplicaÃ§Ã£o"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("change","true").add("maxlength","30").add("multiple","false").add("domain","").add("required","false").add("disabled","false").add("right","false").add("java-type","");
 		organica = new ListField(model,"organica");
@@ -89,7 +89,7 @@ public class _CONS_PROCView extends View {
 		
 		dt_fim.propertie().add("name","p_dt_fim").add("type","date").add("maxlength","30").add("range","false").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		num_processo = new TextField(model,"num_processo");
-		num_processo.setLabel(gt("Nº"));
+		num_processo.setLabel(gt("NÂº"));
 		
 		num_processo.propertie().add("name","p_num_processo").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		processo = new TextField(model,"processo");

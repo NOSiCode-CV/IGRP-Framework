@@ -112,30 +112,30 @@ public class MigrationIGRPInitConfig {
 			igrp_studio_prof = igrp_studio_prof.insert();
 			
 			//Cria grupo e utilizadores no Activiti
-//			GroupService group = new GroupService();
-//			group.setId(org.getCode()+"."+prof1.getCode());
-//			group.setName(org.getName()+" - "+prof1.getDescr());
-//			group.setType("assignment");
-//			group.create(group);
-//			
-//			UserService userActiviti0 = new UserService();
-//			userActiviti0.setId(user0.getUser_name());
-//			userActiviti0.setPassword("password.igrp");
-//			userActiviti0.setFirstName(user0.getName());
-//			userActiviti0.setLastName("");
-//			userActiviti0.setEmail(user0.getEmail());
-//			userActiviti0.create(userActiviti0);	
-//			
-//			UserService userActiviti1 = new UserService();
-//			userActiviti1.setId(user1.getUser_name());
-//			userActiviti1.setPassword("password.igrp");
-//			userActiviti1.setFirstName(user1.getName());
-//			userActiviti1.setLastName("");
-//			userActiviti1.setEmail(user1.getEmail());
-//			userActiviti1.create(userActiviti1);	
-//			
-//			group.addUser(userActiviti0.getId());
-//			group.addUser(userActiviti1.getId());
+			GroupService group = new GroupService();
+			group.setId(org.getCode()+"."+prof1.getCode());
+			group.setName(org.getName()+" - "+prof1.getDescr());
+			group.setType("assignment");
+			group.create(group);
+			
+			UserService userActiviti0 = new UserService();
+			userActiviti0.setId(user0.getUser_name());
+			userActiviti0.setPassword("password.igrp");
+			userActiviti0.setFirstName(user0.getName());
+			userActiviti0.setLastName("");
+			userActiviti0.setEmail(user0.getEmail());
+			userActiviti0.create(userActiviti0);	
+			
+			UserService userActiviti1 = new UserService();
+			userActiviti1.setId(user1.getUser_name());
+			userActiviti1.setPassword("password.igrp");
+			userActiviti1.setFirstName(user1.getName());
+			userActiviti1.setLastName("");
+			userActiviti1.setEmail(user1.getEmail());
+			userActiviti1.create(userActiviti1);	
+			
+			group.addUser(userActiviti0.getId());
+			group.addUser(userActiviti1.getId());
 			
 			List<Action> actions = new ArrayList<>();
 			actions.add(new Action("ListaPage", "index", "nosi.webapps.igrp_studio.pages.listapage", "igrp_studio/listapage/ListaPage.xsl", "Page builder", "Page builder", "2.3", 1, igrp_studio));
@@ -187,6 +187,9 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, igrp));
 			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, igrp));
 			
+			actions.add(new Action("_CONS_PROC", "index", "nosi.webapps.igrp.pages._cons_proc", "igrp/_cons_proc/_CONS_PROC.xsl", "Consulta Processo", "Consulta Processo", "2.3", 1, igrp));
+			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, igrp));
+			
 			for(Action ac:actions){
 				ac.insert();
 			}
@@ -212,11 +215,15 @@ public class MigrationIGRPInitConfig {
 			
 			menus.add(new Menu("Gestão de Menu", 9, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 9, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
-			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(41), igrp, menus.get(0)));
 			menus.add(new Menu("Gestão de Utilizador", 9, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
+			
 			Menu tempMenuAP = new Menu("Área Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
 			tempMenuAP.setMenu(tempMenuAP);
 			menus.add(tempMenuAP);
+			
+			
+			
 //			menus.add(new Menu("Parametros de Auditoria", 1, 1, 0, "_self", actions.get(21), igrp, menus.get(2)));
 
 			//menus.add(new Menu("Gestão de Orgânica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
@@ -228,9 +235,13 @@ public class MigrationIGRPInitConfig {
 			tempMenuBD.setMenu(tempMenuBD);
 			menus.add(tempMenuBD);
 			
-			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(43), igrp_studio, null);
+			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(44), igrp_studio, null);
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
+			
+			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(47), igrp,null);
+			tempMenuCP.setMenu(tempMenuCP);
+			menus.add(tempMenuCP);
 			
 			//menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
 			//menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
@@ -273,7 +284,8 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(10, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(13, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(14, "MEN", prof0, user0, igrp_studio_org));
-//			profiles.add(new Profile(16, "MEN", prof0, user0, org));
+			profiles.add(new Profile(15, "MEN", prof0, user0, org));
+			profiles.add(new Profile(15, "MEN", prof0, user0, igrp_studio_org));
 //			profiles.add(new Profile(17, "MEN", prof0, user0, org));		
 			
 			profiles.add(new Profile(5, "MEN", igrp_studio_prof, user0, igrp_studio_org));
@@ -285,11 +297,13 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(10, "MEN", prof1, user0, org));
 			profiles.add(new Profile(11, "MEN", prof1, user0, org));
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
+			profiles.add(new Profile(15, "MEN", prof1, user0, org));
 			profiles.add(new Profile(8, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(10, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(13, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(14, "MEN", igrp_studio_prof, user0, igrp_studio_org));
+			profiles.add(new Profile(15, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 //			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 //			profiles.add(new Profile(17, "MEN", prof1, user0, org));
 			

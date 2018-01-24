@@ -51,7 +51,7 @@ public class Detalhes_tarefasController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", gt("Detalhes Tarefa"));
-		IGRPView view = new IGRPView("view",gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()),(float)2.1);
+		IGRPView view = new IGRPView("view",gt("Processo NÂº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()),(float)2.1);
 	
 		Field user_exec = new TextField(null,"user_exec");
 		user_exec.propertie().add("type","text").add("name","p_user_exec").add("persist","true").add("maxlength","4000");
@@ -83,10 +83,10 @@ public class Detalhes_tarefasController extends Controller {
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel(gt("Nome Ficheiro"));
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel(gt("Descrição"));
+		prm_file_description.setLabel(gt("Descriï¿½ï¿½o"));
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel(gt("Descrição"));
+		prm_file_description_desc.setLabel(gt("Descriï¿½ï¿½o"));
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel(gt("Ficheiro"));
 		prm_file.propertie().add("rel", "prm_doc_list").add("maxlength", 300);
