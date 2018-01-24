@@ -56,9 +56,9 @@ public class BPMNDesignerController extends Controller {
 		DeploymentService deploy = new DeploymentService();
 		deploy = deploy.create(data);
 		if(deploy!=null && Core.isNotNull(deploy.getId())){
-			return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(FlashMessage.SUCCESS) + "</message></messages>");
+			return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.getError().getException()) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"") + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
