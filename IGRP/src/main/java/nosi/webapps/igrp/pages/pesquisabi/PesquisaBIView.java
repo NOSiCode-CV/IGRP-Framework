@@ -30,7 +30,7 @@ public class PesquisaBIView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Pesquisa BI [REGISTOS NOTARIADO E IDENTIFICA«√O]"));
+		sectionheader_1_text.setValue(gt("Pesquisa BI [REGISTOS NOTARIADO E IDENTIFICA√á√ÉO]"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -61,7 +61,7 @@ public class PesquisaBIView extends View {
 		
 		nome_pai.propertie().add("name","p_nome_pai").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nome_mae = new TextField(model,"nome_mae");
-		nome_mae.setLabel(gt("Nome M„e"));
+		nome_mae.setLabel(gt("Nome M√£e"));
 		
 		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
