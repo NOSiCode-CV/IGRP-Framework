@@ -40,11 +40,11 @@ public class Detalhes_tarefasView extends View {
 		
 		tipo_da_tarefa.propertie().add("name","p_tipo_da_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_criacao_da_tarefa = new TextField(model,"data_criacao_da_tarefa");
-		data_criacao_da_tarefa.setLabel(gt("Data Criação da Tarefa"));
+		data_criacao_da_tarefa.setLabel(gt("Data CriaÃ§Ã£o da Tarefa"));
 		
 		data_criacao_da_tarefa.propertie().add("name","p_data_criacao_da_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_inicio_da_tarefa = new TextField(model,"data_inicio_da_tarefa");
-		data_inicio_da_tarefa.setLabel(gt("Data Início da Tarefa"));
+		data_inicio_da_tarefa.setLabel(gt("Data InÃ­cio da Tarefa"));
 		
 		data_inicio_da_tarefa.propertie().add("name","p_data_inicio_da_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_fim_da_tarefa = new TextField(model,"data_fim_da_tarefa");
@@ -56,11 +56,11 @@ public class Detalhes_tarefasView extends View {
 		
 		prioridade_da_tarefa.propertie().add("name","p_prioridade_da_tarefa").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		tarefa_atribuida_por = new TextField(model,"tarefa_atribuida_por");
-		tarefa_atribuida_por.setLabel(gt("Tarefa Atribuída Por"));
+		tarefa_atribuida_por.setLabel(gt("Tarefa AtribuÃ­da Por"));
 		
 		tarefa_atribuida_por.propertie().add("name","p_tarefa_atribuida_por").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		tarefa_atribuida_a = new TextField(model,"tarefa_atribuida_a");
-		tarefa_atribuida_a.setLabel(gt("Tarefa Atribuída A"));
+		tarefa_atribuida_a.setLabel(gt("Tarefa AtribuÃ­da A"));
 		
 		tarefa_atribuida_a.propertie().add("name","p_tarefa_atribuida_a").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		tipo_de_processo = new TextField(model,"tipo_de_processo");
@@ -68,15 +68,15 @@ public class Detalhes_tarefasView extends View {
 		
 		tipo_de_processo.propertie().add("name","p_tipo_de_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		numero_de_processo = new TextField(model,"numero_de_processo");
-		numero_de_processo.setLabel(gt("Número De Processo"));
+		numero_de_processo.setLabel(gt("NÃºmero De Processo"));
 		
 		numero_de_processo.propertie().add("name","p_numero_de_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_criacao_de_processo = new TextField(model,"data_criacao_de_processo");
-		data_criacao_de_processo.setLabel(gt("Data Criação de Processo"));
+		data_criacao_de_processo.setLabel(gt("Data CriaÃ§Ã£o de Processo"));
 		
 		data_criacao_de_processo.propertie().add("name","p_data_criacao_de_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_inicio_de_processo = new TextField(model,"data_inicio_de_processo");
-		data_inicio_de_processo.setLabel(gt("Data Início de Processo"));
+		data_inicio_de_processo.setLabel(gt("Data InÃ­cio de Processo"));
 		
 		data_inicio_de_processo.propertie().add("name","p_data_inicio_de_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		data_fim_processo = new TextField(model,"data_fim_processo");
@@ -84,7 +84,7 @@ public class Detalhes_tarefasView extends View {
 		
 		data_fim_processo.propertie().add("name","p_data_fim_processo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 		descricao_da_tarefa = new TextAreaField(model,"descricao_da_tarefa");
-		descricao_da_tarefa.setLabel(gt("Descrição da Tarefa"));
+		descricao_da_tarefa.setLabel(gt("DescriÃ§Ã£o da Tarefa"));
 		
 		descricao_da_tarefa.propertie().add("name","p_descricao_da_tarefa").add("type","textarea").add("maxlength","30").add("required","false").add("change","false").add("readonly","true").add("disabled","true").add("placeholder","").add("right","false");
 
