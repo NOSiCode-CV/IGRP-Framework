@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.xml.bind.JAXB;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
 
 import com.google.gson.Gson;
@@ -39,6 +39,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
+import org.apache.logging.log4j.LogManager;
 import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
 /**
@@ -47,7 +48,7 @@ import static nosi.core.i18n.Translator.gt;
  */
 public final class Core {	// Not inherit 
 
-	static Logger log = Logger.getLogger(Core.class);
+	static Logger log = LogManager.getLogger(Core.class);
 	
 	private Core() {} // Not instantiate  
 	
