@@ -12,6 +12,9 @@ import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+//import org.glassfish.jersey.media.multipart.MultiPartFeature;
+//import org.glassfish.jersey.media.multipart.internal.MultiPartWriter;
+
 import nosi.core.webapp.helpers.UrlHelper;
 
 /**
@@ -77,6 +80,10 @@ public class ConfigurationRequest {
         };
 	}
 	public Client bluidClientMultiPart() {
+//		final Client client = ClientBuilder.newBuilder()
+//			    .register(MultiPartFeature.class)
+//			    .build();
+//		return client;
 		return  ClientBuilder.newBuilder()
 				.sslContext(this.createSslContext())
 				.hostnameVerifier(this.getHostNameVerifier())
