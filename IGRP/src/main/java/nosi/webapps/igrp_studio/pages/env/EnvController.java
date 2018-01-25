@@ -1,11 +1,9 @@
 
-package nosi.webapps.igrp.pages.env;
+package nosi.webapps.igrp_studio.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,12 +82,12 @@ public class EnvController extends Controller {
 					FileHelper.save(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}		
 				Core.setMessageSuccess();
-				return this.redirect("igrp", "env","index");
+				return this.redirect("igrp_studio", "env","index");
 			}else{
 				Core.setMessageError();
 			}
 		}
-		return this.forward("igrp", "env", "index");
+		return this.forward("igrp_studio", "env", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -136,7 +134,7 @@ public class EnvController extends Controller {
 				Core.setMessageSuccess();
 			}else{
 				Core.setMessageError();
-				return this.forward("igrp", "env","editar&id=" + idAplicacao);
+				return this.forward("igrp_studio", "env","editar&id=" + idAplicacao);
 			}
 		}	
 		EnvView view = new EnvView(model);
@@ -262,8 +260,6 @@ public class EnvController extends Controller {
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
-		
-		System.out.println(page);
 		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {

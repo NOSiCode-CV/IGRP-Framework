@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.env;
+package nosi.webapps.igrp_studio.pages.env;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
