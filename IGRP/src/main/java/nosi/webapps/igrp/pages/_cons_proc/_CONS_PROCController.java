@@ -117,8 +117,8 @@ public class _CONS_PROCController extends Controller {
 		if(Core.isNotNull(task.getEndTime()))
 			return "Terminado";
 		if(Core.isNotNull(task.getAssignee()))
-			return "Não Iniciado";
-		return "Não Atribuido";
+			return "NÃ£o Iniciado";
+		return "NÃ£o Atribuido";
 	}
 
 	/*----#END-PRESERVED-AREA----*/
