@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.function.Predicate;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 
@@ -81,8 +80,7 @@ public class FileHelper {
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){
 			InputStream is = file.getInputStream();		   
-		    StringBuilder  code = new StringBuilder();
-		    
+		    StringBuilder  code = new StringBuilder();		    
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
 		    DataInputStream in = new DataInputStream(is);   
@@ -108,8 +106,7 @@ public class FileHelper {
 	//Converte InputStream to String
 	public static String convertToString(InputStream file) throws IOException{
 		if(file!=null){   
-		    StringBuilder  code = new StringBuilder();
-		    
+		    StringBuilder  code = new StringBuilder();		    
 		    String         ls = System.getProperty("line.separator");
 		    String         line = null;
 		    DataInputStream in = new DataInputStream(file);   
@@ -260,7 +257,6 @@ public class FileHelper {
 	public static String readFileFromServer(String basePath,String fileName){
 		StringBuilder  code = new StringBuilder();
 		fileName = basePath+File.separator+fileName;
-		System.out.println(fileName);
 		if(fileExists(fileName)) {
 			try {
 				ServletContext context = Igrp.getInstance().getServlet().getServletContext();

@@ -143,7 +143,7 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 	
-	// Dont delete this method 
+	// Dont delete this method  
 	public Response actionGoToLogin() throws IOException {
 		return this.redirect("igrp", "login", "login");
 	}
@@ -177,7 +177,7 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	// Use ldap protocol to make login
+	// Use ldap protocol to make login 
 	private boolean loginWithLdap(String username, String password){
 		boolean success = false;
 		
