@@ -106,15 +106,15 @@ public class NovoUtilizadorController extends Controller {
 					userActiviti0.setEmail(u.getEmail());
 					userActiviti0.create(userActiviti0);	
 					new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Opera��o efetuada com sucesso"));
+					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
 			}
 		}else{
-			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inv�lido"));
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Email inválido"));
 		}
 	}
 	
@@ -171,15 +171,15 @@ public class NovoUtilizadorController extends Controller {
 					//System.out.println(url_);
 					Organization orgEmail = new Organization().findOne(model.getOrganica());
 					String msg = ""
-							+ "<p><b>Aplica��o:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
+							+ "<p><b>Aplicação:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
 							"			 <p><b>Org�nica:</b> " + orgEmail.getName() + "</p>" + 
-							"			 <p><b>Link Activa��o:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
+							"			 <p><b>Link Activação:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
 							"			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
 					try {
 						EmailMessage.newInstance().setTo(u.getEmail()).setFrom("igrpframeworkjava@gmail.com").setSubject("IGRP - User activation")
 						.setMsg(msg, "utf-8", "html").send();
 					} catch (IOException e) {
-						System.out.println("Email n�o foi enviado ..."); 
+						System.out.println("Email não foi enviado ..."); 
 						e.printStackTrace();
 					}
 				}
@@ -204,19 +204,19 @@ public class NovoUtilizadorController extends Controller {
 						userActiviti0.setEmail(u.getEmail());
 						userActiviti0.create(userActiviti0);	
 						new GroupService().addUser(p.getOrganization().getCode()+"."+p.getProfileType().getCode(),userActiviti0.getId());
-						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Opera��o efetuada com sucesso"));
+						Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
 					}else{
-						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));
+						Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
 					}
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta opera��o"));
+					Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta Operação"));
 				}
 				
 			}else {
-				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador n�o existe no LDAP. LDAP error !"));
+				Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe no LDAP. LDAP error !"));
 			}
 		} else {
-			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador n�o existe no LDAP."));
+			Igrp.getInstance().getFlashMessage().addMessage("error", gt("Este utilizador não existe no LDAP."));
 		}
 		
 		/** End **/
