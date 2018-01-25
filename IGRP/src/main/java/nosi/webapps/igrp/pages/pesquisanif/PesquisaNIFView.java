@@ -33,7 +33,7 @@ public class PesquisaNIFView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Pesquisa NIF [DIRE��O GERAL DAS CONTRIBUI��ES E IMPOSTOS]"));
+		sectionheader_1_text.setValue(gt("Pesquisa NIF [DIREÇÃO GERAL DAS CONTRIBUIÇÕES E IMPOSTOS]"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		nif = new NumberField(model,"nif");
 		nif.setLabel("NIF");

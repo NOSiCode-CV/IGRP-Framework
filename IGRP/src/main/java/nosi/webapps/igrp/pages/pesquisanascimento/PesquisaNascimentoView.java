@@ -30,10 +30,10 @@ public class PesquisaNascimentoView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Pesquisa Nascimento [REGISTOS NOTARIADO E IDENTIFICAÇÃO]"));
+		sectionheader_1_text.setValue(gt("Pesquisa Nascimento [REGISTOS NOTARIADO E IDENTIFICAÃ‡ÃƒO]"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		n_registo = new TextField(model,"n_registo");
-		n_registo.setLabel(gt("Nº Registo"));
+		n_registo.setLabel(gt("NÂº Registo"));
 		
 		n_registo.propertie().add("name","p_n_registo").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome = new TextField(model,"nome");
@@ -41,7 +41,7 @@ public class PesquisaNascimentoView extends View {
 		
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		n_registo_tabela = new TextField(model,"n_registo_tabela");
-		n_registo_tabela.setLabel(gt("Nº Registo"));
+		n_registo_tabela.setLabel(gt("NÂº Registo"));
 		
 		n_registo_tabela.propertie().add("name","p_n_registo_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		nome_tabela = new TextField(model,"nome_tabela");
@@ -53,7 +53,7 @@ public class PesquisaNascimentoView extends View {
 		
 		data_facto.propertie().add("name","p_data_facto").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nome_mae = new TextField(model,"nome_mae");
-		nome_mae.setLabel(gt("Nome Mãe"));
+		nome_mae.setLabel(gt("Nome MÃ£e"));
 		
 		nome_mae.propertie().add("name","p_nome_mae").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		nome_pai = new TextField(model,"nome_pai");

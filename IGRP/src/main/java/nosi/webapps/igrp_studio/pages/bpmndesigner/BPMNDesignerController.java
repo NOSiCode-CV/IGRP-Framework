@@ -26,14 +26,15 @@ import nosi.core.config.Config;
 public class BPMNDesignerController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		BPMNDesigner model = new BPMNDesigner();
+		model.load();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
 		
 		List<BPMNDesigner.Gen_table> data = new ArrayList<>();
-		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos()){
+		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):null)){
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
 			processo.setId(process.getId());
 			processo.setTitle(process.getName());
@@ -50,15 +51,17 @@ public class BPMNDesignerController extends Controller {
 	}
 
 
-	public Response actionGravar() throws IOException, ServletException{
+	public Response actionGravar() throws IOException, ServletException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		BPMNDesigner model = new BPMNDesigner();
+		model.load();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
 		DeploymentService deploy = new DeploymentService();
-		deploy = deploy.create(data);
+		deploy = deploy.create(data,new Integer(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):null));
 		if(deploy!=null && Core.isNotNull(deploy.getId())){
-			return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(FlashMessage.SUCCESS) + "</message></messages>");
+			return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.getError().getException()) + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"") + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -84,7 +87,6 @@ public class BPMNDesignerController extends Controller {
 		String link = process.getResource().replace("/resources/", "/resourcedata/");
 		String resource = new ResourceService().getResourceData(link);
 		resource = resource.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "<?xml version='1.0' encoding='UTF-8'?>");
-		System.out.println(resource);
 		return this.renderView(resource);
 	}
 	

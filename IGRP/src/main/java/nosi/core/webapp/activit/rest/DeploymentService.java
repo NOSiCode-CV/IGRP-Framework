@@ -74,15 +74,14 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 
-	public DeploymentService create(Part file) throws IOException {
+	public DeploymentService create(Part file,Integer idApp) throws IOException {
 	   DeploymentService d = this;
-       Response response = new RestRequest().post("repository/deployments",file);
+       Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
 			try {
 				contentResp = FileHelper.convertToString(is);
-				System.out.println("contentResp:"+contentResp);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -96,9 +95,9 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 	
-	public DeploymentService update(){
+	public DeploymentService update(Part file,Integer idApp) throws IOException{
 		DeploymentService d = this;
-		Response response = new RestRequest().post("repository/deployments",ResponseConverter.convertDaoToJson(this));
+		Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -113,6 +112,7 @@ public class DeploymentService extends Activit{
 				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
+		file.delete();
 		return d;
 	}
 	
@@ -136,6 +136,10 @@ public class DeploymentService extends Activit{
 
 	public void setTenantId(String tenantId) {
 		this.tenantId = tenantId;
+	}
+
+	public boolean hashError() {
+		return this.getError()!=null;
 	}
 
 

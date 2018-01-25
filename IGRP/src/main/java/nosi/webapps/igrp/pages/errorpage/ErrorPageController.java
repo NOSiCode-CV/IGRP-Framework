@@ -1,16 +1,18 @@
 
 package nosi.webapps.igrp.pages.errorpage;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
-import nosi.core.webapp.Response;
+import static nosi.core.i18n.Translator.gt;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import static nosi.core.i18n.Translator.gt;
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+import nosi.core.webapp.Controller;
+import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Response;
 /*----#END-PRESERVED-AREA----*/
 
 public class ErrorPageController extends Controller {		
@@ -28,7 +30,7 @@ public class ErrorPageController extends Controller {
 	}
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	private Logger logger = Logger.getLogger(ErrorPageController.class);
+	private Logger logger = LogManager.getLogger(ErrorPageController.class);
 	public Response actionException() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			

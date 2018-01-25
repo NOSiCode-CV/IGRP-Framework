@@ -5,7 +5,7 @@
 
   <context-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value> 
+      <param-value>C:\Users\MarcosM\git\IGRP-Framework\IGRP</param-value> 
   </context-param>
   
   <servlet>
@@ -19,10 +19,6 @@
       <param-name>env</param-name>
       <param-value>dev</param-value> 
     </init-param>
-    <init-param>
-	    <param-name>jersey.config.server.provider.classnames</param-name>
-	    <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
-	</init-param>
     <multipart-config>
       <max-file-size>52428800</max-file-size>
       <max-request-size>52428800</max-request-size>
@@ -40,7 +36,7 @@
     <servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class>
     <init-param>
       <param-name>log4j-properties-location</param-name>
-      <param-value>WEB-INF/log4j.properties</param-value>
+      <param-value>WEB-INF/log4j.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
