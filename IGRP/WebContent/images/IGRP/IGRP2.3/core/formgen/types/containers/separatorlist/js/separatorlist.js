@@ -44,13 +44,13 @@ var GENSEPARATORLIST = function(name,params){
 	}
 
 	container.onFieldSet = function(field){
-		//console.log(field)
+
 		GEN.setFormFieldAttr(field);
 
 		field.setPropriety({
 			name      : 'visible',
 			label  	  : 'Table',
-			value     : true
+			value     : 'visible' in field.proprieties ? field.proprieties.visible : true
 		});
 
 		field.xml.desc = true;

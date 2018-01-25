@@ -207,369 +207,388 @@
 		},
 
 		init:function(_slist){
-			
-			var slist = _slist ? _slist : $('#gen-rules-holder')[0];
+			var configSep = function(){
 
-			slist.events.on('row-add',function(r){
-				
-				/*var eventtext = r.row.find('td[item-name="gen_rule_event"] .separator-list-td-val');
-				var v         = r.values;
-				var text      = 'on'+v.gen_rule_event.label+': '+v.gen_rule_action.label+' [ '+v.gen_rule_targets.value+' ] case '+v.gen_rule_condition.label+' '+v.gen_rule_value.label	;
-				
-				eventtext.html(text);*/
-			});
-			
-			//select2 template
-			
-			/*$('#actions_list_gen_rule_targets').select2({
-			  	templateResult: function(state) {
-			  	console.log(state)
-				 	if (!state.id) { return state.text; }
-				 	var _class = state.element ? $(state.element).attr('class') : '';
-				 	var c      = state.text.indexOf('.') != -1 ? 'gen-field' : 'gen-container'; 
-					var $state = $('<span class="rules-target '+_class+'">' + state.text + '</span>');
-				  	
-				  	return $state;
-				},
-				templateSelection : function(d){
-					console.log(d)
-				}
-			});*/
+		        var slist = _slist ? _slist : $('#gen-rules-holder')[0];
 
-			//RULES SET
-			$.IGRP.rules.set({
-        "p_gen_rule_condition": [
-          {
-            "event": "change",
-            "condition": "notnull",
-            "action": "hide",
-            "targets": "gen_rule_value2,gen_rule_patern",
-            "name": "Condition Rule 1",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "notnull",
-            "action": "show",
-            "targets": "gen_rule_value",
-            "name": "Condition Rule 2",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "null",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Disable Value",
-            "opposite": "1"
-          },
+		        slist.events.on('row-add',function(r){
+		          
+		          /*var eventtext = r.row.find('td[item-name="gen_rule_event"] .separator-list-td-val');
+		          var v         = r.values;
+		          var text      = 'on'+v.gen_rule_event.label+': '+v.gen_rule_action.label+' [ '+v.gen_rule_targets.value+' ] case '+v.gen_rule_condition.label+' '+v.gen_rule_value.label  ;
+		          
+		          eventtext.html(text);*/
 
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "notnull",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Disable Value",
-            "opposite": ""
-          },
-
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "checked",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Disable Value",
-            "opposite": ""
-          },
-
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "unchecked",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Disable Value",
-            "opposite": ""
-          },
-
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "between",
-            "action": "show",
-            "targets": "gen_rule_value2",
-            "name": "Condition Rule 3",
-            "opposite": "1"
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "between",
-            "action": "size",
-            "targets": "gen_rule_value,gen_rule_value2",
-            "sizes" :"col-md-3,col-md-3",
-            "name": "Set Values Size",
-            "opposite": "1"
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "regexp",
-            "action": "show",
-            "targets": "gen_rule_patern",
-            "name": "Condition Rule 4",
-            "opposite": "1"
-          },
-          {
-            "event": "change",
-            "condition": "diff",
-            "value": "regexp",
-            "action": "notrequired",
-            "targets": "gen_rule_patern",
-            "name": "Pattern Not Required",
-            "opposite": "1"
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "regexp",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Condition Rule 5",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "action": "hide",
-            "targets": "gen_rule_value2,gen_rule_patern,gen_rule_patern_custom",
-            "name": "Condition Rule 6",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "between",
-            "action": "show",
-            "targets": "gen_rule_value,gen_rule_value2",
-            "name": "Condition Rule 7",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "regexp",
-            "action": "show",
-            "targets": "gen_rule_patern",
-            "name": "Condition Rule 8",
-            "opposite": ""
-          },
-
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "regexp",
-            "action": "hide",
-            "targets": "gen_rule_value",
-            "name": "Condition Rule 9",
-            "opposite": ""
-          }
-        ],
-        "p_gen_rule_action": [
-          {
-            "event": "load",
-            "action": "hide",
-            "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
-            "name": "Action Rule 1",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "notnull",
-            "action": "hide",
-            "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
-            "name": "Action Rule 2",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "message",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 3",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "diff",
-            "value": "message",
-            "action": "show",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 4",
-            "opposite": ""
-          },
-          {
-            "event": "change",
-            "condition": "diff",
-            "value": "message",
-            "action": "notrequired",
-            "targets": "gen_rule_msg_type",
-            "name": "Message Not Required",
-            "opposite": "1"
-          },
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "message",
-            "action": "show",
-            "targets": "gen_rule_msg_type,gen_rule_msg",
-            "name": "Action Rule 5",
-            "opposite": ""
-          },
-
-          {
-            "event": "change",
-            "condition": "contains",
-            "value": "remote",
-            "action": "show",
-            "targets": "gen_rule_request_fields,gen_rule_procedure",
-            "name": "Action Rule 6",
-            "opposite": ""
-          },
-
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "remote",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 6.1",
-            "opposite": "1"
-          },
-
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "remote",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 6.2",
-            "opposite": "1"
-          },
-
-          /*{
-            "event": "change",
-            "condition": "equal",
-            "value": "remote_combobox",
-            "action": "show",
-            "targets": "gen_rule_request_fields,gen_rule_procedure",
-            "name": "Action Rule 6.1",
-            "opposite": "1"
-          },*/
-
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "message",
-            "action": "hide",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 7",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "condition": "diff",
-            "value": "message",
-            "action": "show",
-            "targets": "gen_rule_targets",
-            "name": "Action Rule 8",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "condition": "equal",
-            "value": "message",
-            "action": "show",
-            "targets": "gen_rule_msg_type,gen_rule_msg",
-            "name": "Action Rule 9",
-            "opposite": ""
-          },
-          {
-            "event": "load",
-            "condition": "contains",
-            "value": "remote",
-            "action": "show",
-            "targets": "gen_rule_request_fields,gen_rule_procedure",
-            "name": "Action Rule 10",
-            "opposite": ""
-          }
-        ],
-        "p_gen_rule_patern":[
-          {
-            "event": "change",
-            "condition": "equal",
-            "value": "custom",
-            "action": "show",
-            "targets": "gen_rule_patern_custom",
-            "name": "Show Custom Pattern",
-            "opposite": "1"
-          }
-        ]
-	    });
-
-			var sepConditions = $('.IGRP-separatorlist[tag="separatorlist_2"]')[0];
-
-		    var sepActions    = $('.IGRP-separatorlist[tag="actions_list"]')[0];
-
-		    //add row
-		    sepConditions.events.on('row-add',function(o){
-		    
-		      var actionsJSON = sepActions.toJSON();
-		      
-		      if(actionsJSON[0]){
-		      
-		      	var actionsStr = JSON.stringify( actionsJSON );
-
-			      o.row.find('[name="p_gen_rule_actions_fk"]').val( actionsStr.replace(/"/g,"'") );
-		     
-		      }
-
-		      sepActions.resetAll();
-
-		    });
-
-		    //open dialog
-		    sepConditions.events.on('dialog-open',function(o){
-		     
-		      var mbody = o.content.parent(),
-
-              actionsStr = $('[name="p_gen_rule_actions"]').val().replace(/'/g,'"');
-		      
-            $('#igrp-global-modal').removeAttr('tabindex');
-
-		      if(actionsStr){
-		         
-		        var actions = JSON.parse(actionsStr);
-
-		        sepActions.resetAll();
-
-		        sepActions.setRows( actions );
+		        });
 		        
-		      }
-		     
-		      mbody.append(sepActions);
+		        //select2 template
+		        
+		        /*$('#actions_list_gen_rule_targets').select2({
+		            templateResult: function(state) {
+		            console.log(state)
+		            if (!state.id) { return state.text; }
+		            var _class = state.element ? $(state.element).attr('class') : '';
+		            var c      = state.text.indexOf('.') != -1 ? 'gen-field' : 'gen-container'; 
+		            var $state = $('<span class="rules-target '+_class+'">' + state.text + '</span>');
+		              
+		              return $state;
+		          },
+		          templateSelection : function(d){
+		            console.log(d)
+		          }
+		        });*/
 
-		    });
+		        //RULES SET
+		        $.IGRP.rules.set({
+		          "p_gen_rule_condition": [
+		            {
+		              "event": "change",
+		              "condition": "notnull",
+		              "action": "hide",
+		              "targets": "gen_rule_value2,gen_rule_patern",
+		              "name": "Condition Rule 1",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "notnull",
+		              "action": "show",
+		              "targets": "gen_rule_value",
+		              "name": "Condition Rule 2",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "null",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Disable Value",
+		              "opposite": "1"
+		            },
 
-		    //close dialog
-		    sepConditions.events.on('before-dialog-hide',function(o){
-		     
-		      $(sepActions).prependTo( $('[item-name="actions_list"]') )
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "notnull",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Disable Value",
+		              "opposite": ""
+		            },
 
-		    });
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "checked",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Disable Value",
+		              "opposite": ""
+		            },
+
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "unchecked",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Disable Value",
+		              "opposite": ""
+		            },
+
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "between",
+		              "action": "show",
+		              "targets": "gen_rule_value2",
+		              "name": "Condition Rule 3",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "between",
+		              "action": "size",
+		              "targets": "gen_rule_value,gen_rule_value2",
+		              "sizes" :"col-md-3,col-md-3",
+		              "name": "Set Values Size",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "regexp",
+		              "action": "show",
+		              "targets": "gen_rule_patern",
+		              "name": "Condition Rule 4",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "change",
+		              "condition": "diff",
+		              "value": "regexp",
+		              "action": "notrequired",
+		              "targets": "gen_rule_patern",
+		              "name": "Pattern Not Required",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "load",
+		              "condition": "diff",
+		              "value": "regexp",
+		              "action": "notrequired",
+		              "targets": "gen_rule_patern",
+		              "name": "Pattern Not Required",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "regexp",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Condition Rule 5",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "action": "hide",
+		              "targets": "gen_rule_value2,gen_rule_patern,gen_rule_patern_custom",
+		              "name": "Condition Rule 6",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "between",
+		              "action": "show",
+		              "targets": "gen_rule_value,gen_rule_value2",
+		              "name": "Condition Rule 7",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "regexp",
+		              "action": "show",
+		              "targets": "gen_rule_patern",
+		              "name": "Condition Rule 8",
+		              "opposite": ""
+		            },
+
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "regexp",
+		              "action": "hide",
+		              "targets": "gen_rule_value",
+		              "name": "Condition Rule 9",
+		              "opposite": ""
+		            }
+		          ],
+		          "p_gen_rule_action": [
+		            {
+		              "event": "load",
+		              "action": "hide",
+		              "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
+		              "name": "Action Rule 1",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "notnull",
+		              "action": "hide",
+		              "targets": "gen_rule_request_fields,gen_rule_procedure,gen_rule_msg_type,gen_rule_msg",
+		              "name": "Action Rule 2",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "message",
+		              "action": "hide",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 3",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "diff",
+		              "value": "message",
+		              "action": "show",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 4",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "change",
+		              "condition": "diff",
+		              "value": "message",
+		              "action": "notrequired",
+		              "targets": "gen_rule_msg_type",
+		              "name": "Message Not Required",
+		              "opposite": "1"
+		            },
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "message",
+		              "action": "show",
+		              "targets": "gen_rule_msg_type,gen_rule_msg",
+		              "name": "Action Rule 5",
+		              "opposite": ""
+		            },
+
+		            {
+		              "event": "change",
+		              "condition": "contains",
+		              "value": "remote",
+		              "action": "show",
+		              "targets": "gen_rule_request_fields,gen_rule_procedure",
+		              "name": "Action Rule 6",
+		              "opposite": ""
+		            },
+
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "remote",
+		              "action": "hide",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 6.1",
+		              "opposite": "1"
+		            },
+
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "remote",
+		              "action": "hide",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 6.2",
+		              "opposite": "1"
+		            },
+
+		            /*{
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "remote_combobox",
+		              "action": "show",
+		              "targets": "gen_rule_request_fields,gen_rule_procedure",
+		              "name": "Action Rule 6.1",
+		              "opposite": "1"
+		            },*/
+
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "message",
+		              "action": "hide",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 7",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "condition": "diff",
+		              "value": "message",
+		              "action": "show",
+		              "targets": "gen_rule_targets",
+		              "name": "Action Rule 8",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "condition": "equal",
+		              "value": "message",
+		              "action": "show",
+		              "targets": "gen_rule_msg_type,gen_rule_msg",
+		              "name": "Action Rule 9",
+		              "opposite": ""
+		            },
+		            {
+		              "event": "load",
+		              "condition": "contains",
+		              "value": "remote",
+		              "action": "show",
+		              "targets": "gen_rule_request_fields,gen_rule_procedure",
+		              "name": "Action Rule 10",
+		              "opposite": ""
+		            }
+		          ],
+		          "p_gen_rule_patern":[
+		            {
+		              "event": "change",
+		              "condition": "equal",
+		              "value": "custom",
+		              "action": "show",
+		              "targets": "gen_rule_patern_custom",
+		              "name": "Show Custom Pattern",
+		              "opposite": "1"
+		            }
+		          ]
+		        });
+
+		        var sepConditions = $('.IGRP-separatorlist[tag="separatorlist_2"]')[0];
+
+		        var sepActions    = $('.IGRP-separatorlist[tag="actions_list"]')[0];
+
+		        //add row
+		        sepConditions.events.on('row-add',function(o){
+		        
+		          var actionsJSON = sepActions.toJSON();
+		          
+		          if(actionsJSON[0]){
+		          
+		            var actionsStr = JSON.stringify( actionsJSON );
+
+		            o.row.find('[name="p_gen_rule_actions_fk"]').val( actionsStr.replace(/"/g,"'") );
+		         
+		          }
+
+		          sepActions.resetAll();
+
+		        });
+
+		        //open dialog
+		        sepConditions.events.on('dialog-open',function(o){
+		         
+		          var mbody = o.content.parent(),
+
+		              actionsStr = $('[name="p_gen_rule_actions"]').val().replace(/'/g,'"');
+		          
+		            $('#igrp-global-modal').removeAttr('tabindex');
+
+		          if(actionsStr){
+		             
+		            var actions = JSON.parse(actionsStr);
+
+		            sepActions.resetAll();
+
+		            sepActions.setRows( actions );
+		            
+		          }
+		         
+		          mbody.append(sepActions);
+
+		        });
+
+		        //close dialog
+		        sepConditions.events.on('before-dialog-hide',function(o){
+		         
+		          $(sepActions).prependTo( $('[item-name="actions_list"]') )
+
+		        });
+		      };
+
+		      if(_slist.events)
+		        configSep();
+		      else
+		        setTimeout(function(){
+		          configSep();
+		        },350)
 
 		}
 	}

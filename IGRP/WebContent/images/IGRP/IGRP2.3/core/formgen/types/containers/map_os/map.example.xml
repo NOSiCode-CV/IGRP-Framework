@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<map >
+    <id>71</id>
+    <zoom>8</zoom>
+    <center>
+        <long>-24</long>
+        <lat>16</lat>
+    </center>
+    <basemap>
+        <id>5465</id>
+        <name>satellite</name>
+        <link>http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer</link>
+        <type>ESRI</type>
+    </basemap>
+    <style>blue</style>
+    <token>NO_TOKEN</token>
+    <layers>
+    </layers>
+    <widgets>
+        
+    </widgets>
+</map>
+  

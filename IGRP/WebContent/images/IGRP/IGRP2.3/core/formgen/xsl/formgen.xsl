@@ -538,7 +538,7 @@
         <!--gen-->
         <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
         <script src="{$path}/core/formgen/js/chance.js"></script>
-        <script src="{$path}/core/formgen/js/jquery-ui.js"></script>
+        <script src="{$path}/core/formgen/js/jquery-ui.min.js"></script>
         <script src="{$path}/core/formgen/js/string.js" charset="utf-8"></script>
         <!-- <script src="{$path}/core/formgen/js/xml.xsl.transform.js"></script> -->
         <script src="{$path}/core/formgen/js/GEN.converter.2dot2.js"></script>

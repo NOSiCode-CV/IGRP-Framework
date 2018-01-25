@@ -55,6 +55,14 @@ var GENMAPCHART = function(name,tparams){
 		});
 
 		container.setProperty({
+			label   : 'Basemap Label',
+			name    : 'dt_label',
+			value   : 'name',
+			isField : true,
+			valuePersist : true
+		});
+
+		container.setProperty({
 			label   : 'Legend Position',
 			name    : 'legendPosition',
 			value   :  {
@@ -92,7 +100,7 @@ var GENMAPCHART = function(name,tparams){
 				var action = container.GET.tooltip && container.GET.tooltip() ? 'show' : 'hide';
 				o.input[action]();
 			}
-		})
+		});
 
 		container.setProperty({
 			name    : 'tooltip',

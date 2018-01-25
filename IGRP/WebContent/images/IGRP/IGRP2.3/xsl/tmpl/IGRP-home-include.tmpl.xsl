@@ -58,6 +58,9 @@
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
 
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
+    
+    <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js"></script>
+    
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js"></script>
     <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
