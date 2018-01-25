@@ -74,9 +74,9 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 
-	public DeploymentService create(Part file) throws IOException {
+	public DeploymentService create(Part file,Integer idApp) throws IOException {
 	   DeploymentService d = this;
-       Response response = new RestRequest().post("repository/deployments",file);
+       Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -95,9 +95,9 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 	
-	public DeploymentService update(Part file) throws IOException{
+	public DeploymentService update(Part file,Integer idApp) throws IOException{
 		DeploymentService d = this;
-		Response response = new RestRequest().post("repository/deployments",file);
+		Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
