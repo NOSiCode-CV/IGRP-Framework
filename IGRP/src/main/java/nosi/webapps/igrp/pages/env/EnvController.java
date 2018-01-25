@@ -1,14 +1,23 @@
 
 package nosi.webapps.igrp.pages.env;
+import java.io.DataInputStream;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -22,6 +31,7 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.Session;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -172,11 +182,12 @@ public class EnvController extends Controller {
 		XMLWritter xml_menu = new XMLWritter();
 
 		xml_menu.startElement("applications");
+		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-//		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-//		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-//		getAllApps(allowApps,denyApps);
+		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
+		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;
@@ -202,7 +213,7 @@ public class EnvController extends Controller {
 		}
 		if(type==null || type.equals("")) {
 			for(Application app:otherApp){
-				if(!aux.contains(app.getId())){ // :-)
+				if(!aux.contains(app.getId())){ // :-) 
 					xml_menu.startElement("application");
 					xml_menu.writeAttribute("available", "no");
 					xml_menu.setElement("link", "");
@@ -216,33 +227,34 @@ public class EnvController extends Controller {
 			}
 		}
 		
-		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-//		for(IgrpPLSQLApp obj: allowApps){
-//			xml_menu.startElement("application");
-//			xml_menu.writeAttribute("available", "yes");
-//			xml_menu.setElement("link", obj.getLink());
-//			xml_menu.setElement("img", obj.getImg_src());
-//			xml_menu.setElement("title", obj.getName());
-//			xml_menu.setElement("num_alert", "");
-//			xml_menu.setElement("description", obj.getDescription());
-//			xml_menu.endElement();
-//			displayTitle = true;
-//		}
-//
-//		for(IgrpPLSQLApp obj: denyApps){
-//			xml_menu.startElement("application");
-//			xml_menu.writeAttribute("available", "no");
-//			xml_menu.setElement("link", obj.getLink());
-//			xml_menu.setElement("img", obj.getImg_src());
-//			xml_menu.setElement("title", obj.getName());
-//			xml_menu.setElement("num_alert", "");
-//			xml_menu.setElement("description", obj.getDescription());
-//			xml_menu.endElement();
-//			displaySubtitle = true; 
-//		}
+		for(IgrpPLSQLApp obj: allowApps){
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "yes");
+			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
+			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
+			xml_menu.endElement();
+			displayTitle = true;
+		}
+
+		for(IgrpPLSQLApp obj: denyApps){
+
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "no");
+			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
+			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
+			xml_menu.endElement();
+			displaySubtitle = true; 
+		}
 		/** End **/
+		
 		if(displayTitle){
 			xml_menu.setElement("title", gt("Minhas Aplicações"));
 		}
@@ -263,8 +275,6 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
 		
-		System.out.println(page);
-		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {
 			Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
@@ -280,32 +290,43 @@ public class EnvController extends Controller {
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
-//	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
-	// Begin
-//	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-//		try {
-//			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
-//			URL url = new URL(endpoint);
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//			conn.setDoInput(true);
-//			StringBuilder result = new StringBuilder();
-//			DataInputStream cin = new DataInputStream(conn.getInputStream());
-//			String aux = null;
-//			while((aux = cin.readLine()) != null) {
-//				result.append(aux);
-//			}
-//			cin.close();
-//			conn.disconnect();
-//			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
-//			for(IgrpPLSQLApp obj : allApps)
-//				if(obj.getAvailable().equals("yes"))
-//					allowApps.add(obj);
-//				else
-//					denyApps.add(obj);
-//		}catch(Exception e) {
-//			// do nothing yet 
-//		}
-//	}
+	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
+		nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity();
+		try {
+			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + user.getEmail() ;
+			
+			String currentSessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
+		
+			Session session = (Session) new Session().getEntityManagerFactory().openSession().
+					createQuery("select t from Session t where t.sessionId = :_s and t.user.id = :_u order by t.id desc").
+					setParameter("_s", currentSessionId).
+					setParameter("_u", user.getId()).
+					setMaxResults(1).
+					getSingleResult();
+			
+			endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
+			
+			URL url = new URL(endpoint);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoInput(true);
+			StringBuilder result = new StringBuilder();
+			DataInputStream cin = new DataInputStream(conn.getInputStream());
+			String aux = null;
+			while((aux = cin.readLine()) != null) {
+				result.append(aux);
+			}
+			cin.close();
+			conn.disconnect();
+			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
+			for(IgrpPLSQLApp obj : allApps)
+				if(obj.getAvailable().equals("yes"))
+					allowApps.add(obj);
+				else
+					denyApps.add(obj);
+		}catch(Exception e) {
+			// do nothing yet 
+		}
+	}
 	
 	// For serialization purpose
 	public static class IgrpPLSQLApp {
