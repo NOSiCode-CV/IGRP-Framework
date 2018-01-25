@@ -57,7 +57,7 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
 		DeploymentService deploy = new DeploymentService();
-		deploy = deploy.create(data,new Integer(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):null));
+		deploy = deploy.create(data,Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):null);
 		if(deploy!=null && Core.isNotNull(deploy.getId())){
 			return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 		}
