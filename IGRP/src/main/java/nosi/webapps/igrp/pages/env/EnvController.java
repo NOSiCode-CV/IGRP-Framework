@@ -77,7 +77,7 @@ public class EnvController extends Controller {
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-				System.out.println("Config.getBasePathClass() -> "+ Config.getBasePathClass());
+//				System.out.println("Config.getBasePathClass() -> "+ Config.getBasePathClass());
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				new Compiler().compile(new File[]{new File(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
@@ -263,7 +263,7 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
 		
-		System.out.println(page);
+//		System.out.println(page);
 		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {
