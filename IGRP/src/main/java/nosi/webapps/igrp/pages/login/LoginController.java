@@ -85,7 +85,14 @@ public class LoginController extends Controller {
 		LoginView view = new LoginView(model);
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+				
 				model.load();
+				
+				if(model.getPassword() ==  null || model.getPassword().isEmpty()) {
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
+					return redirect("igrp", "login", "login");
+				}
+				
 				switch(Config.getAutenticationType()){
 					case "db":
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
@@ -112,7 +119,7 @@ public class LoginController extends Controller {
 						}
 					break;
 					
-					case "ldap":
+					case "ldap":{
 						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
 							String destination = Route.previous();
 							if(destination != null) {
@@ -125,6 +132,7 @@ public class LoginController extends Controller {
 							}
 							return this.redirect("igrp", "home", "index");
 						}
+				}
 					break;
 					
 					default:;
@@ -185,9 +193,7 @@ public class LoginController extends Controller {
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		
 		success = ldap.validateLogin(username, password);
-		
 		//System.out.println(ldap.getError());
 		/** End **/ 
 		
