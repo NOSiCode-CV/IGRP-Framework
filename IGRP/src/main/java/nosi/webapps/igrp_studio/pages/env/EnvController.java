@@ -189,7 +189,7 @@ public class EnvController extends Controller {
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
+			xml_menu.setElement("link", Config.LINK_OPEN_APP + profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
 			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
 			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
 			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
