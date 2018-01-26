@@ -4586,8 +4586,9 @@ if(input) {
 			handle: '.container-mover',
 			tolerance:'pointer',
 			helper:function(){ return $('<div></div>') },
+	
 			receive:function(e,ui){
-
+				
 				if(ui.helper && ui.helper.hasClass('gen-declared-containers')){
 
 					//NEW ELEMENT DROP
@@ -4630,13 +4631,41 @@ if(input) {
 					GEN.checkColumnComponents(col);
 				}
 
-				$('#gen-view .ui-sortable-helper').remove();
+				var sender = ui.sender;
+
+				var senderCol = $(sender.parents('.gen-column')[0]);
+
+				console.log('removee')
+
+				GEN.checkColumnComponents(senderCol);
+
+				/*if(!sender.find('>.gen-declared-containers')[0])
+					console.log(sender.parent())*/
+
+				$('#gen-design .ui-sortable-helper').remove();
 			},
 			stop:function(e,ui){	
 				var holder = ui.item;
 				holder.removeAttr('style');
-				$('#gen-view .ui-sortable-helper').remove();
+				$('#gen-design .ui-sortable-helper').remove();
 			},
+			update:function(e,ui){
+				$('#gen-design .ui-sortable-helper').remove();
+			},
+			remove:function(e,ui){
+				$('#gen-design .ui-sortable-helper').remove();
+				console.log('remove')
+			},
+			change : function(e,ui){
+
+				if(ui.sender && ui.sender.find('>.gen-declared-containers').length <= 1){
+
+					var senderCol = $(ui.sender.parents('.gen-column')[0]);
+
+					senderCol.attr('empty',true)
+				}
+	
+			}
 		}).disableSelection();
 	}
 
