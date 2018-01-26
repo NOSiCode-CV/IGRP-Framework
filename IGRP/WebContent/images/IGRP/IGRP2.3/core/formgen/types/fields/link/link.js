@@ -21,7 +21,14 @@ var LINKFIELD = function(type,params){
 			value: proprieties && proprieties.action ? proprieties.action : '',
 			onChange:function(v){
 				field.proprieties.action.params = v.params;
-				field.xml.dataValue = v.params.link
+				field.xml.dataValue = v.params.link;
+				
+				var url = 'webapps?r='+v.params.app+'/'+v.params.page+'/'+v.params.action;
+				
+				//field.proprieties.action = url;
+				
+				console.log(field.proprieties)
+				
 			}
 		});
 
