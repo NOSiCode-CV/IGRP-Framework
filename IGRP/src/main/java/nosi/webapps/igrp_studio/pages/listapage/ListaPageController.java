@@ -92,7 +92,7 @@ public class ListaPageController extends Controller {
 				Action ac = p.getOrganization().getApplication().getAction();
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
-			myapps.setIcon(Config.getLinkImg() + "/assets/img/iconApp/" + p.getOrganization().getApplication().getImg_src());
+			myapps.setIcon(Config.getLinkImg() + "/assets/img/iconApp/" + (Core.isNotNull(p.getOrganization().getApplication().getImg_src())?p.getOrganization().getApplication().getImg_src():"default.svg"));
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
 			apps.add(myapps);

@@ -139,7 +139,7 @@ public class EnvController extends Controller {
 		}	
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
-		view.btn_gravar.setLink("editar&id=" + idAplicacao);
+		view.btn_gravar.setLink("igrp_studio", "env", "editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "-- Selecionar --"));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);

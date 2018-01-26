@@ -286,8 +286,11 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/");
 	}
 	
+public static String getImageAppPath(Action page) {
+	return "images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage().toLowerCase();
+}
 	public static String getBaseServerPahtXsl(Action page){
-		return Config.getBasePathServerXsl() + "images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage().toLowerCase();
+		return Config.getBasePathServerXsl() + Config.getImageAppPath(page);
 	}
 	
 
@@ -303,7 +306,7 @@ public class Config {
 	}
 	
 	public static String getBasePahtXslWorkspace(Action page){
-		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getBaseHttpServerPahtXsl(page);
+		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getImageAppPath(page);
 	}
 	
 	public static String getPackage(String app, String page,String action) {
