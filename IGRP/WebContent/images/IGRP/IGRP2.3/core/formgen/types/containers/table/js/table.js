@@ -158,9 +158,9 @@ var GENTABLE = function(name,params){
 			name:'ctxType',
 			label:'Context Menu',
 			value:{
-				value:'inl',
+				value:'ctx',
 				options:[
-					{value:'ctx',label:'Right Click'},
+					{value:'ctx',label:'RIght Click'},
 					{value:'inl',label:'Inline'}
 				]
 			},
@@ -429,7 +429,6 @@ var GENTABLE = function(name,params){
 	}
 
 	var getTableFooter = function(){
-		
 		var rtn = '<tfoot><tr>';
 
 		container.GET.fields().forEach(function(f){
@@ -456,4 +455,3 @@ this[VARS.name].declareContainer({
 	name:'table',
 	container:GENTABLE
 });
-

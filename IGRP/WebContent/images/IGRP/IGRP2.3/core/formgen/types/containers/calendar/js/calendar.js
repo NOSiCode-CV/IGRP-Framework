@@ -136,8 +136,11 @@ var GENCALENDAR = function(name,params){
 
 	container.onDrawEnd = function(){
 		var c  = $.IGRP.components.calendar.get( container.GET.tag() );
-   	 	c.fullCalendar('render');
-   	 	c.fullCalendar('addEventSource',path+'/core/calendar/3.0.1/data/calendar.json');
+		if(c){
+			c.fullCalendar('render');
+   	 		c.fullCalendar('addEventSource',path+'/core/calendar/3.0.1/data/calendar.json');
+		}
+   	 	
 	}
 }
 

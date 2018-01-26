@@ -57,6 +57,24 @@ $.fn.separatorList = function(o){
 			}
 		};
 
+		/**separador list control**/
+
+		var slOptionsCtrl = function(sl){
+			var fixed = "#p_"+sl.name+"_no";
+			
+			if($(fixed+"add")[0] && $(fixed+"add").val())
+				$(sl).attr('noadd','true');
+
+			if($(fixed+"del")[0] && $(fixed+"del").val())
+				$(sl).attr('nodel','true');
+
+			if($(fixed+"edt")[0] && $(fixed+"edt").val())
+				$(sl).attr('noedt','true');
+
+			if($(fixed+"cle")[0] && $(fixed+"cle").val())
+				$(sl).attr('nocle','true');
+		};
+
 		var appendToTable = function(values,sl){
 			
 			var	sle 	   = rowEdit.get(sl),
@@ -683,7 +701,7 @@ $.fn.separatorList = function(o){
 		$.each(this,function(i,sl){
 			sl.name     = $(sl).attr('tag');  
 			sl.isDialog = $(sl).attr('dialog') == 'true' ? true : false;
-			sl.events   = new 	$.EVENTS([
+			sl.events   = new $.EVENTS([
 				"valid-row-add",
 				"row-add",
 				"row-remove",
@@ -693,6 +711,10 @@ $.fn.separatorList = function(o){
 				"form-reset",
 				"reset-all"
 			]);
+
+			console.log(sl);
+
+			slOptionsCtrl(sl);
 
 			setEvents(sl);
 
@@ -704,6 +726,5 @@ $.fn.separatorList = function(o){
 
 $.IGRP.on('init',function(){
 	$('.IGRP-separatorlist').separatorList();
-
 });
 	
