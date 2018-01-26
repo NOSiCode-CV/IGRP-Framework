@@ -172,7 +172,7 @@ public class NovoUtilizadorController extends Controller {
 					Organization orgEmail = new Organization().findOne(model.getOrganica());
 					String msg = ""
 							+ "<p><b>Aplicação:</b> "  +  orgEmail.getApplication().getName() + "</p>" + 
-							"			 <p><b>Org�nica:</b> " + orgEmail.getName() + "</p>" + 
+							"			 <p><b>Orgânica:</b> " + orgEmail.getName() + "</p>" + 
 							"			 <p><b>Link Activação:</b> <a href=\"" +  url_ + "\">" + url_ + "</a></p>" + 
 							"			 <p><b>Utilizador:</b> " + u.getUser_name() + "</p>";
 					try {
@@ -262,7 +262,7 @@ public class NovoUtilizadorController extends Controller {
 					Core.setMessageError();
 				}
 			}else{
-				Core.setMessageError(gt("Email inv�lido"));
+				Core.setMessageError(gt("Email inválido"));
 			}
 		}
 		return this.redirectError();

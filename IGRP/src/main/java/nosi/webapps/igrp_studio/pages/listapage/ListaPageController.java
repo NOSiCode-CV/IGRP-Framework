@@ -113,7 +113,7 @@ public class ListaPageController extends Controller {
 	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVA_APLICACAO)----*/
 
-		return this.redirect("igrp", "Env", "index&target=_blank");
+		return this.redirect("igrp_studio", "Env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
