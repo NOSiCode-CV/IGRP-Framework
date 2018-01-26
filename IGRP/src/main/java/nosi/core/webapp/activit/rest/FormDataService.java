@@ -73,15 +73,16 @@ public class FormDataService {
 		this.propertyFormSubmit.add(p );
 	}
 	
-	public boolean submitFormByTask(){
+	public StartProcess submitFormByTask(){
 		return this.submitForm("task");
 	}
 
-	public boolean submitFormByProcessDenifition(){
+	public StartProcess submitFormByProcessDenifition(){
 		return this.submitForm("process");
 	}
 	
-	private boolean submitForm(String type){
+	private StartProcess submitForm(String type){
+		StartProcess s = new StartProcess();
 		JSONObject json = new JSONObject();
 		try {
 			if(type.equalsIgnoreCase("task")){
@@ -97,20 +98,20 @@ public class FormDataService {
 		}
 		Response response = new RestRequest().post("form/form-data", json.toString());
 		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			if(response.getStatus()==200 || response.getStatus()==204){
-				return true;
-			}else{
-				String contentResp = "";
-				InputStream is = (InputStream) response.getEntity();
-				try {
-					contentResp = FileHelper.convertToString(is);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				s = (StartProcess) ResponseConverter.convertJsonToDao(contentResp,StartProcess.class);
+			}else{				
+				s.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}
 		}
-		return false;
+		return s;
 	}
 	
 	public ResponseError getError() {

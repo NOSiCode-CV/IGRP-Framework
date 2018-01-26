@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +49,7 @@ public class TaskService extends Activit{
 	}
 	
 	public TaskService getTask(String id){
-		TaskService t = this;
+		TaskService t = new TaskService();
 		Response response = new RestRequest().get("runtime/tasks",id);
 		if(response!=null){
 			String contentResp = "";
@@ -90,7 +92,7 @@ public class TaskService extends Activit{
 				e.printStackTrace();
 			}
 			if(response.getStatus()==200){
-				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
@@ -105,9 +107,9 @@ public class TaskService extends Activit{
 	}
 
 	
-	public TaskService create(){
-		TaskService t = this;
-		Response response = new RestRequest().post("runtime/tasks",ResponseConverter.convertDaoToJson(this));
+	public TaskService create(TaskService task){
+		TaskService t = new TaskService();
+		Response response = new RestRequest().post("runtime/tasks",ResponseConverter.convertDaoToJson(task));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -126,9 +128,9 @@ public class TaskService extends Activit{
 	}
 	
 
-	public TaskService update(){
-		TaskService t = this;
-		Response response = new RestRequest().put("runtime/tasks",ResponseConverter.convertDaoToJson(this),this.getId());
+	public TaskService update(TaskService task){
+		TaskService t = new TaskService();
+		Response response = new RestRequest().put("runtime/tasks",ResponseConverter.convertDaoToJson(task),task.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -146,7 +148,17 @@ public class TaskService extends Activit{
 		return t;
 	}
 	
-	
+	public boolean addTaskFile(Part file,String taskId) throws IOException{
+		try {
+			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name=file_"+taskId+"_"+file.getName()+"&type=binary&scope=local", file);
+			file.delete();
+			return response.getStatus() == 201;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		file.delete();
+		return false;
+	}
 	
 	public boolean delete(String id){
 		Response response = new RestRequest().delete("runtime/tasks",id);
