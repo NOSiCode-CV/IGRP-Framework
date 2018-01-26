@@ -48,6 +48,22 @@ var GENFORM = function(name,params){
 	}
 
 	container.ready = function(){
+		container.setProperty({
+			name:'template',
+			value:{
+				value  : 'form',
+				options : [
+					{
+						label : 'Form',
+						value : 'form'
+					},
+					{
+						label : 'Filter',
+						value : 'filter'
+					}
+				]
+			}
+		})
 		//console.log('dsaljdhlsakdbhaslkd')
 	}
 	

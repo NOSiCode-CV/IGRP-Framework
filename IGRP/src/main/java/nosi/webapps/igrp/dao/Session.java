@@ -40,6 +40,8 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 	private String hostName;
 	private String mediaType;
 	
+	private String url;
+	
 	@ManyToOne
 	@JoinColumn(name="user_fk",foreignKey=@ForeignKey(name="SESSION_USER_FK"))
 	private User user;
@@ -175,6 +177,14 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		this.mediaType = mediaType;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -225,7 +235,8 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		currentSession.setTarget("_blank");
 		long time = System.currentTimeMillis();
 		currentSession.setStartTime(time);
-		currentSession.setEndTime(time + 30*60); // add 30 min.
+		currentSession.setEndTime(time + 30*60); // add 30 min. 
+		currentSession.setUrl(Igrp.getInstance().getRequest().getRequestURL().toString());
 		currentSession = currentSession.insert();
 		return currentSession!=null;
 	}

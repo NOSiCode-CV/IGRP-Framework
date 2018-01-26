@@ -1390,7 +1390,7 @@ if(input) {
 		//var template = GEN.edit.object.template ? GEN.edit.object.XSLToString() : GEN.edit.object.templates[Object.keys(GEN.edit.object.templates)[0]];
 		
 		$('.object-xsl-templates',modal).hide().html('');
-
+		
 		GEN.edit.setXSLValue(template);
 
 		$('#gen-edit-xsl').attr('use-default', GEN.edit.object.xslOptions.useDefault )
@@ -2073,7 +2073,7 @@ if(input) {
 				$(viewInclude).insertBefore( $('style#custom-css') );
 
 			else
-				$.getScript(viewLink);
+				$('html head').append(viewInclude);
 
 		}
 	};

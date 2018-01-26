@@ -23,18 +23,33 @@ body[view="gen-design"] .gen-viewers-toolbar{
 	margin: 0;
 }
 
-#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder>.gen-settings-holder{
+/*#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder>.gen-settings-holder{
 	position: absolute;
 	z-index: 15;
 	top: 10px;
 	right: 10px;
 	opacity: 0;
 	transition: opacity .5s
-}
+}*/
 
 #gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder:hover>.gen-settings-holder{
 	opacity: 1;
 }
+
+#gen-design>.gen-rows-holder>.row.row-fluid>.gen-column>.gen-inner>.gen-container-placeholder>.gen-declared-containers>.gen-container-holder>.container-contents>.box>.box-body{
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 15px;
+}
+
+.gen-container-item{
+	margin-top: 15px;
+}
+
+.gen-container-placeholder[place="c"]>.gen-declared-containers:first-child .gen-container-item{
+  margin-top: 0
+}
+
 
 #igrp-contents {
 	padding-top: 0
@@ -124,6 +139,7 @@ a, button {
 	width: auto;
 }
 /**/
+.gen-container-placeholder
 .gen-rows-holder{
 	min-height: 55px;
 	padding-top: 0px;
@@ -275,6 +291,25 @@ a, button {
 	padding-bottom: 4px;
 	
 }
+
+.gen-container-placeholder[place="c"] > .gen-declared-containers:first-child{
+	margin-top: 30px!important;
+}
+
+.gen-container-holder>.box-tools {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: -24px;
+    width: 100%;
+    opacity: 0;
+    transition: opacity .4s;
+}
+
+.gen-container-holder:hover>.box-tools {
+	opacity: 1
+}
+
 .gen-settings-holder .btn{ 
 	padding: 0 5px;
 	opacity: .4;
@@ -342,12 +377,38 @@ a, button {
 	float: left
 }
 
-.gen-types-tab .treeview-menu{
+.gen-types-tab .treeview-menu,
+.treeview-menu{
 	background: white
 }
 
 #igrp-sidebar{
 	margin-top: 00px;
+}
+
+#igrp-sidebar .nav-sidebar{
+	margin-right: 0;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+#gen-page-properties .gen-page-properties-inner{
+	padding: 10px;
+}
+
+.gen-page-props-menus{
+	margin-bottom: 20px;
+}
+
+.gen-page-properties-inner ul{
+	padding: 0
+}
+
+.gen-page-properties-inner ul li a{
+	display: block;
+	cursor: pointer;
+	margin-bottom: 4px;
+	text-decoration: none;
 }
 
 #igrp-sidebar .nav-tabs { 
@@ -1057,6 +1118,7 @@ textarea.form-control.propriety-setter{
 	background-repeat: no-repeat;
     background-size: 160px;
     background-position: center;
+    min-height: 55px;
     
 }
 
@@ -1227,7 +1289,6 @@ new rows / columns style
 	background:#fa0000;
 	
 }*/
-
 /* type changer */
 
 .modal-footer [rel="type_changer"]{

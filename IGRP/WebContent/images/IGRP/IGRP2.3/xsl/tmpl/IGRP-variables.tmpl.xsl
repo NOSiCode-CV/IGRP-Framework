@@ -4,7 +4,7 @@
   <xsl:variable name="bs-v" select="'3.3.7'"/>
   
   <!-- jQuery Version -->
-  <xsl:variable name="jq-v" select="'2.1'"/>
+  <xsl:variable name="jq-v" select="'3.3.1'"/>
   
   <!-- target is blank? popup -->
   <xsl:variable name="hasMenu">

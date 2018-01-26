@@ -90,7 +90,8 @@ var GENPANELS = function(name,tparams){
 				var contentRows  = GEN.designRows(content.rows);
 
 				var hClss  = cidx != 0 ? 'collapsed' : '';
-				var bClss  = cidx == 0 ? 'in' : '';
+				//var bClss  = cidx == 0 ? 'in' : '';
+				var bClss  = '';
 
 				var rel          = container.GET.tag()+'-'+content.GET.tag();//(new Date()).getTime();
 										
@@ -192,21 +193,32 @@ var GENPANELS = function(name,tparams){
 	}
 
 	var newBtn = function(p){
+
 		var btn = null;
+
 		var f   = GEN.getDeclaredField('button');
 
 		if(f) {
-			var btnParams = p ? $.extend({},p) : {  };
+
+			var btnParams = p ? $.extend({},p) : {};
 
 			if(btnParams) delete btnParams.rows;
-			
+
 			btn = new f.field(f.type,btnParams);
 
 			btn.parent = container;
 
 			btn.autoTag = true;
-			
+
+			//console.log( container.incrementTag('fields',btn.properties.tag) );
+			//console.log( btnParams )
+		
 			btn.init();
+
+			//console.log(btn.proprieties.tag);
+
+			if(!p)
+				btn.proprieties.tag = container.incrementTag('contents',btn.type);
 
 			btn.unsetProprieties(['class','action','target','transaction','service']);
 
@@ -226,6 +238,7 @@ var GENPANELS = function(name,tparams){
 		btn.SET.label(title);
 	
 		if(btn){
+
 			var idx = _params && _params.properties && _params.properties.rel ? _params.proprieties.rel.split('-')[1] : contentsIdx;
 			
 			var headClss = idx != 1 ? 'collapsed' : '';
