@@ -81,6 +81,14 @@ public class StartProcess extends Activit{
 	public void setCompleted(boolean completed) {
 		this.completed = completed;
 	}
+	@Override
+	public String toString() {
+		return "StartProcess [businessKey=" + businessKey + ", suspended=" + suspended + ", ended=" + ended
+				+ ", processDefinitionId=" + processDefinitionId + ", processDefinitionUrl=" + processDefinitionUrl
+				+ ", processDefinitionKey=" + processDefinitionKey + ", activityId=" + activityId + ", variables="
+				+ variables + ", tenantId=" + tenantId + ", completed=" + completed + ", getId()=" + getId()
+				+ ", getName()=" + getName() + ", getUrl()=" + getUrl() + "]";
+	}
 	
 	
 }

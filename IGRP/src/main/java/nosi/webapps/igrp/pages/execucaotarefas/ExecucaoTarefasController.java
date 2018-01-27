@@ -346,7 +346,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		});
 		StartProcess st = formData.submitFormByTask();
-		return (Core.isNotNull(p_prm_taskid))?st.getError()!=null:false;
+		return (Core.isNotNull(p_prm_taskid))?st.getError()==null:false;
 	}
 	
 	//Inicia tarefa de um processo
@@ -366,6 +366,7 @@ public class ExecucaoTarefasController extends Controller {
 			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
+		System.out.println(st);
 		if(st!=null){
 			parts.stream().forEach(file->{
 				try {
@@ -375,7 +376,7 @@ public class ExecucaoTarefasController extends Controller {
 				}
 			});
 		}
-		return (Core.isNotNull(processDefinitionId))?st.getError()!=null:false;
+		return (Core.isNotNull(processDefinitionId))?st.getError()==null:false;
 	}
 	/*----#END-PRESERVED-AREA----*/
 }
