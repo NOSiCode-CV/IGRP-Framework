@@ -68,7 +68,7 @@ public class PesquisarUtilizadorController extends Controller {
 			table1.setTb_email(p.getUser().getEmail());
 			table1.setNome(p.getUser().getUser_name());
 			table1.setNominho(p.getUser().getName());
-			table1.setPerfile(p.getProfileType().getDescr());
+			table1.setPerfile(p.getProfileType().getApplication().getName()+"/"+p.getProfileType().getOrganization().getName()+"/"+p.getProfileType().getDescr());
 			table1.setP_id(""+p.getId());
 			lista.add(table1);
 		}		
@@ -93,7 +93,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.p_id.setParam(true);
 		view.email.setParam(true);
 		view.table_1.addData(lista);	
-		view.btn_lista_geral.setTitle(gt("Cadastro Geral"));
+	
 		
 		//view.username.
 		
@@ -101,20 +101,6 @@ public class PesquisarUtilizadorController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionLista_geral() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(LISTA_GERAL)----*/
-		return this.redirect("igrp","PesquisarUtilizador","listaGeral&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
-      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 
 	public Response actionConvidar() throws IOException{
 		/*----#START-PRESERVED-AREA(CONVIDAR)----*/
@@ -126,6 +112,13 @@ public class PesquisarUtilizadorController extends Controller {
 			}
 		}
 		return this.redirect("igrp", "NovoUtilizador","index&target=_blank");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionAdicionar_utilizador() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ADICIONAR_UTILIZADOR)----*/
+      return this.redirect("igrp","RegistarUtilizador","index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -175,7 +168,7 @@ public class PesquisarUtilizadorController extends Controller {
 
 	public Response actionConvidar_user() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(CONVIDAR_USER)----*/
-		String email = Igrp.getInstance().getRequest().getParameter("email");
+		String email = Igrp.getInstance().getRequest().getParameter("tb_email");
 		if(email!=null){
 			User u = new User().find().andWhere("email", "=", email).one();
 			if(u!=null){
@@ -223,7 +216,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.email.setParam(true);
 		view.btn_adicionar_utilizador.setVisible(false);
 		view.btn_convidar.setVisible(false);
-		view.btn_lista_geral.setVisible(false);
+	
 		view.btn_eliminar.setLink("eliminarUser");
 		view.btn_eliminar.setTitle("Alterar Estado");
 		view.btn_eliminar.setImg("");
