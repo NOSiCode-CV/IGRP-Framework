@@ -12,6 +12,7 @@ import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
@@ -22,7 +23,10 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -273,14 +277,15 @@ public class ExecucaoTarefasController extends Controller {
 		return new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
 	}
 	
-	public Response actionProcessTask() throws IOException{
+	public Response actionProcessTask() throws IOException, ServletException{
 		String taskId = Igrp.getInstance().getRequest().getParameter("p_prm_taskid");
 		String processDefinitionId = Igrp.getInstance().getRequest().getParameter("p_prm_definitionid");
 		String customForm = Igrp.getInstance().getRequest().getParameter("customForm");
 		String content = Core.isNotNull(customForm)?Core.getJsonParams():"";
 		boolean result = false;
-		if(taskId!=null && !taskId.equals("")){
-			result = this.processTask(taskId,customForm,content);
+		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
+		if(Core.isNotNull(taskId)){
+			result = this.processTask(taskId,customForm,content,parts);
 			if(result){
 				Core.setMessageSuccess();
 				return this.redirect("igrp","ExecucaoTarefas", "index");
@@ -289,8 +294,8 @@ public class ExecucaoTarefasController extends Controller {
 				return this.redirect("igrp","MapaProcesso", "open-process&taskId="+taskId);
 			}
 		}
-		if(processDefinitionId!=null && !processDefinitionId.equals("")){
-			result = this.processStartEvent(processDefinitionId,customForm,content);
+		if(Core.isNotNull(processDefinitionId)){
+			result = this.processStartEvent(processDefinitionId,customForm,content,parts);
 			if(result){
 				Core.setMessageSuccess();
 			}else{
@@ -318,7 +323,7 @@ public class ExecucaoTarefasController extends Controller {
 	}
 	
 	//Executa uma tarefa
-	private boolean processTask(String p_prm_taskid,String customForm,String content){
+	private boolean processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
@@ -333,11 +338,19 @@ public class ExecucaoTarefasController extends Controller {
 				formData.addVariable("customVariableIGRP",content);
 			}
 		}
-		return (p_prm_taskid!=null && !p_prm_taskid.equals(""))?formData.submitFormByTask():false;
+		parts.stream().forEach(file->{
+			try {
+				new TaskService().addTaskFile(file, p_prm_taskid);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		StartProcess st = formData.submitFormByTask();
+		return (Core.isNotNull(p_prm_taskid))?st.getError()==null:false;
 	}
 	
 	//Inicia tarefa de um processo
-	private boolean processStartEvent(String processDefinitionId,String customForm,String content){
+	private boolean processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
@@ -352,7 +365,18 @@ public class ExecucaoTarefasController extends Controller {
 		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 			formData.addVariable("customVariableIGRP",content);
 		}
-		return (processDefinitionId!=null && !processDefinitionId.equals(""))?formData.submitFormByProcessDenifition():false;
+		StartProcess st = formData.submitFormByProcessDenifition();
+		System.out.println(st);
+		if(st!=null){
+			parts.stream().forEach(file->{
+				try {
+					new ProcessDefinitionService().addProcessFile(file, st.getId());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		}
+		return (Core.isNotNull(processDefinitionId))?st.getError()==null:false;
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

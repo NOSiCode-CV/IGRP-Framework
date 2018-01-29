@@ -41,11 +41,13 @@ public class GestaodeacessoView extends View {
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","true").add("disabled","false").add("right","false").add("java-type","");
 		
 		adicionar_organica1 = new LinkField(model,"adicionar_organica1");
-		adicionar_organica1.setLabel(gt("Adicionar Orgânica"));
+		adicionar_organica1.setLabel(gt("Adicionar Organização"));
+		adicionar_organica1.setValue("webapps?r=igrp/NovaOrganica/index&target=_blank");
 		adicionar_organica1.propertie().add("name","p_adicionar_organica1").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","NovaOrganica").add("app","igrp").add("class","primary").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-plus-square").add("maxlength","30").add("placeholder","").add("right","true");
 		
 		gestao_de_utilizadores1 = new LinkField(model,"gestao_de_utilizadores1");
 		gestao_de_utilizadores1.setLabel(gt("Gestão de utilizadores"));
+		gestao_de_utilizadores1.setValue("webapps?r=igrp/PesquisarUtilizador/index");		
 		gestao_de_utilizadores1.propertie().add("name","p_gestao_de_utilizadores1").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","PesquisarUtilizador").add("app","igrp").add("class","success").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-users").add("maxlength","30").add("placeholder","").add("right","true");
 		
 		estado = new CheckBoxField(model,"estado");

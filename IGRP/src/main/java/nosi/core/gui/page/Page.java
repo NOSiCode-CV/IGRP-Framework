@@ -184,7 +184,7 @@ public class Page {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SecurityException | IllegalArgumentException | 
 				InvocationTargetException | NullPointerException e) {
 			e.printStackTrace();
-			throw new NotFoundHttpException("P·gina n„o encontrada.");
+			throw new NotFoundHttpException("P√°gina n√£o encontrada.");
 		}
 	}
 

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
@@ -291,6 +293,18 @@ public class ProcessDefinitionService extends Activit{
 		map.put(null, "--- Selecionar Processo ----");
 		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
 		return map;
+	}
+
+	public boolean addProcessFile(Part file, String processDefinitionId) throws IOException {
+		try {
+			Response response = new RestRequest().post("runtime/process-instances/"+processDefinitionId+"/variables?name=file_"+processDefinitionId+"_"+file.getName()+"&type=binary&scope=local", file);
+			file.delete();
+			return response.getStatus() == 201;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		file.delete();
+		return false;
 	}
 
 }
