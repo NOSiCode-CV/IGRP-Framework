@@ -44,9 +44,9 @@ public class Test {
 	static void TesteLogin() {
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_authentication_filter,l_ldap_entryDN);
 		if (ldap.validateLogin("iekinyfernandes", ""))
-			System.out.println("User Válido");
+			System.out.println("User Valido");
 		else {
-			System.out.println("User Inválido: " + ldap.getError());
+			System.out.println("User Invalido: " + ldap.getError());
 		}
 	}
 
@@ -69,7 +69,7 @@ public class Test {
 				System.out.println("Username:" + p.getUserPrincipalName());
 			}
 		} else
-			System.out.println("Pesquisa não encontrada: " + ldap.getError());
+			System.out.println("Pesquisa nao encontrada: " + ldap.getError());
 	}
 
 }
