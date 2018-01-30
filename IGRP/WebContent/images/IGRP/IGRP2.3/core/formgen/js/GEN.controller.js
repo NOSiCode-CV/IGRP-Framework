@@ -2651,7 +2651,7 @@ if(input) {
 				
 				var vUrl    = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href') ;
 				var pageXML = vkbeautify.xml(GEN.getXML());
-				var pageXSL = vkbeautify.xml(GEN.getXSL({
+				var pageXSL = vkbeautify.xmlmin(GEN.getXSL({
 					removeGenAttrs:true
 				}));
 
@@ -3072,11 +3072,15 @@ if(input) {
 	var getBaseXSL = function(){//GET PAGE BASE XSL 
   		$.ajax({
   			url:GEN.path+'/util/base.xsl',
-  			success:function(base){
-  				var xmlString = (new XMLSerializer()).serializeToString(base);
-			    var parts = xmlString.split('<!--SPLIT-->');
+  			success:function(base,e,d){
+  				//var xmlString = (new XMLSerializer()).serializeToString(base);
+  				var xmlString = d.responseText;
+  				
+  				var parts = xmlString.split('<!--SPLIT-->');
 
-			    GEN.XSL = $(base);
+			    //GEN.XSL = $(base);
+  				
+  				GEN.XSL = $(xmlString);
 			
 			    GEN.baseXSL = {
 			    	top    : parts[0],
@@ -3094,7 +3098,7 @@ if(input) {
 
 				baseXslSet = true;
 
-				loadPageContents({ source: genparams.dataSrc });
+				loadPageContents({ source:	 genparams.dataSrc });
 
 			    //if(json && json[0]) GEN.import();
   			}

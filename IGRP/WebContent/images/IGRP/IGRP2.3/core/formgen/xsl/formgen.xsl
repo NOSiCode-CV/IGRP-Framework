@@ -101,6 +101,20 @@
                             </li> 
                             
                         </ul>
+                        
+                        <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
+                           
+                            <input type="email" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            
+                            <span class="gen-type-search-clear">
+                              <i class="fa fa-times"></i>
+                            </span>
+
+                            <div class="gen-searcher-contents">
+                              
+                            </div>
+
+                          </div>
 
                         <div class="tab-content" style="margin:0 -20px;padding:0;border:0">
                             <div role="tabpanel" class="tab-pane active" id="gen-list-components">
@@ -495,6 +509,8 @@
         </form>
 
         <script src="{$path}/core/bootstrap/plugins/tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
+        
+        <script src="{$path}/core/formgen/js/GEN.componentsSearcher.js"></script>
 
         <!-- RULES -->
         <script src="{$path}/core/igrp/IGRP.rules.class.js"></script>
