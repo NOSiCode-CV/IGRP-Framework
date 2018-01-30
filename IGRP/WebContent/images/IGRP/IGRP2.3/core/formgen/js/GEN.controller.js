@@ -3947,7 +3947,7 @@ if(input) {
 						{ name:'app',value:page.app },
 						{ name:'page',value:page.page },
 						{ name:'action',value:page.action },
-						{ name:'link',value: GEN.UTILS.link_preview+page.link }
+						{ name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
 					]
 				});
 			});
