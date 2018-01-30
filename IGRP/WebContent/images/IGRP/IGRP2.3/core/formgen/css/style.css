@@ -1406,3 +1406,22 @@ new rows / columns style
     height: calc(100% - 130px);
   }
 }
+
+/*
+	search toolbar
+	30.01.2018
+	william.lima
+*/
+#igrp-sidebar .nav-tabs li{
+	border-right: 0;
+}
+#igrp-sidebar .nav-tabs > li.active > a:after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    height: 1px;
+    background: #78b3d2;
+    display: block;
+    width: 100%;
+}
