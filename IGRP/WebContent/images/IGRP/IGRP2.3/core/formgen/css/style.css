@@ -494,11 +494,11 @@ max-height: 34px;
 #igrp-sidebar .nav-tabs li{
 	padding: 0;
 	text-align: center;
-	border-right: 1px solid #f0f0f0;
+
 }
 
 #igrp-sidebar .nav-tabs li:last-child{
-
+	border-right: 1px solid #f0f0f0;
 }
 
 #igrp-sidebar .nav-tabs li a i{

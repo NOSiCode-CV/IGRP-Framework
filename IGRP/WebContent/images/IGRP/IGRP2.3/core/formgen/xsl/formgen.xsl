@@ -104,7 +104,7 @@
                         
                         <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
                            
-                            <input type="email" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            <input type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
                             
                             <span class="gen-type-search-clear">
                               <i class="fa fa-times"></i>
