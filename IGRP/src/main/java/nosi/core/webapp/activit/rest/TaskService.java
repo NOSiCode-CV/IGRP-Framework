@@ -5,14 +5,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.Part;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
@@ -69,13 +70,13 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.setFilter("size=100000000&assignee="+user);
+		this.setFilter("assignee="+user);
 		return this.getTasks();
 	}
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.setFilter("unassigned=true?&size=100000000&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
@@ -148,9 +149,26 @@ public class TaskService extends Activit{
 		return t;
 	}
 	
-	public boolean addTaskFile(Part file,String taskId) throws IOException{
+	public FileRest getFile(String url){
+		RestRequest request = new RestRequest();
+		request.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
+		request.setBase_url("");
+		Response response = request.get(url);	
+		if(response!=null){
+			if(response.getStatus()==200) {
+				FileRest f = new FileRest();
+				f.setContent((InputStream) response.getEntity());
+				f.setSize(response.getLength());
+				f.setContentType(response.getMediaType().toString());
+				return f;
+			}
+		}
+		return null;
+	}
+	
+	public boolean addTaskFile(Part file,String taskId,String file_desc) throws IOException{
 		try {
-			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name=file_"+taskId+"_"+file.getName()+"&type=binary&scope=local", file);
+			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
 			return response.getStatus() == 201;
 		} catch (IOException e) {

@@ -93,7 +93,7 @@ public class RestRequest{
 		this.addUrl(url);
 		Client client = this.getConfig().bluidClient();
 		WebTarget target = client.target(this.getConfig().getUrl());
-		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getSubmittedFileName()+"\"");
+		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getSubmittedFileName()+"\"; Content-Type=\""+file.getContentType()+"\"");
 		List<Attachment> atts = new LinkedList<Attachment>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
 		MultipartBody body = new MultipartBody(atts);

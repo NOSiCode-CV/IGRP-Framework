@@ -32,19 +32,19 @@ public class DetalhesProcessoView extends View {
 		sectionheader_1_text.setValue(gt("Detalhes de Processo"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		numero_de_processo = new TextField(model,"numero_de_processo");
-		numero_de_processo.setLabel(gt("Número De Processo"));
+		numero_de_processo.setLabel(gt("NÃºmero De Processo"));
 		
 		numero_de_processo.propertie().add("name","p_numero_de_processo").add("type","text").add("maxlength","30");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("DescriÃ§Ã£o"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30");
 		data_criacao_de_processo = new TextField(model,"data_criacao_de_processo");
-		data_criacao_de_processo.setLabel(gt("Data Criação de Processo"));
+		data_criacao_de_processo.setLabel(gt("Data CriaÃ§Ã£o de Processo"));
 		
 		data_criacao_de_processo.propertie().add("name","p_data_criacao_de_processo").add("type","text").add("maxlength","30");
 		data_inicio_de_processo = new TextField(model,"data_inicio_de_processo");
-		data_inicio_de_processo.setLabel(gt("Data Início de Processo"));
+		data_inicio_de_processo.setLabel(gt("Data InÃ­cio de Processo"));
 		
 		data_inicio_de_processo.propertie().add("name","p_data_inicio_de_processo").add("type","text").add("maxlength","30");
 		data_fim_processo = new TextField(model,"data_fim_processo");

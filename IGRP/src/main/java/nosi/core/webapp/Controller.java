@@ -138,7 +138,8 @@ public abstract class Controller {
 		}else {
 			try {
 				String extension = "." + contentType.split("/")[1];
-				name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
+				if(!name.contains("."))
+					name = (name == null || name.isEmpty() ? "igrp-file" + extension : name + extension);
 			}catch(Exception e) {
 				contentType = "application/octet-stream";
 				e.printStackTrace();
@@ -148,7 +149,7 @@ public abstract class Controller {
 		if(download)
 			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
 		else
-			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline");
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
 		response.setType(1);
 		response.setContentLength(file.length);
 		response.setContentType(contentType);
