@@ -68,7 +68,7 @@ public class ProcessDefinitionService extends Activit{
 			if(response.getStatus()==200) {
 				InputStream finput =(InputStream) response.getEntity();
 				try {
-					byte[] imageBytes = new byte[finput.available()];
+					byte[] imageBytes = new byte[response.getLength()];
 					finput.read(imageBytes, 0, imageBytes.length);
 					finput.close();
 					return Base64.getEncoder().encodeToString(imageBytes);
@@ -108,7 +108,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(Integer idApp){
-		this.setFilter("?suspended=false&latest=true&size=100000000&tenantId="+idApp);
+		this.setFilter("?suspended=false&latest=true&size=100000000");
 		return this.getProcessDefinitions();
 	}
 	
@@ -295,9 +295,9 @@ public class ProcessDefinitionService extends Activit{
 		return map;
 	}
 
-	public boolean addProcessFile(Part file, String processDefinitionId) throws IOException {
+	public boolean addProcessFile(Part file, String processDefinitionId,String file_desc) throws IOException {
 		try {
-			Response response = new RestRequest().post("runtime/process-instances/"+processDefinitionId+"/variables?name=file_"+processDefinitionId+"_"+file.getName()+"&type=binary&scope=local", file);
+			Response response = new RestRequest().post("runtime/process-instances/"+processDefinitionId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
 			return response.getStatus() == 201;
 		} catch (IOException e) {

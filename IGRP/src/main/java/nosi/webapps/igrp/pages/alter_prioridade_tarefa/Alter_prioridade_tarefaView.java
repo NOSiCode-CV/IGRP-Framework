@@ -47,11 +47,11 @@ public class Alter_prioridade_tarefaView extends View {
 		
 		tipo_da_tarefa.propertie().add("name","p_tipo_da_tarefa").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		data_criacao_da_tarefa = new DateField(model,"data_criacao_da_tarefa");
-		data_criacao_da_tarefa.setLabel(gt("Data Criação da Tarefa"));
+		data_criacao_da_tarefa.setLabel(gt("Data CriaÃ§Ã£o da Tarefa"));
 		
 		data_criacao_da_tarefa.propertie().add("name","p_data_criacao_da_tarefa").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_inicio_da_tarefa = new DateField(model,"data_inicio_da_tarefa");
-		data_inicio_da_tarefa.setLabel(gt("Data Início da Tarefa"));
+		data_inicio_da_tarefa.setLabel(gt("Data InÃ­cio da Tarefa"));
 		
 		data_inicio_da_tarefa.propertie().add("name","p_data_inicio_da_tarefa").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_fim_da_tarefa = new DateField(model,"data_fim_da_tarefa");
@@ -75,15 +75,15 @@ public class Alter_prioridade_tarefaView extends View {
 		
 		tipo_de_processo.propertie().add("name","p_tipo_de_processo").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		numero_de_processo = new TextField(model,"numero_de_processo");
-		numero_de_processo.setLabel(gt("Número de Processo"));
+		numero_de_processo.setLabel(gt("NÂº de Processo"));
 		
 		numero_de_processo.propertie().add("name","p_numero_de_processo").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false");
 		data_criacao_do_processo = new DateField(model,"data_criacao_do_processo");
-		data_criacao_do_processo.setLabel(gt("Data Criação do Processo"));
+		data_criacao_do_processo.setLabel(gt("Data CriaÃ§Ã£o do Processo"));
 		
 		data_criacao_do_processo.propertie().add("name","p_data_criacao_do_processo").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_inicio_do_processo = new DateField(model,"data_inicio_do_processo");
-		data_inicio_do_processo.setLabel(gt("Data Início do Processo"));
+		data_inicio_do_processo.setLabel(gt("Data InÃ­cio do Processo"));
 		
 		data_inicio_do_processo.propertie().add("name","p_data_inicio_do_processo").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","true").add("placeholder","").add("right","false").add("class","default");
 		data_fim_do_processo = new DateField(model,"data_fim_do_processo");
@@ -95,7 +95,7 @@ public class Alter_prioridade_tarefaView extends View {
 		
 		nova_prioridade.propertie().add("name","p_nova_prioridade").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		descricao_da_tarefa = new TextAreaField(model,"descricao_da_tarefa");
-		descricao_da_tarefa.setLabel(gt("Descrição da Tarefa"));
+		descricao_da_tarefa.setLabel(gt("DescriÃ§Ã£o da Tarefa"));
 		
 		descricao_da_tarefa.propertie().add("name","p_descricao_da_tarefa").add("type","textarea").add("maxlength","2000").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		p_id = new HiddenField(model,"p_id");
