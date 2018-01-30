@@ -143,7 +143,7 @@ public class ListaPageView extends View {
 		
 		crud_generator = new LinkField(model,"crud_generator");
 		crud_generator.setLabel(gt("CRUD generator"));
-		crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","CRUDGenerator").add("app","igrp_studio").add("class","warning").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-gears").add("maxlength","30").add("placeholder","").add("right","true");
+		crud_generator.propertie().add("name","p_crud_generator").add("type","link").add("target","modal").add("target_fields","").add("closerefresh","true").add("action","index").add("page","HomeStudio").add("app","igrp_studio").add("class","warning").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-gears").add("maxlength","30").add("placeholder","").add("right","true");
 		
 		btn_import = new LinkField(model,"btn_import");
 		btn_import.setLabel(gt("Importar"));

@@ -138,13 +138,13 @@
                     <label>Nova página</label>
                     <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xsl</value>
                 </link_btn_nova_pagina>
-                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="CRUDGenerator" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true">
+                <crud_generator name="p_crud_generator" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="HomeStudio" app="igrp_studio" class="warning" btnSize="" iconColor="#333" iconClass="" img="fa-gears" maxlength="30" placeholder="" right="true">
                     <label>CRUD generator</label>
-                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl</value>
+                    <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/homestudio/HomeStudio.xsl</value>
                 </crud_generator>
                 <btn_import name="p_btn_import" type="link" target="modal" target_fields="" closerefresh="true" action="undefined" page="undefined" app="undefined" class="danger" btnSize="" iconColor="#333" iconClass="" img="fa-upload" maxlength="30" placeholder="" right="true">
                     <label>Importar</label>
-                    <value>http://pap.net/zuhbaktat</value>
+                    <value>http://tu.co.uk/wif</value>
                 </btn_import>
             </fields>
         </form_1>
@@ -173,8 +173,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Perspiciatis labore adipiscing</descricao_page>
-                        <nome_page name="p_nome_page">Laudantium ipsum lorem consect</nome_page>
+                        <descricao_page name="p_descricao_page">Lorem iste deserunt totam sed</descricao_page>
+                        <nome_page name="p_nome_page">Accusantium amet iste consecte</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -184,8 +184,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Aliqua ut sed elit sit</descricao_page>
-                        <nome_page name="p_nome_page">Mollit anim totam adipiscing d</nome_page>
+                        <descricao_page name="p_descricao_page">Aliqua totam unde dolor rem</descricao_page>
+                        <nome_page name="p_nome_page">Adipiscing magna mollit ipsum</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -195,8 +195,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Stract labore anim lorem sit</descricao_page>
-                        <nome_page name="p_nome_page">Dolor aliqua rem dolor anim</nome_page>
+                        <descricao_page name="p_descricao_page">Laudantium lorem deserunt lore</descricao_page>
+                        <nome_page name="p_nome_page">Ipsum anim sed sit doloremque</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -206,8 +206,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Sit laudantium adipiscing stra</descricao_page>
-                        <nome_page name="p_nome_page">Aliqua magna labore sit offici</nome_page>
+                        <descricao_page name="p_descricao_page">Sed totam voluptatem adipiscin</descricao_page>
+                        <nome_page name="p_nome_page">Voluptatem adipiscing natus la</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                     <row>
@@ -217,8 +217,8 @@
                         </context-menu>
                         <status_page name="p_status_page" check="true" desc="true">1</status_page>
                         <status_page_desc name="p_status_page_desc">1</status_page_desc>
-                        <descricao_page name="p_descricao_page">Iste deserunt omnis laudantium</descricao_page>
-                        <nome_page name="p_nome_page">Amet perspiciatis adipiscing o</nome_page>
+                        <descricao_page name="p_descricao_page">Sit aliqua sit ut ipsum</descricao_page>
+                        <nome_page name="p_nome_page">Ipsum aperiam perspiciatis ape</nome_page>
                         <id_page name="p_id_page" tag="id_page">1</id_page>
                     </row>
                 </value>
@@ -313,12 +313,12 @@
         <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="nova_aplicacao">
                 <title>Nova Aplicação</title>
-                <app/>
-                <page/>
-                <link/>
+                <app>igrp_studio</app>
+                <page>Env</page>
+                <link>index</link>
                 <target>modal|refresh</target>
                 <img>primary|fa-plus</img>
-                <parameter>undefined</parameter>
+                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/env/Env.xsl</parameter>
             </item>
         </toolsbar_2>
     </content>

@@ -24,6 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
 
 /*----#END-PRESERVED-AREA----*/
 
@@ -73,8 +78,10 @@ public class ListaPageController extends Controller {
 			table1.setP_id_page("" + ac.getId());
 			table1.setNome_page(ac.getPage());
 			table1.setDescricao_page(ac.getPage_descr());
-          	 table1.setStatus_page_check(1);
-			 table1.setStatus_page(ac.getStatus());
+          int check = ac.getStatus() == 1 ? ac.getStatus() : -1;
+           table1.setStatus_page(ac.getStatus());
+          	 table1.setStatus_page_check(check);
+			
 			lista.add(table1);
 		}
 
@@ -191,6 +198,40 @@ public class ListaPageController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
+		this.format = Response.FORMAT_JSON;
+
+		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
+
+		String status = Igrp.getInstance().getRequest().getParameter("p_status_page");
+
+		boolean response = false;
+
+		if (id != null && !id.equals("")) {
+
+			Action page = new Action().findOne(Integer.parseInt(id));
+
+			if (page != null) {
+
+				page.setStatus(Integer.parseInt(status));
+
+				if (page.update() != null)
+
+					response = true;
+			}
+
+		}
+
+		JSONObject json = new JSONObject();
+
+		json.put("status", response);
+
+		Gson res = new Gson();
+
+		res.toJson(json);
+
+		return this.renderView(json.toString());
+	}
 	/*----#END-PRESERVED-AREA----*/
 }
