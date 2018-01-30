@@ -266,7 +266,21 @@ public class LoginController extends Controller {
 						p2.setType("ENV");
 						p2.setType_fk(3);
 						
-						if(p1.insert() != null && p2.insert() != null) {
+						Profile tutorialApp = new Profile();
+						tutorialApp.setUser(newUser);
+						tutorialApp.setOrganization(new Organization().findOne(2));
+						tutorialApp.setProfileType(new ProfileType().findOne(3));
+						tutorialApp.setType("ENV");
+						tutorialApp.setType_fk(2);
+						
+						Profile tutorialProf = new Profile();
+						tutorialProf.setUser(newUser);
+						tutorialProf.setOrganization(new Organization().findOne(1));
+						tutorialProf.setProfileType(new ProfileType().findOne(2));
+						tutorialProf.setType("PROF");
+						tutorialProf.setType_fk(2);
+						
+						if(p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null && tutorialProf.insert() != null) {
 							UserRole role = new UserRole(); // For SSO via ApacheRealm 
 							String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
 							role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
