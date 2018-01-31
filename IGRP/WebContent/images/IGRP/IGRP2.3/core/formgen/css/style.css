@@ -1323,6 +1323,7 @@ new rows / columns style
 	background:white;
 	z-index:10;
 	padding:10px 30px;
+	overflow:auto;
 }
 .gen-editor-errors table{
 	width:100%;
