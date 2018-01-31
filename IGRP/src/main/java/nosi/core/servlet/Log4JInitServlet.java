@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.DefaultConfiguration;
@@ -22,8 +23,9 @@ import org.apache.logging.log4j.core.config.DefaultConfiguration;
 public class Log4JInitServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-    
+    //public static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(Log4JInitServlet.class.getName());
 	public void init(ServletConfig config) throws ServletException {
+		/*
 		String log4jLocation = config.getInitParameter("log4j-properties-location");
 		ServletContext sc = config.getServletContext();
 		if (log4jLocation == null) {
@@ -43,6 +45,13 @@ public class Log4JInitServlet extends HttpServlet {
 			}
 		}
 		super.init(config);
+		*/
+		nosi.core.webapp.Core.setMessageError("Teste message errror");
+		 //LOGGER.debug("Debug Message Logged !!!");
+	     //LOGGER.info("Info Message Logged !!!");
+	     //LOGGER.error("Error Message Logged !!!", new NullPointerException("NullError"));
 	}
+	
+	
 
 }
