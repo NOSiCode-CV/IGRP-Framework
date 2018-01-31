@@ -329,4 +329,39 @@
     	<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
     </xsl:template>
+    
+    <xsl:template name="filterComponentsAttrs">
+    	<xsl:if test=" 
+    		name() != 'persist' and 
+    		name() != 'right' and 
+    		name() !='xml-type' and 
+    		name() !='gen-type' and 
+    		name()!='gen-group' and
+    		name()!='target_fields' and
+    		name()!='closerefresh' and
+    		name()!='action' and
+    		name()!='page' and
+    		name()!='app' and
+    		name()!='class' and
+    		name()!='btnSize' and
+    		name()!='iconColor' and
+    		name()!='iconClass' and
+    		name()!='img' and
+    		name()!='align' and
+    		name()!='lookup_parser' and
+    		name()!='iskey' and
+    		name()!='format' and
+    		name()!='change' and
+    		name()!='readonly' and
+    		name()!='disabled' and
+    		name()!='placeholder' and	
+    		name()!='code' and	
+    		name()!='right'    		
+    	">
+    		<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+    	
+    	</xsl:if>
+    	
+    </xsl:template>
+    
 </xsl:stylesheet>

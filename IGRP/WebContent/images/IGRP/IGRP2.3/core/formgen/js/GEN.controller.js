@@ -3960,6 +3960,8 @@ if(input) {
 				for(var i = 0; i < options.length; i++){
 					var o = options[i];
 					field.action = {};
+					
+					
 
 					if(o.value && (id == o.value) ){
 						o.attributes.forEach(function(att){
