@@ -400,7 +400,9 @@ $(function(){
 
 				mode : options.mode,
 
-				part : options.part
+				part : options.part,
+				
+				editor : editor
 
 			};
 

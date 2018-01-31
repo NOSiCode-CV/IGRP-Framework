@@ -1344,7 +1344,7 @@ new rows / columns style
 .gen-editor-errors table tbody tr:hover{
 	background-color:none!important;
 }
-.CodeMirror-linenumber.has-error{
+.CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
 	background:#fa0000;
 	color:white;
 }

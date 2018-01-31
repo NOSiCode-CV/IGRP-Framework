@@ -59,6 +59,13 @@
 		
 		});
 
+		if(elements[0]){
+			
+			setGroup(elements);
+
+			elements = [];
+		}
+
 	}();
 
 	var checkEllipsis = function(){
