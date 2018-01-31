@@ -84,8 +84,6 @@
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
-						
-						
 
 						<!-- 
 							add recursive properies
@@ -93,7 +91,7 @@
 						-->
 						<xsl:value-of select="concat($tag_name,'.propertie()')"/>
 						<xsl:for-each select="@*">
-							<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+							<xsl:call-template name="filterComponentsAttrs"/>
 		    			</xsl:for-each>
 						<xsl:value-of select="';'"/>
 						<xsl:value-of select="$newline"/>
@@ -119,7 +117,7 @@
 							<xsl:value-of select="$tab2"/>
 							<xsl:value-of select="concat($tag_name,'_check','.propertie()')"/>
 							<xsl:for-each select="@*">
-								<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+								<xsl:call-template name="filterComponentsAttrs"/>
 			    			</xsl:for-each>
 							<xsl:value-of select="';'"/>
 					 	</xsl:if>

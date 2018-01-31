@@ -400,7 +400,9 @@ $(function(){
 
 				mode : options.mode,
 
-				part : options.part
+				part : options.part,
+				
+				editor : editor
 
 			};
 
@@ -637,22 +639,18 @@ $(function(){
 			
 				line	= $(editor.display.wrapper).find('.CodeMirror-linenumber:contains('+lineNum+')');
 			
-			if(line.hasClass('has-error')){
+			if(line.parent().hasClass('has-error')){
 				
-				line.removeClass('has-error');
+				line.parent().removeClass('has-error');
 				
 				$('.gen-editor-errors table tr[line="'+lineNum+'"]').remove();
 				
 				setTimeout(function(){
-					
-					if(!$('.gen-editor-errors table tr')[0] || !$('.CodeMirror-linenumber.has-error')[0])
+					if(!$('.gen-editor-errors table tr')[0] || !$('.CodeMirror-gutter-wrapper.has-error')[0])
 						GEN.removeEditorsErrors(true);
 					
 				},100)
-				
-			
-				
-				
+	
 			}
 
 

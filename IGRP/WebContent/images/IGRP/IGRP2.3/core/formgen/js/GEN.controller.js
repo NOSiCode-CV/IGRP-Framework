@@ -2181,6 +2181,18 @@ if(input) {
 		        return false;
 		    }
 		});
+		
+		$(document).on('click','.gen-editor-errors table tr',function(){
+			
+			if( GEN.server.activeMenu.editor ){
+				
+				var line = ($(this).attr('line')*1) - 1;
+				
+				GEN.server.activeMenu.editor.setSelection( { line: line, ch: 0 }, { line:line } )
+				
+			}
+			
+		});
 
 		$('.gen-download-content').on('click',function(e){
 
@@ -2728,14 +2740,14 @@ if(input) {
 											vtype    = mtype == 'error' ? 'danger' : mtype,
 											jsonStr  = $(msg).text(),
 											jsonRes  = JSON.parse(jsonStr),
-											
 											text     = jsonRes.msg;
-											
-										
+
 										notifyOptions.type = vtype;
 
-										$.notify({											
+										$.notify({		
+											
 											message: text,
+											
 										},notifyOptions);
 										
 										
@@ -2760,17 +2772,23 @@ if(input) {
 												menu.addClass('has-error');
 												
 												partErrors.forEach(function(err){
-													
-													editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
+
+														
+													GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+													//editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
 													
 													errorsW.find('tbody').append(
 															
 														'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
 													)
+														
+
 													
 												});
 												
-												editor.append(errorsW)
+												editor.append(errorsW);
+												
+												GEN.server.activeMenu.editor.refresh();
 											}
 										}
 										
@@ -3021,7 +3039,11 @@ if(input) {
 		
 		$('.server-transform').removeClass('has-error');
 		
-		$('.CodeMirror-linenumber').removeClass('has-error');
+		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+		
+		console.log('removee');
+		
+		console.log( $('.CodeMirror-gutter-wrapper') )
 		
 		if(resize)
 			GEN.resizeCodeMirrorArea();
@@ -3960,6 +3982,8 @@ if(input) {
 				for(var i = 0; i < options.length; i++){
 					var o = options[i];
 					field.action = {};
+					
+					
 
 					if(o.value && (id == o.value) ){
 						o.attributes.forEach(function(att){

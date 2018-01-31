@@ -1323,6 +1323,7 @@ new rows / columns style
 	background:white;
 	z-index:10;
 	padding:10px 30px;
+	overflow:auto;
 }
 .gen-editor-errors table{
 	width:100%;
@@ -1344,7 +1345,7 @@ new rows / columns style
 .gen-editor-errors table tbody tr:hover{
 	background-color:none!important;
 }
-.CodeMirror-linenumber.has-error{
+.CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
 	background:#fa0000;
 	color:white;
 }

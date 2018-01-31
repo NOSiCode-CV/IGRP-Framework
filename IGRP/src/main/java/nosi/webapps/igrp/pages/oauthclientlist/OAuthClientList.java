@@ -15,7 +15,7 @@ public class OAuthClientList extends Model{
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
-	}
+	} 
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}

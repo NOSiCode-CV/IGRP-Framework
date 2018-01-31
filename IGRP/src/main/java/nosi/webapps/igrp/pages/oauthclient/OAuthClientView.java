@@ -53,7 +53,7 @@ public class OAuthClientView extends View {
 		form_1.addField(uris_de_redirecionamento);
 		form_1.addField(scope);
 
-		//toolsbar_1.addButton(btn_listar_oauth_client);
+		toolsbar_1.addButton(btn_listar_oauth_client);
 		toolsbar_1.addButton(btn_salvar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);

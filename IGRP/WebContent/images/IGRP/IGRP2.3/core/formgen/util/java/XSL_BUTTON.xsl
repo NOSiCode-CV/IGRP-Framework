@@ -101,15 +101,18 @@
 			</xsl:when>
 			<xsl:when test="$type_='instance'">
 				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat($button_name,' = new ',$class_name_,'(',$double_quotes,$title_,$double_quotes,',',$double_quotes,$app,$double_quotes,',',$double_quotes,$class_name,$double_quotes,',',$double_quotes,$link,$double_quotes,',',$double_quotes,$target_,$double_quotes,',',$double_quotes,$img_,$double_quotes,',',$double_quotes,$double_quotes,',',$double_quotes,$double_quotes,');')"/>
 					<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 				 	<xsl:value-of select="concat($button_name,'.propertie')"/>
 				 	<xsl:for-each select="@*">
-		 				<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+				 		<xsl:call-template name="filterComponentsAttrs"/>
+		 				<!--  <xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/> -->
 				 	</xsl:for-each>
 				 	<xsl:value-of select="';'"/>
+				 	
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>

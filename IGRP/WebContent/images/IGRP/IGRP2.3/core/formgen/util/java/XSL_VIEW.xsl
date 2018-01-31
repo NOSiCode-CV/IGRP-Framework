@@ -37,6 +37,7 @@
 	<xsl:template name="create-construct">
 		<xsl:value-of select="$tab"/>
 		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>	
+			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$newline"/>	
 	     	<xsl:value-of select="$tab2"/>
 	     	<xsl:value-of select="concat('this.setPageTitle(',$double_quotes,/rows/content/title,$double_quotes,');')"/>

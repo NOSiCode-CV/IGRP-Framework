@@ -30,7 +30,7 @@ public class OAuthClientController extends Controller {
 		view.scope.setValue(new OAuthScope().getListScope());
 		if(id != null && !id.equals("")) 
 			view.btn_salvar.setLink("salvar&p_id="+id);
-		view.btn_listar_oauth_client.setVisible(true); 
+		view.btn_listar_oauth_client.setVisible(false); 
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
