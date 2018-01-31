@@ -2773,6 +2773,7 @@ if(input) {
 												
 												partErrors.forEach(function(err){
 
+														
 													GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
 													//editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
 													
@@ -2780,10 +2781,14 @@ if(input) {
 															
 														'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
 													)
+														
+
 													
 												});
 												
-												editor.append(errorsW)
+												editor.append(errorsW);
+												
+												GEN.server.activeMenu.editor.refresh();
 											}
 										}
 										
@@ -3035,6 +3040,10 @@ if(input) {
 		$('.server-transform').removeClass('has-error');
 		
 		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+		
+		console.log('removee');
+		
+		console.log( $('.CodeMirror-gutter-wrapper') )
 		
 		if(resize)
 			GEN.resizeCodeMirrorArea();
