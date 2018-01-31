@@ -30,6 +30,7 @@ public class OAuthClientController extends Controller {
 		view.scope.setValue(new OAuthScope().getListScope());
 		if(id != null && !id.equals("")) 
 			view.btn_salvar.setLink("salvar&p_id="+id);
+		view.btn_listar_oauth_client.setVisible(false); 
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -37,7 +38,7 @@ public class OAuthClientController extends Controller {
 
 	public Response actionListar_oauth_client() throws IOException{
 		/*----#START-PRESERVED-AREA(LISTAR_OAUTH_CLIENT)----*/
-		return this.redirect("igrp","OAuthClient","index");
+		return this.redirect("igrp","OAuthClientList","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
