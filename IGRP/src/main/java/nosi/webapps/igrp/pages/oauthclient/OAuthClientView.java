@@ -37,9 +37,9 @@ public class OAuthClientView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_listar_oauth_client = new IGRPButton("Listar OAuth Client","igrp","OAuthClient","listar_oauth_client","submit","default|fa-list","","");
+		btn_listar_oauth_client = new IGRPButton("Listar OAuth Client","igrp","OAuthClient","listar_oauth_client","modal","default|fa-list","","");
 		btn_listar_oauth_client.propertie.add("type","specific").add("code","").add("rel","listar_oauth_client");
-		btn_salvar = new IGRPButton("Guardar","igrp","OAuthClient","salvar","submit","primary|fa-save","","");
+		btn_salvar = new IGRPButton("Gravar","igrp","OAuthClient","salvar","submit","primary|fa-save","","");
 		btn_salvar.propertie.add("type","specific").add("code","").add("rel","salvar");
 		
 	}
@@ -53,7 +53,7 @@ public class OAuthClientView extends View {
 		form_1.addField(uris_de_redirecionamento);
 		form_1.addField(scope);
 
-		toolsbar_1.addButton(btn_listar_oauth_client);
+		//toolsbar_1.addButton(btn_listar_oauth_client);
 		toolsbar_1.addButton(btn_salvar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);

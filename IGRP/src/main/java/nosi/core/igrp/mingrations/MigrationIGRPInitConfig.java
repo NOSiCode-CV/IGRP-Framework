@@ -230,7 +230,7 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
 			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
 
-			//menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app, menus.get(0)));
+			
 			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), igrp_studio, null);
 			tempMenuBD.setMenu(tempMenuBD);
 			menus.add(tempMenuBD);
@@ -242,6 +242,8 @@ public class MigrationIGRPInitConfig {
 			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(47), igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
+			
+			menus.add(new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), igrp, menus.get(0)));
 			
 			//menus.add(new Menu("Gestão dos Import/Export", 1, 1, 0, "_self", actions.get(34), app, menus.get(2)));
 			//menus.add(new Menu("Importar Aplicação/Página/Jar", 1, 1, 0, "_self", actions.get(35), app, menus.get(4)));
@@ -279,6 +281,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(10, "MEN", prof0, user0, org));
 			profiles.add(new Profile(11, "MEN", prof0, user0, org));
 			profiles.add(new Profile(12, "MEN", prof0, user0, org));
+			profiles.add(new Profile(16, "MEN", prof0, user0, org));
 			profiles.add(new Profile(8, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", prof0, user0, igrp_studio_org));
 			profiles.add(new Profile(10, "MEN", prof0, user0, igrp_studio_org));
@@ -298,6 +301,7 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(11, "MEN", prof1, user0, org));
 			profiles.add(new Profile(12, "MEN", prof1, user0, org));
 			profiles.add(new Profile(15, "MEN", prof1, user0, org));
+			profiles.add(new Profile(16, "MEN", prof1, user0, org));
 			profiles.add(new Profile(8, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(9, "MEN", igrp_studio_prof, user0, igrp_studio_org));
 			profiles.add(new Profile(10, "MEN", igrp_studio_prof, user0, igrp_studio_org));
