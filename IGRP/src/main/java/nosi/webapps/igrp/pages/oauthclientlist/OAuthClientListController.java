@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.oauthclientlist;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
@@ -11,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
+
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthClient;
 import static nosi.core.i18n.Translator.gt;
@@ -49,6 +46,14 @@ public class OAuthClientListController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
+
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVO)----*/
+		return this.redirect("igrp","OAuthClient","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
 	public Response actionPesquisar() throws IOException{
 		/*----#START-PRESERVED-AREA(PESQUISAR)----*/						
 		return this.redirect("igrp","oauthclientlist","index");
@@ -70,7 +75,7 @@ public class OAuthClientListController extends Controller {
 		if(id != null && !id.equals("")) {
 			OAuthClient cliente = new OAuthClient();
 			cliente = cliente.findOne(id);
-			boolean status = cliente.delete();
+			boolean status = cliente.delete(Integer.parseInt(id));
 			if(status) 
 				Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operacao efetuada com sucesso"));
 			else 

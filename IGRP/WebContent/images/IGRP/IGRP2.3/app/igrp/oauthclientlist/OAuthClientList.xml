@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,16 +30,14 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=27</preserve_url>
     </plsql>
     <content>
         <title>pesquisar Dados dos clientes</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Dados dos Clientes]]>
-                    </value>
+                    <value>Dados dos Clientes</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -46,11 +45,11 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Sit voluptatem amet magna stra</value>
+                    <value>Consectetur amet stract iste m</value>
                 </uris_>
                 <clientid_pesquisa name="p_clientid_pesquisa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>ClientID</label>
-                    <value>Elit dolor accusantium deserun</value>
+                    <value>Stract adipiscing amet volupta</value>
                 </clientid_pesquisa>
             </fields>
             <tools-bar>
@@ -65,6 +64,17 @@
                 </item>
             </tools-bar>
         </form_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>igrp</app>
+                <page>OAuthClient</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>success|fa-plus-square</img>
+                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml</parameter>
+            </item>
+        </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <client_id name="p_client_id" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -88,10 +98,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Aliqua perspiciatis consectetu</client_id>
-                        <client_secret name="p_client_secret">Sit voluptatem perspiciatis ap</client_secret>
-                        <uris name="p_uris">Unde accusantium omnis stract</uris>
-                        <scope name="p_scope">Iste aperiam ipsum aperiam adi</scope>
+                        <client_id name="p_client_id">Elit unde stract unde deserunt</client_id>
+                        <client_secret name="p_client_secret">Consectetur deserunt lorem sit</client_secret>
+                        <uris name="p_uris">Magna voluptatem doloremque na</uris>
+                        <scope name="p_scope">Perspiciatis aperiam dolor acc</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,10 +109,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Sed unde ut ipsum aliqua</client_id>
-                        <client_secret name="p_client_secret">Consectetur laudantium totam r</client_secret>
-                        <uris name="p_uris">Sed adipiscing laudantium anim</uris>
-                        <scope name="p_scope">Ut ipsum doloremque totam labo</scope>
+                        <client_id name="p_client_id">Rem perspiciatis dolor aliqua</client_id>
+                        <client_secret name="p_client_secret">Amet deserunt labore magna str</client_secret>
+                        <uris name="p_uris">Anim elit anim sit omnis</uris>
+                        <scope name="p_scope">Labore laudantium magna deseru</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -110,10 +120,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Sit dolor accusantium stract l</client_id>
-                        <client_secret name="p_client_secret">Doloremque ipsum iste natus ap</client_secret>
-                        <uris name="p_uris">Perspiciatis lorem sit iste la</uris>
-                        <scope name="p_scope">Adipiscing lorem perspiciatis</scope>
+                        <client_id name="p_client_id">Accusantium unde omnis volupta</client_id>
+                        <client_secret name="p_client_secret">Deserunt sed sit anim lorem</client_secret>
+                        <uris name="p_uris">Adipiscing voluptatem deserunt</uris>
+                        <scope name="p_scope">Ut omnis mollit perspiciatis a</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -121,10 +131,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Aperiam dolor aperiam laudanti</client_id>
-                        <client_secret name="p_client_secret">Deserunt natus voluptatem elit</client_secret>
-                        <uris name="p_uris">Magna unde lorem voluptatem an</uris>
-                        <scope name="p_scope">Mollit natus laudantium dolor</scope>
+                        <client_id name="p_client_id">Amet accusantium sit voluptate</client_id>
+                        <client_secret name="p_client_secret">Omnis deserunt consectetur sed</client_secret>
+                        <uris name="p_uris">Stract laudantium sit dolor la</uris>
+                        <scope name="p_scope">Accusantium aperiam sit dolore</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -132,10 +142,10 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Mollit accusantium doloremque</client_id>
-                        <client_secret name="p_client_secret">Officia ut perspiciatis aliqua</client_secret>
-                        <uris name="p_uris">Doloremque voluptatem aperiam</uris>
-                        <scope name="p_scope">Ut unde lorem perspiciatis sit</scope>
+                        <client_id name="p_client_id">Voluptatem totam amet rem stra</client_id>
+                        <client_secret name="p_client_secret">Natus labore deserunt anim ut</client_secret>
+                        <uris name="p_uris">Officia aliqua laudantium elit</uris>
+                        <scope name="p_scope">Amet laudantium consectetur am</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -143,43 +153,32 @@
                     <item type="specific" code="" class="warning" rel="button_1">
                         <title>Button</title>
                         <app>igrp</app>
-                        <page>OAuthClientList</page>
+                        <page>OAuthClient</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
-                        <target>submit</target>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml?</parameter>
+                        <target>modal|refresh</target>
                         <img>warning|fa-edit</img>
                     </item>
                     <item type="specific" code="" class="danger" rel="apagar">
                         <title>Apagar</title>
                         <app>igrp</app>
-                        <page>OAuthClientList</page>
+                        <page>OAuthClient</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml?</parameter>
                         <target>alert_submit</target>
                         <img>danger|fa-remove</img>
                     </item>
                     <item type="specific" code="" class="primary" rel="refresh">
                         <title>Refresh</title>
                         <app>igrp</app>
-                        <page>OAuthClientList</page>
+                        <page>OAuthClient</page>
                         <link>index</link>
-                        <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml?</parameter>
                         <target>alert_submit</target>
                         <img>primary|fa-refresh</img>
                     </item>
                 </context-menu>
             </table>
         </table_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="novo">
-                <title>Novo</title>
-                <app>igrp</app>
-                <page>OAuthClientList</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>success|fa-plus-square</img>
-                <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl</parameter>
-            </item>
-        </toolsbar_1>
     </content>
 </rows>

@@ -1,4 +1,3 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.oauthclientlist;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
@@ -12,12 +11,12 @@ public class OAuthClientList extends Model{
 	private String uris_;
 	@RParam(rParamName = "p_clientid_pesquisa")
 	private String clientid_pesquisa;
-
-	private List<Table_1> table_1 = new ArrayList<>();
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public List<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
@@ -86,4 +85,3 @@ public class OAuthClientList extends Model{
 
 	}
 }
-/*-------------------------*/
