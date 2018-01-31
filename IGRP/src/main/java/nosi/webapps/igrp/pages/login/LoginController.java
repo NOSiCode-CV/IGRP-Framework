@@ -121,16 +121,28 @@ public class LoginController extends Controller {
 					
 					case "ldap":{
 						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
-							String destination = Route.previous();
-							if(destination != null) {
-								String qs = URI.create(destination).getQuery();
-								qs.indexOf("r=");
-								qs = qs.substring(qs.indexOf("r=") + "r=".length());
-								String param[] = qs.split("/");
-								Permission.changeOrgAndProfile(param[0]);
-								return this.redirectToUrl(destination);
+							
+							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+								StringBuilder oauth2ServerUrl = new StringBuilder();
+								User user = (User) Igrp.getInstance().getUser().getIdentity();
+								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
+									return this.redirectToUrl(oauth2ServerUrl.toString());
+								}
+								else 
+									;// Go to error page 
+							}else {
+								String destination = Route.previous();
+								if(destination != null) {
+									String qs = URI.create(destination).getQuery();
+									qs.indexOf("r=");
+									qs = qs.substring(qs.indexOf("r=") + "r=".length());
+									String param[] = qs.split("/");
+									Permission.changeOrgAndProfile(param[0]);
+									return this.redirectToUrl(destination);
+								}
+								return this.redirect("igrp", "home", "index");
 							}
-							return this.redirect("igrp", "home", "index");
+							
 						}
 				}
 					break;
@@ -306,13 +318,15 @@ public class LoginController extends Controller {
 	private boolean generateOauth2Response(StringBuilder oauth2ServerUrl/*INOUT var*/, User user, String response_type, String client_id, String redirect_uri, String scope ) {
 		boolean result = true;
 		
-		String url_ = "http://localhost:8080/igrp-rest/rs/oauth2/authorization";
+		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
+		url_ += "/igrp-rest/rs/oauth2/authorization";
 		String queryString = "?";
 		queryString += "authorize=1";
 		queryString += "&response_type=" + response_type;
 		queryString += "&client_id=" + client_id;
 		queryString += "&redirect_uri=" + redirect_uri;
 		queryString += "&scope=" + scope;
+		queryString += "&userId=" + user.getUser_name();
 		
 		oauth2ServerUrl.append(url_.concat(queryString));
 		
