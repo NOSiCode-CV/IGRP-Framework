@@ -3939,7 +3939,9 @@ if(input) {
 		var value   = p.value;
 
 		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
+			
 			GEN.DETAILS.linkPageList.forEach(function(page){
+				
 				options.push({
 					value      : page.id.toString(),
 					label      : page.description,
@@ -3950,6 +3952,7 @@ if(input) {
 						{ name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
 					]
 				});
+				
 			});
 
 		var setBTNAction = function(id,object){

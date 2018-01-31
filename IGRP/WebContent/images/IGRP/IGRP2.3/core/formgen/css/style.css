@@ -410,7 +410,7 @@ max-height: 34px;
 .gen-searcher-wrapper .gen-searcher-contents{
 	opacity: 0;
 	/*transition: opacity .4s;*/
-	background: white;
+	background: #fdfdfd;
 	padding: 0;
 	position: relative;
 	top: -30px;
@@ -444,7 +444,7 @@ max-height: 34px;
 
 .gen-types-tab .treeview-menu,
 .treeview-menu{
-	background: white
+	background: #fdfdfd
 }
 
 #igrp-sidebar{

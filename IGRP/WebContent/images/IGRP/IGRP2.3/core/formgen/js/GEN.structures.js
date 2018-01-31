@@ -78,8 +78,6 @@ var GENSTRUCTURES = function(GEN){
 
 			}else{
 
-				
-				
 				if(container.xml.gen){
 					rtn+=container.xml.gen();
 				}else{
@@ -94,8 +92,6 @@ var GENSTRUCTURES = function(GEN){
 						else if (container.contextMenu)
 							rtn+=GEN.genContextMenu(container);
 					}
-
-					
 
 					if(container.xml.type == 'calendar')
 						rtn+=genCalendar(container);
@@ -448,7 +444,9 @@ var GENSTRUCTURES = function(GEN){
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
 				params = '',
 				actionLINK = f.action ? f.action.link : '';
-
+				
+				console.log(f);
+				
 			if(f.GET.target_fields && f.GET.target_fields())
 				target += '|'+f.GET.target_fields();
 
@@ -463,7 +461,7 @@ var GENSTRUCTURES = function(GEN){
 		            '<link>'+link+'</link>'+
 		            '<target>'+target+'</target>'+
 		            '<img>'+_class+img+'</img>'+
-		            '<parameter>'+actionLINK+'</parameter>'+
+		            '<preview>'+actionLINK+'</preview>'+
 		            map+
 		        '</item>';
 		});
