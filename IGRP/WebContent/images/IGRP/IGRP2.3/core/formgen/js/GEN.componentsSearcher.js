@@ -102,9 +102,9 @@
 
 				}
 
-				if(results[0])
+				//if(results[0])
 					
-					DrawResults(results)
+				DrawResults(results)
 
 		    }, delay);
 
