@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
@@ -38,6 +38,8 @@ public class ProcessDefinitionService extends Activit{
 	private String resource;
 	private String diagramaResource;
 	private Boolean startFormDefined;
+	@Expose(serialize=false,deserialize=false)
+	private List<TaskVariables> variables = new ArrayList<>();
 
 
 	public ProcessDefinitionService getProcessDefinition(String id){
@@ -141,9 +143,9 @@ public class ProcessDefinitionService extends Activit{
 		}
 		return false;
 	}
-	public ProcessDefinitionService create(){
-		ProcessDefinitionService d = this;
-		Response response = new RestRequest().post("repository/process-definitions",ResponseConverter.convertDaoToJson(this));
+	public ProcessDefinitionService create(ProcessDefinitionService p){
+		ProcessDefinitionService d = new ProcessDefinitionService();
+		Response response = new RestRequest().post("repository/process-definitions",ResponseConverter.convertDaoToJson(p));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -162,9 +164,9 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 
-	public ProcessDefinitionService update(){
-		ProcessDefinitionService d = this;
-		Response response = new RestRequest().put("repository/process-definitions",ResponseConverter.convertDaoToJson(this),this.getId());
+	public ProcessDefinitionService update(ProcessDefinitionService p){
+		ProcessDefinitionService d = new ProcessDefinitionService();
+		Response response = new RestRequest().put("repository/process-definitions",ResponseConverter.convertDaoToJson(p),p.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -306,5 +308,23 @@ public class ProcessDefinitionService extends Activit{
 		file.delete();
 		return false;
 	}
+	
+	//Adiciona variaveis para completar tarefa
+	public void addVariable(String name, String scope, String type, Object value, String valueUrl){
+		this.variables.add(new TaskVariables(name, scope, type, value, valueUrl));
+	}
 
+	public void addVariable(String name, String scope, String type, Object value){
+		this.variables.add(new TaskVariables(name, scope, type, value, ""));
+	}
+
+	public void addVariable(String name, String type, Object value){
+		this.variables.add(new TaskVariables(name, "local", type, value, ""));
+	}
+	
+	public boolean submitVariables() {
+		Response response = new RestRequest().post("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		System.out.println(response.getStatus());
+		return response.getStatus() == 201;
+	}
 }

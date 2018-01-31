@@ -243,6 +243,11 @@ public class TaskService extends Activit{
 		this.variables.add(new TaskVariables(name, "local", type, value, ""));
 	}
 	
+	public boolean submitVariables() {
+		Response response = new RestRequest().post("runtime/tasks/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		System.out.println(response.getStatus());
+		return response.getStatus() == 201;
+	}
 	private boolean taskAction(String id,String action,String assignee){
 		JSONObject jobj = new JSONObject();
 		try {

@@ -35,7 +35,8 @@ public class Detalhes_tarefasController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		TaskServiceQuery taskS = new TaskServiceQuery();
-		taskS.addFilter("includeProcessVariables", "true");
+//		taskS.addFilter("includeProcessVariables", "true");
+		taskS.addFilter("includeTaskLocalVariables", "true");
 		taskS.addFilter("taskId", taskId);
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
@@ -229,8 +230,6 @@ public class Detalhes_tarefasController extends Controller {
 		String fileName = Igrp.getInstance().getRequest().getParameter("fileName");
 		FileRest content = new TaskService().getFile(url);
 		byte[] bytes = new byte[content.getSize()];
-		System.out.println("Size1:"+content.getSize());
-		System.out.println("Size2:"+bytes.length);
 		content.getContent().read(bytes, 0, bytes.length);
 		content.getContent().close();
 		return this.xSend(bytes,fileName, content.getContentType(), true);
