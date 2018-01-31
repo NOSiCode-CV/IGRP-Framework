@@ -72,9 +72,6 @@ public class ExecucaoTarefasController extends Controller {
 				taskManage.add(t);
 			}
 		}
-				
-		
-
 		
 		List<ExecucaoTarefas.Table_minhas_tarefas> myTasks = new ArrayList<>();
 		for(TaskService task:objTask.getMyTasks(this.getUser().getUser_name())){
@@ -334,22 +331,27 @@ public class ExecucaoTarefasController extends Controller {
 	//Executa uma tarefa
 	private ResponseError processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
+		TaskService task = new TaskService();
+		task.setId(p_prm_taskid);
 		FormDataService properties = null;
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
 			formData.setTaskId(p_prm_taskid);
 			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable())
-						formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
+						formData.addVariable(prop.getId(),value);
+					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
+				task.submitVariables();
 			}
 			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 				formData.addVariable("customVariableIGRP",content);
 			}
 		}
-		TaskService task = new TaskService();
-		task.setId(p_prm_taskid);
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
@@ -359,13 +361,18 @@ public class ExecucaoTarefasController extends Controller {
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
+		ProcessDefinitionService task = new ProcessDefinitionService();
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
 			formData.setProcessDefinitionId(processDefinitionId);
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable())
-						formData.addVariable(prop.getId(),this.getValue(prop.getType(), prop.getId()));
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
+						formData.addVariable(prop.getId(),value);
+					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
 			}
 		}
@@ -374,8 +381,8 @@ public class ExecucaoTarefasController extends Controller {
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
 		if(st!=null){
-			ProcessDefinitionService task = new ProcessDefinitionService();
 			task.setId(st.getId());
+			task.submitVariables();
 			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
