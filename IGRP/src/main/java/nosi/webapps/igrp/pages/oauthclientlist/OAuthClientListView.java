@@ -10,7 +10,7 @@ public class OAuthClientListView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field uris_;
-	public Field clientid_pesquisa;
+	public Field clientid_pesquisa; 
 	public Field client_id;
 	public Field client_secret;
 	public Field uris;

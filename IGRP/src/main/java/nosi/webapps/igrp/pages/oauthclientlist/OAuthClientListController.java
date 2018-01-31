@@ -87,7 +87,7 @@ public class OAuthClientListController extends Controller {
 	
 
 	public Response actionRefresh() throws IOException{
-		/*----#START-PRESERVED-AREA(REFRESH)----*/				
+		/*----#START-PRESERVED-AREA(REFRESH)----*/		 
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		OAuthClient cliente = new OAuthClient();
 		

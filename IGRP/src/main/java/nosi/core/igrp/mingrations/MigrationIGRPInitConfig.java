@@ -12,7 +12,7 @@ import nosi.core.webapp.activit.rest.GroupService;
 import nosi.core.webapp.activit.rest.UserService;
 import nosi.webapps.igrp.dao.*;
 import nosi.webapps.igrp.dao.views.CreateViews;
-
+ 
 public class MigrationIGRPInitConfig {
 
 	
