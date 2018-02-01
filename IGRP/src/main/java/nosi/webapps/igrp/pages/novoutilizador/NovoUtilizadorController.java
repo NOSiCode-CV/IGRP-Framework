@@ -48,7 +48,7 @@ public class NovoUtilizadorController extends Controller {
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
 		String id = Igrp.getInstance().getRequest().getParameter("id");
-		if(id!=null && !id.equals("")){
+		if(id!=null && !id.trim().isEmpty() && !id.equals("0")){
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
 		}
