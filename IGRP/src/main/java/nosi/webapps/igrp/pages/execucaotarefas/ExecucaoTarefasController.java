@@ -346,7 +346,7 @@ public class ExecucaoTarefasController extends Controller {
 					if(!prop.getType().equalsIgnoreCase("binary"))
 						task.addVariable(prop.getId(), prop.getType(), value);
 				}
-				task.submitVariables();
+//				task.submitVariables();
 			}
 			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 				formData.addVariable("customVariableIGRP",content);
@@ -382,7 +382,7 @@ public class ExecucaoTarefasController extends Controller {
 		StartProcess st = formData.submitFormByProcessDenifition();
 		if(st!=null){
 			task.setId(st.getId());
-			task.submitVariables();
+//			task.submitVariables();
 			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
