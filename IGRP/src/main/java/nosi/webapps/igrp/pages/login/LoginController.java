@@ -49,7 +49,7 @@ public class LoginController extends Controller {
 				if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
 					user.setStatus(1);
 					user = user.update();
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Ativação bem sucedida. Faça o login !!!"));
 				}else {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
 				}
@@ -90,7 +90,7 @@ public class LoginController extends Controller {
 				
 				if(model.getPassword() ==  null || model.getPassword().isEmpty()) {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
-					return redirect("igrp", "login", "login");
+					return this.renderView(view,true);
 				}
 				
 				switch(Config.getAutenticationType()){
@@ -285,14 +285,7 @@ public class LoginController extends Controller {
 						tutorialApp.setType("ENV");
 						tutorialApp.setType_fk(2);
 						
-						Profile tutorialProf = new Profile();
-						tutorialProf.setUser(newUser);
-						tutorialProf.setOrganization(new Organization().findOne(1));
-						tutorialProf.setProfileType(new ProfileType().findOne(2));
-						tutorialProf.setType("PROF");
-						tutorialProf.setType_fk(2);
-						
-						if(p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null && tutorialProf.insert() != null) {
+						if(p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null) {
 							UserRole role = new UserRole(); // For SSO via ApacheRealm 
 							String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
 							role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
