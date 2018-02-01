@@ -269,6 +269,7 @@ var Field = function(type,params){
 	}
 
 	var setPropertyOptions = function(p){
+	
 		field.propertiesOptions[p.name] = {};
 		for(var k in p){
 			field.propertiesOptions[p.name][k] = p[k];

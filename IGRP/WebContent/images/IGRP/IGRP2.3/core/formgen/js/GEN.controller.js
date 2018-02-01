@@ -1167,11 +1167,12 @@ if(input) {
 
 	GEN.edit = function(object,p){
 		
-		var modal   = $(VARS.edition.modal);
-		var genType = object.genType;
-		var type    = object.GET.type();
-		var id      = object.GET.id();
-		var options = p ? p : {};
+		var modal   		= $(VARS.edition.modal);
+		var genType 		= object.genType;
+		var type    		= object.GET.type();
+		var id      		= object.GET.id();
+		var options 		= p ? p : {};
+		var initialPosition = object.position != undefined && object.position != -1 ? object.position : object.order;
 
 		GEN.edit.object = object;
 		
@@ -1181,15 +1182,10 @@ if(input) {
 
 		//style config : if container hasTableRows, ID style is disabled
 		var fieldsRepeat = genType == 'field' ? object.parent.hasTableRows : false;
-		
-		//table fields do not have ID's (because they repeat)
-		if(fieldsRepeat){
-			object.customStyle.id = '';
-			$('.style-setter[rel="id"]',modal).attr('disabled',true);
-		}
-		
+
 		//fields type change
 		if(genType == 'field' && isTypeChangeble(object.type))
+			
 			object.setPropriety({
 				name : 'type_changer',
 				label : 'Type',
@@ -1207,7 +1203,7 @@ if(input) {
 					}()
 				},
 				onChange:function(v){
-	
+					
 					if(v != object.type){
 						
 						var dfield = GEN.getDeclaredField(v),
@@ -1222,24 +1218,38 @@ if(input) {
 
 							nprop  = {};
 
-						nfield.order = object.position;
+						nfield.order = initialPosition;
+
+						console.log(initialPosition)
 
 						object.parent.SET.field(nfield,function(){
 							
-							for(var p in nfield.proprieties)
-								
-								if(p in object.proprieties)
+							for(var p in nfield.proprieties){
+
+								if(p in object.proprieties){
 
 									nfield.proprieties[p] = object.proprieties[p];
 
+								}
+
+							}
+
 							object.parent.removeField( object.id, false,true,function(){});
+
+
 						
 						});
 					
-					}	
-					
+					}
+
 				}
 			});
+		
+		//table fields do not have ID's (because they repeat)
+		if(fieldsRepeat){
+			object.customStyle.id = '';
+			$('.style-setter[rel="id"]',modal).attr('disabled',true);
+		}
 
 		modal.attr('gen-type',genType);
 		
@@ -1248,6 +1258,7 @@ if(input) {
 		modal.attr('object-id',id);
 
 		if(object.parent)
+
 			$('.modal-footer .info.parent',modal).text(object.parent.GET.tag()).show();
 
 		$('.modal-footer .info.object',modal).text(object.GET.tag()).show();
@@ -1255,6 +1266,7 @@ if(input) {
 		$('.modal-footer .info.type',modal).text(object.GET.type()).show();
 
 		if(GEN.edit.object.xslOptions)
+
 			$('#use-default-xsl').prop('checked', GEN.edit.object.xslOptions.useDefault);
 
 		if(GEN.edit.object.customStyle)
@@ -1288,12 +1300,56 @@ if(input) {
 		if(options.tab)
 			$(modal.find('.modal-header > ul > li[rel="'+options.tab+'"]')[0]).click()
 		else
-			$(modal.find('.modal-header > ul > li')[0]).click()
+			$(modal.find('.modal-header > ul > li')[0]).click();
 		
-		$('select',modal).select2();
+		$('select',modal).each(function(i,s){
+			
+			var o   = {},
+
+				rel = $(s).attr('rel');
+
+			if($(s).attr('can-add') == 'true')
+
+				o.tags = true;
+
+			$(s).select2(o).on("select2:select", function (e) {
+
+				var options = GEN.edit.object.propertiesOptions[rel].value ? GEN.edit.object.propertiesOptions[rel].value.options : GEN.edit.object.propertiesOptions[rel].propriety.options,
+
+					found   = false;
+
+				for(var i = 0; i < options.length; i++) {
+				    if (options[i].value == e.params.data.id) {
+				        found = true;
+				        break;
+				    }
+				}
+
+				if(!found)
+					options.push({
+						value : e.params.data.id,
+						label : e.params.data.id,
+						attributes : [
+							{ name : 'action', value :false },
+							{ name : 'app', value :false },
+							{ name : 'page', value :false },
+							{ name : 'link', value :e.params.data.id },
+
+						]/*{
+							action : false,
+							app : false,
+							page : false,
+							link : e.params.data.id
+						}*/,
+						custom : true
+					});
+
+			});
+
+		})
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
-		if(object.formField)
+		if(object.formField || object.type == 'hidden')
 			GENRULES.setTargets(object,GEN);
 		else
 			$('.modal-header ul li[rel="rules"]',modal).hide();
@@ -1335,9 +1391,7 @@ if(input) {
 	GEN.edit.checkXSLChanges = function(){
 		
 		var object    = GEN.edit.object;
-		
-		
-		
+
 		if(object){
 			var template  = object.template ? object.template : object.templates;
 			var isChecked = $('#use-default-xsl').is(':checked');
@@ -4023,11 +4077,70 @@ if(input) {
 				setBTNAction(val);
 			}
 		}
-
+		
+		if(p.order >= 0)
+			params.order = p.order;
+		
 		if(p.xmlAttr)
 			params.xmlAttr = p.xmlAttr
 
 		field.setPropriety(params);
+		
+		if(p.customAction){
+			
+			field.setPropriety({
+				name : 'custom_action',
+				label:'Custom Action',
+				value : '',
+				order : p.order || false
+				//size : 12
+			});
+
+			field.setPropriety({
+				name : 'action_type',
+				label : 'Custom Action',
+				value : false,
+				onEditionStart : function(o){
+
+					var customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
+
+						actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
+
+					var checkTypes = function(v){
+
+						if(v){
+
+							customHolder.show();
+
+							actionHolder.hide();
+							
+							//customHolder.insertAt(  )
+
+						}else{
+
+							customHolder.hide();
+
+							actionHolder.show();
+
+						}
+
+					};
+
+					o.input.on('change',function(){
+
+						var value = $(this).find('input').is(':checked');
+
+						checkTypes(value);
+
+					});
+
+					checkTypes(o.value);
+					
+
+				}
+			});
+
+		}
 
 		setBTNAction(field.GET.action());
 	}
@@ -4665,8 +4778,6 @@ if(input) {
 				var sender = ui.sender;
 
 				var senderCol = $(sender.parents('.gen-column')[0]);
-
-				console.log('removee')
 
 				GEN.checkColumnComponents(senderCol);
 

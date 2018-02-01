@@ -177,16 +177,10 @@ var CONTAINER = function(name,params){
 							var preserved = GEN.server.preserved.java.controller[key];
 							
 							if(preserved){
-
-								console.log('dslka')
 							
 								delete GEN.server.preserved.java.controller[key];
 
 							}
-
-									
-							console.log( GEN.server.preserved.java.controller )
-							
 
 						};
 						
@@ -270,7 +264,7 @@ var CONTAINER = function(name,params){
 
 				}else if(file.import){
 					for(var c in file.import){
-						console.log(c)
+
 						if(file.import[c] == 'import.all'){
 							console.log('import all')
 						}else{
@@ -733,8 +727,6 @@ var CONTAINER = function(name,params){
 				
 					var fieldHolder = $(fieldsHolder[i]);
 
-					console.log(field)
-
 					fieldHolder.attr('gen-field-type',field.GET.type())
 					
 					fieldHolder.attr('gen-field-id',field.GET.id());
@@ -910,7 +902,7 @@ var CONTAINER = function(name,params){
 					//return $('<div style="visibility:hidden!important;max-height:25px!important;max-width:20%" class="container-setted"/>')
 				},*/
 				over:function(e,ui){
-					console.log(ui)
+					
 					var name     	  = ui.item.attr('name') ? ui.item.attr('name') : ui.item.attr('gen-field-type'),
 						isValid       = container.validField(name),
 						isHidden      = name == 'hidden',
@@ -1312,7 +1304,6 @@ var CONTAINER = function(name,params){
 			}
 			else{
 				element.setAttribute('class',tclass+' gen-table-field-holder');
-				console.log('is table')
 			}
 			
 		}
@@ -2809,7 +2800,7 @@ var CONTAINER = function(name,params){
 		var holder = $(VARS.getFieldsSettsHtml(field));
 		
 		holder.find('.field-edit').on('click',function(e){
-			console.log(e);
+			
 			e.preventDefault();
 			__params.onEdit(e);
 			return false;

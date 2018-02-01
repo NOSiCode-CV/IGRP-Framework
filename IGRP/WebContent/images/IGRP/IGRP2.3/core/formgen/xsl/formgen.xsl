@@ -121,7 +121,7 @@
                                 <ul class="treeview-menu gen-containers menu-open" style="display:block">
                                     <xsl:for-each select="$gen/containers/item">
                                         <xsl:sort select="label"/>
-                                        <li class="gen-declared-containers" name="{name}" type="{type}" reject="{reject}" accept="{accept}" hasField="{hasField}">
+                                        <li class="gen-declared-containers" label="{label}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" hasField="{hasField}">
                                             <a href="#">
                                                 <xsl:call-template name="getComponentIcon"/>
                                                 <span>
@@ -136,7 +136,7 @@
                                 <ul class="treeview-menu gen-fields menu-open" style="display:block">
                                     <xsl:for-each select="$gen/fields/item">
                                         <xsl:sort select="label"/>
-                                        <li alt="{name}" title="{name}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" class="gen-declared-fields">
+                                        <li alt="{name}" title="{name}" label="{label}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" class="gen-declared-fields">
                                             <a href="#">
                                                 <xsl:call-template name="getComponentIcon"/>
                                                 <span >
