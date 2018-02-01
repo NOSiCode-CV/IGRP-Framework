@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=44</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=45</preserve_url>
     </plsql>
     <content>
         <title>CRUD Generator</title>
@@ -103,8 +103,11 @@
                             <value>4</value>
                         </option>
                     </list>
-                    <rules/>
                 </schema>
+                <add_datasource name="p_add_datasource" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-th-large" maxlength="30" placeholder="" right="false">
+                    <label>Add datasource</label>
+                    <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
+                </add_datasource>
             </fields>
         </form_1>
         <table_1 type="table" xml-type="table" title="Escolha a tabela" gen-type="container" gen-group="true">
@@ -121,27 +124,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Officia magna aperiam sit amet</table_name>
+                        <table_name name="p_table_name">Unde ipsum sit omnis anim</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Deserunt aperiam unde totam ma</table_name>
+                        <table_name name="p_table_name">Elit doloremque stract deserun</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sit lorem doloremque aperiam d</table_name>
+                        <table_name name="p_table_name">Elit totam ipsum unde magna</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Natus laudantium aliqua natus</table_name>
+                        <table_name name="p_table_name">Sit lorem totam aliqua anim</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Totam mollit natus anim sit</table_name>
+                        <table_name name="p_table_name">Sed voluptatem sit officia tot</table_name>
                     </row>
                 </value>
             </table>
@@ -150,11 +153,11 @@
             <item type="specific" code="" rel="gerar">
                 <title>Gerar CRUD</title>
                 <app>igrp_studio</app>
-                <page>CRUDGenerator</page>
+                <page>HomeStudio</page>
                 <link>index</link>
                 <target>submit</target>
                 <img>success|fa-gear</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/crudgenerator/CRUDGenerator.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/homestudio/HomeStudio.xml</preview>
             </item>
         </toolsbar_1>
     </content>

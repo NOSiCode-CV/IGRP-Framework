@@ -32,17 +32,16 @@ public class CRUDGeneratorController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		List<CRUDGenerator.Table_1> data = new ArrayList<>();
 		CRUDGenerator model = new CRUDGenerator();
-		
-			model.load();
-		
+    	 model.load();
+    	 
 		CRUDGeneratorView view = new CRUDGeneratorView(model);
 		view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.data_source.setValue(new Config_env().getListEnv(model.getAplicacao()!=null && !model.getAplicacao().equals("")?Integer.parseInt(model.getAplicacao()):-1));
+		view.data_source.setValue(new Config_env().getListEnv(Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):-1));
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
 		int i=1;
-		Config_env config = new Config_env().findOne((model.getData_source()!=null && !model.getData_source().equals(""))?Integer.parseInt(model.getData_source()):-1);
+		Config_env config = new Config_env().findOne(Core.isNotNull(model.getData_source())?Integer.parseInt(model.getData_source()):-1);
 		Map<String,String> schemasMap = DatabaseMetadaHelper.getSchemas(config );
 		if(schemasMap.size() > 0){
 			view.schema.setVisible(true);
@@ -94,6 +93,7 @@ public class CRUDGeneratorController extends Controller {
 					}
 					if(r) {
 						Core.setMessageSuccess();
+                      	return this.forward("igrp_studio","CRUDGenerator","index&target=_blank&p_aplicacao="+model.getAplicacao());
 					}
 					else {
 						Core.setMessageError();
@@ -188,8 +188,10 @@ public class CRUDGeneratorController extends Controller {
 			String model = partsJavaCode[0];
 			String view = partsJavaCode[1];
 			String controller = partsJavaCode[2];
-			String path_class = page.getPackage_name().replace(".",File.separator);
-			String path_class_work_space = Config.getWorkspace() + File.separator+"src"+File.separator+ path_class;
+			String path_class = page.getPackage_name().trim()
+					.replaceAll("(\r\n|\n)", "")
+					.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
+			String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
 			path_class = Config.getBasePathClass()+ path_class;			
 			FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 			
