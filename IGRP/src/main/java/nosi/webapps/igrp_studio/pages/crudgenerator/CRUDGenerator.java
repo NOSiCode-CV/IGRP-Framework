@@ -1,6 +1,9 @@
 package nosi.webapps.igrp_studio.pages.crudgenerator;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,10 @@ public class CRUDGenerator extends Model{
 	private String data_source;
 	@RParam(rParamName = "p_schema")
 	private String schema;
+	@RParam(rParamName = "p_add_datasource")
+	private String add_datasource;
+	@RParam(rParamName = "p_add_datasource_desc")
+	private String add_datasource_desc;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -39,6 +46,19 @@ public class CRUDGenerator extends Model{
 	}
 	public String getSchema(){
 		return this.schema;
+	}
+	
+	public void setAdd_datasource(String app,String page,String action){
+		this.add_datasource = Config.getResolveUrl(app, page, action);
+	}
+	public String getAdd_datasource(){
+		return this.add_datasource;
+	}
+	public void setAdd_datasource_desc(String add_datasource_desc){
+		this.add_datasource_desc = add_datasource_desc;
+	}
+	public String getAdd_datasource_desc(){
+		return this.add_datasource_desc;
 	}
 
 
