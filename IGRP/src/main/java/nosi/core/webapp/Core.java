@@ -56,25 +56,19 @@ public final class Core {	// Not inherit
 	 * log.fatal("fatal message");
 		log.debug("debug message");
 	 * */
+	// Add logdbug
+	public static void log(String msg) {
+		
+		Igrp.getInstance().getLog().addMessage(msg);
+	}
 	
 	//Add Message Error
 	
-	public static void setMessageError(String msg, Throwable cause){
-		
-		
-		StringWriter sw = new StringWriter();
-	    PrintWriter pw = new PrintWriter(sw);
-	    cause.printStackTrace(pw);
-	       
-		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg) + sw.toString());
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
-	}
 	public static void setMessageError(String msg){
+		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg));
 		
-		setMessageError(msg, null);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}	
-	
-		
 
 	public static void setMessageError(){
 		nosi.core.servlet.IgrpServlet.LOGGER.error(FlashMessage.MESSAGE_ERROR);

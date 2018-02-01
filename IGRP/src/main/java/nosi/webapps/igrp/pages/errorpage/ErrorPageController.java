@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 /*----#END-PRESERVED-AREA----*/
@@ -30,18 +31,21 @@ public class ErrorPageController extends Controller {
 	}
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	private Logger logger = LogManager.getLogger(ErrorPageController.class);
+	//private Logger logger = LogManager.getLogger(ErrorPageController.class);
 	public Response actionException() throws IOException{
 		if(Igrp.getInstance().getUser().isAuthenticated()){
 			
 			Exception e = (Exception)Igrp.getInstance().getRequest().getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-			//e.printStackTrace();
+			e.printStackTrace();
 			
 			String errorMsg = Igrp.getInstance().getRequest().getAttribute("javax.servlet.error.message") + ""; 
 			
-			logger.error(errorMsg);
+			//logger.error(errorMsg);
 			
 			Igrp.getInstance().getFlashMessage().addMessage("error", errorMsg );
+			// dbug
+			Core.log(Igrp.getInstance().getRequest().getSession().getAttribute("igrp.error").toString());
+			
 			Igrp.getInstance().getFlashMessage().addMessage("info", gt("Por favor contactar o serviço de HELPDESK para mais informações.(helpdesk@nosi.cv - Tel:2607973)"));
 			ErrorPage model = new ErrorPage();
 			ErrorPageView view = new ErrorPageView(model);
