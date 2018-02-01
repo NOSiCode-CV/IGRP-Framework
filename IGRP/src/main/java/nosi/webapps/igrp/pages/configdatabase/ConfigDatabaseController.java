@@ -58,10 +58,10 @@ public class ConfigDatabaseController extends Controller {
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			model.load();
 			if (MigrationIGRP.validate(model)) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Conectado com sucesso"));
+				Core.setMessageSuccess(gt("Conetado com sucesso"));
+			
 			} else {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Falha na Conexão Com a Base de Dados"));
+				Core.setMessageError(gt("Falha na conexão com a base de dados"));
 			}
 		}
 		return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
@@ -87,8 +87,7 @@ public class ConfigDatabaseController extends Controller {
 			Migrate m = new Migrate();
 			m.load();
 			if (!MigrationIGRP.validate(m)) {
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,
-						gt("Falha na Conexão Com a Base de Dados"));
+				Core.setMessageError(gt("Falha na conexão com a base de dados"));
 				return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
 			}
 			boolean check = new Config_env().find().andWhere("name", "=", config.getName()).one() == null;
