@@ -95,7 +95,7 @@ public class ProcessDefinitionService extends Activit{
 				e.printStackTrace();
 			}
 			if(Response.Status.OK.getStatusCode() == response.getStatus()){				
-				ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				ProcessDefinitionService dep = (ProcessDefinitionService) ResponseConverter.convertJsonToDao(contentResp, ProcessDefinitionService.class);
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());

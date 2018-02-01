@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.QueryHistoricDetail;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
@@ -35,12 +36,12 @@ public class Detalhes_tarefasController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		TaskServiceQuery taskS = new TaskServiceQuery();
-//		taskS.addFilter("includeProcessVariables", "true");
-		taskS.addFilter("includeTaskLocalVariables", "true");
+		QueryHistoricDetail qhd = new QueryHistoricDetail();
 		taskS.addFilter("taskId", taskId);
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
-			content = generateSubmittedFormTask(task);
+			content = generateSubmittedFormTask(task,qhd.queryHistoricDetail(taskId));
+			break;//because for unique task
 		}
 		return this.renderView(content);
 		/*----#END-PRESERVED-AREA----*/
@@ -48,7 +49,7 @@ public class Detalhes_tarefasController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
-	private String generateSubmittedFormTask(TaskServiceQuery task) {
+	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail) {
 		if(task.hasCustomForm()) {
 			return this.generateCustomFormTask(task);
 		}
@@ -58,21 +59,20 @@ public class Detalhes_tarefasController extends Controller {
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", gt("Detalhes Tarefa"));	
-
 		xml.addXml(this.generateViewTask(task));
-		xml.addXml(this.generateFormTask(task));
+		xml.addXml(this.generateFormTask(queryHistoricDetail));
 		xml.addXml(this.generateTableTask(task));
 		return xml.toString();
 	}
 	
-	private String generateFormTask(TaskServiceQuery task) {
+	private String generateFormTask(List<QueryHistoricDetail> task) {
 		IGRPTable table_form = new IGRPTable("table", (float)2.1);
 		IGRPForm form = new IGRPForm("form",(float)2.1);
 		
 		Field prm_doc_list = new TextField(null,"prm_doc_list");
 		prm_doc_list.propertie().add("type", "separatordialog");
 		prm_doc_list.propertie().add("container", "true");
-		prm_doc_list.setLabel(gt("Adicionar Documentos"));
+		prm_doc_list.setLabel(gt("Documentos"));
 		
 		Field p_fwl_tab_page = new TextField(null,"p_fwl_tab_page");
 		p_fwl_tab_page.propertie().add("type", "hidden");
@@ -113,18 +113,26 @@ public class Detalhes_tarefasController extends Controller {
 		table_form.addField(prm_file_desc);
 		table_form.addField(prm_doc_list_id);
 		
-		task.getVariables().stream()
-		 .filter(v->!v.getType().equalsIgnoreCase("binary"))
-		 .filter(v->!v.getName().equalsIgnoreCase("CustomVariableIGRP"))
-		 .forEach(v->{			
-				Field field = XMLTransform.getField(v.getName(),v.getType());
-				if(Core.isNotNull(v.getValue()))
-					field.setValue(v.getValue());
+		task.stream().forEach(t->{
+			if(t.getVariable()!=null && !t.getVariable().getType().equalsIgnoreCase("binary")) {
+				Field field = XMLTransform.getField(t.getVariable().getName(),t.getVariable().getType());
+				if(Core.isNotNull(t.getVariable().getValue()))
+					field.setValue(t.getVariable().getValue());
 				field.propertie().add("readonly", "true");
 				field.propertie().add("disabled", "true");
-				field.setLabel(gt(StringHelper.camelCase(v.getName())));
+				field.setLabel(gt(StringHelper.camelCase(t.getVariable().getName())));
 				form.addField(field);
-		 });
+			}
+			if(Core.isNotNull(t.getPropertyId())) {
+				Field field = XMLTransform.getField(t.getPropertyId(),"string");
+				if(Core.isNotNull(t.getPropertyValue()))
+					field.setValue(t.getPropertyValue());
+				field.propertie().add("readonly", "true");
+				field.propertie().add("disabled", "true");
+				field.setLabel(gt(StringHelper.camelCase(t.getPropertyId())));
+				form.addField(field);
+			}
+		});
 		
 		form.addField(prm_doc_list);
 		form.addField(p_fwl_tab_menu);
@@ -135,9 +143,40 @@ public class Detalhes_tarefasController extends Controller {
 		form.addField(prm_file_name);
 		form.addField(prm_file_description);
 		form.addField(prm_file);
-		table_form.addRowsXMl(this.generateDocumentsTask(task.getVariables()));
+		table_form.addRowsXMl(this.generateDocumentsTask(task));
 		form.setTable(table_form);
 		return form.toString();
+	}
+
+	private String generateDocumentsTask(List<QueryHistoricDetail> task) {
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("value");
+		task.stream()
+		 .filter(t->t.getVariable()!=null)
+		 .forEach(t->{				
+					 String[] file_desc = t.getVariable().getName().split("___");
+					 xml.startElement("row");
+					 xml.writeAttribute("nodelete", "");
+					 xml.writeAttribute("noupdate", "");			 	
+						 xml.setElement("prm_file_name",file_desc[0]);
+						 xml.setElement("prm_file_name_desc",file_desc[0]);
+						 xml.setElement("prm_file_description",file_desc[1]);
+						 xml.setElement("prm_file_description_desc",file_desc[1]);							 
+						 xml.startElement("prm_file");
+					 		xml.writeAttribute("type", "link");
+					 		xml.writeAttribute("target", "_newtab");
+					 		xml.text(Config.getResolveUrl("igrp", "Detalhes_tarefas", "get-file&url="+t.getVariable().getValueUrl()+"&fileName="+file_desc[2]));
+					 	xml.endElement();		 	
+	
+					 	xml.startElement("prm_file_desc");
+					 		xml.writeAttribute("type", "link");
+					 		xml.text(file_desc[2]);
+					 	xml.endElement();			 	
+						xml.setElement("prm_doc_list_id", t.getVariable().getName());
+					 xml.endElement();
+	 	 });
+		xml.endElement();
+		return xml.toString();
 	}
 
 	private String generateTableTask(TaskServiceQuery task) {
@@ -167,38 +206,6 @@ public class Detalhes_tarefasController extends Controller {
 		view.addField(startDate);
 		view.addField(endDate);
 		return view.toString();
-	}
-	
-	private String generateDocumentsTask(List<TaskVariables> variables) {
-		XMLWritter xml = new XMLWritter();
-		xml.startElement("value");
-		variables.stream()
-		 .filter(v->v.getType().equalsIgnoreCase("binary"))
-		 .forEach(v->{
-			 String[] file_desc = v.getName().split("___");
-			 xml.startElement("row");
-			 xml.writeAttribute("nodelete", "");
-			 xml.writeAttribute("noupdate", "");			 	
-				 xml.setElement("prm_file_name",file_desc[0]);
-				 xml.setElement("prm_file_name_desc",file_desc[0]);
-				 xml.setElement("prm_file_description",file_desc[1]);
-				 xml.setElement("prm_file_description_desc",file_desc[1]);
-				 
-				 xml.startElement("prm_file");
-			 		xml.writeAttribute("type", "link");
-			 		xml.writeAttribute("target", "_newtab");
-			 		xml.text(Config.getResolveUrl("igrp", "Detalhes_tarefas", "get-file&url="+v.getValueUrl()+"&fileName="+file_desc[2]));
-			 	xml.endElement();			 	
-
-			 	xml.startElement("prm_file_desc");
-			 		xml.writeAttribute("type", "link");
-			 		xml.text(file_desc[2]);
-			 	xml.endElement();			 	
-				xml.setElement("prm_doc_list_id", v.getName());
-			 xml.endElement();
-	 	 });
-		xml.endElement();
-		return xml.toString();
 	}
 	
 	private String generateCustomFormTask(TaskServiceQuery task) {
