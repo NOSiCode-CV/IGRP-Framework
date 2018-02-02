@@ -12,6 +12,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
+import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -81,8 +82,16 @@ public class LoginController extends Controller {
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
+		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
+		
+		if(oauth2 != null && oauth2.equalsIgnoreCase("1") && !validateOAuth2Parameters(response_type, client_id, redirect_uri, scope)) {
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro ... Autenticação OAuth2 falhada !"));
+			/*return redirect("igrp", "login", "login", 
+					new String[] {"oauth", "response_type", "client_id", "redirect_uri", "scope"}, 
+					new String[] {"1",response_type, client_id, redirect_uri, scope}); */
+		}
 		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
 				
@@ -121,7 +130,6 @@ public class LoginController extends Controller {
 					
 					case "ldap":{
 						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
-							
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
 								StringBuilder oauth2ServerUrl = new StringBuilder();
 								User user = (User) Igrp.getInstance().getUser().getIdentity();
@@ -317,13 +325,40 @@ public class LoginController extends Controller {
 		queryString += "authorize=1";
 		queryString += "&response_type=" + response_type;
 		queryString += "&client_id=" + client_id;
-		queryString += "&redirect_uri=" + redirect_uri;
-		queryString += "&scope=" + scope;
-		queryString += "&userId=" + user.getUser_name();
+		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
+		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
+		queryString += "&userId=" + Base64.getEncoder().encodeToString(user.getUser_name().getBytes());
 		
 		oauth2ServerUrl.append(url_.concat(queryString));
 		
 		return result;
+	}
+	
+	private boolean validateOAuth2Parameters(String response_type, String client_id, String redirect_uri, String scope ) {
+		boolean result = true;
+		// Validate parameters 
+		try {
+			OAuthClient client = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
+			result = !(!validateScope(scope, client) 
+						||  
+						(!client.getGrant_types().equalsIgnoreCase("authorization_code") && !client.getGrant_types().equalsIgnoreCase("implicit")) 
+						|| 
+						(!response_type.equalsIgnoreCase("token") && !response_type.equalsIgnoreCase("code")));
+		}catch(Exception e) {
+			//e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	
+	private boolean validateScope(String scopes, OAuthClient client) { // Ex.: scope1,scope2,...,scopeN 
+		if(scopes == null || scopes.isEmpty()) 
+			return true; // scopes is optional in this case
+		String []aux = scopes.split(",");
+		for(String obj : aux)
+			if(!client.getScope().contains(obj))
+				return false;
+		return true;
 	}
 	
 }
