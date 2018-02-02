@@ -1,7 +1,9 @@
 package nosi.core.webapp;
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import nosi.core.webapp.webservices.helpers.FileRest;
 
 /**
  * @author: Emanuel Pereira
@@ -26,7 +28,7 @@ public class Response extends HttpServletResponseWrapper{
 	private String url;
 	
 	private HttpStatus httpStatus; // Http statusCode + Http statusText
-	
+	private FileRest file;
 	private byte []stream; // For raw format (Ex.: binary files ...)
 	
 	public Response(HttpServletResponse response) {
@@ -73,4 +75,14 @@ public class Response extends HttpServletResponseWrapper{
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+	public FileRest getFile() {
+		return file;
+	}
+
+	public void setFile(FileRest file) {
+		this.file = file;
+	}
+
+
 }
