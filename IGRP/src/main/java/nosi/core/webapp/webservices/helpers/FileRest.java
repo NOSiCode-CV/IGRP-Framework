@@ -11,6 +11,7 @@ public class FileRest {
 	private Integer size;
 	private InputStream content;
 	private String contentType;
+	private String fileName;
 	
 	public Integer getSize() {
 		return size;
@@ -30,4 +31,11 @@ public class FileRest {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 }

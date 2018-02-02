@@ -16,7 +16,7 @@
 
 				items : '#gen-list-components>ul>li',
 
-				attr : 'name'
+				attr : 'label'
 
 			},	
 
@@ -24,7 +24,7 @@
 
 				items : '#gen-list-fields>ul>li',
 
-				attr : 'name'
+				attr : 'label'
 
 			}	
 
@@ -102,8 +102,6 @@
 
 				}
 
-				//if(results[0])
-					
 				DrawResults(results)
 
 		    }, delay);

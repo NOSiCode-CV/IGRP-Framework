@@ -1,16 +1,20 @@
 package nosi.core.webapp;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.core.webapp.webservices.helpers.FileRest;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
@@ -157,7 +161,7 @@ public abstract class Controller {
 		
 		return response;
 	}
-	
+
 	public View getView(){
 		return this.view;
 	}
@@ -247,6 +251,19 @@ public abstract class Controller {
 		return (Response) obj;
 	}
 	
+	
+	protected final Response xSend(FileRest file, String name, String contentType, boolean download) {
+		Response response = new Response();
+		Igrp.getInstance().getResponse().addHeader("Content-Description", "File Transfer");
+		if(download)
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
+		else
+			Igrp.getInstance().getResponse().addHeader("Content-Disposition", "inline; filename=\"" + name + "\"");
+		response.setType(1);
+		response.setFile(file);
+		return response;
+	}
+	
 	public static void sendResponse() {
 		Response responseWrapper = Igrp.getInstance().getCurrentController().getResponseWrapper();
 		if(responseWrapper!=null) {
@@ -256,6 +273,28 @@ public abstract class Controller {
 						try {
 							if(responseWrapper.getStream() != null && responseWrapper.getStream().length > 0) {
 								Igrp.getInstance().getResponse().getOutputStream().write(responseWrapper.getStream());
+								Igrp.getInstance().getResponse().getOutputStream().close();
+							}else if(responseWrapper.getFile()!=null){
+								 HttpServletResponse response = Igrp.getInstance().getResponse();
+								 String name = responseWrapper.getFile().getFileName();
+						         response.setContentType(responseWrapper.getFile().getContentType());						 
+						         response.setHeader("Content-Disposition", "attachment; filename=\""+name+"\";");
+						         response.setHeader("Cache-Control", "no-cache");  
+						         response.setContentLength(responseWrapper.getFile().getSize());						  
+						         try {
+									 ServletOutputStream sos = response.getOutputStream();
+									 BufferedInputStream bis = new BufferedInputStream(responseWrapper.getFile().getContent());
+							         int data;
+							         while((data = bis.read()) != -1) { 
+							            sos.write(data);
+							         } 
+							         bis.close();
+							         sos.close();
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+						         responseWrapper.getFile().getContent().close();
 							}else {
 								Igrp.getInstance().getResponse().getWriter().append(responseWrapper.getContent());
 							}
