@@ -1,16 +1,19 @@
 package nosi.webapps.igrp.pages.configdatabase;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class ConfigDatabase extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_nome_de_conexao")
-	private String nome_de_conexao;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
 	@RParam(rParamName = "p_tipo_base_dados")
 	private String tipo_base_dados;
+	@RParam(rParamName = "p_nome_de_conexao")
+	private String nome_de_conexao;
 	@RParam(rParamName = "p_config")
 	private String config;
 	@RParam(rParamName = "p_hostname")
@@ -33,13 +36,6 @@ public class ConfigDatabase extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setNome_de_conexao(String nome_de_conexao){
-		this.nome_de_conexao = nome_de_conexao;
-	}
-	public String getNome_de_conexao(){
-		return this.nome_de_conexao;
-	}
-	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
 	}
@@ -52,6 +48,13 @@ public class ConfigDatabase extends Model{
 	}
 	public String getTipo_base_dados(){
 		return this.tipo_base_dados;
+	}
+	
+	public void setNome_de_conexao(String nome_de_conexao){
+		this.nome_de_conexao = nome_de_conexao;
+	}
+	public String getNome_de_conexao(){
+		return this.nome_de_conexao;
 	}
 	
 	public void setConfig(String config){

@@ -182,12 +182,10 @@ public class MapaProcessoController extends Controller {
 				for(FormProperties prop:formData.getFormProperties()){
 					Field field = XMLTransform.getField(prop.getId().toLowerCase(), prop.getType());
 					field.setLabel(prop.getName());
-					if(prop.getValue()!=null && !prop.getValue().equals("null"))
+					if(prop.getValue()!=null)
 						field.setValue(prop.getValue());
 					if(prop.getRequired())
 						field.propertie().add("required","true");
-					if(!prop.getReadable())
-						field.setVisible(false);
 					if(!prop.getWritable())
 						field.propertie().add("readonly", "true");
 					if(prop.getType().endsWith("enum")){
