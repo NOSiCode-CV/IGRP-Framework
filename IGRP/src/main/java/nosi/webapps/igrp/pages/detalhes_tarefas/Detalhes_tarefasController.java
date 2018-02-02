@@ -236,10 +236,8 @@ public class Detalhes_tarefasController extends Controller {
 		String url = Igrp.getInstance().getRequest().getParameter("url");
 		String fileName = Igrp.getInstance().getRequest().getParameter("fileName");
 		FileRest content = new TaskService().getFile(url);
-		byte[] bytes = new byte[content.getSize()];
-		content.getContent().read(bytes, 0, bytes.length);
-		content.getContent().close();
-		return this.xSend(bytes,fileName, content.getContentType(), true);
+		content.setFileName(fileName);
+		return this.xSend(content,fileName, content.getContentType(), true);
 	}
 	/*----#END-PRESERVED-AREA----*/
 }
