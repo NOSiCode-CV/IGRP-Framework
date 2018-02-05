@@ -297,7 +297,7 @@ public class EnvController extends Controller {
 				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
 				
 				List<Session> list = new Session().find().andWhere("sessionId", "=", sessionId).all();
-				if(list != null) {
+				if(list != null && list.size() > 0) {
 					list.sort(Comparator.comparing(Session::getId).reversed());
 					Session session = list.get(0);
 					endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
