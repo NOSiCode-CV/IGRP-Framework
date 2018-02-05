@@ -1,11 +1,3 @@
-/**
- * @author: Emanuel Pereira
- * 
- * Apr 24, 2017
- *
- * Description: class to operation files and directories
- */
-
 package nosi.core.webapp.helpers;
 
 import java.io.BufferedReader;
