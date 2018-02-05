@@ -33,19 +33,19 @@ public class LookupListPageView extends View {
 		
 		env_fk.propertie().add("name","p_env_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","");
 		page = new TextField(model,"page");
-		page.setLabel(gt("Nome Página"));
+		page.setLabel(gt("Nome PÃ¡gina"));
 		
 		page.propertie().add("name","p_page").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		page_descr = new TextField(model,"page_descr");
-		page_descr.setLabel(gt("Descricao Página"));
+		page_descr.setLabel(gt("Descricao PÃ¡gina"));
 		
 		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		nome_pagina = new TextField(model,"nome_pagina");
-		nome_pagina.setLabel(gt("Nome Página"));
+		nome_pagina.setLabel(gt("Nome PÃ¡gina"));
 		
 		nome_pagina.propertie().add("name","p_nome_pagina").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("DescriÃ§Ã£o"));
 		
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","true").add("iskey","false");
 		p_id = new HiddenField(model,"p_id");

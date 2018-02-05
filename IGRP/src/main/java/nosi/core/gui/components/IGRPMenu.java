@@ -17,7 +17,7 @@ import java.util.List;
 			<title>Deployed</title>
 			<submenu>
 				<title>Processo ManipulaÃ§Ã£o</title>
-				<link>https://nosiappsdev.gov.cv/redglobal_lab/!REDGLOBAL.GLB_DISPATCHER.main?igrpaddcbecdae=53599590500408406218&p_env_dad=//ce&p_env_menu=//C9C6C9CCCD&p_prm_definitionId=ProcTeste1:1:150264&amp;p_prm_definitionKey=ProcTeste1&amp;p_prm_processName=PROCESSO MANIPULAA§A£O</link>
+				<link>https://nosiappsdev.gov.cv/redglobal_lab/!REDGLOBAL.GLB_DISPATCHER.main?igrpaddcbecdae=53599590500408406218&p_env_dad=//ce&p_env_menu=//C9C6C9CCCD&p_prm_definitionId=ProcTeste1:1:150264&amp;p_prm_definitionKey=ProcTeste1&amp;p_prm_processName=PROCESSO MANIPULACAO</link>
 				<id />
 				<status />
 				<target>LEFT_MENU</target>

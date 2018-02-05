@@ -46,7 +46,7 @@ public class Teste{
 //				field.setValue(prop.getValue());
 //				field.setLabel(prop.getName());
 //				if(prop.getType().endsWith("enum")){
-//					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar Opção ---"));
+//					field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name","--- Selecionar OpÃ§Ã£o ---"));
 //				}
 //				form.addField(field);
 //				xml.addXml(form.toString());

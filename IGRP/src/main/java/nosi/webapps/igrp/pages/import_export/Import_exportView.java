@@ -33,10 +33,10 @@ public class Import_exportView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel("");
 		
-		sectionheader_1_text.setValue(gt("Lista dos Import/Export de uma Aplicação"));
+		sectionheader_1_text.setValue(gt("Lista dos Import/Export de uma AplicaÃ§Ã£o"));
 		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Nome Aplicação/Página"));
+		aplicacao.setLabel(gt("Nome AplicaÃ§Ã£o/PÃ¡gina"));
 		
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		tipo = new ListField(model,"tipo");
@@ -44,7 +44,7 @@ public class Import_exportView extends View {
 		
 		tipo.propertie().add("name","p_tipo").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		aplicacao_tabela = new TextField(model,"aplicacao_tabela");
-		aplicacao_tabela.setLabel(gt("Nome Aplicação/Página"));
+		aplicacao_tabela.setLabel(gt("Nome AplicaÃ§Ã£o/PÃ¡gina"));
 		
 		aplicacao_tabela.propertie().add("name","p_aplicacao_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		utilizador = new TextField(model,"utilizador");

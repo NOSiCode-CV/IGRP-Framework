@@ -40,9 +40,9 @@ public class EditarTransacaoController extends Controller {
 				t.setId(Integer.parseInt(codigo));
 				t = t.update();
 				if(t!=null)
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Transação atualizada com sucesso."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("TransaÃ§Ã£o atualizada com sucesso."));
 				else
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Error ao atualizar a transação."));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Error ao atualizar a transaÃ§Ã£o."));
 				return this.redirect("igrp", "EditarTransacao", "index", new String[]{"codigo"}, new String[]{t.getCode() + ""});
 			}
 			EditarTransacaoView view = new EditarTransacaoView(model);

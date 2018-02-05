@@ -71,7 +71,7 @@ public class GenXMLField {
          <list>
             <env_fk     name="p_env_fk">
                 <option>
-                    <text>-- Aplicação --</text>
+                    <text>-- AplicaÃ§Ã£o --</text>
                     <value />
                 </option>
                 <option     selected="true">
