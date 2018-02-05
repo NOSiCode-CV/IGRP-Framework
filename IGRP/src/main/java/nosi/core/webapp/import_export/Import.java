@@ -218,12 +218,7 @@ public class Import {
 						pages.add(pageCheck);
 					}
 				}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
-					if(
-						page.getPage()!=null
-						&& !page.getPage().equals("")
-						&& pageCheck ==null 
-						&& nosi.core.gui.page.Page.validatePage(page.getPage())
-						&& page.getImg_src()==null){
+					if(Core.isNotNull(page.getPage())&& pageCheck ==null && nosi.core.gui.page.Page.validatePage(page.getPage())&& page.getImg_src()==null){
 							action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 							action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
 							action.setVersion("2.3");	

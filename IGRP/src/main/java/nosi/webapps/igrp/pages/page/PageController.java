@@ -321,7 +321,7 @@ public class PageController extends Controller {
 				json += "\"description\":\"" + (ac.getPage_descr() != null ? ac.getPage_descr() : ac.getPage()) + "\",";
 				json += "\"link\":\""
 						+ Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
-						+ ac.getPage() + ".xsl\"";
+						+ ac.getPage() + ".xml\"";
 				json += "},";
 			}
 		}

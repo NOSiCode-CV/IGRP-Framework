@@ -25,9 +25,8 @@ public class PesquisarUtilizadorView extends View {
 	public IGRPTable table_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_lista_geral;
-	public IGRPButton btn_adicionar_utilizador;
 	public IGRPButton btn_convidar;
+	public IGRPButton btn_adicionar_utilizador;
 	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
@@ -77,24 +76,22 @@ public class PesquisarUtilizadorView extends View {
 		
 		tb_email = new PlainTextField(model,"tb_email");
 		tb_email.setLabel(gt("Email"));
-		tb_email.propertie().add("name","p_tb_email").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","false");
+		tb_email.propertie().add("name","p_tb_email").add("type","plaintext").add("maxlength","100").add("align","left").add("lookup_parser","false").add("iskey","true");
 		
 		perfile = new PlainTextField(model,"perfile");
-		perfile.setLabel(gt("Perfil"));
+		perfile.setLabel(gt("App/Org/Perfil"));
 		perfile.propertie().add("name","p_perfile").add("type","plaintext").add("maxlength","50").add("align","left").add("lookup_parser","false").add("iskey","false");
 		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
-		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","false").add("tag","id");
+		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("iskey","true").add("tag","id");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_lista_geral = new IGRPButton("Lista Geral","igrp","PesquisarUtilizador","lista_geral","modal","default|fa-list","","");
-		btn_lista_geral.propertie.add("type","specific").add("code","").add("rel","lista_geral");
+		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","mpsubmit","warning|fa-send","","");
+		btn_convidar.propertie.add("type","specific").add("code","").add("rel","convidar");
 		btn_adicionar_utilizador = new IGRPButton("Adicionar Utilizador","igrp","PesquisarUtilizador","adicionar_utilizador","modal","success|fa-plus-square","","");
 		btn_adicionar_utilizador.propertie.add("type","specific").add("code","").add("rel","adicionar_utilizador");
-		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarUtilizador","convidar","modal","warning|fa-send","","");
-		btn_convidar.propertie.add("type","specific").add("code","").add("rel","convidar");
 		btn_pesquisar = new IGRPButton("Pesquisar","igrp","PesquisarUtilizador","pesquisar","submit","primary|fa-search","","");
 		btn_pesquisar.propertie.add("type","form").add("code","").add("class","primary").add("rel","pesquisar");
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarUtilizador","editar","mpsubmit","warning|fa-pencil","","");
@@ -125,9 +122,8 @@ public class PesquisarUtilizadorView extends View {
 		table_1.addField(perfile);
 		table_1.addField(p_id);
 
-		toolsbar_1.addButton(btn_lista_geral);
-		toolsbar_1.addButton(btn_adicionar_utilizador);
 		toolsbar_1.addButton(btn_convidar);
+		toolsbar_1.addButton(btn_adicionar_utilizador);
 		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);

@@ -7,7 +7,7 @@ package nosi.webapps.igrp.pages.transferir_tarefas;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.FlashMessage;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
@@ -23,7 +23,7 @@ public class Transferir_tarefasController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/				
 		Transferir_tarefas model = new Transferir_tarefas();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if(id!=null && !id.equals("")){
+		if(Core.isInteger(id)){
 			TaskService task = new TaskService().getTask(id);
 			if(task!=null){
 				model.setAtribuido_por(task.getOwner());
@@ -33,12 +33,10 @@ public class Transferir_tarefasController extends Controller {
 				model.setNumero_processo(task.getProcessDefinitionId());
 				model.setUtilizador_actual(task.getAssignee());
 				model.setTipo_processo(task.getCategory());
-//				model.setData_criacao(task.getCreateTime().toString());
-//				model.setData_fim(data_fim);
-//				model.setData_fim(data_fim);
+				model.setData_criacao(task.getCreateTime()!=null?task.getCreateTime().toString():"");
+				model.setData_fim(task.getDueDate()!=null?task.getDueDate().toString():"");
 			}
-		}
-		
+		}		
 		Transferir_tarefasView view = new Transferir_tarefasView(model);
 		view.btn_gravar.setLink("index");
 
@@ -49,15 +47,15 @@ public class Transferir_tarefasController extends Controller {
 		
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
 			model.load();
-			if(model.getP_id_utilizador()!=null && !model.getP_id_utilizador().equals("")){
+			if(Core.isNotNull(model.getP_id_utilizador())){
 				User user = new User().findOne(Integer.parseInt(model.getP_id_utilizador()));
 				if(user!=null && new TaskService().delegateTask(id, user.getUser_name())){
-					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Tarefa transferida para ")+user.getName()+gt(" com sucesso"));
+					Core.setMessageSuccess(gt("Tarefa transferida para ")+user.getName()+gt(" com sucesso"));
 				}else{
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);				
+					Core.setMessageError();			
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);				
+				Core.setMessageError();				
 			}
 		}
 		Config.target = "_blank";

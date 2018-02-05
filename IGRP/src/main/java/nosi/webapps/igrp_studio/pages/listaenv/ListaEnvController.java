@@ -85,7 +85,7 @@ public class ListaEnvController extends Controller {
 
 	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(NOVO)----*/
-		return this.redirect("igrp", "Env", "index&target=_blank");
+		return this.redirect("igrp_studio", "Env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -94,7 +94,7 @@ public class ListaEnvController extends Controller {
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null && !p_id.equals("")) {
-			return this.forward("igrp", "Env", "editar&target=_blank&id=" + p_id);
+			return this.forward("igrp_studio", "Env", "editar&target=_blank&id=" + p_id);
 		}
 		return this.redirect("igrp_studio", "lista-env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/

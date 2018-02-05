@@ -25,10 +25,12 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
+import nosi.webapps.igrp.dao.Application;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import static nosi.core.i18n.Translator.gt;
@@ -45,7 +47,8 @@ public class MapaProcessoController extends Controller {
 		List<IGRPMenu> listMenus = new ArrayList<>();
 		IGRPMenu menus = new IGRPMenu(gt("Lista de Processos"),"webapps?r=");
 		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
-		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos()){
+		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
+		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getId())){
 			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
 		}
@@ -70,7 +73,7 @@ public class MapaProcessoController extends Controller {
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
-			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - N� "+task.getId():"";
+			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
 		}
 		if(formData != null) {
@@ -128,10 +131,10 @@ public class MapaProcessoController extends Controller {
 		Field prm_file_name_desc = new TextField(null,"prm_file_name_desc");
 		prm_file_name_desc.setLabel(gt("Nome Ficheiro"));
 		Field prm_file_description = new TextAreaField(null,"prm_file_description");
-		prm_file_description.setLabel(gt("Descri��o"));
+		prm_file_description.setLabel(gt("Descrição"));
 		prm_file_description.propertie().add("rel", "prm_doc_list").add("required", "true");
 		Field prm_file_description_desc = new TextAreaField(null,"prm_file_description_desc");
-		prm_file_description_desc.setLabel(gt("Descri��o"));
+		prm_file_description_desc.setLabel(gt("Descrição"));
 		Field prm_file = new FileField(null,"prm_file");
 		prm_file.setLabel(gt("Ficheiro"));
 		prm_file.propertie().add("rel", "prm_doc_list").add("maxlength", 300);
@@ -179,16 +182,14 @@ public class MapaProcessoController extends Controller {
 				for(FormProperties prop:formData.getFormProperties()){
 					Field field = XMLTransform.getField(prop.getId().toLowerCase(), prop.getType());
 					field.setLabel(prop.getName());
-					if(prop.getValue()!=null && !prop.getValue().equals("null"))
+					if(prop.getValue()!=null)
 						field.setValue(prop.getValue());
 					if(prop.getRequired())
 						field.propertie().add("required","true");
-					if(!prop.getReadable())
-						field.setVisible(false);
 					if(!prop.getWritable())
 						field.propertie().add("readonly", "true");
 					if(prop.getType().endsWith("enum")){
-						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Op��o ---")));
+						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opção ---")));
 					}
 					field.setLabel(gt(StringHelper.camelCase(prop.getName())));
 					form.addField(field);

@@ -15,7 +15,7 @@
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
-                <style>#myappsTb thead,#myappsTb tr td i{  display:none}.box #myappsTb {    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.box #filtro{    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.isac{    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.igrp-box-holder.box&gt;.box-body {    padding: 10px 10px 0;}</style>
+                <style>#myappsTb thead,#myappsTb tr td i{  display:none}.box #myappsTb {    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.box #filtro{    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.isac{    box-shadow: 0 0px 0px rgba(0,0,0,0.1);}.igrp-box-holder.box&gt;.box-body {    padding: 10px 10px 0;}th.pagelist-status input.IGRP_checkall{  display:none;}</style>
             </head>
             <body class="{$bodyClass} sidebar-off">
                 <xsl:call-template name="IGRP-topmenu"/>
@@ -32,7 +32,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-07b56825">
+                                    <div class="row " id="row-42e908a0">
                                         <div class="gen-column col-sm-4">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/infopanel_1">
@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-e2a02bd7">
+                                    <div class="row " id="row-ce7baea6">
                                         <div class="gen-column col-sm-8">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/box_2">
@@ -105,7 +105,7 @@
                                                         <div class="box-body" gen-preserve-content="true">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/box_2/fields"/>
                                                             <div>
-                                                                <div class="row " id="row-8c78676e">
+                                                                <div class="row " id="row-a5f91d83">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/form_1">
@@ -194,7 +194,7 @@
                                                                                                     <thead>
                                                                                                         <tr>
                                                                                                             <xsl:if test="rows/content/table_1/fields/status_page">
-                                                                                                                <th class="bs-checkbox gen-fields-holder" align="center">
+                                                                                                                <th class="bs-checkbox gen-fields-holder pagelist-status" align="center">
                                                                                                                     <span>Estado</span>
                                                                                                                     <input type="checkbox" class="IGRP_checkall" check-rel="status_page" data-title="Estado" data-toggle="tooltip"/>
                                                                                                                 </th>
@@ -213,7 +213,9 @@
                                                                                                                     </span>
                                                                                                                 </th>
                                                                                                             </xsl:if>
-                                                                                                            <th class="igrp-table-ctx-th"/>
+                                                                                                            <xsl:if test="rows/content/table_1/table/context-menu/item">
+                                                                                                                <th class="igrp-table-ctx-th"/>
+                                                                                                            </xsl:if>
                                                                                                         </tr>
                                                                                                     </thead>
                                                                                                     <tbody>
@@ -223,7 +225,7 @@
                                                                                                                 <input type="hidden" name="p_id_page_fk" value="{id_page}"/>
                                                                                                                 <input type="hidden" name="p_id_page_fk_desc" value="{id_page_desc}"/>
                                                                                                                 <xsl:if test="status_page">
-                                                                                                                    <td align="" data-row="{position()}" data-title="{../../label/status_page}" class="bs-checkbox" item-name="status_page">
+                                                                                                                    <td align="" data-row="{position()}" data-title="{../../label/status_page}" class="bs-checkbox pagelist-status" item-name="status_page">
                                                                                                                         <xsl:if test="status_page != '-0'">
                                                                                                                             <label class="checkbox-switch switch">
                                                                                                                                 <input type="checkbox" name="p_status_page" value="{status_page}" check-rel="status_page">
@@ -237,24 +239,26 @@
                                                                                                                     </td>
                                                                                                                 </xsl:if>
                                                                                                                 <xsl:if test="descricao_page">
-                                                                                                                    <td align="left" data-row="{position()}" data-title="{../../../fields/descricao_page/label}" class="text" item-name="descricao_page">
+                                                                                                                    <td align="left" data-order="{descricao_page}" data-row="{position()}" data-title="{../../../fields/descricao_page/label}" class="text" item-name="descricao_page">
                                                                                                                         <span class="">
                                                                                                                             <xsl:value-of select="descricao_page"/>
                                                                                                                         </span>
                                                                                                                     </td>
                                                                                                                 </xsl:if>
                                                                                                                 <xsl:if test="nome_page">
-                                                                                                                    <td align="left" data-row="{position()}" data-title="{../../../fields/nome_page/label}" class="text" item-name="nome_page">
+                                                                                                                    <td align="left" data-order="{nome_page}" data-row="{position()}" data-title="{../../../fields/nome_page/label}" class="text" item-name="nome_page">
                                                                                                                         <span class="">
                                                                                                                             <xsl:value-of select="nome_page"/>
                                                                                                                         </span>
                                                                                                                     </td>
                                                                                                                 </xsl:if>
-                                                                                                                <td class="igrp-table-ctx-td">
-                                                                                                                    <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
-                                                                                                                        <xsl:with-param name="row-params" select="context-menu"/>
-                                                                                                                    </xsl:apply-templates>
-                                                                                                                </td>
+                                                                                                                <xsl:if test="//rows/content/table_1/table/context-menu/item">
+                                                                                                                    <td class="igrp-table-ctx-td">
+                                                                                                                        <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
+                                                                                                                            <xsl:with-param name="row-params" select="context-menu"/>
+                                                                                                                        </xsl:apply-templates>
+                                                                                                                    </td>
+                                                                                                                </xsl:if>
                                                                                                             </tr>
                                                                                                         </xsl:for-each>
                                                                                                     </tbody>
@@ -280,7 +284,7 @@
                                                         <div class="box-body" gen-preserve-content="true">
                                                             <xsl:apply-templates mode="form-hidden-fields" select="rows/content/box_1/fields"/>
                                                             <div>
-                                                                <div class="row " id="row-64f4a0ff">
+                                                                <div class="row " id="row-1ec5731f">
                                                                     <div class="gen-column col-sm-12">
                                                                         <div class="gen-inner">
                                                                             <xsl:if test="rows/content/myapps_list">
@@ -379,6 +383,7 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
+                <script>$.IGRP.on('init',function(){    $('.isac td input[name="p_status_page"]').on('change',function(){            var isChecked = $(this).is(':checked'),        id     = $(this).parents('tr').find('input[name="p_id_page_fk"]').val(),        val    = isChecked ? 1 : 0;        $.IGRP.request('webapps?r=igrp_studio/ListaPage/changeStatus',{        params : {            p_id_page : id,                p_status_page : val            },        success:function(r){            var type = r.status ? 'success' : 'danger',                msg = r.status ? 'Estado alterado' : 'Estado não foi alterado';                                if(r.status)                $.IGRP.notify({                    message : msg,                        type    : type                    });            },            fail:function(){                        }        });            });    });</script>
                 <!-- FORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
                 <!-- TABLE JS INCLUDES -->
@@ -397,10 +402,10 @@ $.IGRP.rules.set({"p_env_fk":[{"name":"Show table and hide","events":"load","isT
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516727699930"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516727699930"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516727699930"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516727699930"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516727699930"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516727699930"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1517315264131"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1517315264131"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1517315264131"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1517315264131"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1517315264131"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1517315264131"/>
 </xsl:stylesheet>

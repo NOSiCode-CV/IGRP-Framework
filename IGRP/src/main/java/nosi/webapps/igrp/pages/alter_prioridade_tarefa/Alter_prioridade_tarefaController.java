@@ -56,7 +56,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 			TaskService task = new TaskService().getTask(model.getP_id());
 			if(task!=null){
 				task.setPriority(Integer.parseInt(model.getNova_prioridade()));
-				task = task.update();
+				task = task.update(task);
 				if(task!=null){
 					Igrp.getInstance().getFlashMessage().addMessage("success",gt("Prioridade da tarefa alterada com sucesso"));
 				}else{

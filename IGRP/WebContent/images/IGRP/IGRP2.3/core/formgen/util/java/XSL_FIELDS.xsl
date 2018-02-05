@@ -65,13 +65,25 @@
 					 		<xsl:value-of select="../../@type"/>
 					 	</xsl:variable>
 					 	
-					 	<xsl:if test="@persist='true'">
+					 	<xsl:if test="@persist='true' ">
 							<xsl:value-of select="concat($tag_name,'.setValue(gt(',$double_quotes,normalize-space(./value),$double_quotes,'));')"/>
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
 						
-						
+						<xsl:if test="@action and @app and @page">
+							<xsl:variable name="linkUrl">
+								<xsl:text>webapps?r=</xsl:text>
+								<xsl:value-of select="@app"/>
+								<xsl:text>/</xsl:text>
+								<xsl:value-of select="@page"/>
+								<xsl:text>/</xsl:text>
+								<xsl:value-of select="@action"/>
+							</xsl:variable>
+							<xsl:value-of select="concat($tag_name,'.setValue(',$double_quotes,$linkUrl,$double_quotes,')')"/>;
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+						</xsl:if>
 
 						<!-- 
 							add recursive properies
@@ -79,7 +91,7 @@
 						-->
 						<xsl:value-of select="concat($tag_name,'.propertie()')"/>
 						<xsl:for-each select="@*">
-							<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+							<xsl:call-template name="filterComponentsAttrs"/>
 		    			</xsl:for-each>
 						<xsl:value-of select="';'"/>
 						<xsl:value-of select="$newline"/>
@@ -105,7 +117,7 @@
 							<xsl:value-of select="$tab2"/>
 							<xsl:value-of select="concat($tag_name,'_check','.propertie()')"/>
 							<xsl:for-each select="@*">
-								<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
+								<xsl:call-template name="filterComponentsAttrs"/>
 			    			</xsl:for-each>
 							<xsl:value-of select="';'"/>
 					 	</xsl:if>

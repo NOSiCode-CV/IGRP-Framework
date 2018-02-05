@@ -5,12 +5,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.Part;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
@@ -47,7 +50,7 @@ public class TaskService extends Activit{
 	}
 	
 	public TaskService getTask(String id){
-		TaskService t = this;
+		TaskService t = new TaskService();
 		Response response = new RestRequest().get("runtime/tasks",id);
 		if(response!=null){
 			String contentResp = "";
@@ -67,13 +70,13 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.setFilter("size=100000000&assignee="+user);
+		this.setFilter("assignee="+user);
 		return this.getTasks();
 	}
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.setFilter("unassigned=true?&size=100000000&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
@@ -90,7 +93,7 @@ public class TaskService extends Activit{
 				e.printStackTrace();
 			}
 			if(response.getStatus()==200){
-				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, this.getClass());
+				TaskService dep = (TaskService) ResponseConverter.convertJsonToDao(contentResp, TaskService.class);
 				this.setTotal(dep.getTotal());
 				this.setSize(dep.getSize());
 				this.setSort(dep.getSort());
@@ -105,9 +108,9 @@ public class TaskService extends Activit{
 	}
 
 	
-	public TaskService create(){
-		TaskService t = this;
-		Response response = new RestRequest().post("runtime/tasks",ResponseConverter.convertDaoToJson(this));
+	public TaskService create(TaskService task){
+		TaskService t = new TaskService();
+		Response response = new RestRequest().post("runtime/tasks",ResponseConverter.convertDaoToJson(task));
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -126,9 +129,9 @@ public class TaskService extends Activit{
 	}
 	
 
-	public TaskService update(){
-		TaskService t = this;
-		Response response = new RestRequest().put("runtime/tasks",ResponseConverter.convertDaoToJson(this),this.getId());
+	public TaskService update(TaskService task){
+		TaskService t = new TaskService();
+		Response response = new RestRequest().put("runtime/tasks",ResponseConverter.convertDaoToJson(task),task.getId());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -146,7 +149,34 @@ public class TaskService extends Activit{
 		return t;
 	}
 	
+	public FileRest getFile(String url){
+		RestRequest request = new RestRequest();
+		request.setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
+		request.setBase_url("");
+		Response response = request.get(url);	
+		if(response!=null){
+			if(response.getStatus()==200) {
+				FileRest f = new FileRest();
+				f.setContent((InputStream) response.getEntity());
+				f.setSize(response.getLength());
+				f.setContentType(response.getMediaType().toString());
+				return f;
+			}
+		}
+		return null;
+	}
 	
+	public boolean addTaskFile(Part file,String taskId,String file_desc) throws IOException{
+		try {
+			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
+			file.delete();
+			return response.getStatus() == 201;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		file.delete();
+		return false;
+	}
 	
 	public boolean delete(String id){
 		Response response = new RestRequest().delete("runtime/tasks",id);
@@ -213,6 +243,11 @@ public class TaskService extends Activit{
 		this.variables.add(new TaskVariables(name, "local", type, value, ""));
 	}
 	
+	public boolean submitVariables() {
+		Response response = new RestRequest().post("runtime/tasks/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		System.out.println(response.getStatus());
+		return response.getStatus() == 201;
+	}
 	private boolean taskAction(String id,String action,String assignee){
 		JSONObject jobj = new JSONObject();
 		try {

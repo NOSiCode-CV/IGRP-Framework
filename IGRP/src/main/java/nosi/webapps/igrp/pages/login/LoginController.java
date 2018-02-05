@@ -12,6 +12,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
+import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
@@ -49,7 +50,7 @@ public class LoginController extends Controller {
 				if(user != null && activation_key.compareTo(System.currentTimeMillis() + "") > 0 && user.getStatus() == 0) {
 					user.setStatus(1);
 					user = user.update();
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Activação bem sucedida. Faça o login !!!"));
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("Ativação bem sucedida. Faça o login !!!"));
 				}else {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ooops !!! Ocorreu um erro na activação."));
 				}
@@ -81,11 +82,26 @@ public class LoginController extends Controller {
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
 		}
+		
 		Login model = new Login();
 		LoginView view = new LoginView(model);
 		
+		if(oauth2 != null && oauth2.equalsIgnoreCase("1") && !validateOAuth2Parameters(response_type, client_id, redirect_uri, scope)) {
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("Ocorreu um erro ... Autenticação OAuth2 falhada !"));
+			/*return redirect("igrp", "login", "login", 
+					new String[] {"oauth", "response_type", "client_id", "redirect_uri", "scope"}, 
+					new String[] {"1",response_type, client_id, redirect_uri, scope}); */
+		}
+		
 			if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
+				
 				model.load();
+				
+				if(model.getPassword() ==  null || model.getPassword().isEmpty()) {
+					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt("A sua conta ou palavra-passe está incorreta."));
+					return this.renderView(view,true);
+				}
+				
 				switch(Config.getAutenticationType()){
 					case "db":
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
@@ -112,19 +128,31 @@ public class LoginController extends Controller {
 						}
 					break;
 					
-					case "ldap":
+					case "ldap":{
 						if(this.loginWithLdap(model.getUser(), model.getPassword())) {
-							String destination = Route.previous();
-							if(destination != null) {
-								String qs = URI.create(destination).getQuery();
-								qs.indexOf("r=");
-								qs = qs.substring(qs.indexOf("r=") + "r=".length());
-								String param[] = qs.split("/");
-								Permission.changeOrgAndProfile(param[0]);
-								return this.redirectToUrl(destination);
+							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
+								StringBuilder oauth2ServerUrl = new StringBuilder();
+								User user = (User) Igrp.getInstance().getUser().getIdentity();
+								if(generateOauth2Response(oauth2ServerUrl, user, response_type, client_id, redirect_uri, scope)) {
+									return this.redirectToUrl(oauth2ServerUrl.toString());
+								}
+								else 
+									;// Go to error page 
+							}else {
+								String destination = Route.previous();
+								if(destination != null) {
+									String qs = URI.create(destination).getQuery();
+									qs.indexOf("r=");
+									qs = qs.substring(qs.indexOf("r=") + "r=".length());
+									String param[] = qs.split("/");
+									Permission.changeOrgAndProfile(param[0]);
+									return this.redirectToUrl(destination);
+								}
+								return this.redirect("igrp", "home", "index");
 							}
-							return this.redirect("igrp", "home", "index");
+							
 						}
+				}
 					break;
 					
 					default:;
@@ -143,7 +171,7 @@ public class LoginController extends Controller {
 		return this.redirect("igrp", "login", "login");
 	}
 	
-	// Dont delete this method 
+	// Dont delete this method  
 	public Response actionGoToLogin() throws IOException {
 		return this.redirect("igrp", "login", "login");
 	}
@@ -177,7 +205,7 @@ public class LoginController extends Controller {
 		return success;
 	}
 	
-	// Use ldap protocol to make login
+	// Use ldap protocol to make login 
 	private boolean loginWithLdap(String username, String password){
 		boolean success = false;
 		
@@ -185,9 +213,7 @@ public class LoginController extends Controller {
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		
 		success = ldap.validateLogin(username, password);
-		
 		//System.out.println(ldap.getError());
 		/** End **/ 
 		
@@ -260,7 +286,14 @@ public class LoginController extends Controller {
 						p2.setType("ENV");
 						p2.setType_fk(3);
 						
-						if(p1.insert() != null && p2.insert() != null) {
+						Profile tutorialApp = new Profile();
+						tutorialApp.setUser(newUser);
+						tutorialApp.setOrganization(new Organization().findOne(2));
+						tutorialApp.setProfileType(new ProfileType().findOne(3));
+						tutorialApp.setType("ENV");
+						tutorialApp.setType_fk(2);
+						
+						if(p1.insert() != null && p2.insert() != null && tutorialApp.insert() != null) {
 							UserRole role = new UserRole(); // For SSO via ApacheRealm 
 							String role_name = Igrp.getInstance().getServlet().getInitParameter("role_name");
 							role.setRole_name(role_name != null && !role_name.trim().isEmpty() ? role_name : "IGRP_ADMIN");
@@ -286,17 +319,46 @@ public class LoginController extends Controller {
 	private boolean generateOauth2Response(StringBuilder oauth2ServerUrl/*INOUT var*/, User user, String response_type, String client_id, String redirect_uri, String scope ) {
 		boolean result = true;
 		
-		String url_ = "http://localhost:8080/igrp-rest/rs/oauth2/authorization";
+		String url_ = Igrp.getInstance().getRequest().getRequestURL().toString().replace(Igrp.getInstance().getRequest().getRequestURI() + "", "");
+		url_ += "/igrp-rest/rs/oauth2/authorization";
 		String queryString = "?";
 		queryString += "authorize=1";
 		queryString += "&response_type=" + response_type;
 		queryString += "&client_id=" + client_id;
-		queryString += "&redirect_uri=" + redirect_uri;
-		queryString += "&scope=" + scope;
+		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
+		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");
+		queryString += "&userId=" + Base64.getEncoder().encodeToString(user.getUser_name().getBytes());
 		
 		oauth2ServerUrl.append(url_.concat(queryString));
 		
 		return result;
+	}
+	
+	private boolean validateOAuth2Parameters(String response_type, String client_id, String redirect_uri, String scope ) {
+		boolean result = true;
+		// Validate parameters 
+		try {
+			OAuthClient client = new OAuthClient().find().andWhere("client_id", "=", client_id).one();
+			result = !(!validateScope(scope, client) 
+						||  
+						(!client.getGrant_types().equalsIgnoreCase("authorization_code") && !client.getGrant_types().equalsIgnoreCase("implicit")) 
+						|| 
+						(!response_type.equalsIgnoreCase("token") && !response_type.equalsIgnoreCase("code")));
+		}catch(Exception e) {
+			//e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	
+	private boolean validateScope(String scopes, OAuthClient client) { // Ex.: scope1,scope2,...,scopeN 
+		if(scopes == null || scopes.isEmpty()) 
+			return true; // scopes is optional in this case
+		String []aux = scopes.split(",");
+		for(String obj : aux)
+			if(!client.getScope().contains(obj))
+				return false;
+		return true;
 	}
 	
 }

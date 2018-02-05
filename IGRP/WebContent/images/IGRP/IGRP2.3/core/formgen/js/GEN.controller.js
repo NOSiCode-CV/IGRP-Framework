@@ -1167,11 +1167,12 @@ if(input) {
 
 	GEN.edit = function(object,p){
 		
-		var modal   = $(VARS.edition.modal);
-		var genType = object.genType;
-		var type    = object.GET.type();
-		var id      = object.GET.id();
-		var options = p ? p : {};
+		var modal   		= $(VARS.edition.modal);
+		var genType 		= object.genType;
+		var type    		= object.GET.type();
+		var id      		= object.GET.id();
+		var options 		= p ? p : {};
+		var initialPosition = object.position != undefined && object.position != -1 ? object.position : object.order;
 
 		GEN.edit.object = object;
 		
@@ -1181,15 +1182,10 @@ if(input) {
 
 		//style config : if container hasTableRows, ID style is disabled
 		var fieldsRepeat = genType == 'field' ? object.parent.hasTableRows : false;
-		
-		//table fields do not have ID's (because they repeat)
-		if(fieldsRepeat){
-			object.customStyle.id = '';
-			$('.style-setter[rel="id"]',modal).attr('disabled',true);
-		}
-		
+
 		//fields type change
 		if(genType == 'field' && isTypeChangeble(object.type))
+			
 			object.setPropriety({
 				name : 'type_changer',
 				label : 'Type',
@@ -1207,7 +1203,7 @@ if(input) {
 					}()
 				},
 				onChange:function(v){
-	
+					
 					if(v != object.type){
 						
 						var dfield = GEN.getDeclaredField(v),
@@ -1222,24 +1218,38 @@ if(input) {
 
 							nprop  = {};
 
-						nfield.order = object.position;
+						nfield.order = initialPosition;
+
+						console.log(initialPosition)
 
 						object.parent.SET.field(nfield,function(){
 							
-							for(var p in nfield.proprieties)
-								
-								if(p in object.proprieties)
+							for(var p in nfield.proprieties){
+
+								if(p in object.proprieties){
 
 									nfield.proprieties[p] = object.proprieties[p];
 
+								}
+
+							}
+
 							object.parent.removeField( object.id, false,true,function(){});
+
+
 						
 						});
 					
-					}	
-					
+					}
+
 				}
 			});
+		
+		//table fields do not have ID's (because they repeat)
+		if(fieldsRepeat){
+			object.customStyle.id = '';
+			$('.style-setter[rel="id"]',modal).attr('disabled',true);
+		}
 
 		modal.attr('gen-type',genType);
 		
@@ -1248,6 +1258,7 @@ if(input) {
 		modal.attr('object-id',id);
 
 		if(object.parent)
+
 			$('.modal-footer .info.parent',modal).text(object.parent.GET.tag()).show();
 
 		$('.modal-footer .info.object',modal).text(object.GET.tag()).show();
@@ -1255,6 +1266,7 @@ if(input) {
 		$('.modal-footer .info.type',modal).text(object.GET.type()).show();
 
 		if(GEN.edit.object.xslOptions)
+
 			$('#use-default-xsl').prop('checked', GEN.edit.object.xslOptions.useDefault);
 
 		if(GEN.edit.object.customStyle)
@@ -1288,12 +1300,56 @@ if(input) {
 		if(options.tab)
 			$(modal.find('.modal-header > ul > li[rel="'+options.tab+'"]')[0]).click()
 		else
-			$(modal.find('.modal-header > ul > li')[0]).click()
+			$(modal.find('.modal-header > ul > li')[0]).click();
 		
-		$('select',modal).select2();
+		$('select',modal).each(function(i,s){
+			
+			var o   = {},
+
+				rel = $(s).attr('rel');
+
+			if($(s).attr('can-add') == 'true')
+
+				o.tags = true;
+
+			$(s).select2(o).on("select2:select", function (e) {
+
+				var options = GEN.edit.object.propertiesOptions[rel].value ? GEN.edit.object.propertiesOptions[rel].value.options : GEN.edit.object.propertiesOptions[rel].propriety.options,
+
+					found   = false;
+
+				for(var i = 0; i < options.length; i++) {
+				    if (options[i].value == e.params.data.id) {
+				        found = true;
+				        break;
+				    }
+				}
+
+				if(!found)
+					options.push({
+						value : e.params.data.id,
+						label : e.params.data.id,
+						attributes : [
+							{ name : 'action', value :false },
+							{ name : 'app', value :false },
+							{ name : 'page', value :false },
+							{ name : 'link', value :e.params.data.id },
+
+						]/*{
+							action : false,
+							app : false,
+							page : false,
+							link : e.params.data.id
+						}*/,
+						custom : true
+					});
+
+			});
+
+		})
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
-		if(object.formField)
+		if(object.formField || object.type == 'hidden')
 			GENRULES.setTargets(object,GEN);
 		else
 			$('.modal-header ul li[rel="rules"]',modal).hide();
@@ -1335,9 +1391,7 @@ if(input) {
 	GEN.edit.checkXSLChanges = function(){
 		
 		var object    = GEN.edit.object;
-		
-		
-		
+
 		if(object){
 			var template  = object.template ? object.template : object.templates;
 			var isChecked = $('#use-default-xsl').is(':checked');
@@ -1390,7 +1444,7 @@ if(input) {
 		//var template = GEN.edit.object.template ? GEN.edit.object.XSLToString() : GEN.edit.object.templates[Object.keys(GEN.edit.object.templates)[0]];
 		
 		$('.object-xsl-templates',modal).hide().html('');
-
+		
 		GEN.edit.setXSLValue(template);
 
 		$('#gen-edit-xsl').attr('use-default', GEN.edit.object.xslOptions.useDefault )
@@ -2073,7 +2127,7 @@ if(input) {
 				$(viewInclude).insertBefore( $('style#custom-css') );
 
 			else
-				$.getScript(viewLink);
+				$('html head').append(viewInclude);
 
 		}
 	};
@@ -2180,6 +2234,18 @@ if(input) {
 		        event.preventDefault();
 		        return false;
 		    }
+		});
+		
+		$(document).on('click','.gen-editor-errors table tr',function(){
+			
+			if( GEN.server.activeMenu.editor ){
+				
+				var line = ($(this).attr('line')*1) - 1;
+				
+				GEN.server.activeMenu.editor.setSelection( { line: line, ch: 0 }, { line:line } )
+				
+			}
+			
 		});
 
 		$('.gen-download-content').on('click',function(e){
@@ -2651,7 +2717,7 @@ if(input) {
 				
 				var vUrl    = $(this).attr('href') ? $(this).attr('href') : $(this).attr('fw_href') ;
 				var pageXML = vkbeautify.xml(GEN.getXML());
-				var pageXSL = vkbeautify.xml(GEN.getXSL({
+				var pageXSL = vkbeautify.xmlmin(GEN.getXSL({
 					removeGenAttrs:true
 				}));
 
@@ -2728,14 +2794,14 @@ if(input) {
 											vtype    = mtype == 'error' ? 'danger' : mtype,
 											jsonStr  = $(msg).text(),
 											jsonRes  = JSON.parse(jsonStr),
-											
 											text     = jsonRes.msg;
-											
-										
+
 										notifyOptions.type = vtype;
 
-										$.notify({											
+										$.notify({		
+											
 											message: text,
+											
 										},notifyOptions);
 										
 										
@@ -2760,17 +2826,23 @@ if(input) {
 												menu.addClass('has-error');
 												
 												partErrors.forEach(function(err){
-													
-													editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
+
+														
+													GEN.server.activeMenu.editor.addLineClass( (err.line*1)-1 ,'gutter','has-error');
+													//editor.find('.CodeMirror-linenumber:contains('+err.line+')').addClass('has-error')
 													
 													errorsW.find('tbody').append(
 															
 														'<tr line="'+err.line+'"><td class="gen-editor-err-line">'+err.line+'</td><td class="gen-editor-err-desc">'+err.error+'</td></tr>'
 													)
+														
+
 													
 												});
 												
-												editor.append(errorsW)
+												editor.append(errorsW);
+												
+												GEN.server.activeMenu.editor.refresh();
 											}
 										}
 										
@@ -3021,7 +3093,11 @@ if(input) {
 		
 		$('.server-transform').removeClass('has-error');
 		
-		$('.CodeMirror-linenumber').removeClass('has-error');
+		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
+		
+		console.log('removee');
+		
+		console.log( $('.CodeMirror-gutter-wrapper') )
 		
 		if(resize)
 			GEN.resizeCodeMirrorArea();
@@ -3072,11 +3148,15 @@ if(input) {
 	var getBaseXSL = function(){//GET PAGE BASE XSL 
   		$.ajax({
   			url:GEN.path+'/util/base.xsl',
-  			success:function(base){
-  				var xmlString = (new XMLSerializer()).serializeToString(base);
-			    var parts = xmlString.split('<!--SPLIT-->');
+  			success:function(base,e,d){
+  				//var xmlString = (new XMLSerializer()).serializeToString(base);
+  				var xmlString = d.responseText;
+  				
+  				var parts = xmlString.split('<!--SPLIT-->');
 
-			    GEN.XSL = $(base);
+			    //GEN.XSL = $(base);
+  				
+  				GEN.XSL = $(xmlString);
 			
 			    GEN.baseXSL = {
 			    	top    : parts[0],
@@ -3094,7 +3174,7 @@ if(input) {
 
 				baseXslSet = true;
 
-				loadPageContents({ source: genparams.dataSrc });
+				loadPageContents({ source:	 genparams.dataSrc });
 
 			    //if(json && json[0]) GEN.import();
   			}
@@ -3935,7 +4015,9 @@ if(input) {
 		var value   = p.value;
 
 		if(GEN.DETAILS.linkPageList && GEN.DETAILS.linkPageList[0])
+			
 			GEN.DETAILS.linkPageList.forEach(function(page){
+				
 				options.push({
 					value      : page.id.toString(),
 					label      : page.description,
@@ -3943,9 +4025,10 @@ if(input) {
 						{ name:'app',value:page.app },
 						{ name:'page',value:page.page },
 						{ name:'action',value:page.action },
-						{ name:'link',value: GEN.UTILS.link_preview+page.link }
+						{ name:'link',value: /*GEN.UTILS.link_preview+*/page.link }
 					]
 				});
+				
 			});
 
 		var setBTNAction = function(id,object){
@@ -3953,6 +4036,8 @@ if(input) {
 				for(var i = 0; i < options.length; i++){
 					var o = options[i];
 					field.action = {};
+					
+					
 
 					if(o.value && (id == o.value) ){
 						o.attributes.forEach(function(att){
@@ -3992,11 +4077,70 @@ if(input) {
 				setBTNAction(val);
 			}
 		}
-
+		
+		if(p.order >= 0)
+			params.order = p.order;
+		
 		if(p.xmlAttr)
 			params.xmlAttr = p.xmlAttr
 
 		field.setPropriety(params);
+		
+		if(p.customAction){
+			
+			field.setPropriety({
+				name : 'custom_action',
+				label:'Custom Action',
+				value : '',
+				order : p.order || false
+				//size : 12
+			});
+
+			field.setPropriety({
+				name : 'action_type',
+				label : 'Custom Action',
+				value : false,
+				onEditionStart : function(o){
+
+					var customHolder = $('.gen-properties-setts-holder>[rel="custom_action"]'),
+
+						actionHolder = $('.gen-properties-setts-holder>[rel="action"]');
+
+					var checkTypes = function(v){
+
+						if(v){
+
+							customHolder.show();
+
+							actionHolder.hide();
+							
+							//customHolder.insertAt(  )
+
+						}else{
+
+							customHolder.hide();
+
+							actionHolder.show();
+
+						}
+
+					};
+
+					o.input.on('change',function(){
+
+						var value = $(this).find('input').is(':checked');
+
+						checkTypes(value);
+
+					});
+
+					checkTypes(o.value);
+					
+
+				}
+			});
+
+		}
 
 		setBTNAction(field.GET.action());
 	}
@@ -4586,8 +4730,9 @@ if(input) {
 			handle: '.container-mover',
 			tolerance:'pointer',
 			helper:function(){ return $('<div></div>') },
+	
 			receive:function(e,ui){
-
+				
 				if(ui.helper && ui.helper.hasClass('gen-declared-containers')){
 
 					//NEW ELEMENT DROP
@@ -4630,13 +4775,39 @@ if(input) {
 					GEN.checkColumnComponents(col);
 				}
 
-				$('#gen-view .ui-sortable-helper').remove();
+				var sender = ui.sender;
+
+				var senderCol = $(sender.parents('.gen-column')[0]);
+
+				GEN.checkColumnComponents(senderCol);
+
+				/*if(!sender.find('>.gen-declared-containers')[0])
+					console.log(sender.parent())*/
+
+				$('#gen-design .ui-sortable-helper').remove();
 			},
 			stop:function(e,ui){	
 				var holder = ui.item;
 				holder.removeAttr('style');
-				$('#gen-view .ui-sortable-helper').remove();
+				$('#gen-design .ui-sortable-helper').remove();
 			},
+			update:function(e,ui){
+				$('#gen-design .ui-sortable-helper').remove();
+			},
+			remove:function(e,ui){
+				$('#gen-design .ui-sortable-helper').remove();
+				console.log('remove')
+			},
+			change : function(e,ui){
+
+				if(ui.sender && ui.sender.find('>.gen-declared-containers').length <= 1){
+
+					var senderCol = $(ui.sender.parents('.gen-column')[0]);
+
+					senderCol.attr('empty',true)
+				}
+	
+			}
 		}).disableSelection();
 	}
 

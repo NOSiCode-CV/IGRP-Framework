@@ -23,18 +23,33 @@ body[view="gen-design"] .gen-viewers-toolbar{
 	margin: 0;
 }
 
-#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder>.gen-settings-holder{
+/*#gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder>.gen-settings-holder{
 	position: absolute;
 	z-index: 15;
 	top: 10px;
 	right: 10px;
 	opacity: 0;
 	transition: opacity .5s
-}
+}*/
 
 #gen-design>.gen-rows-holder>.row-fluid>.gen-column>.gen-column-inner>.gen-container-placeholder>li>.gen-container-holder:hover>.gen-settings-holder{
 	opacity: 1;
 }
+
+#gen-design>.gen-rows-holder>.row.row-fluid>.gen-column>.gen-inner>.gen-container-placeholder>.gen-declared-containers>.gen-container-holder>.container-contents>.box>.box-body{
+  padding-right: 50px;
+  padding-left: 50px;
+  padding-top: 15px;
+}
+
+.gen-container-item{
+	margin-top: 15px;
+}
+
+.gen-container-placeholder[place="c"]>.gen-declared-containers:first-child .gen-container-item{
+  margin-top: 0
+}
+
 
 #igrp-contents {
 	padding-top: 0
@@ -45,8 +60,10 @@ body[view="gen-design"] .gen-viewers-toolbar{
 }
 
 #igrp-sidebar.sidebar{
-	padding-top: 39px;
+	margin-top: 128px;
+	top: 0
 }
+
 
 .gen-viewers-toolbar{
 	z-index: 100;
@@ -124,6 +141,7 @@ a, button {
 	width: auto;
 }
 /**/
+.gen-container-placeholder
 .gen-rows-holder{
 	min-height: 55px;
 	padding-top: 0px;
@@ -275,6 +293,25 @@ a, button {
 	padding-bottom: 4px;
 	
 }
+
+.gen-container-placeholder[place="c"] > .gen-declared-containers:first-child{
+	margin-top: 30px!important;
+}
+
+.gen-container-holder>.box-tools {
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: -24px;
+    width: 100%;
+    opacity: 0;
+    transition: opacity .4s;
+}
+
+.gen-container-holder:hover>.box-tools {
+	opacity: 1
+}
+
 .gen-settings-holder .btn{ 
 	padding: 0 5px;
 	opacity: .4;
@@ -330,6 +367,69 @@ a, button {
 	float: left;
 }
 
+.gen-searcher-wrapper{
+	position: fixed;
+	top: 55px;
+	z-index: 100;
+	left: 0;
+	padding: 0;
+	margin: 0
+	/*height: calc( 100% - 55px );*/
+}
+
+.gen-searcher-wrapper:not(.searching){
+max-height: 34px;
+}
+
+.gen-types-search{
+	border-left: 0;
+	border-right: 0;
+	border-top: 0;
+	padding-right: 20px;
+	z-index: 10;
+	box-shadow: none!important
+}
+
+.gen-type-search-clear{
+	position: absolute;
+	top: 8px;
+	right: 2px;
+	margin-top: -7px;
+	z-index: 15;
+	padding: 5px;
+	cursor: pointer;
+	color: #d8d8d8;
+	opacity: 0;
+	transition: .4s;
+}
+
+.gen-searcher-wrapper.searching .gen-type-search-clear{
+	opacity: 1
+}
+
+.gen-searcher-wrapper .gen-searcher-contents{
+	opacity: 0;
+	/*transition: opacity .4s;*/
+	background: #fdfdfd;
+	padding: 0;
+	position: relative;
+	top: -30px;
+	z-index: -1;
+	overflow: auto
+}
+
+.gen-searcher-contents.active{
+	opacity: 1;
+	top: 0;
+	z-index: 101
+}
+
+.gen-searcher-wrapper .gen-searcher-contents h5{
+	margin:0 0 5px;
+	padding: 15px 10px 0;
+}
+
+
 /* COMPONENTS FIELDS TAB */
 .gen-types-tab {
 	margin:-1px -21px;
@@ -342,32 +442,63 @@ a, button {
 	float: left
 }
 
-.gen-types-tab .treeview-menu{
-	background: white
+.gen-types-tab .treeview-menu,
+.treeview-menu{
+	background: #fdfdfd
 }
 
 #igrp-sidebar{
-	margin-top: 00px;
+	margin-top: 0px;
+}
+
+#igrp-sidebar h5{
+	color: #c5c5c5
+}
+
+#igrp-sidebar .nav-sidebar{
+	margin-right: 0;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+#gen-page-properties .gen-page-properties-inner{
+	padding: 10px;
+}
+
+.gen-page-props-menus{
+	margin-bottom: 20px;
+}
+
+.gen-page-properties-inner ul{
+	padding: 0
+}
+
+.gen-page-properties-inner ul li a{
+	display: block;
+	cursor: pointer;
+	margin-bottom: 4px;
+	text-decoration: none;
 }
 
 #igrp-sidebar .nav-tabs { 
 	border-bottom: 1px solid #f0f0f0; 
 	position: fixed;
 	z-index: 100;
-    top: 55px;
+    top: 89px;
     left: 1px;
     padding: 0;
     background: white;
+    box-shadow: 0px 3px 5px -2px #fafafa
 }
 
 #igrp-sidebar .nav-tabs li{
 	padding: 0;
 	text-align: center;
-	border-right: 1px solid #f0f0f0;
+
 }
 
 #igrp-sidebar .nav-tabs li:last-child{
-
+	border-right: 1px solid #f0f0f0;
 }
 
 #igrp-sidebar .nav-tabs li a i{
@@ -1057,6 +1188,7 @@ textarea.form-control.propriety-setter{
 	background-repeat: no-repeat;
     background-size: 160px;
     background-position: center;
+    min-height: 55px;
     
 }
 
@@ -1191,6 +1323,7 @@ new rows / columns style
 	background:white;
 	z-index:10;
 	padding:10px 30px;
+	overflow:auto;
 }
 .gen-editor-errors table{
 	width:100%;
@@ -1212,7 +1345,7 @@ new rows / columns style
 .gen-editor-errors table tbody tr:hover{
 	background-color:none!important;
 }
-.CodeMirror-linenumber.has-error{
+.CodeMirror-gutter-wrapper.has-error .CodeMirror-linenumber{
 	background:#fa0000;
 	color:white;
 }
@@ -1227,7 +1360,6 @@ new rows / columns style
 	background:#fa0000;
 	
 }*/
-
 /* type changer */
 
 .modal-footer [rel="type_changer"]{
@@ -1252,6 +1384,45 @@ new rows / columns style
 }
 
 .modal-footer [rel="type_changer"] .select2-container{
-	
 
+}
+
+
+
+#igrp-sidebar::-webkit-scrollbar,
+.gen-searcher-wrapper .gen-searcher-contents::-webkit-scrollbar {
+    width: 4px; 
+}
+#igrp-sidebar::-webkit-scrollbar-thumb,
+.gen-searcher-wrapper .gen-searcher-contents::-webkit-scrollbar-thumb{
+	background: #ddd
+}
+
+.no-scroll{
+	overflow: hidden!important;
+}
+
+@media (min-width: 768px) {
+  #igrp-sidebar {
+    height: calc(100% - 130px);
+  }
+}
+
+/*
+	search toolbar
+	30.01.2018
+	william.lima
+*/
+#igrp-sidebar .nav-tabs li{
+	border-right: 0;
+}
+#igrp-sidebar .nav-tabs > li.active > a:after {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    height: 1px;
+    background: #78b3d2;
+    display: block;
+    width: 100%;
 }

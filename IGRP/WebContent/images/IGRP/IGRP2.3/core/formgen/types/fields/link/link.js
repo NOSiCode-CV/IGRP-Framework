@@ -19,9 +19,21 @@ var LINKFIELD = function(type,params){
 
 		GEN.setBtnActionAttr(field,{
 			value: proprieties && proprieties.action ? proprieties.action : '',
+			customAction : true,
+			order  	     : 3,
+			//valuePersist:true,
 			onChange:function(v){
+				
+				//var isCustom = field.GET.action_type ? field.GET.action_type() : false;
+				var isCustom 	 = $('.propriety-setter[rel="action_type"]').is(':checked') || false,
+
+					customAction = $('.propriety-setter[rel="custom_action"]').val();
+
 				field.proprieties.action.params = v.params;
-				field.xml.dataValue = v.params.link
+
+				field.xml.dataValue = isCustom ? customAction : v.params.link;
+
+				field.propertiesOptions.action.valuePersist = isCustom;
 			}
 		});
 

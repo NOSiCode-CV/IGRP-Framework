@@ -5,11 +5,11 @@
 
   <context-param>
       <param-name>workspace</param-name>
-      <param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value> 
+      <param-value></param-value> 
   </context-param>
   
   <servlet>
-    <servlet-name>igrp</servlet-name>
+    <servlet-name>IGRP</servlet-name>
     <servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
     <init-param> 
       <param-name>authentication_type</param-name>
@@ -30,17 +30,19 @@
 	    <servlet-name>igrpsso</servlet-name>
 	    <servlet-class>nosi.core.servlet.IgrpOAuth2SSO</servlet-class>
 	</servlet>
-  
+  <!--  
   <servlet>
     <servlet-name>Log4JInitServlet</servlet-name>
     <servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class>
+     
     <init-param>
       <param-name>log4j-properties-location</param-name>
-      <param-value>WEB-INF/log4j.properties</param-value>
+      <param-value>src/main/resources/log4j2.properties</param-value>
     </init-param>
+    
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
+ -->
   <filter>
     <filter-name>IgrpCharacterEncoding</filter-name>
     <filter-class>nosi.core.filter.CharacterEncodingFilter</filter-class>
@@ -64,7 +66,7 @@
 	</filter-mapping>
   
   <servlet-mapping>
-    <servlet-name>igrp</servlet-name>
+    <servlet-name>IGRP</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>

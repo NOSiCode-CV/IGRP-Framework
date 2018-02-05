@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
+import nosi.core.exception.NotFoundHttpException;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
@@ -158,6 +159,7 @@ public abstract class AbstractField implements Field{
 			    			this.value = ""+ m.invoke(model);
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
+						throw new NotFoundHttpException("Error no config value line 162.AbstractField\n\n\n"+e.getMessage());
 					}                                                                     
 		    	}
 		    }

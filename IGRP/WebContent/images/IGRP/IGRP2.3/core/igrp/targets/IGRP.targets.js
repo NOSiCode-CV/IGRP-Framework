@@ -326,10 +326,8 @@
 
 		//blank (popup)
 		var modal       = function(p){
-			var url = p.url;
-			
-			if(url.indexOf('&target=_blank') == -1)
-				url+='&target=_blank';
+		
+			var url = setTargetParameter(p.url);
 			
 			console.log(url);
 			
@@ -477,6 +475,26 @@
 		var remoteList = function(p){
 
 		};
+		
+		var setTargetParameter = function(url){
+			
+			if(url.indexOf('target=_blank') == -1){
+				var symb = getParameterSymbol(url);
+				url+=symb+'target=_blank';
+			}
+			return url;
+		}
+		
+		var getParameterSymbol = function(url){
+		
+			var symb = "&";
+			
+			if(url.indexOf('?') == -1)
+				symb = '?';
+			
+			return symb;
+		}
+		
 
 		$.IGRP.targets = {
 			

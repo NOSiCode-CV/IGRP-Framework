@@ -16,7 +16,7 @@ public class OAuthClient extends Model{
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
 	}
-	
+	 
 	public void setUris_de_redirecionamento(String uris_de_redirecionamento){
 		this.uris_de_redirecionamento = uris_de_redirecionamento;
 	}

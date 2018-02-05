@@ -14,7 +14,7 @@
 #gen-design .gen-row{
 	position: relative;
 	border: 1px dashed #ececec;
-	margin-bottom: 15px;
+	margin-bottom: -2px;
 	min-height: 110px;
 }
 
@@ -283,7 +283,7 @@
 }
 
 .gen-container-placeholder {
-	min-height: 55px;
+	/*min-height: 55px;*/
 	background-color: transparent;
 	transition:background-color .5s;
 }

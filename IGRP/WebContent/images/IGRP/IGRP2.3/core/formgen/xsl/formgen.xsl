@@ -101,12 +101,27 @@
                             </li> 
                             
                         </ul>
+                        
+                        <div class="form-group gen-searcher-wrapper col-md-2 col-sm-3 col-xs-12" h-calc="-55">
+                           
+                            <input type="text" class="form-control gen-types-search" placeholder="Pesquisar..."/>
+                            
+                            <span class="gen-type-search-clear">
+                              <i class="fa fa-times"></i>
+                            </span>
+
+                            <div class="gen-searcher-contents">
+                              
+                            </div>
+
+                          </div>
 
                         <div class="tab-content" style="margin:0 -20px;padding:0;border:0">
                             <div role="tabpanel" class="tab-pane active" id="gen-list-components">
                                 <ul class="treeview-menu gen-containers menu-open" style="display:block">
                                     <xsl:for-each select="$gen/containers/item">
-                                        <li class="gen-declared-containers" name="{name}" type="{type}" reject="{reject}" accept="{accept}" hasField="{hasField}">
+                                        <xsl:sort select="label"/>
+                                        <li class="gen-declared-containers" label="{label}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" hasField="{hasField}">
                                             <a href="#">
                                                 <xsl:call-template name="getComponentIcon"/>
                                                 <span>
@@ -120,7 +135,8 @@
                             <div role="tabpanel" class="tab-pane" id="gen-list-fields">
                                 <ul class="treeview-menu gen-fields menu-open" style="display:block">
                                     <xsl:for-each select="$gen/fields/item">
-                                        <li alt="{name}" title="{name}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" class="gen-declared-fields">
+                                        <xsl:sort select="label"/>
+                                        <li alt="{name}" title="{name}" label="{label}" name="{name}" type="{type}" reject="{reject}" accept="{accept}" class="gen-declared-fields">
                                             <a href="#">
                                                 <xsl:call-template name="getComponentIcon"/>
                                                 <span >
@@ -495,6 +511,8 @@
         </form>
 
         <script src="{$path}/core/bootstrap/plugins/tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
+        
+        <script src="{$path}/core/formgen/js/GEN.componentsSearcher.js"></script>
 
         <!-- RULES -->
         <script src="{$path}/core/igrp/IGRP.rules.class.js"></script>
@@ -538,7 +556,7 @@
         <!--gen-->
         <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
         <script src="{$path}/core/formgen/js/chance.js"></script>
-        <script src="{$path}/core/formgen/js/jquery-ui.js"></script>
+        <script src="{$path}/core/formgen/js/jquery-ui.min.js"></script>
         <script src="{$path}/core/formgen/js/string.js" charset="utf-8"></script>
         <!-- <script src="{$path}/core/formgen/js/xml.xsl.transform.js"></script> -->
         <script src="{$path}/core/formgen/js/GEN.converter.2dot2.js"></script>

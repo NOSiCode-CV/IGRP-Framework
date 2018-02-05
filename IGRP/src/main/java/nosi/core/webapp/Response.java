@@ -1,7 +1,9 @@
 package nosi.core.webapp;
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import nosi.core.webapp.webservices.helpers.FileRest;
 
 /**
  * @author: Emanuel Pereira
@@ -14,7 +16,7 @@ public class Response extends HttpServletResponseWrapper{
 	public static final String FORMAT_HTML = "text/html";
 	public static final String FORMAT_XSL = "text/xsl";
 	public static final String FORMAT_TEXT = "text/plain";
-	
+	public static final String FORMAT_PDF = "application/pdf";
 	public static final String FORMAT_RAW = "application/octet-stream";
 	
 	public static final String CHARSET_UTF_8 = "UTF-8";
@@ -26,7 +28,7 @@ public class Response extends HttpServletResponseWrapper{
 	private String url;
 	
 	private HttpStatus httpStatus; // Http statusCode + Http statusText
-	
+	private FileRest file;
 	private byte []stream; // For raw format (Ex.: binary files ...)
 	
 	public Response(HttpServletResponse response) {
@@ -73,4 +75,14 @@ public class Response extends HttpServletResponseWrapper{
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+	public FileRest getFile() {
+		return file;
+	}
+
+	public void setFile(FileRest file) {
+		this.file = file;
+	}
+
+
 }

@@ -8,7 +8,6 @@
                 <!-- TABLE CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/datatable/dataTables.bootstrap.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/igrp.tables.css?v={$version}"/>
-                <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/table/table-colors.css?v={$version}"/>
                 <!-- SELECT CSS INCLUDES -->
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.min.css?v={$version}"/>
                 <link rel="stylesheet" type="text/css" href="{$path}/plugins/select2/select2.style.css?v={$version}"/>
@@ -22,7 +21,7 @@
                             <xsl:call-template name="IGRP-sidebar"/>
                             <div class="col-sm-9 col-md-10 col-md-offset-2 col-sm-offset-3 main" id="igrp-contents">
                                 <div class="content">
-                                    <div class="row " id="row-229b88b0">
+                                    <div class="row " id="row-25a38d9d">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/sectionheader_1">
@@ -92,7 +91,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row " id="row-948b3992">
+                                    <div class="row " id="row-a3373441">
                                         <div class="gen-column col-sm-12">
                                             <div class="gen-inner">
                                                 <xsl:if test="rows/content/org_table">
@@ -132,7 +131,9 @@
                                                                                         </span>
                                                                                     </th>
                                                                                 </xsl:if>
-                                                                                <th class="igrp-table-ctx-th"/>
+                                                                                <xsl:if test="rows/content/org_table/table/context-menu/item">
+                                                                                    <th class="igrp-table-ctx-th"/>
+                                                                                </xsl:if>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -156,7 +157,7 @@
                                                                                         </td>
                                                                                     </xsl:if>
                                                                                     <xsl:if test="org_nome">
-                                                                                        <td align="center" data-row="{position()}" data-title="{../../../fields/org_nome/label}" class="text" item-name="org_nome">
+                                                                                        <td align="center" data-order="{org_nome}" data-row="{position()}" data-title="{../../../fields/org_nome/label}" class="text" item-name="org_nome">
                                                                                             <span class="">
                                                                                                 <xsl:value-of select="org_nome"/>
                                                                                             </span>
@@ -181,11 +182,13 @@
                                                                                             </xsl:choose>
                                                                                         </td>
                                                                                     </xsl:if>
-                                                                                    <td class="igrp-table-ctx-td">
-                                                                                        <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
-                                                                                            <xsl:with-param name="row-params" select="context-menu"/>
-                                                                                        </xsl:apply-templates>
-                                                                                    </td>
+                                                                                    <xsl:if test="//rows/content/org_table/table/context-menu/item">
+                                                                                        <td class="igrp-table-ctx-td">
+                                                                                            <xsl:apply-templates select="../../context-menu" mode="table-context-inline">
+                                                                                                <xsl:with-param name="row-params" select="context-menu"/>
+                                                                                            </xsl:apply-templates>
+                                                                                        </td>
+                                                                                    </xsl:if>
                                                                                 </tr>
                                                                             </xsl:for-each>
                                                                         </tbody>
@@ -222,10 +225,10 @@ $.IGRP.rules.set({"p_aplicacao":[{"name":"show table","events":"load,change","is
             </body>
         </html>
     </xsl:template>
-    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516713188554"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516713188554"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516713188554"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516713188554"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516713188554"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516713188554"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-functions.tmpl.xsl?v=1516992419340"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-variables.tmpl.xsl?v=1516992419340"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-home-include.tmpl.xsl?v=1516992419340"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1516992419340"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1516992419340"/>
+    <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1516992419340"/>
 </xsl:stylesheet>

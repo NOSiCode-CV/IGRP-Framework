@@ -1,6 +1,3 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.registarutilizador;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
@@ -23,6 +20,7 @@ import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class RegistarUtilizadorController extends Controller {		
+
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchAlgorithmException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
@@ -57,7 +55,7 @@ public class RegistarUtilizadorController extends Controller {
 					Application app = new Application().find().andWhere("dad", "=", "tutorial").one();
 					ProfileType prof = new ProfileType().find().andWhere("code","=","perfil.tutorial").andWhere("application", "=",app.getId()).one();
 					Organization org = new Organization().find().andWhere("code","=","org.tutorial").andWhere("application", "=",app.getId()).one();
-					//Atribui acesso a aplicação IGRP Tutorial
+					//Atribui acesso a aplicaÃ§Ã£o IGRP Tutorial
 					Profile p1 = new Profile(app.getId(), "ENV",prof, user,org);
 					p1.insert();
 					Profile p2 = new Profile(prof.getId(), "PROF", prof, user, org);
@@ -73,18 +71,22 @@ public class RegistarUtilizadorController extends Controller {
 		}
 		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
-		view.title = "";
+		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public void actionGuardar() throws IOException{
-		
+
+	public Response actionGuardar() throws IOException{
+		/*----#START-PRESERVED-AREA(GUARDAR)----*/
+		return this.redirect("igrp","registarutilizador","index");
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
-	public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
+	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+public Response actionEditar(@RParam(rParamName = "p_id") String idUser) throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		
 		RegistarUtilizador model = new RegistarUtilizador();		
 		User user = new User().findOne(Integer.parseInt(idUser));		
 		model.setNome(user.getName());
@@ -113,20 +115,11 @@ public class RegistarUtilizadorController extends Controller {
 			}			
 		}		
 		RegistarUtilizadorView view = new RegistarUtilizadorView(model);
-		view.title = "Atualizar utilizador";
+
+		view.titulo_text.setValue("Atualizar utilizador");
 		view.btn_guardar.setLink("editar&p_id=" + idUser);
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+	
 	}
-	
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("red","teste","action");
-		/*----#END-PRESERVED-AREA----*/
-	}	
-	
-
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
 	/*----#END-PRESERVED-AREA----*/
 }

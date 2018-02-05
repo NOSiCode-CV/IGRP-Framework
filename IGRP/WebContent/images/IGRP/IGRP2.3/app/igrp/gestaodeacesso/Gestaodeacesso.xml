@@ -30,7 +30,7 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=41</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=42</preserve_url>
     </plsql>
     <content>
         <title>Gestao de Acesso</title>
@@ -67,7 +67,7 @@
                     <rules/>
                 </aplicacao>
                 <adicionar_organica1 name="p_adicionar_organica1" type="link" target="modal" target_fields="" closerefresh="true" action="index" page="NovaOrganica" app="igrp" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-plus-square" maxlength="30" placeholder="" right="true">
-                    <label>Adicionar Orgânica</label>
+                    <label>Adicionar Organização</label>
                     <value>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novaorganica/NovaOrganica.xsl</value>
                 </adicionar_organica1>
                 <gestao_de_utilizadores1 name="p_gestao_de_utilizadores1" type="link" target="_self" target_fields="" closerefresh="false" action="index" page="PesquisarUtilizador" app="igrp" class="success" btnSize="" iconColor="#333" iconClass="" img="fa-users" maxlength="30" placeholder="" right="true">
@@ -98,7 +98,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Consectetur labore aliqua volu</org_nome>
+                        <org_nome name="p_org_nome">Dolor accusantium perspiciatis</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -110,7 +110,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Ipsum rem laudantium sit deser</org_nome>
+                        <org_nome name="p_org_nome">Amet sit aliqua sit lorem</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -122,7 +122,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Omnis aperiam unde adipiscing</org_nome>
+                        <org_nome name="p_org_nome">Adipiscing dolor lorem elit re</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -134,7 +134,7 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Doloremque consectetur dolorem</org_nome>
+                        <org_nome name="p_org_nome">Perspiciatis rem officia sit c</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
@@ -146,51 +146,12 @@
                         </context-menu>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <org_nome name="p_org_nome">Aliqua omnis deserunt rem lore</org_nome>
+                        <org_nome name="p_org_nome">Labore dolor perspiciatis ut a</org_nome>
                         <mostrar_perfis name="p_mostrar_perfis" desc="true">undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarmenu/PesquisarMenu.xsl</mostrar_perfis>
                         <mostrar_perfis_desc name="p_mostrar_perfis_desc">Mostrar perfis</mostrar_perfis_desc>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
-                <legend_color>
-                    <title>Legenda</title>
-                    <item>
-                        <label>Cor 1</label>
-                        <value>1</value>
-                    </item>
-                    <item>
-                        <label>Cor 2</label>
-                        <value>2</value>
-                    </item>
-                    <item>
-                        <label>Cor 3</label>
-                        <value>3</value>
-                    </item>
-                    <item>
-                        <label>Cor 4</label>
-                        <value>4</value>
-                    </item>
-                    <item>
-                        <label>Cor 5</label>
-                        <value>5</value>
-                    </item>
-                    <item>
-                        <label>Cor 6</label>
-                        <value>6</value>
-                    </item>
-                    <item>
-                        <label>Cor 7</label>
-                        <value>7</value>
-                    </item>
-                    <item>
-                        <label>Cor 8</label>
-                        <value>8</value>
-                    </item>
-                    <item>
-                        <label>Cor 9</label>
-                        <value>9</value>
-                    </item>
-                </legend_color>
                 <context-menu>
                     <item type="specific" code="" class="warning" rel="editar">
                         <title>Editar</title>
@@ -212,10 +173,10 @@
                     </item>
                     <item type="specific" code="" class="black" rel="transaction">
                         <title>Transaction</title>
-                        <app>igrp</app>
-                        <page>Env</page>
-                        <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/env/Env.xsl?</parameter>
+                        <app/>
+                        <page/>
+                        <link/>
+                        <parameter>undefined?</parameter>
                         <target>right_panel|refresh</target>
                         <img>black|fa-exchange</img>
                     </item>

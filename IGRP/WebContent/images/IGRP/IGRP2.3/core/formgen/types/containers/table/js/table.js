@@ -93,7 +93,7 @@ var GENTABLE = function(name,params){
 		container.setPropriety({
 			name:'dataTable',
 			label : 'Data Table',
-			value:false,
+			value:true,
 			xslValue:'igrp-data-table'
 		});
 
@@ -253,27 +253,27 @@ var GENTABLE = function(name,params){
 		container.setPropriety({
 			name:'ctxInlineTmpl',
 			label:'CtxMenu Inline',
-			value:false,
+			value:true,
 			editable:false,
 			onChange:function(e){
 				container.SET.ctxInlineHeadTmpl(e);
 			},
 
 			xslValue:function(){
-				return '<td class="igrp-table-ctx-td" gen-preserve="last">'+
+				return '<xsl:if test="//'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><td class="igrp-table-ctx-td" >'+
 							'<xsl:apply-templates select="../../context-menu'+'" mode="table-context-inline">'+
 								'<xsl:with-param name="row-params" select="context-menu"/>'+
 							'</xsl:apply-templates>'+
-						'</td>';
+						'</td></xsl:if>';
 			}
 		});
 
 		container.setPropriety({
 			name:'ctxInlineHeadTmpl',
 			editable:false,
-			value:false,
+			value:true,
 			xslValue:function(){
-				return '<th class="igrp-table-ctx-th" gen-preserve="last"></th>';
+				return '<xsl:if test="'+container.GET.path()+'/table/context-menu/item" gen-preserve="last"><th class="igrp-table-ctx-th" gen-preserve="last"></th></xsl:if>';
 			}
 		});
 
@@ -429,7 +429,6 @@ var GENTABLE = function(name,params){
 	}
 
 	var getTableFooter = function(){
-		
 		var rtn = '<tfoot><tr>';
 
 		container.GET.fields().forEach(function(f){
@@ -456,4 +455,3 @@ this[VARS.name].declareContainer({
 	name:'table',
 	container:GENTABLE
 });
-

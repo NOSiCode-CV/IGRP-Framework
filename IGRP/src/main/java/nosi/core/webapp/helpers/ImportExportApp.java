@@ -130,7 +130,7 @@ public class ImportExportApp {
 	}
 	
 	public void putFilesPageConfig(Action page){
-		if(page.getXsl_src()!=null){
+		if(page.getXsl_src()!=null && FileHelper.fileExists(Config.getWorkspace())){
 			String pathPageXsl = Config.getBasePahtXslWorkspace(page)+File.separator;	
 			Map<String,String> list = new FileHelper().listFilesDirectory(pathPageXsl);
 			if(list!=null){

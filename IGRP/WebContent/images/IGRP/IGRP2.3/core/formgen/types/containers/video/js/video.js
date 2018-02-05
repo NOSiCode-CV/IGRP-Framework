@@ -3,7 +3,7 @@ var GENVIDEO = function(name,params){
 	var container = this;
 
 	container.xml.type        = 'text';
-	container.xml.dataExample = 'https://www.youtube.com/embed/Viz9FefXZYg';
+	container.xml.dataExample = 'https://www.youtube.com/embed/nbcj8C_FQEw';
 
 	container.ready = function(){
 		
@@ -15,7 +15,7 @@ var GENVIDEO = function(name,params){
 
 		container.setProperty({
 			name:'height',
-			value:200
+			value:300
 		});
 	};
 

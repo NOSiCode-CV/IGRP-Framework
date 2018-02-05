@@ -20,7 +20,7 @@ import nosi.webapps.igrp.dao.Application;
 /**
  * @author: Emanuel Pereira
  * 5 Nov 2017
- * Importa aplicações/pagínas de IGRP PLSQL
+ * Importa aplicaï¿½ï¿½es/pagï¿½nas de IGRP PLSQL
  */
 public class ImportAppZip extends ImportAppJar{
 
@@ -146,8 +146,8 @@ public class ImportAppZip extends ImportAppJar{
 	}
 	
 	private void saveConfigFilesPlsql2_3(Action page,String content) {
-		//Verifica se o xml possui package_html que será o nome da classe
-		//Caso não exista, assumi o nome do ficheiro como nome da classe
+		//Verifica se o xml possui package_html que sera o nome da classe
+		//Caso nao exista, assumi o nome do ficheiro como nome da classe
 		content = this.addClassAndPackage(content,page,"xml");
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);

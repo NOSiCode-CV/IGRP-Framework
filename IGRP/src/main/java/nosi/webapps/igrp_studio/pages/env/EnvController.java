@@ -1,14 +1,22 @@
+package nosi.webapps.igrp_studio.pages.env;
 
-package nosi.webapps.igrp.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
+import java.io.DataInputStream;
+
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.net.URL;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -19,10 +27,13 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
+
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Profile;
+import nosi.webapps.igrp.dao.Session;
 import nosi.core.webapp.compiler.helpers.Compiler;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -77,19 +88,18 @@ public class EnvController extends Controller {
 			app = app.insert();
 			if(app!=null){
 				FileHelper.createDiretory(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
-				System.out.println("Config.getBasePathClass() -> "+ Config.getBasePathClass());
 				FileHelper.save(Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				new Compiler().compile(new File[]{new File(Config.getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
 				if(FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
 					FileHelper.save(Config.getWorkspace()+"/src/main/java/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				}		
 				Core.setMessageSuccess();
-				return this.redirect("igrp", "env","index");
+				return this.redirect("igrp_studio", "env","index");
 			}else{
 				Core.setMessageError();
 			}
 		}
-		return this.forward("igrp", "env", "index");
+		return this.forward("igrp_studio", "env", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -136,12 +146,12 @@ public class EnvController extends Controller {
 				Core.setMessageSuccess();
 			}else{
 				Core.setMessageError();
-				return this.forward("igrp", "env","editar&id=" + idAplicacao);
+				return this.forward("igrp_studio", "env","editar&id=" + idAplicacao);
 			}
 		}	
 		EnvView view = new EnvView(model);
 		view.sectionheader_1_text.setValue(gt("App builder - Atualizar"));
-		view.btn_gravar.setLink("editar&id=" + idAplicacao);
+		view.btn_gravar.setLink("igrp_studio", "env", "editar&id=" + idAplicacao);
 		view.action_fk.setValue(IgrpHelper.toMap(new Action().find().andWhere("application", "=", Integer.parseInt(idAplicacao)).all(), "id", "page_descr", "-- Selecionar --"));
 		view.apache_dad.setVisible(false); 
 		view.link_menu.setVisible(false);
@@ -174,9 +184,9 @@ public class EnvController extends Controller {
 		xml_menu.startElement("applications");
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-//		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
-//		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-//		getAllApps(allowApps,denyApps);
+		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
+		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
+		getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;
@@ -191,7 +201,7 @@ public class EnvController extends Controller {
 				Action ac = profile.getOrganization().getApplication().getAction();
 				page = (ac!=null && ac.getPage()!=null)? "/" + ac.getPage()+"/"+ac.getAction():page;
 			}
-			xml_menu.setElement("link", "webapps?r=igrp/env/openApp&app="+profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
+			xml_menu.setElement("link", Config.LINK_OPEN_APP + profile.getOrganization().getApplication().getDad().toLowerCase()+"&page="+page);
 			xml_menu.setElement("img", Core.isNotNull(profile.getOrganization().getApplication().getImg_src())?profile.getOrganization().getApplication().getImg_src():"default.svg");
 			xml_menu.setElement("title", profile.getOrganization().getApplication().getName());
 			xml_menu.setElement("description", profile.getOrganization().getApplication().getDescription());
@@ -219,29 +229,29 @@ public class EnvController extends Controller {
 		
 		/** IGRP-PLSQL Apps **/
 		/** Begin **/
-//		for(IgrpPLSQLApp obj: allowApps){
-//			xml_menu.startElement("application");
-//			xml_menu.writeAttribute("available", "yes");
-//			xml_menu.setElement("link", obj.getLink());
-//			xml_menu.setElement("img", obj.getImg_src());
-//			xml_menu.setElement("title", obj.getName());
-//			xml_menu.setElement("num_alert", "");
-//			xml_menu.setElement("description", obj.getDescription());
-//			xml_menu.endElement();
-//			displayTitle = true;
-//		}
-//
-//		for(IgrpPLSQLApp obj: denyApps){
-//			xml_menu.startElement("application");
-//			xml_menu.writeAttribute("available", "no");
-//			xml_menu.setElement("link", obj.getLink());
-//			xml_menu.setElement("img", obj.getImg_src());
-//			xml_menu.setElement("title", obj.getName());
-//			xml_menu.setElement("num_alert", "");
-//			xml_menu.setElement("description", obj.getDescription());
-//			xml_menu.endElement();
-//			displaySubtitle = true; 
-//		}
+		for(IgrpPLSQLApp obj: allowApps){
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "yes");
+			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
+			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
+			xml_menu.endElement();
+			displayTitle = true;
+		}
+
+		for(IgrpPLSQLApp obj: denyApps){
+			xml_menu.startElement("application");
+			xml_menu.writeAttribute("available", "no");
+			xml_menu.setElement("link", obj.getLink());
+			xml_menu.setElement("img", obj.getImg_src());
+			xml_menu.setElement("title", obj.getName());
+			xml_menu.setElement("num_alert", "");
+			xml_menu.setElement("description", obj.getDescription());
+			xml_menu.endElement();
+			displaySubtitle = true; 
+		}
 		/** End **/
 		if(displayTitle){
 			xml_menu.setElement("title", gt("Minhas Aplicações"));
@@ -263,8 +273,6 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
 		
-		System.out.println(page);
-		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {
 			Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
@@ -280,32 +288,47 @@ public class EnvController extends Controller {
 	
 	/** Integration with IGRP-PLSQL Apps **
 	 * */
-//	private static String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps";
 	// Begin
-//	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
-//		try {
-//			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
-//			URL url = new URL(endpoint);
-//			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//			conn.setDoInput(true);
-//			StringBuilder result = new StringBuilder();
-//			DataInputStream cin = new DataInputStream(conn.getInputStream());
-//			String aux = null;
-//			while((aux = cin.readLine()) != null) {
-//				result.append(aux);
-//			}
-//			cin.close();
-//			conn.disconnect();
-//			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
-//			for(IgrpPLSQLApp obj : allApps)
-//				if(obj.getAvailable().equals("yes"))
-//					allowApps.add(obj);
-//				else
-//					denyApps.add(obj);
-//		}catch(Exception e) {
-//			// do nothing yet 
-//		}
-//	}
+	private void getAllApps(List<IgrpPLSQLApp> allowApps /*INOUT var*/, List<IgrpPLSQLApp> denyApps  /*INOUT var*/) {
+		try {
+			String endpoint = "http://nosiappsdev.gov.cv/redglobal_lab/restapi/userapps/" + ((nosi.webapps.igrp.dao.User)Igrp.getInstance().getUser().getIdentity()).getEmail();
+			
+			try {
+				String sessionId = Igrp.getInstance().getRequest().getRequestedSessionId();
+				
+				List<Session> list = new Session().find().andWhere("sessionId", "=", sessionId).all();
+				if(list != null) {
+					list.sort(Comparator.comparing(Session::getId).reversed());
+					Session session = list.get(0);
+					endpoint += "/" + session.getId() + ":" + session.getSessionId() + "/" + session.getIpAddress();
+				}
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			URL url = new URL(endpoint);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoInput(true);
+			StringBuilder result = new StringBuilder();
+			DataInputStream cin = new DataInputStream(conn.getInputStream());
+			String aux = null;
+			while((aux = cin.readLine()) != null) {
+				result.append(aux);
+			}
+			cin.close();
+			conn.disconnect();
+			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
+			for(IgrpPLSQLApp obj : allApps)
+				if(obj.getAvailable().equals("yes"))
+					allowApps.add(obj);
+				else
+					denyApps.add(obj);
+		}catch(Exception e) {
+			// do nothing yet 
+		}
+	}
 	
 	// For serialization purpose
 	public static class IgrpPLSQLApp {

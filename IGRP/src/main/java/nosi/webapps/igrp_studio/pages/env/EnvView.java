@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp.pages.env;
+package nosi.webapps.igrp_studio.pages.env;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
@@ -35,7 +35,7 @@ public class EnvView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public EnvView(Env model){
-		this.setPageTitle("Registar Aplicacao");
+		this.setPageTitle("Registar Aplicação");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -110,7 +110,7 @@ public class EnvView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		btn_gravar = new IGRPButton("Gravar","igrp","Env","gravar","submit","primary|fa-floppy-o","","");
+		btn_gravar = new IGRPButton("Gravar","igrp_studio","Env","gravar","submit","primary|fa-floppy-o","","");
 		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
 		
 	}

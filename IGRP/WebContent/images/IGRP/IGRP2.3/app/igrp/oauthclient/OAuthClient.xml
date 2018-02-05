@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -47,9 +47,9 @@
                 <app>igrp</app>
                 <page>OAuthClientList</page>
                 <link>index</link>
-                <target>submit</target>
+                <target>modal</target>
                 <img>default|fa-list</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl</parameter>
+                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</parameter>
             </item>
             <item type="specific" code="" rel="salvar">
                 <title>Guardar</title>
@@ -58,14 +58,14 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xsl</parameter>
+                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</parameter>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <uris_de_redirecionamento name="p_uris_de_redirecionamento" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs de redirecionamento</label>
-                    <value>Omnis sit laudantium voluptate</value>
+                    <value>Sed doloremque totam perspicia</value>
                 </uris_de_redirecionamento>
                 <scope name="p_scope" type="select" multiple="true" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Scope</label>

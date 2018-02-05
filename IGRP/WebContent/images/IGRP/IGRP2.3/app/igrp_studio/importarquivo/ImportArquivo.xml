@@ -92,7 +92,7 @@
                     <page>ImportArquivo</page>
                     <link>index</link>
                     <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
-                    <target>submit</target>
+                    <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>
             </tools-bar>
@@ -133,14 +133,14 @@
                     <page>ImportArquivo</page>
                     <link>index</link>
                     <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/importarquivo/ImportArquivo.xsl?</parameter>
-                    <target>submit</target>
+                    <target>submit_form</target>
                     <img>success|fa-upload</img>
                 </item>
             </tools-bar>
         </form_1>
         <form_3 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <jar_file name="p_jar_file" type="file" accept="" targetrend="" multiple="true" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
+                <jar_file name="p_jar_file" type="file" accept="[object Object]" targetrend="[object Object]" multiple="true" rendvalue="false" maxlength="30" required="true" disabled="false" right="false" class="primary">
                     <label>Jar File</label>
                     <value/>
                 </jar_file>

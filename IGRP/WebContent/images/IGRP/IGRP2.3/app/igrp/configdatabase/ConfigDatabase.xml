@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=37</preserve_url>
     </plsql>
     <content>
-        <title>Configurar Base de Dados de uma aplicação</title>
+        <title>Configurar Base de Dados de uma aplica��o</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -49,7 +49,7 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>success|fa-check</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
             </item>
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
@@ -58,15 +58,11 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/configdatabase/ConfigDatabase.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: DEVNOSI" right="false">
-                    <label>Nome de conexão</label>
-                    <value>Perspiciatis voluptatem totam</value>
-                </nome_de_conexao>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
                     <label>Aplicação</label>
                     <list>
@@ -111,20 +107,24 @@
                         </option>
                     </list>
                 </tipo_base_dados>
+                <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: DEVNOSI" right="false">
+                    <label>Nome de conexão</label>
+                    <value>Aperiam consectetur omnis dese</value>
+                </nome_de_conexao>
                 <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Config</label>
                 </config>
                 <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: nosidev02.gov.cv" right="false">
                     <label>Hostname</label>
-                    <value>Rem lorem perspiciatis lorem stract</value>
+                    <value>Ipsum elit accusantium lorem aperiam</value>
                 </hostname>
                 <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="" java-type="">
                     <label>Porta</label>
-                    <value>3</value>
+                    <value>10</value>
                 </port>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Mollit adipiscing aliqua natus iste</value>
+                    <value>Natus omnis ipsum dolor iste</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
@@ -132,7 +132,7 @@
                 </password>
                 <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: devnosi.gov.cv" right="false">
                     <label>Nome de Bade Dados</label>
-                    <value>Sit accusantium natus sit consectetur</value>
+                    <value>Unde omnis ipsum laudantium rem</value>
                 </nome_de_bade_dados>
             </fields>
         </form_1>

@@ -1,11 +1,12 @@
 package nosi.core.webapp;
 
+import java.io.PrintWriter;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.xml.bind.JAXB;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.criterion.Restrictions;
 
 import com.google.gson.Gson;
@@ -39,7 +40,6 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
-import org.apache.logging.log4j.LogManager;
 import nosi.webapps.igrp.dao.Transaction;
 import static nosi.core.i18n.Translator.gt;
 /**
@@ -48,7 +48,7 @@ import static nosi.core.i18n.Translator.gt;
  */
 public final class Core {	// Not inherit 
 
-	static Logger log = LogManager.getLogger(Core.class);
+
 	
 	private Core() {} // Not instantiate  
 	
@@ -56,13 +56,22 @@ public final class Core {	// Not inherit
 	 * log.fatal("fatal message");
 		log.debug("debug message");
 	 * */
+	// Add logdbug
+	public static void log(String msg) {
+		
+		Igrp.getInstance().getLog().addMessage(msg);
+	}
+	
 	//Add Message Error
+	
 	public static void setMessageError(String msg){
-		log.error(msg);
+		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg));
+		
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}	
 
 	public static void setMessageError(){
+		nosi.core.servlet.IgrpServlet.LOGGER.error(FlashMessage.MESSAGE_ERROR);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,gt( FlashMessage.MESSAGE_ERROR));
 	}	
 
@@ -78,23 +87,25 @@ public final class Core {	// Not inherit
 	
 	//Add Message Info
 	public static void setMessageInfo(String msg){
-		log.info(msg);
+		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
 	}
 
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String link){
+		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+link);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+link);		
 	}
 	
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String app,String page,String action){
+		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
 	}
 		
 	//Add Message Warning
 	public static void setMessageWarning(String msg){
-		log.warn(msg);
+		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));		
 	}	
 	

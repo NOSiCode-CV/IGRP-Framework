@@ -52,6 +52,7 @@ import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.databse.helpers.Query;
 import nosi.core.webapp.helpers.IgrpHelper;
@@ -83,14 +84,15 @@ public class IGRPTable extends IGRPComponent{
 	
 	private void createParamsLookup() {
 		String forLookup = Igrp.getInstance().getRequest().getParameter("forLookup");
-		if(forLookup!=null && !forLookup.equals("")){
+		if(Core.isNotNull(forLookup)){
 			Enumeration<String> params = Igrp.getInstance().getRequest().getParameterNames();
 			while(params.hasMoreElements()){
 				String param=params.nextElement();
 				if(!param.equalsIgnoreCase("r") && !param.equalsIgnoreCase("forLookup")){
 					String name = Igrp.getInstance().getRequest().getParameter(param);
 					if(name!=null && !name.equals("")){
-						Field f = new HiddenField(null, name);
+						Field f = new HiddenField(this,param);
+						f.setName(param);
 						f.setValue(name);
 						f.setParam(true);
 						this.fields.add(f);
@@ -242,6 +244,9 @@ public class IGRPTable extends IGRPComponent{
 				this.xml.writeAttribute("type", "separatordialog");
 				this.xml.writeAttribute("container", "true");
 				GenXMLField.toXmlV21(this.xml,this.fields);
+				if(!this.rows.equals("")){
+					this.xml.addXml(this.rows);
+				}
 			this.xml.endElement();
 		this.xml.endElement();
 		return this.xml.toString();
