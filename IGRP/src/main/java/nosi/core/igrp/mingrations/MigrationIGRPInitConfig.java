@@ -174,7 +174,6 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("BPMNDesigner", "index", "nosi.webapps.igrp_studio.pages.bpmndesigner", "igrp_studio/bpmndesigner/BPMNDesigner.xsl", "BPMN Designer", "BPMN Designer", "2.3", 1, igrp_studio));
 			actions.add(new Action("Import_export", "index", "nosi.webapps.igrp.pages.import_export", "igrp/import_export/Import_export.xsl", "Import export", "Import export", "2.3", 1, igrp));
 			actions.add(new Action("ImportArquivo", "index", "nosi.webapps.igrp_studio.pages.importarquivo", "igrp_studio/importarquivo/ImportArquivo.xsl", "Import Arquivo", "Import Arquivo", "2.3", 1, igrp_studio));
-			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplica��o", "2.3", 1, igrp));
 			actions.add(new Action("ConfigDatabase", "index", "nosi.webapps.igrp.pages.configdatabase", "igrp/configdatabase/ConfigDatabase.xsl", "Configurar Base de Dados", "Configurar Base de Dados de uma aplicação", "2.3", 1, igrp));
 			actions.add(new Action("PesquisaBI", "index", "nosi.webapps.igrp.pages.pesquisabi", "igrp/pesquisabi/PesquisaBI.xsl", "Pesquisar BI", "Pesquisar BI", "2.3", 1, igrp));
 			actions.add(new Action("PesquisaNIF", "index", "nosi.webapps.igrp.pages.pesquisanif", "igrp/pesquisanif/PesquisaNIF.xsl", "Pesquisar NIF", "Pesquisar NIF", "2.3", 1, igrp));
