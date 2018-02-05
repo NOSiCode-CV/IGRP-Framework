@@ -18,8 +18,11 @@ import org.hibernate.engine.jdbc.internal.Formatter;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
 import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
+import nosi.core.servlet.IgrpServlet;
 import nosi.webapps.igrp.dao.*;
 /**
  * Emanuel
@@ -27,8 +30,10 @@ import nosi.webapps.igrp.dao.*;
  */
 public class HibernateExporter {
 
-	private static Logger log = LoggerFactory.getLogger(HibernateExporter.class);
 
+	private static Logger log = LogManager.getLogger(HibernateExporter.class);	
+    
+//    private static Logger log = LoggerFactory.getLogger(HibernateExporter.class);
 	private String dialect;
 	private String entityPackage;
 

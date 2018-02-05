@@ -41,7 +41,7 @@ public class LookupListPageController extends Controller {
 		}
 		LookupListPageView view = new LookupListPageView(model);
 		view.p_id.setParam(true);
-		view.env_fk.setLabel("Aplicação");
+		view.env_fk.setLabel("AplicaÃ§Ã£o");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
 		Config.target = "_blank";

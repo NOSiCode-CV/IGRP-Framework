@@ -40,7 +40,7 @@ public class DataSourceController extends Controller {
 		tipo.put("Page", "Paginas");
 		//tipo.put("proc", "Processo");
 		tipo.put("Query", "Query");
-		//tipo.put("serv", "Serviços");
+		//tipo.put("serv", "ServiÃ§os");
 		DataSource model = new DataSource();
 		model.setQuery("Select * FROM nome_tabela");
 		String id_env = Igrp.getInstance().getRequest().getParameter("id_env");
@@ -145,13 +145,13 @@ public class DataSourceController extends Controller {
 					rep = rep.insert();
 				}
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Operação falhada"));
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("OperaÃ§Ã£o falhada"));
 				return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
 			}
 			if(rep!=null){
-				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+				Igrp.getInstance().getFlashMessage().addMessage("success",gt("OperaÃ§Ã£o efetuada com sucesso"));
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));	
+				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operaÃ§Ã£o"));	
 				return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());			
 			}
 		}
