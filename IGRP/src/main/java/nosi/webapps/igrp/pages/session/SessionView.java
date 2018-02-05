@@ -10,7 +10,7 @@ import nosi.core.config.Config;
 import static nosi.core.i18n.Translator.gt;
 public class SessionView extends View {
 	
-	public String title = gt("Gest„o de Sess„o");		
+	public String title = gt("Gest√£o de Sess√£o");		
 	
 	public Field aplicacao;
 	public Field utilizador;
@@ -29,16 +29,16 @@ public class SessionView extends View {
 	public SessionView(Session model){
 		form_1 = new IGRPForm("form_1");
 		table_1 = new IGRPTable("table_1");
-		chart_t_sessao = new IGRPChart("chart_t_sessao",gt("Total Sessıes"));
-		chart_t_session_app = new IGRPChart("chart_t_session_app",gt("Total Sessıes por AplicaÁ„o"));
+		chart_t_sessao = new IGRPChart("chart_t_sessao",gt("Total Sess√µes"));
+		chart_t_session_app = new IGRPChart("chart_t_session_app",gt("Total SessÔøΩes por Aplica√ß√£o"));
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("AplicaÁ„o"));
+		aplicacao.setLabel(gt("Aplica√ß√£o"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false");
 		utilizador = new TextField(model,"utilizador");
 		utilizador.setLabel(gt("Utilizador"));
 		utilizador.propertie().add("name","p_utilizador").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		data_inicio = new DateField(model,"data_inicio");
-		data_inicio.setLabel(gt("Data InÌcio"));
+		data_inicio.setLabel(gt("Data In√≠cio"));
 		data_inicio.propertie().add("name","p_data_inicio").add("type","date").add("format","IGRP_datePicker").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false").add("class","default");
 		data_fim = new DateField(model,"data_fim");
 		data_fim.setLabel(gt("Data Fim"));

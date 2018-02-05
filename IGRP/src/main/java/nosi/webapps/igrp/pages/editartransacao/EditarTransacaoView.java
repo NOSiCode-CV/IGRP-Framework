@@ -30,10 +30,10 @@ public class EditarTransacaoView extends View {
 		codigo.setLabel(gt("Codigo"));
 		codigo.propertie().add("name","p_codigo").add("type","text").add("maxlength","100").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		descricao = new TextField(model,"descricao");
-		descricao.setLabel(gt("Descrição"));
+		descricao.setLabel(gt("DescriÃ§Ã£o"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","150").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
 		aplicacao = new ListField(model,"aplicacao");
-		aplicacao.setLabel(gt("Aplicação"));
+		aplicacao.setLabel(gt("AplicaÃ§Ã£o"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","false").add("disabled","false").add("right","false");
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
