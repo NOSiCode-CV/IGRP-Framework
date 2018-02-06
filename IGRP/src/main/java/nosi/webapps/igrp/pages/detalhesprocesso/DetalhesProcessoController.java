@@ -6,6 +6,7 @@ import nosi.core.webapp.Core;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.ResourcesService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.Igrp;
 
@@ -22,8 +23,10 @@ public class DetalhesProcessoController extends Controller {
 		TaskServiceQuery taskS = new TaskServiceQuery();
 		taskS.addFilter("includeProcessVariables", "true");
 		taskS.addFilter("taskId", taskId);
+		String processDefinition = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
 			model.setNumero_de_processo(task.getProcessInstanceId());
+			processDefinition = task.getProcessDefinitionId();
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
 			model.setDescricao(process.getDescription());
 			TaskServiceQuery instanceS = new TaskServiceQuery();
@@ -36,9 +39,17 @@ public class DetalhesProcessoController extends Controller {
 			}
 		}
 		DetalhesProcessoView view = new DetalhesProcessoView(model);
-		String content = new ProcessDefinitionService().getDiagram(model.getNumero_de_processo());
+		ProcessDefinitionService p =new ProcessDefinitionService();
+		//Get Diagram in runtime
+		String content = p.getDiagram("runtime/process-instances/"+model.getNumero_de_processo()+"/diagram");
 		if(content!=null) {
 			view.img_1.setValue("data:image/png;base64,"+content);
+		}else {
+			//Get Diagram on historic
+			p = p.getProcessDefinition(processDefinition);
+			ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
+			content = r.getResourceContent(r.getContentUrl());
+			view.img_1.setValue("data:"+r.getMediaType()+";base64,"+content);
 		}
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/

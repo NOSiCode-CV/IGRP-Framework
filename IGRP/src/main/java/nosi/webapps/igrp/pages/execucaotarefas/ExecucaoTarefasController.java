@@ -315,9 +315,17 @@ public class ExecucaoTarefasController extends Controller {
 				case "date":
 					return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
 				case "long":
-					return Long.parseLong(value.toString());
+					if(Core.isNotNull(value))
+						return Long.parseLong(value.toString());
+					return 0;
 				case "double":
-					return Double.parseDouble(value.toString());
+					if(Core.isNotNull(value))
+						return Double.parseDouble(value.toString());
+					return 0;
+				case "float":
+					if(Core.isNotNull(value))
+						return Float.parseFloat(value.toString());
+					return 0;
 				case "boolean":
 					return value.toString().equals("1");
 				case "enum":
@@ -331,32 +339,56 @@ public class ExecucaoTarefasController extends Controller {
 	//Executa uma tarefa
 	private ResponseError processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService();
-		task.setId(p_prm_taskid);
+		TaskService task = new TaskService().getTask(p_prm_taskid);
 		FormDataService properties = null;
+		ProcessDefinitionService p = new ProcessDefinitionService();
+		p.setId(task.getProcessInstanceId());
+		CustomVariable<String[]> customVariable = new CustomVariable<>();
+		Map<String, String[]> map = new HashMap<>();
+		
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
 			formData.setTaskId(p_prm_taskid);
 			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value = this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
+					Object value =this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
 						formData.addVariable(prop.getId(),value);
 					}
-					if(!prop.getType().equalsIgnoreCase("binary"))
-						task.addVariable(prop.getId(), prop.getType(), value);
 				}
-//				task.submitVariables();
 			}
 			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
 				formData.addVariable("customVariableIGRP",content);
+				String[] total = new String[1];
+				Core.getParameters().entrySet().stream()
+						.filter(param->param.getKey().endsWith("_fk"))
+						.forEach(param->{
+							for(String v:param.getValue()) {
+								try {
+									int x = Integer.parseInt(v);
+									if(Core.isNotNull(total[0]))
+										x += Double.parseDouble(total[0]);
+									total[0] = ""+x;
+								}catch(NumberFormatException e) {}
+							}
+						});
+				map.put("total", total);
+				
+				Core.getParameters().entrySet().stream().forEach(param->{
+					map.put(param.getKey(), param.getValue());
+				});				
+				customVariable.setName("igrp");
+				customVariable.setValue(map);
+				p.submitProcessObject(customVariable, "v_serial", "local");
 			}
 		}
+		
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
 	
+
 	//Inicia tarefa de um processo
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
@@ -367,12 +399,10 @@ public class ExecucaoTarefasController extends Controller {
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value = this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
+					Object value =this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
 						formData.addVariable(prop.getId(),value);
 					}
-					if(!prop.getType().equalsIgnoreCase("binary"))
-						task.addVariable(prop.getId(), prop.getType(), value);
 				}
 			}
 		}
@@ -380,9 +410,9 @@ public class ExecucaoTarefasController extends Controller {
 			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
+		
 		if(st!=null){
 			task.setId(st.getId());
-//			task.submitVariables();
 			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="XSL_GENERATOR.xsl" type="text/xsl"?>
+<rows>
+
+<template>igrp_studio</template>
+<title>IGRP Studio</title>
+<version>1.0</version>
+<link>webapps?r=igrp/home/index</link>
+<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+<site>
+	<welcome_note>Ola</welcome_note>
+
+	<footer_note>2017 - Copyright NOSI</footer_note>
+
+	<user_name>Nositeste</user_name>
+
+<button type="specific">
+	<title>Sair</title>
+
+	<app>webapps?r=igrp</app>
+
+	<page>login</page>
+
+	<link>webapps?r=igrp/login/logout</link>
+
+	<target>_self</target>
+
+	<img>exit.png</img>
+</button>
+</site>
+<app>app_test</app>
+<page>Tbl_contatoForm</page>
+<plsql>
+	<action>1</action>
+
+	<package_db>nosi.webapps.app_test.pages</package_db>
+
+	<package_html>Tbl_contatoForm</package_html>
+<package_instance/>
+	<with_replace>false</with_replace>
+
+	<with_label>false</with_label>
+
+	<with_biztalk>false</with_biztalk>
+
+	<dynamic_menu>false</dynamic_menu>
+
+	<copy_menu>false</copy_menu>
+<package_copy_db/><package_copy_html/></plsql>
+<navigation url="webapps?" prm_app="prm_app" prm_page="prm_page" prm_action="r"></navigation>
+<slide-menu file="webapps?r=igrp/pesquisar-menu/myMenu&amp;dad=igrp_studio"></slide-menu>
+<top_menu file="webapps?r=igrp/pesquisar-menu/topMenu"></top_menu>
+
+	<crud_page_list>id</crud_page_list>
+
+	<content type="table"><title/>
+
+<sectionheader_1 gen-group="" xml-type="form" type="sectionheader" gen-type="container" title="">
+	<fields>
+	<sectionheader_1_text name="p_sectionheader_1_text" maxlength="4000" disabled="false" readonly="false" persist="true" required="false" type="text" change="false" placeholder="" right="false">
+	<label>Registar tbl_contato</label>
+
+	<value><![CDATA[Registar tbl_contato]]></value>
+</sectionheader_1_text>
+</fields>
+</sectionheader_1>
+
+<toolsbar_1 xml-type="toolsbar" type="toolsbar">
+	<item rel="gravar" type="specific" code="" crud_op="save">
+	<title>Save</title>
+
+	<app>app_test</app>
+
+	<page>Tbl_contatoForm</page>
+
+	<link>gravar</link>
+
+	<target>submit</target>
+
+	<img>info|fa-save</img>
+</item>
+
+	<item rel="list" type="specific" code="list" crud_op="list">
+	<title>List</title>
+
+	<app>app_test</app>
+
+	<page>Tbl_contatoList</page>
+
+	<link>list</link>
+
+	<target>_self</target>
+
+	<img>default|fa-list</img>
+</item>
+</toolsbar_1>
+
+<form_1 xml-group="" xml-type="form" type="form" gen-type="container" title="Registar tbl_contato">
+	<fields>
+	<hidden tag="hidden_1" name="p_igrp_csrf" type="hidden">61789FFB556D4BC3499889D3C50E78DBDA426A84B7455CFB565D0AA2F52A77FF15EF4BC9D715D8152D4F5202C0FD5F9624DF</hidden>
+
+	<hidden tag="p_id" iskey="true" name="p_id" type="hidden" required="true">id</hidden>
+
+	<movel name="movel" maxlength="20" disabled="false" readonly="false" required="true" type="text" iskey="true" change="false" placeholder="" right="false" tag="movel">
+	<label>movel</label>
+<value/></movel>
+
+	<id_cliente name="p_id_cliente" maxlength="11" conn="con_app_test1" disabled="false" schemaName="public" keyMap="id" required="false" type="select" change="false" tableName="tbl_aluno" value="" right="false" multiple="false">
+	<label>id_cliente</label>
+
+	<list></list>
+</id_cliente>
+</fields>
+
+</form_1>
+</content>
+</rows>

@@ -38,6 +38,7 @@ public class BPMNDesignerController extends Controller {
 		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):app.getId())){
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
 			processo.setId(process.getId());
+			processo.setId_objeto(process.getId());
 			processo.setTitle(process.getName());
 			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());
 			processo.setId(process.getId());
@@ -63,7 +64,7 @@ public class BPMNDesignerController extends Controller {
 		if(deploy!=null && Core.isNotNull(deploy.getId())){
 			return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"") + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" +StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"")+ "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
