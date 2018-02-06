@@ -17,8 +17,7 @@ public class Response extends HttpServletResponseWrapper{
 	public static final String FORMAT_XSL = "text/xsl";
 	public static final String FORMAT_TEXT = "text/plain";
 	public static final String FORMAT_PDF = "application/pdf";
-	public static final String FORMAT_RAW = "application/octet-stream";
-	
+	public static final String FORMAT_RAW = "application/octet-stream";	
 	public static final String CHARSET_UTF_8 = "UTF-8";
 
 	private String content;

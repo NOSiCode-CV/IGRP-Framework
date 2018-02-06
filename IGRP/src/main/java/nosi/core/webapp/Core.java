@@ -442,4 +442,10 @@ public final class Core {	// Not inherit
 		String json = gson.toJson(customV);
 		return json;
 	}
+	
+
+	
+	public static Map<String,String[]> getParameters() {
+		return Igrp.getInstance().getRequest().getParameterMap();
+	}
 }

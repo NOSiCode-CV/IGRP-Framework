@@ -1,4 +1,7 @@
 package nosi.core.webapp.helpers;
+
+import nosi.core.webapp.Core;
+
 /**
  * @author: Emanuel Pereira
  * 25 Oct 2017
@@ -28,11 +31,14 @@ public class StringHelper {
 	 * List page => List Page
 	 */
 	public static String camelCase(String string){
-		String []strting_part = string.split("\\s+");
-		String result = "";
-		for(String s:strting_part)
-			result += StringHelper.camelCaseFirst(s);
-		return result;
+		if(Core.isNotNull(string)) {
+			String []strting_part = string.split("\\s+");
+			String result = "";
+			for(String s:strting_part)
+				result += StringHelper.camelCaseFirst(s);
+			return result;
+		}
+		return "";
 	}
 	
 	/*Validade the className for Java Class
