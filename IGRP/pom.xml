@@ -58,7 +58,11 @@
     <artifactId>javax.xml.rpc-api</artifactId>
     <version>1.1.1</version>
 </dependency>
-		
+		<dependency>
+    <groupId>javax.ws.rs</groupId>
+    <artifactId>javax.ws.rs-api</artifactId>
+    <version>2.1</version>
+</dependency>
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
