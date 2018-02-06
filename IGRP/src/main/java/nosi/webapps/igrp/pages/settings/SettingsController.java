@@ -49,7 +49,6 @@ public class SettingsController extends Controller {
 		
 		SettingsView view = new SettingsView(model);
 		
-		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
 		
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
@@ -67,12 +66,12 @@ public class SettingsController extends Controller {
 		view.perfil.setValue(profiles);
 		
 		HashMap<String, String> idioma = new HashMap<String, String>();
-		idioma.put("", gt("-- Selecionar Idioma --"));
+		idioma.put("", gt("-- Selecionar --"));
 		idioma.put("pt_PT", gt("Português"));
 		idioma.put("en_US", gt("Inglês"));
 		idioma.put("fr_FR", gt("Francês"));
 		idioma.put("es_ES", gt("Espanhol"));
-		view.idioma.setValue(idioma);
+		view.idioma.setValue(idioma);		
 		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -85,13 +84,13 @@ public class SettingsController extends Controller {
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 			model.load();
 			if(model.save(model)){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
+				Core.setMessageSuccess();
 			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","Settings","index");
+				Core.setMessageError();
+			 return this.forward("igrp","ChangePassword","index");
 			}
 		}
-		return this.redirect("igrp","Settings","index");
+		return this.redirect("igrp","ChangePassword","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
@@ -111,7 +110,7 @@ public class SettingsController extends Controller {
 				Igrp.getInstance().getResponse().addCookie(cookie);
 			}
 
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efectuada com sucesso"));
+			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt("OK - [APLICAR] Operação efetuada com sucesso"));
 		
 		}
 		return this.redirect("igrp", "settings", "index");
