@@ -38,6 +38,8 @@
 	      <scope>import</scope>
 	      <type>pom</type>
 	    </dependency>
+		
+		<!-- PARA JENKINGS PORQUE O TOMMEE TEM -->
     	<dependency>
 
                     <groupId>javax.servlet</groupId>
@@ -51,7 +53,13 @@
                     <artifactId>cxf-bundle-jaxrs</artifactId>
                     <version>2.7.18</version>
              </dependency>
-    
+    <dependency>
+    <groupId>javax.xml.rpc</groupId>
+    <artifactId>javax.xml.rpc-api</artifactId>
+    <version>1.1.1</version>
+</dependency>
+		
+		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
