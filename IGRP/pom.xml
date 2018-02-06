@@ -63,6 +63,14 @@
     <artifactId>javax.ws.rs-api</artifactId>
     <version>2.1</version>
 </dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun/tools -->
+<dependency>
+    <groupId>com.sun</groupId>
+    <artifactId>tools</artifactId>
+    <version>1.7.0.13</version>
+    <scope>system</scope>
+	<systemPath>${basedir}/WEB-INF/lib/tools.jar</systemPath>
+</dependency>
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
