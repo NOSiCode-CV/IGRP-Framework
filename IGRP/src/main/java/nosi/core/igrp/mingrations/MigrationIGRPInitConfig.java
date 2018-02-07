@@ -228,17 +228,17 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Gestão de Orgânica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
 			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
-
+			
 			
 			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), igrp_studio, null);
 			tempMenuBD.setMenu(tempMenuBD);
 			menus.add(tempMenuBD);
 			
-			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(44), igrp_studio, null);
+			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(43), igrp_studio, null);
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 			
-			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(47), igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(46), igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 			
