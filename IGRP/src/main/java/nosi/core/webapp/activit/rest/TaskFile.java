@@ -34,7 +34,7 @@ public class TaskFile {
 				.forEach(file->{
 					try {
 						if(task instanceof ProcessDefinitionService)
-							new ProcessDefinitionService().submitProcessFile(file,task.getId(),file_name.get(file.getSubmittedFileName())+"___"+file_desc.get(file.getSubmittedFileName())+"___"+file.getSubmittedFileName());
+							new ProcessInstancesService().submitProcessFile(file,task.getId(),file_name.get(file.getSubmittedFileName())+"___"+file_desc.get(file.getSubmittedFileName())+"___"+file.getSubmittedFileName());
 						else if(task instanceof TaskService)
 							new TaskService().submitTaskFile(file,task.getId(),file_name.get(file.getSubmittedFileName())+"___"+file_desc.get(file.getSubmittedFileName())+"___"+file.getSubmittedFileName());
 					} catch (IOException e) {

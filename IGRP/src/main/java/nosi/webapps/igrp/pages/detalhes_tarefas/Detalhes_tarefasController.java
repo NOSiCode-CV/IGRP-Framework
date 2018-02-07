@@ -187,6 +187,11 @@ public class Detalhes_tarefasController extends Controller {
 	private String generateViewTask(TaskServiceQuery task) {
 		IGRPView view = new IGRPView("view",gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()),(float)2.1);
 		
+		Field task_desc = new TextField(null,"task_desc");
+		task_desc.propertie().add("type","text").add("name","p_task_desc").add("persist","true").add("maxlength","4000");
+		task_desc.setLabel(gt("Descrição:"));
+		task_desc.setValue(Core.isNotNull(task.getDescription())?task.getDescription():task.getName());
+		
 		Field user_exec = new TextField(null,"user_exec");
 		user_exec.propertie().add("type","text").add("name","p_user_exec").add("persist","true").add("maxlength","4000");
 		user_exec.setLabel(gt("Executado por:"));
@@ -202,6 +207,7 @@ public class Detalhes_tarefasController extends Controller {
 		endDate.setLabel(gt("Data Fim"));
 		endDate.setValue(Core.isNotNull(task.getEndTime())?Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 		
+		view.addField(task_desc);
 		view.addField(user_exec);
 		view.addField(startDate);
 		view.addField(endDate);

@@ -85,4 +85,11 @@ public class ResourcesService extends Activit{
 		}
 		return d;
 	}
+	@Override
+	public String toString() {
+		return "ResourcesService [contentUrl=" + contentUrl + ", mediaType=" + mediaType + ", type=" + type
+				+ ", getId()=" + getId() + ", getUrl()=" + getUrl() + "]";
+	}
+	
+	
 }

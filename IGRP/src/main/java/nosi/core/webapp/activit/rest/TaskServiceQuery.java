@@ -58,6 +58,7 @@ public class TaskServiceQuery extends TaskService {
 		this.paramsQuery.add(p);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryTask(){		
 		List<TaskServiceQuery> d = new ArrayList<>();
 		
@@ -93,6 +94,7 @@ public class TaskServiceQuery extends TaskService {
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryProcessInstance(){		
 		List<TaskServiceQuery> d = new ArrayList<>();
 		

@@ -13,6 +13,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskFile;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
@@ -341,7 +342,7 @@ public class ExecucaoTarefasController extends Controller {
 		FormDataService formData = new FormDataService();
 		TaskService task = new TaskService().getTask(p_prm_taskid);
 		FormDataService properties = null;
-		ProcessDefinitionService p = new ProcessDefinitionService();
+		ProcessInstancesService p = new ProcessInstancesService();
 		p.setId(task.getProcessInstanceId());
 		CustomVariable<String[]> customVariable = new CustomVariable<>();
 		Map<String, String[]> map = new HashMap<>();

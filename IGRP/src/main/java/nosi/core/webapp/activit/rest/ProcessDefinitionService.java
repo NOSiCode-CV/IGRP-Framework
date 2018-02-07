@@ -2,7 +2,6 @@ package nosi.core.webapp.activit.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -10,13 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import nosi.core.webapp.helpers.FileHelper;
@@ -113,7 +109,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(Integer idApp){
-		this.setFilter("?suspended=false&latest=true&size=100000000");
+		this.setFilter("?suspended=false&latest=true&size=100000000&tenantId="+idApp);
 		return this.getProcessDefinitions();
 	}
 	
@@ -300,42 +296,4 @@ public class ProcessDefinitionService extends Activit{
 		return map;
 	}
 
-	public boolean submitProcessFile(Part file, String processDefinitionId,String file_desc) throws IOException {
-		try {
-			Response response = new RestRequest().post("runtime/process-instances/"+processDefinitionId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
-			file.delete();
-			return response.getStatus() == 201;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		file.delete();
-		return false;
-	}
-	
-
-	public boolean submitProcessObject(Serializable obj, String variableName,String scope){
-			Gson gson = new Gson();
-			List<Serializable> list = new ArrayList<>();
-			list.add(obj);
-			Response response = new RestRequest().post("runtime/process-instances/"+this.getId()+"/variables?name="+variableName+"&type="+obj.getClass().getTypeName()+"&scope="+scope, gson.toJson(list));
-			return response.getStatus() == 201;
-	}
-	
-	//Adiciona variaveis para completar tarefa
-	public void addVariable(String name, String scope, String type, Object value, String valueUrl){
-		this.variables.add(new TaskVariables(name, scope, type, value, valueUrl));
-	}
-
-	public void addVariable(String name, String scope, String type, Object value){
-		this.variables.add(new TaskVariables(name, scope, type, value, ""));
-	}
-
-	public void addVariable(String name, String type, Object value){
-		this.variables.add(new TaskVariables(name, "local", type, value, ""));
-	}
-	
-	public boolean submitVariables() {
-		Response response = new RestRequest().post("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
-		return response.getStatus() == 201;
-	}
 }

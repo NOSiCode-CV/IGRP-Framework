@@ -5,7 +5,9 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import java.io.IOException;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
+import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.ResourcesService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.core.webapp.Igrp;
@@ -21,22 +23,20 @@ public class DetalhesProcessoController extends Controller {
 		DetalhesProcesso model = new DetalhesProcesso();
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		TaskServiceQuery taskS = new TaskServiceQuery();
-		taskS.addFilter("includeProcessVariables", "true");
 		taskS.addFilter("taskId", taskId);
 		String processDefinition = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
 			model.setNumero_de_processo(task.getProcessInstanceId());
 			processDefinition = task.getProcessDefinitionId();
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(task.getProcessDefinitionId());
-			model.setDescricao(process.getDescription());
-			TaskServiceQuery instanceS = new TaskServiceQuery();
-			taskS.addFilter("processVariables", "true");
-			taskS.addFilter("processInstanceId", task.getProcessInstanceId());
-			for(TaskServiceQuery instance:instanceS.queryHistoryProcessInstance()) {
-				model.setData_criacao_de_processo(instance.getDueDate()!=null?instance.getDueDate().toString():"");
-				model.setData_fim_processo(Core.isNotNull(instance.getStartTime())?Core.ToChar(instance.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-				model.setData_inicio_de_processo(Core.isNotNull(instance.getEndTime())?Core.ToChar(instance.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
-			}
+			ProcessInstancesService history = new ProcessInstancesService().historicProcess(task.getProcessInstanceId());
+			DeploymentService deploy = new DeploymentService().getDeployment(process.getDeploymentId());
+			model.setData_criacao_de_processo(Core.isNotNull(deploy.getDeploymentTime())?Core.ToChar(deploy.getDeploymentTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+			model.setDescricao(Core.isNotNull(process.getDescription())?process.getDescription():process.getName());
+			model.setData_fim_processo(Core.isNotNull(history.getStartTime())?Core.ToChar(history.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+			model.setData_inicio_de_processo(Core.isNotNull(history.getEndTime())?Core.ToChar(history.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
+			
+			break;
 		}
 		DetalhesProcessoView view = new DetalhesProcessoView(model);
 		ProcessDefinitionService p =new ProcessDefinitionService();
@@ -47,9 +47,13 @@ public class DetalhesProcessoController extends Controller {
 		}else {
 			//Get Diagram on historic
 			p = p.getProcessDefinition(processDefinition);
-			ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
-			content = r.getResourceContent(r.getContentUrl());
-			view.img_1.setValue("data:"+r.getMediaType()+";base64,"+content);
+			if(Core.isNotNull(p.getDiagramResource())) {
+				ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
+				if(Core.isNotNull(r.getContentUrl())) {
+					content = r.getResourceContent(r.getContentUrl());
+					view.img_1.setValue("data:"+r.getMediaType()+";base64,"+content);
+				}
+			}
 		}
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/

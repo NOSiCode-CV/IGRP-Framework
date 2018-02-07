@@ -3,7 +3,6 @@ package nosi.core.webapp.activit.rest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.Part;
 import javax.ws.rs.core.Response;
@@ -20,7 +19,7 @@ import nosi.core.webapp.webservices.helpers.RestRequest;
 
 public class DeploymentService extends Activit{
 
-	private Date deploymentTime;
+	private String deploymentTime;
 	private String tenantId;
 	
 	public DeploymentService() {
@@ -122,11 +121,11 @@ public class DeploymentService extends Activit{
 	}
 
 	
-	public Date getDeploymentTime() {
+	public String getDeploymentTime() {
 		return deploymentTime;
 	}
 
-	public void setDeploymentTime(Date deploymentTime) {
+	public void setDeploymentTime(String deploymentTime) {
 		this.deploymentTime = deploymentTime;
 	}
 
