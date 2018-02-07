@@ -102,7 +102,7 @@ public class BPMNDesignerView extends View {
 		link.setLabel(gt("Link"));
 		
 		link.propertie().add("name","p_link").add("type","link").add("target","_self").add("target_fields","").add("closerefresh","false").add("action","index").add("page","BPMNDesigner").add("app","igrp").add("class","link").add("btnSize","").add("iconColor","#333").add("iconClass","").add("img","fa-link").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("desc","true");
-		id_objeto = new TextField(model,"id_objeto");
+		id_objeto = new NumberField(model,"id_objeto");
 		id_objeto.setLabel(gt("Id_objeto"));
 		
 		id_objeto.propertie().add("name","p_id_objeto").add("type","number").add("min","").add("max","").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false").add("total_footer","false");

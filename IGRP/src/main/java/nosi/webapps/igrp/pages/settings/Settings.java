@@ -1,9 +1,6 @@
 package nosi.webapps.igrp.pages.settings;
-import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
-import nosi.core.gui.components.IGRPSeparatorList.Pair;
-import nosi.core.webapp.SeparatorList;
 
 public class Settings extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -26,14 +23,24 @@ public class Settings extends Model{
 	private String password_expira_em;
 	@RParam(rParamName = "p_view_1_img")
 	private String view_1_img;
-	@RParam(rParamName = "p_idioma")
-	private String idioma;
-	@RParam(rParamName = "p_separator_1")
-	private String separator_1;
 	@RParam(rParamName = "p_organica")
 	private String organica;
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
+	@RParam(rParamName = "p_janela_inicil")
+	private String janela_inicil;
+	@RParam(rParamName = "p_idioma")
+	private String idioma;
+	@RParam(rParamName = "p_auto_complete")
+	private int auto_complete;
+	@RParam(rParamName = "p_auto_complete_check")
+	private int auto_complete_check;
+	@RParam(rParamName = "p_notificacao")
+	private String notificacao;
+	@RParam(rParamName = "p_receber_notificacao")
+	private int receber_notificacao;
+	@RParam(rParamName = "p_receber_notificacao_check")
+	private int receber_notificacao_check;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -105,20 +112,6 @@ public class Settings extends Model{
 		return this.view_1_img;
 	}
 	
-	public void setIdioma(String idioma){
-		this.idioma = idioma;
-	}
-	public String getIdioma(){
-		return this.idioma;
-	}
-	
-	public void setSeparator_1(String separator_1){
-		this.separator_1 = separator_1;
-	}
-	public String getSeparator_1(){
-		return this.separator_1;
-	}
-	
 	public void setOrganica(String organica){
 		this.organica = organica;
 	}
@@ -131,6 +124,53 @@ public class Settings extends Model{
 	}
 	public String getPerfil(){
 		return this.perfil;
+	}
+	
+	public void setJanela_inicil(String janela_inicil){
+		this.janela_inicil = janela_inicil;
+	}
+	public String getJanela_inicil(){
+		return this.janela_inicil;
+	}
+	
+	public void setIdioma(String idioma){
+		this.idioma = idioma;
+	}
+	public String getIdioma(){
+		return this.idioma;
+	}
+	
+	public void setAuto_complete(int auto_complete){
+		this.auto_complete = auto_complete;
+	}
+	public int getAuto_complete(){
+		return this.auto_complete;
+	}
+	public void setAuto_complete_check(int auto_complete_check){
+		this.auto_complete_check = auto_complete_check;
+	}
+	public int getAuto_complete_check(){
+		return this.auto_complete_check;
+	}
+	
+	public void setNotificacao(String notificacao){
+		this.notificacao = notificacao;
+	}
+	public String getNotificacao(){
+		return this.notificacao;
+	}
+	
+	public void setReceber_notificacao(int receber_notificacao){
+		this.receber_notificacao = receber_notificacao;
+	}
+	public int getReceber_notificacao(){
+		return this.receber_notificacao;
+	}
+	public void setReceber_notificacao_check(int receber_notificacao_check){
+		this.receber_notificacao_check = receber_notificacao_check;
+	}
+	public int getReceber_notificacao_check(){
+		return this.receber_notificacao_check;
 	}
 
 

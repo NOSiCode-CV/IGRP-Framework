@@ -6,17 +6,55 @@
 	<version>0.1.0 06-02-2018</version>
 	<packaging>war</packaging>
 
-	<!-- Database migrations properties -->
+	
 	<properties>
+		<!-- Database migrations properties -->
 		<activejdbc.version>1.4.13</activejdbc.version>
 		<environments>development.test,development</environments>
+		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<tomee.version>7.0.3</tomee.version>	
+		
+		<!-- Test properties -->
+		<arquillian.bom.version>1.0.0.Final</arquillian.bom.version>
+		<arquillian.drone.bom.version>1.0.0.Final</arquillian.drone.bom.version>
+				
 	</properties>
 
-
+	<!-- Test Staffs -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${arquillian.bom.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+				
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-drone-bom</artifactId>
+				<version>${arquillian.drone.bom.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+				
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
-
+	
+	<!-- TomEE embedded -->
+      <dependency>
+         <groupId>org.apache.tomee</groupId>
+         <artifactId>tomee-embedded</artifactId>
+         <version>${tomee.version}</version>
+         <scope>provided</scope>
+      </dependency>
+    
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -70,6 +108,7 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/WebContent/WEB-INF/lib/tools.jar</systemPath>
 		</dependency>
+
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
@@ -244,10 +283,73 @@
 			<artifactId>libintl</artifactId>
 			<version>0.18.3</version>
 		</dependency>
+		
+		<!-- Test stuffs -->
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-selenium</artifactId>
+			<scope>test</scope>
+		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-drone-selenium-server</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>servlet-api-2.5</artifactId>
+				</exclusion>
+			</exclusions>
+
+		</dependency>
+			<!-- Mockito Core framework for unit tests in Java -->
+				<dependency>
+					<groupId>org.mockito</groupId>
+					<artifactId>mockito-core</artifactId>
+					<version>2.13.0</version>
+					<scope>test</scope>
+				</dependency>
+				
+				<!-- Module "junit-jupiter-api" of JUnit 5.  -->
+				<dependency>
+					<groupId>org.junit.jupiter</groupId>
+					<artifactId>junit-jupiter-api</artifactId>
+					<version>5.1.0-M2</version>
+					<scope>test</scope>
+				</dependency>
+		
+		</dependencies>
 
 	<build>
 
@@ -272,7 +374,18 @@
 		<pluginManagement>
 
 			<plugins>
-
+				
+				<!-- TomEE embedded maven plugin -->
+		      <plugin>
+		        <groupId>org.apache.tomee.maven</groupId>
+		        <artifactId>tomee-maven-plugin</artifactId>
+		        <version>${tomee.version}</version>
+		        <configuration>
+		          <tomeeVersion>${tomee.version}</tomeeVersion>
+		          <tomeeClassifier>plus</tomeeClassifier>
+		        </configuration>
+		      </plugin>
+    
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.7.0</version>
@@ -281,7 +394,12 @@
 						<target>1.8</target>
 					</configuration>
 				</plugin>
-
+				
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.12</version>
+				</plugin>
+				
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.0.0</version>
@@ -343,33 +461,34 @@
 
 	</build>
 
-	<!-- Test stuffs -->
+<!-- Test stuffs -->
+
 	<profiles>
 		<profile>
-			<id>igrp-test</id>
+			<id>arquillian-glassfish-embedded</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<dependencies>
 
-				<!-- Mockito Core framework for unit tests in Java -->
 				<dependency>
-					<groupId>org.mockito</groupId>
-					<artifactId>mockito-core</artifactId>
-					<version>2.13.0</version>
+					<groupId>org.glassfish.main.extras</groupId>
+					<artifactId>glassfish-embedded-all</artifactId>
+					<version>5.0</version>
+					<scope>provided</scope>
+				</dependency>
+				
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+					<version>1.0.2</version>
 					<scope>test</scope>
 				</dependency>
-
-				<!-- Module "junit-jupiter-api" of JUnit 5. -->
-				<dependency>
-					<groupId>org.junit.jupiter</groupId>
-					<artifactId>junit-jupiter-api</artifactId>
-					<version>5.1.0-M2</version>
-					<scope>test</scope>
-				</dependency>
+				
 			</dependencies>
 		</profile>
 	</profiles>
+	
 	<!-- Build from given url repository <distributionManagement> <repository> 
 		<id>localSnap</id> <url> url repository</url> </repository> </distributionManagement> -->
 </project>

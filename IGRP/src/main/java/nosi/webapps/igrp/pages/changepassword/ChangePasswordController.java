@@ -1,14 +1,17 @@
 
 package nosi.webapps.igrp.pages.changepassword;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
+/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.xml.bind.JAXB;
+
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
@@ -34,8 +37,8 @@ public class ChangePasswordController extends Controller {
 
 
 	public Response actionGuardar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GUARDAR)----*/
-ChangePassword model = new ChangePassword();
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		ChangePassword model = new ChangePassword();
 		if(Igrp.getMethod().equalsIgnoreCase("post")){
 
 			model.load();
@@ -60,12 +63,11 @@ ChangePassword model = new ChangePassword();
 		return this.redirect("igrp","ChangePassword","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
-	
 	private Response db(String currentPassword, String newPassword) throws IOException {
-
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		User user = Core.getCurrentUser();
 		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
@@ -80,11 +82,11 @@ ChangePassword model = new ChangePassword();
 			return this.forward("igrp","ChangePassword","index");
 		
 		return this.redirect("igrp","ChangePassword","index");
-	
+		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	private Response ldap(String currentPassword, String newPassword) throws IOException {
-	
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		User user = Core.getCurrentUser();
 		if(!user.getPass_hash().equals(nosi.core.webapp.User.encryptToHash(currentPassword, "MD5"))) {
 			Core.setMessageError(gt("Senha atual inválida. Tente de novo !!! "));
@@ -117,7 +119,9 @@ ChangePassword model = new ChangePassword();
 			return this.forward("igrp","ChangePassword","index");
 		}
 		return this.redirect("igrp","ChangePassword","index");
-		
-	}
 		/*----#END-PRESERVED-AREA----*/
+	}
+	
+	
+	/*----#END-PRESERVED-AREA----*/
 }

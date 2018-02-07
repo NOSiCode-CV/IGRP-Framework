@@ -133,7 +133,6 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
-	
 
 	public boolean getPermissionMen(String app) {
 		
@@ -167,18 +166,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 //		t.commit();
 //		em.close();
 		return p.size() > 0;
-		
-		
 	}
-	public List<Menu> getMyMen_de_env(int env_fk) {
-		
-		List<Menu> menus_App = new Menu().find()
-				.andWhere("application.id", "=" , env_fk)
-				.andWhere("action.id", "<>", 0)
-				.all();
-		return menus_App;
-	}
-	
+
 	@SuppressWarnings("unchecked")
 	public HashMap<String,List<Menu>> getMyMenu() {
 		EntityManager em = this.getEntityManagerFactory().createEntityManager();

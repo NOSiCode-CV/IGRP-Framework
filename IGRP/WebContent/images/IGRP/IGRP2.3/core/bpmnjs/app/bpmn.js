@@ -95,10 +95,9 @@
             ' xmlns:xsd="http://www.w3.org/2001/XMLSchema" '+
             ' xmlns:activiti="http://activiti.org/bpmn" '+
             ' targetNamespace="http://www.activiti.org/processdef">',
-            activeXml = com.minify(xml).replace(/bpmn:/g,'').replace(/<camunda:/g,'<')
-               .replace(/<\/camunda:/g,'</').replace(/camunda:/g,'activiti:')
+            activeXml = com.minify(xml).replace(/bpmn:/g,'').replace(/camunda:/g,'')
                .replace(/<dc:/g, '<omgdc:').replace(/<di:/g, '<omgdi:');
-         
+
          activeXml = activeXml.substring(activeXml.indexOf('<process'),activeXml.length);
          activeXml = starAtivitiXml+activeXml;
 
@@ -127,10 +126,10 @@
                      }
                   }
 
-                  xml = com.activitiXml(xml);
-                  
+                  xml = $.parseXML(com.activitiXml(xml));
+
                   console.log(xml);
-                  
+
                   arrayItem.push({name:'p_id',value:bpmn.id});
                   arrayItem.push({name:'p_env_fk',value:bpmn.app});
                   
