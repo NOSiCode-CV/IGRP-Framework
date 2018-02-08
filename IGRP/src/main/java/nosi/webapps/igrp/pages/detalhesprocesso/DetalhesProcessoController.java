@@ -19,7 +19,7 @@ public class DetalhesProcessoController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
-		
+	
 		DetalhesProcesso model = new DetalhesProcesso();
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		TaskServiceQuery taskS = new TaskServiceQuery();

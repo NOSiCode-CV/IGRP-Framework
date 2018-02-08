@@ -344,7 +344,7 @@ public class ExecucaoTarefasController extends Controller {
 		FormDataService properties = null;
 		ProcessInstancesService p = new ProcessInstancesService();
 		p.setId(task.getProcessInstanceId());
-		CustomVariable<String[]> customVariable = new CustomVariable<>();
+		//CustomVariable<String[]> customVariable = new CustomVariable<>();
 		Map<String, String[]> map = new HashMap<>();
 		
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
@@ -378,9 +378,9 @@ public class ExecucaoTarefasController extends Controller {
 				Core.getParameters().entrySet().stream().forEach(param->{
 					map.put(param.getKey(), param.getValue());
 				});				
-				customVariable.setName("igrp");
-				customVariable.setValue(map);
-				p.submitProcessObject(customVariable, "v_serial", "local");
+//				customVariable.setName("igrp");
+//				customVariable.setValue(map);
+//				p.submitProcessObject(customVariable, "v_serial", "local");
 			}
 		}
 		
@@ -394,7 +394,7 @@ public class ExecucaoTarefasController extends Controller {
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
-		ProcessDefinitionService task = new ProcessDefinitionService();
+		ProcessInstancesService pi = new ProcessInstancesService();
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
 			formData.setProcessDefinitionId(processDefinitionId);
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
@@ -413,8 +413,8 @@ public class ExecucaoTarefasController extends Controller {
 		StartProcess st = formData.submitFormByProcessDenifition();
 		
 		if(st!=null){
-			task.setId(st.getId());
-			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+			pi.setId(st.getId());
+			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
