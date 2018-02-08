@@ -35,83 +35,85 @@ public class EnvView extends View {
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
 	public EnvView(Env model){
-		this.setPageTitle("Registar Aplicação");
+
+		this.setPageTitle("Registar Aplicacao");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("App builder - Novo"));
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		name = new TextField(model,"name");
 		name.setLabel(gt("Nome"));
-		name.propertie().add("name","p_name").add("type","text").add("maxlength","50").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		name.propertie().add("name","p_name").add("type","text").add("maxlength","50").add("required","true");
 		
 		dad = new TextField(model,"dad");
 		dad.setLabel(gt("Código"));
-		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		dad.propertie().add("name","p_dad").add("type","text").add("maxlength","30").add("required","true");
 		
 		description = new TextAreaField(model,"description");
 		description.setLabel(gt("Descrição"));
-		description.propertie().add("name","p_description").add("type","textarea").add("maxlength","500").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		description.propertie().add("name","p_description").add("type","textarea").add("maxlength","500").add("required","false");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
-		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		status.propertie().add("name","p_status").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
 		
 		personalizacoes = new SeparatorField(model,"personalizacoes");
 		personalizacoes.setLabel(gt("Personalizações"));
-		personalizacoes.propertie().add("name","p_personalizacoes").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
+		personalizacoes.propertie().add("name","p_personalizacoes").add("type","separator").add("maxlength","30");
 		
 		img_src = new TextField(model,"img_src");
 		img_src.setLabel(gt("Logotipo"));
-		img_src.propertie().add("name","p_img_src").add("type","text").add("maxlength","50").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		img_src.propertie().add("name","p_img_src").add("type","text").add("maxlength","50").add("required","false");
 		
 		templates = new TextField(model,"templates");
 		templates.setLabel(gt("Template (theme)"));
-		templates.propertie().add("name","p_templates").add("type","text").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		templates.propertie().add("name","p_templates").add("type","text").add("maxlength","100").add("required","false");
 		
 		action_fk = new ListField(model,"action_fk");
 		action_fk.setLabel(gt("Primeira Página"));
-		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		action_fk.propertie().add("name","p_action_fk").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
 		
 		extras = new SeparatorField(model,"extras");
 		extras.setLabel(gt("Extras"));
-		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
+		extras.propertie().add("name","p_extras").add("type","separator").add("maxlength","30");
 		
 		host = new TextField(model,"host");
 		host.setLabel(gt("Host"));
-		host.propertie().add("name","p_host").add("type","text").add("maxlength","255").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		host.propertie().add("name","p_host").add("type","text").add("maxlength","255").add("required","false");
 		
 		flg_external = new CheckBoxField(model,"flg_external");
 		flg_external.setLabel(gt("Externo?"));
-		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		flg_external.propertie().add("name","p_flg_external").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
 		
 		link_menu = new TextField(model,"link_menu");
 		link_menu.setLabel(gt("Link Menu (Antigo)"));
-		link_menu.propertie().add("name","p_link_menu").add("type","text").add("maxlength","2000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		link_menu.propertie().add("name","p_link_menu").add("type","text").add("maxlength","2000").add("required","false");
 		
 		link_center = new TextField(model,"link_center");
 		link_center.setLabel(gt("Link Centro (Antigo)"));
-		link_center.propertie().add("name","p_link_center").add("type","text").add("maxlength","2000").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		link_center.propertie().add("name","p_link_center").add("type","text").add("maxlength","2000").add("required","false");
 		
 		apache_dad = new TextField(model,"apache_dad");
 		apache_dad.setLabel(gt("DAD"));
-		apache_dad.propertie().add("name","p_apache_dad").add("type","text").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		apache_dad.propertie().add("name","p_apache_dad").add("type","text").add("maxlength","30").add("required","false");
 		
 		flg_old = new CheckBoxField(model,"flg_old");
 		flg_old.setLabel(gt("Antigo?"));
-		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		flg_old.propertie().add("name","p_flg_old").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
 		
 		gen_auto_code = new CheckBoxField(model,"gen_auto_code");
 		gen_auto_code.setLabel(gt("Generate Auto Code"));
-		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","2").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		gen_auto_code.propertie().add("name","p_gen_auto_code").add("type","checkbox").add("maxlength","2").add("required","false").add("check","true");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+
 		btn_gravar = new IGRPButton("Gravar","igrp_studio","Env","gravar","submit","primary|fa-floppy-o","","");
-		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar");
+		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 		
 	}
 		

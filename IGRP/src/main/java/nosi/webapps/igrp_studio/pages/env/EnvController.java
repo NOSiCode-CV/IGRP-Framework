@@ -1,5 +1,5 @@
-package nosi.webapps.igrp_studio.pages.env;
 
+package nosi.webapps.igrp_studio.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
