@@ -77,14 +77,14 @@
 <!-- 		</dependency> -->
 
 		<!-- PARA JENKINGS PORQUE O TOMMEE TEM -->
-		<dependency>
+<!-- 		<dependency>
 
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
+		
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-bundle-jaxrs</artifactId>
@@ -100,7 +100,7 @@
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>2.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.sun/tools -->
+		 -->
 		<dependency>
 			<groupId>com.sun</groupId>
 			<artifactId>tools</artifactId>

@@ -15,7 +15,6 @@ import nosi.core.gui.fields.LinkField;
 import nosi.core.gui.fields.TextField;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
@@ -23,12 +22,12 @@ import nosi.core.webapp.activit.rest.QueryHistoricDetail;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
-import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 /*----#END-PRESERVED-AREA----*/
+import nosi.webapps.igrp.dao.Action;
 
 public class Detalhes_tarefasController extends Controller {
 
@@ -50,8 +49,10 @@ public class Detalhes_tarefasController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail) {
-		if(task.hasCustomForm()) {
-			return this.generateCustomFormTask(task);
+
+		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).one();
+		if(action!=null) {
+			return this.generateCustomFormTask(queryHistoricDetail);
 		}
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
@@ -187,6 +188,11 @@ public class Detalhes_tarefasController extends Controller {
 	private String generateViewTask(TaskServiceQuery task) {
 		IGRPView view = new IGRPView("view",gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()),(float)2.1);
 		
+		Field task_desc = new TextField(null,"task_desc");
+		task_desc.propertie().add("type","text").add("name","p_task_desc").add("persist","true").add("maxlength","4000");
+		task_desc.setLabel(gt("Descrição:"));
+		task_desc.setValue(Core.isNotNull(task.getDescription())?task.getDescription():task.getName());
+		
 		Field user_exec = new TextField(null,"user_exec");
 		user_exec.propertie().add("type","text").add("name","p_user_exec").add("persist","true").add("maxlength","4000");
 		user_exec.setLabel(gt("Executado por:"));
@@ -202,27 +208,29 @@ public class Detalhes_tarefasController extends Controller {
 		endDate.setLabel(gt("Data Fim"));
 		endDate.setValue(Core.isNotNull(task.getEndTime())?Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 		
+		view.addField(task_desc);
 		view.addField(user_exec);
 		view.addField(startDate);
 		view.addField(endDate);
 		return view.toString();
 	}
 	
-	private String generateCustomFormTask(TaskServiceQuery task) {
+	private String generateCustomFormTask(List<QueryHistoricDetail> task) {
 		Gson gson = new Gson();
 		String app = "";
 		String page ="";
 		String action = "index";
-		List<TaskVariables> tv = task.getVariables().stream()
-				   									.filter(v->v.getName().equalsIgnoreCase("CustomVariableIGRP"))
-				   									.collect(Collectors.toList());		
-		CustomVariableIGRP custom = gson.fromJson(tv.get(0).toString(), CustomVariableIGRP.class);
+		String params ="";
+		CustomVariableIGRP custom = gson.fromJson(task.get(0).getPropertyValue().toString(), CustomVariableIGRP.class);
 		if(custom!=null){
 			for(Rows rows:custom.getRows()) {
 				if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
 					page = rows.getValue()[0].toString();
 				}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
 					app = rows.getValue()[0].toString();
+				}else {
+					for(Object obj:rows.getValue())
+						params+="&"+rows.getName()+"="+obj.toString();
 				}
 			}
 			Response resp = this.call(app, page, action);
