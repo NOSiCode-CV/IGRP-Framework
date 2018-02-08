@@ -3,8 +3,6 @@ package nosi.webapps.igrp_studio.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 
 import java.net.HttpURLConnection;
@@ -314,7 +312,7 @@ public class EnvController extends Controller {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoInput(true);
 			StringBuilder result = new StringBuilder();
-			BufferedReader cin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			DataInputStream cin = new DataInputStream(conn.getInputStream());
 			String aux = null;
 			while((aux = cin.readLine()) != null) {
 				result.append(aux);

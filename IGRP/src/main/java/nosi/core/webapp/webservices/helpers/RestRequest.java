@@ -130,19 +130,6 @@ public class RestRequest{
 	   return null;
 	}
 	
-	public Response put(String url, Part file, String fileExtension) throws IOException {	
-		this.addUrl(url);
-		Client client = this.getConfig().bluidClient();
-		WebTarget target = client.target(this.getConfig().getUrl());
-		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getName()+fileExtension+"\"");
-		List<Attachment> atts = new LinkedList<Attachment>();
-		atts.add(new Attachment("file", file.getInputStream(),cd));
-		MultipartBody body = new MultipartBody(atts);
-		Response response = target.request(this.getAccept_format()).put(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
-		client.close();	
-		return response;
-	}
-	
 	public Response put(String url,String content){
 		try{
 			Client client = this.getConfig().bluidClient();

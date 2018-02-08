@@ -18,10 +18,15 @@ public class SettingsView extends View {
 	public Field ultimo_acesso_rede_estado;
 	public Field password_expira_em;
 	public Field view_1_img;
-	public Field idioma;
-	public Field separator_1;
 	public Field organica;
 	public Field perfil;
+	public Field janela_inicil;
+	public Field idioma;
+	public Field auto_complete;
+	public Field auto_complete_check;
+	public Field notificacao;
+	public Field receber_notificacao;
+	public Field receber_notificacao_check;
 	public IGRPForm sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
@@ -30,16 +35,15 @@ public class SettingsView extends View {
 	public IGRPButton btn_alterar_senha;
 	public IGRPButton btn_aplicar;
 	public SettingsView(Settings model){
-
 		this.setPageTitle("Settings");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		view_1 = new IGRPView("view_1","");
-		form_1 = new IGRPForm("form_1","");
+		form_1 = new IGRPForm("form_1","PARAMETROS");
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
-		sectionheader_1_text.setValue(gt("Área pessoal"));
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
+		sectionheader_1_text.setValue(gt("Settings Aplicação :"));
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
 		
 		nome = new TextField(model,"nome");
 		nome.setLabel(gt("Nome"));
@@ -77,30 +81,40 @@ public class SettingsView extends View {
 		view_1_img.setLabel(gt(""));
 		view_1_img.propertie().add("type","text").add("name","p_view_1_img").add("maxlength","300");
 		
-		idioma = new ListField(model,"idioma");
-		idioma.setLabel(gt(" Idioma"));
-		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
-		
-		separator_1 = new SeparatorField(model,"separator_1");
-		separator_1.setLabel(gt("Acesso"));
-		separator_1.propertie().add("name","p_separator_1").add("type","separator").add("maxlength","30");
-		
 		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		organica.setLabel(gt("Organica"));
+		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
 		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
-		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("change","true").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		
+		janela_inicil = new ListField(model,"janela_inicil");
+		janela_inicil.setLabel(gt("Janela Inicil"));
+		janela_inicil.propertie().add("name","p_janela_inicil").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		
+		idioma = new ListField(model,"idioma");
+		idioma.setLabel(gt("Idioma"));
+		idioma.propertie().add("name","p_idioma").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("domain","").add("java-type","");
+		
+		auto_complete = new CheckBoxField(model,"auto_complete");
+		auto_complete.setLabel(gt("Auto Complete"));
+		auto_complete.propertie().add("name","p_auto_complete").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
+		
+		notificacao = new SeparatorField(model,"notificacao");
+		notificacao.setLabel(gt("Notificação"));
+		notificacao.propertie().add("name","p_notificacao").add("type","separator").add("maxlength","30").add("placeholder","").add("right","false");
+		
+		receber_notificacao = new CheckBoxField(model,"receber_notificacao");
+		receber_notificacao.setLabel(gt("Receber Notificação?"));
+		receber_notificacao.propertie().add("name","p_receber_notificacao").add("type","checkbox").add("maxlength","30").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("right","false").add("check","true");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-
-		btn_alterar_senha = new IGRPButton("Alterar senha","igrp","Settings","alterar_senha","right_panel","warning|fa-lock","","");
-		btn_alterar_senha.propertie.add("type","specific").add("rel","alterar_senha");
-
+		btn_alterar_senha = new IGRPButton("Alterar senha","igrp","Settings","alterar_senha","modal","warning|fa-lock","","");
+		btn_alterar_senha.propertie.add("type","specific").add("code","").add("rel","alterar_senha");
 		btn_aplicar = new IGRPButton("Aplicar","igrp","Settings","aplicar","submit_form","success|fa-check","","");
-		btn_aplicar.propertie.add("type","specific").add("rel","aplicar");
+		btn_aplicar.propertie.add("type","specific").add("code","").add("rel","aplicar");
 		
 	}
 		
@@ -120,10 +134,15 @@ public class SettingsView extends View {
 		view_1.addField(view_1_img);
 
 
-		form_1.addField(idioma);
-		form_1.addField(separator_1);
 		form_1.addField(organica);
 		form_1.addField(perfil);
+		form_1.addField(janela_inicil);
+		form_1.addField(idioma);
+		form_1.addField(auto_complete);
+		form_1.addField(notificacao);
+		form_1.addField(receber_notificacao);
+		form_1.addField(email);
+		form_1.addField(telemovel);
 
 		toolsbar_1.addButton(btn_alterar_senha);
 		toolsbar_1.addButton(btn_aplicar);

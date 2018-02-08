@@ -96,7 +96,7 @@ public class DeploymentService extends Activit{
 	
 	public DeploymentService update(Part file,Integer idApp) throws IOException{
 		DeploymentService d = this;
-		Response response = new RestRequest().put("repository/deployments?tenantId="+idApp,file,".bpmn20.xml");
+		Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,".bpmn20.xml");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();

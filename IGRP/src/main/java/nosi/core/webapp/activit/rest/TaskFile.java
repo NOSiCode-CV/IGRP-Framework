@@ -33,7 +33,7 @@ public class TaskFile {
 				.filter(file->Core.isNotNull(file.getName()))
 				.forEach(file->{
 					try {
-						if(task instanceof ProcessDefinitionService)
+						if(task instanceof ProcessInstancesService)
 							new ProcessInstancesService().submitProcessFile(file,task.getId(),file_name.get(file.getSubmittedFileName())+"___"+file_desc.get(file.getSubmittedFileName())+"___"+file.getSubmittedFileName());
 						else if(task instanceof TaskService)
 							new TaskService().submitTaskFile(file,task.getId(),file_name.get(file.getSubmittedFileName())+"___"+file_desc.get(file.getSubmittedFileName())+"___"+file.getSubmittedFileName());

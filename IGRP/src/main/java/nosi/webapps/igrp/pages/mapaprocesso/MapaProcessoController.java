@@ -191,10 +191,7 @@ public class MapaProcessoController extends Controller {
 					if(prop.getType().endsWith("enum")){
 						field.setValue(IgrpHelper.toMap(prop.getEnumValues(), "id", "name",gt("--- Selecionar Opção ---")));
 					}
-					if(Core.isNotNull(prop.getName()))
-						field.setLabel(gt(StringHelper.camelCase(prop.getName())));
-					else if(!Core.isNotNull(prop.getName()))
-						field.setLabel(gt(StringHelper.camelCase(prop.getId())));
+					field.setLabel(gt(StringHelper.camelCase(prop.getName())));
 					form.addField(field);
 				}
 			}

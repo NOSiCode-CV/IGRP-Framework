@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.servlet.http.HttpServletRequest;
+
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 
@@ -216,6 +218,27 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
+	
+	private String getClientIpAddr() {  // For HProxy server purpose ... 
+		HttpServletRequest request = Igrp.getInstance().getRequest();
+        String ip = request.getHeader("X-Forwarded-For");  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getRemoteAddr();  
+        }  
+        return ip;  
+	}
 
 	public static boolean afterLogin(Profile profile) {
 		Session currentSession = new Session();
@@ -224,7 +247,7 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		currentSession.setApplication(new Application().findOne(user.getAplicacao().getId()));
 		currentSession.setOrganization(profile.getOrganization());
 		currentSession.setProfileType(profile.getProfileType());
-		currentSession.setIpAddress(Igrp.getInstance().getRequest().getRemoteAddr());
+		currentSession.setIpAddress(currentSession.getClientIpAddr());
 		currentSession.setSessionId(Igrp.getInstance().getRequest().getRequestedSessionId());
 		currentSession.setUserName(user.getUser_name());
 		currentSession.setHttps( Igrp.getInstance().getRequest().isSecure() ? 1 : 0);
@@ -246,10 +269,5 @@ public class Session extends BaseActiveRecord<Session> implements Serializable{
 		if(session!=null){session.setEndTime(System.currentTimeMillis());}
 		return session!=null && session.getApplication()!=null && session.update()!=null;
 	}
-//	String sql = "SELECT * FROM GLB_T_SESSION where 1=1 ";
-//	sql += this.envId != 0 ? " and env_id = " + this.envId : ""; 
-//	sql += this.userName != null && !this.userName.equals("") ? " and user_name = '" + this.userName + "' " : "";
-//	//sql += this.startTime != 0 ? " and (start_time - " + this.startTime + " < 24*60)" : "";
-//	//sql += this.endTime != 0 ? " and (end_time - " + this.endTime + " < 24*60)" : "";
-//	String sql = "select a.start_time data, count(*) total from glb_t_session a where a.start_time between ? and ? group by a.start_time order by 1;";
+	
 }
