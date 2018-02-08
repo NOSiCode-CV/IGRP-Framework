@@ -26,7 +26,7 @@ public class ConfigurationRequest {
 		this.request = request;
 	}
 	public Client bluidClient() {
-		return   ClientBuilder.newBuilder()
+		return  ClientBuilder.newBuilder()
 				.sslContext(this.createSslContext())
 				.hostnameVerifier(this.getHostNameVerifier())
 				.register(this.getHttpAuthenticationFeature())
