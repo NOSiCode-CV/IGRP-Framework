@@ -208,10 +208,18 @@ public class Detalhes_tarefasController extends Controller {
 		endDate.setLabel(gt("Data Fim"));
 		endDate.setValue(Core.isNotNull(task.getEndTime())?Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 		
+
+		Field status = new TextField(null,"status");
+		status.propertie().add("type","text").add("name","p_status").add("persist","true").add("maxlength","4000");	
+		status.setLabel(gt("Estado"));
+		status.setValue(task.getStatusTask());
+		
+		
 		view.addField(task_desc);
 		view.addField(user_exec);
 		view.addField(startDate);
 		view.addField(endDate);
+		view.addField(status);
 		return view.toString();
 	}
 	
