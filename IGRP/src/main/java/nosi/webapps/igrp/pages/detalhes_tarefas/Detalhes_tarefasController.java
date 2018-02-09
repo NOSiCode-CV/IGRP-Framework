@@ -26,8 +26,8 @@ import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
-/*----#END-PRESERVED-AREA----*/
 import nosi.webapps.igrp.dao.Action;
+/*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
 
@@ -49,10 +49,10 @@ public class Detalhes_tarefasController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail) {
-
-		Action action = new Action().find().andWhere("page", "=",task.getFormKey()).one();
-		if(action!=null) {
-			return this.generateCustomFormTask(queryHistoricDetail);
+		if(Core.isNotNull(task.getFormKey())) {
+			Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=", task.getTenantId()).one();
+			if(action!=null)
+				return this.generateCustomFormTask(queryHistoricDetail);
 		}
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");

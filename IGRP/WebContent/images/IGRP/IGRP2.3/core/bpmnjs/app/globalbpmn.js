@@ -14394,7 +14394,7 @@ var initialDiagram =
                     'xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" ' +
                     'targetNamespace="http://bpmn.io/schema/bpmn" ' +
                     'id="Definitions_1">' +
-    '<bpmn:process id="Process_1" isExecutable="false">' +
+    '<bpmn:process id="Process_1" isExecutable="true">' +
       '<bpmn:startEvent id="StartEvent_1"/>' +
     '</bpmn:process>' +
     '<bpmndi:BPMNDiagram id="BPMNDiagram_1">' +
@@ -28345,7 +28345,7 @@ function BpmnTreeWalker(handler, translate) {
    */
   function handleDefinitions(definitions, diagram) {
     // make sure we walk the correct bpmnElement
-
+    try{
     var diagrams = definitions.diagrams;
 
     if (diagram && diagrams.indexOf(diagram) === -1) {
@@ -28419,6 +28419,7 @@ function BpmnTreeWalker(handler, translate) {
 
     // handle all deferred elements
     handleDeferred(deferred);
+    }catch(e){console.log(e);null;}
   }
 
   function handleDeferred(deferred) {

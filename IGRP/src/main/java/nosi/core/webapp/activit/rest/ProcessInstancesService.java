@@ -25,7 +25,7 @@ public class ProcessInstancesService extends Activit{
     private String processDefinitionUrl;
 	private String startTime;
 	private String endTime;
-	private Integer durationInMillis;
+	private String durationInMillis;
 	private String startUserId;
 	private String startActivityId;
 	private String endActivityId;
@@ -33,7 +33,7 @@ public class ProcessInstancesService extends Activit{
 	private String superProcessInstanceId;
 	@Expose(serialize=false,deserialize=false)
 	private List<TaskVariables> variables = new ArrayList<>();
-	private Integer tenantId;
+	private String tenantId;
 	
 	public String getBusinessKey() {
 		return businessKey;
@@ -65,12 +65,7 @@ public class ProcessInstancesService extends Activit{
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public Integer getDurationInMillis() {
-		return durationInMillis;
-	}
-	public void setDurationInMillis(Integer durationInMillis) {
-		this.durationInMillis = durationInMillis;
-	}
+
 	public String getStartUserId() {
 		return startUserId;
 	}
@@ -107,14 +102,20 @@ public class ProcessInstancesService extends Activit{
 	public void setVariables(List<TaskVariables> variables) {
 		this.variables = variables;
 	}
-	public Integer getTenantId() {
-		return tenantId;
-	}
-	public void setTenantId(Integer tenantId) {
-		this.tenantId = tenantId;
-	}
 
 	
+	public String getDurationInMillis() {
+		return durationInMillis;
+	}
+	public void setDurationInMillis(String durationInMillis) {
+		this.durationInMillis = durationInMillis;
+	}
+	public String getTenantId() {
+		return tenantId;
+	}
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
 	public ProcessInstancesService historicProcess(String id){
 		ProcessInstancesService d = new ProcessInstancesService();
 		Response response = new RestRequest().get("history/historic-process-instances",id);
