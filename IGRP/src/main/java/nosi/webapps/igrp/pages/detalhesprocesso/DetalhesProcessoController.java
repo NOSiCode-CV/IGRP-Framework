@@ -51,7 +51,7 @@ public class DetalhesProcessoController extends Controller {
 				ResourcesService r = new ResourcesService().getResource(p.getDiagramResource());
 				if(Core.isNotNull(r.getContentUrl())) {
 					content = r.getResourceContent(r.getContentUrl());
-					view.img_1.setValue("data:"+r.getMediaType()+";base64,"+content);
+					view.img_1.setValue("data:data:image/png;base64,"+content);
 				}
 			}
 		}

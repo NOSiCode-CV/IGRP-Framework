@@ -72,7 +72,8 @@
          
          if (cont){
             var starXml = xml.substring(0,xml.indexOf('<formData>')),
-               field    = xml.substring(xml.indexOf('<formData>')+10,xml.indexOf('</formData>')).replace(/formField/g, 'activiti:formProperty'),
+               field    = xml.substring(xml.indexOf('<formData>')+10,xml.indexOf('</formData>')).
+               replace(/formField/g, 'activiti:formProperty').replace(/label=/g, 'name='),
                endXml   = xml.substring(xml.indexOf('</formData>')+11,xml.length);
 
             newXml = com.oItoActivite(starXml+field+endXml);
@@ -95,9 +96,10 @@
             ' xmlns:xsd="http://www.w3.org/2001/XMLSchema" '+
             ' xmlns:activiti="http://activiti.org/bpmn" '+
             ' targetNamespace="http://www.activiti.org/processdef">',
-            activeXml = com.minify(xml).replace(/bpmn:/g,'').replace(/camunda:/g,'')
+            activeXml = com.minify(xml).replace(/bpmn:/g,'').replace(/<camunda:/g,'<')
+               .replace(/<\/camunda:/g,'</').replace(/camunda:/g,'activiti:')
                .replace(/<dc:/g, '<omgdc:').replace(/<di:/g, '<omgdi:');
-
+         
          activeXml = activeXml.substring(activeXml.indexOf('<process'),activeXml.length);
          activeXml = starAtivitiXml+activeXml;
 
@@ -126,10 +128,10 @@
                      }
                   }
 
-                  xml = $.parseXML(com.activitiXml(xml));
-
+                  xml = com.activitiXml(xml);
+                  
                   console.log(xml);
-
+                  
                   arrayItem.push({name:'p_id',value:bpmn.id});
                   arrayItem.push({name:'p_env_fk',value:bpmn.app});
                   
