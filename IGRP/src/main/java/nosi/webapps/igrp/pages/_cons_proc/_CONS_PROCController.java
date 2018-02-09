@@ -47,7 +47,7 @@ public class _CONS_PROCController extends Controller {
 				t.setDt_inicio_etapa(Core.ToChar(task.getStartTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setDt_fim_etapa(Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"));
 				t.setUtilizador(task.getAssignee());
-				t.setEstado(this.getStatusTask(task));
+				t.setEstado(task.getStatusTask());
 				t.setP_id_task(task.getId());
 				data.add(t);
 			}
@@ -113,13 +113,6 @@ public class _CONS_PROCController extends Controller {
         status.put("true","Terminado");
 		return status;
 	}
-  	private String getStatusTask(TaskServiceQuery task) {
-		if(Core.isNotNull(task.getEndTime()))
-			return "Terminado";
-		if(Core.isNotNull(task.getAssignee()))
-			return "Não Iniciado";
-		return "Não Atribuido";
-	}
-
+  	
 	/*----#END-PRESERVED-AREA----*/
 }

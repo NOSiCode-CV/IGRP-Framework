@@ -109,8 +109,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(Integer idApp){
-		System.out.println("app:"+idApp);
-		this.setFilter("?suspended=false&latest=true&size=100000000&tenantId="+idApp);
+		this.setFilter("?suspended=false&latest=true&size=100000000");
 		return this.getProcessDefinitions();
 	}
 	

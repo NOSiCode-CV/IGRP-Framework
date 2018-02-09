@@ -146,4 +146,13 @@ public class TaskServiceQuery extends TaskService {
 	public void setClaimTime(String claimTime) {
 		this.claimTime = claimTime;
 	}
+	
+
+  	public String getStatusTask() {
+		if(Core.isNotNull(this.getEndTime()))
+			return "Terminado";
+		if(Core.isNotNull(this.getAssignee()))
+			return "Não Iniciado";
+		return "Não Atribuido";
+	}
 }
