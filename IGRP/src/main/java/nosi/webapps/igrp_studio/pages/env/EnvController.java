@@ -2,9 +2,12 @@
 package nosi.webapps.igrp_studio.pages.env;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 
 import java.net.HttpURLConnection;
@@ -253,6 +256,7 @@ public class EnvController extends Controller {
 			xml_menu.setElement("description", obj.getDescription());
 			xml_menu.endElement();
 			displaySubtitle = true; 
+			System.out.println(obj.getName() + " - " + obj.getDescription());
 		}
 		/** End **/
 		if(displayTitle){
@@ -314,13 +318,17 @@ public class EnvController extends Controller {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoInput(true);
 			StringBuilder result = new StringBuilder();
-			BufferedReader  cin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			BufferedReader  cin = new BufferedReader(new InputStreamReader(conn.getInputStream(), "Cp1252"));
+			
 			String aux = null;
 			while((aux = cin.readLine()) != null) {
 				result.append(aux);
 			}
+			
 			cin.close();
 			conn.disconnect();
+			
 			List<IgrpPLSQLApp> allApps = new Gson().fromJson(result.toString(), new TypeToken<List<IgrpPLSQLApp>>() {}.getType());
 			for(IgrpPLSQLApp obj : allApps)
 				if(obj.getAvailable().equals("yes"))
