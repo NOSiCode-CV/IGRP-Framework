@@ -1,22 +1,23 @@
 package nosi.core.webapp;
 
-import java.io.PrintWriter;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
-
 import com.google.gson.Gson;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.Rows;
+import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.databse.helpers.QueryDelete;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.databse.helpers.QueryInsert;
@@ -442,4 +443,110 @@ public final class Core {	// Not inherit
 		String json = gson.toJson(customV);
 		return json;
 	}
+	public static Map<String,String[]> getParameters() {
+		return Igrp.getInstance().getRequest().getParameterMap();
+	}
+	
+	public static void setParam(String name,Object value) {
+		Igrp.getInstance().getRequest().setAttribute(name, value);
+	}
+	
+	public static void setParam(String name,Object[] value) {
+		Igrp.getInstance().getRequest().setAttribute(name, value);
+	}
+	
+	public static String getParam(String name) {
+		return (String) Igrp.getInstance().getRequest().getAttribute(name);
+	}
+
+	public static String[] getParamArray(String name) {
+		return (String[]) Igrp.getInstance().getRequest().getAttribute(name);
+	}
+	
+	public static String getTaskVariable(String taskDefinitionKey,String variableName) {
+		String taskId = Core.getParam("taskId");
+		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+		if(task!=null && task.size() > 0) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,task.get(0).getExecutionId());
+			if(task1!=null && task1.size() > 0) {
+				List<TaskVariables> vars = task1.get(0).getVariables();
+				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+				return (var!=null && var.size() > 0)?(String) var.get(0).getValue():"";
+			}
+		}
+		return "";
+	}
+	
+	public static Integer toInt(String value) {
+		if(Core.isNotNull(value))
+			return Integer.parseInt(value);
+		return 0;
+	}
+
+	public static Long toLong(String value) {
+		if(Core.isNotNull(value))
+			return Long.parseLong(value);
+		return (long) 0;
+	}
+	
+	public static Double toDouble(String value) {
+		if(Core.isNotNull(value))
+			return Double.parseDouble(value);
+		return 0.0;
+	}
+
+	public static Float toFloat(String value) {
+		if(Core.isNotNull(value))
+			return Float.parseFloat(value);
+		return (float) 0;
+	}
+
+	public static String getPinkColor() {
+		return "1";
+	}
+	
+
+	public static String getAmberColor() {
+		return "2";
+	}
+
+	public static String getYellowColor() {
+		return "3";
+	}
+
+	public static String getGreenColor() {
+		return "4";
+	}
+	public static String getBlueGreyColor() {
+		return "5";
+	}
+
+	public static String getPurpleColor() {
+		return "6";
+	}
+	public static String getBlueColor() {
+		return "7";
+	}
+
+	public static String getBrownColor() {
+		return "8";
+	}
+	public static String getDeepPurpleColor() {
+		return "9";
+	}
+
+	public static String getSwitchValue(String ...strings) {
+		if(strings.length > 1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+			String[] newStrings = new String[strings.length-1];
+			System.arraycopy(strings, 1, newStrings,0, newStrings.length);
+			return getSwitchValue(newStrings);
+		}else if(strings.length==1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+		}
+		return "";
+	}	
+	
 }

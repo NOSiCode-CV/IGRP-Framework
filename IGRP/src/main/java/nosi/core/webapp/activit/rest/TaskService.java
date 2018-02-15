@@ -70,20 +70,21 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.setFilter("assignee="+user);
+		this.addFilter("assignee",user);
 		return this.getTasks();
 	}
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		this.addFilter("unassigned","true");
+		this.addFilter("candidateUser",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
 	@SuppressWarnings("unchecked")	
 	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
-		Response response = new RestRequest().get("runtime/tasks?size=100000000&"+this.getFilter());
+		Response response = new RestRequest().get("runtime/tasks?size=100000000"+this.getFilter());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -435,6 +436,10 @@ public class TaskService extends Activit{
 				+ ", processDefinitionId=" + processDefinitionId + ", processDefinitionUrl=" + processDefinitionUrl
 				+ ", variables=" + variables + ", Id=" + getId() + ", Category=" + getCategory()
 				+ ", name=" + getName() + ", url=" + getUrl() + "]";
+	}
+
+	public void addFilter(String paramName, String value) {
+		this.setFilter(this.getFilter()+("&"+paramName+"="+value));
 	}
 	
 }

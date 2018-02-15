@@ -466,15 +466,15 @@ public class ExecucaoTarefasView extends View {
 		
 		data_conclusao_estat_tabela.propertie().add("name","p_data_conclusao_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
-		btn_pesquisar_tarefa = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_tarefa","submit","default|fa-search","","");
+		btn_pesquisar_tarefa = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_tarefa","submit_form","default|fa-search","","");
 		btn_pesquisar_tarefa.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar_tarefa");
-		btn_pesquisar_colaborador = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_colaborador","submit","default|fa-search","","");
+		btn_pesquisar_colaborador = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_colaborador","submit_form","default|fa-search","","");
 		btn_pesquisar_colaborador.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar_colaborador");
-		btn_pesquisar_button_minhas_tarefas = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_button_minhas_tarefas","submit","default|fa-search","","");
+		btn_pesquisar_button_minhas_tarefas = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_button_minhas_tarefas","submit_form","default|fa-search","","");
 		btn_pesquisar_button_minhas_tarefas.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar_button_minhas_tarefas");
-		btn_pesquisar_button_disponiveis = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_button_disponiveis","submit","default|fa-search","","");
+		btn_pesquisar_button_disponiveis = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_button_disponiveis","submit_form","default|fa-search","","");
 		btn_pesquisar_button_disponiveis.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar_button_disponiveis");
-		btn_pesquisar_estatistica = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_estatistica","submit","default|fa-search","","");
+		btn_pesquisar_estatistica = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_estatistica","submit_form","default|fa-search","","");
 		btn_pesquisar_estatistica.propertie.add("type","form").add("code","").add("class","default").add("rel","pesquisar_estatistica");
 		btn_ver_estatistica = new IGRPButton(gt("Ver Estatistica"),"igrp","ExecucaoTarefas","ver_estatistica","_blank","default|fa-angle-right","","");
 		btn_ver_estatistica.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_estatistica");
@@ -482,7 +482,7 @@ public class ExecucaoTarefasView extends View {
 		btn_ver_detalhes.propertie.add("type","specific").add("code","").add("class","default").add("rel","ver_detalhes");
 		btn_enviar_msg = new IGRPButton(gt("Enviar Msg"),"igrp","ExecucaoTarefas","enviar_msg","_blank","default|fa-angle-right","","");
 		btn_enviar_msg.propertie.add("type","specific").add("code","").add("class","default").add("rel","enviar_msg");
-		btn_executar_button_minha_tarefas = new IGRPButton(gt("Executar"),"igrp","ExecucaoTarefas","executar_button_minha_tarefas","submit","default|fa-angle-right","","");
+		btn_executar_button_minha_tarefas = new IGRPButton(gt("Executar"),"igrp","ExecucaoTarefas","executar_button_minha_tarefas","submit_form","default|fa-angle-right","","");
 		btn_executar_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","executar_button_minha_tarefas");
 		btn_detalhes_processos_button_minha_tarefas = new IGRPButton(gt("Detalhes Processos"),"igrp","ExecucaoTarefas","detalhes_processos_button_minha_tarefas","_blank","default|fa-angle-right","","");
 		btn_detalhes_processos_button_minha_tarefas.propertie.add("type","specific").add("code","").add("class","default").add("rel","detalhes_processos_button_minha_tarefas");

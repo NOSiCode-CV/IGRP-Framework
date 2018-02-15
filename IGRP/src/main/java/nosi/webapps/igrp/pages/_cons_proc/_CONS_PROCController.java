@@ -12,7 +12,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskServiceQuery;
 import nosi.webapps.igrp.dao.Application;
-import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.ProfileType;
 import nosi.core.webapp.Igrp;
 
 /*----#END-PRESERVED-AREA----*/
@@ -37,7 +37,19 @@ public class _CONS_PROCController extends Controller {
 				taskS.addFilter("taskAssignee", model.getUser_fk());
 			}
 			if(Core.isNotNull(model.getStatus())) {
-				taskS.addFilter("processFinished", model.getStatus());
+				taskS.addFilter("finished", model.getStatus());
+			}
+			if(Core.isNotNull(model.getAplicacao())) {
+				taskS.addFilter("tenantId", model.getAplicacao());
+			}
+			if(Core.isNotNull(model.getDt_ini())) {
+				taskS.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(model.getDt_ini(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+			}
+			if(Core.isNotNull(model.getDt_fim())) {
+				taskS.addFilter("taskCompletedBefore",Core.ToChar(Core.ToChar(model.getDt_fim(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+			}
+			if(Core.isNotNull(model.getDt_ini()) && !Core.isNotNull(model.getDt_fim())) {
+				taskS.addFilter("taskCompletedOn",Core.ToChar(Core.ToChar(model.getDt_ini(), "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
 			}
 			for(TaskServiceQuery task:taskS.queryHistoryTask()) {
 				_CONS_PROC.Table_1 t = new _CONS_PROC.Table_1();
@@ -54,30 +66,27 @@ public class _CONS_PROCController extends Controller {
 		}
 		_CONS_PROCView view = new _CONS_PROCView(model);
 		
-		/*Specify your connection name in first parameter*/
 		view.aplicacao.setValue(new Application().getListApps());	
-		
-		/*Specify your connection name in first parameter*/
-		view.organica.setValue(new Organization().getListMyOrganizations());
-		
-		/*Specify your connection name in first parameter*/
-//		view.area_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.organica.setValue(new ProfileType().getListProfiles(Core.toInt(model.getAplicacao())));
 		view.area_fk.setVisible(false);
-		
-		/*Specify your connection name in first parameter*/
+		view.organica.setVisible(false);
 		view.proc_tp_fk.setValue(new ProcessDefinitionService().mapToComboBox());
+		view.requerente.setVisible(false);
+		view.user_fk.setVisible(false);
 		
-		/*Specify your connection name in first parameter*/
-		//view.user_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
-		
-		/*Specify your connection name in first parameter*/
 		view.status.setValue(this.getStatus());
 		view.btn_pesquisar.setLink("index");
 		view.table_1.addData(data);
 		view.p_id_task.setParam(true);
+		
+		view.table_1.addLegendColor("Não Iniciado", Core.getYellowColor());
+		view.table_1.addLegendColor("Não Atribuido", Core.getBlueColor());
+		view.table_1.addLegendColor("Terminado", Core.getPinkColor());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
+
+
 
 
 	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -113,13 +122,12 @@ public class _CONS_PROCController extends Controller {
         status.put("true","Terminado");
 		return status;
 	}
-  	private String getStatusTask(TaskServiceQuery task) {
+	private String getStatusTask(TaskServiceQuery task) {
 		if(Core.isNotNull(task.getEndTime()))
-			return "Terminado";
+			return Core.getPinkColor();
 		if(Core.isNotNull(task.getAssignee()))
-			return "Não Iniciado";
-		return "Não Atribuido";
+			return Core.getYellowColor();
+		return Core.getBlueColor();
 	}
-
 	/*----#END-PRESERVED-AREA----*/
 }

@@ -258,23 +258,17 @@
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,' model = new ',$model,'();')"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="$tab2"/>			
 						<xsl:value-of select="'model.load();'"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>	
-						<xsl:value-of select="'}'"/>	
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/>
-						<xsl:call-template name="setSqlChart"></xsl:call-template>
-						<xsl:call-template name="setSqlTable"></xsl:call-template>
-						<xsl:call-template name="setSqlCombobox"></xsl:call-template>
-						<xsl:call-template name="setParam"></xsl:call-template>
+						<xsl:call-template name="setSqlChart"/>
+						<xsl:call-template name="setSqlTable"/>
+						<xsl:call-template name="setSqlCombobox"/>
+						<xsl:call-template name="setParam"/>
+						<xsl:call-template name="addLegendColor"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="'return this.renderView(view);'"/>
@@ -286,40 +280,29 @@
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat($class_name,' model = new ',$class_name,'();')"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="concat('if(Igrp.getMethod().equalsIgnoreCase(',$double_quotes,'post',$double_quotes,')){')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="$tab2"/>			
 						<xsl:value-of select="'model.load();'"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>	
+						<xsl:value-of select="$tab2"/>	
 						<xsl:value-of select="concat('','if(model.save(model)){')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab2"/>
+						<xsl:value-of select="$tab"/>
 						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/>
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>
+						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="' }else{'"/>						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab2"/>						
+						<xsl:value-of select="$tab"/>						
 						<xsl:value-of select="concat('','Core.setMessageError();')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>		
 						<xsl:value-of select="$tab"/>
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>							
 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>		
-						<xsl:value-of select="$tab"/>				
+						<xsl:value-of select="$tab2"/>				
 						<xsl:value-of select="concat('}','')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>	
-						<xsl:value-of select="'}'"/>
-						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>
 						<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
@@ -399,6 +382,42 @@
 		</xsl:call-template>
 		</xsl:for-each>
  	</xsl:template>
+ 	
+ 	<xsl:template name="addLegendColor">
+ 		<xsl:for-each select="//content/*[@type='table']">
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>			
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 1',$double_quotes,',Core.getPinkColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 2',$double_quotes,',Core.getAmberColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 3',$double_quotes,',Core.getGreenColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 4',$double_quotes,',Core.getBlueGreyColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 5',$double_quotes,',Core.getPurpleColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 6',$double_quotes,',Core.getYellowColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 7',$double_quotes,',Core.getBlueColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 8',$double_quotes,',Core.getDeepPurpleColor());')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 9',$double_quotes,',Core.getBrownColor());')"/>
+	 	</xsl:for-each>
+ 	</xsl:template>
+ 	
  	<!-- view.chart_1.setSqlQuery("select 'Eixo Y' EixoY, 'Eixo X' EixoX, 100 Valor FROM dual"); -->
  	<xsl:template name="setSqlChart">
  		<xsl:for-each select="//content/*[@type='chart']">
@@ -418,7 +437,7 @@
  	</xsl:template>
  	
  	
- 	<!-- view.chart_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
+ 	<!-- view.table_1.setSqlQuery("select 'name' name, 1 id FROM dual"); -->
  	<xsl:template name="setSqlTable">
  		<xsl:for-each select="//content/*[@type='table']">
 			<xsl:value-of select="$newline"/>

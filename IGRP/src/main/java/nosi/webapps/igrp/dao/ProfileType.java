@@ -182,6 +182,15 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 	public String toString() {
 		return "ProfileType [id=" + id + ", descr=" + descr + ", code=" + code + ", status=" + status + "]";
 	}
+
+	public HashMap<String,String> getListProfiles(Integer app) {
+		HashMap<String,String> lista = new HashMap<>();
+		lista.put(null, gt("-- Selecionar --"));
+		for(ProfileType p: this.find().andWhere("application.id", "=", "" + app).all()){
+			lista.put(p.getId()+"", p.getDescr());
+		}
+		return lista;
+	}
 	
 	
 }

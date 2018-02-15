@@ -47,8 +47,12 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
+import nosi.core.gui.fields.ColorField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
@@ -70,6 +74,7 @@ public class IGRPTable extends IGRPComponent{
 	protected List<?> data;
 	protected String rows = "";
 	private String sql;
+	private List<Properties> legend_color = new ArrayList<>();
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -140,7 +145,8 @@ public class IGRPTable extends IGRPComponent{
 							this.genRowsWithSql();
 						else
 							this.genRows();
-					this.xml.endElement();
+					this.xml.endElement();//end tag value
+				this.genLegendColor();
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 				this.xml.endElement();//end tag table
@@ -152,11 +158,28 @@ public class IGRPTable extends IGRPComponent{
 					else
 						this.genRows();
 				this.xml.endElement();//end tag value
+				this.genLegendColor();
 				this.contextmenu.setButtons(this.buttons);
 				this.xml.addXml(this.contextmenu.toXmlTools());
 			}
 		this.xml.endElement();
 		return this.xml.toString();
+	}
+
+	private void genLegendColor() {
+		if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_color.size() > 0){
+			this.xml.startElement("legend_color");
+			this.xml.setElement("title", gt("Legenda"));
+			this.legend_color.stream().forEach(l->{
+				for(Entry<Object, Object> p : l.entrySet()) {
+		          this.xml.startElement("item");
+		          	this.xml.setElement("label", p.getKey().toString());
+		          	this.xml.setElement("value", p.getValue().toString());
+		          this.xml.endElement();
+		        }
+			});
+			this.xml.endElement();
+		}
 	}
 
 	private void genRowsWithSql() {
@@ -267,6 +290,14 @@ public class IGRPTable extends IGRPComponent{
 		return this.sql;
 	}
 
+	public IGRPTable addLegendColor(String label,String value) {
+		Properties p = new Properties();
+		p.put(label, value);
+		this.legend_color.add(p);
+		return this;
+	}
+
+	
 	public void setSqlQueryCRUD(String app, String page) {
 		Action p = new Action().find().andWhere("application.dad", "=",app)
 										 .andWhere("page", "=",page)

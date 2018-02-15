@@ -1,6 +1,9 @@
 package nosi.webapps.igrp.pages._cons_proc;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -127,11 +130,10 @@ public class _CONS_PROC extends Model{
 		private String num_processo;
 		private String processo;
 		private String eatapa;
-		private String dt_inicio_proc;
 		private String dt_inicio_etapa;
 		private String dt_fim_etapa;
-		private String estado;
 		private String utilizador;
+		private String estado;
 		private String p_id_task;
 		public void setNum_processo(String num_processo){
 			this.num_processo = num_processo;
@@ -154,13 +156,6 @@ public class _CONS_PROC extends Model{
 			return this.eatapa;
 		}
 
-		public void setDt_inicio_proc(String dt_inicio_proc){
-			this.dt_inicio_proc = dt_inicio_proc;
-		}
-		public String getDt_inicio_proc(){
-			return this.dt_inicio_proc;
-		}
-
 		public void setDt_inicio_etapa(String dt_inicio_etapa){
 			this.dt_inicio_etapa = dt_inicio_etapa;
 		}
@@ -175,18 +170,18 @@ public class _CONS_PROC extends Model{
 			return this.dt_fim_etapa;
 		}
 
-		public void setEstado(String estado){
-			this.estado = estado;
-		}
-		public String getEstado(){
-			return this.estado;
-		}
-
 		public void setUtilizador(String utilizador){
 			this.utilizador = utilizador;
 		}
 		public String getUtilizador(){
 			return this.utilizador;
+		}
+
+		public void setEstado(String estado){
+			this.estado = estado;
+		}
+		public String getEstado(){
+			return this.estado;
 		}
 
 		public void setP_id_task(String p_id_task){
