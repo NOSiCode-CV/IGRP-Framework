@@ -196,11 +196,12 @@ public class Config {
 	}
 	
 	public static String getResolveUrl(String app,String page,String action){
-		HttpServletRequest req = Igrp.getInstance().getRequest();
+	
 		
 
-//		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
-		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
+		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
+//		HttpServletRequest req = Igrp.getInstance().getRequest();
+//		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
 
 		return url;
 	}
@@ -342,7 +343,7 @@ public static String getImageAppPath(Action page) {
 		if(config.insert()!=null){
 			System.out.println("IGRP foi instalado com sucesso!");
 		}else{
-			System.err.println("Nao foi possivel concluir a instação do IGRP!");
+			System.err.println("Não foi possivel concluir a instação do IGRP!");
 		}
 	}
 
@@ -352,7 +353,7 @@ public static String getImageAppPath(Action page) {
 
 	public static Object getDatabaseTypes() {
 		Map<String,String> tipos = new HashMap<>();
-		tipos.put(null, gt("-- Selecione Base de Dados --"));
+		tipos.put(null, gt("-- Selecione --"));
 		tipos.put("mysql", "MySql");
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");
