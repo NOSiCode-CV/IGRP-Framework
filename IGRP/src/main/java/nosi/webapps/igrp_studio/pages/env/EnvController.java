@@ -256,7 +256,6 @@ public class EnvController extends Controller {
 			xml_menu.setElement("description", obj.getDescription());
 			xml_menu.endElement();
 			displaySubtitle = true; 
-			System.out.println(obj.getName() + " - " + obj.getDescription());
 		}
 		/** End **/
 		if(displayTitle){
@@ -278,7 +277,6 @@ public class EnvController extends Controller {
 	
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
-		
 		String[] p = page.split("/");
 		if(Permission.isPermition(app, p[1], p[2])) {
 			Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
