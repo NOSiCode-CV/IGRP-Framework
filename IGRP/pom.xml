@@ -6,7 +6,6 @@
 	<version>0.1.0 06-02-2018</version>
 	<packaging>war</packaging>
 
-	
 	<properties>
 		<!-- Database migrations properties -->
 		<activejdbc.version>1.4.13</activejdbc.version>
@@ -508,8 +507,6 @@
 	
 		    <dependencies>
 		    	    
-		      
-		      
 		      <dependency>
 		        <groupId>org.apache.openejb</groupId>
 		        <artifactId>arquillian-tomee-embedded</artifactId>
