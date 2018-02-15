@@ -126,10 +126,12 @@ public class User implements Component{
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
 		/* test the login page (TOO_MANY_REQUEST purpose) */
-		checkRest();
 		if(aux != null){
 			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps 
 		}
+		
+		checkHttpClientRequest();
+		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 				Route.remember(); // remember the url that was requested by the client ... 
@@ -146,8 +148,10 @@ public class User implements Component{
 		}
 	}
 	
-	private void checkRest() {
+	private boolean checkHttpClientRequest() {
 		try {
+			String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-HTTPCLIENT");
+			
 			String credentials = Igrp.getInstance().getRequest().getHeader("Authorization");
 			// ZGVtbzpkZW1v
 			credentials = credentials.replaceFirst("Basic ", "");
@@ -159,9 +163,9 @@ public class User implements Component{
 			
 			nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) new nosi.webapps.igrp.dao.User().findIdentityByUsername(username);
 			
-			if(user == null || !user.getPass_hash().equals(encryptToHash(password, "MD5"))) {
+			if(customHeader == null || !customHeader.equals("1") || user == null || !user.getPass_hash().equals(encryptToHash(password, "MD5"))) { 
 				Igrp.getInstance().getResponse().setStatus(401); // 401 status code -> Authentication 
-				return;
+				return false;
 			}
 			
 			this.identity = user;
@@ -171,9 +175,11 @@ public class User implements Component{
 			json.put(this.identity.getIdentityId());
 			json.put(this.identity.getAuthenticationKey() + "");
 			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
-		}catch(Exception e) {
 			
+		}catch(Exception e) {
+			return false;
 		}
+		return true;
 	}
 
 	@Override
