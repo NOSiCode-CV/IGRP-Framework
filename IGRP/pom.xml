@@ -10,7 +10,6 @@
 		<!-- Database migrations properties -->
 		<activejdbc.version>1.4.13</activejdbc.version>
 		<environments>development.test,development</environments>
-		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		
