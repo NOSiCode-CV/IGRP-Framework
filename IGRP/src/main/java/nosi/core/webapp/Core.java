@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
@@ -498,4 +500,53 @@ public final class Core {	// Not inherit
 			return Float.parseFloat(value);
 		return (float) 0;
 	}
+
+	public static String getPinkColor() {
+		return "1";
+	}
+	
+
+	public static String getAmberColor() {
+		return "2";
+	}
+
+	public static String getYellowColor() {
+		return "3";
+	}
+
+	public static String getGreenColor() {
+		return "4";
+	}
+	public static String getBlueGreyColor() {
+		return "5";
+	}
+
+	public static String getPurpleColor() {
+		return "6";
+	}
+	public static String getBlueColor() {
+		return "7";
+	}
+
+	public static String getBrownColor() {
+		return "8";
+	}
+	public static String getDeepPurpleColor() {
+		return "9";
+	}
+
+	public static String getSwitchValue(String ...strings) {
+		if(strings.length > 1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+			String[] newStrings = new String[strings.length-1];
+			System.arraycopy(strings, 1, newStrings,0, newStrings.length);
+			return getSwitchValue(newStrings);
+		}else if(strings.length==1) {
+			if(Core.isNotNull(strings[0]))
+				return strings[0];
+		}
+		return "";
+	}	
+	
 }
