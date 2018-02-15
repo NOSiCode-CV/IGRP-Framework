@@ -37,7 +37,6 @@ public class BPMNDesignerController extends Controller {
 		List<BPMNDesigner.Gen_table> data = new ArrayList<>();
 		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):app.getId())){
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();
-			processo.setId_objeto(process.getId());
 			processo.setId(process.getId());
 			processo.setTitle(process.getName());
 			processo.setLink("igrp_studio", "BPMNDesigner", "get-bpmn-design&p_id="+process.getId());

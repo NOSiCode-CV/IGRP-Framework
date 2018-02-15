@@ -46,7 +46,7 @@ public abstract class Model { // IGRP super model
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
 			if(m.getType().isArray()){
-				String []aux = (String[]) Igrp.getInstance().getRequest().getAttribute(
+				String []aux = Igrp.getInstance().getRequest().getParameterValues(
 						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 								m.getAnnotation(RParam.class).rParamName()
 								: m.getName() // default case use the name of field
@@ -81,13 +81,12 @@ public abstract class Model { // IGRP super model
 					m.set(this, aux);
 				}
 			}else{
-				// Awesome again !!! We need make casts for all primitive type ... pff
-				String name =   m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
-								m.getAnnotation(RParam.class).rParamName()
-							  : m.getName();
-				Object o = Igrp.getInstance().getRequest().getAttribute(name); // default case use the name of field
-				
-				String aux =  o!=null?o.toString():"";
+				// Awesome again !!! We need make casts for all primitive type ... pff 
+				String aux = Igrp.getInstance().getRequest().getParameter(
+							m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
+									m.getAnnotation(RParam.class).rParamName()
+									: m.getName() // default case use the name of field 
+						);
 				String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
 				try {
 					aux = (aux == null || aux.equals("") || aux.isEmpty() ? (!m.getAnnotation(RParam.class).defaultValue().equals("") ? m.getAnnotation(RParam.class).defaultValue() : "0") : aux);
@@ -132,8 +131,8 @@ public abstract class Model { // IGRP super model
 					m.setAccessible(true);
 					aux.add(m.getName());
 					
-					String []values1 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk");
-					String []values2 = (String[]) Igrp.getInstance().getRequest().getAttribute("p_" + m.getName() + "_fk_desc");
+					String []values1 = Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk");
+					String []values2 = Igrp.getInstance().getRequest().getParameterValues("p_" + m.getName() + "_fk_desc");
 					
 					mapFk.put(m.getName(), values1 != null ? Arrays.asList(values1) : new ArrayList<String>());
 					mapFkDesc.put(m.getName(), values2 != null ? Arrays.asList(values2) : new ArrayList<String>());

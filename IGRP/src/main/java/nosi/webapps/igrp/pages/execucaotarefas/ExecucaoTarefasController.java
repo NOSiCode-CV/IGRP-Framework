@@ -13,7 +13,6 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskFile;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
@@ -316,17 +315,9 @@ public class ExecucaoTarefasController extends Controller {
 				case "date":
 					return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
 				case "long":
-					if(Core.isNotNull(value))
-						return Long.parseLong(value.toString());
-					return 0;
+					return Long.parseLong(value.toString());
 				case "double":
-					if(Core.isNotNull(value))
-						return Double.parseDouble(value.toString());
-					return 0;
-				case "float":
-					if(Core.isNotNull(value))
-						return Float.parseFloat(value.toString());
-					return 0;
+					return Double.parseDouble(value.toString());
 				case "boolean":
 					return value.toString().equals("1");
 				case "enum":
@@ -340,53 +331,48 @@ public class ExecucaoTarefasController extends Controller {
 	//Executa uma tarefa
 	private ResponseError processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService().getTask(p_prm_taskid);
+		TaskService task = new TaskService();
+		task.setId(p_prm_taskid);
 		FormDataService properties = null;
-		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());		
-		
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
 			formData.setTaskId(p_prm_taskid);
 			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
 						formData.addVariable(prop.getId(),value);
 					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
+//				task.submitVariables();
 			}
-			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {				
-				Core.getParameters().entrySet().stream().forEach(param-> {
-					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				});
-				task.addVariable("customVariableIGRP_"+task.getId(),"string",content);
-				task.submitVariables();
-				p.submitVariables();
+			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+				formData.addVariable("customVariableIGRP",content);
 			}
 		}
-		
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
 	
-
 	//Inicia tarefa de um processo
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
-		ProcessInstancesService pi = new ProcessInstancesService();
+		ProcessDefinitionService task = new ProcessDefinitionService();
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
 			formData.setProcessDefinitionId(processDefinitionId);
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
 						formData.addVariable(prop.getId(),value);
 					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
 			}
 		}
@@ -394,10 +380,10 @@ public class ExecucaoTarefasController extends Controller {
 			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
-		
 		if(st!=null){
-			pi.setId(st.getId());
-			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+			task.setId(st.getId());
+//			task.submitVariables();
+			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}

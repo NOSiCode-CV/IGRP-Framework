@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>0.1.0 06-02-2018</version>
+	<version>0.1.1 15-02-2018</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -417,6 +417,20 @@
 			        <configuration>
 			          <tomeeVersion>${tomee.version}</tomeeVersion>
 			          <tomeeClassifier>${tomee.classifier}</tomeeClassifier>
+			          <synchronization>
+							<extensions>
+								<extension>.class</extension>
+							</extensions>
+						</synchronization>
+						<reloadOnUpdate>true</reloadOnUpdate>
+					<!-- 	<systemVariables>
+							<tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
+							When TomEE starts it starts an internal application (called openejb). 
+								The goal is to offer some internal beans mainly used by TomEE tooling (TomEE 
+								deployer, reload feature of TomEE maven plugin…). Don't use it if it is not 
+								necessary 
+							<openejb.system.apps>true</openejb.system.apps>
+						</systemVariables>-->
 			        </configuration>
 			      </plugin>
 		      
