@@ -156,24 +156,31 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		return lista;
 	}
 
-	public List<Menu> getOrgMenu(int env_fk) {	
+	public List<Menu> getOrgMenu() {	
 		Menu m = new Menu();
 		String dad = Permission.getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
 			return m.find().andWhere("action", "notnull").all();
 		}else{
-			
+			Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
 			List<Menu> myMenu = new ArrayList<>();
-			List<Menu> menu = m.getMyMen_de_env(env_fk);
+			HashMap<String,List<Menu>> menu = m.getMyMenu();
 			if(menu !=null){
-				for(Menu mm : menu){
-					 Menu e = new Menu();
-					 e.setDescr(gt(mm.getDescr()));
-					 e.setId(mm.getId());
-					 e.setFlg_base(mm.getFlg_base());
-					 myMenu.add(e);
-					  				}
+				for(Entry<String, List<Menu>> mm:menu.entrySet()){
+						for(Menu main:mm.getValue()){
+							if(main.getMenu()!=null){
+								Menu e = new Menu();
+								e.setDescr(gt(main.getMenu().getDescr()));
+								e.setId(main.getId());
+								e.setFlg_base(main.getMenu().getFlg_base());
+								myMenu.add(e);
+							}
+						}
+				}
 			}
+			
+			//System.out.println("Menu1 " + myMenu.size());
+			
 			
 			return myMenu; 
 		}

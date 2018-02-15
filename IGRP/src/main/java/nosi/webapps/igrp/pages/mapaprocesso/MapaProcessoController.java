@@ -89,7 +89,7 @@ public class MapaProcessoController extends Controller {
 					xml.writeAttribute("rel","iniciar_processo");
 					xml.writeAttribute("type","specific");
 					xml.writeAttribute("code", "");
-					xml.setElement("title","Seguinte");
+					xml.setElement("title","Iniciar Processo");
 					xml.setElement("app","igrp");
 					xml.setElement("page","ExecucaoTarefas");
 					String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);

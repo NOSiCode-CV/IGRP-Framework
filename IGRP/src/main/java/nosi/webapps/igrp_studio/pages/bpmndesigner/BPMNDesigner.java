@@ -129,7 +129,7 @@ public class BPMNDesigner extends Model{
 		private String id_pai;
 		private String link;
 		private String link_desc;
-		private String id_objeto;
+		private float id_objeto;
 		private String tipo;
 		private String link_add;
 		private String link_edit;
@@ -170,10 +170,10 @@ public class BPMNDesigner extends Model{
 			return this.link_desc;
 		}
 
-		public void setId_objeto(String id_objeto){
+		public void setId_objeto(float id_objeto){
 			this.id_objeto = id_objeto;
 		}
-		public String getId_objeto(){
+		public float getId_objeto(){
 			return this.id_objeto;
 		}
 
