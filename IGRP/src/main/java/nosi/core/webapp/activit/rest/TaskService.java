@@ -167,7 +167,7 @@ public class TaskService extends Activit{
 		return null;
 	}
 	
-	public boolean submitTaskFile(Part file,String taskId,String file_desc) throws IOException{
+	public boolean addTaskFile(Part file,String taskId,String file_desc) throws IOException{
 		try {
 			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
@@ -246,6 +246,7 @@ public class TaskService extends Activit{
 	
 	public boolean submitVariables() {
 		Response response = new RestRequest().post("runtime/tasks/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		System.out.println(response.getStatus());
 		return response.getStatus() == 201;
 	}
 	private boolean taskAction(String id,String action,String assignee){

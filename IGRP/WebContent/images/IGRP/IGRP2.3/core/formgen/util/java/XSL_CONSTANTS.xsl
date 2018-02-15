@@ -354,7 +354,10 @@
     		name()!='change' and
     		name()!='readonly' and
     		name()!='disabled' and
-    		name()!='placeholder' and	
+    		name()!='placeholder' and
+    		name()!='custom_action' and	
+    		name()!='action_type' and	
+    		
     		name()!='code' and	
     		name()!='right'    		
     	">

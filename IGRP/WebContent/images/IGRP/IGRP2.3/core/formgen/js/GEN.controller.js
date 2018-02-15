@@ -658,46 +658,62 @@ var GENERATOR = function(genparams){
 							
 							var rtn = true;
 							
-							var arr = $.grep(containers,function(c){
-
-								return c.proprieties.tag == dropped.params.copy.container
-							});
-
-							if(arr[0]){
-
-								var container = arr[0];
-
-								dropped.params.copy.plsql = data.plsql;
-
-								container.fields.forEach(function(_field){
-									var f = GEN.getDeclaredField(_field.properties.type);
-									if(f) fields.push(new f.field(_field.properties.type,_field));
-								});
-
-								if(container.contextMenu)
-									dropped.params.contextMenu = container.contextMenu;
-
-								dropped.params.fields = fields;
-
-								dropped.params.style = container.style;
-
-								dropped.params.options = container.options;
-							
-								dropped.params.xsl = container.xsl;
-
-								dropped.params.proprieties = container.proprieties;
-
+							if(!containers[0]){
 								
+								dropped.params.copy = false;
+								
+								if(dropped.params.copy)
+									
+									dropped.params.copy.found = false;
+								
+								_dcb(rtn);
 
 							}else{
-
-								rtn = false;
+								
+								var arr = $.grep(containers,function(c){
+									
+									return c.proprieties.tag == dropped.params.copy.container
+								});
+	
+								if(arr[0]){
+	
+									var container = arr[0];
+	
+									dropped.params.copy.plsql = data.plsql;
+	
+									container.fields.forEach(function(_field){
+										var f = GEN.getDeclaredField(_field.properties.type);
+										if(f) fields.push(new f.field(_field.properties.type,_field));
+									});
+	
+									if(container.contextMenu)
+										dropped.params.contextMenu = container.contextMenu;
+	
+									dropped.params.fields = fields;
+	
+									dropped.params.style = container.style;
+	
+									dropped.params.options = container.options;
+								
+									dropped.params.xsl = container.xsl;
+	
+									dropped.params.proprieties = container.proprieties;
+	
+									
+	
+								}else{
+	
+									rtn = false;
+								}
+	
+								if(dropped.params.copy)
+									dropped.params.copy.found = rtn;
+								
+								_dcb(rtn);
+								
 							}
-
-							if(dropped.params.copy)
-								dropped.params.copy.found = rtn;
 							
-							_dcb(rtn);
+								
 						});
 
 					}else{		
@@ -852,10 +868,24 @@ var GENERATOR = function(genparams){
 		if(id){
 			
 			$.getJSON(link+id,function(data){
-
-				var containers = GEN.layout.getAllContainers(data.rows);
-
-				if(callback) callback(containers,data);
+				if(data){
+					
+					var containers = GEN.layout.getAllContainers(data.rows);
+					
+					if(callback) 
+						
+						callback(containers,data);
+					
+				}else{
+					
+					console.log()
+					
+					if(callback) 
+						
+						callback([],data);
+					
+				}
+					
 
 			}).fail(function(){
 				console.log('fail');
@@ -1302,51 +1332,7 @@ if(input) {
 		else
 			$(modal.find('.modal-header > ul > li')[0]).click();
 		
-		$('select',modal).each(function(i,s){
-			
-			var o   = {},
-
-				rel = $(s).attr('rel');
-
-			if($(s).attr('can-add') == 'true')
-
-				o.tags = true;
-
-			$(s).select2(o).on("select2:select", function (e) {
-
-				var options = GEN.edit.object.propertiesOptions[rel].value ? GEN.edit.object.propertiesOptions[rel].value.options : GEN.edit.object.propertiesOptions[rel].propriety.options,
-
-					found   = false;
-
-				for(var i = 0; i < options.length; i++) {
-				    if (options[i].value == e.params.data.id) {
-				        found = true;
-				        break;
-				    }
-				}
-
-				if(!found)
-					options.push({
-						value : e.params.data.id,
-						label : e.params.data.id,
-						attributes : [
-							{ name : 'action', value :false },
-							{ name : 'app', value :false },
-							{ name : 'page', value :false },
-							{ name : 'link', value :e.params.data.id },
-
-						]/*{
-							action : false,
-							app : false,
-							page : false,
-							link : e.params.data.id
-						}*/,
-						custom : true
-					});
-
-			});
-
-		})
+		$('select',modal).select2();
 
 		/*FORM FIELD RULES SET/ SHOW/HIDE*/
 		if(object.formField || object.type == 'hidden')
@@ -4092,7 +4078,7 @@ if(input) {
 				name : 'custom_action',
 				label:'Custom Action',
 				value : '',
-				order : p.order || false
+				order : p.order || -1
 				//size : 12
 			});
 

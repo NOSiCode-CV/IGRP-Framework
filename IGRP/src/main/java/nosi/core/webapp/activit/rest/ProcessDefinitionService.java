@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.servlet.http.Part;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class ProcessDefinitionService extends Activit{
 	private String deploymentUrl;
 	private Boolean graphicalNotationDefined;
 	private String resource;
-	private String diagramResource;
+	private String diagramaResource;
 	private Boolean startFormDefined;
 	@Expose(serialize=false,deserialize=false)
 	private List<TaskVariables> variables = new ArrayList<>();
@@ -43,7 +44,7 @@ public class ProcessDefinitionService extends Activit{
 
 	public ProcessDefinitionService getProcessDefinition(String id){
 		Response response = new RestRequest().get("repository/process-definitions/",id);
-		ProcessDefinitionService process = new ProcessDefinitionService();
+		ProcessDefinitionService process = this;
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -61,10 +62,10 @@ public class ProcessDefinitionService extends Activit{
 		return process;
 	}
 	
-	public String getDiagram(String url){
+	public String getDiagram(String id){
 		String d = null;
 		new RestRequest().setAccept_format(MediaType.APPLICATION_OCTET_STREAM);
-		Response response = new RestRequest().get(url);		
+		Response response = new RestRequest().get("runtime/process-instances/"+id+"/diagram");		
 		if(response!=null){
 			if(response.getStatus()==200) {
 				InputStream finput =(InputStream) response.getEntity();
@@ -261,12 +262,12 @@ public class ProcessDefinitionService extends Activit{
 		this.resource = resource;
 	}
 
-	public String getDiagramResource() {
-		return diagramResource;
+	public String getDiagramaResource() {
+		return diagramaResource;
 	}
 
-	public void setDiagramResource(String diagramResource) {
-		this.diagramResource = diagramResource;
+	public void setDiagramaResource(String diagramaResource) {
+		this.diagramaResource = diagramaResource;
 	}
 
 	public Boolean getStartFormDefined() {
@@ -284,7 +285,7 @@ public class ProcessDefinitionService extends Activit{
 		return "ProcessDefinitionService [version=" + version + ", nameLike=" + nameLike + ", key=" + key
 				+ ", suspended=" + suspended + ", description=" + description + ", deploymentId=" + deploymentId
 				+ ", deploymentUrl=" + deploymentUrl + ", graphicalNotationDefined=" + graphicalNotationDefined
-				+ ", resource=" + resource + ", diagramaResource=" + diagramResource + ", startFormDefined="
+				+ ", resource=" + resource + ", diagramaResource=" + diagramaResource + ", startFormDefined="
 				+ startFormDefined + "]";
 	}
 
@@ -296,4 +297,34 @@ public class ProcessDefinitionService extends Activit{
 		return map;
 	}
 
+	public boolean addProcessFile(Part file, String processDefinitionId,String file_desc) throws IOException {
+		try {
+			Response response = new RestRequest().post("runtime/process-instances/"+processDefinitionId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
+			file.delete();
+			return response.getStatus() == 201;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		file.delete();
+		return false;
+	}
+	
+	//Adiciona variaveis para completar tarefa
+	public void addVariable(String name, String scope, String type, Object value, String valueUrl){
+		this.variables.add(new TaskVariables(name, scope, type, value, valueUrl));
+	}
+
+	public void addVariable(String name, String scope, String type, Object value){
+		this.variables.add(new TaskVariables(name, scope, type, value, ""));
+	}
+
+	public void addVariable(String name, String type, Object value){
+		this.variables.add(new TaskVariables(name, "local", type, value, ""));
+	}
+	
+	public boolean submitVariables() {
+		Response response = new RestRequest().post("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		System.out.println(response.getStatus());
+		return response.getStatus() == 201;
+	}
 }

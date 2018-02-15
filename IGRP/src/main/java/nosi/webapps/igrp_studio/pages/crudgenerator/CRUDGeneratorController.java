@@ -37,7 +37,7 @@ public class CRUDGeneratorController extends Controller {
 		CRUDGeneratorView view = new CRUDGeneratorView(model);
 		view.schema.setVisible(false);
 		view.aplicacao.setValue(new Application().getListApps());
-		view.data_source.setValue(new Config_env().getListEnv(Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):-1));
+		view.data_source.setValue(new Config_env().getListEnv(Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):-1));			
 		view.check_table.setLabel("");
 		view.check_table_check.setLabel("");
 		int i=1;
@@ -46,7 +46,7 @@ public class CRUDGeneratorController extends Controller {
 		if(schemasMap.size() > 0){
 			view.schema.setVisible(true);
 			view.schema.setValue(schemasMap);
-			if(model.getSchema()!=null && !model.getSchema().equals("")) {
+			if(Core.isNotNull(model.getSchema())) {
 				List<String> list = DatabaseMetadaHelper.getTables(config,model.getSchema());
 				for(String table:list) {
 					CRUDGenerator.Table_1 t = new CRUDGenerator.Table_1();

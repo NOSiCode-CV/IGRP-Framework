@@ -104,7 +104,7 @@
                         </option>
                     </list>
                 </schema>
-                <add_datasource name="p_add_datasource" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-th-large" maxlength="30" placeholder="" right="false">
+                <add_datasource name="p_add_datasource" type="link" target="modal" target_fields="" closerefresh="false" action="index" page="ListaEnv" app="igrp_studio" class="primary" btnSize="" iconColor="#333" iconClass="" img="fa-th-large" maxlength="30" placeholder="" right="false" custom_action="" action_type="false">
                     <label>Add datasource</label>
                     <value>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/listaenv/ListaEnv.xml</value>
                 </add_datasource>
@@ -124,27 +124,27 @@
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Unde ipsum sit omnis anim</table_name>
+                        <table_name name="p_table_name">Mollit perspiciatis sed consec</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Elit doloremque stract deserun</table_name>
+                        <table_name name="p_table_name">Deserunt doloremque ut officia</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Elit totam ipsum unde magna</table_name>
+                        <table_name name="p_table_name">Aliqua elit sit sed ut</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sit lorem totam aliqua anim</table_name>
+                        <table_name name="p_table_name">Officia amet aperiam omnis sit</table_name>
                     </row>
                     <row>
                         <check_table name="p_check_table" check="true" desc="true">1</check_table>
                         <check_table_desc name="p_check_table_desc">1</check_table_desc>
-                        <table_name name="p_table_name">Sed voluptatem sit officia tot</table_name>
+                        <table_name name="p_table_name">Natus laudantium lorem aliqua</table_name>
                     </row>
                 </value>
             </table>

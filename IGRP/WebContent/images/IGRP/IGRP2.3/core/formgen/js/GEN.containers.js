@@ -617,8 +617,7 @@ var CONTAINER = function(name,params){
 	var setUpNoField = function(area,o){
 		if(o){
 			area.addClass('no-fields');
-//			area.append('<div class="gen-no-field-info">DROP FIELDS OR <a href="#" class="gen-copy-from"><strong>COPY</strong></a></div>');			
-			area.append('<div class="gen-no-field-info">DROP <a href="javascript:void()" class="gen-activate-fields-tab"><i class="fa fa-dot-circle-o"></i><strong>FIELDS</strong></a> OR <a href="#" class="gen-copy-from"><i class="fa fa-copy"><strong> COPY</strong></a></div>')
+			area.append('<div class="gen-no-field-info">DROP FIELDS OR <a href="#" class="gen-copy-from"><strong>COPY</strong></a></div>')
 		}else{
 			area.removeClass('no-fields');
 			$('.gen-no-field-info',area).remove();
@@ -2902,9 +2901,6 @@ var CONTAINER = function(name,params){
 			container.onWindowResize();
 		});
 		
-		$(document).on('click','.gen-activate-fields-tab',function(){
-			$('#igrp-sidebar .nav-tabs li a[href="#gen-list-fields"]').click();
-			});
 		container.holder.on('click','>.container-contents .gen-copy-from',function(e){
 			e.preventDefault();
 			GEN.edit(container,{

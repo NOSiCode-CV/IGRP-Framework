@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,7 +58,6 @@ public class TaskServiceQuery extends TaskService {
 		this.paramsQuery.add(p);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryTask(){		
 		List<TaskServiceQuery> d = new ArrayList<>();
 		
@@ -93,7 +93,6 @@ public class TaskServiceQuery extends TaskService {
 	}
 	
 
-	@SuppressWarnings("unchecked")
 	public List<TaskServiceQuery> queryHistoryProcessInstance(){		
 		List<TaskServiceQuery> d = new ArrayList<>();
 		
@@ -128,6 +127,13 @@ public class TaskServiceQuery extends TaskService {
 		return d;
 	}
 	
+	public boolean hasCustomForm(){
+		List<TaskVariables> tv = this.getVariables().stream()
+		 				   .filter(v->v.getName().equalsIgnoreCase("CustomVariableIGRP"))
+		 				   .collect(Collectors.toList());
+		return !tv.isEmpty();
+	}
+	
 	public String getStartTime() {
 		return startTime;
 	}
@@ -145,14 +151,5 @@ public class TaskServiceQuery extends TaskService {
 	}
 	public void setClaimTime(String claimTime) {
 		this.claimTime = claimTime;
-	}
-	
-
-  	public String getStatusTask() {
-		if(Core.isNotNull(this.getEndTime()))
-			return "Terminado";
-		if(Core.isNotNull(this.getAssignee()))
-			return "Não Iniciado";
-		return "Não Atribuido";
 	}
 }
