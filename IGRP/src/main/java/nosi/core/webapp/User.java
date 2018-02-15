@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 
@@ -124,9 +125,10 @@ public class User implements Component{
 	public void init() {
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
-		/* test the login page (TOO_MANY_REQUEST purpose)*/
+		/* test the login page (TOO_MANY_REQUEST purpose) */
+		checkRest();
 		if(aux != null){
-			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
+			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps 
 		}
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
@@ -141,6 +143,36 @@ public class User implements Component{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	private void checkRest() {
+		try {
+			String credentials = Igrp.getInstance().getRequest().getHeader("Authorization");
+			// ZGVtbzpkZW1v
+			credentials = credentials.replaceFirst("Basic ", "");
+			String decodeString = new String(Base64.getDecoder().decode(credentials));
+			
+			StringTokenizer token = new StringTokenizer(decodeString, ":");
+			String username = token.nextToken();
+			String password = token.nextToken();
+			
+			nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) new nosi.webapps.igrp.dao.User().findIdentityByUsername(username);
+			
+			if(user == null || !user.getPass_hash().equals(encryptToHash(password, "MD5"))) {
+				Igrp.getInstance().getResponse().setStatus(401); // 401 status code -> Authentication 
+				return;
+			}
+			
+			this.identity = user;
+			
+			// Create the session context 
+			JSONArray json =  new JSONArray();
+			json.put(this.identity.getIdentityId());
+			json.put(this.identity.getAuthenticationKey() + "");
+			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+		}catch(Exception e) {
+			
 		}
 	}
 
