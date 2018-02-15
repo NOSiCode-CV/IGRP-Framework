@@ -11,9 +11,6 @@ import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskFile;
-import nosi.core.webapp.activit.rest.ContextVarActiviIGRP;
-import nosi.core.webapp.activit.rest.ContextVarActiviIGRP.CustomActivitVariable;
-import nosi.core.webapp.activit.rest.CustomVariableIGRP;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ProcessInstancesService;
@@ -29,8 +26,6 @@ import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
 import java.util.ArrayList;
@@ -348,10 +343,7 @@ public class ExecucaoTarefasController extends Controller {
 		TaskService task = new TaskService().getTask(p_prm_taskid);
 		FormDataService properties = null;
 		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());
-		
-		ContextVarActiviIGRP cv = new ContextVarActiviIGRP();
-		
+		p.setId(task.getProcessInstanceId());		
 		
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
 			formData.setTaskId(p_prm_taskid);
@@ -364,17 +356,14 @@ public class ExecucaoTarefasController extends Controller {
 					}
 				}
 			}
-			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
-				formData.addVariable("customVariableIGRP",content);
-				System.out.println("Mapping with Custom......");
-				ContextVarActiviIGRP.CustomActivitVariable<String, String[]> map = new ContextVarActiviIGRP.CustomActivitVariable<>();
+			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {				
 				Core.getParameters().entrySet().stream().forEach(param-> {
-					map.put(task.getTaskDefinitionKey()+"_"+param.getKey(), param.getValue());
+					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
+					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
-//				Core.getParameters().entrySet().stream().collect(Collectors.toMap(param -> task.getTaskDefinitionKey()+"_"+param.getKey(), param -> param.getValue()));
-				cv.setName("igrp");
-				cv.setValue(map);
-				p.submitProcessObject(cv, "igrp", "local");
+				task.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+				task.submitVariables();
+				p.submitVariables();
 			}
 		}
 		

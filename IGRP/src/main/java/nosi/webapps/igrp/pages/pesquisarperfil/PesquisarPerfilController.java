@@ -93,7 +93,6 @@ public class PesquisarPerfilController extends Controller {
 		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		 if(id!=null){
-			 System.out.println("Id:"+id);
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
 		 }
 		 return this.redirectError();		

@@ -76,7 +76,7 @@ public class GestaodeacessoController extends Controller {
 		if(p_id!=null){
       		Organization org = new Organization().findOne(Integer.parseInt(p_id));
       		if(org!=null)
-      			return this.redirect("igrp", "MenuOrganica", "index&target=_blank","id="+p_id+"&type=org");
+      			return this.redirect("igrp", "MenuOrganica", "index&target=_blank","id="+p_id+"&type=org&env_fk="+org.getApplication().getId());
       	}
 		return this.redirect("igrp","error-page","exception");	 
 		/*----#END-PRESERVED-AREA----*/

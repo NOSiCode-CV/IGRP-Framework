@@ -127,6 +127,7 @@ public class QueryHistoricDetail extends Activit {
 		this.propertyValue = propertyValue;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<QueryHistoricDetail> queryHistoricDetail(String taskId){
 		JSONObject json = new JSONObject();
 		try {

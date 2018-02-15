@@ -96,8 +96,8 @@ public class Import {
 			FileHelper.createDiretory(dir);
 		try {
 			FileHelper.save(dir, partPage[1],file.getConteudo());
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/dao")){
-				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/dao")){
+				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
 			}	
 			return new File(dir+"/"+ partPage[1]);
 		} catch (IOException e) {
@@ -114,8 +114,8 @@ public class Import {
 		
 		try {
 			FileHelper.save(dir, "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 			}	
 			return new File(dir+"/"+ "DefaultPageController.java");
 		} catch (IOException e) {

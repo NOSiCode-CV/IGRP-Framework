@@ -256,11 +256,15 @@ public class Config {
 		return "nosi.webapps.igrp.pages";
 	}
 	
+	public static String getRawBasePathClassWorkspace() {
+		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator;
+	}
+	
 	public static String getBasePahtClassWorkspace(String app){
-		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator);
+		return Config.getRawBasePathClassWorkspace()+ Config.getBasePackage(app).replace(".", File.separator);
 	}
 	public static String getBasePahtClassWorkspace(String app,String page){
-		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app,page).replace(".", File.separator);
+		return Config.getRawBasePathClassWorkspace()+ Config.getBasePackage(app,page).replace(".", File.separator);
 	}
 
 	private static String getBasePackage(String app,String page) {
