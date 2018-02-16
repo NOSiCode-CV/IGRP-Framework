@@ -84,7 +84,7 @@ public class BPMNDesignerController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	public Response actionGetBpmnDesign() {
-		String id = Core.get("p_id");
+		String id = Core.getParam("p_id");
 		ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(id);
 		String link = process.getResource().replace("/resources/", "/resourcedata/");
 		String resource = new ResourceService().getResourceData(link);
