@@ -20,7 +20,7 @@ import nosi.webapps.igrp.dao.Application;
 /**
  * @author: Emanuel Pereira
  * 5 Nov 2017
- * Importa aplica��es/pag�nas de IGRP PLSQL
+ * Importa aplicações/paginas de IGRP PLSQL
  */
 public class ImportAppZip extends ImportAppJar{
 
@@ -49,7 +49,7 @@ public class ImportAppZip extends ImportAppJar{
 		boolean result = true;		
 		for(FileImportAppOrPage file:this.un_jar_files){
 			if(file.getNome().startsWith("SQL/CONFIG")  && file.getNome().endsWith("_ENV.xml")){
-				this.app = this.saveApp(file);
+				this.app = this.saveApp(file,true);
 				if(this.app==null){
 					result = false;
 					break;
@@ -90,7 +90,7 @@ public class ImportAppZip extends ImportAppJar{
 				if(this.filesConfigPagePlsql.get(xsl)!=null){
 					String content = this.filesConfigPagePlsql.get(xsl).getConteudo();
 					if(content!=null){
-						content = content.replaceAll("../../xsl", "../../../xsl");
+						content = content.replaceAll("../../xsl/tmpl/", "../../../xsl/tmpl/");
 						FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xsl", content, 1);
 						result = this.saveFiles(file , app);	
 					}

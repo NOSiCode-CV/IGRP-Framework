@@ -155,10 +155,14 @@ public class Import {
 		}
 		return false;
 	}
-	
 	protected Application saveApp(FileImportAppOrPage file){
+		return saveApp(file,false);		
+	}
+	protected Application saveApp(FileImportAppOrPage file,Boolean isPlsql){
 		InputStream is;
 		try {
+			if(isPlsql)
+				encode = FileHelper.ENCODE_ISO;
 			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));
 			XMLApplicationReader listApp = JAXB.unmarshal(is, XMLApplicationReader.class);
 			for(Application app:listApp.getRow()){
@@ -188,8 +192,11 @@ public class Import {
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
 		InputStream is;
 		try {
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));			
+			if(type.equals("plsql"))
+				encode = FileHelper.ENCODE_ISO;			
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));		
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
+		
 			List<Action> pages = new ArrayList<>();
 			for(Action page:listPage.getRow()){
 				//Depois validar nome de classe
