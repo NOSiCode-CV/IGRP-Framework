@@ -43,7 +43,7 @@ public class PageController extends Controller {
 		// String id = Igrp.getInstance().getRequest().getParameter("id");
 		model.load();
 		Boolean isEdit = false;
-		if (Core.isInteger(model.getP_id())) {
+		if (Core.isInt(model.getP_id())) {
 			Action a = new Action();
 			a = a.findOne(Integer.parseInt(model.getP_id()));
 			if (a != null) {
@@ -78,7 +78,7 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-			int idPage = Core.isInteger(model.getP_id()) ? Integer.parseInt(model.getP_id()) : 0;
+			int idPage = Core.isInt(model.getP_id()) ? Integer.parseInt(model.getP_id()) : 0;
 			Application app = new Application();
 			Action action = new Action();
 
