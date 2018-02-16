@@ -10,10 +10,10 @@
 
 	</colors> 
 
-	<css default="">
+	<css >
 		<file>css/header.css</file>
-		<!-- <file>css/modern/globals.css</file> -->
-		<!-- <file>css/default.style.css</file> -->
+		<file>css/sidebar.css</file>
+		<file>css/gen.css</file>
 	</css>
 
 	<logo>img/logo.png</logo>
