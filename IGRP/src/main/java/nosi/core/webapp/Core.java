@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;

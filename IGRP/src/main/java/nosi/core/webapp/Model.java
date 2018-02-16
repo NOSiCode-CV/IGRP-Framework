@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.openqa.selenium.internal.seleniumemulation.GetValue;
+
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
@@ -90,10 +93,32 @@ public abstract class Model { // IGRP super model
 				String aux =  o!=null?o.toString():"";
 				String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
 				try {
-					aux = (aux == null || aux.equals("") || aux.isEmpty() ? (!m.getAnnotation(RParam.class).defaultValue().equals("") ? m.getAnnotation(RParam.class).defaultValue() : "0") : aux);
+					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("") ? m.getAnnotation(RParam.class).defaultValue() : "0") : aux);
 				}catch(Exception e) {
 					aux = "0"; 
 				}
+				class GetValue{
+					public String getValue(String typeName,String value) {
+						switch(typeName){
+							case "int":
+							case "float":
+							case "double":
+							case "long":
+							case "short":
+								if(Core.isNotNull(value)) {
+									try {
+										Double.parseDouble(value.toString());
+									}catch(NumberFormatException e) {
+										return "0";
+									}
+								}
+								return value.toString();
+						}
+						return value.toString();
+					}
+				}
+				aux = new GetValue().getValue(typeName,aux);
+				
 				switch(typeName){
 					case "int":
 							m.setInt(this, Integer.parseInt(aux));
