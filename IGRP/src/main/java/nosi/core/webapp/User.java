@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 
@@ -124,10 +125,13 @@ public class User implements Component{
 	public void init() {
 		boolean isLoginPage = false;
 		String aux = Igrp.getInstance().getRequest().getParameter("r");
-		/* test the login page (TOO_MANY_REQUEST purpose)*/
+		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){
-			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps
+			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps 
 		}
+		
+		checkHttpClientRequest();
+		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
 				Route.remember(); // remember the url that was requested by the client ... 
@@ -142,6 +146,40 @@ public class User implements Component{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	private boolean checkHttpClientRequest() {
+		try {
+			String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-HTTPCLIENT");
+			
+			String credentials = Igrp.getInstance().getRequest().getHeader("Authorization");
+			// ZGVtbzpkZW1v
+			credentials = credentials.replaceFirst("Basic ", "");
+			String decodeString = new String(Base64.getDecoder().decode(credentials));
+			
+			StringTokenizer token = new StringTokenizer(decodeString, ":");
+			String username = token.nextToken();
+			String password = token.nextToken();
+			
+			nosi.webapps.igrp.dao.User user = (nosi.webapps.igrp.dao.User) new nosi.webapps.igrp.dao.User().findIdentityByUsername(username);
+			
+			if(customHeader == null || !customHeader.equals("1") || user == null || !user.getPass_hash().equals(encryptToHash(password, "MD5"))) { 
+				Igrp.getInstance().getResponse().setStatus(401); // 401 status code -> Authentication 
+				return false;
+			}
+			
+			this.identity = user;
+			
+			// Create the session context 
+			JSONArray json =  new JSONArray();
+			json.put(this.identity.getIdentityId());
+			json.put(this.identity.getAuthenticationKey() + "");
+			Igrp.getInstance().getRequest().getSession(false).setAttribute("_identity-igrp", json.toString());
+			
+		}catch(Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
