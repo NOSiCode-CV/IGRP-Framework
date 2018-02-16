@@ -43,9 +43,9 @@ public class PageController extends Controller {
 		// String id = Igrp.getInstance().getRequest().getParameter("id");
 		model.load();
 		Boolean isEdit = false;
-		if (Core.isInt(model.getP_id())) {
+		if (Core.isInt(Core.getParam("p_id_page"))) {
 			Action a = new Action();
-			a = a.findOne(Integer.parseInt(model.getP_id()));
+			a = a.findOne(Integer.parseInt(Core.getParam("p_id_page")));
 			if (a != null) {
 				model.setAction_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
@@ -65,9 +65,13 @@ public class PageController extends Controller {
 		view.gen_auto_code.setValue(1);
 		view.version.setValue(Config.getVersions());
 		view.version.setVisible(false);
-
-		if (isEdit)
+		view.p_id.setParam(true);
+		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
+			view.page.propertie().setProperty("readonly", "true");
+			view.gen_auto_code.setValue(0);
+		}
+			
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -78,30 +82,15 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-			int idPage = Core.isInt(model.getP_id()) ? Integer.parseInt(model.getP_id()) : 0;
+			
+			int idPage = Core.isInt(Core.getParam("p_id"))? Core.toInt(Core.getParam("p_id")) : 0;
+			
 			Application app = new Application();
 			Action action = new Action();
-
-			action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
-			action.setAction_descr(model.getAction_descr());
-			action.setPage_descr(model.getAction_descr());
-			action.setStatus(model.getStatus());
-			action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-			action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages."
-					+ action.getPage().toLowerCase());
-			action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
-
 			if (idPage != 0) {
+				action = action.findOne(idPage);
 				// Edit/update page
-				action.setAction(model.getP_action());
-				action.setXsl_src(model.getP_xsl_src());
-				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
-							FlashMessage.MESSAGE_ERROR_VALID_PAGE);
-					return this.redirect("igrp", "page", "index", new String[] { "p_id" },
-							new String[] { idPage + "" });
-				}
-				action.setId(idPage);
+				action.setPage_descr(model.getAction_descr());
 				action = action.update();
 				if (action != null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
@@ -112,6 +101,15 @@ public class PageController extends Controller {
 //				_________________________________________________
 			} else {
 				// New page
+
+				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
+				action.setAction_descr(model.getAction_descr());
+				action.setPage_descr(model.getAction_descr());
+				action.setStatus(model.getStatus());
+				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
+				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages."
+						+ action.getPage().toLowerCase());
+				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
