@@ -42,7 +42,7 @@ public class CRUDGeneratorView extends View {
 		add_datasource.setLabel(gt("Add datasource"));
 		add_datasource.setValue("webapps?r=igrp_studio/ListaEnv/index");
 							
-		add_datasource.propertie().add("name","p_add_datasource").add("type","link").add("target","modal").add("maxlength","30");
+		add_datasource.propertie().add("name","p_add_datasource").add("type","link").add("target","modal").add("maxlength","30").add("custom_action","").add("action_type","false");
 		
 		check_table = new CheckBoxField(model,"check_table");
 		check_table.setLabel(gt(""));

@@ -71,7 +71,7 @@
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
 						
-						<xsl:if test="@action and @app and @page">
+						<xsl:if test="@action and @app and @page and @custom_action!=''">
 							<xsl:variable name="linkUrl">
 								<xsl:text>webapps?r=</xsl:text>
 								<xsl:value-of select="@app"/>

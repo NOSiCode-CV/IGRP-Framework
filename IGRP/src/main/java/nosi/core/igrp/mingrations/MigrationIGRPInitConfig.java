@@ -214,7 +214,7 @@ public class MigrationIGRPInitConfig {
 			
 			menus.add(new Menu("Gestão de Menu", 9, 1, 0, "_self", actions.get(8), igrp, menus.get(0)));
 			menus.add(new Menu("Gestão de Transação", 9, 1, 0, "_self", actions.get(15), igrp, menus.get(0)));			
-			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(40), igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(41), igrp, menus.get(0)));
 			menus.add(new Menu("Gestão de Utilizador", 9, 1, 0, "_self", actions.get(11), igrp, menus.get(0)));
 			
 			Menu tempMenuAP = new Menu("Área Pessoal", 1, 0, 1, "_self", actions.get(13), igrp,null);
@@ -228,17 +228,17 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Gestão de Orgânica", 1, 1, 0, "_self", actions.get(5), app, menus.get(1)));
 			//menus.add(new Menu("Gestão de Perfil", 1, 1, 0, "_self", actions.get(10), app, menus.get(1)));
 			//menus.add(new Menu("Migração IGRP", 1, 1, 0, "_self", actions.get(25), app, menus.get(0)));
-			
+
 			
 			Menu tempMenuBD = new Menu("BPMN Designer", 1, 1, 0, "_self", actions.get(33), igrp_studio, null);
 			tempMenuBD.setMenu(tempMenuBD);
 			menus.add(tempMenuBD);
 			
-			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(43), igrp_studio, null);
+			Menu tempMenuCG = new Menu("CRUD Generator", 1, 1, 0, "_self", actions.get(44), igrp_studio, null);
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 			
-			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(46), igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(47), igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 			

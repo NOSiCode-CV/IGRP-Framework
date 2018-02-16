@@ -13,15 +13,11 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskFile;
 import nosi.core.webapp.activit.rest.FormDataService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
-import nosi.core.webapp.activit.rest.ProcessInstancesService;
 import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -39,8 +35,8 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/		
-		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
-		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getId()), "id", "name", gt("-- Selecionar Processo --"));
+		//Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
+		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox();
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
@@ -49,12 +45,34 @@ public class ExecucaoTarefasController extends Controller {
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		TaskService objTask = new TaskService();
+
+		model.load();
 		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			model.load();
-			objTask.setFilter(model.getPrioridade_colaborador());
+		String proc_tp = Core.getSwitchValue(model.getTipo_processo_colaborador(), model.getTipo_processo_estatistica(),model.getTipo_processo_form_disponiveis(), model.getTipo_processo_gerir_tarefa() ,model.getTipo_processo_minhas_tarefas());
+		String num_proc = Core.getSwitchValue(model.getNumero_processo_colaborador(),model.getNumero_processo_estatistica(),model.getNumero_processo_form_disponiveis(),model.getNumero_processo_gerir_tarefa(),model.getNumero_processo_minhas_tarefas());
+		String status = Core.getSwitchValue(model.getEstado_estatistica());
+		String data_inicio = Core.getSwitchValue(model.getData_inicio_colaborador(),model.getData_inicio_estatistica(),model.getData_inicio_form_disponiveis(),model.getData_inicio_gerir_tarefa(),model.getData_inicio_minhas_tarefas());
+		String data_fim = Core.getSwitchValue(model.getData_fim_colaborador(),model.getData_fim_estatistica(),model.getData_fim_form_disponiveis(),model.getData_fim_gerir_tarefa(),model.getData_fim_minhas_tarefas());
+		String prioridade = Core.getSwitchValue(model.getPrioridade_colaborador(),model.getPrioridade_estatistica(),model.getPrioridade_form_disponiveis(),model.getPrioridade_gerir_tarefa(),model.getPrioridade_minhas_tarefas());
+	
+		if(Core.isNotNull(proc_tp)){
+			objTask.addFilter("processDefinitionKey",proc_tp);
 		}
-		
+		if(Core.isNotNull(num_proc)){
+			objTask.addFilter("processInstanceId",num_proc);
+		}
+		if(Core.isNotNull(status)) {
+			objTask.addFilter("finished",status);
+		}
+		if(Core.isNotNull(data_inicio)) {
+			objTask.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(data_inicio, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if(Core.isNotNull(data_fim)) {
+			objTask.addFilter("taskCompletedBefore",Core.ToChar(Core.ToChar(data_fim, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if(Core.isNotNull(prioridade)) {
+			objTask.addFilter("taskPriority", prioridade);
+		}
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
 		
 		//Verifica se é perfil pai
@@ -104,10 +122,10 @@ public class ExecucaoTarefasController extends Controller {
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
 		view.p_id.setParam(true);
-		view.organica_minhas_tarefas.setValue(new ProfileType().getListMyProfiles());
-		view.organica_gerir_tarefa.setValue(new ProfileType().getListMyProfiles());
-		view.organica_colaborador.setValue(new ProfileType().getListMyProfiles());
-		view.organica_form_disponiveis.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_minhas_tarefas.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_gerir_tarefa.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_colaborador.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_form_disponiveis.setValue(new ProfileType().getListMyProfiles());
 		view.prioridade_colaborador.setValue(listPrioridade);
 		view.prioridade_estatistica.setValue(listPrioridade);
 		view.prioridade_minhas_tarefas.setValue(listPrioridade);
@@ -132,6 +150,16 @@ public class ExecucaoTarefasController extends Controller {
 		view.n_tarefa_d.setLabel("Número Processo");
 		view.n_tarefa_g.setLabel("Número Processo");
 		view.n_tarefa_m.setLabel("Número Processo");
+		
+		view.pesquisa_gerir_tarefa.setVisible(false);
+		view.pesquisa_minhas_tarefas.setVisible(false);
+		view.pesquisar_form_disponiveis.setVisible(false);
+		view.tipo_etapa_colaborador.setVisible(false);
+		view.organica_colaborador.setVisible(false);
+		view.organica_form_disponiveis.setVisible(false);
+		view.organica_gerir_tarefa.setVisible(false);
+		view.organica_minhas_tarefas.setVisible(false);
+		view.estado_estatistica.setValue(this.getStatus());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -316,17 +344,9 @@ public class ExecucaoTarefasController extends Controller {
 				case "date":
 					return DateHelper.convertDate(value.toString(), "dd-MM-yyyy", "dd-MM-yyyy h:mm");
 				case "long":
-					if(Core.isNotNull(value))
-						return Long.parseLong(value.toString());
-					return 0;
+					return Long.parseLong(value.toString());
 				case "double":
-					if(Core.isNotNull(value))
-						return Double.parseDouble(value.toString());
-					return 0;
-				case "float":
-					if(Core.isNotNull(value))
-						return Float.parseFloat(value.toString());
-					return 0;
+					return Double.parseDouble(value.toString());
 				case "boolean":
 					return value.toString().equals("1");
 				case "enum":
@@ -340,53 +360,48 @@ public class ExecucaoTarefasController extends Controller {
 	//Executa uma tarefa
 	private ResponseError processTask(String p_prm_taskid,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
-		TaskService task = new TaskService().getTask(p_prm_taskid);
+		TaskService task = new TaskService();
+		task.setId(p_prm_taskid);
 		FormDataService properties = null;
-		ProcessInstancesService p = new ProcessInstancesService();
-		p.setId(task.getProcessInstanceId());		
-		
 		if(p_prm_taskid!=null && !p_prm_taskid.equals("")){
 			formData.setTaskId(p_prm_taskid);
 			properties = new FormDataService().getFormDataByTaskId(p_prm_taskid);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
 						formData.addVariable(prop.getId(),value);
 					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
+//				task.submitVariables();
 			}
-			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {				
-				Core.getParameters().entrySet().stream().forEach(param-> {
-					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
-				});
-				task.addVariable("customVariableIGRP_"+task.getId(),"string",content);
-				task.submitVariables();
-				p.submitVariables();
+			if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
+				formData.addVariable("customVariableIGRP",content);
 			}
 		}
-		
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;
 	}
 	
-
 	//Inicia tarefa de um processo
 	private ResponseError processStartEvent(String processDefinitionId,String customForm,String content,Collection<Part> parts,String [] p_prm_file_name_fk,String [] p_prm_file_description_fk){
 		FormDataService formData = new FormDataService();
 		FormDataService properties = null;
-		ProcessInstancesService pi = new ProcessInstancesService();
+		ProcessDefinitionService task = new ProcessDefinitionService();
 		if(processDefinitionId!=null && !processDefinitionId.equals("")){
 			formData.setProcessDefinitionId(processDefinitionId);
 			properties = new FormDataService().getFormDataByProcessDefinitionId(processDefinitionId);
 			if(formData!=null && properties!=null && properties.getFormProperties()!=null){
 				for(FormProperties prop:properties.getFormProperties()){
-					Object value =this.getValue(prop.getType(), prop.getId());
-					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable() && Core.isNotNull(value)) {
+					Object value = this.getValue(prop.getType(), prop.getId());
+					if(!prop.getType().equalsIgnoreCase("binary") && prop.getWritable()) {
 						formData.addVariable(prop.getId(),value);
 					}
+					if(!prop.getType().equalsIgnoreCase("binary"))
+						task.addVariable(prop.getId(), prop.getType(), value);
 				}
 			}
 		}
@@ -394,12 +409,20 @@ public class ExecucaoTarefasController extends Controller {
 			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
-		
 		if(st!=null){
-			pi.setId(st.getId());
-			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
+			task.setId(st.getId());
+//			task.submitVariables();
+			new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
+	}
+	
+	private Map<String,String> getStatus() {
+		Map<String,String> status = new HashMap<String,String>();
+		status.put(null, "--- Selecionar Estado ---");
+        status.put("false","Ativo");
+        status.put("true","Terminado");
+		return status;
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

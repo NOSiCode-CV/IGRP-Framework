@@ -26,7 +26,7 @@ public class Activit {
 	@Expose(serialize=false)
 	private Integer size;
 	@Expose(serialize=false,deserialize=false)
-	private String filter;
+	private String filter="";
 	
 	public Activit() {
 	}
