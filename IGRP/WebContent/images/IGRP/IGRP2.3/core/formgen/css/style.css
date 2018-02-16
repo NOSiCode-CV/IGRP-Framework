@@ -523,7 +523,7 @@ max-height: 34px;
 #igrp-sidebar .nav-tabs > li.active > a, 
 #igrp-sidebar .nav-tabs > li > a:hover { 
 	border: none; 
-	color: #4496C1 !important; 
+	color: #4496C1; 
 	background: transparent; 
 }
 /*#igrp-sidebar .nav-tabs > li > a::after { 
