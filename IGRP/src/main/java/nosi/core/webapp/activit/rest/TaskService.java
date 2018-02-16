@@ -70,21 +70,20 @@ public class TaskService extends Activit{
 	}
 	
 	public List<TaskService> getMyTasks(String user){
-		this.addFilter("assignee",user);
+		this.setFilter("assignee="+user);
 		return this.getTasks();
 	}
 	
 
 	public List<TaskService> getUnassigedTasks(){
-		this.addFilter("unassigned","true");
-		this.addFilter("candidateUser",new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
+		this.setFilter("unassigned=true&candidateUser="+new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId()).getUser_name());
 		return this.getTasks();
 	}
 	
 	@SuppressWarnings("unchecked")	
 	public List<TaskService> getTasks(){
 		List<TaskService> d = new ArrayList<>();
-		Response response = new RestRequest().get("runtime/tasks?size=100000000"+this.getFilter());
+		Response response = new RestRequest().get("runtime/tasks?size=100000000&"+this.getFilter());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -167,7 +166,7 @@ public class TaskService extends Activit{
 		return null;
 	}
 	
-	public boolean addTaskFile(Part file,String taskId,String file_desc) throws IOException{
+	public boolean submitTaskFile(Part file,String taskId,String file_desc) throws IOException{
 		try {
 			Response response = new RestRequest().post("runtime/tasks/"+taskId+"/variables?name="+file_desc+"&type=binary&scope=local", file);
 			file.delete();
@@ -246,7 +245,6 @@ public class TaskService extends Activit{
 	
 	public boolean submitVariables() {
 		Response response = new RestRequest().post("runtime/tasks/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
-		System.out.println(response.getStatus());
 		return response.getStatus() == 201;
 	}
 	private boolean taskAction(String id,String action,String assignee){
@@ -436,10 +434,6 @@ public class TaskService extends Activit{
 				+ ", processDefinitionId=" + processDefinitionId + ", processDefinitionUrl=" + processDefinitionUrl
 				+ ", variables=" + variables + ", Id=" + getId() + ", Category=" + getCategory()
 				+ ", name=" + getName() + ", url=" + getUrl() + "]";
-	}
-
-	public void addFilter(String paramName, String value) {
-		this.setFilter(this.getFilter()+("&"+paramName+"="+value));
 	}
 	
 }

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.QueryHistoricDetail;
 import nosi.core.webapp.activit.rest.Rows;
 import nosi.core.webapp.activit.rest.TaskService;
@@ -28,6 +29,7 @@ import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.webapp.webservices.helpers.FileRest;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
+import nosi.webapps.igrp.dao.Action;
 /*----#END-PRESERVED-AREA----*/
 
 public class Detalhes_tarefasController extends Controller {
@@ -40,7 +42,7 @@ public class Detalhes_tarefasController extends Controller {
 		taskS.addFilter("taskId", taskId);
 		String content = "";
 		for(TaskServiceQuery task:taskS.queryHistoryTask()) {
-			content = generateSubmittedFormTask(task,qhd.queryHistoricDetail(taskId));
+			content = generateSubmittedFormTask(task,qhd.queryHistoricDetail(taskId),new HistoricTaskService().getHistory(taskId));
 			break;//because for unique task
 		}
 		return this.renderView(content);
@@ -49,9 +51,11 @@ public class Detalhes_tarefasController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
-	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail) {
-		if(task.hasCustomForm()) {
-			return this.generateCustomFormTask(task);
+	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail,List<HistoricTaskService> history) {
+		if(Core.isNotNull(task.getFormKey())) {
+			Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=", task.getTenantId()).one();
+			if(action!=null)
+				return this.generateCustomFormTask(action,history);
 		}
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
@@ -187,6 +191,11 @@ public class Detalhes_tarefasController extends Controller {
 	private String generateViewTask(TaskServiceQuery task) {
 		IGRPView view = new IGRPView("view",gt("Processo Nº "+task.getProcessInstanceId()+" - Tarefa "+task.getId()),(float)2.1);
 		
+		Field task_desc = new TextField(null,"task_desc");
+		task_desc.propertie().add("type","text").add("name","p_task_desc").add("persist","true").add("maxlength","4000");
+		task_desc.setLabel(gt("Descrição:"));
+		task_desc.setValue(Core.isNotNull(task.getDescription())?task.getDescription():task.getName());
+		
 		Field user_exec = new TextField(null,"user_exec");
 		user_exec.propertie().add("type","text").add("name","p_user_exec").add("persist","true").add("maxlength","4000");
 		user_exec.setLabel(gt("Executado por:"));
@@ -202,33 +211,56 @@ public class Detalhes_tarefasController extends Controller {
 		endDate.setLabel(gt("Data Fim"));
 		endDate.setValue(Core.isNotNull(task.getEndTime())?Core.ToChar(task.getEndTime(), "yyyy-MM-dd'T'HH:mm:ss","yyyy-MM-dd HH:mm:ss"):"");
 		
+
+		Field status = new TextField(null,"status");
+		status.propertie().add("type","text").add("name","p_status").add("persist","true").add("maxlength","4000");	
+		status.setLabel(gt("Estado"));
+		status.setValue(task.getStatusTask());
+		
+		
+		view.addField(task_desc);
 		view.addField(user_exec);
 		view.addField(startDate);
 		view.addField(endDate);
+		view.addField(status);
 		return view.toString();
 	}
 	
-	private String generateCustomFormTask(TaskServiceQuery task) {
+	private String generateCustomFormTask(Action actionPage,List<HistoricTaskService> task) {
 		Gson gson = new Gson();
-		String app = "";
-		String page ="";
+		String app = actionPage.getApplication().getDad();
+		String page = actionPage.getPage();
 		String action = "index";
-		List<TaskVariables> tv = task.getVariables().stream()
-				   									.filter(v->v.getName().equalsIgnoreCase("CustomVariableIGRP"))
-				   									.collect(Collectors.toList());		
-		CustomVariableIGRP custom = gson.fromJson(tv.get(0).toString(), CustomVariableIGRP.class);
-		if(custom!=null){
-			for(Rows rows:custom.getRows()) {
-				if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
-					page = rows.getValue()[0].toString();
-				}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
-					app = rows.getValue()[0].toString();
+		String json = "";
+		if(task!=null && task.size()> 0) {
+			List<TaskVariables> vars = task.get(0).getVariables();
+			List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+task.get(0).getId())).collect(Collectors.toList());
+			json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+		}
+		if(Core.isNotNull(json)) {
+			CustomVariableIGRP custom = gson.fromJson(json, CustomVariableIGRP.class);
+			if(custom!=null){
+				for(Rows rows:custom.getRows()) {
+					if(rows.getName().equalsIgnoreCase("page_igrp_ativiti")) {
+						page = rows.getValue()[0].toString();
+					}if(rows.getName().equalsIgnoreCase("app_igrp_ativiti")) {
+						app = rows.getValue()[0].toString();
+					}else {
+						for(Object obj:rows.getValue()) {
+							Core.setParam(rows.getName(), obj.toString());
+						}
+					}
 				}
 			}
-			Response resp = this.call(app, page, action);
-			return resp.getContent();
 		}
-		return null;
+		Response resp = this.call(app, page, action);
+		String content = resp.getContent();
+		if(content.indexOf("xml-type=\"toolsbar\"") > 0) {
+			String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
+			result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
+			return result;
+		}
+		return resp.getContent();
 	}
 	
 	
