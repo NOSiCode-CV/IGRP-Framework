@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.webapp.Core;
 import java.util.Map;
 import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
@@ -21,6 +22,9 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.User;
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.google.gson.Gson;
 /*----#END-PRESERVED-AREA----*/
 
 public class ListaEnvController extends Controller {		
@@ -57,7 +61,7 @@ public class ListaEnvController extends Controller {
 				if (a.getStatus() == 1) {
 					table.setStatus_check(a.getStatus());
 				} else
-					table.setStatus_check(1);
+					table.setStatus_check(-1);
 				table.setP_id("" + a.getId());
 				table.setT_page_builder("igrp_studio", "ListaPage", "index&app=" + a.getId());
 				table.setT_page_builder_desc("Page builder");
@@ -186,6 +190,27 @@ public class ListaEnvController extends Controller {
 		JarUnJarFile.saveJarFiles(pathJar, files, 9);
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app", "application/jar", true);
 	}
+public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
+this.format = Response.FORMAT_JSON;
+String idAplicacao = Igrp.getInstance().getRequest().getParameter("p_id");
+String status = Igrp.getInstance().getRequest().getParameter("p_status");
+boolean response = false;
+
+if (Core.isNotNull(idAplicacao)) {
+Application aplica_db = new Application().findOne(Integer.parseInt(idAplicacao));
+if (aplica_db != null) {
+aplica_db.setStatus(Integer.parseInt(status));
+if (aplica_db.update() != null)
+response = true;
+}
+}
+
+JSONObject json = new JSONObject();
+json.put("status", response);
+Gson res = new Gson();
+res.toJson(json);
+return this.renderView(json.toString());
+}
 	/*----#END-PRESERVED-AREA----*/
 }

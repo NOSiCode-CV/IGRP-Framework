@@ -1,9 +1,5 @@
-/*-------------------------*/
-
-/*Create Controller*/
 
 package nosi.webapps.igrp.pages.editartransacao;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
@@ -18,8 +14,10 @@ import static nosi.core.i18n.Translator.gt;
 
 public class EditarTransacaoController extends Controller {		
 
-	public Response actionIndex(@RParam(rParamName = "codigo")String codigo) throws IOException, IllegalArgumentException, IllegalAccessException{
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
+		String codigo = Igrp.getInstance().getRequest().getParameter("codigo");
 		if(codigo!=null){
 			Transaction t = new Transaction().find().andWhere("code", "=", codigo).one();
 			EditarTransacao model = new EditarTransacao();
@@ -48,20 +46,20 @@ public class EditarTransacaoController extends Controller {
 			EditarTransacaoView view = new EditarTransacaoView(model);
 			view.aplicacao.setValue(new Application().getListApps());
 			view.btn_gravar.setLink("index&codigo="+model.getP_id());
-			view.id.setValue(t.getId());
+			view.p_id.setValue(""+t.getId());
 			return this.renderView(view);
 		}
 		else
 			return this.redirect("igrp", "error-page", "permission");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
-	public Response actionVoltar() throws IOException{
-		/*----#START-PRESERVED-AREA(VOLTAR)----*/
-		return this.redirect("igrp","Transaccao","index");
+
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		return this.redirect("igrp","editartransacao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
