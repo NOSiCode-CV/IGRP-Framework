@@ -12,8 +12,6 @@ public class Transaccao extends Model{
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_organica")
-	private String organica;
 	@RParam(rParamName = "p_filtro_codigo")
 	private String filtro_codigo;
 	
@@ -37,13 +35,6 @@ public class Transaccao extends Model{
 	}
 	public String getAplicacao(){
 		return this.aplicacao;
-	}
-	
-	public void setOrganica(String organica){
-		this.organica = organica;
-	}
-	public String getOrganica(){
-		return this.organica;
 	}
 	
 	public void setFiltro_codigo(String filtro_codigo){

@@ -26,20 +26,23 @@ public class TransaccaoController extends Controller {
 		Transaccao model = new Transaccao();		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();
-		
-			model.load();		
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();	
+		}
+				
+			
 	
 		List<Transaction> list =trans.find()
-				.andWhere("application", "=", model.getAplicacao()!=null?model.getAplicacao():null)
-				.andWhere("code", "=", model.getFiltro_codigo())
+				.andWhere("application", "=", Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):null)
+				.andWhere("code", "=", Core.isNotNull(model.getFiltro_codigo())?model.getFiltro_codigo():null)
 				.all();
 		for(Transaction t:list){
 			Transaccao.Table_1 table = new Transaccao.Table_1();
 			table.setCodigo(t.getCode());
 			table.setDescricao(t.getDescr());
-			  int check = t.getStatus() == 1 ? t.getStatus() : -1;
-           table.setStatus(t.getStatus());
-          	 table.setStatus_check(check);
+			int check = t.getStatus() == 1 ? t.getStatus() : -1;
+            table.setStatus(t.getStatus());
+          	table.setStatus_check(check);
 			table_1.add(table);
 		}		
 		
@@ -52,23 +55,6 @@ public class TransaccaoController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
-		Transaccao model = new Transaccao();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(model.save(model)){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","Transaccao","index");
-			}
-		}
-		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 
 	public Response actionEditar() throws IOException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
@@ -87,9 +73,9 @@ public class TransaccaoController extends Controller {
 		Transaction t = new Transaction();
 		t = t.find().andWhere("code", "=", code).one();
 		if(t.delete(t.getId()))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+			Core.setMessageSuccess();
 		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+			Core.setMessageError();
 		return this.redirect("igrp","Transaccao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}

@@ -14,13 +14,11 @@ public class TransaccaoView extends View {
 	public Field descricao;
 	public Field codigo;
 	public Field aplicacao;
-	public Field organica;
 	public Field filtro_codigo;
 	public IGRPForm sectionheader_1;
 	public IGRPTable table_1;
 	public IGRPForm form_1;
 
-	public IGRPButton btn_pesquisar;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public TransaccaoView(Transaccao model){
@@ -54,18 +52,11 @@ public class TransaccaoView extends View {
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
 		
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","false").add("domain","").add("java-type","");
-		
 		filtro_codigo = new TextField(model,"filtro_codigo");
 		filtro_codigo.setLabel(gt("Código"));
 		filtro_codigo.propertie().add("name","p_filtro_codigo").add("type","text").add("maxlength","30").add("required","false");
 		
 
-
-		btn_pesquisar = new IGRPButton("Pesquisar","igrp","Transaccao","pesquisar","submit","primary|fa-search","","");
-		btn_pesquisar.propertie.add("type","form").add("rel","pesquisar");
 
 		btn_editar = new IGRPButton("Editar","igrp","Transaccao","editar","modal|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
@@ -86,10 +77,8 @@ public class TransaccaoView extends View {
 		table_1.addField(codigo);
 
 		form_1.addField(aplicacao);
-		form_1.addField(organica);
 		form_1.addField(filtro_codigo);
 
-		form_1.addButton(btn_pesquisar);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);

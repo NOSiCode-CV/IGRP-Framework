@@ -62,8 +62,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Voluptatem mollit laudantium v</descricao>
-                        <codigo name="p_codigo">Aperiam doloremque omnis accus</codigo>
+                        <descricao name="p_descricao">Laudantium doloremque labore a</descricao>
+                        <codigo name="p_codigo">Rem laudantium deserunt labore</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -72,8 +72,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Amet perspiciatis adipiscing a</descricao>
-                        <codigo name="p_codigo">Deserunt voluptatem accusantiu</codigo>
+                        <descricao name="p_descricao">Sit natus iste anim rem</descricao>
+                        <codigo name="p_codigo">Amet unde ipsum sit deserunt</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -82,8 +82,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Ut perspiciatis dolor accusant</descricao>
-                        <codigo name="p_codigo">Magna sed perspiciatis anim la</codigo>
+                        <descricao name="p_descricao">Elit sed adipiscing stract des</descricao>
+                        <codigo name="p_codigo">Ipsum amet lorem amet deserunt</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -92,8 +92,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Aperiam perspiciatis magna lor</descricao>
-                        <codigo name="p_codigo">Natus voluptatem sed anim sit</codigo>
+                        <descricao name="p_descricao">Ipsum aliqua amet anim volupta</descricao>
+                        <codigo name="p_codigo">Labore amet rem sed mollit</codigo>
                     </row>
                     <row>
                         <context-menu>
@@ -102,8 +102,8 @@
                         </context-menu>
                         <status name="p_status" check="true" desc="true">1</status>
                         <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Amet deserunt ut labore consec</descricao>
-                        <codigo name="p_codigo">Ut laudantium natus adipiscing</codigo>
+                        <descricao name="p_descricao">Sit omnis aperiam perspiciatis</descricao>
+                        <codigo name="p_codigo">Omnis consectetur omnis consec</codigo>
                     </row>
                 </value>
                 <context-menu>
@@ -130,7 +130,7 @@
         </table_1>
         <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicação</label>
                     <list>
                         <option/>
@@ -152,44 +152,11 @@
                         </option>
                     </list>
                 </aplicacao>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
-                    <label>Organização</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </organica>
-                <filtro_codigo name="p_filtro_codigo" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <filtro_codigo name="p_filtro_codigo" type="text" maxlength="30" required="false" change="true" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Doloremque rem aliqua magna co</value>
+                    <value>Accusantium amet aliqua sit de</value>
                 </filtro_codigo>
             </fields>
-            <tools-bar>
-                <item type="form" code="" class="primary" rel="pesquisar">
-                    <title>Pesquisar</title>
-                    <app>igrp</app>
-                    <page>Transaccao</page>
-                    <link>index</link>
-                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
-                    <target>submit</target>
-                    <img>primary|fa-search</img>
-                </item>
-            </tools-bar>
         </form_1>
     </content>
 </rows>

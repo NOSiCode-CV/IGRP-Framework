@@ -6,22 +6,27 @@ import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 
 public class EditarTransacao extends Model{		
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	@RParam(rParamName = "p_descricao")
 	private String descricao;
 	@RParam(rParamName = "p_status")
 	private int status;
 	@RParam(rParamName = "p_status_check")
 	private int status_check;
-	@RParam(rParamName = "p_nada")
-	private String nada;
-	@RParam(rParamName = "p_aplicacao")
-	private int aplicacao;
-	@RParam(rParamName = "p_codigo")
-	private String codigo;
 	@RParam(rParamName = "p_id")
 	private int p_id;
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
+	@RParam(rParamName = "p_aplicacao")
+	private String aplicacao;
+	@RParam(rParamName = "p_codigo")
+	private String codigo;
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
+	}
 	
 	public void setDescricao(String descricao){
 		this.descricao = descricao;
@@ -43,17 +48,17 @@ public class EditarTransacao extends Model{
 		return this.status_check;
 	}
 	
-	public void setNada(String nada){
-		this.nada = nada;
+	public void setP_id(int p_id){
+		this.p_id = p_id;
 	}
-	public String getNada(){
-		return this.nada;
+	public int getP_id(){
+		return this.p_id;
 	}
 	
-	public void setAplicacao(int aplicacao){
+	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
 	}
-	public int getAplicacao(){
+	public String getAplicacao(){
 		return this.aplicacao;
 	}
 	
@@ -62,20 +67,6 @@ public class EditarTransacao extends Model{
 	}
 	public String getCodigo(){
 		return this.codigo;
-	}
-	
-	public void setP_id(int p_id){
-		this.p_id = p_id;
-	}
-	public int getP_id(){
-		return this.p_id;
-	}
-	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
-	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
 	}
 
 
