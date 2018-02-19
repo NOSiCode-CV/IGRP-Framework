@@ -4288,7 +4288,7 @@ if(input) {
 			value   :false,
 			xslValue:'close="refresh"',
 			onEditionStart : function(o){
-				if(field.GET.target && field.GET.target() == 'modal' || field.GET.target && field.GET.target() == 'mpsubmit')
+				if(field.GET.target && field.GET.target() == 'modal' || field.GET.target && field.GET.target() == 'mpsubmit' || field.GET.target && field.GET.target() == 'right_panel')
 					o.input.show();
 				else
 					o.input.hide();

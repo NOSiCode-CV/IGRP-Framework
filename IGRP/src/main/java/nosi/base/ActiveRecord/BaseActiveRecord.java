@@ -48,7 +48,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			session = this.entityManagerFactory.openSession();
+			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
 			session.persist(this.className);
 			transaction.commit();
@@ -74,7 +74,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			session = this.entityManagerFactory.openSession();
+			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
 			session.merge(this.className);
 			transaction.commit();
@@ -104,7 +104,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		Transaction transaction = null;
 		boolean deleted = false;
 		try{
-			session = this.entityManagerFactory.openSession();
+			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
 			this.className = (T) session.find(this.className.getClass(),id);
 			session.remove(this.className);
@@ -503,7 +503,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		Transaction transaction = null;
 		try{
 			try{
-				session = this.entityManagerFactory.openSession();
+				session = this.entityManagerFactory.getCurrentSession();
 				transaction = session.beginTransaction();
 				try{
 					if(this.predicates.size() > 0){
@@ -536,7 +536,7 @@ public class BaseActiveRecord <T> implements ActiveRecordIterface<T>{
 		Session session = null;
 		Transaction transaction = null;
 		try{
-			session = this.entityManagerFactory.openSession();
+			session = this.entityManagerFactory.getCurrentSession();
 			transaction = session.beginTransaction();
 			if(this.predicates.size() > 0){
 				this.criteria.where(predicates.toArray(new Predicate[predicates.size()]));

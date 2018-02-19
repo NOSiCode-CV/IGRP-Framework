@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -30,69 +30,52 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=21</preserve_url>
     </plsql>
     <content>
         <title>Editar Transacao</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Editar transação</value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app>igrp</app>
-                <page>EditarTransacao</page>
+                <page>Dominio</page>
                 <link>index</link>
                 <target>submit</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/editartransacao/EditarTransacao.xsl</parameter>
-                <params>default||fa-save|www</params>
-            </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>igrp</app>
-                <page>Transaccao</page>
-                <link>index</link>
-                <target>_self</target>
-                <img>default|fa-angle-right</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xsl</parameter>
-                <params>default||fa-angle-right|www</params>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <codigo name="p_codigo" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Código</label>
-                    <value>Consectetur totam sit mollit natus</value>
-                </codigo>
                 <descricao name="p_descricao" type="text" maxlength="150" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Descricao</label>
-                    <value>Anim adipiscing doloremque elit doloremque</value>
+                    <label>Nome</label>
+                    <value>Iste perspiciatis unde sed consectetur</value>
                 </descricao>
-                <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="true" change="false" disabled="false" right="false">
-                    <label>Aplicacao</label>
-                    <list>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </aplicacao>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo?</label>
                     <value>1</value>
                 </status>
-                <hidden name="p_id" type="hidden" maxlength="30" tag="id"/>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
             </fields>
         </form_1>
+        <view_1 type="view" xml-type="view" title="Detalhes" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="text" maxlength="30">
+                    <label>Aplicação</label>
+                    <value>Mollit rem anim sit aliqua</value>
+                </aplicacao>
+                <codigo name="p_codigo" type="text" maxlength="30">
+                    <label>Código</label>
+                    <value>Totam laudantium mollit elit s</value>
+                </codigo>
+            </fields>
+        </view_1>
     </content>
 </rows>

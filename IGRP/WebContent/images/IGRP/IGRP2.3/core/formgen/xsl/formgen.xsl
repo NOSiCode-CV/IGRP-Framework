@@ -16,7 +16,7 @@
 
       </head>
 
-      <body class="fixed-nav startin" view="gen-design" template="{rows/template}">
+      <body class="fixed-nav startin" view="gen-design" template="{rows/template}" id="igrp-form-gen">
           
         <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="template">
             <a class="navbar-brand col-sm-3 col-md-2" href="#" >

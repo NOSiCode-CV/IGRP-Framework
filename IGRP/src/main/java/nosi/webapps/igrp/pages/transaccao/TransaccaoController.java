@@ -10,6 +10,10 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.json.JSONException;
+import nosi.core.webapp.Core;
+import org.json.JSONObject;
+import com.google.gson.Gson;
 import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
@@ -22,18 +26,23 @@ public class TransaccaoController extends Controller {
 		Transaccao model = new Transaccao();		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
 		Transaction trans = new Transaction();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();		
+		if(Igrp.getMethod().equalsIgnoreCase("post")){
+			model.load();	
 		}
+				
+			
+	
 		List<Transaction> list =trans.find()
-				.andWhere("application", "=", model.getAplicacao()!=null?Integer.parseInt(model.getAplicacao()):null)
-				.andWhere("code", "=", model.getCodigo())
+				.andWhere("application", "=", Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):null)
+				.andWhere("code", "=", Core.isNotNull(model.getFiltro_codigo())?model.getFiltro_codigo():null)
 				.all();
 		for(Transaction t:list){
 			Transaccao.Table_1 table = new Transaccao.Table_1();
 			table.setCodigo(t.getCode());
 			table.setDescricao(t.getDescr());
-			table.setEstado(t.getStatus()==1?"Ativo":"Inativo");
+			int check = t.getStatus() == 1 ? t.getStatus() : -1;
+            table.setStatus(t.getStatus());
+          	table.setStatus_check(check);
 			table_1.add(table);
 		}		
 		
@@ -46,46 +55,6 @@ public class TransaccaoController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionPesquisar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(PESQUISAR)----*/
-		Transaccao model = new Transaccao();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
-			if(model.save(model)){
-				Core.setMessageSuccess(gt("Mesagem de Sucesso"));
-			 }else{
-				Core.setMessageError(gt("Mesagem de Erro"));
-			 return this.forward("igrp","Transaccao","index");
-			}
-		}
-		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionAlterar_estado() throws IOException{
-		/*----#START-PRESERVED-AREA(ALTERAR_ESTADO)----*/
-		String code = Igrp.getInstance().getRequest().getParameter("codigo");
-		Transaction t = new Transaction();
-		t.setCode(code);
-		t = t.find().andWhere("code", "=", code).one();
-		if(t!=null){
-			if(t.getStatus()==0){
-				t.setStatus(1);
-			}else if(t.getStatus()==1){
-				t.setStatus(0);
-			}
-			t = t.update();
-			if(t!=null)	
-				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
-			else
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));
-		}
-		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
 
 	public Response actionEditar() throws IOException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
@@ -104,14 +73,39 @@ public class TransaccaoController extends Controller {
 		Transaction t = new Transaction();
 		t = t.find().andWhere("code", "=", code).one();
 		if(t.delete(t.getId()))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,FlashMessage.MESSAGE_SUCCESS);
+			Core.setMessageSuccess();
 		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,FlashMessage.MESSAGE_ERROR);
+			Core.setMessageError();
 		return this.redirect("igrp","Transaccao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
+	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+
+		this.format = Response.FORMAT_JSON;		
+		String code = Igrp.getInstance().getRequest().getParameter("p_code");
+		String status = Igrp.getInstance().getRequest().getParameter("p_status");
+		
+		boolean response = false;
+
+		if (Core.isNotNull(code)) {
+			Transaction t = new Transaction();
+			t.setCode(code);
+			t = t.find().andWhere("code", "=", code).one();
+			if(t!=null){
+				t.setStatus(Integer.parseInt(status));
+				if (t.update() != null)
+					response = true;
+			}
+		}
+
+		JSONObject json = new JSONObject();
+		json.put("status", response);
+		Gson res = new Gson();
+		res.toJson(json);
+
+		return this.renderView(json.toString());
+	}
 	/*----#END-PRESERVED-AREA----*/
 }

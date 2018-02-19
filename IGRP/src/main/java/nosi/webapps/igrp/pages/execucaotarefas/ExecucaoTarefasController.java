@@ -18,10 +18,7 @@ import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
-import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
-import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -39,8 +36,8 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/		
-		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
-		Map<Object, Object> listProc = IgrpHelper.toMap(new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getId()), "id", "name", gt("-- Selecionar Processo --"));
+		//Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
+		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox();
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
@@ -49,12 +46,34 @@ public class ExecucaoTarefasController extends Controller {
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
 		TaskService objTask = new TaskService();
+
+		model.load();
 		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){
-			model.load();
-			objTask.setFilter(model.getPrioridade_colaborador());
+		String proc_tp = Core.getSwitchNotNullValue(model.getTipo_processo_colaborador(), model.getTipo_processo_estatistica(),model.getTipo_processo_form_disponiveis(), model.getTipo_processo_gerir_tarefa() ,model.getTipo_processo_minhas_tarefas());
+		String num_proc = Core.getSwitchNotNullValue(model.getNumero_processo_colaborador(),model.getNumero_processo_estatistica(),model.getNumero_processo_form_disponiveis(),model.getNumero_processo_gerir_tarefa(),model.getNumero_processo_minhas_tarefas());
+		String status = Core.getSwitchNotNullValue(model.getEstado_estatistica());
+		String data_inicio = Core.getSwitchNotNullValue(model.getData_inicio_colaborador(),model.getData_inicio_estatistica(),model.getData_inicio_form_disponiveis(),model.getData_inicio_gerir_tarefa(),model.getData_inicio_minhas_tarefas());
+		String data_fim = Core.getSwitchNotNullValue(model.getData_fim_colaborador(),model.getData_fim_estatistica(),model.getData_fim_form_disponiveis(),model.getData_fim_gerir_tarefa(),model.getData_fim_minhas_tarefas());
+		String prioridade = Core.getSwitchNotNullValue(model.getPrioridade_colaborador(),model.getPrioridade_estatistica(),model.getPrioridade_form_disponiveis(),model.getPrioridade_gerir_tarefa(),model.getPrioridade_minhas_tarefas());
+	
+		if(Core.isNotNull(proc_tp)){
+			objTask.addFilter("processDefinitionKey",proc_tp);
 		}
-		
+		if(Core.isNotNull(num_proc)){
+			objTask.addFilter("processInstanceId",num_proc);
+		}
+		if(Core.isNotNull(status)) {
+			objTask.addFilter("finished",status);
+		}
+		if(Core.isNotNull(data_inicio)) {
+			objTask.addFilter("taskCompletedAfter",Core.ToChar(Core.ToChar(data_inicio, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if(Core.isNotNull(data_fim)) {
+			objTask.addFilter("taskCompletedBefore",Core.ToChar(Core.ToChar(data_fim, "dd-MM-yyyy", "yyyy-MM-dd"), "yyyy-MM-dd'T'HH:mm:ss'Z'"));
+		}
+		if(Core.isNotNull(prioridade)) {
+			objTask.addFilter("taskPriority", prioridade);
+		}
 		List<ExecucaoTarefas.Table_gerir_tarefas> taskManage = new ArrayList<>();
 		
 		//Verifica se é perfil pai
@@ -104,10 +123,10 @@ public class ExecucaoTarefasController extends Controller {
 		view.table_disponiveis.addData(tasksDisponiveis);
 		view.table_minhas_tarefas.addData(myTasks);
 		view.p_id.setParam(true);
-		view.organica_minhas_tarefas.setValue(new ProfileType().getListMyProfiles());
-		view.organica_gerir_tarefa.setValue(new ProfileType().getListMyProfiles());
-		view.organica_colaborador.setValue(new ProfileType().getListMyProfiles());
-		view.organica_form_disponiveis.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_minhas_tarefas.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_gerir_tarefa.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_colaborador.setValue(new ProfileType().getListMyProfiles());
+//		view.organica_form_disponiveis.setValue(new ProfileType().getListMyProfiles());
 		view.prioridade_colaborador.setValue(listPrioridade);
 		view.prioridade_estatistica.setValue(listPrioridade);
 		view.prioridade_minhas_tarefas.setValue(listPrioridade);
@@ -132,6 +151,16 @@ public class ExecucaoTarefasController extends Controller {
 		view.n_tarefa_d.setLabel("Número Processo");
 		view.n_tarefa_g.setLabel("Número Processo");
 		view.n_tarefa_m.setLabel("Número Processo");
+		
+		view.pesquisa_gerir_tarefa.setVisible(false);
+		view.pesquisa_minhas_tarefas.setVisible(false);
+		view.pesquisar_form_disponiveis.setVisible(false);
+		view.tipo_etapa_colaborador.setVisible(false);
+		view.organica_colaborador.setVisible(false);
+		view.organica_form_disponiveis.setVisible(false);
+		view.organica_gerir_tarefa.setVisible(false);
+		view.organica_minhas_tarefas.setVisible(false);
+		view.estado_estatistica.setValue(this.getStatus());
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -391,7 +420,7 @@ public class ExecucaoTarefasController extends Controller {
 			}
 		}
 		if(Core.isNotNull(customForm) && Core.isNotNull(content)) {
-			formData.addVariable("customVariableIGRP_"+pi.getId(),content);
+			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
 		
@@ -400,6 +429,14 @@ public class ExecucaoTarefasController extends Controller {
 			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
+	}
+	
+	private Map<String,String> getStatus() {
+		Map<String,String> status = new HashMap<String,String>();
+		status.put(null, "--- Selecionar Estado ---");
+        status.put("false","Ativo");
+        status.put("true","Terminado");
+		return status;
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

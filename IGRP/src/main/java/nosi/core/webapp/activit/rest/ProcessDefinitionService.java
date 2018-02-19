@@ -72,16 +72,9 @@ public class ProcessDefinitionService extends Activit{
 					byte[] imageBytes = new byte[response.getLength()];
 					finput.read(imageBytes, 0, imageBytes.length);
 					finput.close();
-					d = Base64.getEncoder().encodeToString(imageBytes);
+					return Base64.getEncoder().encodeToString(imageBytes);
 				} catch (IOException e) {
 					e.printStackTrace();
-				}finally {
-					try {
-						finput.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
 			}
 		}

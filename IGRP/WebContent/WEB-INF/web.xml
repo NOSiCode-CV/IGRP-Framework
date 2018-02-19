@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>workspace</param-name>
-		<param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value>
+		<param-value>C:\Users\Isaías Nunes\git\IGRP-Framework\IGRP</param-value>
 	</context-param>
 
 	<servlet>

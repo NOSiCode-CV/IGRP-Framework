@@ -462,8 +462,7 @@ public class ExecucaoTarefasView extends View {
 		
 		data_entrada_estat_tabela.propertie().add("name","p_data_entrada_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 		data_conclusao_estat_tabela = new TextField(model,"data_conclusao_estat_tabela");
-		data_conclusao_estat_tabela.setLabel(gt("Data Conclusão"));
-		
+		data_conclusao_estat_tabela.setLabel(gt("Data Conclusão"));		
 		data_conclusao_estat_tabela.propertie().add("name","p_data_conclusao_estat_tabela").add("type","text").add("maxlength","30").add("align","left").add("lookup_parser","false").add("iskey","false");
 
 		btn_pesquisar_tarefa = new IGRPButton(gt("Pesquisar"),"igrp","ExecucaoTarefas","pesquisar_tarefa","submit_form","default|fa-search","","");

@@ -22,7 +22,7 @@ public class NovoMenuController extends Controller {
 		NovoMenu model = new NovoMenu();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		model.load();
-		if (Core.isInteger(id) && !id.equals("0")) {
+		if (Core.isInt(id) && !id.equals("0")) {
 			// If its a update it will enter here and the value p_id is from the GET url
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
@@ -48,7 +48,7 @@ public class NovoMenuController extends Controller {
 		} else {
 			model.load();
 			String app = Igrp.getInstance().getRequest().getParameter("app");
-			if (Core.isInteger(app))
+			if (Core.isInt(app))
 				model.setEnv_fk(Integer.parseInt(app));
 			// New menu by default opens in the same window
 			model.setTarget("_self");
@@ -69,7 +69,7 @@ public class NovoMenuController extends Controller {
 		view.target.setValue(targets); // prompt
 		view.link.setVisible(false);
 
-		if (Core.isInteger(id) && !id.equals("0")) {
+		if (Core.isInt(id) && !id.equals("0")) {
 			view.btn_gravar.setLink("gravar&p_id=" + id);
 			view.sectionheader_1_text.setValue("Gestão Menu - Atualizar");
 		}
@@ -88,7 +88,7 @@ public class NovoMenuController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			// Update menu will enter here
-			if (Core.isInteger(id) && !id.equals("0")) {
+			if (Core.isInt(id) && !id.equals("0")) {
 				menu = new Menu().findOne(Integer.parseInt(id));
 				if (menu.getMenu() != null) {
 					model.setSelf_id(menu.getMenu().getId());
@@ -124,7 +124,7 @@ public class NovoMenuController extends Controller {
 				// has a page/action
 			} else if (model.getAction_fk() != 0)
 				menu.setMenu(menu);
-			if (Core.isInteger(id) && !id.equals("0")) {
+			if (Core.isInt(id) && !id.equals("0")) {
 				menu = menu.update();
 				if (menu != null)
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
@@ -144,7 +144,7 @@ public class NovoMenuController extends Controller {
 			}
 
 		}
-		if (Core.isInteger(id) && !id.equals("0")) {
+		if (Core.isInt(id) && !id.equals("0")) {
 			// Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, "Invalid
 			// request ...");
 			return this.redirect("igrp", "novo-menu", "index", new String[] { "p_id" }, new String[] { id + "" });

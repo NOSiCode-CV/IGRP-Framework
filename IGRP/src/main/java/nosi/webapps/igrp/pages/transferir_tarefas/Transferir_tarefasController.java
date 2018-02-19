@@ -23,7 +23,7 @@ public class Transferir_tarefasController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/				
 		Transferir_tarefas model = new Transferir_tarefas();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if(Core.isInteger(id)){
+		if(Core.isInt(id)){
 			TaskService task = new TaskService().getTask(id);
 			if(task!=null){
 				model.setAtribuido_por(task.getOwner());

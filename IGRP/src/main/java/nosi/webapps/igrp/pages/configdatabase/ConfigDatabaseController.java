@@ -26,7 +26,7 @@ public class ConfigDatabaseController extends Controller {
 
 		model.load();
 
-		if (Core.isInteger(model.getAplicacao()) ) {
+		if (Core.isInt(model.getAplicacao()) ) {
 			switch (model.getTipo_base_dados()) {
 			case "mysql":
 				model.setPort(3306);

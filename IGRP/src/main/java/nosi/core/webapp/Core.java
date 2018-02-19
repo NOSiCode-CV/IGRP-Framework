@@ -312,20 +312,101 @@ public final class Core {	// Not inherit
 		return EncrypDecrypt.decrypt(content);
 	}
 	
-	public static boolean isNotNull(Object string) {
-		return string!=null && !string.equals("");
+	public static boolean isNotNull(Object value) {
+		return value!=null && !value.equals("");
 	}
 	
-	public static boolean isInteger(Object value) {
+	public static boolean isNull(Object value) {
+		return value==null || value.equals("");
+	}	
+	
+	public static boolean isInt(Object value) {
 		if(isNotNull(value)) {
 			try {
 				Integer.parseInt(value.toString());
 				return true;
-			}catch(Exception e) {
+			}catch(NumberFormatException e) {
 				return false;
 			}
 		}
 		return false;
+	}
+	
+	public static boolean isDouble(Object value) {
+		if(isNotNull(value)) {
+			try {
+				Double.parseDouble(value.toString());
+				return true;
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isFloat(Object value) {
+		if(isNotNull(value)) {
+			try {
+				Float.parseFloat(value.toString());
+				return true;
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isLong(Object value) {
+		if(isNotNull(value)) {
+			try {
+				Long.parseLong(value.toString());
+				return true;
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isShort(Object value) {
+		if(isNotNull(value)) {
+			try {
+				Short.parseShort(value.toString());
+				return true;
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	public static Integer toInt(String value) {
+		if(Core.isInt(value))
+			return Integer.parseInt(value);
+		return 0;
+	}
+
+	public static Long toLong(String value) {
+		if(Core.isLong(value))
+			return Long.parseLong(value);
+		return (long) 0;
+	}
+	
+	public static Double toDouble(String value) {
+		if(Core.isDouble(value))
+			return Double.parseDouble(value);
+		return 0.0;
+	}
+
+	public static Float toFloat(String value) {
+		if(Core.isFloat(value))
+			return Float.parseFloat(value);
+		return (float) 0;
+	}
+
+	public static Short toShort(String value) {
+		if(Core.isShort(value))
+			return Short.parseShort(value);
+		return 0;
 	}
 	
 	public static QueryHelper insert(String connectionName,String tableName) {
@@ -385,22 +466,11 @@ public final class Core {	// Not inherit
 	public static class Restriction extends Restrictions{
 		
 	}
-	
-	public static void main(String[] args){
-		nosi.core.webapp.webservices.biztalk.dao.PesquisaNascimento p = Core.getBizTalkPesquisaNascimento("ANGELO BENJAMIM CARDOSO CORREIA", null, null);
-		if(p!=null){
-			System.out.println(p.getRowList());
-		}
-	}
 
 	public static void addHiddenField(String name,Object value) {
 		Field f = new HiddenField(name, value!=null?value.toString():"");
 		f.setValue(value);
 		IGRPForm.hiddenFields.add(f);
-	}
-		
-	public static String get(String paramName) {
-		return Igrp.getInstance().getRequest().getParameter(paramName);
 	}
 
 	public static String getXMLParams() {
@@ -475,39 +545,15 @@ public final class Core {	// Not inherit
 		return "";
 	}
 	
-	public static Integer toInt(String value) {
-		if(Core.isNotNull(value))
-			return Integer.parseInt(value);
-		return 0;
-	}
-
-	public static Long toLong(String value) {
-		if(Core.isNotNull(value))
-			return Long.parseLong(value);
-		return (long) 0;
-	}
 	
-	public static Double toDouble(String value) {
-		if(Core.isNotNull(value))
-			return Double.parseDouble(value);
-		return 0.0;
-	}
-
-	public static Float toFloat(String value) {
-		if(Core.isNotNull(value))
-			return Float.parseFloat(value);
-		return (float) 0;
-	}
-
 	public static String getPinkColor() {
 		return "1";
 	}
-	
 
 	public static String getAmberColor() {
 		return "2";
 	}
-
+	
 	public static String getYellowColor() {
 		return "3";
 	}
@@ -515,6 +561,7 @@ public final class Core {	// Not inherit
 	public static String getGreenColor() {
 		return "4";
 	}
+	
 	public static String getBlueGreyColor() {
 		return "5";
 	}
@@ -522,6 +569,7 @@ public final class Core {	// Not inherit
 	public static String getPurpleColor() {
 		return "6";
 	}
+	
 	public static String getBlueColor() {
 		return "7";
 	}
@@ -529,17 +577,19 @@ public final class Core {	// Not inherit
 	public static String getBrownColor() {
 		return "8";
 	}
+	
 	public static String getDeepPurpleColor() {
 		return "9";
 	}
 
-	public static String getSwitchValue(String ...strings) {
+	//Receive multiple params and get one of these params that's not null
+	public static String getSwitchNotNullValue(String ...strings) {
 		if(strings.length > 1) {
 			if(Core.isNotNull(strings[0]))
 				return strings[0];
 			String[] newStrings = new String[strings.length-1];
 			System.arraycopy(strings, 1, newStrings,0, newStrings.length);
-			return getSwitchValue(newStrings);
+			return getSwitchNotNullValue(newStrings);
 		}else if(strings.length==1) {
 			if(Core.isNotNull(strings[0]))
 				return strings[0];

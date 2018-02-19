@@ -1,18 +1,19 @@
 package nosi.webapps.igrp.pages.transaccao;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Transaccao extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_codigo")
-	private String codigo;
 	@RParam(rParamName = "p_aplicacao")
 	private String aplicacao;
-	@RParam(rParamName = "p_organica")
-	private String organica;
+	@RParam(rParamName = "p_filtro_codigo")
+	private String filtro_codigo;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -29,13 +30,6 @@ public class Transaccao extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setCodigo(String codigo){
-		this.codigo = codigo;
-	}
-	public String getCodigo(){
-		return this.codigo;
-	}
-	
 	public void setAplicacao(String aplicacao){
 		this.aplicacao = aplicacao;
 	}
@@ -43,23 +37,30 @@ public class Transaccao extends Model{
 		return this.aplicacao;
 	}
 	
-	public void setOrganica(String organica){
-		this.organica = organica;
+	public void setFiltro_codigo(String filtro_codigo){
+		this.filtro_codigo = filtro_codigo;
 	}
-	public String getOrganica(){
-		return this.organica;
+	public String getFiltro_codigo(){
+		return this.filtro_codigo;
 	}
 
 
 	public static class Table_1{
-		private String codigo;
+		private int status;
+		private int status_check;
 		private String descricao;
-		private String estado;
-		public void setCodigo(String codigo){
-			this.codigo = codigo;
+		private String codigo;
+		public void setStatus(int status){
+			this.status = status;
 		}
-		public String getCodigo(){
-			return this.codigo;
+		public int getStatus(){
+			return this.status;
+		}
+		public void setStatus_check(int status_check){
+			this.status_check = status_check;
+		}
+		public int getStatus_check(){
+			return this.status_check;
 		}
 
 		public void setDescricao(String descricao){
@@ -69,11 +70,11 @@ public class Transaccao extends Model{
 			return this.descricao;
 		}
 
-		public void setEstado(String estado){
-			this.estado = estado;
+		public void setCodigo(String codigo){
+			this.codigo = codigo;
 		}
-		public String getEstado(){
-			return this.estado;
+		public String getCodigo(){
+			return this.codigo;
 		}
 
 	}
