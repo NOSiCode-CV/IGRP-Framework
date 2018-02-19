@@ -19,12 +19,9 @@ public class IgrpServletTest {
         HttpServletRequest request = mock(HttpServletRequest.class);       
         HttpServletResponse response = mock(HttpServletResponse.class);    
                 
-        
         when(request.getParameter("username")).thenReturn("demo");
         when(request.getParameter("password")).thenReturn("demo");
         
-       
-    
         request.getSession().setAttribute("_flash", "teste");
        
         //when(request.getParameter("_flash")).thenReturn("demo");

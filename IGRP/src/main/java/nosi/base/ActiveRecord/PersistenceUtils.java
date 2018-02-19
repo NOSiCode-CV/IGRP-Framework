@@ -108,7 +108,11 @@ public class PersistenceUtils {
 			return "";
 		}
 		
-	public static void destroy() {
+	public static void closeCurrentConnection() { // Ensure that the current Connection is closed 
+		
+	}
+		
+	public synchronized static void destroy() {
 		Iterator<SessionFactory> i = PersistenceUtils.SESSION_FACTORY.values().iterator();
 		while(i.hasNext()) { 
 			SessionFactory sf = i.next(); 
