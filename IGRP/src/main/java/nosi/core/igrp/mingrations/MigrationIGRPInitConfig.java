@@ -238,7 +238,7 @@ public class MigrationIGRPInitConfig {
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 			
-			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(47), igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 1, 0, 1, "_self", actions.get(46), igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 			
