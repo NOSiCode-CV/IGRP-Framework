@@ -1,12 +1,15 @@
 package nosi.webapps.igrp.pages.page;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_action_descr")
-	private String action_descr;
+	@RParam(rParamName = "p_page_descr")
+	private String page_descr;
 	@RParam(rParamName = "p_page")
 	private String page;
 	@RParam(rParamName = "p_status")
@@ -35,8 +38,6 @@ public class Page extends Model{
 	private String p_action;
 	@RParam(rParamName = "p_page_type")
 	private String p_page_type;
-	@RParam(rParamName = "p_page_descr")
-	private String p_page_descr;
 	@RParam(rParamName = "p_flg_menu")
 	private String p_flg_menu;
 	@RParam(rParamName = "p_flg_transaction")
@@ -53,6 +54,8 @@ public class Page extends Model{
 	private String p_flg_internet;
 	@RParam(rParamName = "p_proc_name")
 	private String p_proc_name;
+	@RParam(rParamName = "p_action_descr")
+	private String p_action_descr;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -61,11 +64,11 @@ public class Page extends Model{
 		return this.sectionheader_1_text;
 	}
 	
-	public void setAction_descr(String action_descr){
-		this.action_descr = action_descr;
+	public void setPage_descr(String page_descr){
+		this.page_descr = page_descr;
 	}
-	public String getAction_descr(){
-		return this.action_descr;
+	public String getPage_descr(){
+		return this.page_descr;
 	}
 	
 	public void setPage(String page){
@@ -164,13 +167,6 @@ public class Page extends Model{
 		return this.p_page_type;
 	}
 	
-	public void setP_page_descr(String p_page_descr){
-		this.p_page_descr = p_page_descr;
-	}
-	public String getP_page_descr(){
-		return this.p_page_descr;
-	}
-	
 	public void setP_flg_menu(String p_flg_menu){
 		this.p_flg_menu = p_flg_menu;
 	}
@@ -225,6 +221,13 @@ public class Page extends Model{
 	}
 	public String getP_proc_name(){
 		return this.p_proc_name;
+	}
+	
+	public void setP_action_descr(String p_action_descr){
+		this.p_action_descr = p_action_descr;
+	}
+	public String getP_action_descr(){
+		return this.p_action_descr;
 	}
 
 

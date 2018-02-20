@@ -17,7 +17,9 @@ import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
 import nosi.webapps.igrp.dao.Organization;
-
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.google.gson.Gson;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -34,11 +36,7 @@ public class PesquisarMenuController extends Controller {
 		model.load();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 
-			idApp = (model.getAplicacao() != null && !model.getAplicacao().equals(""))
-					? Integer.parseInt(model.getAplicacao())
-					: 0;
-
-
+			idApp = (Core.isNotNull(model.getAplicacao()))? Integer.parseInt(model.getAplicacao()): 0;
 			menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 
 		}
@@ -72,12 +70,12 @@ public class PesquisarMenuController extends Controller {
 				table1.setT1_menu_principal(menu_db1.getDescr());
 			}
 			if (menu_db1.getAction() != null) {
-				table1.setPagina(menu_db1.getAction().getPage());
+				table1.setPagina(menu_db1.getAction().getPage_descr());
 				table1.setTable_titulo(menu_db1.getDescr());
 			}
 		
 			table1.setAtivo(menu_db1.getStatus());
-            table1.setAtivo_check(1);
+            table1.setAtivo_check(menu_db1.getStatus() == 1?menu_db1.getStatus():-1);
 			table1.setCheckbox(menu_db1.getId());
 			table1.setP_id("" + menu_db1.getId());
 			if (menu_db1.getFlg_base() == 1) {
@@ -102,7 +100,7 @@ public class PesquisarMenuController extends Controller {
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (id != null && !id.equals("")) {
+		if (Core.isNotNull(id)) {
 			return this.redirect("igrp", "NovoMenu", "index&target=_blank&p_id=" + id);
 		}
 
@@ -181,6 +179,27 @@ public class PesquisarMenuController extends Controller {
 		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
 		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
 		return this.renderView(topMenu.toString());
+	}
+  	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+
+		this.format = Response.FORMAT_JSON;
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+		String status = Igrp.getInstance().getRequest().getParameter("p_status");
+		boolean response = false;
+		if (Core.isNotNull(id)) {
+			Menu menu = new Menu().findOne(Integer.parseInt(id));
+			if (menu != null) {
+				menu.setStatus(Integer.parseInt(status));
+				if (menu.update() != null)
+					response = true;
+			}
+		}
+		JSONObject json = new JSONObject();
+		json.put("status", response);
+		Gson res = new Gson();
+		res.toJson(json);
+
+		return this.renderView(json.toString());
 	}
 	/*----#END-PRESERVED-AREA----*/
 }

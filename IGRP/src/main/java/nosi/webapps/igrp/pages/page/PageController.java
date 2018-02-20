@@ -47,10 +47,10 @@ public class PageController extends Controller {
 			Action a = new Action();
 			a = a.findOne(Integer.parseInt(Core.getParam("p_id_page")));
 			if (a != null) {
-				model.setAction_descr(a.getAction_descr());
+				model.setP_action_descr(a.getAction_descr());
 				model.setEnv_fk("" + a.getApplication().getId());
 				model.setP_action(a.getAction());
-				model.setP_page_descr(a.getPage_descr());
+				model.setPage_descr(a.getPage_descr());
 				model.setPage(a.getPage());
 				model.setP_id("" + a.getId());
 				model.setVersion(a.getVersion());
@@ -90,21 +90,21 @@ public class PageController extends Controller {
 			if (idPage != 0) {
 				action = action.findOne(idPage);
 				// Edit/update page
-				action.setPage_descr(model.getAction_descr());
+				action.setPage_descr(model.getPage_descr());
+              action.setAction_descr(model.getPage_descr());
 				action = action.update();
 				if (action != null)
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS,
-							gt("Página atualizada com sucesso."));
+					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
 				else
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MESSAGE_ERROR);
-				return this.redirect("igrp", "page", "index", new String[] { "p_id" }, new String[] { idPage + "" });
+					Core.setMessageError();
+				return this.redirect("igrp", "page", "index", new String[] { "p_id_page" }, new String[] { idPage + "" });
 //				_________________________________________________
 			} else {
 				// New page
 
 				action.setApplication(app.findOne(Integer.parseInt(model.getEnv_fk())));
-				action.setAction_descr(model.getAction_descr());
-				action.setPage_descr(model.getAction_descr());
+				action.setAction_descr(model.getPage_descr());
+				action.setPage_descr(model.getPage_descr());
 				action.setStatus(model.getStatus());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages."
@@ -128,12 +128,12 @@ public class PageController extends Controller {
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, FlashMessage.MSG_SUCCESS);
+					Core.setMessageSuccess();
 					if (Core.isNotNull(model.getEnv_fk()))
 						return this.redirect("igrp", "page", "index", new String[] { "p_env_fk" },
 								new String[] { model.getEnv_fk() });
 				} else {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.MSG_ERROR);
+					Core.setMessageError();
 					return this.forward("igrp", "page", "index");
 				}
 			}
@@ -186,7 +186,7 @@ public class PageController extends Controller {
 							}
 							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
 									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-									FileHelper.ENCODE_UTF8);// ENCODE_CP1252 for default encode eclipse
+									FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
 						ac.setId(Integer.parseInt(p_id));
 						ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()

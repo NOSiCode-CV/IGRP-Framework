@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/page/Page.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -49,18 +49,18 @@
                 <link/>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined</parameter>
+                <preview>undefined</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <action_descr name="p_action_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <page_descr name="p_page_descr" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Aliqua laudantium perspiciatis</value>
-                </action_descr>
+                    <value>Sit accusantium consectetur st</value>
+                </page_descr>
                 <page name="p_page" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Sit deserunt sit accusantium a</value>
+                    <value>Amet voluptatem deserunt offic</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo?</label>
@@ -123,7 +123,6 @@
                 <hidden name="p_img_src" type="hidden" maxlength="2000" java-type="" tag="img_src"/>
                 <hidden name="p_action" type="hidden" maxlength="30" java-type="" tag="action"/>
                 <hidden name="p_page_type" type="hidden" maxlength="30" java-type="" tag="page_type"/>
-                <hidden name="p_page_descr" type="hidden" maxlength="30" java-type="" tag="page_descr"/>
                 <hidden name="p_flg_menu" type="hidden" maxlength="30" java-type="" tag="flg_menu"/>
                 <hidden name="p_flg_transaction" type="hidden" maxlength="30" java-type="" tag="flg_transaction"/>
                 <hidden name="p_self_id" type="hidden" maxlength="30" java-type="" tag="self_id"/>
@@ -132,6 +131,7 @@
                 <hidden name="p_flg_offline" type="hidden" maxlength="30" java-type="" tag="flg_offline"/>
                 <hidden name="p_flg_internet" type="hidden" maxlength="30" java-type="" tag="flg_internet"/>
                 <hidden name="p_proc_name" type="hidden" maxlength="30" java-type="" tag="proc_name"/>
+                <hidden name="p_action_descr" type="hidden" maxlength="30" java-type="" tag="action_descr"/>
             </fields>
         </form_1>
     </content>

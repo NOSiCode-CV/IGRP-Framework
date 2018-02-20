@@ -140,6 +140,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 				.andWhere("type", "=","MEN")
 				.andWhere("organization", "=",Permission.getCurrentOrganization())
 				.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+				.andWhere("status", "=", 1)
 				.all();
 //		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 //		EntityTransaction t =  em.getTransaction();
@@ -173,7 +174,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
-		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?)";
+		String sql = "SELECT * FROM GLB_V_PROF_MENU WHERE STATUS=1 AND ORG_FK=? AND PROF_TYPE_FK=? AND env_fk_prof_type=? AND ID IN (SELECT ID FROM GLB_V_ORG_MENU WHERE ORG_FK=?)";
 //					+ "UNION "
 //					+ "SELECT M1.ID, M2.DESCR, M1.DESCR DESCR_MENU, M1.ORDERBY, M1.ENV_FK, M1.SELF_FK, M1.ACTION_FK, 0 as PROF_TYPE_FK, 0 as USER_FK, null as PROF_CODE, null as PROF_NAME, 0 as ORG_FK, M1.STATUS, M1.TARGET, 0 as ENV_FK_PROF_TYPE, 1 as FLG_BASE "
 //					+ "FROM tbl_MENU M1, tbl_menu M2 "
