@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -33,11 +33,11 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=14</preserve_url>
     </plsql>
     <content>
-        <title>Settings</title>
+        <title>Área pessoal</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Settings Aplicação : </value>
+                    <value>Área pessoal</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
@@ -45,38 +45,38 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Officia perspiciatis omnis accusantium sed</value>
+                    <value>Perspiciatis ipsum lorem doloremque adipiscing</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Aliqua sit labore magna totam</value>
+                    <value>Deserunt sit omnis perspiciatis omnis</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Anim aperiam aliqua labore ali</value>
+                    <value>Elit totam ipsum omnis sit</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Ut perspiciatis lorem perspici</value>
+                    <value>Aperiam perspiciatis elit aper</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Anim dolor deserunt omnis sed</value>
+                    <value>Natus stract doloremque offici</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Sit consectetur omnis amet str</value>
+                    <value>Dolor unde anim adipiscing dol</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Anim dolor ut aperiam laudanti</value>
+                    <value>Accusantium voluptatem stract</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Labore elit rem laudantium lor</value>
+                    <value>Iste voluptatem labore stract</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
-                    <value>images/IGRP/IGRP2.3/assets/img/jon_doe.jpg</value>
+                    <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
                 </view_1_img>
             </fields>
         </view_1>
@@ -84,11 +84,11 @@
             <item type="specific" code="" rel="alterar_senha">
                 <title>Alterar senha</title>
                 <app>igrp</app>
-                <page>Settings</page>
+                <page>ChangePassword</page>
                 <link>index</link>
-                <target>modal</target>
+                <target>right_panel</target>
                 <img>warning|fa-lock</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
             </item>
             <item type="specific" code="" rel="aplicar">
                 <title>Aplicar</title>
@@ -97,13 +97,38 @@
                 <link>index</link>
                 <target>submit_form</target>
                 <img>success|fa-check</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xml</preview>
             </item>
         </toolsbar_1>
-        <form_1 type="form" xml-type="form" title="PARAMETROS" gen-type="container" gen-group="">
+        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                    <label> Idioma</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </idioma>
+                <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false">
+                    <label>Acesso</label>
+                </separator_1>
                 <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
-                    <label>Organica</label>
+                    <label>Organização</label>
                     <list>
                         <option/>
                         <option>
@@ -146,69 +171,6 @@
                         </option>
                     </list>
                 </perfil>
-                <janela_inicil name="p_janela_inicil" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
-                    <label>Janela Inicil</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </janela_inicil>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
-                    <label>Idioma</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </idioma>
-                <auto_complete name="p_auto_complete" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Auto Complete</label>
-                    <value>1</value>
-                </auto_complete>
-                <notificacao name="p_notificacao" type="separator" maxlength="30" placeholder="" right="false">
-                    <label>Notificação</label>
-                </notificacao>
-                <receber_notificacao name="p_receber_notificacao" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
-                    <label>Receber Notificação?</label>
-                    <value>1</value>
-                </receber_notificacao>
-                <email name="p_email" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Email</label>
-                    <value>Doloremque stract amet consect</value>
-                </email>
-                <telemovel name="p_telemovel" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Telemovel</label>
-                    <value>Sit iste aperiam sit mollit</value>
-                </telemovel>
             </fields>
         </form_1>
     </content>

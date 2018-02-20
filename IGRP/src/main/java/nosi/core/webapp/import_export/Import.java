@@ -96,8 +96,8 @@ public class Import {
 			FileHelper.createDiretory(dir);
 		try {
 			FileHelper.save(dir, partPage[1],file.getConteudo());
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/dao")){
-				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/dao")){
+				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
 			}	
 			return new File(dir+"/"+ partPage[1]);
 		} catch (IOException e) {
@@ -114,8 +114,8 @@ public class Import {
 		
 		try {
 			FileHelper.save(dir, "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getWorkspace()+"/src/nosi"+"/"+"webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-				FileHelper.save(Config.getWorkspace()+"/src/nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 			}	
 			return new File(dir+"/"+ "DefaultPageController.java");
 		} catch (IOException e) {
@@ -155,14 +155,10 @@ public class Import {
 		}
 		return false;
 	}
+	
 	protected Application saveApp(FileImportAppOrPage file){
-		return saveApp(file,false);		
-	}
-	protected Application saveApp(FileImportAppOrPage file,Boolean isPlsql){
 		InputStream is;
 		try {
-			if(isPlsql)
-				encode = FileHelper.ENCODE_ISO;
 			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));
 			XMLApplicationReader listApp = JAXB.unmarshal(is, XMLApplicationReader.class);
 			for(Application app:listApp.getRow()){
@@ -192,11 +188,8 @@ public class Import {
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
 		InputStream is;
 		try {
-			if(type.equals("plsql"))
-				encode = FileHelper.ENCODE_ISO;			
-			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));		
+			is = new ByteArrayInputStream(file.getConteudo().getBytes(this.encode));			
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
-		
 			List<Action> pages = new ArrayList<>();
 			for(Action page:listPage.getRow()){
 				//Depois validar nome de classe

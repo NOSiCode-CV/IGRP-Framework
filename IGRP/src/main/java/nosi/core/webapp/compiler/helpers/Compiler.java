@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import nosi.core.config.Config;
 import nosi.core.webapp.helpers.FileHelper;
+import com.sun.tools.javac.*;
 
 
 /**
@@ -46,7 +47,7 @@ public class Compiler {
 		listFilesDirectory(Config.getPathLib());
 		StringWriter sw = new StringWriter();
 	    PrintWriter out = new PrintWriter(sw);
-		com.sun.tools.javac.Main.compile(new String[]{
+		Main.compile(new String[]{
 				"-classpath",Config.getBasePathClass(),
 				"-cp","."+System.getProperty("path.separator")+jars+Config.getBasePathClass()+System.getProperty("path.separator"),
 				"-d",Config.getBasePathClass(),

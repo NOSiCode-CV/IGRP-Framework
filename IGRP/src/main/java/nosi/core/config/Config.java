@@ -196,11 +196,10 @@ public class Config {
 	}
 	
 	public static String getResolveUrl(String app,String page,String action){
-	
-		
 
 		String url = "webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
-//		HttpServletRequest req = Igrp.getInstance().getRequest();
+		
+//		HttpServletRequest req = Igrp.getInstance().getRequest();	
 //		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
 
 		return url;
@@ -257,11 +256,15 @@ public class Config {
 		return "nosi.webapps.igrp.pages";
 	}
 	
+	public static String getRawBasePathClassWorkspace() {
+		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator;
+	}
+	
 	public static String getBasePahtClassWorkspace(String app){
-		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app).replace(".", File.separator);
+		return Config.getRawBasePathClassWorkspace()+ Config.getBasePackage(app).replace(".", File.separator);
 	}
 	public static String getBasePahtClassWorkspace(String app,String page){
-		return Config.getWorkspace() + File.separator +  "src"+File.separator+"main"+File.separator+"java"+ File.separator+ Config.getBasePackage(app,page).replace(".", File.separator);
+		return Config.getRawBasePathClassWorkspace()+ Config.getBasePackage(app,page).replace(".", File.separator);
 	}
 
 	private static String getBasePackage(String app,String page) {
@@ -343,7 +346,7 @@ public static String getImageAppPath(Action page) {
 		if(config.insert()!=null){
 			System.out.println("IGRP foi instalado com sucesso!");
 		}else{
-			System.err.println("Não foi possivel concluir a instação do IGRP!");
+			System.err.println("Nao foi possivel concluir a instação do IGRP!");
 		}
 	}
 
@@ -353,7 +356,7 @@ public static String getImageAppPath(Action page) {
 
 	public static Object getDatabaseTypes() {
 		Map<String,String> tipos = new HashMap<>();
-		tipos.put(null, gt("-- Selecione --"));
+		tipos.put(null, gt("-- Selecione Base de Dados --"));
 		tipos.put("mysql", "MySql");
 		tipos.put("postgresql", "Postgresql");
 		tipos.put("h2", "H2");

@@ -1,12 +1,17 @@
 package nosi.webapps.igrp.pages.changepassword;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class ChangePassword extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
 	@RParam(rParamName = "p_email_1")
 	private String email_1;
+	@RParam(rParamName = "p_insira")
+	private String insira;
 	@RParam(rParamName = "p_old_password")
 	private String old_password;
 	@RParam(rParamName = "p_password_1")
@@ -26,6 +31,13 @@ public class ChangePassword extends Model{
 	}
 	public String getEmail_1(){
 		return this.email_1;
+	}
+	
+	public void setInsira(String insira){
+		this.insira = insira;
+	}
+	public String getInsira(){
+		return this.insira;
 	}
 	
 	public void setOld_password(String old_password){
