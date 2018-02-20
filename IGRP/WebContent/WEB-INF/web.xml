@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>workspace</param-name>
-		<param-value>C:\Users\Isaías Nunes\git\IGRP-Framework\IGRP</param-value>
+		<param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value>
 	</context-param>
 
 	<servlet>
@@ -36,27 +36,14 @@
 	<!-- <servlet> <servlet-name>Log4JInitServlet</servlet-name> <servlet-class>nosi.core.servlet.Log4JInitServlet</servlet-class> 
 		<init-param> <param-name>log4j-properties-location</param-name> <param-value>src/main/resources/log4j2.properties</param-value> 
 		</init-param> <load-on-startup>1</load-on-startup> </servlet> -->
-	<filter>
-		<filter-name>IgrpCharacterEncoding</filter-name>
-		<filter-class>nosi.core.filter.CharacterEncodingFilter</filter-class>
+
+  	<filter>
+		<filter-name>ModifyParams</filter-name>
+		<filter-class>nosi.core.filter.ModifyParams</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>IgrpCharacterEncoding</filter-name>
-		<servlet-name>igrp-encoding</servlet-name>
-	</filter-mapping>
-	 <filter-mapping> 
-	    <filter-name>IgrpCharacterEncoding</filter-name>
-	    <url-pattern>/</url-pattern> 
-	  </filter-mapping> 
-  
-  
-  	<filter>
-		<filter-name>ModifyParams</filter-name>
-		<filter-class>nosi.core.filter.ModifyParams</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>ModifyParams</filter-name>

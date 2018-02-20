@@ -2,6 +2,8 @@ package nosi.core.gui.components;
 
 import nosi.core.gui.fields.FieldProperties;
 import nosi.core.webapp.Igrp;
+import nosi.core.xml.XMLWritter;
+
 import static nosi.core.i18n.Translator.gt;
 
 public class IGRPButton {
@@ -141,5 +143,22 @@ public class IGRPButton {
 
 	public FieldProperties getProperties() {
 		return this.propertie;
+	}
+	
+	public String toString() {
+		XMLWritter xml = new XMLWritter();
+		xml.startElement("item");
+		xml.writeAttribute("rel", this.getProperties().getProperty("rel"));
+		xml.writeAttribute("type", this.getProperties().getProperty("type"));
+		xml.writeAttribute("code", this.getProperties().getProperty("code"));
+		xml.setElement("title",this.getTitle());
+		xml.setElement("app",this.getApp());
+		xml.setElement("page",this.getPage());
+		xml.setElement("link",this.getLink());
+		xml.setElement("target",this.getTarget());
+		xml.setElement("img", this.getImg());
+		xml.setElement("parameter", this.getParameter());
+		xml.endElement();
+		return xml.toString();
 	}
 }
