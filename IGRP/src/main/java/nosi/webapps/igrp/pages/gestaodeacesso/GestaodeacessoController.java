@@ -75,8 +75,9 @@ public class GestaodeacessoController extends Controller {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(p_id!=null){
       		Organization org = new Organization().findOne(Integer.parseInt(p_id));
+      		org = org.find().andWhere("application.id", "=", Integer.parseInt(p_id));
       		if(org!=null)
-      			return this.redirect("igrp", "MenuOrganica", "index&target=_blank","id="+p_id+"&type=org");
+      			return this.redirect("igrp", "MenuOrganica", "index&target=_blank","id="+p_id+"&type=org&env_fk="+org.getApplication().getId());
       	}
 		return this.redirect("igrp","error-page","exception");	 
 		/*----#END-PRESERVED-AREA----*/

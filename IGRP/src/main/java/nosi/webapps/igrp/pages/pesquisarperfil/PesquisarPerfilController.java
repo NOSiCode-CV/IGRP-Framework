@@ -64,7 +64,6 @@ public class PesquisarPerfilController extends Controller {
 
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
-		PesquisarPerfil model = new PesquisarPerfil();
       	String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if(id!=null && !id.equals("")){
 			return this.redirect("igrp","NovoPerfil","editar&target=_blank&p_id="+id);
@@ -93,7 +92,6 @@ public class PesquisarPerfilController extends Controller {
 		/*----#START-PRESERVED-AREA(MENU)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		 if(id!=null){
-			 System.out.println("Id:"+id);
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type=perfil");		
 		 }
 		 return this.redirectError();		
