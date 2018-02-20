@@ -34,6 +34,7 @@ public class OAuthClientListController extends Controller {
 			tabela.setClient_secret(cliente.getClient_secret());
 			tabela.setUris(cliente.getRedirect_uri());
 			tabela.setScope(cliente.getScope());
+			tabela.setGrant_types(cliente.getGrant_types()); 
 			tabela.setP_id(""+cliente.getId());
 			data.add(tabela);
 		}

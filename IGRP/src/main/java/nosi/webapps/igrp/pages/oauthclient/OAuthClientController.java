@@ -4,9 +4,12 @@ package nosi.webapps.igrp.pages.oauthclient;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
+import java.util.HashMap;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.OAuthScope;
+
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -23,7 +26,8 @@ public class OAuthClientController extends Controller {
 			cliente = cliente.findOne(id);
 			if(cliente != null) {
 				model.setUris_de_redirecionamento(cliente.getRedirect_uri());
-				model.setScope(cliente.getScope());
+				model.setScope(cliente.getScope().split(",")); 
+				model.setGrant_types(cliente.getGrant_types()); 
 			}
 		}
 		OAuthClientView view = new OAuthClientView(model);
@@ -31,7 +35,16 @@ public class OAuthClientController extends Controller {
 		if(id != null && !id.equals("")) 
 			view.btn_salvar.setLink("salvar&p_id="+id);
 		view.btn_listar_oauth_client.setVisible(false); 
-		return this.renderView(view);
+		
+		HashMap<String, String> List_grant = new HashMap<>();
+		List_grant.put(null, "-- Escolhe o seu grant type --");
+		List_grant.put("authorization_code", "Authorization Code");
+		List_grant.put("implicit", "Implicit");
+		List_grant.put("resource_owner", "Resource owner");
+		List_grant.put("client_credentials", "Client credentials");
+		view.grant_types.setValue(List_grant); 
+		return this.renderView(view); 
+		
 		/*----#END-PRESERVED-AREA----*/
 	}
 
@@ -55,14 +68,16 @@ public class OAuthClientController extends Controller {
 			cliente = cliente.findOne(id);
 			cliente.setClient_id(cliente.getClient_id());
 			cliente.setRedirect_uri(model.getUris_de_redirecionamento());
-			cliente.setScope(model.getScope());
+			cliente.setScope(String.join(",", model.getScope()));
+			cliente.setGrant_types(model.getGrant_types()); 
 			cliente.setClient_secret(cliente.getClient_secret());
 			cliente = cliente.update();
 		}else {
 			cliente.setClient_id(java.util.UUID.randomUUID().toString().replaceAll("-", ""));
 			cliente.setClient_secret(RandomStringUtils.randomAlphabetic(40));
 			cliente.setRedirect_uri(model.getUris_de_redirecionamento());
-			cliente.setScope(model.getScope());
+			cliente.setScope(String.join(",", model.getScope()));
+			cliente.setGrant_types(model.getGrant_types()); 
 			cliente = cliente.insert();
 		}
 		

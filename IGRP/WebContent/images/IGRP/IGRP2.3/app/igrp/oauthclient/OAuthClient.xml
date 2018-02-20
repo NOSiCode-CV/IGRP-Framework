@@ -49,7 +49,7 @@
                 <link>index</link>
                 <target>modal</target>
                 <img>default|fa-list</img>
-                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</preview>
             </item>
             <item type="specific" code="" rel="salvar">
                 <title>Guardar</title>
@@ -58,14 +58,14 @@
                 <link>index</link>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclientlist/OAuthClientList.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <uris_de_redirecionamento name="p_uris_de_redirecionamento" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs de redirecionamento</label>
-                    <value>Sed doloremque totam perspicia</value>
+                    <value>Voluptatem totam sed ipsum nat</value>
                 </uris_de_redirecionamento>
                 <scope name="p_scope" type="select" multiple="true" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
                     <label>Scope</label>
@@ -89,6 +89,28 @@
                         </option>
                     </list>
                 </scope>
+                <grant_types name="p_grant_types" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
+                    <label>Grant Types</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </grant_types>
             </fields>
         </form_1>
     </content>
