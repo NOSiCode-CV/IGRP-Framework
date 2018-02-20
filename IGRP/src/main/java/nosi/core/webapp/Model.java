@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.openqa.selenium.internal.seleniumemulation.GetValue;
-
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;

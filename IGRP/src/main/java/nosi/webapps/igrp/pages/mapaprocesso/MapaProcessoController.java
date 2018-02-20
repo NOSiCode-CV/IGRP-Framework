@@ -82,22 +82,9 @@ public class MapaProcessoController extends Controller {
 				Config.TITLE = title;			
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
 				String content = resp.getContent();
-				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {
-					String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
-					XMLWritter xml = new XMLWritter();
-					xml.startElement("item");
-					xml.writeAttribute("rel","iniciar_processo");
-					xml.writeAttribute("type","specific");
-					xml.writeAttribute("code", "");
-					xml.setElement("title","Iniciar Processo");
-					xml.setElement("app","igrp");
-					xml.setElement("page","ExecucaoTarefas");
-					String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
-					xml.setElement("link","igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
-					xml.setElement("target","submit");
-					xml.setElement("img", "primary|fa-arrow-right");
-					xml.endElement();
-					result += xml.toString();
+				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {//Check the page contain button
+					String result = content.substring(0, content.indexOf(">",content.indexOf("</item>",content.indexOf("xml-type=\"toolsbar\""))))+">";
+					result += this.generateButtonProcess(action, p_processId, taskId).toString();
 					result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
 					return this.renderView(result);
 				}
@@ -109,7 +96,21 @@ public class MapaProcessoController extends Controller {
 		return null;
 	}
 
-
+	private IGRPButton generateButtonProcess(Action action,String p_processId,String taskId) {
+		String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
+		IGRPButton button = new IGRPButton();
+		button.getProperties().add("code", "iniciar_processo");
+		button.getProperties().add("rel", "iniciar_processo");
+		button.getProperties().add("type", "specific");
+		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Processar Etapa"));
+		button.setApp("igrp");
+		button.setPage("ExecucaoTarefas");
+		button.setLink("igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
+		button.setTarget("submit");
+		button.setImg("primary|fa-arrow-right");
+		return button;
+	}
+	
 	private String transformToXmlWorkFlow(String title,FormDataService formData,boolean withButton) {
 		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
