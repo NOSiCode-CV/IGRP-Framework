@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -156,32 +155,23 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 		return lista;
 	}
 
-	public List<Menu> getOrgMenu() {	
+	public List<Menu> getOrgMenu(int env_fk) {	
 		Menu m = new Menu();
 		String dad = Permission.getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
 			return m.find().andWhere("action", "notnull").all();
 		}else{
-			Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
 			List<Menu> myMenu = new ArrayList<>();
-			HashMap<String,List<Menu>> menu = m.getMyMenu();
+			List<Menu> menu = m.getMyMen_de_env(env_fk);
 			if(menu !=null){
-				for(Entry<String, List<Menu>> mm:menu.entrySet()){
-						for(Menu main:mm.getValue()){
-							if(main.getMenu()!=null){
-								Menu e = new Menu();
-								e.setDescr(gt(main.getMenu().getDescr()));
-								e.setId(main.getId());
-								e.setFlg_base(main.getMenu().getFlg_base());
-								myMenu.add(e);
-							}
-						}
-				}
+				for(Menu mm : menu){
+	 				 Menu e = new Menu();
+	 				 e.setDescr(gt(mm.getDescr()));
+	 			     e.setId(mm.getId());
+	 				 e.setFlg_base(mm.getFlg_base());
+	 				 myMenu.add(e);
+  					}
 			}
-			
-			//System.out.println("Menu1 " + myMenu.size());
-			
-			
 			return myMenu; 
 		}
 	}

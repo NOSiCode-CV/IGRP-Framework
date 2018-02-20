@@ -31,8 +31,8 @@ public class MenuOrganicaController extends Controller {
 			ArrayList<MenuOrganica.Table_1> data = new ArrayList<>();
 			List<Menu> menus = new ArrayList<>();
 			if(type.equals("org")){
-				menus = new Organization().getOrgMenu();	
-		
+				String env_fk = Igrp.getInstance().getRequest().getParameter("env_fk");
+				menus = new Organization().getOrgMenu(Integer.parseInt(env_fk));
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
 				menus = new Organization().getPerfilMenu(p.getOrganization()!=null?p.getOrganization().getId():1);
@@ -79,12 +79,15 @@ public class MenuOrganicaController extends Controller {
 		/** **/
 		List<ProfileType> list = null;
 		/** **/
+		Organization organization1 = new Organization();
+		Organization organization2 = new Organization();
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
 			MenuOrganica model = new MenuOrganica();
 			model.load();
 			Profile profD = new Profile();
 			if(type.equals("org")){
-				Organization organization1 = new Organization().findOne(Integer.parseInt(id));
+				organization1 = new Organization().findOne(Integer.parseInt(id));
+				organization2 = organization1.find().andWhere("application.id", "=", Integer.parseInt(id));
 				profD.setOrganization(organization1);
 				profD.setType("MEN");
 				profD.setProfileType(new ProfileType().findOne(0));
@@ -159,7 +162,7 @@ public class MenuOrganicaController extends Controller {
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
 		}
-		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type);
+		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type+"&env_fk="+ organization2.getApplication().getId());
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
