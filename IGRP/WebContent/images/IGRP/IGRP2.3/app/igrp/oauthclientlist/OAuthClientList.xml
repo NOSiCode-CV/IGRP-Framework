@@ -45,11 +45,11 @@
             <fields>
                 <uris_ name="p_uris_" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>URIs </label>
-                    <value>Consectetur amet stract iste m</value>
+                    <value>Lorem aliqua totam magna conse</value>
                 </uris_>
                 <clientid_pesquisa name="p_clientid_pesquisa" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>ClientID</label>
-                    <value>Stract adipiscing amet volupta</value>
+                    <value>Ipsum magna labore consectetur</value>
                 </clientid_pesquisa>
             </fields>
             <tools-bar>
@@ -72,7 +72,7 @@
                 <link>index</link>
                 <target>modal|refresh</target>
                 <img>success|fa-plus-square</img>
-                <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/oauthclient/OAuthClient.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -86,6 +86,9 @@
                 <uris name="p_uris" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>URIs</label>
                 </uris>
+                <grant_types name="p_grant_types" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Grant Types</label>
+                </grant_types>
                 <scope name="p_scope" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Scope</label>
                 </scope>
@@ -98,10 +101,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Elit unde stract unde deserunt</client_id>
-                        <client_secret name="p_client_secret">Consectetur deserunt lorem sit</client_secret>
-                        <uris name="p_uris">Magna voluptatem doloremque na</uris>
-                        <scope name="p_scope">Perspiciatis aperiam dolor acc</scope>
+                        <client_id name="p_client_id">Amet unde amet totam rem</client_id>
+                        <client_secret name="p_client_secret">Totam aliqua iste sit deserunt</client_secret>
+                        <uris name="p_uris">Accusantium laudantium consect</uris>
+                        <grant_types name="p_grant_types">Ipsum magna consectetur offici</grant_types>
+                        <scope name="p_scope">Officia adipiscing sit lorem a</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -109,10 +113,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Rem perspiciatis dolor aliqua</client_id>
-                        <client_secret name="p_client_secret">Amet deserunt labore magna str</client_secret>
-                        <uris name="p_uris">Anim elit anim sit omnis</uris>
-                        <scope name="p_scope">Labore laudantium magna deseru</scope>
+                        <client_id name="p_client_id">Ut consectetur elit accusantiu</client_id>
+                        <client_secret name="p_client_secret">Lorem consectetur iste sit lab</client_secret>
+                        <uris name="p_uris">Iste labore aperiam ipsum volu</uris>
+                        <grant_types name="p_grant_types">Adipiscing unde dolor magna na</grant_types>
+                        <scope name="p_scope">Omnis aperiam sit lorem dolore</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -120,10 +125,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Accusantium unde omnis volupta</client_id>
-                        <client_secret name="p_client_secret">Deserunt sed sit anim lorem</client_secret>
-                        <uris name="p_uris">Adipiscing voluptatem deserunt</uris>
-                        <scope name="p_scope">Ut omnis mollit perspiciatis a</scope>
+                        <client_id name="p_client_id">Lorem totam magna elit sed</client_id>
+                        <client_secret name="p_client_secret">Anim natus sit stract laudanti</client_secret>
+                        <uris name="p_uris">Unde consectetur omnis iste om</uris>
+                        <grant_types name="p_grant_types">Elit omnis totam aperiam rem</grant_types>
+                        <scope name="p_scope">Aliqua stract totam stract adi</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -131,10 +137,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Amet accusantium sit voluptate</client_id>
-                        <client_secret name="p_client_secret">Omnis deserunt consectetur sed</client_secret>
-                        <uris name="p_uris">Stract laudantium sit dolor la</uris>
-                        <scope name="p_scope">Accusantium aperiam sit dolore</scope>
+                        <client_id name="p_client_id">Voluptatem aliqua sit anim und</client_id>
+                        <client_secret name="p_client_secret">Sed labore accusantium labore</client_secret>
+                        <uris name="p_uris">Aliqua totam adipiscing laudan</uris>
+                        <grant_types name="p_grant_types">Elit ut adipiscing dolor lauda</grant_types>
+                        <scope name="p_scope">Aliqua voluptatem totam amet p</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -142,10 +149,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <client_id name="p_client_id">Voluptatem totam amet rem stra</client_id>
-                        <client_secret name="p_client_secret">Natus labore deserunt anim ut</client_secret>
-                        <uris name="p_uris">Officia aliqua laudantium elit</uris>
-                        <scope name="p_scope">Amet laudantium consectetur am</scope>
+                        <client_id name="p_client_id">Lorem anim rem sit adipiscing</client_id>
+                        <client_secret name="p_client_secret">Laudantium ut sit sed iste</client_secret>
+                        <uris name="p_uris">Magna sed anim sit laudantium</uris>
+                        <grant_types name="p_grant_types">Sit amet stract magna rem</grant_types>
+                        <scope name="p_scope">Aperiam deserunt anim magna na</scope>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>

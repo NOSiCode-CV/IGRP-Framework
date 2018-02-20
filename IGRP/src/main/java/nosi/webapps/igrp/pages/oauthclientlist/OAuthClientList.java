@@ -1,6 +1,9 @@
 package nosi.webapps.igrp.pages.oauthclientlist;
+import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +18,7 @@ public class OAuthClientList extends Model{
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
-	} 
+	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
@@ -46,6 +49,7 @@ public class OAuthClientList extends Model{
 		private String client_id;
 		private String client_secret;
 		private String uris;
+		private String grant_types;
 		private String scope;
 		private String p_id;
 		public void setClient_id(String client_id){
@@ -67,6 +71,13 @@ public class OAuthClientList extends Model{
 		}
 		public String getUris(){
 			return this.uris;
+		}
+
+		public void setGrant_types(String grant_types){
+			this.grant_types = grant_types;
+		}
+		public String getGrant_types(){
+			return this.grant_types;
 		}
 
 		public void setScope(String scope){

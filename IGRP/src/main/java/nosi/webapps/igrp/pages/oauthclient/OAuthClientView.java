@@ -11,6 +11,7 @@ public class OAuthClientView extends View {
 	public Field sectionheader_1_text;
 	public Field uris_de_redirecionamento;
 	public Field scope;
+	public Field grant_types;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 
@@ -18,6 +19,7 @@ public class OAuthClientView extends View {
 	public IGRPButton btn_listar_oauth_client;
 	public IGRPButton btn_salvar;
 	public OAuthClientView(OAuthClient model){
+
 		this.setPageTitle("Inserir Dados dos clientes");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
@@ -25,22 +27,28 @@ public class OAuthClientView extends View {
 		sectionheader_1_text = new TextField(model,"sectionheader_1_text");
 		sectionheader_1_text.setLabel(gt(""));
 		sectionheader_1_text.setValue(gt("OAuth Client Id"));
-		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("persist","true").add("maxlength","4000");
+		sectionheader_1_text.propertie().add("type","text").add("name","p_sectionheader_1_text").add("maxlength","4000");
 		
 		uris_de_redirecionamento = new TextField(model,"uris_de_redirecionamento");
 		uris_de_redirecionamento.setLabel(gt("URIs de redirecionamento"));
-		uris_de_redirecionamento.propertie().add("name","p_uris_de_redirecionamento").add("type","text").add("maxlength","30").add("required","true").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		uris_de_redirecionamento.propertie().add("name","p_uris_de_redirecionamento").add("type","text").add("maxlength","30").add("required","true");
 		
 		scope = new ListField(model,"scope");
 		scope.setLabel(gt("Scope"));
-		scope.propertie().add("name","p_scope").add("type","select").add("multiple","true").add("domain","").add("maxlength","30").add("required","false").add("change","false").add("disabled","false").add("right","false").add("java-type","");
+		scope.propertie().add("name","p_scope").add("type","select").add("multiple","true").add("domain","").add("maxlength","30").add("required","false").add("java-type","");
+		
+		grant_types = new ListField(model,"grant_types");
+		grant_types.setLabel(gt("Grant Types"));
+		grant_types.propertie().add("name","p_grant_types").add("type","select").add("multiple","false").add("domain","").add("maxlength","30").add("required","true").add("java-type","");
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+
 		btn_listar_oauth_client = new IGRPButton("Listar OAuth Client","igrp","OAuthClient","listar_oauth_client","modal","default|fa-list","","");
-		btn_listar_oauth_client.propertie.add("type","specific").add("code","").add("rel","listar_oauth_client");
-		btn_salvar = new IGRPButton("Gravar","igrp","OAuthClient","salvar","submit","primary|fa-save","","");
-		btn_salvar.propertie.add("type","specific").add("code","").add("rel","salvar");
+		btn_listar_oauth_client.propertie.add("type","specific").add("rel","listar_oauth_client");
+
+		btn_salvar = new IGRPButton("Guardar","igrp","OAuthClient","salvar","submit","primary|fa-save","","");
+		btn_salvar.propertie.add("type","specific").add("rel","salvar");
 		
 	}
 		
@@ -52,6 +60,7 @@ public class OAuthClientView extends View {
 
 		form_1.addField(uris_de_redirecionamento);
 		form_1.addField(scope);
+		form_1.addField(grant_types);
 
 		toolsbar_1.addButton(btn_listar_oauth_client);
 		toolsbar_1.addButton(btn_salvar);

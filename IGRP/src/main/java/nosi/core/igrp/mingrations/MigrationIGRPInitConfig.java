@@ -338,6 +338,11 @@ public class MigrationIGRPInitConfig {
 		//inserindo dados by default na tabela Scope
 		OAuthScope objScope = new OAuthScope("login", 0);
 		objScope.insert();
+		OAuthScope objScope_session = new OAuthScope("session:read", 0);
+		objScope_session.insert();
+		OAuthScope objScope_user = new OAuthScope("user:read", 0);
+		objScope_user.insert();
+		
 		
 		User aux = new User();
 		aux.setAuth_key("123456");
