@@ -36,7 +36,7 @@ public class IgrpServletTest {
        // Igrp igrp = Igrp.getInstance(); //.init(null, request, response);
       // igrp.getRequest().
         
-       // new IgrpServlet().doGet(request, response);
+        new IgrpServlet().doGet(request, response);
        
     //    igrp.init(servlet, request, response);
       //  igrp.doGet(request, response);
