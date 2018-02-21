@@ -37,7 +37,7 @@ public class ConfigDBIGRP {
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
-		this.path = Config.getBasePathConfig()+"/db";
+		this.path = Config.getBasePathConfig()+"db";
 	}
 	
 	public void save(){
