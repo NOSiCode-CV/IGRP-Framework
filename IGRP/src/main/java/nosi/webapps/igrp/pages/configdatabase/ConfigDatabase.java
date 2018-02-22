@@ -105,6 +105,13 @@ public class ConfigDatabase extends Model{
 	public String getParagraph_1_text(){
 		return this.paragraph_1_text;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "ConfigDatabase [sectionheader_1_text=" + sectionheader_1_text + ", aplicacao=" + aplicacao
+				+ ", tipo_base_dados=" + tipo_base_dados + ", nome_de_conexao=" + nome_de_conexao + ", config=" + config
+				+ ", hostname=" + hostname + ", port=" + port + ", username=" + username + ", password=" + password
+				+ ", nome_de_bade_dados=" + nome_de_bade_dados + ", paragraph_1_text=" + paragraph_1_text + "]";
+	}
 
 }

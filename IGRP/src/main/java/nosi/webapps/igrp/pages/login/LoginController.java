@@ -323,7 +323,7 @@ public class LoginController extends Controller {
 		url_ += "/igrp-rest/rs/oauth2/authorization";
 		String queryString = "?";
 		queryString += "authorize=1";
-		queryString += "&response_type=" + response_type;
+		queryString += "&response_type=" + response_type.replaceAll(" ", "%20");
 		queryString += "&client_id=" + client_id;
 		queryString += (redirect_uri != null && !redirect_uri.trim().isEmpty() ? "&redirect_uri=" + redirect_uri : "");
 		queryString += (scope != null && !scope.trim().isEmpty() ? "&scope=" + scope : "");

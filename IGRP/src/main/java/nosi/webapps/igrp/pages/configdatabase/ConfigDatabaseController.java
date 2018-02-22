@@ -24,7 +24,9 @@ public class ConfigDatabaseController extends Controller {
 
 		ConfigDatabase model = new ConfigDatabase();
 
-		model.load();
+		model.load(); 
+		
+		System.out.println(model);
 
 		if (Core.isInt(model.getAplicacao()) ) {
 			switch (model.getTipo_base_dados()) {

@@ -23,7 +23,7 @@ public class IgrpServlet extends HttpServlet{
 
 	public IgrpServlet() { super(); }
     
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
     	nosi.core.webapp.Igrp.getInstance().init(this, request, response).run();
     }
 

@@ -153,7 +153,7 @@ public class User implements Component{
 			String customHeader = Igrp.getInstance().getRequest().getHeader("X-IGRP-HTTPCLIENT");
 			
 			String credentials = Igrp.getInstance().getRequest().getHeader("Authorization");
-			// ZGVtbzpkZW1v
+			// ZGVtbzpkZW1v 
 			credentials = credentials.replaceFirst("Basic ", "");
 			String decodeString = new String(Base64.getDecoder().decode(credentials));
 			

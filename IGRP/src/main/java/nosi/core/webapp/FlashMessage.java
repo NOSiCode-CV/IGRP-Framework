@@ -1,7 +1,7 @@
 package nosi.core.webapp;
 
 import java.util.Map;
-
+import java.util.Optional;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,16 +43,18 @@ public class FlashMessage implements Serializable{
 
 	public static final String MESSAGE_ERROR_VALID_PAGE = "Nome da página é inválida";
 
-	
     
-	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class
+	protected FlashMessage(){ // Make sure that this will be only invocate by the Igrp class 
 		// "_flash" is the reserved name for messages in session
-		if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){
-			this.msgs = new Message();
-			Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
-		}else
-			this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("_flash");
+		if(Igrp.getInstance().getRequest().getSession() != null) {
+			if(Igrp.getInstance().getRequest().getSession().getAttribute("_flash") == null){
+				this.msgs = new Message();
+				Igrp.getInstance().getRequest().getSession().setAttribute("_flash", this.msgs);
+			}else
+				this.msgs = (Message) Igrp.getInstance().getRequest().getSession().getAttribute("_flash");
+		}
 	}
+	
 	
 	public FlashMessage addMessage(String name, String msg){
 		this.msgs.addMessage(name, msg);

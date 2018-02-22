@@ -45,7 +45,10 @@ public abstract class Model { // IGRP super model
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
+			
+			
 			if(m.getType().isArray()){
+				
 				String []aux = null;
 				if(Igrp.getInstance().getRequest().getAttribute(
 						m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
@@ -69,7 +72,6 @@ public abstract class Model { // IGRP super model
 									: m.getName() // default case use the name of field
 							);
 				}
-				
 				
 				if(aux != null){
 					// Awesome !!! We need make casts for all [] primitive type ... pff
@@ -101,14 +103,23 @@ public abstract class Model { // IGRP super model
 					m.set(this, aux);
 				}
 			}else{
-				// Awesome again !!! We need make casts for all primitive type ... pff
+				// Awesome again !!! We need make casts for all primitive type ... pff 
 				String name =   m.getAnnotation(RParam.class) != null && !m.getAnnotation(RParam.class).rParamName().equals("") ? 
 								m.getAnnotation(RParam.class).rParamName()
 							  : m.getName();
-				Object o = Igrp.getInstance().getRequest().getAttribute(name); // default case use the name of field
 				
-				String aux =  o!=null?o.toString():"";
+				Object o = Igrp.getInstance().getRequest().getAttribute(name); // default case use the name of field 
+				
+				String aux = "";
+				if(o != null)
+					if(o.getClass().isArray()) {
+					String []s = (String[]) o;
+					aux = s[s.length - 1];
+					}else
+						aux = o.toString();
+				
 				String defaultResult = (aux != null && !aux.isEmpty() ? aux : null);
+				
 				try {
 					aux = (!Core.isNotNull(aux) ? (!m.getAnnotation(RParam.class).defaultValue().equals("") ? m.getAnnotation(RParam.class).defaultValue() : "0") : aux);
 				}catch(Exception e) {
