@@ -311,7 +311,7 @@ public static String getImageAppPath(Action page) {
 	}
 	
 	public static String getBasePahtXslWorkspace(Action page){
-		return Config.getWorkspace() + File.separator + "WebContent" + File.separator + Config.getImageAppPath(page);
+		return Config.getWorkspace() + File.separator + "src" + File.separator + "main"+ "Webapp" + File.separator + Config.getImageAppPath(page);
 	}
 	
 	public static String getPackage(String app, String page,String action) {
