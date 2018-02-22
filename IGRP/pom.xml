@@ -12,16 +12,16 @@
 		<environments>development.test,development</environments>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		
-		<tomee.version>7.0.4</tomee.version>	
-		
+
+		<tomee.version>7.0.4</tomee.version>
+
 		<!-- Test properties -->
 		<arquillian.bom.version>1.0.0.Final</arquillian.bom.version>
 		<arquillian.drone.bom.version>1.0.0.Final</arquillian.drone.bom.version>
 		<version.arquillian>1.2.1.Final</version.arquillian>
-		<junit.version>4.12</junit.version>		
+		<junit.version>4.12</junit.version>
 		<tomee.classifier>plus</tomee.classifier>
-				
+
 	</properties>
 
 	<!-- Test Staffs -->
@@ -33,34 +33,34 @@
 				<version>${arquillian.bom.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
-				
+
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.jboss.arquillian.extension</groupId>
 				<artifactId>arquillian-drone-bom</artifactId>
 				<version>${arquillian.drone.bom.version}</version>
 				<scope>import</scope>
 				<type>pom</type>
-				
+
 			</dependency>
-       
+
 		</dependencies>
 	</dependencyManagement>
-	
-	<dependencies>
-	
-	<!-- for TomEE embedded -->
-   
-<!-- 		      <dependency> -->
-<!-- 		        <groupId>org.apache.openejb</groupId> -->
-<!-- 		        <artifactId>arquillian-tomee-embedded</artifactId> -->
-<!--  		        <version>1.7.5</version> -->
-<!-- 				<scope>test</scope> -->
-<!-- 		      </dependency> -->
 
-	<!-- end of - for TomEE embedded -->
-		      
+	<dependencies>
+
+		<!-- for TomEE embedded -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>org.apache.openejb</groupId> -->
+		<!-- <artifactId>arquillian-tomee-embedded</artifactId> -->
+		<!-- <version>1.7.5</version> -->
+		<!-- <scope>test</scope> -->
+		<!-- </dependency> -->
+
+		<!-- end of - for TomEE embedded -->
+
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -84,13 +84,13 @@
 
 
 		<!-- PARA JENKINGS PORQUE O TOMMEE TEM -->
- 		<dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
-<!-- 		 https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs  -->
+		<!-- https://mvnrepository.com/artifact/org.apache.cxf/cxf-bundle-jaxrs -->
 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -113,7 +113,7 @@
 			<artifactId>tools</artifactId>
 			<version>1.7.0.13</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/WebContent/WEB-INF/lib/tools.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/tools.jar</systemPath>
 		</dependency>
 
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
@@ -290,8 +290,15 @@
 			<artifactId>libintl</artifactId>
 			<version>0.18.3</version>
 		</dependency>
-		
+
 		<!-- Test stuffs -->
+		<!-- Test :: Jetty Servlet Tester -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>test-jetty-servlet</artifactId>
+			<version>8.2.0.v20160908</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -340,23 +347,23 @@
 			</exclusions>
 
 		</dependency>
-			<!-- Mockito Core framework for unit tests in Java -->
-				<dependency>
-					<groupId>org.mockito</groupId>
-					<artifactId>mockito-core</artifactId>
-					<version>2.13.0</version>
-					<scope>test</scope>
-				</dependency>
-				
-				<!-- Module "junit-jupiter-api" of JUnit 5.  -->
-				<dependency>
-					<groupId>org.junit.jupiter</groupId>
-					<artifactId>junit-jupiter-api</artifactId>
-					<version>5.1.0-M2</version>
-					<scope>test</scope>
-				</dependency>
-		
-		</dependencies>
+		<!-- Mockito Core framework for unit tests in Java -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.13.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Module "junit-jupiter-api" of JUnit 5. -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.1.0-M2</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 
@@ -381,7 +388,7 @@
 		<pluginManagement>
 
 			<plugins>
-		      
+
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.7.0</version>
@@ -390,17 +397,17 @@
 						<target>1.8</target>
 					</configuration>
 				</plugin>
-                
+
 				<plugin>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.12</version>
 				</plugin>
-    
+
 				<plugin>
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.0.0</version>
 					<configuration>
-						<warSourceDirectory>WebContent</warSourceDirectory>
+						<warSourceDirectory>src/main/webapp</warSourceDirectory>
 						<outputDirectory>${project.basedir}/target</outputDirectory>
 						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					</configuration>
@@ -408,32 +415,29 @@
 						<configuration> <outputDirectory>${project.basedir}/target</outputDirectory> 
 						</configuration> -->
 				</plugin>
-				
-					<!-- TomEE embedded maven plugin -->
-			      <plugin>
-			        <groupId>org.apache.tomee.maven</groupId>
-			        <artifactId>tomee-maven-plugin</artifactId>
-			        <version>${tomee.version}</version>
-			        <configuration>
-			          <tomeeVersion>${tomee.version}</tomeeVersion>
-			          <tomeeClassifier>${tomee.classifier}</tomeeClassifier>
-			          <synchronization>
+
+				<!-- TomEE embedded maven plugin -->
+				<plugin>
+					<groupId>org.apache.tomee.maven</groupId>
+					<artifactId>tomee-maven-plugin</artifactId>
+					<version>${tomee.version}</version>
+					<configuration>
+						<tomeeVersion>${tomee.version}</tomeeVersion>
+						<tomeeClassifier>${tomee.classifier}</tomeeClassifier>
+						<synchronization>
 							<extensions>
 								<extension>.class</extension>
 							</extensions>
 						</synchronization>
 						<reloadOnUpdate>true</reloadOnUpdate>
-					<!-- 	<systemVariables>
-							<tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist>
-							When TomEE starts it starts an internal application (called openejb). 
-								The goal is to offer some internal beans mainly used by TomEE tooling (TomEE 
-								deployer, reload feature of TomEE maven plugin…). Don't use it if it is not 
-								necessary 
-							<openejb.system.apps>true</openejb.system.apps>
-						</systemVariables>-->
-			        </configuration>
-			      </plugin>
-		      
+						<!-- <systemVariables> <tomee.serialization.class.blacklist>-</tomee.serialization.class.blacklist> 
+							When TomEE starts it starts an internal application (called openejb). The 
+							goal is to offer some internal beans mainly used by TomEE tooling (TomEE 
+							deployer, reload feature of TomEE maven plugin…). Don't use it if it is not 
+							necessary <openejb.system.apps>true</openejb.system.apps> </systemVariables> -->
+					</configuration>
+				</plugin>
+
 				<!-- Database migrations plugin -->
 				<plugin>
 					<groupId>org.javalite</groupId>
@@ -482,15 +486,15 @@
 
 	</build>
 
-<!-- Test stuffs -->
+	<!-- Test stuffs -->
 
 	<profiles>
 		<profile>
 			<id>arquillian-glassfish-embedded</id>
 
-<!-- 			<activation> -->
-<!-- 				<activeByDefault>true</activeByDefault> -->
-<!-- 			</activation> -->
+			<!-- <activation> -->
+			<!-- <activeByDefault>true</activeByDefault> -->
+			<!-- </activation> -->
 			<dependencies>
 
 				<dependency>
@@ -499,44 +503,44 @@
 					<version>5.0</version>
 					<scope>provided</scope>
 				</dependency>
-				
+
 				<dependency>
 					<groupId>org.jboss.arquillian.container</groupId>
 					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
 					<version>1.0.2</version>
 					<scope>test</scope>
 				</dependency>
-				
+
 			</dependencies>
 		</profile>
 
 		<profile>
-		    <id>tomee-embedded</id>
-		    <activation>
-		      <activeByDefault>true</activeByDefault>
-		    </activation>
-	
-		    <dependencies>
-		    	    
-		      <dependency>
-		        <groupId>org.apache.openejb</groupId>
-		        <artifactId>arquillian-tomee-embedded</artifactId>
- 		        <version>1.7.5</version>
-				<scope>test</scope>
-		      </dependency>
-		      
-<!-- 		      <dependency>   -->
-<!-- 	            <groupId>org.apache.openejb</groupId> -->
-<!-- 	            <artifactId>tomee-embedded</artifactId> -->
-<!-- 	            <version>1.7.5</version>	            -->
-<!-- 			</dependency>  -->
-			
-                
-		    </dependencies>
-		 </profile>
+			<id>tomee-embedded</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<dependencies>
+
+				<dependency>
+					<groupId>org.apache.openejb</groupId>
+					<artifactId>arquillian-tomee-embedded</artifactId>
+					<version>1.7.5</version>
+					<scope>test</scope>
+				</dependency>
+
+				<!-- <dependency> -->
+				<!-- <groupId>org.apache.openejb</groupId> -->
+				<!-- <artifactId>tomee-embedded</artifactId> -->
+				<!-- <version>1.7.5</version> -->
+				<!-- </dependency> -->
+
+
+			</dependencies>
+		</profile>
 
 	</profiles>
-	
+
 	<!-- Build from given url repository <distributionManagement> <repository> 
 		<id>localSnap</id> <url> url repository</url> </repository> </distributionManagement> -->
 </project>

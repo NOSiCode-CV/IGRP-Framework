@@ -3,6 +3,7 @@
 <hibernate-configuration>
 	<session-factory>
     	<!-- IGRP Core -->
+    	<mapping class="nosi.webapps.igrp.dao.CRUD"/>
 		<mapping class="nosi.webapps.igrp.dao.Action"/>
 		<mapping class="nosi.webapps.igrp.dao.Application"/>
 		<mapping class="nosi.webapps.igrp.dao.CLob"/>
@@ -21,7 +22,7 @@
 		<mapping class="nosi.webapps.igrp.dao.Transaction"/>
 		<mapping class="nosi.webapps.igrp.dao.User"/>
 		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO"/>
-		<mapping class="nosi.webapps.igrp.dao.CRUD"/>
+		
 		
 		<!-- OAuth -->
 		<mapping class="nosi.webapps.igrp.dao.OAuthAccessToken"/>
