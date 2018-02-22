@@ -19,21 +19,21 @@
         <configuration>
             <property name="dir">target/apache-tomee</property>
             <property name="appWorkingDir">target/test-apache-tomee</property>
-            <property name="classifier">plus</property>
-            <property name="httpPort">-1</property>
-            <property name="stopPort">-1</property>
-            <property name="ajpPort">-1</property>
+
+<!--             <property name="classifier">plus</property> -->
+<!--             <property name="httpPort">-1</property> -->
+<!--             <property name="stopPort">-1</property> -->
+<!--             <property name="ajpPort">-1</property> -->
 <!--             <property name="version">7.0.4</property> -->
-            
 <!--             <property name="deployerProperties"> -->
 <!--                 openejb.deployer.binaries.use=true -->
 <!--                 java.naming.security.principal=tomee -->
 <!--                 java.naming.security.credentials=unsecured -->
 <!--             </property> -->
-            <property name="properties">
-				openejb.classloader.forced-load = org.apache.webbeans.test.tck.,org.apache.openejb.tck.cdi.tomee.
-                tomee.tomcat.cookieProcessor = org.apache.tomcat.util.http.LegacyCookieProcessor		
-        </property>
+<!--             <property name="properties"> -->
+<!-- 				openejb.classloader.forced-load = org.apache.webbeans.test.tck.,org.apache.openejb.tck.cdi.tomee. -->
+<!--                 tomee.tomcat.cookieProcessor = org.apache.tomcat.util.http.LegacyCookieProcessor		 -->
+<!--         </property> -->
         </configuration>
     </container>
 	 
