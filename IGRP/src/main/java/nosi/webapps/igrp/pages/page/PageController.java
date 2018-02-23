@@ -124,7 +124,7 @@ public class PageController extends Controller {
 					String path_xsl = Config.getBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
 					if (FileHelper.fileExists(Config.getWorkspace())) {
-						FileHelper.save(Config.getWorkspace() + "/WebContent/images" + "/" + "IGRP/IGRP"
+						FileHelper.save(Config.getWorkspace() + File.separator + Config.getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
@@ -162,7 +162,7 @@ public class PageController extends Controller {
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
 			String path_xsl = Config.getBaseServerPahtXsl(ac);
-			String path_xsl_work_space = Config.getWorkspace() + File.separator + "WebContent" + File.separator
+			String path_xsl_work_space = Config.getWorkspace() + File.separator + Config.getWebapp() + File.separator
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
