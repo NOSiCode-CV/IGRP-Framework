@@ -28,7 +28,7 @@ public class Test {
 		System.exit(0);
 		//Teste LDAP 
 		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"); 
-		String path="C:\\git\\IGRP-Framework\\IGRP\\WebContent\\WEB-INF\\config\\ldap\\ldap.xml";
+		String path="C:\\git\\IGRP-Framework\\IGRP\\src\\main\\webapp\\WEB-INF\\config\\ldap\\ldap.xml";
 		File file = new File(path);
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		l_ldap_url = ldapinfo.getUrl();

@@ -311,8 +311,14 @@ public static String getImageAppPath(Action page) {
 	}
 	
 	public static String getBasePahtXslWorkspace(Action page){
-		return Config.getWorkspace() + File.separator + "src" + File.separator + "main"+ "Webapp" + File.separator + Config.getImageAppPath(page);
+		return Config.getWorkspace() + File.separator + Config.getWebapp() + File.separator + Config.getImageAppPath(page);
 	}
+	
+	
+	public static String getWebapp() {
+		return "src" + File.separator + "main"+ File.separator + "Webapp";
+	}
+	
 	
 	public static String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";

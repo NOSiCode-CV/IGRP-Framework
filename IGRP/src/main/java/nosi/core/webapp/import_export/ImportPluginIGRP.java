@@ -30,7 +30,7 @@ public class ImportPluginIGRP {
 						//Saving page if not exists
 						result = this.savePage(fileName.replace(".xml", ""),entry.getValue());
 					}
-					result = FileHelper.save(Config.getLinkImgBase()+subPath.substring(subPath.indexOf("WebContent/")+"WebContent/".length()), fileName, entry.getValue());
+					result = FileHelper.save(Config.getLinkImgBase()+subPath.substring(subPath.indexOf(Config.getWebapp()+"/")+ (Config.getWebapp() +"/").length()), fileName, entry.getValue());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

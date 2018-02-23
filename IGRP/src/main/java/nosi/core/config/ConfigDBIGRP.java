@@ -58,7 +58,7 @@ public class ConfigDBIGRP {
 		this.path = Config.getWorkspace();
 		if(FileHelper.fileExists(this.path)){
 			try {
-				this.path +=File.separator+"WebContent"+File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
+				this.path +=File.separator+ Config.getWebapp() +File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
 				FileHelper.createDiretory(this.path);
 				File file = new File(this.path+File.separator+this.fileName);
 				FileOutputStream out = new FileOutputStream(file);
