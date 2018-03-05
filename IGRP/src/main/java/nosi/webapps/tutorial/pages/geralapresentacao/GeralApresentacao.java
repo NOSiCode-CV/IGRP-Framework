@@ -208,7 +208,7 @@ public class GeralApresentacao extends Model{
 		}
 
 		public void setVer(String app,String page,String action){
-			this.ver = Config.getResolveUrl(app, page, action);
+			this.ver = new Config().getResolveUrl(app, page, action);
 		}
 		public String getVer(){
 			return this.ver;

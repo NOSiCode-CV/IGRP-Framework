@@ -16,8 +16,10 @@ public class IGRPTopMenu extends IGRPComponent{
 		this.buttons = new ArrayList<>();
 	}
 
-	public void addItem(String title,String app,String page,String link,String target,String img){
-		this.buttons.add(new IGRPButton(title, app, page, link, target, img, null, null));
+	public void addItem(String title,String app,String page,String link,String target,String img,String prefix){
+		IGRPButton button = new IGRPButton(title, app, page, link, target, img, null, null);
+		button.setPrefix(prefix);
+		this.buttons.add(button );
 	}
 
 	@Override
@@ -25,17 +27,8 @@ public class IGRPTopMenu extends IGRPComponent{
 		xml.startElement("top_menu");
 		if(this.buttons.size() > 0){
 			for(IGRPButton b:this.buttons){
-				if(b.isVisible()){
-					xml.startElement("button");
-					xml.writeAttribute("type", "specific");
-						xml.setElement("title", b.getTitle());
-						xml.setElement("link", b.getLink());
-						xml.setElement("page", b.getPage());
-						xml.setElement("app",b.getApp());
-						xml.setElement("target", b.getTarget());
-						xml.setElement("img", b.getImg());
-					xml.endElement();
-				}
+				b.setTag("button");
+				xml.addXml(b.toString());
 			}
 		}
 		this.buttons = null;

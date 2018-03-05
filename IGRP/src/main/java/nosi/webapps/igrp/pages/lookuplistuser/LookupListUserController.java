@@ -6,7 +6,6 @@ package nosi.webapps.igrp.pages.lookuplistuser;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import java.util.List;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class LookupListUserController extends Controller {
 		}
 		LookupListUserView view = new LookupListUserView(model);
 		view.table_1.addData(data);
-		Config.target = "_blank";
+		view.target = "_blank";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

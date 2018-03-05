@@ -23,7 +23,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("--- Escolher Prioridade ---"));
 		listPrioridade.put("100", "Urgente");
-		listPrioridade.put("50", "M�dio");
+		listPrioridade.put("50", "Médio");
 		listPrioridade.put("0", "Normal");
 		
 		Alter_prioridade_tarefa model = new Alter_prioridade_tarefa();
@@ -48,7 +48,7 @@ public class Alter_prioridade_tarefaController extends Controller {
 			}
 		}
 		Alter_prioridade_tarefaView view = new Alter_prioridade_tarefaView(model);
-		Config.target = "_blank";
+		view.target = "_blank";
 		view.btn_salvar.setLink("index");
 		view.nova_prioridade.setValue(listPrioridade);
 		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("post")){

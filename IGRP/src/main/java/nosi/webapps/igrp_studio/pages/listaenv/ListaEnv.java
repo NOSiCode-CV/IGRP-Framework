@@ -63,7 +63,7 @@ public class ListaEnv extends Model{
 		}
 
 		public void setT_page_builder(String app,String page,String action){
-			this.t_page_builder = Config.getResolveUrl(app, page, action);
+			this.t_page_builder = new Config().getResolveUrl(app, page, action);
 		}
 		public String getT_page_builder(){
 			return this.t_page_builder;

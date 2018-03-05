@@ -44,7 +44,7 @@ public class BPMNDesignerController extends Controller {
 			data.add(processo);
 		}
 		view.gen_table.addData(data);
-		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
+//		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		view.id.setParam(true);
 		return this.renderView(view);
 		

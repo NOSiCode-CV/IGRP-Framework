@@ -155,7 +155,7 @@ public class BPMNDesigner extends Model{
 		}
 
 		public void setLink(String app,String page,String action){
-			this.link = Config.getResolveUrl(app, page, action);
+			this.link = new Config().getResolveUrl(app, page, action);
 		}
 		public void setLink(String link){
 			this.link = link;

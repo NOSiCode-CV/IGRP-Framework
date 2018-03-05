@@ -8,17 +8,24 @@ package nosi.core.gui.generator;
  */
 
 import nosi.core.config.Config;
+import nosi.core.config.IHeaderConfig;
 import nosi.core.xml.XMLWritter;
 
-public class Generator2_3 {
+public class Generator2_3 implements IHeaderConfig{
 
 	private XMLWritter xml;
 	
+	@Override
+	public String getTitle() {
+		return "API Generator";
+	}
+	@Override
+	public String getTarget() {
+		return "_blank";
+	}
 	public Generator2_3(String xml) {
-		this.xml = new XMLWritter("rows",Config.LINK_XSL_GENERATOR, "dash");
-		Config.TITLE = "API Generator";
-		Config.target = "_blank";
-		this.xml.addXml(Config.getHeader());
+		this.xml = new XMLWritter("rows",new Config().getLinkXSLGenerator(), "dash");
+		this.xml.addXml(new Config().getHeader(this));
 		this.xml.startElement("content");
 		this.xml.writeAttribute("type", "dash");
 			this.xml.setElement("title", "Form Design");

@@ -3,7 +3,6 @@ package nosi.webapps.igrp_studio.pages.crudgenerator;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
-import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import java.io.File;
 import java.io.IOException;
@@ -69,7 +68,7 @@ public class CRUDGeneratorController extends Controller {
 			}
 		}
 		view.table_1.addData(data);
-		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
+//		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -138,17 +137,18 @@ public class CRUDGeneratorController extends Controller {
 	private boolean processGenerate(Config_env config, String tableName, String schema, Column primaryKey, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
 		boolean r = false;
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
-		String formXML = XMLTransform.genXML(XMLTransform.generateXMLForm(config, pageForm, columns,pageList),pageForm,primaryKey,"form");
-		String listXML = XMLTransform.genXML(XMLTransform.generateXMLTable(config, pageList, columns,pageForm,primaryKey),pageList,primaryKey,"table");
+		XMLTransform xml = new XMLTransform();
+		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,primaryKey,"form");
+		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm,primaryKey),pageList,primaryKey,"table");
 		
 		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
 			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
 		
-		String xslFileName = Config.LINK_XSL_GENERATOR_MCV;
-		String xslFileNameGen = Config.LINK_XSL_GENERATOR_CRUD;
-		String jsonFileName = Config.LINK_XSL_JSON_GENERATOR;
-		String pathXslForm = Config.getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
-		String pathXslList = Config.getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
+		String xslFileName = this.getConfig().getLinkXSLGeneratorMCV();
+		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
+		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
+		String pathXslForm = this.getConfig().getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
+		String pathXslList = this.getConfig().getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
 		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
@@ -173,10 +173,10 @@ public class CRUDGeneratorController extends Controller {
 		boolean r = false;
 		if(content!=null) {
 			content = content.replaceAll("<xsl:stylesheet xmlns:xsl=\"dim-red\" version=\"1.0\">", "<xsl:stylesheet xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" version=\"1.0\">\r\n");
-			String pathXsl = Config.getBaseServerPahtXsl(page);
+			String pathXsl = this.getConfig().getBaseServerPahtXsl(page);
 			r = FileHelper.save(pathXsl, fileName, content);
-			if(FileHelper.fileExists(Config.getWorkspace())){
-				r = FileHelper.save(Config.getBasePahtXslWorkspace(page), fileName, content);
+			if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+				r = FileHelper.save(this.getConfig().getBasePahtXslWorkspace(page), fileName, content);
 			}
 		}
 		return r;
@@ -191,11 +191,11 @@ public class CRUDGeneratorController extends Controller {
 			String path_class = page.getPackage_name().trim()
 					.replaceAll("(\r\n|\n)", "")
 					.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-			String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
-			path_class = Config.getBasePathClass()+ path_class;			
+			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
+			path_class = this.getConfig().getBasePathClass()+ path_class;			
 			FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 			
-			if(FileHelper.fileExists(Config.getWorkspace())){
+			if(FileHelper.fileExists(this.getConfig().getWorkspace())){
 				if(!FileHelper.fileExists(path_class_work_space)){//check directory
 					FileHelper.createDiretory(path_class_work_space);//create directory if not exist
 				}

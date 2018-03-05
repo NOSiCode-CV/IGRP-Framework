@@ -26,6 +26,7 @@ import nosi.core.webapp.compiler.helpers.Compiler;
  */
 public class Import {
 
+	private Config config = new Config();
 	protected String encode = FileHelper.ENCODE_UTF8;
 	protected Application app;
 	
@@ -36,6 +37,14 @@ public class Import {
 	public boolean importPage(IFImportExport ie,Application app) {
 		return ie.importPage(app);
 	}	
+
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
 
 	protected boolean compileFiles(List<FileImportAppOrPage> filesToCompile, Application app) {
 		File[] files = new File[filesToCompile.size()];
@@ -70,15 +79,15 @@ public class Import {
 				  .andWhere("application.dad", "=", app.getDad())
 				  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 				  .one();	
-		String path_class = Config.getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+		String path_class = this.getConfig().getBasePathClass() + page.getPackage_name().replace(".",File.separator);
 		String content = file.getConteudo();
 		if(file.getNome().endsWith(".java")){
 			content = content.substring(0, content.indexOf("package")+"package".length())+" "+page.getPackage_name() +content.substring(content.indexOf(";", content.indexOf("package")));
 		}
 		try {
 			FileHelper.save(path_class,partPage[3],content);
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())){
-				String path_class_work_space = Config.getBasePahtClassWorkspace(page.getApplication().getDad())+File.separator+"pages"+File.separator+page.getPage().toLowerCase();
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
+				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad())+File.separator+"pages"+File.separator+page.getPage().toLowerCase();
 				FileHelper.save(path_class_work_space,partPage[3],content);
 			}
 			return new File(path_class+"/"+partPage[3]);
@@ -91,13 +100,13 @@ public class Import {
 
 	private File addFileDao(FileImportAppOrPage file,Application app) {
 		String[] partPage = file.getNome().split("/");
-		String dir = Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/dao";
+		String dir = this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/dao";
 		if(!FileHelper.fileExists(dir))
 			FileHelper.createDiretory(dir);
 		try {
 			FileHelper.save(dir, partPage[1],file.getConteudo());
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/dao")){
-				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/dao")){
+				FileHelper.save(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"dao",partPage[1], file.getConteudo());
 			}	
 			return new File(dir+"/"+ partPage[1]);
 		} catch (IOException e) {
@@ -108,14 +117,14 @@ public class Import {
 
 
 	private File addFileDesfaultPage(FileImportAppOrPage file,Application app) {
-		String dir = Config.getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage";
+		String dir = this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage";
 		if(!FileHelper.fileExists(dir))
 			FileHelper.createDiretory(dir);
 		
 		try {
-			FileHelper.save(dir, "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace()) && FileHelper.createDiretory(Config.getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
-				FileHelper.save(Config.getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",Config.getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+			FileHelper.save(dir, "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace()) && FileHelper.createDiretory(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps/"+app.getDad().toLowerCase()+"/pages/defaultpage")){
+				FileHelper.save(this.getConfig().getRawBasePathClassWorkspace()+"/nosi/webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages/defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 			}	
 			return new File(dir+"/"+ "DefaultPageController.java");
 		} catch (IOException e) {
@@ -131,7 +140,7 @@ public class Import {
 								  .andWhere("application.dad", "=", app.getDad())
 								  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
 								  .one();
-		String path = Config.getBaseServerPahtXsl(page);
+		String path = this.getConfig().getBaseServerPahtXsl(page);
 		FileHelper.createDiretory(path);
 		String content = file.getConteudo();
 		
@@ -144,8 +153,8 @@ public class Import {
 		try {
 			boolean result = false;
 			//Guarda ficheiros no workspace caso existe
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())){
-				String path_xsl_work_space = Config.getBasePahtXslWorkspace(page);		
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())){
+				String path_xsl_work_space = this.getConfig().getBasePahtXslWorkspace(page);		
 				result = FileHelper.save(path_xsl_work_space,partPage[4], content);
 			}
 			result = FileHelper.save(path, partPage[4], content);
@@ -267,7 +276,7 @@ public class Import {
 			int index =  content.indexOf("<package_html>");
 			if(index >= 0){
 				content = content.substring(0, content.indexOf("<package_html>")+"<package_html>".length())+ page.getPage()+content.substring(content.indexOf("</package_html>"));
-				String package_name = Config.getBasePackage(app.getDad()).contains(".pages")?Config.getBasePackage(app.getDad()):Config.getBasePackage(app.getDad())+".pages";
+				String package_name = this.getConfig().getBasePackage(app.getDad()).contains(".pages")?this.getConfig().getBasePackage(app.getDad()):this.getConfig().getBasePackage(app.getDad())+".pages";
 				content = content.substring(0, content.indexOf("<package_db>")+"<package_db>".length())+package_name +content.substring(content.indexOf("</package_db>"));
 			}else{
 				content = this.configurePackageAndClass(content,page);

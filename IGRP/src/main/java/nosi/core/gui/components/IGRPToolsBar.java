@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import nosi.core.gui.fields.FieldProperties;
-import nosi.core.gui.fields.GenXMLField;
-import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 
 public class IGRPToolsBar {
@@ -73,7 +71,7 @@ public class IGRPToolsBar {
 				}
 			}
 			for(IGRPButton item:buttons){
-				this.genXmlItem(item, "item");
+				xml.addXml(item.toString());
 			}
 			xml.endElement();
 		}
@@ -94,41 +92,12 @@ public class IGRPToolsBar {
 	public String toXmlButton(){
 		if(this.buttons.size() > 0){
 			for(IGRPButton item:buttons){
-				this.genXmlItem(item,this.tag_name);
+				item.setTag("button");
+				this.xml.addXml(item.toString());
 			}
 		}
 		this.buttons = null;
 		return xml.toString();
-	}
-
-	private void genXmlItem(IGRPButton item, String tag) {
-		if(item.getProperties().getProperty("flg_transaction")!=null && item.getProperties().getProperty("flg_transaction").equals("true")){
-			if(Permission.isPermission(item.getApp().toLowerCase()+"_"+item.getPage()+"_"+item.getProperties().getProperty("rel"))){
-				this.genItem(tag, item);
-			}
-		}else{
-			this.genItem(tag, item);
-		}		
-	}
-	
-	private void genItem(String tag,IGRPButton item){
-		if(item.isVisible()){
-			xml.startElement(tag);
-			GenXMLField.writteAttributes(xml, item.getProperties());
-			xml.setElement("title", item.getTitle());
-			xml.setElement("app", item.getApp());
-			xml.setElement("page", item.getPage());
-			xml.setElement("link", item.getLink());
-			xml.setElement("target", item.getTarget());
-			xml.setElement("img", item.getImg());
-			if(item.getParams().compareTo("") != 0){
-				xml.setElement("params", item.getParams());
-			}
-			if(item.getParams().compareTo("") != 0){
-				xml.setElement("parameter", item.getParameter());
-			}
-			xml.endElement();
-		}
 	}
 	
 	public void addButton(IGRPButton button){

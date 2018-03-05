@@ -57,9 +57,9 @@ public class Detalhes_tarefasController extends Controller {
 			if(action!=null)
 				return this.generateCustomFormTask(action,history);
 		}
-		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
+		String path_xsl = this.getConfig().getLinkXSLMapProcess();
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
-		xml.addXml(Config.getHeader());
+		xml.addXml(new Config().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", gt("Detalhes Tarefa"));	
@@ -169,7 +169,7 @@ public class Detalhes_tarefasController extends Controller {
 						 xml.startElement("prm_file");
 					 		xml.writeAttribute("type", "link");
 					 		xml.writeAttribute("target", "_newtab");
-					 		xml.text(Config.getResolveUrl("igrp", "Detalhes_tarefas", "get-file&url="+t.getVariable().getValueUrl()+"&fileName="+file_desc[2]));
+					 		xml.text(new Config().getResolveUrl("igrp", "Detalhes_tarefas", "get-file&url="+t.getVariable().getValueUrl()+"&fileName="+file_desc[2]));
 					 	xml.endElement();		 	
 	
 					 	xml.startElement("prm_file_desc");

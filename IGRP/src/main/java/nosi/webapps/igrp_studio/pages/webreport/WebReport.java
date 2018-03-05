@@ -98,7 +98,7 @@ public class WebReport extends Model{
 	}
 	
 	public void setLink_add_source(String app,String page,String action){
-		this.link_add_source = Config.getResolveUrl(app, page, action);
+		this.link_add_source = new Config().getResolveUrl(app, page, action);
 	}
 	public String getLink_add_source(){
 		return this.link_add_source;
@@ -168,7 +168,7 @@ public class WebReport extends Model{
 		}
 
 		public void setLink(String app,String page,String action){
-			this.link = Config.getResolveUrl(app, page, action);
+			this.link = new Config().getResolveUrl(app, page, action);
 		}
 		public String getLink(){
 			return this.link;

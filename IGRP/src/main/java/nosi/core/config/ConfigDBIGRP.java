@@ -37,7 +37,7 @@ public class ConfigDBIGRP {
 		this.password = "root";
 		this.name = "hibernate-igrp-core";
 		this.fileName = "db_igrp_config.xml";
-		this.path = Config.getBasePathConfig()+"/db";
+		this.path = new Config().getBasePathConfig()+"/db";
 	}
 	
 	public void save(){
@@ -55,10 +55,10 @@ public class ConfigDBIGRP {
 	
 	//Save config connection into worksapce
 	public void saveIntoWorkSpace(){
-		this.path = Config.getWorkspace();
+		this.path = new Config().getWorkspace();
 		if(FileHelper.fileExists(this.path)){
 			try {
-				this.path +=File.separator+ Config.getWebapp() +File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
+				this.path +=File.separator+ new Config().getWebapp() +File.separator+"WEB-INF"+File.separator+"config"+File.separator+"db";
 				FileHelper.createDiretory(this.path);
 				File file = new File(this.path+File.separator+this.fileName);
 				FileOutputStream out = new FileOutputStream(file);

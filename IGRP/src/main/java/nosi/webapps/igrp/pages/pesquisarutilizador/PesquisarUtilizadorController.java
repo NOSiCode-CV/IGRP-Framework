@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.pesquisarutilizador;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -13,9 +12,7 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
-
 import static nosi.core.i18n.Translator.gt;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +72,7 @@ public class PesquisarUtilizadorController extends Controller {
 		
 		PesquisarUtilizadorView view = new PesquisarUtilizadorView(model);
 		
-		switch(Config.getAutenticationType()) {
+		switch(this.getConfig().getAutenticationType()) {
 			case "ldap": view.btn_adicionar_utilizador.setLink("igrp", "LdapUser", "index&target=_blank"); break;
 			case "db":
 			default: view.btn_adicionar_utilizador.setLink("igrp", "PesquisarUtilizador", "adicionar_utilizador");
@@ -221,7 +218,7 @@ public class PesquisarUtilizadorController extends Controller {
 		view.btn_eliminar.setTitle("Alterar Estado");
 		view.btn_eliminar.setImg("");
 		
-		switch(Config.getAutenticationType()) {
+		switch(this.getConfig().getAutenticationType()) {
 			case "ldap": 
 				view.btn_editar.setLink("igrp", "ldap-user", "index_");
 				view.btn_editar.setTarget("_self");
