@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.Part;
 import javax.xml.transform.TransformerConfigurationException;
-import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.StringHelper;
@@ -121,17 +120,17 @@ public class ImportAppZip extends ImportAppJar{
 	private void saveConfigFilesPlsql2_1(Action page,String content){
 		try {
 			content = this.addClassAndPackage(content,page,"xml");
-			String pathServer = Config.getBaseServerPahtXsl(page);
+			String pathServer = this.getConfig().getBaseServerPahtXsl(page);
 			
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
 			//System.out.println(content);
-			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", Config.LINK_XSL_JSON_CONVERT);			
+			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", this.getConfig().getLinkXSLJsonConvert());			
 			System.out.println(json);
 			//json = this.addClassAndPackage(json,page,"json");
 			//System.out.println(json);
 			FileHelper.save(pathServer, page.getPage()+".json", json);
-			if(Core.isNotNull(Config.getWorkspace()) && FileHelper.fileExists(Config.getWorkspace())) {
-				String pathWorkSpace = Config.getBasePahtXslWorkspace(page);
+			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())) {
+				String pathWorkSpace = this.getConfig().getBasePahtXslWorkspace(page);
 				FileHelper.save(pathWorkSpace, page.getPage()+".xml", content);
 				FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
 			}	
@@ -152,9 +151,9 @@ public class ImportAppZip extends ImportAppJar{
 		FileImportAppOrPage file = new FileImportAppOrPage("configs/"+app.getDad()+"/"+page.getPage()+"/"+page.getAction()+"/"+page.getPage()+".xml", content, 1);
 		this.saveFiles(file , app);
 		try {
-			String path = Config.getBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
+			String path = this.getConfig().getBaseServerPahtXsl(page)+File.separator+page.getPage()+".xml";
 			//Gera codigo MVC a partir de xml, usando gerador xsl
-			String modelViewController = XMLTransform.xmlTransformWithXSL(path, Config.LINK_XSL_GENERATOR_MCV);
+			String modelViewController = XMLTransform.xmlTransformWithXSL(path, this.getConfig().getLinkXSLGeneratorMCV());
 			String[] partsJavaCode = modelViewController.toString().split(" END ");
 			if(partsJavaCode.length > 2){
 				String model = partsJavaCode[0]+"*/";

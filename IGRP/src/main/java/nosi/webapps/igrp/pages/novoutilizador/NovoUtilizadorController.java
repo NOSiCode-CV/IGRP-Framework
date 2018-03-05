@@ -1,7 +1,6 @@
 
 package nosi.webapps.igrp.pages.novoutilizador;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.config.Config;
 import nosi.core.exception.ServerErrorHttpException;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
@@ -61,7 +60,7 @@ public class NovoUtilizadorController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Igrp.getInstance();
 		if(Igrp.getMethod().equalsIgnoreCase("post")) {
-			switch(Config.getAutenticationType()) {
+			switch(this.getConfig().getAutenticationType()) {
 				case "ldap":
 					this.ldap();
 				break;

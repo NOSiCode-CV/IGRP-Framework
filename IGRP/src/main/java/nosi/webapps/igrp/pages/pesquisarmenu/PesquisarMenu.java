@@ -40,7 +40,7 @@ public class PesquisarMenu extends Model{
 	}
 	
 	public void setNovo(String app,String page,String action){
-		this.novo = Config.getResolveUrl(app, page, action);
+		this.novo = new Config().getResolveUrl(app, page, action);
 	}
 	public String getNovo(){
 		return this.novo;

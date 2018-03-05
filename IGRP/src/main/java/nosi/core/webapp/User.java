@@ -6,12 +6,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.StringTokenizer;
-
 import javax.servlet.http.Cookie;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
-
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.pages.login.LoginController;
@@ -24,8 +23,7 @@ public class User implements Component{
 	private Identity identity;
 	private int expire; // for authentication via cookie  
 	
-	public static final String loginUrl = "igrp/login/login";
-	
+
 	//private static Map<String, HttpSession> users = Collections.synchronizedMap(new HashMap<String, HttpSession>());
 	
 	public User(){}
@@ -107,7 +105,14 @@ public class User implements Component{
 	
 	public boolean logout(){ // Reset all login session/cookies information
 		try {
-			Igrp.getInstance().getRequest().getSession(false).invalidate(); // destroy the user session 
+			  HttpSession theSession = Igrp.getInstance().getRequest().getSession( false );
+			    // print out the session id
+			    if( theSession != null ) {
+			      synchronized( theSession ) {
+			        // invalidating a session destroys it
+			        theSession.invalidate();
+			      }
+			    }
 			// destroy the cookie ... make sure this.expire == 0 
 			sendCookie("");
 			return true;
@@ -122,12 +127,13 @@ public class User implements Component{
 	}
 
 	@Override
-	public void init() {
+	public void init(HttpServletRequest request) {
 		boolean isLoginPage = false;
-		String aux = Igrp.getInstance().getRequest().getParameter("r");
+		String aux = request.getAttribute("r")!=null?request.getAttribute("r").toString():"igrp/login/login";
+		String loginUrl = "igrp/login/login";
 		/* test the login page (TOO_MANY_REQUEST purpose) */
 		if(aux != null){
-			isLoginPage = aux.equals(User.loginUrl); // bug ... Perhaps 
+			isLoginPage = aux.equals(loginUrl); // bug ... Perhaps 
 		}
 		
 		checkHttpClientRequest();

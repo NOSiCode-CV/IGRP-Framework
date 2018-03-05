@@ -19,7 +19,6 @@ public class HomeAppView extends View{
 	}
 	@Override
 	public void render() {
-		Config.TITLE = this.title;
 		this.addToPage(home);
 	}
 

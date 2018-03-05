@@ -15,6 +15,7 @@ import nosi.webapps.igrp.dao.Config_env;
  * Oct 11, 2017
  */
 public class ImportExportApp {
+	private Config config = new Config();
 	
 	public static String generateXMLConfigDB(Application app) {
 		XMLWritter xml = new XMLWritter();
@@ -77,6 +78,14 @@ public class ImportExportApp {
 		}
 	}
 	
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
+
 	private Map<String,String> filesPageClasses;
 	private Map<String,String> filesDaoClasses;
 	
@@ -85,7 +94,7 @@ public class ImportExportApp {
 	
 	public boolean validateExportPage(Action page){
 		FileHelper fileH = new FileHelper();
-		String pathPageClass = Config.getBasePahtClassWorkspace(page.getApplication().getDad().toLowerCase())+File.separator+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
+		String pathPageClass =this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad().toLowerCase())+File.separator+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
 		this.filesPageClasses = fileH.listFilesDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
@@ -99,7 +108,7 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportApp(Application app){
-		String pathPageClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"pages"+File.separator;
+		String pathPageClass =this.getConfig().getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"pages"+File.separator;
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
@@ -109,7 +118,7 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		String pathDaoClass = Config.getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"dao"+File.separator;
+		String pathDaoClass =this.getConfig().getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"dao"+File.separator;
 		this.filesDaoClasses = new FileHelper().listFilesDirectory(pathDaoClass);		
 		Map<String,String> newFilesDao = new HashMap<>();
 		if(this.filesDaoClasses!=null){
@@ -130,15 +139,15 @@ public class ImportExportApp {
 	}
 	
 	public void putFilesPageConfig(Action page){
-		if(page.getXsl_src()!=null && FileHelper.fileExists(Config.getWorkspace())){
-			String pathPageXsl = Config.getBasePahtXslWorkspace(page)+File.separator;	
+		if(page.getXsl_src()!=null && FileHelper.fileExists(this.getConfig().getWorkspace())){
+			String pathPageXsl = this.getConfig().getBasePahtXslWorkspace(page)+File.separator;	
 			Map<String,String> list = new FileHelper().listFilesDirectory(pathPageXsl);
 			if(list!=null){
 				for(Map.Entry<String, String> file:list.entrySet()){
 					this.filesPageClasses.put("configs/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage()+"/"+page.getAction()+"/"+file.getKey(), file.getValue());
 				}
 			}
-			String pathPageExport = Config.getPathExport()+"ConfigPage"+File.separator+page.getPage()+File.separator;
+			String pathPageExport =this.getConfig().getPathExport()+"ConfigPage"+File.separator+page.getPage()+File.separator;
 			FileHelper.createDiretory(pathPageExport);
 			try {
 				FileHelper.save(pathPageExport, "Config"+page.getPage()+".xml", ImportExportApp.generateXMLPage(page));

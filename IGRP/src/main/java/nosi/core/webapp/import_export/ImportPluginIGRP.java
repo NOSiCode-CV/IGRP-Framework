@@ -16,6 +16,10 @@ import nosi.webapps.igrp.dao.Application;
  */
 public class ImportPluginIGRP {
 
+	private Config config;
+	public ImportPluginIGRP() {
+		this.config = new Config();
+	}
 	
 	public boolean importPlugin(Part file){
 		Map<String,String> files = JarUnJarFile.readJarFile(file);
@@ -30,14 +34,14 @@ public class ImportPluginIGRP {
 						//Saving page if not exists
 						result = this.savePage(fileName.replace(".xml", ""),entry.getValue());
 					}
-					result = FileHelper.save(Config.getLinkImgBase()+subPath.substring(subPath.indexOf(Config.getWebapp()+"/")+ (Config.getWebapp() +"/").length()), fileName, entry.getValue());
+					result = FileHelper.save(this.config.getLinkImgBase()+subPath.substring(subPath.indexOf(this.config.getWebapp()+"/")+ (this.config.getWebapp() +"/").length()), fileName, entry.getValue());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 		try {
-			result = FileHelper.saveFile(Config.getPathLib(), file.getSubmittedFileName(), file);
+			result = FileHelper.saveFile(this.config.getPathLib(), file.getSubmittedFileName(), file);
 			FileHelper.deletePartFile(file);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -5,7 +5,6 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.config.Config;
 import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class LookupListPageController extends Controller {
 		view.env_fk.setLabel("Aplicação");
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
-		Config.target = "_blank";
+		view.target = "_blank";
 		view.btn_pesquisar.setLink("index");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/

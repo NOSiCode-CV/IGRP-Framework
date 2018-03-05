@@ -98,8 +98,8 @@ public final class Core {	// Not inherit
 	
 	//Add Message Info With Link
 	public static void setMessageInfoLink(String msg,String app,String page,String action){
-		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+Config.getResolveUrl(app, page, action));
+		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+new Config().getResolveUrl(app, page, action));
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+new Config().getResolveUrl(app, page, action));
 	}
 		
 	//Add Message Warning

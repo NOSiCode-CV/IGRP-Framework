@@ -1,12 +1,11 @@
 
 package nosi.webapps.igrp_studio.pages.homestudio;
-import nosi.core.config.Config;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Igrp;
-
 /*----#END-PRESERVED-AREA----*/
 
 public class HomeStudioController extends Controller {		
@@ -26,8 +25,7 @@ public class HomeStudioController extends Controller {
 			model.load(); 
 		}
 		HomeStudioView view = new HomeStudioView(model);
-		Config.type_header = "home";
-		Config.LINK_MY_APPS = "webapps?r=igrp/env/myApps&type=dev";
+//		Config.LINK_MY_APPS = "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"env"+"/"+"myApps")+"&type=dev";
 		view.form_1.setTitle("Minhas Aplicaões");
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
@@ -58,6 +56,9 @@ public class HomeStudioController extends Controller {
 		return this.redirect("igrp_studio", "CRUDGenerator", "index");
 	}
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
+//	@Override
+//	public String getTypeHeader() {
+//		return "home";
+//	}
 	/*----#END-PRESERVED-AREA----*/
 }

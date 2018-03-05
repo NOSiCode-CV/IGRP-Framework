@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp_studio.pages.listaenv;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Core;
 import java.util.Map;
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
@@ -27,10 +27,9 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 /*----#END-PRESERVED-AREA----*/
 
-public class ListaEnvController extends Controller {		
+public class ListaEnvController extends Controller {
 
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		ListaEnv model = new ListaEnv();
 		ArrayList<ListaEnv.Table_1> lista = new ArrayList<>();
@@ -74,27 +73,23 @@ public class ListaEnvController extends Controller {
 		view.table_1.addData(model.getTable_1());
 		view.p_id.setParam(true);
 		view.btn_eliminar.setVisible(false);
-		Config.LINK_HOME = "webapps?r=igrp_studio/ListaPage/index";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionImportar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(IMPORTAR)----*/
 		return this.redirect("igrp_studio", "ImportArquivo", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
-	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(NOVO)----*/
 		return this.redirect("igrp_studio", "Env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
-	public Response actionEditar() throws IOException{
+	public Response actionEditar() throws IOException {
 		/*----#START-PRESERVED-AREA(EDITAR)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null && !p_id.equals("")) {
@@ -103,9 +98,8 @@ public class ListaEnvController extends Controller {
 		return this.redirect("igrp_studio", "lista-env", "index&target=_blank");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
-	public Response actionEliminar() throws IOException{
+	public Response actionEliminar() throws IOException {
 		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Application app = new Application();
@@ -116,9 +110,8 @@ public class ListaEnvController extends Controller {
 		return this.redirect("igrp_studio", "lista-env", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
-	public Response actionConfigurar_base_dados() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionConfigurar_base_dados() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(CONFIGURAR_BASE_DADOS)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (id != null) {
@@ -127,9 +120,8 @@ public class ListaEnvController extends Controller {
 		return this.forward("igrp_studio", "ListaEnv", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
 
-	public Response actionExportar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionExportar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(EXPORTAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (id != null && !id.equals("")) {
@@ -138,7 +130,7 @@ public class ListaEnvController extends Controller {
 				ImportExportApp iea = new ImportExportApp();
 				if (iea.validateExportApp(app)) {
 					// Insert data on Export/Import
-					ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), Config.getUserName(),
+					ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), this.getConfig().getUserName(),
 							DateHelper.getCurrentDataTime(), "Export");
 					ie_dao = ie_dao.insert();
 
@@ -154,7 +146,7 @@ public class ListaEnvController extends Controller {
 		return this.redirect("igrp_studio", "ListaEnv", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
-	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private Response exportApp(Application app, ImportExportApp iea) {
 		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
@@ -165,13 +157,13 @@ public class ListaEnvController extends Controller {
 
 		for (Config_env configDb : new Config_env().find().andWhere("application", "=", app.getId()).all()) {
 			files.put("configHibernate/" + configDb.getName(),
-					Config.getBasePathClass() + configDb.getName() + ".cfg.xml");
+					this.getConfig().getBasePathClass() + configDb.getName() + ".cfg.xml");
 		}
 
 		if (iea.getFilesDaoClasses() != null)
 			files.putAll(iea.getFilesDaoClasses());
 
-		String pathConfigApp = Config.getPathExport() + "ConfigApp" + File.separator + app.getDad().toLowerCase();
+		String pathConfigApp = this.getConfig().getPathExport() + "ConfigApp" + File.separator + app.getDad().toLowerCase();
 		try {
 			FileHelper.save(pathConfigApp, "Config" + app.getDad() + ".xml",
 					ImportExportApp.genereteXMLApplication(app));
@@ -184,33 +176,35 @@ public class ListaEnvController extends Controller {
 				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + "DB.xml");
 		files.put("configApp/" + app.getDad().toLowerCase() + "/" + app.getDad().toLowerCase() + ".xml",
 				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + ".xml");
-		String pathJar = Config.getPathExport() + app.getDad().toLowerCase() + File.separator
+		String pathJar = this.getConfig().getPathExport() + app.getDad().toLowerCase() + File.separator
 				+ app.getDad().toLowerCase() + ".app.jar";
-		FileHelper.createDiretory(Config.getPathExport() + app.getDad().toLowerCase());
+		FileHelper.createDiretory(this.getConfig().getPathExport() + app.getDad().toLowerCase());
 		JarUnJarFile.saveJarFiles(pathJar, files, 9);
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app", "application/jar", true);
 	}
-public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
-this.format = Response.FORMAT_JSON;
-String idAplicacao = Igrp.getInstance().getRequest().getParameter("p_id");
-String status = Igrp.getInstance().getRequest().getParameter("p_status");
-boolean response = false;
+	public Response actionChangeStatus()
+			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
-if (Core.isNotNull(idAplicacao)) {
-Application aplica_db = new Application().findOne(Integer.parseInt(idAplicacao));
-if (aplica_db != null) {
-aplica_db.setStatus(Integer.parseInt(status));
-if (aplica_db.update() != null)
-response = true;
-}
-}
+		this.format = Response.FORMAT_JSON;
+		String idAplicacao = Igrp.getInstance().getRequest().getParameter("p_id");
+		String status = Igrp.getInstance().getRequest().getParameter("p_status");
+		boolean response = false;
 
-JSONObject json = new JSONObject();
-json.put("status", response);
-Gson res = new Gson();
-res.toJson(json);
-return this.renderView(json.toString());
-}
+		if (Core.isNotNull(idAplicacao)) {
+			Application aplica_db = new Application().findOne(Integer.parseInt(idAplicacao));
+			if (aplica_db != null) {
+				aplica_db.setStatus(Integer.parseInt(status));
+				if (aplica_db.update() != null)
+					response = true;
+			}
+		}
+
+		JSONObject json = new JSONObject();
+		json.put("status", response);
+		Gson res = new Gson();
+		res.toJson(json);
+		return this.renderView(json.toString());
+	}
 	/*----#END-PRESERVED-AREA----*/
 }

@@ -5,7 +5,6 @@
 package nosi.webapps.igrp.pages.transferir_tarefas;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -58,7 +57,7 @@ public class Transferir_tarefasController extends Controller {
 				Core.setMessageError();				
 			}
 		}
-		Config.target = "_blank";
+		view.target = "_blank";
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

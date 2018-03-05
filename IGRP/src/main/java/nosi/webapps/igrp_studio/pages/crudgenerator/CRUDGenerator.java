@@ -49,7 +49,7 @@ public class CRUDGenerator extends Model{
 	}
 	
 	public void setAdd_datasource(String app,String page,String action){
-		this.add_datasource = Config.getResolveUrl(app, page, action);
+		this.add_datasource = new Config().getResolveUrl(app, page, action);
 	}
 	public String getAdd_datasource(){
 		return this.add_datasource;

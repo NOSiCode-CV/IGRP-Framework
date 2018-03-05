@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import nosi.core.config.Config;
+import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPComponent;
 import nosi.core.gui.components.IGRPForm;
@@ -26,12 +27,12 @@ import nosi.webapps.igrp.dao.Config_env;
  * Emanuel
  * 11 Dec 2017
  */
-public class XMLTransform {
+public class XMLTransform implements IHeaderConfig{
 
 	//Generate completed XML for Page
-	public static String genXML(String xmlContent,Action page,Column primaryKey,String typeContent) {
+	public String genXML(String xmlContent,Action page,Column primaryKey,String typeContent) {
 		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
-		xml.addXml(Config.getHeader(page));
+		xml.addXml(new Config().getHeader(this,page));
 		if(page.getCrud()!=null){
 			xml.setElement("crud_page_list", primaryKey.getName());//using to get select crud page
 		}
@@ -45,7 +46,7 @@ public class XMLTransform {
 	}
 
 	//Generate Form XML
-	public static String generateXMLForm(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageList) {
+	public String generateXMLForm(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageList) {
 		XMLWritter xml = new XMLWritter();	
 
 		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
@@ -64,7 +65,7 @@ public class XMLTransform {
 	}
 	
 	//Generate Table XML
-	public static String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm,Column primaryKey) {
+	public String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm,Column primaryKey) {
 		XMLWritter xml = new XMLWritter();		
 
 		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
@@ -86,7 +87,7 @@ public class XMLTransform {
 	}
 	
 	//Add field into Form or Table Component
-	public static void addField(IGRPComponent component,List<DatabaseMetadaHelper.Column> columns) {
+	public void addField(IGRPComponent component,List<DatabaseMetadaHelper.Column> columns) {
 		if(component!=null) {
 			columns.stream().forEach(column->{
 				Field f = XMLTransform.getGenFiled(component,column);

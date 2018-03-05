@@ -2,7 +2,6 @@ package nosi.webapps.igrp.pages.generator;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -22,17 +21,19 @@ public class GeneratorController extends Controller{
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(id));	
 				if(ac!=null){
-					model.setGen_elements(Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
+					model.setGen_elements(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
 					model.setId_objeto(Integer.parseInt(id));
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
-					model.setLink_image(Config.getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
-					String json = Config.getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
+					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
+					String json = this.getConfig().getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
+					System.out.println("Generator...");
+					System.out.println(json);
 					if(ac!=null && FileHelper.fileExists(json)){
-						json = Config.getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
+						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
 						model.setPage_form(json.replace("\\", "/"));
 					}
-					model.setPackage_(Config.getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
+					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
 					model.setPage(ac.getPage());
 					GeneratorView view = new GeneratorView(model);
 					return this.renderView(view,true);

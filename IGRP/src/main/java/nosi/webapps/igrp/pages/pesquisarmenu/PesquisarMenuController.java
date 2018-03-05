@@ -16,7 +16,6 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Menu;
-import nosi.webapps.igrp.dao.Organization;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
@@ -141,7 +140,7 @@ public class PesquisarMenuController extends Controller {
 					if (link1Menu.getMenu() != null) {
 
 						if (link1Menu.getId() == link1Menu.getMenu().getId()) {
-							xml_menu.setElement("link", "webapps?r=" + link1Menu.getMenu().getLink());
+							xml_menu.setElement("link", /*"webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink())*/"");
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 						} else
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
@@ -154,7 +153,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.startElement("submenu");
 							xml_menu.writeAttribute("title", gt(main.getMenu().getDescr()));
 							xml_menu.writeAttribute("id", "" + main.getMenu().getId());
-							xml_menu.setElement("link", "webapps?r=" + main.getMenu().getLink());
+							xml_menu.setElement("link", /*"webapps?r=" + EncrypDecrypt.encrypt(main.getMenu().getLink())*/"");
 							xml_menu.setElement("title", gt(main.getMenu().getDescr()));
 							xml_menu.setElement("target", main.getMenu().getTarget());
 							xml_menu.setElement("id", "" + main.getMenu().getId());
@@ -174,12 +173,14 @@ public class PesquisarMenuController extends Controller {
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
-		topMenu.addItem("Home", "webapps?r=" + Permission.getCurrentEnv(), "DefaultPage", "index", "_self", "home.png");
-		topMenu.addItem("Settings", "webapps?r=igrp", "Settings", "index", "_self", "settings.png");
-		topMenu.addItem("Mapa Processos", "webapps?r=igrp", "MapaProcesso", "index", "_self", "process.png");
-		topMenu.addItem("Tarefas", "webapps?r=igrp", "ExecucaoTarefas", "index", "_self", "tasks.png");
+		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png","webapps?r=");
+		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", "settings.png","webapps?r=");
+		topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png","webapps?r=");
+		topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png","webapps?r=");
 		return this.renderView(topMenu.toString());
 	}
+	
+	
   	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;

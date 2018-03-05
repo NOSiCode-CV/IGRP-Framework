@@ -15,12 +15,13 @@ import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Igrp;
 
 public class IGRPLogin extends IGRPForm{
+	protected Config config = new Config();
 
 	public IGRPLogin(String tag_name,String title) {
 		super(tag_name,title);
 		this.properties = null;//No properties
-		this.xml = new XMLWritter("rows", Config.LINK_XSL_LOGIN, "");
-		this.xml.setElement("link_img", Config.getLinkImg());
+		this.xml = new XMLWritter("rows",this.config.getLinkXSLLogin(), "");
+		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.startElement("content");
 		this.xml.text(":_message_reseved");
 	}
@@ -29,11 +30,11 @@ public class IGRPLogin extends IGRPForm{
 		this(tag_name,"");
 	}
 	public String toString(){
-		this.xml.setElement("link_img", Config.getLinkImg());
+		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.setElement("title", "Login");
-		this.xml.setElement("version",Config.getVersion());
+		this.xml.setElement("version",this.config.getVersion());
 		this.xml.setElement("action", "webapps?" + Igrp.getInstance().getRequest().getQueryString());
-		this.xml.setElement("footer_note", Config.getFooterName());
+		this.xml.setElement("footer_note", this.config.getFooterName());
 		this.genForm();
 		return this.xml.toString();
 	}

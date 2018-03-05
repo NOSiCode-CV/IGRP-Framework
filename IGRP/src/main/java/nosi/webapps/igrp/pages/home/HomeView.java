@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.home;
 
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPHome;
 import nosi.core.webapp.View;
 
@@ -12,7 +11,6 @@ public class HomeView extends View{
 	}
 	@Override
 	public void render() {
-		Config.TITLE = this.title;
 		this.addToPage(home);
 	}
 

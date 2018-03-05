@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Iekiny Marcel
  * Jan 11, 2018
@@ -25,12 +27,6 @@ public final class IgrpLog implements Component { // Not inherited
 		return this.msgLog;
 	}
 
-	@Override
-	public void init() {
-		this.msgLog = new ArrayList<String>();
-		//this.func1();
-	}
-	
 	public void run() {
 		Set<String> paramNames = Igrp.getInstance().getRequest().getParameterMap().keySet();
 		Map<String, String[]> params =  Igrp.getInstance().getRequest().getParameterMap();
@@ -47,5 +43,11 @@ public final class IgrpLog implements Component { // Not inherited
 
 	@Override
 	public void destroy() {}
+
+	@Override
+	public void init(HttpServletRequest request) {
+		this.msgLog = new ArrayList<String>();
+		//this.func1();
+	}
 	
 }

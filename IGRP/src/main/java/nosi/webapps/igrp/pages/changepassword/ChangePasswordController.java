@@ -1,7 +1,6 @@
 
 package nosi.webapps.igrp.pages.changepassword;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
@@ -50,7 +49,7 @@ ChangePassword model = new ChangePassword();
 				return this.forward("igrp","ChangePassword","index");
 			}
 			
-			switch(Config.getAutenticationType()) {
+			switch(this.getConfig().getAutenticationType()) {
 				case "ldap": return ldap(model.getOld_password(), model.getPassword_1());
 				case "db": return db(model.getOld_password(), model.getPassword_1());
 				default:;

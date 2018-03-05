@@ -2,16 +2,19 @@ package nosi.core.webapp;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import nosi.core.config.IHeaderConfig;
 import nosi.core.gui.page.Page;
 /**
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public abstract class View {
+public abstract class View  implements IHeaderConfig{
 	
 	private Controller context;
 	private Page page; // representa o main layout de uma view
-	
+	public String title;
+	public String target;	
 	private String pageTitle;
 	
 	private Map<String, Object> currentModels;
@@ -20,8 +23,18 @@ public abstract class View {
 		this.currentModels = new HashMap<String, Object>();
 		this.pageTitle = "IGRP"; // Default page title
 		this.page = new Page();
+		this.page.setView(this);
 	}
-	
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	@Override
+	public String getTarget() {
+		return target;
+	}
 	public Controller getContext(){
 		return this.context;
 	}

@@ -66,7 +66,7 @@ public class PesquisarOrganicaView extends View {
 		
 	@Override
 	public void render(){
-		Config.TITLE = this.title;
+		//Config.TITLE = this.title;
 
 		sectionheader_1.addField(sectionheader_1_text);
 
