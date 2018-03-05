@@ -197,6 +197,11 @@ public class User implements Component{
 		return result;
 	}
 	
+	public static void main(String[] args) {
+		String result = encryptToHash("demo", "sha-256");
+		System.out.println(result);
+	}
+	
 	public synchronized static String generateAuthenticationKey() {
 		return RandomStringUtils.randomAlphanumeric(32); // Deprecated !
 	}
