@@ -186,7 +186,7 @@ public class LoginController extends Controller {
 	private boolean loginWithDb(String username, String password) throws IOException{
 		boolean success = false;
 		User user = (User) new User().findIdentityByUsername(username);
-		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "MD5"))){
+		if(user != null && user.validate(nosi.core.webapp.User.encryptToHash(password, "SHA-256"))){
 			if(user.getStatus() == 1){				
 				Profile profile = new Profile().getByUser(user.getId());
 					if(profile != null && Igrp.getInstance().getUser().login(user, 60*60/*1h*/)){ // 3600 * 24 * 30
@@ -221,11 +221,11 @@ public class LoginController extends Controller {
 			// Verify if this credentials exist in DB 
 			User user = (User) new User().findIdentityByUsername(username);
 			if(user != null) {
-				password = nosi.core.webapp.User.encryptToHash(password, "MD5");
+				/*password = nosi.core.webapp.User.encryptToHash(password, "SHA-256");
 				if((user.getPass_hash() == null) || (user.getPass_hash() != null && !user.getPass_hash().equals(password))) {
 					user.setPass_hash(password); // Anyway !!! update the user's password and encrypt it ...
 					user.update();
-				}
+				}*/
 				/** Begin create user session **/
 				if(user.getStatus() == 1){				
 					Profile profile = new Profile().getByUser(user.getId());
@@ -263,7 +263,7 @@ public class LoginController extends Controller {
 						}
 					
 					newUser.setStatus(1);
-					newUser.setPass_hash(nosi.core.webapp.User.encryptToHash(password, "MD5"));
+					//newUser.setPass_hash(nosi.core.webapp.User.encryptToHash(password, "SHA-256"));
 					newUser.setCreated_at(System.currentTimeMillis());
 					newUser.setUpdated_at(System.currentTimeMillis());
 					newUser.setAuth_key(nosi.core.webapp.User.generateAuthenticationKey());
