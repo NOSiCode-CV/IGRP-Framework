@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>workspace</param-name>
-		<param-value></param-value>
+		<param-value>C:\Emanuel\IGRP-Framework\IGRP</param-value>
 	</context-param>
 
 	<servlet>
@@ -47,17 +47,14 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>ModifyParams</filter-name>
-		<servlet-name>igrp-modify-params</servlet-name>
-	</filter-mapping>
-	 <filter-mapping> 
-	    <filter-name>ModifyParams</filter-name>
 	    <url-pattern>/*</url-pattern> 
-	  </filter-mapping> 
-
- 
+		<dispatcher>REQUEST</dispatcher>    
+    	<dispatcher>FORWARD</dispatcher>   
+	</filter-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>IGRP</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
@@ -98,3 +95,4 @@
 
 
 </web-app>
+
