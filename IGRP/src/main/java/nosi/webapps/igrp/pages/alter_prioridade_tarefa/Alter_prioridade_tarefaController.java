@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.TaskService;
-import nosi.core.config.Config;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 

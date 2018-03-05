@@ -21,7 +21,6 @@ import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
 import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
-import nosi.core.config.Config;
 /*----#END-PRESERVED-AREA----*/
 
 public class BPMNDesignerController extends Controller {		
