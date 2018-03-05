@@ -265,7 +265,7 @@ public class Config {
 	
 	
 	public String getWebapp() {
-		return "src" + File.separator + "main"+ File.separator + "Webapp";
+		return "src" + File.separator + "main"+ File.separator + "webapp";
 	}
 	
 	
