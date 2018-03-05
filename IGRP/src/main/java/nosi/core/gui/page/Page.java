@@ -17,6 +17,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.View;
 import nosi.core.webapp.helpers.StringHelper;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -26,12 +27,21 @@ import nosi.webapps.igrp.dao.Application;
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public class Page {
+public class Page{
 	
 	private String template;
+	private View view;
 	List<Object> gui;
 	
 	
+	public View getView() {
+		return view;
+	}
+
+	public void setView(View view) {
+		this.view = view;
+	}
+
 	public Page(){
 		this.gui = new ArrayList<Object>();
 	}
@@ -75,12 +85,12 @@ public class Page {
 					ac.getBuilder().equal(ac.getRoot().get("application"), appl),
 //					ac.getBuilder().equal(ac.getRoot().get("action"), action),
 					ac.getBuilder().equal(ac.getRoot().get("page"), Page.resolvePageName(page))));
-			path_xsl = Config.getLinkPageXsl(ac);
+			path_xsl = new Config().getLinkPageXsl(ac);
 		}
     
 		XMLWritter xml = new XMLWritter("rows", path_xsl, "utf-8");
 
-		xml.addXml(Config.getHeader());
+		xml.addXml(new Config().getHeader(this.getView()));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", "");
@@ -102,7 +112,7 @@ public class Page {
 		if(layout){
 			// Create a standard template of IGRP 
 			this.createTemplate();
-			if(Config.getEnvironment().equalsIgnoreCase("dev") || Config.getEnvironment().equalsIgnoreCase("sta"))
+			if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
 				this.template = this.template.replace(":_logBar", new IGRPLogBar().toString());
 			else
 				this.template = this.template.replace(":_logBar", "");
@@ -111,7 +121,7 @@ public class Page {
 		IGRPMessage msg = new IGRPMessage();
 		String m = msg.toString();
 		String aux = this.convertContentToXml().replace(":_message_reseved", m);
-		if(Config.getEnvironment().equalsIgnoreCase("dev") || Config.getEnvironment().equalsIgnoreCase("sta"))
+		if(new Config().getEnvironment().equalsIgnoreCase("dev") || new Config().getEnvironment().equalsIgnoreCase("sta"))
 			aux = aux.replace(":_logBar", new IGRPLogBar().toString());
 		else
 			aux = aux.replace(":_logBar", "");

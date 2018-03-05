@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -63,7 +62,7 @@ public class PageController extends Controller {
 		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());	
 		view.gen_auto_code.setValue(1);
-		view.version.setValue(Config.getVersions());
+		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.p_id.setParam(true);
 		if (isEdit) {
@@ -121,10 +120,10 @@ public class PageController extends Controller {
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
-					String path_xsl = Config.getBaseServerPahtXsl(action);
+					String path_xsl = this.getConfig().getBaseServerPahtXsl(action);
 					FileHelper.save(path_xsl, action.getPage() + ".json", json);
-					if (FileHelper.fileExists(Config.getWorkspace())) {
-						FileHelper.save(Config.getWorkspace() + File.separator + Config.getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
+					if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
+						FileHelper.save(this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator +"images" + File.separator + "IGRP/IGRP"
 								+ action.getVersion() + "/app/" + action.getApplication().getDad().toLowerCase() + "/"
 								+ action.getPage().toLowerCase(), action.getPage() + ".json", json);
 					}
@@ -161,14 +160,14 @@ public class PageController extends Controller {
 			String path_class = Igrp.getInstance().getRequest().getParameter("p_package").trim();
 			path_class = path_class.replaceAll("(\r\n|\n)", "");
 			path_class = path_class.replace(".", File.separator) + File.separator + ac.getPage().toLowerCase().trim();
-			String path_xsl = Config.getBaseServerPahtXsl(ac);
-			String path_xsl_work_space = Config.getWorkspace() + File.separator + Config.getWebapp() + File.separator
+			String path_xsl = this.getConfig().getBaseServerPahtXsl(ac);
+			String path_xsl_work_space = this.getConfig().getWorkspace() + File.separator + this.getConfig().getWebapp() + File.separator
 					+ "images" + File.separator + "IGRP" + File.separator + "IGRP" + ac.getVersion() + File.separator
 					+ "app" + File.separator + ac.getApplication().getDad() + File.separator
 					+ ac.getPage().toLowerCase();
 			
-			String path_class_work_space = Config.getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
-			path_class = Config.getBasePathClass() + path_class;
+			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(ac.getApplication().getDad(),ac.getPage());
+			path_class = this.getConfig().getBasePathClass() + path_class;
 			if (fileJson != null && fileXml != null && fileXsl != null && fileModel != null && fileView != null
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
@@ -180,7 +179,7 @@ public class PageController extends Controller {
 					
 					if (error.equals("") || error == null) {// Check if not error on the compilation class
 						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
-						if (FileHelper.fileExists(Config.getWorkspace())) {
+						if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
 							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
 								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
 							}
@@ -318,7 +317,7 @@ public class PageController extends Controller {
 				json += "\"id\":\"" + ac.getId() + "\",";
 				json += "\"description\":\"" + (ac.getPage_descr() != null ? ac.getPage_descr() : ac.getPage()) + "\",";
 				json += "\"link\":\""
-						+ Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
+						+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
 						+ ac.getPage() + ".xml\"";
 				json += "},";
 			}
@@ -341,7 +340,7 @@ public class PageController extends Controller {
 			json += "\"page\":\"" + ac.getPage() + "\",";
 			json += "\"id\":\"" + ac.getId() + "\",";
 			json += "\"filename\":\""
-					+ Config.getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
+					+ this.getConfig().getResolvePathPage(ac.getApplication().getDad(), ac.getPage(), ac.getVersion()) + "/"
 					+ ac.getPage() + ".xsl\",";
 			json += "\"page_descr\":\"" + ac.getPage_descr() + "\"";
 		}
@@ -373,26 +372,26 @@ public class PageController extends Controller {
 			String controller = this.getPageController(app, page);
 			if (controller != null) {
 				if (type.equals("c_import")) {
-					int start = controller.indexOf(Config.getStartReseveCodeAction("PACKAGES_IMPORT"));
-					int end = controller.indexOf(Config.getEndReserveCode());
+					int start = controller.indexOf(this.getConfig().getStartReseveCodeAction("PACKAGES_IMPORT"));
+					int end = controller.indexOf(this.getConfig().getEndReserveCode());
 					your_code = (start != -1 && end != -1)
-							? controller.substring(start + Config.getStartReseveCodeAction("PACKAGES_IMPORT").length(),
+							? controller.substring(start + this.getConfig().getStartReseveCodeAction("PACKAGES_IMPORT").length(),
 									end)
 							: "";
 				} else if (type.equals("c_actions")) {
-					int start = controller.indexOf(Config.getStartReseveCodeAction("CUSTOM_ACTIONS"));
-					int end = start != -1 ? controller.indexOf(Config.getEndReserveCode(), start) : -1;
+					int start = controller.indexOf(this.getConfig().getStartReseveCodeAction("CUSTOM_ACTIONS"));
+					int end = start != -1 ? controller.indexOf(this.getConfig().getEndReserveCode(), start) : -1;
 					your_code = (start != -1 && end != -1)
-							? controller.substring(start + Config.getStartReseveCodeAction("CUSTOM_ACTIONS").length(),
+							? controller.substring(start + this.getConfig().getStartReseveCodeAction("CUSTOM_ACTIONS").length(),
 									end)
 							: "";
 				} else if (ac != null && !ac.equals("") && type.equals("c_on_action")) {
 					String actionName = "action" + ac;
 					int start_ = controller.indexOf(actionName);
-					int start = start_ != -1 ? controller.indexOf(Config.getStartReseveCodeAction(ac), start_) : -1;
-					int end = start != -1 ? controller.indexOf(Config.getEndReserveCode(), start) : -1;
+					int start = start_ != -1 ? controller.indexOf(this.getConfig().getStartReseveCodeAction(ac), start_) : -1;
+					int end = start != -1 ? controller.indexOf(this.getConfig().getEndReserveCode(), start) : -1;
 					your_code = (start != -1 && start_ != -1 && end != -1)
-							? controller.substring(start + Config.getStartReseveCodeAction(ac).length(), end)
+							? controller.substring(start + this.getConfig().getStartReseveCodeAction(ac).length(), end)
 							: "";
 				} else if (ac != null && !ac.equals("") && type.equals("exception_after_action")) {
 					String actionName = "action" + ac;
@@ -410,12 +409,12 @@ public class PageController extends Controller {
 	}
 
 	private String getPageController(String app, String page) {
-		String workspace = Config.getBasePahtClassWorkspace(app,page);
+		String workspace = this.getConfig().getBasePahtClassWorkspace(app,page);
 		String controller = null;
 		if (FileHelper.fileExists(workspace + File.separator + page + "Controller.java")) {
 			controller = FileHelper.readFile(workspace, page + "Controller.java");
 		} else {
-			workspace = Config.getBasePathClass() + "nosi/webapps/" + app.toLowerCase() + "/pages/"+ page.toLowerCase();
+			workspace = this.getConfig().getBasePathClass() + "nosi/webapps/" + app.toLowerCase() + "/pages/"+ page.toLowerCase();
 			if (FileHelper.fileExists(workspace + "/" + page + "Controller.java")) {
 				controller = FileHelper.readFile(workspace, page + "Controller.java");
 			}
@@ -433,14 +432,14 @@ public class PageController extends Controller {
 		if (Core.isNotNull(p_id)) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				String content = FileHelper.readFile(Config.getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
+				String content = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac), ac.getPage() + ".xml");
 				int index1 = content.indexOf("?>");
 				int index2 = content.indexOf("<site>");
 				if(index1 > 0 && index2 > 0){
-					String xsl_src = Config.getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
+					String xsl_src = this.getConfig().getBaseHttpServerPahtXsl(ac)+"/"+ac.getPage()+".xsl";
 					String c = content.substring(0,index1+"?>".length());
 					c += "<?xml-stylesheet href=\""+xsl_src+"\" type=\"text/xsl\"?>";
-					c += "<rows><link_img>"+Config.getLinkImg()+"</link_img>";
+					c += "<rows><link_img>"+this.getConfig().getLinkImg()+"</link_img>";
 					c += content.substring(index2);
 					return this.renderView(c);
 				}
@@ -485,7 +484,7 @@ public class PageController extends Controller {
 		if (p_id != null && !p_id.equals("")) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				json = FileHelper.readFileFromServer(Config.getResolvePathXsl(ac), ac.getPage() + ".json");
+				json = FileHelper.readFileFromServer(this.getConfig().getResolvePathXsl(ac), ac.getPage() + ".json");
 			}
 		}
 		this.format = Response.FORMAT_JSON;

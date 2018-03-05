@@ -182,7 +182,7 @@ public class ListaPage extends Model{
 	}
 	
 	public void setLink_btn_nova_pagina(String app,String page,String action){
-		this.link_btn_nova_pagina = Config.getResolveUrl(app, page, action);
+		this.link_btn_nova_pagina = new Config().getResolveUrl(app, page, action);
 	}
 	public String getLink_btn_nova_pagina(){
 		return this.link_btn_nova_pagina;
@@ -195,7 +195,7 @@ public class ListaPage extends Model{
 	}
 	
 	public void setCrud_generator(String app,String page,String action){
-		this.crud_generator = Config.getResolveUrl(app, page, action);
+		this.crud_generator = new Config().getResolveUrl(app, page, action);
 	}
 	public String getCrud_generator(){
 		return this.crud_generator;
@@ -208,7 +208,7 @@ public class ListaPage extends Model{
 	}
 	
 	public void setBtn_import(String app,String page,String action){
-		this.btn_import = Config.getResolveUrl(app, page, action);
+		this.btn_import = new Config().getResolveUrl(app, page, action);
 	}
 	public String getBtn_import(){
 		return this.btn_import;
@@ -274,7 +274,7 @@ public class ListaPage extends Model{
 		}
 
 		public void setAplicacao(String app,String page,String action){
-			this.aplicacao = Config.getResolveUrl(app, page, action);
+			this.aplicacao = new Config().getResolveUrl(app, page, action);
 		}
 		public String getAplicacao(){
 			return this.aplicacao;

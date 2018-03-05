@@ -1,6 +1,6 @@
 package nosi.webapps.igrp.pages.login;
 
-import nosi.core.config.Config;
+
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
@@ -17,7 +17,6 @@ import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Session;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -33,6 +32,7 @@ import static nosi.core.i18n.Translator.gt;
  */
 public class LoginController extends Controller {
 
+	
 	public Response actionLogin() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		String oauth2 = Igrp.getInstance().getRequest().getParameter("oauth");
@@ -102,7 +102,7 @@ public class LoginController extends Controller {
 					return this.renderView(view,true);
 				}
 				
-				switch(Config.getAutenticationType()){
+				switch(this.getConfig().getAutenticationType()){
 					case "db":
 						if(this.loginWithDb(model.getUser(), model.getPassword())) {
 							if(oauth2 != null && oauth2.equalsIgnoreCase("1")) {
@@ -249,7 +249,7 @@ public class LoginController extends Controller {
 				
 			}else {
 				
-				if(Config.getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
+				if(this.getConfig().getEnvironment().equals("dev") && ldapinfo.getAuthenticationFilter().contains("SAMAccountName")) { // Active Directory Ldap Server ... autoinvite the user for IgrpStudio 
 					
 					User newUser = new User();
 					newUser.setUser_name(username);

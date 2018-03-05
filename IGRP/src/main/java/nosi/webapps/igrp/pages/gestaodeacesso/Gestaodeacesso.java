@@ -44,7 +44,7 @@ public class Gestaodeacesso extends Model{
 	}
 	
 	public void setAdicionar_organica1(String app,String page,String action){
-		this.adicionar_organica1 = Config.getResolveUrl(app, page, action);
+		this.adicionar_organica1 = new Config().getResolveUrl(app, page, action);
 	}
 	public String getAdicionar_organica1(){
 		return this.adicionar_organica1;
@@ -57,7 +57,7 @@ public class Gestaodeacesso extends Model{
 	}
 	
 	public void setGestao_de_utilizadores1(String app,String page,String action){
-		this.gestao_de_utilizadores1 = Config.getResolveUrl(app, page, action);
+		this.gestao_de_utilizadores1 = new Config().getResolveUrl(app, page, action);
 	}
 	public String getGestao_de_utilizadores1(){
 		return this.gestao_de_utilizadores1;
@@ -98,7 +98,7 @@ public class Gestaodeacesso extends Model{
 		}
 
 		public void setMostrar_perfis(String app,String page,String action){
-			this.mostrar_perfis = Config.getResolveUrl(app, page, action);
+			this.mostrar_perfis = new Config().getResolveUrl(app, page, action);
 		}
 		public String getMostrar_perfis(){
 			return this.mostrar_perfis;

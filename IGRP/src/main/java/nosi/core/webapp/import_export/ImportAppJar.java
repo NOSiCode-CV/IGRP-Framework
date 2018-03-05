@@ -61,9 +61,9 @@ public class ImportAppJar extends Import implements IFImportExport{
 				try {
 					String[] fileName = file.getNome().split("/");
 					if(!FileHelper.fileExists(fileName[1]+".cfg.xml")){
-						result = FileHelper.save(Config.getBasePathClass(),fileName[1]+".cfg.xml", file.getConteudo());
-						if(FileHelper.fileExists(Config.getWorkspace())){
-							result = FileHelper.save(Config.getWorkspace()+"/src",fileName[1]+".cfg.xml", file.getConteudo());
+						result = FileHelper.save(this.getConfig().getBasePathClass(),fileName[1]+".cfg.xml", file.getConteudo());
+						if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+							result = FileHelper.save(this.getConfig().getWorkspace()+"/src",fileName[1]+".cfg.xml", file.getConteudo());
 						}
 					}
 				} catch (IOException e) {

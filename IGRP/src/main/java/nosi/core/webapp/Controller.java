@@ -19,14 +19,14 @@ import nosi.core.webapp.webservices.helpers.FileRest;
  * @author Marcel Iekiny
  * Apr 15, 2017
  */
-public abstract class Controller {
-	
+public abstract class Controller{
+	protected Config config = new Config();
 	private View view;
 	
 	protected String format = Response.FORMAT_XML;
 	protected String encoding = Response.CHARSET_UTF_8;
 	protected boolean isNoCached = false;
-	
+
 	private Response responseWrapper;
 	
 	public Response getResponseWrapper() {
@@ -36,7 +36,7 @@ public abstract class Controller {
 	public void setResponseWrapper(Response responseWrapper) {
 		this.responseWrapper = responseWrapper;
 	}
-
+	
 	public Controller(){this.view = null;}
 	
 	protected final Response renderView(View view, boolean isRenderPartial) throws IOException{ // renderiza a view e aplica ou nao um layout 
@@ -186,7 +186,7 @@ public abstract class Controller {
 	
 	private static void resolveRoute() throws IOException{
 		Igrp app = Igrp.getInstance();
-		String r = app.getRequest().getParameter("r");// Catch always the first "r" parameter in query string
+		String r = Core.isNotNull(app.getRequest().getAttribute("r"))?app.getRequest().getAttribute("r").toString():"igrp/login/login";
 		if(r!=null){
 			String auxPattern = Config.PATTERN_CONTROLLER_NAME;
 			if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
@@ -229,10 +229,10 @@ public abstract class Controller {
 				auxPageName += aux.substring(0, 1).toUpperCase() + aux.substring(1);
 			}
 			auxActionName = "action" + auxActionName;
-			auxcontrollerPath = Config.getPackage(auxAppName,auxPageName,auxActionName);
+			auxcontrollerPath = new Config().getPackage(auxAppName,auxPageName,auxActionName);
 		}else {
 			auxActionName = "actionIndex";
-			auxcontrollerPath = Config.getPackage("igrp","Home",auxActionName);
+			auxcontrollerPath = new Config().getPackage("igrp","Home",auxActionName);
 		}
 		
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
@@ -240,7 +240,7 @@ public abstract class Controller {
 	
 
 	protected Response call(String app, String page, String action) {
-		String auxcontrollerPath = Config.getPackage(app,page,action);
+		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
@@ -315,8 +315,10 @@ public abstract class Controller {
 						}
 						break;
 					case 3: // forward 
+						String url = "webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						System.out.println(url);
 						try {
-							Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
+							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {
 							e.printStackTrace();
 						} 
@@ -328,7 +330,18 @@ public abstract class Controller {
 			}
 		}
 	}
+
+	public Config getConfig() {
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
+	
+	
 	
 	//... Others methods ...
+	
 	
 }

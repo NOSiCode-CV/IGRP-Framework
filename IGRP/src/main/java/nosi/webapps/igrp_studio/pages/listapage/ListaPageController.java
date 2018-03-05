@@ -2,7 +2,6 @@
 package nosi.webapps.igrp_studio.pages.listapage;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
-import nosi.core.config.Config;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -15,21 +14,15 @@ import nosi.core.webapp.helpers.JarUnJarFile;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
-
 import nosi.webapps.igrp.dao.Profile;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.google.gson.Gson;
-
-
 /*----#END-PRESERVED-AREA----*/
 
 public class ListaPageController extends Controller {		
@@ -99,7 +92,7 @@ public class ListaPageController extends Controller {
 				Action ac = p.getOrganization().getApplication().getAction();
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
-			myapps.setIcon(Config.getLinkImg() + "/assets/img/iconApp/" + (Core.isNotNull(p.getOrganization().getApplication().getImg_src())?p.getOrganization().getApplication().getImg_src():"default.svg"));
+			myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/" + (Core.isNotNull(p.getOrganization().getApplication().getImg_src())?p.getOrganization().getApplication().getImg_src():"default.svg"));
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
 			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
 			apps.add(myapps);
@@ -178,13 +171,13 @@ public class ListaPageController extends Controller {
 			ImportExportApp iea = new ImportExportApp();
 			if (page != null && iea.validateExportPage(page)) {
 				iea.ExportPage(page);
-				String pathJar = Config.getPathExport() + page.getApplication().getDad().toLowerCase() + File.separator
+				String pathJar = this.getConfig().getPathExport() + page.getApplication().getDad().toLowerCase() + File.separator
 						+ page.getPage() + ".page.jar";
-				FileHelper.createDiretory(Config.getPathExport() + page.getApplication().getDad().toLowerCase());
+				FileHelper.createDiretory(this.getConfig().getPathExport() + page.getApplication().getDad().toLowerCase());
 				JarUnJarFile.saveJarFiles(pathJar, iea.getFilesPageClasses(), 9);
 
 				// insert data on import/export table
-				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), Config.getUserName(),
+				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
 						DateHelper.getCurrentDataTime(), "Export");
 				ie_dao = ie_dao.insert();
 				return this.sendFile(new File(pathJar), page.getPage() + ".page", "application/jar", true);

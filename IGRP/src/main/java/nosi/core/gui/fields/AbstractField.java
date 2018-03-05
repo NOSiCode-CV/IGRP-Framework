@@ -155,8 +155,10 @@ public abstract class AbstractField implements Field{
 		    	String methodName = this.getName().substring(0, 1).toUpperCase()+this.getName().substring(1);
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
-			    		if(m.invoke(model)!=null)
+			    		if(m.invoke(model)!=null) {
 			    			this.value = ""+ m.invoke(model);
+			    			break;
+			    		}
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
 						throw new NotFoundHttpException("Error no config value line 162.AbstractField\n\n\n"+e.getMessage());

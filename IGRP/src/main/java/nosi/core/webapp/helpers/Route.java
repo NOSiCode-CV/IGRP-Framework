@@ -8,14 +8,25 @@ import nosi.core.webapp.Igrp;
 public class Route {
 
 	public static String toUrl(String app, String page, String action, String qs){
-		String target = Igrp.getInstance().getRequest().getParameter("target");
-		if(target!=null && !target.equals("")){
-			action = action+"&target="+target;
-		}
-		String aux = "?r=" + app + "/" + page + "/" + action + (qs.equals("") || qs == null ? "" : "&" + qs);
+		qs = getQueryString(action);
+		action = resolveAction(action);
+		String aux = "?r=" + EncrypDecrypt.encrypt(app+ "/" +page+ "/" +action) + (qs.equals("") || qs == null ? "" : qs);
 		return aux;
 	}
 	
+	public static String getQueryString(String action) {
+		if(action.contains("&")) {
+			return "&"+action.substring(action.indexOf("&"));
+		}
+		return "";
+	}
+
+	public static String resolveAction(String action) {
+		if(action.contains("&"))
+			return action.substring(0, action.indexOf("&"));
+		return action;
+	}
+
 	public static String toUrl(String app, String page, String action){
 		return Route.toUrl(app, page, action, "");
 	}
@@ -46,7 +57,7 @@ public class Route {
 	}
 	
 	public static String previous(){ // Catch the previous url in session
-		String result = (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route");
+		String result = Igrp.getInstance().getRequest()!=null? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route"):null;
 		return result != null ? result.toString() : result; // For NullPointerException purpose
 	}
 	
@@ -57,6 +68,16 @@ public class Route {
 	public static String home(){
 		return "";
 		//return Route.toUrl(Igrp.getInstance().getHomeUrl());
+	}
+
+	public static String urlEncoding(String r) {
+		return r.replaceAll(" ", "+");
+	}
+	
+	public static String resolveRParam(String r) {
+		if(r!=null && r.contains("&"))
+			return r.substring(0, r.indexOf("&"));
+		return r;
 	}
 	
 }

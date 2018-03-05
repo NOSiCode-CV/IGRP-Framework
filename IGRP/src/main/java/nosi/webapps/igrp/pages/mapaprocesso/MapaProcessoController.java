@@ -37,7 +37,7 @@ import static nosi.core.i18n.Translator.gt;
 
 /*----#END-PRESERVED-AREA----*/
 
-public class MapaProcessoController extends Controller {		
+public class MapaProcessoController extends Controller{		
 
 
 	public Response actionIndex() throws IOException{
@@ -79,7 +79,9 @@ public class MapaProcessoController extends Controller {
 		if(formData != null) {
 			Action action = new Action().find().andWhere("page", "=",formData.getFormKey()).one();
 			if(formData.getFormKey() !=null && action !=null) {
-				Config.TITLE = title;			
+				MapaProcesso model = new MapaProcesso();
+				MapaProcessoView view = new MapaProcessoView(model);
+				view.title = title;			
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
 				String content = resp.getContent();
 				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {//Check the page contain button
@@ -112,9 +114,9 @@ public class MapaProcessoController extends Controller {
 	}
 	
 	private String transformToXmlWorkFlow(String title,FormDataService formData,boolean withButton) {
-		String path_xsl = Config.LINK_XSL_MAP_PROCESS;
+		String path_xsl = this.getConfig().getLinkXSLMapProcess();
 		XMLWritter xml = new XMLWritter("rows", path_xsl , "utf-8");
-		xml.addXml(Config.getHeader());
+		xml.addXml(new Config().getHeader(null));
 		xml.startElement("content");
 		xml.writeAttribute("type", "");
 		xml.setElement("title", title);

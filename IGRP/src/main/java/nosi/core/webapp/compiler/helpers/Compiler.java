@@ -18,18 +18,20 @@ import com.sun.tools.javac.*;
  * 12 Nov 2017
  */
 public class Compiler {
+	private Config config;
 
 	private List<ErrorCompile> errors;
 	  
 	  public Compiler(){
 		  this.errors = new ArrayList<>();
+		  this.config = new Config();
 	  }
 	 private String jars = "";
 	 
 	 //Compile java files
 	 public boolean compile(File[] files) throws IOException, URISyntaxException {
 		 if(files.length >0 ){
-			 listFilesDirectory(Config.getPathLib());
+			 listFilesDirectory(this.config.getPathLib());
 	  		 this.compilerWithJavac(files);
 		 }
          return errors.isEmpty();
@@ -44,13 +46,13 @@ public class Compiler {
 	
 	public  void compilerWithJavac(File file){
 //			className = pathDestination+"/"+className;
-		listFilesDirectory(Config.getPathLib());
+		listFilesDirectory(this.config.getPathLib());
 		StringWriter sw = new StringWriter();
 	    PrintWriter out = new PrintWriter(sw);
 		Main.compile(new String[]{
-				"-classpath",Config.getBasePathClass(),
-				"-cp","."+System.getProperty("path.separator")+jars+Config.getBasePathClass()+System.getProperty("path.separator"),
-				"-d",Config.getBasePathClass(),
+				"-classpath",this.config.getBasePathClass(),
+				"-cp","."+System.getProperty("path.separator")+jars+this.config.getBasePathClass()+System.getProperty("path.separator"),
+				"-d",this.config.getBasePathClass(),
 				file.getAbsolutePath()},out );
 		out.flush();
 		out.close();

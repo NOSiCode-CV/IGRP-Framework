@@ -120,8 +120,8 @@ public class ConfigDatabaseController extends Controller {
 				+ "				<!-- Mapping your class here... \n" + "					Ex: <mapping class=\""
 				+ package_ + ".Employee\"/>\n" + "				-->\n" + "		</session-factory>\n"
 				+ "</hibernate-configuration>";
-		String pathWS = Config.getWorkspace() + "/src";
-		String pathServer = Config.getBasePathClass();
+		String pathWS = this.getConfig().getWorkspace() + "/src";
+		String pathServer = this.getConfig().getBasePathClass();
 		FileHelper.save(pathServer, config.getName() + ".cfg.xml", content);
 		if (FileHelper.fileExists(pathWS)) {
 			FileHelper.save(pathWS, config.getName() + ".cfg.xml", content);

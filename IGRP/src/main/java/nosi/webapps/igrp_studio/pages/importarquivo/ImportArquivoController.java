@@ -17,7 +17,6 @@ import nosi.core.webapp.import_export.ImportPluginIGRP;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.core.webapp.Igrp;
-import nosi.core.config.Config;
 /*----#END-PRESERVED-AREA----*/
 
 public class ImportArquivoController extends Controller {		
@@ -32,8 +31,7 @@ public class ImportArquivoController extends Controller {
 //		}
 //		model.setList_aplicacao(app);
 		ImportArquivoView view = new ImportArquivoView(model);
-		view.list_aplicacao.setValue(new Application().getListApps());		
-		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
+		view.list_aplicacao.setValue(new Application().getListApps());	
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

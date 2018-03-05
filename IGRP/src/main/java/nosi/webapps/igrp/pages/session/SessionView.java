@@ -77,7 +77,7 @@ public class SessionView extends View {
 		
 	@Override
 	public void render(){
-		Config.TITLE = this.title;
+	//	Config.TITLE = this.title;
 
 		form_1.addField(aplicacao);
 		form_1.addField(utilizador);

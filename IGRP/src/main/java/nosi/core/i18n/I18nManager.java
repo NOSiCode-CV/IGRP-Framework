@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import nosi.core.webapp.Component;
 import nosi.core.webapp.Igrp;
@@ -23,20 +24,7 @@ public final class I18nManager implements Component{
 	
 	
 	public I18nManager() {}
-	
-	@Override
-	public void init() {
-		this.newConfiguration();
-		/*if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
-			this.newConfiguration(); 
-		}else {
-			try {
-				this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
-			}catch(Exception e) {
-				this.newConfiguration();
-			}
-		}*/
-	}
+
 	
 	private void newConfiguration() {
 		boolean isCookieOk = false;
@@ -91,5 +79,19 @@ public final class I18nManager implements Component{
 	
 	@Override
 	public void destroy() {
+	}
+
+	@Override
+	public void init(HttpServletRequest request) {
+		this.newConfiguration();
+		/*if(Igrp.getInstance().getRequest().getSession().getAttribute("i18n") == null) {
+			this.newConfiguration(); 
+		}else {
+			try {
+				this.laguages = (Map<String, I18n>) Igrp.getInstance().getRequest().getSession().getAttribute("i18n");
+			}catch(Exception e) {
+				this.newConfiguration();
+			}
+		}*/
 	}
 }
