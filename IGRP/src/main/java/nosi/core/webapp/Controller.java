@@ -316,6 +316,7 @@ public abstract class Controller {
 						break;
 					case 3: // forward 
 						try {
+							System.out.println("webapps" + responseWrapper.getUrl());
 							Igrp.getInstance().getRequest().getRequestDispatcher("webapps" + responseWrapper.getUrl()).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {
 							e.printStackTrace();
