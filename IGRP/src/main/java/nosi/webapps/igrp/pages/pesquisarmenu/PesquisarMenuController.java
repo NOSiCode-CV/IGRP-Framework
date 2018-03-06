@@ -12,6 +12,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
@@ -140,7 +141,7 @@ public class PesquisarMenuController extends Controller {
 					if (link1Menu.getMenu() != null) {
 
 						if (link1Menu.getId() == link1Menu.getMenu().getId()) {
-							xml_menu.setElement("link", /*"webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink())*/"");
+							xml_menu.setElement("link", "webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink()));
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 						} else
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
@@ -153,7 +154,7 @@ public class PesquisarMenuController extends Controller {
 							xml_menu.startElement("submenu");
 							xml_menu.writeAttribute("title", gt(main.getMenu().getDescr()));
 							xml_menu.writeAttribute("id", "" + main.getMenu().getId());
-							xml_menu.setElement("link", /*"webapps?r=" + EncrypDecrypt.encrypt(main.getMenu().getLink())*/"");
+							xml_menu.setElement("link", "webapps?r=" + EncrypDecrypt.encrypt(main.getMenu().getLink()));
 							xml_menu.setElement("title", gt(main.getMenu().getDescr()));
 							xml_menu.setElement("target", main.getMenu().getTarget());
 							xml_menu.setElement("id", "" + main.getMenu().getId());
