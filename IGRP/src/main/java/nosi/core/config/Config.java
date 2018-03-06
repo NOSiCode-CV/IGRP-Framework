@@ -12,6 +12,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -146,7 +147,9 @@ public class Config {
 	
 	public String getResolveUrl(String app,String page,String action){
 
-		String url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+"&dad="+Permission.getCurrentEnv();
+		String qs = Route.getQueryString(action)+"&dad="+Permission.getCurrentEnv();//Get Query String
+		action = Route.resolveAction(action);
+		String url = "webapps?r="+EncrypDecrypt.encrypt(app+"/"+page+"/"+action)+qs;
 		
 //		HttpServletRequest req = Igrp.getInstance().getRequest();	
 //		String url = req.getScheme()+"://"+req.getServerName()+":"+req.getServerPort()+req.getContextPath()+"/webapps?r="+app+"/"+page+"/"+action+"&dad="+Permission.getCurrentEnv();
