@@ -19,13 +19,13 @@ public class EncrypDecrypt {
     public static String SECRET_KEY = "igrp.encrypt";
     
     public static String encrypt(String content){
-//		return encrypt(content, getSecretKey());
-    	return content;
+		return encrypt(content, getSecretKey());
+//    	return content;
     }
 
-    public static String decrypt(String content){    	
-//		return decrypt(content, getSecretKey());
-    	return content;
+    public static String decrypt(String content){  
+		return decrypt(content, getSecretKey());
+//    	return content;
     }
 	
     private static String getSecretKey() {
