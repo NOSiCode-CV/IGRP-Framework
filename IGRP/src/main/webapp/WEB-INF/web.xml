@@ -49,7 +49,9 @@
 		<filter-name>ModifyParams</filter-name>
 	    <url-pattern>/*</url-pattern> 
 		<dispatcher>REQUEST</dispatcher>    
-    	<dispatcher>FORWARD</dispatcher>   
+    	<dispatcher>FORWARD</dispatcher>     
+    	<dispatcher>ERROR</dispatcher>      
+    	<dispatcher>INCLUDE</dispatcher>  
 	</filter-mapping>
 	
 	<servlet-mapping>

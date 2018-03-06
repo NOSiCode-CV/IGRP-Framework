@@ -1,5 +1,6 @@
 package nosi.webapps.igrp.pages.generator;
 
+import java.io.File;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import nosi.core.webapp.Controller;
@@ -26,9 +27,7 @@ public class GeneratorController extends Controller{
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
-					String json = this.getConfig().getBaseServerPahtXsl(ac)+"/"+ac.getPage()+".json";
-					System.out.println("Generator...");
-					System.out.println(json);
+					String json = this.getConfig().getBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
 					if(ac!=null && FileHelper.fileExists(json)){
 						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
 						model.setPage_form(json.replace("\\", "/"));

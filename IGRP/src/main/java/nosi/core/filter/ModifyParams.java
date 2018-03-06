@@ -34,21 +34,17 @@ public class ModifyParams implements Filter{
 		request.setCharacterEncoding(this.encoding);
 		request.getParameterMap().entrySet().stream().forEach(p->{	
 			if(p.getKey().equals("r")) {
-
 				String r = p.getValue()[0].toString();
 				req.setAttribute(p.getKey(),r);
-//				String r = p.getValue()[0].toString();
-//				System.out.println(p.getKey()+":"+r);
-//				if(ScapeUrlEncrypt.getScapeUrl().containsKey(r)){
-//					req.setAttribute(p.getKey(),r);
-//				}else {
-//					req.setAttribute(p.getKey(),r);
-//					r = Core.isNotNull(r)?r:EncrypDecrypt.encrypt("igrp/login/login");
-//					r = Route.urlEncoding(r);
-//					r = EncrypDecrypt.decrypt(r);
-//					r = Route.resolveRParam(r);
-//					req.setAttribute(p.getKey(),r);
-//				}
+				if(ScapeUrlEncrypt.getScapeUrl().containsKey(r)){
+					req.setAttribute(p.getKey(),r);
+				}else {
+					r = Core.isNotNull(r)?r:EncrypDecrypt.encrypt("igrp/login/login");
+					r = Route.urlEncoding(r);
+					r = EncrypDecrypt.decrypt(r);
+					r = Route.resolveRParam(r);
+					req.setAttribute(p.getKey(),r);
+				}
 			}else {
 				if(p.getValue().length == 1) {//If singular parameter 
 					req.setAttribute(p.getKey(), p.getValue()[0]);

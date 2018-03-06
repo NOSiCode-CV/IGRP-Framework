@@ -265,7 +265,7 @@ public class Config {
 	
 	
 	public String getWebapp() {
-		return "src" + File.separator + "main"+ File.separator + "Webapp";
+		return "src" + File.separator + "main"+ File.separator + "webapp";
 	}
 	
 	
@@ -333,26 +333,30 @@ public class Config {
 	
 	public String getHeader(IHeaderConfig config,Action page) {
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
-		String target = Igrp.getInstance().getRequest().getParameter("target");
-		String title = app.getDescription();
 		if(config==null) {
 			//Use default config
 			config = new IHeaderConfig() {
 			};
 		}
+		String target = config.getTarget();
+		if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String) {
+			target = Igrp.getInstance().getRequest().getAttribute("target").toString();
+		}else if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String[]) {
+			target =  ((String[])Igrp.getInstance().getRequest().getAttribute("target"))[0];
+		}
+		String title = app.getDescription();		
 		String link_home = config.getLinkHome();
 		if(Permission.getCurrentEnv().equalsIgnoreCase("igrp_studio")) {
 			link_home = config.getLinkHomeStudio();
-		}
-		
+		}		
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", Core.getSwitchNotNullValue(title,config.getTitle()));
 		xml.setElement("version",getVersion());
 		xml.setElement("link",link_home);
 		xml.setElement("link_img",getLinkImg());
-		if(Core.isNotNull(target) || Core.isNotNull(config.getTarget())) {
-			xml.setElement("target", Core.getSwitchNotNullValue(target,config.getTarget()));
+		if(Core.isNotNull(target)) {
+			xml.setElement("target",target);
 		}
 		xml.startElement("site");
 			xml.setElement("welcome_note",getWelcomeNote());
