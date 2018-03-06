@@ -66,7 +66,7 @@ public class Route {
 	}
 	
 	public static String previous(){ // Catch the previous url in session
-		String result = Igrp.getInstance().getRequest()!=null? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route"):null;
+		String result = Igrp.getInstance().getRequest()!=null && Igrp.getInstance().getRequest().getSession()!=null && Igrp.getInstance().getRequest().getSession().getAttribute("_route")!=null? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route"):null;
 		return result != null ? result.toString() : result; // For NullPointerException purpose
 	}
 	
