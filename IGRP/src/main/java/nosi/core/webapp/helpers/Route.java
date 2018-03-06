@@ -9,7 +9,7 @@ import nosi.core.webapp.Igrp;
 public class Route {
 
 	public static String toUrl(String app, String page, String action, String qs){
-		qs = getQueryString(action);
+		qs += getQueryString(action);
 		String target = "";
 		if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String) {
 			target = Igrp.getInstance().getRequest().getAttribute("target").toString();
@@ -18,13 +18,13 @@ public class Route {
 		}
 		qs += Core.isNotNull(target)?"&target="+target:"";
 		action = resolveAction(action);
-		String aux = "?r=" + EncrypDecrypt.encrypt(app+ "/" +page+ "/" +action) + (qs.equals("") || qs == null ? "" : qs);
-		return aux;
+		String aux = "?r=" + EncrypDecrypt.encrypt(app+ "/" +page+ "/" +action) + (qs.equals("") || qs == null ? "" : "&"+ qs);
+		return aux.replaceAll("&&", "&");
 	}
 	
 	public static String getQueryString(String action) {
 		if(action.contains("&")) {
-			return "&"+action.substring(action.indexOf("&"));
+			return action.substring(action.indexOf("&"));
 		}
 		return "";
 	}
@@ -40,6 +40,7 @@ public class Route {
 	}
 	
 	public static String toUrl(String r, String qs){
+		r = EncrypDecrypt.decrypt(r);
 		String []aux = r.split("/");
 		return Route.toUrl(aux[0], aux[1], aux[2], qs);
 	}
@@ -65,8 +66,8 @@ public class Route {
 	}
 	
 	public static String previous(){ // Catch the previous url in session
-		String result = Igrp.getInstance().getRequest()!=null? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route"):null;
-		return result != null ? result.toString() : result; // For NullPointerException purpose 
+		String result = Igrp.getInstance().getRequest()!=null && Igrp.getInstance().getRequest().getSession()!=null && Igrp.getInstance().getRequest().getSession().getAttribute("_route")!=null? (String) Igrp.getInstance().getRequest().getSession().getAttribute("_route"):null;
+		return result != null ? result.toString() : result; // For NullPointerException purpose
 	}
 	
 	public static String toExternalUrl(){ // (Opcional)

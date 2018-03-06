@@ -205,7 +205,7 @@
         <xsl:variable name="mPos" select="position()"/>
         
         <div class="box igrp-box-holder gen-container-item clean" gen-class="" item-name="box_1">
-          <div class="box-header" bg-color="secondary">
+          <div class="box-header" bg-color="primary">
             <h3 class="box-title" text-color="white"><xsl:value-of select="title"/></h3>
           </div>
           <div class="box-body" gen-preserve-content="true">
