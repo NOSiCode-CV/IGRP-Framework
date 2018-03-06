@@ -209,11 +209,16 @@ public class LoginController extends Controller {
 	private boolean loginWithLdap(String username, String password){
 		boolean success = false;
 		
-		/** Begin ldap AD logic here **/ 
+		/** Begin ldap AD logic here **/  
 		File file = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"));
 		LdapInfo ldapinfo = JAXB.unmarshal(file, LdapInfo.class);
 		NosiLdapAPI ldap = new NosiLdapAPI(ldapinfo.getUrl(), ldapinfo.getUsername(), ldapinfo.getPassword(), ldapinfo.getBase(), ldapinfo.getAuthenticationFilter(), ldapinfo.getEntryDN());
-		success = ldap.validateLogin(username, password);
+		
+		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
+		
+		success = ldap.validateLogin(username, password, personArray);
+		
+		
 		//System.out.println(ldap.getError());
 		/** End **/ 
 		
@@ -254,7 +259,8 @@ public class LoginController extends Controller {
 					User newUser = new User();
 					newUser.setUser_name(username);
 					
-					ArrayList<LdapPerson> personArray = ldap.getUser(username + "@nosi.cv");
+					//ArrayList<LdapPerson> personArray = ldap.getUser(username + "@gov.cv");
+					
 					if (personArray != null && personArray.size() > 0) 
 						for(int i = 0; i < personArray.size(); i++) {
 							LdapPerson p = personArray.get(i);
