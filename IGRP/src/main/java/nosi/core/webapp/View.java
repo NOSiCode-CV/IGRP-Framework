@@ -16,6 +16,7 @@ public abstract class View  implements IHeaderConfig{
 	public String title;
 	public String target;	
 	private String pageTitle;
+	protected Model model;
 	
 	private Map<String, Object> currentModels;
 	
@@ -69,6 +70,14 @@ public abstract class View  implements IHeaderConfig{
 	public String getPageTitle(){
 		return this.pageTitle;
 	}
+
+	public Model getModel() {
+		return model;
+	}
+
+	public void setModel(Model model) {
+		this.model = model;
+	}	
 	
 	//... Others methods ...
 
