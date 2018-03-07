@@ -288,7 +288,7 @@ public abstract class Controller{
 							         bis.close();
 							         sos.close();
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
+									// TODO Auto-generated catch block 
 									e.printStackTrace();
 								}
 						         responseWrapper.getFile().getContent().close();
@@ -315,7 +315,8 @@ public abstract class Controller{
 						}
 						break;
 					case 3: // forward 
-						String url = "/webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						String url = "webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						System.out.println(url);
 						try {
 							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {

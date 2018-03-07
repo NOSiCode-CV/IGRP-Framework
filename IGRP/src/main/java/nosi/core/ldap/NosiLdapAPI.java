@@ -118,13 +118,13 @@ public class NosiLdapAPI {
 		return context;
 	}
 
-	public String getDistinguishedName(String pUsername) {
+	public String getDistinguishedName(String pUsername, ArrayList<LdapPerson> ldapPersons) {
 		InitialDirContext context;
 		String distinguishedName = "";
 		try {
 			context = this.ldapContext(this.getL_ldap_username(), this.getL_ldap_password());
 			SearchControls ctrls = new SearchControls();
-			ctrls.setReturningAttributes(new String[] { "givenName", "sn", "memberOf" });
+			ctrls.setReturningAttributes(new String[] { "givenName", "sn", "memberOf", "mail", "name" });
 			ctrls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 			
 			String filter = this.l_ldap_authenticationFilter.replaceAll(":_placeholder", pUsername);
@@ -135,15 +135,120 @@ public class NosiLdapAPI {
 				javax.naming.directory.SearchResult result = answers.nextElement();
 				distinguishedName = result.getNameInNamespace();
 			}
+			
+			// same code below ... 
+			answers = context.search(this.getL_ldap_base(), filter, ctrls);
+			SerializeAttribs(answers, ldapPersons); 
+			//System.out.println("Internal: " + ldapPersons.size());
+			//
+			
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			this.setError(e.getMessage());
 			e.printStackTrace();
 
 		}
+		//System.out.println("DistinguishedName: " + distinguishedName);
+		
 		return distinguishedName;
 	}
+	
+	public String getDistinguishedName(String pUsername) {
+		return getDistinguishedName(pUsername, new ArrayList<LdapPerson>());
+	}
+	
+	
+	private void SerializeAttribs(NamingEnumeration<?> results, ArrayList<LdapPerson> personArray) {
+		LdapPerson p = null;
+		try {
+			while (results.hasMore()) {
+				SearchResult sr = (SearchResult) results.next();
+				Attributes attrs = sr.getAttributes();
+				p = new LdapPerson();
 
+				for (NamingEnumeration ae = attrs.getAll(); ae.hasMore();) {
+					Attribute attr = (Attribute) ae.next();
+					String name = attr.getID();
+					String value = "";
+					for (NamingEnumeration e = attr.getAll(); e.hasMore(); value += e.next())
+						;
+
+					switch (name.toLowerCase()) {
+					case "uid":
+						p.setUid(value);
+						break;
+					case "sn":
+						p.setSn(value);
+						break;
+					case "mail":
+						p.setMail(value);
+						break;
+
+					case "proxyaddresses":
+						p.setProxyAddresses(value);
+						break;
+					case "name":
+						p.setName(value);
+						break;
+					case "accountexpires":
+						p.setAccountExpires(value);
+						break;
+					case "lastlogon":
+						p.setLastLogon(value);
+						break;
+					case "lastlogoff":
+						p.setLastLogoff(value);
+						break;
+					case "cn":
+						p.setCn(value);
+						break;
+					case "samaccounttype":
+						p.setsAMAccountType(value);
+						break;
+					case "givenname":
+						p.setGivenName(value);
+						break;
+					case "displayname":
+						p.setDisplayName(value);
+						break;
+
+					case "userprincipalname":
+						p.setUserPrincipalName(value);
+						break;
+
+					case "pwdlastset":
+						p.setPwdLastSet(value);
+						break;
+
+					case "lastlogontimestamp":
+						p.setLastLogonTimestamp(value);
+						break;
+
+					case "mailnickname":
+						p.setMailNickname(value);
+						break;
+
+					case "distinguishedname":
+						p.setDistinguishedName(value);
+						break;
+
+					case "samaccountname":
+						p.setsAMAccountName(value);
+						break;
+					}
+				}
+				p.setName(p.getName() != null ? p.getName() : (p.getGivenName() != null ? p.getGivenName() : p.getSn()));
+				personArray.add(p);
+			}
+		} catch (NamingException e) {
+			this.setError(e.getMessage());
+		}
+	}
+	
+	
+	
+	
+	
 	private ArrayList<LdapPerson> SerializeAttribs(NamingEnumeration<?> results) {
 		ArrayList<LdapPerson> personArray = new ArrayList<LdapPerson>();
 		LdapPerson p = null;
@@ -237,8 +342,8 @@ public class NosiLdapAPI {
 		return personArray;
 	}
 
-	public boolean validateLogin(String pUsername, String pPassword) {
-		String user = this.getDistinguishedName(pUsername);
+	public boolean validateLogin(String pUsername, String pPassword, ArrayList<LdapPerson> ldapPersons) {
+		String user = this.getDistinguishedName(pUsername, ldapPersons);
 		InitialDirContext context;
 		boolean validate = false;
 		if (user != "") {
@@ -267,8 +372,15 @@ public class NosiLdapAPI {
 
 			String filter = "(&(mail=" + pEmail + "))";
 			NamingEnumeration<?> results = context.search(this.getL_ldap_base(), filter, ctrls);
+			
 			if (!results.hasMore()) {
+				
 				filter = "(&(proxyAddresses=smtp:" + pEmail + "))";
+				results = context.search(this.getL_ldap_base(), filter, ctrls);
+			}
+			if (!results.hasMore()) {
+				
+				filter = "(&(proxyAddresses=sip:" + pEmail + "))";
 				results = context.search(this.getL_ldap_base(), filter, ctrls);
 			}
 
