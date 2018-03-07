@@ -244,7 +244,7 @@ public class Config {
 	}
 	
 	public String getImageAppPath(Action page) {
-		return "images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage().toLowerCase();
+		return getWebapp() + File.separator+ "images"+File.separator+"IGRP"+File.separator+"IGRP"+page.getVersion()+File.separator+"app"+File.separator+page.getApplication().getDad().toLowerCase()+File.separator+page.getPage().toLowerCase();
 	}
 	public String getBaseServerPahtXsl(Action page){
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
