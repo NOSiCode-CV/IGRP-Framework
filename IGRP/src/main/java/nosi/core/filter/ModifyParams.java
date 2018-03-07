@@ -29,6 +29,7 @@ public class ModifyParams implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		
 		//Transform params into attributes
 		this.req = (HttpServletRequest) request;
 		request.setCharacterEncoding(this.encoding);

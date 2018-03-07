@@ -188,14 +188,15 @@ public abstract class Controller{
 		Igrp app = Igrp.getInstance();
 		String r = Core.isNotNull(app.getRequest().getAttribute("r"))?app.getRequest().getAttribute("r").toString():"igrp/login/login";
 		if(r!=null){
-			String auxPattern = Config.PATTERN_CONTROLLER_NAME;
-			if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
-				String []aux = r.split("/");
-				app.setCurrentAppName(aux[0]);
-				app.setCurrentPageName(aux[1]);
-				app.setCurrentActionName(aux[2]);
-			}else{			
-				throw new ServerErrorHttpException("The route format is invalid");
+			synchronized (Config.PATTERN_CONTROLLER_NAME) {
+				String auxPattern = Config.PATTERN_CONTROLLER_NAME;
+				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
+					String []aux = r.split("/");
+					app.setCurrentAppName(aux[0]);
+					app.setCurrentPageName(aux[1]);
+					app.setCurrentActionName(aux[2]);
+				}else		
+					throw new ServerErrorHttpException("The route format is invalid");
 			}
 		}
 		String application = "Application: " + app.getCurrentAppName();
