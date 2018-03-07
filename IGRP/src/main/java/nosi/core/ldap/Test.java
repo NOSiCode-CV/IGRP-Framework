@@ -24,8 +24,8 @@ public class Test {
 	static String l_ldap_entryDN;
 
 	public static void main(String[] args) {
-		System.out.println(new IGRPLogBar());
-		System.exit(0);
+		
+		
 		//Teste LDAP 
 		//String path = Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/config/ldap/ldap.xml"); 
 		String path="C:\\git\\IGRP-Framework\\IGRP\\src\\main\\webapp\\WEB-INF\\config\\ldap\\ldap.xml";
@@ -43,7 +43,7 @@ public class Test {
 
 	static void TesteLogin() {
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_authentication_filter,l_ldap_entryDN);
-		if (ldap.validateLogin("iekinyfernandes", ""))
+		if (ldap.validateLogin("iekinyfernandes", "", new ArrayList<>()))
 			System.out.println("User Válido");
 		else {
 			System.out.println("User Inválido: " + ldap.getError());
@@ -51,7 +51,7 @@ public class Test {
 	}
 
 	static void TestePesquisa() {
-		String email = "pedro.ramos@nosi.cv";
+		String email = "iekini.fernandes@nosi.cv";
 		NosiLdapAPI ldap = new NosiLdapAPI(l_ldap_url, l_ldap_username, l_ldap_password, l_ldap_base, l_ldap_authentication_filter,l_ldap_entryDN);
 		ArrayList<LdapPerson> personArray = ldap.getUser(email);
 		if (personArray != null) {
