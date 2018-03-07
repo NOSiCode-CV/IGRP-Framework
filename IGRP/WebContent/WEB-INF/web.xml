@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>workspace</param-name>
-		<param-value>C:\Users\Emanuel\git\IGRP-Framework\IGRP</param-value>
+		<param-value>C:\git\IGRP-Framework\IGRP</param-value>
 	</context-param>
 
 	<servlet>
@@ -47,11 +47,12 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>ModifyParams</filter-name>
-	    <url-pattern>/*</url-pattern> 
+	  <!--   <url-pattern>/*</url-pattern>  -->
+	  <servlet-name>IGRP</servlet-name>
 		<dispatcher>REQUEST</dispatcher>    
     	<dispatcher>FORWARD</dispatcher>     
     	<dispatcher>ERROR</dispatcher>      
-    	<dispatcher>INCLUDE</dispatcher>  
+    	<!-- <dispatcher>INCLUDE</dispatcher>  --> 
 	</filter-mapping>
 	
 	<servlet-mapping>
@@ -94,7 +95,6 @@
 	<listener>
 		<listener-class>nosi.core.listener.ThreadLocalListener</listener-class>
 	</listener>
-
 
 </web-app>
 
