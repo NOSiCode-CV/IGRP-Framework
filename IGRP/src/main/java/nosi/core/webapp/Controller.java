@@ -188,14 +188,15 @@ public abstract class Controller{
 		Igrp app = Igrp.getInstance();
 		String r = Core.isNotNull(app.getRequest().getAttribute("r"))?app.getRequest().getAttribute("r").toString():"igrp/login/login";
 		if(r!=null){
-			String auxPattern = Config.PATTERN_CONTROLLER_NAME;
-			if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
-				String []aux = r.split("/");
-				app.setCurrentAppName(aux[0]);
-				app.setCurrentPageName(aux[1]);
-				app.setCurrentActionName(aux[2]);
-			}else{			
-				throw new ServerErrorHttpException("The route format is invalid");
+			synchronized (Config.PATTERN_CONTROLLER_NAME) {
+				String auxPattern = Config.PATTERN_CONTROLLER_NAME;
+				if(r.matches(auxPattern + "/" + auxPattern + "/" + auxPattern)){
+					String []aux = r.split("/");
+					app.setCurrentAppName(aux[0]);
+					app.setCurrentPageName(aux[1]);
+					app.setCurrentActionName(aux[2]);
+				}else		
+					throw new ServerErrorHttpException("The route format is invalid");
 			}
 		}
 		String application = "Application: " + app.getCurrentAppName();
@@ -288,7 +289,7 @@ public abstract class Controller{
 							         bis.close();
 							         sos.close();
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
+									// TODO Auto-generated catch block 
 									e.printStackTrace();
 								}
 						         responseWrapper.getFile().getContent().close();
@@ -315,7 +316,8 @@ public abstract class Controller{
 						}
 						break;
 					case 3: // forward 
-						String url = "/webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						String url = "webapps" + responseWrapper.getUrl().replaceAll("&&","&");
+						System.out.println(url);
 						try {
 							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {

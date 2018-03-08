@@ -113,7 +113,7 @@
 			<artifactId>tools</artifactId>
 			<version>1.7.0.13</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/tools.jar</systemPath>
+			<systemPath>${basedir}/WebContent/WEB-INF/lib/tools.jar</systemPath>
 		</dependency>
 
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
@@ -407,7 +407,7 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.0.0</version>
 					<configuration>
-						<warSourceDirectory>src/main/webapp</warSourceDirectory>
+						<warSourceDirectory>WebContent</warSourceDirectory>
 						<outputDirectory>${project.basedir}/target</outputDirectory>
 						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					</configuration>
