@@ -332,10 +332,15 @@ public class Config {
 	public String getEndReserveCode(){
 		return "/*----#END-PRESERVED-AREA----*/";
 	}
-
+  
+	public String getPathConfigDB() {
+		return this.getWorkspace() + File.separator +"src"+ File.separator + "main" + File.separator + "resources";
+	}
+  
 	public String getHeader(IHeaderConfig config) {
 		return getHeader(config,null);
 	}
+  
 	
 	public String getHeader(IHeaderConfig config,Action page) {
 		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();

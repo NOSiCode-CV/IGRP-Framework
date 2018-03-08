@@ -6,6 +6,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.config.Config;
 import nosi.core.igrp.mingrations.MigrationIGRP;
+
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
@@ -120,7 +121,7 @@ public class ConfigDatabaseController extends Controller {
 				+ "				<!-- Mapping your class here... \n" + "					Ex: <mapping class=\""
 				+ package_ + ".Employee\"/>\n" + "				-->\n" + "		</session-factory>\n"
 				+ "</hibernate-configuration>";
-		String pathWS = this.getConfig().getWorkspace() + "/src";
+		String pathWS = this.getConfig().getPathConfigDB();
 		String pathServer = this.getConfig().getBasePathClass();
 		FileHelper.save(pathServer, config.getName() + ".cfg.xml", content);
 		if (FileHelper.fileExists(pathWS)) {
