@@ -185,6 +185,7 @@ public class MapaProcessoController extends Controller{
 				for(FormProperties prop:formData.getFormProperties()){
 					Field field = XMLTransform.getField(prop.getId().toLowerCase(), prop.getType());
 					field.setLabel(prop.getName());
+					field.setValue("");
 					if(prop.getValue()!=null)
 						field.setValue(prop.getValue());
 					if(prop.getRequired())

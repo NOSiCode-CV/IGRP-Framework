@@ -358,7 +358,7 @@ public class Config {
 		XMLWritter xml = new XMLWritter();
 		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", Core.getSwitchNotNullValue(title,config.getTitle()));
-		xml.setElement("version","");
+		xml.setElement("version",this.getVersion());
 		xml.setElement("link",link_home);
 		xml.setElement("link_img",getLinkImg());
 		if(Core.isNotNull(target)) {

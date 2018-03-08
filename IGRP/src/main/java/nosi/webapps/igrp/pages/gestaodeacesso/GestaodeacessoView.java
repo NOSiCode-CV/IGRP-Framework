@@ -25,6 +25,8 @@ public class GestaodeacessoView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transaction;
 	public IGRPButton btn_eliminar;
+	public IGRPButton btn_task;
+	
 	public GestaodeacessoView(Gestaodeacesso model){
 		this.setPageTitle("Gestao de Acesso");
 			
@@ -78,6 +80,8 @@ public class GestaodeacessoView extends View {
 		btn_transaction.propertie.add("type","specific").add("code","").add("class","black").add("rel","transaction");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
+		btn_task = new IGRPButton("Etapas","igrp","PesquisarPerfil","etapas","mpsubmit","primary|fa-tasks","","");
+		btn_task.propertie.add("type","specific").add("rel","etapas");
 		
 	}
 		
@@ -99,6 +103,7 @@ public class GestaodeacessoView extends View {
 		org_table.addButton(btn_editar);
 		org_table.addButton(btn_menu);
 		org_table.addButton(btn_transaction);
+		org_table.addButton(btn_task);
 		org_table.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);

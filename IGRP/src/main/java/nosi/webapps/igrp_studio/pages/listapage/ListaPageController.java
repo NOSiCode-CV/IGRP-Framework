@@ -94,7 +94,9 @@ public class ListaPageController extends Controller {
 			}
 			myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/" + (Core.isNotNull(p.getOrganization().getApplication().getImg_src())?p.getOrganization().getApplication().getImg_src():"default.svg"));
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
-			myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
+			//myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
+			myapps.setAplicacao("igrp_studio", "env", "openApp" + "&app=" + p.getOrganization().getApplication().getDad() + 
+					"&page=/" + page + "/index&title=");
 			apps.add(myapps);
 		}
 		//model.setInfopanel_3_val(""+apps.size());

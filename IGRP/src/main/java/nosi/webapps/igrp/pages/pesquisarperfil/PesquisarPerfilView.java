@@ -25,6 +25,8 @@ public class PesquisarPerfilView extends View {
 	public IGRPButton btn_menu;
 	public IGRPButton btn_transacao;
 	public IGRPButton btn_convidar;
+	public IGRPButton btn_task;
+	
 	public PesquisarPerfilView(PesquisarPerfil model){
 		this.setPageTitle("Lista de Perfil");
 			
@@ -73,6 +75,9 @@ public class PesquisarPerfilView extends View {
 		btn_convidar = new IGRPButton("Convidar","igrp","PesquisarPerfil","convidar","mpsubmit","warning|fa-send","","");
 		btn_convidar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","convidar");
 		
+		btn_task = new IGRPButton("Etapas","igrp","PesquisarPerfil","etapas","mpsubmit","primary|fa-tasks","","");
+		btn_task.propertie.add("type","specific").add("rel","etapas");
+		
 	}
 		
 	@Override
@@ -90,10 +95,11 @@ public class PesquisarPerfilView extends View {
 
 		toolsbar_1.addButton(btn_novo);
 		table_1.addButton(btn_editar);
-		table_1.addButton(btn_eliminar);
 		table_1.addButton(btn_menu);
 		table_1.addButton(btn_transacao);
 		table_1.addButton(btn_convidar);
+		table_1.addButton(btn_task);
+		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(table_1);
 		this.addToPage(toolsbar_1);

@@ -117,6 +117,16 @@ public class PesquisarPerfilController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
+	public Response actionEtapas() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(ETAPAS)----*/
+		String id = Igrp.getInstance().getRequest().getParameter("p_id");
+        if(id!=null && !id.equals("")){
+          return this.redirect("igrp", "Task", "index&target=_blank&type=prof&p_id="+id);
+        }
+        return this.redirectError();
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	/*----#END-PRESERVED-AREA----*/
