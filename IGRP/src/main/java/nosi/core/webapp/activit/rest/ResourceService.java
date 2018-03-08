@@ -12,6 +12,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.webapps.igrp.dao.Config;
 
 /**
  * @author: Emanuel Pereira
@@ -73,6 +74,8 @@ public class ResourceService {
 	}
 	
 	public String getResourceData(String link){
+		String url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue();
+		link = url.contains("https")?link.replace("http", "https"):link;
 		this.request.setBase_url("");
 		Response response = this.request.get(link);
 		if(response!=null){

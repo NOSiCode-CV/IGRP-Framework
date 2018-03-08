@@ -15,6 +15,7 @@ import nosi.core.config.Config;
 import nosi.core.exception.NotFoundHttpException;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.databse.helpers.Query;
@@ -57,7 +58,11 @@ public abstract class AbstractField implements Field{
 		return value;
 	}
 	public void setValue(Object value) {
-		this.value = value;
+		if(value instanceof Model) {
+			this.configValue(value);
+		}else {
+			this.value = value;
+		}
 	}
 	public void setValue(int value) {
 		this.value = value;
