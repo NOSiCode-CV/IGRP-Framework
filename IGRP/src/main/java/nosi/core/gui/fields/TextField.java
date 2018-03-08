@@ -21,7 +21,7 @@ public class TextField extends AbstractField {
 		this.propertie.put("change", false);
 		this.propertie.put("required", false);
 		this.propertie.put("maxlength", 30);
-		this.configValue(model);
+		this.setValue(model);
 	}
 
 }

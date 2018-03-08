@@ -57,10 +57,13 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
 		DeploymentService deploy = new DeploymentService();
-		Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();
-		deploy = deploy.create(data,Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):app.getId());
-		if(deploy!=null && Core.isNotNull(deploy.getId())){
-			return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+		if(Core.isNotNull(model.getEnv_fk())) {
+			deploy = deploy.create(data,new Integer(model.getEnv_fk()));
+			if(deploy!=null && Core.isNotNull(deploy.getId())){
+				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
+			}
+		}else {
+			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
 		}
 		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"") + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/

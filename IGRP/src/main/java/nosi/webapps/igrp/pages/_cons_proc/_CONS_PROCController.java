@@ -70,7 +70,7 @@ public class _CONS_PROCController extends Controller {
 		view.organica.setValue(new ProfileType().getListProfiles(Core.toInt(model.getAplicacao())));
 		view.area_fk.setVisible(false);
 		view.organica.setVisible(false);
-		view.proc_tp_fk.setValue(new ProcessDefinitionService().mapToComboBox());
+		view.proc_tp_fk.setValue(new ProcessDefinitionService().mapToComboBox(Core.isNotNull(model.getAplicacao())?new Integer(model.getAplicacao()):0));
 		view.requerente.setVisible(false);
 		view.user_fk.setVisible(false);
 		

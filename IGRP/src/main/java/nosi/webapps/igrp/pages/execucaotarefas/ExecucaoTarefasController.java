@@ -18,7 +18,9 @@ import nosi.core.webapp.activit.rest.StartProcess;
 import nosi.core.webapp.activit.rest.TaskService;
 import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.DateHelper;
+import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.webservices.helpers.ResponseError;
+import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import java.util.List;
@@ -36,8 +38,7 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/		
-		//Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
-		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox();
+		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");
@@ -45,6 +46,7 @@ public class ExecucaoTarefasController extends Controller {
 		listPrioridade.put("0", "Normal");
 		
 		ExecucaoTarefas model = new ExecucaoTarefas();
+		Map<String, String> listProc = new ProcessDefinitionService().mapToComboBox(app.getId());
 		TaskService objTask = new TaskService();
 
 		model.load();
