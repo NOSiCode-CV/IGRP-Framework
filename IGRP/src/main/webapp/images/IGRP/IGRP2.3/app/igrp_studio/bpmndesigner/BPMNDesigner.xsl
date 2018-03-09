@@ -314,8 +314,8 @@
                   var vUrlLinkSave = '<xsl:value-of select="//rows/content/form_1/fields/link_save/value"/>';
                   var loaddata     = '<xsl:value-of select="//rows/content/form_1/fields/data/value"/>';
                 </script>
+                <script type="text/javascript" src="{$path}/core/bpmnjs/app/xml2do.js"></script>  
                 <script type="text/javascript" src="{$path}/core/bpmnjs/app/bpmn.js"></script>
-                <script type="text/javascript" src="{$path}/core/bpmnjs/app/xml2do.js"></script>                
             </body>
         </html>
     </xsl:template>

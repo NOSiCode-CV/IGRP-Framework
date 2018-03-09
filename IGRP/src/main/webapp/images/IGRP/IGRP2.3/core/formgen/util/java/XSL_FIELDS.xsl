@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="text" encoding="UTF-8" indent="no"/>
-    
 	<!--
 		Declare fields and create instance in class view
     	if(type=='declare'){
      		Field text_1;
      		Field text_2;
      		...
-     	}else if(type=='instance'){
+     	}elseif(type=='instance'){
 	     	text_1 = new TextField("text_1");
 			text_1.setLabel("Text");
 	     	text_2 = new TextField("text_2");
 			text_2.setLabel("Text");
 			...
-		}else if(type=='set-model'){
-			text_1.setValue(model);
 		}
 	-->
      <xsl:template name="gen-field-view">
@@ -124,22 +121,6 @@
 			    			</xsl:for-each>
 							<xsl:value-of select="';'"/>
 					 	</xsl:if>
-					 	
-					</xsl:when>
-					<xsl:when test="$type='set-model'">
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:variable name="tag_name">
-							<xsl:choose>
-								<xsl:when test="@type='hidden'">
-									<xsl:value-of select="@name"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="name()"/>
-								</xsl:otherwise>
-							</xsl:choose>
-					 	</xsl:variable>
-					 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
 					 	
 					</xsl:when>
 				</xsl:choose>				
@@ -338,7 +319,7 @@
 		    				<xsl:with-param name="tab2_" select="$tab2_"/>
 		    				<xsl:with-param name="java_type_return" select="'String'"/>
 		    				<xsl:with-param name="parameter" select="'String app,String page,String action'"/>
-		    				<xsl:with-param name="parameter_set" select="'new Config().getResolveUrl(app, page, action)'"/>
+		    				<xsl:with-param name="parameter_set" select="'Config.getResolveUrl(app, page, action)'"/>
 		    			</xsl:call-template>		
 		    		</xsl:when>
 		    		<xsl:otherwise>

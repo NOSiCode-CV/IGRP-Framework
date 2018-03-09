@@ -271,9 +271,8 @@ public class Config {
 	
 	
 	public String getWebapp() {
-		return "WebContent";
+		return "src/main/webapp"; 
 	}
-	
 	
 	public String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
