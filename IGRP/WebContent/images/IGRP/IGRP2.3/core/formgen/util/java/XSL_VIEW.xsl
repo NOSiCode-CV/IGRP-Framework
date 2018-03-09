@@ -11,17 +11,44 @@
 	 		<xsl:value-of select="$newline"/>
 	     	<xsl:value-of select="$tab"/>	
 	     	<xsl:value-of select="$newline"/>
-	     	<xsl:call-template name="declare-variables-view"></xsl:call-template>
+	     	<xsl:call-template name="declare-variables-view"/>
 	     	<xsl:value-of select="$newline"/>
-	 		<xsl:call-template name="create-construct"></xsl:call-template>
+	 		<xsl:call-template name="create-construct"/>
 	 		<xsl:value-of select="$newline"/>
 	 		<xsl:value-of select="$tab2"/>
-	 		<xsl:call-template name="render"></xsl:call-template>
+	 		<xsl:call-template name="render"/>
 	 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="'}'"/>
+	 		<xsl:value-of select="$tab2"/>
+	 		<xsl:call-template name="set-model"/>
+	 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="'}'"/> 	
+ 		
     </xsl:template>
 
-     <!-- import all class to using in view -->
+
+	<!-- Set Model -->
+	<xsl:template name="set-model">
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:text>@Override</xsl:text>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:text>public void setModel(Model model) {</xsl:text>
+		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="set-model-fields"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:text>}</xsl:text>
+	</xsl:template>
+    
+    <xsl:template name="set-model-fields">    	
+    	<xsl:call-template name="gen-field-view">
+			<xsl:with-param name="type"><xsl:value-of select="'set-model'" /></xsl:with-param>
+		</xsl:call-template>
+    </xsl:template>
+    
+    
+    <!-- import all class to using in view -->
  	<xsl:template name="import-packages-view">
  		<xsl:value-of select="concat('package ',$package_name)"/>
 		<xsl:value-of select="$newline"/>
@@ -31,12 +58,15 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_fields"/>
 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_model"/>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
+ 	
  	
 	<!--  create construct view class -->
 	<xsl:template name="create-construct">
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="concat('public ', $class_name,'View','(',$class_name,' model){')"></xsl:value-of>	
+		<xsl:value-of select="concat('public ', $class_name,'View(){')"></xsl:value-of>	
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$newline"/>	
 	     	<xsl:value-of select="$tab2"/>

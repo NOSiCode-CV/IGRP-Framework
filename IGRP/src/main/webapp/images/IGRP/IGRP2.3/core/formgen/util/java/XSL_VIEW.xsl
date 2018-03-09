@@ -47,6 +47,7 @@
 		</xsl:call-template>
     </xsl:template>
     
+    
     <!-- import all class to using in view -->
  	<xsl:template name="import-packages-view">
  		<xsl:value-of select="concat('package ',$package_name)"/>
