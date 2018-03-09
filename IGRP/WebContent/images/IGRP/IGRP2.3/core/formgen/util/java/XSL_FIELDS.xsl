@@ -148,6 +148,8 @@
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
+	
+	
 
 	<!-- get type class field -->
 	<xsl:template name="typeFieldClass">
