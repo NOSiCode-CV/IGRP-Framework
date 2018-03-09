@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>0.1.1 15-02-2018</version>
+	<version>0.3.0 09-03-2018</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -113,7 +113,7 @@
 			<artifactId>tools</artifactId>
 			<version>1.7.0.13</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/WebContent/WEB-INF/lib/tools.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/tools.jar</systemPath>
 		</dependency>
 
 		<!--////END PARA JENKINGS PORQUE O TOMMEE TEM -->
@@ -407,7 +407,7 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>3.0.0</version>
 					<configuration>
-						<warSourceDirectory>WebContent</warSourceDirectory>
+						<warSourceDirectory>src/main/webapp</warSourceDirectory>
 						<outputDirectory>${project.basedir}/target</outputDirectory>
 						<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					</configuration>
