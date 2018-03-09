@@ -29,7 +29,7 @@ public class _CONS_PROCController extends Controller {
 			model.load();
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			if(Core.isNotNull(model.getProc_tp_fk())){
-				taskS.addFilter("processDefinitionKey", model.getProc_tp_fk());
+				taskS.addFilter("processDefinitionId", model.getProc_tp_fk());
 			}if(Core.isNotNull(model.getNum())){
 				taskS.addFilter("processInstanceId", model.getNum());
 			}

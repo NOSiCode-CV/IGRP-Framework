@@ -2,6 +2,7 @@ package nosi.core.webapp.activit.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
@@ -11,14 +12,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.Unmarshaller;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
+import nosi.core.webapp.activit.rest.binding.tasks_process.TaskOfProcess;
+import nosi.core.webapp.activit.rest.binding.tasks_process.UserTask;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
+import nosi.core.xml.XMLApplicationReader;
+import nosi.webapps.igrp.dao.Application;
 
 /**
  * @author: Emanuel Pereira
@@ -292,8 +299,44 @@ public class ProcessDefinitionService extends Activit{
 		List<ProcessDefinitionService> list = this.getProcessDefinitionsAtivos(idApp);
 		Map<String,String> map = new HashMap<>();
 		map.put(null, "--- Selecionar Processo ----");
-		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getKey, ProcessDefinitionService::getName)));
+		map.putAll(list.stream().collect(Collectors.toMap(ProcessDefinitionService::getId, ProcessDefinitionService::getName)));
 		return map;
+	}
+	
+	public List<TaskService> getTasks(String processId){
+		List<TaskService> list = new ArrayList<>();
+		RestRequest req=new RestRequest();
+		req.setAccept_format(MediaType.APPLICATION_XML);
+		Response response = req.get("repository/process-definitions/"+processId+"/resourcedata");
+		if(response!=null){
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				String xml = FileHelper.convertToString(is);
+				 xml = xml.replace("xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"", "");
+				StringReader r = new StringReader(xml);
+				TaskOfProcess listTasks = JAXB.unmarshal(r, TaskOfProcess.class);
+				if(listTasks!=null && listTasks.getProcess()!=null) {
+					for(UserTask task:listTasks.getProcess().get(0).getUserTask()) {
+						TaskService t = new TaskService();
+						t.setId(listTasks.getProcess().get(0).getId()+"_"+task.getId());
+						t.setName(task.getName());
+						list.add(t);
+					}
+					if(listTasks.getProcess().get(0).getSubProcess()!=null) {
+						for(UserTask task:listTasks.getProcess().get(0).getSubProcess().getUserTask()) {
+							TaskService t = new TaskService();
+							t.setId(listTasks.getProcess().get(0).getSubProcess().getId()+"_"+task.getId());
+							t.setName(task.getName());
+							list.add(t);
+						}
+					}
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 }

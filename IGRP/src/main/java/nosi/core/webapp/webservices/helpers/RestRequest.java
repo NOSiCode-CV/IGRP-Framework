@@ -174,6 +174,7 @@ public class RestRequest{
 	}
 	
 	public void addUrl(String url){
+		url = new Config().find().andWhere("name", "=", "url_ativiti_connection").one().getValue().contains("https")?url.replace("http", "https").replace("httpss", "https"):url;
 		this.base_url += url;
 	}
 	public String getBase_url() {
