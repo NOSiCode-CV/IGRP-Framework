@@ -31,9 +31,11 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	private Integer id;
 	private String name;
 	private String mime_type;
+	
 	@Column(nullable=false)
 	@Lob
 	private String c_lob_content;
+	
 	@Column(nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date dt_created;

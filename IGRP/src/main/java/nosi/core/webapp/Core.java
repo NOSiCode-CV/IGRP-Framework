@@ -1,7 +1,16 @@
 package nosi.core.webapp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.StringReader;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +18,7 @@ import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
 import nosi.core.config.Config;
+import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -595,6 +605,56 @@ public final class Core {	// Not inherit
 				return strings[0];
 		}
 		return "";
-	}	
+	}
 	
+	/** Insert a file to the Igrp core DataBase and return an Id ... **/
+	
+	public static int saveFile(File file, String name, String mime_type) {
+		String igrpCoreConnection = Config.getBaseConnection();
+		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		int lastInsertedId = 0;
+		if(conn != null) {
+			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath()) : mime_type);
+			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
+			try {
+				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql, java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setBinaryStream(1, new FileInputStream(file));
+				ps.setString(2, sysdate);
+				ps.setString(3, mime_type);
+				ps.setString(4, name);
+				
+				int affectedRows = ps.executeUpdate();
+				
+				if(affectedRows > 0) {			
+					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+				        if (rs.next()) {
+				        	lastInsertedId = rs.getInt(1);
+				        }
+					}
+					ps.close();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lastInsertedId;
+	}
+	
+	/*public static void main(String[] args) {
+		String str = LocalDate.now().toString();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dateTime = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		System.out.println(dateTime.toString());
+	}*/
+	
+	/** **/
 }
