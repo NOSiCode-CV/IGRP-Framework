@@ -107,7 +107,7 @@ public class MapaProcessoController extends Controller{
 		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Processar Etapa"));
 		button.setApp("igrp");
 		button.setPage("ExecucaoTarefas");
-		button.setLink("igrp/ExecucaoTarefas/process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
+		button.setLink("process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
 		button.setTarget("submit");
 		button.setImg("primary|fa-arrow-right");
 		return button;

@@ -154,9 +154,9 @@ public final class Core {	// Not inherit
 		return DateHelper.formatDate(data,inputFormat,outputFormat);
 	}
 	
-	//Get Current Datetime (dd/MM/yyyy)
+	//Get Current Datetime (dd-MM-yyyy)
 	public static String getCurrentDate(){
-		return DateHelper.getCurrentDate();
+		return DateHelper.getCurrentDate("dd-MM-yyyy");
 	}
 
 	//Get Current Datetime (User defined output format)

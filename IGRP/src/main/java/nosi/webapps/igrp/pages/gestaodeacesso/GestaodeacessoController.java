@@ -44,6 +44,7 @@ public class GestaodeacessoController extends Controller {
 		}
 		GestaodeacessoView view = new GestaodeacessoView(model);
       	view.p_id.setParam(true);
+      	view.aplicacao.setParam(true);
       	view.aplicacao.setValue(new Application().getListApps());
         view.org_table.addData(data);
         view.setPageTitle("Gestão de Acesso");
@@ -114,8 +115,9 @@ public class GestaodeacessoController extends Controller {
 	public Response actionEtapas() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ETAPAS)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-        if(id!=null && !id.equals("")){
-          return this.redirect("igrp", "Task", "index&target=_blank&type=org&p_id="+id);
+        if(id!=null && !id.equals("")){      
+        	Organization org = new Organization().findOne(id);    
+          return this.redirect("igrp", "Task", "index&target=_blank&type=org&p_id="+id+"&p_aplicacao="+org.getApplication().getId());
         }
         return this.redirectError();
 		/*----#END-PRESERVED-AREA----*/

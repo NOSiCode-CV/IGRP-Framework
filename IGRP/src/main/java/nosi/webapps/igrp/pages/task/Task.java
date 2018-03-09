@@ -37,19 +37,19 @@ public class Task extends Model{
 
 
 	public static class Table_1{
-		private int selecionar;
-		private int selecionar_check;
+		private String selecionar;
+		private String selecionar_check;
 		private String descricao;
-		public void setSelecionar(int selecionar){
+		public void setSelecionar(String selecionar){
 			this.selecionar = selecionar;
 		}
-		public int getSelecionar(){
+		public String getSelecionar(){
 			return this.selecionar;
 		}
-		public void setSelecionar_check(int selecionar_check){
+		public void setSelecionar_check(String selecionar_check){
 			this.selecionar_check = selecionar_check;
 		}
-		public int getSelecionar_check(){
+		public String getSelecionar_check(){
 			return this.selecionar_check;
 		}
 

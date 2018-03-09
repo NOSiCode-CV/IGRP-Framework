@@ -53,7 +53,7 @@ public class Detalhes_tarefasController extends Controller {
 
 	private String generateSubmittedFormTask(TaskServiceQuery task, List<QueryHistoricDetail> queryHistoricDetail,List<HistoricTaskService> history) {
 		if(Core.isNotNull(task.getFormKey())) {
-			Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=", task.getTenantId()).one();
+			Action action = new Action().find().andWhere("page", "=",task.getFormKey()).andWhere("application", "=", new Integer(task.getTenantId())).one();
 			if(action!=null)
 				return this.generateCustomFormTask(action,history);
 		}

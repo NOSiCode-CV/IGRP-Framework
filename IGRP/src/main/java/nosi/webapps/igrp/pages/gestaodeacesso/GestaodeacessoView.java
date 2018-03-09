@@ -80,7 +80,7 @@ public class GestaodeacessoView extends View {
 		btn_transaction.propertie.add("type","specific").add("code","").add("class","black").add("rel","transaction");
 		btn_eliminar = new IGRPButton("Eliminar","igrp","Gestaodeacesso","eliminar","confirm","danger|fa-trash","","");
 		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
-		btn_task = new IGRPButton("Etapas","igrp","PesquisarPerfil","etapas","mpsubmit","primary|fa-tasks","","");
+		btn_task = new IGRPButton("Etapas","igrp","Gestaodeacesso","etapas","mpsubmit","primary|fa-tasks","","");
 		btn_task.propertie.add("type","specific").add("rel","etapas");
 		
 	}
