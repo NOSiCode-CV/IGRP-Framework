@@ -140,7 +140,7 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 				.andWhere("type", "=","MEN")
 				.andWhere("organization", "=",Permission.getCurrentOrganization())
 				.andWhere("profileType", "=",Permission.getCurrentPerfilId())
-				.andWhere("status", "=", 1)
+				.andWhere("profileType.status", "=", 1)
 				.all();
 //		EntityManager em = this.getEntityManagerFactory().createEntityManager();
 //		EntityTransaction t =  em.getTransaction();
