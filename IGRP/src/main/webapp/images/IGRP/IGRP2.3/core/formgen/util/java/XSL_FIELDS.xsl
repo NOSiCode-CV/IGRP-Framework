@@ -319,7 +319,7 @@
 		    				<xsl:with-param name="tab2_" select="$tab2_"/>
 		    				<xsl:with-param name="java_type_return" select="'String'"/>
 		    				<xsl:with-param name="parameter" select="'String app,String page,String action'"/>
-		    				<xsl:with-param name="parameter_set" select="'Config.getResolveUrl(app, page, action)'"/>
+		    				<xsl:with-param name="parameter_set" select="'new Config().getResolveUrl(app, page, action)'"/>
 		    			</xsl:call-template>		
 		    		</xsl:when>
 		    		<xsl:otherwise>
