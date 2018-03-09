@@ -4,6 +4,7 @@ package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class PesquisarPerfilController extends Controller {
 		PesquisarPerfilView view = new PesquisarPerfilView(model);
 		//Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
+      	view.organica.setParam(true);
 		view.table_1.addData(lista);
         view.btn_eliminar.setVisible(false);
         view.btn_novo.setLink("igrp","NovoPerfil","index&id_app="+idApp+"&id_org="+idOrg);
@@ -121,7 +123,8 @@ public class PesquisarPerfilController extends Controller {
 		/*----#START-PRESERVED-AREA(ETAPAS)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
         if(id!=null && !id.equals("")){
-          return this.redirect("igrp", "Task", "index&target=_blank&type=prof&p_id="+id);
+        	ProfileType p = new ProfileType().findOne(id);
+           return this.redirect("igrp", "Task", "index&target=_blank&type=prof&p_id="+id+"&p_aplicacao="+p.getOrganization().getApplication().getId());
         }
         return this.redirectError();
 		/*----#END-PRESERVED-AREA----*/
