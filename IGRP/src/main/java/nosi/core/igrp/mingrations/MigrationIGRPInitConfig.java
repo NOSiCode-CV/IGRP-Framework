@@ -204,7 +204,7 @@ public class MigrationIGRPInitConfig {
 			menus.add(new Menu("IGRP Studio", 1, 1, 0, null, null, app_igrp_studio, null));			
 //		Temp menu for making this menu parent less	
 				//Profile() the type_fk is 5
-			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), app_igrp,null);
+			Menu tempMenuAB = new Menu("Application Builder", 2, 1, 1, "_self", actions.get(2), app_igrp_studio,null);
 			tempMenuAB.setMenu(tempMenuAB);
 			menus.add(tempMenuAB);
 				//Profile() the type_fk is 6
@@ -216,13 +216,15 @@ public class MigrationIGRPInitConfig {
 			tempMenuRD.setMenu(tempMenuRD);
 			menus.add(tempMenuRD);
 				//Profile() the type_fk is 8
-			menus.add(new Menu("Gestão de Menu", 9, 1, 0, "_self", actions.get(8), app_igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Menu", 7, 0, 0, "_self", actions.get(8), app_igrp, menus.get(0)));
 				//Profile() the type_fk is 9
-			menus.add(new Menu("Gestão de Transação", 9, 1, 0, "_self", actions.get(15), app_igrp, menus.get(0)));		
+			menus.add(new Menu("Gestão de Transação", 8, 0, 0, "_self", actions.get(15), app_igrp, menus.get(0)));		
 				//Profile() the type_fk is 10
-			menus.add(new Menu("Gestão de Acesso", 9, 1, 0, "_self", actions.get(40), app_igrp, menus.get(0)));
+			Menu tempMenuGA = new Menu("Gestão de Acesso", 9, 1, 1, "_self", actions.get(40), app_igrp, null);
+			tempMenuGA.setMenu(tempMenuGA);
+			menus.add(tempMenuGA);			
 				//Profile() the type_fk is 11
-			menus.add(new Menu("Gestão de Utilizador", 9, 1, 0, "_self", actions.get(11), app_igrp, menus.get(0)));
+			menus.add(new Menu("Gestão de Utilizador", 9, 0, 0, "_self", actions.get(11), app_igrp, menus.get(0)));
 				//Profile() the type_fk is 12			
 			Menu tempMenuAP = new Menu("Área Pessoal", 1, 1, 1, "_self", actions.get(13), app_igrp,null);
 			tempMenuAP.setMenu(tempMenuAP);
@@ -236,11 +238,11 @@ public class MigrationIGRPInitConfig {
 			tempMenuCG.setMenu(tempMenuCG);
 			menus.add(tempMenuCG);
 				//Profile() the type_fk is 15
-			Menu tempMenuCP = new Menu("Consultar Processo", 1, 1, 1, "_self", actions.get(46), app_igrp,null);
+			Menu tempMenuCP = new Menu("Consultar Processo", 2, 1, 1, "_self", actions.get(46), app_igrp,null);
 			tempMenuCP.setMenu(tempMenuCP);
 			menus.add(tempMenuCP);
 				//Profile() the type_fk is 16
-			Menu tempMenuOA = new Menu("OAuth Client Id", 1, 1, 0, "_self", actions.get(26), app_igrp, null);
+			Menu tempMenuOA = new Menu("OAuth Client Id", 1, 0, 0, "_self", actions.get(26), app_igrp, null);
 			tempMenuOA.setMenu(tempMenuOA);
 			menus.add(tempMenuOA);
 			
