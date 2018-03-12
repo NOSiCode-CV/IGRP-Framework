@@ -1,7 +1,16 @@
 package nosi.core.webapp;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.StringReader;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,6 +18,7 @@ import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import com.google.gson.Gson;
 import nosi.core.config.Config;
+import nosi.core.config.Connection;
 import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.HiddenField;
@@ -37,6 +47,7 @@ import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -595,6 +606,85 @@ public final class Core {	// Not inherit
 				return strings[0];
 		}
 		return "";
-	}	
+	}
 	
+	/** Insert a file to the Igrp core DataBase and return an Id ... **/
+	
+	public static int saveFile(File file, String name, String mime_type) {
+		String igrpCoreConnection = Config.getBaseConnection();
+		java.sql.Connection conn = Connection.getConnection(igrpCoreConnection);
+		int lastInsertedId = 0;
+		if(conn != null) {
+			name = (name == null || name.trim().isEmpty() ? file.getName() : name);
+			FileNameMap fileNameMap = URLConnection.getFileNameMap();
+			mime_type = (mime_type == null || mime_type.trim().isEmpty() ? fileNameMap.getContentTypeFor(file.getPath()) : mime_type);
+			String sysdate = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString();
+			String standardSql = "insert into tbl_clob(c_lob_content, dt_created, mime_type, name) values(?, ?, ?, ?)";
+			try {
+				java.sql.PreparedStatement ps = conn.prepareStatement(standardSql, java.sql.PreparedStatement.RETURN_GENERATED_KEYS);
+				ps.setBinaryStream(1, new FileInputStream(file));
+				ps.setString(2, sysdate);
+				ps.setString(3, mime_type);
+				ps.setString(4, name);
+				if(ps.executeUpdate() > 0) {			
+					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
+				        if (rs.next()) {
+				        	lastInsertedId = rs.getInt(1);
+				        }
+					}
+					ps.close();
+				}
+				conn.commit();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return lastInsertedId;
+	}
+	
+	public static int saveFile(File file) {
+		return saveFile(file, null, null);
+	}
+	
+	public static CLob getFile(int fileId) {
+		CLob cLob = null;
+		java.sql.Connection conn = null;
+		
+		try {
+			String igrpCoreConnection = Config.getBaseConnection();
+			conn = Connection.getConnection(igrpCoreConnection);
+			String sql = "select * from tbl_clob where id = ?";
+			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, fileId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				cLob = new CLob();
+				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
+				cLob.setDt_created(rs.getString("dt_created"));
+				cLob.setName(rs.getString("name"));
+				cLob.setMime_type(rs.getString("mime_type"));
+				cLob.setId(rs.getInt("id"));
+			}
+			rs.close();
+		}catch(java.sql.SQLException e) {
+			e.printStackTrace();
+			cLob = null;
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cLob;
+	}
+	
+	/** **/
 }

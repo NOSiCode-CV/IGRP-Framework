@@ -1,10 +1,12 @@
 package nosi.webapps.igrp.pages.login;
 
 
+import nosi.core.config.Config;
 import nosi.core.ldap.LdapInfo;
 import nosi.core.ldap.LdapPerson;
 import nosi.core.ldap.NosiLdapAPI;
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -12,6 +14,7 @@ import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.UserRole;
+import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.OAuthClient;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;
@@ -20,6 +23,7 @@ import nosi.webapps.igrp.dao.Session;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
 
