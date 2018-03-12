@@ -33,7 +33,7 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	private String name;
 	private String mime_type;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length=10000)
 	@Lob
 	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] c_lob_content;
