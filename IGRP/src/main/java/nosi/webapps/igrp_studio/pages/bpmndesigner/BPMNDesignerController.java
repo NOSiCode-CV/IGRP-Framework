@@ -43,10 +43,11 @@ public class BPMNDesignerController extends Controller {
 			data.add(processo);
 		}
 		view.gen_table.addData(data);
-		view.formkey.setLookup("igrp","LookupListPage","index&p_env_fk="+model.getEnv_fk());
+		view.formkey.setLookup("igrp","LookupListPage","index");
 		view.formkey.addParam("p_prm_target","_blank");
-		view.formkey.addParam("p_formkey", "descricao");
 		view.formkey.addParam("formKey", "nome_pagina");
+		view.formkey.addParam("p_formkey", "nome_pagina");
+		view.formkey.addParam("p_env_fk", model.getEnv_fk());
 		view.id.setParam(true);
 		return this.renderView(view);
 		

@@ -1,6 +1,6 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-system="about:legacy-compat"/>
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
     <xsl:template match="/">
         <html>
             <head>
@@ -24,7 +24,7 @@
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
-                        <img src="{$path}/themes/default/img/studio.logo.svg"/>
+                        <img src="{$path}/themes/default/img/logo.png"/>
                         <span class=""><b>IGRP</b></span>
                     </a>
                     <div id="side-bar-ctrl">
@@ -207,7 +207,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="box box-wr igrp-forms gen-container-item hidden">
+                                                    <div class="box box-wr igrp-forms gen-container-item hiddenItem">
                                                         <xsl:call-template name="box-header">
                                                             <xsl:with-param name="title" select="'Footer'"/>
                                                             <xsl:with-param name="collapsible" select="'true'"/>
@@ -231,9 +231,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="transfome">
-                        <div class="charts"></div>
-                    </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
                 <script type="text/javascript">
@@ -248,35 +245,24 @@
                         wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
                 </script>
                 <!--TABCONTENT JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
                 <!--FORM JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js?v={$version}"/>
-                <!--TABLE JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/igrp/table/jquery.dataTables.min.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/core/igrp/table/dataTables.bootstrap.min.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
                 <!--SELECT JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
                 <!--XML XSL TRANSFORM-->
-                <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js"/>
                 <!--TEXTEDITOR JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js?v={$version}"/>
+                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
                 <script type="text/javascript">
                     CKEDITOR.on( 'instanceCreated', function( event ) {
                         var editor = event.editor,
                             element = editor.element;
                     });
                 </script>
-                <!-- CHART JS INCLUDES -->
-                <script type="text/javascript" src="{$path}/plugins/highcharts/highcharts.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/highcharts-more.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/exporting.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/funnel.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/heatmap.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/treemap.js?v={$version}"/>
-                <script type="text/javascript" src="{$path}/plugins/highcharts/igrp.charts.js?v={$version}"/>
             </body>
         </html>
     </xsl:template>
@@ -288,5 +274,4 @@
     <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1484140276658"/>
     <xsl:include href="../../../core/webreport/xsl/reports.tmpl.xsl?v=1484140276658"/>
     <xsl:include href="../../../core/webreport/xsl/datasorce.tmpl.xsl?v=1484140276658"/>
-    <xsl:include href="../../../xsl/tmpl/IGRP-charts.tmpl.xsl?v=1484140276658"/>
 </xsl:stylesheet>

@@ -7,7 +7,7 @@ package nosi.core.gui.fields;
  * Description: class to configure lookup field
  */
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class LookupField extends TextField {
 
@@ -16,7 +16,7 @@ public class LookupField extends TextField {
 	public LookupField(Object model,String name) {
 		super(model,name);
 		this.propertie.put("type", "lookup");
-		this.params = new HashMap<>();
+		this.params = new LinkedHashMap <>();
 	}
 	
 	@Override
