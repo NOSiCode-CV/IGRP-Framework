@@ -189,7 +189,6 @@ ul .tree-menu-options .btn{
   margin-right: 5px;
 }
 
-
 #igrp-sidebar .nav-sidebar > li > a{
   padding: 10px 15px;
 }
@@ -198,6 +197,7 @@ ul .tree-menu-options .btn{
   display: none;
   position: absolute;
   top: 135px;
+  width: 100%;
 }
 
 .bpm-lookup.forms{
