@@ -31,6 +31,7 @@ public class BPMNDesignerView extends View {
 	public Field link_edit;
 	public Field processos;
 	public Field bpmn;
+	public Field formkey;
 	public IGRPSectionHeader page_title;
 	public IGRPForm form_1;
 	public IGRPTable context_menu;
@@ -135,6 +136,10 @@ public class BPMNDesignerView extends View {
 		btn_exporar_imagem = new IGRPButton(gt("Exportar Imagem"),"igrp_studio","BPMNDesigner","exporar_imagem","_link","warning|fa-picture-o","","");
 		btn_exporar_imagem.propertie.add("type","specific").add("code","").add("rel","exporar_imagem");
 		
+		formkey = new LookupField(model,"formkey");
+		formkey.setLabel(gt("Pagina"));		
+		formkey.propertie().add("name","p_formkey").add("type","lookup").add("action","index").add("page","BPMNDesigner").add("app","igrp_studio").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		
 	}
 		
 	@Override
@@ -142,7 +147,7 @@ public class BPMNDesignerView extends View {
 		
 		page_title.addField(page_title_text);
 
-
+		form_1.addField(formkey);
 		form_1.addField(data);
 		form_1.addField(link_data);
 		form_1.addField(area_name);

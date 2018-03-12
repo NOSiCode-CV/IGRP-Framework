@@ -147,7 +147,16 @@
             return false;
          });
 
-         $('#igrp-contents .js-panel').height($(document).height() - ($('#igrp-top-nav').height()));
+         $('#js-properties-panel').on('click','.bpp-properties-tabs-links li a',function(){
+            $('.bpm-lookup').removeClass('forms');
+            if($(this).attr('data-tab-target') == 'forms'){
+               $('.bpm-lookup').addClass('forms');
+               //formKey
+               
+            }
+         });
+
+         //$('#igrp-contents .js-panel').height($(document).height() - ($('#igrp-top-nav').height()));
       },
       init:function(){
          com = this;

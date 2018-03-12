@@ -6,6 +6,17 @@
 #igrp-sidebar.sidebar{
   padding-top: 15px;
   border-right: 1px solid #ccc;
+  background: #fff;
+}
+
+#igrp-sidebar .nav-sidebar > li > a,
+.treeview-menu>li>a{
+  color: #337ab7;
+}
+
+.treeview-menu>li>a:hover, .treeview-menu>li>a.active{
+  color: #337ab7;
+  font-weight: 500;
 }
 
 #igrp-contents .content>.row:first-child{
@@ -178,6 +189,21 @@ ul .tree-menu-options .btn{
   margin-right: 5px;
 }
 
+
 #igrp-sidebar .nav-sidebar > li > a{
   padding: 10px 15px;
+}
+
+.bpm-lookup{
+  display: none;
+  position: absolute;
+  top: 135px;
+}
+
+.bpm-lookup.forms{
+  display: block;
+}
+
+div[data-entry="form-fields"]{
+  margin-top: 20px;
 }

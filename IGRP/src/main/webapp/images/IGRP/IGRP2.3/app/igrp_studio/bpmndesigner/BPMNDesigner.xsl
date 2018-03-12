@@ -1,8 +1,7 @@
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" omit-xml-declaration="yes"
-		encoding="utf-8" indent="yes" doctype-system="about:legacy-compat" />
-		   <xsl:template match="/">
+    <xsl:output method="html" omit-xml-declaration="yes" encoding="utf-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:template match="/">
         <html>
             <head>
                 <xsl:call-template name="IGRP-head"/>
@@ -29,7 +28,7 @@
                 <!--<xsl:call-template name="IGRP-topmenu"/>-->
                 <nav id="igrp-top-nav" class="navbar navbar-fixed-top" bg-color="1">
                     <a class="navbar-brand col-sm-4 col-md-3" href="{rows/link}" >
-                        <img src="{$path}/themes/default/img/studio.logo.svg"/>
+                        <img src="{$path}/themes/default/img/logo.png"/>
                         <span class=""><b>IGRP</b> <small></small></span>
                     </a>
                     <div id="side-bar-ctrl">
@@ -98,6 +97,12 @@
                                 </xsl:if>
                             </div>
                             <div class="col-sm-8 col-md-9 col-md-offset-3 col-sm-offset-4 main" id="igrp-contents">
+                                <xsl:if test="count(rows/content/messages/message[@type != 'debug' and @type != 'confirm']) &gt;0">
+                                  <xsl:apply-templates mode="igrp-messages" select="rows/content/messages"/>
+                                </xsl:if>
+                                <div class="row hidden">
+                                  <xsl:apply-templates mode="form-hidden-fields" select="rows/content/form_1/fields"/>
+                                </div>
                                 <div  class="col-md-9">
                                     <div class="content js-panel" id="js-drop-zone">
                                         <div id="js-canvas"></div>
@@ -293,7 +298,41 @@
                                     <div class="clear"></div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="js-panel" id="js-properties-panel"></div>
+                                    <div class="js-panel" id="js-properties-panel">
+                                      
+                                    <xsl:if test="rows/content/form_1/fields/formkey">
+                                      <div class="bpm-lookup">
+                                        <!--<div class="bpp-properties-entry bpp-textfield" data-entry="id">
+                                          <label for="bpm-lookup">Form Key</label>
+                                          <div class="bpp-field-wrapper">
+                                            <input id="bpm-lookup" type="text" name="formKeyText"/>
+                                              <button class="lookup" data-action="lookup" data-show="canLookup">
+                                                <span><i class="fa fa-search"></i></span>
+                                              </button>
+                                            </div>
+                                          </div>-->
+
+                                        <div class="form-group col-sm-12  gen-fields-holder" item-name="formkey" item-type="lookup">
+                                          <div class="input-group">
+                                            <input type="text" value="{rows/content/form_1/fields/formkey/value}" class="form-control gen-lookup " id="form_1_formkey" name="{rows/content/form_1/fields/formkey/@name}" maxlength="30">
+                                              <xsl:call-template name="setAttributes">
+                                                <xsl:with-param name="field" select="rows/content/form_1/fields/formkey"/>
+                                              </xsl:call-template>
+                                            </input>
+                                            <xsl:call-template name="lookup-tool">
+                                              <xsl:with-param name="page" select="rows/page"/>
+                                              <xsl:with-param name="ad_hoc" select="'1'"/>
+                                              <xsl:with-param name="action" select="'LOOKUP'"/>
+                                              <xsl:with-param name="name" select="rows/content/form_1/fields/formkey/@name"/>
+                                              <xsl:with-param name="js_lookup" select="rows/content/form_1/fields/formkey/lookup"/>
+                                              <xsl:with-param name="input-id" select="'form_1_formkey'"/>
+                                              <xsl:with-param name="btnClass" select="'primary'"/>
+                                            </xsl:call-template>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </xsl:if>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -301,6 +340,8 @@
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
                 <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <!-- LOOKUP JS INCLUDES -->
+                <script type="text/javascript" src="{$path}/plugins/lookup/igrp.lookup.js?v={$version}"/>
                 <!-- XML XSL TRANSFORM JS INCLUDES -->
                 <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js"/>
                 <!-- TABCONTENT JS INCLUDES -->
@@ -315,7 +356,7 @@
                   var vUrlLinkSave = '<xsl:value-of select="//rows/content/form_1/fields/link_save/value"/>';
                   var loaddata     = '<xsl:value-of select="//rows/content/form_1/fields/data/value"/>';
                 </script>
-                <script type="text/javascript" src="{$path}/core/bpmnjs/app/xml2do.js"></script>  
+                <script type="text/javascript" src="{$path}/core/bpmnjs/app/xml2do.js"></script>
                 <script type="text/javascript" src="{$path}/core/bpmnjs/app/bpmn.js"></script>
             </body>
         </html>
@@ -326,5 +367,5 @@
     <xsl:include href="../../../xsl/tmpl/IGRP-utils.tmpl.xsl?v=1482941622041"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-form-utils.tmpl.xsl?v=1482941622041"/>
     <xsl:include href="../../../xsl/tmpl/IGRP-table-utils.tmpl.xsl?v=1482941622041"/>
-    <xsl:include href="../../../core/bpmnjs/xsl/bpmn-tree-menu.tmpl.xsl?v=1482941622041"/>  
+    <xsl:include href="../../../core/bpmnjs/xsl/bpmn-tree-menu.tmpl.xsl?v=1482941622041"/>
 </xsl:stylesheet>

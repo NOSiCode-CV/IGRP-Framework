@@ -21,9 +21,7 @@ public class LookupListPageController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		LookupListPage model = new LookupListPage();
 		ArrayList<LookupListPage.Table_1> lista = new ArrayList<>();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();		
-		}
+		model.load();
 		List<Action> listActions = new Action().find()
 											   .andWhere("application", "=",model.getEnv_fk()!=0? model.getEnv_fk():null)
 											   .andWhere("page", "like", model.getPage())
