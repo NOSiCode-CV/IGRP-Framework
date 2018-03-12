@@ -12,6 +12,7 @@ import nosi.webapps.igrp.dao.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
@@ -63,6 +64,21 @@ public class TransacaoOrganicaController extends Controller {
 		/*----#END-PRESERVED-AREA----*/
 	}
 
+
+	public Response actionGestao_de_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GESTAO_DE_TRANSACAO)----*/
+		TransacaoOrganica model = new TransacaoOrganica();
+		model.load();
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+			 return this.forward("igrp","Transaccao","index");
+		}
+		return this.redirect("igrp","Transaccao","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/

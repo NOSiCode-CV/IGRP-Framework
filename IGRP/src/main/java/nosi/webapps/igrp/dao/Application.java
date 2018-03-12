@@ -279,13 +279,14 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 						.all();
 		}
 		if(!list.isEmpty()){	
-			if(allInative)
+			if(allInative) {
 			list.stream().peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
-		}else {
+			}else {
 			list.stream().filter(profile->profile.getOrganization().getApplication().getStatus()==1)
 			.peek(e->listApp.add(e.getProfileType().getApplication()))
 			.collect(Collectors.toList());
+			}
 		}
 		return listApp;
 	}
