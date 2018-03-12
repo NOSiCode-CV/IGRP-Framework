@@ -97,11 +97,11 @@ public class WebReportController extends Controller {
 				RepTemplate rt = new RepTemplate();
 				//Save report if not exist
 				if(title!=null && code!=null && (id==null || id.equals(""))){
-					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl));
-					clob_xsl.setDt_created(new Date(System.currentTimeMillis()));
+					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
+					clob_xsl.setDt_created(new Date(System.currentTimeMillis()).toString());
 					clob_xsl = clob_xsl.insert();
-					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt));
-					clob_html.setDt_created(new Date(System.currentTimeMillis()));
+					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt).getBytes());
+					clob_html.setDt_created(new Date(System.currentTimeMillis()).toString());
 					clob_html = clob_html.insert();
 					rt.setCode(code);
 					rt.setName(title);
@@ -124,8 +124,8 @@ public class WebReportController extends Controller {
 					rt = rt.findOne((int)Float.parseFloat(id));
 					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
 					clob_html = clob_html.findOne(rt.getXml_content().getId());				
-					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl));
-					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt));
+					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
+					clob_html.setC_lob_content(FileHelper.convertToString(fileTxt).getBytes());
 					clob_xsl.update();
 					clob_html.update();
 					rt.update();
@@ -185,7 +185,7 @@ public class WebReportController extends Controller {
 		RepInstance ri = new RepInstance().find().andWhere("contra_prova", "=",contraprova).one();
 		String content = "";
 		if(ri!=null){
-			content = ri.getXml_content().getC_lob_content();
+			content = new String(ri.getXml_content().getC_lob_content());
 			return this.renderView(content);
 		}
 		return this.redirect("igrp", "ErrorPage", "exception");
@@ -218,7 +218,7 @@ public class WebReportController extends Controller {
 		if(id!=null && !id.equals("")){
 			CLob c = new CLob();
 			c = c.findOne((int)Float.parseFloat(id));
-			xsl = c.getC_lob_content();
+			xsl = new String(c.getC_lob_content());
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(xsl);
 		}
@@ -340,11 +340,11 @@ public class WebReportController extends Controller {
 			ri.setReference(contra_prova);
 			ri.setTemplate(rt);
 			ri.setUser(user);
-			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created());
+			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created().toString());
 			xsl = xsl.insert();
 			if(xsl!=null){
 				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&dad=igrp&p_id="+xsl.getId(), contra_prova, rt,user);
-				CLob xml = new CLob("", "application/xml", content, ri.getDt_created());
+				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created().toString());
 				xml = xml.insert();
 				ri.setXml_content(xml);
 				ri.setXsl_content(xsl);

@@ -47,6 +47,7 @@ import nosi.core.webapp.webservices.biztalk.message.GenericServiceRequest;
 import nosi.core.webapp.webservices.biztalk.message.GenericServiceResponse;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.CLob;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.Transaction;
@@ -625,10 +626,7 @@ public final class Core {	// Not inherit
 				ps.setString(2, sysdate);
 				ps.setString(3, mime_type);
 				ps.setString(4, name);
-				
-				int affectedRows = ps.executeUpdate();
-				
-				if(affectedRows > 0) {			
+				if(ps.executeUpdate() > 0) {			
 					try (java.sql.ResultSet rs = ps.getGeneratedKeys()) {
 				        if (rs.next()) {
 				        	lastInsertedId = rs.getInt(1);
@@ -636,6 +634,7 @@ public final class Core {	// Not inherit
 					}
 					ps.close();
 				}
+				conn.commit();
 			}catch(Exception e) {
 				e.printStackTrace();
 			}finally {
@@ -649,12 +648,43 @@ public final class Core {	// Not inherit
 		return lastInsertedId;
 	}
 	
-	/*public static void main(String[] args) {
-		String str = LocalDate.now().toString();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate dateTime = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		System.out.println(dateTime.toString());
-	}*/
+	public static int saveFile(File file) {
+		return saveFile(file, null, null);
+	}
+	
+	public static CLob getFile(int fileId) {
+		CLob cLob = null;
+		java.sql.Connection conn = null;
+		
+		try {
+			String igrpCoreConnection = Config.getBaseConnection();
+			conn = Connection.getConnection(igrpCoreConnection);
+			String sql = "select * from tbl_clob where id = ?";
+			java.sql.PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, fileId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				cLob = new CLob();
+				cLob.setC_lob_content(rs.getBytes("c_lob_content"));
+				cLob.setDt_created(rs.getString("dt_created"));
+				cLob.setName(rs.getString("name"));
+				cLob.setMime_type(rs.getString("mime_type"));
+				cLob.setId(rs.getInt("id"));
+			}
+			rs.close();
+		}catch(java.sql.SQLException e) {
+			e.printStackTrace();
+			cLob = null;
+		}finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cLob;
+	}
 	
 	/** **/
 }
