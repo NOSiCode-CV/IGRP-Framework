@@ -33,7 +33,7 @@ public class XMLTransform implements IHeaderConfig{
 	public String genXML(String xmlContent,Action page,Column primaryKey,String typeContent) {
 		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
 		xml.addXml(new Config().getHeader(this,page));
-		if(page.getCrud()!=null){
+		if(page.getCrud()!=null && primaryKey!=null){
 			xml.setElement("crud_page_list", primaryKey.getName());//using to get select crud page
 		}
 		xml.startElement("content");

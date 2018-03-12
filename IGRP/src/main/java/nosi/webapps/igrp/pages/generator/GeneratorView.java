@@ -79,7 +79,9 @@ public class GeneratorView extends View{
 		link_desc.propertie().put("type", "field_copy");
 		tipo = new TextField(model,"tipo");
 		package_ = new TextField(model, "package_");
+		package_.propertie().add("maxlength", 200);
 		page = new TextField(model,"page");
+		page.propertie().add("maxlength", 200);
 		btn_gravar = new IGRPButton(gt("Gravar"), "igrp", "page", "saveGenPage", "submit", "save.png", "","");
 		btn_publicar = new IGRPButton(gt("Publicar"), "igrp", "page", "publishGenPage", "submit", "save.png", "","");
 		btn_pesquisar = new IGRPButton(gt("Pesquisar"), "igrp", "form", "1", "_self", "search.png","","");
