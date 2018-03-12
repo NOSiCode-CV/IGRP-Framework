@@ -106,7 +106,9 @@ public class ListaPageController extends Controller {
 		view.table_1.addData(lista);
 		view.myapps_list.addData(apps);
 		view.btn_eliminar.setVisible(false);
-
+		view.infopanel_1_url.setValue(this.getConfig().getResolveUrl("igrp_studio","WebReport","index"));
+		view.infopanel_2_url.setValue(this.getConfig().getResolveUrl("igrp_studio","BPMNDesigner","index"));
+		view.infopanel_3_url.setValue(this.getConfig().getResolveUrl("igrp_studio","ListaEnv","index"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

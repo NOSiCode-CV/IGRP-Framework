@@ -40,37 +40,38 @@ $(function ($) {
 						url = $.IGRP.utils.getUrl(url)+'p_template_id='+$.WR.id;
 
 					$.ajax({
-						url   : url,
-						error : function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
+						url : url
+					})
+					.fail(function(e){
+						$.IGRP.notify({
+							message : 'Not Found',
+							type	: 'danger'
+						});
+					})
+					.success(function(data){
+						if(data){
+							var url 	= $(data).find('fields link_add_source value').text(),
+								loading = $('<div/>').addClass('loading loader'),
+								tab 	= $('#tab-tabcontent_1-data_source');
+
+							loading.appendTo(tab);
+
+							$('#wr-list-datasource').XMLTransform({
+								xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
+								xml : $(data).getXMLDocument(),
+								complete : function(c){
+									//if($.WR.id)
+										$('.wr-editdatasource').addClass('active');
+
+									$(loading,tab).remove();
+								},
+								error 	 : function(c){
+									$(loading,tab).remove();
+								}
 							});
-						},
-						success : function(data){
-							if(data){
-								var url 	= $(data).find('fields link_add_source value').text(),
-									loading = $('<div/>').addClass('loading loader'),
-									tab 	= $('#tab-tabcontent_1-data_source');
-
-								loading.appendTo(tab);
-
-								$('#wr-list-datasource').XMLTransform({
-									xsl : path+'/core/webreport/xsl/datasorce.tmpl.xsl',
-									xml : $(data).getXMLDocument(),
-									complete : function(c){
-										//if($.WR.id)
-											$('.wr-editdatasource').addClass('active');
-
-										$(loading,tab).remove();
-									},
-									error 	 : function(c){
-										$(loading,tab).remove();
-									}
-								});
-							}
 						}
 					});
+					
 				});
 			},
 			setVal : function(data,selected){
@@ -118,14 +119,13 @@ $(function ($) {
 				            	var modal = $($.IGRP.components.iframeNav.modal);
 				            	$('.iframe-nav-close',modal).click(function(){
 				            		$.ajax({
-										url  	: $.WR.pageUrl,
-										data 	: $.WR.objApp.serializeArray(),
-										type 	: 'POST',
-										success : function(data){
-											if(data){
-												var datasorceXml = $(data).find('fields datasorce_app list');
-												$.WR.fieldDataSource.setVal(datasorceXml,$.WR.dataSource);
-											}
+										url  : $.WR.pageUrl,
+										data : $.WR.objApp.serializeArray(),
+										type : 'POST'
+									}).success(function(data){
+										if(data){
+											var datasorceXml = $(data).find('fields datasorce_app list');
+											$.WR.fieldDataSource.setVal(datasorceXml,$.WR.dataSource);
 										}
 									});
 				            	});
@@ -205,49 +205,49 @@ $(function ($) {
 						$('#form_1_env_fk').next('.select2:first').removeClass('error');
 					
 						$.ajax({
-							url   : $.WR.pageUrl,
-							data  : $.WR.objApp.serializeArray(),
-							type  : 'POST',
-							error : function(e){
-								$.IGRP.notify({
-									message : 'Not Found',
-									type	: 'danger'
+							url  : $.WR.pageUrl,
+							data : $.WR.objApp.serializeArray(),
+							type : 'POST'
+						})
+						.fail(function(e){
+							$.IGRP.notify({
+								message : 'Not Found',
+								type	: 'danger'
+							});
+						})
+						.success(function(data){
+							if(data){
+								var datasorceXml = $(data).find('fields datasorce_app list'),
+									url 		 = $(data).find('fields link_add_source value').text(),
+									loading 	 = $('<div/>').addClass('loading loader'),
+									tab 		 = $('#tab-tabcontent_1-reports');
+
+								loading.appendTo(tab);
+
+								$('#wr-list-document').XMLTransform({
+									xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
+									xml 	 : $(data).getXMLDocument(),
+									complete : function(c){
+										$(loading,tab).remove();
+										$.WR.document.info.show();
+									},
+									error 	 : function(c){
+										$(loading,tab).remove();
+									}
 								});
-							},
-							success : function(data){
-								if(data){
-									var datasorceXml = $(data).find('fields datasorce_app list'),
-										url 		 = $(data).find('fields link_add_source value').text(),
-										loading 	 = $('<div/>').addClass('loading loader'),
-										tab 		 = $('#tab-tabcontent_1-reports');
 
-									loading.appendTo(tab);
+								if(url && url != undefined){
+									$('.wr-op-datasource .btn').attr('href',url);
+									$('.wr-newdatasource').addClass('active');
+								}
 
-									$('#wr-list-document').XMLTransform({
-										xsl 	 : path+'/core/webreport/xsl/reports.tmpl.xsl',
-										xml 	 : $(data).getXMLDocument(),
-										complete : function(c){
-											$(loading,tab).remove();
-											$.WR.document.info.show();
-										},
-										error 	 : function(c){
-											$(loading,tab).remove();
-										}
-									});
+								$.WR.fieldDataSource.setVal(datasorceXml);
 
-									if(url && url != undefined){
-										$('.wr-op-datasource .btn').attr('href',url);
-										$('.wr-newdatasource').addClass('active');
-									}
-
-									$.WR.fieldDataSource.setVal(datasorceXml);
-
-									if(!$.WR.newDocument){
-										$.WR.editor.set.data({});
-										$.WR.document.customfooter.isActive(false);
-									}
-								}	
-							}
+								if(!$.WR.newDocument){
+									$.WR.editor.set.data({});
+									$.WR.document.customfooter.isActive(false);
+								}
+							}	
 						});
 					}else{
 						$('#wr-list-document').html('');
@@ -419,33 +419,33 @@ $(function ($) {
 
 				if($.WR.id && $.WR.title){// if edit
 					$.ajax({
-						url   : p.url,
-						data  : p.data,
-						type  : 'POST',
-						error : function(e){
-							$.IGRP.notify({
-								message : 'Not Found',
-								type	: 'danger'
-							});
-						},
-						success : function(e,s,r){
-							var xml 	= $(e).find('messages message'),
-								type 	= xml.attr('type') || 'danger',
-								message = xml.text() || 'Erro';
+						url  : p.url,
+						data : p.data,
+						type : 'POST'
+					})
+					.fail(function(e){
+						$.IGRP.notify({
+							message : 'Not Found',
+							type	: 'danger'
+						});
+					})
+					.success(function(e,s,r){
+						var xml 	= $(e).find('messages message'),
+							type 	= xml.attr('type') || 'danger',
+							message = xml.text() || 'Erro';
 
-							type = type == 'error' ? 'danger' : type;
+						type = type == 'error' ? 'danger' : type;
 
-							$.IGRP.notify({
-								message : $.IGRP.utils.htmlDecode(message),
-								type	: type
-							});
+						$.IGRP.notify({
+							message : $.IGRP.utils.htmlDecode(message),
+							type	: type
+						});
 
-							if(type == 'success'){
-								var obj = $('#list-reports li#'+$.WR.id);
-								obj.attr('code',$.WR.code);
-								$('span',obj).html($.WR.title);
-								$('#igrp-app-title').html($.WR.title);
-							}
+						if(type == 'success'){
+							var obj = $('#list-reports li#'+$.WR.id);
+							obj.attr('code',$.WR.code);
+							$('span',obj).html($.WR.title);
+							$('#igrp-app-title').html($.WR.title);
 						}
 					});
 				}
@@ -484,43 +484,42 @@ $(function ($) {
 				});
 			},
 			onLoad : function(url){
-				
 				$.ajax({
-					url   : url,
-					error : function(e){
-						$.IGRP.notify({
-							message : 'Not Found',
-							type	: 'danger'
-						});
-					},
-					success : function(data){
-						if(data){
-							$('#list-reports li').removeClass('active');
-							$(this).addClass('active');
+					url : url
+				})
+				.fail(function(e){
+					$.IGRP.notify({
+						message : 'Not Found',
+						type	: 'danger'
+					});
+				})
+				.success(function(data){
+					if(data){
+						$('#list-reports li').removeClass('active');
+						$(this).addClass('active');
 
-							$('#igrp-app-title').html($.WR.reportTitle);
+						$('#igrp-app-title').html($.WR.reportTitle);
 
-							//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
+						//data = $.parseJSON(data.responseText.replace(/\s+/g," "));
 
-							$.WR.document.convert2Do(data.textreport);
+						$.WR.document.convert2Do(data.textreport);
 
-							if($.WR.objDataSource[0]){
+						if($.WR.objDataSource[0]){
+							
+							if(data.datasorce_app){
 								
-								if(data.datasorce_app){
-									
-									$.WR.datasorce = data.datasorce_app.split(',');
-									$.WR.objDataSource.find("option").removeAttr("selected");
+								$.WR.datasorce = data.datasorce_app.split(',');
+								$.WR.objDataSource.find("option").removeAttr("selected");
 
-									$.WR.objDataSource.find("option").each(function(i,e){
-										if($.inArray($(e).val(),$.WR.datasorce) != -1)
-											$(e).attr("selected","selected").prop('selected',true);
-									});
+								$.WR.objDataSource.find("option").each(function(i,e){
+									if($.inArray($(e).val(),$.WR.datasorce) != -1)
+										$(e).attr("selected","selected").prop('selected',true);
+								});
 
-								}else
-									$.WR.objDataSource.find("option").removeAttr("selected");
+							}else
+								$.WR.objDataSource.find("option").removeAttr("selected");
 
-								$.WR.objDataSource.trigger('change');
-							}
+							$.WR.objDataSource.trigger('change');
 						}
 					}
 				});
@@ -776,20 +775,19 @@ $(function ($) {
 					content   = '',
 					printsize = 'A4';
 
-				if(p){
-					if (!p.content) {
-						content = {};
+				
+				if (!p.content) {
+					content = {};
 
-						var report = $(p.content);
+					var report = $(p.content);
 
-						content.head   = report.find('#header').html();
-						content.body   = report.find('#content').html();
-						content.footer = report.find('#footer').html();
-					}else{
-						isActive  = p.config.customfooter;
-						content   = p.content;
-						printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
-					}
+					content.head   = report.find('#header').html();
+					content.body   = report.find('#content').html();
+					content.footer = report.find('#footer').html();
+				}else{
+					isActive  = p.config.customfooter;
+					content   = p.content;
+					printsize = p.config.printsize  && p.config.printsize != undefined ? p.config.printsize : printsize;
 				}
 
 				$.WR.fieldPrintSize.setVal(printsize);
@@ -992,40 +990,40 @@ $(function ($) {
 				chart	: function(p){
 					var transCharts = $('#transfome');
 					$.ajax({
-						url     : $.IGRP.utils.getPageUrl(),
-						success : function(data){
+						url:$.IGRP.utils.getPageUrl()
+
+					}).done(function(data){
 						
-							$('.charts',transCharts).XMLTransform({
-								xsl 		: path+'/xsl/tmpl/IGRP-charts.tmpl.xsl',
-								xml 		: $(data).find('rows content '+p.tag).getXMLDocument(),
-								xslParams 	: {pheight:250},
-								complete 	: function(e,c){
-									$.WR.hasCarts 		= true;
-									var chart 			= $('div[chart-id="id-'+p.tag+'"]'),
-										renderCharts 	= $.IGRP.components.charts.renderCharts({
-											chart : chart
-										});
-
-									if(p.type != 'tablecharts'){
-										$('g.highcharts-button',chart).remove();
-						                $('.highcharts-credits',chart).remove();
-
-										setTimeout(function(){
-											//contenteditable="false"
-						                	var html = '<span  key="'+p.iskey+'" type="'+p.type+'" tag="'+p.tag+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">'+renderCharts.getSVG()+'</span>';
-						                	$.WR.editor.set.html(html);
-						                	
-							            },1000);
-						            }
-								},
-								error		: function(c){
-									$.IGRP.notify({
-										message : 'Error Transforming Component',
-										type    : 'warning'
+						$('.charts',transCharts).XMLTransform({
+							xsl 		: path+'/xsl/tmpl/IGRP-charts.tmpl.xsl',
+							xml 		: $(data).find('rows content '+p.tag).getXMLDocument(),
+							xslParams 	: {pheight:250},
+							complete 	: function(e,c){
+								$.WR.hasCarts 		= true;
+								var chart 			= $('div[chart-id="id-'+p.tag+'"]'),
+									renderCharts 	= $.IGRP.components.charts.renderCharts({
+										chart : chart
 									});
-								}
-							});
-						}
+
+								if(p.type != 'tablecharts'){
+									$('g.highcharts-button',chart).remove();
+					                $('.highcharts-credits',chart).remove();
+
+									setTimeout(function(){
+										//contenteditable="false"
+					                	var html = '<span  key="'+p.iskey+'" type="'+p.type+'" tag="'+p.tag+'" no="'+p.parentTag+'" pos="'+p.parentPos+'">'+renderCharts.getSVG()+'</span>';
+					                	$.WR.editor.set.html(html);
+					                	
+						            },1000);
+					            }
+							},
+							error		: function(c){
+								$.IGRP.notify({
+									message : 'Error Transforming Component',
+									type    : 'warning'
+								});
+							}
+						});
 					});
 
 					return null;
@@ -1443,24 +1441,18 @@ $(function ($) {
 							element.label 		= '<b>['+target.getText()+']</b>';
 							element.type		= $target.attr('notype') ? $target.attr('notype') : $target.attr('type');
 							element.parentTag 	= $target.attr('tag');
-							element.parentType 	= $target.attr('parentType') || 'form';
+							element.parentType 	= $target.attr('parentType');
 							element.parentPos 	= $target.attr('parentPos');
 							element.iskey 		= $target.find('.btn input[name="p_'+element.tag+'"]').is(':checked');
 
-							element.type = element.type.replace(/xs:/g, "");
-
 							if(element.parentType == 'table'){
 								element.list = [];
-								if(element.type == 'node'){
-									var obj  	= $('ul[tag="'+element.parentTag+'"]')[0] ? $('ul[tag="'+element.parentTag+'"]') : $('ul[tag="'+element.tag+'"]'),
-										seletor = $target.find('input[name="p_'+element.parentTag+'"]',obj).is(':checked') ? $('li input[name="p_'+element.parentTag+'"]:checked',obj) : $('li input[name="p_'+element.parentTag+'"]',obj);
-									
-									seletor.each(function(i,e){
-										var item 	= {},
-											parents = $(e).parents('li:first');
 
-										item.tag 	= parents.attr('rel');
-										item.label 	= parents.attr('label');
+								if(element.type == 'node'){
+									$('ul[tag="'+element.tag+'"] li').each(function(i,e){
+										var item 	= {};
+										item.tag 	= $(e).attr('rel');
+										item.label 	= $(e).attr('label');
 
 										element.list.push(item);
 									});

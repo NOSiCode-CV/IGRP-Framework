@@ -68,7 +68,7 @@ public class DataSourceController extends Controller {
 			
 			view.tipo.setValue(tipo);
 			
-			view.pagina.setLookup("r=igrp/LookupListPage/index&dad=igrp");
+			view.pagina.setLookup("igrp","LookupListPage","index");
 			view.pagina.addParam("p_prm_target","_blank");
 			view.pagina.addParam("p_id_pagina", "p_id");
 			view.pagina.addParam("p_pagina", "descricao");
@@ -101,58 +101,56 @@ public class DataSourceController extends Controller {
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/		
 		DataSource model = new DataSource();
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			model.load();
-			RepSource rep = new RepSource();
-			rep.setName(model.getNome());
-			rep.setType(model.getTipo());
-			rep.setType_name(model.getTipo());
-			rep.setType_query(model.getQuery());
+		model.load();
+		RepSource rep = new RepSource();
+		rep.setName(model.getNome());
+		rep.setType(model.getTipo());
+		rep.setType_name(model.getTipo());
+		rep.setType_query(model.getQuery());
+		
+		if(Core.isNotNull(model.getP_id_env()) && Core.isNotNull(model.getData_source())){
+			rep.setConfig_env(new Config_env().findOne(Integer.parseInt(model.getData_source())));
+			if(model.getTipo().equalsIgnoreCase("object")){
+				rep.setType_query(model.getObjecto());
+			}
+			if(model.getTipo().equalsIgnoreCase("page")){				
+				rep.setType_fk(Integer.parseInt(model.getP_id_pagina()));
+			}
+			if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
+				String query = rep.getType_query();
+				query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
+				if(!Query.validateQuery(rep.getConfig_env(),query)){
+					Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
+					return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
+				}
+			}
 			
-			if(Core.isNotNull(model.getP_id_env()) && Core.isNotNull(model.getData_source())){
-				rep.setConfig_env(new Config_env().findOne(Integer.parseInt(model.getData_source())));
-				if(model.getTipo().equalsIgnoreCase("object")){
-					rep.setType_query(model.getObjecto());
-				}
-				if(model.getTipo().equalsIgnoreCase("page")){				
-					rep.setType_fk(Integer.parseInt(model.getP_id_pagina()));
-				}
-				if(model.getTipo().equalsIgnoreCase("object") || model.getTipo().equalsIgnoreCase("query")){
-					String query = rep.getType_query();
-					query = rep.getType().equalsIgnoreCase("object")?"SELECT * FROM "+query:query;
-					if(!Query.validateQuery(rep.getConfig_env(),query)){
-						Igrp.getInstance().getFlashMessage().addMessage("error","Query Invalido");
-						return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
-					}
-				}
-				
-				Application app = new Application().findOne(Integer.parseInt(model.getP_id_env()));
-				rep.setApplication(app);
-				rep.setStatus(1);
-				rep.setApplication_source(app);
-				Date dt = new Date(System.currentTimeMillis());
-				rep.setDt_created(dt);
-				rep.setDt_updated(dt);
-				User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
-				rep.setUser_created(user);
-				rep.setUser_updated(user);
-				String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
-				if(Core.isNotNull(id)){
-					rep.setId(Integer.parseInt(id));
-					rep = rep.update();
-				}else{
-					rep = rep.insert();
-				}
+			Application app = new Application().findOne(Integer.parseInt(model.getP_id_env()));
+			rep.setApplication(app);
+			rep.setStatus(1);
+			rep.setApplication_source(app);
+			Date dt = new Date(System.currentTimeMillis());
+			rep.setDt_created(dt);
+			rep.setDt_updated(dt);
+			User user = new User().findOne(Igrp.getInstance().getUser().getIdentity().getIdentityId());
+			rep.setUser_created(user);
+			rep.setUser_updated(user);
+			String id = Igrp.getInstance().getRequest().getParameter("p_datasorce_app");
+			if(Core.isNotNull(id)){
+				rep.setId(Integer.parseInt(id));
+				rep = rep.update();
 			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Operação falhada"));
-				return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
+				rep = rep.insert();
 			}
-			if(rep!=null){
-				Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
-			}else{
-				Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));	
-				return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());			
-			}
+		}else{
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Operação falhada"));
+			return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());
+		}
+		if(rep!=null){
+			Igrp.getInstance().getFlashMessage().addMessage("success",gt("Operação efetuada com sucesso"));
+		}else{
+			Igrp.getInstance().getFlashMessage().addMessage("error",gt("Falha ao tentar efetuar esta operação"));	
+			return this.forward("igrp","DataSource","index&id_env="+model.getP_id_env());			
 		}
 		return this.redirect("igrp","DataSource","index&id_env="+model.getP_id_env());
 		/*----#END-PRESERVED-AREA----*/

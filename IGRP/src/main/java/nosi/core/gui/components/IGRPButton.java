@@ -5,6 +5,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 
 import static nosi.core.i18n.Translator.gt;
@@ -110,6 +111,8 @@ public class IGRPButton {
 		if (Igrp.getInstance().getRequest().getParameter("target") != null) {
 			target_ += "&target=" + Igrp.getInstance().getRequest().getParameter("target");
 		}
+		target_ += Route.getQueryString(link);//Get Query String
+		link = Route.resolveAction(link);
 		return !isGenReverse() ? EncrypDecrypt.encrypt(app + "/" + page + "/" + link)+target_ : EncrypDecrypt.encrypt(link)+target_;
 	}
 

@@ -20,7 +20,7 @@ public interface Field {
 	public void setLabel(String label);
 	public String getLabel();
 	public FieldProperties propertie();
-	public void setLookup(String lookup);
+	public void setLookup(String app,String page,String action);
 	public String getLookup();
 	public void setVisible(boolean isVisible);
 	public boolean isVisible();

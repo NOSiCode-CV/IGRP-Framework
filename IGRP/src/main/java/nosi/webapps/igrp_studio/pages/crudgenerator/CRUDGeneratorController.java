@@ -68,7 +68,7 @@ public class CRUDGeneratorController extends Controller {
 			}
 		}
 		view.table_1.addData(data);
-//		Config.LINK_HOME ="webapps?r=igrp_studio/ListaPage/index";
+		view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}

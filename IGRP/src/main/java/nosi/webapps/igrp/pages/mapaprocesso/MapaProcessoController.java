@@ -49,7 +49,7 @@ public class MapaProcessoController extends Controller{
 		IGRPMenu.Menu menu = new IGRPMenu.Menu(gt("Processos Ativos"));
 		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
 		for(ProcessDefinitionService process:new ProcessDefinitionService().getProcessDefinitionsAtivos(app.getId())){
-			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), "webapps?r=igrp/MapaProcesso/openProcess&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
+			IGRPMenu.SubMenu submenu = new IGRPMenu.SubMenu(process.getName(), this.getConfig().getResolveUrl("igrp","MapaProcesso","openProcess")+"&p_processId="+process.getId(), process.getId(),process.getSuspended(), "LEFT_MENU");
 			menu.addSubMenu(submenu);
 		}
 		menus.addMenu(menu);
