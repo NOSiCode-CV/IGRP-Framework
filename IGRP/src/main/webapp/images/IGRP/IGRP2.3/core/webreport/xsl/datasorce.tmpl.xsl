@@ -79,7 +79,7 @@
                               <xsl:value-of select="'separator'"/>
                             </xsl:attribute>
                           </xsl:if>
-                          <xsl:if test="$no != 'table' and $no != 'form'">
+                          <xsl:if test="($no != 'table' and $no != 'form') or ($no = 'table' and $vnoType = 'table')">
                             <xsl:attribute name="label">
                               <xsl:value-of select="$vlabel"/>
                             </xsl:attribute>

@@ -2,10 +2,7 @@
     box-sizing: border-box;
 }
 body, html {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-    color: #444;
-    height: 100%;
+    height: 100vh;
     padding: 0;
     margin: 0;
     background: #fff;
@@ -747,7 +744,7 @@ textarea.error-log:hover {
 }
 
 #igrp-contents #js-properties-panel{
-    height:100%;
+    height:100vh !important;
 }
 
 #js-properties-panel:empty {
@@ -761,6 +758,6 @@ textarea.error-log:hover {
 #igrp-contents #js-drop-zone{
     width: 100%;
     position: absolute;
-    height: 100%;
+    height: 100vh !important;
     display: table;
 }

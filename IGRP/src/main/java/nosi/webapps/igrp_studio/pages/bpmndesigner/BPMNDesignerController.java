@@ -47,7 +47,6 @@ public class BPMNDesignerController extends Controller {
 		view.formkey.addParam("p_prm_target","_blank");
 		view.formkey.addParam("formKey", "nome_pagina");
 		view.formkey.addParam("p_formkey", "nome_pagina");
-		view.formkey.addParam("p_env_fk", model.getEnv_fk());
 		view.id.setParam(true);
 		return this.renderView(view);
 		
@@ -69,7 +68,7 @@ public class BPMNDesignerController extends Controller {
 		}else {
 			return this.renderView("<messages><message type=\"error\">Selecione a aplicação</message></messages>");
 		}
-		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"") + "</message></messages>");
+		return this.renderView("<messages><message type=\"error\">" + StringEscapeUtils.escapeXml10(deploy.hashError()?deploy.getError().getException():"Ocorreu um erro ao tentar salvar o processo") + "</message></messages>");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

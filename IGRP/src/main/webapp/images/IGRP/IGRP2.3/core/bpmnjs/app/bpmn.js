@@ -7,6 +7,9 @@
    bpmn.app  = $('#form_1_env_fk').val();
    bpmn.new  = path+'/core/bpmnjs/resources/initial.bpmn';
 
+   var bpmLookup = $('[input-rel="form_1_formkey"]'),
+      lookupHref = bpmLookup.attr('href');
+
    $.IGRP.component('bpmn',{
       importXML : function(l){
          $.get(l, function(xml){
@@ -83,12 +86,14 @@
       appChange : function(){
          $("#form_1_env_fk").on("change",function(){
             bpmn.app = $(this).val();
+            var name = $(this).attr('name'),
+               param = name+'='+bpmn.app;
 
             if (bpmn.app != null) {
                $('.addArea').addClass('active');
                $.ajax({
                   url  : $.IGRP.utils.getPageUrl(),
-                  data : $(this).attr('name')+'='+bpmn.app
+                  data : param
                })
                .fail(function(e){
                   $.IGRP.notify({
@@ -105,6 +110,9 @@
                         try{
                            com.importXML(bpmn.new);
                         }catch(e){null;}
+
+                        if (lookupHref)
+                           bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+param);
                      }
                   });
                });
@@ -147,14 +155,9 @@
             return false;
          });
 
-         $('#js-properties-panel').on('click','.bpp-properties-tabs-links li a',function(){
-            $('.bpm-lookup').removeClass('forms');
-            if($(this).attr('data-tab-target') == 'forms'){
-               $('.bpm-lookup').addClass('forms');
-               //formKey
-               
-            }
-         });
+                           
+         if (bpmn.app && lookupHref) 
+            bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
 
          //$('#igrp-contents .js-panel').height($(document).height() - ($('#igrp-top-nav').height()));
       },
