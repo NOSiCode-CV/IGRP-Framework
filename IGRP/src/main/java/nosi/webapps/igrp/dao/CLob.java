@@ -13,6 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
 import nosi.base.ActiveRecord.BaseActiveRecord;
 
 @Entity
@@ -32,6 +35,7 @@ public class CLob extends BaseActiveRecord<CLob> implements Serializable{
 	
 	@Column(nullable=false)
 	@Lob
+	@Type(type="org.hibernate.type.BinaryType")
 	private byte[] c_lob_content;
 	
 	@Column(nullable=false)
