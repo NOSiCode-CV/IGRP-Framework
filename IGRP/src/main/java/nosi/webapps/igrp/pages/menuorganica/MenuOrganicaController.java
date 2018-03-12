@@ -2,6 +2,7 @@
 package nosi.webapps.igrp.pages.menuorganica;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.webapps.igrp.dao.Menu;
@@ -160,7 +161,7 @@ public class MenuOrganicaController extends Controller {
 					prof = prof.insert();
 				}
 			}
-			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
+			Core.setMessageSuccess();			
 		}
 		return this.redirect("igrp", "MenuOrganica", "index","id="+id+"&type="+type+"&env_fk="+ organization2.getApplication().getId());
 		/*----#END-PRESERVED-AREA----*/

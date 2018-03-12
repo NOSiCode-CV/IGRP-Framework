@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/transacaoorganica/TransacaoOrganica.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -35,19 +35,28 @@
     <content>
         <title>Associar Transacao a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gestao_de_transacao">
+                <title>Gestão de transação</title>
+                <app>igrp</app>
+                <page>Transaccao</page>
+                <link>index</link>
+                <target>_blank</target>
+                <img>success|fa-exchange</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
+            </item>
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>igrp</app>
-                <page>ListaPage</page>
-                <link>index</link>
+                <app/>
+                <page/>
+                <link/>
                 <target>submit</target>
                 <img>primary|fa-save</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl</parameter>
+                <preview>undefined</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
-                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" check="true" desc="true">
+                <transacao name="p_transacao" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
                     <label>Transacao</label>
                 </transacao>
                 <nome name="p_nome" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
@@ -59,27 +68,27 @@
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Aliqua officia consectetur lor</nome>
+                        <nome name="p_nome">Deserunt adipiscing magna cons</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Unde aperiam perspiciatis anim</nome>
+                        <nome name="p_nome">Lorem sed perspiciatis adipisc</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Deserunt voluptatem ut amet do</nome>
+                        <nome name="p_nome">Accusantium aliqua unde elit a</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Labore adipiscing ut lorem str</nome>
+                        <nome name="p_nome">Ut sit unde stract ipsum</nome>
                     </row>
                     <row>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Adipiscing officia amet dolor</nome>
+                        <nome name="p_nome">Consectetur labore laudantium</nome>
                     </row>
                 </value>
             </table>
