@@ -65,21 +65,6 @@ public class TransacaoOrganicaController extends Controller {
 	}
 
 
-	public Response actionGestao_de_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GESTAO_DE_TRANSACAO)----*/
-		TransacaoOrganica model = new TransacaoOrganica();
-		model.load();
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-			 return this.forward("igrp","Transaccao","index");
-		}
-		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
@@ -123,6 +108,21 @@ public class TransacaoOrganicaController extends Controller {
 			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
 		}
 		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
+
+	public Response actionGestao_de_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(GESTAO_DE_TRANSACAO)----*/
+		TransacaoOrganica model = new TransacaoOrganica();
+		model.load();
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+			 return this.forward("igrp","Transaccao","index");
+		}
+		return this.redirect("igrp","Transaccao","index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	

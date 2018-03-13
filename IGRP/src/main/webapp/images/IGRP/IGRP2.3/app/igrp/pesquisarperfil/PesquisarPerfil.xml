@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl" type="text/xsl"?>
 <rows>
-    <link_img>images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
         <welcome_note>Oba</welcome_note>
         <footer_note>2017 - Copyright NOSI</footer_note>
@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=11</preserve_url>
     </plsql>
     <content>
-        <title>Lista de Perfil</title>
+        <title>Gestão de Perfil</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -45,11 +45,11 @@
             <item type="specific" code="" rel="novo">
                 <title>Novo</title>
                 <app>igrp</app>
-                <page>PesquisarPerfil</page>
+                <page>NovoPerfil</page>
                 <link>index</link>
-                <target>_self</target>
+                <target>modal|refresh</target>
                 <img>success|fa-plus-square</img>
-                <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl</parameter>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoperfil/NovoPerfil.xml</preview>
             </item>
         </toolsbar_1>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
@@ -75,11 +75,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Aliqua unde adipiscing dolor s</organica>
+                        <organica name="p_organica">Unde consectetur deserunt omni</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Adipiscing sit accusantium ut</descricao>
-                        <codigo name="p_codigo">Sed natus iste deserunt perspi</codigo>
+                        <descricao name="p_descricao">Anim omnis doloremque voluptat</descricao>
+                        <codigo name="p_codigo">Stract laudantium officia aliq</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -87,11 +87,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Deserunt omnis rem omnis molli</organica>
+                        <organica name="p_organica">Labore perspiciatis deserunt c</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sed natus deserunt elit lorem</descricao>
-                        <codigo name="p_codigo">Sit omnis magna dolor elit</codigo>
+                        <descricao name="p_descricao">Aliqua adipiscing sed officia</descricao>
+                        <codigo name="p_codigo">Officia laudantium unde natus</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -99,11 +99,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Sit amet elit sed lorem</organica>
+                        <organica name="p_organica">Stract doloremque laudantium p</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Anim dolor iste omnis anim</descricao>
-                        <codigo name="p_codigo">Accusantium aperiam officia ma</codigo>
+                        <descricao name="p_descricao">Lorem adipiscing officia aperi</descricao>
+                        <codigo name="p_codigo">Ipsum aliqua mollit ut stract</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -111,11 +111,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Voluptatem unde amet elit ipsu</organica>
+                        <organica name="p_organica">Dolor iste lorem laudantium ap</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aperiam labore totam ipsum dol</descricao>
-                        <codigo name="p_codigo">Dolor sed doloremque accusanti</codigo>
+                        <descricao name="p_descricao">Dolor lorem mollit deserunt el</descricao>
+                        <codigo name="p_codigo">Rem deserunt labore totam dolo</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
@@ -123,11 +123,11 @@
                             <param>p1=linha1</param>
                             <param>p2=linha1</param>
                         </context-menu>
-                        <organica name="p_organica">Doloremque aperiam natus strac</organica>
+                        <organica name="p_organica">Anim voluptatem doloremque ut</organica>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sed sit accusantium accusantiu</descricao>
-                        <codigo name="p_codigo">Magna laudantium lorem anim ip</codigo>
+                        <descricao name="p_descricao">Voluptatem aliqua aliqua deser</descricao>
+                        <codigo name="p_codigo">Sit unde natus totam accusanti</codigo>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
@@ -137,7 +137,7 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>mpsubmit</target>
                         <img>warning|fa-pencil</img>
                     </item>
@@ -146,7 +146,7 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>confirm</target>
                         <img>danger|fa-trash</img>
                     </item>
@@ -155,7 +155,7 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>right_panel</target>
                         <img>info|fa-bars</img>
                     </item>
@@ -164,7 +164,7 @@
                         <app>igrp</app>
                         <page>PesquisarPerfil</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/pesquisarperfil/PesquisarPerfil.xml?</parameter>
                         <target>right_panel</target>
                         <img>black|fa-exchange</img>
                     </item>
@@ -173,7 +173,7 @@
                         <app>igrp</app>
                         <page>NovoUtilizador</page>
                         <link>index</link>
-                        <parameter>undefined/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xsl?</parameter>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/novoutilizador/NovoUtilizador.xml?</parameter>
                         <target>mpsubmit</target>
                         <img>warning|fa-send</img>
                     </item>
