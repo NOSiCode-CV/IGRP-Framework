@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import nosi.core.config.Config;
 import nosi.core.config.ConfigDBIGRP;
 import nosi.core.webapp.Core;
 import nosi.webapps.igrp.dao.Config_env;
@@ -49,10 +51,10 @@ public class PersistenceUtils {
             }else{
             	Config_env config = new Config_env().find().andWhere("name", "=",connectionName).one();
             	if(config!=null) {
-            		url = getUrl(Core.decrypt(config.getType_db()),Core.decrypt(config.getHost()),Core.decrypt(config.getPort()), Core.decrypt(config.getName_db()));
-    				driver = getDriver(Core.decrypt(config.getType_db()));
-	    			password = Core.decrypt(config.getPassword());
-	    			user = Core.decrypt(config.getUsername());
+            		url = getUrl(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getHost(),Config.SECRET_KEY_ENCRYPT_DB),Core.decrypt(config.getPort(),Config.SECRET_KEY_ENCRYPT_DB), Core.decrypt(config.getName_db(),Config.SECRET_KEY_ENCRYPT_DB));
+    				driver = getDriver(Core.decrypt(config.getType_db(),Config.SECRET_KEY_ENCRYPT_DB));
+	    			password = Core.decrypt(config.getPassword(),Config.SECRET_KEY_ENCRYPT_DB);
+	    			user = Core.decrypt(config.getUsername(),Config.SECRET_KEY_ENCRYPT_DB);
             	}
             }
     		Configuration cfg = new Configuration();

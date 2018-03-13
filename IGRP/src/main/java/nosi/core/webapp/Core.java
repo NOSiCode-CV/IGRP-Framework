@@ -315,12 +315,12 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaGeografia(new PesquisaGeografia(id, zona, freguesia, concelho, ilha, pais, nivel_detalhe, tp_geog_cd, codigo_ine, codigo, self_id));
 	}
 	
-	public static String encrypt(String content){
-		return EncrypDecrypt.encrypt(content);
+	public static String encrypt(String content,String secretKey){
+		return EncrypDecrypt.encrypt(content,secretKey);
 	}
 	
-	public static String decrypt(String content){
-		return EncrypDecrypt.decrypt(content);
+	public static String decrypt(String content,String secretKey){
+		return EncrypDecrypt.decrypt(content,secretKey);
 	}
 	
 	public static boolean isNotNull(Object value) {

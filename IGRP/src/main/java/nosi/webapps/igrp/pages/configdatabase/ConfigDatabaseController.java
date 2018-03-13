@@ -80,12 +80,12 @@ public class ConfigDatabaseController extends Controller {
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
-			config.setHost(Core.encrypt(model.getHostname()));
-			config.setName_db(Core.encrypt(model.getNome_de_bade_dados()));
-			config.setUsername(Core.encrypt(model.getUsername()));
-			config.setPassword(Core.encrypt(model.getPassword()));
-			config.setPort(Core.encrypt("" + model.getPort()));
-			config.setType_db(Core.encrypt(model.getTipo_base_dados()));
+			config.setHost(Core.encrypt(model.getHostname(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setName_db(Core.encrypt(model.getNome_de_bade_dados(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setUsername(Core.encrypt(model.getUsername(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setPassword(Core.encrypt(model.getPassword(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setPort(Core.encrypt("" + model.getPort(),Config.SECRET_KEY_ENCRYPT_DB));
+			config.setType_db(Core.encrypt(model.getTipo_base_dados(),Config.SECRET_KEY_ENCRYPT_DB));
 			config.setName(model.getNome_de_conexao());
 			Migrate m = new Migrate();
 			m.load();
