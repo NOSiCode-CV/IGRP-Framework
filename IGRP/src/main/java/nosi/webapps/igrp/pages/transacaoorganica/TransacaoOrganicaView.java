@@ -18,8 +18,9 @@ public class TransacaoOrganicaView extends View {
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPButton btn_gestao_de_transacao;
+	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gravar;
+	public IGRPButton btn_gestao_de_transacao;
 	public TransacaoOrganicaView(TransacaoOrganica model){
 
 		this.setPageTitle("Associar Transacao a Organica");
@@ -47,12 +48,13 @@ public class TransacaoOrganicaView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-
-		btn_gestao_de_transacao = new IGRPButton("Gestão de transação","igrp","TransacaoOrganica","gestao_de_transacao","_blank","success|fa-exchange","","");
-		btn_gestao_de_transacao.propertie.add("type","specific").add("rel","gestao_de_transacao");
+		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
+
+		btn_gestao_de_transacao = new IGRPButton("Gestão de transação","igrp","TransacaoOrganica","gestao_de_transacao","_blank","success|fa-exchange","","");
+		btn_gestao_de_transacao.propertie.add("type","specific").add("rel","gestao_de_transacao");
 		
 	}
 		
@@ -64,14 +66,16 @@ public class TransacaoOrganicaView extends View {
 		table_1.addField(transacao_check);
 		table_1.addField(nome);
 
+
 		form_1.addField(p_id);
 		form_1.addField(p_type);
 
-		toolsbar_1.addButton(btn_gestao_de_transacao);
 		toolsbar_1.addButton(btn_gravar);
+		table_1.addButton(btn_gestao_de_transacao);
 		this.addToPage(table_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+		this.addToPage(toolsbar_2);
 	}
 		
 	@Override
