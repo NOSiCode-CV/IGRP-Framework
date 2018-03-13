@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp.pages.novoperfil;
+
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -10,16 +11,17 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.GroupService;
 import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
+import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
+import nosi.webapps.igrp.dao.Profile;
 
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
-public class NovoPerfilController extends Controller {		
+public class NovoPerfilController extends Controller {
 
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		NovoPerfil model = new NovoPerfil();
 
@@ -37,7 +39,10 @@ public class NovoPerfilController extends Controller {
 		NovoPerfilView view = new NovoPerfilView(model);
 		view.aplicacao.setValue(new Application().getListApps());
 		/*
-		 * view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() != null && !model.getAplicacao().equals("0") && !model.getOrganica().equals("0")) ? new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) :
+		 * view.perfil.setValue((model.getAplicacao() != null && model.getOrganica() !=
+		 * null && !model.getAplicacao().equals("0") &&
+		 * !model.getOrganica().equals("0")) ? new
+		 * ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()) :
 		 * null);
 		 */
 		view.organica.setValue((id_app != null && !id_app.equals("") && !model.getAplicacao().equals("0"))
@@ -45,12 +50,12 @@ public class NovoPerfilController extends Controller {
 				: null);
 		// Perfil pai/Parent profile ocult (not in use)
 		view.perfil.setVisible(false);
-			return this.renderView(view);
+		view.btn_gravar.setTitle("Adicionar");
+		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-
-	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		NovoPerfil model = new NovoPerfil();
 		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
@@ -74,12 +79,17 @@ public class NovoPerfilController extends Controller {
 				group.setName(pt.getOrganization().getName() + " - " + pt.getDescr());
 				group.setType("assignment");
 				group.create(group);
-				Core.setMessageSuccess(gt("Operação efetuada com sucesso"));
-				Core.setMessageInfoLink(gt("Click aqui para atribuir menu para o perfil " + pt.getDescr()), "igrp",
-						"MenuOrganica", "index&target=_blank&id=" + pt.getId() + "&type=perfil");
+				Core.setMessageSuccess(gt("Perfil criado com sucesso"));
+//				Core.setMessageInfoLink(gt("Click aqui para atribuir menu para o perfil " + pt.getDescr()), "igrp",
+//						"MenuOrganica", "index&target=_blank&id=" + pt.getId() + "&type=perfil");
+				
+				if (insertProfile(pt) != null)
+					return this.redirect("igrp", "novo-perfil", "index");
+				else
+					Core.setMessageError();;
 				return this.redirect("igrp", "novo-perfil", "index");
 			} else {
-				Core.setMessageError(gt("Falha ao tentar efetuar esta operação"));
+				Core.setMessageError();
 			}
 			return this.redirect("igrp", "novo-perfil", "index");
 		}
@@ -87,8 +97,22 @@ public class NovoPerfilController extends Controller {
 		return this.redirect("igrp", "novo-perfil", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
+
 	
+
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	private Profile insertProfile(ProfileType pt) throws IOException {
+		Profile prof = new Profile();
+		prof.setUser(Core.getCurrentUser());
+		prof.setType("PROF");
+		prof.setType_fk(pt.getId());
+		// ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
+		prof.setOrganization(pt.getOrganization());
+		prof.setProfileType(pt);
+		prof = prof.insert();
+		return prof;
+	}
 	public Response actionEditar(@RParam(rParamName = "p_id") String id)
 			throws IOException, IllegalArgumentException, IllegalAccessException {
 		NovoPerfil model = new NovoPerfil();
@@ -108,7 +132,8 @@ public class NovoPerfilController extends Controller {
 
 		NovoPerfilView view = new NovoPerfilView(model);
 		view.sectionheader_1_text.setValue("Gestão de Perfil - Atualizar");
-		view.btn_gravar.setLink("editar_&p_id=" + id);
+		view.btn_gravar.setTitle("Gravar");
+		view.btn_gravar.setLink("gravaredicao&p_id=" + id);
 		view.aplicacao.setValue(new Application().getListApps());
 		/*
 		 * view.perfil.setValue( model.getAplicacao() != 0 && model.getOrganica() != 0 ?
@@ -123,7 +148,7 @@ public class NovoPerfilController extends Controller {
 		return this.renderView(view);
 	}
 
-	public Response actionEditar_(@RParam(rParamName = "p_id") String id)
+	public Response actionGravarEdicao(@RParam(rParamName = "p_id") String id)
 			throws IllegalArgumentException, IllegalAccessException, IOException {
 		if (Igrp.getInstance().getRequest().getMethod().equals("POST")) {
 			NovoPerfil model = new NovoPerfil();

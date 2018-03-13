@@ -4,6 +4,7 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
 
 public class SettingsView extends View {
 	
@@ -20,15 +21,14 @@ public class SettingsView extends View {
 	public Field view_1_img;
 	public Field idioma;
 	public Field separator_1;
-	public Field organica;
 	public Field perfil;
+	public Field p_organica;
 	public IGRPForm sectionheader_1;
 	public IGRPView view_1;
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_alterar_senha;
-	public IGRPButton btn_aplicar;
 	public SettingsView(Settings model){
 
 		this.setPageTitle("Área pessoal");
@@ -85,22 +85,19 @@ public class SettingsView extends View {
 		separator_1.setLabel(gt("Acesso"));
 		separator_1.propertie().add("name","p_separator_1").add("type","separator").add("maxlength","30");
 		
-		organica = new ListField(model,"organica");
-		organica.setLabel(gt("Organização"));
-		organica.propertie().add("name","p_organica").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
-		
 		perfil = new ListField(model,"perfil");
 		perfil.setLabel(gt("Perfil"));
 		perfil.propertie().add("name","p_perfil").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
 		
+		p_organica = new HiddenField(model,"p_organica");
+		p_organica.setLabel(gt(""));
+		p_organica.propertie().add("name","p_organica").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","organica");
+		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
-		btn_alterar_senha = new IGRPButton("Alterar senha","igrp","Settings","alterar_senha","right_panel","warning|fa-lock","","");
+		btn_alterar_senha = new IGRPButton("Alterar senha","igrp","Settings","alterar_senha","right_panel","info|fa-lock","","");
 		btn_alterar_senha.propertie.add("type","specific").add("rel","alterar_senha");
-
-		btn_aplicar = new IGRPButton("Aplicar","igrp","Settings","aplicar","submit_form","success|fa-check","","");
-		btn_aplicar.propertie.add("type","specific").add("rel","aplicar");
 		
 	}
 		
@@ -122,14 +119,31 @@ public class SettingsView extends View {
 
 		form_1.addField(idioma);
 		form_1.addField(separator_1);
-		form_1.addField(organica);
 		form_1.addField(perfil);
+		form_1.addField(p_organica);
 
 		toolsbar_1.addButton(btn_alterar_senha);
-		toolsbar_1.addButton(btn_aplicar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(view_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+	}
+		
+	@Override
+	public void setModel(Model model) {
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

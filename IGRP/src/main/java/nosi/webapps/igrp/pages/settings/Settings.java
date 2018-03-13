@@ -30,10 +30,10 @@ public class Settings extends Model{
 	private String idioma;
 	@RParam(rParamName = "p_separator_1")
 	private String separator_1;
-	@RParam(rParamName = "p_organica")
-	private String organica;
 	@RParam(rParamName = "p_perfil")
 	private String perfil;
+	@RParam(rParamName = "p_organica")
+	private String p_organica;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -119,18 +119,18 @@ public class Settings extends Model{
 		return this.separator_1;
 	}
 	
-	public void setOrganica(String organica){
-		this.organica = organica;
-	}
-	public String getOrganica(){
-		return this.organica;
-	}
-	
 	public void setPerfil(String perfil){
 		this.perfil = perfil;
 	}
 	public String getPerfil(){
 		return this.perfil;
+	}
+	
+	public void setP_organica(String p_organica){
+		this.p_organica = p_organica;
+	}
+	public String getP_organica(){
+		return this.p_organica;
 	}
 
 

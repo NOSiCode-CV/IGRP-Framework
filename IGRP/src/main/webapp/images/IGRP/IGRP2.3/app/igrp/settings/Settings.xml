@@ -45,35 +45,35 @@
             <fields>
                 <nome name="p_nome" type="text" maxlength="100">
                     <label>Nome</label>
-                    <value>Perspiciatis ipsum lorem doloremque adipiscing</value>
+                    <value>Natus ipsum perspiciatis sit adipiscing</value>
                 </nome>
                 <email name="p_email" type="text" maxlength="100">
                     <label>Email</label>
-                    <value>Deserunt sit omnis perspiciatis omnis</value>
+                    <value>Doloremque voluptatem adipiscing stract natus</value>
                 </email>
                 <username name="p_username" type="text" maxlength="30">
                     <label>Username</label>
-                    <value>Elit totam ipsum omnis sit</value>
+                    <value>Rem officia voluptatem amet co</value>
                 </username>
                 <telefone name="p_telefone" type="text" maxlength="30">
                     <label>Telefone</label>
-                    <value>Aperiam perspiciatis elit aper</value>
+                    <value>Lorem laudantium rem sit adipi</value>
                 </telefone>
                 <telemovel name="p_telemovel" type="text" maxlength="30">
                     <label>Telemóvel</label>
-                    <value>Natus stract doloremque offici</value>
+                    <value>Unde ipsum ut perspiciatis str</value>
                 </telemovel>
                 <ultimo_acesso_igrp name="p_ultimo_acesso_igrp" type="text" maxlength="30">
                     <label>Ultimo Acesso IGRP</label>
-                    <value>Dolor unde anim adipiscing dol</value>
+                    <value>Amet rem amet ipsum omnis</value>
                 </ultimo_acesso_igrp>
                 <ultimo_acesso_rede_estado name="p_ultimo_acesso_rede_estado" type="text" maxlength="30">
                     <label>Ultimo Acesso Rede Estado</label>
-                    <value>Accusantium voluptatem stract</value>
+                    <value>Unde rem elit labore deserunt</value>
                 </ultimo_acesso_rede_estado>
                 <password_expira_em name="p_password_expira_em" type="text" maxlength="30">
                     <label>Password Expira em</label>
-                    <value>Iste voluptatem labore stract</value>
+                    <value>Adipiscing mollit anim adipisc</value>
                 </password_expira_em>
                 <view_1_img type="text" name="p_view_1_img" maxlength="300">
                     <value>http://igrp.teste.gov.cv/images/legislativas/data/img/candidatos/jon_doe.jpg</value>
@@ -84,25 +84,16 @@
             <item type="specific" code="" rel="alterar_senha">
                 <title>Alterar senha</title>
                 <app>igrp</app>
-                <page>ChangePassword</page>
+                <page>_CONS_PROC</page>
                 <link>index</link>
                 <target>right_panel</target>
-                <img>warning|fa-lock</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/changepassword/ChangePassword.xml</preview>
-            </item>
-            <item type="specific" code="" rel="aplicar">
-                <title>Aplicar</title>
-                <app>igrp</app>
-                <page>Settings</page>
-                <link>index</link>
-                <target>submit_form</target>
-                <img>success|fa-check</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/settings/Settings.xml</preview>
+                <img>info|fa-lock</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/_cons_proc/_CONS_PROC.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
+                <idioma name="p_idioma" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
                     <label> Idioma</label>
                     <list>
                         <option/>
@@ -127,28 +118,6 @@
                 <separator_1 name="p_separator_1" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Acesso</label>
                 </separator_1>
-                <organica name="p_organica" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
-                    <label>Organização</label>
-                    <list>
-                        <option/>
-                        <option>
-                            <text>Option 1</text>
-                            <value>1</value>
-                        </option>
-                        <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
-                        </option>
-                    </list>
-                </organica>
                 <perfil name="p_perfil" type="select" multiple="false" maxlength="30" required="true" change="true" disabled="false" right="false" domain="" java-type="">
                     <label>Perfil</label>
                     <list>
@@ -171,6 +140,7 @@
                         </option>
                     </list>
                 </perfil>
+                <hidden name="p_organica" type="hidden" maxlength="30" java-type="" tag="organica"/>
             </fields>
         </form_1>
     </content>

@@ -149,7 +149,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 		HashMap<String,String> lista = new HashMap<>();
 		lista.put("", gt("-- Selecionar --"));
 		for(Profile p: new Profile().getMyPerfile()){
-			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " - "+ p.getProfileType().getDescr());
+			lista.put(p.getProfileType().getId()+"",p.getOrganization().getName() + " / "+ p.getProfileType().getDescr());
 		}
 		return lista;
 	}

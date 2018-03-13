@@ -120,7 +120,7 @@ public class MenuOrganicaController extends Controller {
 				profD.setOrganization(pt.getOrganization());
 				profD.setType("MEN");
 				profD.setUser(new User().findOne(0));
-				profD.setProfileType(new ProfileType().findOne(Integer.parseInt(id)));
+				profD.setProfileType(pt);
 				profD.deleteAllProfile();
 			}
 

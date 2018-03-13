@@ -23,49 +23,67 @@ public class SettingsController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
-		
+		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 		model.load();
+
 		
-		// Fetch all cookies 
-		for(Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
-			if(cookie.getName().equals("igrp_lang")) {
+		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			if (Core.isNotNull(ichange)) {
+				if(Core.isNotNull(model.getPerfil())){
+				// String data = model.getOrganica()+"-"+model.getPerfil();
+				String data = new ProfileType().findOne(model.getPerfil()).getOrganization().getId()+"-" + model.getPerfil();
+				Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(), data));
+				}
+			if (Core.isNotNull(model.getIdioma())) {
+				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
+				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
+				cookie.setMaxAge(I18nManager.cookieExpire);
+				Igrp.getInstance().getResponse().addCookie(cookie);				
+				Core.setMessageSuccess("Dados gravados com sucesso!");				
+				}
+			}
+		}else
+		// Fetch all cookies
+		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
+			if (cookie.getName().equals("igrp_lang")) {
 				model.setIdioma(cookie.getValue());
 			}
-			if(cookie.getName().equals("igrp")) {
+			if (cookie.getName().equals(Core.getCurrentDad())) {
 				try {
-					String []aux = cookie.getValue().split("-");
-					model.setOrganica(aux[0]);
+					String[] aux = cookie.getValue().split("-");
+					// model.setOrganica(aux[0]);
 					model.setPerfil(aux[1]);
-				}catch(Exception e) {
-					// Do nothing 
+				} catch (Exception e) {
+					// Do nothing
 				}
 			}
 		}
-		
-		model.setPerfil(Permission.getCurrentPerfilId() + "");
-		model.setOrganica(Permission.getCurrentOrganization() + "");
-		
+		if (Core.isNull(model.getPerfil()))
+			model.setPerfil(Permission.getCurrentPerfilId() + "");
+		// if(Core.isNotNull(model.getOrganica()))
+		// model.setOrganica(Permission.getCurrentOrganization() + "");
+
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		
+
 		SettingsView view = new SettingsView(model);
-		
+
 		view.btn_alterar_senha.setLink("igrp", "ChangePassword", "index&target=_blank");
-		
+
 		view.nome.setValue(user.getName());
 		view.email.setValue(user.getEmail());
 		view.username.setValue(user.getUser_name());
 		view.sectionheader_1_text.setValue(gt("Área Pessoal") + ": " + user.getName());
-		/*view.telefone.setValue(user.getPhone());
+		view.telefone.setValue(user.getPhone());
 		view.telemovel.setValue(user.getMobile());
 		view.password_expira_em.setValue(user.getValid_until());
-		*/
-		
-		HashMap<String,String> organizations =  new Organization().getListMyOrganizations();
-		view.organica.setValue(organizations);
-		
-		HashMap<String,String> profiles =  new ProfileType().getListMyProfiles();
+
+		// HashMap<String,String> organizations = new
+		// Organization().getListMyOrganizations();
+		// view.organica.setValue(organizations);
+
+		HashMap<String, String> profiles = new ProfileType().getListMyProfiles();
 		view.perfil.setValue(profiles);
-		
+
 		HashMap<String, String> idioma = new HashMap<String, String>();
 		idioma.put("", gt("-- Selecionar --"));
 		idioma.put("pt_PT", gt("Português"));
@@ -73,7 +91,7 @@ public class SettingsController extends Controller {
 		idioma.put("fr_FR", gt("Francês"));
 		idioma.put("es_ES", gt("Espanhol"));
 		view.idioma.setValue(idioma);
-		
+
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -82,43 +100,20 @@ public class SettingsController extends Controller {
 	public Response actionAlterar_senha() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(ALTERAR_SENHA)----*/
 		Settings model = new Settings();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
+		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			model.load();
-			if(model.save(model)){
+			if (model.save(model)) {
 				Core.setMessageSuccess();
-			 }else{
+			} else {
 				Core.setMessageError();
-			 return this.forward("igrp","ChangePassword","index");
+				return this.forward("igrp", "ChangePassword", "index");
 			}
 		}
-		return this.redirect("igrp","ChangePassword","index");
-		/*----#END-PRESERVED-AREA----*/
-	}
-	
-
-	public Response actionAplicar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(APLICAR)----*/
-		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")){
-			Settings model = new Settings();
-			model.load();
-			String data = model.getOrganica()+"-"+model.getPerfil();
-			Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(),data));
-			
-			if(model.getIdioma() != null && !model.getIdioma().isEmpty()) {
-				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
-				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
-				cookie.setMaxAge(I18nManager.cookieExpire);
-				Igrp.getInstance().getResponse().addCookie(cookie);
-			}
-
-			Core.setMessageSuccess(gt("OK - [APLICAR] Operação efetuada com sucesso"));
-		
-		}
-		return this.redirect("igrp", "settings", "index");
+		return this.redirect("igrp", "ChangePassword", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	
+
 	/*----#END-PRESERVED-AREA----*/
 }
