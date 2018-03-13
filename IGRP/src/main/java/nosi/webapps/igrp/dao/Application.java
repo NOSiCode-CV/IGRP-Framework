@@ -24,6 +24,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
+
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -241,7 +242,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 
 	public Map<Object, Object> getListApps(){
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		String dad = Permission.getCurrentEnv();		
+		String dad = new Permission().getCurrentEnv();		
 		if("igrp".equalsIgnoreCase(dad)){
 			return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
 		}else{
@@ -255,7 +256,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	
 	public List<Application> getListMyApp(int idUser, boolean allInative){
 		List<Application> listApp = new ArrayList<>();
-		String dad = Permission.getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
 		List<Profile> list = new ArrayList<>();
 		if("igrp_studio".equalsIgnoreCase(dad)) {
 			list = new Profile().find()
@@ -274,8 +275,8 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 						.andWhere("type_fk", "<>", 1)//Oculta IGRP Core
 						.andWhere("type_fk", "<>", 2)//Oculta IGRP Tutorial
 						.andWhere("type_fk", "<>", 3)//Oculta IGRP Studio
-						.andWhere("organization", "=",Permission.getCurrentOrganization())
-						.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+						.andWhere("organization", "=",new Permission().getCurrentOrganization())
+						.andWhere("profileType", "=",new Permission().getCurrentPerfilId())
 						.all();
 		}
 		if(!list.isEmpty()){	
@@ -310,7 +311,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 									 .andWhere("user", "=", u.getId())
 									 .andWhere("type_fk", "<>", 1)
 									 .all();
-		String dad = Permission.getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
 		if("igrp_studio".equalsIgnoreCase(dad)) {
 			Application app = new Application().find().andWhere("dad", "=", dad).one();
 			list = list.stream().filter(d->d.getType_fk()!=app.getId()).collect(Collectors.toList());

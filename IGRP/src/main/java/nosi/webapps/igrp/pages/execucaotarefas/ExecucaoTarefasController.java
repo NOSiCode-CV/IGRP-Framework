@@ -38,7 +38,7 @@ public class ExecucaoTarefasController extends Controller {
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/		
-		Application app = new Application().find().andWhere("dad", "=",Permission.getCurrentEnv()).one();
+		Application app = new Application().find().andWhere("dad", "=",new Permission().getCurrentEnv()).one();
 		Map<String,String> listPrioridade = new HashMap<String,String>();
 		listPrioridade.put(null, gt("-- Escolher Prioridade --"));
 		listPrioridade.put("100", "Urgente");

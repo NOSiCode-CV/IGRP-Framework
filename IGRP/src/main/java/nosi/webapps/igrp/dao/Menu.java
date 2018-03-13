@@ -138,8 +138,8 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 		
 		List<Profile> p = new Profile().find()
 				.andWhere("type", "=","MEN")
-				.andWhere("organization", "=",Permission.getCurrentOrganization())
-				.andWhere("profileType", "=",Permission.getCurrentPerfilId())
+				.andWhere("organization", "=",new Permission().getCurrentOrganization())
+				.andWhere("profileType", "=",new Permission().getCurrentPerfilId())
 				.andWhere("profileType.status", "=", 1)
 				.all();
 //		EntityManager em = this.getEntityManagerFactory().createEntityManager();
@@ -153,9 +153,9 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 //					+ "AND M1.ENV_FK=? "
 //					+ "ORDER BY orderby ";
 //		Query q =  em.createNativeQuery(sql);
-//		q.setParameter(1,Permission.getCurrentPerfilId());
-//		q.setParameter(2,Permission.getCurrentOrganization());
-//		q.setParameter(3,Permission.getCurrentOrganization());	
+//		q.setParameter(1,new Permission().getCurrentPerfilId());
+//		q.setParameter(2,new Permission().getCurrentOrganization());
+//		q.setParameter(3,new Permission().getCurrentOrganization());	
 //		Application a = new Application().find().andWhere("dad", "=", app).one();
 //		q.setParameter(4,(a!=null && a.getId()>0)?a.getId():-1);	
 //		Action ac = new Action().find().andWhere("page", "=", Igrp.getInstance().getCurrentPageName())
@@ -196,15 +196,15 @@ public class Menu extends BaseActiveRecord<Menu> implements Serializable{
 //					+ "WHERE M1.SELF_FK=M2.ID AND M1.flg_base=1 AND M1.ID NOT IN (SELECT TYPE_FK FROM tbl_profile WHERE TYPE=? AND PROF_TYPE_FK=? AND ORG_FK=?) "
 //					+ "ORDER BY orderby";
 		TypedQuery<Object[]> q = (TypedQuery<Object[]>) em.createNativeQuery(sql);
-		q.setParameter(1,Permission.getCurrentOrganization());
-		q.setParameter(2,Permission.getCurrentPerfilId());		
+		q.setParameter(1,new Permission().getCurrentOrganization());
+		q.setParameter(2,new Permission().getCurrentPerfilId());		
 		Application a = new Application();
-		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),Permission.getCurrentEnv() )));
+		a = a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),new Permission().getCurrentEnv() )));
 		q.setParameter(3, a.getId());
-		q.setParameter(4,Permission.getCurrentOrganization());	
+		q.setParameter(4,new Permission().getCurrentOrganization());	
 //		q.setParameter(5,"MEN");	
-//		q.setParameter(6,Permission.getCurrentPerfilId());	
-//		q.setParameter(7,Permission.getCurrentOrganization());	
+//		q.setParameter(6,new Permission().getCurrentPerfilId());	
+//		q.setParameter(7,new Permission().getCurrentOrganization());	
 		HashMap<String,List<Menu>> list = new HashMap<>();
 		for(Object[] o: q.getResultList()){
 			if(o instanceof Object[]){

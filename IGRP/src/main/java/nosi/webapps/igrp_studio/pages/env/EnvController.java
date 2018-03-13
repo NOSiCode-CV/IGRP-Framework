@@ -278,8 +278,8 @@ public class EnvController extends Controller {
 //		PersistenceUtils.confiOtherConnections(app);
 		
 		String[] p = page.split("/");
-		if(Permission.isPermition(app, p[1], p[2])) {
-			Permission.changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
+		if(new Permission().isPermition(app, p[1], p[2])) {
+			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			Application env = new Application().find().andWhere("dad", "=", app).one();
 			//System.out.println(env.getExternal() + " - " + env.getUrl());
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {

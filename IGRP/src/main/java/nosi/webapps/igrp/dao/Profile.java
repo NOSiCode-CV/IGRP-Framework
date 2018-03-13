@@ -137,7 +137,7 @@ public class Profile extends BaseActiveRecord<Profile> implements Serializable{
 		List<Profile> list = this.findAll(this.getCriteria().where(
 					this.getBuilder().equal(this.getRoot().get("type"), "PROF"),
 					this.getBuilder().equal(this.getRoot().get("user"),Igrp.getInstance().getUser().getIdentity().getIdentityId()),
-					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),Permission.getCurrentEnv())
+					this.getBuilder().equal(this.getRoot().join("profileType").join("application").get("dad"),new Permission().getCurrentEnv())
 				));
 		return list;
 	}

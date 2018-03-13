@@ -81,7 +81,7 @@ public class LoginController extends Controller {
 				qs.indexOf("r=");
 				qs = qs.substring(qs.indexOf("r=") + "r=".length());
 				String param[] = qs.split("/");
-				Permission.changeOrgAndProfile(param[0]);
+				new Permission().changeOrgAndProfile(param[0]);
 				return this.redirectToUrl(destination);
 			}
 			return this.redirect(Igrp.getInstance().getHomeUrl()); // go to home (Bug here)
@@ -124,7 +124,7 @@ public class LoginController extends Controller {
 									qs.indexOf("r=");
 									qs = qs.substring(qs.indexOf("r=") + "r=".length());
 									String param[] = qs.split("/");
-									Permission.changeOrgAndProfile(param[0]);
+									new Permission().changeOrgAndProfile(param[0]);
 									return this.redirectToUrl(destination);
 								}
 								return this.redirect("igrp", "home", "index"); // For default go to home index url 
@@ -149,7 +149,7 @@ public class LoginController extends Controller {
 									qs.indexOf("r=");
 									qs = qs.substring(qs.indexOf("r=") + "r=".length());
 									String param[] = qs.split("/");
-									Permission.changeOrgAndProfile(param[0]);
+									new Permission().changeOrgAndProfile(param[0]);
 									return this.redirectToUrl(destination);
 								}
 								return this.redirect("igrp", "home", "index");

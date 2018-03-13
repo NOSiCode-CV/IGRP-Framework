@@ -24,7 +24,7 @@ public class GestaodeacessoController extends Controller {
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 
 		model.load();
-		String dad = Permission.getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
 			setTable(model, data);

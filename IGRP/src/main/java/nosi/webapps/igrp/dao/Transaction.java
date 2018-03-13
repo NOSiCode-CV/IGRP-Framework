@@ -104,8 +104,8 @@ public class Transaction extends BaseActiveRecord<Transaction> implements Serial
 				+ "	ORDER BY T.id";
 		Query q =  em.createNativeQuery(sql);
 		q.setParameter(1,"TRANS");
-		q.setParameter(2,Permission.getCurrentPerfilId());
-		q.setParameter(3,Permission.getCurrentOrganization());	
+		q.setParameter(2,new Permission().getCurrentPerfilId());
+		q.setParameter(3,new Permission().getCurrentOrganization());	
 		q.setParameter(4,transaction);	
 		int x = q.getResultList().size();
 		t.commit();

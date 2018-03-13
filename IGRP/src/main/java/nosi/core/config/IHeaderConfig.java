@@ -31,7 +31,7 @@ public interface IHeaderConfig {
         return "webapps?r="+EncrypDecrypt.encrypt("igrp_studio"+"/"+"env"+"/"+"openApp")+"&app=";
 	}
 	default public String getLinkSileMenu(){
-		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+Permission.getCurrentEnv();
+		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"myMenu")+"&dad="+new Permission().getCurrentEnv();
 	}
 	default public String getLinkTopMenu(){
 		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu");

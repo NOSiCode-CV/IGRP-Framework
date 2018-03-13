@@ -177,7 +177,7 @@ public abstract class Controller{
 		 Object obj = run();
 		 if(obj != null && obj instanceof Response){
 			 Igrp app = Igrp.getInstance();
-			 if(app.getCurrentActionName()!=null && app.getCurrentAppName()!=null && app.getCurrentPageName()!=null && Permission.isPermition(app.getCurrentAppName(), app.getCurrentPageName(), app.getCurrentActionName())) {
+			 if(app.getCurrentActionName()!=null && app.getCurrentAppName()!=null && app.getCurrentPageName()!=null && new Permission().isPermition(app.getCurrentAppName(), app.getCurrentPageName(), app.getCurrentActionName())) {
 				 Response resp = (Response) obj;
 				 Igrp.getInstance().getCurrentController().setResponseWrapper(resp);				 
 			 }

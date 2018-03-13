@@ -24,6 +24,7 @@ public class SettingsController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
+//		String ichange = Core.getParam("ichange");
 		model.load();
 
 		
@@ -31,8 +32,11 @@ public class SettingsController extends Controller {
 			if (Core.isNotNull(ichange)) {
 				if(Core.isNotNull(model.getPerfil())){
 				// String data = model.getOrganica()+"-"+model.getPerfil();
-				String data = new ProfileType().findOne(model.getPerfil()).getOrganization().getId()+"-" + model.getPerfil();
-				Igrp.getInstance().getResponse().addCookie(new Cookie(Permission.getCurrentEnv(), data));
+				Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
+				String data = getOrgId+"-" + model.getPerfil();
+				Igrp.getInstance().getResponse().addCookie(new Cookie(new Permission().getCurrentEnv(), data));
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",model.getPerfil());
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
 				}
 			if (Core.isNotNull(model.getIdioma())) {
 				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
@@ -59,7 +63,7 @@ public class SettingsController extends Controller {
 			}
 		}
 		if (Core.isNull(model.getPerfil()))
-			model.setPerfil(Permission.getCurrentPerfilId() + "");
+			model.setPerfil(new Permission().getCurrentPerfilId() + "");
 		// if(Core.isNotNull(model.getOrganica()))
 		// model.setOrganica(Permission.getCurrentOrganization() + "");
 
