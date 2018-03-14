@@ -20,9 +20,9 @@ public class GeralApresentacaoController extends Controller {
 		GeralApresentacaoView view = new GeralApresentacaoView(model);
 		
 		/*Specify your connection name in first parameter*/
-		view.table_1.setSqlQuery("SELECT 'Import IGRP IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' ver "
-				+ "UNION SELECT 'Minha Primeira Aplicação IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' ver");
-		
+//		view.table_1.setSqlQuery("SELECT 'Import IGRP IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/8-import-igrp-java' ver "
+//				+ "UNION SELECT 'Minha Primeira Aplicação IGRP JAVA Framework' documento, 'http://www.nosicode.cv/index.php/pt/documentacao/igrp-framework/documentacao-do-utilizador/send/2-documentacao-do-utilizador/9-minha-primeira-aplicacao' ver");
+//		
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
