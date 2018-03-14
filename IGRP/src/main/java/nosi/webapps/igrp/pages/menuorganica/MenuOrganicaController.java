@@ -1,6 +1,5 @@
 
 package nosi.webapps.igrp.pages.menuorganica;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -17,9 +16,10 @@ import java.util.List;
 import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
-public class MenuOrganicaController extends Controller {
+public class MenuOrganicaController extends Controller {		
 
-	public Response actionIndex() throws IOException {
+
+	public Response actionIndex() throws IOException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
@@ -67,13 +67,14 @@ public class MenuOrganicaController extends Controller {
 
 		} else
 			view = new MenuOrganicaView(model);
-		view.btn_gravar.setLink("gravar&id=" + model.getP_id() + "&type=" + model.getP_type());
+		view.btn_gravar.setLink("gravar&id=" + model.getP_id() + "&type=" + model.getP_type());			
+		view.btn_novo.setVisible(type.equals("org"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
 
-	public Response actionGravar()
-			throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException {
+
+	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException, InterruptedException{
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
@@ -174,7 +175,22 @@ public class MenuOrganicaController extends Controller {
 			return this.redirect("igrp", "MenuOrganica", "index", "id=" + id + "&type=" + type);
 		/*----#END-PRESERVED-AREA----*/
 	}
+	
 
+	public Response actionNovo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		/*----#START-PRESERVED-AREA(NOVO)----*/
+		MenuOrganica model = new MenuOrganica();
+		model.load();
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+			 return this.forward("igrp","NovoMenu","index");
+		}
+		return this.redirect("igrp","NovoMenu","index");
+		/*----#END-PRESERVED-AREA----*/
+	}
+	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 
 	/*----#END-PRESERVED-AREA----*/

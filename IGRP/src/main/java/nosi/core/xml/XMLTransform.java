@@ -19,7 +19,6 @@ import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.fields.*;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.SqlJavaType;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Config_env;
 
@@ -27,15 +26,23 @@ import nosi.webapps.igrp.dao.Config_env;
  * Emanuel
  * 11 Dec 2017
  */
-public class XMLTransform implements IHeaderConfig{
+public class XMLTransform {
 
 	//Generate completed XML for Page
-	public String genXML(String xmlContent,Action page,Column primaryKey,String typeContent) {
+	public String genXML(String xmlContent,Action page,String typeContent) {
 		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
-		xml.addXml(new Config().getHeader(this,page));
-		if(page.getCrud()!=null && primaryKey!=null){
-			xml.setElement("crud_page_list", primaryKey.getName());//using to get select crud page
-		}
+		IHeaderConfig config = new IHeaderConfig() {
+			public String getPackageInstance(){
+				return page.getCrud().getConfig_env().getName();
+			}
+			public String getPackageCopyHtml(){
+				return page.getCrud().getSchemaName();
+			}
+			public String getPackageCopyDb(){
+				return page.getCrud().getTableName();
+			}
+		};
+		xml.addXml(new Config().getHeader(config,page));
 		xml.startElement("content");
 		xml.writeAttribute("type", typeContent);
 		xml.setElement("title", "");
@@ -55,7 +62,7 @@ public class XMLTransform implements IHeaderConfig{
 		IGRPButton btn_list = new IGRPButton("List", config.getApplication().getDad().toLowerCase(), pageList.getPage(), "list", "_self", "default|fa-list","","",true);
 		btn_list.propertie.add("type","specific").add("code","list").add("rel","list").add("crud_op", "list").add("action-id", pageList.getId());
 		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "primary|fa-save","","",true);
-		btn_gravar.propertie.add("type","specific").add("code","").add("rel","gravar").add("crud_op", "save").add("action-id", page.getId());		
+		btn_gravar.propertie.add("type","specific").add("code","").add("rel","save").add("crud_op", "save").add("action-id", page.getId());		
 		tools.addButton(btn_list);
 		tools.addButton(btn_gravar);	
 		addField(form, columns);
@@ -65,19 +72,19 @@ public class XMLTransform implements IHeaderConfig{
 	}
 	
 	//Generate Table XML
-	public String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm,Column primaryKey) {
+	public String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm) {
 		XMLWritter xml = new XMLWritter();		
 
 		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
 		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
 		IGRPButton btn_novo = new IGRPButton("Novo", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "success|fa-plus","","",true);
-		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","novo").add("crud_op", "addNew").add("action-id", pageForm.getId());
+		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","new").add("crud_op", "addNew").add("action-id", pageForm.getId());
 		tools.addButton(btn_novo);
 		
 		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
-		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","editar").add("crud_op", "edit").add("primaryKey", primaryKey.getName()).add("action-id", page.getId());
 		IGRPButton btn_eliminar = new IGRPButton("Eliminar", config.getApplication().getDad().toLowerCase(), page.getPage(), "eliminar", "confirm", "danger|fa-trash","","",true);
-		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","eliminar").add("crud_op", "delete").add("primaryKey", primaryKey.getName()).add("action-id", page.getId());
+		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","update").add("crud_op", "edit").add("action-id", page.getId());
+		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","delete").add("crud_op", "delete").add("action-id", page.getId());
 		addField(table, columns);
 		table.addButton(btn_editar);
 		table.addButton(btn_eliminar);
@@ -204,6 +211,9 @@ public class XMLTransform implements IHeaderConfig{
 			}
 			if(column.isPrimaryKey()) {
 				f.propertie().add("iskey", "true");
+			}
+			if(column.isAutoIncrement()) {
+				f.propertie().add("isAutoincrement", "true");
 			}
 			if(!(f instanceof DateField)) {
 				f.propertie().add("maxlength", column.getSize());

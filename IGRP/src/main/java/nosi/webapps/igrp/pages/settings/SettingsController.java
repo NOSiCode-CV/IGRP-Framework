@@ -35,7 +35,7 @@ public class SettingsController extends Controller {
 				Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
 				String data = getOrgId+"-" + model.getPerfil();
 				Igrp.getInstance().getResponse().addCookie(new Cookie(new Permission().getCurrentEnv(), data));
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",model.getPerfil());
+				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",Integer.parseInt(model.getPerfil()));
 				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
 				}
 			if (Core.isNotNull(model.getIdioma())) {

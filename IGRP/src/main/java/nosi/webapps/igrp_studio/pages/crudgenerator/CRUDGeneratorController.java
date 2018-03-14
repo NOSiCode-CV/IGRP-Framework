@@ -113,7 +113,6 @@ public class CRUDGeneratorController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
-		Column primaryKey = DatabaseMetadaHelper.getPrimaryKey(config, schema, tableName);
 		String pageNameForm = Page.resolvePageName(tableName)+"Form";
 		String pageNameList = Page.resolvePageName(tableName)+"List";
 		CRUD crud = new CRUD().find().andWhere("schemaName", "=", schema).andWhere("tableName", "=", tableName).andWhere("config_env", "=", config.getId()).one();
@@ -131,20 +130,22 @@ public class CRUDGeneratorController extends Controller {
 			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameList).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageList = pageList.insert();
 		}		
-		return this.processGenerate(config,tableName,schema,primaryKey,pageForm,pageList);
+		return this.processGenerate(config,tableName,schema,pageForm,pageList);
 	}
 
-	private boolean processGenerate(Config_env config, String tableName, String schema, Column primaryKey, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
+	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
 		boolean r = false;
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 		XMLTransform xml = new XMLTransform();
-		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,primaryKey,"form");
-		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm,primaryKey),pageList,primaryKey,"table");
+		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form");
+		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table");
+		
 		
 		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
 			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
 		
-		String xslFileName = this.getConfig().getLinkXSLGeneratorMCV();
+		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
+		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
 		String pathXslForm = this.getConfig().getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
@@ -153,9 +154,9 @@ public class CRUDGeneratorController extends Controller {
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
 		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
 		
-		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileName);
-		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileName);
-	
+		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameFrom);
+		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameList);
+		
 		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
 		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
 		
@@ -183,26 +184,29 @@ public class CRUDGeneratorController extends Controller {
 	}
 	
 	private boolean generateClassMVC(Action page,String mvc) throws IOException, URISyntaxException {
-		String[] partsJavaCode = mvc.toString().split(" END ");
-		if(partsJavaCode.length > 2){
-			String model = partsJavaCode[0];
-			String view = partsJavaCode[1];
-			String controller = partsJavaCode[2];
-			String path_class = page.getPackage_name().trim()
-					.replaceAll("(\r\n|\n)", "")
-					.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
-			String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
-			path_class = this.getConfig().getBasePathClass()+ path_class;			
-			FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
-			
-			if(FileHelper.fileExists(this.getConfig().getWorkspace())){
-				if(!FileHelper.fileExists(path_class_work_space)){//check directory
-					FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+		if(mvc!=null) {
+			String[] partsJavaCode = mvc.toString().split(" END ");
+			System.out.print("size:"+partsJavaCode.length);
+			if(partsJavaCode.length > 2){
+				String model = partsJavaCode[0];
+				String view = partsJavaCode[1];
+				String controller = partsJavaCode[2];
+				String path_class = page.getPackage_name().trim()
+						.replaceAll("(\r\n|\n)", "")
+						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
+				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
+				path_class = this.getConfig().getBasePathClass()+ path_class;			
+				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
+				
+				if(FileHelper.fileExists(this.getConfig().getWorkspace())){
+					if(!FileHelper.fileExists(path_class_work_space)){//check directory
+						FileHelper.createDiretory(path_class_work_space);//create directory if not exist
+					}
+					FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
 				}
-				FileHelper.saveFilesJava(path_class_work_space, page.getPage(), new String[]{model,view,controller});
+				String fileJava = path_class + File.separator + page.getPage();
+				return new Compiler().compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
 			}
-			String fileJava = path_class + File.separator + page.getPage();
-			return new Compiler().compile(new File[] {new File(fileJava+".java"),new File(fileJava+"View.java"),new File(fileJava+"Controller.java")});
 		}
 		return false;
 	}
