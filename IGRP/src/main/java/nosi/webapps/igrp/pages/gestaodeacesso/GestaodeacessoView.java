@@ -4,6 +4,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 
 public class GestaodeacessoView extends View {
@@ -44,13 +46,12 @@ public class GestaodeacessoView extends View {
 		
 		adicionar_organica1 = new LinkField(model,"adicionar_organica1");
 		adicionar_organica1.setLabel(gt("Adicionar Organização"));
-		adicionar_organica1.setValue("webapps?r=igrp/NovaOrganica/index");
-							
+		adicionar_organica1.setValue(Igrp.getInstance().getCurrentController().getConfig().getResolveUrl("igrp","NovaOrganica","index"));
 		adicionar_organica1.propertie().add("name","p_adicionar_organica1").add("type","link").add("target","modal").add("maxlength","30");
 		
 		gestao_de_utilizadores1 = new LinkField(model,"gestao_de_utilizadores1");
 		gestao_de_utilizadores1.setLabel(gt("Gestão de utilizadores"));
-		gestao_de_utilizadores1.setValue("webapps?r=igrp/PesquisarUtilizador/index");
+		gestao_de_utilizadores1.setValue(Igrp.getInstance().getCurrentController().getConfig().getResolveUrl("igrp","PesquisarUtilizador","index"));
 							
 		gestao_de_utilizadores1.propertie().add("name","p_gestao_de_utilizadores1").add("type","link").add("target","_self").add("maxlength","30");
 		
@@ -117,13 +118,6 @@ public class GestaodeacessoView extends View {
 		
 	@Override
 	public void setModel(Model model) {
-		
-
-
-
-
-
-
 
 	}
 }

@@ -40,7 +40,7 @@ public class ModifyParams implements Filter{
 				if(ScapeUrlEncrypt.getScapeUrl().containsKey(r)){
 					req.setAttribute(p.getKey(),r);
 				}else {
-					r = Core.isNotNull(r)?r:EncrypDecrypt.encrypt("igrp/login/login");
+					r = Core.isNotNull(r) ? r : EncrypDecrypt.encrypt("igrp/login/login");
 					r = Route.urlEncoding(r);
 					r = EncrypDecrypt.decrypt(r);
 					r = Route.resolveRParam(r);
