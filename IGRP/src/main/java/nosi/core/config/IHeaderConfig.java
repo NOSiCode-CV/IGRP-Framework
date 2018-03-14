@@ -36,4 +36,15 @@ public interface IHeaderConfig {
 	default public String getLinkTopMenu(){
 		return "webapps?r="+EncrypDecrypt.encrypt("igrp"+"/"+"pesquisar-menu"+"/"+"topMenu");
 	}
+
+	default public String getPackageInstance(){
+		return "";
+	}
+
+	default public String getPackageCopyDb(){
+		return "";
+	}
+	default public String getPackageCopyHtml(){
+		return "";
+	}
 }

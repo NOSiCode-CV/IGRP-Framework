@@ -27,8 +27,6 @@ public class ConfigDatabaseController extends Controller {
 
 		model.load(); 
 		
-		System.out.println(model);
-
 		if (Core.isInt(model.getAplicacao()) ) {
 			switch (model.getTipo_base_dados()) {
 			case "mysql":
