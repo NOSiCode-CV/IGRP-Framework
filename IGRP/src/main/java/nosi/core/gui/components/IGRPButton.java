@@ -174,7 +174,7 @@ public class IGRPButton {
 		if(this.isVisible()) {
 			//Check the transaction permission
 			if(this.getProperties().getProperty("flg_transaction")!=null && this.getProperties().getProperty("flg_transaction").equals("true")){
-				if(Permission.isPermission(this.getApp().toLowerCase()+"_"+this.getPage()+"_"+this.getProperties().getProperty("rel"))){
+				if(new Permission().isPermission(this.getApp().toLowerCase()+"_"+this.getPage()+"_"+this.getProperties().getProperty("rel"))){
 					return this.genItem();
 				}
 			}else {

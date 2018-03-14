@@ -174,7 +174,7 @@ public class ProfileType extends BaseActiveRecord<ProfileType> implements Serial
 
 	//Verifica se � perfil pai
 	public static boolean isPerfilPai(){
-		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", Permission.getCurrentPerfilId()).all();
+		List<ProfileType> profiles = new ProfileType().find().andWhere("profiletype", "=", new Permission().getCurrentPerfilId()).all();
 		return profiles.size() > 0;
 	}
 

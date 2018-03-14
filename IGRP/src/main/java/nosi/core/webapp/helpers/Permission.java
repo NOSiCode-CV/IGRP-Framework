@@ -15,7 +15,7 @@ import nosi.webapps.igrp.dao.User;
 
 public class Permission {
 
-	public static boolean isPermition(String app,String page,String action){//check permission on app		
+	public boolean isPermition(String app,String page,String action){//check permission on app		
 		if(Igrp.getInstance().getUser()!=null && Igrp.getInstance().getUser().isAuthenticated()){
 			if(
 				(action.equalsIgnoreCase("index") && app.equalsIgnoreCase("igrp") && page.equalsIgnoreCase("home")) || 
@@ -46,11 +46,11 @@ public class Permission {
 		return false;
 	}
 	
-	public static boolean isPermission(String transaction){
+	public  boolean isPermission(String transaction){
 		return new Transaction().getPermission(transaction);
 	}
 
-	public static void changeOrgAndProfile(String dad){
+	public  void changeOrgAndProfile(String dad){
 		Application app = new Application().find().andWhere("dad", "=", dad).one();
 		ProfileType profType = new ProfileType();
 		Organization org = new Organization();
@@ -78,17 +78,17 @@ public class Permission {
 		}
 	}
 	
-	public static String getCurrentEnv() {
+	public  String getCurrentEnv() {
 		String env = (String) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.env");
 		return env!=null && !env.equals("")?env:"igrp";
 	}
 	
-	public static Integer getCurrentPerfilId() {
+	public  Integer getCurrentPerfilId() {
 		Integer prof = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof");
 		return prof!=null?prof:-1;
 	}
 
-	public static Integer getCurrentOrganization() {
+	public  Integer getCurrentOrganization() {
 		Integer org = (Integer) Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org");
 		return org!=null?org:-1;
 	}

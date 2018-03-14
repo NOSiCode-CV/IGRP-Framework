@@ -35,15 +35,6 @@
     <content>
         <title>Associar Transacao a Organica</title>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="gestao_de_transacao">
-                <title>Gestão de transação</title>
-                <app>igrp</app>
-                <page>Transaccao</page>
-                <link>index</link>
-                <target>_blank</target>
-                <img>success|fa-exchange</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
-            </item>
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
                 <app/>
@@ -66,33 +57,75 @@
             <table>
                 <value>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Deserunt adipiscing magna cons</nome>
+                        <nome name="p_nome">Sed aperiam mollit voluptatem</nome>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Lorem sed perspiciatis adipisc</nome>
+                        <nome name="p_nome">Dolor perspiciatis lorem aperi</nome>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Accusantium aliqua unde elit a</nome>
+                        <nome name="p_nome">Magna lorem stract officia nat</nome>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Ut sit unde stract ipsum</nome>
+                        <nome name="p_nome">Anim omnis magna sit totam</nome>
                     </row>
                     <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
                         <transacao name="p_transacao" check="true" desc="true">1</transacao>
                         <transacao_desc name="p_transacao_desc">1</transacao_desc>
-                        <nome name="p_nome">Consectetur labore laudantium</nome>
+                        <nome name="p_nome">Aliqua lorem perspiciatis sed</nome>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="success" rel="gestao_de_transacao">
+                        <title>Gestão de transação</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
+                        <target>_blank</target>
+                        <img>success|fa-exchange</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gestao_de_transacao">
+                <title>Gestão de transação</title>
+                <app>igrp</app>
+                <page>Transaccao</page>
+                <link>index</link>
+                <target>modal|refresh</target>
+                <img>black|fa-exchange</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml</preview>
+            </item>
+        </toolsbar_2>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>

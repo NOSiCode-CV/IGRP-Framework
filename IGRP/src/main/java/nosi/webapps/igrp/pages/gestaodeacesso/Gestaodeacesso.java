@@ -20,6 +20,10 @@ public class Gestaodeacesso extends Model{
 	private String gestao_de_utilizadores1;
 	@RParam(rParamName = "p_gestao_de_utilizadores1_desc")
 	private String gestao_de_utilizadores1_desc;
+	@RParam(rParamName = "p_gestao_de_menu")
+	private String gestao_de_menu;
+	@RParam(rParamName = "p_gestao_de_menu_desc")
+	private String gestao_de_menu_desc;
 	
 	private List<Org_table> org_table = new ArrayList<>();	
 	public void setOrg_table(List<Org_table> org_table){
@@ -67,6 +71,19 @@ public class Gestaodeacesso extends Model{
 	}
 	public String getGestao_de_utilizadores1_desc(){
 		return this.gestao_de_utilizadores1_desc;
+	}
+	
+	public void setGestao_de_menu(String app,String page,String action){
+		this.gestao_de_menu = new Config().getResolveUrl(app, page, action);
+	}
+	public String getGestao_de_menu(){
+		return this.gestao_de_menu;
+	}
+	public void setGestao_de_menu_desc(String gestao_de_menu_desc){
+		this.gestao_de_menu_desc = gestao_de_menu_desc;
+	}
+	public String getGestao_de_menu_desc(){
+		return this.gestao_de_menu_desc;
 	}
 
 

@@ -19,13 +19,13 @@ public class HomeController extends Controller {
 				String []aux = destination.split("/");
 				if(aux.length != 3)
 					throw new ServerErrorHttpException();
-				Permission.changeOrgAndProfile(aux[0]);
+				new Permission().changeOrgAndProfile(aux[0]);
 			return redirect(aux[0], aux[1], aux[2]);
 			}catch(Exception e) {
 				
 			}
 		}
-		Permission.changeOrgAndProfile("igrp");
+		new Permission().changeOrgAndProfile("igrp");
 		HomeView view = new HomeView();
 		view.title = "Home";
 		return this.renderView(view,true);

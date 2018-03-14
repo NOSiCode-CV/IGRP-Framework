@@ -34,7 +34,7 @@ public class User implements Component{
 		try {
 			this.identity = identity;
 			this.expire = expire;
-			Permission.changeOrgAndProfile("igrp");
+			new Permission().changeOrgAndProfile("igrp");
 			// Create the session context
 			JSONArray json =  new JSONArray();
 			json.put(this.identity.getIdentityId());

@@ -41,7 +41,7 @@ public class ListaEnvController extends Controller {
 		}
 		List<Application> apps = new ArrayList<>();
 		User user = (User) Igrp.getInstance().getUser().getIdentity();
-		String dad = Permission.getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
 		if ("igrp".equalsIgnoreCase(dad)) {
 			apps = app.find()
 					// .andWhere("dad", "like", app.getDad())

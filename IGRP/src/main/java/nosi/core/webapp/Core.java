@@ -171,17 +171,17 @@ public final class Core {	// Not inherit
 	
 	//Get Current Application Dad on Cookie
 	public static String getCurrentDad(){
-		return Permission.getCurrentEnv();
+		return new Permission().getCurrentEnv();
 	}
 
 	//Get Current Organization on Cookie
 	public static Integer getCurrentOrganization(){
-		return Permission.getCurrentOrganization();
+		return new Permission().getCurrentOrganization();
 	}
 
 	//Get Current Profile on Cookie
 	public static Integer getCurrentProfile(){
-		return Permission.getCurrentPerfilId();
+		return new Permission().getCurrentPerfilId();
 	}
 	
 	//Find Application By ID

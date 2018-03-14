@@ -192,7 +192,7 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 			if (menu != null) {
 				for (Menu mm : menu) {
 					Menu e = new Menu();					
-					e.setDescr(mm.getApplication().getId()==env_fk?gt(mm.getDescr()):"("+mm.getApplication().getName()+ ") "+ gt(mm.getDescr()));
+					e.setDescr(mm.getApplication().getId()==env_fk?gt(mm.getDescr()):setMenuDescr(mm));
 					e.setId(mm.getId());
 					e.setFlg_base(mm.getFlg_base());
 					myMenu.add(e);
@@ -209,11 +209,19 @@ public class Organization extends BaseActiveRecord<Organization> implements Seri
 						pr.getBuilder().equal(pr.getRoot().get("organization"), org),
 						pr.getBuilder().equal(pr.getRoot().get("profileType"), 0)));
 		List<Menu> menus = new ArrayList<>();
-		for (Profile p : profiles) {
-			menus.add(new Menu().findOne(p.getType_fk()));
+		Application a = new Application();				
+		for (Profile p : profiles) {			
+			Menu e = new Menu().findOne(p.getType_fk());
+			
+			e.setDescr(e.getApplication().getId()==a.findOne(a.getCriteria().where(a.getBuilder().equal(a.getRoot().get("dad"),new Permission().getCurrentEnv() ))).getId()?setMenuDescr(e):gt(e.getDescr()));				
+			menus.add(e);
 		}
 		return menus;
 	}
+
+private String setMenuDescr(Menu e) {
+	return "("+e.getApplication().getName()+ ") "+gt(e.getDescr());
+}
 
 	public List<Transaction> getOrgTransaction() {
 		return new Transaction().findAll();

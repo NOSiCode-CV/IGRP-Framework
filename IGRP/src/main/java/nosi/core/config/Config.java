@@ -163,7 +163,7 @@ public class Config {
 	
 	public String getResolveUrl(String app,String page,String action){
 
-		String qs = Route.getQueryString(action)+"&dad="+Permission.getCurrentEnv();//Get Query String
+		String qs = Route.getQueryString(action)+"&dad="+new Permission().getCurrentEnv();//Get Query String
 		action = Route.resolveAction(action);
 		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 
@@ -353,7 +353,7 @@ public class Config {
   
 	
 	public String getHeader(IHeaderConfig config,Action page) {
-		Application app = new Application().find().andWhere("dad","=",Permission.getCurrentEnv()).one();
+		Application app = new Application().find().andWhere("dad","=",new Permission().getCurrentEnv()).one();
 		if(config==null) {
 			//Use default config
 			config = new IHeaderConfig() {
@@ -367,7 +367,7 @@ public class Config {
 		}
 		String title = app.getDescription();		
 		String link_home = config.getLinkHome();
-		if(Permission.getCurrentEnv().equalsIgnoreCase("igrp_studio")) {
+		if(new Permission().getCurrentEnv().equalsIgnoreCase("igrp_studio")) {
 			link_home = config.getLinkHomeStudio();
 		}		
 		XMLWritter xml = new XMLWritter();

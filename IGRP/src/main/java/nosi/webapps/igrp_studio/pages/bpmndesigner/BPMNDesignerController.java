@@ -32,7 +32,7 @@ public class BPMNDesignerController extends Controller {
 		model.load();
 		BPMNDesignerView view = new BPMNDesignerView(model);
 		view.env_fk.setValue(new Application().getListApps());
-		Application app = new Application().find().andWhere("dad", "=", Permission.getCurrentEnv()).one();		
+		Application app = new Application().find().andWhere("dad", "=", new Permission().getCurrentEnv()).one();		
 		List<BPMNDesigner.Gen_table> data = new ArrayList<>();
 		for(ProcessDefinitionService process: new ProcessDefinitionService().getProcessDefinitionsAtivos(Core.isNotNull(model.getEnv_fk())?new Integer(model.getEnv_fk()):app.getId())){
 			BPMNDesigner.Gen_table processo = new BPMNDesigner.Gen_table();

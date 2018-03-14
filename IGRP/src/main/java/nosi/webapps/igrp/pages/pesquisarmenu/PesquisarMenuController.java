@@ -43,7 +43,7 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus = null;
 
 		if (idOrg == 0) {
-			String dad = Permission.getCurrentEnv();
+			String dad = new Permission().getCurrentEnv();
 			if ("igrp".equalsIgnoreCase(dad)) {
 				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
 					

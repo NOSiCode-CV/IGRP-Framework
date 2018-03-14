@@ -24,28 +24,34 @@ public class GestaodeacessoController extends Controller {
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
 
 		model.load();
-		String dad = Permission.getCurrentEnv();
+		String dad = new Permission().getCurrentEnv();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
 			setTable(model, data);
 		}
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
+			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) 
 				setTable(model, data);
-			} else
-				model.setAdicionar_organica1("igrp", "NovaOrganica", "index&target=_blank");
+			
 		}
-	
+		
+		if(Core.isNotNull(model.getAplicacao())) {
+			model.setGestao_de_menu("igrp", "PesquisarMenu", "index&idApp="+model.getAplicacao());
+			model.setGestao_de_utilizadores1("igrp", "PesquisarUtilizador","index&id_app="+model.getAplicacao() );
+			model.setAdicionar_organica1("igrp", "NovaOrganica", "index&id_app="+model.getAplicacao());	
+			
+		}else {
+			model.setGestao_de_menu("igrp", "PesquisarMenu", "index");
+			model.setGestao_de_utilizadores1("igrp", "PesquisarUtilizador","index" );
+			model.setAdicionar_organica1("igrp", "NovaOrganica", "index");	
+		}
+		
 		GestaodeacessoView view = new GestaodeacessoView(model);
 		view.p_id.setParam(true);		
 		view.aplicacao.setParam(true);
 		view.aplicacao.setValue(new Application().getListApps());
 		view.org_table.addData(data);
 		view.setPageTitle("Gestão de Acesso");	
-		if(Core.isNotNull(model.getAplicacao())) {
-			 view.adicionar_organica1.setValue("webapps?r=igrp/NovaOrganica/index&id_app="+model.getAplicacao());	
-			 view.gestao_de_utilizadores1.setValue("webapps?r=igrp/PesquisarUtilizador/index&id_app="+model.getAplicacao());
-		}
 		
 		view.btn_eliminar.setVisible(false);
 		return this.renderView(view);
