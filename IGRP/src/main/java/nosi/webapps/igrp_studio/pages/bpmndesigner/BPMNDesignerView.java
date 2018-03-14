@@ -138,7 +138,7 @@ public class BPMNDesignerView extends View {
 		
 		formkey = new LookupField(model,"formkey");
 		formkey.setLabel(gt("Pagina"));		
-		formkey.propertie().add("name","p_formkey").add("type","lookup").add("action","index").add("page","BPMNDesigner").add("app","igrp_studio").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","false").add("disabled","false").add("placeholder","").add("right","false");
+		formkey.propertie().add("name","p_formkey").add("type","lookup").add("action","index").add("page","BPMNDesigner").add("app","igrp_studio").add("lookup_type","LOOKUP").add("class","default").add("maxlength","100").add("required","false").add("change","false").add("readonly","true").add("disabled","false").add("placeholder","").add("right","false");
 		
 	}
 		

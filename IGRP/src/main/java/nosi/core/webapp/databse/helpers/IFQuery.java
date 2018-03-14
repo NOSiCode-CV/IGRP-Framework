@@ -14,4 +14,5 @@ public interface IFQuery {
 	public List<?> getResultList();
 	public Object getSigleResult();
 	public TypedQuery<?> getSingleResult();
+	public <T> List<T> getResultList(Class<T> type);
 }
