@@ -5064,8 +5064,9 @@ if(input) {
 		$('body').removeClass('startin waiting');
 	}
 
-	GEN.waiting = function(){
-		$('body').addClass('waiting');
+	GEN.waiting = function(o){
+		var act = o == false ? 'removeClass' : 'addClass';
+ 		$('body')[act]('waiting');
 	}
 	
 	//subscribe

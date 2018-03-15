@@ -427,36 +427,19 @@
  	
  	<xsl:template name="addLegendColor">
  		<xsl:for-each select="//content/*[@type='table']">
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>			
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 1',$double_quotes,',Core.getPinkColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 2',$double_quotes,',Core.getAmberColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 3',$double_quotes,',Core.getGreenColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 4',$double_quotes,',Core.getBlueGreyColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 5',$double_quotes,',Core.getPurpleColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 6',$double_quotes,',Core.getYellowColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 7',$double_quotes,',Core.getBlueColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 8',$double_quotes,',Core.getDeepPurpleColor());')"/>
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 9',$double_quotes,',Core.getBrownColor());')"/>
+ 			<xsl:if test="fields/*[@type='color']">
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+		 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>			
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 1',$double_quotes,',Core.getPinkColor());')"/>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('view.',$instance_name,'.addLegendColor(',$double_quotes,'Cor 2',$double_quotes,',Core.getAmberColor());')"/>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+			</xsl:if>
 	 	</xsl:for-each>
  	</xsl:template>
  	

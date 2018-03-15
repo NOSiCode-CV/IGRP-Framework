@@ -133,7 +133,7 @@
 							</xsl:choose>
 						</xsl:variable>
 						
-						<xsl:if test="@type !='select' and @type!='checkboxlist' and @type!='radiolist' and $isPersist = 'false'">
+						<xsl:if test="$isPersist = 'false'">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 							<xsl:variable name="tag_name">

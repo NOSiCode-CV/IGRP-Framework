@@ -688,7 +688,7 @@ $(function(){
 
 	var LoadReservedCodes = function(content,callback,_notify){
 		
-		var notify = !_notify || _notify == false ? false : true;
+		var notify = _notify == false ? false :true;
 		
 		var reservedURL = GEN.UTILS.preserve_url,
 
@@ -755,15 +755,47 @@ $(function(){
 				}
 
 			};
-
-			replaceReservedContents(replaceOptions);
 			
-			if(isGlobalPreservation && notify)
+			if(isGlobalPreservation){
 				
-				$.IGRP.notify({
-					message : 'Please check your Controller Code!',
-					type    : 'warning' 
+				$.IGRP.components.globalModal.set({
+					rel    : 'confirm-java-code',
+					content: 'Please check your Controller Code!',
+					buttons: [
+						{
+							class :'default',
+							//icon  :'times',
+							text  :'Cancel',
+							attr  :{ 
+								"data-dismiss":"modal" 
+							},
+							onClick : function(){
+								GEN.waiting(false);
+							}
+						},
+						{
+							class   :'primary',
+							//icon    :'check',	
+							text    :'Confirm',
+							onClick :function(e){
+
+								replaceReservedContents(replaceOptions);
+
+								$.IGRP.components.globalModal.hide();
+								
+								return false;
+							}
+						}
+						
+					]
 				});
+				
+				
+			}else{
+				
+				replaceReservedContents(replaceOptions);
+				
+			}
 
 		});
 
