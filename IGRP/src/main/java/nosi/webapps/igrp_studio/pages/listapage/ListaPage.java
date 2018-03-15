@@ -2,10 +2,12 @@ package nosi.webapps.igrp_studio.pages.listapage;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ListaPage extends Model{		
 	@RParam(rParamName = "p_infopanel_1_title")
@@ -287,4 +289,13 @@ public class ListaPage extends Model{
 		}
 
 	}
+
+	public void loadTable_1(QueryHelper query) {
+		this.loadTable(query,Table_1.class);
+	}
+
+	public void loadMyapps_list(QueryHelper query) {
+		this.loadTable(query,Myapps_list.class);
+	}
+
 }

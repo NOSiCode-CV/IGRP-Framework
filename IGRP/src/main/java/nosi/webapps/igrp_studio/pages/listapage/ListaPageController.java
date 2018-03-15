@@ -30,7 +30,6 @@ import com.google.gson.Gson;
 /*----#end-code----*/
 
 
-
 public class ListaPageController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
