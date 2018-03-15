@@ -47,7 +47,7 @@ public class GeralApresentacaoView extends View {
 	public IGRPVideo video_6;
 	public IGRPVideo video_1;
 
-	public GeralApresentacaoView(GeralApresentacao model){
+	public GeralApresentacaoView(){
 		this.setPageTitle("O que fazer dentro do IGRP JAVA...");
 			
 		sectionheader_2 = new IGRPForm("sectionheader_2","");
@@ -228,5 +228,17 @@ public class GeralApresentacaoView extends View {
 		this.addToPage(video_2);
 		this.addToPage(video_6);
 		this.addToPage(video_1);
+	}
+	
+	public void setModel(GeralApresentacao model) {
+		this.table_1.loadModel(model.getTable_1());
+		this.como_instalar_igrp_java_framework.setValue(model);
+		this.contribuicao.setValue(model);
+		this.desenvolvimento.setValue(model);
+		this.documento.setValue(model);
+		this.ver.setValue(model);
+		this.documentos_gerais.setValue(model);
+		this.gestao.setValue(model);
+		this.my_first_app.setValue(model);		
 	}
 }

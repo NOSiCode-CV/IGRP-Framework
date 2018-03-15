@@ -42,6 +42,8 @@
 				<xsl:value-of select="$newline"/>
 		 		<xsl:value-of select="$import_response"/>
 				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$import_query_helper"/>
+				<xsl:value-of select="$newline"/>
 		 		<xsl:value-of select="$import_igrp"/>
      		</xsl:otherwise>
      	</xsl:choose>
