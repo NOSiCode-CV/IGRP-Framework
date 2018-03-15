@@ -33,9 +33,11 @@
 	</xsl:template>
 
 	<xsl:template name="GEN-table-field-head">
-		<th item-name="{name()}" item-type="{@type}">
-			<xsl:value-of select="."/>
-		</th>
+		<xsl:if test="not(@visible)">		
+			<th item-name="{name()}" item-type="{@type}">
+				<xsl:value-of select="."/>
+			</th>
+		</xsl:if>
 	</xsl:template>
 	<xsl:template name="GEN-table-row-items">
 		<xsl:variable name="tag" select="name()"/>

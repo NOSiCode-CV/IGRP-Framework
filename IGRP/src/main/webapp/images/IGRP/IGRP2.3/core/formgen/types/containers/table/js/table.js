@@ -246,7 +246,7 @@ var GENTABLE = function(name,params){
 					});
 					tableExportInc = false;
 				}
-				console.log(container)
+				
 			}			
 		});
 
@@ -365,7 +365,7 @@ var GENTABLE = function(name,params){
 			}
 		});*/
 
-		console.log(f.GET.btnSize())
+		
 	}
 	
 	container.onContextMenuSet = function(field){

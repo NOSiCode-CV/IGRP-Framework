@@ -75,6 +75,10 @@
     <xsl:variable name="import_separator_list">
         <xsl:text>import nosi.core.gui.components.IGRPSeparatorList.Pair;</xsl:text>
     </xsl:variable>
+    
+    <xsl:variable name="import_query_helper">
+        <xsl:text>import nosi.core.webapp.databse.helpers.QueryHelper;</xsl:text>
+    </xsl:variable>
 
     <xsl:variable name="import_separator_list_annotation">
         <xsl:text>import nosi.core.webapp.SeparatorList;</xsl:text>
@@ -112,7 +116,8 @@
     <xsl:variable name="begin_reserve_code_controller_actions" select="'/*---- Insert your actions here... ----*/'"/>
     <xsl:variable name="begin_reserve_code_controller_import" select="'/*---- Import your packages here... ----*/'"/>
     <xsl:variable name="begin_reserve_code_controller_on_action" select="'/*---- Insert your code here... ----*/'"/>
-    <xsl:variable name="end_reserve_code" select="'/*----#END-PRESERVED-AREA----*/'"/>
+    <xsl:variable name="end_reserve_code" select="''"/>
+    <xsl:variable name="end_reserve_code_old" select="'/*----#END-PRESERVED-AREA----*/'"/>
     <xsl:variable name="app_name">
         <xsl:value-of select="rows/app"/>
     </xsl:variable>
@@ -295,7 +300,7 @@
         </xsl:choose>
     </xsl:template>
     <!-- begin reserve_code tmpl -->
-    <xsl:template name="begin_reserve_code_action">
+    <xsl:template name="begin_reserve_code_action_old">
         <xsl:param name="type"/>
         <xsl:param name="url"/>
         <xsl:variable name="typeUpper">
@@ -310,24 +315,140 @@
         <xsl:value-of select="$url"/>
         <xsl:text>)/#----*/</xsl:text>
     </xsl:template>
+
+    <xsl:template name="begin_reserve_code_action">
+        <xsl:param name="type"/>
+        <xsl:param name="url"/>
+        
+    </xsl:template>
+
+    <xsl:template name="reserved-code-url">
+        <xsl:param name="url"/>
+        <xsl:value-of select="$newline"/>
+        <xsl:value-of select="$tab2"/>
+        <xsl:value-of select="$tab"/>
+        <xsl:text>/*----#gen(preserve_code,</xsl:text>
+        <xsl:value-of select="$url"/>
+        <xsl:text>)/#----*/</xsl:text>
+    </xsl:template>
+
+    <xsl:template name="start-code">
+        <xsl:param name="type"/>
+        <xsl:param name="url"/>
+        <xsl:param name="tabCode" select="true()"/>
+        <xsl:param name="tabIndent" select="'2'"/>
+		
+		<xsl:variable name="indentation">			
+			<xsl:if test="$tabCode">
+				<xsl:choose>
+					<xsl:when test="$tabIndent = '1'">
+						<xsl:value-of select="$tab"></xsl:value-of>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$tab2"></xsl:value-of>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
+		</xsl:variable>
+		
+        <xsl:variable name="typeLower">
+            <xsl:call-template name="lowerCase">
+                <xsl:with-param name="text" select="$type"/>
+            </xsl:call-template>
+        </xsl:variable>
+        
+        <xsl:value-of select="$newline"/>
+        
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+        
+        <xsl:value-of select="$newline"/>
+
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+
+        <xsl:text>/*----#start-code(</xsl:text>
+        <xsl:value-of select="$typeLower"/>
+        <xsl:text>)----*/</xsl:text>
+
+        <xsl:value-of select="$newline"/>
+        
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+
+        <xsl:value-of select="$newline"/>
+
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+
+        <xsl:call-template name="end-code">
+            <xsl:with-param name="type" select="$type"/>
+        </xsl:call-template>
+
+        <xsl:value-of select="$newline"/>
+
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+        
+        <xsl:value-of select="$newline"/>
+        
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+
+    </xsl:template>
+
+    <xsl:template name="end-code">
+        <xsl:param name="type"/>
+        <xsl:text>/*----#end-code----*/</xsl:text>
+    </xsl:template>
+
+
+    <xsl:template name="start-example">
+        <xsl:call-template name="newlineTab2"/>
+        <xsl:call-template name="newlineTab2"/>
+        <xsl:text>/*----#gen-example</xsl:text>
+        <xsl:call-template name="newlineTab2"/>
+        <xsl:text>This is an example of how you can implement your code:</xsl:text>
+        <xsl:call-template name="newlineTab2"/>
+    </xsl:template>
+
+    <xsl:template name="end-example">
+        <xsl:call-template name="newlineTab2"/>
+        <xsl:call-template name="newlineTab2"/>
+        <xsl:text>----#gen-example */</xsl:text>
+
+    </xsl:template>
+
+
     <!-- end reserve_code tmpl -->
-    <xsl:template name="end_reserve_code_action">
+    <xsl:template name="end_reserve_code_action_old">
         <xsl:param name="type"/>
         <xsl:variable name="typeUpper">
             <xsl:call-template name="upperCase">
                 <xsl:with-param name="text" select="$type"/>
             </xsl:call-template>
         </xsl:variable>
-        <xsl:text>/*----#END-PRESERVED-AREA----*/</xsl:text>
+        <xsl:text>/*----#END-PRESERVED-CODE----*/</xsl:text>
+    </xsl:template>
+
+    <xsl:template name="end_reserve_code_action">
+        <xsl:param name="type"/>
+        
     </xsl:template>
     
     <!-- Your connection name -->
     <xsl:template name="generateCommentConnectionName">
     	<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab2"/>
-		<xsl:text>/*Specify your connection name in first parameter*/</xsl:text>
-    	<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab2"/>
+		<!-- <xsl:text>/*Specify your connection name in first parameter*/</xsl:text> -->
+    	<!-- <xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab2"/> -->
     </xsl:template>
     
     <xsl:template name="filterComponentsAttrs">
@@ -357,8 +478,8 @@
     		name()!='placeholder' and
     		name()!='custom_action' and	
     		name()!='action_type' and	
-    		
     		name()!='code' and	
+            name()!='proc_name' and  
     		name()!='right'    		
     	">
     		<xsl:value-of select="concat('.add(',$double_quotes,name(),$double_quotes,',',$double_quotes,.,$double_quotes,')')"/>
@@ -366,5 +487,10 @@
     	</xsl:if>
     	
     </xsl:template>
-    
+        
+    <xsl:template name="newlineTab2">
+        <xsl:value-of select="$newline"/>
+        <xsl:value-of select="$tab2"/>  
+    </xsl:template>    
+
 </xsl:stylesheet>

@@ -3,6 +3,7 @@
   <xsl:param name="pheight"/>
   <xsl:param name="filter"/>
   <xsl:param name="filter_type"/>
+  <xsl:param name="remote_filter"/>
   
   <xsl:template match="*">
     
@@ -19,6 +20,7 @@
       <xsl:with-param name="height" select="$nheight"/>
       <xsl:with-param name="filter" select="$filter"/>
       <xsl:with-param name="filter_type" select="$filter_type"/>
+      <xsl:with-param name="remote_filter" select="$remote_filter"/>
     </xsl:call-template>
   </xsl:template>  
   
@@ -29,6 +31,7 @@
     <xsl:param name="url" select="''"/>
     <xsl:param name="filter" select="'false'"/>
     <xsl:param name="filter_type"/>
+    <xsl:param name="remote_filter"/>
     <xsl:variable name="vtipo">
       <xsl:choose>
         <xsl:when test="$tipo = 'barchart' or $tipo = 'BarChart'">bar</xsl:when>
@@ -60,9 +63,18 @@
       </xsl:for-each>
     </xsl:variable>
 
-    <xsl:variable name="colors">
+    <xsl:variable name="xmlcolors">
       <xsl:for-each select="$grafico/colors/col"><xsl:value-of select="."/><xsl:if test="position() != last()">|</xsl:if>
       </xsl:for-each>
+    </xsl:variable>
+
+    <xsl:variable name="colorsname" select="concat('p_fwl_',$graph-id,'_color')"/>
+
+    <xsl:variable name="colors">
+      <xsl:choose>
+        <xsl:when test="//rows/content/*/fields/hidden[@name=$colorsname]"><xsl:value-of select="//rows/content/*/fields/hidden[@name=$colorsname]"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="$xmlcolors"/></xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
     
     <div class="IGRP-highcharts" item-name="{$graph-id}" chart-categories="{$categories}" chart-id="id-{$graph-id}" chart-type="{$vtipo}" chart-desc-label="{$desc-label}" chart-labels="{$labels}" chart-colors="{$colors}" chart-data="{$data}" chart-url="{$url}">
@@ -73,6 +85,13 @@
             <xsl:value-of select="$filter_type"/>
           </xsl:attribute>
         </xsl:if>
+
+        <xsl:if test="$remote_filter != ''">
+          <xsl:attribute name="remote-filter">
+            <xsl:value-of select="$remote_filter"/>
+          </xsl:attribute>
+        </xsl:if>
+
         <div class="toggleChart btn-group dropdown">
           <button type="button" class="active-chart btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           </button>
@@ -81,7 +100,13 @@
         </div>
       </xsl:if>
 
-      <div id="id-{$graph-id}" class="IGRP_graph" style="height:{$height}px;"></div>
+      <div id="id-{$graph-id}" class="IGRP_graph">
+        <xsl:if test="$tipo != 'tablecharts'">
+          <xsl:attribute name="style">
+            <xsl:value-of select="concat('height:',$height,'px;')"/>
+          </xsl:attribute>   
+        </xsl:if>
+      </div>
     </div>
   </xsl:template>
   
@@ -93,6 +118,7 @@
     <xsl:param name="title" select="'Grafico'"/>
     <xsl:param name="filter" select="'false'"/>
     <xsl:param name="filter_type"/>
+    <xsl:param name="remote_filter"/>
     
     <xsl:variable name="vheight" select="$height+50"/>
     
@@ -104,6 +130,7 @@
         <xsl:with-param name="url" select="$url"/>
         <xsl:with-param name="filter" select="$filter"/>
         <xsl:with-param name="filter_type" select="$filter_type"/>
+        <xsl:with-param name="remote_filter" select="$remote_filter"/>
       </xsl:call-template>
       <div class="_clear"/>
    </div>

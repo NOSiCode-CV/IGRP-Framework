@@ -8,6 +8,7 @@ package nosi.core.gui.fields;
  */
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import nosi.core.xml.XMLWritter;
 
@@ -170,8 +171,8 @@ public class GenXMLField {
 	private static void getXmlValue(XMLWritter xml, Field field) {
 		if(field instanceof ListField || field instanceof RadioListField || field instanceof CheckBoxListField){
 			xml.startElement("list");
-			if(field.getValue()!=null && field.getValue() instanceof HashMap){
-				HashMap<?,?> values = (HashMap<?, ?>)field.getValue();
+			if(field.getListOptions()!=null && field.getListOptions() instanceof Map<?,?>){
+				HashMap<?,?> values = (HashMap<?, ?>)field.getListOptions();
 				for(Entry<?, ?> obj : values.entrySet()){
 					xml.startElement("option");
 					if(field instanceof ListField && obj.getKey() != null && field.propertie().get("value")!=null && field.propertie().get("value").toString().equals(obj.getKey().toString())){

@@ -6,16 +6,14 @@
 		
 		<color name="primary">#337ab7</color>
 
-		<color name="secondary" text-hover="white" bg-hover="#173c5d">#2a699e</color>
+		<color name="secondary" text-hover="white" bg-hover="#173c5d" >#2a699e</color>
 
 	</colors> 
 
-	<css >
+	<!-- <css >
 		<file>css/header.css</file>
 		<file>css/sidebar.css</file>
 		<file>css/gen.css</file>
-	</css>
-
-	<logo>img/logo.png</logo>
+	</css> -->
 
 </style>

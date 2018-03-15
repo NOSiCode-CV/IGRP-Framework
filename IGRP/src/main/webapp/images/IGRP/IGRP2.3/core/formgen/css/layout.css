@@ -13,7 +13,7 @@
 
 #gen-design .gen-row{
 	position: relative;
-	border: 1px dashed #ececec;
+	/*border: 1px dashed #ececec;*/
 	margin-bottom: -2px;
 	min-height: 110px;
 }
@@ -29,11 +29,12 @@
 .gen-row .row-options{
 	right: 0;
 	top: 0;
-	border-bottom: 1px solid rgb(236, 236, 236);
-	background: rgb(251, 251, 251);
+	/*border-bottom: 1px solid rgb(236, 236, 236);*/
+	background: rgb(253, 253, 253);
 	position: relative;
 	cursor: move;
 	transition: none;
+	border: 0
 }
 
 /*.row .row-options:before{
@@ -63,13 +64,17 @@
 
 .row .row-options .row-class-setter{
 	float: left;
-	border:0;
-	line-height: 16px;
-	font-size: 10px;
+    border: 0;
+    line-height: 16px;
+    font-size: 9px;
     padding-left: 4px;
     outline: 0;
     background: rgba(255,255,255,.4);
-    color: #a7a7a7
+    color: #a7a7a7;
+    left: 0;
+    position: absolute;
+    top: 0;
+    height: 15px;
 }
 
 .row .row-options > ul > li[rel="columns"]:hover{
@@ -275,7 +280,7 @@
 	/*background: rgba(255, 255, 255, 0.34);*/
 	margin-left: -1px;
 	margin-top: -1px;
-	border:1px dashed #ececec;
+	/*border:1px dashed #ececec;*/
 	transition:background-color .5s;
 	padding: 0px;
 	margin-bottom: 5px;
@@ -305,19 +310,20 @@
 
 .gen-column .col-options {
 
-background: #fbfbfb;
+	background: rgb(253, 253, 253);
 
-position: relative;
+	position: relative;
 
-margin-top: 5px;
+	margin-top: 5px;
 
-border: 1px solid #ececec;
+	border:0;
+	/*border: 1px solid #ececec;*/
 
-margin-left: -1px;
+	margin-left: -1px;
 
-margin-right: 0;
+	margin-right: 0;
 
-cursor: move
+	cursor: move
 }
 
 .gen-column .col-options:before {
@@ -325,13 +331,13 @@ cursor: move
     position: absolute;
     left: 0;
     top: 0;
-    background: #fff;
+   /* background: #fff;*/
     font-size: 10px;
     color: #a7a7a7;
     padding: 1px 6px;
     text-transform: uppercase;
-    border-right: 1px solid #ececec;
-    border-bottom: 1px solid #ececec;
+    /*border-right: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;*/
 }
 
 .gen-column .col-options > ul {

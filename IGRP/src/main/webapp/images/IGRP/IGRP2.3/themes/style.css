@@ -19,7 +19,7 @@ body{
     color: #616a78;
     font-weight: 300;
     font-size: 13px;
-    background: #f3f5f7;
+    background: #fafafa;
     opacity: 0
 }
 body.fixed-nav{
@@ -139,21 +139,18 @@ b{
 
 /*TOPNAV*/
 #igrp-top-nav{
-  max-height: 55px;
-  overflow: hidden;
-  -webkit-box-shadow: 4px 0 5px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: #337ab7;
   overflow: visible;
+  padding: 0;
+  min-height: inherit;
+  margin: 0;
+  top: 0;
+  background: white;
 }
 
-#igrp-top-nav.navbar {
- padding: 0;
- min-height: inherit;
- margin: 0;
-/* box-shadow: 0px 0px 5px #333;*/
- top: 0;
-}
+
 
 #igrp-top-nav>#navbar{
   clear: both;
@@ -162,18 +159,23 @@ b{
 .navbar-brand{
   padding:0px 10px;
   line-height: 55px;
-  color:white;
   text-align: center;
-  height: auto;
-  background: rgba(0,0,0,.3);
   height: 55px;
+  background: transparent;
+  color: inherit;
+  width: auto!important;
+  margin-left: 50px;
+  padding-right: 0;
+}
+[appv="IGRP2.3"] a.navbar-brand{
+  color: inherit!important;
 }
 .navbar-brand:hover{
-  color:white;
+  color: inherit;
 }
 .navbar-brand>img{
   float: none;
-  width: 32px;
+  width: 26px;
   display: inline;
   vertical-align: top;
   margin-top: 11px
@@ -181,28 +183,28 @@ b{
 
 .navbar-brand>span{
   margin: 0 10px;
-  font-size: 18px;
-  color: white;
+  font-size: 20px;
+  color: inherit;
+
 }
 .navbar-brand>span b{
-  font-weight: 400
+  font-weight: 500
 }
 
 #side-bar-ctrl {
   float: left;
-  position: relative;
+ /* position: relative;*/
   height: 55px;
   width: 52px;
   text-align: center;
   padding: 0 15px;
-  color: white;
   cursor: pointer;
   transition:background .5s;
   font-size: 14px;
-  
-}
-#side-bar-ctrl:hover {
-  background:rgba(0,0,0,.1); 
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: inherit;
 }
 
 #side-bar-ctrl i {
@@ -216,14 +218,19 @@ b{
 #igrp-app-title {
   float:left;
   margin-left: 10px;
-  color: white;
-  line-height: 55px;
+  /*color: white;*/
+  /*line-height: 55px;*/
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
   font-size: 14px;
-  font-weight: 500
+  /*font-weight: 500;*/
+  margin-left: 0;
+
+  font-weight: 300;
+  color: inherit;
+  line-height: 56px
 }
 
 #igrp-top-menu{
@@ -248,7 +255,7 @@ b{
     font-weight: 400;
     width: 20px;
     height: 20px;
-    line-height: 18px;
+    line-height: 16px;
     background: rgba(0, 0, 0, 0.25);
 }
 
@@ -257,21 +264,36 @@ b{
 }
 
 #igrp-top-menu>li>a{
-  color:white;
-  line-height: 53px;
+  /*color:white;*/
+  /*line-height: 53px;*/
+  /*border-bottom: 2px solid transparent;*/
   padding:0 15px;
-  border-bottom: 2px solid transparent
+  color:#888;
+  font-size: 16px;
+  border-bottom-color: transparent;
+  border:0!important;
+  transition: color .3s;
+  line-height: 56px;
+
+
 }
 #igrp-top-menu>li>a:after,
 #igrp-top-menu>li>a:before{
-  content:".";
+  /*content:".";
   opacity: 0;
-  color:transparent;
+  color:transparent;*/
+  display: none;
 }
 #igrp-top-menu>li>a:hover,
 #igrp-top-menu>li>a:focus{
-  background-color: rgba(0,0,0,.05);
-  border-bottom-color: #fff;
+  /*background-color: rgba(0,0,0,.05);
+  border-bottom-color: #fff;*/
+  background: rgba(0,0,0,.01);
+  color: #337ab7
+}
+
+#igrp-top-menu>li>a>i{
+  line-height: 56px;
 }
 
 #igrp-go-up{
@@ -300,7 +322,9 @@ b{
 
 /* Hide for mobile, show later */
 #igrp-sidebar.sidebar {
-  background: #fff;
+  /*background: #fff;*/
+  /*background: #337ab7;*/
+  background: #3690c2;
   position: fixed;
   z-index: 1000;
   top:55px;
@@ -364,12 +388,13 @@ b{
 }
 
 #igrp-sidebar .nav-sidebar > li > a {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #0000000a;
   z-index: 2;
   padding: 15px 30px 15px 15px;
-  border-color: rgba(51, 122, 183, 0.05);
+  /*border-color: rgba(51, 122, 183, 0.05);*/
   opacity: .8;
-  font-weight: 400
+  font-weight: 400;
+  color: white;
 }
 
 #igrp-sidebar .nav-sidebar > li.treeview > a > i.pull-right{
@@ -404,7 +429,7 @@ body.sidebar-off #igrp-sidebar{
 	display: none
 }
 body.sidebar-off .navbar-brand{
-  width: auto!important;
+  display: block!important;
 }
 
 /*tree view*/
@@ -414,7 +439,8 @@ body.sidebar-off .navbar-brand{
     padding: 0;
     margin: 0;
     padding-left: 0;
-    background: rgba(243, 245, 247, 0.5);
+    /*background: rgba(243, 245, 247, 0.5);*/
+    background: #ffffff1a
 }
 .treeview-menu>li>a {
     display: block;
@@ -422,6 +448,7 @@ body.sidebar-off .navbar-brand{
     padding: 10px 25px;
     opacity: .8;
     border:0;
+    color: white;
 }
 
 .treeview-menu>li>a:hover,
@@ -429,6 +456,7 @@ body.sidebar-off .navbar-brand{
   background: rgba(0,0,0,.009);
   text-decoration:  none;
   opacity: 1;
+  color:white;
 }
 
 .treeview-menu li > a > i {
@@ -951,9 +979,22 @@ body[has-menu="true"] .content>.row:first-child{
     font-weight: 400;
     position: relative;
     border-bottom-color: #f3f5f7;
-    background: #fdfdfd;
+    /*background: #fdfdfd;*/
     padding: 2px 15px;
     /*background:#eee;*/
+}
+
+.box .box-header .box-title {
+    /*color:#333;*/
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1;
+    padding: 10px 0;
+    position: relative;
+    /*top: 1px;
+    border-bottom: 1px solid;*/
+    font-weight: 300
 }
 
 .box .box-header .box-tools{
@@ -975,18 +1016,7 @@ body[has-menu="true"] .content>.row:first-child{
 }
 
 
-.box .box-header .box-title {
-    /*color:#333;*/
-    display: inline-block;
-    font-size: 18px;
-    margin: 0;
-    line-height: 1;
-    padding: 10px 0;
-    position: relative;
-    /*top: 1px;
-    border-bottom: 1px solid;*/
-    font-weight: 400
-}
+
 
 .box .box-body {
   border-radius:0;
@@ -1724,4 +1754,26 @@ body.iframe-nav-holder #igrp-sidebar{
 /*COLORS*/
 [text-color="white"]{
   color:white;
+}
+
+
+/* local theme  */
+
+#igrp-local-theme{
+  position: fixed;
+  z-index: 1500000;
+  top: 100px;
+  right: 0;
+  display: none;
+}
+
+#igrp-local-theme a.igrp-local-theme-button{
+    padding: 8px 12px;
+    display: block;
+    background: white;
+    color: inherit;
+}
+
+#igrp-local-theme ul{
+
 }

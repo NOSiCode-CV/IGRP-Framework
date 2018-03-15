@@ -239,7 +239,9 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
 					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
 					if(val1==null || val1.equals("")){
-						val1 = field.getValue().toString();
+						
+						val1 = field.getValue() != null ? field.getValue().toString() : "";
+						
 					}
 					this.xml.text(val1);
 					this.xml.endElement();

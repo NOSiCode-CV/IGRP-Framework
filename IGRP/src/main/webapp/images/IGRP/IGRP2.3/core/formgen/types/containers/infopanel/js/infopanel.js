@@ -81,8 +81,6 @@
 
 							container.SET.url(url);
 
-							console.log(container.proprieties)
-
 						},200);
 						
 					}
@@ -127,7 +125,6 @@
 					valuePersist : true
 				});
 
-				console.log(container)
 
 			}
 

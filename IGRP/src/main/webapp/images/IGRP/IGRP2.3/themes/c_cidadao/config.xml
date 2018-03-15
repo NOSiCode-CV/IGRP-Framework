@@ -1,17 +1,11 @@
 <style>
 
 	<nav>
-
-		<background>#408140</background>
-
+		<buttonsHover>#4cae4c</buttonsHover>
 	</nav>
 
-	<colors>
-		
-		<color name="primary" bg-hover="#326532" text-color="white" link="true">#408140</color>
-
-	</colors>
-
-	<logo>img/logo.png</logo>
+	<sidebar>
+		<background>#4cae4c</background>
+	</sidebar>
 
 </style>

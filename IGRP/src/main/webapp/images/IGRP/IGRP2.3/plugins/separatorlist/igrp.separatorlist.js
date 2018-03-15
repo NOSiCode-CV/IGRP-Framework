@@ -712,8 +712,6 @@ $.fn.separatorList = function(o){
 				"reset-all"
 			]);
 
-			console.log(sl);
-
 			slOptionsCtrl(sl);
 
 			setEvents(sl);

@@ -10,6 +10,8 @@ package nosi.core.gui.fields;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
+
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
 import nosi.core.exception.NotFoundHttpException;
@@ -31,6 +33,7 @@ public abstract class AbstractField implements Field{
 	private boolean isParam = false;
 	private String sql;
 	private String connectionName = Config.getBaseConnection();
+	private Map<?,?> comboBox;
 	
 	public FieldProperties propertie;
 	
@@ -59,10 +62,15 @@ public abstract class AbstractField implements Field{
 	}
 	public void setValue(Object value) {
 		if(value instanceof Model) {
-			this.configValue(value);
-		}else {
-			this.value = value;
+			this.configValue(value);			
+			if(this.propertie != null && this.getValue() != null)
+				this.propertie.put("value", this.getValue());
+		}else if(value instanceof Map) {
+			this.setListOptions((Map<?, ?>) value);
 		}
+		else {
+			this.value = value;
+		}		
 	}
 	public void setValue(int value) {
 		this.value = value;
@@ -177,5 +185,18 @@ public abstract class AbstractField implements Field{
 	public void addParam(String string, String string2) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void setValue(Map<?, ?> map) {
+		this.comboBox = map;
+	}
+	
+	@Override
+	public void setListOptions(Map<?, ?> map) {
+		this.comboBox = map;
+	}
+	@Override
+	public Map<?, ?> getListOptions() {
+		return this.comboBox;
 	}
 }

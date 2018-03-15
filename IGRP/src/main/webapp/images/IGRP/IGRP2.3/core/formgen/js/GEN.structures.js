@@ -444,9 +444,7 @@ var GENSTRUCTURES = function(GEN){
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
 				params = '',
 				actionLINK = f.action ? f.action.link : '';
-				
-				console.log(f);
-				
+
 			if(f.GET.target_fields && f.GET.target_fields())
 				target += '|'+f.GET.target_fields();
 

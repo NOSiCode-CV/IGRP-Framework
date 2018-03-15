@@ -1,12 +1,16 @@
 
 package nosi.webapps.igrp_studio.pages.listapage;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 
 import nosi.core.webapp.Controller;
+import java.io.IOException;
 import nosi.core.webapp.Core;
-import nosi.core.webapp.FlashMessage;
-import nosi.core.webapp.Igrp;
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.Igrp;
+
+/*----#start-code(packages_import)----*/
+
+import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
@@ -16,30 +20,62 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.ImportExportDAO;
 import nosi.webapps.igrp.dao.Profile;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
-/*----#END-PRESERVED-AREA----*/
+
+/*----#end-code----*/
+
+
 
 public class ListaPageController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
-
+		
 		ListaPage model = new ListaPage();
+		ListaPageView view = new ListaPageView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		view.table_1.setSqlQuery(null,"SELECT 'status_page' status_page, 'descricao_page' descricao_page, 'nome_page' nome_page, 'id_page' id_page");
+		view.myapps_list.setSqlQuery(null,"SELECT 'icon' icon, 'aplicacao' aplicacao");
+		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		
+		view.table_1.addLegendColor("Cor 1",Core.getPinkColor());
+		view.table_1.addLegendColor("Cor 2",Core.getAmberColor());
+		view.table_1.addLegendColor("Cor 3",Core.getGreenColor());
+		view.table_1.addLegendColor("Cor 4",Core.getBlueGreyColor());
+		view.table_1.addLegendColor("Cor 5",Core.getPurpleColor());
+		view.table_1.addLegendColor("Cor 6",Core.getYellowColor());
+		view.table_1.addLegendColor("Cor 7",Core.getBlueColor());
+		view.table_1.addLegendColor("Cor 8",Core.getDeepPurpleColor());
+		view.table_1.addLegendColor("Cor 9",Core.getBrownColor());
+		
+		view.myapps_list.addLegendColor("Cor 1",Core.getPinkColor());
+		view.myapps_list.addLegendColor("Cor 2",Core.getAmberColor());
+		view.myapps_list.addLegendColor("Cor 3",Core.getGreenColor());
+		view.myapps_list.addLegendColor("Cor 4",Core.getBlueGreyColor());
+		view.myapps_list.addLegendColor("Cor 5",Core.getPurpleColor());
+		view.myapps_list.addLegendColor("Cor 6",Core.getYellowColor());
+		view.myapps_list.addLegendColor("Cor 7",Core.getBlueColor());
+		view.myapps_list.addLegendColor("Cor 8",Core.getDeepPurpleColor());
+		view.myapps_list.addLegendColor("Cor 9",Core.getBrownColor());
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
+      
 
 		ArrayList<ListaPage.Table_1> lista = new ArrayList<>();
 
 		ArrayList<ListaPage.Myapps_list> apps = new ArrayList<>();
 
 		Action a = new Action();
-
-		model.load();
 
 		model.setBtn_import("igrp_studio", "ImportArquivo", "index&target=_blank");
 		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank");
@@ -100,7 +136,7 @@ public class ListaPageController extends Controller {
 			apps.add(myapps);
 		}
 		//model.setInfopanel_3_val(""+apps.size());
-		ListaPageView view = new ListaPageView(model);
+		
 		view.p_id_page.setParam(true);
 		view.env_fk.setValue(new Application().getListApps());
 		view.table_1.addData(lista);
@@ -109,66 +145,131 @@ public class ListaPageController extends Controller {
 		view.infopanel_1_url.setValue(this.getConfig().getResolveUrl("igrp_studio","WebReport","index"));
 		view.infopanel_2_url.setValue(this.getConfig().getResolveUrl("igrp_studio","BPMNDesigner","index"));
 		view.infopanel_3_url.setValue(this.getConfig().getResolveUrl("igrp_studio","ListaEnv","index"));
+	
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
-
 
 	public Response actionNova_aplicacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(NOVA_APLICACAO)----*/
+		
+		ListaPage model = new ListaPage();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp_studio","Env","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(nova_aplicacao)----*/
 
-		return this.redirect("igrp_studio", "Env", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp_studio","Env","index");
+		
 	}
-	
-
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		
+		
+		/*----#start-code(editar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.forward("igrp", "Page", "index&target=_blank&p_id=" + p_id_page);
 		}
-
-		return this.redirect("igrp", "Page", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp_studio","listapage","index");
+		
 	}
-	
-
 	public Response actionVisualizar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(VISUALIZAR)----*/
+		
+		ListaPage model = new ListaPage();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp_studio","ListaPage","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(visualizar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.redirect("igrp", "Page", "visualizar&target=_blank&p_id=" + p_id_page);
 		}
-		return this.redirect("igrp", "Page", "index&target=_blank");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp_studio","ListaPage","index");
+		
 	}
-	
-
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
+		
+		ListaPage model = new ListaPage();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp_studio","ListaPage","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(eliminar)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.forward("igrp", "Page", "eliminar&id=" + p_id_page);
 		}
-		return this.redirect("igrp_studio", "ListaPage", "index");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp_studio","ListaPage","index");
+		
 	}
-	
-
 	public Response actionGerar_codigo() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GERAR_CODIGO)----*/
+		
+		
+		/*----#start-code(gerar_codigo)----*/
 		String p_id_page = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (p_id_page != null && !p_id_page.equals("")) {
 			return this.forward("igrp", "generator", "index&target=_blank&id=" + p_id_page);
 		}
-		return this.redirect("igrp", "Page", "index");
-		/*----#END-PRESERVED-AREA----*/
-	}
 	
-
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp_studio","listapage","index");
+		
+	}
 	public Response actionDownload() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(DOWNLOAD)----*/
+		
+		
+		/*----#start-code(download)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
 			Action page = new Action().findOne(Integer.parseInt(id));
@@ -190,11 +291,15 @@ public class ListaPageController extends Controller {
 		} else {
 			Core.setMessageError();
 		}
-		return this.redirect("igrp_studio", "ListaPage", "index");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp_studio","listapage","index");
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
@@ -230,5 +335,9 @@ public class ListaPageController extends Controller {
 
 		return this.renderView(json.toString());
 	}
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

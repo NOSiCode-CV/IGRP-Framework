@@ -113,8 +113,6 @@ var IMGFIELD = function(type,params){
 			xslValue:'img-rounded'
 		});
 		
-		console.log(field);
-
 	}
 
 

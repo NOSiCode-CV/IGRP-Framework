@@ -1,4 +1,7 @@
 package nosi.core.gui.fields;
+
+import java.util.Map;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -17,6 +20,7 @@ public interface Field {
 	public void setValue(int value);
 	public void setValue(float value);
 	public void setValue(double value);
+	public void setValue(Map<?,?> value);
 	public void setLabel(String label);
 	public String getLabel();
 	public FieldProperties propertie();
@@ -33,4 +37,6 @@ public interface Field {
 	public void setSqlQuery(String connectionName, String tableName, String key, String value);
 	public void setSqlQuery(String connectionName,String schemaName, String tableName, String key, String value);
 	public void addParam(String string, String string2);
+	public void setListOptions( Map<?,?>  map);
+	public Map<?,?> getListOptions();
 }

@@ -435,9 +435,11 @@ var preserveExceptions = function(content,o){
 			});
 
 		})
-		.fail(function(){
+		.fail(function(err){
 
-			alert('error: '+expression);
+			console.log('error: '+expression);
+			
+			console.log(err)
 
 			preserveExceptions.returner.push({
 				expression:expression,
@@ -527,7 +529,7 @@ var preserveArea = function(array,p){
 			});
 		})
 		.fail(function(){
-			alert('error: '+urlContent[1]);
+			console.log('error: '+urlContent[1]);
 			preserveArea.returnObject.push({
 				areaName  : areaName,
 				originalContent : originalContent,
@@ -581,7 +583,6 @@ var preserve_code = function(array,p){
 			
 			var xml  = $(d);
 			var text = xml.find('your_code').text();
-
 			
 			preserve_code.returnObject.push({
 				expression:expression,
@@ -589,7 +590,7 @@ var preserve_code = function(array,p){
 			});
 		})
 		.fail(function(){
-			alert('error: '+expressionContent[1]);
+			console.log('error: '+expressionContent[1]);
 			preserve_code.returnObject.push({
 				expression:expression,
 				text:''

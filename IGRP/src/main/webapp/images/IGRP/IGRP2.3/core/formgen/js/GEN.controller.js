@@ -49,6 +49,12 @@ var GENERATOR = function(genparams){
 	GEN.propertiesLabels = {};
 
 	GEN.domains 		 = {};
+	
+	GEN.files 			 = {
+		css : [],
+		js  : [],
+		xsl : []
+	};
 
 	GEN.tags = {
 
@@ -3120,7 +3126,6 @@ if(input) {
 					
 					GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
 
-					console.log(GEN.UTILS)
 					//loadDomains();
 
 					loadPageContents({ source: genparams.dataSrc });

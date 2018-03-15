@@ -120,10 +120,13 @@
  		<xsl:value-of select="$import_model"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_annotations"/>
+ 		<xsl:value-of select="$newline"/>
+ 		<xsl:value-of select="$import_query_helper"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list"/>
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_separator_list_annotation"/>
+ 		
 		<xsl:value-of select="$newline"/>
 		<xsl:if test="count(/rows/content/*[@type = 'treemenu' or @type = 'table' or @type = 'formlist' or @type = 'separatorlist']) > 0">
 	 		<xsl:value-of select="$import_array_list"/>
@@ -145,7 +148,34 @@
 	 		<xsl:call-template name="gen-get-set-model"></xsl:call-template>
 	 		<xsl:value-of select="$newline"/>
 	 		<xsl:call-template name="gen-subclass"></xsl:call-template>
-	 		<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$newline"/>
+			
+			<xsl:for-each select="//rows/content/*[@xml-type='table']">
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:variable name="tclassName">
+					<xsl:call-template name="CamelCaseWord">
+						<xsl:with-param name="text" select="name()"/>
+					</xsl:call-template>
+				</xsl:variable>
+				
+				<xsl:text>public void load</xsl:text>
+				<xsl:value-of select="$tclassName"/><xsl:text>(QueryHelper query) {</xsl:text>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+				<xsl:text>this.loadTable(query,</xsl:text>
+				<xsl:value-of select="$tclassName"/>
+				<xsl:text>.class);</xsl:text>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:text>}</xsl:text>
+				<xsl:value-of select="$newline"/>
+				
+			</xsl:for-each>
+			
+			<xsl:value-of select="$newline"/>
+	 		
  		<xsl:value-of select="'}'"/>
  	</xsl:template>
  	

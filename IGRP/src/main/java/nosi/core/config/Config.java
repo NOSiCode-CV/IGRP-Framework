@@ -287,7 +287,8 @@ public class Config {
 	
 	public String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
-		if(!app.equals("") && !page.equals("") && !action.equals("")){
+		
+		if( Core.isNotNull(app)  && Core.isNotNull(page) && Core.isNotNull(action)){
 			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
 			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller":basePackage;		
 		}

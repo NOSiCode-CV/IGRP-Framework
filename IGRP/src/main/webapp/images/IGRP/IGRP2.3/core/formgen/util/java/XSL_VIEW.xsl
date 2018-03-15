@@ -28,17 +28,43 @@
 
 	<!-- Set Model -->
 	<xsl:template name="set-model">
+		
+		<!--<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:text>@Override</xsl:text>-->
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
- 		<xsl:text>@Override</xsl:text>
-		<xsl:value-of select="$newline"/>
-		<xsl:value-of select="$tab"/>
- 		<xsl:text>public void setModel(Model model) {</xsl:text>
+		<xsl:value-of select="concat('public void setModel(',$class_name,' model) {')"/>
+ 		
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="set-model-fields"/>
 		<xsl:value-of select="$tab"/>
+		
+		<xsl:for-each select="//rows/content/*[@type='table']">
+			
+			<xsl:variable name="upperTag">
+				<xsl:call-template name="CamelCaseWord">
+					<xsl:with-param name="text" select="name()"/>
+				</xsl:call-template>
+			</xsl:variable>
+			
+			<xsl:value-of select="$newline"/>
+			
+			<xsl:value-of select="$tab2"/>
+			
+			<xsl:value-of select="concat(name(),'.loadModel(model.get',$upperTag,'());')"/>
+			
+			<xsl:value-of select="$newline"/>
+			
+		</xsl:for-each>
+		
+		<xsl:value-of select="$newline"/>
+			
+		<xsl:value-of select="$tab"/>
+		
  		<xsl:text>}</xsl:text>
+ 		
 	</xsl:template>
     
     <xsl:template name="set-model-fields">    	

@@ -17,7 +17,7 @@
 	-->
      <xsl:template name="gen-field-view">
 		<xsl:param name="type" /> 
-        <xsl:for-each select="//fields/*">
+        <xsl:for-each select="//rows/content/*/fields/*">
             <xsl:if test="not(@name=preceding::node()/@name)">
 				<xsl:choose>
 					<xsl:when test="$type='declare'">
@@ -36,6 +36,7 @@
 								<xsl:value-of select="concat('public Field ',name(),';')"/>
 							</xsl:otherwise>
 						</xsl:choose>
+						<xsl:value-of select="$newline"/>
 					</xsl:when>
 					<xsl:when test="$type='instance'">
 						<xsl:value-of select="$tab2"/>
@@ -121,10 +122,36 @@
 			    			</xsl:for-each>
 							<xsl:value-of select="';'"/>
 					 	</xsl:if>
-					 	
+					 	<xsl:value-of select="$newline"/>
+					</xsl:when>
+					<xsl:when test="$type='set-model'">
+						
+						<xsl:variable name="isPersist">
+							<xsl:choose>
+								<xsl:when test="@persist='true'">true</xsl:when>
+								<xsl:otherwise>false</xsl:otherwise>
+							</xsl:choose>
+						</xsl:variable>
+						
+						<xsl:if test="@type !='select' and @type!='checkboxlist' and @type!='radiolist' and $isPersist = 'false'">
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
+							<xsl:variable name="tag_name">
+								<xsl:choose>
+									<xsl:when test="@type='hidden'">
+										<xsl:value-of select="@name"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="name()"/>
+									</xsl:otherwise>
+								</xsl:choose>
+						 	</xsl:variable>
+						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
+							<xsl:value-of select="$newline"/>
+					 	</xsl:if>
 					</xsl:when>
 				</xsl:choose>				
-				<xsl:value-of select="$newline"/>
+				<!-- <xsl:value-of select="$newline"/> -->
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>

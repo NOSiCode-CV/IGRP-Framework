@@ -1,4 +1,4 @@
-body{
+/*body{
 	background: #fafafa
 }
 
@@ -33,7 +33,6 @@ body.sidebar-off .navbar-brand{
 	display: block!important;
 }
 
-
 #side-bar-ctrl{
 	position: absolute;
     left: 0;
@@ -43,7 +42,7 @@ body.sidebar-off .navbar-brand{
 }
 #side-bar-ctrl:hover{
 	/*color: #e4e4e4;*/
-	background: none;
+	/*background: none;
 }
 
 
@@ -75,7 +74,7 @@ body.sidebar-off .navbar-brand{
 
 #igrp-top-menu>li>a:hover, 
 #igrp-top-menu>li>a:focus{
-	/*border-bottom-color:#337ab7;;*/
 	background: rgba(0,0,0,.01);
 	color: #337ab7
 }
+*/
