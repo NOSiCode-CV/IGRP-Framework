@@ -46,7 +46,16 @@
 			 				</xsl:otherwise>
 			 			</xsl:choose>
 					</xsl:variable>
-			 		<xsl:value-of select="concat($name,' =: ',$name)"/>
+					
+					<xsl:variable name="name_">
+						<xsl:call-template name="replace-all">
+					        <xsl:with-param name="text" select="$name"/>
+					        <xsl:with-param name="replace" select="'p_'"/>
+					        <xsl:with-param name="by" select="''"/>
+					     </xsl:call-template>
+					</xsl:variable>
+					 			
+			 		<xsl:value-of select="concat($name_,'=:',$name_)"/>
 					<xsl:if test="position() != last()">
 						<xsl:value-of select="' AND '"/>
 					</xsl:if>
@@ -81,6 +90,7 @@
 		</xsl:if>
  	</xsl:template>
  
+    
  	<xsl:template name="setTypeValue">
  		<xsl:param name="type"/>
  		<xsl:param name="name"/>
@@ -119,6 +129,14 @@
  		<xsl:param name="type"/>
  		<xsl:param name="name"/>
  		
+ 		<xsl:variable name="name__">
+			<xsl:call-template name="replace-all">
+		        <xsl:with-param name="text" select="$name"/>
+		        <xsl:with-param name="replace" select="'p_'"/>
+		        <xsl:with-param name="by" select="''"/>
+		     </xsl:call-template>
+		</xsl:variable>
+					
  		<xsl:variable name="name_">
  			<xsl:call-template name="CamelCaseWord">
  				<xsl:with-param name="text" select="$name"/>
@@ -130,25 +148,25 @@
 		<xsl:value-of select="$tab2"/>
  		<xsl:choose>
  			<xsl:when test="$type='String'">
- 				<xsl:value-of select="concat('.addString(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addString(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Integer' or $type='int'">
- 				<xsl:value-of select="concat('.addInt(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addInt(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Float' or $type='float'">
- 				<xsl:value-of select="concat('.addFloat(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addFloat(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Double' or $type='double'">
- 				<xsl:value-of select="concat('.addDouble(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addDouble(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Short' or $type='short'">
- 				<xsl:value-of select="concat('.addShort(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addShort(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Long' or $type='long'">
- 				<xsl:value-of select="concat('.addLong(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addLong(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Date'">
- 				<xsl:value-of select="concat('.addDate(',$double_quotes,$name,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addDate(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  		</xsl:choose> 		
  	</xsl:template>
@@ -176,10 +194,10 @@
 	 		<xsl:for-each select="fields/*[@iskey='true']">	
 	 			<xsl:choose>
 	 				<xsl:when test="@type='hidden'">
-						<xsl:value-of select="concat('+',$double_quotes,'&amp;p_',@name,'=',$double_quotes,'+Core.getParam(',$double_quotes,@name,$double_quotes,')')"/>
+						<xsl:value-of select="concat('+',$double_quotes,'&amp;isEdit=true&amp;',@name,'=',$double_quotes,'+Core.getParam(',$double_quotes,@name,$double_quotes,')')"/>
 	 				</xsl:when>
 	 				<xsl:otherwise>
-						<xsl:value-of select="concat('+',$double_quotes,'&amp;p_',local-name(),'=',$double_quotes,'+Core.getParam(',$double_quotes,local-name(),$double_quotes,')')"/>
+						<xsl:value-of select="concat('+',$double_quotes,'&amp;isEdit=true&amp;p_',local-name(),'=',$double_quotes,'+Core.getParam(',$double_quotes,local-name(),$double_quotes,')')"/>
 	 				</xsl:otherwise>
 	 			</xsl:choose>
  			</xsl:for-each>

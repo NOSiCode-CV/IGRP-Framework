@@ -93,6 +93,18 @@
 			<xsl:value-of select="$tab2"/>	
 			<xsl:value-of select="'model.load(query);'"/>			
 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>			
+			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
+ 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('if(',$isEdit,') {')"/>	
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>				
+				<xsl:value-of select="concat('view.btn_save.setLink(',$double_quotes,'save&amp;isEdit=true',$double_quotes,');')"/>	
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'}'"/>			
+			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
 			<xsl:value-of select="$newline"/>
@@ -126,13 +138,13 @@
 	     	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/> 
-			<xsl:value-of select="'int r = 0;'"/>	 					
+			<xsl:value-of select="'Object r = null;'"/>	 					
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			<xsl:call-template name="gen-crud-sql"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
-			<xsl:value-of select="concat('','if(r>0){')"/>
+			<xsl:value-of select="concat('','if(r != null){')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>		
 			<xsl:value-of select="$tab"/>
@@ -195,13 +207,17 @@
 		<xsl:value-of select="'}'"/> 
  	</xsl:template>
  	
+	<xsl:variable name="isEdit">
+		<xsl:text>Core.isNull(isEdit)</xsl:text>
+	</xsl:variable>
+	
  	<xsl:template name="gen-crud-sql">
- 		<xsl:variable name="isEdit">
- 			<xsl:call-template name="if-update"/>
- 		</xsl:variable>
 		
 		 	<xsl:choose>
 		 		<xsl:when test="/rows/plsql/package_copy_html!=''">
+		 			<xsl:value-of select="$newline"/>
+					<xsl:value-of select="$tab2"/>
+					<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
 		 			<xsl:value-of select="$newline"/>
 					<xsl:value-of select="$tab2"/>
 		 			<xsl:value-of select="concat('if(',$isEdit,'){')"/>
@@ -271,7 +287,7 @@
 		 				</xsl:otherwise>
 		 			</xsl:choose>
 		 		</xsl:variable>
-				<xsl:value-of select="concat('Core.isNullOrZero(model.get',$name_,'())')"/>
+				<xsl:value-of select="concat('Core.isNotNullOrZero(model.get',$name_,'())')"/>
 				<xsl:if test="position() != last()">
 					<xsl:value-of select="'&amp;&amp;'"/>
 				</xsl:if>
