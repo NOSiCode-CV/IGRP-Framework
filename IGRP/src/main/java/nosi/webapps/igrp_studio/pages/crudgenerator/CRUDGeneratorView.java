@@ -1,5 +1,6 @@
 
 package nosi.webapps.igrp_studio.pages.crudgenerator;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
@@ -40,7 +41,7 @@ public class CRUDGeneratorView extends View {
 		
 		add_datasource = new LinkField(model,"add_datasource");
 		add_datasource.setLabel(gt("Add datasource"));
-		add_datasource.setValue("webapps?r=igrp_studio/ListaEnv/index");
+		add_datasource.setValue(Igrp.getInstance().getCurrentController().getConfig().getResolveUrl("igrp_studio" , "ListaEnv", "index"));
 							
 		add_datasource.propertie().add("name","p_add_datasource").add("type","link").add("target","modal").add("maxlength","30").add("custom_action","").add("action_type","false");
 		

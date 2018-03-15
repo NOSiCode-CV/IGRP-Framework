@@ -3,7 +3,10 @@ package nosi.core.webapp.helpers;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import nosi.core.config.Config;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
@@ -127,7 +130,11 @@ public class ImportExportApp {
 			}
 			this.filesDaoClasses = newFilesDao;
 		}
-		return this.filesPageClasses!=null && this.filesPageClasses.size() > 1;
+		
+		//Optional<Map<String,String>> opt1 = Optional.of(this.filesPageClasses);
+		Optional<List<Action>> opt1 = Optional.of(app.getActions());
+		
+		return opt1.isPresent() && opt1.get().size() > 0;
 	}
 	
 	public Map<String,String> getFilesPageClasses(){

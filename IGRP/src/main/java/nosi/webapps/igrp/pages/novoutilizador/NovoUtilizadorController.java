@@ -146,10 +146,10 @@ public class NovoUtilizadorController extends Controller {
 					userLdap.setUser_name(aux);
 				}catch(Exception e) {
 					e.printStackTrace();
-					userLdap.setUser_name(person.getMail());
+					userLdap.setUser_name(person.getMail().trim().toLowerCase());
 					Igrp.getInstance().getFlashMessage().addMessage("warning",gt("Something is wrong from LDAP server side."));
 				}
-				userLdap.setEmail(person.getMail());
+				userLdap.setEmail(person.getMail().trim().toLowerCase());
 				userLdap.setStatus(0);
 				userLdap.setCreated_at(System.currentTimeMillis());
 				userLdap.setUpdated_at(System.currentTimeMillis());
