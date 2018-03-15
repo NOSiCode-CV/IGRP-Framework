@@ -336,6 +336,15 @@ public final class Core {	// Not inherit
 		return value==null || value.equals("");
 	}	
 	
+	public static boolean isNotNullOrZero(Object value) {
+		if(!(value instanceof Number)) {
+			return Core.isNotNull(value);
+		}
+		if(Core.isNotNull(value)) {
+			return new Integer(value.toString())!=0;
+		}
+		return false;
+	}	
 	
 	public static boolean isInt(Object value) {
 		if(isNotNull(value)) {
@@ -713,6 +722,7 @@ public final class Core {	// Not inherit
 		
 		return cLob;
 	}
-	
+
+
 	/** **/
 }

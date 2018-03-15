@@ -1,16 +1,12 @@
 package nosi.core.webapp.databse.helpers;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
-import nosi.base.ActiveRecord.PersistenceUtils;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
@@ -205,12 +201,33 @@ public abstract class QueryHelper implements IFQuery{
 		}
 	}
 
-	@Override
-	public int execute() {
-		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
+		if(col.getType().equals(java.lang.Integer.class)) {
+			query.setInt(col.getName(),Integer.parseInt(value.toString()));
+		}else if(col.getType().equals(java.lang.Double.class)){
+			query.setDouble(col.getName(), Double.parseDouble(value.toString()));
+		}else if(col.getType().equals(java.lang.Float.class)){
+			query.setFloat(col.getName(), Float.parseFloat(value.toString()));
+		}else if(col.getType().equals(java.lang.Long.class)){
+			query.setLong(col.getName(), (Long)value);
+		}else if(col.getType().equals(java.lang.Short.class)){
+			query.setShort(col.getName(), (Short)value);
+		}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
+			query.setDate(col.getName(),Core.ToDate(value.toString(), col.getFormat()));
+		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
+			query.setString(col.getName(),value.toString());
+		}else {
+			query.setObject(col.getName(), value);
+		}
+		System.out.println(col.getName()+"-"+col.getType()+":"+value);
+	}
 	
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
+	@Override
+	public Object execute() {
+//		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+//	
+//		EntityTransaction t =  em.getTransaction();
+//		t.begin();
 		if(this instanceof QueryInsert) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
 		}
@@ -221,21 +238,48 @@ public abstract class QueryHelper implements IFQuery{
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
 		}
 		
-		Core.log("SQL Query:"+this.sql);
-		Query query = em.createNativeQuery(this.sql);		
-		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-			 if(col.getDefaultValue()!=null) {
-				 this.setParameter(query,col.getDefaultValue(),col);					
-			 }else {
-				 query.setParameter(col.getName(), null);
-			 }
-		}		
-		int r = query.executeUpdate();
-		t.commit();
-		em.close();
-		return r;
+		if(this instanceof QueryInsert) {
+			try {
+				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
+				this.setParameters(q);	
+				return q.executeInsert();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}else {
+			try {
+				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql);
+				this.setParameters(q);
+				return q.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+//		Core.log("SQL Query:"+this.sql);
+//		Query query = em.createNativeQuery(this.sql);		
+//		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+//			 if(col.getDefaultValue()!=null) {
+//				 this.setParameter(query,col.getDefaultValue(),col);					
+//			 }else {
+//				 query.setParameter(col.getName(), null);
+//			 }
+//		}		
+//		int r = query.executeUpdate();
+//		t.commit();
+//		em.close();
+		return 0;
 	}
 	
+	private void setParameters(NamedParameterStatement q) throws SQLException {
+		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+			 if(col.getDefaultValue()!=null) {
+				 this.setParameter(q,col.getDefaultValue(),col);					
+			 }else {
+				 q.setObject(col.getName(), null);
+			 }
+		}
+	}
+
 	public List<Tuple> getResultList() {
 		return null;
 	}
