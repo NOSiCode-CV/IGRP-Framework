@@ -36,8 +36,6 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_response"/>
 		<xsl:value-of select="$newline"/>
- 		<xsl:value-of select="$import_igrp"/>
-		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$import_query_helper"/>
 		<xsl:value-of select="$newline"/>
      	<xsl:call-template name="start-code">

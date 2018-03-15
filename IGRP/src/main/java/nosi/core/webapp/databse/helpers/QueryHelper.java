@@ -224,10 +224,7 @@ public abstract class QueryHelper implements IFQuery{
 	
 	@Override
 	public Object execute() {
-//		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-//	
-//		EntityTransaction t =  em.getTransaction();
-//		t.begin();
+		Object r = null;
 		if(this instanceof QueryInsert) {
 			this.sql = this.getSqlInsert(this.getSchemaName(),this.getColumnsValue(), this.getTableName());
 		}
@@ -242,7 +239,8 @@ public abstract class QueryHelper implements IFQuery{
 			try {
 				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
-				return q.executeInsert();
+				r = q.executeInsert();
+				q.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -250,24 +248,13 @@ public abstract class QueryHelper implements IFQuery{
 			try {
 				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql);
 				this.setParameters(q);
-				return q.executeUpdate();
+				r = q.executeUpdate();
+				q.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-//		Core.log("SQL Query:"+this.sql);
-//		Query query = em.createNativeQuery(this.sql);		
-//		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
-//			 if(col.getDefaultValue()!=null) {
-//				 this.setParameter(query,col.getDefaultValue(),col);					
-//			 }else {
-//				 query.setParameter(col.getName(), null);
-//			 }
-//		}		
-//		int r = query.executeUpdate();
-//		t.commit();
-//		em.close();
-		return 0;
+		return r;
 	}
 	
 	private void setParameters(NamedParameterStatement q) throws SQLException {
