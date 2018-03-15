@@ -209,7 +209,7 @@ public class XMLTransform {
 				f.propertie().add("name", "p_"+column.getName());
 				f.propertie().add("tag", "p_"+column.getName());
 			}
-			if(column.isPrimaryKey()) {
+			if(column.isPrimaryKey() || column.isAutoIncrement()) {
 				f.propertie().add("iskey", "true");
 			}
 			if(column.isAutoIncrement()) {

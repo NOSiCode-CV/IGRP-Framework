@@ -40,6 +40,19 @@ public abstract class Model { // IGRP super model
 	}
 	
 
+	public void load(QueryHelper query) throws IllegalArgumentException, IllegalAccessException {
+		if(query != null){
+			List<Tuple> list = query.getResultList();
+			for(Tuple tuple:list) {
+				for(Field field:this.getClass().getDeclaredFields()) {
+					Core.setParam(field.getAnnotation(RParam.class).rParamName(), tuple.get(field.getName()));
+				}
+			}		
+			if(list.size() > 0) {
+				this.load();
+			}
+		}
+	}
 	
 	public <T> List<T> loadTable(QueryHelper query, Class<T> className) {
 		if(query!=null) {

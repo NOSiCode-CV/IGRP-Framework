@@ -1,5 +1,8 @@
 package nosi.core.webapp.databse.helpers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -205,6 +208,7 @@ public abstract class QueryHelper implements IFQuery{
 	@Override
 	public int execute() {
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+	
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		if(this instanceof QueryInsert) {
@@ -216,8 +220,9 @@ public abstract class QueryHelper implements IFQuery{
 		else if(this instanceof QueryDelete) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
 		}
+		
 		Core.log("SQL Query:"+this.sql);
-		Query query = em.createNativeQuery(this.sql);
+		Query query = em.createNativeQuery(this.sql);		
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
 				 this.setParameter(query,col.getDefaultValue(),col);					
