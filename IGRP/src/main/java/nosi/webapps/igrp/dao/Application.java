@@ -52,7 +52,7 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "action_fk",foreignKey = @ForeignKey(name="ENV_ACTION_FK"))
 	private Action action;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.LAZY)
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application",fetch=FetchType.EAGER)
 	private List<Action> actions;
 	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="application")
 	private List<Config_env> configs;
