@@ -46,7 +46,6 @@ package nosi.core.gui.components;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 import static nosi.core.i18n.Translator.gt;
@@ -58,9 +57,8 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.databse.helpers.Query;
+import nosi.core.webapp.helpers.Helper;
 import nosi.core.webapp.helpers.IgrpHelper;
-import nosi.webapps.igrp.dao.Action;
 import nosi.core.gui.fields.FieldProperties;
 
  
@@ -73,7 +71,7 @@ public class IGRPTable extends IGRPComponent{
 	protected ArrayList<IGRPButton> buttons;
 	protected List<?> data;
 	protected String rows = "";
-	private String sql;
+	protected List<?> modelList;
 	private List<Properties> legend_color = new ArrayList<>();
 	
 	public IGRPTable(String tag_name,String title) {
@@ -107,6 +105,7 @@ public class IGRPTable extends IGRPComponent{
 		}
 	}
 
+	
 	public IGRPTable(String tag_name){
 		this(tag_name,"");
 	}
@@ -141,7 +140,7 @@ public class IGRPTable extends IGRPComponent{
 				GenXMLField.toXml(this.xml,this.fields);
 				this.xml.startElement("table");
 					this.xml.startElement("value");
-						if(this.getSqlQuery()!=null && !this.getSqlQuery().equals(""))
+						if(this.modelList != null)
 							this.genRowsWithSql();
 						else
 							this.genRows();
@@ -153,7 +152,7 @@ public class IGRPTable extends IGRPComponent{
 			}else if(this.version == (float) 2.1){
 				GenXMLField.toXmlV21(this.xml,this.fields);
 				this.xml.startElement("value");
-					if(this.getSqlQuery()!=null && !this.getSqlQuery().equals(""))
+					if(this.modelList != null)
 						this.genRowsWithSql();
 					else
 						this.genRows();
@@ -183,30 +182,27 @@ public class IGRPTable extends IGRPComponent{
 	}
 
 	private void genRowsWithSql() {
-		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
-			List<Map<String,Object>> list = Query.query(this.getConnectionName(), this.getSqlQuery());
-			for(Map<String, Object> l:list) {
-				this.xml.startElement("row");
-				this.xml.startElement("context-menu");
-				for(Field field:this.fields){
-					if(field.isParam()){
-						field.reselveFieldName();
-						Object value= l.get(field.getName().toLowerCase());
-						if(value!=null)
-							this.xml.setElement("param", field.getName()+"="+ value.toString());
-					}
-				}
-				this.xml.endElement();
-				
-				for(Field field:this.fields){
-					Object value= l.get(field.getName().toLowerCase());
+		for(Object l:this.modelList) {
+			this.xml.startElement("row");
+			this.xml.startElement("context-menu");
+			for(Field field:this.fields){
+				if(field.isParam()){
+					field.reselveFieldName();
+					Object value= Helper.getValue(l, field.getName().toLowerCase());
 					if(value!=null)
-						this.xml.setElement(field.getTagName(), value.toString());
-					else
-						this.xml.setElement(field.getTagName(), "");
+						this.xml.setElement("param", field.getName()+"="+ value.toString());
 				}
-				this.xml.endElement();
 			}
+			this.xml.endElement();
+			
+			for(Field field:this.fields){
+				Object value= Helper.getValue(l, field.getName().toLowerCase());
+				if(value!=null)
+					this.xml.setElement(field.getTagName(), value.toString());
+				else
+					this.xml.setElement(field.getTagName(), "");
+			}
+			this.xml.endElement();
 		}
 	}
 
@@ -274,21 +270,6 @@ public class IGRPTable extends IGRPComponent{
 		this.xml.endElement();
 		return this.xml.toString();
 	}
-	
-	public void setSqlQuery(String connectionName,String sql){
-		if(connectionName!=null && !connectionName.equals("")){
-			this.connectionName = connectionName;
-		}
-		this.setSqlQuery(sql);
-	}
-	
-	public void setSqlQuery(String sql){
-		this.sql = sql;
-	}
-	
-	public String getSqlQuery(){
-		return this.sql;
-	}
 
 	public IGRPTable addLegendColor(String label,String value) {
 		Properties p = new Properties();
@@ -297,14 +278,7 @@ public class IGRPTable extends IGRPComponent{
 		return this;
 	}
 
-	
-	public void setSqlQueryCRUD(String app, String page) {
-		Action p = new Action().find().andWhere("application.dad", "=",app)
-										 .andWhere("page", "=",page)
-										 .one();
-		if(p!=null && p.getCrud()!=null) {
-			String table = p.getCrud().getSchemaName()!=null?p.getCrud().getSchemaName()+"."+p.getCrud().getTableName():p.getCrud().getTableName();
-			this.setSqlQuery(p.getCrud().getConfig_env().getName(), "SELECT * FROM "+table);
-		}
+	public void loadModel(List<?> modelList) {
+		this.modelList = modelList;
 	}
 }

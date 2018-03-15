@@ -14,7 +14,6 @@ import javax.xml.transform.TransformerConfigurationException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.databse.helpers.*;
-import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.xml.XMLTransform;
 import nosi.webapps.igrp.dao.Action;
@@ -186,7 +185,6 @@ public class CRUDGeneratorController extends Controller {
 	private boolean generateClassMVC(Action page,String mvc) throws IOException, URISyntaxException {
 		if(mvc!=null) {
 			String[] partsJavaCode = mvc.toString().split(" END ");
-			System.out.print("size:"+partsJavaCode.length);
 			if(partsJavaCode.length > 2){
 				String model = partsJavaCode[0];
 				String view = partsJavaCode[1];

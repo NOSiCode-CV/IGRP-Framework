@@ -69,8 +69,8 @@ $(function(){
 
 								if(forminput[0]){
 
-									$(forminput[(formIdx)]).val(vOp[1]);//.trigger('change');
-
+									$(forminput[(formIdx)]).val(vOp[1]).attr('value',vOp[1]);//.trigger('change');
+									
 									if($(forminput[(formIdx)])[0].lookupCallback)
 										$(forminput[(formIdx)])[0].lookupCallback($(forminput[(formIdx)]));
 

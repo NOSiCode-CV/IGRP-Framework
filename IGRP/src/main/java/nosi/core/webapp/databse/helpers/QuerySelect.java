@@ -39,10 +39,11 @@ public class QuerySelect extends QueryHelper {
 	}
 	
 	public List<Tuple> getResultList() {
-		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
+		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";		
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
+		Core.log("SQL Query:"+this.sql);
 		Query query = em.createNativeQuery(this.sql,Tuple.class);	
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
@@ -51,19 +52,40 @@ public class QuerySelect extends QueryHelper {
 				 query.setParameter(col.getName(), null);
 			 }
 		}		
-		
+		@SuppressWarnings("unchecked")
 		List<Tuple> list = query.getResultList();
 		t.commit();
 		em.close();
 		return list;
 	}
 
+	public <T> List<T> getResultList(Class<T> entity){
+		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";		
+		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
+		EntityTransaction t =  em.getTransaction();
+		t.begin();
+		Core.log("SQL Query:"+this.sql);
+		Query query = em.createNativeQuery(this.sql,entity);	
+		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
+			 if(col.getDefaultValue()!=null) {
+				 this.setParameter(query,col.getDefaultValue(),col);					
+			 }else {
+				 query.setParameter(col.getName(), null);
+			 }
+		}		
+		@SuppressWarnings("unchecked")
+		List<T> list = query.getResultList();
+		t.commit();
+		em.close();
+		return list;
+	}
 	
 	public Object getSigleResult() {
 		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
+		Core.log("SQL Query:"+this.sql);
 		Query query = em.createNativeQuery(this.sql);
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
@@ -84,6 +106,7 @@ public class QuerySelect extends QueryHelper {
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
 		TypedQuery<?> query = em.createQuery(this.sql, this.className);
+		Core.log("SQL Query:"+this.sql);
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
 				 this.setParameter(query,col.getDefaultValue(),col);					

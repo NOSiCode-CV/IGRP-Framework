@@ -1,6 +1,7 @@
 package nosi.core.webapp;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.persistence.Tuple;
+import org.apache.commons.beanutils.BeanUtils;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
@@ -17,6 +20,7 @@ import java.lang.Long;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
 import nosi.core.webapp.databse.helpers.CRUDOperation;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.CRUD;
@@ -33,6 +37,32 @@ public abstract class Model { // IGRP super model
 	public Model(){
 		this.scenario = "default"; // Default scenario for validation
 		this.createErrorsPool();
+	}
+	
+
+	
+	public <T> List<T> loadTable(QueryHelper query, Class<T> className) {
+		if(query!=null) {
+			List<T> list = new ArrayList<>();
+			for(Tuple tuple:query.getResultList()) {
+				T t;
+				try {
+					t = className.newInstance();
+					for(Field field:className.getDeclaredFields()) {
+						try {
+							BeanUtils.setProperty(t, field.getName(),tuple.get(field.getName()).toString());
+						}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+							
+						}
+					}
+					list.add(t);
+				} catch (InstantiationException | IllegalAccessException e1) {
+					e1.printStackTrace();
+				}
+			}
+			return list;
+		}
+		return null;
 	}
 	
 	/*
@@ -178,7 +208,7 @@ public abstract class Model { // IGRP super model
 			Map<String, List<String>> mapFk = new HashMap<String, List<String>>();
 			Map<String, List<String>> mapFkDesc = new HashMap<String, List<String>>();
 			
-			Class c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
+			Class<?> c_ = obj.getDeclaredAnnotation(SeparatorList.class).name();
 			
 			List<String> aux = new ArrayList<String>();
 			 for(Field m : c_.getDeclaredFields()){
@@ -224,7 +254,6 @@ public abstract class Model { // IGRP super model
 			 catch (IndexOutOfBoundsException e) {
 				 continue; // go to next Separator list
 			}
-			 //...
 		}
 		
 	}
@@ -368,10 +397,6 @@ public abstract class Model { // IGRP super model
 
 	public Map<String, ArrayList<String>> getErrors() {
 		return errors;
-	}
-
-	private void setErrors(Map<String, ArrayList<String>> errors) {
-		this.errors = errors;
 	}
 	
 	public boolean validate(){

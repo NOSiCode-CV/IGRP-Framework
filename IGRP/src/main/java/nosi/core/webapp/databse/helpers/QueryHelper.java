@@ -65,6 +65,10 @@ public abstract class QueryHelper implements IFQuery{
 		return addDate(columnName, value, "yyyy-mm-dd");
 	}
 	
+	public QueryHelper addDate(String columnName,java.sql.Date value) {
+		return addDate(columnName, value, "yyyy-mm-dd");
+	}
+	
 	public QueryHelper addDate(String columnName,java.sql.Date value,String format) {
 		this.addColumn(columnName, value, java.sql.Date.class,format);
 		return this;
@@ -212,6 +216,7 @@ public abstract class QueryHelper implements IFQuery{
 		else if(this instanceof QueryDelete) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
 		}
+		Core.log("SQL Query:"+this.sql);
 		Query query = em.createNativeQuery(this.sql);
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
 			 if(col.getDefaultValue()!=null) {
@@ -235,6 +240,10 @@ public abstract class QueryHelper implements IFQuery{
 	}
 	
 	public TypedQuery<?> getSingleResult(){
+		return null;
+	}
+	
+	public <T> List<T> getResultList(Class<T> type){
 		return null;
 	}
 }
