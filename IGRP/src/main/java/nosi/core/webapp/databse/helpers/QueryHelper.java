@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -306,26 +307,43 @@ public abstract class QueryHelper implements IFQuery{
 		else if(this instanceof QueryDelete) {
 			this.sql = this.getSqlDelete(this.getSchemaName(), this.getTableName(),this.condition);
 		}
-		
+		Connection conn =nosi.core.config.Connection.getConnection(this.getConnectionName());
 		if(this instanceof QueryInsert) {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
+				NamedParameterStatement q = new NamedParameterStatement(conn , this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
+				Core.log("SQL:"+q.getSql());
 				r = q.executeInsert();
-				q.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}else {
 			try {
-				NamedParameterStatement q = new NamedParameterStatement(nosi.core.config.Connection.getConnection(this.getConnectionName()), this.sql);
+				NamedParameterStatement q = new NamedParameterStatement(conn, this.sql);
 				this.setParameters(q);
-				r = q.executeUpdate();
-				q.close();
+				Core.log("SQL:"+q.getSql());
+				int rr = q.executeUpdate();
+				r = rr > 0?rr:null;
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		try {
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		return r;
 	}
 	
