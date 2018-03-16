@@ -134,11 +134,6 @@ public abstract class AbstractField implements Field{
 		this.setSqlQuery(connectionName, tableName, key, value);
 	}
 	
-	public void reselveFieldName(){
-		if(this.name!=null && (this.name.startsWith("p_") || this.name.startsWith("P_"))) {
-			this.name = this.name.substring(this.name.toLowerCase().indexOf("p_")+"p_".length(), this.name.length());
-		}
-	}
 	
 	private void configValueWithSql() {
 		if(this.getSqlQuery()!=null && !this.getSqlQuery().equals("")){
