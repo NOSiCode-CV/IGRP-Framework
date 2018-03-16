@@ -199,7 +199,7 @@ public class IGRPTable extends IGRPComponent{
 				String value= Helper.getValue(l, field.getName().toLowerCase());
 				if(Core.isNull(value))
 					value= Helper.getValue(l, "p_"+field.getName().toLowerCase());	
-				this.xml.setElement(field.getTagName(), value);
+				this.xml.setElement(field.getTagName().replace("p_", ""), value);
 			}
 			this.xml.endElement();
 		}
