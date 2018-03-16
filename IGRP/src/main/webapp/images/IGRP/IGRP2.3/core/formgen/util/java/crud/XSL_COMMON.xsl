@@ -197,6 +197,37 @@
 		</xsl:for-each>
  	</xsl:template>
  	
+ 	<xsl:template name="sql-select">
+ 		<xsl:for-each select="//content/*[@type='table']/fields/*">
+ 			<xsl:variable name="name">
+				<xsl:choose>
+	 				<xsl:when test="@type='hidden'">
+			 			<xsl:call-template name="lowerCase">
+			 				<xsl:with-param name="text" select="@name"/>
+			 			</xsl:call-template>
+	 				</xsl:when>
+	 				<xsl:otherwise>
+	 					<xsl:call-template name="lowerCase">
+			 				<xsl:with-param name="text" select="name()"/>
+			 			</xsl:call-template>
+	 				</xsl:otherwise>
+	 			</xsl:choose>
+			</xsl:variable>
+			<xsl:variable name="name_">
+				<xsl:call-template name="replace-all">
+			        <xsl:with-param name="text" select="$name"/>
+			        <xsl:with-param name="replace" select="'p_'"/>
+			        <xsl:with-param name="by" select="''"/>
+			     </xsl:call-template>
+			</xsl:variable>
+			<xsl:value-of select="concat($name_,' ',$name)"/>
+ 			<xsl:if test="position() != last()">
+ 				<xsl:value-of select="','"/>
+ 			</xsl:if>
+		</xsl:for-each>
+ 	</xsl:template>
+ 	
+ 	
  	<xsl:template name="set-param-update">
  		<xsl:for-each select="//content/*[@type='table']">
 	 		<xsl:for-each select="fields/*[@iskey='true']">	
