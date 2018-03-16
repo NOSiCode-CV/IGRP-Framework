@@ -222,7 +222,7 @@ public class XMLTransform {
 		}
 	}
 
-	private static Object getTypePrimitive(String javaType) {
+	private static String getTypePrimitive(String javaType) {
 		javaType = javaType.replaceAll("class ", "");
 		switch (javaType) {
 			case "java.lang.Integer":
@@ -239,6 +239,9 @@ public class XMLTransform {
 				break;
 			case "java.lang.Short":
 				javaType = "short";
+				break;
+			case "java.sql.Date":
+				javaType = "Date";
 				break;
 	
 			default:

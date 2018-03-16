@@ -7,8 +7,8 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
-
 import static nosi.core.i18n.Translator.gt;
+import java.util.Map.Entry;
 
 public class IGRPButton {
 
@@ -187,9 +187,9 @@ public class IGRPButton {
 	private String genItem() {
 		XMLWritter xml = new XMLWritter();
 		xml.startElement(this.getTag());
-		xml.writeAttribute("rel", this.getProperties().getProperty("rel"));
-		xml.writeAttribute("type", this.getProperties().getProperty("type"));
-		xml.writeAttribute("code", this.getProperties().getProperty("code"));
+		for(Entry<Object, Object> prop : this.getProperties().entrySet()) {
+			xml.writeAttribute(prop.getKey().toString(), prop.getValue().toString());
+		}
 		xml.setElement("title",this.getTitle());
 		xml.setElement("app",this.getApp());
 		xml.setElement("page",this.getPage());
