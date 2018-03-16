@@ -146,7 +146,7 @@ public abstract class AbstractField implements Field{
 			if(cols.size()!=2){
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,"O seu SQL deve conter apenas 2 campos");
 			}else{
-				this.value = Query.queryToComboBox(this.getConnectionName(), this.getSqlQuery());
+				this.comboBox = Query.queryToComboBox(this.getConnectionName(), this.getSqlQuery());
 			}
 		}
 	}
