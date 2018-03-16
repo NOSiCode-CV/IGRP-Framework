@@ -33,7 +33,6 @@ public interface Field {
 	public void setSqlQuery(String sql);
 	public void setSqlQuery(String connectionName,String sql);
 	public String getSqlQuery();
-	public void reselveFieldName();	
 	public void setSqlQuery(String connectionName, String tableName, String key, String value);
 	public void setSqlQuery(String connectionName,String schemaName, String tableName, String key, String value);
 	public void addParam(String string, String string2);

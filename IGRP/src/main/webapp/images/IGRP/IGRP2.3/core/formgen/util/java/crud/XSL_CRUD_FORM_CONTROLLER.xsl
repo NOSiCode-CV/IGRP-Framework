@@ -70,6 +70,9 @@
 			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat($page_name,' model = new ',$page_name,'();')"/>
 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+			<xsl:value-of select="'model.load();'"/>			
+			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>		
 			<xsl:variable name="conditions">
 				<xsl:call-template name="gen-sql">
@@ -84,6 +87,9 @@
 			<xsl:call-template name="start-code-crud">
 	     		<xsl:with-param name="type" select="'index'"/>
 	     	</xsl:call-template>
+	     	<xsl:variable name="columns">
+				<xsl:call-template name="sql-select"/>
+			</xsl:variable>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>  		
 			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>
@@ -92,7 +98,7 @@
 			<xsl:value-of select="concat('if(',$isEdit,') {')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>		
-				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'select * from ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
+				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'select ',$columns,' from ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>	
 				<xsl:value-of select="'model.load(query);'"/>			

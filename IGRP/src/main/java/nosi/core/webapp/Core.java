@@ -550,7 +550,8 @@ public final class Core {	// Not inherit
 	}
 	
 	public static String getParam(String name) {
-		return (String) Igrp.getInstance().getRequest().getAttribute(name);
+		Object v = Igrp.getInstance().getRequest().getAttribute(name);
+		return v!=null?v.toString():"";
 	}
 
 	public static Integer getParamInt(String name) {

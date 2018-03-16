@@ -1,7 +1,8 @@
 package nosi.webapps.igrp.pages.gestaodeacesso;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
@@ -135,4 +136,9 @@ public class Gestaodeacesso extends Model{
 		}
 
 	}
+
+	public void loadOrg_table(QueryHelper query) {
+		this.setOrg_table(this.loadTable(query,Org_table.class));
+	}
+
 }

@@ -164,7 +164,7 @@
 				<xsl:value-of select="$tclassName"/><xsl:text>(QueryHelper query) {</xsl:text>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat( 'this.set',$tclassName,'(this.loadTable(query,',$tclassName,'.class))' )"/>
+				<xsl:value-of select="concat( 'this.set',$tclassName,'(this.loadTable(query,',$tclassName,'.class));' )"/>
 				<!--<xsl:text>this.loadTable(query,</xsl:text>
 				<xsl:value-of select="$tclassName"/>
 				<xsl:text>.class);</xsl:text> -->

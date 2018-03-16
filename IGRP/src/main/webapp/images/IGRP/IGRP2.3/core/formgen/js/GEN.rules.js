@@ -13,8 +13,6 @@
 				
 					var rObj = GENRULES.strucRules(rules);
 
-          console.log(rObj)
-
 					var type = "'actionsList'";
 					
 					rStr = JSON.stringify(rObj);
