@@ -70,6 +70,9 @@
 			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat($page_name,' model = new ',$page_name,'();')"/>
 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+			<xsl:value-of select="'model.load();'"/>			
+			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>		
 			<xsl:variable name="conditions">
 				<xsl:call-template name="gen-sql">
