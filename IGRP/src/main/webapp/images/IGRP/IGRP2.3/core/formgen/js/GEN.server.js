@@ -7,6 +7,8 @@ $(function(){
 		genOptions 	  = GEN.params && GEN.params.server ? GEN.params.server : {},
 
 		server 	   	  = GEN.server = {},
+		
+		codeChecked   = false,
 
 		clicked 	  = {},
 
@@ -59,7 +61,10 @@ $(function(){
 			
 			DrawMenu(p.mode,options);
 
-			ActivateMenu( $('.gen-editor-toolsbar .server-transform').first(), p.callback );
+			ActivateMenu( $('.gen-editor-toolsbar .server-transform').first(), {
+				transform : true,
+				callback : p.callback
+			} );
 
 		}
 
@@ -77,7 +82,9 @@ $(function(){
 
 			xslParams  = isIE ? { jsEnter:enterParam } : false,
 
-			m  	       = clicked;
+			m  	       = clicked,
+			
+			type 	   = o.type || 'gen';
 
 		GEN.waiting();
 		
@@ -117,7 +124,7 @@ $(function(){
 
 				content = content.replaceAll(enterParam,'\n');
 
-				LoadReservedCodes(content,onFinish);
+				LoadReservedCodes(content,type,onFinish);
 			
 			},
 
@@ -129,7 +136,7 @@ $(function(){
 	};
 
 	server.compile = function(o){
-		
+
 		var mode = genOptions[o.mode];
 
 		GenPartsLoop({
@@ -137,6 +144,8 @@ $(function(){
 			mode : mode,
 
 			callback : function(res){
+				
+				console.log(res)
 
 				if(o.then)
 
@@ -154,11 +163,16 @@ $(function(){
 
 	};
 
-	var ActivateMenu = function(menu,callback){
+	var ActivateMenu = function(menu,transformOptions){
 
 		var options = GetMenuOptions( menu );
 
 		var editor  = server.editors[options.mode][options.part.toUpperCase()];
+		
+		var toptions = transformOptions || {};
+		
+		var tcallback = toptions.callback ? toptions.callback : function(){};
+
 
 		clicked = {
 			mode : options.mode,
@@ -169,9 +183,9 @@ $(function(){
 
 			editor.setValue(content);
 
-			if(callback)
+			if(tcallback)
 
-				callback();
+				tcallback();
 
 			DeactivateMenus();
 
@@ -197,7 +211,11 @@ $(function(){
 
 		};
 
-		server.transform( options );
+		if(toptions.transform)
+			server.transform( options );
+		else if(toptions.content)
+			options.callback(toptions.content);
+		
 
 	};
 
@@ -522,7 +540,9 @@ $(function(){
 	var GenPartsLoop = function(o){
 
 		var idx = o.index || 0;
-	
+		
+		//consoel.log(idx)
+		
 		if(idx < o.mode.codes.length){
 			
 			var code = o.mode.codes[idx];
@@ -533,10 +553,10 @@ $(function(){
 
 				xsl 	 : code.xsl,
 				
-				notify : false,
+				type : 'compile',
 
 				callback:function(content){
-
+					
 					GenPartsLoop.arr.push({
 
 						name : code.name,
@@ -548,12 +568,14 @@ $(function(){
 					o.index = idx+1;
 
 					GenPartsLoop(o);
+					
+					
 				}
 
 			});
 
 		}else{
-
+			
 			if(o.callback)
 
 				o.callback(GenPartsLoop.arr);
@@ -686,9 +708,7 @@ $(function(){
 
 	};
 
-	var LoadReservedCodes = function(content,callback,_notify){
-		
-		var notify = _notify == false ? false :true;
+	var LoadReservedCodes = function(content,type,callback){
 		
 		var reservedURL = GEN.UTILS.preserve_url,
 
@@ -751,12 +771,14 @@ $(function(){
 					if(callback)
 
 			 			callback(content);
+					
+					codeChecked = true;
 
 				}
 
 			};
 			
-			if(isGlobalPreservation){
+			if(isGlobalPreservation && !codeChecked ){
 				
 				$.IGRP.components.globalModal.set({
 					rel    : 'confirm-java-code',
@@ -776,12 +798,84 @@ $(function(){
 						{
 							class   :'primary',
 							//icon    :'check',	
-							text    :'Confirm',
+							text    :'Check Code',
 							onClick :function(e){
+								
+								if(type == 'compile'){
+									
+									var options 	= genOptions['java'];
 
+									if(options){
+										
+										DrawMenu('java',options);
+										
+										replaceOptions.callback = function(content){
+											
+											var ctrl       = $('#gen-views-ctrl ul li[rel="gen-java"]'), 
+												rel        = ctrl.attr('rel'),
+												viewr      = $('#'+rel);
+											
+											ActivateMenu( $('.gen-editor-toolsbar .server-transform').first(), {
+												transform : false,
+												content : content,
+												callback:function(){
+		
+													$(VARS.html.viewers).removeClass('active');
+
+													$(VARS.html.viewsController).removeClass('active');
+											
+													ctrl.addClass('active');
+
+													viewr.addClass('active');
+													
+													if(rel != 'gen-design')
+														$.IGRP.components.sideBar.hide();
+													else
+														$.IGRP.components.sideBar.show();
+													
+													$('body').attr('view',rel);
+													
+													codeChecked = true;
+												}
+												
+											});
+											
+											
+											
+										}
+
+										
+
+									}
+									
+								}
+								
+								/*if(type == 'compile'){
+									
+									var ctrl  = $('#gen-views-ctrl ul li[rel="gen-java"]'),
+										
+										rel   = ctrl.attr('rel'),
+										
+										viewr = $('#'+rel);
+									
+									$(VARS.html.viewers).removeClass('active');
+
+									$(VARS.html.viewsController).removeClass('active');
+							
+									ctrl.addClass('active');
+
+									viewr.addClass('active');
+
+								}
+									
+								else
+									console.log('continue')*/
+									
 								replaceReservedContents(replaceOptions);
 
 								$.IGRP.components.globalModal.hide();
+
+								GEN.waiting(false);
 								
 								return false;
 							}
@@ -1174,7 +1268,9 @@ $(function(){
 
 		$('.gen-editor-toolsbar').on('click','.server-transform',function(){
 			
-			ActivateMenu( $(this) );
+			ActivateMenu( $(this),{
+				transform : true
+			} );
 
 		});
 

@@ -14,8 +14,6 @@ var GEN_LAYOUT = function(viewer){
 			includeContainerId:includeContainerId
 		});
 
-		console.log(rows)
-
 		return rows;
 	}
 

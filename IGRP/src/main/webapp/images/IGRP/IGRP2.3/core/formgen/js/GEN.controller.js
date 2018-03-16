@@ -2015,8 +2015,6 @@ if(input) {
 			service : GEN.proprieties.service
 		}
 
-		console.log(page)
-
 		//console.log(page);		
 		//console.log(JSON.stringify(page));
 		return JSON.stringify(page);
@@ -3086,10 +3084,6 @@ if(input) {
 		$('.server-transform').removeClass('has-error');
 		
 		$('.CodeMirror-gutter-wrapper').removeClass('has-error');
-		
-		console.log('removee');
-		
-		console.log( $('.CodeMirror-gutter-wrapper') )
 		
 		if(resize)
 			GEN.resizeCodeMirrorArea();
