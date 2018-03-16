@@ -62,6 +62,7 @@
 
     <xsl:variable name="import_model">
         <xsl:text>import nosi.core.webapp.Model;</xsl:text>
+        <xsl:text>import java.sql.Date;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_array_list">

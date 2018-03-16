@@ -1,5 +1,6 @@
 package nosi.core.webapp.databse.helpers;
 
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -202,6 +203,10 @@ public abstract class QueryHelper implements IFQuery{
 	}
 
 	public void setParameter(NamedParameterStatement query, Object value, Column col) throws SQLException {
+		
+		if(col.getType().equals(java.lang.Integer.class)) {
+			query.setInt(col.getName(),Integer.parseInt(value.toString()));
+		}
 		if(col.getType().equals(java.lang.Integer.class)) {
 			query.setInt(col.getName(),Integer.parseInt(value.toString()));
 		}else if(col.getType().equals(java.lang.Double.class)){
@@ -219,7 +224,6 @@ public abstract class QueryHelper implements IFQuery{
 		}else {
 			query.setObject(col.getName(), value);
 		}
-		System.out.println(col.getName()+"-"+col.getType()+":"+value);
 	}
 	
 	@Override

@@ -82,7 +82,6 @@ public class SqlJavaType {
             	result = java.sql.Ref.class;
             	break;
         }
-
         return result;
     }
 	
