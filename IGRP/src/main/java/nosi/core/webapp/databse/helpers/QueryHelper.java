@@ -1,8 +1,16 @@
 package nosi.core.webapp.databse.helpers;
 
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -84,12 +92,72 @@ public abstract class QueryHelper implements IFQuery{
 		return this;
 	}
 
+	public QueryHelper addBinaryStream(String columnName,FileInputStream value) {
+		this.addColumn(columnName, value, FileInputStream.class);
+		return this;
+	}
+	public QueryHelper addBinaryStream(String columnName,InputStream value) {
+		this.addColumn(columnName, value, InputStream.class);
+		return this;
+	}
+
+    public QueryHelper addObject(String columnName,Object value) {
+        this.addColumn(columnName, value, Object.class);
+        return this;
+    }
+    
+    public QueryHelper addTimestamp(String columnName,Timestamp value) {
+        this.addColumn(columnName, value, Timestamp.class);
+        return this;
+    }
+
+    public QueryHelper addArray(String columnName,Array value) {
+        this.addColumn(columnName, value, Array.class);
+        return this;
+    }
+
+    public QueryHelper addAsciiStream(String columnName,InputStream value) {
+        this.addColumn(columnName, value, InputStream.class);
+        return this;
+    }
+
+    public QueryHelper addClob(String columnName,Clob value) {
+        this.addColumn(columnName, value, Clob.class);
+        return this;
+    } 
+
+    public QueryHelper addBlob(String columnName,Blob value) {
+        this.addColumn(columnName, value, Blob.class);
+        return this;
+    } 
+
+    public QueryHelper addByte(String columnName,byte[] value) {
+        this.addColumn(columnName, value, Byte[].class);
+        return this;
+    }  
+    
+    public QueryHelper addByte(String columnName,byte value) {
+        this.addColumn(columnName, value, Byte.class);
+        return this;
+    }  
+    
+    public QueryHelper addBoolean(String columnName,boolean value) {
+        this.addColumn(columnName, value, Boolean.class);
+        return this;
+    }  
+    
+    public QueryHelper addBigDecimal(String columnName,BigDecimal value) {
+        this.addColumn(columnName, value, BigDecimal.class);
+        return this;
+    }
+    
+    public QueryHelper addTime(String columnName,Time value) {
+        this.addColumn(columnName, value, Time.class);
+        return this;
+    }
+    
 	protected void addColumn(String name,Object value,Object type) {
-		Column c = new Column();
-		c.setName(name);
-		c.setDefaultValue(value);
-		c.setType(type);
-		this.columnsValue.add(c );
+		this.addColumn(name, value, type, null);
 	}
 	
 	protected void addColumn(String name,Object value,Object type,String format) {
@@ -98,7 +166,7 @@ public abstract class QueryHelper implements IFQuery{
 		c.setDefaultValue(value);
 		c.setType(type);
 		c.setFormat(format);
-		this.columnsValue.add(c );
+		this.columnsValue.add(c);
 	}
 	
 	
