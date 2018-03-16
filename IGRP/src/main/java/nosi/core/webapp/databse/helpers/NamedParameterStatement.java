@@ -133,6 +133,10 @@ public class NamedParameterStatement {
 		}
 	}
 
+	public String getSql() {
+		return statement.toString();
+	}
+	
 	public PreparedStatement getStatement() {
 		return statement;
 	}

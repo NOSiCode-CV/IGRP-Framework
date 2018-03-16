@@ -188,20 +188,18 @@ public class IGRPTable extends IGRPComponent{
 			this.xml.startElement("context-menu");
 			for(Field field:this.fields){
 				if(field.isParam()){
-					field.reselveFieldName();
-					Object value= Helper.getValue(l, field.getName().toLowerCase());
-					if(value!=null)
-						this.xml.setElement("param", field.getName()+"="+ value.toString());
+					String value= Helper.getValue(l, field.getName().toLowerCase());
+					if(Core.isNull(value))
+						value= Helper.getValue(l, "p_"+field.getName().toLowerCase());
+					this.xml.setElement("param", field.getName()+"="+ value);
 				}
 			}
-			this.xml.endElement();
-			
+			this.xml.endElement();			
 			for(Field field:this.fields){
-				Object value= Helper.getValue(l, field.getName().toLowerCase());
-				if(value!=null)
-					this.xml.setElement(field.getTagName(), value.toString());
-				else
-					this.xml.setElement(field.getTagName(), "");
+				String value= Helper.getValue(l, field.getName().toLowerCase());
+				if(Core.isNull(value))
+					value= Helper.getValue(l, "p_"+field.getName().toLowerCase());	
+				this.xml.setElement(field.getTagName().replace("p_", ""), value);
 			}
 			this.xml.endElement();
 		}
