@@ -198,7 +198,7 @@
  	</xsl:template>
  	
  	<xsl:template name="sql-select">
- 		<xsl:for-each select="//content/*[@type='table']/fields/*">
+ 		<xsl:for-each select="//fields/*">
  			<xsl:variable name="name">
 				<xsl:choose>
 	 				<xsl:when test="@type='hidden'">
