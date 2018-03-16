@@ -67,21 +67,37 @@
 					 	</xsl:variable>
 					 	
 					 	<xsl:if test="@persist='true' ">
-							<xsl:value-of select="concat($tag_name,'.setValue(gt(',$double_quotes,normalize-space(./value),$double_quotes,'));')"/>
+					 		<xsl:variable name="p_value">
+					 			
+					 			<xsl:choose>
+					 				<xsl:when test="value/@type='action'">
+					 					<xsl:variable name="_app" select="concat($double_quotes,value/app,$double_quotes)"/>
+					 					<xsl:variable name="_page" select="concat($double_quotes,value/page,$double_quotes)"/>
+					 					<xsl:variable name="_action" select="concat($double_quotes,value/action,$double_quotes)"/>
+					 					<xsl:value-of select="concat('new Config().getResolveUrl(',$_app,',',$_page,',',$_action,')')"/>
+					 				</xsl:when>
+					 				<xsl:otherwise>
+					 					<xsl:value-of select="concat('gt(',$double_quotes,normalize-space(value),$double_quotes,')')"/>
+					 				</xsl:otherwise>
+					 			</xsl:choose>
+					 			
+					 		</xsl:variable>
+					 	
+							<xsl:value-of select="concat($tag_name,'.setValue(',$p_value,');')"/>
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
 						
 						<xsl:if test="@action and @app and @page and @custom_action=''">
+							<xsl:variable name="_app" select="concat($double_quotes,@app,$double_quotes)"/>
+					 		<xsl:variable name="_page" select="concat($double_quotes,@page,$double_quotes)"/>
+					 		<xsl:variable name="_action" select="concat($double_quotes,@action,$double_quotes)"/>
+
 							<xsl:variable name="linkUrl">
-								<xsl:text>webapps?r=</xsl:text>
-								<xsl:value-of select="@app"/>
-								<xsl:text>/</xsl:text>
-								<xsl:value-of select="@page"/>
-								<xsl:text>/</xsl:text>
-								<xsl:value-of select="@action"/>
+								<xsl:value-of select="concat('new Config().getResolveUrl(',$_app,',',$_page,',',$_action,')')"/>
 							</xsl:variable>
-							<xsl:value-of select="concat($tag_name,'.setValue(',$double_quotes,$linkUrl,$double_quotes,')')"/>;
+							
+							<xsl:value-of select="concat($tag_name,'.setValue(',$linkUrl,')')"/>;
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 						</xsl:if>
@@ -133,7 +149,16 @@
 							</xsl:choose>
 						</xsl:variable>
 						
-						<xsl:if test="$isPersist = 'false'">
+						<xsl:variable name="action_persist">
+							<xsl:if test="@type = 'link'">
+								<xsl:choose>
+									<xsl:when test="@custom_action != ''">true</xsl:when>
+									<xsl:otherwise>false</xsl:otherwise>
+								</xsl:choose>
+							</xsl:if>
+						</xsl:variable>
+						
+						<xsl:if test="$isPersist = 'false' and @type != 'link'">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 							<xsl:variable name="tag_name">

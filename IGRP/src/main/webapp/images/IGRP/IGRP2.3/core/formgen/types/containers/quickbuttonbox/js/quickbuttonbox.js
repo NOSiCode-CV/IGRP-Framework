@@ -32,14 +32,46 @@ this[VARS.name].declareContainer({
 				value     :'895',
 				isField   : true
 			});
-
+			
 			container.setProperty({
-				name      :'url',
-				label     :'Url',
-				value     :'http://www.example.com',
-				isField   : true
+				name : 'url',
+				value : '',
+				isField : true,
+				valuePersist : true,
+				editable : false
 			});
+			
+			GEN.setBtnActionAttr(container,{
+				value: '',
+				label : 'Action',
+				customAction : true,
 
+				onChange:function(v){
+					
+					var isCustom 	 = $('.propriety-setter[rel="action_type"]').is(':checked') || false,
+
+						customAction = $('.propriety-setter[rel="custom_action"]').val();
+					
+					if(!isCustom){
+						
+						var params = $.extend({},v.params);
+						
+						params.type = 'action';
+						
+						container.SET.url(params);
+					
+					}else{
+						
+						container.SET.url(customAction)
+						
+					}
+					
+					console.log(container.GET.url())
+
+
+				}
+			});
+			
 			GEN.setTargetAttr(container,{
 				value:'modal'
 			});
