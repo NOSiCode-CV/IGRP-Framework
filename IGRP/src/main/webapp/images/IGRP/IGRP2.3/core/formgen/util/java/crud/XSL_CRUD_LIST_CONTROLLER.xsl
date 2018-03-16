@@ -207,6 +207,9 @@
 				<xsl:value-of select="'Core.setMessageSuccess();'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'else'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="'Core.setMessageError();'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
@@ -221,6 +224,7 @@
  	
  	<xsl:template name="set-update-keys-value">
  			<xsl:for-each select="//fields/*[@iskey='true']">	
+ 				
 	 			<xsl:choose>
 	 				<xsl:when test="@type='hidden'">
 						<xsl:call-template name="setType">
