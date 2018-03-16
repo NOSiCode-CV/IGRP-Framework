@@ -1,8 +1,14 @@
+
 package nosi.webapps.igrp.pages.gestaodeacesso;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.Igrp;
@@ -10,19 +16,30 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import java.util.List;
 import java.util.ArrayList;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
+
 
 public class GestaodeacessoController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		Gestaodeacesso model = new Gestaodeacesso();
+		GestaodeacessoView view = new GestaodeacessoView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		view.org_table.setSqlQuery(null,"SELECT 'estado' estado, 'org_nome' org_nome, 'mostrar_perfis' mostrar_perfis, 'id' id");
+		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");view.estado.setParam(true);view.p_id.setParam(true);
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
 
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
-
-		model.load();
 		String dad = new Permission().getCurrentEnv();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
@@ -35,7 +52,6 @@ public class GestaodeacessoController extends Controller {
 				model.setAdicionar_organica1("igrp", "NovaOrganica", "index&target=_blank");
 		}
 	
-		GestaodeacessoView view = new GestaodeacessoView(model);
 		view.p_id.setParam(true);		
 		view.aplicacao.setParam(true);
 		view.aplicacao.setValue(new Application().getListApps());
@@ -49,26 +65,51 @@ public class GestaodeacessoController extends Controller {
 		}
 		
 		view.btn_eliminar.setVisible(false);
+		//return this.renderView(view);
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		
+		
+		/*----#start-code(editar)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			if (org != null)
 				return this.redirect("igrp", "NovaOrganica", "editar&target=_blank&p_id=" + p_id);
 		}
-		return this.redirect("igrp", "error-page", "exception");
-		/*----#END-PRESERVED-AREA----*/
+		//return this.redirect("igrp", "error-page", "exception");
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp","gestaodeacesso","index");
+		
 	}
-	
-
 	public Response actionMenu() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(MENU)----*/
+		
+		Gestaodeacesso model = new Gestaodeacesso();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","MenuOrganica","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(menu)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
@@ -77,26 +118,28 @@ public class GestaodeacessoController extends Controller {
 				return this.redirect("igrp", "MenuOrganica", "index&target=_blank",
 						"id=" + p_id + "&type=org&env_fk=" + org.getApplication().getId());
 		}
-		return this.redirect("igrp", "error-page", "exception");
-		/*----#END-PRESERVED-AREA----*/
+		//return this.redirect("igrp", "error-page", "exception");
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","MenuOrganica","index");
+		
 	}
-	
-
 	public Response actionTransaction() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(TRANSACTION)----*/
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (p_id != null) {
-			Organization org = new Organization().findOne(Integer.parseInt(p_id));
-			if (org != null)
-				return this.redirect("igrp", "TransacaoOrganica", "index&target=_blank", "id=" + p_id + "&type=org");
-		}
-		return this.redirect("igrp", "error-page", "exception");
-		/*----#END-PRESERVED-AREA----*/
+		
+		
+		/*----#start-code(transaction)----*/
+		
+		
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp","gestaodeacesso","index");
+		
 	}
-	
-
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
+		
+		
+		/*----#start-code(eliminar)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
@@ -105,11 +148,15 @@ public class GestaodeacessoController extends Controller {
 				return this.redirect("igrp", "gestaodeacesso", "index");
 			}
 		}
-		return this.redirect("igrp", "error-page", "exception");
-		/*----#END-PRESERVED-AREA----*/
+		//return this.redirect("igrp", "error-page", "exception");
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp","gestaodeacesso","index");
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	private void setTable(Gestaodeacesso model, List<Gestaodeacesso.Org_table> data) {			
 		for (Organization org : new Organization().find()
 				.andWhere("application", "=", Integer.parseInt(model.getAplicacao())).all()) {
@@ -125,5 +172,9 @@ public class GestaodeacessoController extends Controller {
 		}
 	}
 
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

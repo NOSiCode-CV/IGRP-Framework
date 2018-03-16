@@ -84,14 +84,14 @@ public class PesquisarMenuController extends Controller {
 			lista.add(table1);
 		}
    
-   		   model.setNovo("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao());
+   		
 		PesquisarMenuView view = new PesquisarMenuView(model);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);	
-
+		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao()));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
