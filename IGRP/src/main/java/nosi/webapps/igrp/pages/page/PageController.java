@@ -27,6 +27,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.compiler.helpers.Compiler;
 import nosi.core.webapp.compiler.helpers.ErrorCompile;
 import nosi.core.webapp.compiler.helpers.MapErrorCompile;
+import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -363,51 +364,17 @@ public class PageController extends Controller {
 
 	// Extracting reserve code inserted by programmer
 	public Response actionPreserveUrl() throws IOException {
-		String type = Igrp.getInstance().getRequest().getParameter("type");
+		//String type = Igrp.getInstance().getRequest().getParameter("type");
 		String page = Igrp.getInstance().getRequest().getParameter("page");
 		String app = Igrp.getInstance().getRequest().getParameter("app");
-		String ac = Igrp.getInstance().getRequest().getParameter("ac");
-		String your_code = "";
-		if (Core.isNotNull(type) && Core.isNotNull(page) && Core.isNotNull(app)) {
-			String controller = this.getPageController(app, page);
-			if (controller != null) {
-				if (type.equals("c_import")) {
-					int start = controller.indexOf(this.getConfig().getStartReseveCodeAction("PACKAGES_IMPORT"));
-					int end = controller.indexOf(this.getConfig().getEndReserveCode());
-					your_code = (start != -1 && end != -1)
-							? controller.substring(start + this.getConfig().getStartReseveCodeAction("PACKAGES_IMPORT").length(),
-									end)
-							: "";
-				} else if (type.equals("c_actions")) {
-					int start = controller.indexOf(this.getConfig().getStartReseveCodeAction("CUSTOM_ACTIONS"));
-					int end = start != -1 ? controller.indexOf(this.getConfig().getEndReserveCode(), start) : -1;
-					your_code = (start != -1 && end != -1)
-							? controller.substring(start + this.getConfig().getStartReseveCodeAction("CUSTOM_ACTIONS").length(),
-									end)
-							: "";
-				} else if (ac != null && !ac.equals("") && type.equals("c_on_action")) {
-					String actionName = "action" + ac;
-					int start_ = controller.indexOf(actionName);
-					int start = start_ != -1 ? controller.indexOf(this.getConfig().getStartReseveCodeAction(ac), start_) : -1;
-					int end = start != -1 ? controller.indexOf(this.getConfig().getEndReserveCode(), start) : -1;
-					your_code = (start != -1 && start_ != -1 && end != -1)
-							? controller.substring(start + this.getConfig().getStartReseveCodeAction(ac).length(), end)
-							: "";
-				} else if (ac != null && !ac.equals("") && type.equals("exception_after_action")) {
-					String actionName = "action" + ac;
-					int start_ = controller.indexOf(actionName);
-					int start = controller.indexOf(")", start_);
-					int end = start != -1 ? controller.indexOf("{", start) : -1;
-					your_code = (start_ != -1 && start != -1 && end != -1)
-							? controller.substring(start + ")".length(), end)
-							: "";
-				}
-			}
-		}
-		your_code = StringEscapeUtils.escapeXml10(your_code);
-		return this.renderView("<your_code>" + your_code + "</your_code>");
+		
+		String json = ExtractReserveCode.extract(app, page);
+		
+		this.format = Response.FORMAT_JSON;
+		
+		return this.renderView(json);
+		
 	}
-
 	private String getPageController(String app, String page) {
 		String workspace = this.getConfig().getBasePahtClassWorkspace(app,page);
 		String controller = null;
