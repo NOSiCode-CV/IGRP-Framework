@@ -330,6 +330,22 @@ public final class Core {	// Not inherit
 		return value==null || value.equals("");
 	}	
 	
+	public static boolean isNullOrZero(Object value) {
+		if(value instanceof Number)
+			return value ==null || new Integer(value.toString()) ==0;
+		return value==null || value.equals("");
+	}	
+	
+	public static boolean isNotNullOrZero(Object value) {
+		if(!(value instanceof Number)) {
+			return Core.isNotNull(value);
+		}
+		if(Core.isNotNull(value)) {
+			return new Integer(value.toString())!=0;
+		}
+		return false;
+	}	
+	
 	public static boolean isInt(Object value) {
 		if(isNotNull(value)) {
 			try {
@@ -537,6 +553,28 @@ public final class Core {	// Not inherit
 		return (String) Igrp.getInstance().getRequest().getAttribute(name);
 	}
 
+	public static Integer getParamInt(String name) {
+		String x = Core.getParam(name);
+		return Core.isNotNull(x)?new Integer(x):0;
+	}
+	
+	public static Double getParamDouble(String name) {
+		String x = Core.getParam(name);
+		return Core.isNotNull(x)?new Double(x):0;
+	}
+
+	public static Short getParamShort(String name) {
+		String x = Core.getParam(name);
+		return Core.isNotNull(x)?new Short(x):0;
+	}
+	public static Float getParamFloat(String name) {
+		String x = Core.getParam(name);
+		return Core.isNotNull(x)?new Float(x):0;
+	}
+	public static Long getParamLong(String name) {
+		String x = Core.getParam(name);
+		return Core.isNotNull(x)?new Long(x):0;
+	}
 	public static String[] getParamArray(String name) {
 		return (String[]) Igrp.getInstance().getRequest().getAttribute(name);
 	}
@@ -684,6 +722,7 @@ public final class Core {	// Not inherit
 		
 		return cLob;
 	}
-	
+
+
 	/** **/
 }

@@ -39,7 +39,7 @@ public class QuerySelect extends QueryHelper {
 	}
 	
 	public List<Tuple> getResultList() {
-		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";		
+		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";		
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
@@ -51,7 +51,7 @@ public class QuerySelect extends QueryHelper {
 			 }else {
 				 query.setParameter(col.getName(), null);
 			 }
-		}		
+		}	
 		@SuppressWarnings("unchecked")
 		List<Tuple> list = query.getResultList();
 		t.commit();
@@ -60,7 +60,7 @@ public class QuerySelect extends QueryHelper {
 	}
 
 	public <T> List<T> getResultList(Class<T> entity){
-		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";		
+		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";		
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
@@ -81,7 +81,7 @@ public class QuerySelect extends QueryHelper {
 	}
 	
 	public Object getSigleResult() {
-		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
+		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();
@@ -101,7 +101,7 @@ public class QuerySelect extends QueryHelper {
 	}
 	
 	public TypedQuery<?> getSingleResult(){
-		this.sql += Core.isNotNull(this.condition)?("WHERE "+this.condition):"";
+		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
 		EntityTransaction t =  em.getTransaction();
 		t.begin();

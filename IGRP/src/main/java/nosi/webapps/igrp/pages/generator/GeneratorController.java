@@ -4,7 +4,7 @@ import java.io.File;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
@@ -16,12 +16,13 @@ public class GeneratorController extends Controller{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		this.isNoCached=true;
 		Generator model = new Generator();
-		String id = Igrp.getInstance().getRequest().getParameter("id");
-		if(id!=null && !id.equals("")){
+		String id = Core.getParam("id");
+		if(Core.isNotNull(id)){
 			try{
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(id));	
 				if(ac!=null){
+					System.out.println("Id="+id);
 					model.setGen_elements(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
 					model.setId_objeto(Integer.parseInt(id));
 					model.setId(ac.getId());

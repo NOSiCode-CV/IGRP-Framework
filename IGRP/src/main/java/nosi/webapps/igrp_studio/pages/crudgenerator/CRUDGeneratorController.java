@@ -91,7 +91,7 @@ public class CRUDGeneratorController extends Controller {
 					}
 					if(r) {
 						Core.setMessageSuccess();
-                      	return this.forward("igrp_studio","CRUDGenerator","index&target=_blank&p_aplicacao="+model.getAplicacao());
+                      	return this.forward("igrp_studio","CRUDGenerator","index&p_aplicacao="+model.getAplicacao());
 					}
 					else {
 						Core.setMessageError();

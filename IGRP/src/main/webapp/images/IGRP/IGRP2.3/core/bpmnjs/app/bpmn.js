@@ -155,6 +155,11 @@
             return false;
          });
 
+         if ($('#form_1_formkey')[0]) {
+            $('#form_1_formkey')[0].lookupCallback = function(v){
+              $("#camunda-form-key").attr('rel','igrp').trigger('change');
+            };
+         }
                            
          if (bpmn.app && lookupHref) 
             bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);

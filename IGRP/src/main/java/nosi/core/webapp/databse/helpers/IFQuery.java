@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
  */
 public interface IFQuery {
 
-	public int execute();
+	public Object execute();
 	public List<?> getResultList();
 	public Object getSigleResult();
 	public TypedQuery<?> getSingleResult();

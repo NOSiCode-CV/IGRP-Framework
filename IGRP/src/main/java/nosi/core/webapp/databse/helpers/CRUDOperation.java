@@ -27,7 +27,7 @@ public class CRUDOperation {
 			 }	
 		}).collect(Collectors.toList());
 		query.setColumnsValue(colmns);
-		int r = query.execute();
+		int r = (int)query.execute();
 		return r > 0;
 	}
 
@@ -44,7 +44,7 @@ public class CRUDOperation {
 		colmns.add(pkey);
 		QueryHelper query = new QueryUpdate(config.getName()).update(schemaName, tableName).where(pkey.getName().toLowerCase()+"=:"+pkey.getName().toLowerCase());
 		query.setColumnsValue(colmns);
-		int r = query.execute();
+		int r = (int) query.execute();
 		return r > 0;
 	}
 
@@ -55,7 +55,7 @@ public class CRUDOperation {
 		colmns.add(pkey);
 		QueryHelper query = new QueryDelete(config.getName()).delete(schemaName, tableName).where(pkey.getName().toLowerCase()+"=:"+pkey.getName().toLowerCase());
 		query.setColumnsValue(colmns);
-		int r = query.execute();
+		int r = (int) query.execute();
 	    return r > 0;
 	}
 

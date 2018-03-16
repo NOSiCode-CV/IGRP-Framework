@@ -2,6 +2,7 @@ package nosi.webapps.tutorial.pages.geralapresentacao;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,5 +221,9 @@ public class GeralApresentacao extends Model{
 			return this.ver_desc;
 		}
 
+	}
+	
+	public void loadTable1(QueryHelper query) {		
+		this.setTable_1(this.loadTable(query,Table_1.class));
 	}
 }

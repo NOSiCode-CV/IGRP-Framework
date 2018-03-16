@@ -79,6 +79,7 @@ public class IGRPTable extends IGRPComponent{
 		this.fields = new ArrayList<>();
 		this.buttons = new ArrayList<>();
 		this.properties.put("type", "table");
+		this.properties.put("xml-type", "table");
 		this.properties.put("structure", "fields");
 		this.contextmenu = new IGRPContextMenu();
 		this.contextmenu.setClassName(this);

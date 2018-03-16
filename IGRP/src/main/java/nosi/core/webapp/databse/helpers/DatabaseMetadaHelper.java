@@ -161,8 +161,7 @@ public class DatabaseMetadaHelper {
 					e.printStackTrace();
 				}
 			}
-		}
-		//PersistenceUtils.SESSION_FACTORY.remove(config.getName());			
+		}		
 		return list;
 	}
 	
@@ -218,8 +217,7 @@ public class DatabaseMetadaHelper {
 					e.printStackTrace();
 				}
 			}
-		}
-		//PersistenceUtils.SESSION_FACTORY.remove(config.getName());			
+		}		
 		return list;
 	}
 
