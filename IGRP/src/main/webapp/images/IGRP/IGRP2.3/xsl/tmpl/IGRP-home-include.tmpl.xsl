@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     
     <link REL="SHORTCUT ICON" HREF="{$path}/assets/img/favicon.ico" />
-   
-      <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
-   
+
+    <link rel="mask-icon" href="{$path}/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
     
     <title><xsl:value-of select="rows/title"/></title>
     <!-- Normalize -->
@@ -22,10 +21,11 @@
       <link rel="stylesheet" href="{$path}/themes/bs.columns.css"/>
       <link rel="stylesheet" href="{$path}/themes/bs.class.css"/>
     </xsl:if>
-    <!-- BS CSS -->
-    
+
     <link rel="stylesheet" href="{$path}/core/igrp/rightpanel/rightpanel.css"/>
-    
+
+    <!-- BS CSS -->
+
     <!-- DEFAULT CSS -->
     <xsl:if test="not($themeConfigData/css/@default) or $themeConfigData/css/@default != 'false'">
       <link rel="stylesheet" href="{$path}/themes/style.css"/>
@@ -48,21 +48,25 @@
       <xsl:apply-templates mode="theme-colors-config" select="$themeConfigData"/>
     </xsl:if>
     <!-- /THEME CSS -->
+
     <!-- COLOR PALETTES -->
-
     <link rel="stylesheet" type="text/css" href="{$path}/core/colorpalettes/old-palettes.css"/>
-
     <xsl:call-template name="colorpalettes-css"/>
     <!-- /COLOR PALETTES -->
+
     <!-- FORM -->
     <link rel="stylesheet" type="text/css" href="{$path}/core/igrp/form/igrp.forms.css"/>
 
+    <script src="{$path}/core/promise/promise.min.js"></script>
+    
     <script src="{$path}/core/jquery/{$jq-v}/jquery.min.js"></script>
-    
+
     <script src="{$path}/core/jquery/2.1/jquery-migrate.min.js"></script>
-    
+
     <script src="{$path}/core/bootstrap/{$bs-v}/js/bootstrap.min.js"></script>
+
     <script src="{$path}/core/bootstrap/plugins/notify/bootstrap-notify.min.js"></script>
+    
     <script src="{$path}/core/bootstrap/plugins/validation/js/jquery.validate.js"></script>
     
     <!-- THEME JS -->
@@ -85,7 +89,6 @@
     <script src="{$path}/core/igrp/globalmodal/IGRP.globalModal.js?v={$version}"></script>
     <!-- IGRP iframeNavigation -->
     <script src="{$path}/core/igrp/iframenav/IGRP.iframeNav.js?v={$version}"></script>
-    
     <!-- IGRP targets controller -->
     <script src="{$path}/core/igrp/targets/IGRP.targets.js?v={$version}"></script>
     <!-- IGRP targets controller -->
@@ -105,7 +108,6 @@
       var path = '<xsl:value-of select="$path"/>';
       $(document).ready( $.IGRP.init );
     </script>
-
   </xsl:template>
   <!-- TOPMENU -->
   <xsl:template name="IGRP-topmenu">
@@ -121,7 +123,7 @@
             <xsl:value-of select="concat($themePath,'/',$themeConfigData/logo)"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="concat($path,'/themes/default/img/logo.png')"/>
+            <xsl:value-of select="concat($path,'/themes/default/img/logo2.svg')"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
@@ -188,81 +190,79 @@
     </xsl:if>
   </xsl:template>
   <!-- SIDERBAR -->
-  	<xsl:template name="IGRP-sidebar">
-		<xsl:if test="$hasMenu = 'true'">
-			<xsl:variable name="APP" select="rows/app" />
-			<xsl:variable name="menus"
-				select="document(rows/slide-menu/@file)/menus" />
-			<div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
-				<!-- <h4><xsl:value-of select="$menus/title"/></h4> -->
-				<ul class="nav nav-sidebar">
-					<xsl:for-each select="$menus/menu">
-					 <xsl:sort select="order"/>
-						<xsl:variable name="parentId" select="concat($APP,'-',position())" />
-						<li parent-id="{$parentId}">
-							<xsl:choose>
-								<xsl:when test="link">
+  <xsl:template name="IGRP-sidebar">
+    <xsl:if test="$hasMenu = 'true'">
+      <xsl:variable name="APP" select="rows/app" />
+      <xsl:variable name="menus" select="document(rows/slide-menu/@file)/menus" />
+      <div class="col-md-2 col-sm-3 sidebar tree-list" id="igrp-sidebar">
+        <!-- <h4><xsl:value-of select="$menus/title"/></h4> -->
+        <ul class="nav nav-sidebar">
+          <xsl:for-each select="$menus/menu">
+           <xsl:sort select="order"/>
+            <xsl:variable name="parentId" select="concat($APP,'-',position())" />
+            <li parent-id="{$parentId}">
+              <xsl:choose>
+                <xsl:when test="link">
 
-									<!-- <a href="{submenu/link}"> -->
-									<!-- <xsl:value-of select="submenu/title"/> -->
-									<!-- <i class="fa fa-angle-right pull-right"></i> -->
-									<!-- <span class="nav-bar-active" bg-color="2"/> -->
-									<!-- </a> -->
+                  <!-- <a href="{submenu/link}"> -->
+                  <!-- <xsl:value-of select="submenu/title"/> -->
+                  <!-- <i class="fa fa-angle-right pull-right"></i> -->
+                  <!-- <span class="nav-bar-active" bg-color="2"/> -->
+                  <!-- </a> -->
 
-									<xsl:attribute name="class">treeview</xsl:attribute>
-										<a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
-											
-											<span>
-												<xsl:value-of select="title" />
-											</span>
-<!-- 											<i class="fa fa-user pull-right"></i> -->
-											<span class="nav-bar-active" bg-color="2" />
-										</a>								
+                  <xsl:attribute name="class">treeview</xsl:attribute>
+                    <a href="{link}" target="{submenu/target}" item-id="{$parentId}-{position()}">
+                      
+                      <span>
+                        <xsl:value-of select="title" />
+                      </span>
+<!--                      <i class="fa fa-user pull-right"></i> -->
+                      <span class="nav-bar-active" bg-color="2" />
+                    </a>                
 
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:if test="submenu">
-										<xsl:attribute name="class">treeview</xsl:attribute>
-									</xsl:if>
-									<a href="#">
-										<xsl:value-of select="title" />
-										<i class="fa fa-angle-right pull-right"></i>
-										<span class="nav-bar-active" bg-color="2" />
-									</a>
-									<xsl:if test="submenu">
-										<ul class="treeview-menu">
-											<xsl:for-each select="submenu">
-											 <xsl:sort select="order"/>
-												<li>													
-													<a href="{link}"  target="{target}" item-id="{$parentId}-{position()}">
-<!-- 													<i class="fa fa-circle"></i> -->
-														<span>
-															<xsl:value-of select="title" />
-														</span>
-													</a>
-												</li>
-											</xsl:for-each>
-										</ul>
-									</xsl:if>
-								</xsl:otherwise>
-							</xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:if test="submenu">
+                    <xsl:attribute name="class">treeview</xsl:attribute>
+                  </xsl:if>
+                  <a href="#">
+                    <xsl:value-of select="title" />
+                    <i class="fa fa-angle-right pull-right"></i>
+                    <span class="nav-bar-active" bg-color="2" />
+                  </a>
+                  <xsl:if test="submenu">
+                    <ul class="treeview-menu">
+                      <xsl:for-each select="submenu">
+                       <xsl:sort select="order"/>
+                        <li>                          
+                          <a href="{link}"  target="{target}" item-id="{$parentId}-{position()}">
+<!--                          <i class="fa fa-circle"></i> -->
+                            <span>
+                              <xsl:value-of select="title" />
+                            </span>
+                          </a>
+                        </li>
+                      </xsl:for-each>
+                    </ul>
+                  </xsl:if>
+                </xsl:otherwise>
+              </xsl:choose>
 
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
+            </li>
+          </xsl:for-each>
+        </ul>
+      </div>
+    </xsl:if>
+  </xsl:template>
   <!-- BOTTOM -->
   <xsl:template name="IGRP-bottom">
-    
     <!-- GLOBAL MODAL -->
     <div id="igrp-global-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <span class="title"></span>
-            <button type="button" class="close" data-dismiss="modal">×</button>
+            <!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
           </div>
           <div class="modal-body">
            
@@ -277,7 +277,7 @@
       </div>
     </div>
     <!--/GLOBAL MODAL -->
-
+    
     <!-- RIGHT PANEL MODAL -->
     <div class="modal fade right" id="igrp-right-panel">
       <div class="modal-dialog">
@@ -295,6 +295,9 @@
     <igrp-variables class="hidden invisible">
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
+
+    <!-- local theme color setup -->
+    <xsl:call-template name="local-theme-setup"/>
 
     <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
       <i class="fa fa-chevron-up"></i>
@@ -349,7 +352,7 @@
       <xsl:if test="$dismiss = 'true' "><xsl:value-of select="alert-dismissible"/></xsl:if>
     </xsl:variable>
     <!--<xsl:if test="message">-->
-      <div class="igrp-msg-wrapper">
+      <div class="igrp-msg-wrapper gen-container-item">
         <xsl:for-each select="message[ not(@type='debug') and not(@type='confirm')]">
           
           <xsl:variable name="msg-type">
@@ -390,7 +393,6 @@
 
     </div>
   </xsl:template>
-  
   <!-- COLOR PALLETES -->
   <xsl:template name="colorpalettes-css">
     <style>
@@ -424,135 +426,37 @@
 
     </script>
   </xsl:template>
-  <!-- COLORS -->
-  <xsl:template name="theme-colors" mode="theme-colors" match="*">
-    <style>
-      .box .box-title{
-        color:<xsl:value-of select="color[1]"/>;
-      }
-      *[bg-color="template"]{
-        background-color: <xsl:value-of select="color[1]"/>;
-      }
-      <xsl:if test="link">
-        a,.clickable{
-          color:<xsl:value-of select="link"/>;
-        }
-        <xsl:if test="link/@hover">
-        a:hover, 
-        a:focus, 
-        a:active, 
-        a.active,
-        a.active.focus, 
-        a.active:focus, 
-        a.active:hover, 
-        a:active.focus, 
-        a:active:focus
-        {
-          color: <xsl:value-of select="link/@hover"/>;
-        }
-        </xsl:if>
-
-      </xsl:if>
-
-      <xsl:if test="button">
-        <xsl:for-each select="button/*">
-          
-          <xsl:variable name="color">
-            <xsl:if test="@color">
-             <xsl:text>color: </xsl:text><xsl:value-of select="@color"/>
-            </xsl:if>
-          </xsl:variable>
-
-          <xsl:variable name="hoverBg">
-            <xsl:if test="@hover">
-             <xsl:text>background: </xsl:text><xsl:value-of select="@hover"/>
-            </xsl:if>
-          </xsl:variable>
-
-          <xsl:variable name="borderColor">
-            <xsl:if test="@border-color">
-             <xsl:text>border-color: </xsl:text><xsl:value-of select="@border-color"/>
-            </xsl:if>
-          </xsl:variable>
-
-          .btn-<xsl:value-of select="name()"/> {
-            background: <xsl:value-of select="."/>;
-            <xsl:value-of select="$color"/>;
-            <xsl:value-of select="$borderColor"/>
-             
-          }
-
-          <xsl:if test="@hover">
-          .btn-<xsl:value-of select="name()"/>:hover, 
-          .btn-<xsl:value-of select="name()"/>:focus, 
-          .btn-<xsl:value-of select="name()"/>:active, 
-          .btn-<xsl:value-of select="name()"/>.active,
-          .btn-<xsl:value-of select="name()"/>.active.focus, 
-          .btn-<xsl:value-of select="name()"/>.active:focus, 
-          .btn-<xsl:value-of select="name()"/>.active:hover, 
-          .btn-<xsl:value-of select="name()"/>:active.focus, 
-          .btn-<xsl:value-of select="name()"/>:active:focus, 
-          .btn-<xsl:value-of select="name()"/>:active:hover{
-              <xsl:value-of select="$hoverBg"/>;
-              <xsl:value-of select="$color"/>
-          }
-          </xsl:if>
-        </xsl:for-each>
-      </xsl:if>
-
-      .btn-secondary:hover,
-      .btn-secondary.active{
-        color:#fff;
-      }
-
-      <xsl:for-each select="color">
-        *[bg-color="<xsl:value-of select="@name"/>"]{
-          background-color: <xsl:value-of select="."/>;
-        }
-
-        *[active-bg-color="<xsl:value-of select="@name"/>"].active,
-        [style-listener="true"].active *[active-bg-color="<xsl:value-of select="@name"/>"]{
-          background-color: <xsl:value-of select="."/>!important;
-        }
-
-        *[text-color="<xsl:value-of select="@name"/>"],
-        *[txt-color="<xsl:value-of select="@name"/>"]{
-          color: <xsl:value-of select="."/>;
-        }
-
-        *[active-text-color="<xsl:value-of select="@name"/>"].active,
-        [style-listener="true"].active *[active-text-color="<xsl:value-of select="@name"/>"]{
-          color: <xsl:value-of select="."/>!important;
-        }
-
-        *[border-color="<xsl:value-of select="@name"/>"]{
-          border-color: <xsl:value-of select="."/>;
-        }
-
-        *[active-border-color="<xsl:value-of select="@name"/>"].active,
-        [style-listener="true"].active *[active-border-color="<xsl:value-of select="@name"/>"]{
-          border-color: <xsl:value-of select="."/>!important;
-        }
-
-        /* style listeners - fica à escuta de uma alteração do elemento*/
-
-      </xsl:for-each>
-    </style>
-  </xsl:template>
   <!-- COLORS Config -->
   <xsl:template name="theme-colors-config" mode="theme-colors-config" match="*">
-    
     <style>
-
+      
         <xsl:if test="nav">
+
           <xsl:if test="nav/background">
             #igrp-top-nav{
               background-color:<xsl:value-of select="nav/background"/>
             }
           </xsl:if>
+
+          <xsl:if test="nav/buttonsHover">
+           #igrp-top-menu>li>a:hover, 
+           #igrp-top-menu>li>a:focus{
+                color: <xsl:value-of select="nav/buttonsHover"/>;
+           }
+          </xsl:if>
+
         </xsl:if>
 
- 
+        <xsl:if test="sidebar">
+          
+          <xsl:if test="sidebar/background">
+            #igrp-sidebar.sidebar{
+              background-color:<xsl:value-of select="sidebar/background"/>
+            }
+          </xsl:if>
+
+        </xsl:if>
+
         <xsl:if test="colors/color">
           <!--  -->
           a,.clickable,.btn-link{
@@ -651,73 +555,102 @@
             </xsl:if>
 
           </xsl:for-each>
-          
+
           <xsl:if test="colors/color[@name='primary']">
-          .checkbox-switch input:checked + .slider{
-            background-color: <xsl:value-of select="colors/color[@name='primary']"/>!important;
-          }
+            .checkbox-switch input:checked + .slider{
+              background-color: <xsl:value-of select="colors/color[@name='primary']"/>!important;
+            }
           </xsl:if>
-          
+
+          <xsl:if test="colors/color[@sidebar='true']">
+             #igrp-sidebar.sidebar{
+                 background-color: <xsl:value-of select="colors/color[@sidebar='true']"/>;
+              }
+          </xsl:if>
+
         </xsl:if>
 
+        <xsl:variable name="mainColor">
+
+          <xsl:choose>
+
+            <xsl:when test="colors/color[@name='main']">
+              <xsl:value-of select="colors/color[@name='main']"/>
+            </xsl:when>
+
+            <xsl:when test="sidebar/background">
+               <xsl:value-of select="sidebar/background"/>
+            </xsl:when>
+
+            <xsl:otherwise>#337ab7</xsl:otherwise>
+
+          </xsl:choose>
+
+        </xsl:variable>
+
+        [active-text-color="primary"].active,
+        .active [active-text-color="primary"]{
+            color:<xsl:value-of select="$mainColor"/>!important;
+        }
+
+        <xsl:if test="not(colors/color)">
+          [bg-color="primary"]{
+            background-color:<xsl:value-of select="$mainColor"/>!important;
+          }
+
+          [active-bg-color="primary"].active{
+            background-color:<xsl:value-of select="$mainColor"/>!important;
+          }
+
+          [style-listener="true"].active [active-bg-color="primary"]{
+            background-color : <xsl:value-of select="$mainColor"/>!important;
+          }
+         
+          [text-color="primary"]{
+            color:<xsl:value-of select="$mainColor"/>;
+          }
+
+          [active-text-color="primary"].active,
+          .active [active-text-color="primary"]{
+            color:<xsl:value-of select="$mainColor"/>!important;
+          }                       
+        </xsl:if>
+
+        /*formgen*/
+        #igrp-form-gen #gen-views-ctrl ul li.active,
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a, 
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li > a:hover,
+        #igrp-form-gen .gen-viewers-toolbar .btn,
+        #igrp-form-gen .treeview-menu>li>a{
+          color:<xsl:value-of select="$mainColor"/>!important;
+        }
+        #igrp-form-gen #igrp-sidebar .nav-tabs > li.active > a:after{
+          background:<xsl:value-of select="$mainColor"/>!important;
+        }
+
     </style>
- 
   </xsl:template>
-  <!-- COLORS2 -->
-  <xsl:template name="theme-colors2" mode="theme-colors2" match="*">
-    <style>
-      *[bg-color="template"]{
-        background-color: <xsl:value-of select="color[1]"/>;
-      }
-      .btn-primary {
-         background: <xsl:value-of select="color[1]"/>;
-      }
-      <xsl:if test="not(color[2])">
-        .btn-primary:hover, 
-        .btn-primary:focus, 
-        .btn-primary:active, 
-        .btn-primary.active,
-        .btn-primary.active.focus, 
-        .btn-primary.active:focus, 
-        .btn-primary.active:hover, 
-        .btn-primary:active.focus, 
-        .btn-primary:active:focus, 
-        .btn-primary:active:hover{
-            background: <xsl:value-of select="color[1]"/>;
-        }
-      </xsl:if>
-      <xsl:if test="color[2]">
-      .btn-primary:hover, 
-      .btn-primary:focus, 
-      .btn-primary:active, 
-      .btn-primary.active,
-      .btn-primary.active.focus, 
-      .btn-primary.active:focus, 
-      .btn-primary.active:hover, 
-      .btn-primary:active.focus, 
-      .btn-primary:active:focus, 
-      .btn-primary:active:hover{
-          background: <xsl:value-of select="color[2]"/>;
-      }
-      </xsl:if>
-      <xsl:for-each select="color">
-        *[bg-color="<xsl:value-of select="@name"/>"],{
-          background-color: <xsl:value-of select="."/>;
-        }
+  <!-- Local Themes definitions -->
+  <xsl:template name="local-theme-setup" >
+    
+    <div id="igrp-local-theme">
+      
+      <a class="igrp-local-theme-button">
 
-        *[text-color="<xsl:value-of select="@name"/>"],
-        *[txt-color="<xsl:value-of select="@name"/>"]{
-          color: <xsl:value-of select="."/>;
-        }
+        <i class="fa fa-gears"></i>
 
-        *[border-color="<xsl:value-of select="@name"/>"]{
-          border-color: <xsl:value-of select="."/>;
-        }
-      </xsl:for-each>
-    </style>
+      </a>
+
+      <ul class="igrp-local-theme-colors">
+
+        <li>Red</li>
+
+        <li>Orange</li>
+
+      </ul>
+
+    </div>
   </xsl:template>
-
-
   <!--TEMPLATE FOR  NAVIGATION-->
   <xsl:include href="IGRP-navigation.tmpl.xsl?v=1"/>
 

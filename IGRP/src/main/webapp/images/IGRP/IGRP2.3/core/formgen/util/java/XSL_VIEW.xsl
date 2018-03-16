@@ -86,6 +86,8 @@
 		<xsl:value-of select="$newline"/>
  		<xsl:value-of select="$import_model"/>
 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$import_config"/>
+		<xsl:value-of select="$newline"/>
  	</xsl:template>
  	
  	
