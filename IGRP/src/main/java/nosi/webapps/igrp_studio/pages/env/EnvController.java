@@ -160,7 +160,7 @@ public class EnvController extends Controller {
 	
 	}
 
-	//App list I have access to
+	// App list I have access to 
 	public Response actionMyApps() throws IOException{
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		
@@ -185,7 +185,7 @@ public class EnvController extends Controller {
 		/** Begin **/
 		List<IgrpPLSQLApp> allowApps = new ArrayList<IgrpPLSQLApp>();
 		List<IgrpPLSQLApp> denyApps = new ArrayList<IgrpPLSQLApp>();
-		getAllApps(allowApps,denyApps);
+	//	getAllApps(allowApps,denyApps);
 		/** End **/
 
 		boolean displaySubtitle = false;
