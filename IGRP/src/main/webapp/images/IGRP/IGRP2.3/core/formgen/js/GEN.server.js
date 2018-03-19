@@ -51,7 +51,8 @@ $(function(){
 	server.preserved  = {};
 
 	server.editors    = {};
-
+	
+	server.events = new $.EVENTS(['init']);
 
 	server.set = function(p){
 
@@ -99,7 +100,13 @@ $(function(){
 				var content  = d.html(),
  
 					onFinish = function(ncontent){
-
+						
+						server.events.execute(o.mode+'.'+o.part+'.gen',{
+							content : content,
+							options : o
+						});
+						//server.events.execute()
+					
 						if(o.callback)
 
 							o.callback(ncontent);
@@ -1273,6 +1280,25 @@ $(function(){
 			} );
 
 		});
+		
+		if( genOptions ){
+			
+			for(var o in genOptions){
+				
+				var option = genOptions[o];
+				
+				if(option.codes){
+					
+					option.codes.forEach(function(c){
+						
+						server.events.declare([o+'.'+c.name.toLowerCase()+'.gen']);
+						
+					})
+					
+				}
+				
+			}
+		}
 
 	}();
 
