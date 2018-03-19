@@ -68,7 +68,7 @@ public class FileHelper {
 		return null;
 	}
 	
-	//COnverte file to string
+	//Converte file to string 
 	public static String convertToString(Part file) throws IOException{
 		if(file!=null){
 			InputStream is = file.getInputStream();		   

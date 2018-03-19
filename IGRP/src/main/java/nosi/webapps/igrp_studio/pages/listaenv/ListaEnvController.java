@@ -149,6 +149,7 @@ public class ListaEnvController extends Controller {
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	private Response exportApp(Application app, ImportExportApp iea) {
+		
 		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
 			iea.putFilesPageConfig(a);
 		}
@@ -172,21 +173,27 @@ public class ListaEnvController extends Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		files.put("configDBApp/" + app.getDad().toLowerCase() + "/" + app.getDad().toLowerCase() + ".xml",
-				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + "DB.xml");
+		
+		files.put("configDBApp/" + app.getDad().toLowerCase() + 
+				"/" + app.getDad().toLowerCase() + ".xml",
+				pathConfigApp + File.separator + "Config" + 
+				app.getDad().toLowerCase() + "DB.xml");
+		
 		files.put("configApp/" + app.getDad().toLowerCase() + "/" + app.getDad().toLowerCase() + ".xml",
 				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + ".xml");
+		
 		String pathJar = this.getConfig().getPathExport() + app.getDad().toLowerCase() + File.separator
 				+ app.getDad().toLowerCase() + ".app.jar";
+		
 		FileHelper.createDiretory(this.getConfig().getPathExport() + app.getDad().toLowerCase());
 		
-		String aux = this.getConfig().getPathExport() + app.getDad().toLowerCase();
-		aux = aux.replace(File.separator + app.getDad().toLowerCase(), "");
-		new File(aux).deleteOnExit();
+		/*String aux = this.getConfig().getPathExport() + app.getDad().toLowerCase(); 
+		aux = aux.replace(File.separator + app.getDad().toLowerCase(), ""); 
+		new File(aux).deleteOnExit();*/
 		
 		JarUnJarFile.saveJarFiles(pathJar, files, 9);
 		
-		System.out.println(pathJar); 
+	//	System.out.println(pathJar); 
 		
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
 	}
