@@ -179,7 +179,15 @@ public class ListaEnvController extends Controller {
 		String pathJar = this.getConfig().getPathExport() + app.getDad().toLowerCase() + File.separator
 				+ app.getDad().toLowerCase() + ".app.jar";
 		FileHelper.createDiretory(this.getConfig().getPathExport() + app.getDad().toLowerCase());
+		
+		String aux = this.getConfig().getPathExport() + app.getDad().toLowerCase();
+		aux = aux.replace(File.separator + app.getDad().toLowerCase(), "");
+		new File(aux).deleteOnExit();
+		
 		JarUnJarFile.saveJarFiles(pathJar, files, 9);
+		
+		System.out.println(pathJar); 
+		
 		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
 	}
 

@@ -23,7 +23,7 @@ public final class Svn {
 
     public Svn() { // load default values ...
     	this.svnUrl = "https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/";
-        this.localUriPath = "C:\\Users\\angelo.correia.GOVCV\\";
+        this.localUriPath = "C:\\teste\\";
         this.message = "";
         this.isSuccess = false;
         this.cmd = "";
@@ -73,11 +73,11 @@ public final class Svn {
     }
 
     public boolean co() throws IOException, InterruptedException {
-    	this.cmd = "svn co " + getSvnUrl() + getWorkFolder();
+    	this.cmd = "svn co " + getSvnUrl() + getWorkFolder() + " " + this.getLocalUri();
     	return exec();
     }
     
-    public boolean add(String file_dir) {
+    public boolean add() {
     	this.cmd = "svn add " + getLocalUri();
     	return exec();
     }
@@ -89,6 +89,16 @@ public final class Svn {
 
     public boolean commit()  {
     	this.cmd = "svn commit " + getLocalUri() + " -m \"" + getMessage() + "\"";
+    	return exec();
+    }
+    
+    public boolean newLocalRepository() {
+    	this.cmd = "svnadmin create " + getLocalUri();
+    	return exec();
+    }
+    
+    public boolean deleteFileOrDir() {
+    	this.cmd = "svn delete " + this.svnUrl + this.workFolder + " -m \"" + getMessage() + "\"";
     	return exec();
     }
     
@@ -149,24 +159,65 @@ public final class Svn {
 	}
 	
 	public static void main(String[] args) throws InterruptedException, IOException {
-         /* Svn  svnapi = new Svn();
-          // faz o set da Pasta de trabalho
-          svnapi.setWork_folder("cubaia");
+          Svn  svnapi = new Svn();
+          
+          boolean flag = false;
+          
+          // faz o set da Pasta de trabalho 
+         svnapi.setWorkFolder("cobaia");
           // define o comentário para a as operações com comentários
-          svnapi.setMessage("pasta de teste");
+         /* svnapi.setMessage("pasta de teste");
           // cria a pasta no svn, caso existir, td bem!
-          svn_mkdir();
+           flag = svnapi.newLocalRepository();
+          System.out.println("Criar Pasta " + flag); 
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+          */
+          
+          // define o comentário para a as operações com comentários
+        /*  svnapi.setMessage("pasta de teste");
+          // cria a pasta no svn, caso existir, td bem!
+           flag = svnapi.mkdir();
+          System.out.println("Criar Pasta " + flag); 
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+         */
+     /*
           svnapi.setMessage(null);
-          // faz o checkout do projecto, caso  existir td bem!
-          svn_co();
-          // adciona a pasta
-          svn_add(getLocal_url());
+          // faz o checkout do projecto, caso  existir td bem ! 
+          flag = svnapi.co();
+          System.out.println("Checkout " + flag);
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+       */
+        
+          // adciona a pasta 
+         flag = svnapi.add();
+          System.out.println("Adicionar Pasta " + flag);
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+          
           svnapi.setMessage("pasta de teste");
           // faz o commit
-          svn_commit();
+          flag = svnapi.commit();
+          System.out.println("Commit " + flag);
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+         
+         /*
           svnapi.setMessage(null);
           // faz o update, sincronização com local
-          svn_update();*/
+          flag = svnapi.update();
+          System.out.println("Update " + flag);
+          System.out.println(svnapi.getCmd());
+          System.out.println(svnapi.getCmdResult());
+          */
+         /*
+         svnapi.setMessage("Removed ...");
+         // faz o update, sincronização com local
+         flag = svnapi.deleteFileOrDir();
+         System.out.println("Update " + flag);
+         */
     }
     
 
