@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import nosi.core.config.Config;
+import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -111,11 +113,18 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportApp(Application app){
-		String pathPageClass =this.getConfig().getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"pages"+File.separator;
+		
+		String pathPageClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + app.getDad().toLowerCase()+File.separator+"pages"+File.separator;
+		
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
-			for(Map.Entry<String, String> file:this.filesPageClasses.entrySet()){
+			for(Map.Entry<String, String> file : this.filesPageClasses.entrySet()){
+				
+				//System.out.println(file.getKey() + " - " + file.getValue()); 
+				
+				if(file.getKey().trim().endsWith(".class")) continue; 
+				
 				String page = file.getKey().replaceAll("View.java", "").replaceAll("Controller.java", "").replaceAll(".java", "");
 				newFilesPage.put("pages/"+app.getDad()+"/"+page+"/"+file.getKey(), file.getValue());
 			}
