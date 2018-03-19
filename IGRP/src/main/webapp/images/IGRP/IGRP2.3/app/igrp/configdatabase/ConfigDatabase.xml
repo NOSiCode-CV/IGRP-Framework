@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=37</preserve_url>
     </plsql>
     <content>
-        <title>Configurar Base de Dados de uma aplica��o</title>
+        <title>Configurar Base de Dados de uma aplicação</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -109,22 +109,22 @@
                 </tipo_base_dados>
                 <nome_de_conexao name="p_nome_de_conexao" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: DEVNOSI" right="false">
                     <label>Nome de conexão</label>
-                    <value>Aperiam consectetur omnis dese</value>
+                    <value>Laudantium mollit ipsum perspi</value>
                 </nome_de_conexao>
                 <config name="p_config" type="separator" maxlength="30" placeholder="" right="false">
                     <label>Config</label>
                 </config>
                 <hostname name="p_hostname" type="text" maxlength="100" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: nosidev02.gov.cv" right="false">
                     <label>Hostname</label>
-                    <value>Ipsum elit accusantium lorem aperiam</value>
+                    <value>Deserunt elit laudantium iste totam</value>
                 </hostname>
                 <port name="p_port" type="number" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" min="" max="" java-type="">
                     <label>Porta</label>
-                    <value>10</value>
+                    <value>26</value>
                 </port>
                 <username name="p_username" type="text" maxlength="80" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Username</label>
-                    <value>Natus omnis ipsum dolor iste</value>
+                    <value>Doloremque elit magna rem totam</value>
                 </username>
                 <password name="p_password" type="password" maxlength="80" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Password</label>
@@ -132,10 +132,76 @@
                 </password>
                 <nome_de_bade_dados name="p_nome_de_bade_dados" type="text" maxlength="50" required="true" change="false" readonly="false" disabled="false" placeholder="Ex: devnosi.gov.cv" right="false">
                     <label>Nome de Bade Dados</label>
-                    <value>Unde omnis ipsum laudantium rem</value>
+                    <value>Ipsum officia ipsum consectetur stract</value>
                 </nome_de_bade_dados>
             </fields>
         </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Tipo de base de dados</label>
+                </tipo_de_base_de_dados_tabela>
+                <nome_de_conexao_tabela name="p_nome_de_conexao_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome de conexão</label>
+                </nome_de_conexao_tabela>
+                <hostname_tabela name="p_hostname_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Hostname</label>
+                </hostname_tabela>
+                <porta_tabela name="p_porta_tabela" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Porta</label>
+                </porta_tabela>
+                <user_name_tabela name="p_user_name_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>User Name</label>
+                </user_name_tabela>
+                <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome Base de dados</label>
+                </nome_base_de_dados_tabela>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Totam consectetur rem sed volu</tipo_de_base_de_dados_tabela>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Lorem sed mollit laudantium un</nome_de_conexao_tabela>
+                        <hostname_tabela name="p_hostname_tabela">Aliqua deserunt ut lorem sit</hostname_tabela>
+                        <porta_tabela name="p_porta_tabela">23</porta_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Aperiam perspiciatis voluptate</user_name_tabela>
+                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Omnis doloremque labore ipsum</nome_base_de_dados_tabela>
+                    </row>
+                    <row>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Stract perspiciatis mollit lor</tipo_de_base_de_dados_tabela>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Rem labore lorem dolor lorem</nome_de_conexao_tabela>
+                        <hostname_tabela name="p_hostname_tabela">Dolor accusantium perspiciatis</hostname_tabela>
+                        <porta_tabela name="p_porta_tabela">5</porta_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Anim deserunt voluptatem sit l</user_name_tabela>
+                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Rem omnis aliqua anim voluptat</nome_base_de_dados_tabela>
+                    </row>
+                    <row>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Perspiciatis omnis laudantium</tipo_de_base_de_dados_tabela>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Dolor anim labore lorem aperia</nome_de_conexao_tabela>
+                        <hostname_tabela name="p_hostname_tabela">Officia omnis stract lorem des</hostname_tabela>
+                        <porta_tabela name="p_porta_tabela">24</porta_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Omnis stract adipiscing deseru</user_name_tabela>
+                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Sit consectetur sed consectetu</nome_base_de_dados_tabela>
+                    </row>
+                    <row>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Sit omnis ut aliqua doloremque</tipo_de_base_de_dados_tabela>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Sit natus omnis mollit perspic</nome_de_conexao_tabela>
+                        <hostname_tabela name="p_hostname_tabela">Ut lorem aperiam amet anim</hostname_tabela>
+                        <porta_tabela name="p_porta_tabela">8</porta_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Accusantium sit labore officia</user_name_tabela>
+                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Anim adipiscing amet deserunt</nome_base_de_dados_tabela>
+                    </row>
+                    <row>
+                        <tipo_de_base_de_dados_tabela name="p_tipo_de_base_de_dados_tabela">Laudantium sit rem deserunt ac</tipo_de_base_de_dados_tabela>
+                        <nome_de_conexao_tabela name="p_nome_de_conexao_tabela">Unde deserunt dolor sed anim</nome_de_conexao_tabela>
+                        <hostname_tabela name="p_hostname_tabela">Voluptatem stract unde lorem e</hostname_tabela>
+                        <porta_tabela name="p_porta_tabela">14</porta_tabela>
+                        <user_name_tabela name="p_user_name_tabela">Anim omnis adipiscing sit moll</user_name_tabela>
+                        <nome_base_de_dados_tabela name="p_nome_base_de_dados_tabela">Mollit stract accusantium omni</nome_base_de_dados_tabela>
+                    </row>
+                </value>
+            </table>
+        </table_1>
         <paragraph_1 type="paragraph" xml-type="form" title="Example" gen-type="container" gen-group="">
             <fields>
                 <paragraph_1_text type="text" name="p_paragraph_1_text" persist="true" maxlength="4000">
@@ -150,5 +216,12 @@
                 </paragraph_1_text>
             </fields>
         </paragraph_1>
+        <sectionheader_2 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_2_text type="text" name="p_sectionheader_2_text" persist="true" maxlength="4000">
+                    <value>Conexões Existente</value>
+                </sectionheader_2_text>
+            </fields>
+        </sectionheader_2>
     </content>
 </rows>
