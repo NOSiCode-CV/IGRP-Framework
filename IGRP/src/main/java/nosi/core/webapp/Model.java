@@ -46,7 +46,9 @@ public abstract class Model { // IGRP super model
 			List<Tuple> list = query.getResultList();
 			for(Tuple tuple:list) {
 				for(Field field:this.getClass().getDeclaredFields()) {
-					Core.setParam(field.getAnnotation(RParam.class).rParamName(), tuple.get(field.getName()));
+					try {
+						Core.setParam(field.getAnnotation(RParam.class).rParamName(), tuple.get(field.getName()));
+					}catch(java.lang.IllegalArgumentException e) {}
 				}
 			}		
 			if(list.size() > 0) {
