@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.pesquisarorganica;
 import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
-import nosi.core.config.Config; 
 import static nosi.core.i18n.Translator.gt;
 public class PesquisarOrganicaView extends View {
 	public String title = "";		
