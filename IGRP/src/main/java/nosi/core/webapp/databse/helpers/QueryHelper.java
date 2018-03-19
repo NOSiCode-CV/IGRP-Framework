@@ -20,6 +20,7 @@ import javax.persistence.TypedQuery;
 import nosi.core.config.Config;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.helpers.DateHelper;
 
 
 /**
@@ -287,7 +288,7 @@ public abstract class QueryHelper implements IFQuery{
 		}else if(col.getType().equals(java.lang.Short.class)){
 			query.setShort(col.getName(), (Short)value);
 		}else if(col.getType().equals(java.sql.Date.class) && Core.isNotNull(value)){
-			query.setDate(col.getName(),Core.ToDate(value.toString(), col.getFormat()));
+			query.setDate(col.getName(),DateHelper.formatDate(value.toString(), col.getFormat()));
 		}else if(col.getType().equals(java.lang.String.class) || col.getType().equals(java.lang.Character.class) && Core.isNotNull(value)){
 			query.setString(col.getName(),value.toString());
 		}else {

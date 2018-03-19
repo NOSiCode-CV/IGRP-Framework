@@ -549,14 +549,14 @@
           <script src="{$path}/core/codemirror/js/addon/hint/xml-hint.js"></script>
           <script src="{$path}/core/codemirror/js/mode/sql/sql.js"></script>
           <script src="{$path}/core/codemirror/js/addon/hint/show-hint.js"></script>
-          <script src="{$path}/core/codemirror/js/addon/hint/sql-hint.js"></script>
           <script src="{$path}/core/codemirror/js/clike.js"></script>
+
           <!--gen-->
           <script>var gPATH = "<xsl:value-of select='$path' />/app/RED";</script>
           <script src="{$path}/core/formgen/js/chance.js"></script>
           <script src="{$path}/core/formgen/js/jquery-ui.min.js"></script>
           <script src="{$path}/core/formgen/js/string.js" charset="utf-8"></script>
-          <!-- <script src="{$path}/core/formgen/js/xml.xsl.transform.js"></script> -->
+         
           <script src="{$path}/core/formgen/js/GEN.converter.2dot2.js"></script>
           <script src="{$path}/core/formgen/js/GEN.vars.js"></script>
           <script src="{$path}/core/formgen/js/GEN.getdata.js"></script>
@@ -635,6 +635,9 @@
             var __GEN = this[VARS.name];
 
           </script>
+          
+          <!-- GEN Java Auto Complete -->
+          <script src="{$path}/core/formgen/js/GEN.autocomplete.js"></script>
 
           <script src="{$path}/core/formgen/js/GEN.attributes.js"></script>
 

@@ -5,7 +5,6 @@
 package nosi.webapps.igrp.pages.lookuplistpage;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.Igrp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

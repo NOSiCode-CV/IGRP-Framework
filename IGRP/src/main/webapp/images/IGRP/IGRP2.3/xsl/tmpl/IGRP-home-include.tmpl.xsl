@@ -296,8 +296,8 @@
       <igrp-page-title class="hidden"><xsl:value-of select="rows/content/title"/></igrp-page-title>
     </igrp-variables>
 
-    <!-- local theme color setup -->
-    <xsl:call-template name="local-theme-setup"/>
+    <!-- local theme color setup 
+    <xsl:call-template name="local-theme-setup"/>-->
 
     <button class="btn btn-default" id="igrp-go-up" target="scroll_to_top" bg-color="primary">
       <i class="fa fa-chevron-up"></i>

@@ -1,6 +1,5 @@
 package nosi.webapps.igrp.pages.home;
 
-import nosi.core.config.Config;
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPHome;
 import nosi.core.gui.components.IGRPToolsBar;

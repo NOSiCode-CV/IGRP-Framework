@@ -2,7 +2,6 @@
 package nosi.webapps.igrp.pages.transaccao;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.Core;
@@ -11,11 +10,9 @@ import nosi.webapps.igrp.dao.Transaction;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONException;
-import nosi.core.webapp.Core;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import java.util.List;
-import static nosi.core.i18n.Translator.gt;
 /*----#END-PRESERVED-AREA----*/
 
 public class TransaccaoController extends Controller {		

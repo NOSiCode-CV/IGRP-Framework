@@ -11,7 +11,6 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.GroupService;
 import java.io.IOException;
 import nosi.webapps.igrp.dao.ProfileType;
-import nosi.webapps.igrp.dao.User;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.Profile;

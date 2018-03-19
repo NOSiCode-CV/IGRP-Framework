@@ -3,6 +3,7 @@
 	var com;
 
 	var lang = document.cookie.split(';');
+	
 	$.IGRP.component('tableCtrl',{
 
 		dataTable : function(options){

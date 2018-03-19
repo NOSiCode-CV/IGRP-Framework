@@ -3,7 +3,6 @@ package nosi.webapps.igrp.pages.settings;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.i18n.I18nManager;
 import nosi.core.webapp.Controller;
-import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.Permission;
@@ -11,7 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import nosi.core.webapp.Core;
 import javax.servlet.http.Cookie;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import nosi.webapps.igrp.dao.User;
 import static nosi.core.i18n.Translator.gt;

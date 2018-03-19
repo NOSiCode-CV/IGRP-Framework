@@ -28,6 +28,18 @@ public class DateHelper {
 		}
 		return myDateString;
 	}
+
+	public static java.sql.Date formatDate(String data,String inputFormat){ 
+		if(Core.isNotNull(data) && Core.isNotNull(inputFormat)) {
+			try {
+				 SimpleDateFormat formatter = new SimpleDateFormat(inputFormat);
+	             return new java.sql.Date(formatter.parse(data).getTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){ 
 		if(Core.isNotNull(data) && Core.isNotNull(outputFormat) && Core.isNotNull(inputFormat)) {

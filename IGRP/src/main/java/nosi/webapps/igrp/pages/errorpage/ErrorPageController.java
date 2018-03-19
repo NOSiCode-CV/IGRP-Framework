@@ -1,14 +1,8 @@
 
 package nosi.webapps.igrp.pages.errorpage;
 import static nosi.core.i18n.Translator.gt;
-
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
