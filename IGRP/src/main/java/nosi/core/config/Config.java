@@ -27,7 +27,7 @@ public class Config {
 	private final String LINK_XSL_HOME = "images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
 	private final String LINK_XSL_LOGIN ="images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
 	private final String LINK_XSL_MAP_PROCESS = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";	
-	private final String LINK_XSL_GENERATOR_MCV = "images/IGRP/IGRP2.3/core/formgen/util/plsql_import_to_java/XSL_GENERATOR.xsl";//For page sql imported
+	private final String LINK_XSL_GENERATOR_MCV = "images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl";//For page sql imported
 	private final String LINK_XSL_GENERATOR_MCV_FORM = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_FORM_GENERATOR.xsl";
 	private final String LINK_XSL_GENERATOR_MCV_LIST = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_LIST_GENERATOR.xsl";
 	private final String LINK_XSL_GENERATOR_CRUD = "images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";//Generator XSL for CRUD pages
