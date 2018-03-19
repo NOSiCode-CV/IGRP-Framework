@@ -21,6 +21,7 @@ import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
 import nosi.core.webapp.databse.helpers.CRUDOperation;
 import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.CRUD;
@@ -88,8 +89,6 @@ public abstract class Model { // IGRP super model
 		for(Field m : c.getDeclaredFields()){
 			m.setAccessible(true);
 			String typeName = m.getType().getName();
-			
-			
 			if(m.getType().isArray()){
 				
 				String []aux = null;
@@ -205,6 +204,12 @@ public abstract class Model { // IGRP super model
 						break;
 					case "short":
 							m.setShort(this, Short.parseShort(aux));
+						break;
+					case "java.sql.Date":
+						if(Core.isNotNull(aux) && !aux.equals("0")) {
+							//String d = DateHelper.convertDateToString(DateHelper.formatDate(aux, "dd-mm-yyyy"),"yyyy-mm-dd");
+							m.set(this, DateHelper.formatDate(aux, "dd-mm-yyyy"));
+						}
 						break;
 					default:
 						m.set(this, typeName == "java.lang.String" ? (defaultResult == null ? m.getAnnotation(RParam.class).defaultValue() : defaultResult) : null); // The field could be a Object 
