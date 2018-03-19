@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
-import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.FlashMessage;

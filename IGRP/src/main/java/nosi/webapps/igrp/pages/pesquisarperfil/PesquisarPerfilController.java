@@ -4,7 +4,6 @@ package nosi.webapps.igrp.pages.pesquisarperfil;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
-import nosi.webapps.igrp.dao.Organization;
 import nosi.webapps.igrp.dao.ProfileType;
 import java.io.IOException;
 import java.util.ArrayList;

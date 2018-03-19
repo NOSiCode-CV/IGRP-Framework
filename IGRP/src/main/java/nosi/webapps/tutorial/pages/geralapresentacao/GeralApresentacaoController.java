@@ -7,7 +7,6 @@ import nosi.core.webapp.Core;
 import java.io.IOException;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.webapp.Igrp;
 
 /*----#END-PRESERVED-AREA----*/
 
