@@ -20,6 +20,7 @@ public final class ScapeUrlEncrypt {
 		m.put("igrp/page/preserveUrl", "Url Preserve Code Java");
 		m.put("igrp/page/listDomains", "List Domain");
 		m.put("link_domains_value", "Domains Value");
+		m.put("igrp/page/metodos-core","Lista de Metodos para Autocomplete");
 		return m;
 	}
 }
