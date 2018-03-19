@@ -116,7 +116,7 @@ public class ImportExportApp {
 		
 		String pathPageClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + app.getDad().toLowerCase()+File.separator+"pages"+File.separator;
 		
-		Core.setMessageInfo(pathPageClass); 
+		//Core.setMessageInfo(pathPageClass); 
 		
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		
