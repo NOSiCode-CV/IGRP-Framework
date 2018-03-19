@@ -116,7 +116,10 @@ public class ImportExportApp {
 		
 		String pathPageClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + app.getDad().toLowerCase()+File.separator+"pages"+File.separator;
 		
+		Core.setMessageInfo(pathPageClass); 
+		
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
+		
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
 			for(Map.Entry<String, String> file : this.filesPageClasses.entrySet()){
