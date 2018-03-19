@@ -377,10 +377,14 @@
 		};
 
 		var mpsubmit  = function(p){
+			
+			var formData = p.clicked.parents('table tbody tr')[0] ? '' : form.serialize();
+			
 			$.IGRP.components.iframeNav.set({
-				url    :$.IGRP.utils.getUrl(p.url)+form.serialize(),
+				url    :$.IGRP.utils.getUrl(p.url)+formData,
 				clicked:p.clicked
 			});
+			
 			return false;
 		};
 

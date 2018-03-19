@@ -210,18 +210,15 @@ $(function(){
 		    			
 		    			options.words = server.hints[p];
 		    			
-		    		
 		    	});
 
 		    	for (var i = 0; i < options.words.length; i++) {
 
 			      	var word = options.words[i];
 
-			      	if ( token.string && word.slice(0, token.string.length) == token.string){
+			      	if ( token.string && word.slice(0, token.string.length) == token.string)
 
-			      		found.push(word);
-
-			      	}
+			      		found.push( word );
 			        
 			    }
 		    }
