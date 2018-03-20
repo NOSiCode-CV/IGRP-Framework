@@ -135,7 +135,7 @@ public class WebReportController extends Controller {
 						rtp = new RepTemplateParam();
 						rtp.setReptemplate(rt);
 						rtp.setParameter(key.toLowerCase());
-						rtp.insert();//insert news params of report
+						rtp.insert(); //insert news params of report 
 					}
 				}
 				RepTemplateSource rts = new RepTemplateSource();
