@@ -158,7 +158,11 @@ public class ImportExportApp {
 	}
 	
 	public void putFilesPageConfig(Action page){
+		
 		String pathPageXsl = this.getConfig().getPathOfXslByPage(page).replace("images", this.getConfig().getPathOfImagesFolder());
+		
+		// Core.setMessageInfo("Caminho XSL: " + pathPageXsl); 
+		
 		if(page.getXsl_src() !=null && FileHelper.fileExists(pathPageXsl)){
 			//String pathPageXsl = this.getConfig().getBasePahtXslWorkspace(page)+File.separator;
 			pathPageXsl += File.separator;

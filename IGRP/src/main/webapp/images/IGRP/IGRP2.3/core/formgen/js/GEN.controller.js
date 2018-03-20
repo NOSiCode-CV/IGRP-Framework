@@ -2217,13 +2217,16 @@ if(input) {
 	var setEvents = function(){
 		
 		$(document).keydown(function(event) {
-		    if((event.ctrlKey || event.metaKey) && event.which == 83) {
 
-		    	$('.form-gen-save').click();
+		    if((event.ctrlKey || event.metaKey) && event.which == 83) {
 		    	
-		        event.preventDefault();
+		    	event.preventDefault();
+		    	
+		    	$('.form-gen-save').click();
+
 		        return false;
 		    }
+		    
 		});
 		
 		$(document).on('click','.gen-editor-errors table tr',function(){
@@ -3120,9 +3123,8 @@ if(input) {
 					
 					GEN.UTILS = typeof configData == 'string' ? $.parseJSON(configData) : configData;
 
-					//loadDomains();
-
 					loadPageContents({ source: genparams.dataSrc });
+					
 				}
 			});
 
