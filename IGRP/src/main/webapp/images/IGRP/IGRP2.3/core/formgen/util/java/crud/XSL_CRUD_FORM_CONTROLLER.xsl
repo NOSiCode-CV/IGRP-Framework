@@ -91,7 +91,10 @@
 				<xsl:call-template name="sql-select"/>
 			</xsl:variable>
 			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>  		
+			<xsl:value-of select="$tab2"/>  
+			<xsl:call-template name="gen-sql-combobox"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/> 		
 			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>
  			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
