@@ -43,6 +43,7 @@ import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.TextField;
+import nosi.core.webapp.Core;
 import nosi.core.xml.XMLWritter;
 
 @Entity
@@ -349,10 +350,16 @@ public class RepSource extends BaseActiveRecord<RepSource> implements Serializab
 				for(Parameter<?> param:q.getParameters()){
 					Object val = paramsUrl.get(param.getName().toLowerCase());
 					val = val==null?paramsUrl.get("p_"+param.getName().toLowerCase()):val;
-					if(val!=null)
-						q.setParameter(param.getName(), val);
+					if(Core.isNotNull(val)) {
+						if(Core.isDouble(val))
+							q.setParameter(param.getName(), Double.parseDouble(val.toString()));
+						if(Core.isInt(val))
+							q.setParameter(param.getName(), Integer.parseInt(val.toString()));
+						else
+							q.setParameter(param.getName(), val);
+					}
 				}
-			}	
+			}
 			@SuppressWarnings("unchecked")
 			List<Object[]> list = q.getResultList();
 			xml = this.getSqlQueryToXml(columns, list);

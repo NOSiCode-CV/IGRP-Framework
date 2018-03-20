@@ -349,8 +349,8 @@ public final class Core {	// Not inherit
 	public static boolean isInt(Object value) {
 		if(isNotNull(value)) {
 			try {
-				Integer.parseInt(value.toString());
-				return true;
+				double v = Integer.parseInt(value.toString());
+				return ((v == Math.floor(v)) && !Double.isInfinite(v));
 			}catch(NumberFormatException e) {
 				return false;
 			}
@@ -361,8 +361,8 @@ public final class Core {	// Not inherit
 	public static boolean isDouble(Object value) {
 		if(isNotNull(value)) {
 			try {
-				Double.parseDouble(value.toString());
-				return true;
+				double v = Double.parseDouble(value.toString());
+				return !((v == Math.floor(v)) && !Double.isInfinite(v));
 			}catch(NumberFormatException e) {
 				return false;
 			}
@@ -373,8 +373,8 @@ public final class Core {	// Not inherit
 	public static boolean isFloat(Object value) {
 		if(isNotNull(value)) {
 			try {
-				Float.parseFloat(value.toString());
-				return true;
+				float v = Float.parseFloat(value.toString());
+				return !((v == Math.floor(v)) && !Float.isInfinite(v));
 			}catch(NumberFormatException e) {
 				return false;
 			}
@@ -382,41 +382,12 @@ public final class Core {	// Not inherit
 		return false;
 	}
 	
-	public static boolean isLong(Object value) {
-		if(isNotNull(value)) {
-			try {
-				Long.parseLong(value.toString());
-				return true;
-			}catch(NumberFormatException e) {
-				return false;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean isShort(Object value) {
-		if(isNotNull(value)) {
-			try {
-				Short.parseShort(value.toString());
-				return true;
-			}catch(NumberFormatException e) {
-				return false;
-			}
-		}
-		return false;
-	}
 	public static Integer toInt(String value) {
 		if(Core.isInt(value))
 			return Integer.parseInt(value);
 		return 0;
 	}
 
-	public static Long toLong(String value) {
-		if(Core.isLong(value))
-			return Long.parseLong(value);
-		return (long) 0;
-	}
-	
 	public static Double toDouble(String value) {
 		if(Core.isDouble(value))
 			return Double.parseDouble(value);
@@ -427,12 +398,6 @@ public final class Core {	// Not inherit
 		if(Core.isFloat(value))
 			return Float.parseFloat(value);
 		return (float) 0;
-	}
-
-	public static Short toShort(String value) {
-		if(Core.isShort(value))
-			return Short.parseShort(value);
-		return 0;
 	}
 	
 	public static QueryHelper insert(String connectionName,String tableName) {
