@@ -280,7 +280,7 @@ public class XMLTransform {
 			case "enum":
 				return new ListField(null, name);
 			case "hidden":
-				return new HiddenField(name, null);
+				return new HiddenField(null,name);
 		}
 		return new TextField(null, name);
 	}
