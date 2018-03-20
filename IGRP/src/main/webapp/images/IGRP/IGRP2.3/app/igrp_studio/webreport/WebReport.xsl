@@ -233,6 +233,7 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
+
                 <script type="text/javascript">
                     var wr_dataSource       = '<xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>',
                         wr_app              = '<xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>',
@@ -244,16 +245,7 @@
                         wr_dialogKeysTitle  = '<xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/label"/>',
                         wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
                 </script>
-                <!--TABCONTENT JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
-                <!--FORM JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
-                <!--SELECT JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
-                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
-                <!--XML XSL TRANSFORM-->
-                <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js"/>
-                <!--TEXTEDITOR JS INCLUDES-->
+                 <!--TEXTEDITOR JS INCLUDES-->
                 <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
                 <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
@@ -263,6 +255,16 @@
                             element = editor.element;
                     });
                 </script>
+                <!--TABCONTENT JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
+                <!--FORM JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/core/igrp/form/igrp.forms.js"/>
+                <!--SELECT JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.full.min.js"/>
+                <script type="text/javascript" src="{$path}/plugins/select2/select2.init.js"/>
+                <!--XML XSL TRANSFORM-->
+                <script type="text/javascript" src="{$path}/core/formgen/js/xml.xsl.transform.js"/>
+                
             </body>
         </html>
     </xsl:template>
