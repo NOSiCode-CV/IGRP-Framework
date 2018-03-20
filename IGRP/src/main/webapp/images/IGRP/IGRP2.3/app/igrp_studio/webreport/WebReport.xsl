@@ -233,19 +233,7 @@
                     </div>
                     <xsl:call-template name="IGRP-bottom"/>
                 </form>
-                
-                <!--TEXTEDITOR JS INCLUDES-->
-                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
-                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
-                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
-                <script type="text/javascript">
-                    CKEDITOR.on( 'instanceCreated', function( event ) {
-                        var editor = event.editor,
-                            element = editor.element;
-                    });
-                </script>
-                
-                
+
                 <script type="text/javascript">
                     var wr_dataSource       = '<xsl:value-of select="rows/content/form_1/fields/datasorce_app/label"/>',
                         wr_app              = '<xsl:value-of select="rows/content/form_1/fields/env_fk/label"/>',
@@ -256,6 +244,16 @@
                         wr_nameInputCode    = '<xsl:value-of select="'p_code'"/>',
                         wr_dialogKeysTitle  = '<xsl:value-of select="rows/content/form_1/fields/dialog_keys_report/label"/>',
                         wr_tmpl             = '<xsl:value-of select="rows/content/form_1/value/hidden[@name='p_fwl_tmplconfig']"/>';
+                </script>
+                 <!--TEXTEDITOR JS INCLUDES-->
+                <script type="text/javascript" src="{$path}/core/ckeditor/ckeditor.js"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.config.js"/>
+                <script type="text/javascript" src="{$path}/core/webreport/js/webreport.js"/>
+                <script type="text/javascript">
+                    CKEDITOR.on( 'instanceCreated', function( event ) {
+                        var editor = event.editor,
+                            element = editor.element;
+                    });
                 </script>
                 <!--TABCONTENT JS INCLUDES-->
                 <script type="text/javascript" src="{$path}/plugins/tabs/igrp.tabs.js"/>
