@@ -99,11 +99,14 @@ public class ImportExportApp {
 	
 	public boolean validateExportPage(Action page){
 		FileHelper fileH = new FileHelper();
-		String pathPageClass =this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad().toLowerCase())+File.separator+"pages"+File.separator+page.getPage().toLowerCase()+File.separator;
+		
+		String pathPageClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + page.getApplication().getDad().toLowerCase() + File.separator+"pages" + File.separator + page.getPage().toLowerCase() + File.separator;
+		
 		this.filesPageClasses = fileH.listFilesDirectory(pathPageClass);	
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
 			for(Map.Entry<String, String> file:this.filesPageClasses.entrySet()){
+				if(file.getKey().trim().endsWith(".class")) continue; 
 				String p = file.getKey().replaceAll("View.java", "").replaceAll("Controller.java", "").replaceAll(".java", "");
 				newFilesPage.put("pages/"+page.getApplication().getDad().toLowerCase()+"/"+p+"/"+file.getKey(), file.getValue());
 			}
@@ -113,21 +116,14 @@ public class ImportExportApp {
 	}
 	
 	public boolean validateExportApp(Application app){
-		
 		String pathPageClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + app.getDad().toLowerCase()+File.separator+"pages"+File.separator;
-		
-		//Core.setMessageInfo(pathPageClass); 
 		
 		this.filesPageClasses = new FileHelper().readAllFileDirectory(pathPageClass);	
 		
 		if(this.filesPageClasses!=null){
 			Map<String,String> newFilesPage = new HashMap<>();
 			for(Map.Entry<String, String> file : this.filesPageClasses.entrySet()){
-				
-				//System.out.println(file.getKey() + " - " + file.getValue()); 
-				
 				if(file.getKey().trim().endsWith(".class")) continue; 
-				
 				String page = file.getKey().replaceAll("View.java", "").replaceAll("Controller.java", "").replaceAll(".java", "");
 				newFilesPage.put("pages/"+app.getDad()+"/"+page+"/"+file.getKey(), file.getValue());
 			}
@@ -159,10 +155,15 @@ public class ImportExportApp {
 	
 	public void putFilesPageConfig(Action page){
 		if(page.getXsl_src()!=null && FileHelper.fileExists(this.getConfig().getWorkspace())){
-			String pathPageXsl = this.getConfig().getBasePahtXslWorkspace(page)+File.separator;	
+			//String pathPageXsl = this.getConfig().getBasePahtXslWorkspace(page)+File.separator;
+			String pathPageXsl = this.getConfig().getPathOfXslByPage(page).replace("images", this.getConfig().getPathOfImagesFolder()) + File.separator;
+			//System.out.println(pathPageXsl);
+			
 			Map<String,String> list = new FileHelper().listFilesDirectory(pathPageXsl);
+			
 			if(list!=null){
-				for(Map.Entry<String, String> file:list.entrySet()){
+				for(Map.Entry<String, String> file : list.entrySet()){
+					
 					this.filesPageClasses.put("configs/"+page.getApplication().getDad().toLowerCase()+"/"+page.getPage()+"/"+page.getAction()+"/"+file.getKey(), file.getValue());
 				}
 			}

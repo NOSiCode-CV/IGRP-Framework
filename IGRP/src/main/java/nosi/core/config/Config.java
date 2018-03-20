@@ -108,6 +108,23 @@ public class Config {
 		return Igrp.getInstance().getServlet().getServletContext().getRealPath("/WEB-INF/classes/");
 	}
 	
+	public String getPathOfImagesFolder() {
+		String APP_LINK_IMAGE = null;
+		try {
+			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
+		}catch(Exception e) {
+		}
+	    if(APP_LINK_IMAGE == null || APP_LINK_IMAGE.trim().isEmpty())
+	    	return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images");
+	    
+	    return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images").
+	    		replace(Igrp.getInstance().getServlet().getServletContext().getServletContextName(), APP_LINK_IMAGE);
+	}
+	
+	public String getPathOfXslByPage(Action page) {
+		return "images"+SEPARATOR_FOR_FILESYS+"IGRP"+SEPARATOR_FOR_FILESYS+"IGRP"+page.getVersion()+SEPARATOR_FOR_FILESYS+"app"+SEPARATOR_FOR_FILESYS+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_FILESYS+page.getPage().toLowerCase();
+	}
+	
 	public String getWorkspace(){
 		return Igrp.getInstance().getServlet().getServletContext().getInitParameter("workspace");
 	}
