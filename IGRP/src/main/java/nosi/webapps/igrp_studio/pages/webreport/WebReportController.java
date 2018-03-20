@@ -34,44 +34,41 @@ import nosi.webapps.igrp.dao.User;
 public class WebReportController extends Controller {		
 
 
-	public Response actionIndex() throws IOException{
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		WebReport model = new WebReport();
 		WebReportView view = new WebReportView(model);
-		String p_env_fk = Igrp.getInstance().getRequest().getParameter("p_env_fk");	
-		
-		if(Igrp.getInstance().getRequest().getMethod().equalsIgnoreCase("POST")){			
-			if(p_env_fk!=null && !p_env_fk.equals("")){
-				RepSource ds = new RepSource();
-				int env_fk = Integer.parseInt(p_env_fk);
-				view.datasorce_app.setValue(ds.getListSources(env_fk));
-				RepTemplate  rep = new RepTemplate();
-				List<WebReport.Gen_table> data = new ArrayList<>(); 
-				for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
-					WebReport.Gen_table t1 = new WebReport.Gen_table();
-					RepTemplateParam rtp = new RepTemplateParam();
-					String params = "null";
-					List<RepTemplateParam> listParams = rtp.find().andWhere("reptemplate", "=", r.getId()).all();
-					if(listParams.size() > 0){
-						params = "new Report()";
-						//Get parameters
-						for(RepTemplateParam p:listParams){
-							params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
-						}
+		model.load();		
+		if(Core.isNotNull(model.getEnv_fk())){
+			RepSource ds = new RepSource();
+			int env_fk = Integer.parseInt(model.getEnv_fk());
+			view.datasorce_app.setValue(ds.getListSources(env_fk));
+			RepTemplate  rep = new RepTemplate();
+			List<WebReport.Gen_table> data = new ArrayList<>(); 
+			for(RepTemplate r: rep.find().andWhere("application", "=", env_fk).all()){
+				WebReport.Gen_table t1 = new WebReport.Gen_table();
+				RepTemplateParam rtp = new RepTemplateParam();
+				String params = "null";
+				List<RepTemplateParam> listParams = rtp.find().andWhere("reptemplate", "=", r.getId()).all();
+				if(listParams.size() > 0){
+					params = "new Report()";
+					//Get parameters
+					for(RepTemplateParam p:listParams){
+						params += ".addParam(\""+p.getParameter().toLowerCase()+"\",\"?\")";
 					}
-					String link = "Core.getLinkReport(\""+r.getCode()+"\","+params+");";
-					t1.setDescricao(link);
-					t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
-					t1.setLink_desc(r.getCode());
-					t1.setId(r.getId());
-					t1.setTitle(r.getName());
-					data.add(t1);
 				}
-				view.gen_table.addData(data);
+				String link = "Core.getLinkReport(\""+r.getCode()+"\","+params+");";
+				t1.setDescricao(link);
+				t1.setLink("igrp_studio", "web-report", "load-template&id="+r.getId());
+				t1.setLink_desc(r.getCode());
+				t1.setId(r.getId());
+				t1.setTitle(r.getName());
+				data.add(t1);
 			}
+			view.gen_table.addData(data);
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		view.link_add_source.setValue(new Config().getResolveUrl("igrp","data-source","index&dad=igrp&id_env="+p_env_fk));
+		view.link_add_source.setValue(new Config().getResolveUrl("igrp","data-source","index&dad=igrp&id_env="+model.getEnv_fk()));
 		view.p_link_source.setValue(new Config().getResolveUrl("igrp","data-source","get-data-source&dad=igrp"));
 		view.p_edit_name_report.setValue(new Config().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
 		return this.renderView(view);
@@ -120,8 +117,8 @@ public class WebReportController extends Controller {
 					rt = rt.insert();	
 				}
 				//Update report if is exist
-				if(id!=null && !id.equals("")){
-					rt = rt.findOne((int)Float.parseFloat(id));
+				if(Core.isNotNull(id)){
+					rt = rt.findOne(Integer.parseInt(id));
 					clob_xsl = clob_xsl.findOne(rt.getXsl_content().getId());
 					clob_html = clob_html.findOne(rt.getXml_content().getId());				
 					clob_xsl.setC_lob_content(FileHelper.convertToString(fileXsl).getBytes());
@@ -162,9 +159,9 @@ public class WebReportController extends Controller {
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String type = Igrp.getInstance().getRequest().getParameter("p_type");//se for 0 - preview, se for 1 - registar ocorencia
 		String xml = "";
-		if(id!=null && !id.equals("")){
+		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
-			rt = rt.findOne((int)Float.parseFloat(id));
+			rt = rt.findOne(Integer.parseInt(id));
 			String []name_array = Igrp.getInstance().getRequest().getParameterValues("name_array");
 			String []value_array = Igrp.getInstance().getRequest().getParameterValues("value_array");
 			//Iterate data source per template
@@ -196,9 +193,9 @@ public class WebReportController extends Controller {
 			String id_ = Igrp.getInstance().getRequest().getParameter("p_id");
 			String code_ = Igrp.getInstance().getRequest().getParameter("p_code");
 			String title_ = Igrp.getInstance().getRequest().getParameter("p_title");
-			if(id_!=null && !id_.equals("")){
+			if(Core.isNotNull(id_)){
 				RepTemplate rt = new RepTemplate();
-				rt = rt.findOne((int)Float.parseFloat(id_));
+				rt = rt.findOne(Integer.parseInt(id_));
 				rt.setCode(code_);
 				rt.setName(title_);
 				rt.setDt_updated(new Date(System.currentTimeMillis()));
@@ -215,9 +212,9 @@ public class WebReportController extends Controller {
 	public Response actionGetXsl() throws IOException{
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String xsl = "";
-		if(id!=null && !id.equals("")){
+		if(Core.isNotNull(id)){
 			CLob c = new CLob();
-			c = c.findOne((int)Float.parseFloat(id));
+			c = c.findOne(Integer.parseInt(id));
 			xsl = new String(c.getC_lob_content());
 			this.format = Response.FORMAT_XSL;
 			return this.renderView(xsl);
@@ -304,7 +301,7 @@ public class WebReportController extends Controller {
 				data_sources+=""+r.getRepSource().getId()+",";
 			}
 			data_sources = (!data_sources.equals(""))?data_sources.substring(0, data_sources.length()-1):"";
-			json = "{\"textreport\":"+clob.getC_lob_content()+",\"datasorce_app\":\""+data_sources+"\"}";
+			json = "{\"textreport\":"+new String(clob.getC_lob_content())+",\"datasorce_app\":\""+data_sources+"\"}";
 		}
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
@@ -331,7 +328,7 @@ public class WebReportController extends Controller {
 		int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 		User user = new User();
 		user = user.findOne(user_id);
-		String content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&dad=igrp&p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
+		String content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
 		if(type==1){
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contra_prova);
@@ -342,8 +339,9 @@ public class WebReportController extends Controller {
 			ri.setUser(user);
 			CLob xsl = new CLob("", "application/xsl", rt.getXsl_content().getC_lob_content(), ri.getDt_created().toString());
 			xsl = xsl.insert();
+			
 			if(xsl!=null){
-				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&dad=igrp&p_id="+xsl.getId(), contra_prova, rt,user);
+				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
 				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created().toString());
 				xml = xml.insert();
 				ri.setXml_content(xml);

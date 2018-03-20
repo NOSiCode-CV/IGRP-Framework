@@ -159,7 +159,7 @@ public class WebReport extends Model{
 		private String link;
 		private String link_desc;
 		private String descricao;
-		private float id;
+		private Integer id;
 		public void setTitle(String title){
 			this.title = title;
 		}
@@ -187,10 +187,10 @@ public class WebReport extends Model{
 			return this.descricao;
 		}
 
-		public void setId(float id){
+		public void setId(Integer id){
 			this.id = id;
 		}
-		public float getId(){
+		public Integer getId(){
 			return this.id;
 		}
 
