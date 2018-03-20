@@ -114,11 +114,26 @@ public class Config {
 			APP_LINK_IMAGE = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", "igrp_images").one().getValue();
 		}catch(Exception e) {
 		}
-	    if(APP_LINK_IMAGE == null || APP_LINK_IMAGE.trim().isEmpty())
+	    if(APP_LINK_IMAGE == null || APP_LINK_IMAGE.trim().isEmpty()) {
+	    	//Core.setMessageInfo("APP_LINK_IMAGE is null: " + APP_LINK_IMAGE);
 	    	return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images");
+	    }
 	    
+	    String deployWarName = "";
+	    try {
+	    	deployWarName = new File(Igrp.getInstance().getServlet().getServletContext().getRealPath("/")).getName().trim();
+	    }catch(Exception e) {
+	    	
+	    }
+	    /*
+	    Core.setMessageInfo("APP_LINK_IMAGE not is null: " + APP_LINK_IMAGE);
+	    
+	    Core.setMessageInfo("Nome Servlet: " + Igrp.getInstance().getServlet().getServletContext().getServletContextName());
+	    
+	    Core.setMessageInfo("Nome war file: " +  deployWarName);
+	    */
 	    return Igrp.getInstance().getServlet().getServletContext().getRealPath("/images").
-	    		replace(Igrp.getInstance().getServlet().getServletContext().getServletContextName(), APP_LINK_IMAGE);
+	    		replace(deployWarName, APP_LINK_IMAGE);
 	}
 	
 	public String getPathOfXslByPage(Action page) {
