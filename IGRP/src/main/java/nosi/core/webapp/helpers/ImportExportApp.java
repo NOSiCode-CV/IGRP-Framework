@@ -129,7 +129,11 @@ public class ImportExportApp {
 			}
 			this.filesPageClasses = newFilesPage;
 		}
-		String pathDaoClass =this.getConfig().getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"dao"+File.separator;
+		
+		//String pathDaoClass =this.getConfig().getBasePahtClassWorkspace(app.getDad().toLowerCase())+File.separator+"dao"+File.separator;
+		
+		String pathDaoClass = this.getConfig().getBasePathClass() + "nosi" + File.separator + "webapps" + File.separator + app.getDad().toLowerCase() + File.separator + "dao" + File.separator;
+		
 		this.filesDaoClasses = new FileHelper().listFilesDirectory(pathDaoClass);		
 		Map<String,String> newFilesDao = new HashMap<>();
 		if(this.filesDaoClasses!=null){
@@ -154,10 +158,13 @@ public class ImportExportApp {
 	}
 	
 	public void putFilesPageConfig(Action page){
-		if(page.getXsl_src()!=null && FileHelper.fileExists(this.getConfig().getWorkspace())){
+		String pathPageXsl = this.getConfig().getPathOfXslByPage(page).replace("images", this.getConfig().getPathOfImagesFolder());
+		if(page.getXsl_src() !=null && FileHelper.fileExists(pathPageXsl)){
 			//String pathPageXsl = this.getConfig().getBasePahtXslWorkspace(page)+File.separator;
-			String pathPageXsl = this.getConfig().getPathOfXslByPage(page).replace("images", this.getConfig().getPathOfImagesFolder()) + File.separator;
+			pathPageXsl += File.separator;
 			//System.out.println(pathPageXsl);
+			
+			Core.setMessageInfo("Caminho XSL: " + pathPageXsl);
 			
 			Map<String,String> list = new FileHelper().listFilesDirectory(pathPageXsl);
 			
