@@ -1,11 +1,47 @@
 $(function(){
 
-	var GEN = VARS.getGen(),
+	var GEN 	= VARS.getGen(),
 		
-		server = GEN.server;
+		server  = GEN.server,
+		
+		coreSet = false;
 	
 	server.hints 	  = {
+		model : [],
+		view  : [],
+		Core  : []
+	};
+	
+	var SetCoreAutoComplete = function(data){
+		
+		if(data){
+			
+			data.forEach(function(d){
+				
+				for(var methodName in d){
+					
+					var params   = d[methodName],
+						
+						paramsStr = "";
+						
+					params.forEach(function(p,i){
+							
+						paramsStr+=p;
+						
+						if(i < params.length -1)
+							paramsStr+=','
+						
+					});
+					
 
+					server.hints.Core.push(methodName+'( '+paramsStr+' )');
+					
+				}
+				
+			});
+			
+		}
+		
 	};
 	
 	var SetTagModelAutoComplete = function(tag,o){
@@ -13,12 +49,12 @@ $(function(){
 		var model = [];
 		
 		//model
-		model.push('get'+capitalizeFirstLetter(tag)+'();' );
-		model.push('set'+capitalizeFirstLetter(tag)+'( Object value );' );
+		model.push('get'+capitalizeFirstLetter(tag)+'()' );
+		model.push('set'+capitalizeFirstLetter(tag)+'( Object value )' );
 		
 		if(o.xml.description){
-			model.push('get'+capitalizeFirstLetter(tag)+'_desc();' );
-			model.push('set'+capitalizeFirstLetter(tag)+'_desc( Object value );' );
+			model.push('get'+capitalizeFirstLetter(tag)+'_desc()' );
+			model.push('set'+capitalizeFirstLetter(tag)+'_desc( Object value )' );
 		}
 			
 		
@@ -36,53 +72,60 @@ $(function(){
 		
 	};
 	
-	SetFieldsViewAutoComplete = function(tag,o){
+	var SetFieldsViewAutoComplete = function(tag,o){
 
 		var methods = [];
 		
-		methods.push({
-			name : 'view.'+tag,
-			method : 'setLabel( String label );'
-		});
-		
-		methods.push({
-			name : 'view.'+tag,
-			method : o.xml.options ? 'setValue(Map<?,?> value);' :'setValue( Object value );'
-		});
-		
-		if(o.xml.lookup){
+		if(o.genType == 'field' || o.xml.type == 'text'){
+			
 			methods.push({
 				name : 'view.'+tag,
-				method :'addParam(String string, String string2);'
+				method : 'setLabel( String label )'
 			});
+			
 			methods.push({
 				name : 'view.'+tag,
-				method :'setLookup(String app,String page,String action);'
+				method : o.xml.options ? 'setValue(Map<?,?> value)' :'setValue( Object value )'
 			});
-		}
+			
+			if(o.xml.lookup){
+				methods.push({
+					name : 'view.'+tag,
+					method :'addParam(String string, String string2)'
+				});
+				methods.push({
+					name : 'view.'+tag,
+					method :'setLookup(String app,String page,String action)'
+				});
+			}
 
-		if(o.xml.options){
-			
-			methods.push({
-				name : 'view.'+tag,
-				method : 'setListOptions( Map<?,?>  map);'
-			});
-			
-			methods.push({
-				name : 'view.'+tag,
-				method : 'setSqlQuery(String connectionName, String tableName, String key, String value);'
-			});
+			if(o.xml.options){
+				
+				methods.push({
+					name : 'view.'+tag,
+					method : 'setListOptions( Map<?,?>  map)'
+				});
+				
+				methods.push({
+					name : 'view.'+tag,
+					method : 'setSqlQuery(String connectionName, String tableName, String key, String value)'
+				});
 
+			}
+		}
+		
+		if(o.genType == 'container'){
+			
+			methods.push({
+				name : 'view.'+tag,
+				method : 'setParam(boolean isParam)'
+			});
+			
 		}
 			
 		methods.push({
 			name : 'view.'+tag,
-			method : 'setParam(boolean isParam);'
-		});
-			
-		methods.push({
-			name : 'view.'+tag,
-			method : 'setVisible( boolean isVisible );'
+			method : 'setVisible( boolean isVisible )'
 		});
 
 		
@@ -138,9 +181,14 @@ $(function(){
 						
 						setHint(tag,c.container);
 						
-					}	
+					}else{
+						
+						setHint(c.container.GET.tag(),c.container);
+							
+					}
 					
 				}
+				
 
 			});
 
@@ -149,9 +197,13 @@ $(function(){
 			console.log(e)
 		}
 		
-		console.log(hints);
+		var Core = server.hints.Core;
 		
 		server.hints = hints;
+		server.hints.Core = Core;
+		
+		console.log(server.hints);
+		
 	};
 	
 	var ConfigCodeMirror = function(){
@@ -174,72 +226,174 @@ $(function(){
 
 		    	isDot 	 = false;
 
-		    options.words = ["import","model","view","this"];
-
-		    if(token.string == '.'){
-
-		    	var hintClass = $.trim(lineText.substring(0, cur.ch-1));
-
-		    	options.words = server.hints[hintClass];
-
-		    	if(!options.words)
-
-		    		return;
-
-		    	isDot = true;
-
-		    	from = CodeMirror.Pos(cur.line, token.start+1);
-	
-		    }
+		    options.words = [];
 		    
-		    if(isDot){
-
-		    	found = options.words;
-
-		    }else{
+		    try{
 		    	
-		    	var tIdx 	= lineText.indexOf(token.string),
-		    		
-		    		partStr = $.trim(lineText.substring(0,tIdx)),
-		    		
-		    		parts   = partStr.split('.');
-		    	
-		    	parts.forEach(function(p){
+		    	if(token.string == '.'){
 
-		    		if( server.hints[p] )
-		    			
-		    			options.words = server.hints[p];
-		    			
-		    	});
+			    	var hintClass = $.trim(lineText.substring(0, cur.ch-1));
+			    	
+			    	console.log(hintClass)
 
-		    	for (var i = 0; i < options.words.length; i++) {
+			    	if( !server.hints[hintClass] ){
+			    		
+			    		var arr = lineText.split(/[-+.(,;\t),]/);
+			    		
+			    		if(arr && arr[0]){
+			    			
+			    			arr = arr.filter(function(v){
+			    				
+			    				return $.trim(v) != '';
+			    					
+			    			});
+			    			
+			    			hintClass = $.trim(arr[arr.length-1]);
+			    			
+			    		}
+			    	}
+			    	
+			    	if(server.hints[hintClass]){
+			    		
+			    		options.words = server.hints[hintClass];
+			    		
+			    	}else{
+			    		
+			    		if(hintClass){
+			    			
+			    			var dotArr = lineText.split(/[-+.(,;\t),]/)
+			    			
+			    			dotArr = dotArr.filter(function(v){
+			    				return $.trim(v) != '';
+			    			});
+			    			
+			    			hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
+			    			
+			    			options.words = server.hints[hintClass];
+			    			
+			    		}
+			    		
+			    		
+			    	}
+			    		
+			    	
+			    	if(!options.words)
 
-			      	var word = options.words[i];
+			    		return;
 
-			      	if ( token.string && word.slice(0, token.string.length) == token.string)
+			    	isDot = true;
 
-			      		found.push( word );
-			        
+			    	from = CodeMirror.Pos(cur.line, token.start+1);
+		
 			    }
+			    
+			    if(isDot){
+
+			    	found = options.words;
+
+			    }else{
+			    	
+			    	var tIdx 	= lineText.indexOf(token.string),
+			    		
+			    		partStr = $.trim(lineText.substring(0,tIdx)),
+			    		
+			    		parts   = partStr.split('.'),
+			    		
+			    		isClass = false;
+
+			    	/*parts.forEach(function(p){
+
+			    		if( server.hints[p] ){
+			    			
+			    			options.words = server.hints[p];
+			    			
+			    			isClass = true;
+			    		}
+			    			
+			    	});	*/
+			    	
+			    	//if(!isClass){
+
+		    		var _arr = lineText.split(/[-+.(,;\t),]/);
+		    		
+		    		if(_arr && _arr[0]){
+		    			
+		    			_arr = _arr.filter(function(v){
+		    				
+		    				return $.trim(v) != '';
+		    					
+		    			});
+		    			
+		    			var hintClss = $.trim( _arr[_arr.length - 2] );
+		    			
+		    			
+		    			if(hintClss && server.hints[hintClss])
+		    				
+		    				options.words = server.hints[hintClss];
+		    			
+		    			else{
+		    				var dotArr = lineText.split(/[-+.(,;\t),]/).filter(function(v,i){
+			    				
+			    				return $.trim(v) != '';
+			    				
+			    			});
+			    			
+		    				dotArr.pop();
+		    				
+			    			hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
+			    			
+			    			options.words = server.hints[hintClass];
+			    			
+			    			console.log(hintClass)
+		    				
+		    			}
+
+		    		}
+
+		    		if(options.words){
+		    			
+		    			for (var i = 0; i < options.words.length; i++) {
+
+					      	var word = options.words[i];
+
+					      	if ( token.string && word.slice(0, token.string.length) == token.string)
+
+					      		found.push( word );
+					        
+					    }
+		    			
+		    		}
+			    	
+			    	
+			    }
+
+			    return {
+
+				      	list : found,
+
+				     	from : from,
+
+				        to   : CodeMirror.Pos(cur.line, token.end)
+
+				    }
+		    	
+		    }catch(err){
+		    	
+		    	console.log(err);
+		    	
 		    }
 
-		    return {
-
-			      	list : found,
-
-			     	from : from,
-
-			        to   : CodeMirror.Pos(cur.line, token.end)
-
-			    }
-
-		  
-		    
 		}
 
 	};
 	
 	var Init = function(){
+		
+		GEN.on('ready',function(){
+			
+			$.get( GEN.UTILS.core_methods_list, SetCoreAutoComplete )
+			
+		});
 		
 		ConfigCodeMirror();
 		
@@ -247,7 +401,9 @@ $(function(){
 			
 			SetAutoCompleteHints(o.content);
 			
-		})
+		});
+		
+		
 		
 	}();
 		
