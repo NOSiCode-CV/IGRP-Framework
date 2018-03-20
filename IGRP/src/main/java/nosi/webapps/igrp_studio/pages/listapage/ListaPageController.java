@@ -184,7 +184,7 @@ public class ListaPageController extends Controller {
 				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
 						DateHelper.getCurrentDataTime(), "Export");
 				ie_dao = ie_dao.insert();
-				return this.sendFile(new File(pathJar), page.getPage() + ".page", "application/jar", true);
+				return this.sendFile(new File(pathJar), page.getPage() + ".page.jar", "application/jar", true);
 			}
 			Core.setMessageWarning(FlashMessage.WARNING_EXPORT_PAGE);
 		} else {

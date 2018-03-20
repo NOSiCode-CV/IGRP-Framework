@@ -78,8 +78,11 @@ public class Import {
 		Action page = new Action().find()
 				  .andWhere("application.dad", "=", app.getDad())
 				  .andWhere("page", "=", Page.resolvePageName(partPage[2]))
-				  .one();	
-		String path_class = this.getConfig().getBasePathClass() + page.getPackage_name().replace(".",File.separator);
+				  .one();
+		String path_class = this.getConfig().
+				getBasePathClass() + 
+				page.getPackage_name()
+				.replace(".",File.separator);
 		String content = file.getConteudo();
 		if(file.getNome().endsWith(".java")){
 			content = content.substring(0, content.indexOf("package")+"package".length())+" "+page.getPackage_name() +content.substring(content.indexOf(";", content.indexOf("package")));
