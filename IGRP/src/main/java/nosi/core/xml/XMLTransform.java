@@ -17,6 +17,7 @@ import nosi.core.gui.components.IGRPForm;
 import nosi.core.gui.components.IGRPTable;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.fields.*;
+import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.SqlJavaType;
 import nosi.webapps.igrp.dao.Action;
@@ -164,7 +165,7 @@ public class XMLTransform {
 					break;	
 				case TypesXML.COMBOBOX:
 					f = new ListField(null, column.getName());
-					if(column.isForeignKey()) {
+					if(column.isForeignKey() && Core.isNotNull(column.getColumnMap())) {
 						f.propertie().add("schemaName", column.getSchemaName()).add("tableName", column.getTableRelation()).add("keyMap", column.getColumnMap()).add("conn", column.getConnectionName());
 					}
 					break;	

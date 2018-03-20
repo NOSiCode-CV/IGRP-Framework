@@ -264,6 +264,10 @@
  	<xsl:template name="gen-sql-combobox">
  		<xsl:for-each select="//content/*[@type='form']/fields/*[@tableName]">
  			<xsl:value-of select="concat('view.',name(),'.setSqlQuery(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',@keyMap,' as ID, ',@keyMap,' as NAME',' FROM ',@schemaName,'.',@tableName,$double_quotes,');')"/>
+ 			<xsl:if test="position() != last()"> 				
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+ 			</xsl:if>
  		</xsl:for-each>
  	</xsl:template>
 </xsl:stylesheet>
