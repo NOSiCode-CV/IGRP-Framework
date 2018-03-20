@@ -1,8 +1,10 @@
-$(function(){
+(function(){
 
 	if($.IGRP && !$.IGRP.components.form){
+
+		$.IGRP.events.declare(['before-change','js-change-success']);
   		
-  		$.IGRP.components.form = {
+		$.IGRP.component('form',{
   			
   			lookup :{
 
@@ -70,7 +72,7 @@ $(function(){
 								if(forminput[0]){
 
 									$(forminput[(formIdx)]).val(vOp[1]).attr('value',vOp[1]);//.trigger('change');
-									
+
 									if($(forminput[(formIdx)])[0].lookupCallback)
 										$(forminput[(formIdx)])[0].lookupCallback($(forminput[(formIdx)]));
 
@@ -160,6 +162,7 @@ $(function(){
   			},
 
   			texteditor:function(o){
+
   				var v = $.extend({
   					parent  : $('body'),
   					selector: '.gen-texteditor'
@@ -175,22 +178,78 @@ $(function(){
   			},
 
   			novalidate:function(){
+
   				$.IGRP.utils.getForm().unbind('submit');
+
   			},
+
   			change:function(o){
   				
   				var target   = o.target,
-  					scrollTo = '#id'+$(target).attr('name');
+  				
+  					scrollTo = '#id'+$(target).attr('name'),
 
-  				$.IGRP.components.form.novalidate();
+  					type  	 = $(target).hasClass('js_change') ? 'js' : 'default',
 
-				$.IGRP.targets.submit.action({
-					url 	 : $.IGRP.utils.getPageUrl(),
-					validate : false,
-					scrollTo : scrollTo
-				});
+  					url 	 = $.IGRP.utils.getPageUrl(),
+
+  					form    = $.IGRP.utils.getForm();
+
+  				if(type == 'js'){
+
+  					var _url  = $.IGRP.utils.getSubmitParams( url,form ),	
+
+  						data  = form.find('*').not(".notForm").serializeArray(),
+
+  						nodes = [];
+
+  						//nodes = $('.gen-container-item')
+  					$('.gen-container-item').each(function(i,c){
+
+  						nodes.push( $(c).attr('item-name') );
+
+  					})
+
+
+  					$.IGRP.utils.transformXMLNodes({
 				
-				return true;
+						nodes : nodes,
+
+						url   : _url,
+
+						data  : data,
+
+						success:function(o){
+
+							$.IGRP.events.execute('js-change-success', o );
+
+						},
+
+						error:function(){
+							console.log('dsa')
+						}
+
+					});
+
+  				}else{
+
+  					$.IGRP.components.form.novalidate();
+
+					$.IGRP.targets.submit.action({
+						url 	 : url,
+						validate : false,
+						scrollTo : scrollTo
+					});
+
+					$.IGRP.events.execute('before-change',{
+						target : target
+					});
+
+  				}
+
+	  				
+				
+				return false;
   			},
 
   			init:function(){
@@ -225,12 +284,12 @@ $(function(){
 				$(document).on('change','.IGRP_change, [change="true"]',$.IGRP.components.form.change);
 				
   			}
-  		}
+  		},true);
+
+  		
   	}
 
-	$.IGRP.components.form.init();
-
-});
+})();
 
 
 
