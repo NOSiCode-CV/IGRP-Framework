@@ -486,6 +486,12 @@ $(function(){
 		editor.on('keyup',function(cm,e){
 			
 			writing = false;
+			
+			//autocomplete on dot. press
+
+			if ( e.keyCode == 190 && (!cm.state.completionActive && e.keyCode != 13))     
+				
+	            CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
 
 		});
 

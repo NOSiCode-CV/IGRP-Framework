@@ -48,9 +48,12 @@ $(function(){
 		
 		var model = [];
 		
-		//model
-		model.push('get'+capitalizeFirstLetter(tag)+'()' );
-		model.push('set'+capitalizeFirstLetter(tag)+'( Object value )' );
+		if(o.genType == 'field' || o.xml.type == 'text'){
+			//model
+			model.push('get'+capitalizeFirstLetter(tag)+'()' );
+			model.push('set'+capitalizeFirstLetter(tag)+'( Object value )' );
+		}
+		
 		
 		if(o.xml.description){
 			model.push('get'+capitalizeFirstLetter(tag)+'_desc()' );
@@ -120,6 +123,13 @@ $(function(){
 				name : 'view.'+tag,
 				method : 'setParam(boolean isParam)'
 			});
+			
+			if(o.type == 'chart'){
+				methods.push({
+					name : 'view.'+tag,
+					method : 'setSqlQuery(null, String query)'
+				});
+			}
 			
 		}
 			
