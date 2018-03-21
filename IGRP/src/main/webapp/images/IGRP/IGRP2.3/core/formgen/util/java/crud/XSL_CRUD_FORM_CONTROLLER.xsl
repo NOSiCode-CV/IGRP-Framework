@@ -204,18 +204,18 @@
  		<xsl:value-of select="'public Response actionUpdate() throws IOException, IllegalArgumentException, IllegalAccessException{'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:variable name="params">
-				<xsl:call-template name="set-param-update"/>
-			</xsl:variable>
 			<xsl:call-template name="start-code-crud">
 	     		<xsl:with-param name="type" select="'update'"/>
 	     	</xsl:call-template>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="set-param-update"/>
+	     	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('return this.redirect(',$double_quotes,$appToGo,$double_quotes,',',$double_quotes,$pageToGo,$double_quotes,',',$double_quotes,'index',$double_quotes,$params,');')"/>
+			<xsl:value-of select="concat('return this.redirect(',$double_quotes,$appToGo,$double_quotes,',',$double_quotes,$pageToGo,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString());')"/>
 			<xsl:value-of select="$newline"/>  
 			<xsl:value-of select="$tab"/>
 		<xsl:value-of select="'}'"/> 
