@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXB;
-import javax.xml.bind.Unmarshaller;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.annotations.Expose;
@@ -24,8 +22,7 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
 import nosi.core.webapp.webservices.helpers.RestRequest;
-import nosi.core.xml.XMLApplicationReader;
-import nosi.webapps.igrp.dao.Application;
+
 
 /**
  * @author: Emanuel Pereira
@@ -76,10 +73,7 @@ public class ProcessDefinitionService extends Activit{
 			if(response.getStatus()==200) {
 				InputStream finput =(InputStream) response.getEntity();
 				try {
-					byte[] imageBytes = new byte[response.getLength()];
-					finput.read(imageBytes, 0, imageBytes.length);
-					finput.close();
-					return Base64.getEncoder().encodeToString(imageBytes);
+					 return FileHelper.convertInputStreamToBase64(finput);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

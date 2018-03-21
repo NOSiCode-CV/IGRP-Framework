@@ -2,6 +2,7 @@ package nosi.core.webapp.helpers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +52,20 @@ public class FileHelper {
 		return null;
 	}
 
+	public static byte[] convertInputStreamToByte(InputStream stream) throws IOException {
+		 ByteArrayOutputStream output = new ByteArrayOutputStream();
+		 int length;
+		 byte[] imageBytes = new byte[stream.available()];
+	     while ((length = stream.read(imageBytes)) != -1){
+	        output.write(imageBytes, 0, length);
+	     }
+	     stream.close();
+		return output.toByteArray();
+	}
+	
+	public static String convertInputStreamToBase64(InputStream stream) throws IOException {
+		return Base64.getEncoder().encodeToString(convertInputStreamToByte(stream));
+	}
 	/*public static void reset(){
 		files = new HashMap<>();
 	}*/

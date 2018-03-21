@@ -2,11 +2,8 @@ package nosi.core.webapp.activit.rest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
-
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.webservices.helpers.ResponseConverter;
 import nosi.core.webapp.webservices.helpers.ResponseError;
@@ -74,10 +71,7 @@ public class ResourcesService extends Activit{
 			if(response.getStatus()==200) {
 				InputStream finput =(InputStream) response.getEntity();
 				try {
-					byte[] imageBytes = new byte[response.getLength()];
-					finput.read(imageBytes, 0, imageBytes.length);
-					finput.close();
-					return Base64.getEncoder().encodeToString(imageBytes);
+					 return FileHelper.convertInputStreamToBase64(finput);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
