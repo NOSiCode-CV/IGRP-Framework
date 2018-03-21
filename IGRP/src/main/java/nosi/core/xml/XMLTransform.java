@@ -194,12 +194,10 @@ public class XMLTransform {
 			if(column.isAutoIncrement()) {
 				f.propertie().add("name", "p_"+column.getName());
 				f.propertie().add("tag", "p_"+column.getName());
+				f.propertie().add("isAutoincrement", "true");
 			}
 			if(column.isPrimaryKey() || column.isAutoIncrement()) {
 				f.propertie().add("iskey", "true");
-			}
-			if(column.isAutoIncrement()) {
-				f.propertie().add("isAutoincrement", "true");
 			}
 			if(!(f instanceof DateField)) {
 				f.propertie().add("maxlength", column.getSize());
