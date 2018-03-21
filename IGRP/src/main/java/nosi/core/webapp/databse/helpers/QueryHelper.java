@@ -314,7 +314,7 @@ public abstract class QueryHelper implements IFQuery{
 				NamedParameterStatement q = new NamedParameterStatement(conn , this.sql,PreparedStatement.RETURN_GENERATED_KEYS);
 				this.setParameters(q);	
 				Core.log("SQL:"+q.getSql());
-				r = q.executeInsert();
+				r = q.executeInsert(this.tableName);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
