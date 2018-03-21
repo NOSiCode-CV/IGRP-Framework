@@ -321,6 +321,13 @@ public final class Core {	// Not inherit
 	public static String decrypt(String content,String secretKey){
 		return EncrypDecrypt.decrypt(content,secretKey);
 	}
+	public static String encrypt(String content){
+		return EncrypDecrypt.encrypt(content);
+	}
+	
+	public static String decrypt(String content){
+		return EncrypDecrypt.decrypt(content);
+	}
 	
 	public static boolean isNotNull(Object value) {
 		return value!=null && !value.equals("");

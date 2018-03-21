@@ -112,59 +112,42 @@ public class CRUDGeneratorController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
-		String pageNameForm = Page.resolvePageName(tableName)+"Form";
-		String pageNameList = Page.resolvePageName(tableName)+"List";
+		String pageNameForm = Page.resolvePageName(tableName);
 		CRUD crud = new CRUD().find().andWhere("schemaName", "=", schema).andWhere("tableName", "=", tableName).andWhere("config_env", "=", config.getId()).one();
 		if(crud==null) {
 			crud = new CRUD(tableName, schema, config);
 			crud = crud.insert();
 		}
 		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
-		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();
 		if(pageForm==null) {
 			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameForm).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageForm = pageForm.insert();
-		}
-		if(pageList==null) {
-			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameList).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
-			pageList = pageList.insert();
-		}		
-		return this.processGenerate(config,tableName,schema,pageForm,pageList);
+		}	
+		return this.processGenerate(config,tableName,schema,pageForm);
 	}
 
-	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
-		boolean r = false;
+	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm) throws IOException, TransformerConfigurationException, URISyntaxException {
+		
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 		XMLTransform xml = new XMLTransform();
-		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form");
-		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table");
+		String formXML = xml.genXML(xml.generatePageCRUDXML(config, pageForm, columns),pageForm,"form");		
 		
+		boolean r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML);		
 		
-		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
-			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
-		
-		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
-		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
+		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorCRUDMCV();
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
 		String pathXslForm = this.getConfig().getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
-		String pathXslList = this.getConfig().getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
-		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
 		
 		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameFrom);
-		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameList);
 		
 		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
-		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
 		
 		r = this.saveFiles(pageForm, pageForm.getPage()+".json",formJson)	
-			&& this.saveFiles(pageList, pageList.getPage()+".json",listJson)
 			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
-			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
-			&& this.generateClassMVC(pageForm, formMVC)
-			&& this.generateClassMVC(pageList, listMVC);
+			&& this.generateClassMVC(pageForm, formMVC);
 		return r;
 	}
 
