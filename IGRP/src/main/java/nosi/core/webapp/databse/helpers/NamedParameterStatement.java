@@ -25,12 +25,14 @@ public class NamedParameterStatement {
 	private final PreparedStatement statement;
 
 	private Map<String, int[]> indexMap;
-
+	private Connection conn;
 	public NamedParameterStatement(Connection connection, String query) throws SQLException {
+		this.conn = connection;
 		statement = connection.prepareStatement(parse(query));
 	}
 
 	public NamedParameterStatement(Connection connection, String query,int generatedkeys) throws SQLException {
+		this.conn = connection;
 		statement = connection.prepareStatement(parse(query), generatedkeys);
 	}
 
@@ -154,13 +156,16 @@ public class NamedParameterStatement {
 		return statement.executeUpdate();
 	}
 
-	public String executeInsert() throws SQLException {
+	public String executeInsert(String tableName) throws SQLException {
 		String lastInsertedId = "0";
-		if(statement.executeUpdate() > 0) {			
+		if(statement.executeUpdate() > 0) {				
 			try (java.sql.ResultSet rs = statement.getGeneratedKeys()) {
-		        if (rs.next()) {
-		        	lastInsertedId = rs.getString(1);
-		        }
+				List<String> primaryKeys = DatabaseMetadaHelper.getPrimaryKeys(this.conn, null, tableName);
+				if(!primaryKeys.isEmpty()) {
+			        if (rs.next()) {
+			        	lastInsertedId = rs.getString(primaryKeys.get(0).toString());
+			        }
+				}
 			}
 			statement.close();
 		}
