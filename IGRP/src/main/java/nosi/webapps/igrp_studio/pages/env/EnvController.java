@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import nosi.core.cversion.Svn;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
@@ -82,6 +84,9 @@ public class EnvController extends Controller {
 			app.setTemplate(model.getTemplates()); 
 			app = app.insert();
 			if(app!=null){
+				
+				createSvnRepo(app);
+				
 				FileHelper.createDiretory(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
 				FileHelper.save(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage", "DefaultPageController.java",this.getConfig().getDefaultPageController(app.getDad().toLowerCase(), app.getName()));
 				new Compiler().compile(new File[]{new File(this.getConfig().getBasePathClass()+"/"+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages"+"/"+"defaultpage/"+ "DefaultPageController.java")});
@@ -99,6 +104,50 @@ public class EnvController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	private void createSvnRepo(Application app){
+		Svn  svnapi = new Svn();
+		String env = "";
+		env = Igrp.getInstance().getServlet().getInitParameter("env");
+		switch(env) {
+			case "dev": 
+				svnapi.setWorkFolder("dev/" + app.getDad().toLowerCase() + "/pages");
+			break;
+			case "prod": 
+				svnapi.setWorkFolder("prod/" + app.getDad().toLowerCase() + "/pages");
+			break;
+			case "sta": 
+				svnapi.setWorkFolder("sta/" + app.getDad().toLowerCase() + "/pages");
+			break;
+		}
+        svnapi.setMessage("Create Repo. for Application - " + app.getDad());
+        boolean flag = false;
+		try {
+			flag = svnapi.mkdir();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+        System.out.println("Criar Pasta " + flag); 
+        System.out.println(svnapi.getCmd());
+        System.out.println(svnapi.getCmdResult());
+        
+		try {
+			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+app.getDad().toLowerCase()+"/"+"pages");
+			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
+			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + app.getDad().toLowerCase() + "/pages");
+			svnapi.setWorkFolder("");
+			flag = svnapi.co();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		} 
+		
+      System.out.println("Checkout " + flag); 
+      System.out.println(svnapi.getCmd());
+      System.out.println(svnapi.getCmdResult());
+        
+	}
+	
+	
 
 	public Response actionEditar(@RParam(rParamName = "id") String idAplicacao) throws IllegalArgumentException, IllegalAccessException, IOException{
 		

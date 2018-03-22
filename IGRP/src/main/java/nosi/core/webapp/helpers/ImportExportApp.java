@@ -47,10 +47,10 @@ public class ImportExportApp {
 			xml.startElement("row");
 				xml.setElement("id", pagina.getId()+"");
 				xml.setElement("action", pagina.getAction());
-				xml.setElement("action_desc", pagina.getAction_descr());
+				xml.setElement("action_descr", pagina.getAction_descr());
 				xml.setElement("package_name", pagina.getPackage_name());
 				xml.setElement("page", pagina.getPage());
-				xml.setElement("page_desc", pagina.getPage_descr());
+				xml.setElement("page_descr", pagina.getPage_descr());
 				xml.setElement("status", pagina.getStatus()+"");
 				xml.setElement("version", pagina.getVersion());
 				xml.setElement("xsl_src", pagina.getXsl_src());
