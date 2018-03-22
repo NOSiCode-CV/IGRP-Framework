@@ -8,9 +8,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.Part;
@@ -19,6 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
+
+import nosi.core.cversion.Svn;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
@@ -119,6 +123,9 @@ public class PageController extends Controller {
 				}
 				action = action.insert();
 				if (action != null) {
+					
+					createSvnRepo(action);
+					
 					String json = "{\"rows\":[{\"columns\":[{\"size\":\"col-md-12\",\"containers\":[]}]}],\"plsql\":{\"instance\":\"\",\"table\":\"\",\"package\":\"nosi.webapps."
 							+ action.getApplication().getDad().toLowerCase() + ".pages\",\"html\":\"" + action.getPage()
 							+ "\",\"replace\":false,\"label\":false,\"biztalk\":false,\"subversionpath\":\"\"},\"css\":\"\",\"js\":\"\"}";
@@ -145,8 +152,77 @@ public class PageController extends Controller {
 	}
 	
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	
+	private void createSvnRepo(Action page){
+		Svn  svnapi = new Svn();
+		String env = "";
+		env = Igrp.getInstance().getServlet().getInitParameter("env");
+		switch(env) {
+			case "dev": 
+				svnapi.setWorkFolder("dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+			case "prod": 
+				svnapi.setWorkFolder("prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+			case "sta": 
+				svnapi.setWorkFolder("sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+		}
+        svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/pages/" + page.getPage().toLowerCase());
+        boolean flag = false;
+		try {
+			flag = svnapi.mkdir();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+        System.out.println("Criar Pasta " + flag); 
+        System.out.println(svnapi.getCmd());
+        System.out.println(svnapi.getCmdResult());
+	}
+	
+	private void addFilesToSvnRepo(String pathClass, Action page) {
+		Svn  svnapi = new Svn();
+		final String env = Igrp.getInstance().getServlet().getInitParameter("env");
+		switch(env) {
+			case "dev": 
+				svnapi.setWorkFolder("dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+			case "prod": 
+				svnapi.setWorkFolder("prod/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+			case "sta": 
+				svnapi.setWorkFolder("sta/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
+			break;
+		}
+      //  svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/" + page.getPage());
+        
+		List<File> files = Arrays.asList(new File(pathClass).listFiles());
+		
+		files = files.stream().filter(f -> f.getName().contains(".java")).collect(Collectors.toList());
+		
+		files.forEach(f -> {
+			svnapi.setLocalUriPath(pathClass);
+			svnapi.setWorkFolder(File.separator + f.getName());
+			
+	         boolean flag = svnapi.add();
+	          System.out.println("Adicionar Pasta " + flag);
+	          System.out.println(svnapi.getCmd());
+	          System.out.println(svnapi.getCmdResult());
+	          
+	          svnapi.setMessage("Testing send files ...");
+	          
+	          flag = svnapi.commit();
+	          System.out.println("Commit " + flag);
+	          System.out.println(svnapi.getCmd());
+	          System.out.println(svnapi.getCmdResult());
+		});
+		
+        //System.out.println("Criar Pasta " + flag); 
+      //  System.out.println(svnapi.getCmd()); 
+      //  System.out.println(svnapi.getCmdResult()); 
+	}
 
-	// Save page generated
+	// Save page generated 
 	public Response actionSaveGenPage() throws IOException, ServletException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id_objeto");
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
@@ -175,8 +251,14 @@ public class PageController extends Controller {
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
 				FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
-				if (FileHelper.saveFilesJava(path_class, ac.getPage(),new Part[] { fileModel, fileView, fileController })
+				if (FileHelper.saveFilesJava(path_class, ac.getPage(), new Part[] { fileModel, fileView, fileController })
 						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })) {
+					
+					
+					
+					addFilesToSvnRepo(path_class, ac);
+					
+					
 					error += this.processCompile(path_class, ac.getPage());
 					
 					if (error.equals("") || error == null) {// Check if not error on the compilation class

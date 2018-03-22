@@ -21,7 +21,7 @@ public final class Svn {
     private String cmd; //  the current executed command 
     private String cmdResult; // store the result of an executed command 
 
-    public Svn() { // load default values ...
+    public Svn() { // load default values ... 
     	this.svnUrl = "https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/";
         this.localUriPath = "C:\\teste\\";
         this.message = "";
@@ -68,7 +68,7 @@ public final class Svn {
     }
 
     public boolean mkdir() throws IOException, InterruptedException {
-    	this.cmd = "svn mkdir " + getSvnUrl() + getWorkFolder() + " -m \"" + this.message + "\"";
+    	this.cmd = "svn mkdir --parents " + getSvnUrl() + getWorkFolder() + " -m \"" + this.message + "\"";
     	return exec();
     }
 
@@ -164,8 +164,10 @@ public final class Svn {
           boolean flag = false;
           
           // faz o set da Pasta de trabalho 
-         svnapi.setWorkFolder("cobaia");
-          // define o comentário para a as operações com comentários
+          // dev/imfapp 
+          svnapi.setWorkFolder("dev/imfapp/pagina1/capitulo20.pdf");
+         
+          // define o comentário para a as operações com comentários 
          /* svnapi.setMessage("pasta de teste");
           // cria a pasta no svn, caso existir, td bem!
            flag = svnapi.newLocalRepository();
@@ -173,9 +175,9 @@ public final class Svn {
           System.out.println(svnapi.getCmd());
           System.out.println(svnapi.getCmdResult());
           */
-          
-          // define o comentário para a as operações com comentários
-        /*  svnapi.setMessage("pasta de teste");
+         /* 
+          // define o comentário para a as operações com comentários 
+          svnapi.setMessage("Pasta de teste");
           // cria a pasta no svn, caso existir, td bem!
            flag = svnapi.mkdir();
           System.out.println("Criar Pasta " + flag); 
@@ -203,7 +205,7 @@ public final class Svn {
           System.out.println("Commit " + flag);
           System.out.println(svnapi.getCmd());
           System.out.println(svnapi.getCmdResult());
-         
+        
          /*
           svnapi.setMessage(null);
           // faz o update, sincronização com local

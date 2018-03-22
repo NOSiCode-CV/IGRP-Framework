@@ -157,7 +157,7 @@ public class WebReportController extends Controller {
 	public Response actionPreview() throws IOException{
 		/*----#START-PRESERVED-AREA(PREVIEW)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
-		String type = Igrp.getInstance().getRequest().getParameter("p_type");//se for 0 - preview, se for 1 - registar ocorencia
+		String type = Igrp.getInstance().getRequest().getParameter("p_type");// se for 0 - preview, se for 1 - registar ocorencia 
 		String xml = "";
 		if(Core.isNotNull(id)){
 			RepTemplate rt = new RepTemplate();
