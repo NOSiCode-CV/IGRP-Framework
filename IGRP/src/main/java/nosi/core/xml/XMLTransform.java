@@ -53,43 +53,28 @@ public class XMLTransform {
 		return xml.toString();
 	}
 
-	//Generate Form XML
-	public String generateXMLForm(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageList) {
+	//Generate Form&Table XML
+	public String generatePageCRUDXML(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns) {
 		XMLWritter xml = new XMLWritter();	
 
 		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
-		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
-		
-		IGRPButton btn_list = new IGRPButton("List", config.getApplication().getDad().toLowerCase(), pageList.getPage(), "list", "_self", "default|fa-list","","",true);
-		btn_list.propertie.add("type","specific").add("code","list").add("rel","list").add("crud_op", "list").add("action-id", pageList.getId());
+		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", "").replaceAll("Registar", "Lista de"));		
+		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");		
 		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "primary|fa-save","","",true);
-		btn_gravar.propertie.add("type","specific").add("code","").add("rel","save").add("crud_op", "save").add("action-id", page.getId());		
-		tools.addButton(btn_list);
-		tools.addButton(btn_gravar);	
-		addField(form, columns);
-		xml.addXml(tools.toString());
-		xml.addXml(form.toString());
-		return xml.toString();
-	}
-	
-	//Generate Table XML
-	public String generateXMLTable(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns,Action pageForm) {
-		XMLWritter xml = new XMLWritter();		
-
-		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
-		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");
-		IGRPButton btn_novo = new IGRPButton("Novo", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "novo", "modal|refresh", "success|fa-plus","","",true);
-		btn_novo.propertie.add("type","specific").add("code","novo").add("rel","new").add("crud_op", "addNew").add("action-id", pageForm.getId());
-		tools.addButton(btn_novo);
-		
-		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), pageForm.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
+		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), page.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
 		IGRPButton btn_eliminar = new IGRPButton("Eliminar", config.getApplication().getDad().toLowerCase(), page.getPage(), "eliminar", "confirm", "danger|fa-trash","","",true);
+		
+		btn_gravar.propertie.add("type","specific").add("code","").add("rel","save").add("crud_op", "save").add("action-id", page.getId());		
 		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","update").add("crud_op", "edit").add("action-id", page.getId());
 		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","delete").add("crud_op", "delete").add("action-id", page.getId());
-		addField(table, columns);
+		
+		tools.addButton(btn_gravar);	
 		table.addButton(btn_editar);
 		table.addButton(btn_eliminar);
+		addField(form, columns);
+		addField(table, columns);
 		xml.addXml(tools.toString());
+		xml.addXml(form.toString());
 		xml.addXml(table.toString());
 		return xml.toString();
 	}
@@ -209,12 +194,10 @@ public class XMLTransform {
 			if(column.isAutoIncrement()) {
 				f.propertie().add("name", "p_"+column.getName());
 				f.propertie().add("tag", "p_"+column.getName());
+				f.propertie().add("isAutoincrement", "true");
 			}
 			if(column.isPrimaryKey() || column.isAutoIncrement()) {
 				f.propertie().add("iskey", "true");
-			}
-			if(column.isAutoIncrement()) {
-				f.propertie().add("isAutoincrement", "true");
 			}
 			if(!(f instanceof DateField)) {
 				f.propertie().add("maxlength", column.getSize());

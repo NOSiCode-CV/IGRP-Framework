@@ -236,10 +236,9 @@
      		<xsl:with-param name="type" select="$action"/>
      		<xsl:with-param name="url" select="$url"/>
      	</xsl:call-template>
-		
      	
 		<xsl:variable name="your_code">
-			<xsl:value-of select="document($url)/your_code"/>
+			
 		</xsl:variable>	
 
 		<xsl:if test="$your_code!=''">

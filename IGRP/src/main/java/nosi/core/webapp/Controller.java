@@ -21,6 +21,7 @@ import nosi.core.webapp.webservices.helpers.FileRest;
  */
 public abstract class Controller{
 	protected Config config = new Config();
+	private QueryString queryString = new QueryString();
 	private View view;
 	
 	protected String format = Response.FORMAT_XML;
@@ -28,6 +29,7 @@ public abstract class Controller{
 	protected boolean isNoCached = false;
 
 	private Response responseWrapper;
+	private String qs = "";
 	
 	public Response getResponseWrapper() {
 		return responseWrapper;
@@ -35,6 +37,14 @@ public abstract class Controller{
 
 	public void setResponseWrapper(Response responseWrapper) {
 		this.responseWrapper = responseWrapper;
+	}
+	
+	protected QueryString queryString() {
+		return this.queryString;
+	}
+	
+	protected QueryString addQueryString(String name,Object value) {
+		return this.queryString().addQueryString(name, value);
 	}
 	
 	public Controller(){this.view = null;}
@@ -79,7 +89,14 @@ public abstract class Controller{
 		resp.setHttpStatus(HttpStatus.STATUS_200);
 	return resp;
 	}
-	
+	protected final Response redirect(String app, String page, String action, QueryString queryString) throws IOException{
+		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream().forEach(q->{
+				qs  += "&"+q.getKey()+"="+q.getValue();
+			});
+		}
+		return this.redirect_(Route.toUrl(app, page, action, qs));
+	}
 	protected final Response redirect(String app, String page, String action, String qs) throws IOException{
 		return this.redirect_(Route.toUrl(app, page, action, qs));
 	}

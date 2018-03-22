@@ -255,7 +255,7 @@ $.fn.to2DOT2 = function(params) {
 				}));
 			}
 			//table container
-			var tableTag = 'list';
+			var tableTag = 'tblist';
 			var otherAttrs = {};
 			//table contextMenu
 			var tableContextMenu = [];

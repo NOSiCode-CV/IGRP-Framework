@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:include href="XSL_COMMON.xsl" />
+	<xsl:include href="XSL_FUNCTIONS.xsl" />
 	
    	<xsl:template name="create-controller">
 		<xsl:value-of select="$newline"/>
@@ -43,19 +43,19 @@
  	</xsl:template>
  	
  	<xsl:template name="otherActions">
- 		 <xsl:for-each select="/rows/content/*[@type = 'toolsbar']/item">   <!-- Button in form -->
+ 		 <xsl:call-template name="actionSave"/>
+         <xsl:for-each select="//context-menu/item">   <!-- Button in form -->
            	<xsl:if test="not(@rel=preceding::node()/@rel)">
 	          	<xsl:choose>
-	          		<xsl:when test="@rel='save'">
-	          			<xsl:call-template name="actionSave"/>
+	          		<xsl:when test="@rel='delete'">
+	          			<xsl:call-template name="actionDelete"/>
 	          		</xsl:when>
-	          		<xsl:otherwise>
-	          			<xsl:call-template name="actionRedirected">
-	          				<xsl:with-param name="actionName" select="@rel"/>
+	          		<xsl:when test="@rel='update'">
+	          			<xsl:call-template name="actionUpdate">
 					 		<xsl:with-param name="appToGo" select="./app"/>
 					 		<xsl:with-param name="pageToGo" select="./page"/>
 				 		</xsl:call-template>
-	          		</xsl:otherwise>
+	          		</xsl:when>
 	          	</xsl:choose>
 	        </xsl:if>
          </xsl:for-each>
@@ -91,6 +91,15 @@
 				<xsl:call-template name="sql-select"/>
 			</xsl:variable>
 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>  		
+			<xsl:value-of select="concat('QueryHelper queryTable = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_db,$double_quotes,');')"/>	
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+			<xsl:value-of select="'model.loadTable_1(queryTable);'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			
+			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>  
 			<xsl:call-template name="gen-sql-combobox"/>
 			<xsl:value-of select="$newline"/>
@@ -101,7 +110,7 @@
 			<xsl:value-of select="concat('if(',$isEdit,') {')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>		
-				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'select ',$columns,' from ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
+				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>	
 				<xsl:value-of select="'model.load(query);'"/>			
@@ -110,7 +119,10 @@
 				<xsl:value-of select="concat('view.btn_save.setLink(',$double_quotes,'save&amp;isEdit=true',$double_quotes,');')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="'}'"/>			
+			<xsl:value-of select="'}'"/>	
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="set-params-context-menu"/>		
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
@@ -148,7 +160,7 @@
 			<xsl:value-of select="'Object r = null;'"/>	 					
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
-			<xsl:call-template name="gen-crud-sql"/>
+			<xsl:call-template name="gen-saved-or-update"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>	
 			<xsl:value-of select="concat('','if(r != null){')"/>
@@ -181,132 +193,78 @@
 		<xsl:value-of select="'}'"/> 
  	</xsl:template>
  	
- 	<xsl:template name="actionRedirected">
- 		<xsl:param name="actionName"/>
+ 	
+ 	<xsl:template name="actionUpdate">
  		<xsl:param name="appToGo"/>
  		<xsl:param name="pageToGo"/>
  		
- 		<xsl:variable name="actionName_">
- 			<xsl:call-template name="CamelCaseWord">
- 				<xsl:with-param name="text" select="$actionName"/>
- 			</xsl:call-template>
- 		</xsl:variable>
- 		
- 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
- 		<xsl:value-of select="concat('public Response action',$actionName_,'() throws IOException, IllegalArgumentException, IllegalAccessException{')"/>
+ 		<xsl:value-of select="'public Response actionUpdate() throws IOException, IllegalArgumentException, IllegalAccessException{'"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			
 			<xsl:call-template name="start-code-crud">
-	     		<xsl:with-param name="type" select="$actionName"/>
+	     		<xsl:with-param name="type" select="'update'"/>
 	     	</xsl:call-template>
+	     	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="set-param-update"/>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			
-			<xsl:value-of select="concat('return this.redirect(',$double_quotes,$appToGo,$double_quotes,',',$double_quotes,$pageToGo,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
+			<xsl:value-of select="concat('return this.redirect(',$double_quotes,$appToGo,$double_quotes,',',$double_quotes,$pageToGo,$double_quotes,',',$double_quotes,'index',$double_quotes,',this.queryString());')"/>
+			<xsl:value-of select="$newline"/>  
+			<xsl:value-of select="$tab"/>
+		<xsl:value-of select="'}'"/> 
+ 	</xsl:template>
+ 	
+ 	<xsl:template name="actionDelete">
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$tab"/>
+ 		<xsl:value-of select="'public Response actionDelete() throws IOException, IllegalArgumentException, IllegalAccessException{'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat($page_name,'.Table_1 model = new ',$page_name,'.Table_1();')"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+			<xsl:call-template name="start-code-crud">
+	     		<xsl:with-param name="type" select="'delete'"/>
+	     	</xsl:call-template>			
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+			<xsl:call-template name="set-update-keys-value"/>		
+			<xsl:value-of select="concat('Object r = Core.delete(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
+			<xsl:call-template name="gen-sql">
+				<xsl:with-param name="type_op" select="'delete'"/>
+			</xsl:call-template>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'if( r!=null)'"/>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="'Core.setMessageSuccess();'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="'else'"/>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="$tab"/>
+				<xsl:value-of select="'Core.setMessageError();'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:call-template name="end-code-crud"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
+			<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app_name,$double_quotes,',',$double_quotes,$page_name,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
 			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab"/>  
 		<xsl:value-of select="'}'"/> 
  	</xsl:template>
  	
-	<xsl:variable name="isEdit">
-		<xsl:text>Core.isNotNull(isEdit)</xsl:text>
-	</xsl:variable>
-
- 	<xsl:template name="gen-crud-sql">
-		
-		 	<xsl:choose>
-		 		<xsl:when test="/rows/plsql/package_copy_html!=''">
-		 			<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-					<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>
-		 			<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-		 			<xsl:value-of select="concat('if(',$isEdit,'){')"/>		 				
-	 					<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/> 
-						<xsl:value-of select="$tab"/> 
-		 				<xsl:value-of select="concat('r = Core.update(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_html,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
-	 					<xsl:value-of select="$tab2"/>
-						<xsl:call-template name="gen-sql">
-							<xsl:with-param name="type_op" select="'update'"/>
-						</xsl:call-template>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-	 				<xsl:value-of select="'}else{'"/>	 					
- 						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>  
-						<xsl:value-of select="$tab"/> 
-		 				<xsl:value-of select="concat('r = Core.insert(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_html,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
-	 					<xsl:value-of select="$tab2"/>
-						<xsl:call-template name="gen-sql"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>						
-	 				<xsl:value-of select="'}'"/>
-		 		</xsl:when>
-		 		<xsl:otherwise>
-		 			<xsl:value-of select="$newline"/>
-					<xsl:value-of select="$tab2"/>
-		 			<xsl:value-of select="concat('if(',$isEdit,'){')"/>
-		 				<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-		 				<xsl:value-of select="concat('r = Core.update(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
-	 					<xsl:value-of select="$tab2"/>
-						<xsl:call-template name="gen-sql">
-							<xsl:with-param name="type_op" select="'update'"/>
-						</xsl:call-template>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-	 				<xsl:value-of select="'}else{'"/>
-	 					<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/> 
-						<xsl:value-of select="$tab"/> 
-		 				<xsl:value-of select="concat(' r = Core.insert(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
-	 					<xsl:value-of select="$tab2"/>
-						<xsl:call-template name="gen-sql"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-	 				<xsl:value-of select="'}'"/>
-		 		</xsl:otherwise>
-		 	</xsl:choose> 	
-			
- 	</xsl:template>
- 	 	
-	<xsl:template name="if-update">
-		<xsl:variable name="if">
-			<xsl:for-each select="//fields/*[@iskey = 'true']">			
-				<xsl:variable name="name_">
-					<xsl:choose>
-		 				<xsl:when test="@type='hidden'">
-				 			<xsl:call-template name="CamelCaseWord">
-				 				<xsl:with-param name="text" select="@name"/>
-				 			</xsl:call-template>
-		 				</xsl:when>
-		 				<xsl:otherwise>
-		 					<xsl:call-template name="CamelCaseWord">
-				 				<xsl:with-param name="text" select="name()"/>
-				 			</xsl:call-template>
-		 				</xsl:otherwise>
-		 			</xsl:choose>
-		 		</xsl:variable>
-				<xsl:value-of select="concat('Core.isNotNullOrZero(model.get',$name_,'())')"/>
-				<xsl:if test="position() != last()">
-					<xsl:value-of select="'&amp;&amp;'"/>
-				</xsl:if>
-			</xsl:for-each>	
-		</xsl:variable>	
-		<xsl:choose>
-			<xsl:when test="$if =''">
-				<xsl:value-of select="'1==0'"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$if"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
+ 	
 </xsl:stylesheet>
