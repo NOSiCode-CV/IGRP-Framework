@@ -4,7 +4,9 @@ package nosi.webapps.igrp.pages.gestaodeacesso;
 import nosi.core.webapp.Controller;
 import java.io.IOException;
 import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
 
@@ -29,7 +31,7 @@ public class GestaodeacessoController extends Controller {
 		/*----#gen-example
 		This is an example of how you can implement your code:
 		
-		view.org_table.setSqlQuery(null,"SELECT 'estado' estado, 'org_nome' org_nome, 'mostrar_perfis' mostrar_perfis, 'id' id");
+		model.loadOrg_table( Core.query( "SELECT 'estado' as estado,'org_nome' as org_nome,'mostrar_perfis' as mostrar_perfis,'id' as id " ) );
 		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");view.estado.setParam(true);view.p_id.setParam(true);
 		
 		----#gen-example */
@@ -47,7 +49,7 @@ public class GestaodeacessoController extends Controller {
 			if (ichange.equalsIgnoreCase("p_aplicacao") && Core.isNotNull(model.getAplicacao())) {
 				setTable(model, data);
 			} else
-				model.setAdicionar_organica1("igrp", "NovaOrganica", "index&target=_blank");
+				model.setAdicionar_organica1("igrp", "NovaOrganica", "index");
 		}
 	
 		view.p_id.setParam(true);		
@@ -81,9 +83,10 @@ public class GestaodeacessoController extends Controller {
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			if (org != null)
-				return this.redirect("igrp", "NovaOrganica", "editar&target=_blank&p_id=" + p_id);
-		}
-		//return this.redirect("igrp", "error-page", "exception");
+				return this.redirect("igrp", "NovaOrganica", "editar&p_id=" + p_id);
+		}else 
+			Core.setMessageError();
+
 		/*----#end-code----*/
 		
 		
@@ -113,10 +116,10 @@ public class GestaodeacessoController extends Controller {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			org = org.find().andWhere("application.id", "=", Integer.parseInt(p_id));
 			if (org != null)
-				return this.redirect("igrp", "MenuOrganica", "index&target=_blank",
+				return this.redirect("igrp", "MenuOrganica", "index",
 						"id=" + p_id + "&type=org&env_fk=" + org.getApplication().getId());
-		}
-		//return this.redirect("igrp", "error-page", "exception");
+		}else Core.setMessageError();
+
 		/*----#end-code----*/
 		
 		return this.redirect("igrp","MenuOrganica","index");
@@ -124,14 +127,27 @@ public class GestaodeacessoController extends Controller {
 	}
 	public Response actionTransaction() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		Gestaodeacesso model = new Gestaodeacesso();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","TransacaoOrganica","index");
+		}
+		
+		----#gen-example */
 		
 		/*----#start-code(transaction)----*/
 		
 		
 		/*----#end-code----*/
 		
-		
-		return this.redirect("igrp","gestaodeacesso","index");
+		return this.redirect("igrp","TransacaoOrganica","index");
 		
 	}
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -143,10 +159,11 @@ public class GestaodeacessoController extends Controller {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			if (org != null && org.delete()) {
 				Core.setMessageSuccess();
-				return this.redirect("igrp", "gestaodeacesso", "index");
-			}
-		}
-		//return this.redirect("igrp", "error-page", "exception");
+			}else
+				Core.setMessageError();
+		}else
+			Core.setMessageError();
+	
 		/*----#end-code----*/
 		
 		

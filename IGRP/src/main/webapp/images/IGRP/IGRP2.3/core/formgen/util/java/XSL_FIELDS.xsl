@@ -402,11 +402,11 @@
     	<xsl:param name="return" select="''"/>  
     	
     		<xsl:variable name="name_">
-    			<xsl:call-template name="CamelCaseWord">
-			        <xsl:with-param name="text">
-			        	<xsl:value-of select="$name"/>
-			        </xsl:with-param>
-		        </xsl:call-template>
+			<xsl:call-template name="gen-className">
+				<xsl:with-param name="className">
+					<xsl:value-of select="$name" />
+				</xsl:with-param>
+			</xsl:call-template>
     		</xsl:variable> 
     		
     		<!-- Gen Method Set -->

@@ -186,7 +186,7 @@
         </xsl:variable>
         <xsl:choose>
             <xsl:when test="$tableName_ = 'List'">
-                <xsl:value-of select="concat($tableName_,'1')"/>
+                <xsl:value-of select="concat($tableName_,'_')"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$tableName_"/>

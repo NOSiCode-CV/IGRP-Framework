@@ -1,6 +1,14 @@
 
 package nosi.webapps.igrp.pages.transacaoorganica;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -14,18 +22,31 @@ import java.util.ArrayList;
 import java.util.List;
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
+
 
 public class TransacaoOrganicaController extends Controller {		
 
-
-	public Response actionIndex() throws IOException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		TransacaoOrganica model = new TransacaoOrganica();
+		TransacaoOrganicaView view = new TransacaoOrganicaView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		view.table_1.setSqlQuery(null,"SELECT 'transacao' transacao, 'nome' nome");
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		String id = Igrp.getInstance().getRequest().getParameter("id");
-		TransacaoOrganicaView view = null;
+	
 		if(id!=null && type!=null){
-			TransacaoOrganica model = new TransacaoOrganica();
+		
 			model.setP_id(Integer.parseInt(id));
 			model.setP_type(type);
 			ArrayList<TransacaoOrganica.Table_1> data = new ArrayList<>();
@@ -35,11 +56,11 @@ public class TransacaoOrganicaController extends Controller {
 			}else if(type.equals("perfil")){
 				ProfileType p = new ProfileType().findOne(Integer.parseInt(id));
 				transactions = new Organization().getPerfilTransaction(p.getOrganization()!=null?p.getOrganization().getId():1);
-			}
+			}          
 			for(Transaction t:transactions){
 				TransacaoOrganica.Table_1 table =new TransacaoOrganica.Table_1();
 				table.setTransacao(t.getId());
-				table.setNome(t.getDescr());
+				table.setNome(t.getDescr()+" ("+t.getCode()+")");
 				Profile prof = new Profile();
 				prof.setOrganization(new Organization().findOne(Integer.parseInt(id)));
 				prof.setProfileType(new ProfileType().findOne(0));
@@ -57,16 +78,23 @@ public class TransacaoOrganicaController extends Controller {
 				}
 				data.add(table);
 			}
-			view = new TransacaoOrganicaView(model);
+			
 			view.table_1.addData(data);
 		}
+	
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		
+		
+		/*----#start-code(gravar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("id");
 		String type = Igrp.getInstance().getRequest().getParameter("type");
 		if(Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST") && type!=null && id!=null){
@@ -106,27 +134,46 @@ public class TransacaoOrganicaController extends Controller {
 				}
 			}
 			Igrp.getInstance().getFlashMessage().addMessage("success", gt("Operação realizada com sucesso"));
+          	return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
 		}
-		return this.redirect("igrp", "TransacaoOrganica", "index","id="+id+"&type="+type);
-		/*----#END-PRESERVED-AREA----*/
-	}
 	
-
-	public Response actionGestao_de_transacao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GESTAO_DE_TRANSACAO)----*/
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp","transacaoorganica","index");
+		
+	}
+	public Response actionGestao_de_transacoes() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		TransacaoOrganica model = new TransacaoOrganica();
 		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
 		if(model.save(model)){
 			Core.setMessageSuccess();
 		 }else{
 			Core.setMessageError();
-			 return this.forward("igrp","Transaccao","index");
+		 return this.forward("igrp","Transaccao","index");
 		}
+		
+		----#gen-example */
+		
+		/*----#start-code(gestao_de_transacoes)----*/
+		
+		
+		/*----#end-code----*/
+		
 		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

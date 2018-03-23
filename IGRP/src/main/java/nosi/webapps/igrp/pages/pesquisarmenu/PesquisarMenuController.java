@@ -1,6 +1,14 @@
 
 package nosi.webapps.igrp.pages.pesquisarmenu;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,19 +29,36 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import static nosi.core.i18n.Translator.gt;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
+
 
 public class PesquisarMenuController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		PesquisarMenu model = new PesquisarMenu();
+		PesquisarMenuView view = new PesquisarMenuView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		model.loadTable_1( Core.query( "SELECT 't1_menu_principal' as t1_menu_principal,'ativo' as ativo,'table_titulo' as table_titulo,'pagina' as pagina,'checkbox' as checkbox,'id' as id " ) );
+		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
+
 		Menu menu = new Menu();
 		int idApp = 0;
 		int idOrg = 0;
 	//	int idMen = 0;
-		model.load();
+		
+      String dad = new Permission().getCurrentEnv();
+      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) 
+			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 
 			idApp = (Core.isNotNull(model.getAplicacao()))? Integer.parseInt(model.getAplicacao()): 0;
@@ -43,7 +68,7 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus = null;
 
 		if (idOrg == 0) {
-			String dad = new Permission().getCurrentEnv();
+			
 			if ("igrp".equalsIgnoreCase(dad)) {
 				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
 					
@@ -84,45 +109,83 @@ public class PesquisarMenuController extends Controller {
 			lista.add(table1);
 		}
    
-   		
-		PesquisarMenuView view = new PesquisarMenuView(model);
+   			
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
 		view.table_1.addData(lista);	
 		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao()));
+	
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
+		
+		PesquisarMenu model = new PesquisarMenu();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","NovoMenu","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(editar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Core.isNotNull(id)) {
 			return this.redirect("igrp", "NovoMenu", "index&target=_blank&p_id=" + id);
 		}
-
-		return this.redirect("igrp", "PesquisarMenu", "index");
-		/*----#END-PRESERVED-AREA----*/
+		
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","NovoMenu","index");
+		
 	}
-	
-
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
+		
+		PesquisarMenu model = new PesquisarMenu();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","PesquisarMenu","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(eliminar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(FlashMessage.MESSAGE_SUCCESS));
+			Core.setMessageSuccess();
 		else
-			Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,  gt(FlashMessage.MESSAGE_ERROR));
+           Core.setMessageError();		
 
-		return this.redirect("igrp", "PesquisarMenu", "index");
-		/*----#END-PRESERVED-AREA----*/
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","PesquisarMenu","index");
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
 	public Response actionMyMenu() throws IOException {
@@ -203,5 +266,9 @@ public class PesquisarMenuController extends Controller {
 
 		return this.renderView(json.toString());
 	}
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

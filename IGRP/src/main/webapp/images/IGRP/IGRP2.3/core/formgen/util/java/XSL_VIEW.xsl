@@ -44,9 +44,9 @@
 		<xsl:for-each select="//rows/content/*[@type='table']">
 			
 			<xsl:variable name="upperTag">
-				<xsl:call-template name="CamelCaseWord">
-					<xsl:with-param name="text" select="name()"/>
-				</xsl:call-template>
+				<xsl:call-template name="gen-className">
+						<xsl:with-param name="className" select="name()"/>
+					</xsl:call-template>
 			</xsl:variable>
 			
 			<xsl:value-of select="$newline"/>

@@ -4,6 +4,10 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class PesquisarMenuView extends View {
 	
@@ -25,9 +29,9 @@ public class PesquisarMenuView extends View {
 
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
-	public PesquisarMenuView(PesquisarMenu model){
+	public PesquisarMenuView(){
 
-		this.setPageTitle("Lista de Menu");
+		this.setPageTitle("Gestão de Menu");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -43,7 +47,7 @@ public class PesquisarMenuView extends View {
 		
 		novo = new LinkField(model,"novo");
 		novo.setLabel(gt("Novo"));
-		novo.setValue("webapps?r=igrp/NovoMenu/index");
+		novo.setValue(new Config().getResolveUrl("igrp","NovoMenu","index"));
 							
 		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("maxlength","30");
 		
@@ -109,5 +113,25 @@ public class PesquisarMenuView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+	}
+		
+	public void setModel(PesquisarMenu model) {
+		
+		aplicacao.setValue(model);
+
+		t1_menu_principal.setValue(model);
+
+		ativo.setValue(model);
+
+		table_titulo.setValue(model);
+
+		pagina.setValue(model);
+
+		checkbox.setValue(model);
+
+		p_id.setValue(model);
+	
+		table_1.loadModel(model.getTable_1());
+
 	}
 }

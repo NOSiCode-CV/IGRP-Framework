@@ -4,7 +4,10 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class MenuOrganicaView extends View {
 	
@@ -21,14 +24,14 @@ public class MenuOrganicaView extends View {
 	public IGRPToolsBar toolsbar_2;
 	public IGRPButton btn_gravar;
 	public IGRPButton btn_novo;
-	public MenuOrganicaView(MenuOrganica model){
+	public MenuOrganicaView(){
 
 		this.setPageTitle("Associar Menu a Organica");
 			
-		table_1 = new IGRPTable("table_1","");
+		table_1 = new IGRPTable("table_1","Menu");
 		form_1 = new IGRPForm("form_1","");
 		menu = new CheckBoxField(model,"menu");
-		menu.setLabel(gt("Menu"));
+		menu.setLabel(gt(" "));
 		menu.propertie().add("name","p_menu").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
 		menu_check = new CheckBoxField
@@ -78,11 +81,17 @@ public class MenuOrganicaView extends View {
 		this.addToPage(toolsbar_2);
 	}
 		
-	@Override
-	public void setModel(Model model) {
+	public void setModel(MenuOrganica model) {
 		
+		menu.setValue(model);
 
+		descricao.setValue(model);
 
+		p_id.setValue(model);
+
+		p_type.setValue(model);
+	
+		table_1.loadModel(model.getTable_1());
 
 	}
 }
