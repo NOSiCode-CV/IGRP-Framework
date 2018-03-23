@@ -46,6 +46,45 @@
 			}
 
 		},
+		
+		setTableStyle : function(wrapper){
+			
+			wrapper = wrapper || $('.box-table-contents');
+			
+			wrapper.each(function(i,t){
+				
+				var legend = $(t).find('.box-table-legend');
+				
+				if(legend[0]){
+					
+					var itemName = $(t).attr('item-name'),
+						
+						style= '<style id="'+itemName+'">';
+						
+					legend.find('.legend-holder').each(function(i,l){
+						
+						var color = $(l).attr('legend-color'),
+						
+							value = $(l).attr('value');
+						
+						style+='[item-name="'+itemName+'"] table td.tdcolor span.tdcolor-item[value="'+value+'"] { background-color: '+color+' }'
+						
+					});
+					
+					style+='</style>';
+					
+					if(!$('html>head #'+itemName)[0])
+						
+						$('html>head').append(style);
+					else
+						$('html>head #'+itemName).html(style);
+						
+				
+				}
+
+			});
+			
+		},
 
 		setEvents : function(){
 
@@ -68,6 +107,8 @@
 			com.dataTable();
 			
 			com.setEvents();
+			
+			com.setTableStyle();
 			
 		}
 

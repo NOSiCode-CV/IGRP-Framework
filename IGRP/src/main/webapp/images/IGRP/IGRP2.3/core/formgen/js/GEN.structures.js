@@ -304,8 +304,6 @@ var GENSTRUCTURES = function(GEN){
 				
 				var tag     = f.xml.tag ? f.xml.tag : f.GET.tag();
 				var type    = f.GET.type();
-				
-
 				/*var value   = f.xml.dataValue || DATA.get({type:type, field:f});
 				var descVal = value;*/
 
@@ -378,9 +376,13 @@ var GENSTRUCTURES = function(GEN){
 				}
 				rtn+='</value>';
 
-			if(container.xml.tableLegend)
-				rtn+='<legend_color><title>Legenda</title><item><label>Cor 1</label><value>1</value></item><item><label>Cor 2</label><value>2</value></item><item><label>Cor 3</label><value>3</value></item><item><label>Cor 4</label><value>4</value></item><item><label>Cor 5</label><value>5</value></item><item><label>Cor 6</label><value>6</value></item><item><label>Cor 7</label><value>7</value></item><item><label>Cor 8</label><value>8</value></item><item><label>Cor 9</label><value>9</value></item></legend_color>';
+			if(container.xml.tableLegend){
 			
+				var lg = container.xml.getLegendColors && container.xml.getLegendColors()? container.xml.getLegendColors() : '';
+				
+				rtn+=lg;
+			}
+				
 			if(container.contextMenu)
 				rtn+=GEN.genContextMenu(container);
 

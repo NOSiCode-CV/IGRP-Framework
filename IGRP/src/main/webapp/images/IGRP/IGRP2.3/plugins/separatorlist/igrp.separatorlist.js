@@ -126,7 +126,7 @@ $.fn.separatorList = function(o){
 
 
 					if(object.table){
-						console.log(name)
+						//console.log(name)
 						var customfieldtmpl = getFieldTemplate(sl,object.type);
 						var tdcontent = '<span class="separator-list-td-val">'+text+'</span>';
 
@@ -216,6 +216,7 @@ $.fn.separatorList = function(o){
 					//if(ftype == 'select' || ftype == 'checkbox' || ftype == 'radio')
 						//$(f).trigger("change");
 				}
+				$(f).trigger("change");
 			}
 		};
 

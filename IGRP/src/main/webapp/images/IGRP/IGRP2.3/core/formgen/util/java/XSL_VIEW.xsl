@@ -88,6 +88,11 @@
 		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$import_config"/>
 		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$import_Map"/>
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$import_HashMap"/>
+		<xsl:value-of select="$newline"/>
+		
  	</xsl:template>
  	
  	
@@ -163,6 +168,72 @@
 				</xsl:choose>
 				<xsl:value-of select="$newline"/>
 		 	</xsl:for-each>
+		 		
+		 	<xsl:if test="table/legend_color/item">
+		 		<xsl:value-of select="$tab2"/>
+		 		<xsl:value-of select="concat('/* start ',name(),' legend colors*/')"/>
+		 		<xsl:value-of select="$newline"/>
+		 		
+		 		<xsl:value-of select="$tab2"/>
+		 		<xsl:variable name="tbColorsName" select="concat(name(),'_colors')"/>
+		 		<xsl:variable name="mapDeclaration">
+		 			<xsl:text>Map</xsl:text><xsl:value-of select="$lt"/>
+		 			<xsl:text>Object, Map</xsl:text><xsl:value-of select="$lt"/>
+		 			<xsl:text>String, String</xsl:text><xsl:value-of select="$gt"/><xsl:value-of select="$gt"/>
+		 			<xsl:value-of select="concat(' ',$tbColorsName)"/>
+		 			<xsl:text>= new HashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
+		 		</xsl:variable>
+		 		
+		 		<xsl:value-of select="$mapDeclaration"/>
+		 		
+		 		<xsl:for-each select="table/legend_color/item">
+		 			<xsl:variable name="color_name" select="concat('color_',value)"></xsl:variable>
+		 			<xsl:variable name="color_desc">
+			 			<xsl:text>Map</xsl:text><xsl:value-of select="$lt"/>
+			 			<xsl:text>String, String</xsl:text>
+			 			<xsl:value-of select="$gt"/>
+			 			<xsl:value-of select="concat(' ',$color_name)"/>
+			 			<xsl:text> = new HashMap</xsl:text><xsl:value-of select="$lt"/><xsl:value-of select="$gt"/><xsl:text>();</xsl:text>
+			 		</xsl:variable>
+			 		
+			 		<xsl:value-of select="$newline"/>
+		 			<xsl:value-of select="$tab2"/>
+			 		
+			 		<xsl:value-of select="$color_desc"/>
+			 		
+			 		<xsl:value-of select="$newline"/>
+		 			<xsl:value-of select="$tab2"/>
+		 			
+		 			<xsl:value-of select="concat($color_name,'.put(',$double_quotes,color,$double_quotes,',',$double_quotes,label,$double_quotes,');')"/>
+		 			<xsl:value-of select="$newline"/>
+		 			<xsl:value-of select="$tab2"/>
+		 			
+		 			<xsl:value-of select="concat($tbColorsName,'.put(',$double_quotes,value,$double_quotes,',',$color_name,');')"/>
+		 			
+<!-- 		 			Map<String, String> cor = new HashMap(); -->
+				
+<!-- 					cor.add("#fff","Text"); -->
+				
+<!-- 					colors.add("1",cor) -->
+		 		</xsl:for-each>
+		 		<!-- Map<Object, Map<String, String>> colors = new HashMap<>();
+
+				
+				
+				view.table.setLegendColor( colors ); -->
+		 		
+		 		<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$tab2"/>
+		 		
+		 		<xsl:value-of select="concat('this.',name(),'.setLegendColors(',name(),'_colors);')"/>
+		 		
+		 		<xsl:value-of select="$newline"/>
+		 		<xsl:value-of select="$tab2"/>
+		 		
+		 		<xsl:value-of select="concat('/* end ',name(),' legend colors*/')"/>
+		 		
+		 	</xsl:if>
+		 	
 			<xsl:value-of select="$newline"/>
  		</xsl:for-each>
  	</xsl:template>

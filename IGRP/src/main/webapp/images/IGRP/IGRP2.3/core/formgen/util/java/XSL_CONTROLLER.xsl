@@ -272,12 +272,12 @@
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select']">
 							
 							<xsl:call-template name="start-example"/>
-							
+							<xsl:value-of select="$newline"/>
+							<xsl:value-of select="$tab2"/>
 							<xsl:call-template name="setSqlChart"/>
 							<xsl:call-template name="setSqlTable"/>
 							<xsl:call-template name="setSqlCombobox"/>
 							<xsl:call-template name="setParam"/>
-							<xsl:call-template name="addLegendColor"/>
 
 							<xsl:call-template name="end-example"/>
 
@@ -466,18 +466,15 @@
 	 		<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
 	 		<xsl:variable name="sql_fields">
 	 			<xsl:for-each select="fields/*">
-	 				<xsl:value-of select="concat($simple_quotes,local-name(),$simple_quotes,' ',local-name(),', ')"/>
+	 				<xsl:value-of select="concat($simple_quotes,local-name(),$simple_quotes,' as ',local-name())"/>
+	 				<xsl:if test="position() != last()">,</xsl:if>
 	 			</xsl:for-each>
 	 		</xsl:variable>
- 			<xsl:call-template name="generateCommentConnectionName"/>
- 			<xsl:choose>
- 				<xsl:when test="$crud_list !=''">
-					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQueryCRUD(',$double_quotes,$app_name,$double_quotes,',',$double_quotes,$page_name,$double_quotes,');')"/>
-	 			</xsl:when>
- 				<xsl:otherwise>
- 					<xsl:value-of select="concat('view.',$instance_name,'.setSqlQuery(null,',$double_quotes,'SELECT ',substring($sql_fields,1,string-length($sql_fields)-2),$double_quotes,');')"/>
-	 			</xsl:otherwise>
- 			</xsl:choose>
+ 			<xsl:text>model.load</xsl:text>
+ 			<xsl:call-template name="CamelCaseWord">
+ 				<xsl:with-param name="text" select="name()"/>
+ 			</xsl:call-template>
+ 			<xsl:value-of select="concat('( Core.query( ',$double_quotes,'SELECT ',$sql_fields,' ',$double_quotes,' ) );' ) "/>
 		</xsl:for-each>
  	</xsl:template>
  	

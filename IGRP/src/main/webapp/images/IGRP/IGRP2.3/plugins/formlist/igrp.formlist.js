@@ -1,7 +1,10 @@
 // JavaScript Document Form Lista @NOSi 2016
 (function($){
+
 	$.fn.IGRP_formlist = function(options){
+
         if(this[0]){
+
             var defaults = {
               btnDelete     : true,
               btnAdd        : true,
@@ -14,11 +17,12 @@
               afterAdd      : null,
               onDelete      : null,
               beforeDelete  : null,
-              afterDelete   : null
+              afterDelete   : null,
+              data          : [] 
             };
 
             var _this = this;
-            var settings    = $.extend( {}, defaults, options);
+            var settings    = $.extend( defaults,options );
             var TABLE       = $(this);
             var vRel        = TABLE.attr('rel'),
                 type        = TABLE.attr('type') ? TABLE.attr('type') : 'table',
@@ -101,14 +105,16 @@
                         pMessage:JSMSG_WARNING_DELETE_ITEM_TABLE,pPos:"before"});*/
             }
 
-
             var getObjTable = function(rel){
                 return $('*[rel="T_'+rel+'"]');
             }
 
             var addRowForm = function(t){
+                
                 var vObjTr  = getCloneRow(TABLE);
+
                 resetFildsRow(vObjTr);
+
                 type == 'table' ? $("tbody",TABLE).append(vObjTr) : vObjTr.insertAfter(t);
 
                 TABLE[0].events.execute("row-add",vObjTr);
@@ -128,6 +134,7 @@
                 if(settings.afterAdd)
                     settings.afterAdd(TABLE,_this.getLength(),getCloneRow(),t);
             };
+
 
             this.on('click',settings.btnObjAdd,function(){
                 TABLE = getObjTable($(this).attr('rel'));
@@ -159,6 +166,68 @@
                 e.events    = new $.EVENTS(["ready","row-add","row-remove","row-reset"]);
 
                 e.events.execute('ready');
+
+                e._export = function(){
+                    
+                    var arr = [];
+
+                    $(e).find('tbody tr').each(function(i,tr){
+                        
+                        var cols = {};
+
+                        $(tr).find('td').each(function(x,td){
+                            
+                            var name = $(td).attr('item-name');
+                    
+                            if(name){
+
+                                var val = $('[name="p_'+name+'_fk"]',tr).val();
+
+                                cols[name] = val;
+
+                            }
+
+                        });
+
+
+                       arr.push(cols);
+
+                    });
+
+
+                    return arr;
+
+                };
+
+                e._import = function(data){
+
+                   var rows = [];
+                    
+                    data.forEach(function(d){
+
+                        var tr = getCloneRow(),
+
+                            tdLength = tr.find('td[item-name]').length;
+
+                        resetFildsRow(tr);
+
+                        if(tdLength == Object.keys(d).length){
+                           
+                            for(var name in d){
+
+                                tr.find('[name="p_'+name+'_fk"]').val(d[name]);
+
+                            }
+
+                        }
+
+                        rows.push(tr);
+
+                    });
+
+                    $('tbody',e).html(rows);
+
+                }   
 
                 var onInit = function(){
                     $(obj,e).each(function(i,tr){
@@ -194,6 +263,12 @@
                 };
 
                 onInit();
+
+                if(settings.data && settings.data[0]){
+
+                    e._import(settings.data);
+
+                }
 
             });
 

@@ -725,6 +725,8 @@
                       <option value="notendwith">Not End With</option>
 
                       <option value="regexp">RegExp</option>
+                      
+                      <option value="jsx">Custom</option>
 
                   </select>
                 </div>
@@ -1132,9 +1134,13 @@
         
         <link href="{$path}/core/formgen/css/modern.css" rel="stylesheet"></link>
 
-        
+        <!-- FORMLIST CSS INCLUDES -->
+        <link rel="stylesheet" type="text/css" href="{$path}/plugins/formlist/igrp.formlist.css?v={$version}"/>
+        <script type="text/javascript" src="{$path}/plugins/colorpicker/js/bootstrap-colorpicker.js?v={$version}"/>
+        <script type="text/javascript" src="{$path}/plugins/colorpicker/colorpicker.init.js?v={$version}"/>
+        <script type="text/javascript" src="{$path}/plugins/formlist/igrp.formlist.js?v={$version}"/>
 
-
+		
         <style id="custom-css"></style>
 
     </xsl:template>

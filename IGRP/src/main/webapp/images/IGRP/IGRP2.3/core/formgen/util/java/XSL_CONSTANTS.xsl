@@ -21,6 +21,15 @@
     <xsl:variable name="tab4">
         <xsl:text>&#9;&#9;&#9;&#9;</xsl:text>
     </xsl:variable>
+    
+    <xsl:variable name="gt">
+        <xsl:text>&gt;</xsl:text>
+    </xsl:variable>
+    
+    <xsl:variable name="lt">
+        <xsl:text>&lt;</xsl:text>
+    </xsl:variable>
+    
     <!-- <xsl:variable name="newline">
             <xsl:text>&#x0A;</xsl:text>
         </xsl:variable> -->
@@ -44,6 +53,14 @@
 
     <xsl:variable name="import_config">
         <xsl:text>import nosi.core.config.Config;</xsl:text>
+    </xsl:variable>
+    
+    <xsl:variable name="import_HashMap">
+        <xsl:text>import java.util.HashMap;</xsl:text>
+    </xsl:variable>
+    
+    <xsl:variable name="import_Map">
+        <xsl:text>import java.util.Map;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="import_components">

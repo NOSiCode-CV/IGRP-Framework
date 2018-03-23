@@ -91,7 +91,22 @@ var DATA = {
 						break;
 					}
 				}else{
-					rtn = Math.floor(Math.random() * 9 + 1);
+					if(p && p.field && p.field.parent){
+						var cont = p.field.parent;
+						if(cont.GET.legendColors){
+							var colors =  cont.GET.legendColors();
+							
+							if(colors.length){
+								
+								var idx = Math.floor(Math.random() * colors.length);
+								rtn = colors[idx] ? colors[idx].value : colors[0].value;
+								
+							}
+						}
+					}else{
+						rtn = Math.floor(Math.random() * 9 + 1);
+					}
+					
 				}
 				//console.log(rtn)
 			break;
