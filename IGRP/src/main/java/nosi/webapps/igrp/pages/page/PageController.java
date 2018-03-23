@@ -526,12 +526,14 @@ public class PageController extends Controller {
 	public Response actionGetPageJson() throws IOException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String json = "";
-		if (p_id != null && !p_id.equals("")) {
+		if ( Core.isNotNull(p_id) ) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				json = FileHelper.readFileFromServer(this.getConfig().getResolvePathXsl(ac), ac.getPage() + ".json");
+				json = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
 			}
 		}
+		
+		System.out.println(json);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}

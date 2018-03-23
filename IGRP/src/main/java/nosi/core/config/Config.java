@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -195,6 +198,13 @@ public class Config {
 		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 
 		return url;
+	}
+	
+	public String getHostName() {
+		
+		HttpServletRequest req = Igrp.getInstance().getRequest();
+		
+		return req.getScheme()+"://"+req.getServerName()+":"+req.getLocalPort();
 	}
 	
 	public String getRootPaht(){
