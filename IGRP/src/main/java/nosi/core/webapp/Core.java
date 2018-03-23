@@ -566,6 +566,33 @@ public final class Core {	// Not inherit
 		return "";
 	}
 	
+	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
+		String taskId = Core.getParam("taskId");
+		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+		if(task!=null && task.size() > 0) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,task.get(0).getExecutionId());
+			if(task1!=null && task1.size() > 0) {
+				List<TaskVariables> vars = task1.get(0).getVariables();
+				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+				return (var!=null && var.size() > 0)?Core.toInt((String) var.get(0).getValue()):0;
+			}
+		}
+		return 0;
+	}
+	
+	public static Double getTaskVariableDouble(String taskDefinitionKey,String variableName) {
+		String taskId = Core.getParam("taskId");
+		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+		if(task!=null && task.size() > 0) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,task.get(0).getExecutionId());
+			if(task1!=null && task1.size() > 0) {
+				List<TaskVariables> vars = task1.get(0).getVariables();
+				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+				return (var!=null && var.size() > 0)?Core.toDouble((String) var.get(0).getValue()):0;
+			}
+		}
+		return 0.0;
+	}
 	
 	public static String getPinkColor() {
 		return "1";
