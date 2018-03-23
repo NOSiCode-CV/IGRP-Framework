@@ -55,166 +55,271 @@ import static nosi.core.i18n.Translator.gt;
  * @author: Emanuel Pereira
  * 13 Nov 2017
  */
-public final class Core {	// Not inherit 
+public final class Core {	/** Not inherit 
 
 
 	
-	private Core() {} // Not instantiate  
+	private Core() {} /** Not instantiate  
 	
-	/**
-	 * log.fatal("fatal message");
-		log.debug("debug message");
-	 * */
-	// Add logdbug
+	  /**
+	   * This method is used to add a message log 	 
+	   * @param msg This is the message
+	   * 
+	   */
 	public static void log(String msg) {
 		
 		Igrp.getInstance().getLog().addMessage(msg);
 	}
-	
-	//Add Message Error
-	
+	/**
+	   * Shows a success flash message "Operação efetuada com sucesso!"
+	   */
+	public static void setMessageSuccess(){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(FlashMessage.MESSAGE_SUCCESS));
+	}
+	/**
+	   * Shows a custom success flash message 
+	   * @param msg Custom message string
+	   */	
+	public static void setMessageSuccess(String msg){
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));	
+	}
+	/**
+	   * Shows a error flash message "Falha ao tentar efetuar esta operação!"
+	   */	
+	public static void setMessageError(){
+		nosi.core.servlet.IgrpServlet.LOGGER.error(FlashMessage.MESSAGE_ERROR);
+		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,gt( FlashMessage.MESSAGE_ERROR));
+	}	
+	/**
+	   * Shows a custom error flash message
+	   * @param msg Custom message string
+	   */	
 	public static void setMessageError(String msg){
 		nosi.core.servlet.IgrpServlet.LOGGER.error(gt(msg));
 		
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, gt(msg));
 	}	
 
-	public static void setMessageError(){
-		nosi.core.servlet.IgrpServlet.LOGGER.error(FlashMessage.MESSAGE_ERROR);
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR,gt( FlashMessage.MESSAGE_ERROR));
-	}	
 
-	//Add Message Success
-	public static void setMessageSuccess(String msg){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(msg));	
-	}
+
 	
-	//Add Message Success
-	public static void setMessageSuccess(){
-		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.SUCCESS, gt(FlashMessage.MESSAGE_SUCCESS));
-	}
+
 	
-	//Add Message Info
+	/**Add Message Info
+	 * 
+	 * @param msg
+	 */
 	public static void setMessageInfo(String msg){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO, gt(msg));
 	}
 
-	//Add Message Info With Link
+	/**Add Message Info With Link
+	 * 
+	 * @param msg
+	 * @param link
+	 */
 	public static void setMessageInfoLink(String msg,String link){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+link);
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+link);		
 	}
 	
-	//Add Message Info With Link
+	/**Add Message Info With Link
+	 * 
+	 * @param msg
+	 * @param app
+	 * @param page
+	 * @param action
+	 */
 	public static void setMessageInfoLink(String msg,String app,String page,String action){
 		nosi.core.servlet.IgrpServlet.LOGGER.info(gt(msg)+"/#RESERVE#/"+new Config().getResolveUrl(app, page, action));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.INFO_LINK, gt(msg)+"/#RESERVE#/"+new Config().getResolveUrl(app, page, action));
 	}
 		
-	//Add Message Warning
+	/**Add Message Warning
+	 * 
+	 * @param msg
+	 */
 	public static void setMessageWarning(String msg){
 		nosi.core.servlet.IgrpServlet.LOGGER.warn(gt(msg));
 		Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING, gt(msg));		
 	}	
 	
-	//Get Config Property
+	/**Get Config Property
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public static String getConfig(String name){
 		nosi.webapps.igrp.dao.Config c = new nosi.webapps.igrp.dao.Config().find().andWhere("name", "=", name).one();
 		return c!=null?c.getValue():null;
 	}
 	
-	//Get Current User
+	/**Get Current User
+	 * 
+	 * @return
+	 */
 	public static nosi.webapps.igrp.dao.User getCurrentUser(){
 		return (nosi.webapps.igrp.dao.User) Igrp.getInstance().getUser().getIdentity();
 	}
 
-	//Find User by ID
+	/**Find User by ID
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static nosi.webapps.igrp.dao.User findUserById(Integer id){
 		return new nosi.webapps.igrp.dao.User().findOne(id);
 	}
 	
-	//Find User by Username
+	/**Find User by Username
+	 * 
+	 * @param userName
+	 * @return
+	 */
 	public static nosi.webapps.igrp.dao.User findUserByUsername(String userName){
 		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", userName).one();
 	}
 	
-	//Find User by email
+	/**Find User by email
+	 * 
+	 * @param email
+	 * @return
+	 */
 	public static nosi.webapps.igrp.dao.User findUserByEmail(String email){
 		return new nosi.webapps.igrp.dao.User().find().andWhere("username", "=", email).one();
 	}
 	
-	//Format date and return to Type String
+	/**Format date and return to Type String
+	 * 
+	 * @param date
+	 * @param formatIn
+	 * @param outputFormat
+	 * @return
+	 */
 	public static String convertDate(String date, String formatIn, String outputFormat) {
 		return DateHelper.convertDate(date,formatIn,outputFormat);
 	}
 	
-	//Format date and return to Type Date
+	/**Format date and return to Type Date
+	 * 
+	 * @param data
+	 * @param inputFormat
+	 * @param outputFormat
+	 * @return
+	 */
 	public static java.sql.Date formatDate(String data,String inputFormat,String outputFormat){
 		return DateHelper.formatDate(data,inputFormat,outputFormat);
 	}
 	
-	//Get Current Datetime (dd-MM-yyyy)
+	/**Get Current Datetime (dd-MM-yyyy)
+	 * 
+	 * @return
+	 */
 	public static String getCurrentDate(){
 		return DateHelper.getCurrentDate("dd-MM-yyyy");
 	}
 
-	//Get Current Datetime (User defined output format)
+	/**Get Current Datetime (User defined output format)
+	 * 
+	 * @param outputFormat
+	 * @return
+	 */
 	public static String getCurrentDate(String outputFormat){
 		return DateHelper.getCurrentDate(outputFormat);
 	}
 	
-	//Get Current Datetime (dd/MM/yyyy HH:mm:ss)
+	/**Get Current Datetime (dd/MM/yyyy HH:mm:ss)
+	 * 
+	 * @return
+	 */
 	public static String getCurrentDataTime() {
 		return DateHelper.getCurrentDataTime();
 	}
 	
-	//Get Current Application Dad on Cookie
+	/**Get Current Application Dad on Cookie
+	 * 
+	 * @return
+	 */
 	public static String getCurrentDad(){
 		return new Permission().getCurrentEnv();
 	}
 
-	//Get Current Organization on Cookie
+	/**Get Current Organization on Cookie
+	 * 
+	 * @return
+	 */
 	public static Integer getCurrentOrganization(){
 		return new Permission().getCurrentOrganization();
 	}
 
-	//Get Current Profile on Cookie
+	/**Get Current Profile on Cookie
+	 * 
+	 * @return
+	 */
 	public static Integer getCurrentProfile(){
 		return new Permission().getCurrentPerfilId();
 	}
 	
-	//Find Application By ID
+	/**Find Application By ID
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Application findApplicationById(Integer id){
 		return new Application().findOne(id);
 	}
 	
-	//Find Application By Dad
+	/**Find Application By Dad
+	 * 
+	 * @param dad
+	 * @return
+	 */
 	public static Application findApplicationByDad(String dad){
 		return new Application().find().andWhere("dad", "=", dad).one();
 	}
 	
-	//Find Organization By ID
+	/**Find Organization By ID
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Organization findOrganizationById(Integer id){
 		return new Organization().findOne(id);
 	}
 	
-	//Find Organization By Code
+	/**Find Organization By Code
+	 * 
+	 * @param code
+	 * @return
+	 */
 	public static Organization findOrganizationByCode(String code){
 		return new Organization().find().andWhere("code", "=", code).one();
 	}
 	
-	//Find Profile By ID
+	/**Find Profile By ID
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static ProfileType findProfileById(Integer id){
 		return new ProfileType().findOne(id);
 	}
 	
-	//Find Profile By Code
+	/**Find Profile By Code
+	 * 
+	 * @param code
+	 * @return
+	 */
 	public static ProfileType findProfileByCode(String code){
 		return new ProfileType().find().andWhere("code", "=", code).one();
 	}
 	
-	//Check permition transaction for current user
+	/**Check permition transaction for current user
+	 * 
+	 * @param transaction
+	 * @return
+	 */
 	public static boolean checkUserTransaction(String transaction){
 		return new Transaction().getPermission(transaction);
 	}
@@ -258,7 +363,11 @@ public final class Core {	// Not inherit
 		return null;
 	}
 	
-	//Pesquia SNIAC via Biztalk
+	/**Pesquia SNIAC via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
 		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -268,7 +377,11 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
 	}	
 
-	//Pesquia BI via Biztalk
+	/**Pesquia BI via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
 		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -277,7 +390,11 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
 	}	
 
-	//Pesquia NIF via Biztalk
+	/**Pesquia NIF via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
 		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -286,7 +403,11 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
 	}
 	
-	//Pesquia Nascimento via Biztalk
+	/**Pesquia Nascimento via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -295,7 +416,11 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
 	}	
 
-	//Pesquia Hierarquia CAE via Biztalk
+	/**Pesquia Hierarquia CAE via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
 		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -304,7 +429,11 @@ public final class Core {	// Not inherit
 		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
 	}
 	
-	//Pesquia Geografia via Biztalk
+	/**Pesquia Geografia via Biztalk
+	 * 
+	 * @param pesquisa
+	 * @return
+	 */
 	public static PesquisaGeografia getBizTalkPesquisaGeografia(PesquisaGeografia pesquisa){
 		return (PesquisaGeografia) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
@@ -566,6 +695,33 @@ public final class Core {	// Not inherit
 		return "";
 	}
 	
+	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
+		String taskId = Core.getParam("taskId");
+		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+		if(task!=null && task.size() > 0) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,task.get(0).getExecutionId());
+			if(task1!=null && task1.size() > 0) {
+				List<TaskVariables> vars = task1.get(0).getVariables();
+				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+				return (var!=null && var.size() > 0)?Core.toInt((String) var.get(0).getValue()):0;
+			}
+		}
+		return 0;
+	}
+	
+	public static Double getTaskVariableDouble(String taskDefinitionKey,String variableName) {
+		String taskId = Core.getParam("taskId");
+		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+		if(task!=null && task.size() > 0) {
+			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,task.get(0).getExecutionId());
+			if(task1!=null && task1.size() > 0) {
+				List<TaskVariables> vars = task1.get(0).getVariables();
+				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+				return (var!=null && var.size() > 0)?Core.toDouble((String) var.get(0).getValue()):0;
+			}
+		}
+		return 0.0;
+	}
 	
 	public static String getPinkColor() {
 		return "1";
@@ -603,7 +759,11 @@ public final class Core {	// Not inherit
 		return "9";
 	}
 
-	//Receive multiple params and get one of these params that's not null
+	/**Receive multiple params and get one of these params that's not null 
+	 * 
+	 * @param strings
+	 * @return
+	 */
 	public static String getSwitchNotNullValue(String ...strings) {
 		if(strings.length > 1) {
 			if(Core.isNotNull(strings[0]))
