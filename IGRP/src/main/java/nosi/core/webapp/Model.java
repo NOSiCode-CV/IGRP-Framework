@@ -58,6 +58,33 @@ public abstract class Model { // IGRP super model
 		}
 	}
 	
+
+	public void loadFromTask(String taskId) {
+		Class<? extends Model> c = this.getClass();
+		for(Field field:c.getDeclaredFields()) {
+			field.setAccessible(true);
+			try {
+				if	(field.getType().getName().equalsIgnoreCase("int") || field.getType().getName().equalsIgnoreCase("java.lang.integer"))
+					field.setInt(this,Core.getTaskVariableInt(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else if	(field.getType().getName().equalsIgnoreCase("long") || field.getType().getName().equalsIgnoreCase("java.lang.long"))
+					field.setLong(this,Core.getTaskVariableLong(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else if	(field.getType().getName().equalsIgnoreCase("java.lang.short"))
+					field.setShort(this,Core.getTaskVariableShort(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else if( field.getType().getName().equalsIgnoreCase("float") || field.getType().getName().equalsIgnoreCase("java.lang.float"))
+					field.setFloat(this,Core.getTaskVariableFloat(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else if(field.getType().getName().equalsIgnoreCase("double") || field.getType().getName().equalsIgnoreCase("java.lang.double"))
+					field.setDouble(this,Core.getTaskVariableDouble(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else if	(field.getType().getName().equalsIgnoreCase("boolean") || field.getType().getName().equalsIgnoreCase("java.lang.boolean"))
+					field.setBoolean(this,Core.getTaskVariableBoolean(taskId, field.getAnnotation(RParam.class).rParamName()));
+				else
+					field.set(this,Core.getTaskVariable(taskId, field.getAnnotation(RParam.class).rParamName()));
+
+			}catch(java.lang.IllegalArgumentException | IllegalAccessException e) {
+				
+			}
+		}
+	}
+	
 	public <T> List<T> loadTable(QueryHelper query, Class<T> className) {
 		if(query!=null) {
 			List<T> list = new ArrayList<>();
