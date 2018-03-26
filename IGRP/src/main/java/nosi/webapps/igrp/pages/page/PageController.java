@@ -83,17 +83,19 @@ public class PageController extends Controller {
 				model.setStatus(a.getStatus());
 			}
 			isEdit = true;
-		}else
+			model.setGen_auto_code(0);
+		}else {
 			model.setStatus(1);
+			model.setGen_auto_code(1);
+		}
+			
 		view.env_fk.setValue(new Application().getListApps());	
-		view.gen_auto_code.setValue(1);
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.p_id.setParam(true);
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
-			view.page.propertie().setProperty("readonly", "true");
-			view.gen_auto_code.setValue(0);
+			view.page.propertie().setProperty("readonly", "true");	
 		}
 			
 		/*----#end-code----*/
@@ -112,8 +114,8 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-			
-			int idPage = Core.isInt(Core.getParam("p_id"))? Core.toInt(Core.getParam("p_id")) : 0;
+			String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+			int idPage = Core.isInt(p_id)? Core.toInt(p_id) : 0;
 			
 			Application app = new Application();
 			Action action = new Action();
@@ -121,7 +123,7 @@ public class PageController extends Controller {
 				action = action.findOne(idPage);
 				// Edit/update page
 				action.setPage_descr(model.getPage_descr());
-              action.setAction_descr(model.getPage_descr());
+                action.setAction_descr(model.getPage_descr());
 				action = action.update();
 				if (action != null)
 					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
@@ -204,9 +206,9 @@ public class PageController extends Controller {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-        System.out.println("Criar Pasta " + flag); 
-        System.out.println(svnapi.getCmd());
-        System.out.println(svnapi.getCmdResult());
+//        System.out.println("Criar Pasta " + flag); 
+//        System.out.println(svnapi.getCmd());
+//        System.out.println(svnapi.getCmdResult());
 	}
 	
 	private void addFilesToSvnRepo(String pathClass, Action page) {
@@ -312,7 +314,7 @@ public class PageController extends Controller {
 					
 					
 					
-					addFilesToSvnRepo(path_class, ac);
+		//SVN			addFilesToSvnRepo(path_class, ac);
 					
 					
 					error += this.processCompile(path_class, ac.getPage());
