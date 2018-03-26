@@ -654,11 +654,13 @@ public final class Core {	/** Not inherit
 	}
 	
 	public static void setParam(String name,Object value) {
-		Igrp.getInstance().getRequest().setAttribute(name, value);
+		if(Igrp.getInstance().getRequest()!=null)
+			Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 	
 	public static void setParam(String name,Object[] value) {
-		Igrp.getInstance().getRequest().setAttribute(name, value);
+		if(Igrp.getInstance().getRequest()!=null)
+			Igrp.getInstance().getRequest().setAttribute(name, value);
 	}
 	
 	public static String getParam(String name) {

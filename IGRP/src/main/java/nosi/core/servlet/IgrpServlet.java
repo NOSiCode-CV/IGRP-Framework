@@ -10,7 +10,7 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet
+@WebServlet("/IGRP/app")
 @MultipartConfig
 public class IgrpServlet extends HttpServlet{
 	

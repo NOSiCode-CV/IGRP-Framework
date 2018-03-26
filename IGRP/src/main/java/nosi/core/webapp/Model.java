@@ -79,7 +79,7 @@ public abstract class Model { // IGRP super model
 				else
 					field.set(this,Core.getTaskVariable(taskId, field.getAnnotation(RParam.class).rParamName()));
 
-			}catch(java.lang.IllegalArgumentException | IllegalAccessException e) {
+			}catch(java.lang.IllegalArgumentException | IllegalAccessException | java.lang.NullPointerException e) {
 				
 			}
 		}
