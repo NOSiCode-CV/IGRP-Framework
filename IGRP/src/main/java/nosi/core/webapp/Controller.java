@@ -90,6 +90,7 @@ public abstract class Controller{
 	return resp;
 	}
 	protected final Response redirect(String app, String page, String action, QueryString queryString) throws IOException{
+		qs = "";
 		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
 			queryString.getQueryString().entrySet().stream().forEach(q->{
 				qs  += "&"+q.getKey()+"="+q.getValue();
@@ -256,8 +257,16 @@ public abstract class Controller{
 		return Page.loadPage(auxcontrollerPath, auxActionName); // :-)
 	}
 	
-
 	protected Response call(String app, String page, String action) {
+		return this.call(app, page, action, null);
+	}
+	
+	protected Response call(String app, String page, String action,QueryString queryString) {
+		if(queryString!=null && !queryString.getQueryString().isEmpty()) {
+			queryString.getQueryString().entrySet().stream().forEach(q->{
+				Core.setParam(q.getKey(), q.getValue());
+			});
+		}
 		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
@@ -333,8 +342,7 @@ public abstract class Controller{
 						}
 						break;
 					case 3: // forward 
-						String url = "webapps" + responseWrapper.getUrl().replaceAll("&&","&");
-						System.out.println(url);
+						String url = "app/webapps" + responseWrapper.getUrl().replaceAll("&&","&");
 						try {
 							Igrp.getInstance().getRequest().getRequestDispatcher(url).forward(Igrp.getInstance().getRequest(), Igrp.getInstance().getResponse());
 						} catch (ServletException | IOException e) {

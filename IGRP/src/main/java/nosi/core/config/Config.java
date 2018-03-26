@@ -443,7 +443,7 @@ public class Config {
 			xml.setElement("package_copy_html", config.getPackageCopyHtml());
 		xml.endElement();
 		xml.startElement("navigation");
-		xml.writeAttribute("url", "webapps?");
+		xml.writeAttribute("url", "app/webapps?");
 		xml.writeAttribute("prm_app", "prm_app");
 		xml.writeAttribute("prm_page", "prm_page");
 		xml.writeAttribute("prm_action", "r");
