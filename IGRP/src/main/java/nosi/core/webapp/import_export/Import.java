@@ -299,14 +299,14 @@ public class Import {
 
 
 	private String configurePackageAndClass(String content,Action page) {
-		String aux = content.substring(0,content.indexOf("</app>")+"</app>".length());
+		String aux = content.substring(0,content.indexOf("</site>")+"</site>".length());
 		XMLWritter xml = new XMLWritter();
 		xml.startElement("plsql");
 			xml.setElement("action", page.getPage());
 			xml.setElement("package_db", page.getPackage_name());//PackageName
 			xml.setElement("package_html", page.getPage());//ClassName
 		xml.endElement();
-		aux += xml.toString() + content.substring(content.indexOf("</app>")+"</app>".length());
+		aux += xml.toString() + content.substring(content.indexOf("</site>")+"</site>".length());
 		return aux;
 	}
 }
