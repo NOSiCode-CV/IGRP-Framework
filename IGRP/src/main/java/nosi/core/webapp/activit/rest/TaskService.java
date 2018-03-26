@@ -49,6 +49,27 @@ public class TaskService extends Activit{
 		this.variables = new ArrayList<>();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public TaskService getTaskByExecutionId(String id){
+		TaskService t = new TaskService();
+		Response response = new RestRequest().get("runtime/tasks?executionId="+id);
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==200){
+				t = ((List<TaskService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<TaskService>>(){}.getType())).get(0);
+			}else{
+				this.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return t;
+	}
+	
 	public TaskService getTask(String id){
 		TaskService t = new TaskService();
 		Response response = new RestRequest().get("runtime/tasks",id);
