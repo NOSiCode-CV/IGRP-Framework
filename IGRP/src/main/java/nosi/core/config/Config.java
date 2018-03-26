@@ -30,8 +30,9 @@ public class Config {
 	private final String LINK_XSL_HOME = "images/IGRP/IGRP2.3/xsl/IGRP-home.xsl";
 	private final String LINK_XSL_LOGIN ="images/IGRP/IGRP2.3/xsl/IGRP-login.xsl";
 	private final String LINK_XSL_MAP_PROCESS = "images/IGRP/IGRP2.3/xsl/IGRP-process.xsl";	
+	private final String LINK_XSL_GENERATOR_MCV_FORM = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_FORM_GENERATOR.xsl";
+	private final String LINK_XSL_GENERATOR_MCV_LIST = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_LIST_GENERATOR.xsl";
 	private final String LINK_XSL_GENERATOR_MCV = "images/IGRP/IGRP2.3/core/formgen/util/java/XSL_GENERATOR.xsl";//For page sql imported
-	private final String LINK_XSL_GENERATOR_MCV_FORM = "images/IGRP/IGRP2.3/core/formgen/util/java/crud/XSL_CRUD_GENERATOR.xsl";
 	private final String LINK_XSL_GENERATOR_CRUD = "images/IGRP/IGRP2.3/core/formgen/util/GEN.CRUD.xsl";//Generator XSL for CRUD pages
 	private final String LINK_XSL_JSON_GENERATOR = "images/IGRP/IGRP2.3/core/formgen/util/GEN.JSON.xsl";//Generator JSON for CRUD pages
 	private final String LINK_XSL_JSON_CONVERT = "images/IGRP/IGRP2.3/core/formgen/util/jsonConverter.xsl";//Convert Page in format XML 2.1 to JSON
@@ -63,8 +64,12 @@ public class Config {
 		return this.getBasePathServerXsl().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_GENERATOR_MCV;
 	}
 	
-	public String getLinkXSLGeneratorCRUDMCV() {
+	public String getLinkXSLGeneratorMCVForm() {
 		return this.getBasePathServerXsl().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_GENERATOR_MCV_FORM;
+	}
+	
+	public String getLinkXSLGeneratorMCVList() {
+		return this.getBasePathServerXsl().replaceAll("\\\\", SEPARATOR_FOR_HTTP)+this.LINK_XSL_GENERATOR_MCV_LIST;
 	}
 	
 	public String getLinkXSLGenerator_CRUD() {
@@ -195,7 +200,7 @@ public class Config {
 
 		String qs = Route.getQueryString(action)+"&amp;dad="+new Permission().getCurrentEnv();//Get Query String
 		action = Route.resolveAction(action);
-		String url = "app/webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
+		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 
 		return url;
 	}
@@ -423,7 +428,7 @@ public class Config {
 			xml.setElement("user_name", getUserName());
 			IGRPToolsBar button = new IGRPToolsBar("button");
 			IGRPButton bt = new IGRPButton("Sair", "igrp", "login", "logout", "_self", "exit.png","","");
-			bt.setPrefix("app/webapps?r=");
+			bt.setPrefix("webapps?r=");
 			button.addButton(bt);
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
@@ -443,7 +448,7 @@ public class Config {
 			xml.setElement("package_copy_html", config.getPackageCopyHtml());
 		xml.endElement();
 		xml.startElement("navigation");
-		xml.writeAttribute("url", "app/webapps?");
+		xml.writeAttribute("url", "webapps?");
 		xml.writeAttribute("prm_app", "prm_app");
 		xml.writeAttribute("prm_page", "prm_page");
 		xml.writeAttribute("prm_action", "r");
