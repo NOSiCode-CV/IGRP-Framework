@@ -10,7 +10,7 @@
 		<param-name>workspace</param-name>
 		<param-value></param-value>
 	</context-param>
-
+	
 	<servlet>
 		<servlet-name>IGRP</servlet-name>
 		<servlet-class>nosi.core.servlet.IgrpServlet</servlet-class>
@@ -45,6 +45,7 @@
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
+	
 	<filter-mapping>
 		<filter-name>ModifyParams</filter-name>
 	  <!--   <url-pattern>/*</url-pattern>  -->
@@ -57,20 +58,44 @@
 	
 	<servlet-mapping>
 		<servlet-name>IGRP</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/app/*</url-pattern>
 	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/images/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>/webapps?r=igrp/home/index</welcome-file>
+		<welcome-file>/app/webapps?r=igrp/home/index</welcome-file>
 	</welcome-file-list>
-
+	
+	
+	<servlet>
+	  	<servlet-name>IGRP-Rest</servlet-name>
+	  	<servlet-class>nosi.core.servlet.IgrpRestServlet</servlet-class>
+	    <init-param>
+	        <param-name>jersey.config.server.provider.packages</param-name>
+	        <param-value>nosi.core.webapp.webservices.rest</param-value>
+	    </init-param>
+	    <init-param>
+			<param-name>authentication_type</param-name>
+			<param-value>db</param-value>
+		</init-param>
+		<init-param>
+			<param-name>env</param-name>
+			<param-value>dev</param-value>
+		</init-param>
+	</servlet>
+ 
+	<servlet-mapping>
+		<servlet-name>IGRP-Rest</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
-		<location>/webapps?r=igrp/error-page/exception</location>
+		<location>/app/webapps?r=igrp/error-page/exception</location>
 	</error-page>
 
 	<session-config>
