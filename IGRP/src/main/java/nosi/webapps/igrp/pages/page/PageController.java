@@ -1,6 +1,14 @@
 
 package nosi.webapps.igrp.pages.page;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import static nosi.core.i18n.Translator.gt;
 import java.io.File;
 import java.io.IOException;
@@ -37,16 +45,28 @@ import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Transaction;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
+
 
 public class PageController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
+		
 		Page model = new Page();
-		// String id = Igrp.getInstance().getRequest().getParameter("id");
+		PageView view = new PageView();
 		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		
+		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.version.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
 		Boolean isEdit = false;
 		if (Core.isInt(Core.getParam("p_id_page"))) {
 			Action a = new Action();
@@ -65,7 +85,6 @@ public class PageController extends Controller {
 			isEdit = true;
 		}else
 			model.setStatus(1);
-		PageView view = new PageView(model);
 		view.env_fk.setValue(new Application().getListApps());	
 		view.gen_auto_code.setValue(1);
 		view.version.setValue(this.getConfig().getVersions());
@@ -77,13 +96,19 @@ public class PageController extends Controller {
 			view.gen_auto_code.setValue(0);
 		}
 			
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(GRAVAR)----*/
+		
+		
+		/*----#start-code(gravar)----*/
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
@@ -147,11 +172,15 @@ public class PageController extends Controller {
 			}
 
 		}
-		return this.redirect("igrp", "page", "index");
-		/*----#END-PRESERVED-AREA----*/
+
+		/*----#end-code----*/
+		
+		
+		return this.redirect("igrp","page","index");
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	
 	private void createSvnRepo(Action page){
 		Svn  svnapi = new Svn();
@@ -244,9 +273,9 @@ public class PageController extends Controller {
 	          Core.setMessageInfo(svnapi.getCmdResult());
 		});
 		
-        //System.out.println("Criar Pasta " + flag); 
-      //  System.out.println(svnapi.getCmd()); 
-      //  System.out.println(svnapi.getCmdResult()); 
+      //  System.out.println("Criar Pasta " + flag); 
+       // System.out.println(svnapi.getCmd()); 
+       // System.out.println(svnapi.getCmdResult()); 
 	}
 
 	// Save page generated 
@@ -553,14 +582,20 @@ public class PageController extends Controller {
 	public Response actionGetPageJson() throws IOException {
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		String json = "";
-		if (p_id != null && !p_id.equals("")) {
+		if ( Core.isNotNull(p_id) ) {
 			Action ac = new Action().findOne(Integer.parseInt(p_id));
 			if (ac != null) {
-				json = FileHelper.readFileFromServer(this.getConfig().getResolvePathXsl(ac), ac.getPage() + ".json");
+				json = FileHelper.readFile(this.getConfig().getBaseServerPahtXsl(ac)+"/",ac.getPage() + ".json");
 			}
 		}
+		
+		System.out.println(json);
 		this.format = Response.FORMAT_JSON;
 		return this.renderView(json);
 	}
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

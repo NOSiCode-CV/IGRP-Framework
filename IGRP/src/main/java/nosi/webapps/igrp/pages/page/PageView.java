@@ -4,6 +4,10 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class PageView extends View {
 	
@@ -38,7 +42,7 @@ public class PageView extends View {
 
 	public IGRPToolsBar toolsbar_1;
 	public IGRPButton btn_gravar;
-	public PageView(Page model){
+	public PageView(){
 
 		this.setPageTitle("Registar Pagina");
 			
@@ -51,11 +55,11 @@ public class PageView extends View {
 		
 		page_descr = new TextField(model,"page_descr");
 		page_descr.setLabel(gt("Título"));
-		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","30").add("required","true");
+		page_descr.propertie().add("name","p_page_descr").add("type","text").add("maxlength","255").add("required","true");
 		
 		page = new TextField(model,"page");
 		page.setLabel(gt("Código"));
-		page.propertie().add("name","p_page").add("type","text").add("maxlength","30").add("required","true");
+		page.propertie().add("name","p_page").add("type","text").add("maxlength","255").add("required","true");
 		
 		status = new CheckBoxField(model,"status");
 		status.setLabel(gt("Ativo?"));
@@ -178,5 +182,53 @@ public class PageView extends View {
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
+	}
+		
+	public void setModel(Page model) {
+		
+		page_descr.setValue(model);
+
+		page.setValue(model);
+
+		status.setValue(model);
+
+		gen_auto_code.setValue(model);
+
+		nada.setValue(model);
+
+		env_fk.setValue(model);
+
+		version.setValue(model);
+
+		p_id.setValue(model);
+
+		p_table_name.setValue(model);
+
+		p_xsl_src.setValue(model);
+
+		p_img_src.setValue(model);
+
+		p_action.setValue(model);
+
+		p_page_type.setValue(model);
+
+		p_flg_menu.setValue(model);
+
+		p_flg_transaction.setValue(model);
+
+		p_self_id.setValue(model);
+
+		p_self_fw_id.setValue(model);
+
+		p_db_connection.setValue(model);
+
+		p_flg_offline.setValue(model);
+
+		p_flg_internet.setValue(model);
+
+		p_proc_name.setValue(model);
+
+		p_action_descr.setValue(model);
+	
 	}
 }

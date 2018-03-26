@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.page;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class Page extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -226,6 +230,7 @@ public class Page extends Model{
 	public String getP_action_descr(){
 		return this.p_action_descr;
 	}
+
 
 
 }

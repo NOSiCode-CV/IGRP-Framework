@@ -174,7 +174,7 @@ public class CRUDGeneratorController extends Controller {
 				String controller = partsJavaCode[2];
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
-						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
+						.replace(".",File.separator);
 				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
 				path_class = this.getConfig().getBasePathClass()+ path_class;			
 				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});

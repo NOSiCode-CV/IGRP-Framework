@@ -4,7 +4,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
 
 public class TransacaoOrganicaView extends View {
 	
@@ -18,24 +19,24 @@ public class TransacaoOrganicaView extends View {
 	public IGRPForm form_1;
 
 	public IGRPToolsBar toolsbar_1;
-	public IGRPToolsBar toolsbar_2;
+	public IGRPToolsBar toolsbar_3;
 	public IGRPButton btn_gravar;
-	public IGRPButton btn_gestao_de_transacao;
-	public TransacaoOrganicaView(TransacaoOrganica model){
+	public IGRPButton btn_gestao_de_transacoes;
+	public TransacaoOrganicaView(){
 
 		this.setPageTitle("Associar Transacao a Organica");
 			
 		table_1 = new IGRPTable("table_1","");
 		form_1 = new IGRPForm("form_1","");
 		transacao = new CheckBoxField(model,"transacao");
-		transacao.setLabel(gt("Transacao"));
+		transacao.setLabel(gt("Ativo"));
 		transacao.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		
 		transacao_check = new CheckBoxField
 		(model,"transacao_check");
 		transacao_check.propertie().add("name","p_transacao").add("type","checkbox").add("maxlength","30").add("switch","false").add("check","true").add("desc","true");
 		nome = new TextField(model,"nome");
-		nome.setLabel(gt("Nome"));
+		nome.setLabel(gt("Nome (code)"));
 		nome.propertie().add("name","p_nome").add("type","text").add("maxlength","30");
 		
 		p_id = new HiddenField(model,"p_id");
@@ -48,13 +49,13 @@ public class TransacaoOrganicaView extends View {
 		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
-		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
+		toolsbar_3 = new IGRPToolsBar("toolsbar_3");
 
 		btn_gravar = new IGRPButton("Gravar","igrp","TransacaoOrganica","gravar","submit","primary|fa-save","","");
 		btn_gravar.propertie.add("type","specific").add("rel","gravar");
 
-		btn_gestao_de_transacao = new IGRPButton("Gestão de transação","igrp","TransacaoOrganica","gestao_de_transacao","_blank","success|fa-exchange","","");
-		btn_gestao_de_transacao.propertie.add("type","specific").add("rel","gestao_de_transacao");
+		btn_gestao_de_transacoes = new IGRPButton("Gestão de transações","igrp","TransacaoOrganica","gestao_de_transacoes","_blank","black|fa-exchange","","");
+		btn_gestao_de_transacoes.propertie.add("type","specific").add("rel","gestao_de_transacoes");
 		
 	}
 		
@@ -71,18 +72,16 @@ public class TransacaoOrganicaView extends View {
 		form_1.addField(p_type);
 
 		toolsbar_1.addButton(btn_gravar);
-		table_1.addButton(btn_gestao_de_transacao);
+		toolsbar_3.addButton(btn_gestao_de_transacoes);
 		this.addToPage(table_1);
 		this.addToPage(form_1);
 		this.addToPage(toolsbar_1);
-		this.addToPage(toolsbar_2);
+		this.addToPage(toolsbar_3);
 	}
 		
-	@Override
-	public void setModel(Model model) {
-		
-
-
+	public void setModel(TransacaoOrganica model) {
+			
+		table_1.loadModel(model.getTable_1());
 
 	}
 }

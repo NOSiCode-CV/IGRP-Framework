@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
 import nosi.core.gui.components.IGRPButton;
 import nosi.core.gui.components.IGRPToolsBar;
 import nosi.core.gui.page.Page;
@@ -192,9 +195,16 @@ public class Config {
 
 		String qs = Route.getQueryString(action)+"&amp;dad="+new Permission().getCurrentEnv();//Get Query String
 		action = Route.resolveAction(action);
-		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
+		String url = "app/webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 
 		return url;
+	}
+	
+	public String getHostName() {
+		
+		HttpServletRequest req = Igrp.getInstance().getRequest();
+		
+		return req.getScheme()+"://"+req.getServerName()+":"+req.getLocalPort();
 	}
 	
 	public String getRootPaht(){
@@ -413,7 +423,7 @@ public class Config {
 			xml.setElement("user_name", getUserName());
 			IGRPToolsBar button = new IGRPToolsBar("button");
 			IGRPButton bt = new IGRPButton("Sair", "igrp", "login", "logout", "_self", "exit.png","","");
-			bt.setPrefix("webapps?r=");
+			bt.setPrefix("app/webapps?r=");
 			button.addButton(bt);
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
@@ -433,7 +443,7 @@ public class Config {
 			xml.setElement("package_copy_html", config.getPackageCopyHtml());
 		xml.endElement();
 		xml.startElement("navigation");
-		xml.writeAttribute("url", "webapps?");
+		xml.writeAttribute("url", "app/webapps?");
 		xml.writeAttribute("prm_app", "prm_app");
 		xml.writeAttribute("prm_page", "prm_page");
 		xml.writeAttribute("prm_action", "r");

@@ -45,6 +45,7 @@ package nosi.core.gui.components;
  */
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Map.Entry;
@@ -60,7 +61,7 @@ import nosi.core.webapp.Igrp;
 import nosi.core.webapp.helpers.Helper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
-
+import java.util.Map;
  
 public class IGRPTable extends IGRPComponent{
 
@@ -73,6 +74,7 @@ public class IGRPTable extends IGRPComponent{
 	protected String rows = "";
 	protected List<?> modelList;
 	private List<Properties> legend_color = new ArrayList<>();
+	private Map<Object,Map <String, String> > legend_colors = new HashMap<>();
 	
 	public IGRPTable(String tag_name,String title) {
 		super(tag_name,title);
@@ -166,10 +168,28 @@ public class IGRPTable extends IGRPComponent{
 		return this.xml.toString();
 	}
 
+	public void setLegendColors(Map<Object, Map<String, String>> colors) {
+		this.legend_colors = colors;
+	}
+	
 	private void genLegendColor() {
-		if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_color.size() > 0){
+		if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_colors.size() > 0){
 			this.xml.startElement("legend_color");
-			this.xml.setElement("title", gt("Legenda"));
+			//this.xml.setElement("title", gt("Legenda"));
+			this.legend_colors.entrySet().stream().forEach(l->{
+				for(Entry<String, String> p : l.getValue().entrySet()) {
+		          this.xml.startElement("item");
+		          	this.xml.setElement("label", p.getValue().toString());
+		          	this.xml.setElement("value", l.getKey().toString());
+		          	this.xml.setElement("color", p.getKey().toString());
+		          this.xml.endElement();
+		        }
+			});
+			this.xml.endElement();
+		}
+		/*if(this.fields.stream().filter(f->f instanceof ColorField).count() > 0 && this.legend_color.size() > 0){
+			this.xml.startElement("legend_color");
+			//this.xml.setElement("title", gt("Legenda"));
 			this.legend_color.stream().forEach(l->{
 				for(Entry<Object, Object> p : l.entrySet()) {
 		          this.xml.startElement("item");
@@ -179,7 +199,7 @@ public class IGRPTable extends IGRPComponent{
 		        }
 			});
 			this.xml.endElement();
-		}
+		}*/
 	}
 
 	private void genRowsWithSql() {

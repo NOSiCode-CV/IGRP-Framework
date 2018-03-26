@@ -45,10 +45,10 @@
                 <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/menuorganica/MenuOrganica.xml</preview>
             </item>
         </toolsbar_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+        <table_1 type="table" xml-type="table" title="Menu" gen-type="container" gen-group="true">
             <fields>
                 <menu name="p_menu" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="false" check="true" desc="true">
-                    <label>Menu</label>
+                    <label></label>
                 </menu>
                 <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Nome</label>
@@ -59,27 +59,27 @@
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Totam natus elit aliqua accusa</descricao>
+                        <descricao name="p_descricao">Ipsum totam aliqua amet elit</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Magna sit adipiscing sit volup</descricao>
+                        <descricao name="p_descricao">Natus iste perspiciatis sit st</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Ut officia mollit sit consecte</descricao>
+                        <descricao name="p_descricao">Elit mollit perspiciatis anim</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Sed voluptatem dolor aperiam a</descricao>
+                        <descricao name="p_descricao">Perspiciatis sed labore elit s</descricao>
                     </row>
                     <row>
                         <menu name="p_menu" check="true" desc="true">1</menu>
                         <menu_desc name="p_menu_desc">1</menu_desc>
-                        <descricao name="p_descricao">Laudantium omnis ipsum unde se</descricao>
+                        <descricao name="p_descricao">Sit iste doloremque ipsum pers</descricao>
                     </row>
                 </value>
             </table>

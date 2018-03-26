@@ -68,7 +68,7 @@
 			    digits: "Introduza apenas d&iacute;gitos.",
 			    creditcard: "Cart&atilde;o de cr&eacute;dito inv&aacute;lido.",
 			    equalTo: "Introduza o mesmo valor novamente.",
-			    accept: "Please enter a value with a valid extension.",
+			    accept: "Introduza Extens&atilde;o valido do tipo: {0}.",
 			    maxlength: jQuery.validator.format("Introduza n&atilde;o mais do que {0} caracteres."),
 			    minlength: jQuery.validator.format("Introduza n&atilde;o menos do que {0} caracteres."),
 			    rangelength: jQuery.validator.format("Introduza um valor entre {0} e {1} caracteres longos."),
@@ -207,6 +207,20 @@
 			checkActiveToolsBarItem();				
 		};
 
+		var setIgrpAppTitleWidth = function(){
+
+			var diff  = $('#igrp-top-nav>#side-bar-ctrl').width() + 
+
+					    $('#igrp-top-nav>.navbar-brand').width() + 
+
+					    $('#igrp-top-menu').width(),
+
+				width = $('#igrp-top-nav').width() - diff - 50;
+
+			$('#igrp-top-nav>#igrp-app-title').css('max-width',width);
+
+		};
+
 		$.IGRP.on('init',function(){
 			
 			pageInfo = $.IGRP.getPageInfo()+'.tb.';
@@ -220,8 +234,12 @@
 			setUpValidationMessages();
 
 			toolsbarCrl();
+
+			setIgrpAppTitleWidth();
 			
 		});
+
+		$.IGRP.on('windowResize', setIgrpAppTitleWidth );
 
 	}
 }($));

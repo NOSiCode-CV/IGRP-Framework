@@ -11,15 +11,19 @@
   </xsl:template>
   <!-- TD COLOR -->
   <xsl:template name="tdcolor">
-    <xsl:param name="color" select="''"/>
-    <xsl:for-each select="$color">
+    <xsl:param name="color" select="."/>
+    <xsl:attribute name="class">
+       <xsl:text>tdcolor</xsl:text>
+     </xsl:attribute>
+    <span class="color tdcolor-item" value="{$color}"></span>
+    <!-- <xsl:for-each select="$color">
       <xsl:if test="(. != 0 or . != '') and . &lt; 10">
         <xsl:attribute name="class">
           <xsl:text>tdcolor</xsl:text>
         </xsl:attribute>
-        <span class="color{.} tdcolor-item"></span>
+        <span class="color tdcolor-item" value="{.}"></span>
       </xsl:if>
-    </xsl:for-each>
+    </xsl:for-each> -->
   </xsl:template>
   <!--TEMPLATE FOR TABLE EXPORT OPTIONS-->
   <xsl:template name="table-export-options" >
@@ -59,7 +63,7 @@
   <xsl:template mode="table-legend" name="table-legend" match="legend_color">
     <div class="box-table-legend">
       <xsl:for-each select="item">
-        <div class="legend-holder">
+        <div class="legend-holder" legend-color="{color}" value="{value}">
           <p class="legend-lbl">
             <xsl:if test="string-length(label) &gt; 17">
               <xsl:attribute name="title">
@@ -71,7 +75,15 @@
             </xsl:if>
             <xsl:value-of select="label"/>
           </p>
-          <div class="legend-item color{value}"></div>
+          <xsl:choose>
+          	<xsl:when test="color">
+          		<div class="legend-item color" style="background:{color}" ></div>
+          	</xsl:when>
+          	<xsl:otherwise>
+          		<div class="legend-item color{value}"></div>
+          	</xsl:otherwise>
+          </xsl:choose>
+          
         </div>
       </xsl:for-each>
     </div>

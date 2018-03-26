@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>IGRP</groupId>
 	<artifactId>IGRP</artifactId>
-	<version>0.3.0 09-03-2018</version>
+	<version>0.4.2 22-03-2018</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -61,6 +61,43 @@
 
 		<!-- end of - for TomEE embedded -->
 
+
+
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-server</artifactId>
+		    <version>2.26</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2 -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.inject</groupId>
+		    <artifactId>jersey-hk2</artifactId>
+		    <version>2.26</version>
+		</dependency>
+		
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.containers</groupId>
+		    <artifactId>jersey-container-servlet</artifactId>
+		    <version>2.26</version>
+		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-json-jackson</artifactId>
+		    <version>2.26</version>
+		</dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-multipart</artifactId> 
+		    <version>2.26</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

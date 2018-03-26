@@ -1,7 +1,10 @@
 package nosi.webapps.igrp.pages.pesquisarmenu;
 import nosi.core.config.Config;
-import nosi.core.webapp.Model;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,4 +118,9 @@ public class PesquisarMenu extends Model{
 		}
 
 	}
+
+	public void loadTable_1(QueryHelper query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
 }

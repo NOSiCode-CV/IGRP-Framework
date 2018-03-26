@@ -1,6 +1,14 @@
 
 package nosi.webapps.igrp.pages.transaccao;
-/*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
+
+import nosi.core.webapp.Controller;
+import java.io.IOException;
+import nosi.core.webapp.Core;
+import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+
+/*----#start-code(packages_import)----*/
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
@@ -13,21 +21,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import java.util.List;
-/*----#END-PRESERVED-AREA----*/
+/*----#end-code----*/
+
+
 
 public class TransaccaoController extends Controller {		
 
-
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		/*----#START-PRESERVED-AREA(INDEX)----*/
-		Transaccao model = new Transaccao();		
+		
+		Transaccao model = new Transaccao();
+		TransaccaoView view = new TransaccaoView();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		model.loadTable_1( Core.query( "SELECT 'status' as status,'descricao' as descricao,'codigo' as codigo " ) );
+		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");view.codigo.setParam(true);
+		
+		----#gen-example */
+		
+		/*----#start-code(index)----*/
+		
 		ArrayList<Transaccao.Table_1> table_1 = new ArrayList<>();
-		Transaction trans = new Transaction();
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();	
-		}
-				
-			
+		Transaction trans = new Transaction();				
 	
 		List<Transaction> list =trans.find()
 				.andWhere("application", "=", Core.isNotNull(model.getAplicacao())?Integer.parseInt(model.getAplicacao()):null)
@@ -43,41 +60,80 @@ public class TransaccaoController extends Controller {
 			table_1.add(table);
 		}		
 		
-		TransaccaoView view = new TransaccaoView(model);
+
 		view.aplicacao.setValue(new Application().getListApps());
 //		view.organica.setValue(new Organization().getListMyOrganizations());
 		view.table_1.addData(table_1);
-		view.codigo.setParam(true);
+		view.codigo.setParam(true);	
+		/*----#end-code----*/
+		
+		
+		view.setModel(model);
+		
 		return this.renderView(view);
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 
-
-	public Response actionEditar() throws IOException{
-		/*----#START-PRESERVED-AREA(EDITAR)----*/
-    String codigo = Igrp.getInstance().getRequest().getParameter("codigo");
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		Transaccao model = new Transaccao();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","Transaccao","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(editar)----*/
+    String codigo = Core.getParam("codigo");
       if(codigo!=null && !codigo.equals(""))
 			return this.redirect("igrp", "EditarTransacao", "index&codigo="+codigo);
 		else
-			return this.redirect("igrp", "error-page", "permission");
-		/*----#END-PRESERVED-AREA----*/
+			Core.setMessageError();
+		/*----#end-code----*/
+		
+		return this.redirect("igrp","Transaccao","index");
+		
 	}
-	
-
-	public Response actionEliminar() throws IOException{
-		/*----#START-PRESERVED-AREA(ELIMINAR)----*/
-		String code = Igrp.getInstance().getRequest().getParameter("codigo");
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		Transaccao model = new Transaccao();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","Transaccao","index");
+		}
+		
+		----#gen-example */
+		
+		/*----#start-code(eliminar)----*/
+		String code = Core.getParam("codigo");
 		Transaction t = new Transaction();
 		t = t.find().andWhere("code", "=", code).one();
 		if(t.delete(t.getId()))
 			Core.setMessageSuccess();
 		else
 			Core.setMessageError();
+		/*----#end-code----*/
+		
 		return this.redirect("igrp","Transaccao","index");
-		/*----#END-PRESERVED-AREA----*/
+		
 	}
 	
-	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
+	/*----#start-code(custom_actions)----*/
 	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;		
@@ -104,5 +160,9 @@ public class TransaccaoController extends Controller {
 
 		return this.renderView(json.toString());
 	}
-	/*----#END-PRESERVED-AREA----*/
+	/*----#end-code----*/
+	
+	
+	
+	
 }

@@ -41,8 +41,7 @@ var GENTABLE = function(name,params){
 		xsl :[ 'table-utils'],
 		css :[ 
 			{path:'/core/igrp/table/datatable/dataTables.bootstrap.css', id:'DataTable'},
-			{path:'/core/igrp/table/igrp.tables.css'},
-			/*{path:'/core/igrp/table/dataTables.bootstrap.css'} */
+			{path:'/core/igrp/table/igrp.tables.css'}
 		],
 		js  :[ 
 			{path : '/core/igrp/table/datatable/jquery.dataTables.min.js',id:'DataTable'},
@@ -59,18 +58,6 @@ var GENTABLE = function(name,params){
 		{ path:'/core/jspdf/js/jspdf.debug.js'},
 		{ path:'/core/jspdf/js/html2pdf.js'}
 	];
-
-	/*var tableExportIncludes = [
-		{ path:'/core/igrp/table/igrp.table.export.js'},
-		{ path:'/core/igrp/table/export/buttons.print.min.js'},
-		{ path:'/core/igrp/table/export/buttons.html5.min.js'},
-		{ path:'/core/igrp/table/export/vfs_fonts.js'},
-		{ path:'/core/igrp/table/export/pdfmake.min.js'},
-		{ path:'/core/igrp/table/export/jszip.min.js'},
-		{ path:'/core/igrp/table/export/buttons.flash.min.js'},
-		{ path:'/core/igrp/table/export/dataTables.buttons.min.js'},
-		{ path:'/core/igrp/table/export/jquery.dataTables.min.js'}
-	];*/
 
 	var tableExportInc = false;
 
@@ -349,28 +336,8 @@ var GENTABLE = function(name,params){
 			xslValue : 'checkbox-switch switch'
 		});
 	}
-
-	container.onLinkFieldSet = function(f){
-		//console.log(f.proprieties.btnSize.value);
-		/*f.setPropriety({
-			name:'btnSize',
-			label:'Buttons Size',
-			propriety:{
-				value: 'btn-xs',
-				options:[
-					{value:'',label:'Normal'},
-					{value:'btn-lg',label:'Large'},
-					{value:'btn-xs',label:'Small'}
-				]
-			}
-		});*/
-
-		
-	}
 	
 	container.onContextMenuSet = function(field){
-
-		//field.unsetProprieties(['class'])
 
 		if(!ctxIncludes){
 			container.SET.ctxMenuClass(true);
@@ -404,12 +371,78 @@ var GENTABLE = function(name,params){
 		container.includes.css.push(
 			{ path:'/core/igrp/table/table-colors.css' }
 		);
-	}	
+		
+		if(!container.proprieties.legendColors)
+
+			container.setPropriety({
+
+				name:'legendColors',
+
+				label : 'Legend Colors List',
+
+				type : 'formlist',
+
+				value : {
+
+					value : params.proprieties && params.proprieties.legendColors || [],
+
+					setter:function(){
+						
+						var flist = $('<div class="box clean box-table-contents gen-container-item IGRP-gen-table-colors" gen-class="" item-name="gen_legend_colors_fl"><div class="box-body table-box"><table id="gen_legend_colors_fl" class="table table-striped gen-data-table IGRP_formlist " rel="T_gen_legend_colors_fl" data-control="data-gen_legend_colors_fl"><thead><tr><th align="" class="" style="width:33%;"><span>Text</span></th><th align="" class="" style="width:33%;"><span>Value</span></th><th align="" class="color-th" style="width:23%;"><span>Color</span></th><th class="table-btn add"><a class="formlist-row-add btn btn-primary" rel="gen_legend_colors_fl"><i class="fa fa-plus"/></a></th></tr></thead><tbody><tr row="0"><input type="hidden" name="p_gen_legend_colors_fl_id" value=""/><td align="" data-row="0" data-title="Text" class="text" item-name="text"><input type="hidden" name="p_text_fk_desc" value=""/><div class="form-group" item-name="text" item-type="text"><input type="text" name="p_text_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Value" class="text" item-name="value"><input type="hidden" name="p_value_fk_desc" value=""/><div class="form-group" item-name="value" item-type="text"><input type="text" name="p_value_fk" value="" class="text form-control" rel="F_gen_legend_colors_fl"/></div></td><td align="" data-row="0" data-title="Color" class="color" item-name="color"><input type="hidden" name="p_color_fk_desc" value=""/><div class="form-group"><div class="input-group form-color-picker" format="hex"><input type="text" value="" format="hex" class="form-control" id="gen_legend_colors_fl_color_1" name="p_color_fk"/><span class="input-group-addon"><i/></span></div></div></td><td class="table-btn delete" data-row="0"><span class="formlist-row-remove btn btn-danger" rel="gen_legend_colors_fl"><i class="fa fa-times"/></span></td></tr></tbody></table></div></div>'),
+
+							data  = 	container.GET.legendColors();
+
+						$('.IGRP_formlist',flist).IGRP_formlist({
+
+							data : data
+
+						});
+
+						$.IGRP.components.colorpicker.init(flist);
+
+						return flist;
+
+					}
+
+				},
+
+				size : 12
+
+			});
+	}
 
 	container.onColorFieldRemove = function(field){
-		//has no Color 
-		if(!container.hasFieldType('color')) 
+		
+		if(!container.hasFieldType('color')) {
+
 			container.SET.hasColorTmpl(false);
+			
+			container.unsetProprieties(['legendColors']);
+		}
+		
+	}
+	
+	container.xml.getLegendColors = function(){
+		var rtn = null;
+		
+		if(container.GET.legendColors && container.GET.legendColors()[0] ){
+			
+			var data = container.GET.legendColors();
+			
+			if(data[0].color != '' && data[0].value != ''){
+				
+				rtn = '<legend_color>';
+				
+				data.forEach(function(d){
+					rtn+='<item><label>'+d.text+'</label><value>'+d.value+'</value><color>'+d.color+'</color></item>';
+				});
+				
+				rtn += '</legend_color>';
+			}
+			
+		}
+		
+		return rtn;
 	}
 
 	container.onDrawEnd = function(){
@@ -426,6 +459,8 @@ var GENTABLE = function(name,params){
 			$.IGRP.components.tableCtrl.dataTable({
 				selector : 'table#'+container.GET.tag()+'.igrp-data-table'
 			});
+		if(container.GET.legendColors && container.GET.legendColors())
+			$.IGRP.components.tableCtrl.setTableStyle( $('.box-table-contents',container.holder) );
 	}
 
 	var getTableFooter = function(){

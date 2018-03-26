@@ -154,9 +154,10 @@
 			<xsl:for-each select="//rows/content/*[@xml-type='table']">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab"/>
+				
 				<xsl:variable name="tclassName">
-					<xsl:call-template name="CamelCaseWord">
-						<xsl:with-param name="text" select="name()"/>
+					<xsl:call-template name="gen-className">
+						<xsl:with-param name="className" select="name()"/>
 					</xsl:call-template>
 				</xsl:variable>
 				

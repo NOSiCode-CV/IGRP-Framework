@@ -41,93 +41,6 @@
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
-            <fields>
-                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
-                    <label>Estado</label>
-                </status>
-                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
-                    <label>Nome</label>
-                </descricao>
-                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="true">
-                    <label>Código</label>
-                </codigo>
-            </fields>
-            <table>
-                <value>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <status name="p_status" check="true" desc="true">1</status>
-                        <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Laudantium doloremque labore a</descricao>
-                        <codigo name="p_codigo">Rem laudantium deserunt labore</codigo>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <status name="p_status" check="true" desc="true">1</status>
-                        <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Sit natus iste anim rem</descricao>
-                        <codigo name="p_codigo">Amet unde ipsum sit deserunt</codigo>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <status name="p_status" check="true" desc="true">1</status>
-                        <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Elit sed adipiscing stract des</descricao>
-                        <codigo name="p_codigo">Ipsum amet lorem amet deserunt</codigo>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <status name="p_status" check="true" desc="true">1</status>
-                        <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Ipsum aliqua amet anim volupta</descricao>
-                        <codigo name="p_codigo">Labore amet rem sed mollit</codigo>
-                    </row>
-                    <row>
-                        <context-menu>
-                            <param>p1=linha1</param>
-                            <param>p2=linha1</param>
-                        </context-menu>
-                        <status name="p_status" check="true" desc="true">1</status>
-                        <status_desc name="p_status_desc">1</status_desc>
-                        <descricao name="p_descricao">Sit omnis aperiam perspiciatis</descricao>
-                        <codigo name="p_codigo">Omnis consectetur omnis consec</codigo>
-                    </row>
-                </value>
-                <context-menu>
-                    <item type="specific" code="" class="warning" rel="editar">
-                        <title>Editar</title>
-                        <app>igrp</app>
-                        <page>Transaccao</page>
-                        <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
-                        <target>modal|refresh</target>
-                        <img>warning|fa-pencil</img>
-                    </item>
-                    <item type="specific" code="" class="danger" rel="eliminar">
-                        <title>Eliminar</title>
-                        <app>igrp</app>
-                        <page>Transaccao</page>
-                        <link>index</link>
-                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
-                        <target>confirm</target>
-                        <img>danger|fa-trash</img>
-                    </item>
-                </context-menu>
-            </table>
-        </table_1>
         <form_1 type="form" xml-type="form" title="Filtro" gen-type="container" gen-group="">
             <fields>
                 <aplicacao name="p_aplicacao" type="select" multiple="false" maxlength="30" required="false" change="true" disabled="false" right="false" domain="" java-type="">
@@ -154,9 +67,96 @@
                 </aplicacao>
                 <filtro_codigo name="p_filtro_codigo" type="text" maxlength="30" required="false" change="true" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Accusantium amet aliqua sit de</value>
+                    <value>Iste magna sed sit dolor</value>
                 </filtro_codigo>
             </fields>
         </form_1>
+        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+            <fields>
+                <status name="p_status" type="checkbox" maxlength="30" align="left" lookup_parser="false" iskey="false" switch="true" check="true" desc="true">
+                    <label>Estado</label>
+                </status>
+                <descricao name="p_descricao" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Nome</label>
+                </descricao>
+                <codigo name="p_codigo" type="text" maxlength="30" align="left" lookup_parser="false" iskey="true">
+                    <label>Código</label>
+                </codigo>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <descricao name="p_descricao">Iste amet officia stract adipi</descricao>
+                        <codigo name="p_codigo">Ut accusantium unde accusantiu</codigo>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <descricao name="p_descricao">Sit laudantium voluptatem amet</descricao>
+                        <codigo name="p_codigo">Laudantium natus laudantium of</codigo>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <descricao name="p_descricao">Sed ut lorem perspiciatis tota</descricao>
+                        <codigo name="p_codigo">Rem stract iste natus accusant</codigo>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <descricao name="p_descricao">Sit elit lorem aliqua sit</descricao>
+                        <codigo name="p_codigo">Voluptatem ipsum consectetur n</codigo>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <status name="p_status" check="true" desc="true">1</status>
+                        <status_desc name="p_status_desc">1</status_desc>
+                        <descricao name="p_descricao">Dolor officia perspiciatis dol</descricao>
+                        <codigo name="p_codigo">Adipiscing iste sed adipiscing</codigo>
+                    </row>
+                </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
+                        <target>modal|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="danger" rel="eliminar">
+                        <title>Eliminar</title>
+                        <app>igrp</app>
+                        <page>Transaccao</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/transaccao/Transaccao.xml?</parameter>
+                        <target>confirm</target>
+                        <img>danger|fa-trash</img>
+                    </item>
+                </context-menu>
+            </table>
+        </table_1>
     </content>
 </rows>
