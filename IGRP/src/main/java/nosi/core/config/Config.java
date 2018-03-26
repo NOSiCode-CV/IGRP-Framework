@@ -195,7 +195,7 @@ public class Config {
 
 		String qs = Route.getQueryString(action)+"&amp;dad="+new Permission().getCurrentEnv();//Get Query String
 		action = Route.resolveAction(action);
-		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
+		String url = "app/webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 
 		return url;
 	}
@@ -423,7 +423,7 @@ public class Config {
 			xml.setElement("user_name", getUserName());
 			IGRPToolsBar button = new IGRPToolsBar("button");
 			IGRPButton bt = new IGRPButton("Sair", "igrp", "login", "logout", "_self", "exit.png","","");
-			bt.setPrefix("webapps?r=");
+			bt.setPrefix("app/webapps?r=");
 			button.addButton(bt);
 			xml.addXml(button.toXmlButton());
 		xml.endElement();
