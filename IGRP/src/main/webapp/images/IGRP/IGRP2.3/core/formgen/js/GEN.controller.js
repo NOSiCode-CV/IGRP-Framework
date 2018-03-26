@@ -1353,6 +1353,8 @@ if(input) {
 			$('.modal-header ul li[rel="rules"]',modal).hide();
 
 		GEN.edit.show();
+		
+		return false;
 	}
 
 	GEN.edit.XSLEditor = null;
@@ -2525,23 +2527,29 @@ if(input) {
 						switch(type){
 
 							case 'checkbox':
-
+	
 								value = $(setter).is(':checked');
-
+	
 							break;
-
+	
 							case 'formlist':
-
+	
 								value = $('.IGRP_formlist',setter)[0]._export();
-
+	
 							break;
-
+	
+							case 'attrvalue':
+	
+								value = $(setter).attr('attr-value');
+	
+							break;
+	
 							default: 
-
+	
 								value = $(setter).val();
-
-
-						}
+	
+	
+						}					
 						
 						/*if(type == 'checkbox')
 
@@ -4520,11 +4528,6 @@ if(input) {
 	}
 
 	GEN.setImgAttr = function(field,p){
-		//colorpicker includes
-		/*GEN.includeToHead([
-			{ type:'css',relative:false, path:path+'/plugins/colorpicker/css/bootstrap-colorpicker.min.css' },
-			{ type:'js',relative:false, path:path+'/plugins/colorpicker/js/bootstrap-colorpicker.js' },
-		]);*/
 
 		var fParent = field.parent || false;
 
@@ -4540,40 +4543,13 @@ if(input) {
 			editable : false
 		});
 
-		if(fParent){
-			//console.log(fParent)
-			/*fParent.setPropriety({
-				name:'use_fa',
-				label:'Font Awesome',
-				value: fParent.GET.use_fa && fParent.GET.use_fa() == false ? false : true,
-				//editable:false
-			});*/
-		}
-			
-
-		
-		/*field.setPropriety({
-			name:'img',
-			label:'Icon',
-			value:{
-				value:p.value ? p.value : '',
-				list:{
-					items:GEN.icons.fontawesome,
-					itemTemplate:'<span label="#label#" class="btn-i-setter"><i class="fa #value#"></i></span>',
-					searcher:true,
-					onSelect:function(icon){
-						field.SET.iconClass(icon);
-					}
-				},
-				size:'12'
-			}
-		})*/
 
 		var name = p.name ? p.name : 'img';
 
 		field.setPropriety({
 			name      : name,
 			label     : 'Icon',
+			type 	  : 'attrvalue',
 			value : {
 				value : p.value,
 				size  : '12',
@@ -4581,9 +4557,12 @@ if(input) {
 				//color : field.GET.iconColor(),
 				icon  : '',
 				setter:function(){
+
 					var holder = $(VARS.fontawesome.setter).clone(true);
 
 					var img = field.GET[name]();
+
+					holder.attr('attr-value',img);
 
 					var activeItem = $('.gen-fa-icon[rel="'+img+'"]',holder);
 
@@ -4607,7 +4586,9 @@ if(input) {
 	    				
 	    				$(this).addClass('active');
 
-	    				field.SET[name]( rel );
+	    				holder.attr('attr-value',rel);
+
+	    				//field.SET[name]( rel );
 
 					});
 
@@ -4637,11 +4618,6 @@ if(input) {
 			valuePersist:p.valuePersist
 		});
 
-		/*field.setPropriety({
-			name     : 'iconColor',
-			value    : 'inherit',
-			editable : false
-		});*/
 	}
 
 	GEN.getImagesFromDir = function (p){
