@@ -1,6 +1,8 @@
 package nosi.webapps.igrp.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +22,7 @@ import nosi.base.ActiveRecord.BaseActiveRecord;
  */
 @Entity
 @Table(name="glb_t_acl")
-public class Share extends BaseActiveRecord<Application> implements Serializable{
+public class Share extends BaseActiveRecord<Share> implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -84,6 +86,12 @@ public class Share extends BaseActiveRecord<Application> implements Serializable
 	
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	
+	public List<Share> getAllSharedResources(int appOrigem, int appDestino, String type){
+		List<Share> results = new ArrayList<Share>();
+		results = this.find().andWhere("owner.id", "=", appOrigem).andWhere("env.id", "=", appDestino).andWhere("type", "=", type).all();
+		return results;
 	}
 
 	@Override

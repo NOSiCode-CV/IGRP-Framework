@@ -211,7 +211,25 @@ public class PageController extends Controller {
 	
 	private void addFilesToSvnRepo(String pathClass, Action page) {
 		Svn  svnapi = new Svn();
+		
 		final String env = Igrp.getInstance().getServlet().getInitParameter("env");
+	/*	
+		try {
+			svnapi.setLocalUriPath(this.getConfig().getBasePathClass()+"nosi"+"/"+"webapps"+"/"+page.getApplication().getDad().toLowerCase()+"/"+"pages");
+			svnapi.setSvnUrl("https://subversion.gov.cv:18080/svn/FrontIGRP/trunk/"); 
+			svnapi.setSvnUrl(svnapi.getSvnUrl()  + env + "/" + page.getApplication().getDad().toLowerCase() + "/pages");
+			svnapi.setWorkFolder(""); 
+			svnapi.co();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		} 
+		
+      System.out.println(svnapi.getCmd());
+      System.out.println(svnapi.getCmdResult());
+		
+		*/
+		
+		
 		switch(env) {
 			case "dev": 
 				svnapi.setWorkFolder("dev/" + page.getApplication().getDad().toLowerCase() + "/pages/" + page.getPage().toLowerCase());
@@ -224,6 +242,7 @@ public class PageController extends Controller {
 			break;
 		}
       //  svnapi.setMessage("Create Repo. for Application/Page - " + page.getApplication().getDad() + "/" + page.getPage());
+		
         
 		List<File> files = Arrays.asList(new File(pathClass).listFiles());
 		
@@ -237,6 +256,10 @@ public class PageController extends Controller {
 	          System.out.println("Adicionar Pasta " + flag);
 	          System.out.println(svnapi.getCmd());
 	          System.out.println(svnapi.getCmdResult());
+
+	          Core.setMessageInfo("Adicionar Pasta " + flag);
+	          Core.setMessageInfo(svnapi.getCmd());
+	          Core.setMessageInfo(svnapi.getCmdResult());
 	          
 	          svnapi.setMessage("Testing send files ...");
 	          
@@ -244,6 +267,10 @@ public class PageController extends Controller {
 	          System.out.println("Commit " + flag);
 	          System.out.println(svnapi.getCmd());
 	          System.out.println(svnapi.getCmdResult());
+	          
+	          Core.setMessageInfo("Adicionar Pasta " + flag);
+	          Core.setMessageInfo(svnapi.getCmd());
+	          Core.setMessageInfo(svnapi.getCmdResult());
 		});
 		
       //  System.out.println("Criar Pasta " + flag); 
