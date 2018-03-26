@@ -2721,6 +2721,7 @@ var CONTAINER = function(name,params){
 		//edit click
 		holder.find('.container-edit').on('click',function(e){
 			GEN.edit(container,e);
+			return false;
 		});	
 
 		holder.find('.container-clone').on('click',container.clone);
@@ -2911,6 +2912,7 @@ var CONTAINER = function(name,params){
 				tab:'copy'
 			});
 			e.stopPropagation();
+			return false;
 		});
 
 		container.holder.on('dblclick','.gen-fields-holder',function(e){
@@ -2919,6 +2921,8 @@ var CONTAINER = function(name,params){
 			
 			if(field)
 				GEN.edit(field,e);
+			
+			return false;
 		});
 
 	}
