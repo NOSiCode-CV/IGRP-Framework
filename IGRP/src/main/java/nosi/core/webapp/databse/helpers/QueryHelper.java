@@ -34,7 +34,7 @@ public abstract class QueryHelper implements IFQuery{
 	protected String tableName;
 	protected List<DatabaseMetadaHelper.Column> columnsValue;
 	protected String connectionName;
-	protected String condition;
+	protected String condition = "";
 	
 	public QueryHelper(String connectionName) {
 		this.columnsValue = new ArrayList<>();
@@ -42,7 +42,7 @@ public abstract class QueryHelper implements IFQuery{
 	}	
 	
 	public QueryHelper where(String condition) {
-		this.condition = condition;
+		this.condition += condition;
 		return this;
 	}
 	

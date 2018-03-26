@@ -67,7 +67,7 @@ public class CRUDGeneratorController extends Controller {
 			}
 		}
 		view.table_1.addData(data);
-		view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index") + "&target=_blank&p_aplicacao="+model.getAplicacao());
+		view.add_datasource.setValue(this.getConfig().getResolveUrl("igrp", "ConfigDatabase", "index&target=_blank&p_aplicacao="+model.getAplicacao()));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -112,42 +112,59 @@ public class CRUDGeneratorController extends Controller {
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	
 	private boolean generateCRUD(Config_env config,String schema, String tableName) throws TransformerConfigurationException, IOException, URISyntaxException {
-		String pageNameForm = Page.resolvePageName(tableName);
+		String pageNameForm = Page.resolvePageName(tableName)+"Form";
+		String pageNameList = Page.resolvePageName(tableName)+"List";
 		CRUD crud = new CRUD().find().andWhere("schemaName", "=", schema).andWhere("tableName", "=", tableName).andWhere("config_env", "=", config.getId()).one();
 		if(crud==null) {
 			crud = new CRUD(tableName, schema, config);
 			crud = crud.insert();
 		}
 		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
+		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();
 		if(pageForm==null) {
 			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameForm).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageForm = pageForm.insert();
-		}	
-		return this.processGenerate(config,tableName,schema,pageForm);
+		}
+		if(pageList==null) {
+			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameList).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
+			pageList = pageList.insert();
+		}		
+		return this.processGenerate(config,tableName,schema,pageForm,pageList);
 	}
 
-	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm) throws IOException, TransformerConfigurationException, URISyntaxException {
-		
+	private boolean processGenerate(Config_env config, String tableName, String schema, Action pageForm, Action pageList) throws IOException, TransformerConfigurationException, URISyntaxException {
+		boolean r = false;
 		List<DatabaseMetadaHelper.Column> columns = DatabaseMetadaHelper.getCollumns(config, schema, tableName);
 		XMLTransform xml = new XMLTransform();
-		String formXML = xml.genXML(xml.generatePageCRUDXML(config, pageForm, columns),pageForm,"form");		
+		String formXML = xml.genXML(xml.generateXMLForm(config, pageForm, columns,pageList),pageForm,"form");
+		String listXML = xml.genXML(xml.generateXMLTable(config, pageList, columns,pageForm),pageList,"table");
 		
-		boolean r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML);		
 		
-		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorCRUDMCV();
+		r = this.saveFiles(pageForm, pageForm.getPage()+".xml",formXML)		
+			&& this.saveFiles(pageList, pageList.getPage()+".xml",listXML);		
+		
+		String xslFileNameFrom = this.getConfig().getLinkXSLGeneratorMCVForm();
+		String xslFileNameList = this.getConfig().getLinkXSLGeneratorMCVList();
 		String xslFileNameGen = this.getConfig().getLinkXSLGenerator_CRUD();
 		String jsonFileName = this.getConfig().getLinkXSLJsonGenerator();
 		String pathXslForm = this.getConfig().getBaseServerPahtXsl(pageForm)+File.separator+pageForm.getPage()+".xml";
+		String pathXslList = this.getConfig().getBaseServerPahtXsl(pageList)+File.separator+pageList.getPage()+".xml";
 		
 		String formJson = XMLTransform.xmlTransformWithXSL(pathXslForm, jsonFileName);
+		String listJson = XMLTransform.xmlTransformWithXSL(pathXslList, jsonFileName);
 		
 		String formMVC = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameFrom);
+		String listMVC = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameList);
 		
 		String xslForm = XMLTransform.xmlTransformWithXSL(pathXslForm, xslFileNameGen);
+		String xslList = XMLTransform.xmlTransformWithXSL(pathXslList, xslFileNameGen);
 		
 		r = this.saveFiles(pageForm, pageForm.getPage()+".json",formJson)	
+			&& this.saveFiles(pageList, pageList.getPage()+".json",listJson)
 			&& this.saveFiles(pageForm, pageForm.getPage()+".xsl",xslForm) 
-			&& this.generateClassMVC(pageForm, formMVC);
+			&& this.saveFiles(pageList, pageList.getPage()+".xsl",xslList) 
+			&& this.generateClassMVC(pageForm, formMVC)
+			&& this.generateClassMVC(pageList, listMVC);
 		return r;
 	}
 
@@ -174,7 +191,7 @@ public class CRUDGeneratorController extends Controller {
 				String controller = partsJavaCode[2];
 				String path_class = page.getPackage_name().trim()
 						.replaceAll("(\r\n|\n)", "")
-						.replace(".",File.separator);
+						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
 				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
 				path_class = this.getConfig().getBasePathClass()+ path_class;			
 				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
