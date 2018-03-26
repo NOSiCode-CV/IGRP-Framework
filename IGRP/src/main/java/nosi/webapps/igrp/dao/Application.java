@@ -250,6 +250,14 @@ public class Application extends BaseActiveRecord<Application> implements Serial
 		}
 	}
 	
+	public Map<Object, Object> getAllApps(){
+		return IgrpHelper.toMap(this.findAll(), "id", "name", gt("-- Selecionar --"));
+	}
+	
+	public Map<Object, Object> getAllAppsByFilterId(int appId){
+		return IgrpHelper.toMap(this.find().andWhere("id", "<>", appId).all(), "id", "name", gt("-- Selecionar --"));
+	}
+	
 	public List<Application> getListMyApp(int idUser){
 		return getListMyApp(idUser,false);
 	}

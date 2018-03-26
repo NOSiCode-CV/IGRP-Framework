@@ -51,7 +51,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	@Transient //Para armazenar src_xsl de pagina quando importar de plsql
 	private String src_xsl_plsql;
 	private int status;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
 	private Application application;
 	@ManyToOne(fetch=FetchType.EAGER)

@@ -181,13 +181,12 @@ public class MigrationIGRPInitConfig {
 			actions.add(new Action("Gestaodeacesso", "index", "nosi.webapps.igrp.pages.gestaodeacesso", "igrp/gestaodeacesso/Gestaodeacesso.xsl", "Gestao de Acesso", "Gestao de Acesso", "2.3", 1, app_igrp));
 			actions.add(new Action("GeralApresentacao", "index", "nosi.webapps.tutorial.pages.geralapresentacao", "tutorial/geralapresentacao/GeralApresentacao.xsl", "O que fazer dentro do IGRP JAVA...", "O que fazer dentro do IGRP JAVA...", "2.3", 1, app_tutorial));
 			actions.add(new Action("HomeStudio", "index", "nosi.webapps.igrp_studio.pages.homestudio", "igrp_studio/homestudio/HomeStudio.xsl", "HomeStudio", "HomeStudio", "2.3", 1, app_igrp_studio));
-			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, app_igrp_studio));
-			
+			actions.add(new Action("CRUDGenerator", "index", "nosi.webapps.igrp_studio.pages.crudgenerator", "igrp_studio/crudgenerator/CRUDGenerator.xsl", "CRUDGenerator", "CRUD Generator", "2.3", 1, app_igrp_studio));	
 			actions.add(new Action("LdapUser", "index", "nosi.webapps.igrp.pages.ldapuser", "igrp/ldapuser/LdapUser.xsl", "LdapUser", "LdapUser", "2.3", 1, app_igrp));
-			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));
-			
+			actions.add(new Action("ChangePassword", "index", "nosi.webapps.igrp.pages.changepassword", "igrp/changepassword/ChangePassword.xsl", "ChangePassword", "ChangePassword", "2.3", 1, app_igrp));			
 			actions.add(new Action("_CONS_PROC", "index", "nosi.webapps.igrp.pages._cons_proc", "igrp/_cons_proc/_CONS_PROC.xsl", "Consulta Processo", "Consulta Processo", "2.3", 1, app_igrp));
 			actions.add(new Action("DetalhesProcesso", "index", "nosi.webapps.igrp.pages.detalhesprocesso", "igrp/detalhesprocesso/DetalhesProcesso.xsl", "Detalhes Processo", "Detalhes Processo", "2.3", 1, app_igrp));
+			actions.add(new Action("Partilha_geral", "index", "nosi.webapps.igrp_studio.pages.partilha_geral", "igrp_studio/partilha_geral/Partilha_geral.xsl", "Partilha_geral", "Partilha Geral - Inter Aplicações (Páginas)", "2.3", 1, app_igrp_studio));
 			
 			for(Action ac:actions){
 				ac.insert();
@@ -255,6 +254,11 @@ public class MigrationIGRPInitConfig {
 			//menus.add(new Menu("Pesquisar BI", 1, 1, 0, "_self", actions.get(37), app, menus.get(5)));
 			//menus.add(new Menu("Pesquisar NIF", 1, 1, 0, "_self", actions.get(38), app, menus.get(5)));
 			//menus.add(new Menu("Pesquisar Nascimento", 1, 1, 0, "_self", actions.get(39), app, menus.get(5)));
+			
+			Menu partilha = new Menu("Partilha Geral", 0, 1, 1, "_self", actions.get(48), app_igrp_studio, null);
+			partilha.setMenu(partilha);
+			menus.add(partilha);
+			
 			for(Menu m:menus){
 				m.insert();
 			}
@@ -312,13 +316,18 @@ public class MigrationIGRPInitConfig {
 			profiles.add(new Profile(13, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(14, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
 			profiles.add(new Profile(15, "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			
+			//profiles.add(new Profile(partilha.getId(), "MEN", prof1_ADMIN, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(partilha.getId(), "MEN", prof_dev_igrp_studio, user0_IGRP, org_igrp_studio));
+			//profiles.add(new Profile(partilha.getId(), "MEN", prof0_ALL, user0_IGRP, org_IGRP));
+			profiles.add(new Profile(partilha.getId(), "MEN", prof0_ALL, user0_IGRP, org_igrp_studio));
 
 			
 			for(Profile p:profiles){
 				p.insert();
 			}
 			
-			//colocar a aplicacao tutorial uma outra pagina default
+			//colocar a aplicacao tutorial uma outra pagina default 
 			app_tutorial = app_tutorial.findOne(2);
 			if(app_tutorial != null) {
 				app_tutorial.setAction(new Action().find().andWhere("page", "=", "GeralApresentacao").andWhere("application", "=", app_tutorial.getId()).one()); 
