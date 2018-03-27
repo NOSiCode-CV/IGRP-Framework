@@ -50,6 +50,14 @@ public class Partilha_geralController extends Controller {
 		view.aplicacao_origem.setValue(new Application().getAllApps());
 		view.aplicacao_destino.setSqlQuery(null,"SELECT '' as ID,'-- Selecionar --' as NAME ");
 		
+		if(model.getAplicacao_origem() != null && !model.getAplicacao_origem().isEmpty()) { 
+			try {
+				view.aplicacao_destino.setValue(new Application().getAllAppsByFilterId(Integer.parseInt((model.getAplicacao_origem()))));
+				}
+			catch(Exception e) {}
+			}
+		
+		/*
 		Optional.of(model.getAplicacao_origem()).ifPresent(
 				v -> {
 					try {
@@ -113,7 +121,7 @@ public class Partilha_geralController extends Controller {
 			
 			//return forward("igrp_studio", "Partilha_geral", "index");
 		}
-		
+		*/
 		/*----#end-code----*/
 		
 		view.setModel(model);
