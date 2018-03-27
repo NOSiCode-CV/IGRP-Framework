@@ -33,11 +33,9 @@ public class IGRPLogin extends IGRPForm{
 		this.xml.setElement("link_img", this.config.getLinkImg());
 		this.xml.setElement("title", "Login");
 		this.xml.setElement("version","");
-		this.xml.setElement("action", "app/webapps?" + Igrp.getInstance().getRequest().getQueryString());
+		this.xml.setElement("action", Igrp.getInstance().getRequest().getRequestURL().toString() + "?" + Igrp.getInstance().getRequest().getQueryString());
 		
-		System.out.println(Igrp.getInstance().getRequest().getRequestURL().toString());
-		
-		this.xml.setElement("footer_note", this.config.getFooterName());
+		this.xml.setElement("footer_note", this.config.getFooterName()); 
 		this.genForm();
 		return this.xml.toString();
 	}

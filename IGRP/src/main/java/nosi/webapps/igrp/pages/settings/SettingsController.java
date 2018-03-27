@@ -22,12 +22,8 @@ public class SettingsController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
-//		String ichange = Core.getParam("ichange");
+		// String ichange = Core.getParam("ichange");
 		model.load();
-		
-		System.out.println("SettingsOrg: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org"));
-		 System.out.println("SettingsProf: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof"));
-		 System.out.println("SettingsEnv: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.env"));
 		
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			boolean success = true;
