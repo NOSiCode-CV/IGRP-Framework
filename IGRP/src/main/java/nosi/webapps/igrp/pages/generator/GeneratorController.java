@@ -29,9 +29,13 @@ public class GeneratorController extends Controller{
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
 					String json = this.getConfig().getBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
-					if(ac!=null && FileHelper.fileExists(json)){
+					
+					if(FileHelper.fileExists(json)){
 						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
 						model.setPage_form(json.replace("\\", "/"));
+					}else {
+						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
+						model.setPage_form(xmlp.replace("\\", "/"));
 					}
 					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
 					model.setPage(ac.getPage());

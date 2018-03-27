@@ -157,6 +157,9 @@ $.fn.to2DOT2 = function(params) {
 			setContainer(Container({
 				tag    :menuTag,
 				type   :'toolsbar',
+				proprieties : {
+					style : 'boxed'
+				},
 				fields :{
 					json : contextMenu($('menu > *',xml),{
 						parentTag:menuTag
@@ -247,6 +250,9 @@ $.fn.to2DOT2 = function(params) {
 				setContainer(Container({
 					tag    :tBarTag,
 					type   :'toolsbar',
+					proprieties:{
+						style : 'boxed'
+					},
 					fields :{
 						json : contextMenu($('tools-bar > *',tableXML),{
 							parentTag:tBarTag
@@ -255,7 +261,7 @@ $.fn.to2DOT2 = function(params) {
 				}));
 			}
 			//table container
-			var tableTag = 'tblist';
+			var tableTag = 'tablelist';
 			var otherAttrs = {};
 			//table contextMenu
 			var tableContextMenu = [];
@@ -350,8 +356,11 @@ $.fn.to2DOT2 = function(params) {
 
 			//console.log(ctx);
 
-			if($(f).find('img')[0])
-				ctx.img = $(f).find('img').text();
+			if($(f).find('img')[0]){
+
+				ctx.img = TransformIcon($(f).find('img').text());
+				//console.log(ctx.img)
+			}
 
 			if(p.group)
 				ctx.group = 'group-'+$(f).parent().index();
@@ -379,7 +388,7 @@ $.fn.to2DOT2 = function(params) {
 			if(f.tagName.indexOf('_check') == -1 && f.tagName.indexOf('_desc') == -1){
 				var fieldObj    = { label : $(f).text(),tag:f.tagName };
 				
-				var fieldsRules = checkFieldRule(f.tagName)
+				var fieldsRules = checkFieldRule(f.tagName);
 
 				$.each(f.attributes,function(i,attr){
 					
@@ -618,6 +627,25 @@ $.fn.to2DOT2 = function(params) {
 				  position && position == 'right' ? rightColumnObj : mainColumnsObj;
 
 		col.containers.push(container);
+	}
+
+	var TransformIcon = function(i){
+		
+		var icon = 'fa-caret-right';
+		
+		console.log(i)
+
+		switch(i){
+			case 'add.png':
+				icon = 'fa-plus';
+			break;
+			case 'search.png':
+				icon = 'fa-search';
+			break;
+		}
+
+		return icon;
+
 	}
 
 	set();
