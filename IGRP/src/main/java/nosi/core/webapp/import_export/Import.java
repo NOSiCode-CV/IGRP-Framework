@@ -202,6 +202,9 @@ public class Import {
 	}
 	
 	private List<Action> savePage(FileImportAppOrPage file,Application app,String type){
+		
+		ImportAppJar aux = (ImportAppJar) this;
+		
 		InputStream is;
 		try {
 			if(type.equals("plsql"))
@@ -210,7 +213,20 @@ public class Import {
 			XMLPageReader listPage = JAXB.unmarshal(is, XMLPageReader.class);
 		
 			List<Action> pages = new ArrayList<>();
-			for(Action page:listPage.getRow()){
+			
+			for(Action page : listPage.getRow()){
+				
+				boolean nextIteration = true;
+				
+				for(FileImportAppOrPage f : aux.un_jar_files) 
+					if(f.getNome().contains(page.getAction())) {
+						nextIteration = false;
+						break;
+					}
+				
+				
+				if(nextIteration) continue;
+				
 				//Depois validar nome de classe
 				if(type.equals("plsql")){//Se for de psql, assume Page como Action
 					page.setPage(Page.resolvePageName(this.resolveClassName(page.getPage())+"_"+page.getAction()));
@@ -230,15 +246,15 @@ public class Import {
 	
 				if(type.equals("java")){
 					if(nosi.core.gui.page.Page.validatePage(page.getPage()) && pageCheck==null){
-						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages");
+						action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 						action = action.insert();
 						pages.add(action);
 					}else if(pageCheck!=null){
 						pages.add(pageCheck);
 					}
-				}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina
+				}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina 
 					if(Core.isNotNull(page.getPage())&& pageCheck ==null && nosi.core.gui.page.Page.validatePage(page.getPage())&& page.getImg_src()==null){
-							action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages");
+							action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
 							action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
 							action.setVersion("2.3");	
 							action = action.insert();
