@@ -33,7 +33,7 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
     </plsql>
     <content>
-        <title>Partilha Geral</title>
+        <title>Partilha Geral - Inter Aplicações (Páginas)</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
@@ -130,39 +130,33 @@
                 <descricao name="p_descricao" type="text" maxlength="100" align="left" lookup_parser="false" iskey="false">
                     <label>Descrição</label>
                 </descricao>
-                <hidden_1 name="p_hidden_1" type="hidden" maxlength="30" iskey="true" tag="hidden_1"/>
             </fields>
             <table>
                 <value>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Consectetur ipsum voluptatem mollit lorem</descricao>
-                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                        <descricao name="p_descricao">Natus sed aliqua sed doloremque</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Amet natus ut labore natus</descricao>
-                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                        <descricao name="p_descricao">Totam lorem omnis sit anim</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Elit anim stract sit ipsum</descricao>
-                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                        <descricao name="p_descricao">Anim adipiscing amet perspiciatis anim</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Natus omnis adipiscing ut sit</descricao>
-                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                        <descricao name="p_descricao">Mollit voluptatem iste doloremque natus</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Laudantium totam ipsum sit consectetur</descricao>
-                        <hidden_1 name="p_hidden_1" tag="hidden_1">1</hidden_1>
+                        <descricao name="p_descricao">Aperiam adipiscing officia dolor ipsum</descricao>
                     </row>
                 </value>
             </table>

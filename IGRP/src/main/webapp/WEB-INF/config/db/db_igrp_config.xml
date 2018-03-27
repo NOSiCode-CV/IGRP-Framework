@@ -6,7 +6,7 @@
 	<entry key="hostname">localhost</entry>
 	<entry key="type_db">postgresql</entry>
 	<entry key="port">5432</entry>
-	<entry key="password"></entry>
+	<entry key="password">softwaredeveloper</entry>
 	<entry key="connectionName">hibernate-igrp-core</entry>
 	<entry key="dbname">db_igrp</entry>
 	<entry key="username">postgres</entry>

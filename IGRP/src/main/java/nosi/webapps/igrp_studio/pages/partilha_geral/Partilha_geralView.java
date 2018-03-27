@@ -6,6 +6,8 @@ import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Partilha_geralView extends View {
 	
@@ -17,7 +19,6 @@ public class Partilha_geralView extends View {
 	public Field estado;
 	public Field estado_check;
 	public Field descricao;
-	public Field p_hidden_1;
 	public IGRPForm sectionheader_1;
 	public IGRPForm form_1;
 	public IGRPTable table_1;
@@ -26,7 +27,7 @@ public class Partilha_geralView extends View {
 	public IGRPButton btn_partilhar;
 	public Partilha_geralView(){
 
-		this.setPageTitle("Partilha Geral");
+		this.setPageTitle("Partilha Geral - Inter Aplicações (Páginas)");
 			
 		sectionheader_1 = new IGRPForm("sectionheader_1","");
 		form_1 = new IGRPForm("form_1","");
@@ -59,10 +60,6 @@ public class Partilha_geralView extends View {
 		descricao.setLabel(gt("Descrição"));
 		descricao.propertie().add("name","p_descricao").add("type","text").add("maxlength","100");
 		
-		p_hidden_1 = new HiddenField(model,"p_hidden_1");
-		p_hidden_1.setLabel(gt(""));
-		p_hidden_1.propertie().add("name","p_hidden_1").add("type","hidden").add("maxlength","30").add("tag","hidden_1");
-		
 
 		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
 
@@ -84,7 +81,6 @@ public class Partilha_geralView extends View {
 		table_1.addField(estado);
 		table_1.addField(estado_check);
 		table_1.addField(descricao);
-		table_1.addField(p_hidden_1);
 
 		toolsbar_1.addButton(btn_partilhar);
 		this.addToPage(sectionheader_1);
@@ -104,8 +100,6 @@ public class Partilha_geralView extends View {
 		estado.setValue(model);
 
 		descricao.setValue(model);
-
-		p_hidden_1.setValue(model);
 	
 		table_1.loadModel(model.getTable_1());
 

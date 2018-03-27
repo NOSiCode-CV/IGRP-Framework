@@ -322,6 +322,10 @@ public class EnvController extends Controller {
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
 //		PersistenceUtils.confiOtherConnections(app);
 		
+		 System.out.println("Org: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.org"));
+		 System.out.println("Prof: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.prof"));
+		 System.out.println("Env: " + Igrp.getInstance().getRequest().getSession().getAttribute("igrp.env"));
+		
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
