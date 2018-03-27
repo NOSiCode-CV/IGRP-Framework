@@ -121,10 +121,12 @@ public class ExtractReserveCode {
 	    
 	    public static ArrayList<ReserveCode> extractMethods(String className,String code) {  
 	        ArrayList<ReserveCode> codes = new ArrayList<>();
-	        extractAllMethods(className).stream().forEach(ac->{
-	            
-	        	codes.add(ExtractReserveCode.extract(code,ac, ac.toUpperCase()));
-	        });
+	        ArrayList<String> extrats = extractAllMethods(className);
+	        if(extrats != null)
+		        extractAllMethods(className).stream().forEach(ac->{
+		            
+		        	codes.add(ExtractReserveCode.extract(code,ac, ac.toUpperCase()));
+		        });
 	        return codes;
 	    }	
 	    

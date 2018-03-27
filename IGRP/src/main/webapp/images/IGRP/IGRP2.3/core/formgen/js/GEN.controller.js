@@ -4595,15 +4595,16 @@ if(input) {
 					setTimeout(function(){
 						
 						try{
+							
 							$('.tab-content').animate({
 						        scrollTop: activeItem.position().top
 						    }, 400);
-
-							$('.nav-tabs',holder).tabdrop();
+							
 						}catch(err){
 							return;
 						}
 						
+						$('.nav-tabs',holder).tabdrop();
 						
 					},250);
 					
