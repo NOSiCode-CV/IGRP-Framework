@@ -25,10 +25,11 @@ public class ImportAppZip extends ImportAppJar{
 
 	private Map<String,FileImportAppOrPage> filesConfigPagePlsql = new HashMap<>();
 	List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
+	
 	public ImportAppZip(Part fileName){
 		super(null);
 		this.un_jar_files = ZipUnzipFile.getZipFiles(fileName);
-		for(FileImportAppOrPage file:this.un_jar_files){
+		for(FileImportAppOrPage file : this.un_jar_files){
 			if(file.getConteudo()!=null && !file.getConteudo().equals("")  && (file.getNome().startsWith("FTP/IGRP") || file.getNome().startsWith("FTP/app"))){
 				String part[] = file.getNome().split("/");
 				if(!"navigation.xml".equals(part[part.length-1]) && !"slide-menu.xml".equals(part[part.length-1])) {
