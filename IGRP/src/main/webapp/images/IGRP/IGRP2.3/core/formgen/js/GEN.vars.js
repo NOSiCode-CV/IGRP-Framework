@@ -273,7 +273,7 @@ var VARS = {
 				var icons   = fa[c],
 					id      = 'gen-fa-'+c,
 					active  = idx == 0 ? 'active in' : '';
-					li 	    = $('<li rel="'+icons.label+'" class="'+active+'"><a data-toggle="tab" href="#'+id+'">'+c+'</a></li>'),
+					li 	    = $('<li rel="'+c+'" class="'+active+'"><a data-toggle="tab" href="#'+id+'">'+c+'</a></li>'),
 					content = $('<div id="'+id+'" class="tab-pane fade '+active+'"></div>');
 
 					for(var i in icons){

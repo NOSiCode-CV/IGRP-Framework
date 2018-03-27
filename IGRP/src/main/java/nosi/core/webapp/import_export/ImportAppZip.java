@@ -121,26 +121,23 @@ public class ImportAppZip extends ImportAppJar{
 		try {
 			content = this.addClassAndPackage(content,page,"xml");
 			String pathServer = this.getConfig().getBaseServerPahtXsl(page);
-			
+		
 			FileHelper.save(pathServer, page.getPage()+".xml", content);
 			//System.out.println(content);
-			String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", this.getConfig().getLinkXSLJsonConvert());			
-			System.out.println(json);
+			//String json = XMLTransform.xmlTransformWithXSL(pathServer+File.separator+page.getPage()+".xml", this.getConfig().getLinkXSLJsonConvert());			
+			//System.out.println(json);
 			//json = this.addClassAndPackage(json,page,"json");
 			//System.out.println(json);
-			FileHelper.save(pathServer, page.getPage()+".json", json);
+			//FileHelper.save(pathServer, page.getPage()+".json", json);
 			if(Core.isNotNull(this.getConfig().getWorkspace()) && FileHelper.fileExists(this.getConfig().getWorkspace())) {
 				String pathWorkSpace = this.getConfig().getBasePahtXslWorkspace(page);
 				FileHelper.save(pathWorkSpace, page.getPage()+".xml", content);
-				FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
+				//FileHelper.save(pathWorkSpace, page.getPage()+".json", json);
 			}	
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		
 	}
 	
