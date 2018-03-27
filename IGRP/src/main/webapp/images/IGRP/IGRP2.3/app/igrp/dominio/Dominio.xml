@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>Dominio</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
+        <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>Dominio</package_html>
@@ -30,94 +30,131 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=4</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Gestão de Dominio</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Getão de Domínio]]>
-                    </value>
+                    <value>Getão de Domínio</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
-        <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <dominio name="p_dominio" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Domínio</label>
-                    <value>Mollit sit amet iste aperiam</value>
-                </dominio>
-            </fields>
-        </form_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="pesquisar">
-                <title>Pesquisar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
+        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="novo">
+                <title>Novo</title>
+                <app>igrp</app>
+                <page>NovoDominio</page>
+                <link>index</link>
                 <target>_self</target>
-                <img>default|fa-search</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-search|www</params>
+                <img>success|fa-plus-circle</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xml</preview>
             </item>
-        </toolsbar_1>
-        <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
+        </toolsbar_2>
+        <table_1 type="table" xml-type="table" title="Lista de Domínios" gen-type="container" gen-group="true">
             <fields>
-                <dominio name="p_dominio" type="text" maxlength="30" align="left" lookup_parser="false">
+                <dominio name="p_dominio" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Domínio</label>
                 </dominio>
-                <valor name="p_valor" type="text" maxlength="30" align="left" lookup_parser="false">
+                <description name="p_description" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Significado</label>
+                </description>
+                <valor name="p_valor" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
                     <label>Valor</label>
                 </valor>
-                <significado name="p_significado" type="text" maxlength="30" align="left" lookup_parser="false">
-                    <label>Significado</label>
-                </significado>
-                <tabela_view name="p_tabela_view" type="text" maxlength="30" align="left" lookup_parser="false">
-                    <label>Tabela_View</label>
-                </tabela_view>
+                <estado name="p_estado" type="text" maxlength="30" align="left" lookup_parser="false" iskey="false">
+                    <label>Estado</label>
+                </estado>
+                <ordem name="p_ordem" type="number" min="" max="" maxlength="30" align="left" lookup_parser="false" iskey="false" total_footer="false">
+                    <label>Ordem</label>
+                </ordem>
+                <id name="p_id" type="hidden" maxlength="30" iskey="true" tag="id"/>
             </fields>
             <table>
                 <value>
                     <row>
-                        <dominio name="p_dominio">Deserunt elit amet anim adipiscing</dominio>
-                        <valor name="p_valor">Labore iste omnis consectetur aperiam</valor>
-                        <significado name="p_significado">Voluptatem mollit adipiscing magna ut</significado>
-                        <tabela_view name="p_tabela_view">Mollit unde mollit sed unde</tabela_view>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dominio name="p_dominio">Magna adipiscing ipsum iste ad</dominio>
+                        <description name="p_description">Ut mollit rem sit elit</description>
+                        <valor name="p_valor">Iste anim consectetur aliqua n</valor>
+                        <estado name="p_estado">Rem ipsum natus aperiam elit</estado>
+                        <ordem name="p_ordem">19</ordem>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <dominio name="p_dominio">Perspiciatis omnis sed iste perspiciatis</dominio>
-                        <valor name="p_valor">Sed rem magna officia totam</valor>
-                        <significado name="p_significado">Dolor omnis amet voluptatem natus</significado>
-                        <tabela_view name="p_tabela_view">Sit omnis sit anim mollit</tabela_view>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dominio name="p_dominio">Ut magna adipiscing aliqua eli</dominio>
+                        <description name="p_description">Ipsum aperiam accusantium anim</description>
+                        <valor name="p_valor">Totam sit consectetur doloremq</valor>
+                        <estado name="p_estado">Magna voluptatem accusantium p</estado>
+                        <ordem name="p_ordem">14</ordem>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <dominio name="p_dominio">Adipiscing elit totam aperiam stract</dominio>
-                        <valor name="p_valor">Omnis anim laudantium sit accusantium</valor>
-                        <significado name="p_significado">Voluptatem labore adipiscing natus deserunt</significado>
-                        <tabela_view name="p_tabela_view">Sed omnis mollit sit rem</tabela_view>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dominio name="p_dominio">Omnis sit anim stract iste</dominio>
+                        <description name="p_description">Sit labore sed stract magna</description>
+                        <valor name="p_valor">Accusantium natus voluptatem o</valor>
+                        <estado name="p_estado">Magna stract perspiciatis laud</estado>
+                        <ordem name="p_ordem">18</ordem>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <dominio name="p_dominio">Labore accusantium ipsum rem aperiam</dominio>
-                        <valor name="p_valor">Magna officia sed rem anim</valor>
-                        <significado name="p_significado">Anim accusantium omnis iste consectetur</significado>
-                        <tabela_view name="p_tabela_view">Mollit deserunt sed laudantium anim</tabela_view>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dominio name="p_dominio">Omnis sit unde dolor natus</dominio>
+                        <description name="p_description">Omnis ipsum deserunt sed ut</description>
+                        <valor name="p_valor">Aliqua sed stract magna stract</valor>
+                        <estado name="p_estado">Unde sit omnis ut elit</estado>
+                        <ordem name="p_ordem">24</ordem>
+                        <id name="p_id" tag="id">1</id>
+                    </row>
+                    <row>
+                        <context-menu>
+                            <param>p1=linha1</param>
+                            <param>p2=linha1</param>
+                        </context-menu>
+                        <dominio name="p_dominio">Ut mollit aperiam officia stra</dominio>
+                        <description name="p_description">Consectetur labore amet elit v</description>
+                        <valor name="p_valor">Lorem accusantium officia laud</valor>
+                        <estado name="p_estado">Labore aperiam aliqua doloremq</estado>
+                        <ordem name="p_ordem">3</ordem>
+                        <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
+                <context-menu>
+                    <item type="specific" code="" class="warning" rel="editar">
+                        <title>Editar</title>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>mpsubmit|refresh</target>
+                        <img>warning|fa-pencil</img>
+                    </item>
+                    <item type="specific" code="" class="primary" rel="desativar">
+                        <title>Desativar</title>
+                        <app>igrp</app>
+                        <page>Dominio</page>
+                        <link>index</link>
+                        <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
+                        <target>confirm</target>
+                        <img>primary|fa-lock</img>
+                    </item>
+                </context-menu>
             </table>
         </table_1>
-        <toolsbar_2 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="novo">
-                <title>Novo</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_self</target>
-                <img>default|fa-plus-circle</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-plus-circle|www</params>
-            </item>
-        </toolsbar_2>
     </content>
 </rows>

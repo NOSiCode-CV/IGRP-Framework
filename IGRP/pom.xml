@@ -61,7 +61,12 @@
 
 		<!-- end of - for TomEE embedded -->
 
-
+		<!-- Mapp Class -->
+		<dependency>
+		  <groupId>org.modelmapper</groupId>
+		  <artifactId>modelmapper</artifactId>
+		  <version>1.1.0</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-server -->
 		<dependency>

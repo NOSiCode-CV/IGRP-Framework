@@ -22,30 +22,36 @@ public class SettingsController extends Controller {
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		Settings model = new Settings();
 		String ichange = Igrp.getInstance().getRequest().getParameter("ichange");
-//		String ichange = Core.getParam("ichange");
+		// String ichange = Core.getParam("ichange");
 		model.load();
-
 		
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			boolean success = true;
 			if (Core.isNotNull(ichange)) {
-				if(Core.isNotNull(model.getPerfil())){
-				// String data = model.getOrganica()+"-"+model.getPerfil();
-				Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
-				String data = getOrgId+"-" + model.getPerfil();
-				Igrp.getInstance().getResponse().addCookie(new Cookie(new Permission().getCurrentEnv(), data));
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",Integer.parseInt(model.getPerfil()));
-				Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
-				}
-			if (Core.isNotNull(model.getIdioma())) {
-				Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
-				Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
-				cookie.setMaxAge(I18nManager.cookieExpire);
-				Igrp.getInstance().getResponse().addCookie(cookie);				
-				Core.setMessageSuccess("Dados gravados com sucesso!");				
+				try {
+					if(Core.isNotNull(model.getPerfil())){
+						// String data = model.getOrganica()+"-"+model.getPerfil();
+						Integer getOrgId = new ProfileType().findOne(model.getPerfil()).getOrganization().getId();
+						String data = getOrgId + "-" + model.getPerfil();
+						Igrp.getInstance().getResponse().addCookie(new Cookie(new Permission().getCurrentEnv(), data));
+						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.prof",Integer.parseInt(model.getPerfil()));
+						Igrp.getInstance().getRequest().getSession().setAttribute("igrp.org",getOrgId);
+						}
+					if (Core.isNotNull(model.getIdioma())) {
+						Igrp.getInstance().getI18nManager().newIgrpCoreLanguage(model.getIdioma());
+						Cookie cookie = new Cookie("igrp_lang", model.getIdioma());
+						cookie.setMaxAge(I18nManager.cookieExpire);
+						Igrp.getInstance().getResponse().addCookie(cookie);
+						}
+				}catch(Exception e) {
+					success = false;
 				}
 			}
-		}else
-		// Fetch all cookies
+			if(success)
+				Core.setMessageSuccess("Dados gravados com sucesso!");
+			return redirect("igrp", "Settings", "index");
+		} 
+		// Fetch all cookies 
 		for (Cookie cookie : Igrp.getInstance().getRequest().getCookies()) {
 			if (cookie.getName().equals("igrp_lang")) {
 				model.setIdioma(cookie.getValue());

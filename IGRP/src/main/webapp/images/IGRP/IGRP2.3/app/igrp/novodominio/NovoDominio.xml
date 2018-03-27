@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/novodominio/NovoDominio.xsl" type="text/xsl"?>
 <rows>
-<link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
             <img>exit.png</img>
         </button>
     </site>
-    <page>Teste</page>
-    <app>RED</app>
+    <page>NovoDominio</page>
+    <app>igrp</app>
     <plsql>
-        <action>Action</action>
+        <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp.pages</package_db>
         <package_html>NovoDominio</package_html>
@@ -30,80 +30,70 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>webapps?r=igrp/generator/index&amp;id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=5</preserve_url>
     </plsql>
     <content>
-        <title>Detalhe App</title>
+        <title>Registar Dominio</title>
         <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>
-                        <![CDATA[Gestão de Dominio - Novo]]>
-                    </value>
+                    <value>Gestão de Dominio - Novo</value>
                 </sectionheader_1_text>
             </fields>
         </sectionheader_1>
         <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
             <item type="specific" code="" rel="gravar">
                 <title>Gravar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_self</target>
-                <img>default|fa-save</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-save|www</params>
+                <app>igrp</app>
+                <page>Dominio</page>
+                <link>index</link>
+                <target>submit_form</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
-            <item type="specific" code="" rel="voltar">
-                <title>Voltar</title>
-                <app>RED</app>
-                <page>Teste</page>
-                <link>Action</link>
-                <target>_back</target>
-                <img>default|fa-arrow-left</img>
-                <parameter>http://igrp.teste.gov.cv/images/IGRP/Teste.xml</parameter>
-                <params>default||fa-arrow-left|www</params>
+            <item type="specific" code="" rel="lista_dominios">
+                <title>Lista Domínios</title>
+                <app>igrp</app>
+                <page>Dominio</page>
+                <link>index</link>
+                <target>_self</target>
+                <img>default|fa-list</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml</preview>
             </item>
         </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <dominio name="p_dominio" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Domínio</label>
-                    <value>Sit aperiam rem elit magna</value>
+                    <value>Elit lorem totam unde sed</value>
                 </dominio>
                 <valor name="p_valor" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Valor</label>
-                    <value>Elit deserunt voluptatem rem anim</value>
+                    <value>Magna officia magna sit anim</value>
                 </valor>
-                <significado name="p_significado" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <description name="p_description" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Significado</label>
-                    <value>Mollit sed doloremque deserunt anim</value>
-                </significado>
-                <tipo name="p_tipo" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false">
-                    <label>Tipo</label>
+                    <value>Accusantium magna ipsum lorem</value>
+                </description>
+                <estado name="p_estado" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="SIN_NAO" java-type="">
+                    <label>Estado</label>
                     <list>
+                        <option/>
                         <option>
-                            <text>Option 1</text>
-                            <value>1</value>
+                            <text>Não</text>
+                            <value>Nao</value>
                         </option>
                         <option>
-                            <text>Option 2</text>
-                            <value>2</value>
-                        </option>
-                        <option>
-                            <text>Option 3</text>
-                            <value>3</value>
-                        </option>
-                        <option>
-                            <text>Option 4</text>
-                            <value>4</value>
+                            <text>Sim</text>
+                            <value>Sim</value>
                         </option>
                     </list>
-                </tipo>
-                <tabela_view name="p_tabela_view" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
-                    <label>Tabela_view</label>
-                    <value>Aliqua iste consectetur officia ut</value>
-                </tabela_view>
+                </estado>
+                <ordem name="p_ordem" type="number" min="0" max="20" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false" java-type="int">
+                    <label>Ordem</label>
+                    <value>3</value>
+                </ordem>
+                <hidden name="p_id" type="hidden" maxlength="30" java-type="int" tag="id"/>
             </fields>
         </form_1>
     </content>

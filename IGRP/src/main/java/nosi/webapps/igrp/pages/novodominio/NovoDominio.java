@@ -1,7 +1,10 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.novodominio;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class NovoDominio extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -10,12 +13,14 @@ public class NovoDominio extends Model{
 	private String dominio;
 	@RParam(rParamName = "p_valor")
 	private String valor;
-	@RParam(rParamName = "p_significado")
-	private String significado;
-	@RParam(rParamName = "p_tipo")
-	private String tipo;
-	@RParam(rParamName = "p_tabela_view")
-	private String tabela_view;
+	@RParam(rParamName = "p_description")
+	private String description;
+	@RParam(rParamName = "p_estado")
+	private String estado;
+	@RParam(rParamName = "p_ordem")
+	private int ordem;
+	@RParam(rParamName = "p_id")
+	private int p_id;
 	
 	public void setSectionheader_1_text(String sectionheader_1_text){
 		this.sectionheader_1_text = sectionheader_1_text;
@@ -38,27 +43,34 @@ public class NovoDominio extends Model{
 		return this.valor;
 	}
 	
-	public void setSignificado(String significado){
-		this.significado = significado;
+	public void setDescription(String description){
+		this.description = description;
 	}
-	public String getSignificado(){
-		return this.significado;
-	}
-	
-	public void setTipo(String tipo){
-		this.tipo = tipo;
-	}
-	public String getTipo(){
-		return this.tipo;
+	public String getDescription(){
+		return this.description;
 	}
 	
-	public void setTabela_view(String tabela_view){
-		this.tabela_view = tabela_view;
+	public void setEstado(String estado){
+		this.estado = estado;
 	}
-	public String getTabela_view(){
-		return this.tabela_view;
+	public String getEstado(){
+		return this.estado;
 	}
+	
+	public void setOrdem(int ordem){
+		this.ordem = ordem;
+	}
+	public int getOrdem(){
+		return this.ordem;
+	}
+	
+	public void setP_id(int p_id){
+		this.p_id = p_id;
+	}
+	public int getP_id(){
+		return this.p_id;
+	}
+
 
 
 }
-/*-------------------------*/

@@ -320,13 +320,13 @@ public class EnvController extends Controller {
 
 
 	public Response actionOpenApp(@RParam(rParamName = "app") String app,@RParam(rParamName = "page") String page) throws IOException{
-//		PersistenceUtils.confiOtherConnections(app);
-		
+		//PersistenceUtils.confiOtherConnections(app);
 		String[] p = page.split("/");
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			Application env = new Application().find().andWhere("dad", "=", app).one();
-			//System.out.println(env.getExternal() + " - " + env.getUrl());
+			System.out.println(env.getExternal() + " - " + env.getUrl()); 
+			System.out.println(Igrp.getInstance().getRequest().getRequestURL().toString()); 
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 				return this.redirectToUrl(env.getUrl());
 			}
