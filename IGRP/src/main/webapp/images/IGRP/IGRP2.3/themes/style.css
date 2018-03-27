@@ -322,9 +322,9 @@ b{
 
 /* Hide for mobile, show later */
 #igrp-sidebar.sidebar {
-  /*background: #fff;*/
-  /*background: #337ab7;*/
-  background: #3690c2;
+
+  background: #337ab7;
+  
   position: fixed;
   z-index: 1000;
   top:55px;

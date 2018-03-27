@@ -8,6 +8,7 @@ table td.tdcolor span.tdcolor-item {
     position: relative;
     display: block;
     margin: 4px 0;
+    max-width:50px;
 }
 
 .box-table-legend:after, .box-table-legend:before{
