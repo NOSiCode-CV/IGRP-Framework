@@ -35,7 +35,8 @@ public class NovoUtilizadorController extends Controller {
 		NovoUtilizador model = new NovoUtilizador();
 		model.load();
 		String p_id_prof = Igrp.getInstance().getRequest().getParameter("p_id_prof");
-		if(p_id_prof!=null && !p_id_prof.equals("")){
+		String id = Igrp.getInstance().getRequest().getParameter("id");
+		if(Core.isNotNull(p_id_prof)){
 			ProfileType prof = new ProfileType().findOne(Integer.parseInt(p_id_prof));
 			model.setAplicacao(prof.getApplication().getId());
 			model.setOrganica(prof.getOrganization().getId());
@@ -46,10 +47,11 @@ public class NovoUtilizadorController extends Controller {
 		view.aplicacao.setValue(new Application().getListApps());
 		view.organica.setValue(new Organization().getListOrganizations(model.getAplicacao()));
 		view.perfil.setValue(new ProfileType().getListProfiles(model.getAplicacao(), model.getOrganica()));
-		String id = Igrp.getInstance().getRequest().getParameter("id");
+		
 		if(id!=null && !id.trim().isEmpty() && !id.equals("0")){
 			User u =  (User) new User().findIdentityById(Integer.parseInt(id));
 			view.email.setValue(u.getEmail());
+			view.setPageTitle("Convite - atualizar");
 		}
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
