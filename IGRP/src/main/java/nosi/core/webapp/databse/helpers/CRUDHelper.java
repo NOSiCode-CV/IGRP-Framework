@@ -86,7 +86,8 @@ public class CRUDHelper {
 				case "string":
 					query.addString(f.getName(), value.toString());
 					break;
-				default:
+				case "java.lang.object":
+				case "object":
 					query.addObject(f.getName(), value);
 					break;					
 			}
