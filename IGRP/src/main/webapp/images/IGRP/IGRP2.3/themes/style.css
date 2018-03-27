@@ -268,7 +268,7 @@ b{
   /*line-height: 53px;*/
   /*border-bottom: 2px solid transparent;*/
   padding:0 15px;
-  color:#888;
+  color:#c3c3c3;
   font-size: 16px;
   border-bottom-color: transparent;
   border:0!important;
@@ -322,9 +322,9 @@ b{
 
 /* Hide for mobile, show later */
 #igrp-sidebar.sidebar {
-  /*background: #fff;*/
-  /*background: #337ab7;*/
-  background: #3690c2;
+
+  background: #337ab7;
+  
   position: fixed;
   z-index: 1000;
   top:55px;
