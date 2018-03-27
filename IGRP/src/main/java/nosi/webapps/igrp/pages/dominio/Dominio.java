@@ -1,20 +1,22 @@
-/*---------------------- Create Model ----------------------*/
 package nosi.webapps.igrp.pages.dominio;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Dominio extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
 	private String sectionheader_1_text;
-	@RParam(rParamName = "p_dominio")
-	private String dominio;
-
-	private ArrayList<Table_1> table_1 = new ArrayList<>();
-	public void setTable_1(ArrayList<Table_1> table_1){
+	
+	private List<Table_1> table_1 = new ArrayList<>();	
+	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
-	public ArrayList<Table_1> gettable_1(){
+	public List<Table_1> getTable_1(){
 		return this.table_1;
 	}
 	
@@ -24,25 +26,27 @@ public class Dominio extends Model{
 	public String getSectionheader_1_text(){
 		return this.sectionheader_1_text;
 	}
-	
-	public void setDominio(String dominio){
-		this.dominio = dominio;
-	}
-	public String getDominio(){
-		return this.dominio;
-	}
 
 
-	public class Table_1{
+	public static class Table_1{
 		private String dominio;
+		private String description;
 		private String valor;
-		private String significado;
-		private String tabela_view;
+		private String estado;
+		private int ordem;
+		private String p_id;
 		public void setDominio(String dominio){
 			this.dominio = dominio;
 		}
 		public String getDominio(){
 			return this.dominio;
+		}
+
+		public void setDescription(String description){
+			this.description = description;
+		}
+		public String getDescription(){
+			return this.description;
 		}
 
 		public void setValor(String valor){
@@ -52,20 +56,31 @@ public class Dominio extends Model{
 			return this.valor;
 		}
 
-		public void setSignificado(String significado){
-			this.significado = significado;
+		public void setEstado(String estado){
+			this.estado = estado;
 		}
-		public String getSignificado(){
-			return this.significado;
+		public String getEstado(){
+			return this.estado;
 		}
 
-		public void setTabela_view(String tabela_view){
-			this.tabela_view = tabela_view;
+		public void setOrdem(int ordem){
+			this.ordem = ordem;
 		}
-		public String getTabela_view(){
-			return this.tabela_view;
+		public int getOrdem(){
+			return this.ordem;
+		}
+
+		public void setP_id(String p_id){
+			this.p_id = p_id;
+		}
+		public String getP_id(){
+			return this.p_id;
 		}
 
 	}
+
+	public void loadTable_1(QueryHelper query) {
+		this.setTable_1(this.loadTable(query,Table_1.class));
+	}
+
 }
-/*-------------------------*/
