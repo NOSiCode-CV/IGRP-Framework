@@ -286,15 +286,17 @@ $(function(){
 
 		    options.words = [];
 		    
+		    console.log(token.string)
+		    
 		    try{
 		    	
 		    	if(token.string == '.'){
 
 			    	var hintClass = $.trim(lineText.substring(0, cur.ch-1));
-			    	
-			    	console.log(hintClass)
 
-			    	if( !server.hints[hintClass] ){
+			    	/*if( !server.hints[hintClass] ){
+			    		
+			    		console.log('no class fouund on dot!')
 			    		
 			    		var arr = lineText.split(/[-+.(,;\t),]/);
 			    		
@@ -309,9 +311,11 @@ $(function(){
 			    			hintClass = $.trim(arr[arr.length-1]);
 			    			
 			    		}
-			    	}
+			    	}*/
 			    	
 			    	if(server.hints[hintClass]){
+			    		
+			    		console.log('Class fouund on dot!')
 			    		
 			    		options.words = server.hints[hintClass];
 			    		
@@ -322,14 +326,36 @@ $(function(){
 			    			var dotArr = lineText.split(/[-+.(,;\t),]/)
 			    			
 			    			dotArr = dotArr.filter(function(v){
+			    				
 			    				return $.trim(v) != '';
 			    			});
+
+			    			hintClass = $.trim(dotArr[dotArr.length-1]);
 			    			
+			    			
+			    			if(!server.hints[hintClass])
+			    				
+			    				hintClass = $.trim(dotArr[dotArr.length-2]) +'.'+ $.trim(dotArr[dotArr.length-1]);
+			    			
+			    			options.words = server.hints[hintClass];
+			    				
+			    			
+			    		}
+			    		
+			    		/*if(hintClass){
+			    			
+			    			var dotArr = lineText.split(/[-+.(,;\t),]/)
+			    			
+			    			dotArr = dotArr.filter(function(v){
+			    				
+			    				return $.trim(v) != '';
+			    			});
+
 			    			hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
 			    			
 			    			options.words = server.hints[hintClass];
 			    			
-			    		}
+			    		}*/
 			    		
 			    		
 			    	}
