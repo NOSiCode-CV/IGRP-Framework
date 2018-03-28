@@ -75,7 +75,7 @@ public class PesquisarMenuController extends Controller {
 		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
 
-		if (idOrg == 0) {
+		if (idOrg == 0 && idApp!=0) {
 
 			if ("igrp".equalsIgnoreCase(dad)) {
 				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
@@ -87,38 +87,42 @@ public class PesquisarMenuController extends Controller {
 						.andWhere("application", "<>", 3)// Oculta IGRP Studio
 						.all();
 			}
-		} else {
-			menus = menu.searchMen();
-		}
-		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
-		// Preenchendo a tabela
-		for (Menu menu_db1 : menus) {
-			PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
-			if (menu_db1.getMenu() != null) {
-				table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
-			} else {
-				table1.setT1_menu_principal(menu_db1.getDescr());
-			}
-			if (menu_db1.getAction() != null) {
-				table1.setPagina(menu_db1.getAction().getPage_descr());
-				table1.setTable_titulo(menu_db1.getDescr());
-			}
+			
+			
+			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
+			// Preenchendo a tabela
+			for (Menu menu_db1 : menus) {
+				PesquisarMenu.Table_1 table1 = new PesquisarMenu.Table_1();
+				if (menu_db1.getMenu() != null) {
+					table1.setT1_menu_principal(menu_db1.getMenu().getDescr());
+				} else {
+					table1.setT1_menu_principal(menu_db1.getDescr());
+				}
+				if (menu_db1.getAction() != null) {
+					table1.setPagina(menu_db1.getAction().getPage_descr());
+					table1.setTable_titulo(menu_db1.getDescr());
+				}
 
-			table1.setAtivo(menu_db1.getStatus());
-			table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
-			table1.setCheckbox(menu_db1.getId());
-			table1.setP_id("" + menu_db1.getId());
-			if (menu_db1.getFlg_base() == 1) {
-				table1.setCheckbox_check(menu_db1.getId());
+				table1.setAtivo(menu_db1.getStatus());
+				table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
+				table1.setCheckbox(menu_db1.getId());
+				table1.setP_id("" + menu_db1.getId());
+				if (menu_db1.getFlg_base() == 1) {
+					table1.setCheckbox_check(menu_db1.getId());
+				}
+				lista.add(table1);
 			}
-			lista.add(table1);
-		}
-
-		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
-		view.aplicacao.setValue(new Application().getListApps());
+					
+			view.table_1.addData(lista);
+		} 
+//		else {
+//			menus = menu.searchMen();
+//		}
+	
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
-		view.table_1.addData(lista);
+		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
+		view.aplicacao.setValue(new Application().getListApps());
 		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&app=" + model.getAplicacao()));
 
 		/*----#end-code----*/
@@ -149,7 +153,7 @@ public class PesquisarMenuController extends Controller {
 		/*----#start-code(editar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Core.isNotNull(id)) {
-			return this.redirect("igrp", "NovoMenu", "index&target=_blank&p_id=" + id);
+			return this.redirect("igrp", "NovoMenu", "index&p_id=" + id);
 		}
 
 		/*----#end-code----*/
