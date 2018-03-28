@@ -35,7 +35,7 @@ public class GeneratorController extends Controller{
 					if(FileHelper.fileExists(json)){
 						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+r.nextInt();
 						model.setPage_form(json.replace("\\", "/"));
-					}else {
+					}else if(FileHelper.fileExists(json.replaceAll(".json", ".xml"))){
 						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+r.nextInt();
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
