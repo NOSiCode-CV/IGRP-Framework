@@ -33,10 +33,10 @@ public class GeneratorController extends Controller{
 					String json = this.getConfig().getBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
 					Random r = new Random();
 					if(FileHelper.fileExists(json)){
-						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+r.nextInt();
+						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+Math.abs(r.nextInt());
 						model.setPage_form(json.replace("\\", "/"));
 					}else if(FileHelper.fileExists(json.replaceAll(".json", ".xml"))){
-						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+r.nextInt();
+						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+Math.abs(r.nextInt());
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
 					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));
