@@ -90,19 +90,19 @@
 	     		<xsl:with-param name="type" select="'index'"/>
 	     	</xsl:call-template>
 			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>  
-			<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_db,$double_quotes,');')"/>	
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>	
-			<xsl:value-of select="'model.load(query);'"/>			
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>			
+			<xsl:value-of select="$tab2"/>  		
 			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
  			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat('if(',$isEdit,') {')"/>	
 				<xsl:value-of select="$newline"/>
-				<xsl:value-of select="$tab2"/>				
+				<xsl:value-of select="$tab2"/>
+				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>	
+				<xsl:value-of select="'model.load(query);'"/>			
+				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>			
 				<xsl:value-of select="concat('view.btn_save.setLink(',$double_quotes,'save&amp;isEdit=true',$double_quotes,');')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
