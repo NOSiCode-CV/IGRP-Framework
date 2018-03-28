@@ -7,19 +7,16 @@ package nosi.core.gui.fields;
  * Description: abstract class to configure any field
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.config.Config;
-import nosi.core.exception.NotFoundHttpException;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.databse.helpers.Query;
 
 public abstract class AbstractField implements Field{
@@ -156,24 +153,7 @@ public abstract class AbstractField implements Field{
 	}
 	
 	protected void configValue(Object model){
-		if(model!=null){		
-			this.value = "";
-			Method[] allMethods = model.getClass().getDeclaredMethods();
-		    for (Method m : allMethods) {
-		    	String methodName = this.getName().substring(0, 1).toUpperCase()+this.getName().substring(1);
-		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
-			    	try {
-			    		if(m.invoke(model)!=null) {
-			    			this.value = ""+ m.invoke(model);
-			    			break;
-			    		}
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						e.printStackTrace();
-						throw new NotFoundHttpException("Error no config value line 162.AbstractField\n\n\n"+e.getMessage());
-					}                                                                     
-		    	}
-		    }
-		}
+		this.value = IgrpHelper.getValue(model, this.getName());
 	}
 	
 	@Override

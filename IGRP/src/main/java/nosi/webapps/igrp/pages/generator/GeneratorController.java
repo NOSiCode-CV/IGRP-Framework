@@ -3,8 +3,10 @@ package nosi.webapps.igrp.pages.generator;
 import java.io.File;
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
 import java.io.IOException;
+import java.util.Random;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
+import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.webapps.igrp.dao.Action;
@@ -15,26 +17,26 @@ public class GeneratorController extends Controller{
 	public Response actionIndex() throws IOException{		
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		this.isNoCached=true;
+		
 		Generator model = new Generator();
-		String id = Core.getParam("id");
+		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if(Core.isNotNull(id)){
 			try{
 				Action ac = new Action();
 				ac = ac.findOne(Integer.parseInt(id));	
 				if(ac!=null){
-					System.out.println("Id="+id);
 					model.setGen_elements(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/formgen.config.txt?id=");
 					model.setId_objeto(Integer.parseInt(id));
 					model.setId(ac.getId());
 					model.setId_pai(ac.getApplication().getId());
 					model.setLink_image(this.getConfig().getLinkImgBase().replace("\\", "/")+"images/IGRP/Config/img.list.php?name=");	
 					String json = this.getConfig().getBaseServerPahtXsl(ac)+ File.separator +ac.getPage()+".json";
-					
+					Random r = new Random();
 					if(FileHelper.fileExists(json)){
-						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json";
+						json = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".json?v="+r.nextInt();
 						model.setPage_form(json.replace("\\", "/"));
 					}else {
-						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml";
+						String xmlp = this.getConfig().getResolvePathPage(ac.getApplication().getDad(),ac.getPage(), ac.getVersion())+"/"+ac.getPage()+".xml?v="+r.nextInt();
 						model.setPage_form(xmlp.replace("\\", "/"));
 					}
 					model.setPackage_(this.getConfig().getPackage(ac.getApplication().getDad(), ac.getPage(), ac.getAction()));

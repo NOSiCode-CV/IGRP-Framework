@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import nosi.core.gui.components.IGRPLink;
+import nosi.core.gui.fields.Field;
 /**
  * @author Marcel Iekiny
  * Apr 19, 2017
@@ -83,23 +85,36 @@ public final class IgrpHelper {
 		return array; // default purpose ...
 	}
 	
+
 	public static String getValue(Object model,String name){
 		String value = "";
 		if(model!=null && name!=null && !name.equals("")){		
 			value = "";
-			Method[] allMethods = model.getClass().getDeclaredMethods();
-		    for (Method m : allMethods) {
+		    for (Method m : model.getClass().getDeclaredMethods()) {
 		    	String methodName = name.substring(0, 1).toUpperCase()+name.substring(1);
 		    	if(m.getName().startsWith("get") && m.getName().equals("get"+methodName)){
 			    	try {
-			    		if(m.invoke(model)!=null)
-			    			value = ""+ m.invoke(model);
+			    		if(m.invoke(model)!=null) {
+			    			if(m.getReturnType().getSimpleName().toString().equalsIgnoreCase("IGRPLink")) {
+			    				IGRPLink link = (IGRPLink) m.invoke(model);
+								value = link.getLink();
+			    			}else {
+			    				value = ""+ m.invoke(model);
+			    			}
+			    			break;
+			    		}
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						e.printStackTrace();
 					}                                                                     
 		    	}
 		    }
 		}
+		return value;
+	}
+
+	public static String getLabel(Field field) {
+		String value = "";
+		
 		return value;
 	}
 }

@@ -41,10 +41,10 @@ public class ListaPageController extends Controller {
 
 		model.load();
 
-		model.setBtn_import("igrp_studio", "ImportArquivo", "index&target=_blank");
-		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank");
-		model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank");
-
+		model.setBtn_import("igrp_studio", "ImportArquivo", "index").addParam("target","_blank");
+		model.setCrud_generator("igrp_studio", "CRUDGenerator", "index").addParam("target","_blank");
+		model.setLink_btn_nova_pagina("igrp", "Page", "index").addParam("target","_blank");
+		
 		String app = Igrp.getInstance().getRequest().getParameter("app");
 
 		if (Core.isNotNull(app)) {
@@ -54,10 +54,16 @@ public class ListaPageController extends Controller {
 		}
 
 		if (Core.isNotNull(model.getEnv_fk())) {
-			model.setBtn_import("igrp_studio", "ImportArquivo",
-					"index&target=_blank&p_list_aplicacao=" + model.getEnv_fk() + "#tab-tabcontent_1-importar_pagina");
-			model.setLink_btn_nova_pagina("igrp", "Page", "index&target=_blank&p_env_fk=" + model.getEnv_fk());
-          	model.setCrud_generator("igrp_studio", "CRUDGenerator", "index&target=_blank&p_aplicacao=" + model.getEnv_fk());
+			model.setBtn_import("igrp_studio", "ImportArquivo","index")
+				.addParam("p_list_aplicacao",model.getEnv_fk())
+				.addParam("target","_blank")
+				.addParam("tab-tabcontent_1-importar_pagina","1");
+			model.setLink_btn_nova_pagina("igrp", "Page", "index")
+				.addParam("target","_blank")
+				.addParam("p_env_fk", model.getEnv_fk());
+          	model.setCrud_generator("igrp_studio", "CRUDGenerator", "index")
+          		.addParam("target","_blank")
+          		.addParam("p_aplicacao", model.getEnv_fk());
 		}
 
 		List<Action> actions = a.find().andWhere("application", "=",
@@ -93,10 +99,10 @@ public class ListaPageController extends Controller {
 				page = (ac != null && ac.getPage() != null) ? ac.getPage() : page;
 			}
 			myapps.setIcon(this.getConfig().getLinkImg() + "/assets/img/iconApp/" + (Core.isNotNull(p.getOrganization().getApplication().getImg_src())?p.getOrganization().getApplication().getImg_src():"default.svg"));
+			myapps.setAplicacao("igrp_studio", "env", "openApp")
+				  .addParam("app",p.getOrganization().getApplication().getDad())
+				  .addParam("page","/" + page + "/index&title=\"");
 			myapps.setAplicacao_desc(p.getOrganization().getApplication().getName());
-			//myapps.setAplicacao(p.getOrganization().getApplication().getDad(), page, "index");
-			myapps.setAplicacao("igrp_studio", "env", "openApp" + "&app=" + p.getOrganization().getApplication().getDad() + 
-					"&page=/" + page + "/index&title=");
 			apps.add(myapps);
 		}
 		//model.setInfopanel_3_val(""+apps.size());
@@ -109,6 +115,8 @@ public class ListaPageController extends Controller {
 		view.infopanel_1_url.setValue(this.getConfig().getResolveUrl("igrp_studio","WebReport","index"));
 		view.infopanel_2_url.setValue(this.getConfig().getResolveUrl("igrp_studio","BPMNDesigner","index"));
 		view.infopanel_3_url.setValue(this.getConfig().getResolveUrl("igrp_studio","ListaEnv","index"));
+		
+		view.setModel(model);
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
