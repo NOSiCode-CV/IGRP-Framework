@@ -197,7 +197,7 @@ public class Config {
 	}
 	
 	public String getResolveUrl(String app,String page,String action){
-		String qs = (Route.getQueryString(action)+"&dad="+new Permission().getCurrentEnv()).replaceAll("&", "&amp;");//Get Query String
+		String qs = (Route.getQueryString(action)+"&dad="+new Permission().getCurrentEnv());//Get Query String
 		action = Route.resolveAction(action);
 		String url = "webapps?r="+EncrypDecrypt.encrypt(app+SEPARATOR_FOR_HTTP+page+SEPARATOR_FOR_HTTP+action)+qs;
 		return url;
