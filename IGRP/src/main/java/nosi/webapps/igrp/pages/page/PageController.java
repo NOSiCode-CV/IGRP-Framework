@@ -97,6 +97,7 @@ public class PageController extends Controller {
 		view.version.setValue(this.getConfig().getVersions());
 		view.version.setVisible(false);
 		view.p_id.setParam(true);
+  
 		if (isEdit) {
 			view.sectionheader_1_text.setValue("Page builder - Atualizar");
 			view.page.propertie().setProperty("readonly", "true");	
@@ -118,8 +119,7 @@ public class PageController extends Controller {
 		Page model = new Page();
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
 			model.load();
-			String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-			int idPage = Core.isInt(p_id)? Core.toInt(p_id) : 0;
+				int idPage = Core.isInt(Core.getParam("p_id"))? Core.toInt(Core.getParam("p_id")) : 0;	
 			
 			Application app = new Application();
 			Action action = new Action();
@@ -128,6 +128,7 @@ public class PageController extends Controller {
 				// Edit/update page
 				action.setPage_descr(model.getPage_descr());
                 action.setAction_descr(model.getPage_descr());
+                action.setStatus(model.getStatus());
 				action = action.update();
 				if (action != null)
 					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
