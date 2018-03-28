@@ -37,7 +37,7 @@ public final class Svn {
 		this.workFolder = workFolder;
 	}
 
-	private boolean exec () {
+	private boolean exec () {/*
     	try {
     		final Process p = Runtime.getRuntime().exec(this.cmd);
             new Thread(new Runnable() {
@@ -65,7 +65,9 @@ public final class Svn {
     		error = e.getMessage();
     	}
     	return isSuccess;
-    }
+    	*/
+	return true;	
+	}
 
     public boolean mkdir() throws IOException, InterruptedException {
     	this.cmd = "svn mkdir --parents " + getSvnUrl() + getWorkFolder() + " -m \"" + this.message + "\"";
