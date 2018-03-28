@@ -286,8 +286,6 @@ $(function(){
 
 		    options.words = [];
 		    
-		    console.log(token.string)
-		    
 		    try{
 		    	
 		    	if(token.string == '.'){
@@ -314,9 +312,7 @@ $(function(){
 			    	}*/
 			    	
 			    	if(server.hints[hintClass]){
-			    		
-			    		console.log('Class fouund on dot!')
-			    		
+
 			    		options.words = server.hints[hintClass];
 			    		
 			    	}else{
