@@ -4,7 +4,7 @@ package nosi.core.webapp.webservices.biztalk.dao;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import com.google.gson.annotations.Expose;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.xml.XMLWritter;
 /**
  * @author: Emanuel Pereira
@@ -36,7 +36,7 @@ public class Request{
 					for(Annotation anotation:field.getDeclaredAnnotationsByType(Expose.class)){
 						Expose a = (Expose) anotation;
 						if(a.serialize()){
-							String value = Helper.getValue(service, field.getName());
+							String value = IgrpHelper.getValue(service, field.getName());
 							if(value!=null && !value.equals("") && !value.equals("0")){
 								xml.setElement(field.getName(),value);
 							}

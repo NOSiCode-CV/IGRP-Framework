@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-import nosi.core.webapp.helpers.Helper;
+import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
  * @author: Emanuel Pereira
@@ -55,7 +55,7 @@ public class CRUDHelper {
 	
 	private static <T> void mapQuery(T obj, QueryHelper query) {
 		for(Field f:obj.getClass().getDeclaredFields()) {
-			Object value = Helper.getValue(obj, f.getName());
+			Object value = IgrpHelper.getValue(obj, f.getName());
 			switch(f.getType().getName().toLowerCase()) {
 				case "int":
 				case "java.lang.integer":

@@ -1,6 +1,6 @@
 package nosi.core.webapp;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -12,7 +12,7 @@ public class QueryString {
 	private Map<String,Object> queryString;
 	
 	public QueryString() {
-		this.queryString = new HashMap<>();
+		this.queryString = new LinkedHashMap<>();
 	}
 	
 	public Map<String, Object> getQueryString() {
