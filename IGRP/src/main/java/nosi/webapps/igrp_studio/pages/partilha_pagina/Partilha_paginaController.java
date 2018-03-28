@@ -1,5 +1,5 @@
 
-package nosi.webapps.igrp_studio.pages.partilha_geral;
+package nosi.webapps.igrp_studio.pages.partilha_pagina;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
@@ -9,17 +9,18 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
-
+		
+		
 /*----#end-code----*/
 
 
 
-public class Partilha_geralController extends Controller {		
+public class Partilha_paginaController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		Partilha_geral model = new Partilha_geral();
-		Partilha_geralView view = new Partilha_geralView();
+		Partilha_pagina model = new Partilha_pagina();
+		Partilha_paginaView view = new Partilha_paginaView();
 		model.load();
 		
 		/*----#gen-example
@@ -33,12 +34,8 @@ public class Partilha_geralController extends Controller {
 		----#gen-example */
 		
 		/*----#start-code(index)----*/
-		view.aplicacao_origem.setSqlQuery(null,"(SELECT 'id' as ID,'name' as NAME union all (SELECT 'PAGE' as ID,'PAGE' as NAME)) ");
 		
-		/*view.elemento.setSqlQuery(null,"(((((SELECT '' as ID,'-- Elemento --' as NAME) union all (SELECT 'PAGE' as ID,'PAGE' as NAME)) union all (SELECT 'WORKFLOW' as ID,'WORKFLOW' as NAME)) "
-				+ "union all (SELECT 'SERVICE' as ID,'SERVICE' as NAME)) union all (SELECT 'REPORT' as ID,'REPORT' as NAME))");*/
 		
-		view.aplicacao_destino.setSqlQuery(null,"(SELECT 'id' as ID,'name' as NAME union all (SELECT 'PAGE' as ID,'PAGE' as NAME)) ");
 		/*----#end-code----*/
 		
 		
@@ -50,7 +47,7 @@ public class Partilha_geralController extends Controller {
 
 	public Response actionPartilhar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
-		Partilha_geral model = new Partilha_geral();
+		Partilha_pagina model = new Partilha_pagina();
 		model.load();
 		
 		/*----#gen-example
@@ -60,21 +57,23 @@ public class Partilha_geralController extends Controller {
 			Core.setMessageSuccess();
 		 }else{
 			Core.setMessageError();
-		 return this.forward("igrp_studio","Partilha_geral","index");
+		 return this.forward("igrp_studio","Partilha_pagina","index");
 		}
 		
 		----#gen-example */
 		
 		/*----#start-code(partilhar)----*/
 		
+		
 		/*----#end-code----*/
 		
-		return this.redirect("igrp_studio","Partilha_geral","index");
+		return this.redirect("igrp_studio","Partilha_pagina","index");
 		
 	}
 	
 	/*----#start-code(custom_actions)----*/
-
+		
+		
 		/*----#end-code----*/
 	
 	
