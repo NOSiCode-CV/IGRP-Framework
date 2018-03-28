@@ -31,16 +31,14 @@ import com.google.gson.Gson;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
+public class PesquisarMenuController extends Controller {
 
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
-public class PesquisarMenuController extends Controller {		
-
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
 		PesquisarMenu model = new PesquisarMenu();
 		PesquisarMenuView view = new PesquisarMenuView();
 		model.load();
-		
+
 		/*----#gen-example
 		This is an example of how you can implement your code:
 		
@@ -48,41 +46,48 @@ public class PesquisarMenuController extends Controller {
 		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		
 		----#gen-example */
-		
+
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
 		int idApp = 0;
 		int idOrg = 0;
-	//	int idMen = 0;
-		
-      String dad = new Permission().getCurrentEnv();
-      if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) 
-			model.setAplicacao("" + (new Application().find().andWhere("dad", "=", dad).one()).getId());
-		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+		// int idMen = 0;
 
-			idApp = (Core.isNotNull(model.getAplicacao()))? Integer.parseInt(model.getAplicacao()): 0;
-			menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
-
+		if (Core.isInt(Core.getParam("id_app"))) {
+			idApp = Core.getParamInt("id_app");
+			model.setAplicacao("" + idApp);
 		}
+			
+
+		// If in a app, choose automatically the app in the combobox
+		String dad = new Permission().getCurrentEnv();
+		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
+			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();
+			model.setAplicacao("" + idApp);
+		}
+		
+
+		// When onChange, it's always a post
+		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
+			idApp = Core.isInt(model.getAplicacao()) ? Integer.parseInt(model.getAplicacao()) : 0;
+		}
+		menu.setApplication(idApp != 0 ? new Application().findOne(idApp) : null);
 		List<Menu> menus = null;
 
 		if (idOrg == 0) {
-			
+
 			if ("igrp".equalsIgnoreCase(dad)) {
 				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
-					
+
 			} else {
-				menus = menu.find()
-						.andWhere("application.id", "=",idApp)
+				menus = menu.find().andWhere("application.id", "=", idApp)
 						.andWhere("application", "<>", 1)// Oculta IGRP Core
 						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
 						.andWhere("application", "<>", 3)// Oculta IGRP Studio
-						
-                  .all();
+						.all();
 			}
-		} 
-      else {
+		} else {
 			menus = menu.searchMen();
 		}
 		ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
@@ -98,9 +103,9 @@ public class PesquisarMenuController extends Controller {
 				table1.setPagina(menu_db1.getAction().getPage_descr());
 				table1.setTable_titulo(menu_db1.getDescr());
 			}
-		
+
 			table1.setAtivo(menu_db1.getStatus());
-            table1.setAtivo_check(menu_db1.getStatus() == 1?menu_db1.getStatus():-1);
+			table1.setAtivo_check(menu_db1.getStatus() == 1 ? menu_db1.getStatus() : -1);
 			table1.setCheckbox(menu_db1.getId());
 			table1.setP_id("" + menu_db1.getId());
 			if (menu_db1.getFlg_base() == 1) {
@@ -108,29 +113,27 @@ public class PesquisarMenuController extends Controller {
 			}
 			lista.add(table1);
 		}
-   
-   			
+
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
 		// Para pegar os parametros que queremos enviar para poder editar o menu no view
 		view.p_id.setParam(true);
-		view.table_1.addData(lista);	
-		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&target=_blank&app=" + model.getAplicacao()));
-	
+		view.table_1.addData(lista);
+		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&app=" + model.getAplicacao()));
+
 		/*----#end-code----*/
-		
-		
+
 		view.setModel(model);
-		
+
 		return this.renderView(view);
-		
+
 	}
 
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
-		
+
 		/*----#gen-example
 		This is an example of how you can implement your code:
 		
@@ -142,23 +145,24 @@ public class PesquisarMenuController extends Controller {
 		}
 		
 		----#gen-example */
-		
+
 		/*----#start-code(editar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Core.isNotNull(id)) {
 			return this.redirect("igrp", "NovoMenu", "index&target=_blank&p_id=" + id);
 		}
-		
+
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","NovoMenu","index");
-		
+
+		return this.redirect("igrp", "NovoMenu", "index");
+
 	}
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
+
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
+
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
-		
+
 		/*----#gen-example
 		This is an example of how you can implement your code:
 		
@@ -170,21 +174,21 @@ public class PesquisarMenuController extends Controller {
 		}
 		
 		----#gen-example */
-		
+
 		/*----#start-code(eliminar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
 		if (menu_db.delete(Integer.parseInt(id)))
 			Core.setMessageSuccess();
 		else
-           Core.setMessageError();		
+			Core.setMessageError();
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","PesquisarMenu","index");
-		
+
+		return this.redirect("igrp", "PesquisarMenu", "index");
+
 	}
-	
+
 	/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
@@ -204,11 +208,12 @@ public class PesquisarMenuController extends Controller {
 					if (link1Menu.getMenu() != null) {
 
 						if (link1Menu.getId() == link1Menu.getMenu().getId()) {
-							xml_menu.setElement("link", "webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink()));
+							xml_menu.setElement("link",
+									"webapps?r=" + EncrypDecrypt.encrypt(link1Menu.getMenu().getLink()));
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 						} else
 							xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
-						
+
 					} else
 						xml_menu.setElement("order", "" + link1Menu.getMenu().getOrderby());
 
@@ -237,15 +242,15 @@ public class PesquisarMenuController extends Controller {
 	// Get Top Menu
 	public Response actionTopMenu() throws IOException {
 		IGRPTopMenu topMenu = new IGRPTopMenu("top_menu");
-		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png","webapps?r=");
-		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", "settings.png","webapps?r=");
-		topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png","webapps?r=");
-		topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png","webapps?r=");
+		topMenu.addItem("Home", "igrp", "DefaultPage", "index", "_self", "home.png", "webapps?r=");
+		topMenu.addItem("Settings", "igrp", "Settings", "index", "_self", "settings.png", "webapps?r=");
+		topMenu.addItem("Mapa Processos", "igrp", "MapaProcesso", "index", "_self", "process.png", "webapps?r=");
+		topMenu.addItem("Tarefas", "igrp", "ExecucaoTarefas", "index", "_self", "tasks.png", "webapps?r=");
 		return this.renderView(topMenu.toString());
 	}
-	
-	
-  	public Response actionChangeStatus() throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
+
+	public Response actionChangeStatus()
+			throws IOException, IllegalArgumentException, IllegalAccessException, JSONException {
 
 		this.format = Response.FORMAT_JSON;
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -267,8 +272,5 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(json.toString());
 	}
 	/*----#end-code----*/
-	
-	
-	
-	
+
 }

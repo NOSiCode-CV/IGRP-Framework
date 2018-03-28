@@ -22,31 +22,25 @@ public class NovoMenuController extends Controller {
 		NovoMenu model = new NovoMenu();
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		model.load();
-		if (Core.isInt(id) && !id.equals("0")) {
-			// If its a update it will enter here and the value p_id is from the GET url
+		// If its a update it will enter here and the value p_id is from the GET url
+		if (Core.isInt(id) && !id.equals("0")) {			
 			Menu menu = new Menu().findOne(id);
 			if (null != menu.getMenu())
 				model.setSelf_id(menu.getMenu().getId());
 			model.setStatus(menu.getStatus());
-			model.setFlg_base(menu.getFlg_base());
-			// Sets the Application combo
-
+			model.setFlg_base(menu.getFlg_base());	
 			// Sets the target, Self_, other page, popup...
 			model.setTarget(menu.getTarget());
-			// Sets the page to open
-
 			model.setOrderby(menu.getOrderby());
 			model.setDescr(menu.getDescr());
-			if (Core.isNotNull(Igrp.getInstance().getRequest().getParameter("ichange"))) {
-				
+			if (Core.isNotNull(Igrp.getInstance().getRequest().getParameter("ichange"))) {				
 				model.setEnv_fk(model.getEnv_fk());
 			} else {
 				model.setEnv_fk(menu.getApplication().getId());
 				if (menu.getAction() != null)
 					model.setAction_fk(menu.getAction().getId());
 			}
-		} else {
-			model.load();
+		} else {		
 			String app = Igrp.getInstance().getRequest().getParameter("app");
 			if (Core.isInt(app))
 				model.setEnv_fk(Integer.parseInt(app));
