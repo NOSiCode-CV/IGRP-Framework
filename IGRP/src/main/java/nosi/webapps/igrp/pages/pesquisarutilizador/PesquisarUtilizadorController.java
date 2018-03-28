@@ -105,10 +105,10 @@ public class PesquisarUtilizadorController extends Controller {
 		if (email != null) {
 			User u = new User().find().andWhere("email", "=", email).one();
 			if (u != null) {
-				return this.redirect("igrp", "NovoUtilizador", "index&target=_blank&id=" + u.getId());
+				return this.redirect("igrp", "NovoUtilizador", "index&id=" + u.getId());
 			}
 		}
-		return this.redirect("igrp", "NovoUtilizador", "index&target=_blank");
+		return this.redirect("igrp", "NovoUtilizador", "index");
 		/*----#END-PRESERVED-AREA----*/
 	}
 

@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Map.Entry;
-import static nosi.core.i18n.Translator.gt;
 import nosi.core.gui.fields.CheckBoxField;
 import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.ColorField;
@@ -58,7 +57,6 @@ import nosi.core.gui.fields.GenXMLField;
 import nosi.core.gui.fields.HiddenField;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.Igrp;
-import nosi.core.webapp.helpers.Helper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.gui.fields.FieldProperties;
 import java.util.Map;
@@ -208,17 +206,17 @@ public class IGRPTable extends IGRPComponent{
 			this.xml.startElement("context-menu");
 			for(Field field:this.fields){
 				if(field.isParam()){
-					String value= Helper.getValue(l, field.getName().toLowerCase());
+					String value= IgrpHelper.getValue(l, field.getName().toLowerCase());
 					if(Core.isNull(value))
-						value= Helper.getValue(l, "p_"+field.getName().toLowerCase());
+						value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());
 					this.xml.setElement("param", field.getName()+"="+ value);
 				}
 			}
 			this.xml.endElement();			
 			for(Field field:this.fields){
-				String value= Helper.getValue(l, field.getName().toLowerCase());
+				String value= IgrpHelper.getValue(l, field.getName().toLowerCase());
 				if(Core.isNull(value))
-					value= Helper.getValue(l, "p_"+field.getName().toLowerCase());	
+					value= IgrpHelper.getValue(l, "p_"+field.getName().toLowerCase());	
 				this.xml.startElement(field.getTagName().replace("p_", ""));
 				this.xml.writeAttribute("name", field.getName().startsWith("p_")?field.getName():"p_"+field.getName());
 				this.xml.text(value);
@@ -260,10 +258,8 @@ public class IGRPTable extends IGRPComponent{
 					this.xml.startElement(field.getTagName()+sufix);
 					this.xml.writeAttribute("name", field.propertie().getProperty("name")+sufix);
 					String val1 = IgrpHelper.getValue(obj, field.getName()+sufix);
-					if(val1==null || val1.equals("")){
-						
-						val1 = field.getValue() != null ? field.getValue().toString() : "";
-						
+					if(val1==null || val1.equals("")){						
+						val1 = field.getValue() != null ? field.getValue().toString() : "";						
 					}
 					this.xml.text(val1);
 					this.xml.endElement();

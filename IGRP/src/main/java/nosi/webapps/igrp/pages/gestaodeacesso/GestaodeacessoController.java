@@ -59,9 +59,9 @@ public class GestaodeacessoController extends Controller {
 		view.setPageTitle("Gestão de Acesso");	
 		if(Core.isNotNull(model.getAplicacao())) {
 			// view.adicionar_organica1.setValue("webapps?r=igrp/NovaOrganica/index&id_app="+model.getAplicacao());	
-			// view.gestao_de_utilizadores1.setValue("webapps?r=igrp/PesquisarUtilizador/index&id_app="+model.getAplicacao());
-			 view.adicionar_organica1.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index") + "&id_app="+model.getAplicacao());	
-			 view.gestao_de_utilizadores1.setValue(this.getConfig().getResolveUrl("igrp","PesquisarUtilizador","index") + "&id_app="+model.getAplicacao());
+			 view.gestao_de_menu.setValue(this.getConfig().getResolveUrl("igrp","PesquisarMenu","index&id_app="+model.getAplicacao())) ;
+			 view.adicionar_organica1.setValue(this.getConfig().getResolveUrl("igrp","NovaOrganica","index&id_app="+model.getAplicacao()));	
+			 view.gestao_de_utilizadores1.setValue(this.getConfig().getResolveUrl("igrp","PesquisarUtilizador","index&id_app="+model.getAplicacao()));
 		}
 		
 		view.btn_eliminar.setVisible(false);

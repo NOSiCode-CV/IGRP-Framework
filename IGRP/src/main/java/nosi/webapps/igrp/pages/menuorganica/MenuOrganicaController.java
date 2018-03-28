@@ -84,9 +84,13 @@ public class MenuOrganicaController extends Controller {
 			view.table_1.addData(data);
 
 		}
-		view.btn_gravar.setLink("gravar&id=" + model.getP_id() + "&type=" + model.getP_type());			
-		view.btn_novo.setVisible(type.equals("org"));
- 
+		view.btn_gravar.setLink("gravar&id=" + model.getP_id() + "&type=" + model.getP_type());
+		if (type.equals("org")) {
+			view.btn_novo.setLink("igrp","MenuOrganica","novo&env_fk=" + Igrp.getInstance().getRequest().getParameter("env_fk"));		
+			view.btn_novo.setVisible(true);
+		}
+		
+		
 		/*----#end-code----*/
 		
 		
@@ -202,8 +206,7 @@ public class MenuOrganicaController extends Controller {
 			Core.setMessageSuccess();
 		}
 		if (type.equals("org"))
-			return this.redirect("igrp", "MenuOrganica", "index",
-					"id=" + id + "&type=" + type + "&env_fk=" + organization2.getApplication().getId());
+			return this.redirect("igrp", "MenuOrganica", "index","id=" + id + "&type=" + type + "&env_fk=" + organization2.getApplication().getId());
 		else if (type.equals("perfil"))          
 			return this.redirect("igrp", "MenuOrganica", "index", "id=" + id + "&type=" + type);
 		/*----#end-code----*/
@@ -229,12 +232,9 @@ public class MenuOrganicaController extends Controller {
 		----#gen-example */
 		
 		/*----#start-code(novo)----*/
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-			 return this.forward("igrp","NovoMenu","index");
-		}
+		String env_fk = Igrp.getInstance().getRequest().getParameter("env_fk");
+		if(Core.isNotNull(env_fk))
+			return this.redirect("igrp","NovoMenu","index&app="+env_fk);
 		/*----#end-code----*/
 		
 		return this.redirect("igrp","NovoMenu","index");

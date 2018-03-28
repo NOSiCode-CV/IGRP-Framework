@@ -1,5 +1,5 @@
 package nosi.webapps.igrp_studio.pages.listapage;
-import nosi.core.config.Config;
+import nosi.core.gui.components.IGRPLink;
 import nosi.core.webapp.Model;
 import nosi.core.webapp.RParam;
 import java.util.ArrayList;
@@ -39,19 +39,13 @@ public class ListaPage extends Model{
 	@RParam(rParamName = "p_env_fk")
 	private String env_fk;
 	@RParam(rParamName = "p_link_btn_nova_pagina")
-	private String link_btn_nova_pagina;
-	@RParam(rParamName = "p_link_btn_nova_pagina_desc")
-	private String link_btn_nova_pagina_desc;
+	private IGRPLink link_btn_nova_pagina;
 	@RParam(rParamName = "p_crud_generator")
-	private String crud_generator;
-	@RParam(rParamName = "p_crud_generator_desc")
-	private String crud_generator_desc;
+	private IGRPLink crud_generator;
 	@RParam(rParamName = "p_btn_import")
-	private String btn_import;
-	@RParam(rParamName = "p_btn_import_desc")
-	private String btn_import_desc;
-	
+	private IGRPLink btn_import;	
 	private List<Table_1> table_1 = new ArrayList<>();	
+	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
@@ -179,44 +173,41 @@ public class ListaPage extends Model{
 		return this.env_fk;
 	}
 	
-	public void setLink_btn_nova_pagina(String app,String page,String action){
-		this.link_btn_nova_pagina = new Config().getResolveUrl(app, page, action);
-	}
-	public String getLink_btn_nova_pagina(){
+	public IGRPLink setLink_btn_nova_pagina(String app,String page,String action){
+		this.link_btn_nova_pagina = new IGRPLink();
+		this.link_btn_nova_pagina.setAction(action);
+		this.link_btn_nova_pagina.setApp(app);
+		this.link_btn_nova_pagina.setPage(page);
 		return this.link_btn_nova_pagina;
 	}
-	public void setLink_btn_nova_pagina_desc(String link_btn_nova_pagina_desc){
-		this.link_btn_nova_pagina_desc = link_btn_nova_pagina_desc;
-	}
-	public String getLink_btn_nova_pagina_desc(){
-		return this.link_btn_nova_pagina_desc;
+	public IGRPLink getLink_btn_nova_pagina(){
+		return this.link_btn_nova_pagina;
 	}
 	
-	public void setCrud_generator(String app,String page,String action){
-		this.crud_generator = new Config().getResolveUrl(app, page, action);
-	}
-	public String getCrud_generator(){
+	
+	public IGRPLink setCrud_generator(String app,String page,String action){
+		this.crud_generator = new IGRPLink();
+		this.crud_generator.setAction(action);
+		this.crud_generator.setApp(app);
+		this.crud_generator.setPage(page);
 		return this.crud_generator;
 	}
-	public void setCrud_generator_desc(String crud_generator_desc){
-		this.crud_generator_desc = crud_generator_desc;
-	}
-	public String getCrud_generator_desc(){
-		return this.crud_generator_desc;
+	public IGRPLink getCrud_generator(){
+		return this.crud_generator;
 	}
 	
-	public void setBtn_import(String app,String page,String action){
-		this.btn_import = new Config().getResolveUrl(app, page, action);
-	}
-	public String getBtn_import(){
+	public IGRPLink setBtn_import(String app,String page,String action){
+		this.btn_import = new IGRPLink();
+		this.btn_import.setAction(action);
+		this.btn_import.setApp(app);
+		this.btn_import.setPage(page);
 		return this.btn_import;
 	}
-	public void setBtn_import_desc(String btn_import_desc){
-		this.btn_import_desc = btn_import_desc;
+	
+	public IGRPLink getBtn_import(){
+		return this.btn_import;
 	}
-	public String getBtn_import_desc(){
-		return this.btn_import_desc;
-	}
+	
 
 
 	public static class Table_1{
@@ -262,7 +253,7 @@ public class ListaPage extends Model{
 	}
 	public static class Myapps_list{
 		private String icon;
-		private String aplicacao;
+		private IGRPLink aplicacao;
 		private String aplicacao_desc;
 		public void setIcon(String icon){
 			this.icon = icon;
@@ -271,10 +262,14 @@ public class ListaPage extends Model{
 			return this.icon;
 		}
 
-		public void setAplicacao(String app,String page,String action){
-			this.aplicacao = new Config().getResolveUrl(app, page, action);
+		public IGRPLink setAplicacao(String app,String page,String action){
+			this.aplicacao = new IGRPLink();
+			this.aplicacao.setAction(action);
+			this.aplicacao.setApp(app);
+			this.aplicacao.setPage(page);
+			return this.aplicacao;
 		}
-		public String getAplicacao(){
+		public IGRPLink getAplicacao(){
 			return this.aplicacao;
 		}
 		public void setAplicacao_desc(String aplicacao_desc){

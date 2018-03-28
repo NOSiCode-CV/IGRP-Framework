@@ -253,4 +253,11 @@ public class ListaPageView extends View {
 		this.addToPage(myapps_list);
 		this.addToPage(toolsbar_2);
 	}
+	
+	public void setModel(ListaPage model) {
+		
+		this.link_btn_nova_pagina.setValue(model);
+		this.crud_generator.setValue(model);
+		this.btn_import.setValue(model);
+	}
 }
