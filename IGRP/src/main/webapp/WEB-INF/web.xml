@@ -67,7 +67,8 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>/app/webapps?r=igrp/home/index</welcome-file>
+		<!-- <welcome-file>app/webapps?r=igrp/login/login</welcome-file> -->
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	
 	
@@ -122,4 +123,3 @@
 	</listener>
 
 </web-app>
-

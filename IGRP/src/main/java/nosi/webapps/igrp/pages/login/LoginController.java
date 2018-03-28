@@ -41,6 +41,7 @@ public class LoginController extends Controller {
 		String redirect_uri = Igrp.getInstance().getRequest().getParameter("redirect_uri"); 
 		String scope = Igrp.getInstance().getRequest().getParameter("scope");
 		
+		
 		// Activation key 
 		String activation_key = Igrp.getInstance().getRequest().getParameter("activation_key");
 		if(activation_key != null && !activation_key.trim().isEmpty()) {
@@ -112,7 +113,7 @@ public class LoginController extends Controller {
 									return this.redirectToUrl(oauth2ServerUrl.toString());
 								}
 								else
-									;// Go to error page
+									;// Go to error page 
 							}else {
 								String destination = Route.previous();
 								if(destination != null) {

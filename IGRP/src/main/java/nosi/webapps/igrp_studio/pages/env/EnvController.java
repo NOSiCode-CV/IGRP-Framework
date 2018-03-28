@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import nosi.core.webapp.helpers.EncrypDecrypt;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
+import nosi.core.webapp.helpers.Route;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
@@ -55,6 +57,7 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
+		view.flg_external.setValue(1);
 	
 
 		return this.renderView(view);
@@ -75,9 +78,16 @@ public class EnvController extends Controller {
 			app.setDad(model.getDad());
 			app.setDescription(model.getDescription());	
 			app.setExternal(model.getFlg_external());
-			if(app.getExternal() == 1 && Core.isNotNull(model.getHost())) {
-				app.setUrl(model.getHost());
-			}
+			if(app.getExternal() == 1) 
+				if(Core.isNotNull(model.getHost()))
+					app.setUrl(model.getHost().trim());
+				else {
+					String uri = Igrp.getInstance().getRequest().getRequestURI();
+					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+					url += "/" + app.getDad().trim().toUpperCase() + "/app/webapps?r=" + app.getDad().trim().toLowerCase() + "/default-page/index" ;
+					app.setUrl(url); 
+				}
+			
 			app.setImg_src(model.getImg_src());
 			app.setName(model.getName());
 			app.setStatus(model.getStatus());
@@ -325,10 +335,14 @@ public class EnvController extends Controller {
 		if(new Permission().isPermition(app, p[1], p[2])) {
 			new Permission().changeOrgAndProfile(app);//Muda perfil e organica de acordo com aplicacao aberta 
 			Application env = new Application().find().andWhere("dad", "=", app).one();
-			System.out.println(env.getExternal() + " - " + env.getUrl()); 
-			System.out.println(Igrp.getInstance().getRequest().getRequestURL().toString()); 
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
-				return this.redirectToUrl(env.getUrl());
+				String aux = env.getUrl();
+				Action action = env.getAction();
+				if(action != null) {
+					aux = aux.replace(URI.create(aux).getQuery(), "");
+					aux += "r=" + env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
+				}
+				return this.redirectToUrl(aux);
 			}
 			return this.redirect(app, p[1], p[2]);
 		}
