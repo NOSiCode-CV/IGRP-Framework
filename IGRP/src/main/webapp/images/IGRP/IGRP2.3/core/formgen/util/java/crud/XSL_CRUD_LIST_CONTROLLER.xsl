@@ -178,6 +178,8 @@
 	     	</xsl:call-template>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
+	     	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
@@ -234,20 +236,10 @@
  	
  	<xsl:template name="set-update-keys-value">
  			<xsl:for-each select="//fields/*[@iskey='true']">	
-	 			<xsl:choose>
-	 				<xsl:when test="@type='hidden'">
-						<xsl:call-template name="setType">
-							<xsl:with-param name="name" select="@name"/>
-							<xsl:with-param name="type" select="@java-type"/>
-						</xsl:call-template>
-	 				</xsl:when>
-	 				<xsl:otherwise>	 					
-						<xsl:call-template name="setType">
-							<xsl:with-param name="name" select="name()"/>
-							<xsl:with-param name="type" select="@java-type"/>
-						</xsl:call-template>
-	 				</xsl:otherwise>
-	 			</xsl:choose>
+	 			<xsl:call-template name="setType">
+					<xsl:with-param name="name" select="@name"/>
+					<xsl:with-param name="type" select="@java-type"/>
+				</xsl:call-template>
  			</xsl:for-each>
  		
 			<xsl:value-of select="$newline"/>
