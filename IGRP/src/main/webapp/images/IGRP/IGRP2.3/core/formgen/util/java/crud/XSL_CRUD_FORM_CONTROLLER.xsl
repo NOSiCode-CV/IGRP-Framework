@@ -72,7 +72,10 @@
 			<xsl:value-of select="$tab2"/>
 			<xsl:value-of select="concat($page_name,' model = new ',$page_name,'();')"/>
 			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>		
+			<xsl:value-of select="$tab2"/>	
+			<xsl:value-of select="'model.load();'"/>
+			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/> 	
 			<xsl:variable name="conditions">
 				<xsl:call-template name="gen-sql">
 					<xsl:with-param name="type_op" select="'select'"/>
@@ -94,7 +97,7 @@
 			<xsl:value-of select="concat('String isEdit = Core.getParam(',$double_quotes,'isEdit',$double_quotes,');')"/>;
  			<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
-			<xsl:value-of select="concat('if(',$isEdit,') {')"/>	
+			<xsl:value-of select="concat('if(',$isEditSave,') {')"/>	
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
 				<xsl:value-of select="concat('QueryHelper query = Core.query(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,'SELECT ',$columns,' FROM ',/rows/plsql/package_copy_db,$double_quotes,')',$conditions,';')"/>
@@ -212,6 +215,9 @@
  	
 	<xsl:variable name="isEdit">
 		<xsl:text>Core.isNull(isEdit)</xsl:text>
+	</xsl:variable>
+	<xsl:variable name="isEditSave">
+		<xsl:text>Core.isNotNull(isEdit)</xsl:text>
 	</xsl:variable>
 	
  	<xsl:template name="gen-crud-sql">

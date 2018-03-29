@@ -93,32 +93,6 @@ public class XMLTransform {
 		xml.addXml(table.toString());
 		return xml.toString();
 	}
-//		
-//	//Generate Form&Table XML
-//	public String generatePageCRUDXML(Config_env config,Action page, List<DatabaseMetadaHelper.Column> columns) {
-//		XMLWritter xml = new XMLWritter();	
-//
-//		IGRPForm form = new IGRPForm("form_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", ""));
-//		IGRPTable table = new IGRPTable("table_1",page.getPage_descr().replaceAll("tbl_", "").replaceAll("TBL_", "").replaceAll("Registar", "Lista de"));		
-//		IGRPToolsBar tools = new IGRPToolsBar("toolsbar_1");		
-//		IGRPButton btn_gravar = new IGRPButton("Gravar", config.getApplication().getDad().toLowerCase(), page.getPage(), "gravar", "submit", "primary|fa-save","","",true);
-//		IGRPButton btn_editar = new IGRPButton("Editar", config.getApplication().getDad().toLowerCase(), page.getPage(), "editar", "mpsubmit|refresh", "warning|fa-pencil","","",true);
-//		IGRPButton btn_eliminar = new IGRPButton("Eliminar", config.getApplication().getDad().toLowerCase(), page.getPage(), "eliminar", "confirm", "danger|fa-trash","","",true);
-//		
-//		btn_gravar.propertie.add("type","specific").add("code","").add("rel","save").add("crud_op", "save").add("action-id", page.getId());		
-//		btn_editar.propertie.add("type","specific").add("code","editar").add("rel","update").add("crud_op", "edit").add("action-id", page.getId());
-//		btn_eliminar.propertie.add("type","specific").add("code","eliminar").add("rel","delete").add("crud_op", "delete").add("action-id", page.getId());
-//		
-//		tools.addButton(btn_gravar);	
-//		table.addButton(btn_editar);
-//		table.addButton(btn_eliminar);
-//		addField(form, columns);
-//		addField(table, columns);
-//		xml.addXml(tools.toString());
-//		xml.addXml(form.toString());
-//		xml.addXml(table.toString());
-//		return xml.toString();
-//	}
 	
 	//Add field into Form or Table Component
 	public void addField(IGRPComponent component,List<DatabaseMetadaHelper.Column> columns) {
@@ -229,11 +203,9 @@ public class XMLTransform {
 		if(f!=null && column!=null){
 			if(!column.isNullable() || column.isPrimaryKey()){
 				f.propertie().add("required", "true");
-				f.propertie().add("name", column.getName());
 				f.propertie().add("tag", column.getName());
 			}
 			if(column.isAutoIncrement()) {
-				f.propertie().add("name", "p_"+column.getName());
 				f.propertie().add("tag", "p_"+column.getName());
 				f.propertie().add("isAutoincrement", "true");
 			}
@@ -243,6 +215,7 @@ public class XMLTransform {
 			if(!(f instanceof DateField)) {
 				f.propertie().add("maxlength", column.getSize());
 			}
+			f.propertie().add("name", "p_"+column.getName());
 			f.propertie().add("java-type",getTypePrimitive(column.getType().toString()));
 		}
 	}

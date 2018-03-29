@@ -392,10 +392,9 @@ public class ExecucaoTarefasController extends Controller {
 					task.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
-				task.addVariable("customVariableIGRP_"+task.getId(),"string",content);
-				task.addVariable("baseHostNameIgrp","string",this.getConfig().getHostName());
-				task.submitVariables();
+				p.addVariable("customVariableIGRP_"+task.getId(),"string",content);
 				p.submitVariables();
+				task.submitVariables();
 			}
 		}
 		
@@ -426,9 +425,11 @@ public class ExecucaoTarefasController extends Controller {
 			formData.addVariable("customVariableIGRP",content);
 		}
 		StartProcess st = formData.submitFormByProcessDenifition();
-		
+
 		if(st!=null){
 			pi.setId(st.getId());
+			pi.addVariable("baseHostNameIgrp","string",this.getConfig().getHostName());
+			pi.submitVariables();
 			new TaskFile().addFile(pi, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		}
 		return (st!=null && st.getError()!=null)?st.getError():null;
