@@ -122,11 +122,11 @@ public class CRUDGeneratorController extends Controller {
 		Action pageForm = new Action().find().andWhere("page", "=",pageNameForm).andWhere("application", "=",config.getApplication().getId()).one();
 		Action pageList = new Action().find().andWhere("page", "=",pageNameList).andWhere("application", "=",config.getApplication().getId()).one();
 		if(pageForm==null) {
-			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameForm).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication(), crud);
+			pageForm = new Action(pageNameForm, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameForm).toLowerCase()+"/"+pageNameForm+".xsl", "Registar "+tableName, "Registar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageForm = pageForm.insert();
 		}
 		if(pageList==null) {
-			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages."+pageNameList).toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
+			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageList = pageList.insert();
 		}		
 		return this.processGenerate(config,tableName,schema,pageForm,pageList);
@@ -193,7 +193,10 @@ public class CRUDGeneratorController extends Controller {
 						.replaceAll("(\r\n|\n)", "")
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
 				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
-				path_class = this.getConfig().getBasePathClass()+ path_class;			
+				path_class = this.getConfig().getBasePathClass()+ path_class;	
+				System.out.println("path_class:"+path_class);
+				
+				
 				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 				
 				if(FileHelper.fileExists(this.getConfig().getWorkspace())){

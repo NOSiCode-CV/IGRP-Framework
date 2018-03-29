@@ -144,8 +144,7 @@ public class PageController extends Controller {
 				action.setPage_descr(model.getPage_descr());
 				action.setStatus(model.getStatus());
 				action.setPage(nosi.core.gui.page.Page.getPageName(model.getPage()));
-				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages."
-						+ action.getPage().toLowerCase());
+				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
 				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
