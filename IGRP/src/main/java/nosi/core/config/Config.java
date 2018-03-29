@@ -432,7 +432,12 @@ public class Config {
 		xml.setElement("page", page!=null?page.getPage():"Form");
 		xml.startElement("plsql");
 			xml.setElement("action", "1");
-			xml.setElement("package_db", page!=null?page.getPackage_name().substring(0, page.getPackage_name().indexOf("."+page.getPage().toLowerCase())):null);
+			String packageName = page!=null?page.getPackage_name():"";
+			int x = page!=null?page.getPackage_name().indexOf("."+page.getPage().toLowerCase()):-1;
+			if(x!=-1) {
+				packageName = page.getPackage_name().substring(0, page.getPackage_name().indexOf("."+page.getPage().toLowerCase()));
+			}
+			xml.setElement("package_db", packageName);
 			xml.setElement("package_html",page!=null?Page.resolvePageName(page.getPage()):null);
 			xml.setElement("package_instance", config.getPackageInstance());
 			xml.setElement("with_replace", "false");

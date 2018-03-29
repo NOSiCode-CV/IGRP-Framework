@@ -128,7 +128,16 @@ public class CRUDGeneratorController extends Controller {
 		if(pageList==null) {
 			pageList = new Action(pageNameList, "index", ("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase(), (config.getApplication().getDad()+"/"+pageNameList).toLowerCase()+"/"+pageNameList+".xsl", "Listar "+tableName, "Listar "+tableName, "2.3", 1, config.getApplication(), crud);
 			pageList = pageList.insert();
-		}		
+		}	
+		
+		if(!pageForm.getPackage_name().endsWith(".pages")) {
+			pageForm.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
+			pageForm = pageForm.update();
+		}
+		if(!pageList.getPackage_name().endsWith(".pages")) {
+			pageList.setPackage_name(("nosi.webapps."+config.getApplication().getDad()+".pages").toLowerCase());
+			pageList = pageList.update();
+		}
 		return this.processGenerate(config,tableName,schema,pageForm,pageList);
 	}
 
@@ -194,8 +203,7 @@ public class CRUDGeneratorController extends Controller {
 						.replace(".",File.separator)+File.separator+ page.getPage().toLowerCase().trim();
 				String path_class_work_space = this.getConfig().getBasePahtClassWorkspace(page.getApplication().getDad(),page.getPage());
 				path_class = this.getConfig().getBasePathClass()+ path_class;	
-				System.out.println("path_class:"+path_class);
-				
+			
 				
 				FileHelper.saveFilesJava(path_class, page.getPage(), new String[]{model,view,controller});
 				
