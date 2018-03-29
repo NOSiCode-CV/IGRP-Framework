@@ -393,6 +393,7 @@ public class ExecucaoTarefasController extends Controller {
 					p.addVariable(task.getTaskDefinitionKey()+"_"+param.getKey(), "local", "string", param.getValue()[0]);
 				});
 				task.addVariable("customVariableIGRP_"+task.getId(),"string",content);
+				task.addVariable("baseHostNameIgrp","string",this.getConfig().getHostName());
 				task.submitVariables();
 				p.submitVariables();
 			}
