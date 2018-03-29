@@ -1,4 +1,4 @@
-package nosi.webapps.igrp_studio.pages.partilha_pagina;
+package nosi.webapps.igrp_studio.pages.partilhageral;
 import nosi.core.config.Config;
 import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
@@ -8,22 +8,33 @@ import nosi.core.webapp.SeparatorList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partilha_pagina extends Model{		
+public class Partilhageral extends Model{		
+	@RParam(rParamName = "p_sectionheader_1_text")
+	private String sectionheader_1_text;
 	@RParam(rParamName = "p_aplicacao_origem")
 	private String aplicacao_origem;
 	@RParam(rParamName = "p_elemento")
 	private String elemento;
 	@RParam(rParamName = "p_aplicacao_destino")
 	private String aplicacao_destino;
-	@RParam(rParamName = "p_sectionheader_1_text")
-	private String sectionheader_1_text;
+	
+	@RParam(rParamName = "p_estado")
+	private String[] estado;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
+	
 	public void setTable_1(List<Table_1> table_1){
 		this.table_1 = table_1;
 	}
 	public List<Table_1> getTable_1(){
 		return this.table_1;
+	}
+	
+	public void setSectionheader_1_text(String sectionheader_1_text){
+		this.sectionheader_1_text = sectionheader_1_text;
+	}
+	public String getSectionheader_1_text(){
+		return this.sectionheader_1_text;
 	}
 	
 	public void setAplicacao_origem(String aplicacao_origem){
@@ -47,13 +58,12 @@ public class Partilha_pagina extends Model{
 		return this.aplicacao_destino;
 	}
 	
-	public void setSectionheader_1_text(String sectionheader_1_text){
-		this.sectionheader_1_text = sectionheader_1_text;
+	public String[] getEstado() {
+		return estado;
 	}
-	public String getSectionheader_1_text(){
-		return this.sectionheader_1_text;
+	public void setEstado(String[] estado) {
+		this.estado = estado;
 	}
-
 
 	public static class Table_1{
 		private int estado;

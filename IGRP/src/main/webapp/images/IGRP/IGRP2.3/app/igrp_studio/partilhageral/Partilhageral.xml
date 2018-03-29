@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilha_pagina/Partilha_pagina.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilhageral/Partilhageral.xsl" type="text/xsl"?>
 <rows>
     <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
@@ -15,13 +15,13 @@
             <img>exit.png</img>
         </button>
     </site>
-    <page>Partilha_pagina</page>
+    <page>Partilhageral</page>
     <app>igrp_studio</app>
     <plsql>
         <action>index</action>
         <package_instance></package_instance>
         <package_db>nosi.webapps.igrp_studio.pages</package_db>
-        <package_html>Partilha_pagina</package_html>
+        <package_html>Partilhageral</package_html>
         <table_name></table_name>
         <with_replace>false</with_replace>
         <with_label>false</with_label>
@@ -33,7 +33,25 @@
         <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=49</preserve_url>
     </plsql>
     <content>
-        <title>Partilha Página</title>
+        <title>Partilha Geral - Inter Aplicações (Páginas)</title>
+        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
+                    <value>Partilha Geral - Inter Aplicações (Páginas) </value>
+                </sectionheader_1_text>
+            </fields>
+        </sectionheader_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="partilhar">
+                <title>Partilhar</title>
+                <app/>
+                <page/>
+                <link/>
+                <target>submit</target>
+                <img>success|fa-share-alt-square</img>
+                <preview>undefined</preview>
+            </item>
+        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
                 <aplicacao_origem name="p_aplicacao_origem" type="select" multiple="false" domain="" maxlength="50" required="true" change="true" disabled="false" right="false" java-type="">
@@ -58,7 +76,7 @@
                         </option>
                     </list>
                 </aplicacao_origem>
-                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="false" disabled="false" right="false" java-type="">
+                <elemento name="p_elemento" type="select" multiple="false" domain="" maxlength="30" required="true" change="true" disabled="false" right="false" java-type="">
                     <label>Elemento</label>
                     <list>
                         <option/>
@@ -118,48 +136,30 @@
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Magna dolor laudantium ut officia ut mollit totam dolor perspiciatis elit labore perspiciatis lorem</descricao>
+                        <descricao name="p_descricao">Deserunt sit consectetur aliqua voluptatem elit aliqua elit dolor sit laudantium adipiscing totam re</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sed voluptatem consectetur elit officia sit perspiciatis omnis rem lorem doloremque totam anim rem s</descricao>
+                        <descricao name="p_descricao">Perspiciatis amet aperiam accusantium ut anim stract sit mollit omnis mollit sit iste aliqua consect</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Aliqua mollit laudantium deserunt aliqua unde perspiciatis laudantium deserunt elit rem ipsum dolore</descricao>
+                        <descricao name="p_descricao">Ipsum sit labore sed magna laudantium voluptatem totam sit anim aperiam ut unde officia doloremque m</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Rem ipsum consectetur deserunt mollit officia laudantium officia iste rem ipsum laudantium omnis dol</descricao>
+                        <descricao name="p_descricao">Mollit elit sed consectetur iste rem mollit totam sit anim aliqua iste lorem totam rem officia volup</descricao>
                     </row>
                     <row>
                         <estado name="p_estado" check="true" desc="true">1</estado>
                         <estado_desc name="p_estado_desc">1</estado_desc>
-                        <descricao name="p_descricao">Sit sit omnis labore accusantium ipsum sed unde anim magna consectetur aperiam amet voluptatem labor</descricao>
+                        <descricao name="p_descricao">Omnis adipiscing anim magna accusantium consectetur iste deserunt unde consectetur iste elit dolor a</descricao>
                     </row>
                 </value>
             </table>
         </table_1>
-        <sectionheader_1 type="sectionheader" xml-type="form" gen-type="container" gen-group="">
-            <fields>
-                <sectionheader_1_text type="text" name="p_sectionheader_1_text" persist="true" maxlength="4000">
-                    <value>Partilha Geral - Inter Aplicações (Páginas)</value>
-                </sectionheader_1_text>
-            </fields>
-        </sectionheader_1>
-        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
-            <item type="specific" code="" rel="partilhar">
-                <title>Partilhar</title>
-                <app>igrp_studio</app>
-                <page>Partilha_pagina</page>
-                <link>index</link>
-                <target>submit</target>
-                <img>success|fa-share-alt-square</img>
-                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp_studio/partilha_pagina/Partilha_pagina.xml</preview>
-            </item>
-        </toolsbar_1>
     </content>
 </rows>
