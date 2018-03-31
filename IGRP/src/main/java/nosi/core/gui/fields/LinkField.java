@@ -1,4 +1,8 @@
 package nosi.core.gui.fields;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author: Emanuel Pereira
  * 
@@ -7,7 +11,7 @@ package nosi.core.gui.fields;
  * Description: class to configure link field
  */
 public class LinkField extends AbstractField {
-
+	private Map<String,Object> params;
 	public LinkField(Object model,String name) {
 		super();
 		this.setName(name);
@@ -23,6 +27,28 @@ public class LinkField extends AbstractField {
 		this.propertie.put("right", false);
 		this.propertie.put("maxlength", 30);
 		this.configValue(model);
+		this.params = new LinkedHashMap <>();
+	}
+	@Override
+	public void addParam(String key,String value){
+		this.params.put(key, value);
+		
+	}
+	
+	public Map<String,Object> getParams(){
+		return this.params;
+	}
+	String link;
+	@Override
+	public Object getValue() {
+		 link=super.getValue().toString();
+		 
+		if(this.params!=null) {
+			this.params.entrySet().stream().forEach(p->{
+				link+="&"+p.getKey()+"="+p.getValue();
+			});
+		}
+		return link;
 	}
 
 }

@@ -274,8 +274,8 @@
 							<xsl:call-template name="start-example"/>
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
-							<xsl:call-template name="setSqlChart"/>
 							<xsl:call-template name="setSqlTable"/>
+							<xsl:call-template name="setSqlChart"/>						
 							<xsl:call-template name="setSqlCombobox"/>
 							<xsl:call-template name="setParam"/>
 
@@ -474,7 +474,9 @@
  			<xsl:call-template name="CamelCaseWord">
  				<xsl:with-param name="text" select="name()"/>
  			</xsl:call-template>
- 			<xsl:value-of select="concat('( Core.query( ',$double_quotes,'SELECT ',$sql_fields,' ',$double_quotes,' ) );' ) "/>
+ 			<xsl:value-of select="concat('(Core.query(',$double_quotes,'SELECT ',$sql_fields,' ',$double_quotes,'));')"/>
+ 				<xsl:value-of select="$newline"/>
+				<xsl:value-of select="$tab2"/>
 		</xsl:for-each>
  	</xsl:template>
  	
