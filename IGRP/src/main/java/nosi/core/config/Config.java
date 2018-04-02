@@ -333,6 +333,15 @@ public class Config {
 		return basePackage;
 	}
 	
+	public String getPackage_(String app, String page,String action) {
+		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
+		
+		if( Core.isNotNull(app)  && Core.isNotNull(page) && Core.isNotNull(action)){
+			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
+			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase()+ "."+ac.getPage().toLowerCase() +"." + ac.getPage() + "Controller":basePackage;		
+		}
+		return basePackage;
+	}
 	public static void configurationApp(){
 		if(!isInstall()){
 			MigrationIGRPInitConfig.start();
