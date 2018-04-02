@@ -125,6 +125,7 @@ public class XMLTransform {
 				break;	
 			case TypesXML.DATE:
 				f = new DateField(null, column.getName());
+				f.propertie().put("format", "date");
 				f.propertie().add("data-format", column.getFormat());
 				break;
 			case TypesXML.DATE_TIME:
@@ -173,6 +174,7 @@ public class XMLTransform {
 					break;	
 				case TypesXML.DATE:
 					f = new DateField(null, column.getName());
+					f.propertie().put("format", "date");
 					f.propertie().add("data-format", column.getFormat());
 					break;
 				case TypesXML.DATE_TIME:
