@@ -66,18 +66,21 @@ public class MapaProcessoController extends Controller{
 		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
 		FormDataService formData = null;
 		String title = "";
+		String idApp = "-1";
 		if(p_processId!=null){
 			ProcessDefinitionService process = new ProcessDefinitionService().getProcessDefinition(p_processId);
 			title = process!=null?process.getName():"";
 			formData = new FormDataService().getFormDataByProcessDefinitionId(p_processId);
+			idApp = process.getTenantId();
 		}
 		if(taskId!=null){
 			TaskService task = new TaskService().getTask(taskId);
 			title = task!=null?Core.isNotNull(task.getDescription())?task.getDescription():task.getName()+" - Nº "+task.getId():"";
 			formData = new FormDataService().getFormDataByTaskId(taskId);
+			idApp = task.getTenantId();
 		}
 		if(formData != null) {
-			Action action = new Action().find().andWhere("page", "=",formData.getFormKey()).one();
+			Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
 			if(formData.getFormKey() !=null && action !=null) {
 				MapaProcesso model = new MapaProcesso();
 				MapaProcessoView view = new MapaProcessoView(model);

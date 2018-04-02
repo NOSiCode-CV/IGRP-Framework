@@ -41,6 +41,8 @@ public class ProcessDefinitionService extends Activit{
 	private String resource;
 	private String diagramResource;
 	private Boolean startFormDefined;
+	private String tenantId;
+	
 	@Expose(serialize=false,deserialize=false)
 	private List<TaskVariables> variables = new ArrayList<>();
 
@@ -110,7 +112,7 @@ public class ProcessDefinitionService extends Activit{
 	}
 	
 	public List<ProcessDefinitionService> getProcessDefinitionsAtivos(Integer idApp){
-		this.setFilter("?suspended=false&latest=true&size=1000000000"/*&tenantId="+idApp*/);
+		this.setFilter("?suspended=false&latest=true&size=1000000000&tenantId="+idApp);
 		return this.getProcessDefinitions();
 	}
 	
@@ -278,7 +280,14 @@ public class ProcessDefinitionService extends Activit{
 		this.startFormDefined = startFormDefined;
 	}
 	
-	
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
 
 	@Override
 	public String toString() {
