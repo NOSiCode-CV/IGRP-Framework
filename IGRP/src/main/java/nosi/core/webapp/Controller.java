@@ -267,7 +267,7 @@ public abstract class Controller{
 				Core.setParam(q.getKey(), q.getValue());
 			});
 		}
-		String auxcontrollerPath = this.config.getPackage_(app,page,action);
+		String auxcontrollerPath = this.config.getPackage(app,page,action);
 		Igrp.getInstance().setCurrentAppName(app);
 		Igrp.getInstance().setCurrentPageName(page);
 		Igrp.getInstance().setCurrentActionName(action);
