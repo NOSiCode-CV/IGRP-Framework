@@ -216,19 +216,22 @@ public class Import {
 			
 			for(Action page : listPage.getRow()){
 				
-				boolean nextIteration = true;
-				
-				for(FileImportAppOrPage f : aux.un_jar_files) 
-					if(f.getNome().contains(page.getAction())) {
-						nextIteration = false;
-						break;
-					}
-				
-				
-				if(nextIteration) continue;
-				
 				//Depois validar nome de classe
-				if(type.equals("plsql")){//Se for de psql, assume Page como Action
+				if(type.equals("plsql")){ //Se for de psql, assume Page como Action 
+					
+					boolean nextIteration = true;
+					
+					for(FileImportAppOrPage f : aux.un_jar_files) { 
+						//System.out.println("XSL: " + page.getXsl_src());
+						//System.out.println("Nome: " + f.getNome());
+						if(f.getNome() != null && page.getXsl_src() != null && f.getNome().contains(page.getXsl_src())) {
+							nextIteration = false;
+							break;
+						}
+					}
+					
+					if(nextIteration) continue; 
+					
 					page.setPage(Page.resolvePageName(this.resolveClassName(page.getPage())+"_"+page.getAction()));
 					page.setPage_descr(page.getAction_descr());
 				}
@@ -242,6 +245,7 @@ public class Import {
 				action.setStatus(page.getStatus());
 				action.setXsl_src(page.getXsl_src());
 				action.setApplication(app);		
+				
 				Action pageCheck = new Action().find().andWhere("page", "=", page.getPage()).andWhere("application.dad", "=", app.getDad()).one();
 	
 				if(type.equals("java")){
@@ -254,8 +258,15 @@ public class Import {
 					}
 				}else if(type.equals("plsql")){// Caso for de psql, valida nome de classe e versao da pagina 
 					if(Core.isNotNull(page.getPage())&& pageCheck ==null && nosi.core.gui.page.Page.validatePage(page.getPage())&& page.getImg_src()==null){
-							action.setPackage_name("nosi.webapps."+app.getDad().toLowerCase()+".pages."+page.getPage().toLowerCase());
-							action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
+							
+						action.setPackage_name("nosi.webapps."+
+						app.getDad()
+						.toLowerCase()+
+						".pages."+page.getPage()
+						.toLowerCase()
+						);
+							
+						action.setXsl_src(app.getDad().toLowerCase()+"/"+page.getPage().toLowerCase()+"/"+page.getPage()+".xsl");
 							action.setVersion("2.3");	
 							action = action.insert();
 							action.setSrc_xsl_plsql(page.getXsl_src());

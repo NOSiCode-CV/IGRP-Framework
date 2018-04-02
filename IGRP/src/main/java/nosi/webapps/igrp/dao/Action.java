@@ -5,7 +5,10 @@ package nosi.webapps.igrp.dao;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -209,9 +212,28 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	}
 	
 	public HashMap<Integer,String> getListActions(int app){
+		List<Share> shares = new Share().find().andWhere("env.id", "=", app).andWhere("type", "=", "PAGE")
+				.andWhere("status", "=", "1").all();
+		List<Action> aux = new ArrayList<Action>();
+		
+		if(shares == null)
+			shares = new ArrayList<Share>();
+		
+		for(Share share : shares) {
+			Action action = new Action().findOne(share.getType_fk());
+			if(action != null)
+				aux.add(action);
+		} 
+		
 		HashMap<Integer,String> lista = new HashMap<>();
 		lista.put(null, gt("-- Selecionar --"));
-		for(Action ac:this.find().andWhere("application.id", "=", "" + app).all()){
+		List<Action> actions = this.find().andWhere("application.id", "=", "" + app).all();
+		
+		if(actions == null)
+			actions = new ArrayList<Action>();
+		
+		actions.addAll(aux);
+		for(Action ac : actions){
 			if(ac.getPage_descr()!=null && !ac.getPage_descr().equals(""))
 				lista.put(ac.getId(), ac.getPage_descr());
 			else
