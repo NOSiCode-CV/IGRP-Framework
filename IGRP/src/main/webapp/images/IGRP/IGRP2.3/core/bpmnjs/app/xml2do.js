@@ -73,8 +73,7 @@ $.fn.activiti2Io = function(params) {
   xml = xml2String(xml[0])
  		.replace(/_G_/g, ':').replace(/xmlns=""/g, '')
  		.replace(/xmlns:activiti=""/g, '')
- 		.replace(/activiti:formKey=/g,'camunda:formKey=')
- 		.replace(/activiti:assignee=/g,'camunda:assignee=')
+    .replace(/activiti:/g,'camunda:')
  		.replace(/<conditionExpression/g,'<bpmn:conditionExpression')
  		.replace(/<\/conditionExpression/g,'<\/bpmn:conditionExpression')
  		.replace(/xsi:type="tFormalExpression"/g,'xsi:type="bpmn:tFormalExpression"');
