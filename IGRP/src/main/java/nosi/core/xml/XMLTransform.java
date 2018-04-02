@@ -125,10 +125,12 @@ public class XMLTransform {
 				break;	
 			case TypesXML.DATE:
 				f = new DateField(null, column.getName());
+				f.propertie().add("data-format", column.getFormat());
 				break;
 			case TypesXML.DATE_TIME:
 				f = new DateField(null, column.getName());
 				f.propertie().put("format", "datetime");
+				f.propertie().add("data-format", column.getFormat());
 				break;
 			case TypesXML.EMAIL:
 				f = new EmailField(null, column.getName());
@@ -171,10 +173,12 @@ public class XMLTransform {
 					break;	
 				case TypesXML.DATE:
 					f = new DateField(null, column.getName());
+					f.propertie().add("data-format", column.getFormat());
 					break;
 				case TypesXML.DATE_TIME:
 					f = new DateField(null, column.getName());
 					f.propertie().put("format", "datetime");
+					f.propertie().add("data-format", column.getFormat());
 					break;
 				case TypesXML.EMAIL:
 					f = new EmailField(null, column.getName());
