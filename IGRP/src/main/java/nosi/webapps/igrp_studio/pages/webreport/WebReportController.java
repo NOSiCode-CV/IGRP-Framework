@@ -328,7 +328,7 @@ public class WebReportController extends Controller {
 		int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 		User user = new User();
 		user = user.findOne(user_id);
-		String content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
+		String content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
 		if(type==1){
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contra_prova);
@@ -341,7 +341,7 @@ public class WebReportController extends Controller {
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
-				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
+				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
 				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created().toString());
 				xml = xml.insert();
 				ri.setXml_content(xml);
