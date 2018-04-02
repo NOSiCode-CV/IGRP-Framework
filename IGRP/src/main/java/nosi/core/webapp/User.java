@@ -96,6 +96,7 @@ public class User implements Component{
 		Cookie aux = new Cookie("_identity-igrp", value);
 		aux.setMaxAge(this.expire);
 		aux.setHttpOnly(true);
+		aux.setPath("/");
 		Igrp.getInstance().getResponse().addCookie(aux);
 	}
 	
@@ -135,8 +136,6 @@ public class User implements Component{
 		if(aux != null){
 			isLoginPage = aux.equals(loginUrl); // bug ... Perhaps 
 		}
-		
-		checkHttpClientRequest();
 		
 		if(!this.checkSessionContext() && !isLoginPage){
 			try {
