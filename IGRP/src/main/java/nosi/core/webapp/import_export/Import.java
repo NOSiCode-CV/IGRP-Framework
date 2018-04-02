@@ -85,7 +85,19 @@ public class Import {
 				.replace(".",File.separator);
 		String content = file.getConteudo();
 		if(file.getNome().endsWith(".java")){
-			content = content.substring(0, content.indexOf("package")+"package".length())+" "+page.getPackage_name() +content.substring(content.indexOf(";", content.indexOf("package")));
+			
+			content = content.trim();
+			
+			if(content != null && !content.isEmpty()) { // Sometimes the content of file is empty ... and throw StringIndexOutOfBoundsException 
+			content = content.substring(0, 
+					content.indexOf("package") + 
+					"package".length()) +
+					" " +page.getPackage_name() 
+					+ content.substring(
+							content.indexOf(";", 
+									content.indexOf("package")
+									));
+			}
 		}
 		try {
 			FileHelper.save(path_class,partPage[3],content);
