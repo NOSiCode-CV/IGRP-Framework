@@ -22,6 +22,7 @@
 			 					<xsl:call-template name="addTypeQuery">
 									<xsl:with-param name="type" select="@java-type"/>
 									<xsl:with-param name="name" select="name()"/>
+									<xsl:with-param name="format" select="@data-format"/>
 								</xsl:call-template>
 			 				</xsl:otherwise>
 			 			</xsl:choose>
@@ -77,6 +78,7 @@
 	 					<xsl:call-template name="addTypeQuery">
 							<xsl:with-param name="type" select="@java-type"/>
 							<xsl:with-param name="name" select="name()"/>
+							<xsl:with-param name="format" select="@data-format"/>
 						</xsl:call-template>
 	 				</xsl:otherwise>
 	 			</xsl:choose>
@@ -128,6 +130,7 @@
 	<xsl:template name="addTypeQuery">
  		<xsl:param name="type"/>
  		<xsl:param name="name"/>
+ 		<xsl:param name="format" select="''"/>
  		
  		<xsl:variable name="name__">
 			<xsl:call-template name="replace-all">
@@ -166,7 +169,7 @@
  				<xsl:value-of select="concat('.addLong(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
  			</xsl:when>
  			<xsl:when test="$type='Date'">
- 				<xsl:value-of select="concat('.addDate(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'())')"/>
+ 				<xsl:value-of select="concat('.addDate(',$double_quotes,$name__,$double_quotes,',model.get',$name_,'(),',$double_quotes,$format,$double_quotes,')')"/>
  			</xsl:when>
  		</xsl:choose> 		
  	</xsl:template>
