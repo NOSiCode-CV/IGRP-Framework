@@ -205,7 +205,7 @@ public class Config {
 	
 	public String getHostName() {		
 		HttpServletRequest req = Igrp.getInstance().getRequest();		
-		return req.getScheme()+"://"+req.getServerName()+":"+req.getLocalPort();
+		return req.getScheme()+"://"+req.getServerName();
 	}
 	
 	public String getRootPaht(){
@@ -322,13 +322,13 @@ public class Config {
 	public String getWebapp() {
 		return "src/main/webapp"; 
 	}
-	
+
 	public String getPackage(String app, String page,String action) {
 		String basePackage = "nosi.webapps." + app.toLowerCase() + ".pages." + page.toLowerCase() + "." + page + "Controller";
 		
 		if( Core.isNotNull(app)  && Core.isNotNull(page) && Core.isNotNull(action)){
 			Action ac = new Action().find().andWhere("application.dad", "=", app).andWhere("action", "=", action).andWhere("page", "=", Page.resolvePageName(page)).one();
-			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase()+ "." + ac.getPage() + "Controller":basePackage;		
+			return (ac!=null && ac.getPackage_name()!=null)?ac.getPackage_name().toLowerCase()+ "."+ac.getPage().toLowerCase() +"." + ac.getPage() + "Controller":basePackage;		
 		}
 		return basePackage;
 	}
