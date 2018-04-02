@@ -39,13 +39,14 @@ public class ImportAppJar extends Import implements IFImportExport{
 	public boolean importApp() {
 		boolean result = true;
 		List<FileImportAppOrPage> filesToCompile = new ArrayList<>();
+		
 		for(FileImportAppOrPage file:this.un_jar_files){
-			//System.out.println(file.getNome()); 
 			if(file.getNome().endsWith(".java") && this.app!=null){
 				filesToCompile.add(file);
 			}else if(file.getNome().startsWith("configApp")){
 				this.app = this.saveApp(file);
 				if(this.app==null){
+					System.out.println("IF3");
 					result = false;
 					break;
 				}
@@ -54,6 +55,7 @@ public class ImportAppJar extends Import implements IFImportExport{
 			}else if(file.getNome().startsWith("configPage")  && this.app!=null){
 				List<Action> pages = this.savePageJava(file,this.app);
 				if(pages.isEmpty()){
+					System.out.println("IF6");
 					result = false;
 					break;
 				}

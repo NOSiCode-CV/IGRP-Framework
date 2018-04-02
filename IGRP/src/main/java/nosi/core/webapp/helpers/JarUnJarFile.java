@@ -123,6 +123,7 @@ public class JarUnJarFile {
 					   order = 3;
 				   }
 				   FileImportAppOrPage f = new FileImportAppOrPage(entry.getName(), content.toString(), order);
+				   
 				contents.add(f);
 				jis.closeEntry();
 			}
