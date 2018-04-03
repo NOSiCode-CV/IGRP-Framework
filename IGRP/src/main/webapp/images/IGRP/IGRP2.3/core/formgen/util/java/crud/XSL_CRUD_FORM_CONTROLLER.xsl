@@ -203,6 +203,8 @@
 	     	</xsl:call-template>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
+	     	<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="end-code-crud"/>
 	     	<xsl:value-of select="$newline"/>
 			<xsl:value-of select="$tab2"/>
