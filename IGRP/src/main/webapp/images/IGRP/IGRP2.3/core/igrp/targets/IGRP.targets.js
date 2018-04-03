@@ -325,11 +325,15 @@
 		};
 
 		//blank (popup)
+		var mWindow = null;
+		
 		var modal       = function(p){
+			
+			if (p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+				
+				mWindow = window;
 		
 			var url = setTargetParameter(p.url);
-			
-			console.log(url);
 			
 			$.IGRP.components.iframeNav.set({
 				url    :url,
@@ -449,10 +453,20 @@
 			try{
 
 				var popup 	= window.opener || false,
+
 					_window = popup || window.parent,
+
 					_window = _window.frames['head_filho'] || _window;
+
+				if (mWindow) {
+					_window = mWindow;
+					popup 	= false;
+					mWindow = null;
+				}
 				
-				_window.location.reload(true);
+				//_window.location.reload(true);
+
+				_window.location.href = $('#p_env_frm_url',$(_window.document.forms[0])).val() || _window.location.href;
 				
 				if(popup)
 					close();

@@ -353,6 +353,8 @@
     <xsl:template name="start-code">
         <xsl:param name="type"/>
         <xsl:param name="url"/>
+        <xsl:param name="text" select="''"/>
+        <xsl:param name="end" select="true()"/>
         <xsl:param name="tabCode" select="true()"/>
         <xsl:param name="tabIndent" select="'2'"/>
 		
@@ -402,11 +404,19 @@
         <xsl:if test="$tabCode">
             <xsl:value-of select="$indentation"/>
         </xsl:if>
-
-        <xsl:call-template name="end-code">
-            <xsl:with-param name="type" select="$type"/>
-        </xsl:call-template>
-
+        
+        <xsl:value-of select="$text"/>
+        
+        <xsl:if test="$tabCode">
+            <xsl:value-of select="$indentation"/>
+        </xsl:if>
+		
+		<xsl:if test="$end = true()">
+	        <xsl:call-template name="end-code">
+	            <xsl:with-param name="type" select="$type"/>
+	        </xsl:call-template>
+		</xsl:if>
+			
         <xsl:value-of select="$newline"/>
 
         <xsl:if test="$tabCode">
@@ -495,7 +505,8 @@
     		name()!='disabled' and
     		name()!='placeholder' and
     		name()!='custom_action' and	
-    		name()!='action_type' and	
+    		name()!='action_type' and
+    		name()!='custom_return' and
     		name()!='code' and	
             name()!='proc_name' and  
     		name()!='right'    		

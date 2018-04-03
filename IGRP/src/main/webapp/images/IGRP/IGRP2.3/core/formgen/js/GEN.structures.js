@@ -457,7 +457,9 @@ var GENSTRUCTURES = function(GEN){
 				_class = f.GET.class && f.GET.class() ? f.GET.class()+'|' : '',
 				parent = f.GET.parent && f.GET.parent() ? 'parent="'+f.GET.parent()+'"':'',
 				params = '',
-				actionLINK = f.action ? f.action.link : '';
+				actionLINK = f.action ? f.action.link : '',
+				customReturn = f.GET.custom_return ? f.GET.custom_return() : false,
+				customReturnAttr = customReturn ? 'custom_return="true"' : '';
 
 			if(f.GET.target_fields && f.GET.target_fields())
 				target += '|'+f.GET.target_fields();
@@ -466,7 +468,7 @@ var GENSTRUCTURES = function(GEN){
 				target += '|refresh';
 
 				//console.log(params);
-			rtn+='<item type="specific" code="" rel="'+tag+'" '+tran+' '+parent+'>'+
+			rtn+='<item type="specific" code="" rel="'+tag+'" '+tran+' '+parent+' '+customReturnAttr+'>'+
 		            '<title>'+title+'</title>'+
 		            '<app>'+app+'</app>'+
 		            '<page>'+page+'</page>'+

@@ -756,7 +756,7 @@ $(function(){
 				isGlobalPreservation = json[0].isGlobal;
 
 				json.forEach(function(item){
-		
+	
 					object[item.action.toLowerCase()] = {
 						content : item.content,
        					end     : item.end,
