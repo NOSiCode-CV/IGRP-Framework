@@ -205,8 +205,7 @@
 	     		<xsl:with-param name="type" select="'delete'"/>
 	     	</xsl:call-template>			
 			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>	
-			<xsl:call-template name="set-update-keys-value"/>		
+			<xsl:value-of select="$tab2"/>		
 			<xsl:value-of select="concat('Object r = Core.delete(',$double_quotes,/rows/plsql/package_instance,$double_quotes,',',$double_quotes,/rows/plsql/package_copy_db,$double_quotes,')')"/>
 			<xsl:call-template name="gen-sql">
 				<xsl:with-param name="type_op" select="'delete'"/>
@@ -236,17 +235,6 @@
 		<xsl:value-of select="'}'"/> 
  	</xsl:template>
  	
- 	<xsl:template name="set-update-keys-value">
- 			<xsl:for-each select="//fields/*[@iskey='true']">	
-	 			<xsl:call-template name="setType">
-					<xsl:with-param name="name" select="@name"/>
-					<xsl:with-param name="type" select="@java-type"/>
-				</xsl:call-template>
- 			</xsl:for-each>
- 		
-			<xsl:value-of select="$newline"/>
-			<xsl:value-of select="$tab2"/>	
- 	</xsl:template>
  	
  	<xsl:template name="setType">
  		<xsl:param name="name"/>
