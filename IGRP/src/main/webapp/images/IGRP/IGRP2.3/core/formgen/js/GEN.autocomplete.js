@@ -292,25 +292,6 @@ $(function(){
 
 			    	var hintClass = $.trim(lineText.substring(0, cur.ch-1));
 
-			    	/*if( !server.hints[hintClass] ){
-			    		
-			    		console.log('no class fouund on dot!')
-			    		
-			    		var arr = lineText.split(/[-+.(,;\t),]/);
-			    		
-			    		if(arr && arr[0]){
-			    			
-			    			arr = arr.filter(function(v){
-			    				
-			    				return $.trim(v) != '';
-			    					
-			    			});
-			    			
-			    			hintClass = $.trim(arr[arr.length-1]);
-			    			
-			    		}
-			    	}*/
-			    	
 			    	if(server.hints[hintClass]){
 
 			    		options.words = server.hints[hintClass];
@@ -334,43 +315,17 @@ $(function(){
 			    				hintClass = $.trim(dotArr[dotArr.length-2]) +'.'+ $.trim(dotArr[dotArr.length-1]);
 			    			
 			    			options.words = server.hints[hintClass];
-			    				
-			    			
+
 			    		}
-			    		
-			    		/*if(hintClass){
-			    			
-			    			var dotArr = lineText.split(/[-+.(,;\t),]/)
-			    			
-			    			dotArr = dotArr.filter(function(v){
-			    				
-			    				return $.trim(v) != '';
-			    			});
 
-			    			hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
-			    			
-			    			options.words = server.hints[hintClass];
-			    			
-			    		}*/
-			    		
-			    		
 			    	}
-			    		
 			    	
-			    	if(!options.words)
-
-			    		return;
-
 			    	isDot = true;
 
 			    	from = CodeMirror.Pos(cur.line, token.start+1);
-		
-			    }
-			    
-			    if(isDot){
-
+			    	
 			    	found = options.words;
-
+		
 			    }else{
 			    	
 			    	var tIdx 	= lineText.indexOf(token.string),
@@ -381,22 +336,9 @@ $(function(){
 			    		
 			    		isClass = false;
 
-			    	/*parts.forEach(function(p){
-
-			    		if( server.hints[p] ){
-			    			
-			    			options.words = server.hints[p];
-			    			
-			    			isClass = true;
-			    		}
-			    			
-			    	});	*/
-			    	
-			    	//if(!isClass){
-
 		    		var _arr = lineText.split(/[-+.(,;\t),]/);
 		    		
-		    		if(_arr && _arr[0]){
+		    		if(_arr && _arr.length){
 		    			
 		    			_arr = _arr.filter(function(v){
 		    				
@@ -404,27 +346,36 @@ $(function(){
 		    					
 		    			});
 		    			
+		    			
+		    			
 		    			var hintClss = $.trim( _arr[_arr.length - 2] );
-		    			
-		    			
+
 		    			if(hintClss && server.hints[hintClss])
 		    				
 		    				options.words = server.hints[hintClss];
 		    			
 		    			else{
+		    				
 		    				var dotArr = lineText.split(/[-+.(,;\t),]/).filter(function(v,i){
 			    				
 			    				return $.trim(v) != '';
 			    				
 			    			});
+		    				
+		    				console.log(dotArr)
 			    			
 		    				dotArr.pop();
 		    				
-			    			hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
-			    			
-			    			options.words = server.hints[hintClass];
+		    				console.log(dotArr.join('.'));
+		    				
+		    				hintClass = dotArr.join('.')
+		    				
+			    			//hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
 			    			
 			    			console.log(hintClass)
+			    			
+			    			options.words = server.hints[hintClass];
+			    		
 		    				
 		    			}
 
@@ -443,19 +394,18 @@ $(function(){
 					    }
 		    			
 		    		}
-			    	
-			    	
+		    		
 			    }
 
 			    return {
 
-				      	list : found,
+			      	list : found || [],
 
-				     	from : from,
+			     	from : from,
 
-				        to   : CodeMirror.Pos(cur.line, token.end)
+			        to   : CodeMirror.Pos(cur.line, token.end)
 
-				    }
+			    }
 		    	
 		    }catch(err){
 		    	

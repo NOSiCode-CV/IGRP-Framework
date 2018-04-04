@@ -23,6 +23,31 @@ var BTNFIELD = function(type,params){
 			name  :'transaction',
 			value : false
 		});
+		
+		field.setPropriety({
+			name  :'custom_return',
+			label : 'Custom Return',
+			value : false,
+			onEditionStart:function(e){
+				
+				var checker = e.input.find('.propriety-setter');
+				
+				var check = function(){
+					
+					var isChecked = checker.is(':checked'),
+						
+						operation = isChecked ? 'hide' : 'show';
+
+					$('.gen-properties-setts-holder [rel="action"]')[operation]();
+					
+				};
+				
+				checker.on('change', check)
+				
+				check(); 	
+				
+			}
+		});
 /*
 		field.setPropriety({
 			name     :'outline',

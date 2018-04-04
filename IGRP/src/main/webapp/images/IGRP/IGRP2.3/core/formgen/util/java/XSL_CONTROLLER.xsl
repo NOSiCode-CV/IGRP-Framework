@@ -26,7 +26,7 @@
      		<xsl:value-of select="concat($preserve_url,'&amp;type=c_import','&amp;app=',$app_name,'&amp;page=',$page_name)"></xsl:value-of>
      	</xsl:variable>
      	<xsl:variable name="your_code">
-			<xsl:value-of select="document($url)/your_code"/>
+		<!--<xsl:value-of select="document($url)/your_code"/> -->
 		</xsl:variable>	
 		<xsl:value-of select="$newline"/>
 		<!-- <xsl:value-of select="$begin_reserve_code_controller_import"></xsl:value-of> -->
@@ -102,7 +102,7 @@
      	</xsl:variable>
      	
      	<xsl:variable name="your_code">
-			<xsl:value-of select="document($url)/your_code"/>
+			<!--  <xsl:value-of select="document($url)/your_code"/> -->
 		</xsl:variable>	
 		
      	<xsl:call-template name="start-code">
@@ -202,7 +202,7 @@
      	</xsl:variable>	
 
      	<xsl:variable name="your_code_exception">
-			<xsl:value-of select="document($url_)/your_code"/>
+			<!--  <xsl:value-of select="document($url_)/your_code"/> -->
 		</xsl:variable>	
 		
 		<xsl:value-of select="$newline"/>
@@ -339,14 +339,14 @@
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>
-				     		<xsl:with-param name="text" select="'return null;'"/>
+				     		<xsl:with-param name="text" select="concat('return null;',$newline,$newline)"/>
 				     	</xsl:call-template>
 				     	
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
-					     	<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
+					     	<!-- <xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
 							<xsl:value-of select="$newline"/>  
-							<xsl:value-of select="$tab"/>
+							<xsl:value-of select="$tab"/> -->
 				     	</xsl:if>
 
 						

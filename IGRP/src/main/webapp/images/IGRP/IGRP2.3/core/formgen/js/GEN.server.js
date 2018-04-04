@@ -489,9 +489,15 @@ $(function(){
 			
 			//autocomplete on dot. press
 
-			if ( e.keyCode == 190 && (!cm.state.completionActive && e.keyCode != 13))     
+			if ( e.keyCode == 190 && (!cm.state.completionActive && e.keyCode != 13))  {
+				try{
+					CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+				}catch(err){
+					
+				}
+			}  
 				
-	            CodeMirror.commands.autocomplete(cm, null, {completeSingle: false});
+	            
 
 		});
 
@@ -642,6 +648,8 @@ $(function(){
 		
 			var localR = reservedAreas[options.mode] && reservedAreas[options.mode][options.part] ? reservedAreas[options.mode][options.part] : false;
 
+			//console.log( localR )
+			
 			if(begins.length == ends.length){
 
 				var beginIdx 	 = begins[idx],
@@ -663,7 +671,7 @@ $(function(){
 					reservedCode = localCode || serverCode,
 
 					tab  		 = areaName != 'packages_import' ? '\t\t' : '';
-
+				
 				if(field){
 
 					if(field.server.preserved[options.mode] && field.server.preserved[options.mode][options.part] && field.server.preserved[options.mode][options.part].code != '' ){
@@ -682,13 +690,17 @@ $(function(){
 
 					}
 				};
-
-				reservedCode = reservedCode || '\n\t\t\n\t\t\n'+tab;
+				
+				var xslBlock = content.substring(beginIdx, endIdx),
+					
+					xslContent =  xslBlock.substring( xslBlock.indexOf(startCodeXp)+startCodeXp.length, xslBlock.indexOf(options.end.expression)  );
+				
+				reservedCode = reservedCode || xslContent || '\n\t\t\n\t\t\n'+tab;
 
 				var originalContent 	   = content.substring(beginIdx, endIdx),
 
 					actualContent   	   = startCodeXp+reservedCode+options.end.expression;
-
+		
 				options.returner[areaName] = {
 
 					original : originalContent,
