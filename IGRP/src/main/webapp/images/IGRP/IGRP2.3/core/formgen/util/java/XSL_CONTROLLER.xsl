@@ -339,16 +339,14 @@
 						<xsl:call-template name="start-code">
 				     		<xsl:with-param name="type" select="concat($action,'')"/>
 				     		<xsl:with-param name="url" select="$url"/>
-				     		<xsl:with-param name="text" select="concat('return null;',$newline,$newline)"/>
+				     		<!--  <xsl:with-param name="text" select="concat('return null;',$newline,$newline)"/> -->
 				     	</xsl:call-template>
-				     	
 
 				     	<xsl:if test="not(@custom_return) or @custom_return!='true'">
-					     	<!-- <xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>
+					     	<xsl:value-of select="concat('return this.redirect(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,', this.queryString());')"/>
 							<xsl:value-of select="$newline"/>  
-							<xsl:value-of select="$tab"/> -->
+							<xsl:value-of select="$tab"/> 
 				     	</xsl:if>
-
 						
 					</xsl:when>
 					<xsl:when test="$type_render_='render_message'">
