@@ -346,8 +346,6 @@ $(function(){
 		    					
 		    			});
 		    			
-		    			
-		    			
 		    			var hintClss = $.trim( _arr[_arr.length - 2] );
 
 		    			if(hintClss && server.hints[hintClss])
@@ -361,22 +359,22 @@ $(function(){
 			    				return $.trim(v) != '';
 			    				
 			    			});
-		    				
-		    				console.log(dotArr)
-			    			
+
 		    				dotArr.pop();
-		    				
-		    				console.log(dotArr.join('.'));
-		    				
+
 		    				hintClass = dotArr.join('.')
 		    				
-			    			//hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
-			    			
-			    			console.log(hintClass)
-			    			
-			    			options.words = server.hints[hintClass];
-			    		
-		    				
+			    			if(server.hints[hintClass])
+			    				
+			    				options.words = server.hints[hintClass];
+			    	
+			    			else{
+			    				
+			    				hintClass = $.trim(dotArr.slice(Math.max(dotArr.length - 2, 1)).join('.'));
+			    				
+			    				options.words = server.hints[hintClass];
+			    			}
+
 		    			}
 
 		    		}
