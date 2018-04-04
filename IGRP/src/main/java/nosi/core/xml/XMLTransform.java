@@ -30,17 +30,17 @@ import nosi.webapps.igrp.dao.Config_env;
 public class XMLTransform {
 
 	//Generate completed XML for Page
-	public String genXML(String xmlContent,Action page,String typeContent) {
+	public String genXML(String xmlContent,Action page,String typeContent,String conectionName,String schemaName,String tableName) {
 		XMLWritter xml = new XMLWritter("rows", page.getPage()+".xsl", "utf-8");
 		IHeaderConfig config = new IHeaderConfig() {
 			public String getPackageInstance(){
-				return page.getCrud().getConfig_env().getName();
+				return conectionName;
 			}
 			public String getPackageCopyHtml(){
-				return page.getCrud().getSchemaName();
+				return schemaName;
 			}
 			public String getPackageCopyDb(){
-				return page.getCrud().getTableName();
+				return tableName;
 			}
 		};
 		xml.addXml(new Config().getHeader(config,page));

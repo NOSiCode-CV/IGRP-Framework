@@ -4,7 +4,6 @@
 	<session-factory>
     	<!-- IGRP Core -->
     	<mapping class="nosi.webapps.igrp.dao.Domain"/>
-    	<mapping class="nosi.webapps.igrp.dao.CRUD"/>
 		<mapping class="nosi.webapps.igrp.dao.Action"/>
 		<mapping class="nosi.webapps.igrp.dao.Application"/>
 		<mapping class="nosi.webapps.igrp.dao.CLob"/>

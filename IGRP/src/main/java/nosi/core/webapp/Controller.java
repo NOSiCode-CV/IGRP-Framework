@@ -151,7 +151,7 @@ public abstract class Controller{
 		return this.xSend(content, name, contentType, download); // send it as stream ... binary file 
 	}
 	// send it as stream ... binary file 
-	protected final Response xSend(byte []file, String name, String contentType, boolean download) {
+	public final Response xSend(byte []file, String name, String contentType, boolean download) {
 		if(file == null) throw new ServerErrorHttpException();
 //		if(/*name.contains(".") && */contentType != null && !contentType.isEmpty()) throw new IllegalArgumentException("Please verify your fileName and contentType.");
 		Response response = new Response();

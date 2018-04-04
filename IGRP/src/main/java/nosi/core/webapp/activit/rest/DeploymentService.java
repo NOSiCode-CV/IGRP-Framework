@@ -45,6 +45,26 @@ public class DeploymentService extends Activit{
 		return d;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public DeploymentService getDeploymentByName(String name){
+		DeploymentService d = this;
+		Response response = new RestRequest().get("repository/deployments?name="+name);
+		if(response!=null){
+			String contentResp = "";
+			InputStream is = (InputStream) response.getEntity();
+			try {
+				contentResp = FileHelper.convertToString(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(response.getStatus()==200){
+				d = ((List<DeploymentService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<DeploymentService>>(){}.getType())).get(0);
+			}else{
+				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+			}
+		}
+		return d;
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<DeploymentService> getDeployments(Integer idApp){
@@ -92,6 +112,26 @@ public class DeploymentService extends Activit{
 		}
 		file.delete();
 		return d;
+	}
+	
+	public DeploymentService create(InputStream file,Integer idApp,String fileName,String contentType) throws IOException {
+		   DeploymentService d = this;
+	       Response response = new RestRequest().post("repository/deployments?tenantId="+idApp,file,fileName,contentType);
+			if(response!=null){
+				String contentResp = "";
+				InputStream is = (InputStream) response.getEntity();
+				try {
+					contentResp = FileHelper.convertToString(is);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if(response.getStatus()==201){
+					d = (DeploymentService) ResponseConverter.convertJsonToDao(contentResp, DeploymentService.class);
+				}else{
+					d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
+				}
+			}
+			return d;
 	}
 	
 	public DeploymentService update(Part file,Integer idApp) throws IOException{

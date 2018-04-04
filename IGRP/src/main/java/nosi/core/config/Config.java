@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -263,6 +264,10 @@ public class Config {
 	public String getRawBasePathClassWorkspace() {
 		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +  "src"+ SEPARATOR_FOR_FILESYS +"main"+ SEPARATOR_FOR_FILESYS +"java"+ SEPARATOR_FOR_FILESYS;
 	}
+
+	public String getRawBasePathResourcesWorkspace() {
+		return this.getWorkspace() + SEPARATOR_FOR_FILESYS +  "src"+ SEPARATOR_FOR_FILESYS +"main"+ SEPARATOR_FOR_FILESYS +"resources"+ SEPARATOR_FOR_FILESYS;
+	}
 	
 	public String getBasePahtClassWorkspace(String app){
 		return this.getRawBasePathClassWorkspace()+ this.getBasePackage(app).replace(".", SEPARATOR_FOR_FILESYS);
@@ -275,6 +280,9 @@ public class Config {
 		return "nosi.webapps."+app.toLowerCase()+".pages."+page.toLowerCase();
 	}
 
+	public String getPathServerClass(String app) {
+		return this.getBasePathClass()+"nosi"+File.separator+"webapps"+File.separator+app.toLowerCase()+File.separator;
+	}
 	public String getBasePathServerXsl(){
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
@@ -296,13 +304,20 @@ public class Config {
 	}
 	
 	public String getImageAppPath(Action page) {
-		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP"+page.getVersion()+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
+		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP2.3"+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+page.getApplication().getDad().toLowerCase()+SEPARATOR_FOR_HTTP+page.getPage().toLowerCase();
 	}
 	public String getBaseServerPahtXsl(Action page){
 		return this.getBasePathServerXsl() + this.getImageAppPath(page);
 	}
 	
 
+	public String getImageAppPath(Application app) {
+		return "images"+SEPARATOR_FOR_HTTP+"IGRP"+SEPARATOR_FOR_HTTP+"IGRP2.3"+SEPARATOR_FOR_HTTP+"app"+SEPARATOR_FOR_HTTP+app.getDad().toLowerCase();
+	}
+	public String getBaseServerPahtXsl(Application app){
+		return this.getBasePathServerXsl() + this.getImageAppPath(app);
+	}
+	
 	public String getBaseHttpServerPahtXsl(Action page){
 		String APP_LINK_IMAGE = null;
 		if(Config.isInstall())
@@ -317,7 +332,10 @@ public class Config {
 	public String getBasePahtXslWorkspace(Action page){
 		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(page);
 	}
-	
+
+	public String getBasePahtXslWorkspace(Application app) {
+		return this.getWorkspace() + File.separator + this.getWebapp() + File.separator + this.getImageAppPath(app);
+	}
 	
 	public String getWebapp() {
 		return "src/main/webapp"; 
@@ -410,9 +428,10 @@ public class Config {
 			link_home = config.getLinkHomeStudio();
 		}		
 		XMLWritter xml = new XMLWritter();
+		Random r = new Random();
 		xml.setElement("template", app.getTemplate());
 		xml.setElement("title", Core.getSwitchNotNullValue(title,config.getTitle()));
-		xml.setElement("version",this.getVersion());
+		xml.setElement("version",Math.abs(r.nextLong()));
 		xml.setElement("link",link_home);
 		xml.setElement("link_img",getLinkImg());
 		if(Core.isNotNull(target)) {

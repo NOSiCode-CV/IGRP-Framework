@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
+import org.modelmapper.ModelMapper;
+
 import com.google.gson.Gson;
 import nosi.core.config.Config;
 import nosi.core.config.Connection;
@@ -763,6 +765,11 @@ public final class Core {	/** Not inherit
 			p.addVariable(task.getTaskDefinitionKey()+"_"+variableName, "local", "string", value.toString());
 			p.submitVariables();
 		}
+	}
+	
+	public static void mapper(Object source,Object destination) {
+		ModelMapper mapper = new ModelMapper();
+		mapper.map(source, destination);
 	}
 	
 	public static String getPinkColor() {

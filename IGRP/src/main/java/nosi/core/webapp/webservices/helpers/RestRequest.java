@@ -2,6 +2,7 @@ package nosi.core.webapp.webservices.helpers;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.Part;
@@ -96,6 +97,19 @@ public class RestRequest{
 		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+file.getSubmittedFileName()+"\"; Content-Type=\""+file.getContentType()+"\"");
 		List<Attachment> atts = new LinkedList<Attachment>();
 		atts.add(new Attachment("file", file.getInputStream(),cd));
+		MultipartBody body = new MultipartBody(atts);
+		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
+		client.close();	
+		return response;
+	}
+	
+	public Response post(String url, InputStream file,String fileName,String contentType) throws IOException {	
+		this.addUrl(url);
+		Client client = this.getConfig().bluidClient();
+		WebTarget target = client.target(this.getConfig().getUrl());
+		ContentDisposition cd = new ContentDisposition("form-data; name=\"file\";filename=\""+fileName+"\"; Content-Type=\""+contentType+"\"");
+		List<Attachment> atts = new LinkedList<Attachment>();
+		atts.add(new Attachment("file", file,cd));
 		MultipartBody body = new MultipartBody(atts);
 		Response response = target.request(this.getAccept_format()).post(Entity.entity(body,MediaType.MULTIPART_FORM_DATA));
 		client.close();	

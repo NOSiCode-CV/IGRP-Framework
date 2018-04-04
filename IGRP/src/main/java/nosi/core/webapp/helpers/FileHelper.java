@@ -2,6 +2,7 @@ package nosi.core.webapp.helpers;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -82,6 +84,10 @@ public class FileHelper {
 		    return this.files;
 			}
 		return null;
+	}
+	
+	public static InputStream convertStringToInputStream(String value) throws UnsupportedEncodingException {
+		return new ByteArrayInputStream(value.getBytes(FileHelper.ENCODE_UTF8));
 	}
 	
 	//Converte file to string 

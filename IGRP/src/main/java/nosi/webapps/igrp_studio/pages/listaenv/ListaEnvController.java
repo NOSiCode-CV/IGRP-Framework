@@ -12,6 +12,7 @@ import nosi.core.webapp.Controller;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.export.app.ExportAppJava;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
@@ -127,18 +128,11 @@ public class ListaEnvController extends Controller {
 		if (id != null && !id.equals("")) {
 			Application app = new Application().findOne(id);
 			if (app != null) {
-				ImportExportApp iea = new ImportExportApp();
-				if (iea.validateExportApp(app)) {
-					// Insert data on Export/Import
-					ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), this.getConfig().getUserName(),
-							DateHelper.getCurrentDataTime(), "Export");
-					ie_dao = ie_dao.insert();
-
-					return this.exportApp(app, iea);
-				} else {
-					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
-							FlashMessage.WARNING_EXPORT_APP);
-				}
+				// Insert data on Export/Import
+				ImportExportDAO ie_dao = new ImportExportDAO(app.getName(), this.getConfig().getUserName(),
+						DateHelper.getCurrentDataTime(), "Export");
+				ie_dao = ie_dao.insert();
+				return this.exportApp(app);
 			} else {
 				Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.ERROR, FlashMessage.ERROR);
 			}
@@ -148,54 +142,55 @@ public class ListaEnvController extends Controller {
 	}
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
-	private Response exportApp(Application app, ImportExportApp iea) {
-		
-		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
-			iea.putFilesPageConfig(a);
-		}
-
-		Map<String, String> files = iea.getFilesPageClasses();
-
-		for (Config_env configDb : new Config_env().find().andWhere("application", "=", app.getId()).all()) {
-			files.put("configHibernate/" + configDb.getName(),
-					this.getConfig().getBasePathClass() + configDb.getName() + ".cfg.xml");
-		}
-
-		if (iea.getFilesDaoClasses() != null)
-			files.putAll(iea.getFilesDaoClasses());
-
-		String pathConfigApp = this.getConfig().getPathExport() + "ConfigApp" + File.separator + app.getDad().toLowerCase();
-		try {
-			FileHelper.save(pathConfigApp, "Config" + app.getDad() + ".xml",
-					ImportExportApp.genereteXMLApplication(app));
-			FileHelper.save(pathConfigApp, "Config" + app.getDad() + "DB.xml",
-					ImportExportApp.generateXMLConfigDB(app));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		files.put("configDBApp/" + app.getDad().toLowerCase() + 
-				"/" + app.getDad().toLowerCase() + ".xml",
-				pathConfigApp + File.separator + "Config" + 
-				app.getDad().toLowerCase() + "DB.xml");
-		
-		files.put("configApp/" + app.getDad().toLowerCase() + "/" + app.getDad().toLowerCase() + ".xml",
-				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + ".xml");
-		
-		String pathJar = this.getConfig().getPathExport() + app.getDad().toLowerCase() + File.separator
-				+ app.getDad().toLowerCase() + ".app.jar";
-		
-		FileHelper.createDiretory(this.getConfig().getPathExport() + app.getDad().toLowerCase());
-		
-		/*String aux = this.getConfig().getPathExport() + app.getDad().toLowerCase(); 
-		aux = aux.replace(File.separator + app.getDad().toLowerCase(), ""); 
-		new File(aux).deleteOnExit();*/
-		
-		JarUnJarFile.saveJarFiles(pathJar, files, 9);
-		
-	//	System.out.println(pathJar); 
-		
-		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
+	private Response exportApp(Application app) {
+//		
+//		for (Action a : new Action().find().andWhere("application", "=", app.getId()).all()) {
+//			iea.putFilesPageConfig(a);
+//		}
+//
+//		Map<String, String> files = iea.getFilesPageClasses();
+//
+//		for (Config_env configDb : new Config_env().find().andWhere("application", "=", app.getId()).all()) {
+//			files.put("configHibernate/" + configDb.getName(),
+//					this.getConfig().getBasePathClass() + configDb.getName() + ".cfg.xml");
+//		}
+//
+//		if (iea.getFilesDaoClasses() != null)
+//			files.putAll(iea.getFilesDaoClasses());
+//
+//		String pathConfigApp = this.getConfig().getPathExport() + "ConfigApp" + File.separator + app.getDad().toLowerCase();
+//		try {
+//			FileHelper.save(pathConfigApp, "Config" + app.getDad() + ".xml",
+//					ImportExportApp.genereteXMLApplication(app));
+//			FileHelper.save(pathConfigApp, "Config" + app.getDad() + "DB.xml",
+//					ImportExportApp.generateXMLConfigDB(app));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		files.put("configDBApp/" + app.getDad().toLowerCase() + 
+//				"/" + app.getDad().toLowerCase() + ".xml",
+//				pathConfigApp + File.separator + "Config" + 
+//				app.getDad().toLowerCase() + "DB.xml");
+//		
+//		files.put("configApp/" + app.getDad().toLowerCase() + "/" + app.getDad().toLowerCase() + ".xml",
+//				pathConfigApp + File.separator + "Config" + app.getDad().toLowerCase() + ".xml");
+//		
+//		String pathJar = this.getConfig().getPathExport() + app.getDad().toLowerCase() + File.separator
+//				+ app.getDad().toLowerCase() + ".app.jar";
+//		
+//		FileHelper.createDiretory(this.getConfig().getPathExport() + app.getDad().toLowerCase());
+//		
+//		/*String aux = this.getConfig().getPathExport() + app.getDad().toLowerCase(); 
+//		aux = aux.replace(File.separator + app.getDad().toLowerCase(), ""); 
+//		new File(aux).deleteOnExit();*/
+//		
+//		JarUnJarFile.saveJarFiles(pathJar, files, 9);
+//		
+//	//	System.out.println(pathJar); 
+//		
+//		return this.sendFile(new File(pathJar), app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
+		return this.xSend(new ExportAppJava(app.getId()).export(),app.getDad().toLowerCase() + ".app.jar", "application/jar", true);
 	}
 
 	public Response actionChangeStatus()
