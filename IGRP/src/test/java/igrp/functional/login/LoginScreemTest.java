@@ -45,7 +45,6 @@ public class LoginScreemTest {
     	return ShrinkWrap.create(WebArchive.class, "igrp.war")
             .addClasses(nosi.core.servlet.IgrpServlet.class, 
             		    nosi.webapps.igrp.dao.Action.class,
-            			nosi.webapps.igrp.dao.CRUD.class,
             			nosi.core.config.ConfigDBIGRP.class,
             			nosi.core.config.Config.class
             			)

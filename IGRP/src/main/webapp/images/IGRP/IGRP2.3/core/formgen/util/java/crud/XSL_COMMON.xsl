@@ -286,7 +286,13 @@
  	
  	<xsl:template name="set-param-update">
  		<xsl:for-each select="//content/*[@type='table']/fields/*[@iskey='true']">
-			<xsl:value-of select="concat('+',$double_quotes,'&amp;target=_blank&amp;isEdit=true&amp;',@name,'=',$double_quotes,'+Core.getParam(',$double_quotes,@name,$double_quotes,')')"/>
+ 			<xsl:value-of select="concat('this.addQueryString(',$double_quotes,'target',$double_quotes,',',$double_quotes,'_blank',$double_quotes,');')"/>
+ 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+ 			<xsl:value-of select="concat('this.addQueryString(',$double_quotes,'isEdit',$double_quotes,',',$double_quotes,'true',$double_quotes,');')"/>
+ 			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
+ 			<xsl:value-of select="concat('this.addQueryString(',$double_quotes,@name,$double_quotes,',Core.getParam(',$double_quotes,@name,$double_quotes,'));')"/>
 		</xsl:for-each>
  	</xsl:template>
  	

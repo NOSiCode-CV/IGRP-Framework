@@ -110,12 +110,6 @@ public class SettingsController extends Controller {
 		Settings model = new Settings();
 		if (Igrp.getMethod().equalsIgnoreCase("post")) {
 			model.load();
-			if (model.save(model)) {
-				Core.setMessageSuccess();
-			} else {
-				Core.setMessageError();
-				return this.forward("igrp", "ChangePassword", "index");
-			}
 		}
 		return this.redirect("igrp", "ChangePassword", "index");
 		/*----#END-PRESERVED-AREA----*/

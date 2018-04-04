@@ -11,14 +11,16 @@ package nosi.core.webapp.helpers;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +38,33 @@ import nosi.core.webapp.import_export.FileImportAppOrPage;
 public class JarUnJarFile {
 
 	public static String encode = FileHelper.ENCODE_UTF8;
+	
+	public static byte[] convertFilesToJarBytes(Map<String,String>files,int level){
+		byte[] result = null;
+		if(files.size() > 0 && (level >= 0 && level <= 9))
+		try{
+			ByteArrayOutputStream fos = new ByteArrayOutputStream();
+			CheckedOutputStream cos = new CheckedOutputStream(fos, new Adler32());
+			JarOutputStream jos = new JarOutputStream(new BufferedOutputStream(cos));
+			Set<Entry<String, String>> entry = files.entrySet();
+			for(Entry<String,String> e:entry){
+				JarEntry je = new JarEntry(e.getKey());
+				jos.putNextEntry(je);
+				InputStream fis = FileHelper.convertStringToInputStream(e.getValue());
+				for(int r=fis.read();r!=-1;r=fis.read()){
+					jos.write(r);
+				}
+				fis.close();
+			}
+			jos.close();
+			result = fos.toByteArray();
+			fos.close();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//save data to jar format
 	public static boolean saveJarFiles(String jarName,Map<String,String>files,int level){
 		boolean result = false;
@@ -65,7 +94,7 @@ public class JarUnJarFile {
 	}
 	
 	public static Map<String,String> readJarFile(Part file){
-		Map<String,String> files = new HashMap<>();
+		Map<String,String> files = new LinkedHashMap<>();
 		try{
 			CheckedInputStream cis = new CheckedInputStream(file.getInputStream(), new Adler32());
 			JarInputStream jis = new JarInputStream(new BufferedInputStream(cis));

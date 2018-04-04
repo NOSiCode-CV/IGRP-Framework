@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -57,10 +56,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
 	private Application application;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "crud_fk",foreignKey = @ForeignKey(name="CRUD_ACTION_FK"),nullable=true)
-	private CRUD crud;
-	
+
 	public Action(){		
 	}
 	
@@ -76,12 +72,6 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.version = version;
 		this.status = status;
 		this.application = application;
-	}
-
-	public Action(String page, String action, String package_name, String xsl_src, String page_descr,
-			String action_descr, String version, int status, Application application,CRUD crud) {
-		this(page, action, package_name, xsl_src, page_descr, action_descr, version, status, application);
-		this.crud = crud;
 	}
 
 	public Integer getId() {
@@ -184,13 +174,6 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.application = application;
 	}
 
-	public CRUD getCrud() {
-		return crud;
-	}
-
-	public void setCrud(CRUD crud) {
-		this.crud = crud;
-	}
 
 	@Override
 	public String toString() {

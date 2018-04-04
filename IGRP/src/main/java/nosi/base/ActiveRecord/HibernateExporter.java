@@ -61,7 +61,6 @@ public class HibernateExporter {
 			metadata.addAnnotatedClass(CLob.class);
 			metadata.addAnnotatedClass(Config_env.class);
 			metadata.addAnnotatedClass(Config.class);
-			metadata.addAnnotatedClass(CRUD.class);
 			metadata.addAnnotatedClass(ImportExportDAO.class);
 			metadata.addAnnotatedClass(Menu.class);
 			metadata.addAnnotatedClass(OAuthAccessToken.class);

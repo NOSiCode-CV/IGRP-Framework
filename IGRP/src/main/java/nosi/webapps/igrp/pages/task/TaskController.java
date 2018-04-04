@@ -41,12 +41,7 @@ public class TaskController extends Controller {
 		/*----#START-PRESERVED-AREA(GRAVAR)----*/
 		Task model = new Task();
 		model.load();
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-			 return this.forward("igrp","Task","index");
-		}
+		
 		return this.redirect("igrp","Task","index");
 		/*----#END-PRESERVED-AREA----*/
 	}

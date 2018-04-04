@@ -9,6 +9,7 @@ import javax.servlet.http.Part;
 import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.export.app.ImportAppJava;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppJar;
@@ -47,8 +48,16 @@ public class ImportArquivoController extends Controller {
 				descricao += file.getSubmittedFileName().replace(".app.jar", "").replace(".zip", "");
 				if(file.getSubmittedFileName().endsWith(".zip")){
 					result = new Import().importApp(new ImportAppZip(file));
-				}else if(file.getSubmittedFileName().endsWith(".app.jar")){
-					result = new Import().importApp(new ImportAppJar(file));
+				}else if(file.getSubmittedFileName().endsWith(".app.jar")){					
+					ImportAppJava importApp = new ImportAppJava(file);
+					importApp.importApp();
+					if(importApp.hasError()) {
+						importApp.getErros().stream().forEach(err->{
+							Core.setMessageError(err);
+						});
+					}else {
+						result = true;
+					}
 				}else{
 					result = false;
 				}
@@ -61,8 +70,7 @@ public class ImportArquivoController extends Controller {
 				ImportExportDAO ie_dao = new ImportExportDAO(descricao, Core.getCurrentUser().getUser_name(), Core.getCurrentDataTime(), "Import");
 				ie_dao = ie_dao.insert();
 				Core.setMessageSuccess();
-			}else
-				Core.setMessageError(FlashMessage.ERROR_IMPORT);		
+			}
 		}
 		return this.redirect("igrp_studio","ImportArquivo","index");
 		/*----#END-PRESERVED-AREA----*/

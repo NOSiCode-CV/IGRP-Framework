@@ -7,6 +7,7 @@ public class FileImportAppOrPage  implements Comparable<FileImportAppOrPage>{
 
 	private String conteudo;
 	private String nome;
+	private String folder;
 	private int order;
 	
 	public FileImportAppOrPage(String nome, String conteudo, int order) {
@@ -35,6 +36,14 @@ public class FileImportAppOrPage  implements Comparable<FileImportAppOrPage>{
 		this.order = order;
 	}
 	
+	public String getFolder() {
+		return folder;
+	}
+
+	public void setFolder(String folder) {
+		this.folder = folder;
+	}
+
 	@Override
 	public int compareTo(FileImportAppOrPage file) {
 		if(this.order < file.order) {
@@ -45,4 +54,11 @@ public class FileImportAppOrPage  implements Comparable<FileImportAppOrPage>{
 		}
 		return 0;
 	}
+
+	@Override
+	public String toString() {
+		return "FileImportAppOrPage [ nome=" + nome + ", folder=" + folder + ", order=" + order + "]";
+	}
+	
+	
 }

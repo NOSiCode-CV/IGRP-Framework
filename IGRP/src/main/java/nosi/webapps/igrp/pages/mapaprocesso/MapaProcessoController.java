@@ -88,9 +88,9 @@ public class MapaProcessoController extends Controller{
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
 				String content = resp.getContent();
 				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {//Check the page contain button
-					String result = content.substring(0, content.indexOf(">",content.indexOf("</item>",content.indexOf("xml-type=\"toolsbar\""))))+">";
+					String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
 					result += this.generateButtonProcess(action, p_processId, taskId).toString();
-					result += content.substring("</item>".length()+content.indexOf("</item>", content.indexOf("xml-type=\"toolsbar\"")));
+					result += content.substring("</item>".length()+content.lastIndexOf("</item>"));
 					return this.renderView(result);
 				}
 				return this.renderView(resp.getContent());	
@@ -107,7 +107,7 @@ public class MapaProcessoController extends Controller{
 		button.getProperties().add("code", "iniciar_processo");
 		button.getProperties().add("rel", "iniciar_processo");
 		button.getProperties().add("type", "specific");
-		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Processar Etapa"));
+		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Seguinte"));
 		button.setApp("igrp");
 		button.setPage("ExecucaoTarefas");
 		button.setLink("process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());

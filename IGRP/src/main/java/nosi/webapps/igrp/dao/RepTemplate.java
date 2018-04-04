@@ -4,11 +4,11 @@ package nosi.webapps.igrp.dao;
  * 29 Jun 2017
  */
 import java.util.Date;
-import java.util.List;
-
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -61,10 +61,10 @@ public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serial
 	@ManyToOne
 	@JoinColumn(name="xsl_content_fk",foreignKey=@ForeignKey(name="REP_TEMPLATE_XSL_CONTENT_FK"),nullable=false)
 	private CLob xsl_content;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="reptemplate")
-	private List<RepTemplateParam> params;
-	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repSource")
-	private List<RepTemplateSource> reptemplatesources;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="reptemplate",fetch=FetchType.EAGER)
+	private Set<RepTemplateParam> params;
+	@OneToMany(cascade=CascadeType.REMOVE,mappedBy="repSource",fetch=FetchType.EAGER)
+	private Set<RepTemplateSource> reptemplatesources;
 	
 	public RepTemplate(){}
 	
@@ -171,19 +171,21 @@ public class RepTemplate extends BaseActiveRecord<RepTemplate> implements Serial
 		this.xsl_content = xsl_content;
 	}
 
-	public List<RepTemplateParam> getParams() {
+	public Set<RepTemplateParam> getParams() {
 		return params;
 	}
 
-	public void setParams(List<RepTemplateParam> params) {
+	public void setParams(Set<RepTemplateParam> params) {
 		this.params = params;
 	}
 
-	public List<RepTemplateSource> getReptemplatesources() {
+	public Set<RepTemplateSource> getReptemplatesources() {
 		return reptemplatesources;
 	}
 
-	public void setReptemplatesources(List<RepTemplateSource> reptemplatesources) {
+	public void setReptemplatesources(Set<RepTemplateSource> reptemplatesources) {
 		this.reptemplatesources = reptemplatesources;
 	}
+
+	
 }
