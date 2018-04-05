@@ -105,6 +105,9 @@ public class LookupListPageView extends View {
 		selecionar.setLabel(gt(""));
 		selecionar.propertie().add("name","p_selecionar").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
 		
+		selecionar_check = new CheckBoxField
+		(model,"selecionar_check");
+		selecionar_check.propertie().add("name","p_selecionar").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
 		titulo = new TextField(model,"titulo");
 		titulo.setLabel(gt("Título"));
 		titulo.propertie().add("name","p_titulo").add("type","text").add("maxlength","30").add("required","true").add("desc","true");
@@ -153,6 +156,7 @@ public class LookupListPageView extends View {
 		table_1.addField(p_id);
 
 		formlist_1.addField(selecionar);
+		formlist_1.addField(selecionar_check);
 		formlist_1.addField(titulo);
 		formlist_1.addField(t_nome_componente);
 		formlist_1.addField(t_descricao_componente);

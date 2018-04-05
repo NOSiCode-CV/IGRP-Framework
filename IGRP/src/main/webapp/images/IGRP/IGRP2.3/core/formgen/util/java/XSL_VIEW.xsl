@@ -156,7 +156,7 @@
 					<xsl:when test="@type='hidden'">
 						<xsl:value-of select="concat($instance_name,'.addField(',@name,');')"/>
 					</xsl:when>
-					<xsl:when test="(@type='checkbox' or @type='radio') and $type_content='table'">
+					<xsl:when test="(@type='checkbox' or @type='radio') and ($type_content='table' or $type_content='formlist' or $type_content='separatorlist')">
 						<xsl:value-of select="concat($instance_name,'.addField(',name(),');')"/>
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>

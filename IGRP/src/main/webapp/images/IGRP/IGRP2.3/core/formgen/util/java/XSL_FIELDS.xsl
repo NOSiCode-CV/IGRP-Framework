@@ -119,7 +119,7 @@
 						</xsl:variable>
 <!-- 						<xsl:value-of select="$newline"/> -->
 <!-- 						<xsl:value-of select="$tab2"/> -->
-				 		<xsl:if test="$container_type='table' and (@type='checkbox' or @type='radio')">
+				 		<xsl:if test="($container_type='table' or $container_type='formlist' or $container_type='separatorlist') and (@type='checkbox' or @type='radio')">
 							<xsl:value-of select="$newline"/>
 							<xsl:value-of select="$tab2"/>
 					 		<xsl:value-of select="concat($tag_name,'_check = new ')"/>
