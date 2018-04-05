@@ -4341,17 +4341,27 @@ if(input) {
 			value   :false,
 			xslValue:'close="refresh"',
 			onEditionStart : function(o){
-				if(field.GET.target && field.GET.target() == 'modal' || field.GET.target && field.GET.target() == 'mpsubmit' || field.GET.target && field.GET.target() == 'right_panel')
+				
+				if(
+					field.GET.target && field.GET.target() == 'modal' ||
+					field.GET.target && field.GET.target() == 'right_panel' || 
+				   	field.GET.target && field.GET.target() == 'mpsubmit'   
+				)
+
 					o.input.show();
+
 				else
+					
 					o.input.hide();
+
 			}
 		});
 
 		if(!targetRulesSet){
 			$.IGRP.rules.set({"edit-target":[
 				{"name":"","event":"change","condition":"equal","value":"changesrc","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-target_fields","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},
-				{"name":"","event":"change","condition":"equal","value":"modal","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false}
+				{"name":"","event":"change","condition":"equal","value":"modal","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"1","isTable":false},
+				{"name":"","event":"change","condition":"equal","value":"right_panel","value2":"","patern":"","patern_custom":"","action":"show","targets":"edit-closerefresh","procedure":"","msg_type":"","msg":"","opposite":"","isTable":false}
 			]});
 			targetRulesSet = true;
 		}
