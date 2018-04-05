@@ -164,6 +164,12 @@
          if (bpmn.app && lookupHref) 
             bpmLookup.attr('href',$.IGRP.utils.getUrl(lookupHref)+'p_env_fk='+bpmn.app);
 
+         bpmLookup.on('click',function(e){
+            var href =  $.IGRP.utils.getUrl($(this).attr('href'));
+               href  += 'p_general_id='+$('#camunda-id').val();
+            $(this).attr('href',href);
+         });
+
          //$('#igrp-contents .js-panel').height($(document).height() - ($('#igrp-top-nav').height()));
       },
       init:function(){

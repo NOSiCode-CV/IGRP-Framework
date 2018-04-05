@@ -343,40 +343,13 @@
 		};
 
 		var right_panel       = function(p){
+
+			if (p.clicked.attr('close') && p.clicked.attr('close') == 'refresh')
+				mWindow = window;
+
+
+			$.IGRP.components.rightPanel.set(p);
 			
-			var modal 	 = $('#igrp-right-panel'),
-
-				iframe   = $('iframe',modal),
-
-				n_iframe = iframe.clone(),
-			
-				url 	 = p.url;
-			
-			if( url.indexOf('&target=_blank') == -1 )
-				url+='&target=_blank';
-
-			modal.addClass('loading');
-
-			n_iframe.attr('src',url);
-
-			n_iframe.bind('load',function(e){
-		
-				var contents = n_iframe.contents();
-
-				contents.ready(function(){
-					
-					if($('body',contents)[0])
-
-						modal.removeClass('loading');
-	
-				});
-
-			});
-
-			iframe.replaceWith(n_iframe);
-
-			modal.modal("show");
-
 			return false;
 		};
 

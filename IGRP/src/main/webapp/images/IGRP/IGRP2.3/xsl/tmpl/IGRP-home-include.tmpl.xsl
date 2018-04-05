@@ -95,6 +95,8 @@
     <script src="{$path}/core/igrp/tree/IGRP.tree.js?v={$version}"></script>
     <!-- IGRP sidebar controller -->
     <script src="{$path}/core/igrp/sidebar/IGRP.sidebar.js?v={$version}"></script>
+    <!-- IGRP rightpanel controller -->
+    <script src="{$path}/core/igrp/rightpanel/rightpanel.js"></script>
     <!-- IGRP scroll to top controller -->
     <script src="{$path}/core/igrp/scrolltop/IGRP.scrolltop.js?v={$version}"></script>
     <!-- IGRP XML XSL Transform -->
