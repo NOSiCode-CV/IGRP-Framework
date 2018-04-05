@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="../images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xsl" type="text/xsl"?>
+<?xml-stylesheet href="/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xsl" type="text/xsl"?>
 <rows>
+    <link_img>/IGRP/images/IGRP/IGRP2.3</link_img>
     <site>
-        <welcome_note>Ola</welcome_note>
-        <footer_note>2011 - Copyright NOSI</footer_note>
-        <user_name>red-igrp</user_name>
+        <welcome_note>Oba</welcome_note>
+        <footer_note>2017 - Copyright NOSI</footer_note>
+        <user_name>Hexagon</user_name>
         <button type="specific">
             <title>Sair</title>
-            <app>RED</app>
+            <app>DUA</app>
             <page />
             <link>#</link>
             <target>_self</target>
@@ -29,13 +30,36 @@
         <copy_menu>false</copy_menu>
         <package_copy_db />
         <package_copy_html />
-        <preserve_url>http://localhost:8080/IGRP/webapps?r=igrp/page/preserveUrl&amp;p_id=</preserve_url>
+        <preserve_url>webapps?r=igrp/page/preserveUrl&amp;p_id=25</preserve_url>
     </plsql>
     <content>
         <title>Lista de Pagina Para Lookup</title>
+        <tabcontent_1 type="tabcontent" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <componentes name="p_componentes" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Componentes</label>
+                    <value/>
+                </componentes>
+                <paginas name="p_paginas" type="button" target_fields="" closerefresh="false" custom_return="false" iconColor="#333" iconClass="" img="fa-angle-right" maxlength="50">
+                    <label>Páginas</label>
+                    <value/>
+                </paginas>
+            </fields>
+        </tabcontent_1>
+        <toolsbar_1 type="toolsbar" xml-type="toolsbar" gen-type="menu" gen-group="">
+            <item type="specific" code="" rel="gravar">
+                <title>Gravar</title>
+                <app>igrp</app>
+                <page>LookupListPage</page>
+                <link>index</link>
+                <target>submit</target>
+                <img>primary|fa-save</img>
+                <preview>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml</preview>
+            </item>
+        </toolsbar_1>
         <form_1 type="form" xml-type="form" gen-type="container" gen-group="">
             <fields>
-                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="">
+                <env_fk name="p_env_fk" type="select" multiple="false" maxlength="30" required="false" change="false" disabled="false" right="false" domain="" java-type="">
                     <label>Aplicacao</label>
                     <list>
                         <option/>
@@ -59,25 +83,71 @@
                 </env_fk>
                 <page name="p_page" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Nome Pagina</label>
-                    <value>Sed amet accusantium amet natus</value>
+                    <value>Labore perspiciatis sit doloremque aliqua</value>
                 </page>
-                <page_descr name="p_page_descr" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                <page_descr name="p_page_descr" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Descricao Pagina</label>
-                    <value>Adipiscing dolor accusantium s</value>
+                    <value>Voluptatem deserunt sit perspiciatis rem</value>
                 </page_descr>
             </fields>
             <tools-bar>
-                <item type="form" code="" class="default" rel="pesquisar">
+                <item type="form" code="" class="primary" rel="pesquisar2">
                     <title>Pesquisar</title>
                     <app>igrp</app>
-                    <page>ListaPage</page>
+                    <page>Dominio</page>
                     <link>index</link>
-                    <parameter>undefinedimages/IGRP/IGRP2.3/app/igrp/listapage/ListaPage.xsl?</parameter>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/dominio/Dominio.xml?</parameter>
                     <target>submit</target>
-                    <img>default|fa-search</img>
+                    <img>primary|fa-search</img>
                 </item>
             </tools-bar>
         </form_1>
+        <form_2 type="form" xml-type="form" gen-type="container" gen-group="">
+            <fields>
+                <aplicacao name="p_aplicacao" type="select" multiple="false" domain="" maxlength="30" required="false" change="false" disabled="false" right="false" java-type="">
+                    <label>Aplicacao</label>
+                    <list>
+                        <option/>
+                        <option>
+                            <text>Option 1</text>
+                            <value>1</value>
+                        </option>
+                        <option>
+                            <text>Option 2</text>
+                            <value>2</value>
+                        </option>
+                        <option>
+                            <text>Option 3</text>
+                            <value>3</value>
+                        </option>
+                        <option>
+                            <text>Option 4</text>
+                            <value>4</value>
+                        </option>
+                    </list>
+                </aplicacao>
+                <nome_componente name="p_nome_componente" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Nome Componente</label>
+                    <value>Deserunt consectetur lorem labore rem</value>
+                </nome_componente>
+                <descricao_componente name="p_descricao_componente" type="text" maxlength="100" required="false" change="false" readonly="false" disabled="false" placeholder="" right="false">
+                    <label>Descricao Componente</label>
+                    <value>Unde aliqua iste doloremque ipsum</value>
+                </descricao_componente>
+                <hidden name="p_task_id" type="hidden" maxlength="100" java-type="" tag="task_id"/>
+            </fields>
+            <tools-bar>
+                <item type="form" code="" class="primary" rel="pesquisar1">
+                    <title>Pesquisar</title>
+                    <app>igrp</app>
+                    <page>LookupListPage</page>
+                    <link>index</link>
+                    <parameter>/IGRP/images/IGRP/IGRP2.3/app/igrp/lookuplistpage/LookupListPage.xml?</parameter>
+                    <target>submit</target>
+                    <img>primary|fa-search</img>
+                </item>
+            </tools-bar>
+        </form_2>
         <table_1 type="table" xml-type="table" gen-type="container" gen-group="true">
             <fields>
                 <nome_pagina name="p_nome_pagina" type="text" maxlength="30" align="left" lookup_parser="true" iskey="false">
@@ -91,32 +161,102 @@
             <table>
                 <value>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Iste accusantium sit totam des</nome_pagina>
-                        <descricao name="p_descricao">Omnis stract sit mollit dolore</descricao>
+                        <nome_pagina name="p_nome_pagina">Doloremque dolor elit adipisci</nome_pagina>
+                        <descricao name="p_descricao">Consectetur labore rem aperiam</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Omnis unde ipsum ut unde</nome_pagina>
-                        <descricao name="p_descricao">Officia natus lorem doloremque</descricao>
+                        <nome_pagina name="p_nome_pagina">Natus perspiciatis accusantium</nome_pagina>
+                        <descricao name="p_descricao">Sit officia iste totam anim</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Sed voluptatem totam aliqua am</nome_pagina>
-                        <descricao name="p_descricao">Stract sit sit mollit sit</descricao>
+                        <nome_pagina name="p_nome_pagina">Consectetur officia sit deseru</nome_pagina>
+                        <descricao name="p_descricao">Rem iste perspiciatis sit laud</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Magna aliqua consectetur iste</nome_pagina>
-                        <descricao name="p_descricao">Rem labore voluptatem officia</descricao>
+                        <nome_pagina name="p_nome_pagina">Omnis rem labore iste rem</nome_pagina>
+                        <descricao name="p_descricao">Perspiciatis amet dolor stract</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                     <row>
-                        <nome_pagina name="p_nome_pagina">Accusantium lorem officia elit</nome_pagina>
-                        <descricao name="p_descricao">Elit aliqua perspiciatis sed a</descricao>
+                        <nome_pagina name="p_nome_pagina">Lorem ut officia laudantium ap</nome_pagina>
+                        <descricao name="p_descricao">Amet natus amet lorem stract</descricao>
                         <id name="p_id" tag="id">1</id>
                     </row>
                 </value>
             </table>
         </table_1>
+        <formlist_1 type="formlist" xml-type="formlist" gen-clean="true" gen-type="container" gen-group="true">
+            <fields>
+                <selecionar name="p_selecionar" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true" desc="true">
+                    <label>Selecionar</label>
+                </selecionar>
+                <titulo name="p_titulo" type="text" maxlength="30" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false" desc="true">
+                    <label>Título</label>
+                </titulo>
+                <t_nome_componente name="p_t_nome_componente" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Nome Componente</label>
+                </t_nome_componente>
+                <t_descricao_componente name="p_t_descricao_componente" type="text" maxlength="30" required="false" change="false" readonly="false" disabled="true" placeholder="" right="false" desc="true">
+                    <label>Descrição Componente</label>
+                </t_descricao_componente>
+            </fields>
+            <table>
+                <value>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <titulo name="p_titulo" desc="true">Amet mollit elit rem aliqua</titulo>
+                        <titulo_desc name="p_titulo_desc">Amet mollit elit rem aliqua</titulo_desc>
+                        <t_nome_componente name="p_t_nome_componente" desc="true">Dolor lorem adipiscing ut sed</t_nome_componente>
+                        <t_nome_componente_desc name="p_t_nome_componente_desc">Dolor lorem adipiscing ut sed</t_nome_componente_desc>
+                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Adipiscing perspiciatis amet a</t_descricao_componente>
+                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Adipiscing perspiciatis amet a</t_descricao_componente_desc>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <titulo name="p_titulo" desc="true">Deserunt ipsum rem sit amet</titulo>
+                        <titulo_desc name="p_titulo_desc">Deserunt ipsum rem sit amet</titulo_desc>
+                        <t_nome_componente name="p_t_nome_componente" desc="true">Ut sed accusantium totam magna</t_nome_componente>
+                        <t_nome_componente_desc name="p_t_nome_componente_desc">Ut sed accusantium totam magna</t_nome_componente_desc>
+                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Sit sit doloremque voluptatem</t_descricao_componente>
+                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Sit sit doloremque voluptatem</t_descricao_componente_desc>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <titulo name="p_titulo" desc="true">Amet unde mollit natus consect</titulo>
+                        <titulo_desc name="p_titulo_desc">Amet unde mollit natus consect</titulo_desc>
+                        <t_nome_componente name="p_t_nome_componente" desc="true">Laudantium sit rem aliqua ut</t_nome_componente>
+                        <t_nome_componente_desc name="p_t_nome_componente_desc">Laudantium sit rem aliqua ut</t_nome_componente_desc>
+                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Aperiam officia magna aliqua s</t_descricao_componente>
+                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Aperiam officia magna aliqua s</t_descricao_componente_desc>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <titulo name="p_titulo" desc="true">Aliqua consectetur stract ipsu</titulo>
+                        <titulo_desc name="p_titulo_desc">Aliqua consectetur stract ipsu</titulo_desc>
+                        <t_nome_componente name="p_t_nome_componente" desc="true">Anim mollit amet iste omnis</t_nome_componente>
+                        <t_nome_componente_desc name="p_t_nome_componente_desc">Anim mollit amet iste omnis</t_nome_componente_desc>
+                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Consectetur sed doloremque off</t_descricao_componente>
+                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Consectetur sed doloremque off</t_descricao_componente_desc>
+                    </row>
+                    <row>
+                        <selecionar name="p_selecionar" check="true" desc="true">1</selecionar>
+                        <selecionar_desc name="p_selecionar_desc">1</selecionar_desc>
+                        <titulo name="p_titulo" desc="true">Unde accusantium voluptatem pe</titulo>
+                        <titulo_desc name="p_titulo_desc">Unde accusantium voluptatem pe</titulo_desc>
+                        <t_nome_componente name="p_t_nome_componente" desc="true">Doloremque dolor officia natus</t_nome_componente>
+                        <t_nome_componente_desc name="p_t_nome_componente_desc">Doloremque dolor officia natus</t_nome_componente_desc>
+                        <t_descricao_componente name="p_t_descricao_componente" desc="true">Laudantium sed aliqua ut labor</t_descricao_componente>
+                        <t_descricao_componente_desc name="p_t_descricao_componente_desc">Laudantium sed aliqua ut labor</t_descricao_componente_desc>
+                    </row>
+                </value>
+            </table>
+        </formlist_1>
     </content>
 </rows>

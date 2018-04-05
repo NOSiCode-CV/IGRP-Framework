@@ -22,6 +22,8 @@ public class PageView extends View {
 	public Field nada;
 	public Field env_fk;
 	public Field version;
+	public Field componente;
+	public Field componente_check;
 	public Field p_id;
 	public Field p_table_name;
 	public Field p_xsl_src;
@@ -80,6 +82,10 @@ public class PageView extends View {
 		version = new ListField(model,"version");
 		version.setLabel(gt("Versão de Página"));
 		version.propertie().add("name","p_version").add("type","select").add("multiple","false").add("maxlength","30").add("required","true").add("domain","").add("java-type","");
+		
+		componente = new CheckBoxField(model,"componente");
+		componente.setLabel(gt("Componente?"));
+		componente.propertie().add("name","p_componente").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true");
 		
 		p_id = new HiddenField(model,"p_id");
 		p_id.setLabel(gt(""));
@@ -162,6 +168,7 @@ public class PageView extends View {
 		form_1.addField(nada);
 		form_1.addField(env_fk);
 		form_1.addField(version);
+		form_1.addField(componente);
 		form_1.addField(p_id);
 		form_1.addField(p_table_name);
 		form_1.addField(p_xsl_src);
@@ -199,6 +206,8 @@ public class PageView extends View {
 		env_fk.setValue(model);
 
 		version.setValue(model);
+
+		componente.setValue(model);
 
 		p_id.setValue(model);
 

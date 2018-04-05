@@ -23,6 +23,7 @@
 		<mapping class="nosi.webapps.igrp.dao.User"/>
 		<mapping class="nosi.webapps.igrp.dao.ImportExportDAO"/>
 		<mapping class="nosi.webapps.igrp.dao.Share"/>
+    	<mapping class="nosi.webapps.igrp.dao.TaskComponent"/>
 		
 		
 		<!-- OAuth -->

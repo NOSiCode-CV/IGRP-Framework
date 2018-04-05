@@ -56,11 +56,11 @@
             <fields>
                 <page_descr name="p_page_descr" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Título</label>
-                    <value>Iste anim aliqua aliqua omnis</value>
+                    <value>Stract sed deserunt sit unde</value>
                 </page_descr>
                 <page name="p_page" type="text" maxlength="255" required="true" change="false" readonly="false" disabled="false" placeholder="" right="false">
                     <label>Código</label>
-                    <value>Labore unde rem iste sed</value>
+                    <value>Unde sit sed amet sit</value>
                 </page>
                 <status name="p_status" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
                     <label>Ativo?</label>
@@ -117,6 +117,10 @@
                         </option>
                     </list>
                 </version>
+                <componente name="p_componente" type="checkbox" maxlength="30" required="false" change="false" readonly="false" disabled="false" right="false" check="true">
+                    <label>Componente?</label>
+                    <value>1</value>
+                </componente>
                 <hidden name="p_id" type="hidden" maxlength="30" java-type="" tag="id"/>
                 <hidden name="p_table_name" type="hidden" maxlength="80" java-type="" tag="table_name"/>
                 <hidden name="p_xsl_src" type="hidden" maxlength="2000" java-type="" tag="xsl_src"/>

@@ -27,6 +27,10 @@ public class Page extends Model{
 	private String env_fk;
 	@RParam(rParamName = "p_version")
 	private String version;
+	@RParam(rParamName = "p_componente")
+	private int componente;
+	@RParam(rParamName = "p_componente_check")
+	private int componente_check;
 	@RParam(rParamName = "p_id")
 	private String p_id;
 	@RParam(rParamName = "p_table_name")
@@ -124,6 +128,19 @@ public class Page extends Model{
 	}
 	public String getVersion(){
 		return this.version;
+	}
+	
+	public void setComponente(int componente){
+		this.componente = componente;
+	}
+	public int getComponente(){
+		return this.componente;
+	}
+	public void setComponente_check(int componente_check){
+		this.componente_check = componente_check;
+	}
+	public int getComponente_check(){
+		return this.componente_check;
 	}
 	
 	public void setP_id(String p_id){
