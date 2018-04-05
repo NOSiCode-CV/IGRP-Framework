@@ -27,10 +27,12 @@ import nosi.core.webapp.activit.rest.FormDataService.FormProperties;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.core.webapp.helpers.StringHelper;
+import nosi.core.xml.XMLExtractComponent;
 import nosi.core.xml.XMLTransform;
 import nosi.core.xml.XMLWritter;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
+import nosi.webapps.igrp.dao.TaskComponent;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.TaskService;
 import static nosi.core.i18n.Translator.gt;
@@ -61,6 +63,7 @@ public class MapaProcessoController extends Controller{
 
 	/*----#START-PRESERVED-AREA(CUSTOM_ACTIONS)----*/
 	public Response actionOpenProcess() throws IOException{
+		XMLExtractComponent comp = new XMLExtractComponent();
 		String p_processId = Igrp.getInstance().getRequest().getParameter("p_processId");
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");
 		String withButton = Igrp.getInstance().getRequest().getParameter("withButton");
@@ -80,20 +83,22 @@ public class MapaProcessoController extends Controller{
 			idApp = task.getTenantId();
 		}
 		if(formData != null) {
-			Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
-			if(formData.getFormKey() !=null && action !=null) {
-				MapaProcesso model = new MapaProcesso();
-				MapaProcessoView view = new MapaProcessoView(model);
-				view.title = title;			
-				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
-				String content = resp.getContent();
-				if(content.indexOf("xml-type=\"toolsbar\"") > 0) {//Check the page contain button
-					String result = content.substring(0, content.indexOf(">",content.indexOf("xml-type=\"toolsbar\"")))+">";
-					result += this.generateButtonProcess(action, p_processId, taskId).toString();
-					result += content.substring("</item>".length()+content.lastIndexOf("</item>"));
-					return this.renderView(result);
+			if(Core.isNotNull(formData.getFormKey())) {
+				List<TaskComponent> components = new TaskComponent().find().andWhere("codigo", "=",formData.getFormKey()).all();
+				String content = "";
+				if(components !=null && components.size() > 0) {
+					for(TaskComponent c:components){
+						content = comp.joinComponent(c.getAction().getXmlContent());
+					}
+				}else {
+					Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
+					Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
+					content = comp.extract(resp.getContent());
 				}
-				return this.renderView(resp.getContent());	
+				XMLWritter xml = new XMLWritter("rows", this.getConfig().getLinkXSLMapProcess() , "utf-8");
+				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
+				xml.addXml(content);
+				return this.renderView(content);	
 			}
 			String content = this.transformToXmlWorkFlow(title,formData,(Core.isNotNull(withButton) && withButton.equals("false"))?false:true);
 			return this.renderView(content);
@@ -101,20 +106,6 @@ public class MapaProcessoController extends Controller{
 		return null;
 	}
 
-	private IGRPButton generateButtonProcess(Action action,String p_processId,String taskId) {
-		String id = Core.isNotNull(p_processId)?("p_prm_definitionid="+p_processId):("p_prm_taskid="+taskId);
-		IGRPButton button = new IGRPButton();
-		button.getProperties().add("code", "iniciar_processo");
-		button.getProperties().add("rel", "iniciar_processo");
-		button.getProperties().add("type", "specific");
-		button.setTitle(gt(Core.isNotNull(p_processId)?"Iniciar Processo":"Seguinte"));
-		button.setApp("igrp");
-		button.setPage("ExecucaoTarefas");
-		button.setLink("process-task&"+id+"&customForm=true&page_igrp_ativiti="+action.getPage()+"&app_igrp_ativiti="+action.getApplication().getDad());
-		button.setTarget("submit");
-		button.setImg("primary|fa-arrow-right");
-		return button;
-	}
 	
 	private String transformToXmlWorkFlow(String title,FormDataService formData,boolean withButton) {
 		String path_xsl = this.getConfig().getLinkXSLMapProcess();

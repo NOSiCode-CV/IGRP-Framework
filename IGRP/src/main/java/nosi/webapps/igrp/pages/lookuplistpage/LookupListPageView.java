@@ -4,6 +4,10 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class LookupListPageView extends View {
 	
@@ -17,6 +21,7 @@ public class LookupListPageView extends View {
 	public Field nome_componente;
 	public Field descricao_componente;
 	public Field p_task_id;
+	public Field p_process_id;
 	public Field nome_pagina;
 	public Field descricao;
 	public Field p_id;
@@ -80,6 +85,10 @@ public class LookupListPageView extends View {
 		p_task_id.setLabel(gt(""));
 		p_task_id.propertie().add("name","p_task_id").add("type","hidden").add("maxlength","100").add("java-type","").add("tag","task_id");
 		
+		p_process_id = new HiddenField(model,"p_process_id");
+		p_process_id.setLabel(gt(""));
+		p_process_id.propertie().add("name","p_process_id").add("type","hidden").add("maxlength","30").add("java-type","").add("tag","process_id");
+		
 		nome_pagina = new TextField(model,"nome_pagina");
 		nome_pagina.setLabel(gt("Nome Pagina"));
 		nome_pagina.propertie().add("name","p_nome_pagina").add("type","text").add("maxlength","30");
@@ -93,7 +102,7 @@ public class LookupListPageView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		
 		selecionar = new CheckBoxField(model,"selecionar");
-		selecionar.setLabel(gt("Selecionar"));
+		selecionar.setLabel(gt(""));
 		selecionar.propertie().add("name","p_selecionar").add("type","checkbox").add("maxlength","30").add("required","false").add("check","true").add("desc","true");
 		
 		titulo = new TextField(model,"titulo");
@@ -137,6 +146,7 @@ public class LookupListPageView extends View {
 		form_2.addField(nome_componente);
 		form_2.addField(descricao_componente);
 		form_2.addField(p_task_id);
+		form_2.addField(p_process_id);
 
 		table_1.addField(nome_pagina);
 		table_1.addField(descricao);
@@ -177,6 +187,8 @@ public class LookupListPageView extends View {
 		descricao_componente.setValue(model);
 
 		p_task_id.setValue(model);
+
+		p_process_id.setValue(model);
 
 		nome_pagina.setValue(model);
 

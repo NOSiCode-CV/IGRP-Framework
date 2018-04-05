@@ -27,6 +27,8 @@ public class LookupListPage extends Model{
 	private String descricao_componente;
 	@RParam(rParamName = "p_task_id")
 	private String p_task_id;
+	@RParam(rParamName = "p_process_id")
+	private String p_process_id;
 	
 	private List<Table_1> table_1 = new ArrayList<>();	
 	public void setTable_1(List<Table_1> table_1){
@@ -107,6 +109,13 @@ public class LookupListPage extends Model{
 	public String getP_task_id(){
 		return this.p_task_id;
 	}
+	
+	public void setP_process_id(String p_process_id){
+		this.p_process_id = p_process_id;
+	}
+	public String getP_process_id(){
+		return this.p_process_id;
+	}
 
 
 	public static class Table_1{
@@ -137,6 +146,7 @@ public class LookupListPage extends Model{
 	}
 	public static class Formlist_1{
 		private Pair selecionar;
+		private Pair selecionar_check;
 		private Pair titulo;
 		private Pair t_nome_componente;
 		private Pair t_descricao_componente;
@@ -145,6 +155,13 @@ public class LookupListPage extends Model{
 		}
 		public Pair getSelecionar(){
 			return this.selecionar;
+		}
+		
+		public void setSelecionar_check(Pair selecionar_check){
+			this.selecionar_check = selecionar_check;
+		}
+		public Pair getSelecionar_check(){
+			return this.selecionar_check;
 		}
 
 		public void setTitulo(Pair titulo){
