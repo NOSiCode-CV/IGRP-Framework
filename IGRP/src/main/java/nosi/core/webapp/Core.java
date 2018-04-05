@@ -910,12 +910,12 @@ public final class Core {	/** Not inherit
 	}
 
 	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2,Predicate<? super Integer> filter) {
-		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0)
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter).collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}
 	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2) {
-		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 )
 			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
 		return null;
 	}
