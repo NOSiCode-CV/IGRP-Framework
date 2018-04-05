@@ -1,7 +1,11 @@
 package nosi.core.gui.components;
 
+import nosi.core.gui.fields.CheckBoxField;
+import nosi.core.gui.fields.CheckBoxListField;
 import nosi.core.gui.fields.Field;
 import nosi.core.gui.fields.GenXMLField;
+import nosi.core.gui.fields.RadioField;
+import nosi.core.gui.fields.RadioListField;
 import nosi.core.webapp.helpers.IgrpHelper;
 
 /**
@@ -73,9 +77,12 @@ public class IGRPSeparatorList extends IGRPTable {
 					String []aux = val.split("_"); // this symbol underscore ... will be the reserved char
 					this.xml.text(aux[0]);
 					this.xml.endElement();
-					
-					this.xml.startElement(field.getTagName() + "_desc");
-					this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
+					String sufix = "_desc";
+					if(field instanceof CheckBoxListField || field instanceof CheckBoxField || field instanceof RadioListField || field instanceof RadioField) {
+						sufix = "_check";
+					}
+					this.xml.startElement(field.getTagName() + sufix);
+					this.xml.writeAttribute("name", field.propertie().getProperty("name") + sufix);
 					this.xml.text(aux[1]);
 					this.xml.endElement();
 					
