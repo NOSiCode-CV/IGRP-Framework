@@ -57,7 +57,7 @@ public class EnvController extends Controller {
 		view.link_center.setVisible(false);
 		view.action_fk.setVisible(false);
 		view.flg_old.setVisible(false);
-		view.flg_external.setValue(1);
+		view.flg_external.setValue(0);
 	
 
 		return this.renderView(view);
@@ -183,10 +183,15 @@ public class EnvController extends Controller {
 			aplica_db.setImg_src(model.getImg_src());	
 			
 			aplica_db.setExternal(model.getFlg_external());
-			
-			if(aplica_db.getExternal() == 1 && Core.isNotNull(model.getHost())) {
-				aplica_db.setUrl(model.getHost());
-			}
+			if(aplica_db.getExternal() == 1) 
+				if(Core.isNotNull(model.getHost()))
+					aplica_db.setUrl(model.getHost().trim());
+				else {
+					String uri = Igrp.getInstance().getRequest().getRequestURI();
+					String url = Igrp.getInstance().getRequest().getRequestURL().toString().replace(uri, "");
+					url += "/" + aplica_db.getDad().trim().toUpperCase() + "/app/webapps?r=" + aplica_db.getDad().trim().toLowerCase() + "/default-page/index" ;
+					aplica_db.setUrl(url); 
+				}			
 			
 			aplica_db.setDescription(model.getDescription());
 			if(Core.isNotNull(model.getAction_fk())){
@@ -338,6 +343,7 @@ public class EnvController extends Controller {
 			if(env.getExternal() == 1 && env.getUrl() != null && !env.getUrl().isEmpty()) {
 				String aux = env.getUrl();
 				Action action = env.getAction();
+			
 				if(action != null) {
 					aux = aux.replace(URI.create(aux).getQuery(), "");
 					aux += "r=" + env.getDad().toLowerCase() + "/" + action.getPage() + "/" + action.getAction();
