@@ -34,7 +34,16 @@ var GENFORM = function(name,params){
 	container.onFileFieldSet = function(field){
 		GEN.setBTNClass(field);
 	}
-
+	
+	container.onCheckboxFieldSet = function(f){
+		f.setProperty({
+			name  	 : 'switch',
+			label 	 : 'Switch',
+			value    : false,
+			xslValue : 'checkbox-switch switch'
+		});
+	}
+	
 	container.onDateFieldSet = function(field){
 		GEN.setBTNClass(field);
 	}

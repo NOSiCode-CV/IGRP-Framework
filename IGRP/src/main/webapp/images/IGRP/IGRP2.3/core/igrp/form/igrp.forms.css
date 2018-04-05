@@ -210,4 +210,21 @@ form [item-type="plaintext"]{
 	margin-bottom: 10px;
 }
 
+/*checkbox switch*/
+.form-group .checkbox-switch.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    margin-bottom: 0;
+    position: absolute;
+    top: 34px;
+    left: 0
+}
+
+.form-group .checkbox-switch.switch>span.checkbox-label{
+	/*display: none;*/
+	margin-left: 30px;
+}
+
 
