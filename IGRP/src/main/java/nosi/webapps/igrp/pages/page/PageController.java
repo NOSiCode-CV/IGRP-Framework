@@ -85,6 +85,7 @@ public class PageController extends Controller {
 				model.setVersion(a.getVersion());
 				model.setP_xsl_src(a.getXsl_src());
 				model.setStatus(a.getStatus());
+				model.setComponente(a.getIsComponent());
 			}
 			isEdit = true;
 			model.setGen_auto_code(0);
@@ -129,9 +130,10 @@ public class PageController extends Controller {
 				action.setPage_descr(model.getPage_descr());
                 action.setAction_descr(model.getPage_descr());
                 action.setStatus(model.getStatus());
+                action.setIsComponent((short) model.getComponente());
 				action = action.update();
 				if (action != null)
-					Core.setMessageSuccess(gt("Página atualizada com sucesso."));
+					Core.setMessageSuccess(gt("PÃ¡gina atualizada com sucesso."));
 				else
 					Core.setMessageError();
 				return this.redirect("igrp", "page", "index", new String[] { "p_id_page" }, new String[] { idPage + "" });
@@ -147,6 +149,7 @@ public class PageController extends Controller {
 				action.setPackage_name("nosi.webapps." + action.getApplication().getDad().toLowerCase() + ".pages");
 				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
+                action.setIsComponent((short) model.getComponente());
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
 							FlashMessage.WARNING_PAGE_INVALID);
@@ -290,8 +293,8 @@ public class PageController extends Controller {
 		Action ac = new Action().findOne(Integer.parseInt(p_id));
 		String error = "";
 		if (ac != null) {
-			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXml = Igrp.getInstance().getRequest().getPart("p_page_xml");
+			Part fileJson = Igrp.getInstance().getRequest().getPart("p_data");
 			Part fileXsl = Igrp.getInstance().getRequest().getPart("p_page_xsl");
 			Part fileModel = Igrp.getInstance().getRequest().getPart("p_model");
 			Part fileView = Igrp.getInstance().getRequest().getPart("p_view");
@@ -312,34 +315,33 @@ public class PageController extends Controller {
 					&& fileController != null && path_xsl != null && path_xsl != "" && path_class != null
 					&& path_class != "") {
 				this.processJson(fileJson, ac);
-				FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
-				if (FileHelper.saveFilesJava(path_class, ac.getPage(), new Part[] { fileModel, fileView, fileController })
-						&& FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })) {
-					
-					
-					
-		//SVN			addFilesToSvnRepo(path_class, ac);
-					
-					
-					error += this.processCompile(path_class, ac.getPage());
-					
-					if (error.equals("") || error == null) {// Check if not error on the compilation class
-						error = new Gson().toJson(new MapErrorCompile("Compilação efetuada com sucesso", null));
-						if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
-							if (!FileHelper.fileExists(path_class_work_space)) {// check directory
-								FileHelper.createDiretory(path_class_work_space);// create directory if not exist
+				boolean r = FileHelper.saveFilesPageConfig(path_xsl_work_space, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson })
+						 && FileHelper.saveFilesPageConfig(path_xsl, ac.getPage(),new Part[] { fileXml, fileXsl, fileJson });
+				
+				if(ac.getIsComponent()==0) {
+					r = FileHelper.saveFilesJava(path_class, ac.getPage(), new Part[] { fileModel, fileView, fileController });
+						error += this.processCompile(path_class, ac.getPage());						
+						if (r && (error.equals("") || error == null)) {// Check if not error on the compilation class
+							if (FileHelper.fileExists(this.getConfig().getWorkspace())) {
+								if (!FileHelper.fileExists(path_class_work_space)) {// check directory
+									FileHelper.createDiretory(path_class_work_space);// create directory if not exist
+								}
+								FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
+										new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
+										FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 							}
-							FileHelper.saveFilesJava(path_class_work_space, ac.getPage(),
-									new Part[] { fileModel, fileView, fileController }, FileHelper.ENCODE_UTF8,
-									FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 						}
-						ac.setId(Integer.parseInt(p_id));
-						ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
-								+ "/" + ac.getPage() + ".xsl");
-						ac.update();
-						this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
-						return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
-					}
+				}else {//save xml if is component
+					ac.setXmlContent(FileHelper.convertToString(fileXml));
+				}
+				if (r && Core.isNull(error)) {// Check if not error on the compilation class
+					error = new Gson().toJson(new MapErrorCompile(ac.getIsComponent()==0?"Compilação efetuada com sucesso":"Componente registado com sucesso", null));
+					ac.setId(Integer.parseInt(p_id));
+					ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
+							+ "/" + ac.getPage() + ".xsl");
+					ac.update();					
+					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
+					return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 				}
 			}
 			this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });

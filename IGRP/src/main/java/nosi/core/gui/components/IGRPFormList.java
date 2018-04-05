@@ -67,11 +67,11 @@ public class IGRPFormList extends IGRPSeparatorList {
 					
 					this.xml.startElement(field.getTagName() + "_desc");
 					this.xml.writeAttribute("name", field.propertie().getProperty("name") + "_desc");
-					this.xml.text(aux[1]);
+					this.xml.text(aux.length > 1?aux[1]:"");
 					this.xml.endElement();
 					
 					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_fk"+ "\" type=\"hidden\" value=\"" + aux[0] + "\"></hidden>");
-					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + aux[1] + "\"></hidden>");
+					this.xml.addXml("<hidden tag=\"hidden_1\" name=\"" + field.propertie().getProperty("name") + "_desc_fk"+ "\" type=\"hidden\" value=\"" + (aux.length > 1?aux[1]:"") + "\"></hidden>");
 				}
 				this.xml.endElement();
 			}

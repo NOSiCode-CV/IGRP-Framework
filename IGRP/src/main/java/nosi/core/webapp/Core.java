@@ -12,7 +12,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javax.xml.bind.JAXB;
 import org.hibernate.criterion.Restrictions;
 import org.modelmapper.ModelMapper;
@@ -695,8 +698,9 @@ public final class Core {	/** Not inherit
 		return Core.isNotNull(x)?Core.toLong(x):0;
 	}
 	public static String[] getParamArray(String name) {
-		String[] v = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-		return v;
+		if(Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])
+			return (String[]) Igrp.getInstance().getRequest().getAttribute(name);
+		return new String[] {Igrp.getInstance().getRequest().getAttribute(name).toString()};
 	}
 	
 	public static String getTaskVariable(String taskDefinitionKey,String variableName) {		
@@ -905,6 +909,15 @@ public final class Core {	/** Not inherit
 		return cLob;
 	}
 
-
+	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2,Predicate<? super Integer> filter) {
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().filter(filter).collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
+		return null;
+	}
+	public static Map<Object, Object> mapArray(Object[] array1,Object[] array2) {
+		if(array1 !=null && array1.length >0 && array2 !=null && array2.length > 0 && array1.length==array2.length)
+			return (Map<Object, Object>) IntStream.range(0, array1.length).boxed().collect(Collectors.toMap(i ->array1[i], i -> array2[i]));
+		return null;
+	}
 	/** **/
 }

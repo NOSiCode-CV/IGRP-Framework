@@ -21,7 +21,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import nosi.base.ActiveRecord.BaseActiveRecord;
 import nosi.core.webapp.helpers.StringHelper;
-
 import static nosi.core.i18n.Translator.gt;
 
 @Entity
@@ -56,7 +55,9 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "env_fk",foreignKey = @ForeignKey(name="ACTION_ENV_FK"),nullable=false)
 	private Application application;
-
+	private short isComponent = 0;
+	private String xmlContent;
+	
 	public Action(){		
 	}
 	
@@ -174,6 +175,21 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 		this.application = application;
 	}
 
+	public short getIsComponent() {
+		return isComponent;
+	}
+
+	public void setIsComponent(short isComponent) {
+		this.isComponent = isComponent;
+	}
+	
+	public String getXmlContent() {
+		return xmlContent;
+	}
+
+	public void setXmlContent(String xmlContent) {
+		this.xmlContent = xmlContent;
+	}
 
 	@Override
 	public String toString() {
