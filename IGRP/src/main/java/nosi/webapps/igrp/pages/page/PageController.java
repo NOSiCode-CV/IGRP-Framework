@@ -149,6 +149,8 @@ public class PageController extends Controller {
 				action.setVersion(model.getVersion() == null ? "2.3" : model.getVersion());
 				action.setAction("index");
                 action.setIsComponent((short) model.getComponente());
+                action.setXsl_src(action.getApplication().getDad().toLowerCase() + "/" + action.getPage().toLowerCase()
+						+ "/" + action.getPage() + ".xsl");
 				if (!nosi.core.gui.page.Page.validatePage(action.getPage())) {
 					Igrp.getInstance().getFlashMessage().addMessage(FlashMessage.WARNING,
 							FlashMessage.WARNING_PAGE_INVALID);
@@ -346,13 +348,11 @@ public class PageController extends Controller {
 						}
 				}else {//save xml if is component
 					ac.setXmlContent(FileHelper.convertToString(fileXml));
+					ac.update();
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson().toJson(new MapErrorCompile(ac.getIsComponent()==0?"Compilação efetuada com sucesso":"Componente registado com sucesso", null));
-					ac.setId(Integer.parseInt(p_id));
-					ac.setXsl_src(ac.getApplication().getDad().toLowerCase() + "/" + ac.getPage().toLowerCase()
-							+ "/" + ac.getPage() + ".xsl");
-					ac.update();					
+							
 					this.deleteFilesInMemory(new Part[] { fileModel, fileView, fileController });
 					return this.renderView("<messages><message type=\"success\">"+ StringEscapeUtils.escapeXml10(error) + "</message></messages>");
 				}
