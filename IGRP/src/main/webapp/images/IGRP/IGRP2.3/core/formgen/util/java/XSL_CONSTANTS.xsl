@@ -444,7 +444,7 @@
         <xsl:call-template name="newlineTab2"/>
         <xsl:text>This is an example of how you can implement your code:</xsl:text>
         <xsl:call-template name="newlineTab2"/>
-        <xsl:text>Change 'null' param with your db connection name added in application builder.</xsl:text>
+        <xsl:text>In a .query(null,... change 'null' to your db connection name added in application builder.</xsl:text>
         <xsl:call-template name="newlineTab2"/>
     </xsl:template>
 

@@ -31,22 +31,26 @@ import com.google.gson.Gson;
 import static nosi.core.i18n.Translator.gt;
 /*----#end-code----*/
 
-public class PesquisarMenuController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
+public class PesquisarMenuController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		PesquisarMenu model = new PesquisarMenu();
 		PesquisarMenuView view = new PesquisarMenuView();
 		model.load();
-
+		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadTable_1( Core.query( "SELECT 't1_menu_principal' as t1_menu_principal,'ativo' as ativo,'table_titulo' as table_titulo,'pagina' as pagina,'checkbox' as checkbox,'id' as id " ) );
+		model.loadTable_1(Core.query("SELECT 't1_menu_principal' as t1_menu_principal,'ativo' as ativo,'table_titulo' as table_titulo,'pagina' as pagina,'checkbox' as checkbox,'id' as id "));
+		
 		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		
 		----#gen-example */
-
+		
 		/*----#start-code(index)----*/
 
 		Menu menu = new Menu();
@@ -57,16 +61,14 @@ public class PesquisarMenuController extends Controller {
 		if (Core.isInt(Core.getParam("id_app"))) {
 			idApp = Core.getParamInt("id_app");
 			model.setAplicacao("" + idApp);
-		}
-			
+		}		
 
 		// If in a app, choose automatically the app in the combobox
 		String dad = new Permission().getCurrentEnv();
 		if (!"igrp".equalsIgnoreCase(dad) && !"igrp_studio".equalsIgnoreCase(dad)) {
 			idApp = (new Application().find().andWhere("dad", "=", dad).one()).getId();
 			model.setAplicacao("" + idApp);
-		}
-		
+		}	
 
 		// When onChange, it's always a post
 		if (Igrp.getInstance().getRequest().getMethod().toUpperCase().equals("POST")) {
@@ -76,18 +78,15 @@ public class PesquisarMenuController extends Controller {
 		List<Menu> menus = null;
 
 		if (idOrg == 0 && idApp!=0) {
-
 			if ("igrp".equalsIgnoreCase(dad)) {
 				menus = menu.find().andWhere("application", "=", idApp != 0 ? idApp : null).all();
-
 			} else {
 				menus = menu.find().andWhere("application.id", "=", idApp)
 						.andWhere("application", "<>", 1)// Oculta IGRP Core
 						.andWhere("application", "<>", 2)// Oculta IGRP Tutorial
 						.andWhere("application", "<>", 3)// Oculta IGRP Studio
 						.all();
-			}
-			
+			}	
 			
 			ArrayList<PesquisarMenu.Table_1> lista = new ArrayList<>();
 			// Preenchendo a tabela
@@ -123,23 +122,23 @@ public class PesquisarMenuController extends Controller {
 		view.p_id.setParam(true);
 		// Alimentando o selectorOption (Aplicacao, organica, e menuPrincipal)
 		view.aplicacao.setValue(new Application().getListApps());
-		view.novo.setValue(this.getConfig().getResolveUrl("igrp", "NovoMenu", "index&app=" + model.getAplicacao()));
-
-		/*----#end-code----*/
-
+			/*----#end-code----*/
+		
+		
 		view.setModel(model);
-
+		
 		return this.renderView(view);
-
+		
 	}
 
-	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	public Response actionBtn_novo() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
-
+		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
@@ -149,26 +148,51 @@ public class PesquisarMenuController extends Controller {
 		}
 		
 		----#gen-example */
-
+		
+		/*----#start-code(btn_novo)----*/
+		this.addQueryString("app",model.getAplicacao());
+				/*----#end-code----*/
+		
+		return this.redirect("igrp","NovoMenu","index", this.queryString());
+		
+	}
+	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
+		PesquisarMenu model = new PesquisarMenu();
+		model.load();
+		
+		/*----#gen-example
+		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
+		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","NovoMenu","index");
+		}
+		
+		----#gen-example */
+		
 		/*----#start-code(editar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (Core.isNotNull(id)) {
-			return this.redirect("igrp", "NovoMenu", "index&p_id=" + id);
+			return this.forward("igrp", "NovoMenu", "index&p_id=" + id);
 		}
-
+ 	
 		/*----#end-code----*/
-
-		return this.redirect("igrp", "NovoMenu", "index");
-
+		
+		return this.redirect("igrp","NovoMenu","index", this.queryString());
+		
 	}
-
-	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException {
-
+	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		PesquisarMenu model = new PesquisarMenu();
 		model.load();
-
+		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
@@ -178,7 +202,7 @@ public class PesquisarMenuController extends Controller {
 		}
 		
 		----#gen-example */
-
+		
 		/*----#start-code(eliminar)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
 		Menu menu_db = new Menu();
@@ -186,13 +210,13 @@ public class PesquisarMenuController extends Controller {
 			Core.setMessageSuccess();
 		else
 			Core.setMessageError();
-
+ 	
 		/*----#end-code----*/
-
-		return this.redirect("igrp", "PesquisarMenu", "index");
-
+		
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());
+		
 	}
-
+	
 	/*----#start-code(custom_actions)----*/
 
 	// Menu list I have access to
@@ -276,5 +300,8 @@ public class PesquisarMenuController extends Controller {
 		return this.renderView(json.toString());
 	}
 	/*----#end-code----*/
-
+	
+	
+	
+	
 }

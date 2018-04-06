@@ -14,7 +14,6 @@ public class PesquisarMenuView extends View {
 	
 	public Field sectionheader_1_text;
 	public Field aplicacao;
-	public Field novo;
 	public Field t1_menu_principal;
 	public Field ativo;
 	public Field ativo_check;
@@ -27,6 +26,8 @@ public class PesquisarMenuView extends View {
 	public IGRPForm form_1;
 	public IGRPTable table_1;
 
+	public IGRPToolsBar toolsbar_1;
+	public IGRPButton btn_btn_novo;
 	public IGRPButton btn_editar;
 	public IGRPButton btn_eliminar;
 	public PesquisarMenuView(){
@@ -44,12 +45,6 @@ public class PesquisarMenuView extends View {
 		aplicacao = new ListField(model,"aplicacao");
 		aplicacao.setLabel(gt("Aplicação"));
 		aplicacao.propertie().add("name","p_aplicacao").add("type","select").add("multiple","false").add("maxlength","100").add("required","false").add("domain","").add("java-type","");
-		
-		novo = new LinkField(model,"novo");
-		novo.setLabel(gt("Novo"));
-		novo.setValue(new Config().getResolveUrl("igrp","NovoMenu","index"));
-							
-		novo.propertie().add("name","p_novo").add("type","link").add("target","modal").add("maxlength","30");
 		
 		t1_menu_principal = new PlainTextField(model,"t1_menu_principal");
 		t1_menu_principal.setLabel(gt("Menu pai"));
@@ -82,6 +77,10 @@ public class PesquisarMenuView extends View {
 		p_id.propertie().add("name","p_id").add("type","hidden").add("maxlength","30").add("tag","id");
 		
 
+		toolsbar_1 = new IGRPToolsBar("toolsbar_1");
+
+		btn_btn_novo = new IGRPButton("Novo","igrp","PesquisarMenu","btn_novo","mpsubmit|refresh","success|fa-plus-square","","");
+		btn_btn_novo.propertie.add("type","specific").add("rel","btn_novo");
 
 		btn_editar = new IGRPButton("Editar","igrp","PesquisarMenu","editar","mpsubmit|refresh","warning|fa-pencil","","");
 		btn_editar.propertie.add("type","specific").add("rel","editar");
@@ -97,7 +96,6 @@ public class PesquisarMenuView extends View {
 		sectionheader_1.addField(sectionheader_1_text);
 
 		form_1.addField(aplicacao);
-		form_1.addField(novo);
 
 		table_1.addField(t1_menu_principal);
 		table_1.addField(ativo);
@@ -108,30 +106,27 @@ public class PesquisarMenuView extends View {
 		table_1.addField(checkbox_check);
 		table_1.addField(p_id);
 
+
+		toolsbar_1.addButton(btn_btn_novo);
 		table_1.addButton(btn_editar);
 		table_1.addButton(btn_eliminar);
 		this.addToPage(sectionheader_1);
 		this.addToPage(form_1);
 		this.addToPage(table_1);
+		this.addToPage(toolsbar_1);
 	}
 		
 	public void setModel(PesquisarMenu model) {
 		
 		aplicacao.setValue(model);
-
 		t1_menu_principal.setValue(model);
-
 		ativo.setValue(model);
-
 		table_titulo.setValue(model);
-
 		pagina.setValue(model);
-
 		checkbox.setValue(model);
+		p_id.setValue(model);	
 
-		p_id.setValue(model);
-	
 		table_1.loadModel(model.getTable_1());
-
+		
 	}
 }

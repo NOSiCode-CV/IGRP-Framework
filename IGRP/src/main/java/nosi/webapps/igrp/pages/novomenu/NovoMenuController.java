@@ -22,16 +22,19 @@ import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Core;
 /*----#end-code----*/
 
-public class NovoMenuController extends Controller {
 
-	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException {
 
+public class NovoMenuController extends Controller {		
+
+	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
+		
 		NovoMenu model = new NovoMenu();
 		NovoMenuView view = new NovoMenuView();
 		model.load();
-
+		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		Change 'null' param with your db connection name added in application builder.
 		
 		
 		view.env_fk.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
@@ -40,7 +43,7 @@ public class NovoMenuController extends Controller {
 		view.target.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		
 		----#gen-example */
-
+		
 		/*----#start-code(index)----*/
 
 		String id = Igrp.getInstance().getRequest().getParameter("p_id");
@@ -55,13 +58,16 @@ public class NovoMenuController extends Controller {
 			// Sets the target, Self_, other page, popup...
 			model.setTarget(menu.getTarget());
 			model.setOrderby(menu.getOrderby());
-			model.setDescr(menu.getDescr());
+			model.setTitulo(menu.getDescr());
 			if (Core.isNotNull(Igrp.getInstance().getRequest().getParameter("ichange"))) {
 				model.setEnv_fk(model.getEnv_fk());
+              if(Core.isNotNull(model.getAction_fk()))                
+                 model.setTitulo(getPageTituleByID(model));
 			} else {
 				model.setEnv_fk(menu.getApplication().getId());
 				if (menu.getAction() != null)
-					model.setAction_fk(menu.getAction().getId());
+                  	model.setAction_fk(menu.getAction().getId());          
+             
 			}
 		} else {
 			String app = Igrp.getInstance().getRequest().getParameter("app");
@@ -70,10 +76,13 @@ public class NovoMenuController extends Controller {
 			// New menu by default opens in the same window
 			model.setTarget("_self");
 			model.setStatus(1);
+          if (Core.isNotNull(Igrp.getInstance().getRequest().getParameter("ichange")) && Core.isNotNull(model.getAction_fk())) {	
+                 model.setTitulo(getPageTituleByID(model));
+			} 
 		}
 
 		HashMap<String, String> targets = new HashMap<>();
-		targets.put(null, gt("-- Selecionar Target --"));
+		targets.put(null, gt("-- Selecionar --"));
 		targets.put("_self", gt("Mesma página"));
 		targets.put("_blank", gt("Popup"));
 		targets.put("_newtab", gt("New tab"));
@@ -95,11 +104,12 @@ public class NovoMenuController extends Controller {
 			view.status.setValue(1);
 
 		/*----#end-code----*/
-
+		
+		
 		view.setModel(model);
-
+		
 		return this.renderView(view);
-
+		
 	}
 
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
@@ -124,7 +134,7 @@ public class NovoMenuController extends Controller {
 					model.setAction_fk(menu.getAction().getId());
 				}
 				model.setOrderby(menu.getOrderby());
-				model.setDescr(menu.getDescr());
+				model.setTitulo(menu.getDescr());
 
 			} else {
 				menu = new Menu();
@@ -135,7 +145,7 @@ public class NovoMenuController extends Controller {
 			if (model.getAction_fk() != 0) {
 				menu.setAction(new Action().findOne(model.getAction_fk()));
 			}
-			menu.setDescr(model.getDescr());
+			menu.setDescr(model.getTitulo());
 			menu.setApplication(new Application().findOne(model.getEnv_fk()));
 			menu.setFlg_base(model.getFlg_base());
 			menu.setOrderby(model.getOrderby());
@@ -178,12 +188,17 @@ public class NovoMenuController extends Controller {
 		/*----#end-code----*/
 		
 		
-		return this.redirect("igrp","NovoMenu","index");
+		return this.redirect("igrp","novomenu","index");
 		
 	}
-
+	
 	/*----#start-code(custom_actions)----*/
-
+	private String getPageTituleByID(NovoMenu model) {
+		return new Action().find().andWhere("id","=",model.getAction_fk()).one().getAction_descr();
+	}
 	/*----#end-code----*/
-
+	
+	
+	
+	
 }
