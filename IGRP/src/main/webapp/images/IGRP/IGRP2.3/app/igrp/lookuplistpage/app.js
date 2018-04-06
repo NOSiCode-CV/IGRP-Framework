@@ -1,5 +1,70 @@
 (function(){
 	
+	function ConfigSubmit(){
+		
+		var btn = $('.toolsbar-holder[item-name="toolsbar_1"] a[target="submit"]');
+		
+		btn.on('click',function(e){
+			
+			e.preventDefault();
+			
+			var href   = btn.attr('href'),
+				form   = $.IGRP.utils.getForm(),
+				action = $.IGRP.utils.getSubmitParams(href),
+				params = form.serializeArray();
+		
+			try{
+				$.ajax({
+					method : 'POST',
+					url : action,
+					data : params,
+					dataType: 'json',
+					success:function(e){
+						
+						if(e && e.type == 'success' && e.codigo ){
+							
+							var parentFields = $('[name="formKey"],[name="p_formkey"]',window.parent.document.forms);
+								
+							parentFields.val(e.codigo);
+							
+							parentFields.each(function(i,f){
+								if(f.lookupCallback)
+									f.lookupCallback( $(f) );
+							});
+							
+							parentFields.trigger('change');
+							
+							window.parent.$.IGRP.components.iframeNav.hide();
+							
+						}else
+							$.IGRP.notify({
+								type : 'danger',
+								message : e ? e.message : 'Error!' 
+							});
+					},
+					error:function(){
+						$.IGRP.notify({
+							type : 'danger',
+							message :'Error!' 
+						});
+					}
+				});
+
+			}catch(err){
+				$.IGRP.notify({
+					type : 'danger',
+					message :'Error!' 
+				});
+			}
+				
+			
+			//$.post(action).the
+			
+			return false;
+		});
+		
+	};
+	
 	function SetSortable(){
 		
 		var formlist = $('#formlist_1'),
@@ -42,6 +107,8 @@
 	}
 	
 	$.IGRP.on('init',function(){
+		
+		ConfigSubmit();
 		
 		SetSortable();
 	    
