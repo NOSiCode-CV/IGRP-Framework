@@ -218,11 +218,9 @@ public class ImportAppJava {
 					DeploymentService deploy = new DeploymentService().getDeploymentByName(fileName);
 					if(Core.isNull(deploy.getName()))
 						deploy.create(file, this.app.getId(), fileName, MediaType.APPLICATION_OCTET_STREAM);
-				} catch (UnsupportedEncodingException e) {
+				} catch (Exception e) {
 					this.errors.add(e.getMessage());
-				} catch (IOException e) {
-					this.errors.add(e.getMessage());
-				}
+				} 
 			}
 		});
 	}

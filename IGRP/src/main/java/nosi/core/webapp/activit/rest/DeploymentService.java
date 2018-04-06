@@ -58,7 +58,9 @@ public class DeploymentService extends Activit{
 				e.printStackTrace();
 			}
 			if(response.getStatus()==200){
-				d = ((List<DeploymentService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<DeploymentService>>(){}.getType())).get(0);
+				List<DeploymentService> list = (List<DeploymentService>) ResponseConverter.convertJsonToListDao(contentResp,"data", new TypeToken<List<DeploymentService>>(){}.getType());
+				if(list != null && list.size() > 0) 
+					d = list.get(0);
 			}else{
 				d.setError((ResponseError) ResponseConverter.convertJsonToDao(contentResp, ResponseError.class));
 			}

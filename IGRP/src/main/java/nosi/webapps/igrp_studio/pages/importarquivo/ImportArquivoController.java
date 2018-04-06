@@ -10,6 +10,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.export.app.ImportAppJava;
+import nosi.core.webapp.export.app.ImportJavaPage;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.import_export.Import;
 import nosi.core.webapp.import_export.ImportAppJar;
@@ -84,14 +85,29 @@ public class ImportArquivoController extends Controller {
 			boolean result = false;
 			String descricao = "";
 			model.load();
-			if(model.getList_aplicacao()!=null){
+			if(model.getList_aplicacao() != null){
 				try {
 					Part file = Igrp.getInstance().getRequest().getPart("p_arquivo_pagina");
 					descricao += file.getSubmittedFileName().replace(".page.jar", "").replace(".zip", "");
 					if(file.getSubmittedFileName().endsWith(".zip")){
 						result = new Import().importPage(new ImportAppZip(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
 					}else if(file.getSubmittedFileName().endsWith(".page.jar")){
-						result = new Import().importPage(new ImportAppJar(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+						
+						//result = new Import().importPage(new ImportAppJar(file),new Application().findOne(Integer.parseInt(model.getList_aplicacao())));
+						Application application = new Application().findOne(Integer.parseInt(model.getList_aplicacao()));
+						ImportJavaPage importApp = new ImportJavaPage(file, application);
+						
+						importApp.importApp();
+						
+						if(importApp.hasError()) {
+							importApp.getErros().stream().forEach(err->{
+								Core.setMessageError(err);
+							});
+						}else {
+							result = true;
+						}
+					
+					
 					}else{
 						result = false;
 					}

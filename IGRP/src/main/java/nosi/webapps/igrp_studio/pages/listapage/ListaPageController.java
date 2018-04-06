@@ -7,6 +7,7 @@ import nosi.core.webapp.Core;
 import nosi.core.webapp.FlashMessage;
 import nosi.core.webapp.Igrp;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.export.app.ExportJavaPage;
 import nosi.core.webapp.helpers.DateHelper;
 import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.ImportExportApp;
@@ -179,22 +180,18 @@ public class ListaPageController extends Controller {
 		/*----#START-PRESERVED-AREA(DOWNLOAD)----*/
 		String id = Igrp.getInstance().getRequest().getParameter("p_id_page");
 		if (id != null && !id.equals("")) {
+			
 			Action page = new Action().findOne(Integer.parseInt(id));
-			ImportExportApp iea = new ImportExportApp();
-			if (page != null && iea.validateExportPage(page)) {
-				iea.ExportPage(page);
-				String pathJar = this.getConfig().getPathExport() + page.getApplication().getDad().toLowerCase() + File.separator
-						+ page.getPage() + ".page.jar";
-				FileHelper.createDiretory(this.getConfig().getPathExport() + page.getApplication().getDad().toLowerCase());
-				JarUnJarFile.saveJarFiles(pathJar, iea.getFilesPageClasses(), 9);
 
-				// insert data on import/export table
-				ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
-						DateHelper.getCurrentDataTime(), "Export");
-				ie_dao = ie_dao.insert();
-				return this.sendFile(new File(pathJar), page.getPage() + ".page.jar", "application/jar", true);
-			}
-			Core.setMessageWarning(FlashMessage.WARNING_EXPORT_PAGE);
+			// insert data on import/export table
+			ImportExportDAO ie_dao = new ImportExportDAO(page.getPage(), this.getConfig().getUserName(),
+					DateHelper.getCurrentDataTime(), "Export");
+			ie_dao = ie_dao.insert();
+			
+			//Core.setMessageWarning(FlashMessage.WARNING_EXPORT_PAGE);
+			
+			return xSend(new ExportJavaPage(page).export(), page.getPage() + ".page.jar", "application/jar", true);
+		
 		} else {
 			Core.setMessageError();
 		}
