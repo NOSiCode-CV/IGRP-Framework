@@ -3,11 +3,10 @@ package nosi.webapps.igrp.pages.configdatabase;
 
 import nosi.core.webapp.Controller;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 
 /*----#start-code(packages_import)----*/
 import nosi.core.webapp.FlashMessage;
@@ -18,6 +17,7 @@ import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Config_env;
 import nosi.webapps.igrp.pages.migrate.Migrate;
 import nosi.core.webapp.Igrp;
+import java.util.ArrayList;
 /*----#end-code----*/
 
 
@@ -32,8 +32,10 @@ public class ConfigDatabaseController extends Controller {
 		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		Change 'null' param with your db connection name added in application builder.
 		
-		view.table_1.setSqlQuery(null,"SELECT 'tipo_de_base_de_dados_tabela' tipo_de_base_de_dados_tabela, 'nome_de_conexao_tabela' nome_de_conexao_tabela, 'hostname_tabela' hostname_tabela, 'porta_tabela' porta_tabela, 'user_name_tabela' user_name_tabela, 'nome_base_de_dados_tabela' nome_base_de_dados_tabela");
+		model.loadTable_1(Core.query("SELECT 'nome_de_conexao_tabela' as nome_de_conexao_tabela,'hostname_tabela' as hostname_tabela,'porta_tabela' as porta_tabela,'nome_base_de_dados_tabela' as nome_base_de_dados_tabela,'user_name_tabela' as user_name_tabela,'tipo_de_base_de_dados_tabela' as tipo_de_base_de_dados_tabela "));
+		
 		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		view.tipo_base_dados.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
 		
@@ -48,7 +50,7 @@ public class ConfigDatabaseController extends Controller {
 				tabela.setHostname_tabela(Core.decrypt(lista.getHost(), Config.SECRET_KEY_ENCRYPT_DB));
 				tabela.setNome_base_de_dados_tabela(Core.decrypt(lista.getName_db(), Config.SECRET_KEY_ENCRYPT_DB));
 				tabela.setNome_de_conexao_tabela(lista.getName());
-				tabela.setPorta_tabela(Core.decrypt(lista.getPort(), Config.SECRET_KEY_ENCRYPT_DB));
+				tabela.setPorta_tabela(Integer.parseInt(Core.decrypt(lista.getPort(), Config.SECRET_KEY_ENCRYPT_DB)));
 				tabela.setTipo_de_base_de_dados_tabela(Core.decrypt(lista.getType_db(), Config.SECRET_KEY_ENCRYPT_DB));
 				tabela.setUser_name_tabela(Core.decrypt(lista.getUsername(), Config.SECRET_KEY_ENCRYPT_DB));
 				lista_tabela.add(tabela);
@@ -81,47 +83,20 @@ public class ConfigDatabaseController extends Controller {
 		/*----#end-code----*/
 		
 		
-		
+		view.setModel(model);
 		
 		return this.renderView(view);
 		
 	}
 
-	public Response actionTestar_conexao() throws IOException, IllegalArgumentException, IllegalAccessException{
-		
-		/*----#gen-example
-		This is an example of how you can implement your code:
-		
-		if(model.save(model)){
-			Core.setMessageSuccess();
-		 }else{
-			Core.setMessageError();
-		 return this.forward("igrp","ConfigDatabase","index");
-		}
-		
-		----#gen-example */
-		
-		/*----#start-code(testar_conexao)----*/
-		Migrate model = new Migrate();
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			model.load();
-			if (MigrationIGRP.validate(model)) {
-				Core.setMessageSuccess(gt("Conetado com sucesso"));
-			
-			} else {
-				Core.setMessageError(gt("Falha na conexão com a base de dados"));
-			}
-		}
-		return this.forward("igrp", "ConfigDatabase", "index&id=" + model.getAplicacao());
-		/*----#end-code----*/
-		
-		//return this.redirect("igrp","ConfigDatabase","index");
-		
-	}
 	public Response actionGravar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		ConfigDatabase model = new ConfigDatabase();
+		model.load();
+		
 		/*----#gen-example
 		This is an example of how you can implement your code:
+		Change 'null' param with your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
@@ -133,9 +108,7 @@ public class ConfigDatabaseController extends Controller {
 		----#gen-example */
 		
 		/*----#start-code(gravar)----*/
-		ConfigDatabase model = new ConfigDatabase();
-		if (Igrp.getMethod().equalsIgnoreCase("post")) {
-			model.load();
+		if (Igrp.getMethod().equalsIgnoreCase("post")) {		
 			Config_env config = new Config_env();
 			config.setApplication(new Application().findOne(Integer.parseInt(model.getAplicacao())));
 			config.setCharset("utf-8");
@@ -170,7 +143,7 @@ public class ConfigDatabaseController extends Controller {
 		
 		/*----#end-code----*/
 		
-		return this.redirect("igrp","ConfigDatabase","index");
+		return this.redirect("igrp","ConfigDatabase","index", this.queryString());
 		
 	}
 	
