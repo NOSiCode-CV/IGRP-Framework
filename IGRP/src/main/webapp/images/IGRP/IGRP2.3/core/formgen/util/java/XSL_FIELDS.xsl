@@ -172,7 +172,7 @@
 								</xsl:choose>
 						 	</xsl:variable>
 						 	<xsl:value-of select="concat($tag_name,'.setValue(model);')"/>
-							<xsl:value-of select="$newline"/>
+							
 					 	</xsl:if>
 					</xsl:when>
 				</xsl:choose>				

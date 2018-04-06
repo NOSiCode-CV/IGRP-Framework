@@ -40,7 +40,9 @@
  		<xsl:value-of select="$tab2"/>
 			<xsl:call-template name="set-model-fields"/>
 		<xsl:value-of select="$tab"/>
-		
+		<xsl:value-of select="$newline"/>	
+		<xsl:value-of select="$newline"/>			
+		<xsl:value-of select="$tab2"/>	
 		<xsl:for-each select="//rows/content/*[@type='table']">
 			
 			<xsl:variable name="upperTag">
@@ -48,19 +50,15 @@
 						<xsl:with-param name="className" select="name()"/>
 					</xsl:call-template>
 			</xsl:variable>
-			
+		
+					
+			<xsl:value-of select="concat(name(),'.loadModel(model.get',$upperTag,'());')"/>			
 			<xsl:value-of select="$newline"/>
-			
-			<xsl:value-of select="$tab2"/>
-			
-			<xsl:value-of select="concat(name(),'.loadModel(model.get',$upperTag,'());')"/>
-			
-			<xsl:value-of select="$newline"/>
+			<xsl:value-of select="$tab2"/>	
 			
 		</xsl:for-each>
 		
-		<xsl:value-of select="$newline"/>
-			
+		<xsl:value-of select="$newline"/>			
 		<xsl:value-of select="$tab"/>
 		
  		<xsl:text>}</xsl:text>
@@ -332,7 +330,7 @@
  	<!-- declare variables in the class view -->
  	<xsl:template name="instance-components-view">
 		<xsl:value-of select="$tab"/>
-		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="$newline"/>		
 		<xsl:for-each select="//content/*[@type!='toolsbar' and @type!='verticalmenu' and (generate-id() = generate-id(key('unique_instance', local-name())[1]))]">
 		 	<xsl:variable name="instance_name"><xsl:value-of select="local-name()"/></xsl:variable>
  			<xsl:call-template name="gen-instance-components">
