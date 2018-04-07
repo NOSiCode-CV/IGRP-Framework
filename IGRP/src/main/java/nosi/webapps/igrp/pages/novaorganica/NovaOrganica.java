@@ -1,6 +1,10 @@
 package nosi.webapps.igrp.pages.novaorganica;
-import nosi.core.webapp.Model;
+import nosi.core.config.Config;
+import nosi.core.webapp.Model;import java.sql.Date;
 import nosi.core.webapp.RParam;
+import nosi.core.webapp.databse.helpers.QueryHelper;
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
+import nosi.core.webapp.SeparatorList;
 
 public class NovaOrganica extends Model{		
 	@RParam(rParamName = "p_sectionheader_1_text")
@@ -11,6 +15,8 @@ public class NovaOrganica extends Model{
 	private String codigo;
 	@RParam(rParamName = "p_ativo")
 	private int ativo;
+	@RParam(rParamName = "p_ativo_check")
+	private int ativo_check;
 	@RParam(rParamName = "p_nada")
 	private String nada;
 	@RParam(rParamName = "p_aplicacao")
@@ -45,6 +51,12 @@ public class NovaOrganica extends Model{
 	public int getAtivo(){
 		return this.ativo;
 	}
+	public void setAtivo_check(int ativo_check){
+		this.ativo_check = ativo_check;
+	}
+	public int getAtivo_check(){
+		return this.ativo_check;
+	}
 	
 	public void setNada(String nada){
 		this.nada = nada;
@@ -66,6 +78,7 @@ public class NovaOrganica extends Model{
 	public String getOrganizacao_pai(){
 		return this.organizacao_pai;
 	}
+
 
 
 }
