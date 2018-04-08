@@ -72,7 +72,7 @@
 			tdCount  = $('tbody>tr:first-child>td',formlist).filter(function(){
 				return $(this).css('display') != 'none';
 			}).length;
-		
+	
 		$('td[item-name="t_descricao_componente"]').each(function(i,td){
 			
 			var sortHandler = $(
@@ -106,13 +106,12 @@
 	    });
 	}
 	
-	$.IGRP.on('init',function(){
+	$(function(){
 		
 		ConfigSubmit();
 		
 		SetSortable();
-	    
-	    
 	});
+
 	
 })();

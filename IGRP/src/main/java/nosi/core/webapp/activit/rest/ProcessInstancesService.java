@@ -177,7 +177,7 @@ public class ProcessInstancesService extends Activit{
 	}
 	
 	public boolean submitVariables() {
-		Response response = new RestRequest().post("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
+		Response response = new RestRequest().put("runtime/process-instances/"+this.getId()+"/variables", ResponseConverter.convertDaoToJson(this.variables));
 		return response.getStatus() == 201;
 	}
 	@Override

@@ -52,5 +52,11 @@ public class TaskVariables {
 	public void setValueUrl(String valueUrl) {
 		this.valueUrl = valueUrl;
 	}
+	@Override
+	public String toString() {
+		return "TaskVariables [name=" + name + ", scope=" + scope + ", type=" + type + ", value=" + value
+				+ ", valueUrl=" + valueUrl + "]";
+	}
 
+	
 }
