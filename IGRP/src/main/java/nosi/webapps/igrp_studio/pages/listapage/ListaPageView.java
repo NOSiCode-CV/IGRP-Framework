@@ -4,6 +4,11 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
+import nosi.core.webapp.Model;
+import java.sql.Date;
+import nosi.core.config.Config;
+import java.util.Map;
+import java.util.HashMap;
 
 public class ListaPageView extends View {
 	
@@ -50,7 +55,8 @@ public class ListaPageView extends View {
 	public IGRPButton btn_eliminar;
 	public IGRPButton btn_gerar_codigo;
 	public IGRPButton btn_download;
-	public ListaPageView(ListaPage model){
+	public ListaPageView(){
+
 		this.setPageTitle("Page builder");
 			
 		infopanel_1 = new IGRPForm("infopanel_1","");
@@ -179,18 +185,24 @@ public class ListaPageView extends View {
 		
 
 		toolsbar_2 = new IGRPToolsBar("toolsbar_2");
+
 		btn_nova_aplicacao = new IGRPButton("Nova Aplicação","igrp_studio","ListaPage","nova_aplicacao","modal|refresh","primary|fa-plus","","");
-		btn_nova_aplicacao.propertie.add("type","specific").add("code","").add("rel","nova_aplicacao");
+		btn_nova_aplicacao.propertie.add("type","specific").add("rel","nova_aplicacao");
+
 		btn_editar = new IGRPButton("Editar","igrp_studio","ListaPage","editar","modal|refresh","warning|fa-pencil","","");
-		btn_editar.propertie.add("type","specific").add("code","").add("class","warning").add("rel","editar");
+		btn_editar.propertie.add("type","specific").add("rel","editar");
+
 		btn_visualizar = new IGRPButton("Visualizar","igrp_studio","ListaPage","visualizar","_blank","primary|fa-eye","","");
-		btn_visualizar.propertie.add("type","specific").add("code","").add("class","primary").add("rel","visualizar");
+		btn_visualizar.propertie.add("type","specific").add("rel","visualizar");
+
 		btn_eliminar = new IGRPButton("Eliminar","igrp_studio","ListaPage","eliminar","confirm","danger|fa-trash","","");
-		btn_eliminar.propertie.add("type","specific").add("code","").add("class","danger").add("rel","eliminar");
+		btn_eliminar.propertie.add("type","specific").add("rel","eliminar");
+
 		btn_gerar_codigo = new IGRPButton("Gerar Código","igrp_studio","ListaPage","gerar_codigo","_blank","info|fa-gears","","");
-		btn_gerar_codigo.propertie.add("type","specific").add("code","").add("class","info").add("rel","gerar_codigo");
+		btn_gerar_codigo.propertie.add("type","specific").add("rel","gerar_codigo");
+
 		btn_download = new IGRPButton("Download","igrp_studio","ListaPage","download","confirm","grey|fa-download","","");
-		btn_download.propertie.add("type","specific").add("code","").add("class","grey").add("rel","download");
+		btn_download.propertie.add("type","specific").add("rel","download");
 		
 	}
 		
@@ -253,11 +265,23 @@ public class ListaPageView extends View {
 		this.addToPage(myapps_list);
 		this.addToPage(toolsbar_2);
 	}
-	
+		
 	public void setModel(ListaPage model) {
 		
+		infopanel_1_val.setValue(model);
+		infopanel_2_val.setValue(model);
+		infopanel_3_val.setValue(model);
+		env_fk.setValue(model);
+		status_page.setValue(model);
+		descricao_page.setValue(model);
+		nome_page.setValue(model);
+		p_id_page.setValue(model);	
 		this.link_btn_nova_pagina.setValue(model);
 		this.crud_generator.setValue(model);
 		this.btn_import.setValue(model);
+
+		table_1.loadModel(model.getTable_1());
+		myapps_list.loadModel(model.getMyapps_list());
+		
 	}
 }
