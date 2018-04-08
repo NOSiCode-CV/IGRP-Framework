@@ -524,7 +524,12 @@ public final class Core {	/** Not inherit
 		}
 		return false;
 	}
-	
+	/**Verifies if the String is a Integer, than returns the parse of it, else returns 0
+	 *  
+	 * @param value
+	 * @return Integer.parseInt(value) or 0
+	 * 
+	 */
 	public static Integer toInt(String value) {
 		if(Core.isInt(value))
 			return Integer.parseInt(value);
@@ -542,12 +547,24 @@ public final class Core {	/** Not inherit
 			return Short.parseShort(value);
 		return 0;
 	}
+	/**Verifies if the String is a Double, than returns the parse of it, else returns 0
+	 *  
+	 * @param value
+	 * @return Double.parseDouble(value) or 0
+	 * 
+	 */
 	public static Double toDouble(String value) {
 		if(Core.isDouble(value))
 			return Double.parseDouble(value);
 		return 0.0;
 	}
-
+	/**Verifies if the String is a Float, than returns the parse of it, else returns 0
+	 * {@value}
+	 * @ 
+	 * @param value
+	 * @return Float.parseFloat(value) or 0
+	 * 
+	 */
 	public static Float toFloat(String value) {
 		if(Core.isFloat(value))
 			return Float.parseFloat(value);
