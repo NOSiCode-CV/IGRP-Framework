@@ -223,8 +223,8 @@ private String setMenuDescr(Menu e) {
 	return "("+e.getApplication().getName()+ ") "+gt(e.getDescr());
 }
 
-	public List<Transaction> getOrgTransaction() {
-		return new Transaction().findAll();
+	public List<Transaction> getOrgTransaction(Integer app) {
+		return new Transaction().find().andWhere("application", "=",app).all();
 	}
 
 	public List<Transaction> getPerfilTransaction(int org) {

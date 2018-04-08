@@ -4,7 +4,8 @@ import nosi.core.webapp.View;
 import nosi.core.gui.components.*;
 import nosi.core.gui.fields.*;
 import static nosi.core.i18n.Translator.gt;
-import nosi.core.webapp.Model;import java.sql.Date;
+import nosi.core.webapp.Model;
+import java.sql.Date;
 import nosi.core.config.Config;
 import java.util.Map;
 import java.util.HashMap;
@@ -129,14 +130,11 @@ public class GestaodeacessoView extends View {
 	public void setModel(Gestaodeacesso model) {
 		
 		aplicacao.setValue(model);
-
 		estado.setValue(model);
-
 		org_nome.setValue(model);
+		p_id.setValue(model);	
 
-		p_id.setValue(model);
-	
 		org_table.loadModel(model.getOrg_table());
-
+		
 	}
 }

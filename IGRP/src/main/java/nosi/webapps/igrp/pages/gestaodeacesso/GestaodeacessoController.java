@@ -7,7 +7,6 @@ import nosi.core.webapp.Core;
 import static nosi.core.i18n.Translator.gt;
 import nosi.core.webapp.Response;
 import nosi.core.webapp.databse.helpers.QueryHelper;
-
 /*----#start-code(packages_import)----*/
 
 import nosi.core.webapp.helpers.Permission;
@@ -19,23 +18,24 @@ import java.util.ArrayList;
 /*----#end-code----*/
 
 
-
 public class GestaodeacessoController extends Controller {		
 
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Gestaodeacesso model = new Gestaodeacesso();
-		GestaodeacessoView view = new GestaodeacessoView();
 		model.load();
-		
+		GestaodeacessoView view = new GestaodeacessoView();
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
-		model.loadOrg_table( Core.query( "SELECT 'estado' as estado,'org_nome' as org_nome,'mostrar_perfis' as mostrar_perfis,'id' as id " ) );
-		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");view.estado.setParam(true);view.p_id.setParam(true);
+		model.loadOrg_table(Core.query(null,"SELECT 'estado' as estado,'org_nome' as org_nome,'mostrar_perfis' as mostrar_perfis,'id' as id "));
+		
+		view.aplicacao.setSqlQuery(null,"SELECT 'id' as ID,'name' as NAME ");
+		view.estado.setParam(true);
+		view.p_id.setParam(true);
 		
 		----#gen-example */
-		
 		/*----#start-code(index)----*/
 
 		List<Gestaodeacesso.Org_table> data = new ArrayList<>();
@@ -65,41 +65,47 @@ public class GestaodeacessoController extends Controller {
 		}
 		
 		view.btn_eliminar.setVisible(false);
-		//return this.renderView(view);
 		/*----#end-code----*/
-		
-		
 		view.setModel(model);
-		
-		return this.renderView(view);
-		
+		return this.renderView(view);	
 	}
-
+	
 	public Response actionEditar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		Gestaodeacesso model = new Gestaodeacesso();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","PesquisarMenu","index");
+		}
+		
+		----#gen-example */
 		/*----#start-code(editar)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			if (org != null)
-				return this.redirect("igrp", "NovaOrganica", "editar&p_id=" + p_id);
+				return this.redirect("igrp", "NovaOrganica", "editar&target=_blank&p_id=" + p_id);
 		}else 
 			Core.setMessageError();
 
 		/*----#end-code----*/
-		
-		
-		return this.redirect("igrp","gestaodeacesso","index");
-		
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
+	
 	public Response actionMenu() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Gestaodeacesso model = new Gestaodeacesso();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
@@ -109,29 +115,28 @@ public class GestaodeacessoController extends Controller {
 		}
 		
 		----#gen-example */
-		
 		/*----#start-code(menu)----*/
-		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
-		if (p_id != null) {
+   
+      	String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+		if (Core.isInt(p_id)) {
 			Organization org = new Organization().findOne(Integer.parseInt(p_id));
 			org = org.find().andWhere("application.id", "=", Integer.parseInt(p_id));
 			if (org != null)
 				return this.redirect("igrp", "MenuOrganica", "index",
-						"id=" + p_id + "&type=org&env_fk=" + org.getApplication().getId());
+						"id=" + p_id + "&target=_blank&type=org&env_fk=" + org.getApplication().getId());
 		}else Core.setMessageError();
 
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","MenuOrganica","index");
-		
+		return this.redirect("igrp","MenuOrganica","index", this.queryString());	
 	}
+	
 	public Response actionTransaction() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
 		Gestaodeacesso model = new Gestaodeacesso();
 		model.load();
-		
 		/*----#gen-example
-		This is an example of how you can implement your code:
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
 		if(model.save(model)){
 			Core.setMessageSuccess();
@@ -141,18 +146,35 @@ public class GestaodeacessoController extends Controller {
 		}
 		
 		----#gen-example */
-		
 		/*----#start-code(transaction)----*/
-		
-		
+		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
+      
+		if (Core.isInt(p_id)) {
+			Organization org = new Organization().findOne(Integer.parseInt(p_id));
+			if (org != null)
+				return this.redirect("igrp", "TransacaoOrganica", "index&target=_blank", "id=" + p_id + "&type=org");
+		}
+
 		/*----#end-code----*/
-		
-		return this.redirect("igrp","TransacaoOrganica","index");
-		
+		return this.redirect("igrp","TransacaoOrganica","index", this.queryString());	
 	}
+	
 	public Response actionEliminar() throws IOException, IllegalArgumentException, IllegalAccessException{
 		
+		Gestaodeacesso model = new Gestaodeacesso();
+		model.load();
+		/*----#gen-example
+		  This is an example of how you can implement your code:
+		  In a .query(null,... change 'null' to your db connection name added in application builder.
 		
+		if(model.save(model)){
+			Core.setMessageSuccess();
+		 }else{
+			Core.setMessageError();
+		 return this.forward("igrp","PesquisarMenu","index");
+		}
+		
+		----#gen-example */
 		/*----#start-code(eliminar)----*/
 		String p_id = Igrp.getInstance().getRequest().getParameter("p_id");
 		if (p_id != null) {
@@ -165,10 +187,7 @@ public class GestaodeacessoController extends Controller {
 			Core.setMessageError();
 	
 		/*----#end-code----*/
-		
-		
-		return this.redirect("igrp","gestaodeacesso","index");
-		
+		return this.redirect("igrp","PesquisarMenu","index", this.queryString());	
 	}
 	
 	/*----#start-code(custom_actions)----*/
@@ -188,8 +207,4 @@ public class GestaodeacessoController extends Controller {
 	}
 
 	/*----#end-code----*/
-	
-	
-	
-	
-}
+	}
