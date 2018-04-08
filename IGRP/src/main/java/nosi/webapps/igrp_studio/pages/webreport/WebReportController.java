@@ -4,7 +4,6 @@
 package nosi.webapps.igrp_studio.pages.webreport;
 
 /*----#START-PRESERVED-AREA(PACKAGES_IMPORT)----*/
-import nosi.core.config.Config;
 import nosi.core.gui.page.Page;
 import nosi.core.webapp.Controller;
 import nosi.core.webapp.Core;
@@ -68,9 +67,9 @@ public class WebReportController extends Controller {
 			view.gen_table.addData(data);
 		}
 		view.env_fk.setValue(new Application().getListApps());
-		view.link_add_source.setValue(new Config().getResolveUrl("igrp","data-source","index&dad=igrp&id_env="+model.getEnv_fk()));
-		view.p_link_source.setValue(new Config().getResolveUrl("igrp","data-source","get-data-source&dad=igrp"));
-		view.p_edit_name_report.setValue(new Config().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
+		view.link_add_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","index&dad=igrp&id_env="+model.getEnv_fk()));
+		view.p_link_source.setValue(this.getConfig().getResolveUrl("igrp","data-source","get-data-source&dad=igrp"));
+		view.p_edit_name_report.setValue(this.getConfig().getResolveUrl("igrp_studio","web-report","save-edit-template&dad=igrp"));
 		return this.renderView(view);
 		/*----#END-PRESERVED-AREA----*/
 	}
@@ -328,7 +327,7 @@ public class WebReportController extends Controller {
 		int user_id = Igrp.getInstance().getUser().getIdentity().getIdentityId();
 		User user = new User();
 		user = user.findOne(user_id);
-		String content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
+		String content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+rt.getXsl_content().getId(), contra_prova, rt,user);
 		if(type==1){
 			RepInstance ri = new RepInstance();
 			ri.setContra_prova(contra_prova);
@@ -341,7 +340,7 @@ public class WebReportController extends Controller {
 			xsl = xsl.insert();
 			
 			if(xsl!=null){
-				content = this.getReport(contentXml, new Config().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
+				content = this.getReport(contentXml, this.getConfig().getResolveUrl("igrp_studio","web-report","get-xsl").replaceAll("&", "&amp;")+"&amp;dad=igrp&amp;p_id="+xsl.getId(), contra_prova, rt,user);
 				CLob xml = new CLob("", "application/xml", content.getBytes(), ri.getDt_created().toString());
 				xml = xml.insert();
 				ri.setXml_content(xml);
@@ -357,7 +356,7 @@ public class WebReportController extends Controller {
 		xmlW.startElement("print_report");
 			xmlW.setElement("name_app",rt.getApplication().getDad());
 			xmlW.setElement("img_app",rt.getApplication().getImg_src());
-			xmlW.setElement("link_qrcode",new Config().getResolveUrl("igrp_studio","web-report","contraprova")+ "&p_contraprova="+contra_prova);
+			xmlW.setElement("link_qrcode",this.getConfig().getResolveUrl("igrp_studio","web-report","contraprova")+ "&p_contraprova="+contra_prova);
 			xmlW.setElement("img_brasao", "brasao.png");
 			xmlW.emptyTag("name_brasao");
 			xmlW.setElement("data_print",new Date(System.currentTimeMillis()).toString());

@@ -720,18 +720,29 @@ public final class Core {	/** Not inherit
 		return new String[] {Igrp.getInstance().getRequest().getAttribute(name).toString()};
 	}
 	
-	public static String getTaskVariable(String taskDefinitionKey,String variableName) {		
-		String id = getTaskId();
-		if(Core.isNotNull(id)) {
-			List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
-			if(task1!=null && task1.size() > 0) {
-				List<TaskVariables> vars = task1.get(0).getVariables();
-				List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
-				return (var!=null && var.size() > 0)?(String) var.get(0).getValue():"";
-			}
-		}
-		return "";
-	}
+	public static String getTaskVariable(String taskDefinitionKey,String variableName) {    
+	    String id = getTaskId();
+	    if(Core.isNotNull(id)) {
+	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
+	      if(task1!=null && task1.size() > 0) {
+	        List<TaskVariables> vars = task1.get(task1.size()-1).getVariables();
+	        List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
+	        return (var!=null && var.size() > 0)?(String) var.get(var.size()-1).getValue():"";
+	      }
+	    }
+	    return "";
+	  }
+	  
+	  public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {    
+	    String id = getTaskId();
+	    if(Core.isNotNull(id)) {
+	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
+	      if(task1!=null && task1.size() > 0) {
+	        return task1.get(task1.size()-1).getVariables();
+	      }
+	    }
+	    return null;
+	  }
 	
 	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
@@ -765,14 +776,14 @@ public final class Core {	/** Not inherit
 	}
 	
 	private static String getTaskId() {
-		String taskId = Core.getParam("taskId");
-		String taskExecutionId = Core.getParam("taskExecutionId");
-		if(Core.isNotNull(taskExecutionId)) {
-			return taskExecutionId;
-		}
-		List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
-		return (task!=null && task.size() > 0)?task.get(0).getExecutionId():null;
-	}
+	    String taskId = Core.getParam("taskId");
+	    String taskExecutionId = Core.getParam("taskExecutionId");
+	    if(Core.isNotNull(taskExecutionId)) {
+	      return taskExecutionId;
+	    }
+	    List<HistoricTaskService> task = new HistoricTaskService().getHistory(taskId);
+	    return (task!=null && task.size() > 0)?task.get(task.size()-1).getExecutionId():null;
+  	}
 	
 	public static void addTaskVariableLong(String taskDefinitionKey,String variableName,Object value) {
 		String taskId = Igrp.getInstance().getRequest().getParameter("taskId");

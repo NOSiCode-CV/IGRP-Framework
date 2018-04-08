@@ -21,6 +21,7 @@ public class XMLWritter {
 	    
 		public XMLWritter(String rootElement, String xslPath, String contentType){
 			this();
+			this.resolvePath(xslPath);
 			this.xmlConstruct.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			this.xmlConstruct.append(lineSeparator);
 			this.xmlConstruct.append("<?xml-stylesheet href=\""+xslPath+"\" type=\"text/xsl\"?>");
@@ -28,6 +29,12 @@ public class XMLWritter {
 			this.startElement(rootElement);
 			this.closeLarger();
 			this.xmlConstruct.append(lineSeparator);
+		}
+
+		private void resolvePath(String xslPath) {
+			if(xslPath!=null) {
+				xslPath = xslPath.replaceAll("&", "&amp;").replaceAll("amp;amp;", "amp;");
+			}
 		}
 
 		public XMLWritter(){

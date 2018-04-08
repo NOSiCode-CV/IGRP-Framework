@@ -317,6 +317,7 @@ public class ExecucaoTarefasController extends Controller {
 		ResponseError result = null;
 		Collection<Part> parts = Igrp.getInstance().getRequest().getParts();
 		String[] p_prm_file_name_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk");
+		p_prm_file_name_fk = p_prm_file_name_fk==null?Igrp.getInstance().getRequest().getParameterValues("p_prm_file_name_fk_desc"):p_prm_file_name_fk;
 		String[] p_prm_file_description_fk = Igrp.getInstance().getRequest().getParameterValues("p_prm_file_description_fk");
 		if(Core.isNotNull(taskId)){
 			result = this.processTask(taskId,customForm,content,parts,p_prm_file_name_fk,p_prm_file_description_fk);
@@ -397,7 +398,6 @@ public class ExecucaoTarefasController extends Controller {
 				task.submitVariables();
 			}
 		}
-		
 		new TaskFile().addFile(task, parts, p_prm_file_name_fk, p_prm_file_description_fk);
 		StartProcess st = formData.submitFormByTask();
 		return (st!=null && st.getError()!=null)?st.getError():null;

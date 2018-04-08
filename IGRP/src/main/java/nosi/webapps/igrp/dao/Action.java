@@ -57,6 +57,7 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 	private Application application;
 	private short isComponent = 0;
 	private String xmlContent;
+	private String xslContent;
 	
 	public Action(){		
 	}
@@ -189,6 +190,14 @@ public class Action extends BaseActiveRecord<Action> implements Serializable{
 
 	public void setXmlContent(String xmlContent) {
 		this.xmlContent = xmlContent;
+	}
+	
+	public String getXslContent() {
+		return xslContent;
+	}
+
+	public void setXslContent(String xslContent) {
+		this.xslContent = xslContent;
 	}
 
 	@Override

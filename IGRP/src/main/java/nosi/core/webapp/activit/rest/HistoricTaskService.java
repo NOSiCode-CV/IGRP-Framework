@@ -220,4 +220,15 @@ public class HistoricTaskService extends Activit{
 	public void setTenantId(String tenantId) {
 		this.tenantId = tenantId;
 	}
+
+
+	@Override
+	public String toString() {
+		return "HistoricTaskService [processDefinitionId=" + processDefinitionId + ", processDefinitionUrl="
+				+ processDefinitionUrl + ", processInstanceId=" + processInstanceId + ", processInstanceUrl="
+				+ processInstanceUrl + ", executionId=" + executionId + ", taskDefinitionKey=" + taskDefinitionKey
+				+ ", variables=" + variables + ", tenantId=" + tenantId + "]";
+	}
+	
+	
 }

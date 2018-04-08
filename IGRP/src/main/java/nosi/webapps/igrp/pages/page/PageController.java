@@ -45,6 +45,7 @@ import nosi.core.webapp.compiler.helpers.MapErrorCompile;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.ExtractReserveCode;
 import nosi.core.webapp.helpers.FileHelper;
+import nosi.core.xml.XMLExtractComponent;
 import nosi.webapps.igrp.dao.Action;
 import nosi.webapps.igrp.dao.Application;
 import nosi.webapps.igrp.dao.Domain;
@@ -346,9 +347,6 @@ public class PageController extends Controller {
 										FileHelper.ENCODE_UTF8);// ENCODE_UTF8 for default encode eclipse
 							}
 						}
-				}else {//save xml if is component
-					ac.setXmlContent(FileHelper.convertToString(fileXml));
-					ac.update();
 				}
 				if (r && Core.isNull(error)) {// Check if not error on the compilation class
 					error = new Gson().toJson(new MapErrorCompile(ac.getIsComponent()==0?"Compilação efetuada com sucesso":"Componente registado com sucesso", null));
