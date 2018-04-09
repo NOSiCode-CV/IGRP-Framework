@@ -263,7 +263,9 @@
 				     	</xsl:call-template> -->
 
 						<!-- <xsl:value-of select="concat($model,'View',' view = new ',$model,'View(model);')"/> -->
-
+						
+						<!--  <xsl:call-template name="gen-lookups"/> -->
+						
 						<xsl:if test="//rows/content/*[@type='chart'] or //rows/content/*[@type='table'] or //rows/content/*[@type='table']/fields/*[@iskey='true'] or //rows/content/*/fields/*[@type='select']">
 							
 							<xsl:call-template name="start-example"/>
@@ -382,6 +384,44 @@
  		<xsl:value-of select="'}'"/>
  		<xsl:value-of select="$newline"/>
 		<xsl:value-of select="$tab"/>
+	</xsl:template>
+	
+	<xsl:template name="gen-lookups">
+		<xsl:value-of select="$newline"/>
+		<xsl:value-of select="concat($newline,$tab2)"/>
+		
+		<xsl:for-each select="rows/content/*[not(@type='table')]/fields/*[@type='lookup']">
+			
+			<xsl:variable name="lookupName" select="name()"/>
+			
+			<xsl:variable name="lu_app" select="@app"/>
+			<xsl:variable name="lu_page" select="@page"/>
+			<xsl:variable name="lu_act" select="@action"/>
+			
+			<xsl:variable name="lookup_action">
+				<xsl:value-of select="concat($double_quotes,$lu_app,$double_quotes)"/><xsl:text>,</xsl:text>
+				<xsl:value-of select="concat($double_quotes,$lu_page,$double_quotes)"/><xsl:text>,</xsl:text>
+				<xsl:value-of select="concat($double_quotes,$lu_act,$double_quotes)"/>
+			</xsl:variable>			
+
+			<xsl:text>view.</xsl:text><xsl:value-of select="$lookupName"/><xsl:text>.setLookup(</xsl:text><xsl:value-of select="$lookup_action"/><xsl:text>);</xsl:text>
+			
+			<xsl:value-of select="concat($newline,$tab2)"/>
+			
+			<xsl:for-each select="lookupParams/param">
+			
+				<xsl:variable name="lookupParam">
+					<xsl:value-of select="concat($double_quotes,@name,$double_quotes,',',$double_quotes,.,$double_quotes)"/>
+				</xsl:variable>
+
+				<xsl:text>view.</xsl:text><xsl:value-of select="$lookupName"/><xsl:text>.addParam(</xsl:text><xsl:value-of select="$lookupParam"/><xsl:text>);</xsl:text>
+				
+				<xsl:value-of select="concat($newline,$tab2)"/>
+				
+			</xsl:for-each>
+			<xsl:value-of select="concat($newline,$tab2)"/>
+		</xsl:for-each>
+		
 	</xsl:template>
 	
  	<!-- add actionIndex() - it is default method in any controller -->

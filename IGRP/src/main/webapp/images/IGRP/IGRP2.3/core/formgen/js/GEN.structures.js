@@ -156,8 +156,6 @@ var GENSTRUCTURES = function(GEN){
 			rtn+='<'+tag+attributesStr+'>';
 				if(p.label && field.xml.label) 
 					rtn+='<label>'+field.GET.label()+'</label>';
-				
-
 
 				if(field.xml.options)
 					rtn+=getXMLOptions(field);
@@ -168,8 +166,10 @@ var GENSTRUCTURES = function(GEN){
 					if(p.value && field.xml.value) rtn+='<value>'+value+'</value>';
 				}
 				
-				if(field.xml.lookup || field.GET.type() == 'lookup')
-					rtn+='<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
+				if(field.xml.lookup || field.GET.type() == 'lookup'){
+					//rtn+='<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
+					rtn+=genLookUpField(field);
+				}
 
 				if(field.GET.service && field.GET.service().code)
 					rtn+=GEN.getFieldServiceMap(field.GET.service());
@@ -413,6 +413,8 @@ var GENSTRUCTURES = function(GEN){
 					tran   = item.GET.transaction &&  item.GET.transaction() ? 'flg_transaction="true"'  : '',
 					map    = item.GET.service && item.GET.service().code ? GEN.getFieldServiceMap(item.GET.service()) : '',
 					_class = item.GET.class && item.GET.class() ? item.GET.class() : 'default',
+					customReturn = item.GET.custom_return ? item.GET.custom_return() : false,
+					customReturnAttr = customReturn ? 'custom_return="true"' : '';
 					target = item.GET.target();
 
 				if(item.GET.target_fields && item.GET.target_fields())
@@ -422,7 +424,7 @@ var GENSTRUCTURES = function(GEN){
 					target += '|refresh';
 
 
-				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'">'+
+				rtn+='<item type="'+itemType+'" code="" '+tran+' class="'+_class+'" rel="'+item.GET.tag()+'" '+customReturnAttr+'>'+
 	                    '<title>'+item.GET.label()+'</title>'+
 	                    '<app>'+app+'</app>'+
 	                    '<page>'+page+'</page>'+
@@ -631,7 +633,7 @@ var GENSTRUCTURES = function(GEN){
 		
 		var rtn = false;
 		
-		if( name != 'label' && name !='tag' && name !='size' && name !='domain_value' )
+		if( name != 'label' && name !='tag' && name !='size' && name !='domain_value' && name != 'lookupParams' )
 			rtn = true;
 		
 		return rtn;
@@ -641,6 +643,7 @@ var GENSTRUCTURES = function(GEN){
 		if(which && which[0])
 			which.forEach(function(name){
 				if(validAttrArr(name)){
+					
 					if(field.propertiesOptions[name] && field.propertiesOptions[name].valuePersist)
 						arr+='persist="true"';
 
@@ -665,6 +668,13 @@ var GENSTRUCTURES = function(GEN){
 						if(!field.GET.visible())
 							arr+=' visible="false"';
 					}
+					
+					/*else if(name == 'lookupParams'){
+						
+						console.log(field)
+						
+					}*/
+					
 					else
 						arr+=returnAttr(field,name);
 
@@ -684,7 +694,27 @@ var GENSTRUCTURES = function(GEN){
 
 		return arr;
 	}
-
+	
+	var genLookUpField = function(f){
+		
+		var rtn = '<lookup>http://igrp.teste.gov.cv/images/IGRP.bootstrap/app/BOOTSTRAP/xml/lookup.test.xml</lookup>';
+		
+		rtn+='<lookupParams>';
+		
+		f.GET.lookupParams().forEach(function(lp){
+			
+			if( lp.name || lp.value )
+				
+				rtn+='<param name="'+lp.name+'">'+lp.value+'</param>';
+			
+		});
+		
+		rtn+='</lookupParams>';
+		
+		return rtn;
+	
+	}
+	
 	var getXMLOptions = function(f){
 
 		var rtn = '<list>';

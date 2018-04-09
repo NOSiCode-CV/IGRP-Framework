@@ -21,10 +21,51 @@ var LOOKUPFIELD = function(type,params){
 				return 'action="'+action+'" page="'+page+'" app="'+app+'"';
 			}
 		});
+		
+		field.setProperty({
+			name : 'lookupParams',
+			type : 'formlist',
+			order : 3,
+			size : 12,
+			value : {
+				value : proprieties && proprieties.lookupParams || [],
+				setter:function(){
+					
+					var flist = GEN.attributes.get({
+						type : 'formlist',
+						name : 'lookupParams',
+						fields : {
+							name : {
+								type : 'text',
+								label : 'Name',
+								//defaultValue : '',
+								rows : [
+									'Test'
+								]
+							},
+							value : {
+								type : 'text',
+								label : 'Value',
+								//defaultValue : '',
+								rows : [
+									'Test 2'
+								]
+							}
+						},
+						data : field.GET.lookupParams()
+					})
 
+					
+					return flist
+				}
+			}
+		})
+		
 		field.setProperty({
 			name:'lookup_type',
 			label:'Lookup Type',
+			editable : false,
+			order : 3,
 			value:{
 				value: 'LOOKUP',
 				options:[

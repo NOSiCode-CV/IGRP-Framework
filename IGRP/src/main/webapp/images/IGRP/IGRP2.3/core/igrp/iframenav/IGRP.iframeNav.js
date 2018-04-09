@@ -54,7 +54,7 @@
 				modal.modal('show');
 			},
 			hide:function(){
-
+		
 				$($.IGRP.components.iframeNav.modal).modal('hide');
 
 			},
@@ -66,9 +66,8 @@
 					iframe = $('iframe',modal);
 
 				iframe.attr('src','');
-
+				
 				if (modal.attr('close') && modal.attr('close') == 'refresh')
-
 					$.IGRP.targets.closerefresh.action();
 
 			},
