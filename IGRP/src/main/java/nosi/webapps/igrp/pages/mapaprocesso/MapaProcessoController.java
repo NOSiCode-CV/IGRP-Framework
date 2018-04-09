@@ -74,13 +74,13 @@ public class MapaProcessoController extends Controller{
 				Action action = new Action().find().andWhere("application", "=",Core.toInt(idApp)).andWhere("page", "=",formData.getFormKey()).one();
 				Response resp = this.call(action.getApplication().getDad(), action.getPage(),"index");
 				String content = comp.removeXMLButton(resp.getContent());
-				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+idApp/*this.getConfig().getLinkPageXsl(action) */, "utf-8");
+				XMLWritter xml = new XMLWritter("rows", this.getConfig().getResolveUrl("igrp","mapa-processo","get-xsl").replaceAll("&", "&amp;")+"&amp;page="+formData.getFormKey()+"&amp;app="+idApp, "utf-8");
 				xml.addXml(this.getConfig().getHeader(null));
 				xml.startElement("content");
 				xml.writeAttribute("type", "");
 				xml.setElement("title", title);
 				xml.addXml(comp.generateButtonProcess(p_processId, taskId).toString());
-				xml.addXml(comp.addFormlistFile());
+				xml.addXml(comp.addFormlistFile().toString());
 				xml.addXml(content);
 				xml.endElement();
 				return this.renderView(xml.toString());	

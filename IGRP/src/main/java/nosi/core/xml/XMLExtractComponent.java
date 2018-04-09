@@ -70,7 +70,22 @@ public class XMLExtractComponent {
 		toolsbar1.addButton(button);
 		return toolsbar1;
 	}
-	
+
+	public Object generateButtonEditTask(String taskId) {
+		IGRPToolsBar toolsbar1 = new IGRPToolsBar("toolsbar_1");
+		IGRPButton button = new IGRPButton();
+		button.getProperties().add("code", "iniciar_processo");
+		button.getProperties().add("rel", "iniciar_processo");
+		button.getProperties().add("type", "specific");
+		button.setTitle(gt("Gravar"));
+		button.setApp("igrp");
+		button.setPage("ExecucaoTarefas");
+		button.setLink("process-edit-task&"+("p_prm_taskid="+taskId)+"&customForm=true");
+		button.setTarget("submit");
+		button.setImg("primary|fa-save");
+		toolsbar1.addButton(button);
+		return toolsbar1;
+	}
 	public String joinComponentXML(String codigo) {
 		List<TaskComponent> components = new TaskComponent().find().andWhere("codigo", "=",codigo).all();
 		components.stream().forEach(c->{
@@ -361,7 +376,7 @@ public class XMLExtractComponent {
 		return content;
 	}
 	
-	public String addFormlistFile() {
+	public IGRPSeparatorList addFormlistFile() {
 		IGRPSeparatorList separatorlist_1 = new IGRPSeparatorList("separatorlist_1","");
 		Field prm_file_description = new TextField(null,"prm_file_description");
 		prm_file_description.setLabel(gt("Descrição"));
@@ -372,7 +387,7 @@ public class XMLExtractComponent {
 		prm_file_name_fk.propertie().add("name","p_prm_file_name").add("type","file").add("accept","").add("targetrend","").add("multiple","false").add("rendvalue","false").add("maxlength","30").add("required","false").add("desc","true");
 		separatorlist_1.addField(prm_file_description);
 		separatorlist_1.addField(prm_file_name_fk);
-		return separatorlist_1.toString();
+		return separatorlist_1;
 	}
 	
 	public String addButtonXsl(String content) {

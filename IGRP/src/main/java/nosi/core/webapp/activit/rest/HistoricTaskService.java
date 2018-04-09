@@ -42,7 +42,7 @@ public class HistoricTaskService extends Activit{
     @SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory(String taskId){
 		List<HistoricTaskService> d = new ArrayList<>();
-		Response response = new RestRequest().get("history/historic-task-instances?taskId="+taskId+"&includeTaskLocalVariables=true");
+		Response response = new RestRequest().get("history/historic-task-instances?taskId="+taskId+"&includeTaskLocalVariables=true"+this.getFilter());
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();
@@ -70,7 +70,7 @@ public class HistoricTaskService extends Activit{
     @SuppressWarnings("unchecked")
 	public List<HistoricTaskService> getHistory(String taskDefinitionKey,String executionId){
 		List<HistoricTaskService> d = new ArrayList<>();
-		Response response = new RestRequest().get("history/historic-task-instances?taskDefinitionKey="+taskDefinitionKey+"&executionId="+executionId+"&includeTaskLocalVariables=true");
+		Response response = new RestRequest().get("history/historic-task-instances?taskDefinitionKey="+taskDefinitionKey+"&executionId="+executionId+"&includeTaskLocalVariables=true&includeProcessVariables=true");
 		if(response!=null){
 			String contentResp = "";
 			InputStream is = (InputStream) response.getEntity();

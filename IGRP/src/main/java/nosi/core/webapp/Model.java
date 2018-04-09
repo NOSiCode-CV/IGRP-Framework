@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.persistence.Tuple;
 import org.apache.commons.beanutils.BeanUtils;
+import com.google.gson.Gson;
 import java.lang.Integer;
 import java.lang.Float;
 import java.lang.Double;
@@ -18,6 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.Long;
 import nosi.core.gui.components.IGRPSeparatorList;
 import nosi.core.validator.Validator;
+import nosi.core.webapp.activit.rest.CustomVariableIGRP;
+import nosi.core.webapp.activit.rest.HistoricTaskService;
 import nosi.core.webapp.activit.rest.TaskVariables;
 import nosi.core.webapp.databse.helpers.QueryHelper;
 import nosi.core.webapp.helpers.DateHelper;
@@ -58,12 +62,19 @@ public abstract class Model { // IGRP super model
 	public void loadFromTask(String taskId) {
 		Class<? extends Model> c = this.getClass();
 		for(Field field:c.getDeclaredFields()) {
-			field.setAccessible(true);
-				List<TaskVariables> variables = Core.getTaskVariables(taskId);
-				if(variables !=null) {
-					variables.stream().filter(v->v.getName().equalsIgnoreCase(taskId+"_"+field.getAnnotation(RParam.class).rParamName())).forEach(v->{
-						this.setField(field, v.getValue());
-					});
+				field.setAccessible(true);
+				HistoricTaskService hts = Core.getTaskHistory(taskId);
+				if(hts.getVariables() !=null) {
+					List<TaskVariables> var = hts.getVariables().stream().filter(v->v.getName().equalsIgnoreCase("customVariableIGRP_"+hts.getId())).collect(Collectors.toList());
+					String json = (var!=null && var.size() >0)?var.get(0).getValue().toString():"";
+					if(Core.isNotNull(json)) {
+						CustomVariableIGRP custom = new Gson().fromJson(json, CustomVariableIGRP.class);
+						if(custom.getRows()!=null){
+							custom.getRows().stream().filter(v->v.getName().equalsIgnoreCase(field.getAnnotation(RParam.class).rParamName())).forEach(v->{
+								this.setField(field,v.getValue()[0]);
+							});
+						}
+					}
 				}
 		}
 	}

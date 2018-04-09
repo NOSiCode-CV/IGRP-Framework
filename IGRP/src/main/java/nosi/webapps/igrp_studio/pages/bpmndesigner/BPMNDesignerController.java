@@ -19,6 +19,7 @@ import nosi.core.webapp.Response;
 import nosi.core.webapp.activit.rest.DeploymentService;
 import nosi.core.webapp.activit.rest.ProcessDefinitionService;
 import nosi.core.webapp.activit.rest.ResourceService;
+import nosi.core.webapp.helpers.FileHelper;
 import nosi.core.webapp.helpers.Permission;
 import nosi.webapps.igrp.dao.Application;
 /*----#END-PRESERVED-AREA----*/
@@ -61,7 +62,14 @@ public class BPMNDesignerController extends Controller {
 		Part data = Igrp.getInstance().getRequest().getPart("p_data");
 		DeploymentService deploy = new DeploymentService();
 		if(Core.isNotNull(model.getEnv_fk())) {
-			deploy = deploy.create(data,new Integer(model.getEnv_fk()));
+			Application app = new Application().findOne(Core.toInt(model.getEnv_fk()));
+			String content = FileHelper.convertToString(data);
+			int index = content.indexOf("<process id=\"");
+			String fileName = data.getName();
+			if(index != -1) {
+			  fileName = content.substring(index+"<process id=\"".length(), content.indexOf("\" name",content.indexOf("<process id=\"")))+"_"+app.getDad()+".bpmn20.xml";
+			}
+			deploy = deploy.create(data.getInputStream(),app.getId(), fileName,data.getContentType());
 			if(deploy!=null && Core.isNotNull(deploy.getId())){
 				return this.renderView("<messages><message type=\"success\">" + StringEscapeUtils.escapeXml10(FlashMessage.MESSAGE_SUCCESS) + "</message></messages>");
 			}

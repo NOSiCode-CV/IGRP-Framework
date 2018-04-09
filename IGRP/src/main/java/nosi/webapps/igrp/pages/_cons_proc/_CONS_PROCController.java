@@ -23,10 +23,9 @@ public class _CONS_PROCController extends Controller {
 	public Response actionIndex() throws IOException, IllegalArgumentException, IllegalAccessException{
 		/*----#START-PRESERVED-AREA(INDEX)----*/
 		_CONS_PROC model = new _CONS_PROC();
+		model.load();
 		List<_CONS_PROC.Table_1> data = new ArrayList<>();
-		
-		if(Igrp.getMethod().equalsIgnoreCase("post")){
-			model.load();
+		if(Core.isNotNull(model.getAplicacao())){
 			TaskServiceQuery taskS = new TaskServiceQuery();
 			if(Core.isNotNull(model.getProc_tp_fk())){
 				taskS.addFilter("processDefinitionId", model.getProc_tp_fk());
@@ -124,10 +123,10 @@ public class _CONS_PROCController extends Controller {
 	}
 	private String getStatusTask(TaskServiceQuery task) {
 		if(Core.isNotNull(task.getEndTime()))
-			return Core.getPinkColor();
+			return "Terminado";//Core.getPinkColor();//Terminado
 		if(Core.isNotNull(task.getAssignee()))
-			return Core.getYellowColor();
-		return Core.getBlueColor();
+			return "Não iniciado";//Core.getYellowColor();//Não iniciado
+		return "Não Atribuido";//Core.getBlueColor();//"Não Atribuido"
 	}
 	/*----#END-PRESERVED-AREA----*/
 }
