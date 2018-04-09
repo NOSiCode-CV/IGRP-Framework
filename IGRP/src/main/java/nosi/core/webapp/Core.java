@@ -720,21 +720,17 @@ public final class Core {	/** Not inherit
 		return new String[] {Igrp.getInstance().getRequest().getAttribute(name).toString()};
 	}
 	
-	public static String getTaskVariable(String taskDefinitionKey,String variableName) {    
-	    String id = getTaskId();
-	    if(Core.isNotNull(id)) {
-	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
-	      if(task1!=null && task1.size() > 0) {
-	        List<TaskVariables> vars = task1.get(task1.size()-1).getVariables();
+	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
+        List<TaskVariables> vars = Core.getTaskVariables(taskDefinitionKey);
+        if(vars!=null) {
 	        List<TaskVariables> var = vars.stream().filter(v->v.getName().equalsIgnoreCase(taskDefinitionKey+"_"+variableName)).collect(Collectors.toList());
 	        return (var!=null && var.size() > 0)?(String) var.get(var.size()-1).getValue():"";
-	      }
-	    }
+        }
 	    return "";
 	  }
 	  
 	  public static List<TaskVariables> getTaskVariables(String taskDefinitionKey) {    
-	    String id = getTaskId();
+	    String id = Core.getExecutionId();
 	    if(Core.isNotNull(id)) {
 	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
 	      if(task1!=null && task1.size() > 0) {
@@ -743,7 +739,17 @@ public final class Core {	/** Not inherit
 	    }
 	    return null;
 	  }
-	
+	  
+	  public static HistoricTaskService getTaskHistory(String taskDefinitionKey) {    
+	    String id = Core.getExecutionId();
+	    if(Core.isNotNull(id)) {
+	      List<HistoricTaskService> task1 = new HistoricTaskService().getHistory(taskDefinitionKey,id);
+	      if(task1!=null && task1.size() > 0) {
+	        return task1.get(task1.size()-1);
+	      }
+	    }
+	    return null;
+	  }
 	public static Integer getTaskVariableInt(String taskDefinitionKey,String variableName) {
 		String v = Core.getTaskVariable(taskDefinitionKey, variableName);
 		return Core.isNotNull(v)?Core.toInt(v):0;
@@ -775,7 +781,7 @@ public final class Core {	/** Not inherit
 		return Core.isNotNull(v)?true:false;
 	}
 	
-	private static String getTaskId() {
+	private static String getExecutionId() {
 	    String taskId = Core.getParam("taskId");
 	    String taskExecutionId = Core.getParam("taskExecutionId");
 	    if(Core.isNotNull(taskExecutionId)) {
