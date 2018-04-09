@@ -150,6 +150,13 @@
         <xsl:value-of select="'readonly'" />
       </xsl:attribute>
     </xsl:if>
+    
+    <xsl:if test="$field/@maxlength">
+      <xsl:attribute name="maxlength">
+        <xsl:value-of select="$field/@maxlength" />
+      </xsl:attribute>
+    </xsl:if>
+    
   </xsl:template>
 
 </xsl:stylesheet>
