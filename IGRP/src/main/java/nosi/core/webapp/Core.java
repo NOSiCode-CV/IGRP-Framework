@@ -378,7 +378,15 @@ public final class Core {	/** Not inherit
 	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(PesquisaSNIAC pesquisa){
 		return (PesquisaSNIAC) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia SNIAC via Biztalk
+	 * 
+	 * @param num_idnt_civil_pes
+	 * @param num_registo_pes
+	 * @param nome_pes
+	 * @param data_nasc_pes
+	 * @param id_tp_doc_pes
+	 * @return
+	 */
 	public static PesquisaSNIAC getBizTalkPesquisaSNIAC(Integer num_idnt_civil_pes, String num_registo_pes, String nome_pes, String data_nasc_pes,
 			Integer id_tp_doc_pes){
 		return getBizTalkPesquisaSNIAC(new PesquisaSNIAC(num_idnt_civil_pes, num_registo_pes, nome_pes, data_nasc_pes, id_tp_doc_pes));
@@ -392,7 +400,12 @@ public final class Core {	/** Not inherit
 	public static PesquisaBI getBizTalkPesquisaBI(PesquisaBI pesquisa){
 		return (PesquisaBI) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia BI via Biztalk
+	 * 
+	 * @param bi
+	 * @param nome
+	 * @return
+	 */
 	public static PesquisaBI getBizTalkPesquisaBI(Integer bi, String nome){
 		return getBizTalkPesquisaBI(new PesquisaBI(bi, nome));
 	}	
@@ -405,7 +418,12 @@ public final class Core {	/** Not inherit
 	public static PesquisaNIF getBizTalkPesquisaNIF(PesquisaNIF pesquisa){
 		return (PesquisaNIF) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia NIF via Biztalk
+	 * 
+	 * @param numero
+	 * @param nome
+	 * @return
+	 */
 	public static PesquisaNIF getBizTalkPesquisaNIF(Integer numero, String nome){
 		return getBizTalkPesquisaNIF(new PesquisaNIF(numero, nome));
 	}
@@ -418,7 +436,13 @@ public final class Core {	/** Not inherit
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(PesquisaNascimento pesquisa){
 		return (PesquisaNascimento) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia Nascimento via Biztalk
+	 * 
+	 * @param nome
+	 * @param numero_registo
+	 * @param data_nascimento
+	 * @return
+	 */
 	public static PesquisaNascimento getBizTalkPesquisaNascimento(String nome, Integer numero_registo, String data_nascimento){
 		return getBizTalkPesquisaNascimento(new PesquisaNascimento(nome, numero_registo, data_nascimento));
 	}	
@@ -431,7 +455,14 @@ public final class Core {	/** Not inherit
 	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(PesquisaHierarquicaCAE pesquisa){
 		return (PesquisaHierarquicaCAE) processRequestBiztalkClientService(getBizTalkClientService(pesquisa),pesquisa);
 	}
-	
+	/**Pesquia Hierarquia CAE via Biztalk
+	 * 
+	 * @param id
+	 * @param codigo
+	 * @param crpcae_id
+	 * @param self_id
+	 * @return
+	 */
 	public static PesquisaHierarquicaCAE getBizTalkPesquisaHierarquiaCAE(String id, String codigo, String crpcae_id, String self_id){
 		return getBizTalkPesquisaHierarquiaCAE(new PesquisaHierarquicaCAE(id, codigo, crpcae_id, self_id));
 	}
