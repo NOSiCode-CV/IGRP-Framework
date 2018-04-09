@@ -66,17 +66,23 @@ public class PersistenceUtils {
         	cfg.getProperties().setProperty("hibernate.current_session_context_class","thread");
         	cfg.getProperties().setProperty("hibernate.hbm2ddl.auto","update");
         	cfg.getProperties().setProperty("hibernate.connection.isolation", "2");
-//        	cfg.getProperties().setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
-//        	cfg.getProperties().setProperty("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQLDialect");
-        	
-        	//Configuration connection pool with c3p0
+ 			//cfg.getProperties().setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+        	//cfg.getProperties().setProperty("hibernate.dialect" ,"org.hibernate.dialect.PostgreSQLDialect");
+        
+        	//cfg.getProperties().setProperty("hibernate.c3p0.initialPoolSize","0");
         	cfg.getProperties().setProperty("hibernate.c3p0.min_size","1");
         	cfg.getProperties().setProperty("hibernate.c3p0.max_size","20");
+        	
         	cfg.getProperties().setProperty("hibernate.c3p0.timeout","6000");
         	cfg.getProperties().setProperty("hibernate.c3p0.max_statements","50");
         	cfg.getProperties().setProperty("hibernate.c3p0.idle_test_period","3000");
         	cfg.getProperties().setProperty("hibernate.c3p0.acquire_increment", "2");
         	cfg.getProperties().setProperty("hibernate.connection.provider_class","org.hibernate.connection.C3P0ConnectionProvider");
+        	
+        	// Closing connections 
+        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTime","60"); // 60s to close all unused connection 
+        	cfg.getProperties().setProperty("hibernate.c3p0.maxIdleTimeExcessConnections","30"); // aggressively ... close all unused connection 30s 
+        	
         	
         	// Go to http://www.mchange.com/projects/c3p0/#configuring_to_debug_and_workaround_broken_clients 
         	// For memory leak prevention and bad clients ... 
