@@ -16,14 +16,14 @@
 
 #igrp-sidebar .nav-tabs > li.active > a,
 #gen-views-ctrl ul li.active{
-	color: #5cb85c!important
+	color: #008900!important
 }
 #igrp-sidebar .nav-tabs > li.active > a:after{
-	background:#5cb85c!important;
+	background:#008900!important;
 }
 
 #igrp-sidebar .nav-tabs > li.active > a:hover{
-color: #5cb85c!important
+color: #008900!important
 }
  
 #igrp-sidebar .nav-tabs > li > a:hover,
