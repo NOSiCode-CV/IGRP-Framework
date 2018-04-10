@@ -15,10 +15,16 @@ public class IGRPLink {
 	private String link = "";
 	private QueryString queryString;
 	
+
 	public IGRPLink() {
 		this.queryString = new QueryString();
 	}
-	
+	public IGRPLink(String app,String page,String action) {
+		this.setAction(action);
+		this.setApp(app);
+		this.setPage(page);
+		this.queryString = new QueryString();
+	}
 	public String getApp() {
 		return app;
 	}
