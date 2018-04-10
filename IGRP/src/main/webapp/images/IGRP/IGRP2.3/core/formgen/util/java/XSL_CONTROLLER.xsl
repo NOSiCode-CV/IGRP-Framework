@@ -302,17 +302,17 @@
 						
 						<xsl:value-of select="$newline"/>
 						<xsl:value-of select="$tab2"/>	
-						<xsl:value-of select="concat('','if(model.save(model)){')"/>
-						<xsl:call-template name="newlineTab2"/>	
-						<xsl:value-of select="$tab"/>
-						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/>
-						<xsl:value-of select="$newline"/>
-						<xsl:value-of select="$tab2"/>
-						<xsl:value-of select="' }else{'"/>						
-						<xsl:call-template name="newlineTab2"/>		
-						<xsl:value-of select="$tab"/>						
-						<xsl:value-of select="concat('','Core.setMessageError();')"/>
-						<xsl:call-template name="newlineTab2"/>	
+<!-- 						<xsl:value-of select="concat('','if(model.save(model)){')"/> -->
+<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
+<!-- 						<xsl:value-of select="$tab"/> -->
+<!-- 						<xsl:value-of select="concat('','Core.setMessageSuccess();')"/> -->
+<!-- 						<xsl:value-of select="$newline"/> -->
+<!-- 						<xsl:value-of select="$tab2"/> -->
+<!-- 						<xsl:value-of select="' }else{'"/>						 -->
+<!-- 						<xsl:call-template name="newlineTab2"/>		 -->
+<!-- 						<xsl:value-of select="$tab"/>						 -->
+<!-- 						<xsl:value-of select="concat('','Core.setMessageError();')"/> -->
+<!-- 						<xsl:call-template name="newlineTab2"/>	 -->
 
 						<xsl:value-of select="concat(' return this.forward(',$double_quotes,$app__,$double_quotes,',',$double_quotes,$page_,$double_quotes,',',$double_quotes,'index',$double_quotes,');')"/>							
 						<xsl:value-of select="$newline"/>
