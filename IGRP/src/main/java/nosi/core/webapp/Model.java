@@ -46,15 +46,13 @@ public abstract class Model { // IGRP super model
 			List<Tuple> list = query.getResultList();
 			for(Tuple tuple:list) {
 				for(Field field:this.getClass().getDeclaredFields()) {
+					field.setAccessible(true);
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
 							this.setField(field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
-			}		
-			if(list.size() > 0) {
-				this.load();
-			}
+			}	
 		}
 	}
 	
