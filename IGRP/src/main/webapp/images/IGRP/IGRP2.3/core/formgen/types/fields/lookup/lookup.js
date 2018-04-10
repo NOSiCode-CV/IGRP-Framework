@@ -38,10 +38,12 @@ var LOOKUPFIELD = function(type,params){
 					var pageFields = function(){
 						var rtn = [];
 						GEN.getAllFields().forEach(function(f){
-							console.log(f);
+							
+							var val = f.GET.name ? f.GET.name() : 'p_'+f.GET.tag();
+							
 							if(f.formField)
 								rtn.push({
-									value : f.GET.name ? f.GET.name() : 'p_'+f.GET.tag(),
+									value : val,
 									label : f.GET.tag()
 								});
 						});
@@ -58,12 +60,16 @@ var LOOKUPFIELD = function(type,params){
 								containers.forEach(function(c){
 									if(c.fields && c.fields[0]){
 										c.fields.forEach(function(f){
+											
 											var tag   = f.properties.type == 'hidden' ? 'p_'+f.properties.tag : f.properties.tag,
 												label = f.properties.tag || f.properties.tag;
+											
+
 											fields.push({
 												value : tag,
 												label : label
-											})
+											});
+											
 										});
 									}
 								});
