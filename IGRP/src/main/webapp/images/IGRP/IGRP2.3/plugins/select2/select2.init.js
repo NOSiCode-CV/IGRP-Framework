@@ -20,7 +20,9 @@ $(function(){
 
         setOptions:function(o){
             
-          var select = o.select;
+          var select = o.select,
+          	
+          	  hasSelected = false;
            
           if(select[0]){
 
@@ -32,10 +34,13 @@ $(function(){
 
             o.options.forEach(function(op){
               
-              var option = new Option(op.text,op.value);
+              var option = new Option(op.text || op.label,op.value);
 
-              if(op.selected)
-                option.selected = true;
+              if(op.selected){
+            	  option.selected = true;
+            	  hasSelected = true;
+              }
+
 
               select.append(option);
 
@@ -127,6 +132,9 @@ $(function(){
         init:function(parent){
           
           var select   = $('.select2',parent);
+          
+          $('.select2-container',parent).remove();
+          //$('.select2',parent).select2();
 
           select.each(function(i,e){
             if($(e).is('[multiple]')){

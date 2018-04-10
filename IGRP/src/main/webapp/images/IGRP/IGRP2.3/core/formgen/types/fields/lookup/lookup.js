@@ -31,32 +31,80 @@ var LOOKUPFIELD = function(type,params){
 				value : proprieties && proprieties.lookupParams || [],
 				setter:function(){
 					
-					var flist = GEN.attributes.get({
-						type : 'formlist',
-						name : 'lookupParams',
-						fields : {
-							name : {
-								type : 'text',
-								label : 'Name',
-								//defaultValue : '',
-								rows : [
-									'Test'
-								]
-							},
-							value : {
-								type : 'text',
-								label : 'Value',
-								//defaultValue : '',
-								rows : [
-									'Test 2'
-								]
-							}
-						},
-						data : field.GET.lookupParams()
-					})
-
+					var actionID = field.GET.action();
 					
-					return flist
+					var holder = $('<div class="box clean box-table-contents" gen-class="" item-name="lookupParams"><div class="box-body table-box"></div></div>');
+
+					var pageFields = function(){
+						var rtn = [];
+						GEN.getAllFields().forEach(function(f){
+							console.log(f);
+							if(f.formField)
+								rtn.push({
+									value : f.GET.name ? f.GET.name() : 'p_'+f.GET.tag(),
+									label : f.GET.tag()
+								});
+						});
+						return rtn;
+					}();
+					
+					var setFormlist = function(){
+						
+						GEN.getPageJSON(actionID,function(containers,data){
+							
+							var fields = [];
+							
+							if(containers){
+								containers.forEach(function(c){
+									if(c.fields && c.fields[0]){
+										c.fields.forEach(function(f){
+											var tag   = f.properties.type == 'hidden' ? 'p_'+f.properties.tag : f.properties.tag,
+												label = f.properties.tag || f.properties.tag;
+											fields.push({
+												value : tag,
+												label : label
+											})
+										});
+									}
+								});
+							}
+							
+							holder.find('.IGRP_formlist').remove();
+							
+							var flist = GEN.attributes.get({
+								type : 'formlist',
+								name : 'lookupParams',
+								fields : {
+									target_field : {
+										type : 'select',
+										label : 'Target Field',
+										options : pageFields
+									},
+									value_field : {
+										type : 'select',
+										label : 'Value Field',
+										options : fields
+									}
+								},
+								data : field.GET.lookupParams()
+							});
+								
+							holder.append(flist);
+							
+						});
+						
+					}
+
+					$('.propriety-setter[rel="action"]',$('.gen-properties-setts-holder')).on('change',function(){
+						actionID = $(this).val();
+						setFormlist();
+					});
+					
+					setFormlist();
+					
+					return holder;
+					
+					
 				}
 			}
 		})

@@ -703,9 +703,12 @@ var GENSTRUCTURES = function(GEN){
 		
 		f.GET.lookupParams().forEach(function(lp){
 			
-			if( lp.name || lp.value )
+			var target = lp.name || lp.target_field,
+				value = lp.value || lp.value_field;
+			
+				if( target || value )
 				
-				rtn+='<param name="'+lp.name+'">'+lp.value+'</param>';
+				rtn+='<param name="'+target+'">'+value+'</param>';
 			
 		});
 		
