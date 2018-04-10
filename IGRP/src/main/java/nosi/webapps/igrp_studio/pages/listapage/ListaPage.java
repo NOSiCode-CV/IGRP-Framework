@@ -263,10 +263,7 @@ public class ListaPage extends Model{
 		}
 
 		public IGRPLink setAplicacao(String app,String page,String action){
-			this.aplicacao = new IGRPLink();
-			this.aplicacao.setAction(action);
-			this.aplicacao.setApp(app);
-			this.aplicacao.setPage(page);
+			this.aplicacao = new IGRPLink(app,page,action);	
 			return this.aplicacao;
 		}
 		public IGRPLink getAplicacao(){

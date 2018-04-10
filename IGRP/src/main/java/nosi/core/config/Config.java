@@ -438,10 +438,8 @@ public class Config {
 			};
 		}
 		String target = config.getTarget();
-		if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String) {
-			target = Igrp.getInstance().getRequest().getAttribute("target").toString();
-		}else if(Igrp.getInstance().getRequest().getAttribute("target") !=null && Igrp.getInstance().getRequest().getAttribute("target") instanceof String[]) {
-			target =  ((String[])Igrp.getInstance().getRequest().getAttribute("target"))[0];
+		if(Core.getParam("target") !=null ) {
+			target = Core.getParam("target");
 		}
 		String title = app.getDescription();		
 		String link_home = config.getLinkHome();

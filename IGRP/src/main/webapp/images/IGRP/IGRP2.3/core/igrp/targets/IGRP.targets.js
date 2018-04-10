@@ -473,6 +473,7 @@
 				var symb = getParameterSymbol(url);
 				url+=symb+'target=_blank';
 			}
+			console.log(url);
 			return url;
 		}
 		

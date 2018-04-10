@@ -62,8 +62,6 @@ public class QuerySelect extends QueryHelper {
 	public <T> List<T> getResultList(Class<T> entity){
 		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";		
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
 		Core.log("SQL Query:"+this.sql);
 		Query query = em.createNativeQuery(this.sql,entity);	
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
@@ -75,7 +73,6 @@ public class QuerySelect extends QueryHelper {
 		}		
 		@SuppressWarnings("unchecked")
 		List<T> list = query.getResultList();
-		t.commit();
 		em.close();
 		return list;
 	}
@@ -83,8 +80,6 @@ public class QuerySelect extends QueryHelper {
 	public Object getSigleResult() {
 		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
 		Core.log("SQL Query:"+this.sql);
 		Query query = em.createNativeQuery(this.sql);
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
@@ -95,7 +90,6 @@ public class QuerySelect extends QueryHelper {
 			 }
 		}		
 		Object list = query.getSingleResult();
-		t.commit();
 		em.close();
 		return list;
 	}
@@ -103,8 +97,6 @@ public class QuerySelect extends QueryHelper {
 	public TypedQuery<?> getSingleResult(){
 		this.sql += Core.isNotNull(this.condition)?(" WHERE "+this.condition):"";
 		EntityManager em = PersistenceUtils.getSessionFactory(this.getConnectionName()).createEntityManager();
-		EntityTransaction t =  em.getTransaction();
-		t.begin();
 		TypedQuery<?> query = em.createQuery(this.sql, this.className);
 		Core.log("SQL Query:"+this.sql);
 		for(DatabaseMetadaHelper.Column col:this.getColumnsValue()) {		 
@@ -114,7 +106,6 @@ public class QuerySelect extends QueryHelper {
 				 query.setParameter(col.getName(), null);
 			 }
 		}		
-		t.commit();
 		em.close();
 		return query;
 	}
