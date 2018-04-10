@@ -151,7 +151,7 @@
 			
 			<xsl:value-of select="$newline"/>
 			
-			<xsl:for-each select="//rows/content/*[@xml-type='table']">
+			<xsl:for-each select="//rows/content/*[@xml-type='table' or @type='formlist' or @type='separatorlist']">
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab"/>
 				
@@ -165,7 +165,15 @@
 				<xsl:value-of select="$tclassName"/><xsl:text>(QueryHelper query) {</xsl:text>
 				<xsl:value-of select="$newline"/>
 				<xsl:value-of select="$tab2"/>
-				<xsl:value-of select="concat( 'this.set',$tclassName,'(this.loadTable(query,',$tclassName,'.class));' )"/>
+				<xsl:choose>
+					<xsl:when test=" @type='formlist' or @type='separatorlist'">
+						<xsl:value-of select="concat( 'this.set',$tclassName,'(this.loadFormList(query,',$tclassName,'.class));' )"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="concat( 'this.set',$tclassName,'(this.loadTable(query,',$tclassName,'.class));' )"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 				<!--<xsl:text>this.loadTable(query,</xsl:text>
 				<xsl:value-of select="$tclassName"/>
 				<xsl:text>.class);</xsl:text> -->

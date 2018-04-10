@@ -1,5 +1,6 @@
 package nosi.core.webapp;
 
+import nosi.core.gui.components.IGRPSeparatorList.Pair;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -46,15 +47,13 @@ public abstract class Model { // IGRP super model
 			List<Tuple> list = query.getResultList();
 			for(Tuple tuple:list) {
 				for(Field field:this.getClass().getDeclaredFields()) {
+					field.setAccessible(true);
 					try {
 						if(field.getAnnotation(RParam.class)!=null)
 							this.setField(field,  tuple.get(field.getName()));
 					}catch(java.lang.IllegalArgumentException e) {}
 				}
-			}		
-			if(list.size() > 0) {
-				this.load();
-			}
+			}	
 		}
 	}
 	
@@ -89,6 +88,30 @@ public abstract class Model { // IGRP super model
 					for(Field field:className.getDeclaredFields()) {
 						try {
 							BeanUtils.setProperty(t, field.getName(),tuple.get(field.getName()).toString());
+						}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+							
+						}
+					}
+					list.add(t);
+				} catch (InstantiationException | IllegalAccessException e1) {
+					e1.printStackTrace();
+				}
+			}
+			return list;
+		}
+		return null;
+	}
+	
+	public <T> List<T> loadFormList(QueryHelper query, Class<T> className) {
+		if(query!=null) {
+			List<T> list = new ArrayList<>();
+			for(Tuple tuple:query.getResultList()) {
+				T t;
+				try {
+					t = className.newInstance();
+					for(Field field:className.getDeclaredFields()) {
+						try {
+							BeanUtils.setProperty(t, field.getName(),new Pair(tuple.get(field.getName()).toString(),tuple.get(field.getName()).toString()));
 						}catch(java.lang.IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
 							
 						}
