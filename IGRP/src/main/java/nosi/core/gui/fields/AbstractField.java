@@ -18,6 +18,7 @@ import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper;
 import nosi.core.webapp.databse.helpers.DatabaseMetadaHelper.Column;
 import nosi.core.webapp.helpers.IgrpHelper;
 import nosi.core.webapp.databse.helpers.Query;
+import nosi.core.webapp.databse.helpers.QueryHelper;
 
 public abstract class AbstractField implements Field{
 
@@ -173,5 +174,9 @@ public abstract class AbstractField implements Field{
 	@Override
 	public Map<?, ?> getListOptions() {
 		return this.comboBox;
+	}
+	
+	@Override
+	public void setQuery(QueryHelper query) {
 	}
 }

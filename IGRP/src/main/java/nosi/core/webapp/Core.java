@@ -708,47 +708,76 @@ public final class Core {	/** Not inherit
 		return Igrp.getInstance().getRequest().getParameterMap();
 	}
 	
-	public static void setParam(String name,Object value) {
-		if(Igrp.getInstance().getRequest()!=null)
-			Igrp.getInstance().getRequest().setAttribute(name, value);
-	}
-	
-	public static void setParam(String name,Object[] value) {
-		if(Igrp.getInstance().getRequest()!=null)
-			Igrp.getInstance().getRequest().setAttribute(name, value);
-	}
-	
 	public static String getParam(String name) {
-		Object v = Igrp.getInstance().getRequest().getAttribute(name);
+		Object v = Igrp.getInstance().getRequest().getParameter(name);
+		if(Core.isNull(v))
+			v = Core.getAttribute(name);
 		return v!=null?v.toString():"";
 	}
 
 	public static Integer getParamInt(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toInt(x):0;
 	}
 	
 	public static Double getParamDouble(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toDouble(x):0;
 	}
 
 	public static Short getParamShort(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toShort(x):0;
 	}
+	
 	public static Float getParamFloat(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toFloat(x):0;
 	}
+	
 	public static Long getParamLong(String name) {
 		String x = Core.getParam(name);
+		if(Core.isNull(x))
+			x = Core.getAttribute(name);
 		return Core.isNotNull(x)?Core.toLong(x):0;
 	}
+	
 	public static String[] getParamArray(String name) {
-		if(Igrp.getInstance().getRequest().getAttribute(name) instanceof String[])
-			return (String[]) Igrp.getInstance().getRequest().getAttribute(name);
-		return new String[] {Igrp.getInstance().getRequest().getAttribute(name).toString()};
+		String[] value = Igrp.getInstance().getRequest().getParameterValues(name);
+		if(value == null) {
+			value = Core.getAttributeArray(name);
+		}
+		return value;
+	}
+	
+	public static void setAttribute(String name,Object value) {
+		Igrp.getInstance().getRequest().setAttribute(name, value);
+	}
+	
+	public static String getAttribute(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null) {
+			String v = (String) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return v;
+		}
+		return null;
+	}	
+	
+	public static String[] getAttributeArray(String name) {
+		if(Igrp.getInstance().getRequest().getAttribute(name)!=null && Igrp.getInstance().getRequest().getAttribute(name) instanceof String[]) {
+			String [] value = (String[]) Igrp.getInstance().getRequest().getAttribute(name);
+			Igrp.getInstance().getRequest().removeAttribute(name);
+			return value;
+		}
+		return null;
 	}
 	
 	public static String getTaskVariable(String taskDefinitionKey,String variableName) { 
