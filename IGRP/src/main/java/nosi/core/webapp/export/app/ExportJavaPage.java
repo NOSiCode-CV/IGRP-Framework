@@ -52,11 +52,17 @@ public class ExportJavaPage {
 			//Get xml, json and xsl
 			String xslXMLJsonPath = config.getBaseServerPahtXsl(this.page.getApplication())+File.separator;
 			
-			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");			
+			this.getJavaFiles(xslXMLJsonPath,"xsl-xml-json");
+			
 			String classJavaPath = config.getPathServerClass(this.page.getApplication().getDad());
-
+			
+			if(Core.isNotNull(config.getWorkspace()) && FileHelper.dirExists(config.getWorkspace())) {
+				classJavaPath = config.getBasePahtClassWorkspace(this.page.getApplication().getDad()) + File.separator; 			
+			}
+			
 			//Get classes Pages in format .java and .class 
 			String pathPages = classJavaPath+"pages" + File.separator;
+			
 			this.getJavaFiles(pathPages,"pages");
 			
 			this.files.removeIf(obj -> (obj.getType().equalsIgnoreCase("pages") && !obj.getFolder().equalsIgnoreCase(page.getPage())) || (obj.getType().equalsIgnoreCase("xsl-xml-json") && !obj.getFolder().toLowerCase().contains(page.getPage().toLowerCase())));

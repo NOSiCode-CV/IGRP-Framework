@@ -114,9 +114,11 @@ public class ImportAppJava {
 			path = classJavaPath+"services"+File.separator+folderPage.toLowerCase();	
 			pathWorkSpace = this.config.getBasePahtClassWorkspace(this.app.getDad())+File.separator+"services"+File.separator+c.getFolder().toLowerCase();
 		}
-		if(Core.isNotNull(this.config.getWorkspace()) && FileHelper.dirExists(this.config.getWorkspace())) {
-			FileHelper.save(pathWorkSpace, c.getName(), c.getContent());
-		}
+		
+		if(Core.isNotNull(this.config.getWorkspace()) && FileHelper.dirExists(this.config.getWorkspace())) 
+			if(!c.getName().endsWith(".class")) 
+				FileHelper.save(pathWorkSpace, c.getName(), c.getContent());
+		
 		FileHelper.save(path, c.getName(), c.getContent());
 		if(c.getName().endsWith(".java")){
 			FileImportAppOrPage fileJava = new FileImportAppOrPage(c.getName(), c.getContent(), 0);
