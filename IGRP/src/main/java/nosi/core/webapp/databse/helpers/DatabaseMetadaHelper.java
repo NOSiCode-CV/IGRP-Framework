@@ -20,6 +20,33 @@ import nosi.webapps.igrp.dao.Config_env;
  */
 public class DatabaseMetadaHelper {
 
+	public static Map<String,String> getTablesMap(Config_env config,String schema) {
+		Map<String,String> list = new HashMap<>();
+		if(config!=null ) {
+			java.sql.Connection con = Connection.getConnection(config.getName());
+			ResultSet tables = null;
+			try {
+				DatabaseMetaData metaData = con.getMetaData();
+				tables = metaData.getTables(null, schema, null, new String[]{"TABLE"});//Get All Tables on the schema database
+			    while (tables.next()) {
+			    	list.put(tables.getString(3),tables.getString(3));//Get Table Name
+			    }
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(tables!=null)
+						tables.close();
+					if(con!=null)
+						con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
 	public static List<String> getTables(Config_env config,String schema) {
 		List<String> list = new ArrayList<>();
 		if(config!=null ) {
@@ -43,7 +70,6 @@ public class DatabaseMetadaHelper {
 					e.printStackTrace();
 				}
 			}
-			//PersistenceUtils.SESSION_FACTORY.remove(config.getName());
 		}
 		return list;
 	}

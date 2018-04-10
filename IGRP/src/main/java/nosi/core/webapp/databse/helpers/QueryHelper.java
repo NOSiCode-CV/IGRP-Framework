@@ -84,6 +84,11 @@ public abstract class QueryHelper implements IFQuery{
 		return this;
 	}
 	
+	public QueryHelper add(Column col,Object value) {
+		this.addColumn(col.getName(), value,col.getType());
+		return this;
+	}
+	
 	public QueryHelper addString(String columnName,String value) {
 		this.addColumn(columnName, value, String.class);
 		return this;
